@@ -17,6 +17,9 @@ function init(inputString){
 function getQuestions(parseTree){
 	
 	var questions = new Array();
+	var dependencies = new Array();
+
+	var questionID = 0;
 
 	var QuestionPrinter = function () {
     	MyGrammerListener.MyGrammerListener.call(this);
@@ -24,15 +27,24 @@ function getQuestions(parseTree){
 	};
 
 	QuestionPrinter.prototype = Object.create(MyGrammerListener.MyGrammerListener.prototype);
+	
+	QuestionPrinter.prototype.enterIfstmt = function (ifNode) {
+		dependencies.push(ifNode.children[1].getText());
+	};
 
-	QuestionPrinter.prototype.exitQuestion = function (ctx) {
+	QuestionPrinter.prototype.exitIfstmt = function (ifNode) {
+		dependencies.pop();
+	};
+
+	QuestionPrinter.prototype.exitQuestion = function (questionNode) {
 	    var question = {};
-	    var source = ctx.start.source[1].strdata;
-	    question.text = source.substring(ctx.children[0].symbol.start, ctx.children[0].symbol.stop+1);
-	    question.label = source.substring(ctx.children[1].symbol.start, ctx.children[1].symbol.stop+1);
-	    if(ctx.children[3].children.length==1){
+
+	    question.text = questionNode.children[0].getText();
+	    question.label = questionNode.children[1].getText();
+
+	    if(questionNode.children[3].children.length==1){
 	    	//just a terminal node
-	    	question.type = source.substring(ctx.children[3].children[0].symbol.start, ctx.children[3].children[0].symbol.stop+1);
+	    	question.type = questionNode.children[3].getText();
 	    }
 	    else{
 	    	//complex expr node
@@ -40,7 +52,11 @@ function getQuestions(parseTree){
 	    	question.type = "readOnly";
 	    	question.value = 0;
 	    }
-	    
+
+	    if(dependencies.length>0){
+	    	question.dependencies = dependencies.slice(0);
+	    }
+
 	    questions.push(question);
 	};
 
@@ -63,8 +79,8 @@ function renderQuestions(questions){
 }
 
 function generateQuestionHTML(question){
-	var html = "<div id='" + question.label + "'>"
-		+ question.text + " ";
+	var html = "<div id='" + question.label + "'> ["
+		+ question.label + "] " + question.text + " ";
 	switch(question.type){
 		case "integer": html += "<input name='"+ question.label
 			+ "' type='number'/>";
@@ -87,6 +103,9 @@ function generateQuestionHTML(question){
 		default: html += "<input name='"+ question.label
 			+ "' type='text'/>";
 						break;
+	}
+	if(question.dependencies != undefined){
+		html += " Depends on: " + question.dependencies;
 	}
 	html += "</div>";
 	return html;

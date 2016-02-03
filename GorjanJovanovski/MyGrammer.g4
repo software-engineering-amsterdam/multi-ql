@@ -1,7 +1,9 @@
 grammar MyGrammer;
 form: ('form' LABEL queries) ;
 queries: '{' ( question | ifstmt )* '}' ;
-question: (STRING LABEL DELIMITER questionValue) ;
+question: (questionText questionLabel DELIMITER questionValue) ;
+questionText: STRING ;
+questionLabel: LABEL ;
 questionValue: 	TYPE
 				| TYPE '=' expr
 				;

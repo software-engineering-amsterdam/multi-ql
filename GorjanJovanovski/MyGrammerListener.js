@@ -38,6 +38,24 @@ MyGrammerListener.prototype.exitQuestion = function(ctx) {
 };
 
 
+// Enter a parse tree produced by MyGrammerParser#questionText.
+MyGrammerListener.prototype.enterQuestionText = function(ctx) {
+};
+
+// Exit a parse tree produced by MyGrammerParser#questionText.
+MyGrammerListener.prototype.exitQuestionText = function(ctx) {
+};
+
+
+// Enter a parse tree produced by MyGrammerParser#questionLabel.
+MyGrammerListener.prototype.enterQuestionLabel = function(ctx) {
+};
+
+// Exit a parse tree produced by MyGrammerParser#questionLabel.
+MyGrammerListener.prototype.exitQuestionLabel = function(ctx) {
+};
+
+
 // Enter a parse tree produced by MyGrammerParser#questionValue.
 MyGrammerListener.prototype.enterQuestionValue = function(ctx) {
 };

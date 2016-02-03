@@ -5,44 +5,46 @@ var MyGrammerListener = require('./MyGrammerListener').MyGrammerListener;
 var grammarFileName = "MyGrammer.g4";
 
 var serializedATN = ["\u0003\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd",
-    "\u0003\u0016@\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
-    "\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007\u0003",
-    "\u0002\u0003\u0002\u0003\u0002\u0003\u0002\u0003\u0003\u0003\u0003\u0003",
-    "\u0003\u0007\u0003\u0016\n\u0003\f\u0003\u000e\u0003\u0019\u000b\u0003",
-    "\u0003\u0003\u0003\u0003\u0003\u0004\u0003\u0004\u0003\u0004\u0003\u0004",
-    "\u0003\u0004\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0005\u0005",
-    "&\n\u0005\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0007",
-    "\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007",
-    "\u0003\u0007\u0003\u0007\u0003\u0007\u0005\u00076\n\u0007\u0003\u0007",
-    "\u0003\u0007\u0003\u0007\u0007\u0007;\n\u0007\f\u0007\u000e\u0007>\u000b",
-    "\u0007\u0003\u0007\u0002\u0003\f\b\u0002\u0004\u0006\b\n\f\u0002\u0002",
-    "A\u0002\u000e\u0003\u0002\u0002\u0002\u0004\u0012\u0003\u0002\u0002",
-    "\u0002\u0006\u001c\u0003\u0002\u0002\u0002\b%\u0003\u0002\u0002\u0002",
-    "\n\'\u0003\u0002\u0002\u0002\f5\u0003\u0002\u0002\u0002\u000e\u000f",
-    "\u0007\u0003\u0002\u0002\u000f\u0010\u0007\u0012\u0002\u0002\u0010\u0011",
-    "\u0005\u0004\u0003\u0002\u0011\u0003\u0003\u0002\u0002\u0002\u0012\u0017",
-    "\u0007\u0004\u0002\u0002\u0013\u0016\u0005\u0006\u0004\u0002\u0014\u0016",
-    "\u0005\n\u0006\u0002\u0015\u0013\u0003\u0002\u0002\u0002\u0015\u0014",
-    "\u0003\u0002\u0002\u0002\u0016\u0019\u0003\u0002\u0002\u0002\u0017\u0015",
-    "\u0003\u0002\u0002\u0002\u0017\u0018\u0003\u0002\u0002\u0002\u0018\u001a",
-    "\u0003\u0002\u0002\u0002\u0019\u0017\u0003\u0002\u0002\u0002\u001a\u001b",
-    "\u0007\u0005\u0002\u0002\u001b\u0005\u0003\u0002\u0002\u0002\u001c\u001d",
-    "\u0007\u0016\u0002\u0002\u001d\u001e\u0007\u0012\u0002\u0002\u001e\u001f",
-    "\u0007\u0011\u0002\u0002\u001f \u0005\b\u0005\u0002 \u0007\u0003\u0002",
-    "\u0002\u0002!&\u0007\u000b\u0002\u0002\"#\u0007\u000b\u0002\u0002#$",
-    "\u0007\u0006\u0002\u0002$&\u0005\f\u0007\u0002%!\u0003\u0002\u0002\u0002",
-    "%\"\u0003\u0002\u0002\u0002&\t\u0003\u0002\u0002\u0002\'(\u0007\u0007",
-    "\u0002\u0002()\u0005\f\u0007\u0002)*\u0005\u0004\u0003\u0002*\u000b",
-    "\u0003\u0002\u0002\u0002+,\b\u0007\u0001\u0002,-\u0007\u000f\u0002\u0002",
-    "-6\u0005\f\u0007\u0003.6\u0007\n\u0002\u0002/6\u0007\u0012\u0002\u0002",
-    "06\u0007\u0014\u0002\u000212\u0007\b\u0002\u000223\u0005\f\u0007\u0002",
-    "34\u0007\t\u0002\u000246\u0003\u0002\u0002\u00025+\u0003\u0002\u0002",
-    "\u00025.\u0003\u0002\u0002\u00025/\u0003\u0002\u0002\u000250\u0003\u0002",
-    "\u0002\u000251\u0003\u0002\u0002\u00026<\u0003\u0002\u0002\u000278\f",
-    "\u0004\u0002\u000289\u0007\f\u0002\u00029;\u0005\f\u0007\u0005:7\u0003",
-    "\u0002\u0002\u0002;>\u0003\u0002\u0002\u0002<:\u0003\u0002\u0002\u0002",
-    "<=\u0003\u0002\u0002\u0002=\r\u0003\u0002\u0002\u0002><\u0003\u0002",
-    "\u0002\u0002\u0007\u0015\u0017%5<"].join("");
+    "\u0003\u0016H\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
+    "\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007\u0004",
+    "\b\t\b\u0004\t\t\t\u0003\u0002\u0003\u0002\u0003\u0002\u0003\u0002\u0003",
+    "\u0003\u0003\u0003\u0003\u0003\u0007\u0003\u001a\n\u0003\f\u0003\u000e",
+    "\u0003\u001d\u000b\u0003\u0003\u0003\u0003\u0003\u0003\u0004\u0003\u0004",
+    "\u0003\u0004\u0003\u0004\u0003\u0004\u0003\u0005\u0003\u0005\u0003\u0006",
+    "\u0003\u0006\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0005\u0007",
+    ".\n\u0007\u0003\b\u0003\b\u0003\b\u0003\b\u0003\t\u0003\t\u0003\t\u0003",
+    "\t\u0003\t\u0003\t\u0003\t\u0003\t\u0003\t\u0003\t\u0005\t>\n\t\u0003",
+    "\t\u0003\t\u0003\t\u0007\tC\n\t\f\t\u000e\tF\u000b\t\u0003\t\u0002\u0003",
+    "\u0010\n\u0002\u0004\u0006\b\n\f\u000e\u0010\u0002\u0002G\u0002\u0012",
+    "\u0003\u0002\u0002\u0002\u0004\u0016\u0003\u0002\u0002\u0002\u0006 ",
+    "\u0003\u0002\u0002\u0002\b%\u0003\u0002\u0002\u0002\n\'\u0003\u0002",
+    "\u0002\u0002\f-\u0003\u0002\u0002\u0002\u000e/\u0003\u0002\u0002\u0002",
+    "\u0010=\u0003\u0002\u0002\u0002\u0012\u0013\u0007\u0003\u0002\u0002",
+    "\u0013\u0014\u0007\u0012\u0002\u0002\u0014\u0015\u0005\u0004\u0003\u0002",
+    "\u0015\u0003\u0003\u0002\u0002\u0002\u0016\u001b\u0007\u0004\u0002\u0002",
+    "\u0017\u001a\u0005\u0006\u0004\u0002\u0018\u001a\u0005\u000e\b\u0002",
+    "\u0019\u0017\u0003\u0002\u0002\u0002\u0019\u0018\u0003\u0002\u0002\u0002",
+    "\u001a\u001d\u0003\u0002\u0002\u0002\u001b\u0019\u0003\u0002\u0002\u0002",
+    "\u001b\u001c\u0003\u0002\u0002\u0002\u001c\u001e\u0003\u0002\u0002\u0002",
+    "\u001d\u001b\u0003\u0002\u0002\u0002\u001e\u001f\u0007\u0005\u0002\u0002",
+    "\u001f\u0005\u0003\u0002\u0002\u0002 !\u0005\b\u0005\u0002!\"\u0005",
+    "\n\u0006\u0002\"#\u0007\u0011\u0002\u0002#$\u0005\f\u0007\u0002$\u0007",
+    "\u0003\u0002\u0002\u0002%&\u0007\u0016\u0002\u0002&\t\u0003\u0002\u0002",
+    "\u0002\'(\u0007\u0012\u0002\u0002(\u000b\u0003\u0002\u0002\u0002).\u0007",
+    "\u000b\u0002\u0002*+\u0007\u000b\u0002\u0002+,\u0007\u0006\u0002\u0002",
+    ",.\u0005\u0010\t\u0002-)\u0003\u0002\u0002\u0002-*\u0003\u0002\u0002",
+    "\u0002.\r\u0003\u0002\u0002\u0002/0\u0007\u0007\u0002\u000201\u0005",
+    "\u0010\t\u000212\u0005\u0004\u0003\u00022\u000f\u0003\u0002\u0002\u0002",
+    "34\b\t\u0001\u000245\u0007\u000f\u0002\u00025>\u0005\u0010\t\u00036",
+    ">\u0007\n\u0002\u00027>\u0007\u0012\u0002\u00028>\u0007\u0014\u0002",
+    "\u00029:\u0007\b\u0002\u0002:;\u0005\u0010\t\u0002;<\u0007\t\u0002\u0002",
+    "<>\u0003\u0002\u0002\u0002=3\u0003\u0002\u0002\u0002=6\u0003\u0002\u0002",
+    "\u0002=7\u0003\u0002\u0002\u0002=8\u0003\u0002\u0002\u0002=9\u0003\u0002",
+    "\u0002\u0002>D\u0003\u0002\u0002\u0002?@\f\u0004\u0002\u0002@A\u0007",
+    "\f\u0002\u0002AC\u0005\u0010\t\u0005B?\u0003\u0002\u0002\u0002CF\u0003",
+    "\u0002\u0002\u0002DB\u0003\u0002\u0002\u0002DE\u0003\u0002\u0002\u0002",
+    "E\u0011\u0003\u0002\u0002\u0002FD\u0003\u0002\u0002\u0002\u0007\u0019",
+    "\u001b-=D"].join("");
 
 
 var atn = new antlr4.atn.ATNDeserializer().deserialize(serializedATN);
@@ -59,8 +61,8 @@ var symbolicNames = [ null, null, null, null, null, null, null, null, "BOOLSTMT"
                       "DELIMITER", "LABEL", "NEWLINE", "INT", "WHITESPACE", 
                       "STRING" ];
 
-var ruleNames =  [ "form", "queries", "question", "questionValue", "ifstmt", 
-                   "expr" ];
+var ruleNames =  [ "form", "queries", "question", "questionText", "questionLabel", 
+                   "questionValue", "ifstmt", "expr" ];
 
 function MyGrammerParser (input) {
 	antlr4.Parser.call(this, input);
@@ -105,9 +107,11 @@ MyGrammerParser.STRING = 20;
 MyGrammerParser.RULE_form = 0;
 MyGrammerParser.RULE_queries = 1;
 MyGrammerParser.RULE_question = 2;
-MyGrammerParser.RULE_questionValue = 3;
-MyGrammerParser.RULE_ifstmt = 4;
-MyGrammerParser.RULE_expr = 5;
+MyGrammerParser.RULE_questionText = 3;
+MyGrammerParser.RULE_questionLabel = 4;
+MyGrammerParser.RULE_questionValue = 5;
+MyGrammerParser.RULE_ifstmt = 6;
+MyGrammerParser.RULE_expr = 7;
 
 function FormContext(parser, parent, invokingState) {
 	if(parent===undefined) {
@@ -156,11 +160,11 @@ MyGrammerParser.prototype.form = function() {
     this.enterRule(localctx, 0, MyGrammerParser.RULE_form);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 12;
+        this.state = 16;
         this.match(MyGrammerParser.T__0);
-        this.state = 13;
+        this.state = 17;
         this.match(MyGrammerParser.LABEL);
-        this.state = 14;
+        this.state = 18;
         this.queries();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -238,30 +242,30 @@ MyGrammerParser.prototype.queries = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 16;
+        this.state = 20;
         this.match(MyGrammerParser.T__1);
-        this.state = 21;
+        this.state = 25;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===MyGrammerParser.T__4 || _la===MyGrammerParser.STRING) {
-            this.state = 19;
+            this.state = 23;
             switch(this._input.LA(1)) {
             case MyGrammerParser.STRING:
-                this.state = 17;
+                this.state = 21;
                 this.question();
                 break;
             case MyGrammerParser.T__4:
-                this.state = 18;
+                this.state = 22;
                 this.ifstmt();
                 break;
             default:
                 throw new antlr4.error.NoViableAltException(this);
             }
-            this.state = 23;
+            this.state = 27;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
-        this.state = 24;
+        this.state = 28;
         this.match(MyGrammerParser.T__2);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -293,12 +297,12 @@ function QuestionContext(parser, parent, invokingState) {
 QuestionContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
 QuestionContext.prototype.constructor = QuestionContext;
 
-QuestionContext.prototype.STRING = function() {
-    return this.getToken(MyGrammerParser.STRING, 0);
+QuestionContext.prototype.questionText = function() {
+    return this.getTypedRuleContext(QuestionTextContext,0);
 };
 
-QuestionContext.prototype.LABEL = function() {
-    return this.getToken(MyGrammerParser.LABEL, 0);
+QuestionContext.prototype.questionLabel = function() {
+    return this.getTypedRuleContext(QuestionLabelContext,0);
 };
 
 QuestionContext.prototype.DELIMITER = function() {
@@ -332,14 +336,132 @@ MyGrammerParser.prototype.question = function() {
     this.enterRule(localctx, 4, MyGrammerParser.RULE_question);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 26;
-        this.match(MyGrammerParser.STRING);
-        this.state = 27;
-        this.match(MyGrammerParser.LABEL);
-        this.state = 28;
+        this.state = 30;
+        this.questionText();
+        this.state = 31;
+        this.questionLabel();
+        this.state = 32;
         this.match(MyGrammerParser.DELIMITER);
-        this.state = 29;
+        this.state = 33;
         this.questionValue();
+    } catch (re) {
+    	if(re instanceof antlr4.error.RecognitionException) {
+	        localctx.exception = re;
+	        this._errHandler.reportError(this, re);
+	        this._errHandler.recover(this, re);
+	    } else {
+	    	throw re;
+	    }
+    } finally {
+        this.exitRule();
+    }
+    return localctx;
+};
+
+function QuestionTextContext(parser, parent, invokingState) {
+	if(parent===undefined) {
+	    parent = null;
+	}
+	if(invokingState===undefined || invokingState===null) {
+		invokingState = -1;
+	}
+	antlr4.ParserRuleContext.call(this, parent, invokingState);
+    this.parser = parser;
+    this.ruleIndex = MyGrammerParser.RULE_questionText;
+    return this;
+}
+
+QuestionTextContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
+QuestionTextContext.prototype.constructor = QuestionTextContext;
+
+QuestionTextContext.prototype.STRING = function() {
+    return this.getToken(MyGrammerParser.STRING, 0);
+};
+
+QuestionTextContext.prototype.enterRule = function(listener) {
+    if(listener instanceof MyGrammerListener ) {
+        listener.enterQuestionText(this);
+	}
+};
+
+QuestionTextContext.prototype.exitRule = function(listener) {
+    if(listener instanceof MyGrammerListener ) {
+        listener.exitQuestionText(this);
+	}
+};
+
+
+
+
+MyGrammerParser.QuestionTextContext = QuestionTextContext;
+
+MyGrammerParser.prototype.questionText = function() {
+
+    var localctx = new QuestionTextContext(this, this._ctx, this.state);
+    this.enterRule(localctx, 6, MyGrammerParser.RULE_questionText);
+    try {
+        this.enterOuterAlt(localctx, 1);
+        this.state = 35;
+        this.match(MyGrammerParser.STRING);
+    } catch (re) {
+    	if(re instanceof antlr4.error.RecognitionException) {
+	        localctx.exception = re;
+	        this._errHandler.reportError(this, re);
+	        this._errHandler.recover(this, re);
+	    } else {
+	    	throw re;
+	    }
+    } finally {
+        this.exitRule();
+    }
+    return localctx;
+};
+
+function QuestionLabelContext(parser, parent, invokingState) {
+	if(parent===undefined) {
+	    parent = null;
+	}
+	if(invokingState===undefined || invokingState===null) {
+		invokingState = -1;
+	}
+	antlr4.ParserRuleContext.call(this, parent, invokingState);
+    this.parser = parser;
+    this.ruleIndex = MyGrammerParser.RULE_questionLabel;
+    return this;
+}
+
+QuestionLabelContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
+QuestionLabelContext.prototype.constructor = QuestionLabelContext;
+
+QuestionLabelContext.prototype.LABEL = function() {
+    return this.getToken(MyGrammerParser.LABEL, 0);
+};
+
+QuestionLabelContext.prototype.enterRule = function(listener) {
+    if(listener instanceof MyGrammerListener ) {
+        listener.enterQuestionLabel(this);
+	}
+};
+
+QuestionLabelContext.prototype.exitRule = function(listener) {
+    if(listener instanceof MyGrammerListener ) {
+        listener.exitQuestionLabel(this);
+	}
+};
+
+
+
+
+MyGrammerParser.QuestionLabelContext = QuestionLabelContext;
+
+MyGrammerParser.prototype.questionLabel = function() {
+
+    var localctx = new QuestionLabelContext(this, this._ctx, this.state);
+    this.enterRule(localctx, 8, MyGrammerParser.RULE_questionLabel);
+    try {
+        this.enterOuterAlt(localctx, 1);
+        this.state = 37;
+        this.match(MyGrammerParser.LABEL);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
 	        localctx.exception = re;
@@ -398,25 +520,25 @@ MyGrammerParser.QuestionValueContext = QuestionValueContext;
 MyGrammerParser.prototype.questionValue = function() {
 
     var localctx = new QuestionValueContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 6, MyGrammerParser.RULE_questionValue);
+    this.enterRule(localctx, 10, MyGrammerParser.RULE_questionValue);
     try {
-        this.state = 35;
+        this.state = 43;
         this._errHandler.sync(this);
         var la_ = this._interp.adaptivePredict(this._input,2,this._ctx);
         switch(la_) {
         case 1:
             this.enterOuterAlt(localctx, 1);
-            this.state = 31;
+            this.state = 39;
             this.match(MyGrammerParser.TYPE);
             break;
 
         case 2:
             this.enterOuterAlt(localctx, 2);
-            this.state = 32;
+            this.state = 40;
             this.match(MyGrammerParser.TYPE);
-            this.state = 33;
+            this.state = 41;
             this.match(MyGrammerParser.T__3);
-            this.state = 34;
+            this.state = 42;
             this.expr(0);
             break;
 
@@ -479,14 +601,14 @@ MyGrammerParser.IfstmtContext = IfstmtContext;
 MyGrammerParser.prototype.ifstmt = function() {
 
     var localctx = new IfstmtContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 8, MyGrammerParser.RULE_ifstmt);
+    this.enterRule(localctx, 12, MyGrammerParser.RULE_ifstmt);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 37;
+        this.state = 45;
         this.match(MyGrammerParser.T__4);
-        this.state = 38;
+        this.state = 46;
         this.expr(0);
-        this.state = 39;
+        this.state = 47;
         this.queries();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -571,43 +693,43 @@ MyGrammerParser.prototype.expr = function(_p) {
     var _parentState = this.state;
     var localctx = new ExprContext(this, this._ctx, _parentState);
     var _prevctx = localctx;
-    var _startState = 10;
-    this.enterRecursionRule(localctx, 10, MyGrammerParser.RULE_expr, _p);
+    var _startState = 14;
+    this.enterRecursionRule(localctx, 14, MyGrammerParser.RULE_expr, _p);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 51;
+        this.state = 59;
         switch(this._input.LA(1)) {
         case MyGrammerParser.NOOP:
-            this.state = 42;
+            this.state = 50;
             this.match(MyGrammerParser.NOOP);
-            this.state = 43;
+            this.state = 51;
             this.expr(1);
             break;
         case MyGrammerParser.BOOLSTMT:
-            this.state = 44;
+            this.state = 52;
             this.match(MyGrammerParser.BOOLSTMT);
             break;
         case MyGrammerParser.LABEL:
-            this.state = 45;
+            this.state = 53;
             this.match(MyGrammerParser.LABEL);
             break;
         case MyGrammerParser.INT:
-            this.state = 46;
+            this.state = 54;
             this.match(MyGrammerParser.INT);
             break;
         case MyGrammerParser.T__5:
-            this.state = 47;
+            this.state = 55;
             this.match(MyGrammerParser.T__5);
-            this.state = 48;
+            this.state = 56;
             this.expr(0);
-            this.state = 49;
+            this.state = 57;
             this.match(MyGrammerParser.T__6);
             break;
         default:
             throw new antlr4.error.NoViableAltException(this);
         }
         this._ctx.stop = this._input.LT(-1);
-        this.state = 58;
+        this.state = 66;
         this._errHandler.sync(this);
         var _alt = this._interp.adaptivePredict(this._input,4,this._ctx)
         while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
@@ -618,16 +740,16 @@ MyGrammerParser.prototype.expr = function(_p) {
                 _prevctx = localctx;
                 localctx = new ExprContext(this, _parentctx, _parentState);
                 this.pushNewRecursionContext(localctx, _startState, MyGrammerParser.RULE_expr);
-                this.state = 53;
+                this.state = 61;
                 if (!( this.precpred(this._ctx, 2))) {
                     throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 2)");
                 }
-                this.state = 54;
+                this.state = 62;
                 this.match(MyGrammerParser.OP);
-                this.state = 55;
+                this.state = 63;
                 this.expr(3); 
             }
-            this.state = 60;
+            this.state = 68;
             this._errHandler.sync(this);
             _alt = this._interp.adaptivePredict(this._input,4,this._ctx);
         }
@@ -649,7 +771,7 @@ MyGrammerParser.prototype.expr = function(_p) {
 
 MyGrammerParser.prototype.sempred = function(localctx, ruleIndex, predIndex) {
 	switch(ruleIndex) {
-	case 5:
+	case 7:
 			return this.expr_sempred(localctx, predIndex);
     default:
         throw "No predicate with index:" + ruleIndex;
