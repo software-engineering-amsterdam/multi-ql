@@ -14,6 +14,11 @@
 		E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE06091C621A6400F2B43B /* LaunchScreen.xib */; };
 		E2CE060D1C621C4800F2B43B /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE060C1C621C4800F2B43B /* MainView.xib */; };
 		E2DF30F61C62316500F5227B /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
+		E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF30FD1C62380600F5227B /* QLParser.swift */; };
+		E2DF31001C6240F800F5227B /* QL.txt in Resources */ = {isa = PBXBuildFile; fileRef = E2DF30FF1C6240F800F5227B /* QL.txt */; };
+		E2DF31031C6244D100F5227B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31021C6244D100F5227B /* StringExtension.swift */; };
+		E2DF31051C62481A00F5227B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
+		E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +57,11 @@
 		E2CE06091C621A6400F2B43B /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = Views/LaunchScreen.xib; sourceTree = "<group>"; };
 		E2CE060C1C621C4800F2B43B /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView.xib; path = Views/MainView.xib; sourceTree = "<group>"; };
 		E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftParsec.xcodeproj; path = QLSwift/Resources/Frameworks/SwiftParsec/SwiftParsec.xcodeproj; sourceTree = SOURCE_ROOT; };
+		E2DF30FD1C62380600F5227B /* QLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLParser.swift; path = Src/Parser/QLParser/QLParser.swift; sourceTree = "<group>"; };
+		E2DF30FF1C6240F800F5227B /* QL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = QL.txt; path = Resources/QL.txt; sourceTree = "<group>"; };
+		E2DF31021C6244D100F5227B /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		E2DF31041C62481A00F5227B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = "Supporting Files/Constants.swift"; sourceTree = "<group>"; };
+		E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLanguageDefinition.swift; path = Src/Parser/QLParser/QLLanguageDefinition.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +135,7 @@
 			children = (
 				E264170A1C622BD3006F9056 /* Frameworks */,
 				E2CE05FF1C621A1600F2B43B /* Assets.xcassets */,
+				E2DF30FF1C6240F800F5227B /* QL.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -133,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				E2CE06051C621A2200F2B43B /* Info.plist */,
+				E2DF31041C62481A00F5227B /* Constants.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -141,7 +153,9 @@
 			isa = PBXGroup;
 			children = (
 				E2CE06011C621A1D00F2B43B /* AppDelegate.swift */,
+				E2DF31011C62448900F5227B /* Extensions */,
 				E2CE060B1C621BA000F2B43B /* Interface */,
+				E2DF30F91C6237E600F5227B /* Parser */,
 			);
 			name = Src;
 			sourceTree = "<group>";
@@ -170,6 +184,31 @@
 				E2DF30F51C62315D00F5227B /* SwiftParsecTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E2DF30F91C6237E600F5227B /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF30FC1C6237EB00F5227B /* QLParser */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
+		E2DF30FC1C6237EB00F5227B /* QLParser */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF30FD1C62380600F5227B /* QLParser.swift */,
+				E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */,
+			);
+			name = QLParser;
+			sourceTree = "<group>";
+		};
+		E2DF31011C62448900F5227B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF31021C6244D100F5227B /* StringExtension.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
+				E2DF31001C6240F800F5227B /* QL.txt in Resources */,
 				E2CE060D1C621C4800F2B43B /* MainView.xib in Resources */,
 				E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */,
 			);
@@ -295,7 +335,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
+				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
+				E2DF31031C6244D100F5227B /* StringExtension.swift in Sources */,
 				E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */,
+				E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */,
 				E2CE06041C621A1D00F2B43B /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
