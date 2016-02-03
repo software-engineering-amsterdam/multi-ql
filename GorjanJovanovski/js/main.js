@@ -1,4 +1,5 @@
 "use strict";
+
 var antlr4 = require('antlr4/index');
 var MyGrammerLexer = require('MyGrammerLexer');
 var MyGrammerParser = require('MyGrammerParser');
@@ -68,16 +69,6 @@ function getQuestions(parseTree){
 	antlr4.tree.ParseTreeWalker.DEFAULT.walk(printer, parseTree);
 }
 
-function renderQuestions(questions){
-	var output = "";
-
-	for(var i=0;i<questions.length;i++){
-		output += generateQuestionHTML(questions[i]);
-	}
-
-	$("#output").html(output);
-}
-
 function generateQuestionHTML(question){
 	var html = "<div id='" + question.label + "'> ["
 		+ question.label + "] " + question.text + " ";
@@ -111,10 +102,17 @@ function generateQuestionHTML(question){
 	return html;
 }
 
+function renderQuestions(questions){
+	var output = "";
+
+	for(var i=0;i<questions.length;i++){
+		output += generateQuestionHTML(questions[i]);
+	}
+
+	$("#output").html(output);
+}
+
 $("#generate").click(function(){
 	var input = $("#input").val().replace(/[\r\t]/g, "").trim();
 	init(input);
 });
-
-// var input = 'form testForm {\n"Test question number one"\nfirstQuestion: boolean\n"Test question number two"\nsecondQuestion: boolean\n}';
-// init(input);
