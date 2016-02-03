@@ -11,9 +11,9 @@
 		E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CE05FF1C621A1600F2B43B /* Assets.xcassets */; };
 		E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06011C621A1D00F2B43B /* AppDelegate.swift */; };
 		E2CE06041C621A1D00F2B43B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06021C621A1D00F2B43B /* MainViewController.swift */; };
-		E2CE06061C621A2200F2B43B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2CE06051C621A2200F2B43B /* Info.plist */; };
 		E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE06091C621A6400F2B43B /* LaunchScreen.xib */; };
 		E2CE060D1C621C4800F2B43B /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE060C1C621C4800F2B43B /* MainView.xib */; };
+		E2DF30F61C62316500F5227B /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +23,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = E2CE05D51C62191F00F2B43B;
 			remoteInfo = QLSwift;
+		};
+		E2DF30F21C62315D00F5227B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57167F021B99E66800F35A29;
+			remoteInfo = SwiftParsec;
+		};
+		E2DF30F41C62315D00F5227B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57167F0C1B99E66800F35A29;
+			remoteInfo = SwiftParsecTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -37,6 +51,7 @@
 		E2CE06051C621A2200F2B43B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		E2CE06091C621A6400F2B43B /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = Views/LaunchScreen.xib; sourceTree = "<group>"; };
 		E2CE060C1C621C4800F2B43B /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView.xib; path = Views/MainView.xib; sourceTree = "<group>"; };
+		E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftParsec.xcodeproj; path = QLSwift/Resources/Frameworks/SwiftParsec/SwiftParsec.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DF30F61C62316500F5227B /* SwiftParsec.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +73,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E264170A1C622BD3006F9056 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */,
+			);
+			name = Frameworks;
+			path = Resources/Libraries;
+			sourceTree = "<group>";
+		};
 		E2CE05CD1C62191F00F2B43B = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +123,7 @@
 		E2CE05F91C62194A00F2B43B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E264170A1C622BD3006F9056 /* Frameworks */,
 				E2CE05FF1C621A1600F2B43B /* Assets.xcassets */,
 			);
 			name = Resources;
@@ -135,6 +161,15 @@
 				E2CE06021C621A1D00F2B43B /* MainViewController.swift */,
 			);
 			name = Interface;
+			sourceTree = "<group>";
+		};
+		E2DF30EE1C62315D00F5227B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF30F31C62315D00F5227B /* SwiftParsec.framework */,
+				E2DF30F51C62315D00F5227B /* SwiftParsecTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +239,12 @@
 			mainGroup = E2CE05CD1C62191F00F2B43B;
 			productRefGroup = E2CE05D71C62191F00F2B43B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E2DF30EE1C62315D00F5227B /* Products */;
+					ProjectRef = E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E2CE05D51C62191F00F2B43B /* QLSwift */,
@@ -212,6 +253,23 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		E2DF30F31C62315D00F5227B /* SwiftParsec.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftParsec.framework;
+			remoteRef = E2DF30F21C62315D00F5227B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E2DF30F51C62315D00F5227B /* SwiftParsecTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwiftParsecTests.xctest;
+			remoteRef = E2DF30F41C62315D00F5227B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		E2CE05D41C62191F00F2B43B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -219,7 +277,6 @@
 			files = (
 				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
 				E2CE060D1C621C4800F2B43B /* MainView.xib in Resources */,
-				E2CE06061C621A2200F2B43B /* Info.plist in Resources */,
 				E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,6 +407,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/QLSwift/Resources/Libraries",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/QLSwift/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nl.tomvanduist.QLSwift;
@@ -362,6 +423,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/QLSwift/Resources/Libraries",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/QLSwift/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nl.tomvanduist.QLSwift;
@@ -412,6 +477,7 @@
 				E2CE05F51C62191F00F2B43B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E2CE05F61C62191F00F2B43B /* Build configuration list for PBXNativeTarget "QLSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +486,7 @@
 				E2CE05F81C62191F00F2B43B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
