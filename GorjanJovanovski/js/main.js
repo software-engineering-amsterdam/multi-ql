@@ -80,13 +80,13 @@ function parseQuestions(parseTree){
 	    	//just a terminal node
 	    	question.type = questionNode.children[3].getText();
 
-		    if(question.type=="number" || question.type=="float" || question.type=="money"){
+		    if(question.type=="integer" || question.type=="decimal" || question.type=="money" || question.type=="currency"){
 		    	question.value = 0;
 		    }
 		    else if(question.type=="boolean"){
 		    	question.value = false;
 		    }
-		    else if(question.type=="string"){
+		    else if(question.type=="string" || question.type=="date"){
 		    	question.value = "";
 		    }
 
@@ -146,7 +146,7 @@ function setASTQuestionValue(label, value){
 			if(ast.questions[i].type == "integer"){
 				ast.questions[i].value = parseInt(value);
 			}
-			else if(ast.questions[i].type == "float" || ast.questions[i].type == "money"){
+			else if(ast.questions[i].type == "decimal" || ast.questions[i].type == "money" || ast.questions[i].type == "currency"){
 				ast.questions[i].value = parseFloat(value);
 			}
 			else{
@@ -247,11 +247,15 @@ function generateQuestionHTML(question){
 	switch(question.type){
 		case "integer": 	html += "number";
 							break;
+		case "decimal": 	html += "number";
+							break;
 		case "money": 		html += "number";
 							break;
-		case "float": 		html += "number";
+		case "currency": 		html += "number";
 							break;
 		case "string": 		html += "text";
+							break;
+		case "date": 		html += "text";
 							break;
 		case "boolean": 	html += "checkbox";
 							break;

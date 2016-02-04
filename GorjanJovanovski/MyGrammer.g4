@@ -28,7 +28,7 @@ expr: BOOLSTMT
 
 BOOLSTMT: ('true' | 'false');
 
-TYPE :	('float' | 'integer' | 'boolean' | 'string' | 'money') ;
+TYPE :	('decimal' | 'integer' | 'boolean' | 'string' | 'money' | 'currency' | 'date') ;
 
 OP: ( COMPOP | BOOLOP | MATHOP ) ;
 
