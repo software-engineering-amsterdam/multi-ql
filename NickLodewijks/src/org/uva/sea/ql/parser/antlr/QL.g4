@@ -18,7 +18,6 @@ file :  form* EOF;
 form returns [Form result]
     :   'form' + ID + block { $result = new Form($ID.text, $block.result); }
     ;
-
     
 block returns [Block result]
     locals [
@@ -56,7 +55,31 @@ variable returns [Variable result]
         }
     }
     ;
-    
+   
+addExpr returns [Expr result]
+    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
+    { 
+      if ($op.text.equals("+")) {
+        $result = new Add($result, $rhs.result);
+      }
+      if ($op.text.equals("-")) {
+        $result = new Sub($result, $rhs.result);      
+      }
+    })*
+    ;
+
+mulExpr returns [Expr result]
+    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
+    { 
+      if ($op.text.equals("*")) {
+        $result = new Mul($result, $rhs.result);
+      }
+      if ($op.text.equals("<=")) {
+        $result = new Div($result, $rhs.result);      
+      }
+    })*
+    ;
+
 unExpr returns [Expr result]
     locals [
         Map<String, Variable> varMap = new HashMap<String, Variable>()
@@ -79,30 +102,13 @@ primary returns [Expr result]
         } 
     }
     ;
-    
-mulExpr returns [Expr result]
-    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
-    { 
-      if ($op.text.equals("*")) {
-        $result = new Mul($result, $rhs.result);
-      }
-      if ($op.text.equals("<=")) {
-        $result = new Div($result, $rhs.result);      
-      }
-    })*
+
+orExpr returns [Expr result]
+    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
     ;
     
-  
-addExpr returns [Expr result]
-    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
-    { 
-      if ($op.text.equals("+")) {
-        $result = new Add($result, $rhs.result);
-      }
-      if ($op.text.equals("-")) {
-        $result = new Sub($result, $rhs.result);      
-      }
-    })*
+andExpr returns [Expr result]
+    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
     ;
   
 relExpr returns [Expr result]
@@ -128,16 +134,6 @@ relExpr returns [Expr result]
       }
     })*
     ;
-    
-andExpr returns [Expr result]
-    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
-    ;
-    
-
-orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
-    ;
-
     
 // Tokens
 WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
