@@ -81,7 +81,7 @@ function parseQuestions(parseTree){
 	    	question.type = questionNode.children[3].getText();
 
 		    if(question.type=="number" || question.type=="float" || question.type=="money"){
-		    	//question.value = 0;
+		    	question.value = 0;
 		    }
 		    else if(question.type=="boolean"){
 		    	question.value = false;
@@ -125,12 +125,12 @@ function createAST(questions){
 	ast.texts = new Array();
 	for(var i=0;i<questions.length;i++){
 		if(ast.labels.indexOf(questions[i].label)>-1){
-			errors.add("PARSE ERR: " + "Label '" + questions[i].label + "' is already defined");
+			errors.add("ERROR: " + "Label '" + questions[i].label + "' is already defined");
 			fillPanel("error", errors, true);
 		}
 		else{
 			if(ast.texts.indexOf(questions[i].text)>-1){
-				warnings.add("PARSE WARN: " + "Text '" + questions[i].text + "' is already defined");
+				warnings.add("WARNING: " + "Text '" + questions[i].text + "' is already defined");
 				fillPanel("warning", warnings);
 			}
 
@@ -181,7 +181,7 @@ function refreshGUI(){
 			for(var j=0;j<dependencies.length;j++){
 				var evalResult = evaluate(dependencies[j]);
 				if(typeof evalResult !== "boolean"){
-	  				errors.add("PARSE ERR: Condition '"+dependencies[j]+"' is not boolean");
+	  				errors.add("ERROR: Condition '"+dependencies[j]+"' is not boolean");
 	  				fillPanel("error", errors, true);
 				}
 				else{
@@ -209,18 +209,16 @@ function refreshGUI(){
 	}
 }
 
+//TODO strings
 function evaluate(statement){
 	var evalStmt = "";
+	ast.labels = ast.labels.sort();
+	ast.labels = ast.labels.reverse();
 	for(var i=0;i<ast.labels.length;i++){
-
-		if(getQuestionType(ast.labels[i]) == "string"){
-			evalStmt += "var " + ast.labels[i] + " = '" + getQuestionValue(ast.labels[i]) + "';";
-		}
-		else{
-			evalStmt += "var " + ast.labels[i] + " = " + getQuestionValue(ast.labels[i]) + ";";
-		}
+		var regexObj = new RegExp(ast.labels[i],"g");
+		statement = statement.replace(regexObj, getQuestionValue(ast.labels[i]));
 	}
-	return eval(evalStmt + statement + ";");
+	return parser.parse(statement);
 }
 
 function getQuestionValue(label){
