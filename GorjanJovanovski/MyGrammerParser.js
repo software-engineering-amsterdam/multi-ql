@@ -62,7 +62,7 @@ var literalNames = [ null, "'form'", "'{'", "'}'", "'='", "'if'", "'else'",
 
 var symbolicNames = [ null, null, null, null, null, null, null, null, null, 
                       "BOOLSTMT", "TYPE", "OP", "MATHOP", "BOOLOP", "NOOP", 
-                      "COMPOP", "DELIMITER", "LABEL", "NEWLINE", "INT", 
+                      "COMPOP", "DELIMITER", "LABEL", "NEWLINE", "NUMBER", 
                       "WHITESPACE", "STRING" ];
 
 var ruleNames =  [ "form", "queries", "question", "questionText", "questionLabel", 
@@ -105,7 +105,7 @@ MyGrammerParser.COMPOP = 15;
 MyGrammerParser.DELIMITER = 16;
 MyGrammerParser.LABEL = 17;
 MyGrammerParser.NEWLINE = 18;
-MyGrammerParser.INT = 19;
+MyGrammerParser.NUMBER = 19;
 MyGrammerParser.WHITESPACE = 20;
 MyGrammerParser.STRING = 21;
 
@@ -742,8 +742,8 @@ ExprContext.prototype.LABEL = function() {
     return this.getToken(MyGrammerParser.LABEL, 0);
 };
 
-ExprContext.prototype.INT = function() {
-    return this.getToken(MyGrammerParser.INT, 0);
+ExprContext.prototype.NUMBER = function() {
+    return this.getToken(MyGrammerParser.NUMBER, 0);
 };
 
 ExprContext.prototype.OP = function() {
@@ -792,9 +792,9 @@ MyGrammerParser.prototype.expr = function(_p) {
             this.state = 60;
             this.match(MyGrammerParser.LABEL);
             break;
-        case MyGrammerParser.INT:
+        case MyGrammerParser.NUMBER:
             this.state = 61;
-            this.match(MyGrammerParser.INT);
+            this.match(MyGrammerParser.NUMBER);
             break;
         case MyGrammerParser.T__6:
             this.state = 62;
