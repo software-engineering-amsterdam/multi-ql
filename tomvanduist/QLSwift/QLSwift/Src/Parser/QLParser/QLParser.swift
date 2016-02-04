@@ -9,19 +9,93 @@
 import Foundation
 import SwiftParsec
 
+//public enum QLIdentifier {
+//    case String
+//}
+
+//public enum QLStatement {
+//    case Expression
+//    indirect case StatementList(QLStatement)
+//}
+
+//public indirect enum QLForm {
+//    
+//    public enum QLStatement {
+//        case Expression
+//        indirect case StatementList(QLStatement)
+//    }
+//    
+//    case QLForm(identifier: String, statement: QLStatement)
+//    case QLIdentifier(String)
+//}
+//
+//
+//class QLTest: NSObject {
+//    
+//    init(s: String) {
+//        print(s)
+//    }
+//}
 
 class QLParser: NSObject {
     
-    let lexer = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
+    
 
     
     func testQL() {
         qlParser().test(try! String(stringFromFile: "QL", ofType: "txt"))
+        if let tmp = try? qlParser().run(sourceName: "", input: String(stringFromFile: "QL", ofType: "txt")) {
+            print(tmp)
+        }
     }
     
-    private func qlParser() -> GenericParser<String, (), String?> {
-        let form = lexer.symbol("form")
-        return form.optional
+    private func qlParser() -> GenericParser<String, (), QLStatement> {
+        
+        let lexer           = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
+        let symbol          = lexer.symbol
+        let integerLiteral  = lexer.integer
+        let floatLiteral    = lexer.float
+        let stringLiteral   = lexer.stringLiteral
+        let identifier      = lexer.identifier
+        let colon           = symbol(":")
+        
+        
+        let qlString: GenericParser<String, (), QLExpression> =
+            lexer.stringLiteral.map { QLString(value: $0) }
+        let qlBooleanValue: GenericParser<String, (), QLExpression> =
+            lexer.symbol("true") *> GenericParser(result: QLBooleanValue(value: true)) <|>
+            lexer.symbol("false") *> GenericParser(result: QLBooleanValue(value: false))
+        
+        var qlExpression: GenericParser<String, (), QLExpression>!
+
+        // Expression recursive definition
+        GenericParser.recursive { (expr: GenericParser<String, (), QLExpression>) in
+            let boolExpr: GenericParser<String, (), QLExpression> =
+                symbol("boolean") *> GenericParser(result: QLBoolean()) <|>
+                qlBooleanValue
+            let moneyExpr: GenericParser<String, (), QLExpression> =
+                symbol("money") *> lexer.parentheses(expr).map { QLMoney(expr: $0) }.attempt <|>
+                symbol("money") *> GenericParser(result: QLMoney())
+            
+            qlExpression = boolExpr <|> moneyExpr
+            
+            return qlExpression
+        }
+        
+        
+        var qlStatement: GenericParser<String, (), QLStatement>!
+        
+        // Statement recursive definition
+        GenericParser.recursive { (stmt: GenericParser<String, (), QLStatement>) in
+            let qlStatementList: GenericParser<String, (), QLStatement>
+                = lexer.braces(stmt).map { QLStatementList(statements: $0) }
+            
+            
+            return qlStatement
+        }
+        
+        
+        return lexer.whiteSpace *> qlStatement
     }
     
     
@@ -60,7 +134,7 @@ class QLParser: NSObject {
     // MARK: JSON test
     
     func testJSON() {
-        JSONValue.parser.test("{ \"Movie\": \"Blade Runner\", \"Cast\": [\"Rutger Hauer\", \"Harrison Ford\"]}")
+        JSONValue.parser.test("{ \"Movie\": \"Blade Runner\", \"Cast\": [\"Rutger Hauer\", \"Harrison Ford\", true ]}")
     }
 }
 
@@ -104,7 +178,6 @@ public enum JSONValue {
             stringLiteral >>- { name in
                 
                 symbol(":") *> jvalue.map { value in (name, value) }
-                
             }
             
             let dictionary: GenericParser<String, (), [String: JSONValue]> =
@@ -114,7 +187,6 @@ public enum JSONValue {
                 dict[name] = value
                 
                 return dict
-                
             }
             
             let jobjectDict: GenericParser<String, (), [String: JSONValue]> =
@@ -126,16 +198,13 @@ public enum JSONValue {
                     dict[name] = value
                     
                     return GenericParser(result: dict)
-                    
                 }
-                
             }
             
             let jobjectValues = jobjectDict <|> GenericParser(result: [:])
             jobject = JSONValue.JObject <^> lexer.braces(jobjectValues)
             
             return jstring <|> jnumber <|> jbool <|> jnull <|> jarray <|> jobject
-            
         }
         
         return lexer.whiteSpace *> (jobject <|> jarray)

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/AppDelegate.swift"
-            timestampString = "476203858.80494"
+            timestampString = "476220126.827426"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -26,12 +26,92 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/AppDelegate.swift"
-            timestampString = "476215807.681081"
+            timestampString = "476271716.967182"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QLSwift/Src/Parser/AST/QLStatement.swift"
+            timestampString = "476220126.827426"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "11"
+            endingLineNumber = "11"
+            landmarkName = "QLStatement"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QLSwift.QLStatement.__deallocating_deinit"
+                  moduleName = "QLSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/Parser/AST/QLStatement.swift"
+                  timestampString = "476277613.877958"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QLSwift.QLStatement.init (QLSwift.QLStatement.Type)() -&gt; QLSwift.QLStatement"
+                  moduleName = "QLSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/Parser/AST/QLStatement.swift"
+                  timestampString = "476277613.878111"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QLSwift/Src/Parser/QLParser/QLParser.swift"
+            timestampString = "476274197.887631"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "testQL()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QLSwift/Src/Parser/QLParser/QLParser.swift"
+            timestampString = "476275742.11201"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "testQL()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
