@@ -3,5 +3,8 @@ package org.uva.sea.ql.ast.expr;
 /**
  * Created by roydewildt on 04/02/16.
  */
-public class Neg {
+public class Neg extends Expr{
+    public Neg(Expr lhs){
+        super(lhs);
+    }
 }

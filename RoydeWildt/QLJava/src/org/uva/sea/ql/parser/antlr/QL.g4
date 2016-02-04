@@ -8,16 +8,16 @@ import org.uva.sea.ql.ast.expr.*;
 primary returns [Expr result]
     :   x=Int {$result = new Int($x.text);}
     ;
-/*
+
 unExpr returns [Expr result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
     |  '!' x=unExpr { $result = new Not($x.result); }
-    |  x=primary    { $result = $x.result; }
-    ;    */
+    |  y=primary    { $result = $y.result; }
+    ;
     
 mulExpr returns [Expr result]
-    :   lhs=primary { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=primary
+    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr
     { 
       if ($op.text.equals("*")) {
         $result = new Mul($result, $rhs.result);
@@ -40,40 +40,40 @@ addExpr returns [Expr result]
     })*
     ;
 
-  /*
+
 relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
     { 
       if ($op.text.equals("<")) {
-        $result = new LT($result, rhs);
+        $result = new LT($result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LEq($result, rhs);      
+        $result = new LEq($result, $rhs.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, rhs);
+        $result = new GT($result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GEq($result, rhs);      
+        $result = new GEq($result, $rhs.result);
       }
       if ($op.text.equals("==")) {
-        $result = new Eq($result, rhs);
+        $result = new Eq($result, $rhs.result);
       }
       if ($op.text.equals("!=")) {
-        $result = new NEq($result, rhs);
+        $result = new NEq($result, $rhs.result);
       }
     })*
     ;
     
 andExpr returns [Expr result]
-    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, rhs); } )*
+    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
     ;
     
 
 orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, rhs); } )*
+    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
     ;
-*/
+
     
 // Tokens
 WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN)
