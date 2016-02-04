@@ -1,6 +1,40 @@
-div{
+html, body{
+	width: 100%;
+	height: 100%;
+}
+
+#inputWrapper{
+	float: left;
+	width: 30%;
+	height: 100%;
+}
+
+#errorpanel{
+	display: none;
+	float: left;
+	width: 70%;
+	margin-top: 32px;
+}
+
+#warningpanel{
+	display: none;
+	width: 100%;
+}
+
+#formWrapper{
+	display: none;	
+	float: left;
+	width: 70%;
+}
+
+.btn{
+	float: right;
+}
+
+.questionDiv{
 	margin-left: 10px;
 }
+
 .question{
 	font-size: 16px;
 	font-weight: bold;

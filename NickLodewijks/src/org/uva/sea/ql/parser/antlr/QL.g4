@@ -4,6 +4,8 @@ grammar QL;
 {
 import java.util.Map;
 import java.util.HashMap;
+import org.uva.sea.ql.ast.*;
+import org.uva.sea.ql.ast.literal.*;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
@@ -35,24 +37,31 @@ ifStat[Block arg]
     ;
 
 question[Block result]
-    :   variable + STR 
+    :   variableType + identifier + STR
         { 
-            $result.add(new Question($variable.result, $STR.text));
+            $result.add(new VariableDecl($variableType.result, $identifier.result));
+            $result.add(new Question($identifier.result, $STR.text));
+        }
+    |
+        identifier + STR
+        { 
+            $result.add(new Question($identifier.result, $STR.text));
         }
     ;
     
-variable returns [Variable result]
-    :  t=(BOOLEAN|STRING|INTEGER) + ID 
-    {
-        if($t.type == BOOLEAN){
-            $result = new BooleanVariable($ID.text);
-        } else if($t.type == STRING){
-            $result = new StringVariable($ID.text);
-        } else if($t.type == INTEGER){
-            $result = new IntegerVariable($ID.text);
+variable returns [VariableDecl result]
+    :  variableType + identifier 
+        { 
+            $result = new VariableDecl($variableType.result, $identifier.result);
         }
-    }
     ;
+    
+variableType returns [VariableType result]
+   : t=( BOOLEAN | STRING | INTEGER ) 
+        { 
+            $result = new VariableType($t.text);
+        }
+   ;
    
 addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
@@ -87,32 +96,22 @@ unExpr returns [Expr result]
     ;    
     
 primary returns [Expr result]
-    : literal
-    | identifier
-    | '(' orExpr ')'
+    : literal        { $result = new LiteralExpr($literal.result); }
+    | identifier     { $result = new VariableExpr($identifier.result); }
+    | '(' orExpr ')' { $result = $orExpr.result; }
     ;
     
-identifier returns [Expr result]
+identifier returns [VariableIdentifier result]
     : ID
     {   
-        $result = new Identifier($ID.text);
+        $result = new VariableIdentifier($ID.text);
     }
     ;
     
-literal
-    : integerLiteral 
-    | stringLiteral 
-    | booleanLiteral
-    ;
-    
-integerLiteral returns [Expr result]
-    : INT { $result = new IntegerLiteral(Integer.valueOf($INT.text)); }
-    ;
-stringLiteral returns [Expr result]
-    : STR { $result = new StringLiteral($STR.text); }
-    ;
-booleanLiteral returns [Expr result]
-    : BOOL { $result = new BooleanLiteral(Boolean.valueOf($BOOL.text)); }
+literal returns [Literal result]
+    : INT   { $result = new IntegerLiteral(Integer.valueOf($INT.text)); }
+    | STR   { $result = new StringLiteral($STR.text); }
+    | BOOL  { $result = new BooleanLiteral(Boolean.valueOf($BOOL.text)); }
     ;
 
 orExpr returns [Expr result]

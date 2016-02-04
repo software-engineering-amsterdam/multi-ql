@@ -23,15 +23,11 @@ public class QLMain {
 
 		fileContext = parser.file();
 
-		System.out.println(fileContext.toStringTree());
+		TypeChecker tc = new TypeChecker(fileContext.form(0).result);
 
-		System.out.println(fileContext.form().get(0).result);
-
-		// show AST in GUI
-		
-		TreeViewer viewr = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-		viewr.setScale(1.5);// scale a little
-		
-		viewr.open();
+//		TreeViewer viewr = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
+//		viewr.setScale(1.5);// scale a little
+//
+//		viewr.open();
 	}
 }

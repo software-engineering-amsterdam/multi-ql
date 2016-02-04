@@ -1,16 +1,14 @@
 package org.uva.sea.ql.ast.expr;
 
-public class BooleanLiteral extends BooleanExpr {
-
-	private final boolean value;
-
+public class BooleanLiteral extends Expr {
+	final boolean value;
+	
 	public BooleanLiteral(boolean value) {
 		this.value = value;
 	}
-
+	
 	@Override
-	public Boolean interpret(Context context) {
+	public Boolean eval() {
 		return value;
 	}
-
 }
