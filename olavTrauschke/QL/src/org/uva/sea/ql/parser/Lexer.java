@@ -9,14 +9,12 @@ public class Lexer implements Tokens {
     
     public static final int MINIMUM_CHARACTER_VALUE = 0;
     public static final int ERROR_CHARACTER_VALUE = MINIMUM_CHARACTER_VALUE - 1;
+    public static final String UNEXPECTED_CHAR_MESSAGE = "Unexpected character: ";
     
     public static final Map<String, Integer> KEYWORDS;
     static {
         KEYWORDS = new HashMap<>();
-        KEYWORDS.put("boolean", BOOLEAN);
-        KEYWORDS.put("string", STRING);
-        KEYWORDS.put("true", LITERAL_TRUE);
-        KEYWORDS.put("false", LITERAL_FALSE);
+        //TODO add keywords
     }
     
     public static final Set<Integer> WHITESPACE_CHARACTERS;
@@ -104,7 +102,7 @@ public class Lexer implements Tokens {
                     token = '*';
                     return token;
                 }
-                //TODO handle &, |, <, = and > (see examples below)
+                
                 case ')' :
                 case '(' :
                 case '+' :
@@ -114,77 +112,86 @@ public class Lexer implements Tokens {
                     readNextCharacter();
                     return token;
                 }
-                default: {
-                    //TODO handle default case
+                
+                case '&' : {
+                    readNextCharacter();
+                    if (character == '&') {
+                        token = AND;
+                        return token;
+                    }
+                    throw new RuntimeException(UNEXPECTED_CHAR_MESSAGE + (char) character);
+                }
+                case '|' : {
+                    readNextCharacter();
+                    if (character == '|') {
+                        token = OR;
+                        return token;
+                    }
+                    throw new RuntimeException(UNEXPECTED_CHAR_MESSAGE + (char) character);
+                }
+                
+                case '<' : {
+                    readNextCharacter();
+                    if (character == '=') {
+                        token = LEQ;
+                        return token;
+                    }
+                    token = '<';
+                    return token;
+                }
+                case '=' : {
+                    readNextCharacter();
+                    if (character == '=') {
+                        token = EQ;
+                        return token;
+                    }
+                    throw new RuntimeException(UNEXPECTED_CHAR_MESSAGE + (char) character);
+                }
+                case '>' : {
+                    readNextCharacter();
+                    if (character == '=') {
+                        token = GEQ;
+                        return token;
+                    }
+                    token = '>';
+                    return token;
+                }
+                
+                default : {
+                    if (Character.isDigit(character)) {
+                        semantic = new Int(readNumber());
+                        token = INT;
+                        return token;
+                    }
+                    if (Character.isLetter(character)) {
+                        token = readString();
+                        return token;
+                    }
+                    throw new RuntimeException(UNEXPECTED_CHAR_MESSAGE + (char) character);
                 }
             }
         }
     }
-}
 
-/*
-    case '&': {
-        nextChar(); 
-        if  (c == '&') {
-                nextChar();
-                return token = AND;
-        }
-        throw new RuntimeException("Unexpected character: " + (char)c);
+    private int readNumber() {
+        int result = 0;
+        do {
+            result = 10 * result + (character - '0');
+            readNextCharacter();
+        } while (Character.isDigit(character));
+        return result;
     }
-    case '|': {
-        nextChar(); 
-        if  (c == '|') {
-                nextChar();
-                return token = OR;
+    
+    private int readString() {
+        StringBuilder sb = new StringBuilder();
+        do {
+            sb.append((char) character);
+        } while (Character.isLetterOrDigit(character));
+        String name = sb.toString();
+        if (KEYWORDS.containsKey(name)) {
+            return KEYWORDS.get(name);
         }
-        throw new RuntimeException("Unexpected character: " + (char)c);
+        semantic = new Ident(name);
+        return IDENT;
     }
-    case '<': {
-        nextChar();
-        if (c == '=') {
-                nextChar();
-                return token = LEQ;
-        }
-        return '<';
-    }
-    case '=': { 
-        nextChar(); 
-        if  (c == '=') {
-                return token = EQ;
-        }
-        throw new RuntimeException("Unexpected character: " + (char)c);
-    }
-    case '>': {
-        nextChar();
-        if (c == '=') {
-                nextChar();
-                return token = GEQ;
-        }
-        return token = '>';
-    }
-    default: {
-        if (Character.isDigit(c)) {
-                int n = 0; 
-                do {
-                        n = 10 * n + (c - '0');
-                        nextChar(); 
-                } while (Character.isDigit(c)); 
-                yylval = new Int(n);
-                return token = INT;
-        }
-        if (Character.isLetter(c)) {
-                StringBuilder sb = new StringBuilder();
-                do {
-                        sb.append((char)c);
-                        nextChar();
-                }
-                while (Character.isLetterOrDigit(c));
-                String name = sb.toString();
-                if (KEYWORDS.containsKey(name)) {
-                        return token = KEYWORDS.get(name);
-                }
-                        yylval = new Ident(name);
-                return token = IDENT;
-        }
-        throw new RuntimeException("Unexpected character: " + (char)c);
-*/
+}
