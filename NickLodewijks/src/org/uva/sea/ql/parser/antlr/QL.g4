@@ -11,10 +11,6 @@ import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
 }
 
-@lexer::header
-{
-}
-
 file :  form* EOF
      ;
 
