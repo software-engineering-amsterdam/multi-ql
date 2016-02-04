@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
 import org.uva.sea.ql.ast.ASTNode;
+import org.uva.sea.ql.ast.expr.Int;
+import org.uva.sea.ql.ast.expr.Ident;
 
 public class Lexer implements Tokens {
     
