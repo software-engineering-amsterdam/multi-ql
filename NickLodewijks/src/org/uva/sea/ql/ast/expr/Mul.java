@@ -1,16 +1,20 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Mul extends IntegerExpr {
-	private final IntegerExpr lhs;
-	private final IntegerExpr rhs;
+import org.uva.sea.ql.ast.ASTNodeVisitor;
+
+public class Mul extends ArithmeticExpr {
 
 	public Mul(Expr lhs, Expr rhs) {
-		this.lhs = (IntegerExpr) lhs;
-		this.rhs = (IntegerExpr) rhs;
+		super(lhs, rhs);
 	}
 
 	@Override
 	public Integer interpret(Context context) {
-		return lhs.interpret(context) * rhs.interpret(context);
+		return (Integer) lhs.interpret(context) * (Integer) rhs.interpret(context);
+	}
+
+	@Override
+	public void _accept(ASTNodeVisitor visitor) {
+		visitor.visit(this);
 	}
 }

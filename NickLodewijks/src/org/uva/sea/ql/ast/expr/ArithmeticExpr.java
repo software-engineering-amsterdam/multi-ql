@@ -1,29 +1,23 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.TypeChecker;
-import org.uva.sea.ql.ast.ASTNodeVisitor;
 import org.uva.sea.ql.ast.Result;
 import org.uva.sea.ql.ast.ValueType;
 
-public class GEq extends AbstractBinaryExpr {
+public abstract class ArithmeticExpr extends AbstractBinaryExpr {
 
-	public GEq(Expr lhs, Expr rhs) {
+	public ArithmeticExpr(Expr lhs, Expr rhs) {
 		super(lhs, rhs);
 	}
 
 	@Override
-	public Boolean interpret(Context context) {
-		return (Integer) lhs.interpret(context) >= (Integer) rhs.interpret(context);
+	public Integer interpret(Context context) {
+		return (Integer) lhs.interpret(context) + (Integer) rhs.interpret(context);
 	}
 
 	@Override
 	public ValueType type() {
-		return ValueType.BOOLEAN;
-	}
-
-	@Override
-	public void _accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
+		return ValueType.INTEGER;
 	}
 
 	@Override

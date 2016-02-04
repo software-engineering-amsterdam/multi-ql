@@ -9,7 +9,13 @@ form taxOfficeExample{
         int valueResidue "Value residue:"
         
         if(valueResidue > 100){
-            bool areYouSure "Are you sure?"
+            str areYouSure "Are you sure?"
+            
+            if(areYouSure){
+                int enterAnumber "Please enter a number."
+            }
         }
+        
+        
     }
 }
