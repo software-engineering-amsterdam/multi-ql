@@ -1,4 +1,4 @@
-
+form taxOfficeExample {
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"
@@ -14,8 +14,6 @@
     "Value residue:"
       valueResidue: money =
         (sellingPrice - privateDebt)
-  } else {
-    "This is a nice else right?:"
-      superNice: money =
-        (loatsOfmoney - bitches)
   }
+
+}

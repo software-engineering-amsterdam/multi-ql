@@ -17,7 +17,7 @@ public class Test {
         QLParser par = new QLParser(tok);
 
         try{
-            String xstr = par.stats().result.toString();
+            String xstr = par.forms().result.toString();
             System.out.println(xstr);
         } catch (RecognitionException e) {
             e.printStackTrace();

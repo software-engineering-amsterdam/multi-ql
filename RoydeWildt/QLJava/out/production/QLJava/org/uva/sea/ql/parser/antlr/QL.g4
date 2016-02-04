@@ -6,37 +6,24 @@ import java.util.List;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
+import org.uva.sea.ql.ast.form.*;
 }
 
 /*
  * Parser
  */
 
-//Type Grammar
-
-type returns [Stat result]
-    : 'boolean' | 'money'
-    ;
-
-bool returns [Val result]
-    : x=True  {$result = new Bool($x.text);}
-    | x=False {$result = new Bool($x.text);}
-    ;
-
 //Form Grammar
-/*
-formBody returns [Form result]
-    : '{' stat* '}'
-    ;
 
 form returns [Form result]
-    : 'form' Ident formBody;
-
-forms returns [Form result]
-    : form*
+    : 'form' i=Ident '{' s=stats '}' {$result = new Form($i.text, $s.result);}
     ;
 
-*/
+forms returns [List<Form> result]
+    @init{$result = new ArrayList<Form>();}
+    : (form {$result.add($form.result);} )+
+    ;
+
 
 //Stat Grammar
 
@@ -50,7 +37,7 @@ question returns [Stat result]
     ;
 
 stat returns [Stat result]
-    : x=question {$result = $x.result;}
+    : q=question {$result = $q.result;}
     | 'if' '(' c=orExpr ')' '{' s=stats '}' {$result = new If($c.result, $s.result);}
     | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}' {$result = new IfElse($c.result, $i.result, $e.result);}
     ;
@@ -133,6 +120,17 @@ orExpr returns [Expr result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
     ;
 
+
+//Type Grammar
+
+type returns [Stat result]
+    : 'boolean' | 'money'
+    ;
+
+bool returns [Val result]
+    : x=True  {$result = new Bool($x.text);}
+    | x=False {$result = new Bool($x.text);}
+    ;
     
 /*
  * Tokens

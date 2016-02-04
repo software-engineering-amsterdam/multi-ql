@@ -5,6 +5,7 @@ import java.util.List;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
+import org.uva.sea.ql.ast.form.*;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -22,25 +23,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterType(QLParser.TypeContext ctx) { }
+	@Override public void enterForm(QLParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitType(QLParser.TypeContext ctx) { }
+	@Override public void exitForm(QLParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBool(QLParser.BoolContext ctx) { }
+	@Override public void enterForms(QLParser.FormsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBool(QLParser.BoolContext ctx) { }
+	@Override public void exitForms(QLParser.FormsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -173,6 +174,30 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitOrExpr(QLParser.OrExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterType(QLParser.TypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitType(QLParser.TypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBool(QLParser.BoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBool(QLParser.BoolContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

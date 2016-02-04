@@ -5,6 +5,7 @@ import java.util.List;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
+import org.uva.sea.ql.ast.form.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -14,25 +15,25 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface QLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link QLParser#type}.
+	 * Enter a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void enterType(QLParser.TypeContext ctx);
+	void enterForm(QLParser.FormContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#type}.
+	 * Exit a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void exitType(QLParser.TypeContext ctx);
+	void exitForm(QLParser.FormContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#bool}.
+	 * Enter a parse tree produced by {@link QLParser#forms}.
 	 * @param ctx the parse tree
 	 */
-	void enterBool(QLParser.BoolContext ctx);
+	void enterForms(QLParser.FormsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#bool}.
+	 * Exit a parse tree produced by {@link QLParser#forms}.
 	 * @param ctx the parse tree
 	 */
-	void exitBool(QLParser.BoolContext ctx);
+	void exitForms(QLParser.FormsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#varDecl}.
 	 * @param ctx the parse tree
@@ -143,4 +144,24 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOrExpr(QLParser.OrExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterType(QLParser.TypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitType(QLParser.TypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#bool}.
+	 * @param ctx the parse tree
+	 */
+	void enterBool(QLParser.BoolContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#bool}.
+	 * @param ctx the parse tree
+	 */
+	void exitBool(QLParser.BoolContext ctx);
 }
