@@ -23,114 +23,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="QL.g4" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Stat.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/Stat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="5" column="9" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QL.g4" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.2201258">
-              <caret line="72" column="6" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="54" column="71" selection-start-line="54" selection-start-column="71" selection-end-line="54" selection-end-column="71" />
+              <folding>
+                <element signature="e#13#156#1" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Question.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/Question.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="29" column="103" selection-start-line="29" selection-start-column="103" selection-end-line="29" selection-end-column="103" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Eq.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Eq.java">
+      <file leaf-file-name="Val.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Val.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="9" selection-end-column="1" />
+              <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
               <folding>
-                <element signature="e#145#146#0" expanded="true" />
-                <element signature="e#176#177#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Int.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Int.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QLParser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="502" column="71" selection-start-line="502" selection-start-column="71" selection-end-line="502" selection-end-column="71" />
-              <folding>
-                <element signature="e#460#529#0" expanded="true" />
-                <element signature="e#2200#2201#0" expanded="true" />
-                <element signature="e#2224#2225#0" expanded="true" />
-                <element signature="e#2274#2275#0" expanded="true" />
-                <element signature="e#2298#2299#0" expanded="true" />
-                <element signature="e#2936#2937#0" expanded="true" />
-                <element signature="e#2973#2974#0" expanded="true" />
-                <element signature="e#4143#4144#0" expanded="true" />
-                <element signature="e#4196#4197#0" expanded="true" />
-                <element signature="e#4232#4233#0" expanded="true" />
-                <element signature="e#4286#4287#0" expanded="true" />
-                <element signature="e#4356#4357#0" expanded="true" />
-                <element signature="e#4393#4394#0" expanded="true" />
-                <element signature="e#6431#6432#0" expanded="true" />
-                <element signature="e#6483#6484#0" expanded="true" />
-                <element signature="e#6522#6523#0" expanded="true" />
-                <element signature="e#6575#6576#0" expanded="true" />
-                <element signature="e#6646#6647#0" expanded="true" />
-                <element signature="e#6683#6684#0" expanded="true" />
-                <element signature="e#8859#8860#0" expanded="true" />
-                <element signature="e#8912#8913#0" expanded="true" />
-                <element signature="e#8953#8954#0" expanded="true" />
-                <element signature="e#9007#9008#0" expanded="true" />
-                <element signature="e#9078#9079#0" expanded="true" />
-                <element signature="e#9115#9116#0" expanded="true" />
-                <element signature="e#11293#11294#0" expanded="true" />
-                <element signature="e#11346#11347#0" expanded="true" />
-                <element signature="e#11387#11388#0" expanded="true" />
-                <element signature="e#11441#11442#0" expanded="true" />
-                <element signature="e#11512#11513#0" expanded="true" />
-                <element signature="e#11549#11550#0" expanded="true" />
-                <element signature="e#14911#14912#0" expanded="true" />
-                <element signature="e#14964#14965#0" expanded="true" />
-                <element signature="e#15005#15006#0" expanded="true" />
-                <element signature="e#15059#15060#0" expanded="true" />
-                <element signature="e#15130#15131#0" expanded="true" />
-                <element signature="e#15167#15168#0" expanded="true" />
-                <element signature="e#16715#16716#0" expanded="true" />
-                <element signature="e#16768#16769#0" expanded="true" />
-                <element signature="e#16809#16810#0" expanded="true" />
-                <element signature="e#16863#16864#0" expanded="true" />
-                <element signature="e#16933#16934#0" expanded="true" />
-                <element signature="e#16970#16971#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="And.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/And.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-              <folding>
-                <element signature="e#147#148#0" expanded="true" />
-                <element signature="e#178#179#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NEq.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/NEq.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="3" selection-start-line="3" selection-start-column="26" selection-end-line="4" selection-end-column="3" />
-              <folding>
-                <element signature="e#147#148#0" expanded="true" />
-                <element signature="e#178#179#0" expanded="true" />
+                <element signature="e#155#156#0" expanded="true" />
+                <element signature="e#181#182#0" expanded="true" />
+                <element signature="e#227#228#0" expanded="true" />
+                <element signature="e#297#298#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -140,7 +74,7 @@
         <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/Test.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -148,15 +82,36 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Expr.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Expr.java">
+      <file leaf-file-name="If.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/If.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="74" selection-start-line="25" selection-start-column="74" selection-end-line="25" selection-end-column="74" />
+              <caret line="25" column="29" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
               <folding>
-                <element signature="e#229#230#0" expanded="true" />
-                <element signature="e#259#260#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IfElse.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/IfElse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6226415">
+              <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataset1.ql" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/dataset1.ql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -183,14 +138,10 @@
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Div.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Add.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Sub.java" />
-        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Int.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Mul.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Pos.java" />
-        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Expr.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Neg.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Not.java" />
-        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLParser.java" />
-        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g4" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/LT.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/LEq.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/GT.java" />
@@ -199,7 +150,22 @@
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/NEq.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/And.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Or.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Var.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Int.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Var.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Int.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Bool.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Expr.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Prim.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Val.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/Stat.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/Question.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLParser.java" />
         <option value="$PROJECT_DIR$/src/org/uva/sea/ql/Test.java" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g4" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/If.java" />
+        <option value="$PROJECT_DIR$/resources/dataset1.ql" />
+        <option value="$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/IfElse.java" />
       </list>
     </option>
   </component>
@@ -340,26 +306,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="expr" />
+              <option name="myItemId" value="stat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="QLJava" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="QLJava" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antlr-4.5.1-complete.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -373,9 +321,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g4::/auto-gen" value="true" />
     <property name="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g4::/output-dir" value="$PROJECT_DIR$/src" />
     <property name="$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g4::/gen-listener" value="true" />
@@ -890,12 +838,12 @@
       <created>1454573639972</created>
       <option name="number" value="Default" />
       <updated>1454573639972</updated>
-      <workItem from="1454573642689" duration="10559000" />
+      <workItem from="1454573642689" duration="19343000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10559000" />
+    <option name="totallyTimeSpent" value="19343000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -909,13 +857,13 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24140625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2328125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43293494" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -938,19 +886,19 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43293494" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997344" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24140625" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
@@ -965,7 +913,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="8" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLParser.java</url>
+          <line>309</line>
+          <properties />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="9" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -995,8 +951,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
           <folding>
-            <element signature="e#148#149#0" expanded="true" />
-            <element signature="e#179#180#0" expanded="true" />
+            <element signature="e#148#149#0" expanded="false" />
+            <element signature="e#179#180#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1088,21 +1044,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Int.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/GT.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.28301886">
           <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
           <folding>
-            <element signature="e#145#146#0" expanded="true" />
-            <element signature="e#176#177#0" expanded="true" />
+            <element signature="e#145#146#0" expanded="false" />
+            <element signature="e#176#177#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1112,19 +1060,8 @@
         <state vertical-scroll-proportion="0.25157234">
           <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
           <folding>
-            <element signature="e#147#148#0" expanded="true" />
-            <element signature="e#178#179#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Eq.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="9" selection-end-column="1" />
-          <folding>
-            <element signature="e#145#146#0" expanded="true" />
-            <element signature="e#176#177#0" expanded="true" />
+            <element signature="e#147#148#0" expanded="false" />
+            <element signature="e#178#179#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1136,58 +1073,6 @@
           <folding>
             <element signature="e#147#148#0" expanded="true" />
             <element signature="e#178#179#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="502" column="71" selection-start-line="502" selection-start-column="71" selection-end-line="502" selection-end-column="71" />
-          <folding>
-            <element signature="e#460#529#0" expanded="true" />
-            <element signature="e#2200#2201#0" expanded="true" />
-            <element signature="e#2224#2225#0" expanded="true" />
-            <element signature="e#2274#2275#0" expanded="true" />
-            <element signature="e#2298#2299#0" expanded="true" />
-            <element signature="e#2936#2937#0" expanded="true" />
-            <element signature="e#2973#2974#0" expanded="true" />
-            <element signature="e#4143#4144#0" expanded="true" />
-            <element signature="e#4196#4197#0" expanded="true" />
-            <element signature="e#4232#4233#0" expanded="true" />
-            <element signature="e#4286#4287#0" expanded="true" />
-            <element signature="e#4356#4357#0" expanded="true" />
-            <element signature="e#4393#4394#0" expanded="true" />
-            <element signature="e#6431#6432#0" expanded="true" />
-            <element signature="e#6483#6484#0" expanded="true" />
-            <element signature="e#6522#6523#0" expanded="true" />
-            <element signature="e#6575#6576#0" expanded="true" />
-            <element signature="e#6646#6647#0" expanded="true" />
-            <element signature="e#6683#6684#0" expanded="true" />
-            <element signature="e#8859#8860#0" expanded="true" />
-            <element signature="e#8912#8913#0" expanded="true" />
-            <element signature="e#8953#8954#0" expanded="true" />
-            <element signature="e#9007#9008#0" expanded="true" />
-            <element signature="e#9078#9079#0" expanded="true" />
-            <element signature="e#9115#9116#0" expanded="true" />
-            <element signature="e#11293#11294#0" expanded="true" />
-            <element signature="e#11346#11347#0" expanded="true" />
-            <element signature="e#11387#11388#0" expanded="true" />
-            <element signature="e#11441#11442#0" expanded="true" />
-            <element signature="e#11512#11513#0" expanded="true" />
-            <element signature="e#11549#11550#0" expanded="true" />
-            <element signature="e#14911#14912#0" expanded="true" />
-            <element signature="e#14964#14965#0" expanded="true" />
-            <element signature="e#15005#15006#0" expanded="true" />
-            <element signature="e#15059#15060#0" expanded="true" />
-            <element signature="e#15130#15131#0" expanded="true" />
-            <element signature="e#15167#15168#0" expanded="true" />
-            <element signature="e#16715#16716#0" expanded="true" />
-            <element signature="e#16768#16769#0" expanded="true" />
-            <element signature="e#16809#16810#0" expanded="true" />
-            <element signature="e#16863#16864#0" expanded="true" />
-            <element signature="e#16933#16934#0" expanded="true" />
-            <element signature="e#16970#16971#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1219,8 +1104,60 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
           <folding>
-            <element signature="e#147#148#0" expanded="true" />
-            <element signature="e#178#179#0" expanded="true" />
+            <element signature="e#147#148#0" expanded="false" />
+            <element signature="e#178#179#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Eq.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1572327">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="9" selection-end-column="1" />
+          <folding>
+            <element signature="e#145#146#0" expanded="false" />
+            <element signature="e#176#177#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Bool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18867925">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+          <folding>
+            <element signature="e#137#138#0" expanded="true" />
+            <element signature="e#161#162#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Prim.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4716981">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Int.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+          <folding>
+            <element signature="e#135#136#0" expanded="true" />
+            <element signature="e#159#160#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Var.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding>
+            <element signature="e#136#137#0" expanded="true" />
+            <element signature="e#160#161#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1228,7 +1165,7 @@
     <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/expr/Expr.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="74" selection-start-line="25" selection-start-column="74" selection-end-line="25" selection-end-column="74" />
+          <caret line="25" column="12" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="80" />
           <folding>
             <element signature="e#229#230#0" expanded="true" />
             <element signature="e#259#260#0" expanded="true" />
@@ -1236,21 +1173,188 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QLParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49056605">
+          <caret line="291" column="65" selection-start-line="291" selection-start-column="65" selection-end-line="291" selection-end-column="65" />
+          <folding>
+            <element signature="e#550#619#0" expanded="true" />
+            <element signature="e#2791#2792#0" expanded="true" />
+            <element signature="e#2815#2816#0" expanded="true" />
+            <element signature="e#2865#2866#0" expanded="true" />
+            <element signature="e#2889#2890#0" expanded="true" />
+            <element signature="e#3437#3438#0" expanded="true" />
+            <element signature="e#3474#3475#0" expanded="true" />
+            <element signature="e#4713#4714#0" expanded="true" />
+            <element signature="e#4750#4751#0" expanded="true" />
+            <element signature="e#6257#6258#0" expanded="true" />
+            <element signature="e#6310#6311#0" expanded="true" />
+            <element signature="e#6381#6382#0" expanded="true" />
+            <element signature="e#6418#6419#0" expanded="true" />
+            <element signature="e#7808#7809#0" expanded="true" />
+            <element signature="e#7859#7860#0" expanded="true" />
+            <element signature="e#7895#7896#0" expanded="true" />
+            <element signature="e#7949#7950#0" expanded="true" />
+            <element signature="e#8021#8022#0" expanded="true" />
+            <element signature="e#8058#8059#0" expanded="true" />
+            <element signature="e#10593#10594#0" expanded="true" />
+            <element signature="e#10648#10649#0" expanded="true" />
+            <element signature="e#10682#10683#0" expanded="true" />
+            <element signature="e#10735#10736#0" expanded="true" />
+            <element signature="e#10773#10774#0" expanded="true" />
+            <element signature="e#10824#10825#0" expanded="true" />
+            <element signature="e#10861#10862#0" expanded="true" />
+            <element signature="e#10913#10914#0" expanded="true" />
+            <element signature="e#10981#10982#0" expanded="true" />
+            <element signature="e#11018#11019#0" expanded="true" />
+            <element signature="e#13359#13360#0" expanded="true" />
+            <element signature="e#13409#13410#0" expanded="true" />
+            <element signature="e#13444#13445#0" expanded="true" />
+            <element signature="e#13495#13496#0" expanded="true" />
+            <element signature="e#13564#13565#0" expanded="true" />
+            <element signature="e#13601#13602#0" expanded="true" />
+            <element signature="e#15089#15090#0" expanded="true" />
+            <element signature="e#15140#15141#0" expanded="true" />
+            <element signature="e#15211#15212#0" expanded="true" />
+            <element signature="e#15248#15249#0" expanded="true" />
+            <element signature="e#17083#17084#0" expanded="true" />
+            <element signature="e#17136#17137#0" expanded="true" />
+            <element signature="e#17172#17173#0" expanded="true" />
+            <element signature="e#17226#17227#0" expanded="true" />
+            <element signature="e#17296#17297#0" expanded="true" />
+            <element signature="e#17333#17334#0" expanded="true" />
+            <element signature="e#19429#19430#0" expanded="true" />
+            <element signature="e#19481#19482#0" expanded="true" />
+            <element signature="e#19520#19521#0" expanded="true" />
+            <element signature="e#19573#19574#0" expanded="true" />
+            <element signature="e#19644#19645#0" expanded="true" />
+            <element signature="e#19681#19682#0" expanded="true" />
+            <element signature="e#21867#21868#0" expanded="true" />
+            <element signature="e#21920#21921#0" expanded="true" />
+            <element signature="e#21961#21962#0" expanded="true" />
+            <element signature="e#22015#22016#0" expanded="true" />
+            <element signature="e#22086#22087#0" expanded="true" />
+            <element signature="e#22123#22124#0" expanded="true" />
+            <element signature="e#24311#24312#0" expanded="true" />
+            <element signature="e#24364#24365#0" expanded="true" />
+            <element signature="e#24405#24406#0" expanded="true" />
+            <element signature="e#24459#24460#0" expanded="true" />
+            <element signature="e#24530#24531#0" expanded="true" />
+            <element signature="e#24567#24568#0" expanded="true" />
+            <element signature="e#27945#27946#0" expanded="true" />
+            <element signature="e#27998#27999#0" expanded="true" />
+            <element signature="e#28039#28040#0" expanded="true" />
+            <element signature="e#28093#28094#0" expanded="true" />
+            <element signature="e#28164#28165#0" expanded="true" />
+            <element signature="e#28201#28202#0" expanded="true" />
+            <element signature="e#29754#29755#0" expanded="true" />
+            <element signature="e#29807#29808#0" expanded="true" />
+            <element signature="e#29848#29849#0" expanded="true" />
+            <element signature="e#29902#29903#0" expanded="true" />
+            <element signature="e#29972#29973#0" expanded="true" />
+            <element signature="e#30009#30010#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/Stat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="9" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="54" column="71" selection-start-line="54" selection-start-column="71" selection-end-line="54" selection-end-column="71" />
+          <folding>
+            <element signature="e#13#156#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/Question.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="103" selection-start-line="29" selection-start-column="103" selection-end-line="29" selection-end-column="103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/val/Val.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
+          <folding>
+            <element signature="e#155#156#0" expanded="true" />
+            <element signature="e#181#182#0" expanded="true" />
+            <element signature="e#227#228#0" expanded="true" />
+            <element signature="e#297#298#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk/Contents/Home/src.zip!/java/util/Arrays.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3334" column="0" selection-start-line="3334" selection-start-column="0" selection-end-line="3334" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk/Contents/Home/src.zip!/java/lang/AbstractStringBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="423" column="0" selection-start-line="423" selection-start-column="0" selection-end-line="423" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk/Contents/Home/src.zip!/java/lang/StringBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/Test.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/parser/antlr/QL.g4">
+    <entry file="file://$PROJECT_DIR$/resources/dataset1.ql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2201258">
-          <caret line="72" column="6" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/If.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="29" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/uva/sea/ql/ast/stat/IfElse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6226415">
+          <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
