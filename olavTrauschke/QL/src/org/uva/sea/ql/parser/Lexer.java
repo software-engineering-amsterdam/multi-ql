@@ -36,6 +36,7 @@ public class Lexer implements Tokens {
     public Lexer(Reader theInput) {
         input = theInput;
         readNextCharacter();
+        nextToken();
     }
     
     private void readNextCharacter() {

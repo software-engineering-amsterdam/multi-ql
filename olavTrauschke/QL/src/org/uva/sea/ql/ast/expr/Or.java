@@ -1,13 +1,9 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Or extends BooleanExpr {
+public class Or extends BooleanConjunctiveExpr {
     
-    private BooleanExpr firstExpr;
-    private BooleanExpr secondExpr;
-    
-    public Or(Expr theFirstExpr, Expr theSecondExpr) {
-        firstExpr = (BooleanExpr) theFirstExpr;
-        secondExpr = (BooleanExpr) theSecondExpr;
+    public Or(Expr firstExpr, Expr secondExpr) {
+        super(firstExpr, secondExpr);
     }
     
 }

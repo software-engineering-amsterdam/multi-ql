@@ -2,18 +2,18 @@ package org.uva.sea.ql.ast.expr;
 
 import java.util.Objects;
 
-public class Ident extends Expr {
+public abstract class SingleExprArgumentNumericExpr extends NumericExpr {
     
-    private String content;
+    private NumericExpr content;
     
-    public Ident(String theContent) {
-        content = theContent;
+    public SingleExprArgumentNumericExpr(Expr theContent) {
+        NumericExpr content = (NumericExpr) theContent;
     }
     
     @Override
     public boolean equals(Object o) {
         if (getClass().equals(o.getClass())) {
-            Ident other = (Ident) o;
+            SingleExprArgumentNumericExpr other = (SingleExprArgumentNumericExpr) o;
             return content.equals(other.content);
         }
         return false;
@@ -22,7 +22,7 @@ public class Ident extends Expr {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.content);
+        hash = 23 * hash + Objects.hashCode(this.content);
         return hash;
     }
     

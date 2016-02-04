@@ -1,5 +1,10 @@
 package org.uva.sea.ql.ast;
 
-public class ASTNode {
+public abstract class ASTNode {
     
+    @Override
+    public abstract boolean equals(Object o);
+    
+    @Override
+    public abstract int hashCode();
 }
