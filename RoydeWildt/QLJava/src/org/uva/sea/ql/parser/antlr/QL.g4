@@ -1,54 +1,46 @@
 grammar QL;
-options {backtrack=true; memoize=true;}
 
 @parser::header
 {
-package org.uva.sea.ql.parser.antlr;
 import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.form.*;
 }
 
-@lexer::header
-{
-package org.uva.sea.ql.parser.antlr;
-}
-
-
-
-    
+primary returns [Expr result]
+    :   x=Int {$result = new Int($x.text);}
+    ;
+/*
 unExpr returns [Expr result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
     |  '!' x=unExpr { $result = new Not($x.result); }
     |  x=primary    { $result = $x.result; }
-    ;    
+    ;    */
     
 mulExpr returns [Expr result]
-    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
+    :   lhs=primary { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=primary
     { 
       if ($op.text.equals("*")) {
-        $result = new Mul($result, rhs);
+        $result = new Mul($result, $rhs.result);
       }
-      if ($op.text.equals("<=")) {
-        $result = new Div($result, rhs);      
+      if ($op.text.equals("/")) {
+        $result = new Div($result, $rhs.result);
       }
     })*
     ;
-    
-  
+
 addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     { 
       if ($op.text.equals("+")) {
-        $result = new Add($result, rhs);
+        $result = new Add($result, $rhs.result);
       }
       if ($op.text.equals("-")) {
-        $result = new Sub($result, rhs);      
+        $result = new Sub($result, $rhs.result);
       }
     })*
     ;
-  
+
+  /*
 relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
     { 
@@ -81,7 +73,7 @@ andExpr returns [Expr result]
 orExpr returns [Expr result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, rhs); } )*
     ;
-
+*/
     
 // Tokens
 WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN)
