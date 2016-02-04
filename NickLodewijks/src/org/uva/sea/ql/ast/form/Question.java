@@ -8,19 +8,19 @@ import org.uva.sea.ql.ast.VariableIdentifier;
 public class Question extends ASTNode {
 
 	private final VariableIdentifier variableIdentifier;
-	private final String text;
+	private final String label;
 
-	public Question(VariableIdentifier variableIdentifier, String text) {
+	public Question(VariableIdentifier variableIdentifier, String label) {
 		this.variableIdentifier = variableIdentifier;
-		this.text = text;
+		this.label = label;
 	}
 
 	public VariableIdentifier getVariableId() {
 		return variableIdentifier;
 	}
 
-	public String getText() {
-		return text;
+	public String getLabel() {
+		return label;
 	}
 
 	@Override

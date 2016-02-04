@@ -82,11 +82,11 @@ public class TypeChecker {
 
 		@Override
 		public void visit(Question question) {
-			String text;
+			String label;
 
-			text = question.getText();
-			if (!questions.add(text)) {
-				warn("Duplicate question:" + text);
+			label = question.getLabel();
+			if (!questions.add(label)) {
+				warn("Duplicate label:" + label);
 			}
 		}
 	}
