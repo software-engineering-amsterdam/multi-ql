@@ -66,7 +66,7 @@
     <None Include="Lexer.fsl" />
     <Compile Include="Lexer.fs" />
     <Content Include="packages.config" />
-    <Compile Include="Main.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsLexYacc.Runtime">
@@ -98,7 +98,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>fsyacc "$(ProjectDir)Parser.fsp" --module Parser
-fslex "$(ProjectDir)Lexer.fsl"</PreBuildEvent>
+fslex "$(ProjectDir)Lexer.fsl" --unicode</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
