@@ -15,6 +15,8 @@ form taxOfficeExample {
     hasMaintLoan: boolean
 
   if (hasSoldHouse) {
+    "What was the house address?"
+      houseAddress: string
     "What was the selling price?"
       sellingPrice: money
     if(sellingPrice > 100){
