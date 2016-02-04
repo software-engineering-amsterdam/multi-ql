@@ -31,36 +31,35 @@ block returns [Block result]
     
 ifStat[Block arg]
     : 'if' + '(' + orExpr + ')' + block 
-        { 
-            $arg.add(new IFStat($orExpr.result, $block.result));
-        }
+    { 
+        $arg.add(new IFStat($orExpr.result, $block.result));
+    }
     ;
 
 question[Block result]
     :   variableType + identifier + STR
-        { 
-            $result.add(new VariableDecl($variableType.result, $identifier.result));
-            $result.add(new Question($identifier.result, $STR.text));
-        }
-    |
-        identifier + STR
-        { 
-            $result.add(new Question($identifier.result, $STR.text));
-        }
+    { 
+        $result.add(new VariableDecl($variableType.result, $identifier.result));
+        $result.add(new Question($identifier.result, $STR.text));
+    }
+    | identifier + STR
+    { 
+        $result.add(new Question($identifier.result, $STR.text));
+    }
     ;
     
 variable returns [VariableDecl result]
     :  variableType + identifier 
-        { 
-            $result = new VariableDecl($variableType.result, $identifier.result);
-        }
+    { 
+        $result = new VariableDecl($variableType.result, $identifier.result);
+    }
     ;
     
 variableType returns [VariableType result]
-   : t=( BOOLEAN | STRING | INTEGER ) 
-        { 
-            $result = new VariableType($t.text);
-        }
+    : t=( BOOLEAN | STRING | INTEGER ) 
+    { 
+        $result = new VariableType($t.text);
+    }
    ;
    
 addExpr returns [Expr result]
