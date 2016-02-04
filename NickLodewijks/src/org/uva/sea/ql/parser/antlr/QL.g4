@@ -13,16 +13,14 @@ import org.uva.sea.ql.ast.form.*;
 {
 }
 
-file :  form* EOF;
+file :  form* EOF
+     ;
 
 form returns [Form result]
     :   'form' + ID + block { $result = new Form($ID.text, $block.result); }
     ;
     
 block returns [Block result]
-    locals [
-        Map<String, Variable> varMap = new HashMap<String, Variable>()
-    ]
     @init {
         $result = new Block();
     }
@@ -30,8 +28,9 @@ block returns [Block result]
     ;
     
 ifStat[Block arg]
-    : 'if' + '(' + unExpr + ')' + block 
-        { $arg.add(new IFStat($unExpr.result, $block.result));
+    : 'if' + '(' + orExpr + ')' + block 
+        { 
+            $arg.add(new IFStat($orExpr.result, $block.result));
         }
     ;
 
@@ -39,7 +38,6 @@ question[Block result]
     :   variable + STR 
         { 
             $result.add(new Question($variable.result, $STR.text));
-            $block::varMap.put($variable.result.getName(), $variable.result);
         }
     ;
     
@@ -80,13 +78,8 @@ mulExpr returns [Expr result]
     })*
     ;
 
+
 unExpr returns [Expr result]
-    locals [
-        Map<String, Variable> varMap = new HashMap<String, Variable>()
-    ]
-    @init{
-        $varMap.putAll($block::varMap);
-    }
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
     |  '!' x=unExpr { $result = new Not($x.result); }
@@ -94,13 +87,32 @@ unExpr returns [Expr result]
     ;    
     
 primary returns [Expr result]
-    : ID 
+    : literal
+    | identifier
+    | '(' orExpr ')'
+    ;
+    
+identifier returns [Expr result]
+    : ID
     {   
-        $result = $unExpr::varMap.get($ID.text);
-        if ($result == null){
-            System.err.println("undefined variable: "+$ID.text);
-        } 
+        $result = new Identifier($ID.text);
     }
+    ;
+    
+literal
+    : integerLiteral 
+    | stringLiteral 
+    | booleanLiteral
+    ;
+    
+integerLiteral returns [Expr result]
+    : INT { $result = new IntegerLiteral(Integer.valueOf($INT.text)); }
+    ;
+stringLiteral returns [Expr result]
+    : STR { $result = new StringLiteral($STR.text); }
+    ;
+booleanLiteral returns [Expr result]
+    : BOOL { $result = new BooleanLiteral(Boolean.valueOf($BOOL.text)); }
     ;
 
 orExpr returns [Expr result]
@@ -150,6 +162,6 @@ STRING  :   'str';
 
 ID  :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
-
+BOOL :  'true' | 'false';
 INT :   ('0'..'9')+;
 STR :   '"' .*? '"';
