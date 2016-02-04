@@ -7,5 +7,9 @@ form taxOfficeExample{
         int sellingPrice "What was the selling price?"
         int privateDebt "Private debts for the sold house:"
         int valueResidue "Value residue:"
+        
+        if(valueResidue > 100){
+            bool areYouSure "Are you sure?"
+        }
     }
 }
