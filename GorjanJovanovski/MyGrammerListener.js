@@ -74,6 +74,15 @@ MyGrammerListener.prototype.exitIfstmt = function(ctx) {
 };
 
 
+// Enter a parse tree produced by MyGrammerParser#elsestmt.
+MyGrammerListener.prototype.enterElsestmt = function(ctx) {
+};
+
+// Exit a parse tree produced by MyGrammerParser#elsestmt.
+MyGrammerListener.prototype.exitElsestmt = function(ctx) {
+};
+
+
 // Enter a parse tree produced by MyGrammerParser#expr.
 MyGrammerListener.prototype.enterExpr = function(ctx) {
 };

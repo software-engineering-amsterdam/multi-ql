@@ -37,6 +37,10 @@ function getQuestions(parseTree){
 		dependencies.pop();
 	};
 
+	QuestionPrinter.prototype.enterElsestmt = function(ctx) {
+		dependencies.push("!" + dependencies.pop());
+	};
+
 	QuestionPrinter.prototype.exitQuestion = function (questionNode) {
 	    var question = {};
 
@@ -49,9 +53,8 @@ function getQuestions(parseTree){
 	    }
 	    else{
 	    	//complex expr node
-	    	//TODO
-	    	question.type = "readOnly";
-	    	question.value = 0;
+	    	question.type = questionNode.children[3].children[0].getText();
+	    	question.expr = questionNode.children[3].children[2].getText();
 	    }
 
 	    if(dependencies.length>0){
@@ -71,7 +74,7 @@ function getQuestions(parseTree){
 
 function generateQuestionHTML(question){
 	var html = "<div id='" + question.label + "'> ["
-		+ question.label + "] " + question.text + " ";
+		+ question.label + " - " + question.type + "] " + question.text + " ";
 	switch(question.type){
 		case "integer": html += "<input name='"+ question.label
 			+ "' type='number'/>";
@@ -88,16 +91,19 @@ function generateQuestionHTML(question){
 		case "boolean": html += "<input name='"+ question.label
 			+ "' type='checkbox'/>";
 						break;
-		case "readOnly": html += "<input name='"+ question.label
-			+ "' type='text' value='"+ question.value +"' disabled/>";
-						break;
 		default: html += "<input name='"+ question.label
 			+ "' type='text'/>";
 						break;
 	}
+
 	if(question.dependencies != undefined){
 		html += " Depends on: " + question.dependencies;
 	}
+
+	if(question.expr != undefined){
+		html += " Calculated with: " + question.expr;
+	}
+
 	html += "</div>";
 	return html;
 }

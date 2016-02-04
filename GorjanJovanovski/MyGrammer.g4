@@ -7,7 +7,8 @@ questionLabel: LABEL ;
 questionValue: 	TYPE
 				| TYPE '=' expr
 				;
-ifstmt: ('if' expr queries) ;
+ifstmt: ('if' expr queries elsestmt) ;
+elsestmt: ('else' queries)? ;
 expr: BOOLSTMT
 	| LABEL
 	| INT

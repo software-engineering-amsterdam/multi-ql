@@ -17,13 +17,19 @@ form taxOfficeExample {
   if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money
-    "Private debts for the sold house:"
-      privateDebt: money
-    "Value residue:"
-      valueResidue: money = 
-        (sellingPrice - privateDebt)
+    if(sellingPrice > 100){
+	    "Private debts for the sold house:"
+	      privateDebt: money
+	    "Value residue:"
+	      valueResidue: money = 
+	        (sellingPrice - privateDebt)
+    }
   }
-  
+  else{
+  	"Looks like this else thing worked"
+  		elseThing: boolean
+  }
+
 }
 		</textarea>
 		<br/> <button id="generate">Generate</button>
