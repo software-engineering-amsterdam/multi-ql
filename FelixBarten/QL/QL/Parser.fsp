@@ -1,0 +1,25 @@
+﻿%{   
+open Sql   
+%}   
+  
+%token <string> ID   
+%token <int> INT   
+%token <float> FLOAT   
+  
+%token AND OR   
+%token COMMA   
+%token EQ LT LE GT GE   
+%token JOIN INNER LEFT RIGHT ON   
+%token SELECT FROM WHERE ORDER BY   
+%token ASC DESC   
+%token EOF   
+  
+// start   
+%start start   
+%type <string> start   
+  
+%%   
+  
+start:   
+    |                             { "Nothing to see here" }   
+%%

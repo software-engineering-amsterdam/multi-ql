@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Gorjan's Awesome QL</title>
+	</head>
+	<body>
+		<textarea id="input" style="width:100%;height:200px;">
+form taxOfficeExample { 
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+  "Did you buy a house in 2010?"
+    hasBoughtHouse: boolean
+  "Did you enter a loan?"
+    hasMaintLoan: boolean
+
+  if (hasSoldHouse) {
+    "What was the selling price?"
+      sellingPrice: money
+    if(sellingPrice > 100){
+	    "Private debts for the sold house:"
+	      privateDebt: money
+	    "Value residue:"
+	      valueResidue: money = 
+	        (sellingPrice - privateDebt)
+    }
+  }
+  else{
+  	"Looks like this else thing worked"
+  		elseThing: boolean
+  }
+
+}
+		</textarea>
+		<br/> <button id="generate">Generate</button>
+		<div id="output"></div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script type="text/javascript" src="js/lib/require.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+	</body>
+</html>
