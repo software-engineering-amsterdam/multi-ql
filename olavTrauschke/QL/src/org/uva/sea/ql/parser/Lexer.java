@@ -22,10 +22,10 @@ public class Lexer implements Tokens {
     public static final Set<Integer> WHITESPACE_CHARACTERS;
     static {
         WHITESPACE_CHARACTERS = new HashSet<>();
-        WHITESPACE_CHARACTERS.add(Character.getNumericValue(' '));
-        WHITESPACE_CHARACTERS.add(Character.getNumericValue('\t'));
-        WHITESPACE_CHARACTERS.add(Character.getNumericValue('\n'));
-        WHITESPACE_CHARACTERS.add(Character.getNumericValue('\r'));
+        WHITESPACE_CHARACTERS.add((int) ' ');
+        WHITESPACE_CHARACTERS.add((int) '\t');
+        WHITESPACE_CHARACTERS.add((int) '\n');
+        WHITESPACE_CHARACTERS.add((int) '\r');
     }
     
     private final Reader input;
