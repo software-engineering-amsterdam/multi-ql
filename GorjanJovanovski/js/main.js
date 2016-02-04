@@ -5,13 +5,22 @@ var MyGrammerLexer = require('MyGrammerLexer');
 var MyGrammerParser = require('MyGrammerParser');
 var MyGrammerListener = require('MyGrammerListener');
 var ast = {};
+var errors;
+var warnings;
 
 function initiate(inputString){
+
 	var characters = new antlr4.InputStream(inputString);
 	var lexer = new MyGrammerLexer.MyGrammerLexer(characters);
 	var tokens  = new antlr4.CommonTokenStream(lexer);
 	var parser = new MyGrammerParser.MyGrammerParser(tokens);
 	
+	warnings = new Array();
+	errors = new Array();
+	$("#errorpanel").hide();
+	$("#warningpanel").hide();
+	$("#formWrapper").show();
+
 	var ErrorListener = function() {
 		antlr4.error.ErrorListener.call(this);
 	  	return this;
@@ -20,13 +29,17 @@ function initiate(inputString){
 	ErrorListener.prototype = Object.create(antlr4.error.ErrorListener.prototype);
 	ErrorListener.prototype.constructor = ErrorListener;
 	ErrorListener.prototype.syntaxError = function(rec, sym, line, col, msg, e) {
-	  	console.log("OPA: " + line + ' '+ msg);
+	  	errors.push("GRAMMAR ERR: " + line + ":" + col + " - " + msg);
+	  	fillPanel("error", errors, true);
 	};
 
 
+	lexer.removeErrorListeners();
+	parser.removeErrorListeners();
+	parser.addErrorListener(new ErrorListener());
 
 	parser.buildParseTrees = true;
-	parser.addErrorListener(new ErrorListener());
+
 	var tree = parser.form();
 	parseQuestions(tree);
 }	
@@ -109,8 +122,21 @@ function createAST(questions){
 	ast = {};
 	ast.questions = questions;
 	ast.labels = new Array();
+	ast.texts = new Array();
 	for(var i=0;i<questions.length;i++){
-		ast.labels.push(questions[i].label);
+		if(ast.labels.indexOf(questions[i].label)>-1){
+			errors.push("PARSE ERR: " + "Label '" + questions[i].label + "' is already defined");
+			fillPanel("error", errors, true);
+		}
+		else{
+			if(ast.texts.indexOf(questions[i].text)>-1){
+				warnings.push("PARSE WARN: " + "Text '" + questions[i].text + "' is already defined");
+				fillPanel("warning", warnings);
+			}
+
+			ast.labels.push(questions[i].label);
+			ast.texts.push(questions[i].text);
+		}
 	}
 }
 
@@ -209,7 +235,7 @@ function getQuestionType(label){
 }
 
 function generateQuestionHTML(question){
-	var html = "<div label='" + question.label + "'>";
+	var html = "<div class='questionDiv' label='" + question.label + "'>";
 	html += "<label class='question'>" + question.text + " ";
     html += "<input name='"+ question.label + "' type='";
 
@@ -247,6 +273,22 @@ function renderQuestions(questions){
 	}
 
 	$("#output").html(output);
+}
+
+function fillPanel(panel, list, critical){
+	var html = "<ul>";
+	
+	for(var i=0;i<list.length;i++){
+		html += "<li>" + list[i] + "</li>";
+	}
+
+	html += "</ul>";
+
+	$("#"+panel).html(html);
+	$("#"+panel+"panel").show();
+	if(critical){
+		$("#formWrapper").hide();
+	}
 }
 
 $("#generate").click(function(){

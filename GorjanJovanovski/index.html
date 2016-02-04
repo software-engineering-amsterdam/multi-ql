@@ -9,7 +9,10 @@
 		<link rel="stylesheet" href="css/main.css"/>
 	</head>
 	<body>
-		<textarea id="input" style="width:100%;height:200px;">
+		<div id="inputWrapper">
+			<button id="generate">Regenerate parser</button>
+			<br/>
+			<textarea id="input" style="height:200px;width:100%;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 form taxOfficeExample { 
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
@@ -37,10 +40,31 @@ form taxOfficeExample {
   }
 
 }
-		</textarea>
-		<br/> <button id="generate">Regenerate parser</button>
-		<div id="output"></div>
-		<button id="save">Save answers</button>
+			</textarea>
+
+			<div class="panel panel-warning" id="warningpanel">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Warnings detected</h3>
+			  </div>
+			  <div class="panel-body" id="warning">
+			  </div>
+			</div>
+
+		</div>
+
+		<div class="panel panel-danger" id="errorpanel">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Errors detected</h3>
+		  </div>
+		  <div class="panel-body" id="error">
+		  </div>
+		</div>
+
+		<div id="formWrapper">
+			<button id="save">Save answers</button>	
+			<div id="output"></div>
+		</div>
+
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
