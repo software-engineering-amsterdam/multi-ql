@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E211A4591C63822600D301C0 /* QLInfix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A4581C63822600D301C0 /* QLInfix.swift */; };
+		E211A45D1C6383AE00D301C0 /* QLPrefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A45C1C6383AE00D301C0 /* QLPrefix.swift */; };
+		E211A45F1C63858200D301C0 /* QLLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A45E1C63858200D301C0 /* QLLiteral.swift */; };
+		E211A4611C638EA400D301C0 /* QLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A4601C638EA400D301C0 /* QLVariable.swift */; };
+		E211A4631C638F4B00D301C0 /* QLQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A4621C638F4B00D301C0 /* QLQuestion.swift */; };
 		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
 		E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CE05FF1C621A1600F2B43B /* Assets.xcassets */; };
 		E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06011C621A1D00F2B43B /* AppDelegate.swift */; };
@@ -49,6 +54,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E211A4581C63822600D301C0 /* QLInfix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLInfix.swift; path = Src/Parser/AST/QLInfix.swift; sourceTree = "<group>"; };
+		E211A45C1C6383AE00D301C0 /* QLPrefix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLPrefix.swift; path = Src/Parser/AST/QLPrefix.swift; sourceTree = "<group>"; };
+		E211A45E1C63858200D301C0 /* QLLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteral.swift; path = Src/Parser/AST/QLLiteral.swift; sourceTree = "<group>"; };
+		E211A4601C638EA400D301C0 /* QLVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLVariable.swift; path = Src/Parser/AST/QLVariable.swift; sourceTree = "<group>"; };
+		E211A4621C638F4B00D301C0 /* QLQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLQuestion.swift; path = Src/Parser/AST/QLQuestion.swift; sourceTree = "<group>"; };
 		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
@@ -221,9 +231,14 @@
 		E2DF31081C62869600F5227B /* AST */ = {
 			isa = PBXGroup;
 			children = (
-				E2DF31111C634E8E00F5227B /* QLForm.swift */,
-				E2DF31121C634E8E00F5227B /* QLStatement.swift */,
 				E2DF31191C634EC100F5227B /* QLExpression.swift */,
+				E2DF31111C634E8E00F5227B /* QLForm.swift */,
+				E211A4581C63822600D301C0 /* QLInfix.swift */,
+				E211A45E1C63858200D301C0 /* QLLiteral.swift */,
+				E211A45C1C6383AE00D301C0 /* QLPrefix.swift */,
+				E211A4621C638F4B00D301C0 /* QLQuestion.swift */,
+				E2DF31121C634E8E00F5227B /* QLStatement.swift */,
+				E211A4601C638EA400D301C0 /* QLVariable.swift */,
 			);
 			name = AST;
 			sourceTree = "<group>";
@@ -353,13 +368,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
+				E211A4591C63822600D301C0 /* QLInfix.swift in Sources */,
+				E211A45D1C6383AE00D301C0 /* QLPrefix.swift in Sources */,
 				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
 				E2DF31031C6244D100F5227B /* StringExtension.swift in Sources */,
 				E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */,
 				E2DF31151C634E8E00F5227B /* QLForm.swift in Sources */,
 				E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */,
+				E211A45F1C63858200D301C0 /* QLLiteral.swift in Sources */,
 				E2DF311A1C634EC100F5227B /* QLExpression.swift in Sources */,
+				E211A4631C638F4B00D301C0 /* QLQuestion.swift in Sources */,
 				E2DF31161C634E8E00F5227B /* QLStatement.swift in Sources */,
+				E211A4611C638EA400D301C0 /* QLVariable.swift in Sources */,
 				E2CE06041C621A1D00F2B43B /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

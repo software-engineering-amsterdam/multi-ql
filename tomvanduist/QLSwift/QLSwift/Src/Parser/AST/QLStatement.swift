@@ -9,7 +9,16 @@
 import Foundation
 
 class QLStatement: NSObject {
+}
+
+class QLQuestionStatement: QLStatement {
+    let question: QLQuestion
     
+    init(question: QLQuestion) {
+        self.question = question
+    }
+    
+    override var description: String { return super.description + ".question(\n\t\(question));" }
 }
 
 class QLStatementList: QLStatement {
@@ -19,11 +28,11 @@ class QLStatementList: QLStatement {
         self.statements = statements
     }
     
-    override var description:String {
-        var result = super.description + "{\n"
+    override var description: String {
+        var result = super.description + " {\n"
         for stmt in statements {
-            result += "\t\(stmt)"
+            result += "\t\(stmt)\n"
         }
-        return result
+        return result + "}"
     }
 }

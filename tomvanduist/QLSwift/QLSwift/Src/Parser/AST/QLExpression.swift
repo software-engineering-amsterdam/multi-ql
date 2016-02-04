@@ -9,30 +9,19 @@
 import Foundation
 
 class QLExpression: NSObject {
-    
 }
 
-class QLString: QLExpression {
-    let value: String
+class QLExpressionVariable: QLExpression {
+    let variable: QLVariable
     
-    init(value: String) {
-        self.value = value
+    init(variable: QLVariable) {
+        self.variable = variable
     }
     
-    override var description:String { return super.description + ".value \(value)" }
+    override var description: String { return super.description + ".variable = \(variable)" }
 }
 
 class QLBoolean: QLExpression {
-}
-
-class QLBooleanValue: QLExpression {
-    let value: Bool
-    
-    init(value: Bool) {
-        self.value = value;
-    }
-    
-    override var description:String { return super.description + ".value \(value ? "true" : "false")" }
 }
 
 class QLMoney: QLExpression {
@@ -42,16 +31,5 @@ class QLMoney: QLExpression {
         self.expr = expr
     }
     
-    override var description:String { return super.description + "( \(expr) )" }
-}
-
-class QLSub: QLExpression {
-    let lhs, rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    override var description:String { return super.description + "( \(lhs) - \(rhs) )" }
+    override var description: String { return super.description + "( \(expr) )" }
 }

@@ -9,33 +9,6 @@
 import Foundation
 import SwiftParsec
 
-//public enum QLIdentifier {
-//    case String
-//}
-
-//public enum QLStatement {
-//    case Expression
-//    indirect case StatementList(QLStatement)
-//}
-
-//public indirect enum QLForm {
-//    
-//    public enum QLStatement {
-//        case Expression
-//        indirect case StatementList(QLStatement)
-//    }
-//    
-//    case QLForm(identifier: String, statement: QLStatement)
-//    case QLIdentifier(String)
-//}
-//
-//
-//class QLTest: NSObject {
-//    
-//    init(s: String) {
-//        print(s)
-//    }
-//}
 
 class QLParser: NSObject {
     
@@ -49,53 +22,137 @@ class QLParser: NSObject {
         }
     }
     
-    private func qlParser() -> GenericParser<String, (), QLStatement> {
+    private func qlParser() -> GenericParser<String, (), QLQuestion> {
         
-        let lexer           = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
-        let symbol          = lexer.symbol
-        let integerLiteral  = lexer.integer
-        let floatLiteral    = lexer.float
-        let stringLiteral   = lexer.stringLiteral
-        let identifier      = lexer.identifier
-        let colon           = symbol(":")
+        let lexer   = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
+        let symbol  = lexer.symbol
         
         
-        let qlString: GenericParser<String, (), QLExpression> =
-            lexer.stringLiteral.map { QLString(value: $0) }
-        let qlBooleanValue: GenericParser<String, (), QLExpression> =
-            lexer.symbol("true") *> GenericParser(result: QLBooleanValue(value: true)) <|>
-            lexer.symbol("false") *> GenericParser(result: QLBooleanValue(value: false))
+        let variable = lexer.identifier.map { QLVariable(identifier: $0) }
         
-        var qlExpression: GenericParser<String, (), QLExpression>!
-
-        // Expression recursive definition
-        GenericParser.recursive { (expr: GenericParser<String, (), QLExpression>) in
-            let boolExpr: GenericParser<String, (), QLExpression> =
-                symbol("boolean") *> GenericParser(result: QLBoolean()) <|>
-                qlBooleanValue
-            let moneyExpr: GenericParser<String, (), QLExpression> =
-                symbol("money") *> lexer.parentheses(expr).map { QLMoney(expr: $0) }.attempt <|>
-                symbol("money") *> GenericParser(result: QLMoney())
+        let boolLit: GenericParser<String, (), QLLiteral> =
+            lexer.symbol("true") *> GenericParser(result: QLBooleanLiteral(bool: true)) <|>
+            lexer.symbol("false") *> GenericParser(result: QLBooleanLiteral(bool: false))
+        let stringLit: GenericParser<String, (), QLLiteral> =
+            lexer.stringLiteral.map{ QLStringLiteral(string: $0) }
+        let intLit: GenericParser<String, (), QLLiteral> =
+            lexer.integer.map { QLIntegerLiteral(integer: $0) }
+        let floatLit: GenericParser<String, (), QLLiteral> =
+            lexer.float.map { QLFloatLiteral(float: $0) }
+        let number: GenericParser<String, (), QLLiteral> =
+            intLit <|> floatLit
+        
+        
+        var expr: GenericParser<String, (), QLExpression>!
+        
+        GenericParser.recursive { (_expr: GenericParser<String, (), QLExpression>) in
             
-            qlExpression = boolExpr <|> moneyExpr
+            let varExpr: GenericParser<String, (), QLExpression> =
+                variable.map { QLExpressionVariable(variable: $0) }
+            let prefixExpr: GenericParser<String, (), QLExpression> =
+                symbol("-") *> _expr.map { QLNeg(rhs: $0) } <|>
+                symbol("!") *> _expr.map { QLNot(rhs: $0) }
+            let precExpr: GenericParser<String, (), QLExpression> =
+                lexer.parentheses(_expr)
             
-            return qlExpression
+            expr = precExpr <|> varExpr <|> prefixExpr
+            
+            return expr
+        }
+        
+        let question: GenericParser<String, (), QLQuestion> =
+            variable.flatMap { qVar in
+                return lexer.colon *> stringLit.flatMap { qLit in
+                    return expr.flatMap { qExpr in
+                        return GenericParser(result: QLQuestion(variable: qVar, string: qLit as! QLStringLiteral, expression: qExpr))
+                    }
+                }
+            }
+        
+        
+        var stmt: GenericParser<String, (), QLStatement>!
+        
+        GenericParser.recursive { (_stmt: GenericParser<String, (), QLStatement>) in
+            
+            let qStmt: GenericParser<String, (), QLStatement> =
+                question.map { QLQuestionStatement(question: $0) }
+            let stmtList: GenericParser<String, (), QLStatement> =
+                _stmt <|> (_stmt *> _stmt)
+            
+            stmt = stmtList <|> qStmt
+            
+            return stmt
         }
         
         
-        var qlStatement: GenericParser<String, (), QLStatement>!
+//        let letterDigit = StringParser.oneOf("abc") >>- { letter in
+//            
+//            StringParser.digit >>- { digit in
+//                
+//                return GenericParser(result: String(letter) + String(digit))
+//            }
+//        }
+//            variable >>- { qVar in
+//                lexer.stringLiteral >>- { qLit in
+//                    expr >>- { qExpr in
+//                        GenericParser(result: QLQuestion(variable: qVar, string: qLit, expression: qExpr))
+//                    }
+////                    expr.map { qExpr in { QLQuestion(variable: qVar, string: qLit, expression: qExpr) } }
+//                }
+//            }
         
-        // Statement recursive definition
-        GenericParser.recursive { (stmt: GenericParser<String, (), QLStatement>) in
-            let qlStatementList: GenericParser<String, (), QLStatement>
-                = lexer.braces(stmt).map { QLStatementList(statements: $0) }
-            
-            
-            return qlStatement
-        }
         
         
-        return lexer.whiteSpace *> qlStatement
+//        let nameValue: GenericParser<String, (), (String, JSONValue)> =
+//        stringLiteral >>- { name in
+//            
+//            symbol(":") *> jvalue.map { value in (name, value) }
+//        }
+        
+        return lexer.whiteSpace *> question
+        
+//        let qlString: GenericParser<String, (), QLExpression> =
+//            lexer.stringLiteral.map { QLString(value: $0) }
+//        let qlBooleanValue: GenericParser<String, (), QLExpression> =
+//            lexer.symbol("true") *> GenericParser(result: QLBooleanValue(value: true)) <|>
+//            lexer.symbol("false") *> GenericParser(result: QLBooleanValue(value: false))
+//        
+//        var qlExpression: GenericParser<String, (), QLExpression>!
+//
+//        // Expression recursive definition
+//        GenericParser.recursive { (expr: GenericParser<String, (), QLExpression>) in
+//            let boolExpr: GenericParser<String, (), QLExpression> =
+//                symbol("boolean") *> GenericParser(result: QLBoolean()) <|>
+//                qlBooleanValue
+//            let moneyExpr: GenericParser<String, (), QLExpression> =
+//                symbol("money") *> lexer.parentheses(expr).map { QLMoney(expr: $0) }.attempt <|>
+//                symbol("money") *> GenericParser(result: QLMoney())
+//            
+//            qlExpression = boolExpr <|> moneyExpr
+//            
+//            return qlExpression
+//        }
+//        
+//        
+//        var qlStatement: GenericParser<String, (), QLStatement>!
+//        
+//        // Statement recursive definition
+//        GenericParser.recursive { (stmt: GenericParser<String, (), QLStatement>) in
+//            
+////            let qlStatements = stmt.separatedBy(symbol("\n"))
+//            let qlStatements = lexer.commaSeparated(stmt)
+//            let qlStatementList: GenericParser<String, (), QLStatement> =
+//                lexer.braces(qlStatements).map { QLStatementList(statements: $0) }
+//            let qlStmt: GenericParser<String, (), QLStatement> =
+//                lexer.stringLiteral.map { QLStatementExpression(expression: QLString(value: $0)) }
+//            
+//            qlStatement = qlStatementList <|> qlStmt
+//            
+//            return qlStatement
+//        }
+//        
+//        
+//        return lexer.whiteSpace *> qlStatement
     }
     
     

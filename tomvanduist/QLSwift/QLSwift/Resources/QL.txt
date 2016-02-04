@@ -1,4 +1,4 @@
-{}
+hasSoldHouse: "DId you sell house?" did
 
 
 form Box1HouseOwning {
