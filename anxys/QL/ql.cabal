@@ -28,6 +28,7 @@ executable ql-exe
   build-depends:       base
                      , ql
                      , parsec
+                     , wx
   default-language:    Haskell2010
 
 test-suite ql-test
