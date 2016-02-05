@@ -275,7 +275,7 @@ function refreshGUI(){
 
 			currentNode.visible = true;
 			$(".questionDiv[label='"+currentNode.label+"']").show();
-			$(".questionDiv[label='"+currentNode.label+"']").val(currentNode.value);
+			$("input[name='"+currentNode.label+"']").val(currentNode.value);
 
 		}
 		else if(currentNode.nodeType == "condition"){
