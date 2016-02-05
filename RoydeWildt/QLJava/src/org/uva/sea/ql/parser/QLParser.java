@@ -1,7 +1,8 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/antlr/QL.g4 by ANTLR 4.5.1
-package org.uva.sea.ql.parser.antlr;
+// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+package org.uva.sea.ql.parser;
 
 import java.util.List;
+import java.io.IOException;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
@@ -93,6 +94,27 @@ public class QLParser extends Parser {
 
 	@Override
 	public ATN getATN() { return _ATN; }
+
+
+	public static List<Form> ParseForm(String path) {
+			QLLexer lex = null;
+			try {
+				lex = new QLLexer(new ANTLRFileStream(path));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			CommonTokenStream tok = new CommonTokenStream(lex);
+		    QLParser par = new QLParser(tok);
+
+			List<Form> result = null;
+		    try{
+		        result = par.forms().result;
+		    } catch (RecognitionException e) {
+				e.printStackTrace();
+		    }
+			return result;
+	}
 
 	public QLParser(TokenStream input) {
 		super(input);

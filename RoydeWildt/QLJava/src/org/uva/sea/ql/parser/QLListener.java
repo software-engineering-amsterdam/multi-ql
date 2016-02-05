@@ -1,7 +1,8 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/antlr/QL.g4 by ANTLR 4.5.1
-package org.uva.sea.ql.parser.antlr;
+// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+package org.uva.sea.ql.parser;
 
 import java.util.List;
+import java.io.IOException;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;

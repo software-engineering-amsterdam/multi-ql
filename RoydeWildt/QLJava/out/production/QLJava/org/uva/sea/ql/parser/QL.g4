@@ -3,10 +3,34 @@ grammar QL;
 @parser::header
 {
 import java.util.List;
+import java.io.IOException;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
 import org.uva.sea.ql.ast.form.*;
+}
+
+@parser::members
+{
+public static List<Form> ParseForm(String path) {
+		QLLexer lex = null;
+		try {
+			lex = new QLLexer(new ANTLRFileStream(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		CommonTokenStream tok = new CommonTokenStream(lex);
+	    QLParser par = new QLParser(tok);
+
+		List<Form> result = null;
+	    try{
+	        result = par.forms().result;
+	    } catch (RecognitionException e) {
+			e.printStackTrace();
+	    }
+		return result;
+}
 }
 
 /*
