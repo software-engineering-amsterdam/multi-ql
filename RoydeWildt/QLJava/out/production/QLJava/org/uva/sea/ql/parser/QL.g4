@@ -52,7 +52,7 @@ forms returns [List<Form> result]
 //Stat Grammar
 
 varDecl returns [Expr result]
-    : ('=' '(' x=orExpr ')') {$result = $x.result;}
+    : ('=' '(' value=orExpr ')') {$result = $value.result;}
     ;
 
 question returns [Stat result]
@@ -74,15 +74,15 @@ stats returns [List<Stat> result]
 
 //Expression Grammar
 primary returns [Expr result]
-    :   x=Int   {$result = new Prim(new Int($x.text));}
-    |   x=Ident {$result = new Prim(new Var($x.text));}
+    :   value=Int   {$result = new Prim(new Int($value.text));}
+    |   value=Ident {$result = new Prim(new Var($value.text));}
     |   y=bool  {$result = new Prim($y.result);}
     ;
 
 unExpr returns [Expr result]
-    :  '+' x=unExpr { $result = new Pos($x.result); }
-    |  '-' x=unExpr { $result = new Neg($x.result); }
-    |  '!' x=unExpr { $result = new Not($x.result); }
+    :  '+' value=unExpr { $result = new Pos($value.result); }
+    |  '-' value=unExpr { $result = new Neg($value.result); }
+    |  '!' value=unExpr { $result = new Not($value.result); }
     |  y=primary    { $result = $y.result; }
     ;
     
@@ -152,8 +152,8 @@ type returns [Stat result]
     ;
 
 bool returns [Val result]
-    : x=True  {$result = new Bool($x.text);}
-    | x=False {$result = new Bool($x.text);}
+    : value=True  {$result = new Bool($value.text);}
+    | value=False {$result = new Bool($value.text);}
     ;
     
 /*

@@ -16,4 +16,8 @@ public class Prim extends Expr{
     public String toString() {
         return this.getClass().getSimpleName() + "(" + v.toString() + ")";
     }
+
+    public Val getV() {
+        return v;
+    }
 }
