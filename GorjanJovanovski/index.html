@@ -10,45 +10,47 @@
 	</head>
 	<body>
 		<div id="inputWrapper">
-			<button id="generate">Regenerate parser</button>
+			<button id="generate" class="btn btn-primary">Regenerate parser</button>
 			<br/>
-			<textarea id="input" style="height:200px;width:100%;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+			<textarea id="input" style="height:calc(100% - 35px);width:100%;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 form taxOfficeExample { 
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
+  "What is your first name?"
+    firstName: string
+  "When were you born?"
+    birthDate: date
+  "Are you older than 18?"
+    over18: boolean
 
-  if (hasSoldHouse) {
-    "What was the house address?"
-      houseAddress: string
-    "What was the selling price?"
-      sellingPrice: money
-    if(sellingPrice > 100){
-	    "Private debts for the sold house:"
-	      privateDebt: money
-	    "Value residue:"
-	      valueResidue: money = 
-	        (sellingPrice - privateDebt)
+  if (!over18) {
+    "What is your guardian's name?"
+      guardianName: string
+    "How much does your guardian earn per month?"
+      guardianEarningPM: money
+    if(guardianEarningPM < 800){
+	    "Tax is 20% of guardian earnings"
+	      taxGuardian20: money = (guardianEarningPM * 0.2)
+    }
+    else{
+		"Tax is 40% of guardian earnings"
+	      taxGuardian40: money = (guardianEarningPM * 0.4)
     }
   }
   else{
-  	"Looks like this else thing worked"
-  		elseThing: boolean
+  	"How much do you earn per month?"
+  		earningPM: money
+ 	
+ 	if(earningPM < 800){
+	    "Tax is 20% of earnings"
+	      taxEarningPM20: money = (earningPM * 0.2)
+    }
+    else{
+		"Tax is 40% of earnings"
+	      taxEarningPM40: money = (earningPM * 0.4)
+    }
   }
 
 }
 			</textarea>
-
-			<div class="panel panel-warning" id="warningpanel">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">Warnings detected</h3>
-			  </div>
-			  <div class="panel-body" id="warning">
-			  </div>
-			</div>
 
 		</div>
 
@@ -61,8 +63,17 @@ form taxOfficeExample {
 		</div>
 
 		<div id="formWrapper">
-			<button id="save">Save answers</button>	
+			<button id="save" class="btn btn-primary">Save answers</button>	
+			<br style="clear:both;"/>
 			<div id="output"></div>
+
+			<div class="panel panel-warning" id="warningpanel">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Warnings detected</h3>
+			  </div>
+			  <div class="panel-body" id="warning">
+			  </div>
+			</div>
 		</div>
 
 
@@ -70,6 +81,7 @@ form taxOfficeExample {
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="js/lib/require.js"></script>
 		<script type="text/javascript" src="js/FileSaver.js"></script>
+		<script type="text/javascript" src="js/lib/jison.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 
 	</body>

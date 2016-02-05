@@ -1,29 +1,32 @@
 package org.uva.sea.ql.ast.form;
 
-public class Form {
+import org.uva.sea.ql.ast.ASTNode;
+import org.uva.sea.ql.ast.ASTNodeVisitor;
+import org.uva.sea.ql.ast.Result;
 
-	private String id;
+public class Form extends ASTNode {
+
+	private String name;
 	private Block body;
 
 	public Form(String id, Block body) {
-		this.id = id;
+		this.name = id;
 		this.body = body;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	@Override
-	public String toString() {
-		StringBuilder sb;
+	public void accept(ASTNodeVisitor visitor) {
+		visitor.visit(this);
 
-		sb = new StringBuilder();
-		sb.append("Form: " + id);
-		sb.append("\n");
+		body.accept(visitor);
+	}
 
-		for (Question q : body.getQuestions()) {
-			sb.append("  ");
-			sb.append(q.toString());
-			sb.append("\n");
-		}
-
-		return sb.toString();
+	@Override
+	public Result validate() {
+		return Result.TRUE();
 	}
 }

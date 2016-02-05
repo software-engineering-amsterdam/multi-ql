@@ -1,14 +1,37 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Pos extends IntegerExpr {
-	private final IntegerExpr expr;
+import org.uva.sea.ql.ast.ASTNodeVisitor;
+import org.uva.sea.ql.ast.Result;
+import org.uva.sea.ql.ast.ValueType;
+
+public class Pos extends AbstractUnaryExpr {
 
 	public Pos(Expr expr) {
-		this.expr = (IntegerExpr) expr;
+		super(expr);
 	}
 
 	@Override
 	public Integer interpret(Context context) {
-		return Math.abs(expr.interpret(context));
+		return Math.abs((Integer) expr.interpret(context));
+	}
+
+	@Override
+	public ValueType type() {
+		return ValueType.INTEGER;
+	}
+
+	@Override
+	public void _accept(ASTNodeVisitor visitor) {
+		visitor.visit(this);
+	}
+
+	@Override
+	public Result validate() {
+		if (expr.type() != ValueType.INTEGER) {
+			return Result.FALSE("Expression " + expr + " should be of type " + ValueType.INTEGER + " but is "
+					+ expr.type());
+		}
+
+		return Result.TRUE();
 	}
 }

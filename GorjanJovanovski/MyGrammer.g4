@@ -20,7 +20,7 @@ elsestmt: ('else' queries)? ;
 
 expr: BOOLSTMT
 	| LABEL
-	| INT
+	| NUMBER
 	| '(' expr ')'
 	| expr OP expr
 	| NOOP expr
@@ -28,7 +28,7 @@ expr: BOOLSTMT
 
 BOOLSTMT: ('true' | 'false');
 
-TYPE :	('float' | 'integer' | 'boolean' | 'string' | 'money') ;
+TYPE :	('decimal' | 'integer' | 'boolean' | 'string' | 'money' | 'currency' | 'date') ;
 
 OP: ( COMPOP | BOOLOP | MATHOP ) ;
 
@@ -42,11 +42,11 @@ COMPOP: ('<' | '<=' | '>' | '>=' | '!=' | '==') ;
 
 DELIMITER: ':' ;
 
-LABEL :	[A-Za-z][A-Za-z0-9]* ;
+LABEL :	[A-Za-z][A-Za-z0-9]+ ;
 
 NEWLINE : [\r\n]+ -> skip ;
 
-INT     : [0-9]+ ;
+NUMBER     : [0-9]+ '.'? ','? [0-9]* ;
 
 WHITESPACE : ( '\t' | ' ' )+ -> skip ;
 

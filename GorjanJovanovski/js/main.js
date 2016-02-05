@@ -15,8 +15,8 @@ function initiate(inputString){
 	var tokens  = new antlr4.CommonTokenStream(lexer);
 	var parser = new MyGrammerParser.MyGrammerParser(tokens);
 	
-	warnings = new Array();
-	errors = new Array();
+	warnings = new Set();
+	errors = new Set();
 	$("#errorpanel").hide();
 	$("#warningpanel").hide();
 	$("#formWrapper").show();
@@ -29,7 +29,7 @@ function initiate(inputString){
 	ErrorListener.prototype = Object.create(antlr4.error.ErrorListener.prototype);
 	ErrorListener.prototype.constructor = ErrorListener;
 	ErrorListener.prototype.syntaxError = function(rec, sym, line, col, msg, e) {
-	  	errors.push("GRAMMAR ERR: " + line + ":" + col + " - " + msg);
+	  	errors.add("GRAMMAR ERR: " + line + ":" + col + " - " + msg);
 	  	fillPanel("error", errors, true);
 	};
 
@@ -80,13 +80,13 @@ function parseQuestions(parseTree){
 	    	//just a terminal node
 	    	question.type = questionNode.children[3].getText();
 
-		    if(question.type=="number" || question.type=="float" || question.type=="money"){
+		    if(question.type=="integer" || question.type=="decimal" || question.type=="money" || question.type=="currency"){
 		    	question.value = 0;
 		    }
 		    else if(question.type=="boolean"){
 		    	question.value = false;
 		    }
-		    else if(question.type=="string"){
+		    else if(question.type=="string" || question.type=="date"){
 		    	question.value = "";
 		    }
 
@@ -125,12 +125,12 @@ function createAST(questions){
 	ast.texts = new Array();
 	for(var i=0;i<questions.length;i++){
 		if(ast.labels.indexOf(questions[i].label)>-1){
-			errors.push("PARSE ERR: " + "Label '" + questions[i].label + "' is already defined");
+			errors.add("ERROR: " + "Label '" + questions[i].label + "' is already defined");
 			fillPanel("error", errors, true);
 		}
 		else{
 			if(ast.texts.indexOf(questions[i].text)>-1){
-				warnings.push("PARSE WARN: " + "Text '" + questions[i].text + "' is already defined");
+				warnings.add("WARNING: " + "Text '" + questions[i].text + "' is already defined");
 				fillPanel("warning", warnings);
 			}
 
@@ -146,7 +146,7 @@ function setASTQuestionValue(label, value){
 			if(ast.questions[i].type == "integer"){
 				ast.questions[i].value = parseInt(value);
 			}
-			else if(ast.questions[i].type == "float" || ast.questions[i].type == "money"){
+			else if(ast.questions[i].type == "decimal" || ast.questions[i].type == "money" || ast.questions[i].type == "currency"){
 				ast.questions[i].value = parseFloat(value);
 			}
 			else{
@@ -179,9 +179,16 @@ function refreshGUI(){
 			var shouldShow = true;
 
 			for(var j=0;j<dependencies.length;j++){
-				if(!evaluate(dependencies[j])){
-					shouldShow = false;
-					break;
+				var evalResult = evaluate(dependencies[j]);
+				if(typeof evalResult !== "boolean"){
+	  				errors.add("ERROR: Condition '"+dependencies[j]+"' is not boolean");
+	  				fillPanel("error", errors, true);
+				}
+				else{
+					shouldShow = evalResult;
+					if(!shouldShow){
+						break;
+					}
 				}
 			}
 
@@ -202,18 +209,16 @@ function refreshGUI(){
 	}
 }
 
+//TODO strings
 function evaluate(statement){
 	var evalStmt = "";
+	ast.labels = ast.labels.sort();
+	ast.labels = ast.labels.reverse();
 	for(var i=0;i<ast.labels.length;i++){
-		if(getQuestionType(ast.labels[i]) == "string"){
-			evalStmt += "var " + ast.labels[i] + " = '" + getQuestionValue(ast.labels[i]) + "';";
-		}
-		else{
-			evalStmt += "var " + ast.labels[i] + " = " + getQuestionValue(ast.labels[i]) + ";";
-		}
+		var regexObj = new RegExp(ast.labels[i],"g");
+		statement = statement.replace(regexObj, getQuestionValue(ast.labels[i]));
 	}
-	
-	return eval(evalStmt + statement + ";");
+	return parser.parse(statement);
 }
 
 function getQuestionValue(label){
@@ -242,11 +247,15 @@ function generateQuestionHTML(question){
 	switch(question.type){
 		case "integer": 	html += "number";
 							break;
+		case "decimal": 	html += "number";
+							break;
 		case "money": 		html += "number";
 							break;
-		case "float": 		html += "number";
+		case "currency": 		html += "number";
 							break;
 		case "string": 		html += "text";
+							break;
+		case "date": 		html += "text";
 							break;
 		case "boolean": 	html += "checkbox";
 							break;
@@ -275,12 +284,12 @@ function renderQuestions(questions){
 	$("#output").html(output);
 }
 
-function fillPanel(panel, list, critical){
+function fillPanel(panel, set, critical){
 	var html = "<ul>";
-	
-	for(var i=0;i<list.length;i++){
-		html += "<li>" + list[i] + "</li>";
-	}
+
+	set.forEach(function(value) {
+	  html += "<li>" + value + "</li>";
+	});
 
 	html += "</ul>";
 

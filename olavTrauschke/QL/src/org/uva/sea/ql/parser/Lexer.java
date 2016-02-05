@@ -1,7 +1,6 @@
 package org.uva.sea.ql.parser;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.*;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.Int;
@@ -32,6 +31,11 @@ public class Lexer implements Tokens {
     private int character = ' '; //used only for checking no error has occured yet
     private int token;
     private ASTNode semantic;
+    
+    public Lexer(String filename) throws FileNotFoundException {
+        input = new FileReader(filename);
+        readNextCharacter();
+    }
     
     public Lexer(Reader theInput) {
         input = theInput;

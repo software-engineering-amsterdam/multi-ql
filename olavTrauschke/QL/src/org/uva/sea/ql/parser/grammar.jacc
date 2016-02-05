@@ -58,10 +58,6 @@ public Parser(Lexer lexer) {
   this.lexer = lexer; 
 }
 
-public Parser(String filename) throws FileNotFoundException {
-    this(new Lexer(new FileReader(filename)));
-}
-
 public Expr getResult() {
   return result;
 }

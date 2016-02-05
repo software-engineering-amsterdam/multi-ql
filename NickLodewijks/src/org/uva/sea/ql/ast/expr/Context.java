@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Context {
+	
 	private Map<String, Object> valueMap;
 
 	public Context() {
@@ -17,17 +18,4 @@ public class Context {
 	public Object getValue(String key) {
 		return valueMap.get(key);
 	}
-
-	public Boolean getBooleanValue(String key) {
-		return (Boolean) getValue(key);
-	}
-
-	public String getStringValue(String key) {
-		return (String) getValue(key);
-	}
-
-	public Integer getIntegerValue(String key) {
-		return (Integer) getValue(key);
-	}
-
 }
