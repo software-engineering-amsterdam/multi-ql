@@ -44,24 +44,43 @@ class QLParser: NSObject {
         var expr: GenericParser<String, (), QLExpression>!
         
         GenericParser.recursive { (_expr: GenericParser<String, (), QLExpression>) in
-            let varExpr: GenericParser<String, (), QLExpression> =
-                variable.map { eVar in QLExpressionVariable(variable: eVar) }
-            let prefixExpr: GenericParser<String, (), QLExpression> =
-                symbol("-") *> _expr.map { QLNeg(rhs: $0) } <|>
-                symbol("!") *> _expr.map { QLNot(rhs: $0) }
             let precExpr: GenericParser<String, (), QLExpression> =
                 lexer.parentheses(_expr)
+            let varExpr: GenericParser<String, (), QLExpression> =
+                variable.map { eVar in QLExpressionVariable(variable: eVar) }
+            let prefix: GenericParser<String, (), QLPrefix.Type> =
+                StringParser.character("-").map { _ in QLNeg.self } <|>
+                StringParser.character("!").map { _ in QLNot.self }
+            let prefixExpr: GenericParser<String, (), QLExpression> =
+                prefix.flatMap { ePrefix in
+                    _expr.map { rhs in ePrefix.init(rhs: rhs) }
+                }
+            let infix: GenericParser<String, (), QLInfix.Type> =
+                lexer.symbol("+").map { _ in QLAdd.self } <|>
+                StringParser.character("-").map { _ in QLSub.self } <|>
+                StringParser.character("*").map { _ in QLMul.self } <|>
+                StringParser.character("/").map { _ in QLDiv.self } <|>
+                StringParser.character("^").map { _ in QLPow.self }
+            let infixExpr: GenericParser<String, (), QLExpression> =
+                varExpr.flatMap { lhs in
+                    infix.flatMap { eInfix in
+                        varExpr.map { rhs in
+                            eInfix.init(lhs: lhs, rhs: rhs)
+                        }
+                    }
+                }
             
-            expr = precExpr <|> varExpr <|> prefixExpr
+            
+            expr = precExpr <|> prefixExpr <|> infixExpr.attempt <|> varExpr
             
             return expr
         }
         
         let question: GenericParser<String, (), QLQuestion> =
             variable.flatMap { qVar in
-                return lexer.colon *> stringLit.flatMap { qLit in
-                    return expr.flatMap { qExpr in
-                        return GenericParser(result: QLQuestion(variable: qVar, string: qLit as! QLStringLiteral, expression: qExpr))
+                lexer.colon *> stringLit.flatMap { qLit in
+                    expr.map { qExpr in
+                        QLQuestion(variable: qVar, string: qLit as! QLStringLiteral, expression: qExpr)
                     }
                 }
             }

@@ -9,25 +9,17 @@
 import Foundation
 
 internal class QLPrefix: QLExpression {
-    let op: String
     let rhs: QLExpression
     
-    init(op: String, rhs: QLExpression) {
-        self.op = op
+    required init(rhs: QLExpression) {
         self.rhs = rhs
     }
     
-    override var description: String { return super.description + "( \(op)\(rhs) )" }
+    override var description: String { return super.description + "( \(rhs) )" }
 }
 
 class QLNeg: QLPrefix {
-    init(rhs: QLExpression) {
-        super.init(op: "-", rhs: rhs)
-    }
 }
 
 class QLNot: QLPrefix {
-    init(rhs: QLExpression) {
-        super.init(op: "!", rhs: rhs)
-    }
 }
