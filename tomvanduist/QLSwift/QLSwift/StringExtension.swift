@@ -19,6 +19,6 @@ extension String {
             }
         }
         
-        throw NSError(domain: kDomain, code: 98734, userInfo: ["info": "File \(file).\(type) not found!"])
+        throw NSError(domain: kDomain, code: 9000, userInfo: ["info": "File \(file).\(type) not found!"])
     }
 }

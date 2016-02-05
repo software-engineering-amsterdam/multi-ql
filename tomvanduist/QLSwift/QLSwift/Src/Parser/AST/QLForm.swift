@@ -9,10 +9,13 @@
 import Foundation
 
 class QLForm: NSObject {
+    let variable: QLVariable
+    let statement: QLStatement
     
-    let statement: QLStatement;
-    
-    init(statement: QLStatement) {
-        self.statement = statement;
+    init(variable: QLVariable, statement: QLStatement) {
+        self.variable = variable
+        self.statement = statement
     }
+    
+    override var description: String { return super.description + ".variable = \(variable), .statement(\n\t\(statement));" }
 }

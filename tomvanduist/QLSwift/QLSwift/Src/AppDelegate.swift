@@ -21,9 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
         let ql = QLParser()
-        ql.testCSV()
-        ql.testJSON()
-        ql.testQL()
+        if let form = try? ql.parse(String(stringFromFile: "form", ofType: "ql")) {
+            print(form)
+        }
         
         
         if let window = window {
