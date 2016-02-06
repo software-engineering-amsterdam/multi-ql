@@ -12,7 +12,7 @@ import java.util.List;
  * Created by roy on 5-2-16.
  */
 public interface Visitor {
-
+    Visitor v = null;
     List<String> visit(Form form);
     List<String> visit(Stat stat);
     List<String> visit(Expr expr);

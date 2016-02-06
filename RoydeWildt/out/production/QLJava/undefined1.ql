@@ -6,7 +6,7 @@ form undefined1 {
   "Q3"
     Q3: boolean
 
-  if (Q3 && Q4_Undefined && Q4_Undefined) {
+  if (Q3 && Q4_Undefined) {
     "Q5"
       Q5: money
   }
