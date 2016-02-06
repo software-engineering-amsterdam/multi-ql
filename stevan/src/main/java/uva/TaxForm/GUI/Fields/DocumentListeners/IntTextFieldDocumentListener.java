@@ -8,7 +8,7 @@ import uva.TaxForm.GUI.Fields.IntTextField;
 public class IntTextFieldDocumentListener extends AbstractDocumentListener {
 	
 	private IntTextField itf;
-	private JPanel panel;
+	private final JPanel panel;
 	
 	public IntTextFieldDocumentListener(final IntTextField itf, final JPanel panel) {
 		this.itf = itf;

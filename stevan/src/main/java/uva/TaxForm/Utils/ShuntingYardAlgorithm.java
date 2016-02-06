@@ -337,7 +337,11 @@ public class ShuntingYardAlgorithm {
 			ASTExpression exp = (ASTExpression) node;
 			int type = exp.getExpressionType();
 			
-			if (type == ASTExpression.MINUS_EXP) {
+			
+			if (type == ASTExpression.ASSIGN_EXP) {
+				value = "=";
+			}
+			else if (type == ASTExpression.MINUS_EXP) {
 				value = "-";
 			}
 			else if (type == ASTExpression.ADD_EXP) {

@@ -1,8 +1,10 @@
 package uva.TaxForm.AST;
 
+import uva.TaxForm.Interfaces.IASTNode;
+import uva.TaxForm.Interfaces.IASTNodeVisitor;
 import uva.TaxForm.Interfaces.INumber;
 
-public class ASTNumber extends ASTNode implements INumber {
+public class ASTNumber extends ASTNode implements INumber, IASTNode {
 	
 	private String value;
 	private int type = 0;
@@ -36,4 +38,8 @@ public class ASTNumber extends ASTNode implements INumber {
 		this.type = type;
 	}
 
+	@Override
+	public void accept(IASTNodeVisitor visitor) {
+		visitor.visit(this);
+	}
 }

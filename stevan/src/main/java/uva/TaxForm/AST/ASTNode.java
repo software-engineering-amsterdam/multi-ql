@@ -1,7 +1,10 @@
 package uva.TaxForm.AST;
 
+import uva.TaxForm.Interfaces.IASTNode;
+import uva.TaxForm.Interfaces.IASTNodeVisitor;
 
-public abstract class ASTNode {
+
+public abstract class ASTNode implements IASTNode {
 
 	public final static int FORM = 1;
 	public final static int QUESTION = 2;
@@ -48,6 +51,10 @@ public abstract class ASTNode {
 		this.parent = parent;
 	}
 	
+	@Override
+	public void accept(IASTNodeVisitor visitor) {
+		visitor.visit(this);
+	}
 	/*public void addChild(ASTNode node) {
 		this.store.add(node);
 	}

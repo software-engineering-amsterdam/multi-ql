@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class JCheckBoxActionListener extends AbstractActionListener {
 
 	private JCheckBox cb;
-	private JPanel panel;
+	private final JPanel panel;
 	
 	public JCheckBoxActionListener(final JCheckBox cb, final JPanel panel) {
 		this.cb = cb;
