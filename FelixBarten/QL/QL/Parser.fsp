@@ -1,0 +1,51 @@
+﻿%{   
+open Statements   
+%}   
+  
+%token <string> ID   
+%token <string> QUESTION
+%token <int> INT   
+%token <float> FLOAT   
+  
+%token FORM
+%token ENDBRACKET STARTBRACKET
+%token DOUBLEPOINT
+%token AND OR   
+%token COMMA   
+%token EQ LT LE GT GE   
+%token JOIN INNER LEFT RIGHT ON   
+%token SELECT FROM WHERE ORDER BY   
+%token ASC DESC   
+%token EOF   
+  
+// start   
+%start start   
+%type <Statements.Form> start   
+  
+%%   
+  
+start:   
+     FORM ID STARTBRACKET
+	 questionList   
+	 ENDBRACKET
+	 EOF			{ 
+                        {   Identifier = $2;
+                            Questions = [$4];   }
+                        }
+
+questions: 
+	questionList	{  }
+
+questionList: 
+	QUESTION 
+	ID DOUBLEPOINT questionType 
+	EOF				  { 
+                            { QuestionText = $1;
+                              Identifier = $2;
+                              QuestionType = $4;  }
+                      }
+questionType: 
+    | ID  {
+                    $1
+                }
+%%
