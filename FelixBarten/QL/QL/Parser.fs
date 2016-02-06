@@ -3,11 +3,11 @@ module Parser
 #nowarn "64";; // turn off warnings that type variables used in production annotations are instantiated to concrete type
 open Microsoft.FSharp.Text.Lexing
 open Microsoft.FSharp.Text.Parsing.ParseHelpers
-# 1 "C:\Users\felixbarten\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 1 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
    
-open Sql   
+open Statements   
 
-# 10 "C:\Users\felixbarten\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 10 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
 // This type is the type of tokens accepted by the parser
 type token = 
   | EOF
@@ -31,8 +31,13 @@ type token =
   | COMMA
   | AND
   | OR
+  | DOUBLEPOINT
+  | ENDBRACKET
+  | STARTBRACKET
+  | FORM
   | FLOAT of (float)
   | INT of (int)
+  | QUESTION of (string)
   | ID of (string)
 // This type is used to give symbolic names to token indexes, useful for error messages
 type tokenId = 
@@ -57,8 +62,13 @@ type tokenId =
     | TOKEN_COMMA
     | TOKEN_AND
     | TOKEN_OR
+    | TOKEN_DOUBLEPOINT
+    | TOKEN_ENDBRACKET
+    | TOKEN_STARTBRACKET
+    | TOKEN_FORM
     | TOKEN_FLOAT
     | TOKEN_INT
+    | TOKEN_QUESTION
     | TOKEN_ID
     | TOKEN_end_of_input
     | TOKEN_error
@@ -66,6 +76,9 @@ type tokenId =
 type nonTerminalId = 
     | NONTERM__startstart
     | NONTERM_start
+    | NONTERM_questions
+    | NONTERM_questionList
+    | NONTERM_questionType
 
 // This function maps tokens to integer indexes
 let tagOfToken (t:token) = 
@@ -91,9 +104,14 @@ let tagOfToken (t:token) =
   | COMMA  -> 18 
   | AND  -> 19 
   | OR  -> 20 
-  | FLOAT _ -> 21 
-  | INT _ -> 22 
-  | ID _ -> 23 
+  | DOUBLEPOINT  -> 21 
+  | ENDBRACKET  -> 22 
+  | STARTBRACKET  -> 23 
+  | FORM  -> 24 
+  | FLOAT _ -> 25 
+  | INT _ -> 26 
+  | QUESTION _ -> 27 
+  | ID _ -> 28 
 
 // This function maps integer indexes to symbolic token ids
 let tokenTagToTokenId (tokenIdx:int) = 
@@ -119,11 +137,16 @@ let tokenTagToTokenId (tokenIdx:int) =
   | 18 -> TOKEN_COMMA 
   | 19 -> TOKEN_AND 
   | 20 -> TOKEN_OR 
-  | 21 -> TOKEN_FLOAT 
-  | 22 -> TOKEN_INT 
-  | 23 -> TOKEN_ID 
-  | 26 -> TOKEN_end_of_input
-  | 24 -> TOKEN_error
+  | 21 -> TOKEN_DOUBLEPOINT 
+  | 22 -> TOKEN_ENDBRACKET 
+  | 23 -> TOKEN_STARTBRACKET 
+  | 24 -> TOKEN_FORM 
+  | 25 -> TOKEN_FLOAT 
+  | 26 -> TOKEN_INT 
+  | 27 -> TOKEN_QUESTION 
+  | 28 -> TOKEN_ID 
+  | 31 -> TOKEN_end_of_input
+  | 29 -> TOKEN_error
   | _ -> failwith "tokenTagToTokenId: bad token"
 
 /// This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
@@ -131,10 +154,13 @@ let prodIdxToNonTerminal (prodIdx:int) =
   match prodIdx with
     | 0 -> NONTERM__startstart 
     | 1 -> NONTERM_start 
+    | 2 -> NONTERM_questions 
+    | 3 -> NONTERM_questionList 
+    | 4 -> NONTERM_questionType 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
-let _fsyacc_endOfInputTag = 26 
-let _fsyacc_tagOfErrorTerminal = 24
+let _fsyacc_endOfInputTag = 31 
+let _fsyacc_tagOfErrorTerminal = 29
 
 // This function gets the name of a token as a string
 let token_to_string (t:token) = 
@@ -160,8 +186,13 @@ let token_to_string (t:token) =
   | COMMA  -> "COMMA" 
   | AND  -> "AND" 
   | OR  -> "OR" 
+  | DOUBLEPOINT  -> "DOUBLEPOINT" 
+  | ENDBRACKET  -> "ENDBRACKET" 
+  | STARTBRACKET  -> "STARTBRACKET" 
+  | FORM  -> "FORM" 
   | FLOAT _ -> "FLOAT" 
   | INT _ -> "INT" 
+  | QUESTION _ -> "QUESTION" 
   | ID _ -> "ID" 
 
 // This function gets the data carried by a token as an object
@@ -188,41 +219,92 @@ let _fsyacc_dataOfToken (t:token) =
   | COMMA  -> (null : System.Object) 
   | AND  -> (null : System.Object) 
   | OR  -> (null : System.Object) 
+  | DOUBLEPOINT  -> (null : System.Object) 
+  | ENDBRACKET  -> (null : System.Object) 
+  | STARTBRACKET  -> (null : System.Object) 
+  | FORM  -> (null : System.Object) 
   | FLOAT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | INT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
+  | QUESTION _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; |]
-let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; |]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; |]
-let _fsyacc_action_rows = 2
-let _fsyacc_actionTableElements = [|0us; 16385us; 0us; 49152us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 1us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 0us; |]
-let _fsyacc_productionToNonTerminalTable = [|0us; 1us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; |]
+let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 0us; 65535us; 1us; 65535us; 4us; 5us; 1us; 65535us; 10us; 11us; |]
+let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 3us; 4us; 6us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 3us; 1us; 3us; 1us; 3us; 1us; 3us; 1us; 3us; 1us; 4us; |]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; 14us; 16us; 18us; 20us; 22us; 24us; 26us; |]
+let _fsyacc_action_rows = 14
+let _fsyacc_actionTableElements = [|1us; 32768us; 24us; 2us; 0us; 49152us; 1us; 32768us; 28us; 3us; 1us; 32768us; 23us; 4us; 1us; 32768us; 27us; 8us; 1us; 32768us; 22us; 6us; 1us; 32768us; 0us; 7us; 0us; 16385us; 1us; 32768us; 28us; 9us; 1us; 32768us; 21us; 10us; 1us; 32768us; 28us; 13us; 1us; 32768us; 0us; 12us; 0us; 16387us; 0us; 16388us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; 5us; 7us; 9us; 11us; 13us; 14us; 16us; 18us; 20us; 22us; 23us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 6us; 1us; 5us; 1us; |]
+let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 3us; 4us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 65535us; 65535us; 65535us; 65535us; 16385us; 65535us; 65535us; 65535us; 65535us; 16387us; 16388us; |]
 let _fsyacc_reductions ()  =    [| 
-# 205 "C:\Users\felixbarten\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 241 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Statements.Form)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startstart));
-# 214 "C:\Users\felixbarten\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 250 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : 'questionList)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 24 "C:\Users\felixbarten\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                         "Nothing to see here" 
+# 31 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                               
+                                             {   Identifier = _2;
+                                                 Questions = [_4];   }
+                                             
                    )
-# 24 "C:\Users\felixbarten\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : string));
+# 31 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                 : Statements.Form));
+# 265 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'questionList)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 37 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                                      
+                   )
+# 37 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                 : 'questions));
+# 276 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : 'questionType)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 42 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                                 
+                                                 { QuestionText = _1;
+                                                   Identifier = _2;
+                                                   QuestionType = _4;  }
+                                           
+                   )
+# 42 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                 : 'questionList));
+# 293 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 48 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                                
+                                         _1
+                                     
+                   )
+# 48 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                 : 'questionType));
 |]
-# 225 "C:\Users\felixbarten\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 307 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -241,8 +323,8 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
                               match parse_error_rich with 
                               | Some f -> f ctxt
                               | None -> parse_error ctxt.Message);
-    numTerminals = 27;
+    numTerminals = 32;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : string =
+let start lexer lexbuf : Statements.Form =
     Microsoft.FSharp.Core.Operators.unbox ((tables ()).Interpret(lexer, lexbuf, 0))
