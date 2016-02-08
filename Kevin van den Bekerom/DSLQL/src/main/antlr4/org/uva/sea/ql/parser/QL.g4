@@ -14,12 +14,13 @@ form
 
 formName : Ident;
 
-/* Statement Grammar Rules */
 
 block 
-	: statement+
-	;
-	
+: statement+
+;
+
+/* Statement Grammar Rules */
+
 statement
 	: ifStatement
 	| elseStatement

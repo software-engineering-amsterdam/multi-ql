@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.QLLexer;
 import org.uva.sea.ql.parser.QLParser;
 import org.uva.sea.utils.Utils;
+import org.uva.sea.ql.ast.expr.*;
 
 
 import edu.emory.mathcs.backport.java.util.Arrays;
