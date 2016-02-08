@@ -1,5 +1,6 @@
 package org.uva.sea.ql;
 
+import org.uva.sea.ql.ast.Node;
 import org.uva.sea.ql.ast.checker.*;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.parser.*;
@@ -17,18 +18,18 @@ public class Test {
         Form f = (QLParser.ParseForm(projectpath + "/QLJava/resources/undefined1.ql")).get(0);
 
         Visitor dv = new DeclVisitor();
-        List<String> res1 = f.accept(dv);
+        List<Node> res1 = (List<Node>) f.accept(dv);
 
 
         Visitor vv = new VarsVisitor();
-        List<String> res2 = f.accept(vv);
+        List<Node> res2 = (List<Node>) f.accept(vv);
 
         Checker chk = new Checker();
-        Set<String> res3 = chk.undefinedChecker(f);
+        //Set<String> res3 = chk.undefinedChecker(f);
 
         System.out.println(f.toString());
         System.out.println(res1.toString());
         System.out.println(res2.toString());
-        System.out.println(res3.toString());
+        //System.out.println(res3.toString());
     }
 }

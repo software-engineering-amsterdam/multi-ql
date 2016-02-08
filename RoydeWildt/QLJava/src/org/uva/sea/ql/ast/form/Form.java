@@ -29,7 +29,7 @@ public class Form implements Node, Visitable{
         return "Form(" + id + ", " + stmsList + ")";
     }
 
-    public List<String> accept(Visitor visitor) {
+    public List<? extends Node> accept(Visitor visitor) {
         return visitor.visit(this);
     }
 

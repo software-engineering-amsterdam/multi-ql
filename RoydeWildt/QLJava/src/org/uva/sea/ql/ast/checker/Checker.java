@@ -1,22 +1,21 @@
 package org.uva.sea.ql.ast.checker;
 
-import org.uva.sea.ql.ast.form.Form;
-
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by roy on 5-2-16.
  */
 public class Checker {
 
     public Checker(){}
+/*
+    public Set<Node> undefinedChecker(Form f){
+        List<Decl> decls = (List<Decl>) f.accept(new DeclVisitor());
+        List<Var> vars = (List<Var>) f.accept(new DeclVisitor());
 
-    public Set<String> undefinedChecker(Form f){
-        Set<String> decls = new HashSet<>(f.accept(new DeclVisitor()));
-        Set<String> vars  = new HashSet<>(f.accept(new VarsVisitor()));
-        vars.removeAll(decls);
+        for (Var v : vars) {
+            decls.contains(v);
+        }
 
-        return vars;
+        return null;
     }
+*/
 }

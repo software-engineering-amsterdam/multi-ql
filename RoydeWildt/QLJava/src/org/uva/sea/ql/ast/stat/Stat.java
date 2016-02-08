@@ -15,10 +15,7 @@ abstract public class Stat implements Node, Visitable {
     private List<Stat> stms;
     private List<Stat> altStms;
 
-    private String label;
-    private String varname;
-    private String type;
-    private Expr   expr;
+    public Stat(){}
 
     public Stat (Expr cond, List<Stat> stms){
         this.cond = cond;
@@ -30,20 +27,7 @@ abstract public class Stat implements Node, Visitable {
         this.altStms = altStms;
     }
 
-    public Stat (String label, String varname, String type){
-        this.label = label;
-        this.varname = varname;
-        this.type = type;
-    }
-
-    public Stat (String label, String varname, String type, Expr expr){
-        this.label = label;
-        this.varname = varname;
-        this.type = type;
-        this.expr = expr;
-    }
-
-    public List<String> accept(Visitor visitor) {
+    public List<? extends Node> accept(Visitor visitor) {
         return visitor.visit(this);
     }
 
@@ -57,21 +41,5 @@ abstract public class Stat implements Node, Visitable {
 
     public List<Stat> getAltStms() {
         return altStms;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public String getVarname() {
-        return varname;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public Expr getExpr() {
-        return expr;
     }
 }

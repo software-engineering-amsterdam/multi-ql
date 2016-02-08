@@ -1,9 +1,11 @@
 package org.uva.sea.ql.ast.checker;
 
+import org.uva.sea.ql.ast.Node;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.stat.Stat;
 import org.uva.sea.ql.ast.val.Val;
+import org.uva.sea.ql.ast.var.Var;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +17,13 @@ public class BaseVisitor implements Visitor {
 
     Visitor v;
 
+    public BaseVisitor(){
+        v =this;
+    }
+
     @Override
-    public List<String> visit(Form form) {
-        List<String> result = new ArrayList<>();
+    public List<? extends Node> visit(Form form) {
+        List<Node> result = new ArrayList<>();
 
         if (form.getStms() != null){
             for (Stat s: form.getStms()) {
@@ -29,8 +35,8 @@ public class BaseVisitor implements Visitor {
     }
 
     @Override
-    public List<String> visit(Stat stat) {
-        List<String> result = new ArrayList<>();
+    public List<? extends Node> visit(Stat stat) {
+        List<Node> result = new ArrayList<>();
 
         //get all vars in expressions
         if (stat.getCond() != null){
@@ -57,8 +63,8 @@ public class BaseVisitor implements Visitor {
     }
 
     @Override
-    public List<String> visit(Expr expr) {
-        List<String> result = new ArrayList<>();
+    public List<? extends Node> visit(Expr expr) {
+        List<Node> result = new ArrayList<>();
 
         //get all vars in expressions
         Expr e = expr.getLhs();
@@ -74,10 +80,19 @@ public class BaseVisitor implements Visitor {
     }
 
     @Override
-    public List<String> visit(Val val) {
-        List<String> result = new ArrayList<>();
+    public List<? extends Node> visit(Val val) {
+        List<Node> result = new ArrayList<>();
 
-         result.add(val.getValue());
+         result.add(val);
+
+        return result;
+    }
+
+    @Override
+    public List<? extends Node> visit(Var var) {
+        List<Node> result = new ArrayList<>();
+
+        result.add(var);
 
         return result;
     }

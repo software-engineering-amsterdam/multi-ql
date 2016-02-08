@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast.val;
+package org.uva.sea.ql.ast.var;
 
 import org.uva.sea.ql.ast.Node;
 import org.uva.sea.ql.ast.checker.Visitor;
@@ -9,19 +9,13 @@ import java.util.List;
 /**
  * Created by roydewildt on 04/02/16.
  */
-abstract public class Val extends Expr {
+public class Var extends Expr{
     private String value;
+    public Var(String value) {this.value = value;}
 
-    public Val(){}
-    public Val(String value) {
-        this.value = value;
-    }
-
-    @Override
     public String toString() {
         return this.getClass().getSimpleName() + "(" + value + ")";
     }
-
     public List<? extends Node> accept(Visitor visitor) {
         return visitor.visit(this);
     }

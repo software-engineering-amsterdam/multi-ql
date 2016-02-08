@@ -1,4 +1,4 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /home/roy/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 
 import java.util.List;
@@ -7,6 +7,7 @@ import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
 import org.uva.sea.ql.ast.form.*;
+import org.uva.sea.ql.ast.var.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -45,6 +46,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarDecl(QLParser.VarDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#varAss}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarAss(QLParser.VarAssContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#varAss}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarAss(QLParser.VarAssContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree

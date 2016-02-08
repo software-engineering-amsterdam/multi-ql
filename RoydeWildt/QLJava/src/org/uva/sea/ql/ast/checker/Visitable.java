@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast.checker;
 
+import org.uva.sea.ql.ast.Node;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,6 @@ import java.util.List;
  */
 public interface Visitable {
 
-    List<String> accept(Visitor visitor);
+    List<? extends Node> accept(Visitor visitor);
 
 }

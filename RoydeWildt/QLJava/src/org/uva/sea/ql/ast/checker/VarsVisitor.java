@@ -1,9 +1,9 @@
 package org.uva.sea.ql.ast.checker;
 
-import org.uva.sea.ql.ast.form.Form;
-import org.uva.sea.ql.ast.stat.Stat;
+import org.uva.sea.ql.ast.Node;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.val.*;
+import org.uva.sea.ql.ast.var.Var;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,40 +14,26 @@ import java.util.List;
 public class VarsVisitor extends BaseVisitor{
 
     @Override
-    public List<String> visit(Form form) {
+    public List<? extends Node> visit(Expr expr) {
         v = new VarsVisitor();
-        return super.visit(form);
-    }
-
-    @Override
-    public List<String> visit(Stat stat) {
-        v = new VarsVisitor();
-        return super.visit(stat);
-    }
-
-    @Override
-    public List<String> visit(Expr expr) {
-        v = new VarsVisitor();
-        List<String> result = super.visit(expr);
+        List<Node> result = (List<Node>) super.visit(expr);
 
         //get var from primary
-        if (expr instanceof Prim) {
-            Val val = ((Prim) expr).getV();
-            result.addAll((val.accept(v)));
+        if (expr instanceof Var) {
+            result.addAll((expr.accept(v)));
         }
 
         return result;
     }
 
     @Override
-    public List<String> visit(Val val) {
+    public List<? extends Node> visit(Var var) {
 
-        List<String> result = new ArrayList<>();
+        List<Node> result = new ArrayList<>();
 
         v = new VarsVisitor();
 
-        if (val instanceof Var)
-            result.add(val.getValue());
+        result.add(var);
 
         return result;
     }

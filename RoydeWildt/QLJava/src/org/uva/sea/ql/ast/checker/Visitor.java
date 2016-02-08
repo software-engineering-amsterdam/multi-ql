@@ -1,9 +1,11 @@
 package org.uva.sea.ql.ast.checker;
 
+import org.uva.sea.ql.ast.Node;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.stat.Stat;
 import org.uva.sea.ql.ast.val.Val;
+import org.uva.sea.ql.ast.var.Var;
 
 import java.util.List;
 
@@ -13,9 +15,10 @@ import java.util.List;
  */
 public interface Visitor {
     Visitor v = null;
-    List<String> visit(Form form);
-    List<String> visit(Stat stat);
-    List<String> visit(Expr expr);
-    List<String> visit(Val  val);
+    List<? extends Node> visit(Form form);
+    List<? extends Node> visit(Stat stat);
+    List<? extends Node> visit(Expr expr);
+    List<? extends Node> visit(Val  val);
+    List<? extends Node> visit(Var var);
 
 }

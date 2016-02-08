@@ -35,7 +35,7 @@ abstract public class Expr implements Node, Visitable {
             return this.getClass().getSimpleName() + "(" + lhs.toString() + ", " + rhs.toString() + ")";
     }
 
-    public List<String> accept(Visitor visitor) {
+    public List<? extends Node> accept(Visitor visitor) {
         return visitor.visit(this);
     }
 
