@@ -6,8 +6,8 @@ public class VisitorPrinter extends Visitor {
 	
 	@Override
 	public void visit(Expr expr) {
-		if (expr.equals(Add.class)) {
-			System.out.println(expr.name);
+		if (expr.type == ExprEnum.ADD) {
+			expr.eval();
 		}
 		
 		System.out.println("Always print this: " + expr.name);

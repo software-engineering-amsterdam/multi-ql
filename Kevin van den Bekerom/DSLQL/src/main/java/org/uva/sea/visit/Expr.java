@@ -1,8 +1,10 @@
 package org.uva.sea.visit;
 
-public class Expr implements Visitable {
+public abstract class Expr implements Visitable {
 	Expr lhs, rhs;
 	public String name;
+	public ExprEnum type;
+	public Object value = null;
 	
 	public void accept(Visitor visitor) {
 		if (lhs != null && rhs != null) {
@@ -11,4 +13,8 @@ public class Expr implements Visitable {
 		}
 		visitor.visit(this);
 	}
+	
+	public abstract Object eval();
+
+
 }
