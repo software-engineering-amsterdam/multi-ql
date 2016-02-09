@@ -1,11 +1,8 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Pos extends NumericExpr {
+public class Pos extends SingleExprArgumentNumericExpr {
     
-    private NumericExpr content;
-    
-    public Pos(Expr theContent) {
-        content = (NumericExpr) theContent;
+    public Pos(Expr content) {
+        super(content);
     }
-    
 }

@@ -10,7 +10,9 @@ public class ParserTest {
 
     @Test
     public void testExpressionParsing() throws FileNotFoundException {
-        Parser parser = new Parser("expressionTest.ql");
+        Lexer lexer = new Lexer("expressionTest.ql");
+        lexer.nextToken();
+        Parser parser = new Parser(lexer);
         boolean parsed = parser.parse();
         assertTrue(parsed);
         ASTNode result = parser.getResult();

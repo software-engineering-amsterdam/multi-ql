@@ -1,12 +1,8 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Div extends NumericExpr {
+public class Div extends DoubleExprArgumentNumericExpr {
     
-    private NumericExpr firstExpr;
-    private NumericExpr secondExpr;
-    
-    public Div(Expr theFirstExpr, Expr theSecondExpr) {
-        firstExpr = (NumericExpr) theFirstExpr;
-        secondExpr = (NumericExpr) theSecondExpr;
+    public Div(Expr firstExpr, Expr secondExpr) {
+        super(firstExpr, secondExpr);
     }
 }
