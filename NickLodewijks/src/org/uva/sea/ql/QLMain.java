@@ -2,9 +2,7 @@ package org.uva.sea.ql;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
-import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -20,6 +18,8 @@ public class QLMain {
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
+
+		parser.addParseListener(new QLParseTreeListener());
 
 		fileContext = parser.file();
 

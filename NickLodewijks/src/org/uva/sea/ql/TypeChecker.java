@@ -104,8 +104,8 @@ public class TypeChecker {
 
 		actual = expr.type();
 		if (actual != expected) {
-			return Result.FALSE(String.format("Expression %s should be of type %s but is of type %s. ", expr,
-					expected.getName(), actual.getName()));
+			return Result.FALSE(String.format("[%s: %s] Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
+					expr.getLineIndex(), expr.getCharIndex(), expr.getText(), expected.getName(), actual.getName()));
 		}
 
 		return Result.TRUE();

@@ -22,25 +22,25 @@ block returns [Block result]
     @init {
         $result = new Block();
     }
-    : '{' + (ifStat[$result] | question[$result] )+ '}'
+    : '{' + (ifStat { $result.add($ifStat.result); } | question[$result] { $result.add($question.result); } )+ '}'
     ;
     
-ifStat[Block arg]
+ifStat returns [IFStat result]
     : 'if' + '(' + orExpr + ')' + block 
     { 
-        $arg.add(new IFStat($orExpr.result, $block.result));
+        $result = new IFStat($orExpr.result, $block.result);
     }
     ;
 
-question[Block result]
+question[Block arg]  returns [Question result]
     :   variableType + identifier + STR
     { 
-        $result.add(new VariableDecl($variableType.result, $identifier.result));
-        $result.add(new Question($identifier.result, $STR.text));
+        $arg.add(new VariableDecl($variableType.result, $identifier.result));
+        $result = new Question($identifier.result, $STR.text);
     }
     | identifier + STR
     { 
-        $result.add(new Question($identifier.result, $STR.text));
+        $result = new Question($identifier.result, $STR.text);
     }
     ;
     

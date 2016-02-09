@@ -14,6 +14,10 @@ form taxOfficeExample{
             if(areYouSure){
                 int enterAnumber "Please enter a number."
             }
+            
+            if(1+1){
+                int enterAnumbe2r "Please enter a number."
+            }
         }
         
         
