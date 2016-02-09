@@ -10,6 +10,23 @@ import Foundation
 import SwiftParsec
 
 
+
+
+
+/**
+ * Grammer:
+ *
+ * form         ::= 'form' stmtList
+ * stmtList     ::= { stmt* }
+ * stmt         ::= question
+ * question     ::= var ':' stringLit expr
+ * expr         ::= ( expr ) | prefix expr | expr infix expr | var | boolean | money | const
+ * const        ::= true | false | stringLit | numberLit
+ * prefix       ::= - | !
+ * infix        ::= + | - | * | / | ^ | || | &&
+ * var          ::= identifier
+ * money        ::= 'money' || 'money' ( expr )
+ */
 class QLParser: NSObject {
     
     func parse(ql: String) throws -> QLForm {
@@ -46,8 +63,14 @@ class QLParser: NSObject {
         GenericParser.recursive { (_expr: GenericParser<String, (), QLExpression>) in
             let precExpr: GenericParser<String, (), QLExpression> =
                 lexer.parentheses(_expr)
+            let litExpr: GenericParser<String, (), QLExpression> =
+                (boolLit <|> stringLit <|> number).map { literal in
+                    QLExpressionLiteral(literal: literal)
+                }
             let varExpr: GenericParser<String, (), QLExpression> =
                 variable.map { eVar in QLExpressionVariable(variable: eVar) }
+            let boolExpr: GenericParser<String, (), QLExpression> =
+                lexer.symbol("boolean").map { _ in QLBoolean() }
             let prefix: GenericParser<String, (), QLPrefix.Type> =
                 StringParser.character("-").map { _ in QLNeg.self } <|>
                 StringParser.character("!").map { _ in QLNot.self }
@@ -71,7 +94,7 @@ class QLParser: NSObject {
                 }
             
             
-            expr = precExpr <|> prefixExpr <|> infixExpr.attempt <|> varExpr
+            expr = precExpr <|> prefixExpr <|> infixExpr.attempt <|> varExpr <|> boolExpr <|> litExpr
             
             return expr
         }
@@ -86,23 +109,39 @@ class QLParser: NSObject {
             }
         
         
-        let qStmt: GenericParser<String, (), QLStatement> =
-            question.map { sQuestion in QLQuestionStatement(question: sQuestion) }
-        let stmtList: GenericParser<String, (), QLStatement> =
-            lexer.braces(
-                qStmt.manyAccumulator { acc, stmts in
-                    var tmp = stmts
-                    tmp.append(acc)
-                    return tmp
+        var stmt: GenericParser<String, (), QLStatement>!
+        var stmtList: GenericParser<String, (), QLStatement>!
+        
+        GenericParser.recursive { (_stmt: GenericParser<String, (), QLStatement>) in
+            let qStmt: GenericParser<String, (), QLStatement> =
+                question.map { sQuestion in QLQuestionStatement(question: sQuestion) }
+            let ifStmt: GenericParser<String, (), QLStatement> =
+                lexer.symbol("if") *> lexer.parentheses(expr).flatMap { cond in
+                    stmtList.map { stmt2 in
+                        QLIf(conditional: cond, statement: stmt2)
+                    }
                 }
-            ).map { stmts in QLStatementList(statements: stmts) }
-        let stmt: GenericParser<String, (), QLStatement> =
-            stmtList <|> qStmt
+
+            
+            stmtList =
+                lexer.braces(
+                    _stmt.manyAccumulator { acc, stmts in
+                        var tmp = stmts
+                        tmp.append(acc)
+                        return tmp
+                    }
+                ).map { stmts in QLStatementList(statements: stmts) }
+            
+            
+            stmt = ifStmt <|> qStmt
+            
+            return stmt
+        }
         
         
         let form: GenericParser<String, (), QLForm> =
             symbol("form") *> variable.flatMap { fVar in
-                return stmt.map { fStmt in QLForm(variable: fVar, statement: fStmt) }
+                return stmtList.map { fStmt in QLForm(variable: fVar, statement: fStmt) }
             }
         
         

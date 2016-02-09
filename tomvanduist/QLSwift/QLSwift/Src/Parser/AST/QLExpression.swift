@@ -34,18 +34,6 @@ class QLExpressionStatement: QLExpression {
 class QLBoolean: QLExpression {
 }
 
-class QLIf: QLExpression {
-    let statement: QLStatement
-    let conditional: QLExpression
-    
-    init(conditional: QLExpression, statement: QLStatement) {
-        self.statement = statement
-        self.conditional = conditional
-    }
-    
-    override var description: String { return super.description + ".conditional = \(conditional), .statement = \(statement); " }
-}
-
 class QLMoney: QLExpression {
     var expr: QLExpression?
     
@@ -54,4 +42,14 @@ class QLMoney: QLExpression {
     }
     
     override var description: String { return super.description + "( \(expr) )" }
+}
+
+class QLExpressionLiteral: QLExpression {
+    var literal: QLLiteral
+    
+    init(literal: QLLiteral) {
+        self.literal = literal
+    }
+    
+    override var description: String { return super.description + ".literal = \(literal)" }
 }

@@ -14,8 +14,6 @@ class QLLiteral: NSObject {
     init(value: AnyObject) {
         self.value = value
     }
-    
-    override var description: String { return super.description + ".value = \(value);" }
 }
 
 class QLBooleanLiteral: QLLiteral {
@@ -38,10 +36,14 @@ class QLIntegerLiteral: QLLiteral {
     init(integer: NSInteger) {
         super.init(value: integer)
     }
+    
+    override var description: String { return super.description + ".value = \(value);" }
 }
 
 class QLFloatLiteral: QLLiteral {
     init(float: Double) {
         super.init(value: float)
     }
+    
+    override var description: String { return super.description + ".value = \(value);" }
 }

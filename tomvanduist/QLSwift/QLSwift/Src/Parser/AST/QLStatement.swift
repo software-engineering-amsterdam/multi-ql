@@ -36,3 +36,15 @@ class QLStatementList: QLStatement {
         return result + "}"
     }
 }
+
+class QLIf: QLStatement {
+    let statement: QLStatement
+    let conditional: QLExpression
+    
+    init(conditional: QLExpression, statement: QLStatement) {
+        self.statement = statement
+        self.conditional = conditional
+    }
+    
+    override var description: String { return super.description + ".conditional = \(conditional), .statement = \(statement); " }
+}
