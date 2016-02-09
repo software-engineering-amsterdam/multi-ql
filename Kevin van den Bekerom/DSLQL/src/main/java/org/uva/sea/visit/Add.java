@@ -5,7 +5,7 @@ public class Add extends Expr {
 		super.name = "add";
 		super.lhs = lhs;
 		super.rhs = rhs;
-		super.type = ExprEnum.ADD;
+		super.type = ExprEnum.INTLITERAL;
 	}
 	
 	public Integer eval() {
