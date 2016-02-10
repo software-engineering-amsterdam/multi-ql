@@ -8,18 +8,19 @@ import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
 }
 
-/* From Grammar Rules = Entry Point */
+/* Form Grammar Rules = Entry Point */
 form
 	: FORM formName '{' statement+ '}' EOF;
 
 formName : Ident;
 
-/* Statement Grammar Rules */
 
 block 
-	: statement+
-	;
-	
+: statement+
+;
+
+/* Statement Grammar Rules */
+
 statement
 	: ifStatement
 	| elseStatement

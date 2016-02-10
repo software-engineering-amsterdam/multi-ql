@@ -10,6 +10,11 @@ public class Add extends Expr {
 	
 	@Override
 	public Integer eval() {
-		return (Integer) lhs.eval() + (Integer) rhs.eval();
+		try {
+			return (Integer) lhs.eval() + (Integer) rhs.eval();
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }
