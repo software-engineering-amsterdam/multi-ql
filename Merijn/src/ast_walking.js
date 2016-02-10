@@ -44,6 +44,10 @@ class WalkingVisitor {
 		this.listener.enterLiteralNode(literalNode);
 		this.listener.leaveLiteralNode(literalNode);
 	}
+	visitIdentifierNode (identifierNode) {
+		this.listener.enterIdentifierNode(identifierNode);
+		this.listener.leaveIdentifierNode(identifierNode);
+	}
 }
 
 export class NodeWalker {
@@ -67,4 +71,6 @@ export class NodeListener {
 	leaveInfixNode (infixNode) {}
 	enterLiteralNode (literalNode) {}
 	leaveLiteralNode (literalNode) {}
+	enterIdentifierNode (identifierNode) {}
+	leaveIdentifierNode (identifierNode) {}
 }

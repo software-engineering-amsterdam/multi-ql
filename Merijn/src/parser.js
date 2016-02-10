@@ -36,7 +36,7 @@ class AstConversionVisitor extends GeneratedVisitor {
 		return ctx.literal().accept(this);
 	}
 	visitIdentifierExprCase (ctx) {
-		return new ast.Identifier(ctx.getText());
+		return new ast.IdentifierNode(ctx.getText());
 	}
 	visitUnaryPrefixExprCase (ctx) {
 		return new ast.UnaryPrefixNode(ctx.start.line, ctx.children[0].getText(), ctx.expr().accept(this));

@@ -64,7 +64,7 @@ export class UnaryPrefixNode extends Node {
 		this.operand = operand;
 	}
 	accept (visitor) {
-		return visitor.visitUnaryPrefixNode(this.operation, this.operand);
+		return visitor.visitUnaryPrefixNode(this);
 	}
 }
 
@@ -76,7 +76,7 @@ export class InfixNode extends Node {
 		this.rightOperand = rightOperand;
 	}
 	accept (visitor) {
-		return visitor.visitInfixNode(this.leftOperand, this.operation, this.rightOperand);
+		return visitor.visitInfixNode(this);
 	}
 }
 
@@ -87,7 +87,17 @@ export class LiteralNode extends Node {
 		this.type = type;
 	}
 	accept (visitor) {
-		return visitor.visitLiteralNode(this.value, this.type);
+		return visitor.visitLiteralNode(this);
+	}
+}
+
+export class IdentifierNode extends Node {
+	constructor(line, name) {
+		super(line);
+		this.name = name;
+	}
+	accept (visitor) {
+		return visitor.visitIdentifierNode(this);
 	}
 }
 
@@ -99,4 +109,5 @@ export class NodeVisitor {
 	visitUnaryPrefixNode (unaryPrefixNode) {}
 	visitInfixNode (infixNode) {}
 	visitLiteralNode (literalNode) {}
+	visitIdentifierNode (literalNode) {}
 }
