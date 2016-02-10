@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.uva.sea.ql.ast.ASTNode;
+import org.uva.sea.ql.ast.expr.Str;
 
 public class LexerTest {
     
@@ -26,7 +28,7 @@ public class LexerTest {
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) ')');
         expectedResultComplexExpression.add(Tokens.EQ);
-        expectedResultComplexExpression.add(Tokens.IDENT);
+        expectedResultComplexExpression.add(Tokens.BOOLEAN);
         expectedResultComplexExpression.add(Tokens.ENDINPUT);
     }
     
@@ -55,6 +57,23 @@ public class LexerTest {
         Lexer lexer = new Lexer("complexExpressionWithComments.ql");
         ArrayList<Integer> tokens = obtainTokens(lexer);
         assertEquals(expectedResultComplexExpression, tokens);
+    }
+    
+    @Test
+    public void testStringAnalysis() throws FileNotFoundException {
+        Lexer lexer = new Lexer("stringExpression.ql");
+        ArrayList<Integer> tokens = new ArrayList<>();
+        tokens.add(lexer.nextToken());
+        ASTNode semantic = lexer.getSemantic();
+        tokens.addAll(obtainTokens(lexer));
+        
+        ArrayList<Integer> expectedTokens = new ArrayList<>();
+        expectedTokens.add(Tokens.STRING);
+        expectedTokens.add(Tokens.ENDINPUT);
+        assertEquals(expectedTokens, tokens);
+        
+        ASTNode expectedSemantic = new Str("Hello world!");
+        assertEquals(expectedSemantic, semantic);
     }
     
     private ArrayList<Integer> obtainTokens(Lexer lexer) {
