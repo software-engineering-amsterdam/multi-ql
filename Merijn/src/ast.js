@@ -69,14 +69,14 @@ export class UnaryPrefixNode extends Node {
 }
 
 export class InfixNode extends Node {
-	constructor(line, left_operand, operation, right_operand) {
+	constructor(line, leftOperand, operation, rightOperand) {
 		super(line);
-		this.left_operand = left_operand;
+		this.leftOperand = leftOperand;
 		this.operation = operation;
-		this.right_operand = right_operand;
+		this.rightOperand = rightOperand;
 	}
 	accept (visitor) {
-		return visitor.visitInfixNode(this.left_operand, this.operation, this.right_operand);
+		return visitor.visitInfixNode(this.leftOperand, this.operation, this.rightOperand);
 	}
 }
 
@@ -99,4 +99,73 @@ export class NodeVisitor {
 	visitUnaryPrefixNode (unaryPrefixNode) {}
 	visitInfixNode (infixNode) {}
 	visitLiteralNode (literalNode) {}
+}
+
+class WalkingVisitor {
+	constructor(listener) {
+		this.listener = listener;
+	}
+	visitFormNode (formNode) {
+		this.listener.enterFormNode(formNode);
+		formNode.block.accept(this);
+		this.listener.leaveFormNode(formNode);
+	}
+	visitBlockNode (blockNode) {
+		this.listeners.enterBlockNode(blockNode);
+		for (let statement of blockNode.statements) {
+			statement.accept(this);
+		}
+		this.listeners.leaveBlockNode(blockNode);
+	}
+	visitIfNode (ifNode) {
+		this.listener.enterIfNode(ifNode);
+		ifNode.condition.accept(this);
+		ifNode.thenBlock.accept(this);
+		if (ifNode.elseBlock !== null) {
+			ifNode.elseBlock.accept(this);
+		}
+		this.listener.leaveIfNode(ifNode);
+	}
+	visitQuestionNode (questionNode) {
+		this.listener.enterQuestionNode(questionNode);
+		this.listener.leaveQuestionNode(questionNode);
+	}
+	visitUnaryPrefixNode (unaryPrefixNode) {
+		this.listener.enterUnaryPrefixNode(unaryPrefixNode);
+		unaryPrefixNode.operand.accept(this);
+		this.listener.leaveUnaryPrefixNode(unaryPrefixNode);
+	}
+	visitInfixNode (infixNode) {
+		this.listener.enterInfixNode(infixNode);
+		infixNode.leftOperand.accept(this);
+		infixNode.rightOperand.accept(this);
+		this.listener.leaveInfixNode(infixNode);
+	}
+	visitLiteralNode (literalNode) {
+		this.listener.enterLiteralNode(literalNode);
+		this.listener.leaveLiteralNode(literalNode);
+	}
+}
+
+export class NodeWalker {
+	walk(listener, node) {
+		return node.accept(new WalkingVisitor(listener));
+	}
+}
+
+export class NodeListener {
+	enterFormNode (formNode) {}
+	leaveFormNode (formNode) {}
+	enterBlockNode (blockNode) {}
+	leaveBlockNode (blockNode) {}
+	enterIfNode (ifNode) {}
+	leaveIfNode (ifNode) {}
+	enterQuestionNode (questionNode) {}
+	leaveQuestionNode (questionNode) {}
+	enterUnaryPrefixNode (unaryPrefixNode) {}
+	leaveUnaryPrefixNode (unaryPrefixNode) {}
+	enterInfixNode (infixNode) {}
+	leaveInfixNode (infixNode) {}
+	enterLiteralNode (literalNode) {}
+	leaveLiteralNode (literalNode) {}
 }
