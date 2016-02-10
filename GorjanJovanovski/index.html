@@ -10,10 +10,24 @@
 	</head>
 	<body>
 		<div id="inputWrapper">
-			<button id="generate" class="btn btn-primary">Regenerate parser</button>
+			<button id="generate" class="btn btn-primary">Regenerate</button>
 			<br/>
 			<textarea id="input" style="height:calc(100% - 35px);width:100%;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 form taxOfficeExample { 
+  "2+x"
+    x: integer
+  if(x>0){
+  	"result:"
+  	res: integer = (x+2)
+  }
+
+}
+			</textarea>
+
+		</div>
+
+		<!--
+		form taxOfficeExample { 
   "What is your first name?"
     firstName: string
   "When were you born?"
@@ -50,9 +64,7 @@ form taxOfficeExample {
   }
 
 }
-			</textarea>
-
-		</div>
+-->
 
 		<div class="panel panel-danger" id="errorpanel">
 		  <div class="panel-heading">
