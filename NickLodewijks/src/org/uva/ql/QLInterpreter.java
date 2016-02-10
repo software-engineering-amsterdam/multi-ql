@@ -1,7 +1,11 @@
 package org.uva.ql;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Objects;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -12,9 +16,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Context.ContextListener;
 import org.uva.ql.ast.form.Block;
+import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.stat.IFStat;
@@ -75,7 +81,13 @@ public class QLInterpreter extends ASTNodeVisitorAdapter {
 		addContextListener(new ContextListener() {
 			@Override
 			public void contextChanged(Context context) {
-				panel.setVisible(ifStat.interpret(context));
+				boolean newValue;
+
+				newValue = ifStat.interpret(context);
+				if (panel.isVisible() != newValue) {
+					panel.setVisible(newValue);
+					jframe.pack();
+				}
 			}
 		});
 
@@ -128,13 +140,41 @@ public class QLInterpreter extends ASTNodeVisitorAdapter {
 			case INTEGER:
 			case STRING:
 				textField = new JTextField();
-				textField.setSize(100, 30);
-				textField.addActionListener(new ActionListener() {
+				textField.setPreferredSize(new Dimension(100, 50));
+				textField.addKeyListener(new KeyAdapter() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						context.setValue(variableId, textField.getText());
+					public void keyReleased(KeyEvent e) {
+						Object value;
+
+						if (q.getVariableId().getType() == ValueType.INTEGER) {
+							value = Integer.parseInt(textField.getText());
+						} else {
+							value = textField.getText();
+						}
+						context.setValue(variableId, value);
 					}
 				});
+
+				if (q instanceof ComputedQuestion) {
+					textField.setEditable(false);
+					addContextListener(new ContextListener() {
+						@Override
+						public void contextChanged(Context context) {
+							Object calculatedValue;
+
+							calculatedValue = ((ComputedQuestion) q).getExpression().interpret(context);
+
+							if (Objects.equals(context.getValue(variableId), calculatedValue)) {
+								return;
+							}
+
+							textField.setText(calculatedValue.toString());
+
+							context.setValue(variableId, calculatedValue);
+
+						}
+					});
+				}
 				add(textField);
 				break;
 			default:
