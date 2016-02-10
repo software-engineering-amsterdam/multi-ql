@@ -4,10 +4,26 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.Test;
 
 public class LexerTest {
-
+    
+    private ArrayList<Integer> expectedResultComplexExpression;
+    
+    @Before
+    public void setUp() {
+        expectedResultComplexExpression = new ArrayList<>();
+        expectedResultComplexExpression.add(Tokens.IDENT);
+        expectedResultComplexExpression.add((int) '+');
+        expectedResultComplexExpression.add(Tokens.INT);
+        expectedResultComplexExpression.add((int) '*');
+        expectedResultComplexExpression.add(Tokens.IDENT);
+        expectedResultComplexExpression.add((int) '+');
+        expectedResultComplexExpression.add(Tokens.IDENT);
+        expectedResultComplexExpression.add(Tokens.ENDINPUT);
+    }
+    
     @Test
     public void testSimpleExpressionAnalysis() throws FileNotFoundException {
         FileReader reader = new FileReader("simpleExpression.ql");
@@ -25,16 +41,14 @@ public class LexerTest {
     public void testComplexExpressionAnalysis() throws FileNotFoundException {
         Lexer lexer = new Lexer("complexExpression.ql");
         ArrayList<Integer> tokens = obtainTokens(lexer);
-        ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(Tokens.IDENT);
-        expected.add((int) '+');
-        expected.add(Tokens.INT);
-        expected.add((int) '*');
-        expected.add(Tokens.IDENT);
-        expected.add((int) '+');
-        expected.add(Tokens.IDENT);
-        expected.add(Tokens.ENDINPUT);
-        assertEquals(expected, tokens);
+        assertEquals(expectedResultComplexExpression, tokens);
+    }
+    
+    @Test
+    public void testCommentAnalysis() throws FileNotFoundException {
+        Lexer lexer = new Lexer("complexExpressionWithComments.ql");
+        ArrayList<Integer> tokens = obtainTokens(lexer);
+        assertEquals(expectedResultComplexExpression, tokens);
     }
     
     private ArrayList<Integer> obtainTokens(Lexer lexer) {
