@@ -19,7 +19,7 @@ export class FormNode extends Node {
 		this.block = block;
 	}
 	accept (visitor) {
-		visitor.visitFormNode(this);
+		return visitor.visitFormNode(this);
 	}
 }
 
@@ -29,7 +29,7 @@ export class BlockNode extends Node {
 		this.statements = statements;
 	}
 	accept (visitor) {
-		visitor.visitBlockNode(this);
+		return visitor.visitBlockNode(this);
 	}
 }
 
@@ -41,7 +41,7 @@ export class IfNode extends Node {
 		this.elseBlock = elseBlock; // block | null
 	}
 	accept (visitor) {
-		visitor.visitIfNode(this);
+		return visitor.visitIfNode(this);
 	}
 }
 
@@ -53,7 +53,7 @@ export class QuestionNode extends Node {
 		this.type = type;
 	}
 	accept (visitor) {
-		visitor.visitQuestionNode(this);
+		return visitor.visitQuestionNode(this);
 	}
 }
 
@@ -64,7 +64,7 @@ export class UnaryPrefixNode extends Node {
 		this.operand = operand;
 	}
 	accept (visitor) {
-		visitor.visitUnaryPrefixNode(this.operation, this.operand);
+		return visitor.visitUnaryPrefixNode(this.operation, this.operand);
 	}
 }
 
@@ -76,7 +76,7 @@ export class InfixNode extends Node {
 		this.right_operand = right_operand;
 	}
 	accept (visitor) {
-		visitor.visitInfixNode(this.left_operand, this.operation, this.right_operand);
+		return visitor.visitInfixNode(this.left_operand, this.operation, this.right_operand);
 	}
 }
 
@@ -87,7 +87,7 @@ export class LiteralNode extends Node {
 		this.type = type;
 	}
 	accept (visitor) {
-		visitor.visitLiteralNode(this.value, this.type);
+		return visitor.visitLiteralNode(this.value, this.type);
 	}
 }
 
