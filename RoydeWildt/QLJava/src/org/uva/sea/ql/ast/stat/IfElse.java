@@ -1,7 +1,11 @@
 package org.uva.sea.ql.ast.stat;
 
+import org.uva.sea.ql.ast.Node;
+import org.uva.sea.ql.ast.checker.Visitor;
 import org.uva.sea.ql.ast.expr.Expr;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -9,28 +13,17 @@ import java.util.List;
  */
 public class IfElse extends Stat{
 
-    public IfElse (Expr cond, List<Stat> stms, List<Stat> elseStms){
-        super(cond, stms, elseStms);
+    LinkedHashMap<Expr, List<Stat>> stmsList;
+
+    public IfElse (LinkedHashMap<Expr, List<Stat>> stmsList){
+        this.stmsList = stmsList;
     }
 
-    @Override
-    public String toString() {
-        String ifStmsStrs = "";
-        for (Stat stat : getStms()) {
-            ifStmsStrs += stat.toString() + ", ";
-        }
-
-        String elseStmsStrs = "";
-        for (Stat stat : this.getAltStms()) {
-            elseStmsStrs += stat.toString() + ", ";
-        }
-
-        String ifStmsList= "[" + ifStmsStrs + "]";
-        String elseStmsList= "[" + elseStmsStrs + "]";
-
-        return "IfElse(" + getCond().toString() + ", "
-                     + ifStmsList.substring(0,ifStmsList.length() - 2) + ", "
-                     + elseStmsList.substring(0,elseStmsList.length() - 2) + ")";
+    public List<? extends Node> accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 
+    public LinkedHashMap<Expr, List<Stat>> getStmsList() {
+        return stmsList;
+    }
 }

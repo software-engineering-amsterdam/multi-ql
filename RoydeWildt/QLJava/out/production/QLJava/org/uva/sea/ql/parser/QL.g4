@@ -4,10 +4,14 @@ grammar QL;
 {
 import java.util.List;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
 import org.uva.sea.ql.ast.form.*;
+import org.uva.sea.ql.ast.var.*;
 }
 
 @parser::members
@@ -50,20 +54,34 @@ forms returns [List<Form> result]
 
 
 //Stat Grammar
+varDecl returns [Var result]
+    : i=Ident {$result = new Var($i.text);}
+    ;
 
-varDecl returns [Expr result]
-    : ('=' '(' value=orExpr ')') {$result = $value.result;}
+varAss returns [Expr result]
+    : ('=' '(' x=orExpr ')') {$result = $x.result;}
     ;
 
 question returns [Stat result]
-    : l=Str v=Ident ':'  t=type {$result = new Question($l.text, $v.text, $t.text);}
-    | l=Str v=Ident ':'  t=type e=varDecl {$result = new Question($l.text, $v.text, $t.text, $e.result);}
+    : l=Str v=varDecl ':'  t=type {$result = new Question($l.text, $v.result, $t.result);}
+    | l=Str v=varDecl ':'  t=type e=varAss {$result = new Question($l.text, $v.result, $t.result, $e.result);}
     ;
 
 stat returns [Stat result]
     : q=question {$result = $q.result;}
-    | 'if' '(' c=orExpr ')' '{' s=stats '}' {$result = new If($c.result, $s.result);}
-    | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}' {$result = new IfElse($c.result, $i.result, $e.result);}
+    | 'if' '(' c=orExpr ')' '{' s=stats '}'
+        {
+            LinkedHashMap<Expr, List<Stat>> map = new LinkedHashMap<Expr, List<Stat>>();
+            map.put($c.result, $s.result);
+            $result = new If(map);
+        }
+    | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}'
+        {
+            LinkedHashMap<Expr, List<Stat>> map = new LinkedHashMap<Expr, List<Stat>>();
+            map.put($c.result, $i.result);
+            map.put(null, $e.result);
+            $result = new IfElse(map);
+        }
     ;
 
 stats returns [List<Stat> result]
@@ -74,9 +92,9 @@ stats returns [List<Stat> result]
 
 //Expression Grammar
 primary returns [Expr result]
-    :   value=Int   {$result = new Prim(new Int($value.text));}
-    |   value=Ident {$result = new Prim(new Var($value.text));}
-    |   y=bool  {$result = new Prim($y.result);}
+    :   x=Int   {$result = new Int($x.text);}
+    |   x=Ident {$result = new Var($x.text);}
+    |   y=bool  {$result = $y.result;}
     ;
 
 unExpr returns [Expr result]
@@ -147,8 +165,9 @@ orExpr returns [Expr result]
 
 //Type Grammar
 
-type returns [Stat result]
-    : 'boolean' | 'money'
+type returns [Val result]
+    : 'boolean'  {$result = new Bool();}
+    | 'money'    {$result = new Int();}
     ;
 
 bool returns [Val result]

@@ -4,6 +4,9 @@ grammar QL;
 {
 import java.util.List;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
@@ -66,8 +69,19 @@ question returns [Stat result]
 
 stat returns [Stat result]
     : q=question {$result = $q.result;}
-    | 'if' '(' c=orExpr ')' '{' s=stats '}' {$result = new If($c.result, $s.result);}
-    | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}' {$result = new IfElse($c.result, $i.result, $e.result);}
+    | 'if' '(' c=orExpr ')' '{' s=stats '}'
+        {
+            LinkedHashMap<Expr, List<Stat>> map = new LinkedHashMap<Expr, List<Stat>>();
+            map.put($c.result, $s.result);
+            $result = new If(map);
+        }
+    | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}'
+        {
+            LinkedHashMap<Expr, List<Stat>> map = new LinkedHashMap<Expr, List<Stat>>();
+            map.put($c.result, $i.result);
+            map.put(null, $e.result);
+            $result = new IfElse(map);
+        }
     ;
 
 stats returns [List<Stat> result]

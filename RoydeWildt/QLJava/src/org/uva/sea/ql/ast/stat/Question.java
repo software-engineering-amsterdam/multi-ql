@@ -1,8 +1,12 @@
 package org.uva.sea.ql.ast.stat;
 
+import org.uva.sea.ql.ast.Node;
+import org.uva.sea.ql.ast.checker.Visitor;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.val.Val;
 import org.uva.sea.ql.ast.var.Var;
+
+import java.util.List;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -24,6 +28,10 @@ public class Question extends Stat {
         this.varname = varname;
         this.type = type;
         this.expr = expr;
+    }
+
+    public List<? extends Node> accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 
     @Override

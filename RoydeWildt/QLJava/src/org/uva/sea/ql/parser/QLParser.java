@@ -1,9 +1,15 @@
-// Generated from /home/roy/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.expr.binary.*;
+import org.uva.sea.ql.ast.expr.unary.Neg;
+import org.uva.sea.ql.ast.expr.unary.Not;
+import org.uva.sea.ql.ast.expr.unary.Pos;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
 import org.uva.sea.ql.ast.form.*;
@@ -12,10 +18,8 @@ import org.uva.sea.ql.ast.var.*;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
-import java.util.List;
-import java.util.Iterator;
+
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
@@ -466,7 +470,11 @@ public class QLParser extends Parser {
 				((StatContext)_localctx).s = stats();
 				setState(80);
 				match(T__2);
-				((StatContext)_localctx).result =  new If(((StatContext)_localctx).c.result, ((StatContext)_localctx).s.result);
+
+				            LinkedHashMap<Expr, List<Stat>> map = new LinkedHashMap<Expr, List<Stat>>();
+				            map.put(((StatContext)_localctx).c.result, ((StatContext)_localctx).s.result);
+				            ((StatContext)_localctx).result =  new If(map);
+				        
 				}
 				break;
 			case 3:
@@ -494,7 +502,12 @@ public class QLParser extends Parser {
 				((StatContext)_localctx).e = stats();
 				setState(93);
 				match(T__2);
-				((StatContext)_localctx).result =  new IfElse(((StatContext)_localctx).c.result, ((StatContext)_localctx).i.result, ((StatContext)_localctx).e.result);
+
+				            LinkedHashMap<Expr, List<Stat>> map = new LinkedHashMap<Expr, List<Stat>>();
+				            map.put(((StatContext)_localctx).c.result, ((StatContext)_localctx).i.result);
+				            map.put(null, ((StatContext)_localctx).e.result);
+				            ((StatContext)_localctx).result =  new IfElse(map);
+				        
 				}
 				break;
 			}
@@ -675,7 +688,7 @@ public class QLParser extends Parser {
 				match(T__9);
 				setState(115);
 				((UnExprContext)_localctx).value = unExpr();
-				 ((UnExprContext)_localctx).result =  new Pos(((UnExprContext)_localctx).value.result); 
+				 ((UnExprContext)_localctx).result =  new Pos(((UnExprContext)_localctx).value.result);
 				}
 				break;
 			case T__10:
@@ -685,7 +698,7 @@ public class QLParser extends Parser {
 				match(T__10);
 				setState(119);
 				((UnExprContext)_localctx).value = unExpr();
-				 ((UnExprContext)_localctx).result =  new Neg(((UnExprContext)_localctx).value.result); 
+				 ((UnExprContext)_localctx).result =  new Neg(((UnExprContext)_localctx).value.result);
 				}
 				break;
 			case T__11:
@@ -695,7 +708,7 @@ public class QLParser extends Parser {
 				match(T__11);
 				setState(123);
 				((UnExprContext)_localctx).value = unExpr();
-				 ((UnExprContext)_localctx).result =  new Not(((UnExprContext)_localctx).value.result); 
+				 ((UnExprContext)_localctx).result =  new Not(((UnExprContext)_localctx).value.result);
 				}
 				break;
 			case True:
@@ -1014,7 +1027,7 @@ public class QLParser extends Parser {
 				match(T__20);
 				setState(167);
 				((AndExprContext)_localctx).rhs = relExpr();
-				 ((AndExprContext)_localctx).result =  new And(_localctx.result, ((AndExprContext)_localctx).rhs.result); 
+				 ((AndExprContext)_localctx).result =  new And(_localctx.result, ((AndExprContext)_localctx).rhs.result);
 				}
 				}
 				setState(174);

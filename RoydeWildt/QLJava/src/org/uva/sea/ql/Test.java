@@ -7,29 +7,26 @@ import org.uva.sea.ql.parser.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by roydewildt on 04/02/16.
  */
 public class Test {
     public static void main(String[] args) throws IOException {
-        String projectpath = System.getProperty("user.dir");
-        Form f = (QLParser.ParseForm(projectpath + "/QLJava/resources/undefined1.ql")).get(0);
+        Path path = Paths.get("");
+        Form f1 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/undefined1.ql")).get(0);
+        Form f2 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/duplicate1.ql")).get(0);
+        Form f3 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/operators1.ql")).get(0);
 
-        Visitor dv = new DeclVisitor();
-        List<Node> res1 = (List<Node>) f.accept(dv);
-
-
-        Visitor vv = new VarsVisitor();
-        List<Node> res2 = (List<Node>) f.accept(vv);
+        //Visitor dv = new ExprVisitor();
+        //List<Node> res1 = (List<Node>) f3.accept(dv);
 
         Checker chk = new Checker();
-        //Set<String> res3 = chk.undefinedChecker(f);
+        chk.undefinedChecker(f1);
+        chk.duplicateChecker(f2);
 
-        System.out.println(f.toString());
-        System.out.println(res1.toString());
-        System.out.println(res2.toString());
-        //System.out.println(res3.toString());
+        //System.out.println(res1.toString());
     }
 }

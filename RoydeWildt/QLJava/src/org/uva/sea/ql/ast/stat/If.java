@@ -1,8 +1,12 @@
 package org.uva.sea.ql.ast.stat;
 
+import org.uva.sea.ql.ast.Node;
+import org.uva.sea.ql.ast.checker.Visitor;
 import org.uva.sea.ql.ast.expr.Expr;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -10,17 +14,16 @@ import java.util.List;
  */
 public class If extends Stat{
 
-    public If (Expr cond, List<Stat> stms){
-        super(cond, stms);
+    LinkedHashMap<Expr, List<Stat>> stmsList;
+
+    public If (LinkedHashMap<Expr, List<Stat>> stmsList){
+        this.stmsList = stmsList;
+    }
+    public List<? extends Node> accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 
-    @Override
-    public String toString() {
-        String stmsStrs = "";
-        for (Stat stat : getStms()) {
-            stmsStrs += stat.toString() + ", ";
-        }
-        String stmsList= "[" + stmsStrs.substring(0,stmsStrs.length() - 2) + "]";
-        return "If(" + getCond().toString() + ", " + stmsList + ")";
+    public LinkedHashMap<Expr, List<Stat>> getStmsList() {
+        return stmsList;
     }
 }
