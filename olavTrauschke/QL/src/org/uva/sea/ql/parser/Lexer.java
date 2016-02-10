@@ -18,13 +18,18 @@ public class Lexer implements Tokens {
         //TODO add keywords
     }
     
+    public static final Set<Integer> END_OF_LINE_CHARACTERS;
+    static {
+        END_OF_LINE_CHARACTERS = new HashSet<>();
+        END_OF_LINE_CHARACTERS.add((int) '\n');
+        END_OF_LINE_CHARACTERS.add((int) '\r');
+    }
+    
     public static final Set<Integer> WHITESPACE_CHARACTERS;
     static {
-        WHITESPACE_CHARACTERS = new HashSet<>();
+        WHITESPACE_CHARACTERS = new HashSet<>(END_OF_LINE_CHARACTERS);
         WHITESPACE_CHARACTERS.add((int) ' ');
         WHITESPACE_CHARACTERS.add((int) '\t');
-        WHITESPACE_CHARACTERS.add((int) '\n');
-        WHITESPACE_CHARACTERS.add((int) '\r');
     }
     
     private final Reader input;
@@ -63,6 +68,7 @@ public class Lexer implements Tokens {
     
     public int nextToken() {
         boolean inMultiLineComment = false;
+        boolean inSingleLineComment = false;
         while (true) { //loop until a token was found and returned
             if (inMultiLineComment) {
                 while (character != '*' && character >= MINIMUM_CHARACTER_VALUE) {
@@ -74,6 +80,17 @@ public class Lexer implements Tokens {
                         inMultiLineComment = false;
                         readNextCharacter();
                     }
+                    continue;
+                }
+            }
+            
+            if (inSingleLineComment) {
+                while(!END_OF_LINE_CHARACTERS.contains(character) && character >= MINIMUM_CHARACTER_VALUE) {
+                    readNextCharacter();
+                }
+                if (END_OF_LINE_CHARACTERS.contains(character)) {
+                    inSingleLineComment = false;
+                    readNextCharacter();
                     continue;
                 }
             }
@@ -92,6 +109,11 @@ public class Lexer implements Tokens {
                     readNextCharacter();
                     if (character == '*') {
                         inMultiLineComment = true;
+                        readNextCharacter();
+                        continue;
+                    }
+                    if (character == '/') {
+                        inSingleLineComment = true;
                         readNextCharacter();
                         continue;
                     }
