@@ -1,6 +1,6 @@
 ﻿%{   
 open Microsoft.FSharp.Collections
-open Statements   
+open StatementsTwo 
 %}   
   
 %token <string> ID   
@@ -10,7 +10,7 @@ open Statements
 %token <float> FLOAT   
   
 
-%token QUESTION FORM 
+%token FORM 
 // ()
 %token OPEN_BRACKET CLOSE_BRACKET
 // []
@@ -34,36 +34,10 @@ open Statements
 // start   
 %start start   
 
-%type <Statements.Form> start   
-%type <Statements.Question> question
+%type <Statements.Question> start   
 
 %%   
-  
-quest:   
-    | form EOF      {   { Questionary = [$1] }  }
-    | form start	{   { Questionary = [$1] }  }
-
-form: start { $1 }
-
 start: 
-     FORM ID OPEN_BRACE
-	 questionList 
-	 CLOSE_BRACE { 
-                        {   Identifier = $2;
-                            Questions = $4  }
-                        }
-
-questions: 
-	questionList	{ $1 }
-
-
-op: EQ { Eq } | LT { Lt } | LE { Le } | GT { Gt } | GE { Ge }   
-
-questionList:  
-    | EMPTY                     { []  }
-	| question                  { [$1] }
-
-question: 
     STRING STRING COLON STRING	  { 
                             { QuestionText = $1;
                               Identifier = $2;

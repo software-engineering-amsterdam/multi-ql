@@ -1,7 +1,7 @@
 ﻿{
-module Lexer   
+module Lexer2  
 open System   
-open Parser   
+open ParserTwo
 open Microsoft.FSharp.Text.Lexing   
    
   
@@ -67,4 +67,3 @@ rule tokenize = parse
 | ')'           { CLOSE_BRACKET}
 | '"'           { DOUBLE_QUOTE }
 | eof           { EOF }
-| _ { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (LexBuffer<_>.LexemeString lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
