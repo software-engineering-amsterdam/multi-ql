@@ -2,7 +2,8 @@ package eu.bankersen.kevin.ql.ast.expr.logic;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.boolExpr;
-import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.var.Type;
 
 public class Not extends boolExpr {
 
@@ -13,8 +14,8 @@ public class Not extends boolExpr {
 	}
 
 	@Override
-	public Boolean result(interpExpr expr) {
-		return !this.expr.result(expr);
+	public Boolean result(SymbolTabel table) {
+		return !expr.result(table);
 	}
 
 }

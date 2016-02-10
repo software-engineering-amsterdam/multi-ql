@@ -1,0 +1,36 @@
+package eu.bankersen.kevin.ql.ast.expr.logic;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.boolExpr;
+import eu.bankersen.kevin.ql.ast.expr.intExpr;
+import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public class LEq extends boolExpr {
+
+	private final intExpr lhs;
+	private final intExpr rhs;
+
+	public LEq(Expr lhs, Expr rhs) {
+		this.lhs = (intExpr) lhs;
+		this.rhs = (intExpr) rhs;
+	}
+
+	@Override
+	public Boolean result(interpExpr expr) {
+		return lhs.result(expr) <= rhs.result(expr);
+	}
+
+	@Override
+	public Boolean checkType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Type getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

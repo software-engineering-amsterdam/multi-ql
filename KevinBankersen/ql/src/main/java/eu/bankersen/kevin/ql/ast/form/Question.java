@@ -1,5 +1,6 @@
 package eu.bankersen.kevin.ql.ast.form;
 
+import eu.bankersen.kevin.ql.ast.var.Type;
 import eu.bankersen.kevin.ql.ast.var.Variable;
 
 public class Question {
@@ -17,7 +18,11 @@ public class Question {
 	}
 	
 	public Boolean checkType(){
-		return true;
+		return variable.checkType();
+	}
+	
+	public Type getType(){
+		return variable.getType();
 	}
 	
 	@Override

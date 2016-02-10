@@ -9,13 +9,14 @@ public class strLiteral extends strExpr{
 	public strLiteral(String value) {
 		this.value = value;
 	}
-	
-	public Type getType(){
-		return Type.STRING;
+
+	@Override
+	public String result(SymbolTabel table) {
+		return value;
 	}
 
 	@Override
-	public String result(interpExpr expr) {
-		return value;
+	public Boolean checkType() {
+		return true;
 	}
 }

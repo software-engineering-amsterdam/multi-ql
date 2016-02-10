@@ -14,15 +14,15 @@ public class intLiteral extends intExpr {
 	public String toString(){
 		return value.toString();
 	}
-	
-	public Type checkType(){
-		return Type.INTEGER;
+
+	@Override
+	public Integer result(SymbolTabel table) {
+		return value;
 	}
 
 	@Override
-	public Integer result(interpExpr expr) {
-		return value;
+	public Boolean checkType() {
+		return true;
 	}
-	
 	
 }

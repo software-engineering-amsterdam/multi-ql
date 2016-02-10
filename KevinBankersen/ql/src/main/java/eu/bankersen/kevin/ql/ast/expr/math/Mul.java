@@ -2,7 +2,7 @@ package eu.bankersen.kevin.ql.ast.expr.math;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.intExpr;
-import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 
 public class Mul extends intExpr {
 
@@ -15,8 +15,9 @@ public class Mul extends intExpr {
 	}
 
 	@Override
-	public Integer result(interpExpr expr) {
-		return lhs.result(expr) * rhs.result(expr);
+	public Integer result(SymbolTabel table) {
+		return lhs.result(table) * rhs.result(table);
 	}
+
 
 }
