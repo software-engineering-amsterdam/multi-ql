@@ -2,6 +2,7 @@ import * as antlr4 from 'antlr4';
 import { QLLexer as GeneratedLexer } from 'src/generated_parser/QLLexer';
 import { QLParser as GeneratedParser } from 'src/generated_parser/QLParser';
 import { QLVisitor as GeneratedVisitor } from 'src/generated_parser/QLVisitor';
+import { SemanticAnalyser } from 'src/ast_semantic_analysis';
 import * as ast from 'src/ast';
 
 // Use a visitor to convert the parse context into an ast
@@ -36,13 +37,14 @@ class AstConversionVisitor extends GeneratedVisitor {
 		return ctx.literal().accept(this);
 	}
 	visitIdentifierExprCase (ctx) {
-		return new ast.IdentifierNode(ctx.getText());
+		return new ast.IdentifierNode(ctx.start.line, ctx.getText());
 	}
 	visitUnaryPrefixExprCase (ctx) {
 		return new ast.UnaryPrefixNode(ctx.start.line, ctx.children[0].getText(), ctx.expr().accept(this));
 	}
 	visitInfixExprCase (ctx) {
 		let children = ctx.children;
+
 		return new ast.InfixNode(ctx.start.line, children[0].accept(this), children[1], children[2].accept(this));
 	}
 	visitBooleanLiteralCase (ctx) {
@@ -84,7 +86,17 @@ class AstConversionVisitor extends GeneratedVisitor {
 	}
 }
 
+export class ParseResult {
+	constructor (ast, errors) {
+		this.ast = ast;
+		this.errors = errors;
+	}
+}
+
 export class QlParser {
+	constructor(semanticAnalyser) {
+		this.semanticAnalyser = semanticAnalyser;
+	}
 	parse (input) {
 		let chars = new antlr4.InputStream(input);
 		let lexer = new GeneratedLexer(chars);
@@ -93,6 +105,11 @@ export class QlParser {
 		parser.buildParseTrees = true;
 		let tree = parser.form();
 		let visitor = new AstConversionVisitor();
-		return tree.accept(visitor);
+		let ast = tree.accept(visitor);
+		let errors = this.semanticAnalyser.analyse(ast);
+		if (errors.length > 0) {
+			console.log(JSON.stringify(errors, null, "\t"));
+		}
+		return ast;
 	}
 }
