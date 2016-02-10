@@ -5,7 +5,7 @@ import org.uva.sea.ql.ast.ASTNodeVisitor;
 import org.uva.sea.ql.ast.Result;
 import org.uva.sea.ql.ast.VariableIdentifier;
 
-public class Question extends ASTNode {
+public abstract class Question extends ASTNode {
 
 	private final VariableIdentifier variableIdentifier;
 	private final String label;
@@ -25,7 +25,7 @@ public class Question extends ASTNode {
 
 	@Override
 	public void accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
+		variableIdentifier.accept(visitor);
 	}
 
 	@Override

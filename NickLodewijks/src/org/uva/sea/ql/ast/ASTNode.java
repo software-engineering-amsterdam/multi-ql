@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast;
 
 import org.antlr.v4.runtime.Token;
+import org.uva.sea.ql.ast.expr.Context;
 
 public abstract class ASTNode {
 
@@ -24,5 +25,10 @@ public abstract class ASTNode {
 
 	public String getText() {
 		return token.getText();
+	}
+
+	@Override
+	public String toString() {
+		return "[" + getLineIndex() + ": " + getCharIndex() + "]";
 	}
 }
