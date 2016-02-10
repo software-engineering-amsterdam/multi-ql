@@ -2,6 +2,7 @@ package org.uva.sea.ql.parser;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Predicate;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.Int;
 import org.uva.sea.ql.ast.expr.Ident;
@@ -13,20 +14,17 @@ public class Lexer implements Tokens {
     public static final String UNEXPECTED_CHAR_MESSAGE = "Unexpected character: ";
     
     public static final Map<String, Integer> KEYWORDS;
+    public static final Set<Integer> END_OF_LINE_CHARACTERS;
+    public static final Set<Integer> WHITESPACE_CHARACTERS;
+    
     static {
         KEYWORDS = new HashMap<>();
         //TODO add keywords
-    }
-    
-    public static final Set<Integer> END_OF_LINE_CHARACTERS;
-    static {
+        
         END_OF_LINE_CHARACTERS = new HashSet<>();
         END_OF_LINE_CHARACTERS.add((int) '\n');
         END_OF_LINE_CHARACTERS.add((int) '\r');
-    }
-    
-    public static final Set<Integer> WHITESPACE_CHARACTERS;
-    static {
+        
         WHITESPACE_CHARACTERS = new HashSet<>(END_OF_LINE_CHARACTERS);
         WHITESPACE_CHARACTERS.add((int) ' ');
         WHITESPACE_CHARACTERS.add((int) '\t');
@@ -71,9 +69,7 @@ public class Lexer implements Tokens {
         boolean inSingleLineComment = false;
         while (true) { //loop until a token was found and returned
             if (inMultiLineComment) {
-                while (character != '*' && character >= MINIMUM_CHARACTER_VALUE) {
-                    readNextCharacter();
-                }
+                readWhile((Integer c) -> c != '*');
                 if (character == '*') {
                     readNextCharacter();
                     if (character == '/') {
@@ -85,9 +81,7 @@ public class Lexer implements Tokens {
             }
             
             if (inSingleLineComment) {
-                while(!END_OF_LINE_CHARACTERS.contains(character) && character >= MINIMUM_CHARACTER_VALUE) {
-                    readNextCharacter();
-                }
+                readWhile((Integer c) -> !END_OF_LINE_CHARACTERS.contains(c));
                 if (END_OF_LINE_CHARACTERS.contains(character)) {
                     inSingleLineComment = false;
                     readNextCharacter();
@@ -200,7 +194,13 @@ public class Lexer implements Tokens {
             }
         }
     }
-
+    
+    private void readWhile(Predicate<Integer> condition) {
+        while (condition.test(character) && character >= MINIMUM_CHARACTER_VALUE) {
+                    readNextCharacter();
+        }
+    }
+    
     private int readNumber() {
         int result = 0;
         do {
