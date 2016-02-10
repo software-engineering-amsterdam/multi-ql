@@ -2,12 +2,13 @@ package uva.TaxForm.GUI.Fields;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.PlainDocument;
 
-import uva.TaxForm.AST.ASTVariable;
 import uva.TaxForm.GUI.Fields.DocumentFilters.MoneyFilter;
+import uva.ql.ast.ASTVariable;
 
 public class MoneyTextField extends JTextField {
 	

@@ -1,12 +1,13 @@
-package uva.TaxForm.Visitors;
+package uva.ql.Visitors;
 
 import java.util.ArrayList;
-import uva.TaxForm.AST.ASTBlock;
-import uva.TaxForm.AST.ASTExpression;
-import uva.TaxForm.AST.ASTForm;
-import uva.TaxForm.AST.ASTIfStatement;
-import uva.TaxForm.AST.ASTNode;
-import uva.TaxForm.AST.ASTQuestion;
+
+import uva.ql.ast.ASTBlock;
+import uva.ql.ast.ASTExpression;
+import uva.ql.ast.ASTForm;
+import uva.ql.ast.ASTIfStatement;
+import uva.ql.ast.ASTNode;
+import uva.ql.ast.ASTQuestion;
 
 public final class VisitAST {
 	

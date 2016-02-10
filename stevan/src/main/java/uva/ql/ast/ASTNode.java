@@ -1,7 +1,7 @@
-package uva.TaxForm.AST;
+package uva.ql.ast;
 
-import uva.TaxForm.Interfaces.IASTNode;
-import uva.TaxForm.Interfaces.IASTNodeVisitor;
+import uva.ql.interfaces.IASTNode;
+import uva.ql.interfaces.IASTNodeVisitor;
 
 
 public abstract class ASTNode implements IASTNode {
@@ -55,31 +55,4 @@ public abstract class ASTNode implements IASTNode {
 	public void accept(IASTNodeVisitor visitor) {
 		visitor.visit(this);
 	}
-	/*public void addChild(ASTNode node) {
-		this.store.add(node);
-	}
-	
-	public int size() {
-		return this.store.size();
-	}
-	
-	public ASTNode get(int index) {
-		return (ASTNode) this.store.get(index);
-	}*/
-
-	/*public ASTNode getLeftNode() {
-		return leftNode;
-	}
-
-	public void setLeftNode(ASTNode leftNode) {
-		this.leftNode = leftNode;
-	}
-
-	public ASTNode getRightNode() {
-		return rightNode;
-	}
-
-	public void setRightNode(ASTNode rightNode) {
-		this.rightNode = rightNode;
-	}*/
 }

@@ -1,4 +1,4 @@
-package uva.TaxForm.Interfaces;
+package uva.ql.interfaces;
 
 public interface IVariable {
 

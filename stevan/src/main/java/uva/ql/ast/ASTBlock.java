@@ -1,9 +1,9 @@
-package uva.TaxForm.AST;
+package uva.ql.ast;
 
 import java.util.ArrayList;
 
-import uva.TaxForm.Interfaces.IASTNode;
-import uva.TaxForm.Interfaces.IASTNodeVisitor;
+import uva.ql.interfaces.IASTNode;
+import uva.ql.interfaces.IASTNodeVisitor;
 
 public class ASTBlock extends ASTNode implements IASTNode {
 

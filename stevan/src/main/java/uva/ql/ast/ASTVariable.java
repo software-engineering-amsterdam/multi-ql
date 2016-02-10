@@ -1,8 +1,8 @@
-package uva.TaxForm.AST;
+package uva.ql.ast;
 
-import uva.TaxForm.Interfaces.IASTNode;
-import uva.TaxForm.Interfaces.IASTNodeVisitor;
-import uva.TaxForm.Interfaces.IVariable;
+import uva.ql.interfaces.IASTNode;
+import uva.ql.interfaces.IASTNodeVisitor;
+import uva.ql.interfaces.IVariable;
 
 public class ASTVariable extends ASTNode implements IVariable, IASTNode {
 	

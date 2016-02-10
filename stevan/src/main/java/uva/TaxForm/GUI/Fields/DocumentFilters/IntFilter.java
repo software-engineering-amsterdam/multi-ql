@@ -1,6 +1,6 @@
 package uva.TaxForm.GUI.Fields.DocumentFilters;
 
-import uva.TaxForm.AST.ASTVariable;
+import uva.ql.ast.ASTVariable;
 
 public class IntFilter extends Filter {
 
