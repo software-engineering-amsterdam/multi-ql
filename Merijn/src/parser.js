@@ -45,7 +45,7 @@ class AstConversionVisitor extends GeneratedVisitor {
 	visitInfixExprCase (ctx) {
 		let children = ctx.children;
 
-		return new ast.InfixNode(ctx.start.line, children[0].accept(this), children[1], children[2].accept(this));
+		return new ast.InfixNode(ctx.start.line, children[0].accept(this), children[1].getText(), children[2].accept(this));
 	}
 	visitBooleanLiteralCase (ctx) {
 		return ctx.booleanLiteral().accept(this);
