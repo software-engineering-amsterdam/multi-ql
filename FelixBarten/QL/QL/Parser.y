@@ -33,12 +33,19 @@ open Statements
 // start   
 %start start   
 
-%type <Statements.value> start   
+%type <Statements.Question> start   
 
 %%   
   
 start: 
-	value { $1 }
+	| question { $1 }
+
+question: 
+    STRING ID COLON ID	  { 
+                            { QuestionText = $1;
+                              Identifier = $2;
+                              QuestionType = $4 }
+                      }
 
 value:   
     | INT                   { Int($1) }   

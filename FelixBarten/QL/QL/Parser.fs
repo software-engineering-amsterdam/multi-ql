@@ -3,7 +3,7 @@ module Parser
 #nowarn "64";; // turn off warnings that type variables used in production annotations are instantiated to concrete type
 open Microsoft.FSharp.Text.Lexing
 open Microsoft.FSharp.Text.Parsing.ParseHelpers
-# 1 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 1 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
    
 open Microsoft.FSharp.Collections
 open Statements   
@@ -79,6 +79,7 @@ type tokenId =
 type nonTerminalId = 
     | NONTERM__startstart
     | NONTERM_start
+    | NONTERM_question
     | NONTERM_value
 
 // This function maps tokens to integer indexes
@@ -157,10 +158,11 @@ let prodIdxToNonTerminal (prodIdx:int) =
   match prodIdx with
     | 0 -> NONTERM__startstart 
     | 1 -> NONTERM_start 
-    | 2 -> NONTERM_value 
+    | 2 -> NONTERM_question 
     | 3 -> NONTERM_value 
     | 4 -> NONTERM_value 
     | 5 -> NONTERM_value 
+    | 6 -> NONTERM_value 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
 let _fsyacc_endOfInputTag = 32 
@@ -233,83 +235,100 @@ let _fsyacc_dataOfToken (t:token) =
   | INT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | STRING _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 1us; 65535us; 0us; 2us; |]
-let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 3us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 2us; 1us; 3us; 1us; 4us; 1us; 5us; |]
+let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 1us; 65535us; 0us; 2us; 0us; 65535us; |]
+let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 3us; 5us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 2us; 1us; 2us; 1us; 2us; 1us; 2us; |]
 let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; |]
 let _fsyacc_action_rows = 7
-let _fsyacc_actionTableElements = [|4us; 32768us; 26us; 4us; 27us; 3us; 28us; 5us; 29us; 6us; 0us; 49152us; 0us; 16385us; 0us; 16386us; 0us; 16387us; 0us; 16388us; 0us; 16389us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 5us; 6us; 7us; 8us; 9us; 10us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 1us; 1us; 1us; 1us; 1us; |]
-let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 2us; 2us; 2us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; 16385us; 16386us; 16387us; 16388us; 16389us; |]
+let _fsyacc_actionTableElements = [|1us; 32768us; 28us; 3us; 0us; 49152us; 0us; 16385us; 1us; 32768us; 29us; 4us; 1us; 32768us; 17us; 5us; 1us; 32768us; 29us; 6us; 0us; 16386us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; 4us; 6us; 8us; 10us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 1us; 4us; 1us; 1us; 1us; 1us; |]
+let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 3us; 3us; 3us; 3us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; 16385us; 65535us; 65535us; 65535us; 16386us; |]
 let _fsyacc_reductions ()  =    [| 
-# 247 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 249 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Statements.value)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Statements.Question)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startstart));
-# 256 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 258 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'value)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'question)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 41 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                              _1 
+# 41 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
+                                   _1 
                    )
-# 41 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : Statements.value));
-# 267 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 41 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
+                 : Statements.Question));
+# 269 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 44 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
+                                                
+                                                 { QuestionText = _1;
+                                                   Identifier = _2;
+                                                   QuestionType = _4 }
+                                           
+                   )
+# 44 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
+                 : 'question));
+# 286 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 44 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 51 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
                                                    Int(_1) 
                    )
-# 44 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 51 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
                  : 'value));
-# 278 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 297 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : float)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 45 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 52 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
                                                    Float(_1) 
                    )
-# 45 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 52 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
                  : 'value));
-# 289 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 308 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 46 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 53 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
                                        String(_1) 
                    )
-# 46 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 53 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
                  : 'value));
-# 300 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 319 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 47 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 54 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
                                                    String(_1) 
                    )
-# 47 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 54 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.y"
                  : 'value));
 |]
-# 312 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 331 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -331,5 +350,5 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
     numTerminals = 33;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : Statements.value =
+let start lexer lexbuf : Statements.Question =
     Microsoft.FSharp.Core.Operators.unbox ((tables ()).Interpret(lexer, lexbuf, 0))

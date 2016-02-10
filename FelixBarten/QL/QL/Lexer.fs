@@ -1,4 +1,4 @@
-# 1 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 1 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
  
 module Lexer   
 open System   
@@ -112,89 +112,89 @@ and tokenize  (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex_toke
 and _fslex_tokenize  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 56 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 56 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  tokenize lexbuf 
 # 117 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 1 -> ( 
-# 57 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 57 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; 
 # 122 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 2 -> ( 
-# 58 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 58 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  INT(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) 
 # 127 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 3 -> ( 
-# 59 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 59 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  FLOAT(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) 
 # 132 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 4 -> ( 
-# 60 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 60 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  ops.[LexBuffer<_>.LexemeString lexbuf] 
 # 137 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 5 -> ( 
-# 61 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 61 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  conditionops.[LexBuffer<_>.LexemeString lexbuf] 
 # 142 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 6 -> ( 
-# 62 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 62 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                              STRING(LexBuffer<_>.LexemeString lexbuf) 
 # 147 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 7 -> ( 
-# 63 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 63 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  match qlwords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                                  | Some(token) -> token   
                                  | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
 # 154 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 8 -> ( 
-# 66 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 66 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  COMMA 
 # 159 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 9 -> ( 
-# 67 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 67 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  COLON 
 # 164 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 10 -> ( 
-# 68 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 68 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  OPEN_BRACE 
 # 169 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 11 -> ( 
-# 69 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 69 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  CLOSE_BRACE 
 # 174 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 12 -> ( 
-# 70 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 70 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  OPEN_BRACKET 
 # 179 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 13 -> ( 
-# 71 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 71 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  CLOSE_BRACKET
 # 184 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 14 -> ( 
-# 72 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 72 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  DOUBLE_QUOTE 
 # 189 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 15 -> ( 
-# 73 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 73 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                                  EOF 
 # 194 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )
   | 16 -> ( 
-# 74 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 74 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.l"
                      raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (LexBuffer<_>.LexemeString lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) 
 # 199 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
           )

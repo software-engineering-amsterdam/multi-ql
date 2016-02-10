@@ -35,6 +35,10 @@ form taxOfficeExample {
 
     }
 "
+let exampleQuestion =  "
+ \"Did you sell a house in 2010?\"
+    hasSoldHouse: boolean
+"
 
 let parserGenTest = " \"test esc string thingy?\" "
 let parserGenTest2 = " test esc string"
@@ -49,7 +53,9 @@ let main argv =
     let text = File.ReadAllLines("../../examples/example.txt");
     for str in text do
         printfn "%s" str
+    
 
+    (*
     printfn "Starting parsing test 3 "
     let lexbuf1 = Microsoft.FSharp.Text.Lexing.LexBuffer<_>.FromString parserGenTest3
     let y = Parser.start Lexer.tokenize lexbuf1
@@ -64,6 +70,13 @@ let main argv =
     let lexbuf4 = Microsoft.FSharp.Text.Lexing.LexBuffer<_>.FromString parserGenTest
     let y = Parser.start Lexer.tokenize lexbuf4
     printfn "%A" y  
+    *)
+
+    printfn "Starting parsing Question Examp "
+    let lexbuf3 = Microsoft.FSharp.Text.Lexing.LexBuffer<_>.FromString exampleQuestion
+    let y = Parser.start Lexer.tokenize lexbuf3
+    printfn "%A" y   
+
 
     printfn "Starting parsing xample "
     let lexbuf3 = Microsoft.FSharp.Text.Lexing.LexBuffer<_>.FromString xample3
