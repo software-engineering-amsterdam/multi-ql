@@ -3,12 +3,24 @@ package org.uva.sea.ql.ast.expr;
 import java.util.Objects;
 
 public class BooleanConjunctiveExpr extends BooleanExpr {
-    private BooleanExpr firstExpr;
-    private BooleanExpr secondExpr;
+    
+    public static final String NON_BOOLEAN_OPERANDS_MESSAGE = "Can not perform boolean conjunction operation on non-boolean operands";
+    
+    private Expr firstExpr;
+    private Expr secondExpr;
     
     public BooleanConjunctiveExpr(Expr theFirstExpr, Expr theSecondExpr) {
-        firstExpr = (BooleanExpr) theFirstExpr;
-        secondExpr = (BooleanExpr) theSecondExpr;
+        if (theFirstExpr.canBeBoolean() && theSecondExpr.canBeBoolean()) {
+            firstExpr = theFirstExpr;
+            secondExpr = theSecondExpr;
+        }
+        else {
+            throwNonBooleanOperandsException();
+        }
+    }
+    
+    protected void throwNonBooleanOperandsException() {
+        throw new IllegalArgumentException(NON_BOOLEAN_OPERANDS_MESSAGE);
     }
     
     @Override

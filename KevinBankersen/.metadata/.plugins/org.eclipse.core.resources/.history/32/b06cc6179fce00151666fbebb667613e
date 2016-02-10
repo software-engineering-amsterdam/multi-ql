@@ -1,0 +1,12 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import java.util.HashMap;
+
+public class interpExpr {
+	
+	private HashMap<String, Object> values;
+
+	public interpExpr() {
+		values = new HashMap<String, Object>();
+	}
+}

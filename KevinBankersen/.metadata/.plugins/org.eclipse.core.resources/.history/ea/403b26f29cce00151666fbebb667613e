@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public class LT extends boolExpr {
+
+	private final intExpr lhs;
+	private final intExpr rhs;
+
+	public LT(Expr lhs, Expr rhs) {
+		this.lhs = (intExpr) lhs;
+		this.rhs = (intExpr) rhs;
+	}
+
+	@Override
+	public Boolean interpret(interpExpr expr) {
+		return lhs.interpret(expr) < rhs.interpret(expr);
+	}
+
+}

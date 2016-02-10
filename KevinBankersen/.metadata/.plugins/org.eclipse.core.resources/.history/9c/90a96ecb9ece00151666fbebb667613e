@@ -1,0 +1,33 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import java.util.HashMap;
+
+public class interpExpr {
+	
+	private HashMap<String, Object> values;
+
+	public interpExpr() {
+		values = new HashMap<String, Object>();
+	}
+
+	public void setValue(String key, Object value) {
+		values.put(key, value);
+	}
+
+	public Object getValue(String key) {
+		return values.get(key);
+	}
+
+	public Boolean getBooleanValue(String key) {
+		return (Boolean) getValue(key);
+	}
+
+	public String getStringValue(String key) {
+		return (String) getValue(key);
+	}
+
+	public Integer getIntegerValue(String key) {
+		return (Integer) getValue(key);
+	}
+
+}
