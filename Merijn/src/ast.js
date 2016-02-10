@@ -1,98 +1,102 @@
-export var TYPE_INTEGER = 0;
-export var TYPE_FLOAT = 1;
-export var TYPE_MONEY = 2;
-export var TYPE_STRING = 3;
+export var TYPE_BOOLEAN = "boolean";
+export var TYPE_STRING = "string";
+export var TYPE_INTEGER = "integer";
+export var TYPE_FLOAT = "float";
+export var TYPE_MONEY = "money";
 
 export class Node {
+	constructor (line) {
+		this.line = line;
+	}
 	accept() {
 		throw new Error("Override this in subclasses");
 	}
 }
 
-export class Form extends Node {
-	constructor(block) {
-		super();
+export class FormNode extends Node {
+	constructor(line, block) {
+		super(line);
 		this.block = block;
 	}
 	accept (visitor) {
-		visitor.visitForm(this.block);
+		visitor.visitFormNode(this);
 	}
 }
 
-export class Block extends Node {
-	constructor(statements) {
-		super();
+export class BlockNode extends Node {
+	constructor(line, statements) {
+		super(line);
 		this.statements = statements;
 	}
 	accept (visitor) {
-		visitor.visitBlock(this.statements);
+		visitor.visitBlockNode(this);
 	}
 }
 
-export class If extends Node {
-	constructor(condition, thenBlock, elseBlock) {
-		super();
+export class IfNode extends Node {
+	constructor(line, condition, thenBlock, elseBlock) {
+		super(line);
 		this.condition = condition;
 		this.thenBlock = thenBlock;
 		this.elseBlock = elseBlock; // block | null
 	}
 	accept (visitor) {
-		visitor.visitIf(this.condition, this.thenBlock, this.elseBlock);
+		visitor.visitIfNode(this);
 	}
 }
 
-export class Question extends Node {
-	constructor(description, name, type) {
-		super();
+export class QuestionNode extends Node {
+	constructor(line, description, name, type) {
+		super(line);
 		this.description = description;
 		this.name = name;
 		this.type = type;
 	}
 	accept (visitor) {
-		visitor.visitQuestion(this.description, this.name, this.type);
+		visitor.visitQuestionNode(this);
 	}
 }
 
-export class Unary extends Node {
-	constructor(operation, operand) {
-		super();
+export class UnaryPrefixNode extends Node {
+	constructor(line, operation, operand) {
+		super(line);
 		this.operation = operation;
 		this.operand = operand;
 	}
 	accept (visitor) {
-		visitor.visitUnary(this.operation, this.operand);
+		visitor.visitUnaryPrefixNode(this.operation, this.operand);
 	}
 }
 
-export class Infix extends Node {
-	constructor(left_operand, operation, right_operand) {
-		super();
+export class InfixNode extends Node {
+	constructor(line, left_operand, operation, right_operand) {
+		super(line);
 		this.left_operand = left_operand;
 		this.operation = operation;
 		this.right_operand = right_operand;
 	}
-	accept(visitor) {
-		visitor.visitInfix(this.left_operand, this.operation, this.right_operand);
+	accept (visitor) {
+		visitor.visitInfixNode(this.left_operand, this.operation, this.right_operand);
 	}
 }
 
-export class Literal extends Node {
-	constructor(value, type) {
-		super();
+export class LiteralNode extends Node {
+	constructor(line, value, type) {
+		super(line);
 		this.value = value;
 		this.type = type;
 	}
 	accept (visitor) {
-		visitor.visitLiteral(this.value, this.type);
+		visitor.visitLiteralNode(this.value, this.type);
 	}
 }
 
-export class Visitor {
-	visitForm (block) {}
-	visitBlock (statements) {}
-	visitIf (condition, thenBlock, elseBlock) {}
-	visitQuestion (description, name, type) {}
-	visitUnary (operation, operand) {}
-	visitInfix (left_operand, operation, right_operand) {}
-	visitLiteral (value, type) {}
+export class NodeVisitor {
+	visitFormNode (formNode) {}
+	visitBlockNode (blockNode) {}
+	visitIfNode (ifNode) {}
+	visitQuestionNode (questionNode) {}
+	visitUnaryPrefixNode (unaryPrefixNode) {}
+	visitInfixNode (infixNode) {}
+	visitLiteralNode (literalNode) {}
 }

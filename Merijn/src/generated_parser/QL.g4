@@ -9,11 +9,11 @@ block
 	;
 
 statement
-	: ifStatement
-	| question SEMICOL
+	: if_                   # ifStatementCase
+	| question SEMICOL      # questionStatementCase
 	;
 
-ifStatement
+if_
 	: IF LEFT_PAREN expr RIGHT_PAREN block (ELSE block)?
 	;
 
@@ -22,21 +22,26 @@ question
 	;
 
 expr
-	: LEFT_PAREN expr RIGHT_PAREN
-    | literal
-	| IDENTIFIER
-	| ( PLUS | MINUS ) expr
-	| expr ( STAR | DIV ) expr
-	| expr ( PLUS | MINUS ) expr
-	| expr ( EQ | NOT_EQ | GT | GT_EQ | LT | LT_EQ) expr
+	: LEFT_PAREN expr RIGHT_PAREN                           # parenExprCase
+    | literal                                               # literalExprCase
+	| IDENTIFIER                                            # identifierExprCase
+	| ( PLUS | MINUS ) expr                                 # unaryPrefixExprCase
+	| expr ( STAR | DIV ) expr                              # infixExprCase
+	| expr ( PLUS | MINUS ) expr                            # infixExprCase
+	| expr ( EQ | NOT_EQ | GT | GT_EQ | LT | LT_EQ) expr    # infixExprCase
 	;
 
 literal
-	: BOOLEAN_LITERAL
-	| STRING_LITERAL
-	| INTEGER_LITERAL
-	| FLOAT_LITERAL
-	| MONEY_LITERAL
+	: booleanLiteral    # booleanLiteralCase
+	| STRING_LITERAL    # stringLiteralCase
+	| INTEGER_LITERAL   # integerLiteralCase
+	| FLOAT_LITERAL     # floatLiteralCase
+	| MONEY_LITERAL     # moneyLiteralCase
+	;
+
+booleanLiteral
+	: BOOLEAN_TRUE      # booleanLiteralTrueCase
+	| BOOLEAN_FALSE     # booleanLiteralFalseCase
 	;
 
 type
@@ -75,10 +80,9 @@ MINUS : '-';
 STAR : '*';
 DIV : '/';
 
-BOOLEAN_LITERAL
-	: 'true'
-	| 'false'
-	;
+BOOLEAN_TRUE : 'true';
+BOOLEAN_FALSE : 'false';
+
 STRING_LITERAL
 	: '"' ~["]* '"'
 	;

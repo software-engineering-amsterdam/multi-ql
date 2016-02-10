@@ -22,13 +22,18 @@ QLVisitor.prototype.visitBlock = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLParser#statement.
-QLVisitor.prototype.visitStatement = function(ctx) {
+// Visit a parse tree produced by QLParser#ifStatementCase.
+QLVisitor.prototype.visitIfStatementCase = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLParser#ifStatement.
-QLVisitor.prototype.visitIfStatement = function(ctx) {
+// Visit a parse tree produced by QLParser#questionStatementCase.
+QLVisitor.prototype.visitQuestionStatementCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#if_.
+QLVisitor.prototype.visitIf_ = function(ctx) {
 };
 
 
@@ -37,13 +42,63 @@ QLVisitor.prototype.visitQuestion = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLParser#expr.
-QLVisitor.prototype.visitExpr = function(ctx) {
+// Visit a parse tree produced by QLParser#unaryPrefixExprCase.
+QLVisitor.prototype.visitUnaryPrefixExprCase = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLParser#literal.
-QLVisitor.prototype.visitLiteral = function(ctx) {
+// Visit a parse tree produced by QLParser#parenExprCase.
+QLVisitor.prototype.visitParenExprCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#infixExprCase.
+QLVisitor.prototype.visitInfixExprCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#identifierExprCase.
+QLVisitor.prototype.visitIdentifierExprCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#literalExprCase.
+QLVisitor.prototype.visitLiteralExprCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#booleanLiteralCase.
+QLVisitor.prototype.visitBooleanLiteralCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#stringLiteralCase.
+QLVisitor.prototype.visitStringLiteralCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#integerLiteralCase.
+QLVisitor.prototype.visitIntegerLiteralCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#floatLiteralCase.
+QLVisitor.prototype.visitFloatLiteralCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#moneyLiteralCase.
+QLVisitor.prototype.visitMoneyLiteralCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#booleanLiteralTrueCase.
+QLVisitor.prototype.visitBooleanLiteralTrueCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#booleanLiteralFalseCase.
+QLVisitor.prototype.visitBooleanLiteralFalseCase = function(ctx) {
 };
 
 
