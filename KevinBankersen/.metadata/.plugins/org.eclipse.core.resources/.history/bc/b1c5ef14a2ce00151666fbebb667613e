@@ -1,0 +1,13 @@
+package eu.bankersen.kevin.ql.ast.var;
+
+public class IntegerVariable extends Variable{
+
+	public IntegerVariable(String name) {
+		super(name);
+	}
+
+	@Override
+	public Integer result() {
+		return (Integer) super.result();
+	}
+}

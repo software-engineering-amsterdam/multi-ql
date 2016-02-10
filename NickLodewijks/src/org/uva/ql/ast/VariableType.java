@@ -22,13 +22,4 @@ public class VariableType extends ASTNode {
 	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
 	}
-
-	@Override
-	public Result validate() {
-		if (type == null) {
-			return Result.FALSE("Unknown variable type " + name);
-		}
-		
-		return Result.TRUE();
-	}
 }

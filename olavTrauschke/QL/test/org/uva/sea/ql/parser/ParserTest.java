@@ -38,9 +38,21 @@ public class ParserTest {
         Expr totalAddition = new Add(firstAddition, lastTerm);
         Expr firstToCompare = new Ident("e");
         Expr firstComparison = new LT(totalAddition, firstToCompare);
-        Expr secondToCompare = new Ident("f");
+        Expr secondToCompare = new Bool(true);
         Expr expected = new Eq(firstComparison, secondToCompare);
         
+        assertEquals(expected, result);
+    }
+    
+    @Test
+    public void testStringExpressionParsing() throws FileNotFoundException {
+        Lexer lexer = new Lexer("stringExpression.ql");
+        lexer.nextToken();
+        Parser parser = new Parser(lexer);
+        boolean parsed = parser.parse();
+        assertTrue(parsed);
+        Expr result = parser.getResult();
+        Expr expected = new Str("Hello world!");
         assertEquals(expected, result);
     }
     

@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public class Sub extends intExpr {
+
+	private final intExpr lhs;
+	private final intExpr rhs;
+
+	public Sub(Expr lhs, Expr rhs) {
+		this.lhs = (intExpr) lhs;
+		this.rhs = (intExpr) rhs;
+	}
+
+	@Override
+	public Integer interpret(interpExpr expr) {
+		return lhs.interpret(expr) - rhs.interpret(expr);
+	}
+
+}

@@ -1,14 +1,15 @@
 package uva.TaxForm.Utils;
 
 import java.util.ArrayList;
+
 import org.antlr.v4.runtime.misc.NotNull;
 
-import uva.TaxForm.antlr4.TaxFormParser;
-import uva.TaxForm.antlr4.TaxFormParser.ExpressionContext;
+import uva.ql.antlr4.QLParser;
+import uva.ql.antlr4.QLParser.ExpressionContext;
 
 public class ContextUtils {
 
-	public static ArrayList<Object> expressionToInfix( @NotNull TaxFormParser.ExpressionContext ctx, ArrayList<Object> infixList ) {
+	public static ArrayList<Object> expressionToInfix( @NotNull QLParser.ExpressionContext ctx, ArrayList<Object> infixList ) {
 		
 		infixList = (infixList != null)? infixList : new ArrayList<Object>(0);
 		

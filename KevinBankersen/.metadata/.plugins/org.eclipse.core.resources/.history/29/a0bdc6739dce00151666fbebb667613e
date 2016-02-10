@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public class Pos extends intExpr {
+
+	private final intExpr value;
+
+	public Pos(Expr expr) {
+		this.value = (intExpr) expr;
+	}
+
+	@Override
+	public Integer result(interpExpr expr) {
+		return (value.result(expr) < 0) ? -1 * value.result(expr) : value.result(expr);
+	}
+
+}

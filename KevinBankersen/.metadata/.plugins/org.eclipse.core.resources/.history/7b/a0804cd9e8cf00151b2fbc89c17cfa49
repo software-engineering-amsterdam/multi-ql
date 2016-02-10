@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.ast.var;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+
+public class Variable  extends Expr{
+
+	private final String name;
+	
+	private Expr value;
+
+	public Variable(String name, Expr expr) {
+		this.name = name;
+		this.value = expr;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public Object result(interpExpr expr) {
+		return expr.getValue(name);
+	}
+}

@@ -22,14 +22,4 @@ public abstract class Question extends ASTNode {
 	public String getLabel() {
 		return label;
 	}
-
-	@Override
-	public void accept(ASTNodeVisitor visitor) {
-		variableIdentifier.accept(visitor);
-	}
-
-	@Override
-	public Result validate() {
-		return Result.TRUE();
-	}
 }

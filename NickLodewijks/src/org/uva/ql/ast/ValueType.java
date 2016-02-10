@@ -20,6 +20,8 @@ public enum ValueType {
 			}
 		}
 
+		assert false : "Unknown ValueType '" + name + "'";
+
 		return null;
 	}
 }
