@@ -1,4 +1,4 @@
-package uva.TaxForm.Visitors;
+package uva.ql.Visitors;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 
-import uva.TaxForm.AST.ASTNode;
-import uva.TaxForm.AST.ASTQuestion;
-import uva.TaxForm.AST.ASTVariable;
+import uva.ql.ast.ASTNode;
+import uva.ql.ast.ASTQuestion;
+import uva.ql.ast.ASTVariable;
 
 public class ASTVisitorToJSON {
 

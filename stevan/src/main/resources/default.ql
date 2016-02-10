@@ -5,7 +5,7 @@ form taxOfficeExample {
 	"What is your date of Birth?"
 		birthDate: date
 	"Did you sell a house in 2010?"
-		hasSoldHouse: boolean
+		hasSoldHouse: money
 	"Did you buy a house in 2010?"
 		hasBoughtHouse: boolean
 	"Did you enter a loan?"
@@ -16,6 +16,8 @@ form taxOfficeExample {
 			sellingPrice: money
 		"Private debts for the sold house:"
 			privateDebt: money
+		"Parents gift money:"
+			giftMoneys: money
 		"Parents gift money:"
 			giftMoney: money
 		"Value residue:"

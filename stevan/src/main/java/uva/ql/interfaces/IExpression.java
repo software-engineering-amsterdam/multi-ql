@@ -1,6 +1,6 @@
-package uva.TaxForm.Interfaces;
+package uva.ql.interfaces;
 
-import uva.TaxForm.AST.ASTNode;
+import uva.ql.ast.ASTNode;
 
 public interface IExpression {
 

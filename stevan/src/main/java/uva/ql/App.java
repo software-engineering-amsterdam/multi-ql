@@ -1,35 +1,36 @@
-package uva.TaxForm;
+package uva.ql;
 
-import uva.TaxForm.AST.ASTForm;
 import uva.TaxForm.GUI.GUI;
-import uva.TaxForm.Visitors.ASTVisitorToGUI;
-import uva.TaxForm.Visitors.ASTVisitorToGUIListeners;
+import uva.ql.Visitors.ASTVisitorToGUI;
+import uva.ql.Visitors.ASTVisitorToGUIListeners;
+import uva.ql.ast.ASTForm;
 
 public class App {
 	
 	public static void main(String[] args) {
 		String filePath;
 		boolean internal = true;
-		TaxForm taxForm = null;
+		QL ql = null;
 		ASTForm root = null;
 		GUI gui = null;
 
 		if (args.length == 0) {
-			filePath = "resources/default.tax";
+			filePath = "resources/default.ql";
 		} else {
 			filePath = args[0];
 			internal = false;
 		}
 		
-		taxForm = new TaxForm(filePath, internal);
+		ql = new QL(filePath, internal);
 		
 		try {
-			root = (ASTForm) taxForm.start();
+			root = (ASTForm) ql.start();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		/*
 		//Visit AST and build GUI
 		gui = new GUI(root);
 		ASTVisitorToGUI astToGUI = new ASTVisitorToGUI(gui);
@@ -38,6 +39,7 @@ public class App {
 		// Add Action/DocumentListeners to update computed fields.
 		ASTVisitorToGUIListeners astToGUIListeners = new ASTVisitorToGUIListeners(gui);
 		astToGUIListeners.visit(root);
+		*/
 	}
 
 }

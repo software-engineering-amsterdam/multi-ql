@@ -1,4 +1,4 @@
-package uva.TaxForm.Visitors;
+package uva.ql.Visitors;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -7,12 +7,6 @@ import java.util.Stack;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import uva.TaxForm.AST.ASTBlock;
-import uva.TaxForm.AST.ASTExpression;
-import uva.TaxForm.AST.ASTIfStatement;
-import uva.TaxForm.AST.ASTNode;
-import uva.TaxForm.AST.ASTQuestion;
-import uva.TaxForm.AST.ASTVariable;
 import uva.TaxForm.GUI.GUI;
 import uva.TaxForm.GUI.Fields.IntTextField;
 import uva.TaxForm.GUI.Fields.MoneyTextField;
@@ -22,6 +16,12 @@ import uva.TaxForm.GUI.Fields.DocumentListeners.IntTextFieldDocumentListener;
 import uva.TaxForm.GUI.Fields.DocumentListeners.MoneyDocumentListener;
 import uva.TaxForm.GUI.Fields.DocumentListeners.MoneyTextFieldDocumentListener;
 import uva.TaxForm.Utils.ShuntingYardAlgorithm;
+import uva.ql.ast.ASTBlock;
+import uva.ql.ast.ASTExpression;
+import uva.ql.ast.ASTIfStatement;
+import uva.ql.ast.ASTNode;
+import uva.ql.ast.ASTQuestion;
+import uva.ql.ast.ASTVariable;
 
 public class ASTVisitorToGUIListeners {
 	

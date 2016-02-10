@@ -1,36 +1,7 @@
-grammar TaxForm;
+grammar QL;
 
 /* Lexical rules */
-//ESC_SEQ 	: '\\' ('b' | 't' | 'n' | 'f' | 'r' | '\"' | '\'' | '\\');
-//STRING		: '"'  ( ESC_SEQ | ~('\\'|'"') )* '"';
-
 DIGIT		: [0-9] ;
-
-LOWER		: '<' ;
-UPPER		: '>' ;
-LOWER_EQUAL	: '<=' ;
-UPPER_EQUAL	: '>=' ;
-EQUAL		: '==' ;
-NOT_EQUAL	: '!=' ;
-
-AND			: '&&' ;
-OR			: '||' ;
-NOT			: '!' ;
-
-ASSIGN		: '=' ;
-MINUS		: '-' ;
-ADD			: '+' ;
-MULTIPLY	: '*' ;
-DIVIDE		: '/' ;
-/*
-TRUE		: 'TRUE'  | 'true'  | 'YES' | 'yes' ;
-FALSE		: 'FALSE' | 'false' | 'NO'  | 'no' ;
-
-BOOLEAN
-	: TRUE
-	| FALSE
-	;
- */
 
 BOOLEAN		: 'boolean' ;
 STRING		: '"' ( '\\"' | '\\\\' | ~["\\] )* '"' ;
@@ -76,10 +47,7 @@ label : STRING (DIGIT+)? ('?'|':')? ;
 varName : ID ;
 varType : ( BOOLEAN | MONEY | INT | STRING | DATE ) ;
 
-//question : label varName ':' (varType | computed)? ;
-question : label varName ':' varType (ASSIGN expression+ )? ;
-
-//computed : ASSIGN '(' expression+ ')' ;
+question : label varName ':' varType ('=' expression+ )? ;
 
 /*
  * Conditional structures associate an enabling condition to a question, in which
@@ -111,29 +79,9 @@ expression
 	: (DIGIT+ | FLOAT)
 	| varName
 	| '(' expression ')'
-	| expression (MULTIPLY | DIVIDE) expression 
-	| expression (ADD | MINUS) expression 
-	| NOT expression 
-	| expression (AND | OR) expression 
-	| expression (LOWER | UPPER | LOWER_EQUAL | UPPER_EQUAL | NOT_EQUAL) expression 
+	| '!' expression 
+	| expression ('*' | '/') expression 
+	| expression ('+' | '-') expression 
+	| expression ('<' | '>' | '<=' | '>=' | '!=') expression 
+	| expression ('&&' | '||') expression 
 	;
-	
-/*
-expression
-	: varName											#singleExpression
-	| AND expression									#andExpression
-	| OR expression										#orExpression
-	| NOT expression									#notExpression
-	| LOWER expression									#lowerExpression
-	| UPPER expression									#upperExpression
-	| LOWER_EQUAL expression							#lowerEqualExpression
-	| UPPER_EQUAL expression							#upperEqualExpression
-	| EQUAL expression									#equalExpression
-	| NOT_EQUAL expression								#notEqualExpression
-	| MINUS expression									#minusExpression
-	| ADD expression									#addExpression
-	| MULTIPLY expression								#multiplyExpression
-	| DIVIDE expression									#divideExpression
-	| ASSIGN expression									#assignExpression
-	;
-	 */

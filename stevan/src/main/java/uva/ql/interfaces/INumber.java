@@ -1,6 +1,6 @@
-package uva.TaxForm.Interfaces;
+package uva.ql.interfaces;
 
-import uva.TaxForm.AST.ASTVariable;
+import uva.ql.ast.ASTVariable;
 
 public interface INumber {
 

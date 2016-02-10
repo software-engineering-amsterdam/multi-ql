@@ -18,9 +18,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import uva.TaxForm.AST.ASTNode;
 import uva.TaxForm.GUI.ActionListeners.LoadMenu;
 import uva.TaxForm.GUI.ActionListeners.SaveMenu;
+import uva.ql.ast.ASTNode;
 
 public class GUI{
 
@@ -36,13 +36,13 @@ public class GUI{
 	public GUI(ASTNode node) {
 		this.node = node;
 		
-		FileFilter ftLoad = new FileNameExtensionFilter("Tax Files", "tax");
-		FileFilter ftSave = new FileNameExtensionFilter("Tax File Result", "json");
+		FileFilter ftLoad = new FileNameExtensionFilter("QL Files", "ql");
+		FileFilter ftSave = new FileNameExtensionFilter("QL File Result", "json");
 		fcLoad.setFileFilter(ftLoad);
 		fcSave.setFileFilter(ftSave);
 		
 		//create frame
-		frame = new JFrame( "TaxForm" );
+		frame = new JFrame( "QL" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.setPreferredSize( new Dimension(400, 600) );
 		frame.setLayout( new FlowLayout( FlowLayout.CENTER ) );
@@ -94,13 +94,13 @@ public class GUI{
 		//Load File
 		menuItemLoad = new JMenuItem( "Load File" );
 		menuItemLoad.setMnemonic(KeyEvent.VK_L);
-		menuItemLoad.getAccessibleContext().setAccessibleDescription( "Load a new TaxForm file" );
+		menuItemLoad.getAccessibleContext().setAccessibleDescription( "Load a new QL file" );
 		menu.add(menuItemLoad);
 		
 		//Save File
 		menuItemSave = new JMenuItem( "Save File" );
 		menuItemSave.setMnemonic(KeyEvent.VK_S);
-		menuItemSave.getAccessibleContext().setAccessibleDescription( "Save TaxForm file" );
+		menuItemSave.getAccessibleContext().setAccessibleDescription( "Save QL file" );
 		menu.add(menuItemSave);
 		
 		frame.setJMenuBar(menuBar);
