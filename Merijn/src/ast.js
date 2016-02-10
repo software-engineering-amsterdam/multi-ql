@@ -101,13 +101,33 @@ export class IdentifierNode extends Node {
 	}
 }
 
+/**
+ * Node Visitor which by default simply recurses over all nodes
+ */
 export class NodeVisitor {
-	visitFormNode (formNode) {}
-	visitBlockNode (blockNode) {}
-	visitIfNode (ifNode) {}
+	visitFormNode (formNode) {
+		formNode.block.accept(this);
+	}
+	visitBlockNode (blockNode) {
+		for (let statement of blockNode.statements) {
+			statement.accept(this);
+		}
+	}
+	visitIfNode (ifNode) {
+		ifNode.condition.accept(this);
+		ifNode.thenBlock.accept(this);
+		if (ifNode.elseBlock !== null) {
+			ifNode.elseBlock.accept(this);
+		}
+	}
 	visitQuestionNode (questionNode) {}
-	visitUnaryPrefixNode (unaryPrefixNode) {}
-	visitInfixNode (infixNode) {}
+	visitUnaryPrefixNode (unaryPrefixNode) {
+		unaryPrefixNode.operand.accept(this);
+	}
+	visitInfixNode (infixNode) {
+		infixNode.leftOperand.accept(this);
+		infixNode.rightOperand.accept(this);
+	}
 	visitLiteralNode (literalNode) {}
 	visitIdentifierNode (literalNode) {}
 }
