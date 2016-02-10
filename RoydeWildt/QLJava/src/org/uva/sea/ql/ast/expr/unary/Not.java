@@ -13,7 +13,7 @@ public class Not extends UnaryExpr {
     public Not (Expr lhs){
         super(lhs);
     }
-    public List<? extends Node> accept(Visitor visitor) {
+    public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
     }
 }

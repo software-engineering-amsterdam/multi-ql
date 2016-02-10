@@ -11,5 +11,5 @@ import java.util.List;
 public interface Node{
     @Override
     String toString();
-    List<? extends Node> accept(Visitor visitor);
+    <T> T accept(Visitor visitor);
 }

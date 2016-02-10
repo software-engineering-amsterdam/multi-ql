@@ -16,7 +16,7 @@ public class Bool extends Val {
         this.value = Boolean.valueOf(x);
     }
 
-    public List<? extends Node> accept(Visitor visitor) {
+    public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
     }
 

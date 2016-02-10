@@ -14,20 +14,21 @@ import java.util.List;
  */
 public class VarsVisitor extends CoreVisitor{
 
-    @Override
-    public List<? extends Node> visit(Question stat) {
-        return new ArrayList<>();
+    private List<Node> vars;
+
+    public VarsVisitor() {
+        vars = new ArrayList<>();
     }
 
     @Override
-    public List<? extends Node> visit(Var var) {
+    public <T> T visit(Var var) {
 
-        List<Node> result = new ArrayList<>();
+        vars.add(var);
 
-        v = new VarsVisitor();
+        return null;
+    }
 
-        result.add(var);
-
-        return result;
+    public List<Node> getVars() {
+        return vars;
     }
 }

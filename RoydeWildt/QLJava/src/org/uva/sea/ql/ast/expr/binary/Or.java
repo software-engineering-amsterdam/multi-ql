@@ -13,7 +13,7 @@ public class Or extends BinaryExpr {
     public Or (Expr lhs, Expr rhs){
         super(lhs, rhs);
     }
-    public List<? extends Node> accept(Visitor visitor) {
+    public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
     }
 }

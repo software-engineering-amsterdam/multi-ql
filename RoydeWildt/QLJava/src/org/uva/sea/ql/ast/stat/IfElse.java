@@ -19,7 +19,7 @@ public class IfElse extends Stat{
         this.stmsList = stmsList;
     }
 
-    public List<? extends Node> accept(Visitor visitor) {
+    public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
     }
 

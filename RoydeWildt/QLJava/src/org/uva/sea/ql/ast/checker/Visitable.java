@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface Visitable {
 
-    List<? extends Node> accept(Visitor visitor);
+    <T> T accept(Visitor visitor);
 
 }

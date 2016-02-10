@@ -1,6 +1,5 @@
 package org.uva.sea.ql.ast.checker;
 
-import org.uva.sea.ql.ast.Node;
 import org.uva.sea.ql.ast.form.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.expr.unary.*;
@@ -8,7 +7,6 @@ import org.uva.sea.ql.ast.expr.binary.*;
 import org.uva.sea.ql.ast.val.*;
 import org.uva.sea.ql.ast.var.*;
 
-import java.util.List;
 
 
 /**
@@ -16,31 +14,31 @@ import java.util.List;
  */
 public interface Visitor {
     Visitor v = null;
-    List<? extends Node> visit(Form form);
+    <T> T visit(Form form);
 
-    List<? extends Node> visit(If stat);
-    List<? extends Node> visit(IfElse stat);
-    List<? extends Node> visit(Question stat);
+    <T> T visit(If stat);
+    <T> T visit(IfElse stat);
+    <T> T visit(Question stat);
 
-    List<? extends Node> visit(Add expr);
-    List<? extends Node> visit(And expr);
-    List<? extends Node> visit(Div expr);
-    List<? extends Node> visit(Eq expr);
-    List<? extends Node> visit(GEq expr);
-    List<? extends Node> visit(GT expr);
-    List<? extends Node> visit(LEq expr);
-    List<? extends Node> visit(LT expr);
-    List<? extends Node> visit(Mul expr);
-    List<? extends Node> visit(NEq expr);
-    List<? extends Node> visit(Or expr);
-    List<? extends Node> visit(Sub expr);
-    List<? extends Node> visit(Neg expr);
-    List<? extends Node> visit(Not expr);
-    List<? extends Node> visit(Pos expr);
+    <T> T visit(Add expr);
+    <T> T visit(And expr);
+    <T> T visit(Div expr);
+    <T> T visit(Eq expr);
+    <T> T visit(GEq expr);
+    <T> T visit(GT expr);
+    <T> T visit(LEq expr);
+    <T> T visit(LT expr);
+    <T> T visit(Mul expr);
+    <T> T visit(NEq expr);
+    <T> T visit(Or expr);
+    <T> T visit(Sub expr);
+    <T> T visit(Neg expr);
+    <T> T visit(Not expr);
+    <T> T visit(Pos expr);
 
-    List<? extends Node> visit(Bool  val);
-    List<? extends Node> visit(Int  val);
+    <T> T visit(Bool  val);
+    <T> T visit(Int  val);
 
-    List<? extends Node> visit(Var var);
+    <T> T visit(Var var);
 
 }

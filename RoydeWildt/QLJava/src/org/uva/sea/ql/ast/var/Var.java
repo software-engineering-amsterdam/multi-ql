@@ -16,7 +16,7 @@ public class Var extends Expr{
     public String toString() {
         return this.getClass().getSimpleName() + "(" + value + ")";
     }
-    public List<? extends Node> accept(Visitor visitor) {
+    public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
     }
 

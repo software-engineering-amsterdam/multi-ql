@@ -20,13 +20,14 @@ public class Test {
         Form f2 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/duplicate1.ql")).get(0);
         Form f3 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/operators1.ql")).get(0);
 
-        //Visitor dv = new ExprVisitor();
-        //List<Node> res1 = (List<Node>) f3.accept(dv);
+        Visitor dv = new VarsVisitor();
+        f3.accept(dv);
+        List<Node> res1 = ((VarsVisitor) dv).getVars();
 
-        Checker chk = new Checker();
-        chk.undefinedChecker(f1);
-        chk.duplicateChecker(f2);
+        //Checker chk = new Checker();
+        //chk.undefinedChecker(f1);
+        //chk.duplicateChecker(f2);
 
-        //System.out.println(res1.toString());
+        System.out.println(res1.toString());
     }
 }

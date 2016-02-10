@@ -30,7 +30,7 @@ public class Question extends Stat {
         this.expr = expr;
     }
 
-    public List<? extends Node> accept(Visitor visitor) {
+    public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
     }
 

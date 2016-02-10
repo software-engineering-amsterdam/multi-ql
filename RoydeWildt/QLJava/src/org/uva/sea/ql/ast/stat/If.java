@@ -19,7 +19,7 @@ public class If extends Stat{
     public If (LinkedHashMap<Expr, List<Stat>> stmsList){
         this.stmsList = stmsList;
     }
-    public List<? extends Node> accept(Visitor visitor) {
+    public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
     }
 
