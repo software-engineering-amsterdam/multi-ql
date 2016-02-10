@@ -1,8 +1,10 @@
 package uva.TaxForm.AST;
 
+import uva.TaxForm.Interfaces.IASTNode;
+import uva.TaxForm.Interfaces.IASTNodeVisitor;
 import uva.TaxForm.Interfaces.IExpression;
 
-public class ASTExpression extends ASTNode implements IExpression{
+public class ASTExpression extends ASTNode implements IExpression, IASTNode {
 	
 	private int expressionType = 0;
 	private ASTNode leftNode = null;
@@ -47,4 +49,8 @@ public class ASTExpression extends ASTNode implements IExpression{
 		this.rightNode = rightNode;
 	}
 
+	@Override
+	public void accept(IASTNodeVisitor visitor) {
+		visitor.visit(this);
+	}
 }

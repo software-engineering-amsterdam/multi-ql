@@ -16,9 +16,11 @@ form taxOfficeExample {
 			sellingPrice: money
 		"Private debts for the sold house:"
 			privateDebt: money
+		"Parents gift money:"
+			giftMoney: money
 		"Value residue:"
 			valueResidue: money = 
-				(sellingPrice - privateDebt)
+				(sellingPrice - privateDebt) + giftMoney
 	}
 	
 	if (age) {

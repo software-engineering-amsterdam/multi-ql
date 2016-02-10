@@ -4,12 +4,17 @@ import java.util.Objects;
 
 public abstract class DoubleExprArgumentNumericExpr extends NumericExpr {
     
-    private NumericExpr firstExpr;
-    private NumericExpr secondExpr;
+    private Expr firstExpr;
+    private Expr secondExpr;
     
     public DoubleExprArgumentNumericExpr(Expr theFirstExpr, Expr theSecondExpr) {
-        firstExpr = (NumericExpr) theFirstExpr;
-        secondExpr = (NumericExpr) theSecondExpr;
+        if (theFirstExpr.canBeNumeric() && theSecondExpr.canBeNumeric()) {
+            firstExpr = theFirstExpr;
+            secondExpr = theSecondExpr;
+        }
+        else {
+            throwNonNumericOperandsException();
+        }
     }
     
     @Override

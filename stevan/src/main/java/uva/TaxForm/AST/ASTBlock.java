@@ -2,7 +2,10 @@ package uva.TaxForm.AST;
 
 import java.util.ArrayList;
 
-public class ASTBlock extends ASTNode {
+import uva.TaxForm.Interfaces.IASTNode;
+import uva.TaxForm.Interfaces.IASTNodeVisitor;
+
+public class ASTBlock extends ASTNode implements IASTNode {
 
 	private ArrayList<Object> store = new ArrayList<Object>(0);
 	
@@ -27,4 +30,8 @@ public class ASTBlock extends ASTNode {
 		return (ASTNode) this.store.get(index);
 	}
 
+	@Override
+	public void accept(IASTNodeVisitor visitor) {
+		visitor.visit(this);
+	}
 }

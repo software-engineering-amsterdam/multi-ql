@@ -52,7 +52,6 @@ public class GUIQuestion extends JPanel {
 		}
 		else if (var.getType() == ASTVariable.INT) {
 			textField = new IntTextField(var);
-			
 			add(this.textField);
 		}
 		else if (var.getType() == ASTVariable.DATE) {

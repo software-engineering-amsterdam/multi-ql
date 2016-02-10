@@ -1,6 +1,9 @@
 package uva.TaxForm.AST;
 
-public class ASTForm extends ASTBlock{
+import uva.TaxForm.Interfaces.IASTNode;
+import uva.TaxForm.Interfaces.IASTNodeVisitor;
+
+public class ASTForm extends ASTBlock implements IASTNode {
 	
 	private String name;
 	
@@ -19,5 +22,10 @@ public class ASTForm extends ASTBlock{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public void accept(IASTNodeVisitor visitor) {
+		visitor.visit(this);
 	}
 }

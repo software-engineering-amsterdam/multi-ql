@@ -1,54 +1,47 @@
 grammar QL;
 
 form
-	: FORM LEFT_BRACE statements? RIGHT_BRACE
+	: FORM block
 	;
 
-statements
-	: statement+
+block
+	: LEFT_BRACE statement* RIGHT_BRACE
 	;
 
 statement
-	: if_statement
-	| question_statement SEMICOL
+	: if_                   # ifStatementCase
+	| question SEMICOL      # questionStatementCase
 	;
 
-if_statement
-	: IF LEFT_PAREN condition RIGHT_PAREN LEFT_BRACE statements? RIGHT_BRACE else_statement?
+if_
+	: IF LEFT_PAREN expr RIGHT_PAREN block (ELSE block)?
 	;
 
-else_statement
-	: ELSE LEFT_BRACE statements? RIGHT_BRACE
-	;
-
-condition
-	: expr comp expr
+question
+	: STRING_LITERAL IDENTIFIER type
 	;
 
 expr
-	: IDENTIFIER
-	| literal
+	: LEFT_PAREN expr RIGHT_PAREN                           # parenExprCase
+    | literal                                               # literalExprCase
+	| IDENTIFIER                                            # identifierExprCase
+	| ( PLUS | MINUS ) expr                                 # unaryPrefixExprCase
+	| expr ( STAR | DIV ) expr                              # infixExprCase
+	| expr ( PLUS | MINUS ) expr                            # infixExprCase
+	| expr ( EQ | NOT_EQ | GT | GT_EQ | LT | LT_EQ) expr    # infixExprCase
 	;
 
 literal
-	: BOOLEAN_LITERAL
-	| STRING_LITERAL
-	| INTEGER_LITERAL
-	| FLOAT_LITERAL
-	| MONEY_LITERAL
+	: booleanLiteral    # booleanLiteralCase
+	| STRING_LITERAL    # stringLiteralCase
+	| INTEGER_LITERAL   # integerLiteralCase
+	| FLOAT_LITERAL     # floatLiteralCase
+	| MONEY_LITERAL     # moneyLiteralCase
 	;
 
-comp
-	: EQ
-	| NOT_EQ
-	| GT
-	| GT_EQ
-	| LT
-	| LT_EQ
-	;
-
-question_statement
-	: STRING_LITERAL IDENTIFIER type
+booleanLiteral
+	: BOOLEAN_TRUE      # booleanLiteralTrueCase
+	| BOOLEAN_FALSE     # booleanLiteralFalseCase
 	;
 
 type
@@ -82,10 +75,14 @@ GT_EQ : '>=';
 LT : '<';
 LT_EQ : '<=';
 
-BOOLEAN_LITERAL
-	: 'true'
-	| 'false'
-	;
+PLUS : '+';
+MINUS : '-';
+STAR : '*';
+DIV : '/';
+
+BOOLEAN_TRUE : 'true';
+BOOLEAN_FALSE : 'false';
+
 STRING_LITERAL
 	: '"' ~["]* '"'
 	;

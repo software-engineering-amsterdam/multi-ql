@@ -8,6 +8,7 @@ public class Eq extends Expr {
 		this.rhs = rhs;
 	}
 	
+	//TODO: different check for Strings and booleans!!! Need to know the type
 	@Override
 	public Boolean eval() {
 		return  lhs.eval() ==  rhs.eval();

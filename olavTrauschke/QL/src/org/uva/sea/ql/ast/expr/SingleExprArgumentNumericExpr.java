@@ -4,10 +4,15 @@ import java.util.Objects;
 
 public abstract class SingleExprArgumentNumericExpr extends NumericExpr {
     
-    private NumericExpr content;
+    private Expr content;
     
     public SingleExprArgumentNumericExpr(Expr theContent) {
-        NumericExpr content = (NumericExpr) theContent;
+        if (theContent.canBeNumeric()) {
+            content = theContent;
+        }
+        else {
+            throwNonNumericOperandsException();
+        }
     }
     
     @Override
