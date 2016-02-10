@@ -39,3 +39,18 @@ class QLAnd: QLInfix {
 
 class QLOr: QLInfix {
 }
+
+class QLLt: QLInfix {
+}
+
+class QLLe: QLInfix {
+}
+
+class QLEq: QLInfix {
+}
+
+class QLGe: QLInfix {
+}
+
+class QLGt: QLInfix {
+}

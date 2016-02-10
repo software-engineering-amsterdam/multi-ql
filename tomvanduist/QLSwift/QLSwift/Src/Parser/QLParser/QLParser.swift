@@ -23,7 +23,7 @@ import SwiftParsec
  * expr         ::= money | prefix expr | expr infix expr | ( expr ) | boolean | literal | var
  * literal      ::= true | false | stringLit | numberLit
  * prefix       ::= - | !
- * infix        ::= + | - | * | / | ^ | || | &&
+ * infix        ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
  * var          ::= identifier
  * money        ::= 'money' || 'money' ( expr )
  */
@@ -88,7 +88,12 @@ class QLParser: NSObject {
                 lexer.symbol("/").map { _ in QLDiv.self } <|>
                 lexer.symbol("^").map { _ in QLPow.self } <|>
                 lexer.symbol("&&").map { _ in QLAnd.self } <|>
-                lexer.symbol("||").map { _ in QLOr.self }
+                lexer.symbol("||").map { _ in QLOr.self } <|>
+                lexer.symbol("==").map { _ in QLEq.self } <|>
+                lexer.symbol("<=").map { _ in QLLe.self }.attempt <|>
+                lexer.symbol(">=").map { _ in QLGe.self }.attempt <|>
+                lexer.symbol("<").map { _ in QLLt.self } <|>
+                lexer.symbol(">").map { _ in QLGt.self }
 
             // Left associative infix, TODO: remove lhs constraint on varExpr
             func opParser(lhs: QLExpression) -> GenericParser<String, (), QLExpression> {
