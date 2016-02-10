@@ -20,8 +20,8 @@ import SwiftParsec
  * block        ::= { stmt* }
  * stmt         ::= 'if' ( expr) { block } | question
  * question     ::= var ':' stringLit expr
- * expr         ::= ( expr ) | prefix expr | expr infix expr | var | boolean | money | const
- * const        ::= true | false | stringLit | numberLit
+ * expr         ::= money | prefix expr | expr infix expr | ( expr ) | boolean | literal | var
+ * literal      ::= true | false | stringLit | numberLit
  * prefix       ::= - | !
  * infix        ::= + | - | * | / | ^ | || | &&
  * var          ::= identifier
@@ -58,11 +58,11 @@ class QLParser: NSObject {
             intLit <|> floatLit
         
         
-        var expr: GenericParser<String, (), QLExpression>!
-        
-        GenericParser.recursive { (_expr: GenericParser<String, (), QLExpression>) in
+        let expr: GenericParser<String, (), QLExpression> = GenericParser.recursive {
+            (expr: GenericParser<String, (), QLExpression>) in
+            
             let precExpr: GenericParser<String, (), QLExpression> =
-                lexer.parentheses(_expr)
+                lexer.parentheses(expr)
             let litExpr: GenericParser<String, (), QLExpression> =
                 (boolLit <|> stringLit <|> number).map { literal in
                     QLExpressionLiteral(literal: literal)
@@ -72,59 +72,42 @@ class QLParser: NSObject {
             let boolExpr: GenericParser<String, (), QLExpression> =
                 lexer.symbol("boolean").map { _ in QLBoolean() }
             let moneyExpr: GenericParser<String, (), QLExpression> =
-                lexer.symbol("money") *> lexer.parentheses(_expr).map { ding in QLMoney(expr: ding) }
-//                    <|>
-//                lexer.symbol("money").map { _ in QLMoney() }
+                (lexer.symbol("money") *> lexer.parentheses(expr).map { ding in QLMoney(expr: ding) }).attempt <|>
+                lexer.symbol("money").map { _ in QLMoney() }
             let prefix: GenericParser<String, (), QLPrefix.Type> =
                 StringParser.character("-").map { _ in QLNeg.self } <|>
                 StringParser.character("!").map { _ in QLNot.self }
             let prefixExpr: GenericParser<String, (), QLExpression> =
                 prefix.flatMap { ePrefix in
-                    _expr.map { rhs in ePrefix.init(rhs: rhs) }
+                    expr.map { rhs in ePrefix.init(rhs: rhs) }
                 }
             let infix: GenericParser<String, (), QLInfix.Type> =
-                StringParser.character("+").map { _ in QLAdd.self } <|>
-                StringParser.character("-").map { _ in QLSub.self } <|>
-                StringParser.character("*").map { _ in QLMul.self } <|>
-                StringParser.character("/").map { _ in QLDiv.self } <|>
-                StringParser.character("^").map { _ in QLPow.self } <|>
+                lexer.symbol("+").map { _ in QLAdd.self } <|>
+                lexer.symbol("-").map { _ in QLSub.self } <|>
+                lexer.symbol("*").map { _ in QLMul.self } <|>
+                lexer.symbol("/").map { _ in QLDiv.self } <|>
+                lexer.symbol("^").map { _ in QLPow.self } <|>
                 lexer.symbol("&&").map { _ in QLAnd.self } <|>
                 lexer.symbol("||").map { _ in QLOr.self }
-//            let infixExpr: GenericParser<String, (), QLExpression> =        // TODO: recursion on expr
-//                varExpr.flatMap { lhs in
-//                    infix.flatMap { eInfix in
-//                        varExpr.map { rhs in
-//                            eInfix.init(lhs: lhs, rhs: rhs)
-//                        }
-//                    }
-//                }
-            
-            
-            func opParser(left: QLExpression) -> GenericParser<String, (), QLExpression> {
+
+            // Left associative infix, TODO: remove lhs constraint on varExpr
+            func opParser(lhs: QLExpression) -> GenericParser<String, (), QLExpression> {
                 return infix.flatMap { eInfix in
-                    _expr.flatMap { right in
-                        opParser1(eInfix.init(lhs: left, rhs: right))
-//                        opParser1(right).map { rhs in
-//                            eInfix.init(lhs: left, rhs: rhs)
-//                        }
+                    expr.flatMap { rhs in
+                        opParser1(eInfix.init(lhs: lhs, rhs: rhs))
                     }
                 }
             }
-            
-            func opParser1(right: QLExpression) -> GenericParser<String, (), QLExpression> {
-                return opParser(right) <|> GenericParser(result: right)
+            func opParser1(rhs: QLExpression) -> GenericParser<String, (), QLExpression> {
+                return opParser(rhs) <|> GenericParser(result: rhs)
             }
-            
             let infixExpr: GenericParser<String, (), QLExpression> =
-                lexer.parentheses(_expr).flatMap { lhs in
-                    opParser(lhs)// <|> GenericParser(result: lhs)
+                varExpr.flatMap { lhs in
+                    opParser(lhs) <|> GenericParser(result: lhs)
                 }
+        
             
-            
-//            expr = moneyExpr <|> precExpr <|> prefixExpr <|> infixExpr.attempt <|> boolExpr <|> litExpr <|> varExpr
-            expr = infixExpr <|> varExpr
-            
-            return expr
+            return moneyExpr <|> prefixExpr <|> infixExpr.attempt <|> precExpr <|> boolExpr <|> litExpr <|> varExpr
         }
         
         let question: GenericParser<String, (), QLQuestion> =
@@ -137,35 +120,29 @@ class QLParser: NSObject {
             }
         
         
-        var stmt: GenericParser<String, (), QLStatement>!
+        // This declaration is needed to define statements with blocks such as if statements
         var block: GenericParser<String, (), QLBlockStatement>!
         
-        GenericParser.recursive { (_stmt: GenericParser<String, (), QLStatement>) in
-            let qStmt: GenericParser<String, (), QLStatement> =
-                question.map { sQuestion in QLQuestionStatement(question: sQuestion) }
-            let ifStmt: GenericParser<String, (), QLStatement> =
-                lexer.symbol("if") *> lexer.parentheses(expr).flatMap { cond in
-                    block.map { blockStmt in
-                        QLIf(conditional: cond, block: blockStmt)
-                    }
-                }
-            
-            block =
-                lexer.braces(
-                    _stmt.manyAccumulator { acc, stmts in
-                        var tmp = stmts
-                        tmp.append(acc)
-                        return tmp
-                    }
-                ).map { stmts in QLBlockStatement(block: stmts) }
-            
-            
-//            stmt = ifStmt <|> qStmt
-            stmt = qStmt
-            
-            return stmt
-        }
         
+        let qStmt: GenericParser<String, (), QLStatement> =
+            question.map { sQuestion in QLQuestionStatement(question: sQuestion) }
+        let ifStmt: GenericParser<String, (), QLStatement> =
+            lexer.symbol("if") *> lexer.parentheses(expr).flatMap { cond in
+                block.map { blockStmt in
+                    QLIf(conditional: cond, block: blockStmt)
+                }
+            }
+        let stmt = ifStmt <|> qStmt
+        
+        
+        // Now define blocks as a list of statements
+        block = lexer.braces(
+            stmt.manyAccumulator { acc, stmts in
+                var tmp = stmts
+                tmp.append(acc)
+                return tmp
+            }
+        ).map { stmts in QLBlockStatement(block: stmts) }
         
         let form: GenericParser<String, (), QLForm> =
             symbol("form") *> variable.flatMap { fVar in
@@ -173,6 +150,6 @@ class QLParser: NSObject {
             }
         
         
-        return lexer.whiteSpace *> form //<* StringParser.eof
+        return lexer.whiteSpace *> form <* StringParser.eof
     }
 }
