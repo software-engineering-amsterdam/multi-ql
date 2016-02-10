@@ -60,10 +60,10 @@ class AstConversionVisitor extends GeneratedVisitor {
 	visitMoneyLiteralCase (ctx) {
 		return new ast.LiteralNode(ctx.start.line, ctx.getText(), ast.TYPE_MONEY);
 	}
-	visitBooleanTrueCase (ctx) {
+	visitBooleanLiteralTrueCase (ctx) {
 		return new ast.LiteralNode(ctx.start.line, true, ast.TYPE_BOOLEAN);
 	}
-	visitBooleanFalseCase (ctx) {
+	visitBooleanLiteralFalseCase (ctx) {
 		return new ast.LiteralNode(ctx.start.line, false, ast.TYPE_BOOLEAN);
 	}
 	visitType(ctx) {
