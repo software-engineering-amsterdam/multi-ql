@@ -47,6 +47,9 @@ let open_bracket      = "{"
 let close_bracket     = "}"
 let open_brace  = "("
 let close_brace = ")"
+let quote = '"'
+let question =  quote['a' - 'z' 'A' - 'Z' '?' '!' ' ' '\t' ]+quote
+
 
 
 rule tokenize = parse   
@@ -56,6 +59,7 @@ rule tokenize = parse
 | float         { FLOAT(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) }   
 | operator      { ops.[LexBuffer<_>.LexemeString lexbuf] }   
 | condoperator  { conditionops.[LexBuffer<_>.LexemeString lexbuf] }
+| question		{ STRING(LexBuffer<_>.LexemeString lexbuf) }
 | identifier    { match qlwords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                   | Some(token) -> token   
                   | None -> ID(LexBuffer<_>.LexemeString lexbuf) }   

@@ -59,19 +59,13 @@
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
     <Compile Include="Statements.fs" />
-    <Compile Include="Statements2.fs" />
     <Compile Include="sql.fs" />
     <None Include="sqlparser.fsp" />
     <Compile Include="Parser.fsi" />
-    <Compile Include="Parser2.fsi" />
     <Compile Include="Parser.fs" />
-    <Compile Include="Parser2.fs" />
     <Compile Include="Lexer.fs" />
-    <Compile Include="Lexer2.fs" />
     <Content Include="packages.config" />
-    <None Include="Parser2.fsp" />
     <None Include="Parser.fsp" />
-    <None Include="Lexer2.fsl" />
     <None Include="Lexer.fsl" />
     <Compile Include="Program.fs" />
   </ItemGroup>
@@ -105,9 +99,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>fsyacc "$(ProjectDir)Parser.fsp" --module Parser
-fsyacc "$(ProjectDir)Parser2.fsp" --module ParserTwo
 
-fslex "$(ProjectDir)Lexer2.fsl" --unicode
 fslex "$(ProjectDir)Lexer.fsl" --unicode</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

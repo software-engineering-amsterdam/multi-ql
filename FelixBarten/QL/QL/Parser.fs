@@ -3,12 +3,12 @@ module Parser
 #nowarn "64";; // turn off warnings that type variables used in production annotations are instantiated to concrete type
 open Microsoft.FSharp.Text.Lexing
 open Microsoft.FSharp.Text.Parsing.ParseHelpers
-# 1 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 1 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
    
 open Microsoft.FSharp.Collections
 open Statements   
 
-# 11 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 11 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
 // This type is the type of tokens accepted by the parser
 type token = 
   | EMPTY
@@ -39,7 +39,6 @@ type token =
   | FORM
   | FLOAT of (float)
   | INT of (int)
-  | QTYPE of (string)
   | STRING of (string)
   | ID of (string)
 // This type is used to give symbolic names to token indexes, useful for error messages
@@ -72,7 +71,6 @@ type tokenId =
     | TOKEN_FORM
     | TOKEN_FLOAT
     | TOKEN_INT
-    | TOKEN_QTYPE
     | TOKEN_STRING
     | TOKEN_ID
     | TOKEN_end_of_input
@@ -80,13 +78,7 @@ type tokenId =
 // This type is used to give symbolic names to token indexes, useful for error messages
 type nonTerminalId = 
     | NONTERM__startstart
-    | NONTERM_quest
-    | NONTERM_form
     | NONTERM_start
-    | NONTERM_questions
-    | NONTERM_op
-    | NONTERM_questionList
-    | NONTERM_question
     | NONTERM_value
 
 // This function maps tokens to integer indexes
@@ -120,9 +112,8 @@ let tagOfToken (t:token) =
   | FORM  -> 25 
   | FLOAT _ -> 26 
   | INT _ -> 27 
-  | QTYPE _ -> 28 
-  | STRING _ -> 29 
-  | ID _ -> 30 
+  | STRING _ -> 28 
+  | ID _ -> 29 
 
 // This function maps integer indexes to symbolic token ids
 let tokenTagToTokenId (tokenIdx:int) = 
@@ -155,38 +146,25 @@ let tokenTagToTokenId (tokenIdx:int) =
   | 25 -> TOKEN_FORM 
   | 26 -> TOKEN_FLOAT 
   | 27 -> TOKEN_INT 
-  | 28 -> TOKEN_QTYPE 
-  | 29 -> TOKEN_STRING 
-  | 30 -> TOKEN_ID 
-  | 33 -> TOKEN_end_of_input
-  | 31 -> TOKEN_error
+  | 28 -> TOKEN_STRING 
+  | 29 -> TOKEN_ID 
+  | 32 -> TOKEN_end_of_input
+  | 30 -> TOKEN_error
   | _ -> failwith "tokenTagToTokenId: bad token"
 
 /// This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
 let prodIdxToNonTerminal (prodIdx:int) = 
   match prodIdx with
     | 0 -> NONTERM__startstart 
-    | 1 -> NONTERM_quest 
-    | 2 -> NONTERM_quest 
-    | 3 -> NONTERM_form 
-    | 4 -> NONTERM_start 
-    | 5 -> NONTERM_questions 
-    | 6 -> NONTERM_op 
-    | 7 -> NONTERM_op 
-    | 8 -> NONTERM_op 
-    | 9 -> NONTERM_op 
-    | 10 -> NONTERM_op 
-    | 11 -> NONTERM_questionList 
-    | 12 -> NONTERM_questionList 
-    | 13 -> NONTERM_question 
-    | 14 -> NONTERM_value 
-    | 15 -> NONTERM_value 
-    | 16 -> NONTERM_value 
-    | 17 -> NONTERM_value 
+    | 1 -> NONTERM_start 
+    | 2 -> NONTERM_value 
+    | 3 -> NONTERM_value 
+    | 4 -> NONTERM_value 
+    | 5 -> NONTERM_value 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
-let _fsyacc_endOfInputTag = 33 
-let _fsyacc_tagOfErrorTerminal = 31
+let _fsyacc_endOfInputTag = 32 
+let _fsyacc_tagOfErrorTerminal = 30
 
 // This function gets the name of a token as a string
 let token_to_string (t:token) = 
@@ -219,7 +197,6 @@ let token_to_string (t:token) =
   | FORM  -> "FORM" 
   | FLOAT _ -> "FLOAT" 
   | INT _ -> "INT" 
-  | QTYPE _ -> "QTYPE" 
   | STRING _ -> "STRING" 
   | ID _ -> "ID" 
 
@@ -254,223 +231,85 @@ let _fsyacc_dataOfToken (t:token) =
   | FORM  -> (null : System.Object) 
   | FLOAT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | INT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-  | QTYPE _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | STRING _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-let _fsyacc_gotos = [| 0us; 65535us; 0us; 65535us; 0us; 65535us; 1us; 65535us; 0us; 1us; 0us; 65535us; 0us; 65535us; 1us; 65535us; 4us; 5us; 1us; 65535us; 4us; 8us; 0us; 65535us; |]
-let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 2us; 3us; 5us; 6us; 7us; 9us; 11us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 4us; 1us; 4us; 1us; 4us; 1us; 4us; 1us; 4us; 1us; 11us; 1us; 12us; 1us; 13us; 1us; 13us; 1us; 13us; 1us; 13us; |]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; 14us; 16us; 18us; 20us; 22us; 24us; |]
-let _fsyacc_action_rows = 13
-let _fsyacc_actionTableElements = [|1us; 32768us; 25us; 2us; 0us; 49152us; 1us; 32768us; 30us; 3us; 1us; 32768us; 18us; 4us; 2us; 32768us; 0us; 7us; 29us; 9us; 1us; 32768us; 19us; 6us; 0us; 16388us; 0us; 16395us; 0us; 16396us; 1us; 32768us; 29us; 10us; 1us; 32768us; 17us; 11us; 1us; 32768us; 29us; 12us; 0us; 16397us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 2us; 3us; 5us; 7us; 10us; 12us; 13us; 14us; 15us; 17us; 19us; 21us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 2us; 2us; 1us; 5us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 4us; 1us; 1us; 1us; 3us; |]
-let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 1us; 2us; 3us; 4us; 5us; 5us; 5us; 5us; 5us; 6us; 6us; 7us; 8us; 8us; 8us; 8us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 65535us; 65535us; 65535us; 16388us; 16395us; 16396us; 65535us; 65535us; 65535us; 16397us; |]
+let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 1us; 65535us; 0us; 2us; |]
+let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 3us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 2us; 1us; 3us; 1us; 4us; 1us; 5us; |]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; |]
+let _fsyacc_action_rows = 7
+let _fsyacc_actionTableElements = [|4us; 32768us; 26us; 4us; 27us; 3us; 28us; 5us; 29us; 6us; 0us; 49152us; 0us; 16385us; 0us; 16386us; 0us; 16387us; 0us; 16388us; 0us; 16389us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 5us; 6us; 7us; 8us; 9us; 10us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 1us; 1us; 1us; 1us; 1us; |]
+let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 2us; 2us; 2us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; 16385us; 16386us; 16387us; 16388us; 16389us; |]
 let _fsyacc_reductions ()  =    [| 
-# 271 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 247 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Statements.Form)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Statements.value)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startstart));
-# 280 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 256 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'form)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'value)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 43 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                             { Questionary = [_1] }  
+# 41 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                              _1 
                    )
-# 43 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'quest));
-# 291 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'form)) in
-            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : Statements.Form)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 44 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                          { Questionary = [_1] }  
-                   )
-# 44 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'quest));
-# 303 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Statements.Form)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 46 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                   _1 
-                   )
-# 46 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'form));
-# 314 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
-            let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : 'questionList)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 51 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                     
-                                             {   Identifier = _2;
-                                                 Questions = _4  }
-                                             
-                   )
-# 51 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : Statements.Form));
-# 329 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'questionList)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 57 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                     _1 
-                   )
-# 57 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'questions));
-# 340 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                              Eq 
-                   )
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'op));
-# 350 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                          Lt 
-                   )
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'op));
-# 360 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                      Le 
-                   )
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'op));
-# 370 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                                  Gt 
-                   )
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'op));
-# 380 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                                              Ge 
-                   )
-# 60 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'op));
-# 390 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 63 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                       []  
-                   )
-# 63 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'questionList));
-# 400 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : Statements.Question)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 64 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                    [_1] 
-                   )
-# 64 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : 'questionList));
-# 411 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
-            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
-            let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 67 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                        
-                                                 { QuestionText = _1;
-                                                   Identifier = _2;
-                                                   QuestionType = _4 }
-                                           
-                   )
-# 67 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                 : Statements.Question));
-# 428 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 41 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                 : Statements.value));
+# 267 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 74 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 44 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
                                                    Int(_1) 
                    )
-# 74 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 44 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
                  : 'value));
-# 439 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 278 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : float)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 75 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 45 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
                                                    Float(_1) 
                    )
-# 75 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 45 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
                  : 'value));
-# 450 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 289 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 76 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                   String(_1) 
+# 46 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                                       String(_1) 
                    )
-# 76 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 46 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
                  : 'value));
-# 461 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 300 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 77 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
-                                                                          String(_2) 
+# 47 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+                                                   String(_1) 
                    )
-# 77 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
+# 47 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fsp"
                  : 'value));
 |]
-# 473 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
+# 312 "G:\Version Control\Git\multi-ql\FelixBarten\QL\QL\Parser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -489,8 +328,8 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
                               match parse_error_rich with 
                               | Some f -> f ctxt
                               | None -> parse_error ctxt.Message);
-    numTerminals = 34;
+    numTerminals = 33;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : Statements.Form =
+let start lexer lexbuf : Statements.value =
     Microsoft.FSharp.Core.Operators.unbox ((tables ()).Interpret(lexer, lexbuf, 0))

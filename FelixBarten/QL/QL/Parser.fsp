@@ -5,7 +5,6 @@ open Statements
   
 %token <string> ID   
 %token <string> STRING
-%token <string> QTYPE
 %token <int> INT   
 %token <float> FLOAT   
   
@@ -34,46 +33,19 @@ open Statements
 // start   
 %start start   
 
-%type <Statements.Form> start   
-%type <Statements.Question> question
+%type <Statements.value> start   
 
 %%   
   
-quest:   
-    | form EOF      {   { Questionary = [$1] }  }
-    | form start	{   { Questionary = [$1] }  }
-
-form: start { $1 }
-
 start: 
-     FORM ID OPEN_BRACE
-	 questionList 
-	 CLOSE_BRACE { 
-                        {   Identifier = $2;
-                            Questions = $4  }
-                        }
-
-questions: 
-	questionList	{ $1 }
-
-
-op: EQ { Eq } | LT { Lt } | LE { Le } | GT { Gt } | GE { Ge }   
-
-questionList:  
-    | EMPTY                     { []  }
-	| question                  { [$1] }
-
-question: 
-    STRING STRING COLON STRING	  { 
-                            { QuestionText = $1;
-                              Identifier = $2;
-                              QuestionType = $4 }
-                      }
+	value { $1 }
 
 value:   
     | INT                   { Int($1) }   
     | FLOAT                 { Float($1) }   
+	| STRING			    { String($1) }
     | ID                    { String($1) }
-    | DOUBLE_QUOTE STRING DOUBLE_QUOTE             { String($2) }
+
+
 
 %%

@@ -5,7 +5,8 @@ open Microsoft.FSharp.Collections
 type value =   
     | Int of int  
     | Float of float  
-    | String of string  
+    | String of string
+
 
 type identifier = string
 type op = Eq | Gt | Ge | Lt | Le    // =, >, >=, <, <=   
