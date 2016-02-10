@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.swing.JFrame;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
-import org.uva.ql.ast.Result;
 import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.VariableDecl;
 import org.uva.ql.ast.VariableIdentifier;
@@ -244,20 +243,5 @@ public class TypeChecker {
 
 	private void error(String msg) {
 		System.err.println(String.format("ERROR: %s", msg));
-	}
-
-	public static Result checkType(Expr expr, ValueType expected) {
-		ValueType actual;
-
-		actual = expr.type();
-		if (actual != expected) {
-			String msg;
-
-			msg = String.format("[%s: %s] Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
-					expr.getLineIndex(), expr.getCharIndex(), expr.getText(), expected.getName(), actual.getName());
-			return Result.FALSE(msg);
-		}
-
-		return Result.TRUE();
 	}
 }

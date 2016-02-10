@@ -1,8 +1,6 @@
 package org.uva.ql.ast.form;
 
 import org.uva.ql.ast.ASTNode;
-import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
 import org.uva.ql.ast.VariableIdentifier;
 
 public abstract class Question extends ASTNode {

@@ -1,6 +1,9 @@
 package org.uva.sea.ql.ast.expr;
 
-public class BooleanLiteral extends Expr {
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class BooleanLiteral extends Expr implements Visitable {
 	final boolean value;
 	
 	public BooleanLiteral(boolean value) {
@@ -10,5 +13,9 @@ public class BooleanLiteral extends Expr {
 	@Override
 	public Boolean eval() {
 		return value;
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

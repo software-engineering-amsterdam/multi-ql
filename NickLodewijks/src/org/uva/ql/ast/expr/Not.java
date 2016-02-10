@@ -1,8 +1,6 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.TypeChecker;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
 import org.uva.ql.ast.ValueType;
 
 public class Not extends Expr {
