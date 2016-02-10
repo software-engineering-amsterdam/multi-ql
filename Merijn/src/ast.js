@@ -57,6 +57,16 @@ export class QuestionNode extends Node {
 	}
 }
 
+export class NegationNode extends Node {
+	constructor(line, operand) {
+		super(line);
+		this.operand = operand;
+	}
+	accept (visitor) {
+		return visitor.visitNegationNode(this);
+	}
+}
+
 export class UnaryPrefixNode extends Node {
 	constructor(line, operation, operand) {
 		super(line);
@@ -106,27 +116,29 @@ export class IdentifierNode extends Node {
  */
 export class NodeVisitor {
 	visitFormNode (formNode) {
-		formNode.block.accept(this);
+		return formNode.block.accept(this);
 	}
 	visitBlockNode (blockNode) {
-		for (let statement of blockNode.statements) {
-			statement.accept(this);
-		}
+		return blockNode.statements.map((statement) => {
+			return statement.accept(this);
+		});
 	}
 	visitIfNode (ifNode) {
-		ifNode.condition.accept(this);
-		ifNode.thenBlock.accept(this);
-		if (ifNode.elseBlock !== null) {
-			ifNode.elseBlock.accept(this);
-		}
+		return [
+			ifNode.condition.accept(this),
+			ifNode.thenBlock.accept(this),
+			ifNode.elseBlock !== null ? ifNode.elseBlock.accept(this) : null
+		];
 	}
 	visitQuestionNode (questionNode) {}
 	visitUnaryPrefixNode (unaryPrefixNode) {
-		unaryPrefixNode.operand.accept(this);
+		return unaryPrefixNode.operand.accept(this);
 	}
 	visitInfixNode (infixNode) {
-		infixNode.leftOperand.accept(this);
-		infixNode.rightOperand.accept(this);
+		return [
+			infixNode.leftOperand.accept(this),
+			infixNode.rightOperand.accept(this)
+		];
 	}
 	visitLiteralNode (literalNode) {}
 	visitIdentifierNode (literalNode) {}
