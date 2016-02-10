@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public class Identifier extends Expr{
+
+
+	private final String name;
+
+	public Identifier(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public Object result(interpExpr context) {
+		return context.getValue(name);
+	}
+}

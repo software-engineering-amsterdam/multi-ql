@@ -13,6 +13,10 @@ public class LiteralExpr extends Expr {
 		this.literal = literal;
 	}
 
+	public Literal<?> getLiteral() {
+		return literal;
+	}
+
 	@Override
 	public Object interpret(Context context) {
 		return literal.getValue();
@@ -26,10 +30,5 @@ public class LiteralExpr extends Expr {
 	@Override
 	public ValueType type() {
 		return literal.type();
-	}
-
-	@Override
-	public Result validate() {
-		return Result.TRUE();
 	}
 }

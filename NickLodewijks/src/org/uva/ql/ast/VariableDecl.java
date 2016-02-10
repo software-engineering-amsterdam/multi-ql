@@ -10,7 +10,7 @@ public class VariableDecl extends ASTNode {
 		this.type = type;
 	}
 
-	public VariableIdentifier getIdentifier() {
+	public VariableIdentifier getId() {
 		return identifier;
 	}
 
@@ -21,13 +21,5 @@ public class VariableDecl extends ASTNode {
 	@Override
 	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
-
-		type.accept(visitor);
-		identifier.accept(visitor);
-	}
-
-	@Override
-	public Result validate() {
-		return Result.TRUE();
 	}
 }

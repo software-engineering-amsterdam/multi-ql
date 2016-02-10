@@ -1,15 +1,12 @@
 package org.uva.ql.ast;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.ql.ast.expr.Context;
 
 public abstract class ASTNode {
 
 	private Token token;
 
 	public abstract void accept(ASTNodeVisitor visitor);
-
-	public abstract Result validate();
 
 	public void setToken(Token start) {
 		this.token = start;

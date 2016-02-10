@@ -2,7 +2,6 @@ package org.uva.ql.ast.form;
 
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
 
 public class Form extends ASTNode {
 
@@ -14,6 +13,10 @@ public class Form extends ASTNode {
 		this.body = body;
 	}
 
+	public Block getBody() {
+		return body;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -21,12 +24,5 @@ public class Form extends ASTNode {
 	@Override
 	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
-
-		body.accept(visitor);
-	}
-
-	@Override
-	public Result validate() {
-		return Result.TRUE();
 	}
 }

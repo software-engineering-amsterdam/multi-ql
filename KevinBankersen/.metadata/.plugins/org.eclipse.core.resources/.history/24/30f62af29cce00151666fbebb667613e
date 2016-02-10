@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public class Neg extends intExpr {
+
+	private final intExpr value;
+
+	public Neg(Expr expr) {
+		this.value = (intExpr) expr;
+	}
+
+	@Override
+	public Integer interpret(interpExpr expr) {
+		return value.interpret(expr) * -1;
+	}
+
+}

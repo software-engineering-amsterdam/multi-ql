@@ -9,44 +9,57 @@ import org.uva.sea.ql.ast.form.*;
 }
 
 /* Form Grammar Rules = Entry Point */
-form
-	: FORM formName '{' statement+ '}' EOF;
+form returns [Form result]
+	: FORM formName '{' b = block '}' EOF {
+		$result = new Form($formName.text, $b.result);		
+	};
 
 formName : Ident;
 
 
-block 
-: statement+
-;
+block returns [Block result]
+	@init {
+		$result = new Block();	
+	}
+	: (ifStatement[$result] | elseStatement[$result] | question[$result])+;
+
 
 /* Statement Grammar Rules */
 
-statement
-	: ifStatement
-	| elseStatement
-	| question
+// statement returns [Block result]
+//	: ifStatement[$result]
+//	| elseStatement[$result]
+//	| question[$result]
+//	;
+	
+ifStatement [Block result]
+	: IF '(' orExpr ')' '{' block '}' {
+		$result.add(new IfStatement($block.result, $orExpr.result));
+	}
 	;
 	
-ifStatement 
-	: IF '(' orExpr ')' '{' block '}'
+elseStatement [Block result]
+	: ELSE '{' b = block '}' {
+		$result.add(new ElseStatement($b.result));	
+	}
 	;
 	
-elseStatement 
-	: ELSE '{' block '}'
-	;
-	
-question 
-	: variable ':' label type ('(' orExpr ')')*
+question [Block result]
+	:  variable ':' label t = type ('(' orExpr ')')* {
+		$result.add(new Question(new Variable($variable.text, $t.result), $label.text, $t.result));
+	}
 	;
 
-variable : Ident;
+variable returns [Expr result]
+	: Ident {$result = new VariableLiteral($Ident.getText()); };
+	
 label : Str;
 
-type
-	: INT
-	| STR
-	| BOOL
-	| MONEY
+type returns[Type result]
+	: INT {$result = Type.INT;}
+	| STR {$result = Type.STRING;}
+	| BOOL {$result = Type.BOOLEAN;}
+	| MONEY {$result = Type.MONEY;}
 	;
 
 
@@ -146,7 +159,10 @@ WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN)
 COMMENT 
      : '/*' .* '*/' -> channel(HIDDEN)
     ;
-
+    
+SLCOMMENT
+	: '//' .* '/n' -> channel(HIDDEN)
+	;
 
 /* Keyword reservation */
 BOOL : 'boolean';
@@ -156,12 +172,9 @@ IF : 'if';
 ELSE : 'else';
 FORM : 'form';
 MONEY : 'money';
-     
-  
-
+ 
 /* Literals */
 Bool: ('true' | 'false');
 Int: ('0'..'9')+;
 Str: '"' ~('"')* '"' ;
-
 Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;

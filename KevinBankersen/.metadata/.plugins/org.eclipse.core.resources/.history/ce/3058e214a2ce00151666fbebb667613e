@@ -1,0 +1,21 @@
+package eu.bankersen.kevin.ql.ast.var;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+
+public class Variable  extends Expr{
+
+	private final String name;
+
+	public Variable(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public Object result() {
+		return expr.getValue(name);
+	}
+}
