@@ -4,18 +4,32 @@ var antlr4 = require('antlr4/index');
 var MyGrammerLexer = require('MyGrammerLexer');
 var MyGrammerParser = require('MyGrammerParser');
 var MyGrammerListener = require('MyGrammerListener');
+var MyGrammerVisitor = require('MyGrammerVisitor');
 var ast;
 var newAst;
 var errors;
 var warnings;
+
+var JSExpr = function (expr){
+	this.expr = expr;
+};
+
+var JSOpExpr = function (left, op, right){
+	this.left = left;
+	this.op = op;
+	this.right = right;
+}
+
+var JSNoOpExpr = function (expr){
+	this.expr = expr;
+}
 
 function initiate(inputString){
 
 	var characters = new antlr4.InputStream(inputString);
 	var lexer = new MyGrammerLexer.MyGrammerLexer(characters);
 	var tokens  = new antlr4.CommonTokenStream(lexer);
-	var parser = new MyGrammerParser.MyGrammerParser(tokens);
-	ast = {};
+	var parserANTLR = new MyGrammerParser.MyGrammerParser(tokens);
 	newAst = {};
 	newAst.root = new Array();
 	warnings = new Set();
@@ -38,18 +52,160 @@ function initiate(inputString){
 
 
 	lexer.removeErrorListeners();
-	parser.removeErrorListeners();
-	parser.addErrorListener(new ErrorListener());
+	parserANTLR.removeErrorListeners();
+	parserANTLR.addErrorListener(new ErrorListener());
 
-	parser.buildParseTrees = true;
+	parserANTLR.buildParseTrees = true;
 
-	var tree = parser.form();
+	var tree = parserANTLR.form();
+
 	parseQuestions(tree);
 }	
 
 function parseQuestions(parseTree){
 	
+
 	var newDependencies = new Array();
+
+	var Visitor = function(){
+		MyGrammerVisitor.MyGrammerVisitor.call(this);
+		return this;
+	};
+
+	Visitor.prototype = Object.create(MyGrammerVisitor.MyGrammerVisitor.prototype);
+
+	Visitor.prototype.visitForm = function (ctx){
+		for(var i=0;i<ctx.children.length;i++){
+			this.visit(ctx.children[i]);
+		}
+		createAST();
+		if(!checkCyclicDependencies()){
+			renderQuestions();
+	   		setHandlers();
+	    	refreshGUI();	
+		}
+	};
+
+	Visitor.prototype.visitOpExpr = function (ctx){
+		console.log("A EXPR!");
+	};
+
+	Visitor.prototype.visitElsestmt = function (ctx){
+		var oldDepencendy = newDependencies.pop();
+		var newDependency = {};
+		newDependency.condition = "!" + oldDepencendy.condition;
+		newDependency.nodeType = "condition";
+		if(newDependencies.length==0){
+			newAst.root.push(newDependency);
+			newDependencies.push(newDependency);
+		}
+		else{
+			var currentDependency = newDependencies.pop();
+			if(currentDependency.children == undefined){
+				currentDependency.children = new Array();
+			}
+			currentDependency.children.push(newDependency);
+			newDependencies.push(currentDependency);
+			newDependencies.push(newDependency);
+		}
+
+		ctx.que.accept(this);	
+	};
+
+	Visitor.prototype.visitParenthesisExpr = function (ctx){
+		return ctx.result;
+	};
+
+	Visitor.prototype.visitIfstmt = function (ifNode){
+
+		console.log(ifNode.children[1]);
+		var dependency = {};
+		dependency.condition = ifNode.children[1].getText();
+		//TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		dependency.newCond = ifNode.children[1].accept(this);
+		dependency.nodeType = "condition";
+		if(newDependencies.length==0){
+			newAst.root.push(dependency);
+			newDependencies.push(dependency);
+		}
+		else{
+			var currentDependency = newDependencies.pop();
+			if(currentDependency.children == undefined){
+				currentDependency.children = new Array();
+			}
+			currentDependency.children.push(dependency);
+			newDependencies.push(currentDependency);
+			newDependencies.push(dependency);
+		}
+
+		
+		//visit queries
+		ifNode.children[2].accept(this);
+		//visit possible else
+		if(ifNode.children[3]!=undefined){
+			ifNode.children[3].accept(this);
+		}
+
+		newDependencies.pop();
+	};
+
+	Visitor.prototype.visitQuestion = function (questionNode){
+		var question = {};
+	    question.nodeType = "question";
+	    question.text = questionNode.children[0].getText();
+	    question.text = question.text.substring(1, question.text.length-1);
+
+	    question.label = questionNode.children[1].getText();
+
+	    if(questionNode.children[3].children.length==1){
+	    	//just a terminal node
+	    	question.type = questionNode.children[3].getText();
+
+		    if(question.type=="integer" || question.type=="decimal" || question.type=="money" || question.type=="currency"){
+		    	question.value = 0;
+		    }
+		    else if(question.type=="boolean"){
+		    	question.value = false;
+		    }
+		    else if(question.type=="string" || question.type=="date"){
+		    	question.value = "";
+		    }
+
+	    }
+	    else{
+	    	//complex expr node
+	    	question.type = questionNode.children[3].children[0].getText();
+	    	question.expr = questionNode.children[3].children[2].getText();
+	    	question.value = 0;
+	    }
+
+	    question.visible = true;
+	    question.parent = newDependencies.slice(0);
+	    
+		
+		if(newDependencies.length==0){
+	    	newAst.root.push(question);
+	    }
+	    else{
+	    	var dependency = newDependencies.pop();
+	    	if(dependency.children == undefined){
+	    		dependency.children = new Array();
+	    	}
+	    	dependency.children.push(question);
+	    	newDependencies.push(dependency);
+	    }
+	};
+
+	Visitor.prototype.visitQueries = function (ctx){
+		for(var i=0;i<ctx.children.length;i++){
+			ctx.children[i].accept(this);
+		}
+	}
+
+	var visitor = new Visitor();
+	parseTree.accept(visitor);
+
+
 
 	var QuestionPrinter = function () {
     	MyGrammerListener.MyGrammerListener.call(this);
@@ -58,6 +214,7 @@ function parseQuestions(parseTree){
 
 	QuestionPrinter.prototype = Object.create(MyGrammerListener.MyGrammerListener.prototype);
 	
+	//done
 	QuestionPrinter.prototype.enterIfstmt = function (ifNode) {
 
 		var dependency = {};
@@ -78,10 +235,12 @@ function parseQuestions(parseTree){
 		}
 	};
 
+	//done
 	QuestionPrinter.prototype.exitIfstmt = function (ifNode) {
 		newDependencies.pop();
 	};
 
+	//done
 	QuestionPrinter.prototype.enterElsestmt = function(ctx) {
 		var oldDepencendy = newDependencies.pop();
 		var newDependency = {};
@@ -134,7 +293,8 @@ function parseQuestions(parseTree){
 	    }
 
 	    question.visible = true;
-
+	    question.parent = newDependencies.slice(0);
+	    
 		
 		if(newDependencies.length==0){
 	    	newAst.root.push(question);
@@ -151,13 +311,16 @@ function parseQuestions(parseTree){
 
 	QuestionPrinter.prototype.exitForm = function (ctx) {
 		createAST();
-	    renderQuestions();
-	    setHandlers();
-	    refreshGUI();
+		if(!checkCyclicDependencies()){
+			renderQuestions();
+	   		setHandlers();
+	    	refreshGUI();	
+		}
+	    
 	};
 
-	var printer = new QuestionPrinter();
-	antlr4.tree.ParseTreeWalker.DEFAULT.walk(printer, parseTree);
+	//var printer = new QuestionPrinter();
+	//antlr4.tree.ParseTreeWalker.DEFAULT.walk(printer, parseTree);
 }
 
 function createAST(){
@@ -223,6 +386,26 @@ function setASTQuestionValue(label, value){
 	}
 }
 
+function getQuestion(label){
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
+	}
+
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question" && currentNode.label == label){
+			return currentNode;
+		}
+		else if(currentNode.children != undefined){
+			for (var j = 0; j<currentNode.children.length; j++) {
+				stack.push(currentNode.children[j]);
+			}
+		}
+	}
+
+	return undefined;
+}
 
 function resetQuestionVisibility(){
 	var stack = new Array();
@@ -254,6 +437,89 @@ function setHandlers(){
 		}
 		refreshGUI();
 	});
+}
+
+//TODO strings
+function evaluate(statement){
+	var evalStmt = "";
+	var labels = getQuestionLabels();
+	labels = labels.sort().reverse();
+	for(var i=0;i<labels.length;i++){
+		var regexObj = new RegExp(labels[i],"g");
+		statement = statement.replace(regexObj, getQuestionValue(labels[i]));
+	}
+
+	var jisonErrorListener = function(str, hash){
+		errors.add(str);
+  		fillPanel("error", errors, true);
+	};
+	parser.yy.parseError = jisonErrorListener;
+
+	var parseResponse = parser.parse(statement);
+	return parseResponse;
+
+}
+
+
+function checkCyclicDependencies(){
+	var questionLabels = getQuestionLabels();
+	var questionDependencies = new Array();
+	for(var i = 0;i<questionLabels.length;i++){
+		questionDependencies[questionLabels[i]] = getQuestionsInSubtree(getQuestion(questionLabels[i]));
+	}
+	console.log(newAst);
+
+	var detectedDepencendies = false;
+	for(var i=0;i<questionLabels.length;i++){
+		var dependencies = questionDependencies[questionLabels[i]];
+		for(var j=0;j<dependencies.length;j++){
+			var dependency = dependencies[j];
+			if(questionDependencies[dependency].length>0){
+				var otherDependencies = questionDependencies[dependency];
+				for(var k=0;k<otherDependencies.length;k++){
+					if(otherDependencies[k] == questionLabels[i]){
+						detectedDepencendies = true;
+						errors.add("Error: Cyclic dependency detected for questions " + questionLabels[i] + " and " + dependency);
+					}
+				}
+			}
+		}
+	}
+
+	if(detectedDepencendies){
+		fillPanel("error", errors, true);
+	}
+
+	return detectedDepencendies;
+}
+
+function getQuestionsInSubtree(node){
+	if(node.parent.length==0){
+		return [];
+	}
+	else{
+		var labels = [];
+		for(var i=0;i<node.parent.length;i++){
+			var parent = node.parent[i];
+			labels = labels.concat(getLabelsInStatement(parent.condition));
+		}
+		return labels;
+	}
+}
+
+function getLabelsInStatement(statement){
+	var allLabels = getQuestionLabels();
+	allLabels = allLabels.sort().reverse();
+	var labels = [];
+	for(var i=0;i<allLabels.length;i++){
+		if(statement.indexOf(allLabels[i])>-1){
+			labels.push(allLabels[i]);
+			var regexObj = new RegExp(labels[i],"g");
+			statement = statement.replace(regexObj, "");	
+		}
+	}
+	
+	return labels;
 }
 
 
@@ -291,18 +557,6 @@ function refreshGUI(){
 			}
 		}
 	}
-}
-
-//TODO strings
-function evaluate(statement){
-	var evalStmt = "";
-	var labels = getQuestionLabels();
-	labels = labels.sort().reverse();
-	for(var i=0;i<labels.length;i++){
-		var regexObj = new RegExp(labels[i],"g");
-		statement = statement.replace(regexObj, getQuestionValue(labels[i]));
-	}
-	return parser.parse(statement);
 }
 
 function getQuestionLabels(){
@@ -415,7 +669,8 @@ function fillPanel(panel, set, critical){
 	var html = "<ul>";
 
 	set.forEach(function(value) {
-	  html += "<li>" + value + "</li>";
+		value = value.replace(/\n/g, "<br/>");
+	  	html += "<li>" + value + "</li>";
 	});
 
 	html += "</ul>";
@@ -430,6 +685,7 @@ function fillPanel(panel, set, critical){
 $("#generate").click(function(){
 	initiate($("#input").val());
 });
+
 
 $("#save").click(function(){
 	var answers = new Array();
