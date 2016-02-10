@@ -18,7 +18,7 @@ import SwiftParsec
  *
  * form         ::= 'form' block
  * block        ::= { stmt* }
- * stmt         ::= question
+ * stmt         ::= 'if' ( expr) { block } | question
  * question     ::= var ':' stringLit expr
  * expr         ::= ( expr ) | prefix expr | expr infix expr | var | boolean | money | const
  * const        ::= true | false | stringLit | numberLit
@@ -71,6 +71,10 @@ class QLParser: NSObject {
                 variable.map { eVar in QLExpressionVariable(variable: eVar) }
             let boolExpr: GenericParser<String, (), QLExpression> =
                 lexer.symbol("boolean").map { _ in QLBoolean() }
+            let moneyExpr: GenericParser<String, (), QLExpression> =
+                lexer.symbol("money") *> lexer.parentheses(_expr).map { ding in QLMoney(expr: ding) }
+//                    <|>
+//                lexer.symbol("money").map { _ in QLMoney() }
             let prefix: GenericParser<String, (), QLPrefix.Type> =
                 StringParser.character("-").map { _ in QLNeg.self } <|>
                 StringParser.character("!").map { _ in QLNot.self }
@@ -79,22 +83,46 @@ class QLParser: NSObject {
                     _expr.map { rhs in ePrefix.init(rhs: rhs) }
                 }
             let infix: GenericParser<String, (), QLInfix.Type> =
-                lexer.symbol("+").map { _ in QLAdd.self } <|>
+                StringParser.character("+").map { _ in QLAdd.self } <|>
                 StringParser.character("-").map { _ in QLSub.self } <|>
                 StringParser.character("*").map { _ in QLMul.self } <|>
                 StringParser.character("/").map { _ in QLDiv.self } <|>
-                StringParser.character("^").map { _ in QLPow.self }
-            let infixExpr: GenericParser<String, (), QLExpression> =
-                varExpr.flatMap { lhs in
-                    infix.flatMap { eInfix in
-                        varExpr.map { rhs in
-                            eInfix.init(lhs: lhs, rhs: rhs)
-                        }
+                StringParser.character("^").map { _ in QLPow.self } <|>
+                lexer.symbol("&&").map { _ in QLAnd.self } <|>
+                lexer.symbol("||").map { _ in QLOr.self }
+//            let infixExpr: GenericParser<String, (), QLExpression> =        // TODO: recursion on expr
+//                varExpr.flatMap { lhs in
+//                    infix.flatMap { eInfix in
+//                        varExpr.map { rhs in
+//                            eInfix.init(lhs: lhs, rhs: rhs)
+//                        }
+//                    }
+//                }
+            
+            
+            func opParser(left: QLExpression) -> GenericParser<String, (), QLExpression> {
+                return infix.flatMap { eInfix in
+                    _expr.flatMap { right in
+                        opParser1(eInfix.init(lhs: left, rhs: right))
+//                        opParser1(right).map { rhs in
+//                            eInfix.init(lhs: left, rhs: rhs)
+//                        }
                     }
+                }
+            }
+            
+            func opParser1(right: QLExpression) -> GenericParser<String, (), QLExpression> {
+                return opParser(right) <|> GenericParser(result: right)
+            }
+            
+            let infixExpr: GenericParser<String, (), QLExpression> =
+                lexer.parentheses(_expr).flatMap { lhs in
+                    opParser(lhs)// <|> GenericParser(result: lhs)
                 }
             
             
-            expr = precExpr <|> prefixExpr <|> infixExpr.attempt <|> varExpr <|> boolExpr <|> litExpr
+//            expr = moneyExpr <|> precExpr <|> prefixExpr <|> infixExpr.attempt <|> boolExpr <|> litExpr <|> varExpr
+            expr = infixExpr <|> varExpr
             
             return expr
         }
@@ -121,7 +149,6 @@ class QLParser: NSObject {
                         QLIf(conditional: cond, block: blockStmt)
                     }
                 }
-
             
             block =
                 lexer.braces(
@@ -133,7 +160,8 @@ class QLParser: NSObject {
                 ).map { stmts in QLBlockStatement(block: stmts) }
             
             
-            stmt = ifStmt <|> qStmt
+//            stmt = ifStmt <|> qStmt
+            stmt = qStmt
             
             return stmt
         }
@@ -145,6 +173,6 @@ class QLParser: NSObject {
             }
         
         
-        return lexer.whiteSpace *> form
+        return lexer.whiteSpace *> form //<* StringParser.eof
     }
 }

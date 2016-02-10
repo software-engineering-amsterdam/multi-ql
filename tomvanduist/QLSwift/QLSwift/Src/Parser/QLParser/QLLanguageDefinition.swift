@@ -18,7 +18,7 @@ public extension LanguageDefinition {
     public static var ql: LanguageDefinition {
         var qlDef = javaStyle
         
-        qlDef.reservedNames     = []
+        qlDef.reservedNames     = ["money"]
         qlDef.reservedOperators = ["if", "money"]
         
         return qlDef
