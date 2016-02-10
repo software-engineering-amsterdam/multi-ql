@@ -2,72 +2,78 @@
 module Parser
 type token = 
   | EOF
-  | ASC
-  | DESC
-  | SELECT
-  | FROM
-  | WHERE
-  | ORDER
-  | BY
-  | JOIN
-  | INNER
-  | LEFT
-  | RIGHT
-  | ON
   | EQ
   | LT
   | LE
   | GT
   | GE
   | COMMA
+  | MONEY
+  | INTEGER
+  | STRINGTYPE
   | AND
   | OR
-  | DOUBLEPOINT
-  | ENDBRACKET
-  | STARTBRACKET
+  | BITWISEAND
+  | BITWISEOR
+  | IF
+  | COLON
+  | OPEN_BRACE
+  | CLOSE_BRACE
+  | OPEN_SQBRACKET
+  | CLOSE_SQBRACKET
+  | OPEN_BRACKET
+  | CLOSE_BRACKET
+  | QUESTION
   | FORM
   | FLOAT of (float)
   | INT of (int)
-  | QUESTION of (string)
+  | QTYPE of (string)
+  | STRING of (string)
   | ID of (string)
 type tokenId = 
     | TOKEN_EOF
-    | TOKEN_ASC
-    | TOKEN_DESC
-    | TOKEN_SELECT
-    | TOKEN_FROM
-    | TOKEN_WHERE
-    | TOKEN_ORDER
-    | TOKEN_BY
-    | TOKEN_JOIN
-    | TOKEN_INNER
-    | TOKEN_LEFT
-    | TOKEN_RIGHT
-    | TOKEN_ON
     | TOKEN_EQ
     | TOKEN_LT
     | TOKEN_LE
     | TOKEN_GT
     | TOKEN_GE
     | TOKEN_COMMA
+    | TOKEN_MONEY
+    | TOKEN_INTEGER
+    | TOKEN_STRINGTYPE
     | TOKEN_AND
     | TOKEN_OR
-    | TOKEN_DOUBLEPOINT
-    | TOKEN_ENDBRACKET
-    | TOKEN_STARTBRACKET
+    | TOKEN_BITWISEAND
+    | TOKEN_BITWISEOR
+    | TOKEN_IF
+    | TOKEN_COLON
+    | TOKEN_OPEN_BRACE
+    | TOKEN_CLOSE_BRACE
+    | TOKEN_OPEN_SQBRACKET
+    | TOKEN_CLOSE_SQBRACKET
+    | TOKEN_OPEN_BRACKET
+    | TOKEN_CLOSE_BRACKET
+    | TOKEN_QUESTION
     | TOKEN_FORM
     | TOKEN_FLOAT
     | TOKEN_INT
-    | TOKEN_QUESTION
+    | TOKEN_QTYPE
+    | TOKEN_STRING
     | TOKEN_ID
     | TOKEN_end_of_input
     | TOKEN_error
 type nonTerminalId = 
     | NONTERM__startstart
     | NONTERM_start
+    | NONTERM_form
+    | NONTERM_contents
     | NONTERM_questions
+    | NONTERM_statement
+    | NONTERM_condition
+    | NONTERM_conditionList
+    | NONTERM_op
     | NONTERM_questionList
-    | NONTERM_questionType
+    | NONTERM_value
 /// This function maps tokens to integer indexes
 val tagOfToken: token -> int
 
@@ -79,4 +85,4 @@ val prodIdxToNonTerminal: int -> nonTerminalId
 
 /// This function gets the name of a token as a string
 val token_to_string: token -> string
-val start : (Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> (Statements.Form) 
+val start : (Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> (Statements.Questionary) 
