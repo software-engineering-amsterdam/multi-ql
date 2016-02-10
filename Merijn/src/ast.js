@@ -57,16 +57,6 @@ export class QuestionNode extends Node {
 	}
 }
 
-export class NegationNode extends Node {
-	constructor(line, operand) {
-		super(line);
-		this.operand = operand;
-	}
-	accept (visitor) {
-		return visitor.visitNegationNode(this);
-	}
-}
-
 export class UnaryPrefixNode extends Node {
 	constructor(line, operation, operand) {
 		super(line);
