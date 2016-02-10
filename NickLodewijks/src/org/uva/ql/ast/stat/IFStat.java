@@ -5,6 +5,7 @@ import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.Result;
 import org.uva.ql.ast.ValueType;
+import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.Block;
 
@@ -17,17 +18,20 @@ public class IFStat extends ASTNode {
 		this.body = body;
 	}
 
+	public Boolean interpret(Context context) {
+		return (Boolean) condition.interpret(context);
+	}
+
 	@Override
 	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
-
-		condition.accept(visitor);
-		body.accept(visitor);
 	}
 
-	@Override
-	public Result validate() {
-		return TypeChecker.checkType(condition, ValueType.BOOLEAN);
+	public Expr getExpression() {
+		return condition;
 	}
 
+	public Block getBody() {
+		return body;
+	}
 }
