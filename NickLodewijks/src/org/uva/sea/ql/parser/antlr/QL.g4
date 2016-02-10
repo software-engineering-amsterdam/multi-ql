@@ -33,14 +33,19 @@ ifStat returns [IFStat result]
     ;
 
 question[Block arg]  returns [Question result]
-    :   variableType + identifier + STR
+    : variableType + identifier + STR + orExpr
+    {
+         $arg.add(new VariableDecl($variableType.result, $identifier.result));
+         $result = new ComputedQuestion($identifier.result, $STR.text, $orExpr.result);
+    }
+    | variableType + identifier + STR 
     { 
         $arg.add(new VariableDecl($variableType.result, $identifier.result));
-        $result = new Question($identifier.result, $STR.text);
+        $result = new InputQuestion($identifier.result, $STR.text);
     }
     | identifier + STR
     { 
-        $result = new Question($identifier.result, $STR.text);
+        $result = new InputQuestion($identifier.result, $STR.text);
     }
     ;
     
@@ -154,8 +159,9 @@ BOOLEAN :   'bool';
 INTEGER :   'int';
 STRING  :   'str';
 
-ID  :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-
 BOOL :  'true' | 'false';
 INT :   ('0'..'9')+;
 STR :   '"' .*? '"';
+
+ID  :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+

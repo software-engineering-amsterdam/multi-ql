@@ -1,6 +1,5 @@
 package org.uva.sea.ql.ast.expr;
 
-import org.uva.sea.ql.TypeChecker;
 import org.uva.sea.ql.ast.ASTNodeVisitor;
 import org.uva.sea.ql.ast.Result;
 import org.uva.sea.ql.ast.ValueType;
@@ -28,18 +27,17 @@ public class Eq extends AbstractBinaryExpr {
 
 	@Override
 	public Result validate() {
-		Result result;
 
-		result = TypeChecker.checkType(lhs, ValueType.BOOLEAN);
-		if (result.isFalse()) {
-			return result;
+		if (lhs.type() == rhs.type()) {
+			return Result.TRUE();
 		}
 
-		result = TypeChecker.checkType(rhs, ValueType.BOOLEAN);
-		if (result.isFalse()) {
-			return result;
-		}
+		String msg;
 
-		return Result.TRUE();
+		msg = String.format(
+				"[%s: %s] Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
+				getLineIndex(), getCharIndex(), lhs.type().getName(), rhs.type().getName());
+
+		return Result.FALSE(msg);
 	}
 }
