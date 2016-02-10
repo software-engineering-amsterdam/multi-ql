@@ -1,7 +1,6 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
 import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.literal.Literal;
 

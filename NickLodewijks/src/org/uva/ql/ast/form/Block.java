@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
 import org.uva.ql.ast.VariableDecl;
 import org.uva.ql.ast.stat.IFStat;
 
