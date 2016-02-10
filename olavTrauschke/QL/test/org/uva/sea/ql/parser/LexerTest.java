@@ -21,7 +21,7 @@ public class LexerTest {
         assertEquals(expected, tokens);
     }
     
-    
+    @Test
     public void testComplexExpressionAnalysis() throws FileNotFoundException {
         Lexer lexer = new Lexer("complexExpression.ql");
         ArrayList<Integer> tokens = obtainTokens(lexer);

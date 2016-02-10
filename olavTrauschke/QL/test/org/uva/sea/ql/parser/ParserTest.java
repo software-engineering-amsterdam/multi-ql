@@ -20,6 +20,7 @@ public class ParserTest {
         assertEquals(expected, result);
     }
     
+    @Test
     public void testComplexExpressionParsing() throws FileNotFoundException {
         Lexer lexer = new Lexer("complexExpression.ql");
         lexer.nextToken();

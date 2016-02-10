@@ -192,6 +192,7 @@ public class Lexer implements Tokens {
         StringBuilder sb = new StringBuilder();
         do {
             sb.append((char) character);
+            readNextCharacter();
         } while (Character.isLetterOrDigit(character));
         String name = sb.toString();
         if (KEYWORDS.containsKey(name)) {
