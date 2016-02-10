@@ -8,7 +8,7 @@ import uva.TaxForm.GUI.Fields.MoneyTextField;
 public class MoneyTextFieldDocumentListener extends AbstractDocumentListener {
 
 	private MoneyTextField mtf;
-	private JPanel panel;
+	private final JPanel panel;
 	
 	public MoneyTextFieldDocumentListener(final MoneyTextField mtf, final JPanel panel) {
 		this.mtf = mtf;

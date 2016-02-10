@@ -6,13 +6,17 @@ form taxOfficeExample{
     if(hasSoldHouse && hasMaintLoan){
         int sellingPrice "What was the selling price?"
         int privateDebt "Private debts for the sold house:"
-        int valueResidue "Value residue:"
+        int valueResidue "Value residue:" sellingPrice-privateDebt
         
         if(valueResidue > 100){
-            str areYouSure "Are you sure?"
+            bool areYouSure "Are you sure?"
             
             if(areYouSure){
                 int enterAnumber "Please enter a number."
+            }
+            
+            if(1+1 == 2){
+                int enterAnumbe2r "Please enter a number2."
             }
         }
         

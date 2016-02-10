@@ -1,6 +1,9 @@
 package uva.TaxForm.AST;
 
-public class ASTQuestion extends ASTNode {
+import uva.TaxForm.Interfaces.IASTNode;
+import uva.TaxForm.Interfaces.IASTNodeVisitor;
+
+public class ASTQuestion extends ASTNode implements IASTNode {
 
 	private String label;
 	private ASTExpression expression;
@@ -39,4 +42,8 @@ public class ASTQuestion extends ASTNode {
 		this.expression = expression;
 	}
 
+	@Override
+	public void accept(IASTNodeVisitor visitor) {
+		visitor.visit(this);
+	}
 }

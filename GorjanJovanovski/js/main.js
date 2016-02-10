@@ -4,7 +4,8 @@ var antlr4 = require('antlr4/index');
 var MyGrammerLexer = require('MyGrammerLexer');
 var MyGrammerParser = require('MyGrammerParser');
 var MyGrammerListener = require('MyGrammerListener');
-var ast = {};
+var ast;
+var newAst;
 var errors;
 var warnings;
 
@@ -14,7 +15,9 @@ function initiate(inputString){
 	var lexer = new MyGrammerLexer.MyGrammerLexer(characters);
 	var tokens  = new antlr4.CommonTokenStream(lexer);
 	var parser = new MyGrammerParser.MyGrammerParser(tokens);
-	
+	ast = {};
+	newAst = {};
+	newAst.root = new Array();
 	warnings = new Set();
 	errors = new Set();
 	$("#errorpanel").hide();
@@ -46,8 +49,7 @@ function initiate(inputString){
 
 function parseQuestions(parseTree){
 	
-	var questions = new Array();
-	var dependencies = new Array();
+	var newDependencies = new Array();
 
 	var QuestionPrinter = function () {
     	MyGrammerListener.MyGrammerListener.call(this);
@@ -57,20 +59,53 @@ function parseQuestions(parseTree){
 	QuestionPrinter.prototype = Object.create(MyGrammerListener.MyGrammerListener.prototype);
 	
 	QuestionPrinter.prototype.enterIfstmt = function (ifNode) {
-		dependencies.push(ifNode.children[1].getText());
+
+		var dependency = {};
+		dependency.condition = ifNode.children[1].getText();
+		dependency.nodeType = "condition";
+		if(newDependencies.length==0){
+			newAst.root.push(dependency);
+			newDependencies.push(dependency);
+		}
+		else{
+			var currentDependency = newDependencies.pop();
+			if(currentDependency.children == undefined){
+				currentDependency.children = new Array();
+			}
+			currentDependency.children.push(dependency);
+			newDependencies.push(currentDependency);
+			newDependencies.push(dependency);
+		}
 	};
 
 	QuestionPrinter.prototype.exitIfstmt = function (ifNode) {
-		dependencies.pop();
+		newDependencies.pop();
 	};
 
 	QuestionPrinter.prototype.enterElsestmt = function(ctx) {
-		dependencies.push("!" + dependencies.pop());
+		var oldDepencendy = newDependencies.pop();
+		var newDependency = {};
+		newDependency.condition = "!" + oldDepencendy.condition;
+		newDependency.nodeType = "condition";
+		if(newDependencies.length==0){
+			newAst.root.push(newDependency);
+			newDependencies.push(newDependency);
+		}
+		else{
+			var currentDependency = newDependencies.pop();
+			if(currentDependency.children == undefined){
+				currentDependency.children = new Array();
+			}
+			currentDependency.children.push(newDependency);
+			newDependencies.push(currentDependency);
+			newDependencies.push(newDependency);
+		}
 	};
+
 
 	QuestionPrinter.prototype.exitQuestion = function (questionNode) {
 	    var question = {};
-
+	    question.nodeType = "question";
 	    question.text = questionNode.children[0].getText();
 	    question.text = question.text.substring(1, question.text.length-1);
 
@@ -98,18 +133,25 @@ function parseQuestions(parseTree){
 	    	question.value = 0;
 	    }
 
-	    if(dependencies.length>0){
-	    	question.dependencies = dependencies.slice(0);
-	    }
-
 	    question.visible = true;
 
-	    questions.push(question);
+		
+		if(newDependencies.length==0){
+	    	newAst.root.push(question);
+	    }
+	    else{
+	    	var dependency = newDependencies.pop();
+	    	if(dependency.children == undefined){
+	    		dependency.children = new Array();
+	    	}
+	    	dependency.children.push(question);
+	    	newDependencies.push(dependency);
+	    }
 	};
 
 	QuestionPrinter.prototype.exitForm = function (ctx) {
-		createAST(questions);
-	    renderQuestions(questions);
+		createAST();
+	    renderQuestions();
 	    setHandlers();
 	    refreshGUI();
 	};
@@ -118,44 +160,88 @@ function parseQuestions(parseTree){
 	antlr4.tree.ParseTreeWalker.DEFAULT.walk(printer, parseTree);
 }
 
-function createAST(questions){
-	ast = {};
-	ast.questions = questions;
-	ast.labels = new Array();
-	ast.texts = new Array();
-	for(var i=0;i<questions.length;i++){
-		if(ast.labels.indexOf(questions[i].label)>-1){
-			errors.add("ERROR: " + "Label '" + questions[i].label + "' is already defined");
-			fillPanel("error", errors, true);
-		}
-		else{
-			if(ast.texts.indexOf(questions[i].text)>-1){
-				warnings.add("WARNING: " + "Text '" + questions[i].text + "' is already defined");
-				fillPanel("warning", warnings);
-			}
+function createAST(){
+	var texts = new Set();
+	var labels = new Set();
 
-			ast.labels.push(questions[i].label);
-			ast.texts.push(questions[i].text);
-		}
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
 	}
-}
 
-function setASTQuestionValue(label, value){
-	for(var i=0;i<ast.questions.length;i++){
-		if(ast.questions[i].label==label){
-			if(ast.questions[i].type == "integer"){
-				ast.questions[i].value = parseInt(value);
-			}
-			else if(ast.questions[i].type == "decimal" || ast.questions[i].type == "money" || ast.questions[i].type == "currency"){
-				ast.questions[i].value = parseFloat(value);
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question"){
+			if(labels.has(currentNode.label)){
+				errors.add("ERROR: " + "Label '" + currentNode.label + "' is already defined");
+				fillPanel("error", errors, true);
 			}
 			else{
-				ast.questions[i].value = value;
+				if(texts.has(currentNode.text)){
+					warnings.add("WARNING: " + "Text '" + currentNode.text + "' is already defined");
+					fillPanel("warning", warnings);
+				}
+
+				labels.add(currentNode.label);
+				texts.add(currentNode.text);
+			}
+		}
+		else if(currentNode.children != undefined){
+			for (var j = 0; j<currentNode.children.length; j++) {
+				stack.push(currentNode.children[j]);
 			}
 		}
 	}
 }
 
+
+function setASTQuestionValue(label, value){
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
+	}
+
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question" && currentNode.label == label){
+			if(currentNode.type == "integer"){
+				currentNode.value = parseInt(value);
+			}
+			else if(currentNode.type == "decimal" || currentNode.type == "money" || currentNode.type == "currency"){
+				currentNode.value = parseFloat(value);
+			}
+			else{
+				currentNode.value = value;
+			}
+			break;
+		}
+		else if(currentNode.children != undefined){
+			for (var j = 0; j<currentNode.children.length; j++) {
+				stack.push(currentNode.children[j]);
+			}
+		}
+	}
+}
+
+
+function resetQuestionVisibility(){
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
+	}
+
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question"){
+			currentNode.visible = false;
+		}
+		else if(currentNode.children != undefined){
+			for (var j = 0; j<currentNode.children.length; j++) {
+				stack.push(currentNode.children[j]);
+			}
+		}
+	}
+}
 
 function setHandlers(){
 	$("input").change(function(){
@@ -172,39 +258,37 @@ function setHandlers(){
 
 
 function refreshGUI(){
-	for(var i=0;i<ast.questions.length;i++){
-		var question = ast.questions[i];
-		if(question.dependencies != undefined){
-			var dependencies = question.dependencies;
-			var shouldShow = true;
+	$(".questionDiv").hide();
+	resetQuestionVisibility();
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
+	}
 
-			for(var j=0;j<dependencies.length;j++){
-				var evalResult = evaluate(dependencies[j]);
-				if(typeof evalResult !== "boolean"){
-	  				errors.add("ERROR: Condition '"+dependencies[j]+"' is not boolean");
-	  				fillPanel("error", errors, true);
-				}
-				else{
-					shouldShow = evalResult;
-					if(!shouldShow){
-						break;
-					}
-				}
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question"){
+			
+			if(currentNode.expr != undefined){
+				currentNode.value = evaluate(currentNode.expr);
 			}
 
-			if(shouldShow){
-				$("div[label='"+question.label+"']").show();
-				ast.questions[i].visible = true;
-				
-			}
-			else{
-				$("div[label='"+question.label+"']").hide();
-				ast.questions[i].visible = false;
-			}
+			currentNode.visible = true;
+			$(".questionDiv[label='"+currentNode.label+"']").show();
+			$("input[name='"+currentNode.label+"']").val(currentNode.value);
+
 		}
-		if(question.expr!=undefined){
-			ast.questions[i].value = evaluate(question.expr);
-			$("input[name='"+question.label+"']").val(ast.questions[i].value);
+		else if(currentNode.nodeType == "condition"){
+			var evalResult = evaluate(currentNode.condition);
+			if(typeof evalResult !== "boolean"){
+  				errors.add("ERROR: Condition '"+currentNode.condition+"' is not boolean");
+  				fillPanel("error", errors, true);
+			}
+			else if (evalResult) {
+				for (var j = 0; j<currentNode.children.length; j++) {
+					stack.push(currentNode.children[j]);
+				}
+			}
 		}
 	}
 }
@@ -212,29 +296,51 @@ function refreshGUI(){
 //TODO strings
 function evaluate(statement){
 	var evalStmt = "";
-	ast.labels = ast.labels.sort();
-	ast.labels = ast.labels.reverse();
-	for(var i=0;i<ast.labels.length;i++){
-		var regexObj = new RegExp(ast.labels[i],"g");
-		statement = statement.replace(regexObj, getQuestionValue(ast.labels[i]));
+	var labels = getQuestionLabels();
+	labels = labels.sort().reverse();
+	for(var i=0;i<labels.length;i++){
+		var regexObj = new RegExp(labels[i],"g");
+		statement = statement.replace(regexObj, getQuestionValue(labels[i]));
 	}
 	return parser.parse(statement);
 }
 
-function getQuestionValue(label){
-	for(var i=0;i<ast.questions.length;i++){
-		var question = ast.questions[i];
-		if(question.label == label){
-			return question.value;
+function getQuestionLabels(){
+	var labels = new Array();
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
+	}
+
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question"){
+			labels.push(currentNode.label);
+		}
+		else if(currentNode.children != undefined){
+			for (var j = 0; j<currentNode.children.length; j++) {
+				stack.push(currentNode.children[j]);
+			}
 		}
 	}
+	return labels;
 }
 
-function getQuestionType(label){
-	for(var i=0;i<ast.questions.length;i++){
-		var question = ast.questions[i];
-		if(question.label == label){
-			return question.type;
+function getQuestionValue(label){
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
+	}
+
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question" && currentNode.label == label){
+			return currentNode.value;
+		}
+		else if(currentNode.children != undefined){
+			for (var j = 0; j<currentNode.children.length; j++) {
+				stack.push(currentNode.children[j]);
+			}
 		}
 	}
 }
@@ -274,7 +380,28 @@ function generateQuestionHTML(question){
 	return html;
 }
 
-function renderQuestions(questions){
+function renderQuestions(){
+	var questions = new Array();
+
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
+	}
+
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question"){
+			questions.push(currentNode);
+		}
+		else if(currentNode.children != undefined){
+			for (var j = 0; j<currentNode.children.length; j++) {
+				stack.push(currentNode.children[j]);
+			}
+		}
+	}
+
+	questions = questions.reverse();
+
 	var output = "";
 
 	for(var i=0;i<questions.length;i++){
@@ -306,17 +433,31 @@ $("#generate").click(function(){
 
 $("#save").click(function(){
 	var answers = new Array();
-	for(var i=0;i<ast.questions.length;i++){
-		var question = ast.questions[i];
-		if(question.visible){
+
+	var stack = new Array();
+	for(var i=0;i<newAst.root.length;i++){
+		stack.push(newAst.root[i]);
+	}
+
+	while(stack.length>0){
+		var currentNode = stack.pop();
+		if(currentNode.nodeType=="question" && currentNode.visible){
 			var answer = {};
-			answer.questionLabel = question.label;
-			answer.questionText = question.text;
-			answer.questionType = question.type;
-			answer.value = question.value;
+			answer.questionLabel = currentNode.label;
+			answer.questionText = currentNode.text;
+			answer.questionType = currentNode.type;
+			answer.value = currentNode.value;
 			answers.push(answer);
 		}
+		else if(currentNode.children != undefined){
+			for (var j = 0; j<currentNode.children.length; j++) {
+				stack.push(currentNode.children[j]);
+			}
+		}
 	}
+
+	answers = answers.reverse();
+
 	var blob = new Blob([JSON.stringify(answers, null, 2)], {type: "text/plain;charset=utf-8"});
 	saveAs(blob, "answers.txt");
 	

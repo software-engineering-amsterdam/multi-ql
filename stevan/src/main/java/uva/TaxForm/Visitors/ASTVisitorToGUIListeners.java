@@ -1,8 +1,11 @@
 package uva.TaxForm.Visitors;
 
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Stack;
+
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.event.DocumentEvent;
 
 import uva.TaxForm.AST.ASTBlock;
 import uva.TaxForm.AST.ASTExpression;
@@ -11,8 +14,14 @@ import uva.TaxForm.AST.ASTNode;
 import uva.TaxForm.AST.ASTQuestion;
 import uva.TaxForm.AST.ASTVariable;
 import uva.TaxForm.GUI.GUI;
+import uva.TaxForm.GUI.Fields.IntTextField;
 import uva.TaxForm.GUI.Fields.MoneyTextField;
-import uva.TaxForm.GUI.Fields.DocumentListeners.AbstractDocumentListener;
+import uva.TaxForm.GUI.Fields.ActionListeners.AbstractActionListener;
+import uva.TaxForm.GUI.Fields.ActionListeners.JCheckBoxActionListener;
+import uva.TaxForm.GUI.Fields.DocumentListeners.IntTextFieldDocumentListener;
+import uva.TaxForm.GUI.Fields.DocumentListeners.MoneyDocumentListener;
+import uva.TaxForm.GUI.Fields.DocumentListeners.MoneyTextFieldDocumentListener;
+import uva.TaxForm.Utils.ShuntingYardAlgorithm;
 
 public class ASTVisitorToGUIListeners {
 	
@@ -35,15 +44,18 @@ public class ASTVisitorToGUIListeners {
 				int nodeType = node.getNodeType();
 				
 				switch ( nodeType ) {
+				
 					case ASTNode.FORM:
 						break;
+						
 					case ASTNode.QUESTION: 
 						visitQuestion(node);
 						break;
+						
 					case ASTNode.IF_STATEMENT: 
-						//System.out.println("IF_STATEMENT");
 						visitIfStatement(node);
 						break;
+						
 					default: break;
 				}
 			}
@@ -64,6 +76,20 @@ public class ASTVisitorToGUIListeners {
 			ASTBlock block = (ASTBlock) rightNode;
 			visit(block, this.gui.panel);
 		}
+		
+		if (stmnt.getExpression() != null) {
+			
+			ASTVariable var = (ASTVariable) stmnt.getExpression().getLeftNode();
+			Component[] comps = this.gui.panel.getComponents();
+			
+			for(Component comp : comps) {
+				
+				JPanel panel = (JPanel) comp;
+				if (panel.getName() == var.getName()) {
+					visitExpression(stmnt.getExpression(), panel);
+				}
+			}
+		}
 	}
 
 	public void visitQuestion(ASTNode node) {
@@ -71,68 +97,94 @@ public class ASTVisitorToGUIListeners {
 		ASTQuestion questionNode = (ASTQuestion) node;
 		
 		if (questionNode.isComputed()) {
-			//ASTVariable var = (ASTVariable) questionNode.getExpression().getLeftNode();
 			ASTExpression exp = (ASTExpression) questionNode.getExpression();
-			
-			//Component c = ASTVisitorToGUIUtils.getComponentByName(this.gui.frame, var.getName());
-			
-			//System.out.println(c.getName());
-			//System.out.println(exp.getExpressionType());
-			
-			visitExpression(exp);
+			visitExpression(exp, null);
 		}
 	}
 	
-	public void visitExpression(ASTExpression exp) {
+	public void visitExpression(ASTExpression exp, final JPanel panel) {
 		
-		if (exp.getExpressionType() == ASTExpression.ASSIGN_EXP) {
-			System.out.println(exp.getLeftNode().toString() + " ASIGN left");
-			ASTVariable leftNode = (ASTVariable) exp.getLeftNode();
-			ASTExpression rightNode = (ASTExpression) exp.getRightNode();
-			
-			Component cParent, cChildLeft, cChildRight;
-			MoneyTextField tfParent, tfChildLeft, tfChildRight;
-			ASTVariable childLeft, childRight;
-			
-			cParent = ASTVisitorToGUIUtils.getComponentByName(this.gui.frame, leftNode.getName());
-			childLeft = (ASTVariable) rightNode.getLeftNode();
-			cChildLeft = ASTVisitorToGUIUtils.getComponentByName(this.gui.frame, childLeft.getName());
-			childRight = (ASTVariable) rightNode.getRightNode();
-			cChildRight = ASTVisitorToGUIUtils.getComponentByName(this.gui.frame, childRight.getName());
-			
-			tfParent = (MoneyTextField) cParent;
-			tfChildLeft = (MoneyTextField) cChildLeft;
-			tfChildRight = (MoneyTextField) cChildRight;
-			
-			tfChildLeft.getDocument().addDocumentListener(new MoneyDocumentListener(tfParent, tfChildLeft, tfChildRight));
-			tfChildRight.getDocument().addDocumentListener(new MoneyDocumentListener(tfParent, tfChildLeft, tfChildRight));
-		}
-	}
-	
-	class MoneyDocumentListener extends AbstractDocumentListener {
+		/*System.out.println(ShuntingYardAlgorithm.astToPostfixString(exp));
+		System.out.println(exp.getExpressionType());*/
 		
-		MoneyTextField parent;
-		MoneyTextField[] children;
+		ArrayList<ASTNode> pfNodeList = ShuntingYardAlgorithm.astToPostfix(exp);
 		
-		public MoneyDocumentListener (MoneyTextField parent, MoneyTextField... children) {
-			this.parent = parent;
-			this.children = children;
-		}
-		
-		@Override
-		public void insertUpdate(DocumentEvent e) {
-			double total = 0.00;
-			for(int i=0; i<children.length; i++) {
-				total += Double.parseDouble(children[i].getText());
+		if (exp.getExpressionType() == ASTExpression.SINGLE_EXP) {
+			
+			ASTVariable var = (ASTVariable) exp.getLeftNode();
+			
+			if (var.getValue().isEmpty()) {
+				AbstractActionListener.enablePanel(panel, false);
 			}
-			parent.setText(Double.toString(total));
+			
+			Component c = ASTVisitorToGUIUtils.getComponentByName(this.gui.frame, var.getName());
+			
+			// CheckBox
+			try {
+				final JCheckBox checkBox = (JCheckBox) c;
+				checkBox.addActionListener( 
+						new JCheckBoxActionListener(checkBox, panel) );
+			} catch (ClassCastException e) {}
+			
+			// IntTextField
+			try {
+				final IntTextField textField = (IntTextField) c;
+				textField.getDocument().addDocumentListener( 
+						new IntTextFieldDocumentListener(textField, panel) );
+			} catch (ClassCastException e) {}
+			
+			// MoneyTextField
+			try {
+				final MoneyTextField textField = (MoneyTextField) c;
+				textField.getDocument().addDocumentListener( 
+						new MoneyTextFieldDocumentListener(textField, panel) );
+			} catch (ClassCastException e) {}
+			
 		}
-
-		@Override
-		public void removeUpdate(DocumentEvent e) {}
-
-		@Override
-		public void changedUpdate(DocumentEvent e) {}
-		
+		else if (exp.getExpressionType() == ASTExpression.ASSIGN_EXP) {
+			
+			if (pfNodeList.size() == 1) {
+				System.out.println("List size = 1");
+			} 
+			else {
+				ASTNode parent = null;
+				Stack<ASTNode> treeStack = new Stack<ASTNode>();
+				Stack<ASTExpression> operatorStack = new Stack<ASTExpression>();
+				Stack<ASTNode> pfNodeStack = new Stack<ASTNode>();
+				
+				pfNodeStack.addAll(pfNodeList);
+				
+				while( !pfNodeStack.isEmpty() ) {
+					
+					ASTNode node = pfNodeStack.pop();
+					
+					if (node.getNodeType() == ASTNode.EXPRESSION) {
+						operatorStack.add( (ASTExpression) node );
+					}
+					else if (node.getNodeType() != ASTNode.EXPRESSION) {
+						treeStack.add(node);
+					}
+				}
+				
+				if (treeStack.size() >= 3 && operatorStack.size() > 1) {
+					parent = treeStack.pop();
+					operatorStack.remove(0);
+					
+					for (ASTNode node: treeStack) {
+					
+						switch ( ((ASTVariable) parent).getType() ) {
+						
+							case ASTVariable.MONEY:
+								ASTVariable v = (ASTVariable) node;
+								MoneyTextField mtf = (MoneyTextField) ASTVisitorToGUIUtils.getComponentByName(this.gui.frame, v.getName());
+								mtf.getDocument().addDocumentListener( new MoneyDocumentListener(this.gui.frame, parent, treeStack, operatorStack) );
+								break;
+								
+							default: break;
+						}
+					}
+				}
+			}
+		}
 	}
 }

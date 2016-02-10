@@ -22,8 +22,13 @@ type token =
   | COMMA
   | AND
   | OR
+  | DOUBLEPOINT
+  | ENDBRACKET
+  | STARTBRACKET
+  | FORM
   | FLOAT of (float)
   | INT of (int)
+  | QUESTION of (string)
   | ID of (string)
 type tokenId = 
     | TOKEN_EOF
@@ -47,14 +52,22 @@ type tokenId =
     | TOKEN_COMMA
     | TOKEN_AND
     | TOKEN_OR
+    | TOKEN_DOUBLEPOINT
+    | TOKEN_ENDBRACKET
+    | TOKEN_STARTBRACKET
+    | TOKEN_FORM
     | TOKEN_FLOAT
     | TOKEN_INT
+    | TOKEN_QUESTION
     | TOKEN_ID
     | TOKEN_end_of_input
     | TOKEN_error
 type nonTerminalId = 
     | NONTERM__startstart
     | NONTERM_start
+    | NONTERM_questions
+    | NONTERM_questionList
+    | NONTERM_questionType
 /// This function maps tokens to integer indexes
 val tagOfToken: token -> int
 
@@ -66,4 +79,4 @@ val prodIdxToNonTerminal: int -> nonTerminalId
 
 /// This function gets the name of a token as a string
 val token_to_string: token -> string
-val start : (Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> (string) 
+val start : (Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> (Statements.Form) 

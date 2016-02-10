@@ -60,6 +60,7 @@
     <None Include="App.config" />
     <Compile Include="Statements.fs" />
     <Compile Include="sql.fs" />
+    <None Include="sqlparser.fsp" />
     <None Include="Parser.fsp" />
     <Compile Include="Parser.fsi" />
     <Compile Include="Parser.fs" />

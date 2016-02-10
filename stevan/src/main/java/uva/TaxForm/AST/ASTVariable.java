@@ -1,8 +1,10 @@
 package uva.TaxForm.AST;
 
+import uva.TaxForm.Interfaces.IASTNode;
+import uva.TaxForm.Interfaces.IASTNodeVisitor;
 import uva.TaxForm.Interfaces.IVariable;
 
-public class ASTVariable extends ASTNode implements IVariable {
+public class ASTVariable extends ASTNode implements IVariable, IASTNode {
 	
 	private String name = "";
 	private int type = 0;
@@ -47,4 +49,8 @@ public class ASTVariable extends ASTNode implements IVariable {
 		this.value = value;
 	}
 
+	@Override
+	public void accept(IASTNodeVisitor visitor) {
+		visitor.visit(this);
+	}
 }

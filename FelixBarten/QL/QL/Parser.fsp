@@ -1,11 +1,15 @@
 ﻿%{   
-open Sql   
+open Statements   
 %}   
   
 %token <string> ID   
+%token <string> QUESTION
 %token <int> INT   
 %token <float> FLOAT   
   
+%token FORM
+%token ENDBRACKET STARTBRACKET
+%token DOUBLEPOINT
 %token AND OR   
 %token COMMA   
 %token EQ LT LE GT GE   
@@ -16,10 +20,32 @@ open Sql
   
 // start   
 %start start   
-%type <string> start   
+%type <Statements.Form> start   
   
 %%   
   
 start:   
-    |                             { "Nothing to see here" }   
+     FORM ID STARTBRACKET
+	 questionList   
+	 ENDBRACKET
+	 EOF			{ 
+                        {   Identifier = $2;
+                            Questions = [$4];   }
+                        }
+
+questions: 
+	questionList	{  }
+
+questionList: 
+	QUESTION 
+	ID DOUBLEPOINT questionType 
+	EOF				  { 
+                            { QuestionText = $1;
+                              Identifier = $2;
+                              QuestionType = $4;  }
+                      }
+questionType: 
+    | ID  {
+                    $1
+                }
 %%

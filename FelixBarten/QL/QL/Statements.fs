@@ -2,18 +2,24 @@
 open Microsoft.FSharp.Collections
 
 
-type QuestionType = 
+type questiontype = 
     | Money of string 
     | Integer of string
     | String of string
 
 
-type Identifier = string
+type identifier = string
 
-type Question = Identifier * QuestionType
+type Question = {
+     QuestionText : string;
+     Identifier : string;
+     QuestionType : questiontype;
+     }
 
-type Form =  Question list 
-
+type Form = {
+    Identifier : identifier;
+    Questions : Question list;
+    }
 
 
 type Expr = string

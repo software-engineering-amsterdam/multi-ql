@@ -16,7 +16,7 @@ public class MoneyTextField extends JTextField {
     	this.setName(var.getName());
     	this.setText("0.00");
     	PlainDocument doc = (PlainDocument) this.getDocument();
-    	doc.setDocumentFilter(new MoneyFilter(var, "^[0-9]+[.]?[0-9]{0,2}$"));
+    	doc.setDocumentFilter(new MoneyFilter(var, "^[-]?[0-9]+[.]?[0-9]{0,2}$"));
     	
     	this.addFocusListener(new FocusAdapter() {
     		

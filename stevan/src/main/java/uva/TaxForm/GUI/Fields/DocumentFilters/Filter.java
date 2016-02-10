@@ -77,5 +77,6 @@ public abstract class Filter extends DocumentFilter {
 		else {
 			// warn the user and don't allow the insert
 		}
+		
 	}
 }

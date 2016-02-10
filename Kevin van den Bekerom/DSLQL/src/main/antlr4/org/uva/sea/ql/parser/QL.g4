@@ -7,7 +7,50 @@ import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
 }
-    
+
+/* Form Grammar Rules = Entry Point */
+form
+	: FORM formName '{' statement+ '}' EOF;
+
+formName : Ident;
+
+
+block 
+: statement+
+;
+
+/* Statement Grammar Rules */
+
+statement
+	: ifStatement
+	| elseStatement
+	| question
+	;
+	
+ifStatement 
+	: IF '(' orExpr ')' '{' block '}'
+	;
+	
+elseStatement 
+	: ELSE '{' block '}'
+	;
+	
+question 
+	: variable ':' label type ('(' orExpr ')')*
+	;
+
+variable : Ident;
+label : Str;
+
+type
+	: INT
+	| STR
+	| BOOL
+	| MONEY
+	;
+
+
+/* Expression Grammar Rules */
 unExpr returns [Expr result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
@@ -17,6 +60,7 @@ unExpr returns [Expr result]
     
 primary returns [Expr result]
 	: literal
+	| variable
 	;
 
 literal 
@@ -95,7 +139,6 @@ orExpr returns [Expr result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
     ;
 
-    
 // Tokens
 WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN)
     ;
@@ -104,14 +147,21 @@ COMMENT
      : '/*' .* '*/' -> channel(HIDDEN)
     ;
 
+
 /* Keyword reservation */
-BOOL : 'bool';
+BOOL : 'boolean';
 INT : 'int';
 STR : 'str';
+IF : 'if';
+ELSE : 'else';
+FORM : 'form';
+MONEY : 'money';
+     
+  
 
 /* Literals */
 Bool: ('true' | 'false');
 Int: ('0'..'9')+;
-Str: '"' .* '"';
+Str: '"' ~('"')* '"' ;
 
 Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
