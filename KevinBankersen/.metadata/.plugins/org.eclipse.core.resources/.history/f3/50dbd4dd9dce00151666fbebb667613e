@@ -1,0 +1,15 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.variable.Variable;
+
+public class IntegerVariable extends Variable{
+
+	public IntegerVariable(String name) {
+		super(name);
+	}
+
+	@Override
+	public Integer result(interpExpr context) {
+		return (Integer) super.result(context);
+	}
+}
