@@ -1,33 +1,34 @@
 grammar QL;
 
 form
-	: FORM LEFT_BRACE statements? RIGHT_BRACE
+	: FORM block
 	;
 
-statements
-	: statement+
+block
+	: LEFT_BRACE statement* RIGHT_BRACE
 	;
 
 statement
-	: if_statement
-	| question_statement SEMICOL
+	: ifStatement
+	| question SEMICOL
 	;
 
-if_statement
-	: IF LEFT_PAREN condition RIGHT_PAREN LEFT_BRACE statements? RIGHT_BRACE else_statement?
+ifStatement
+	: IF LEFT_PAREN expr RIGHT_PAREN block (ELSE block)?
 	;
 
-else_statement
-	: ELSE LEFT_BRACE statements? RIGHT_BRACE
-	;
-
-condition
-	: expr comp expr
+question
+	: STRING_LITERAL IDENTIFIER type
 	;
 
 expr
-	: IDENTIFIER
-	| literal
+	: LEFT_PAREN expr RIGHT_PAREN
+    | literal
+	| IDENTIFIER
+	| ( PLUS | MINUS ) expr
+	| expr ( STAR | DIV ) expr
+	| expr ( PLUS | MINUS ) expr
+	| expr ( EQ | NOT_EQ | GT | GT_EQ | LT | LT_EQ) expr
 	;
 
 literal
@@ -36,19 +37,6 @@ literal
 	| INTEGER_LITERAL
 	| FLOAT_LITERAL
 	| MONEY_LITERAL
-	;
-
-comp
-	: EQ
-	| NOT_EQ
-	| GT
-	| GT_EQ
-	| LT
-	| LT_EQ
-	;
-
-question_statement
-	: STRING_LITERAL IDENTIFIER type
 	;
 
 type
@@ -81,6 +69,11 @@ GT : '>';
 GT_EQ : '>=';
 LT : '<';
 LT_EQ : '<=';
+
+PLUS : '+';
+MINUS : '-';
+STAR : '*';
+DIV : '/';
 
 BOOLEAN_LITERAL
 	: 'true'
