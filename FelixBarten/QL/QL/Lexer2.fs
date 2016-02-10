@@ -1,8 +1,8 @@
-# 1 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 1 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
  
-module Lexer   
+module Lexer2  
 open System   
-open Parser   
+open ParserTwo
 open Microsoft.FSharp.Text.Lexing   
    
   
@@ -33,7 +33,7 @@ let conditionops =
 
     ] |> Map.ofList
 
-# 36 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 36 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
 let trans : uint16[] array = 
     [| 
     (* State 0 *)
@@ -106,87 +106,87 @@ and tokenize  (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex_toke
 and _fslex_tokenize  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 53 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 53 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  tokenize lexbuf 
-# 111 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 111 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 1 -> ( 
-# 54 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 54 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; 
-# 116 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 116 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 2 -> ( 
-# 55 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 55 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  INT(Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) 
-# 121 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 121 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 3 -> ( 
-# 56 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 56 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  FLOAT(Double.Parse(LexBuffer<_>.LexemeString lexbuf)) 
-# 126 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 126 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 4 -> ( 
-# 57 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 57 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  ops.[LexBuffer<_>.LexemeString lexbuf] 
-# 131 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 131 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 5 -> ( 
-# 58 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 58 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  conditionops.[LexBuffer<_>.LexemeString lexbuf] 
-# 136 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 136 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 6 -> ( 
-# 59 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 59 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  match qlwords.TryFind(LexBuffer<_>.LexemeString lexbuf) with   
                                  | Some(token) -> token   
                                  | None -> ID(LexBuffer<_>.LexemeString lexbuf) 
-# 143 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 143 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 7 -> ( 
-# 62 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 62 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  COMMA 
-# 148 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 148 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 8 -> ( 
-# 63 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 63 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  COLON 
-# 153 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 153 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 9 -> ( 
-# 64 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 64 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  OPEN_BRACE 
-# 158 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 158 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 10 -> ( 
-# 65 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 65 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  CLOSE_BRACE 
-# 163 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 163 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 11 -> ( 
-# 66 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 66 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  OPEN_BRACKET 
-# 168 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 168 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 12 -> ( 
-# 67 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 67 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  CLOSE_BRACKET
-# 173 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 173 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 13 -> ( 
-# 68 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 68 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  DOUBLE_QUOTE 
-# 178 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 178 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 14 -> ( 
-# 69 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 69 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                                  EOF 
-# 183 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 183 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | 15 -> ( 
-# 70 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fsl"
+# 70 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fsl"
                      raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (LexBuffer<_>.LexemeString lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) 
-# 188 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 188 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
           )
   | _ -> failwith "tokenize"
 
-# 3000000 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer.fs"
+# 3000000 "C:\Users\Felix\Documents\Git\multi-ql\FelixBarten\QL\QL\Lexer2.fs"
