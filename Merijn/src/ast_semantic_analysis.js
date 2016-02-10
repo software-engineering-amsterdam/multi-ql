@@ -49,6 +49,7 @@ class NodeErrorLog {
 
 class SementicAnalysisVisitor extends ast.NodeVisitor {
 	constructor(nodeErrorlog) {
+		super();
 		this.scope_stack = new ScopeStack();
 		this.nodeErrorlog = nodeErrorlog;
 	}
@@ -98,7 +99,8 @@ class SementicAnalysisVisitor extends ast.NodeVisitor {
 	visitInfixNode(infixNode) {
 		let leftOperandType = infixNode.leftOperand.accept(this),
 			rightOperandType = infixNode.rightOperand.accept(this),
-			acceptableTypes;
+			acceptableTypes,
+			returnType;
 
 		// already logged somewhere else
 		if (leftOperandType === TYPE_UNKNOWN || rightOperandType === TYPE_UNKNOWN) {
@@ -109,6 +111,7 @@ class SementicAnalysisVisitor extends ast.NodeVisitor {
 			case '*':
 			case '/':
 				acceptableTypes = [ast.TYPE_INTEGER, ast.TYPE_FLOAT];
+				returnType = leftOperandType;
 				break;
 			case '+':
 			case '-':
@@ -117,10 +120,12 @@ class SementicAnalysisVisitor extends ast.NodeVisitor {
 			case '<':
 			case '<=':
 				acceptableTypes = [ast.TYPE_INTEGER, ast.TYPE_FLOAT, ast.TYPE_MONEY];
+				returnType = ast.TYPE_BOOLEAN;
 				break;
 			case '==':
 			case '!=':
 				acceptableTypes = [ast.TYPE_BOOLEAN, ast.TYPE_STRING, ast.TYPE_INTEGER, ast.TYPE_FLOAT, ast.TYPE_MONEY];
+				returnType = ast.TYPE_BOOLEAN;
 				break;
 			default:
 				throw new Error("Unexpected infix operation `" + infixNode.operation + "`");
@@ -133,12 +138,12 @@ class SementicAnalysisVisitor extends ast.NodeVisitor {
 		}
 
 		if (leftOperandType !== rightOperandType) {
-			this.nodeErrorlog.logError(infixNode, "Incompatible types `" + leftOperandType + "` and `" + rightOperandType + "` for infix operation `" + infixNode.operation + "`");
+			this.nodeErrorlog.logError(infixNode, "Incompatible types `" + leftOperandType + "` and `" + rightOperandType + "` for infix operation `" + infixNode.operation + "`, types must be identical");
 
 			return TYPE_UNKNOWN;
 		}
 
-		return leftOperandType;
+		return returnType;
 	}
 	visitLiteralNode(literalNode) {
 		return literalNode.type;
