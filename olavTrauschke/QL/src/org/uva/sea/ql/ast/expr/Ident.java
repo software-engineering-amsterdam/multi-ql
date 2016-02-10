@@ -7,6 +7,7 @@ public class Ident extends Expr {
     private String content;
     
     public Ident(String theContent) {
+        super(true, true);
         content = theContent;
     }
     

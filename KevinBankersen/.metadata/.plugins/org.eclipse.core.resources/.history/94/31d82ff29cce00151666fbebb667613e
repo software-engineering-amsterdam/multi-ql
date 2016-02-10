@@ -1,0 +1,14 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public class StringVariable extends Variable{
+	
+	public StringVariable(String name) {
+		super(name);
+	}
+
+	@Override
+	public String interpret(interpExpr context) {
+		return (String) super.interpret(context);
+	}
+
+}

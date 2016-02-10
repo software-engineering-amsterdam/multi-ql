@@ -1,0 +1,6 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public abstract class boolExpr extends Expr {
+
+	public abstract Boolean interpret(interpExpr expr);
+}

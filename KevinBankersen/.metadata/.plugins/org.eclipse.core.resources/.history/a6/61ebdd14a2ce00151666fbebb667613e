@@ -1,0 +1,6 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public abstract class intExpr extends Expr {
+
+	public abstract Integer result();
+}

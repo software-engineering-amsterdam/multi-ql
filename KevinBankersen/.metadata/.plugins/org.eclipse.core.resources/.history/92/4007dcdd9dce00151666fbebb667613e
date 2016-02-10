@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.variable.Variable;
+
+public class StringVariable extends Variable{
+	
+	public StringVariable(String name) {
+		super(name);
+	}
+
+	@Override
+	public String result(interpExpr context) {
+		return (String) super.result(context);
+	}
+
+}

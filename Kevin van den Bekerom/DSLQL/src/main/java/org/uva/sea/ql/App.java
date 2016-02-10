@@ -15,7 +15,9 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.QLLexer;
 import org.uva.sea.ql.parser.QLParser;
+import org.uva.sea.ql.parser.QLParser.FormContext;
 import org.uva.sea.utils.Utils;
+import org.uva.sea.ql.ast.expr.*;
 
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -27,12 +29,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 public class App 
 {
 	public static void main(String [] args) throws Exception {
-	
-		
-	//	File f = new File("/DSLQL/src/main/resources/SampleForm.txt");
-	//	String in = Utils.readFileToString(f);
-		String input = "(1 < 2) || (true && (2 <= 23) )";
-		
+
 		BufferedReader br = new BufferedReader(new FileReader("D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\SampleForm.txt"));
 		try {
 		    StringBuilder sb = new StringBuilder();
@@ -45,6 +42,7 @@ public class App
 		    }
 		    String everything = sb.toString();
 		    testGrammar(getParser(everything));
+		    getAST(getParser(everything));
 		} finally {
 		    br.close();
 		    
@@ -62,6 +60,11 @@ public class App
         viewr.setScale(1.5);// scale a little
 
         viewr.open();
+	}
+	
+	public static void getAST(QLParser parser){
+		FormContext fc = parser.form(); // begin parsing at init rule
+		System.out.println(fc.getChildCount());
 	}
 
 	public static QLParser getParser(String in){
