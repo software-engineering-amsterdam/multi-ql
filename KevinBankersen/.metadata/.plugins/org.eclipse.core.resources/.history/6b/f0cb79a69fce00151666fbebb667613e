@@ -1,0 +1,15 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public class boolLiteral extends boolExpr {
+
+	private final Boolean value;
+	
+	public boolLiteral(Boolean value) {
+		this.value = value;
+	}
+
+	@Override
+	public Boolean result(interpExpr expr) {
+		return value;
+	}
+}

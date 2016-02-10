@@ -1,0 +1,5 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+public class Question {
+
+}

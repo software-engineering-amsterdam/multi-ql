@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast.expr;
 
+import org.uva.sea.ql.ast.ASTID;
+
 public class Mul extends Expr {
 	Expr lhs, rhs;
 	

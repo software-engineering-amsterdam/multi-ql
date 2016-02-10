@@ -20,6 +20,7 @@ public class ParserTest {
         assertEquals(expected, result);
     }
     
+    @Test
     public void testComplexExpressionParsing() throws FileNotFoundException {
         Lexer lexer = new Lexer("complexExpression.ql");
         lexer.nextToken();
@@ -27,13 +28,19 @@ public class ParserTest {
         boolean parsed = parser.parse();
         assertTrue(parsed);
         Expr result = parser.getResult();
-        Expr firstTerm = new Ident("a");
+        
         Expr firstFactor = new Int(2);
         Expr secondFactor = new Ident("c");
-        Expr secondTerm = new Mul(firstFactor, secondFactor);
-        Expr firstTerms = new Add(firstTerm, secondTerm);
+        Expr multiplication = new Mul(firstFactor, secondFactor);
+        Expr firstTerm = new Ident("a");
+        Expr firstAddition = new Add(firstTerm, multiplication);
         Expr lastTerm = new Ident("d");
-        Expr expected = new Add(firstTerms, lastTerm);
+        Expr totalAddition = new Add(firstAddition, lastTerm);
+        Expr firstToCompare = new Ident("e");
+        Expr firstComparison = new LT(totalAddition, firstToCompare);
+        Expr secondToCompare = new Ident("f");
+        Expr expected = new Eq(firstComparison, secondToCompare);
+        
         assertEquals(expected, result);
     }
     

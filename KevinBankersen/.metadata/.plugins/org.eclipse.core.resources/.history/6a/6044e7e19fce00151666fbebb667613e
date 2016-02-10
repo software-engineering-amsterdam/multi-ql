@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+public class intLiteral extends Expr {
+
+	private final Integer value;
+	
+	public intLiteral(Integer value) {
+		this.value = value;
+	}
+
+	public Integer result(interpExpr expr) {
+		return value;
+	}
+	
+	
+}

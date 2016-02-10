@@ -1,0 +1,15 @@
+package eu.bankersen.kevin.ql.ast.var;
+
+import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+
+public class BooleanVariable extends Variable{
+
+	public BooleanVariable(String name, QLType type) {
+		super(name, type);
+	}
+
+	@Override
+	public Boolean result(interpExpr context) {
+		return (Boolean) super.result(context);
+	}
+}
