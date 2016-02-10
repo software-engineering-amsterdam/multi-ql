@@ -7,6 +7,10 @@ public class IntLiteral extends Expr {
 		super.type = ExprEnum.INTLITERAL;
 	}
 	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
+	
 	public Integer eval() {
 		return 0;
 	}

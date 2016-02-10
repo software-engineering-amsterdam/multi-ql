@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import uva.TaxForm.AST.AST;
-import uva.TaxForm.AST.ASTExpression;
-import uva.TaxForm.AST.ASTNode;
-import uva.TaxForm.AST.ASTNumber;
-import uva.TaxForm.AST.ASTVariable;
-import uva.TaxForm.Visitors.VisitAST;
+import uva.ql.Visitors.VisitAST;
+import uva.ql.ast.AST;
+import uva.ql.ast.ASTExpression;
+import uva.ql.ast.ASTNode;
+import uva.ql.ast.ASTNumber;
+import uva.ql.ast.ASTVariable;
 
 public class ShuntingYardAlgorithm {
 

@@ -11,8 +11,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
-import uva.TaxForm.AST.ASTVariable;
 import uva.TaxForm.GUI.Fields.DocumentFilters.DateFilter;
+import uva.ql.ast.ASTVariable;
 
 public class DateSpinnerImproved extends JSpinner {
 	/*

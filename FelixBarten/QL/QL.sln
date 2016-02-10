@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL GUI", "QL GUI\QL GUI.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QLLang", "QLLang", "{60C688B4-F9C6-4E21-A139-2684BEBE4652}"
 	ProjectSection(SolutionItems) = preProject
-		cond.txt = cond.txt
-		QL\examples\example.txt = QL\examples\example.txt
-		QL\examples\question.txt = QL\examples\question.txt
+		cond.ql = cond.ql
+		example.ql = example.ql
+		question.ql = question.ql
 	EndProjectSection
 EndProject
 Global

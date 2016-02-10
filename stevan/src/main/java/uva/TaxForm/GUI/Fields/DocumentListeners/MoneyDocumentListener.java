@@ -6,11 +6,11 @@ import java.util.Stack;
 import javax.swing.JFrame;
 import javax.swing.event.DocumentEvent;
 
-import uva.TaxForm.AST.ASTExpression;
-import uva.TaxForm.AST.ASTNode;
-import uva.TaxForm.AST.ASTVariable;
 import uva.TaxForm.GUI.Fields.MoneyTextField;
-import uva.TaxForm.Visitors.ASTVisitorToGUIUtils;
+import uva.ql.Visitors.ASTVisitorToGUIUtils;
+import uva.ql.ast.ASTExpression;
+import uva.ql.ast.ASTNode;
+import uva.ql.ast.ASTVariable;
 
 public class MoneyDocumentListener  extends AbstractDocumentListener {
 	

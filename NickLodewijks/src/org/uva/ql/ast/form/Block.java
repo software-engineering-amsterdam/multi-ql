@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
 import org.uva.ql.ast.VariableDecl;
 import org.uva.ql.ast.stat.IFStat;
 
@@ -36,26 +35,16 @@ public class Block extends ASTNode {
 		return questions;
 	}
 
+	public List<VariableDecl> getVariables() {
+		return variables;
+	}
+
+	public List<IFStat> getIfStatements() {
+		return statements;
+	}
+
 	@Override
 	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
-
-		for (VariableDecl variable : variables) {
-			variable.accept(visitor);
-		}
-
-		for (Question q : questions) {
-			q.accept(visitor);
-		}
-
-		for (IFStat statement : statements) {
-			statement.accept(visitor);
-		}
 	}
-
-	@Override
-	public Result validate() {
-		return Result.TRUE();
-	}
-
 }

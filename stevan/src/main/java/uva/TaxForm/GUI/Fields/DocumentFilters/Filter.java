@@ -4,7 +4,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
-import uva.TaxForm.AST.ASTVariable;
+
+import uva.ql.ast.ASTVariable;
 
 public abstract class Filter extends DocumentFilter {
 	

@@ -61,12 +61,12 @@
     <Compile Include="Statements.fs" />
     <Compile Include="sql.fs" />
     <None Include="sqlparser.fsp" />
-    <None Include="Parser.fsp" />
     <Compile Include="Parser.fsi" />
     <Compile Include="Parser.fs" />
-    <None Include="Lexer.fsl" />
     <Compile Include="Lexer.fs" />
     <Content Include="packages.config" />
+    <None Include="Parser.y" />
+    <None Include="Lexer.l" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,8 +98,9 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>fsyacc "$(ProjectDir)Parser.fsp" --module Parser
-fslex "$(ProjectDir)Lexer.fsl" --unicode</PreBuildEvent>
+    <PreBuildEvent>fsyacc "$(ProjectDir)Parser.y" --module Parser
+
+fslex "$(ProjectDir)Lexer.l" --unicode</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
