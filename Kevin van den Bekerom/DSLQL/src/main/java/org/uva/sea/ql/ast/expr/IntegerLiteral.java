@@ -1,6 +1,9 @@
 package org.uva.sea.ql.ast.expr;
 
-public class IntegerLiteral extends Expr {
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class IntegerLiteral extends Expr implements Visitable {
 	final int value;
 	
 	public IntegerLiteral(int value) {
@@ -10,5 +13,9 @@ public class IntegerLiteral extends Expr {
 	@Override
 	public Integer eval() {
 		return value;
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

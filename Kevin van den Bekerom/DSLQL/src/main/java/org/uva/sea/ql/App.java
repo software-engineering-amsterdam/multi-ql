@@ -17,6 +17,8 @@ import org.uva.sea.ql.parser.QLLexer;
 import org.uva.sea.ql.parser.QLParser;
 import org.uva.sea.ql.parser.QLParser.FormContext;
 import org.uva.sea.utils.Utils;
+import org.uva.sea.ql.ast.PrintVisitor;
+import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.*;
 
 
@@ -41,15 +43,14 @@ public class App
 		        line = br.readLine();
 		    }
 		    String everything = sb.toString();
+		    
 		    testGrammar(getParser(everything));
 		    getAST(getParser(everything));
 		} finally {
 		    br.close();
 		    
 		}
-		
-		
-		
+			
 	}
 
 	public static void testGrammar(QLParser parser){
@@ -64,7 +65,9 @@ public class App
 	
 	public static void getAST(QLParser parser){
 		FormContext fc = parser.form(); // begin parsing at init rule
-		System.out.println(fc.getChildCount());
+		Visitor v = new PrintVisitor();
+		fc.b.result.accept(v);
+		
 	}
 
 	public static QLParser getParser(String in){

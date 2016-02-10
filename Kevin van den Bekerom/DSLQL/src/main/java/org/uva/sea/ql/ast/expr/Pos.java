@@ -1,14 +1,20 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Pos extends Expr {
-	Expr expr;
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class Pos extends UnaryExpr implements Visitable {
 	
 	public Pos(Expr expr) {
-		this.expr = expr;
+		super.child = expr;
 	}
 	
 	@Override
 	public Integer eval() {
-		return Math.abs( (Integer) expr.eval());
+		return Math.abs( (Integer) child.eval());
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }
