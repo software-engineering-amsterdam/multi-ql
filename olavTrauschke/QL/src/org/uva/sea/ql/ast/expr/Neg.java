@@ -1,10 +1,8 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Neg extends NumericExpr {
+public class Neg extends SingleExprArgumentNumericExpr {
     
-    private NumericExpr content;
-    
-    public Neg(Expr theContent) {
-        content = (NumericExpr) theContent;
+    public Neg(Expr content) {
+        super(content);
     }
 }
