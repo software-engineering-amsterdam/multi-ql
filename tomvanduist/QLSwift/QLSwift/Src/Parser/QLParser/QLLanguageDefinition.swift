@@ -19,7 +19,7 @@ public extension LanguageDefinition {
         var qlDef = javaStyle
         
         qlDef.reservedNames     = []
-        qlDef.reservedOperators = ["if"]
+        qlDef.reservedOperators = ["if", "money"]
         
         return qlDef
     }

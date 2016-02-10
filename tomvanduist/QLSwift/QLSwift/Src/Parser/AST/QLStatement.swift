@@ -21,16 +21,16 @@ class QLQuestionStatement: QLStatement {
     override var description: String { return super.description + ".question(\n\t\(question));" }
 }
 
-class QLStatementList: QLStatement {
-    let statements: [QLStatement]
+class QLBlockStatement: QLStatement {
+    let block: [QLStatement]
     
-    init(statements: [QLStatement]) {
-        self.statements = statements
+    init(block: [QLStatement]) {
+        self.block = block
     }
     
     override var description: String {
         var result = super.description + " {\n"
-        for stmt in statements {
+        for stmt in block {
             result += "\t\(stmt)\n"
         }
         return result + "}"
@@ -38,13 +38,13 @@ class QLStatementList: QLStatement {
 }
 
 class QLIf: QLStatement {
-    let statement: QLStatement
+    let block: QLBlockStatement
     let conditional: QLExpression
     
-    init(conditional: QLExpression, statement: QLStatement) {
-        self.statement = statement
+    init(conditional: QLExpression, block: QLBlockStatement) {
+        self.block = block
         self.conditional = conditional
     }
     
-    override var description: String { return super.description + ".conditional = \(conditional), .statement = \(statement); " }
+    override var description: String { return super.description + ".conditional = \(conditional), .block = \(block); " }
 }

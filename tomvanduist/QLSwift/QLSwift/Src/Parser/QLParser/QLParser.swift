@@ -16,8 +16,8 @@ import SwiftParsec
 /**
  * Grammer:
  *
- * form         ::= 'form' stmtList
- * stmtList     ::= { stmt* }
+ * form         ::= 'form' block
+ * block        ::= { stmt* }
  * stmt         ::= question
  * question     ::= var ':' stringLit expr
  * expr         ::= ( expr ) | prefix expr | expr infix expr | var | boolean | money | const
@@ -110,27 +110,27 @@ class QLParser: NSObject {
         
         
         var stmt: GenericParser<String, (), QLStatement>!
-        var stmtList: GenericParser<String, (), QLStatement>!
+        var block: GenericParser<String, (), QLBlockStatement>!
         
         GenericParser.recursive { (_stmt: GenericParser<String, (), QLStatement>) in
             let qStmt: GenericParser<String, (), QLStatement> =
                 question.map { sQuestion in QLQuestionStatement(question: sQuestion) }
             let ifStmt: GenericParser<String, (), QLStatement> =
                 lexer.symbol("if") *> lexer.parentheses(expr).flatMap { cond in
-                    stmtList.map { stmt2 in
-                        QLIf(conditional: cond, statement: stmt2)
+                    block.map { blockStmt in
+                        QLIf(conditional: cond, block: blockStmt)
                     }
                 }
 
             
-            stmtList =
+            block =
                 lexer.braces(
                     _stmt.manyAccumulator { acc, stmts in
                         var tmp = stmts
                         tmp.append(acc)
                         return tmp
                     }
-                ).map { stmts in QLStatementList(statements: stmts) }
+                ).map { stmts in QLBlockStatement(block: stmts) }
             
             
             stmt = ifStmt <|> qStmt
@@ -141,7 +141,7 @@ class QLParser: NSObject {
         
         let form: GenericParser<String, (), QLForm> =
             symbol("form") *> variable.flatMap { fVar in
-                return stmtList.map { fStmt in QLForm(variable: fVar, statement: fStmt) }
+                return block.map { fStmt in QLForm(variable: fVar, statement: fStmt) }
             }
         
         
