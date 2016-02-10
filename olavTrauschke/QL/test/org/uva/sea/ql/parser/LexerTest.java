@@ -14,12 +14,18 @@ public class LexerTest {
     @Before
     public void setUp() {
         expectedResultComplexExpression = new ArrayList<>();
+        expectedResultComplexExpression.add((int) '(');
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) '+');
         expectedResultComplexExpression.add(Tokens.INT);
         expectedResultComplexExpression.add((int) '*');
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) '+');
+        expectedResultComplexExpression.add(Tokens.IDENT);
+        expectedResultComplexExpression.add((int) '<');
+        expectedResultComplexExpression.add(Tokens.IDENT);
+        expectedResultComplexExpression.add((int) ')');
+        expectedResultComplexExpression.add(Tokens.EQ);
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add(Tokens.ENDINPUT);
     }

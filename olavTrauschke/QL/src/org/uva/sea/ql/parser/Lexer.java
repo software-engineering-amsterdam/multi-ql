@@ -138,6 +138,7 @@ public class Lexer implements Tokens {
                 case '&' : {
                     readNextCharacter();
                     if (character == '&') {
+                        readNextCharacter();
                         token = AND;
                         return token;
                     }
@@ -146,6 +147,7 @@ public class Lexer implements Tokens {
                 case '|' : {
                     readNextCharacter();
                     if (character == '|') {
+                        readNextCharacter();
                         token = OR;
                         return token;
                     }
@@ -155,6 +157,7 @@ public class Lexer implements Tokens {
                 case '<' : {
                     readNextCharacter();
                     if (character == '=') {
+                        readNextCharacter();
                         token = LEQ;
                         return token;
                     }
@@ -164,6 +167,7 @@ public class Lexer implements Tokens {
                 case '=' : {
                     readNextCharacter();
                     if (character == '=') {
+                        readNextCharacter();
                         token = EQ;
                         return token;
                     }
@@ -172,6 +176,7 @@ public class Lexer implements Tokens {
                 case '>' : {
                     readNextCharacter();
                     if (character == '=') {
+                        readNextCharacter();
                         token = GEQ;
                         return token;
                     }
