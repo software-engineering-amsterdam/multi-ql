@@ -35,24 +35,19 @@ import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.IFStat;
-import org.uva.ql.ui.QLQuestionaire;
 
-public class TypeChecker {
+public class SemanticAnalyser {
 
-	public TypeChecker(Questionnaire q) {
-		QLQuestionaire questionaire;
-		QLInterpreter interpreter;
+	public SemanticAnalyser() {
 
+	}
+
+	public void analyse(Questionnaire questionnaire) {
 		// Validate operand and condition types.
-		new TypeCheckValidator(q);
+		new TypeCheckValidator(questionnaire);
 
 		// Look for duplicate question declarations.
-		new DuplicateFinder(q);
-
-		interpreter = new QLInterpreter(q);
-
-		questionaire = interpreter.getQuestionaire();
-		questionaire.show();
+		new DuplicateFinder(questionnaire);
 	}
 
 	private static class SymbolTable {
