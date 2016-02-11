@@ -1,14 +1,20 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Not extends Expr {
-	Expr expr;
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class Not extends UnaryExpr implements Visitable {
 	
 	public Not(Expr expr) {
-		this.expr = expr;
+		super.child = expr;
 	}
 	
 	@Override
 	public Boolean eval() {
-		return ! (Boolean) expr.eval();
+		return ! (Boolean) child.eval();
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

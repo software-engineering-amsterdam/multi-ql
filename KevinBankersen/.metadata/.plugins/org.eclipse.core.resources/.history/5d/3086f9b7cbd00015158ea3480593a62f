@@ -1,0 +1,20 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import java.util.HashMap;
+
+public class SymbolTabel {
+	
+	private HashMap<String, Object> table;
+
+	public SymbolTabel() {
+		table = new HashMap<String, Object>();
+	}
+
+	public void setValue(String key, Object value) {
+		table.put(key, value);
+	}
+
+	public Object getValue(String key) {
+		return table.get(key);
+	}
+}

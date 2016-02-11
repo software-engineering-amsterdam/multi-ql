@@ -1,22 +1,16 @@
 package org.uva.ql.ast.form;
 
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
-import org.uva.ql.ast.VariableIdentifier;
+import org.uva.ql.ast.VariableDecl;
 
 public class InputQuestion extends Question {
 
-	public InputQuestion(VariableIdentifier variableIdentifier, String label) {
-		super(variableIdentifier, label);
+	public InputQuestion(VariableDecl variableDecl, String label) {
+		super(variableDecl, label);
 	}
 
 	@Override
-	public void accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
-	}
-
-	@Override
-	public Result validate() {
-		return Result.TRUE();
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 }

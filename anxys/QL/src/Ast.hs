@@ -1,35 +1,51 @@
 module Ast
        where
 
-type Money = Float -- Todo datatype for money E.G. 10.50
+-- TODO: Origin tracking (How do I test this?)
+import           Text.ParserCombinators.Parsec.Pos
+
+type Money = Double --Datatype for money E.G. 10.50
 
 type Name = String
 
 type Value = String
 
-type Block = [Stmnt] 
+type Block = [Stmnt]
 
 data Lit
-     = ILit Int
+     = ILit Integer
      | MLit Money
      | SLit String
      | BLit Bool
-       deriving Show
+       deriving (Eq, Show)
 
 data FieldType
      = Money
      | Integer
      | String
      | Boolean
-       deriving Show
+       deriving (Eq, Enum, Show)
 
-data Expr
+data Region = Region { start::SourcePos
+                     , end::SourcePos
+                     }
+              deriving (Eq,Show)
+
+type Expr = (Expr', SourcePos, SourcePos)
+
+getExpr :: Expr -> Expr'
+getExpr (a,_,_) = a
+
+data Expr'
      = Var Name
      | Lit Lit
-     | Op PrimOp [Expr]
-       deriving Show
+     | BinOp BinOp Expr Expr
+     | UnOp UnOp Expr
+       deriving (Eq, Show)
 
-data PrimOp
+data UnOp = Neg deriving (Eq, Show)
+
+data BinOp
      = Add
      | Sub
      | Div
@@ -37,14 +53,39 @@ data PrimOp
      | And
      | Or
      | Not
-     deriving Show
+     | SConcat
+     | EQ
+     | NEQ
+     | GT
+     | GTE
+     | LT
+     | LTE
+       deriving (Eq, Show)
+
 
 data Stmnt
-     = Field { label :: String,
-               id :: String,
-               fieldType :: FieldType,
-               value :: String }
+     = Field Field
      | If Expr Block
-       deriving Show
+     | IfElse Expr Block Block
+       deriving (Eq, Show)
+
+
+data Field
+     = SimpleField { label     :: String
+                   , id        :: String
+                   , fieldType :: FieldType
+                   }
+     | CalculatedField { label     :: String
+                       , id        :: String
+                       , fieldType :: FieldType
+                       , exp       :: Expr
+                       }
+       deriving (Eq, Show)
+
+-- TODO: Solve above duplication with this
+--data FieldInformation = FieldInformation { label     :: String
+--                   , id        :: String
+--                   , fieldType :: FieldType
+--                   }
 
 data Form = Form String Block deriving Show

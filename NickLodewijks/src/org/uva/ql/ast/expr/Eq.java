@@ -1,10 +1,8 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
-import org.uva.ql.ast.ValueType;
 
-public class Eq extends AbstractBinaryExpr {
+public class Eq extends BinaryExpr {
 
 	public Eq(Expr lhs, Expr rhs) {
 		super(lhs, rhs);
@@ -16,28 +14,7 @@ public class Eq extends AbstractBinaryExpr {
 	}
 
 	@Override
-	public ValueType type() {
-		return ValueType.BOOLEAN;
-	}
-
-	@Override
-	public void _accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
-	}
-
-	@Override
-	public Result validate() {
-
-		if (lhs.type() == rhs.type()) {
-			return Result.TRUE();
-		}
-
-		String msg;
-
-		msg = String.format(
-				"[%s: %s] Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-				getLineIndex(), getCharIndex(), lhs.type().getName(), rhs.type().getName());
-
-		return Result.FALSE(msg);
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 }

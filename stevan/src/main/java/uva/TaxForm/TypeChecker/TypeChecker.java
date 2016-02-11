@@ -2,14 +2,15 @@ package uva.TaxForm.TypeChecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import uva.TaxForm.AST.ASTExpression;
-import uva.TaxForm.AST.ASTIfStatement;
-import uva.TaxForm.AST.ASTNode;
-import uva.TaxForm.AST.ASTNumber;
-import uva.TaxForm.AST.ASTQuestion;
-import uva.TaxForm.AST.ASTVariable;
+
 import uva.TaxForm.Utils.ShuntingYardAlgorithm;
-import uva.TaxForm.Visitors.VisitAST;
+import uva.ql.Visitors.VisitAST;
+import uva.ql.ast.ASTExpression;
+import uva.ql.ast.ASTIfStatement;
+import uva.ql.ast.ASTNode;
+import uva.ql.ast.ASTNumber;
+import uva.ql.ast.ASTQuestion;
+import uva.ql.ast.ASTVariable;
 
 public class TypeChecker {
 	

@@ -1,15 +1,22 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Sub extends Expr {
-	Expr lhs, rhs;
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class Sub extends BinaryExpr implements Visitable {
 	
 	public Sub(Expr lhs, Expr rhs) {
-		this.lhs = lhs;
-		this.rhs = rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
+		super.type = Type.INT;
 	}
 	
 	@Override
 	public Integer eval() {
 		return (Integer) lhs.eval() - (Integer) rhs.eval();
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

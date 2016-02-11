@@ -9,12 +9,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import uva.TaxForm.AST.ASTVariable;
 
 import uva.TaxForm.GUI.Fields.DateSpinner;
 import uva.TaxForm.GUI.Fields.DateSpinnerImproved;
 import uva.TaxForm.GUI.Fields.IntTextField;
 import uva.TaxForm.GUI.Fields.MoneyTextField;
+import uva.ql.ast.ASTVariable;
 
 public class GUIQuestion extends JPanel {
 

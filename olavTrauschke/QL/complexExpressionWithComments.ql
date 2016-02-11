@@ -2,4 +2,4 @@
 + 2 /*dit wordt niet *geparseerd*/
 * /*
 dit wordt ook niet geparseerd */ c + d
-< e) == f
+< e) == true

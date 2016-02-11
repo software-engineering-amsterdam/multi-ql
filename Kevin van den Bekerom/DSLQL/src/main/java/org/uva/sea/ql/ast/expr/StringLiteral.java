@@ -1,6 +1,9 @@
 package org.uva.sea.ql.ast.expr;
 
-public class StringLiteral extends Expr {
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class StringLiteral extends Expr implements Visitable {
 	final String value;
 	
 	public StringLiteral(String value) {
@@ -10,5 +13,9 @@ public class StringLiteral extends Expr {
 	@Override
 	public String eval() {
 		return value;
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

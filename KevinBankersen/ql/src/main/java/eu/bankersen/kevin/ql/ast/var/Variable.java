@@ -1,14 +1,12 @@
 package eu.bankersen.kevin.ql.ast.var;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 
 public class Variable  extends Expr{
 
 	private final String name;
-	
 	private final Type type;
-	
 	private Expr value;
 
 	public Variable(String name, Type type) {
@@ -30,10 +28,23 @@ public class Variable  extends Expr{
 		return type;
 	}
 	
+	public Boolean checkType(SymbolTabel table){
+		if(value != null){
+			return value.checkType(table) && value.getType() == type;
+		}
+		return true;
+	}
 	
+	public void setValue(Expr value){
+		this.value = value;
+	}
+	
+	public Object getValue(SymbolTabel table){
+		return value.result(table);
+	}
 
 	@Override
-	public Object result(interpExpr expr) {
+	public Object result(SymbolTabel expr) {
 		return expr.getValue(name);
 	}
 }

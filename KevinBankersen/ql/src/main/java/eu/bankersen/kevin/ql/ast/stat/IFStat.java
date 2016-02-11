@@ -1,7 +1,9 @@
 package eu.bankersen.kevin.ql.ast.stat;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 import eu.bankersen.kevin.ql.ast.form.Block;
+import eu.bankersen.kevin.ql.ast.var.Type;
 
 public class IFStat {
 	
@@ -13,8 +15,17 @@ public class IFStat {
 		this.body = body;
 	}
 	
+	public Boolean checkType(SymbolTabel table){
+		
+		return body.checkType(table) && expr.checkType(table) && expr.getType().equals(Type.BOOLEAN);
+	}
+	
 	public Block getBody(){
 		return body;
 	}
-
+	
+	@Override
+	public String toString(){
+		return body.toString();
+	}
 }

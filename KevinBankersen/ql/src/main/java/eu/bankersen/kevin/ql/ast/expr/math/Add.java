@@ -2,24 +2,18 @@ package eu.bankersen.kevin.ql.ast.expr.math;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.intExpr;
-import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 
-public class Add extends Expr {
-
-	private final intExpr lhs;
-	private final intExpr rhs;
+public class Add extends intExpr {
 
 	public Add(Expr lhs, Expr rhs) {
-		System.out.println(lhs);
-		System.out.println(rhs);
-		
-		
-		this.lhs = (intExpr) lhs;
-		this.rhs = (intExpr) rhs;
+		super.lhs =  lhs;
+		super.rhs =  rhs;
 	}
 
 	@Override
-	public Integer result(interpExpr expr) {
-		return lhs.result(expr) + rhs.result(expr);
+	public Integer result(SymbolTabel table) {
+		return (Integer) lhs.result(table) + (Integer) rhs.result(table);
 	}
+
 }

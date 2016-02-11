@@ -45,9 +45,10 @@ elseStatement [Block result]
 	;
 	
 question [Block result]
-	:  variable ':' label t = type ('(' orExpr ')')* {
-		$result.add(new Question(new Variable($variable.text, $t.result), $label.text, $t.result));
-	}
+	: variable ':' label t = type ('(' orExpr ')')+ {
+		$result.add(new Question($variable.text, $label.text, $t.result, $orExpr.result));}
+	| variable ':' label t = type {
+		$result.add(new Question($variable.text, $label.text, $t.result, null));}
 	;
 
 variable returns [Expr result]
@@ -55,7 +56,7 @@ variable returns [Expr result]
 	
 label : Str;
 
-type returns[Type result]
+type returns [Type result]
 	: INT {$result = Type.INT;}
 	| STR {$result = Type.STRING;}
 	| BOOL {$result = Type.BOOLEAN;}
@@ -72,14 +73,14 @@ unExpr returns [Expr result]
     ;  
     
 primary returns [Expr result]
-	: literal
-	| variable
+	: literal {$result = $literal.result;}
+	| variable {$result = $variable.result;}
 	;
 
-literal 
-	: booleanLiteral
-	| integerLiteral
-	| stringLiteral
+literal returns [Expr result]
+	: booleanLiteral {$result = $booleanLiteral.result;}
+	| integerLiteral {$result = $integerLiteral.result;}
+	| stringLiteral {$result = $stringLiteral.result;}
 	;
 
 booleanLiteral returns [Expr result]
@@ -106,7 +107,6 @@ mulExpr returns [Expr result]
     })*
     ;
     
-  
 addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     { 

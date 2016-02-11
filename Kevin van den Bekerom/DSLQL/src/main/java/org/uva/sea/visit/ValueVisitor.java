@@ -1,6 +1,6 @@
 package org.uva.sea.visit;
 
-public class ValueVisitor extends Visitor {
+public class ValueVisitor implements Visitor {
 	private boolean safe = true;
 	
 	@Override

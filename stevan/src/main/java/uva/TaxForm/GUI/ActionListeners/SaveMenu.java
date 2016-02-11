@@ -8,8 +8,8 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
-import uva.TaxForm.AST.ASTNode;
-import uva.TaxForm.Visitors.ASTVisitorToJSON;
+import uva.ql.Visitors.ASTVisitorToJSON;
+import uva.ql.ast.ASTNode;
 
 public class SaveMenu implements ActionListener {
 

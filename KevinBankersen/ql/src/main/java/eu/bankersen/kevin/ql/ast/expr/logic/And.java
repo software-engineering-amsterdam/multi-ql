@@ -2,21 +2,19 @@ package eu.bankersen.kevin.ql.ast.expr.logic;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.boolExpr;
-import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.var.Type;
 
 public class And extends boolExpr {
 
-	private final boolExpr lhs;
-	private final boolExpr rhs;
-
 	public And(Expr lhs, Expr rhs) {
-		this.lhs = (boolExpr) lhs;
-		this.rhs = (boolExpr) rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
 	}
 
 	@Override
-	public Boolean result(interpExpr expr) {
-		return lhs.result(expr) && rhs.result(expr);
+	public Boolean result(SymbolTabel table) {
+		return (Boolean)lhs.result(table) && (Boolean)rhs.result(table);
 	}
 
 }

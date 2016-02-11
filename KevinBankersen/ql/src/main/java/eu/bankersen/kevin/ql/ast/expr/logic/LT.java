@@ -3,21 +3,19 @@ package eu.bankersen.kevin.ql.ast.expr.logic;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.boolExpr;
 import eu.bankersen.kevin.ql.ast.expr.intExpr;
-import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.var.Type;
 
 public class LT extends boolExpr {
 
-	private final intExpr lhs;
-	private final intExpr rhs;
-
 	public LT(Expr lhs, Expr rhs) {
-		this.lhs = (intExpr) lhs;
-		this.rhs = (intExpr) rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
 	}
 
 	@Override
-	public Boolean result(interpExpr expr) {
-		return lhs.result(expr) < rhs.result(expr);
+	public Boolean result(SymbolTabel table) {
+		return (Integer) lhs.result(table) < (Integer) rhs.result(table);
 	}
 
 }

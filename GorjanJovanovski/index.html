@@ -12,22 +12,7 @@
 		<div id="inputWrapper">
 			<button id="generate" class="btn btn-primary">Regenerate</button>
 			<br/>
-			<textarea id="input" style="height:calc(100% - 35px);width:100%;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-form taxOfficeExample { 
-  "2+x"
-    x: integer
-  if(x>0){
-  	"result:"
-  	res: integer = (x+2)
-  }
-
-}
-			</textarea>
-
-		</div>
-
-		<!--
-		form taxOfficeExample { 
+			<div id="input" style="height:calc(100% - 35px);width:100%;">form taxOfficeExample { 
   "What is your first name?"
     firstName: string
   "When were you born?"
@@ -64,7 +49,9 @@ form taxOfficeExample {
   }
 
 }
--->
+			</div>
+
+		</div>
 
 		<div class="panel panel-danger" id="errorpanel">
 		  <div class="panel-heading">
@@ -90,10 +77,15 @@ form taxOfficeExample {
 
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-		<script src="js/bootstrap.js"></script>
+		<script src="js/lib/bootstrap.js"></script>
 		<script type="text/javascript" src="js/lib/require.js"></script>
-		<script type="text/javascript" src="js/FileSaver.js"></script>
-		<script type="text/javascript" src="js/lib/jison.js"></script>
+		<script type="text/javascript" src="js/lib/FileSaver.js"></script>
+
+		<script type="text/javascript" src="js/ace/ace.js"></script>
+		<script type="text/javascript" src="js/classes.js"></script>
+		<script type="text/javascript" src="js/htmlGeneration.js"></script>
+		<script type="text/javascript" src="js/ast.js"></script>
+		<script type="text/javascript" src="js/eventHandlers.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 
 	</body>

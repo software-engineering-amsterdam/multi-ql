@@ -1,5 +1,7 @@
 package eu.bankersen.kevin.ql.ast.form;
 
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.var.Type;
 import eu.bankersen.kevin.ql.ast.var.Variable;
 
 public class Question {
@@ -16,8 +18,12 @@ public class Question {
 		return text;
 	}
 	
-	public Boolean checkType(){
-		return true;
+	public Boolean checkType(SymbolTabel table){
+		return variable.checkType(table);
+	}
+	
+	public Type getType(){
+		return variable.getType();
 	}
 	
 	@Override

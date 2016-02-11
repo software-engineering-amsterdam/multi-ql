@@ -7,6 +7,7 @@
   "license": "MIT",
   "jspm": {
     "dependencies": {
+      "ace": "github:ajaxorg/ace-builds@^1.2.3",
       "antlr4": "npm:antlr4@^4.5.2"
     },
     "devDependencies": {

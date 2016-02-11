@@ -1,14 +1,13 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.TypeChecker;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
-import org.uva.ql.ast.ValueType;
 
-public class Not extends AbstractUnaryExpr {
+public class Not extends Expr {
+
+	private final Expr expr;
 
 	public Not(Expr expr) {
-		super(expr);
+		this.expr = expr;
 	}
 
 	@Override
@@ -17,25 +16,11 @@ public class Not extends AbstractUnaryExpr {
 	}
 
 	@Override
-	public ValueType type() {
-		return ValueType.BOOLEAN;
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 
-	@Override
-	public void _accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
+	public Expr getExpr() {
+		return expr;
 	}
-
-	@Override
-	public Result validate() {
-		Result result;
-
-		result = TypeChecker.checkType(expr, ValueType.BOOLEAN);
-		if (result.isFalse()) {
-			return result;
-		}
-
-		return Result.TRUE();
-	}
-
 }

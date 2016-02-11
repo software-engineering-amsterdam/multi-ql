@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public abstract class boolExpr extends Expr {
+
+	protected boolExpr lhs;
+	protected boolExpr rhs;
+	protected Type type = Type.BOOLEAN;
+		
+	public abstract Boolean result(interpExpr expr);
+	
+	@Override
+	public Boolean checkType() {
+		return lhs.getType() == type && rhs.getType() == type;
+	}
+}

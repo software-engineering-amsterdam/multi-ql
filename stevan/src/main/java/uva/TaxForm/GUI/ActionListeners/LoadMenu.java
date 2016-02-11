@@ -3,13 +3,14 @@ package uva.TaxForm.GUI.ActionListeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
-import uva.TaxForm.TaxForm;
-import uva.TaxForm.AST.ASTForm;
 import uva.TaxForm.GUI.GUI;
-import uva.TaxForm.Visitors.ASTVisitorToGUI;
+import uva.ql.QL;
+import uva.ql.Visitors.ASTVisitorToGUI;
+import uva.ql.ast.ASTForm;
 
 public class LoadMenu implements ActionListener {
 
@@ -30,10 +31,10 @@ public class LoadMenu implements ActionListener {
 		if ( returnVal == JFileChooser.APPROVE_OPTION ) {
 			File file = fc.getSelectedFile();
 			ASTForm root = null;
-			TaxForm taxForm = null;
+			QL taxForm = null;
 			ASTVisitorToGUI astVisitor = null;
 			
-			taxForm = new TaxForm(file.toPath().toString(), false);
+			taxForm = new QL(file.toPath().toString(), false);
 			
 			try {
 				root = (ASTForm) taxForm.start();

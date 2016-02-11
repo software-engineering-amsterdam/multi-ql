@@ -2,19 +2,18 @@ package eu.bankersen.kevin.ql.ast.expr.math;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.intExpr;
-import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 
 public class Neg extends intExpr {
 
-	private final intExpr value;
 
 	public Neg(Expr expr) {
-		this.value = (intExpr) expr;
+		super.rhs =  expr;
 	}
 
 	@Override
-	public Integer result(interpExpr expr) {
-		return value.result(expr) * -1;
+	public Integer result(SymbolTabel table) {
+		return (Integer) rhs.result(table) * -1;
 	}
 
 }

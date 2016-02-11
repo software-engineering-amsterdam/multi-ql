@@ -2,21 +2,18 @@ package eu.bankersen.kevin.ql.ast.expr.math;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.intExpr;
-import eu.bankersen.kevin.ql.ast.expr.interpExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 
 public class Div extends intExpr {
 
-	private final intExpr lhs;
-	private final intExpr rhs;
-
 	public Div(Expr lhs, Expr rhs) {
-		this.lhs = (intExpr) lhs;
-		this.rhs = (intExpr) rhs;
+		super.lhs =  lhs;
+		super.rhs =  rhs;
 	}
 
 	@Override
-	public Integer result(interpExpr context) {
-		return lhs.result(context) / rhs.result(context);
+	public Integer result(SymbolTabel table) {
+		return (Integer) lhs.result(table) / (Integer) rhs.result(table);
 	}
 
 }

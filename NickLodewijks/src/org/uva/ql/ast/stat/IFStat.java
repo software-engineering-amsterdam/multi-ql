@@ -1,33 +1,34 @@
 package org.uva.ql.ast.stat;
 
-import org.uva.ql.TypeChecker;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
-import org.uva.ql.ast.ValueType;
+import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.Block;
 
 public class IFStat extends ASTNode {
-	private final Expr condition;
+	private final Expr expression;
 	private final Block body;
 
 	public IFStat(Expr condition, Block body) {
-		this.condition = condition;
+		this.expression = condition;
 		this.body = body;
 	}
 
-	@Override
-	public void accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
+	public Expr getExpression() {
+		return expression;
+	}
 
-		condition.accept(visitor);
-		body.accept(visitor);
+	public Block getBody() {
+		return body;
+	}
+
+	public Boolean interpret(Context context) {
+		return (Boolean) expression.interpret(context);
 	}
 
 	@Override
-	public Result validate() {
-		return TypeChecker.checkType(condition, ValueType.BOOLEAN);
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
-
 }

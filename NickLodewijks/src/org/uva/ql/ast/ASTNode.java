@@ -1,34 +1,27 @@
 package org.uva.ql.ast;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.ql.ast.expr.Context;
 
 public abstract class ASTNode {
 
 	private Token token;
 
-	public abstract void accept(ASTNodeVisitor visitor);
-
-	public abstract Result validate();
+	public abstract <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context);
 
 	public void setToken(Token start) {
 		this.token = start;
 	}
 
-	public int getLineIndex() {
-		return token.getLine();
+	public String getSourceLocation() {
+		return "[" + token.getLine() + ": " + (token.getCharPositionInLine() + 1) + "]";
 	}
 
-	public int getCharIndex() {
-		return token.getCharPositionInLine() + 1;
-	}
-
-	public String getText() {
+	public String getSourceText() {
 		return token.getText();
 	}
 
 	@Override
 	public String toString() {
-		return "[" + getLineIndex() + ": " + getCharIndex() + "]";
+		return getSourceLocation();
 	}
 }

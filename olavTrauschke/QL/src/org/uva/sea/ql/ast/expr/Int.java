@@ -2,17 +2,17 @@ package org.uva.sea.ql.ast.expr;
 
 public class Int extends NumericExpr {
     
-    private int content;
+    private int value;
     
-    public Int(int theContent) {
-        content = theContent;
+    public Int(int theValue) {
+        value = theValue;
     }
     
     @Override
     public boolean equals(Object o) {
-        if (getClass().equals(o.getClass())) {
+        if (getClass() == o.getClass()) {
             Int other = (Int) o;
-            return content == other.content;
+            return value == other.value;
         }
         return false;
     }
@@ -20,7 +20,7 @@ public class Int extends NumericExpr {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + this.content;
+        hash = 23 * hash + this.value;
         return hash;
     }
 }

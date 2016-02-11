@@ -18,17 +18,20 @@ if_
 	;
 
 question
-	: STRING_LITERAL IDENTIFIER type
+	: STRING_LITERAL IDENTIFIER type    # inputQuestionCase
+	| STRING_LITERAL IDENTIFIER expr    # exprQuestionCase
 	;
 
 expr
 	: LEFT_PAREN expr RIGHT_PAREN                           # parenExprCase
     | literal                                               # literalExprCase
 	| IDENTIFIER                                            # identifierExprCase
-	| ( PLUS | MINUS ) expr                                 # unaryPrefixExprCase
-	| expr ( STAR | DIV ) expr                              # infixExprCase
+	| ( NOT | MINUS ) expr                                  # unaryPrefixExprCase
+	| expr ( MUL | DIV ) expr                               # infixExprCase
 	| expr ( PLUS | MINUS ) expr                            # infixExprCase
 	| expr ( EQ | NOT_EQ | GT | GT_EQ | LT | LT_EQ) expr    # infixExprCase
+	| expr AND expr                                         # infixExprCase
+	| expr OR expr                                          # infixExprCase
 	;
 
 literal
@@ -40,8 +43,8 @@ literal
 	;
 
 booleanLiteral
-	: BOOLEAN_TRUE      # booleanLiteralTrueCase
-	| BOOLEAN_FALSE     # booleanLiteralFalseCase
+	: BOOLEAN_TRUE
+	| BOOLEAN_FALSE
 	;
 
 type
@@ -77,11 +80,15 @@ LT_EQ : '<=';
 
 PLUS : '+';
 MINUS : '-';
-STAR : '*';
+MUL : '*';
 DIV : '/';
 
 BOOLEAN_TRUE : 'true';
 BOOLEAN_FALSE : 'false';
+
+AND : '&&';
+OR : '||';
+NOT : '!';
 
 STRING_LITERAL
 	: '"' ~["]* '"'

@@ -1,17 +1,15 @@
 package org.uva.ql.ast.form;
 
-import org.uva.ql.TypeChecker;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
-import org.uva.ql.ast.VariableIdentifier;
+import org.uva.ql.ast.VariableDecl;
 import org.uva.ql.ast.expr.Expr;
 
 public class ComputedQuestion extends Question {
 
 	private final Expr expression;
 
-	public ComputedQuestion(VariableIdentifier variableIdentifier, String label, Expr expression) {
-		super(variableIdentifier, label);
+	public ComputedQuestion(VariableDecl variableDecl, String label, Expr expression) {
+		super(variableDecl, label);
 		this.expression = expression;
 	}
 
@@ -20,15 +18,7 @@ public class ComputedQuestion extends Question {
 	}
 
 	@Override
-	public void accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
-
-		super.accept(visitor);
-		expression.accept(visitor);
-	}
-
-	@Override
-	public Result validate() {
-		return TypeChecker.checkType(expression, getVariableId().getType());
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 }

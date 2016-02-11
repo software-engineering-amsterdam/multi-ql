@@ -14,3 +14,6 @@
 1454961799558	Rename package 'eu.bankersen.kevin.ql.ast.variable'
 1455109446111	Rename type 'Type'
 1455109494301	Rename type 'QLType'
+1455142644140	Delete elements
+1455144124955	Rename type 'interpExpr'
+1455191904767	Delete element
