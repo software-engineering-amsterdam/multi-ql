@@ -23,7 +23,7 @@ public class Not extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Not) {
+        if (getClass() == o.getClass()) {
             Not other = (Not) o;
             return content.equals(other.content);
         }

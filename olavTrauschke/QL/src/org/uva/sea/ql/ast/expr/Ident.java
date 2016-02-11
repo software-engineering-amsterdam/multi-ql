@@ -7,13 +7,13 @@ public class Ident extends Expr {
     private String content;
     
     public Ident(String theContent) {
-        super(true, true);
+        super(true, true, true);
         content = theContent;
     }
     
     @Override
     public boolean equals(Object o) {
-        if (getClass().equals(o.getClass())) {
+        if (getClass() == o.getClass()) {
             Ident other = (Ident) o;
             return content.equals(other.content);
         }

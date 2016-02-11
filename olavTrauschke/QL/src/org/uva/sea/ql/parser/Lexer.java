@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.util.Pair;
 
 public class Lexer implements Tokens {
     
