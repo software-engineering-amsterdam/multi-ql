@@ -2,11 +2,11 @@ package ast.expression;
 
 import ast.Visitor;
 
-public class LEq extends Expression {
+public class AndExpression extends Expression {
 	private Expression lhs;
 	private Expression rhs;
 	
-	public LEq(Expression result, Expression result2) {
+	public AndExpression(Expression result, Expression result2) {
 		this.lhs = result;
 		this.rhs = result2;
 	}

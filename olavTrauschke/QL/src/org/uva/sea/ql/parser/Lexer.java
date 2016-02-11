@@ -24,6 +24,19 @@ public class Lexer implements Tokens {
         Pair<Integer, ASTNode> boolFalse = new Pair<>(BOOLEAN_LITERAL, new Bool(false));
         KEYWORDS.put("false", boolFalse);
         
+        Pair<Integer, ASTNode> boolType = new Pair<>(BOOLEAN, null);
+        KEYWORDS.put("boolean", boolType);
+        Pair<Integer, ASTNode> date = new Pair<>(DATE, null);
+        KEYWORDS.put("date", date);
+        Pair<Integer, ASTNode> decimal = new Pair<>(DECIMAL, null);
+        KEYWORDS.put("decimal", decimal);
+        Pair<Integer, ASTNode> intType = new Pair<>(INT, null);
+        KEYWORDS.put("int", intType);
+        Pair<Integer, ASTNode> money = new Pair<>(MONEY, null);
+        KEYWORDS.put("money", money);
+        Pair<Integer, ASTNode> string = new Pair<>(STRING, null);
+        KEYWORDS.put("string", string);
+        
         END_OF_LINE_CHARACTERS = new HashSet<>();
         END_OF_LINE_CHARACTERS.add((int) '\n');
         END_OF_LINE_CHARACTERS.add((int) '\r');
@@ -132,7 +145,8 @@ public class Lexer implements Tokens {
                 case '(' :
                 case '+' :
                 case '-' :
-                case '!' : {
+                case '!' :
+                case ':' : {
                     token = character;
                     readNextCharacter();
                     return token;
