@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import ql.parser.QLLexer;
 import ql.parser.QLParser;
@@ -37,8 +38,8 @@ public class QL {
         CommonTokenStream tokens = new CommonTokenStream( lexer );
         QLParser parser = new QLParser( tokens );
         ParseTree tree = parser.question();
-      //  ParseTreeWalker walker = new ParseTreeWalker();
-        //walker.walk( new QLWalker(), tree );
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk( new QLWalker(), tree );
         
         System.out.println("Finished parsing");
 
