@@ -3,13 +3,14 @@ package ast.literal;
 import ast.expression.Expression;
 
 public class Literal extends Expression{
-
+	private IntLiteral intLiteral;
+	private Variable variable;
+	
 	public Literal(IntLiteral result) {
-		// TODO Auto-generated constructor stub
+		this.intLiteral = result;
 	}
 
 	public Literal(Variable result) {
-		// TODO Auto-generated constructor stub
+		this.variable = result;
 	}
-
 }

@@ -1,17 +1,19 @@
 package ast.statement;
 
 public class Statement {
-
+	private Question question;
+	private AssignmentQuestion assignmentQuestion;
+	private IfStatement ifStatement;
+	
 	public Statement(Question result) {
-		// TODO Auto-generated constructor stub
+		this.question = result;
 	}
 
 	public Statement(AssignmentQuestion result) {
-		// TODO Auto-generated constructor stub
+		this.assignmentQuestion = result;
 	}
 
 	public Statement(IfStatement result) {
-		// TODO Auto-generated constructor stub
+		this.ifStatement = result;
 	}
-
 }

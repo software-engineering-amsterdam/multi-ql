@@ -1,9 +1,11 @@
 package ast.expression;
 
 public class Neq extends Expression {
-
+	private Expression lhs;
+	private Expression rhs;
 	public Neq(Expression result, Expression result2) {
-		// TODO Auto-generated constructor stub
+		this.lhs = result;
+		this.rhs = result2;
 	}
 
 }

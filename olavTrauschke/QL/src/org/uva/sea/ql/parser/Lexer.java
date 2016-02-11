@@ -19,9 +19,9 @@ public class Lexer implements Tokens {
     
     static {
         KEYWORDS = new HashMap<>();
-        Pair<Integer, ASTNode> boolTrue = new Pair<>(BOOLEAN, new Bool(true));
+        Pair<Integer, ASTNode> boolTrue = new Pair<>(BOOLEAN_LITERAL, new Bool(true));
         KEYWORDS.put("true", boolTrue);
-        Pair<Integer, ASTNode> boolFalse = new Pair<>(BOOLEAN, new Bool(false));
+        Pair<Integer, ASTNode> boolFalse = new Pair<>(BOOLEAN_LITERAL, new Bool(false));
         KEYWORDS.put("false", boolFalse);
         
         END_OF_LINE_CHARACTERS = new HashSet<>();
@@ -189,14 +189,14 @@ public class Lexer implements Tokens {
                 
                 case '"' : {
                     semantic = new Str(readString());
-                    token = STRING;
+                    token = STRING_LITERAL;
                     return token;
                 }
                 
                 default : {
                     if (Character.isDigit(character)) {
                         semantic = new Int(readNumber());
-                        token = INT;
+                        token = INT_LITERAL;
                         return token;
                     }
                     if (Character.isLetter(character)) {

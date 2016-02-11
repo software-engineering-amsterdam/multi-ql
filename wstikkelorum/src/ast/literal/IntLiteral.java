@@ -4,8 +4,10 @@ import ast.expression.Expression;
 
 public class IntLiteral extends Expression{
 
+	private int value;
+	
 	public IntLiteral(Integer valueOf) {
-		// TODO Auto-generated constructor stub
+		this.value = (int)valueOf;
 	}
 	
 }

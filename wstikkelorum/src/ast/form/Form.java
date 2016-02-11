@@ -1,9 +1,13 @@
 package ast.form;
 
 public class Form {
+	
+	private String id;
+	private Body body;
 
-	public Form(Object object, Body result) {
-		// TODO Auto-generated constructor stub
+	public Form(String id, Body result) {
+		this.id = id;
+		this.body = result;
 	}
 
 }
