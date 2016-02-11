@@ -7,6 +7,7 @@ import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
+import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.stat.IFStat;
 import org.uva.ql.ui.DefaultWidgetFactory;
 import org.uva.ql.ui.QLForm;
@@ -21,11 +22,11 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Void, Void> {
 	private Expr currentCondition;
 	private QLQuestionaire questionaire;
 
-	public QLInterpreter(Form form) {
+	public QLInterpreter(Questionnaire q) {
 		widgetFactory = new DefaultWidgetFactory();
 		questionaire = new QLQuestionaire();
 
-		form.accept(this, null);
+		q.accept(this, null);
 	}
 
 	public QLQuestionaire getQuestionaire() {

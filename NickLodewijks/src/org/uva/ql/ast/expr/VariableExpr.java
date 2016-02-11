@@ -27,22 +27,11 @@ public class VariableExpr extends Expr {
 
 		value = context.getValue(identifier.getName());
 
-		switch (type()) {
-		case BOOLEAN:
-			return (value != null ? (Boolean) value : Boolean.FALSE);
-
-		case INTEGER:
-			return (value != null ? (Integer) value : 0);
-
-		case STRING:
-			return (value != null ? (String) value : "");
-		default:
-			return value;
-		}
+		return value;
 	}
 
 	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context){
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 }

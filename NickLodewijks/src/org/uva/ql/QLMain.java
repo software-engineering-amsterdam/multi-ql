@@ -23,7 +23,7 @@ public class QLMain {
 
 		fileContext = parser.file();
 
-		TypeChecker tc = new TypeChecker(fileContext.form(0).result);
+		TypeChecker tc = new TypeChecker(fileContext.questionnaire().result);
 
 //		TreeViewer viewr = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
 //		viewr.setScale(1.5);// scale a little

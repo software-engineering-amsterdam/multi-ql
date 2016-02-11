@@ -1,5 +1,7 @@
 package org.uva.ql.ast;
 
+import java.util.Map.Entry;
+
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.ArithmeticExpr;
@@ -24,6 +26,7 @@ import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
+import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
@@ -216,6 +219,15 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(VariableIdentifier node, U context) {
+		return null;
+	}
+
+	@Override
+	public T visit(Questionnaire node, U context) {
+		for (Form form : node.getForms()) {
+			form.accept(this, context);
+		}
+
 		return null;
 	}
 }

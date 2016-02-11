@@ -11,6 +11,7 @@ import org.uva.ql.ast.VariableDecl;
 import org.uva.ql.ast.VariableIdentifier;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
+import org.uva.ql.ast.expr.ArithmeticExpr;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Div;
 import org.uva.ql.ast.expr.Eq;
@@ -30,6 +31,7 @@ import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
+import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
@@ -38,21 +40,20 @@ import org.uva.ql.ui.QLQuestionaire;
 
 public class TypeChecker {
 
-	public TypeChecker(Form form) {
+	public TypeChecker(Questionnaire q) {
 		QLQuestionaire questionaire;
 		QLInterpreter interpreter;
 
 		// Validate operand and condition types.
-		new TypeCheckValidator(form);
+		new TypeCheckValidator(q);
 
 		// Look for duplicate question declarations.
-		new DuplicateFinder(form);
+		new DuplicateFinder(q);
 
-		interpreter = new QLInterpreter(form);
+		interpreter = new QLInterpreter(q);
 
 		questionaire = interpreter.getQuestionaire();
 		questionaire.show();
-
 	}
 
 	private static class SymbolTable {
@@ -82,18 +83,30 @@ public class TypeChecker {
 
 	private class TypeCheckValidator extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
 
-		public TypeCheckValidator(Form form) {
-			form.accept(this, new SymbolTable());
+		public TypeCheckValidator(Questionnaire q) {
+			q.accept(this, new SymbolTable());
+		}
+
+		@Override
+		public ValueType visit(Questionnaire node, SymbolTable context) {
+
+			for (Form form : node.getForms()) {
+				form.accept(this, context);
+			}
+
+			return null;
 		}
 
 		@Override
 		public ValueType visit(Form node, SymbolTable context) {
+			// The body of every form has its own SymbolTable
 			node.getBody().accept(this, new SymbolTable());
 			return null;
 		}
 
 		@Override
 		public ValueType visit(Block node, SymbolTable context) {
+			// Copy the SymbolTable for scoping of variables
 			context = new SymbolTable(context);
 
 			// First traverse the questions.
@@ -117,9 +130,9 @@ public class TypeChecker {
 
 		@Override
 		public ValueType visit(ComputedQuestion node, SymbolTable context) {
-			node.getVariableDecl().accept(this, context);
-
 			checkType(node.getExpression(), context, node.getType());
+
+			node.getVariableDecl().accept(this, context);
 			return null;
 		}
 
@@ -302,8 +315,8 @@ public class TypeChecker {
 
 		private Set<String> questions = new HashSet<String>();
 
-		public DuplicateFinder(Form form) {
-			form.accept(this, null);
+		public DuplicateFinder(Questionnaire q) {
+			q.accept(this, null);
 		}
 
 		private void addQuestion(Question node) {

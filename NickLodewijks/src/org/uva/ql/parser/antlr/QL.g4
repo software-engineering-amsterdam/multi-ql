@@ -11,8 +11,19 @@ import org.uva.ql.ast.stat.*;
 import org.uva.ql.ast.form.*;
 }
 
-file :  form* EOF
+file :  questionnaire EOF
      ;
+     
+questionnaire returns [Questionnaire result]
+    : forms { $result = new Questionnaire($forms.result); }
+    ;
+    
+forms returns [List<Form> result]
+    @init{
+        $result = new ArrayList<Form>();
+    }
+    :   (form{ $result.add($form.result); })+
+    ;
 
 form returns [Form result]
     :   'form' + ID + block { $result = new Form($ID.text, $block.result); }
