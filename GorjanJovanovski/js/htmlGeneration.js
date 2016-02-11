@@ -1,5 +1,3 @@
-
-//done
 function setHandlers(){
 	$("input").change(function(){
 		var label = $(this).attr("name");
@@ -13,13 +11,12 @@ function setHandlers(){
 	});
 }
 
-
-//done
 function refreshGUI(){
+	var stack = new Array();
+
 	$(".questionDiv").hide();
 	resetQuestionVisibility();
 
-	var stack = new Array();
 	for(var i=0;i<ast.queries.length;i++){
 		stack.push(ast.queries[i]);
 	}
@@ -36,11 +33,7 @@ function refreshGUI(){
 		}
 		else if(currentNode instanceof ConditionNode){
 			var evalResult = evaluateStmt(currentNode.condition);
-			if(typeof evalResult !== "boolean"){
-  				errors.add({line: currentNode.line, error: "[line " + currentNode.line +"]: Condition '"+currentNode.conditionTxt+"' is not boolean"});
-  				fillPanel("error", errors, true);
-			}
-			else if (evalResult) {
+			if (evalResult) {
 				for (var i=0; i<currentNode.queries.length; i++) {
 					stack.push(currentNode.queries[i]);
 				}	
@@ -54,7 +47,6 @@ function refreshGUI(){
 	}
 }
 
-//done
 function generateQuestionHTML(question){
 	var html = "<div class='questionDiv' label='" + question.label + "'>";
 	html += "<label class='question'>" + question.text + " ";
@@ -90,10 +82,8 @@ function generateQuestionHTML(question){
 	return html;
 }
 
-//done
 function renderQuestions(){
 	var questions = new Array();
-
 	var stack = new Array();
 
 	for(var i=0;i<ast.queries.length;i++){
@@ -128,15 +118,15 @@ function renderQuestions(){
 	$("#output").html(output);
 }
 
-//done
-function fillPanel(panel, set, critical){
+function displayErrors(panel, set, critical){
 	var html = "<ul>";
 	var editorErrors = new Array();
+	
 	set.forEach(function(errObj) {
 		editorErrors.push({
 		  row: errObj.line-1,
 		  text: errObj.error,
-		  type: panel // also warning and information
+		  type: panel
 		});
 		
 	  	html += "<li><a href='#' onClick='editor.gotoLine(" + (errObj.line) + ");'>" + errObj.error + "</a></li>";
@@ -153,48 +143,3 @@ function fillPanel(panel, set, critical){
 		$("#formWrapper").hide();
 	}
 }
-
-//done
-$("#generate").click(function(){
-	initiate(editor.getValue());
-});
-
-//done
-$("#save").click(function(){
-	var answers = new Array();
-
-
-	var stack = new Array();
-	
-	for(var i=0;i<ast.queries.length;i++){
-		stack.push(ast.queries[i]);
-	}
-
-	while(stack.length>0){
-		var currentNode = stack.pop();
-		if(currentNode instanceof QuestionNode && currentNode.visible){
-			var answer = {};
-			answer.questionLabel = currentNode.label;
-			answer.questionText = currentNode.text;
-			answer.questionType = currentNode.type;
-			answer.value = currentNode.value;
-			answers.push(answer);
-		}
-		else if(currentNode instanceof ConditionNode){
-			for (var i=0; i<currentNode.queries.length; i++) {
-				stack.push(currentNode.queries[i]);
-			}
-			if(currentNode.elseQueries != undefined){
-				for (var i=0; i<currentNode.elseQueries.length; i++) {
-					stack.push(currentNode.elseQueries[i]);
-				}
-			}
-		}
-	}
-
-	answers = answers.reverse();
-
-	var blob = new Blob([JSON.stringify(answers, null, 2)], {type: "text/plain;charset=utf-8"});
-	saveAs(blob, "answers.txt");
-	
-});

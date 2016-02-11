@@ -1,4 +1,3 @@
-
 function initiate(inputString){
 
 	var characters = new antlr4.InputStream(inputString);
@@ -8,9 +7,13 @@ function initiate(inputString){
 
 	warnings = new Set();
 	errors = new Set();
+
+	editor.getSession().clearAnnotations();
+
 	$("#errorpanel").hide();
 	$("#warningpanel").hide();
 	$("#formWrapper").show();
+
 	var ErrorListener = function() {
 		antlr4.error.ErrorListener.call(this);
 	  	return this;
@@ -25,24 +28,20 @@ function initiate(inputString){
 		  type: "error" // also warning and information
 		}]);
 	  	errors.add({line:line, error: "[line " + line +"]: Parse error: " + line + ":" + col + " - " + msg});
-	  	fillPanel("error", errors, true);
+	  	displayErrors("error", errors, true);
 	};
 	lexer.removeErrorListeners();
 	parserANTLR.removeErrorListeners();
 	lexer.addErrorListener(new ErrorListener());
 	parserANTLR.addErrorListener(new ErrorListener());
 
-	editor.getSession().clearAnnotations();
-
 	parserANTLR.buildParseTrees = true;
 	var tree = parserANTLR.form();
-	parseQuestions(tree);
+	createAst(tree);
 }	
 
-function parseQuestions(parseTree){
+function createAst(parseTree){
 	
-	var newDependencies = new Array();
-
 	var Visitor = function(){
 		MyGrammerVisitor.MyGrammerVisitor.call(this);
 		return this;
@@ -62,10 +61,8 @@ function parseQuestions(parseTree){
 
 	var visitor = new Visitor();
 	parseTree.accept(visitor);
-
 }
 
-//done
 function preformASTCheck(){
 	var texts = new Set();
 	var labels = new Set();
@@ -80,6 +77,7 @@ function preformASTCheck(){
 
 	while(stack.length>0){
 		var currentNode = stack.pop();
+
 		if(currentNode instanceof QuestionNode){
 			evaluateStmt(currentNode.computedExpr);
 			questions.push(currentNode);
@@ -88,16 +86,19 @@ function preformASTCheck(){
 			var evalResult = evaluateStmt(currentNode.condition);
 			if(typeof evalResult !== "boolean"){
   				errors.add({line: currentNode.line, error: "[line " + currentNode.line +"]: Condition '"+currentNode.conditionTxt+"' is not boolean"});
-  				fillPanel("error", errors, true);
+  				displayErrors("error", errors, true);
 			}
+
 			for (var i=0; i<currentNode.queries.length; i++) {
 				stack.push(currentNode.queries[i]);
 			}
+
 			if(currentNode.elseQueries != undefined){
 				for (var i=0; i<currentNode.elseQueries.length; i++) {
 					stack.push(currentNode.elseQueries[i]);
 				}
 			}
+
 		}
 	}
 
@@ -107,13 +108,13 @@ function preformASTCheck(){
 		var currentNode = questions[i];
 		if(labels.has(currentNode.label)){
 				errors.add({line:currentNode.line, error: "[line " + currentNode.line +"]: Label '" + currentNode.label + "' is already defined"});
-				fillPanel("error", errors, true);
+				displayErrors("error", errors, true);
 				noErrors = true;
 			}
 			else{
 				if(texts.has(currentNode.text)){
 					warnings.add({line: currentNode.line, error: "[line " + currentNode.line +"]: Text '" + currentNode.text + "' is already defined"});
-					fillPanel("warning", warnings);
+					displayErrors("warning", warnings);
 				}
 
 				labels.add(currentNode.label);
@@ -123,12 +124,6 @@ function preformASTCheck(){
 	return noErrors;
 }
 
-//done
-function setASTQuestionValue(label, value){
-	getQuestion(label).value = value;
-}
-
-//done
 function getQuestion(label){
 	var stack = new Array();
 	for(var i=0;i<ast.queries.length;i++){
@@ -157,7 +152,6 @@ function getQuestion(label){
 	return undefined;
 }
 
-//done
 function resetQuestionVisibility(){
 	var stack = new Array();
 	for(var i=0;i<ast.queries.length;i++){
@@ -182,8 +176,6 @@ function resetQuestionVisibility(){
 	}
 }
 
-
-//done
 //TODO strings
 function evaluateStmt(statement){
 	if(statement instanceof OperatorExpressionNode){
@@ -227,7 +219,7 @@ function evaluateStmt(statement){
 		var question = getQuestion(statement.label);
 		if(question==undefined){
 			errors.add({line:statement.line, error: "[line " + statement.line +"]: Question label '" + statement.label + "'' is undefined"});
-			fillPanel("error", errors, true);
+			displayErrors("error", errors, true);
 			return;
 		}
 		return getQuestion(statement.label).value;
@@ -265,7 +257,7 @@ function checkCyclicDependencies(){
 	}
 
 	if(detectedDepencendies){
-		fillPanel("error", errors, true);
+		displayErrors("error", errors, true);
 	}
 
 	return detectedDepencendies;
@@ -308,7 +300,7 @@ function getQuestionsInSubtree(node){
 	}
 }
 
-//done
+//todo
 function getLabelsInStatement(statement){
 	var labels = [];
 	
