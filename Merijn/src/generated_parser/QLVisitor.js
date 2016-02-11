@@ -37,8 +37,13 @@ QLVisitor.prototype.visitIf_ = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLParser#question.
-QLVisitor.prototype.visitQuestion = function(ctx) {
+// Visit a parse tree produced by QLParser#inputQuestionCase.
+QLVisitor.prototype.visitInputQuestionCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#exprQuestionCase.
+QLVisitor.prototype.visitExprQuestionCase = function(ctx) {
 };
 
 
@@ -92,13 +97,8 @@ QLVisitor.prototype.visitMoneyLiteralCase = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLParser#booleanLiteralTrueCase.
-QLVisitor.prototype.visitBooleanLiteralTrueCase = function(ctx) {
-};
-
-
-// Visit a parse tree produced by QLParser#booleanLiteralFalseCase.
-QLVisitor.prototype.visitBooleanLiteralFalseCase = function(ctx) {
+// Visit a parse tree produced by QLParser#booleanLiteral.
+QLVisitor.prototype.visitBooleanLiteral = function(ctx) {
 };
 
 
