@@ -12,20 +12,16 @@ public abstract class ASTNode {
 		this.token = start;
 	}
 
-	public int getLineIndex() {
-		return token.getLine();
+	public String getSourceLocation() {
+		return "[" + token.getLine() + ": " + (token.getCharPositionInLine() + 1) + "]";
 	}
 
-	public int getCharIndex() {
-		return token.getCharPositionInLine() + 1;
-	}
-
-	public String getText() {
+	public String getSourceText() {
 		return token.getText();
 	}
 
 	@Override
 	public String toString() {
-		return "[" + getLineIndex() + ": " + getCharIndex() + "]";
+		return getSourceLocation();
 	}
 }
