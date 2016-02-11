@@ -15,8 +15,7 @@
 %token <Bool> BOOLEAN_LITERAL
 %token <Int> INT_LITERAL
 %token <Str> STRING_LITERAL
-%token ':'
-%token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!'
+%token ':' '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!'
 %token '(' ')'
 
 %left ':'
