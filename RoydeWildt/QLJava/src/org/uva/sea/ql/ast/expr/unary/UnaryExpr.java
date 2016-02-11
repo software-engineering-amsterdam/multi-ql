@@ -8,7 +8,8 @@ import org.uva.sea.ql.ast.expr.Expr;
 public abstract class UnaryExpr extends Expr {
     private Expr val;
 
-    public UnaryExpr(Expr val) {
+    public UnaryExpr(int line, Expr val) {
+        super(line);
         this.val = val;
     }
 

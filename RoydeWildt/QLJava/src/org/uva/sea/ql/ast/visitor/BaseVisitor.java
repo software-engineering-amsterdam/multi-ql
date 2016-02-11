@@ -1,7 +1,5 @@
-package org.uva.sea.ql.ast.checker;
+package org.uva.sea.ql.ast.visitor;
 
-import org.uva.sea.ql.ast.Node;
-import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.binary.*;
 import org.uva.sea.ql.ast.expr.unary.*;
 import org.uva.sea.ql.ast.form.Form;
@@ -9,18 +7,14 @@ import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
 import org.uva.sea.ql.ast.var.Var;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by roydewildt on 10/02/16.
  */
-public class CoreVisitor implements Visitor {
+public class BaseVisitor implements Visitor {
 
     Visitor v;
 
-    public CoreVisitor(){
+    public BaseVisitor(){
         v =this;
     }
 
@@ -39,14 +33,9 @@ public class CoreVisitor implements Visitor {
     @Override
     public <T> T visit(If stat) {
 
-        //get all vars in loop bodies
-            Map<Expr, List<Stat>> stmsList = stat.getStmsList();
-            for (Map.Entry<Expr, List<Stat>> stms : stmsList.entrySet()) {
-                stms.getKey().accept(v);
-                for(Stat s : stms.getValue()){
-                    s.accept(v);
-                }
-            }
+        stat.getCond().accept(v);
+        for(Stat s : stat.getStms())
+            s.accept(v);
 
         return null;
     }
@@ -54,22 +43,30 @@ public class CoreVisitor implements Visitor {
     @Override
     public <T> T visit(IfElse stat) {
 
-        //get all vars in loop bodies
-        Map<Expr, List<Stat>> stmsList = stat.getStmsList();
-        for (Map.Entry<Expr, List<Stat>> stms : stmsList.entrySet()) {
-            stms.getKey().accept(v);
-            for(Stat s : stms.getValue()){
-                s.accept(v);
-            }
-        }
+        stat.getCond().accept(v);
+        for(Stat s : stat.getIfStms())
+            s.accept(v);
+        for(Stat s : stat.getElseStms())
+            s.accept(v);
 
         return null;
     }
 
     @Override
     public <T> T visit(Question stat) {
-        List<Node> result = new ArrayList<>();
-        result.add(stat);
+
+        stat.getType().accept(v);
+        stat.getVarname().accept(v);
+
+        return null;
+    }
+
+    @Override
+    public <T> T visit(AssQuestion stat) {
+
+        stat.getType().accept(v);
+        stat.getVarname().accept(v);
+        stat.getExpr().accept(v);
 
         return null;
     }

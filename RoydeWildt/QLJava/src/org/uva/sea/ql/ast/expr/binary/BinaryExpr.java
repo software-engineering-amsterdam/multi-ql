@@ -9,14 +9,10 @@ public abstract class BinaryExpr extends Expr {
     private Expr lhs;
     private Expr rhs;
 
-    public BinaryExpr(Expr lhs, Expr rhs) {
+    public BinaryExpr(int line, Expr lhs, Expr rhs) {
+        super(line);
         this.lhs = lhs;
         this.rhs = rhs;
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName() + "(" + lhs.toString() + ", " + rhs.toString() + ")";
     }
 
     public Expr getLhs() {

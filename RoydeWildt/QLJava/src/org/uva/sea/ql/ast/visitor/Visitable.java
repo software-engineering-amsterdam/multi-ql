@@ -1,8 +1,4 @@
-package org.uva.sea.ql.ast.checker;
-
-import org.uva.sea.ql.ast.Node;
-
-import java.util.List;
+package org.uva.sea.ql.ast.visitor;
 
 /**
  * Created by roy on 5-2-16.

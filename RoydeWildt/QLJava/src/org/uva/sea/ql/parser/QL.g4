@@ -4,10 +4,10 @@ grammar QL;
 {
 import java.util.List;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import org.uva.sea.ql.ast.expr.*;
+
+import org.uva.sea.ql.ast.expr.Expr;
+import org.uva.sea.ql.ast.expr.binary.*;
+import org.uva.sea.ql.ast.expr.unary.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.val.*;
 import org.uva.sea.ql.ast.form.*;
@@ -44,7 +44,7 @@ public static List<Form> ParseForm(String path) {
 //Form Grammar
 
 form returns [Form result]
-    : 'form' i=Ident '{' s=stats '}' {$result = new Form($i.text, $s.result);}
+    : 'form' i=Ident '{' s=stats '}' {$result = new Form($i.getLine(), $i.text, $s.result);}
     ;
 
 forms returns [List<Form> result]
@@ -55,33 +55,22 @@ forms returns [List<Form> result]
 
 //Stat Grammar
 varDecl returns [Var result]
-    : i=Ident {$result = new Var($i.text);}
+    : i=Ident {$result = new Var($i.getLine(), $i.text);}
     ;
 
 varAss returns [Expr result]
-    : ('=' '(' x=orExpr ')') {$result = $x.result;}
+    : '=' '(' x=orExpr ')' {$result = $x.result;}
     ;
 
 question returns [Stat result]
-    : l=Str v=varDecl ':'  t=type {$result = new Question($l.text, $v.result, $t.result);}
-    | l=Str v=varDecl ':'  t=type e=varAss {$result = new Question($l.text, $v.result, $t.result, $e.result);}
+    : l=Str v=varDecl ':'  t=type  {$result = new Question($l.getLine(), $l.text, $v.result, $t.result);}
+    | l=Str v=varDecl ':'  t=type e=varAss {$result = new AssQuestion($l.getLine(), $l.text, $v.result, $t.result, $e.result);}
     ;
 
 stat returns [Stat result]
     : q=question {$result = $q.result;}
-    | 'if' '(' c=orExpr ')' '{' s=stats '}'
-        {
-            LinkedHashMap<Expr, List<Stat>> map = new LinkedHashMap<Expr, List<Stat>>();
-            map.put($c.result, $s.result);
-            $result = new If(map);
-        }
-    | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}'
-        {
-            LinkedHashMap<Expr, List<Stat>> map = new LinkedHashMap<Expr, List<Stat>>();
-            map.put($c.result, $i.result);
-            map.put(null, $e.result);
-            $result = new IfElse(map);
-        }
+    | 'if' '(' c=orExpr ')' '{' s=stats '}' {$result = new If($c.start.getLine(), $c.result, $s.result);}
+    | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}'{$result = new IfElse($c.start.getLine(), $c.result, $i.result, $e.result);}
     ;
 
 stats returns [List<Stat> result]
@@ -92,15 +81,15 @@ stats returns [List<Stat> result]
 
 //Expression Grammar
 primary returns [Expr result]
-    :   x=Int   {$result = new Int($x.text);}
-    |   x=Ident {$result = new Var($x.text);}
+    :   x=Int   {$result = new Int($x.getLine(), $x.text);}
+    |   x=Ident {$result = new Var($x.getLine(), $x.text);}
     |   y=bool  {$result = $y.result;}
     ;
 
 unExpr returns [Expr result]
-    :  '+' value=unExpr { $result = new Pos($value.result); }
-    |  '-' value=unExpr { $result = new Neg($value.result); }
-    |  '!' value=unExpr { $result = new Not($value.result); }
+    :  '+' value=unExpr { $result = new Pos($value.start.getLine(), $value.result); }
+    |  '-' value=unExpr { $result = new Neg($value.start.getLine(), $value.result); }
+    |  '!' value=unExpr { $result = new Not($value.start.getLine(), $value.result); }
     |  y=primary    { $result = $y.result; }
     ;
     
@@ -108,10 +97,10 @@ mulExpr returns [Expr result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr
     { 
       if ($op.text.equals("*")) {
-        $result = new Mul($result, $rhs.result);
+        $result = new Mul($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("/")) {
-        $result = new Div($result, $rhs.result);
+        $result = new Div($lhs.start.getLine(), $result, $rhs.result);
       }
     })*
     ;
@@ -120,10 +109,10 @@ addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     { 
       if ($op.text.equals("+")) {
-        $result = new Add($result, $rhs.result);
+        $result = new Add($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("-")) {
-        $result = new Sub($result, $rhs.result);
+        $result = new Sub($lhs.start.getLine(), $result, $rhs.result);
       }
     })*
     ;
@@ -133,33 +122,35 @@ relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
     { 
       if ($op.text.equals("<")) {
-        $result = new LT($result, $rhs.result);
+        $result = new LT($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LEq($result, $rhs.result);
+        $result = new LEq($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, $rhs.result);
+        $result = new GT($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GEq($result, $rhs.result);
+        $result = new GEq($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("==")) {
-        $result = new Eq($result, $rhs.result);
+        $result = new Eq($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("!=")) {
-        $result = new NEq($result, $rhs.result);
+        $result = new NEq($lhs.start.getLine(), $result, $rhs.result);
       }
     })*
     ;
     
 andExpr returns [Expr result]
-    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
+    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr
+        { $result = new And($lhs.start.getLine(), $result, $rhs.result); } )*
     ;
     
 
 orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
+    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr
+        { $result = new Or($lhs.start.getLine(), $result, $rhs.result); } )*
     ;
 
 
@@ -171,8 +162,8 @@ type returns [Val result]
     ;
 
 bool returns [Val result]
-    : value=True  {$result = new Bool($value.text);}
-    | value=False {$result = new Bool($value.text);}
+    : value=True  {$result = new Bool($value.getLine(), $value.text);}
+    | value=False {$result = new Bool($value.getLine(), $value.text);}
     ;
     
 /*

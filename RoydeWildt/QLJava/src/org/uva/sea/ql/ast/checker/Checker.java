@@ -5,7 +5,6 @@ import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.stat.Question;
 import org.uva.sea.ql.ast.var.Var;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,39 +15,36 @@ public class Checker {
     public Checker(){}
 
     public void undefinedChecker(Form f){
-        List<? extends Node> decls = f.accept(new DeclVisitor());
-        List<? extends Node> vars = f.accept(new VarsVisitor());
+        List<Node> undefined = (new UndefinedCheck(f)).getUndefined();
 
-        List<Node> result = new ArrayList<>();
-        result.addAll(vars);
-
-        for (Node v : vars)
-            for (Node d : decls)
-                if(v.toString().equals(((Question)d).getVarname().toString()))
-                    result.remove(v);
-
-        for(Node n : result)
-            System.out.println("Error: variable " + ((Var) n).getValue() + " is undefined.");
+        for(Node n : undefined){
+            StringBuilder sb = new StringBuilder();
+            sb.append("Variable ");
+            sb.append(((Var) n).getValue());
+            sb.append(" (line " + n.getLine() + ")");
+            sb.append(" is undefined");
+            System.out.println(sb.toString());
+        }
 
     }
 
     public void duplicateChecker(Form f){
-        List<Question> decls = (List<Question>) f.accept(new DeclVisitor());
+        List<List<Node>> duplicates = (new DuplicateCheck(f)).getDuplicates();
 
-
-        for (int i = 0; i < decls.size(); i++) {
-            Question d1 = decls.get(i);
-            for (int j = i + 1; j < decls.size(); j++) {
-                Question d2 = decls.get(j);
-                if (d1.getVarname().getValue().equals(d2.getVarname().getValue())) {
-                    if (!d1.getType().toString().equals(d2.getType().toString()))
-                        System.out.println("Error: variable " + d1.getVarname().getValue() + " is declared multiple times using different types.");
-                    else
-                        System.out.println("Warning: variable " + d1.getVarname().getValue() + " is declared multiple times.");
-                }
+        for(List<Node> dups : duplicates){
+            StringBuilder sb = new StringBuilder("");
+            Question org = (Question) dups.get(0);
+            for (int i = 1; i < dups.size(); i++) {
+                Question dup = (Question) dups.get(i);
+                sb.append("Variable ");
+                sb.append(dup.getVarname().getValue() + " : " + dup.getType().getClass().getSimpleName());
+                sb.append(" (line " + dup.getLine() + ")");
+                sb.append(" is already defined as ");
+                sb.append(org.getVarname().getValue() + " : " + org.getType().getClass().getSimpleName());
+                sb.append(" (line " + org.getLine() + ")");
             }
+
+            System.out.println(sb.toString());
         }
     }
-
-
 }

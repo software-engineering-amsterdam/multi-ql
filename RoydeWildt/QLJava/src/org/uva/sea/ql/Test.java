@@ -3,6 +3,7 @@ package org.uva.sea.ql;
 import org.uva.sea.ql.ast.Node;
 import org.uva.sea.ql.ast.checker.*;
 import org.uva.sea.ql.ast.form.Form;
+import org.uva.sea.ql.ast.visitor.Visitor;
 import org.uva.sea.ql.parser.*;
 
 import java.io.IOException;
@@ -20,14 +21,11 @@ public class Test {
         Form f2 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/duplicate1.ql")).get(0);
         Form f3 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/operators1.ql")).get(0);
 
-        Visitor dv = new VarsVisitor();
-        f3.accept(dv);
-        List<Node> res1 = ((VarsVisitor) dv).getVars();
+        Checker chk = new Checker();
+        chk.undefinedChecker(f1);
+        chk.duplicateChecker(f2);
 
-        //Checker chk = new Checker();
-        //chk.undefinedChecker(f1);
-        //chk.duplicateChecker(f2);
-
-        System.out.println(res1.toString());
+        //System.out.println(res1.toString());
+        //System.out.println(res2.toString());
     }
 }

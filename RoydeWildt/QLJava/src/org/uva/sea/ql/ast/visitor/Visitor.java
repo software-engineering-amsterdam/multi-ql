@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast.checker;
+package org.uva.sea.ql.ast.visitor;
 
 import org.uva.sea.ql.ast.form.*;
 import org.uva.sea.ql.ast.stat.*;
@@ -19,6 +19,7 @@ public interface Visitor {
     <T> T visit(If stat);
     <T> T visit(IfElse stat);
     <T> T visit(Question stat);
+    <T> T visit(AssQuestion stat);
 
     <T> T visit(Add expr);
     <T> T visit(And expr);

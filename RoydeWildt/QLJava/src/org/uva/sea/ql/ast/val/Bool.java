@@ -1,9 +1,6 @@
 package org.uva.sea.ql.ast.val;
 
-import org.uva.sea.ql.ast.Node;
-import org.uva.sea.ql.ast.checker.Visitor;
-
-import java.util.List;
+import org.uva.sea.ql.ast.visitor.Visitor;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -11,8 +8,9 @@ import java.util.List;
 public class Bool extends Val {
     Boolean value;
 
-    public Bool () {}
-    public Bool(String x){
+    public Bool () {super(0);}
+    public Bool(int line, String x){
+        super(line);
         this.value = Boolean.valueOf(x);
     }
 
@@ -20,8 +18,4 @@ public class Bool extends Val {
         return visitor.visit(this);
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName() + "(" + value + ")";
-    }
 }
