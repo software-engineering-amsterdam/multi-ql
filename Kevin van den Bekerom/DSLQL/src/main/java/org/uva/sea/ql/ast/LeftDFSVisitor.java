@@ -1,59 +1,37 @@
 package org.uva.sea.ql.ast;
 
-import org.uva.sea.ql.ast.expr.Add;
-import org.uva.sea.ql.ast.expr.And;
-import org.uva.sea.ql.ast.expr.BinaryExpr;
-import org.uva.sea.ql.ast.expr.BooleanLiteral;
-import org.uva.sea.ql.ast.expr.Div;
-import org.uva.sea.ql.ast.expr.Eq;
-import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.expr.GEq;
-import org.uva.sea.ql.ast.expr.GT;
-import org.uva.sea.ql.ast.expr.IntegerLiteral;
-import org.uva.sea.ql.ast.expr.LEq;
-import org.uva.sea.ql.ast.expr.LT;
-import org.uva.sea.ql.ast.expr.Mul;
-import org.uva.sea.ql.ast.expr.NEq;
-import org.uva.sea.ql.ast.expr.Neg;
-import org.uva.sea.ql.ast.expr.Not;
-import org.uva.sea.ql.ast.expr.Or;
-import org.uva.sea.ql.ast.expr.Pos;
-import org.uva.sea.ql.ast.expr.StringLiteral;
-import org.uva.sea.ql.ast.expr.Sub;
-import org.uva.sea.ql.ast.expr.UnaryExpr;
-import org.uva.sea.ql.ast.expr.VariableLiteral;
-import org.uva.sea.ql.ast.stat.Block;
-import org.uva.sea.ql.ast.stat.ElseStatement;
-import org.uva.sea.ql.ast.stat.IfStatement;
-import org.uva.sea.ql.ast.stat.Question;
-import org.uva.sea.ql.ast.stat.Stat;
-import org.uva.sea.ql.ast.stat.Variable;
+import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.stat.*;
 
 
+/* Visitor that visits every node in the AST based on Depth First Search 
+ * starting with the leftmost node.
+ */
 public class LeftDFSVisitor implements Visitor {
-
-	/* Visitor that visits every node in the AST based on Depth First Search 
-	 * starting with the leftmost node.
-	 */
+	protected Visitor v;
+	
+	LeftDFSVisitor() {
+		this.v = this;
+	}
 	
 	public void visit(Expr expr) {
-		System.out.println(expr.getType().name());
+
 	}
 
 	public void visit(BinaryExpr binExpr) {
-		
+
 	}
 
 	public void visit(UnaryExpr unExpr) {
 		
 	}
+	
 	public void visit(ASTNode node) {
-		System.out.println("hello!");
+		
 	}
 
 	public void visit(And and) {
 		dfs(and, this);
-		System.out.println("Hello!");
 	}
 
 	public void visit(Or or) {
@@ -93,7 +71,6 @@ public class LeftDFSVisitor implements Visitor {
 	}
 
 	public void visit(Sub sub) {
-		System.out.println("hello! sub" + sub.getType().name());
 		dfs(sub, this);
 	}
 
@@ -125,7 +102,7 @@ public class LeftDFSVisitor implements Visitor {
 		// leaf node
 	}
 
-	public void visit(VariableLiteral variableLiteral) {
+	public void visit(Variable variable) {
 		// leaf node
 	}
 
@@ -140,13 +117,11 @@ public class LeftDFSVisitor implements Visitor {
 	}
 
 	public void visit(IfStatement ifStatement) {
-		System.out.println("hello!");
 		ifStatement.getClause().accept(this);
 		ifStatement.getBlock().accept(this);
 	}
 
 	public void visit(Question question) {
-		System.out.println("hello question!");
 		int size = question.getComputedResult().size();
 		if (size == 1) {
 			question.getComputedResult().get(0).accept(this);
@@ -157,17 +132,12 @@ public class LeftDFSVisitor implements Visitor {
 		
 	}
 
-	public void visit(Variable variable) {
-		
-	}
-	
-	public void dfs(BinaryExpr expr, Visitor v) {
-		if (expr.getLhs() != null) {
-			expr.getLhs().accept(v);
+	public void dfs(BinaryExpr e, Visitor v) {
+		if (e.getLhs() != null) {
+			e.getLhs().accept(v);
 		}
-		if (expr.getLhs() != null) {
-			expr.getRhs().accept(v);
+		if (e.getLhs() != null) {
+			e.getRhs().accept(v);
 		}
 	}
-
 }

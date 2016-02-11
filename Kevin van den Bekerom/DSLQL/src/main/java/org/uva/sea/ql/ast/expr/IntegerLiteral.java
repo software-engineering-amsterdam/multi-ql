@@ -8,6 +8,7 @@ public class IntegerLiteral extends Expr implements Visitable {
 	
 	public IntegerLiteral(int value) {
 		this.value = value;
+		this.type = Type.INT;
 	}
 	
 	@Override
