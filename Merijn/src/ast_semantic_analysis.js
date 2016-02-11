@@ -1,40 +1,33 @@
 import {NodeListener, NodeWalker} from 'src/ast_walking';
 import * as ast from 'src/ast';
+import { LineError } from 'src/error';
 
 let TYPE_UNKNOWN = 'unknown';       // used when types cannot be resolved - ie. for undefined identifiers
 
-class ScopeStack {
-	constructor() {
-		this.stack = [];
+class Scope {
+	constructor(parent_scope) {
+		this.parent_scope = parent_scope || null;
+		this.scope = {};
 	}
 	has (name) {
-		for (let scope of this.stack) {
-			if (name in scope) {
-				return true;
-			}
-		}
-		return false;
+		return name in this.scope || this.parent_scope !== null && this.parent_scope.has(name);
 	}
 	typeOf (name) {
-		for (let scope of this.stack) {
-			if (name in scope) {
-				return scope[name];
-			}
+		if (name in this.scope) {
+			return this.scope[name];
+		}
+
+		if (this.parent_scope !== null) {
+			return this.parent_scope.typeOf(name);
 		}
 
 		throw new Error("No name `" + name + "` in scope");
 	}
 	set (name, type) {
-		this.stack[0][name] = type;
-	}
-	enterScope () {
-		this.stack.unshift({});
-	}
-	leaveScope () {
-		if (this.stack.length <= 0) {
-			throw new Error("No scopes left to leave");
+		if (this.has(name)) {
+			throw new Error("Name `" + name + "` already defined");
 		}
-		this.stack.shift();
+		this.scope[name] = type;
 	}
 }
 
@@ -43,121 +36,163 @@ class NodeErrorLog {
 		this.errors = [];
 	}
 	logError(node, message) {
-		this.errors.push("Line " + node.line + ": " + message);
+		this.errors.push(new LineError(node.line, "Semantic analysis error: " + message));
 	}
 }
 
 class SementicAnalysisVisitor extends ast.NodeVisitor {
 	constructor(nodeErrorlog) {
 		super();
-		this.scope_stack = new ScopeStack();
 		this.nodeErrorlog = nodeErrorlog;
 	}
-	visitBlockNode (blockNode) {
-		this.scope_stack.enterScope();
+	visitBlockNode (blockNode, scope) {
+		let blockScope = new Scope(scope);
 		for (let statement of blockNode.statements) {
-			statement.accept(this);
+			statement.accept(this, blockScope);
 		}
-		this.scope_stack.leaveScope();
 	}
-	visitIfNode(ifNode) {
-		let conditionType = ifNode.condition.accept(this);
+	visitIfNode(ifNode, scope) {
+		let conditionType = ifNode.condition.accept(this, scope);
 
 		if ([TYPE_UNKNOWN, ast.TYPE_BOOLEAN].indexOf(conditionType) === -1) {
 			this.nodeErrorlog.logError(ifNode, "Expected condition to be of type `" + ast.TYPE_BOOLEAN + "`, but was `" + conditionType + "`");
 		}
 
-		ifNode.thenBlock.accept(this);
+		ifNode.thenBlock.accept(this, scope);
 		if (ifNode.elseBlock !== null) {
-			ifNode.elseBlock.accept(this);
+			ifNode.elseBlock.accept(this, scope);
 		}
 	}
-	visitQuestionNode(questionNode) {
-		let name = questionNode.name,
-			type = questionNode.type;
 
-		if (this.scope_stack.has(name) === true) {
+	handleQuestion(questionNode, type, scope) {
+		let name = questionNode.name;
+
+		if (scope.has(name) === true) {
 			this.nodeErrorlog.logError(questionNode, "Duplicate question name `" + name + "`");
+			return false;
 		}
 
-		this.scope_stack.set(name, type);
+		scope.set(name, type);
+	}
+	visitInputQuestionNode(inputQuestionNode, scope) {
+		this.handleQuestion(inputQuestionNode, inputQuestionNode.type, scope);
+	}
+	visitExprQuestionNode(exprQuestionNode, scope) {
+		this.handleQuestion(exprQuestionNode, exprQuestionNode.expr.accept(this, scope), scope);
 	}
 
 	// the following methods are for expressions and return their resolved types
-	visitUnaryPrefixNode(unaryPrefixNode) {
-		let operandType = unaryPrefixNode.operand.accept(this),
-			acceptableTypes = [TYPE_UNKNOWN, ast.TYPE_INTEGER, ast.TYPE_FLOAT, ast.TYPE_MONEY];
+	handleUnaryPrefixOperation(unaryPrefixNode, unaryPrefixOperation, acceptableTypes, scope) {
+		let operandType = unaryPrefixNode.operand.accept(this, scope);
 
 		if (acceptableTypes.indexOf(operandType) === -1) {
-			this.nodeErrorlog.logError(unaryPrefixNode, "Expected operand type to be one of [" + acceptableTypes.join(',') + "], but was `" + operandType + "`");
-
+			if (operandType !== TYPE_UNKNOWN) {
+				this.nodeErrorlog.logError(unaryPrefixNode, "Expected operand of unary prefix operatoin `" + unaryPrefixOperation + "` to be one of types [" + acceptableTypes.join(', ') + "], but was `" + operandType + "`");
+			}
 			return TYPE_UNKNOWN;
 		}
-
 		return operandType;
 	}
-	visitInfixNode(infixNode) {
-		let leftOperandType = infixNode.leftOperand.accept(this),
-			rightOperandType = infixNode.rightOperand.accept(this),
-			acceptableTypes,
-			returnType;
+	visitNegationNode(negationNode, scope) {
+		return this.handleUnaryPrefixOperation(negationNode, '-', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope);
+	}
+	visitNotNode(notNode, scope) {
+		let operandType = this.handleUnaryPrefixOperation(notNode, '!', [ast.TYPE_BOOLEAN], scope);
+	}
 
-		// already logged somewhere else
-		if (leftOperandType === TYPE_UNKNOWN || rightOperandType === TYPE_UNKNOWN) {
-			return TYPE_UNKNOWN;
-		}
-
-		switch (infixNode.operation) {
-			case '*':
-			case '/':
-				acceptableTypes = [ast.TYPE_INTEGER, ast.TYPE_FLOAT];
-				returnType = leftOperandType;
-				break;
-			case '+':
-			case '-':
-			case '>':
-			case '>=':
-			case '<':
-			case '<=':
-				acceptableTypes = [ast.TYPE_INTEGER, ast.TYPE_FLOAT, ast.TYPE_MONEY];
-				returnType = ast.TYPE_BOOLEAN;
-				break;
-			case '==':
-			case '!=':
-				acceptableTypes = [ast.TYPE_BOOLEAN, ast.TYPE_STRING, ast.TYPE_INTEGER, ast.TYPE_FLOAT, ast.TYPE_MONEY];
-				returnType = ast.TYPE_BOOLEAN;
-				break;
-			default:
-				throw new Error("Unexpected infix operation `" + infixNode.operation + "`");
-		}
+	handleInfixOperation(infixNode, infixOperation, acceptableTypes, scope) {
+		let leftOperandType = infixNode.leftOperand.accept(this, scope),
+			rightOperandType = infixNode.rightOperand.accept(this, scope);
 
 		if (acceptableTypes.indexOf(leftOperandType) === -1) {
-			this.nodeErrorlog.logError(infixNode, "Incompatible type `" + infixNode.operation + "` for infix operation `" + infixNode.operation + "`");
-
+			if (leftOperandType !== TYPE_UNKNOWN) {
+				this.nodeErrorlog.logError(infixNode, "Expected left operand of infix operation `" + infixOperation + "` to be one of types [" + acceptableTypes.join(', ') + "], but was `" + leftOperandType + "`");
+			}
 			return TYPE_UNKNOWN;
 		}
-
+		if (acceptableTypes.indexOf(rightOperandType) === -1) {
+			if (rightOperandType !== TYPE_UNKNOWN) {
+				this.nodeErrorlog.logError(infixNode, "Expected right operand of infix operation `" + infixOperation + "` to be one of types [" + acceptableTypes.join(', ') + "], but was `" + rightOperandType + "`");
+			}
+			return TYPE_UNKNOWN;
+		}
 		if (leftOperandType !== rightOperandType) {
-			this.nodeErrorlog.logError(infixNode, "Incompatible types `" + leftOperandType + "` and `" + rightOperandType + "` for infix operation `" + infixNode.operation + "`, types must be identical");
-
+			if (rightOperandType !== TYPE_UNKNOWN) {
+				this.nodeErrorlog.logError(infixNode, "Expected left and right operands of infix operation `" + infixOperation +"` to be of equal types, but left was `" + leftOperandType + "` and right was `" + rightOperandType +"`");
+			}
 			return TYPE_UNKNOWN;
 		}
 
-		return returnType;
+		return leftOperandType;
 	}
-	visitLiteralNode(literalNode) {
-		return literalNode.type;
+	handleInfixOperationWithFixedReturnType(infixNode, infixOperation, acceptableTypes, scope, returnType) {
+		let operandsType = this.handleInfixOperation(infixNode, infixOperation, acceptableTypes, scope);
+
+		return operandsType !== TYPE_UNKNOWN ? returnType : TYPE_UNKNOWN;
 	}
-	visitIdentifierNode(identifierNode) {
+	visitAddNode(addNode, scope) {
+		return this.handleInfixOperation(addNode, '+', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope);
+	}
+	visitSubtractNode(addNode, scope) {
+		return this.handleInfixOperation(addNode, '-', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope);
+	}
+	visitMultiplyNode(addNode, scope) {
+		return this.handleInfixOperation(addNode, '*', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope);
+	}
+	visitDivideNode(addNode, scope) {
+		return this.handleInfixOperation(addNode, '/', [ast.TYPE_FLOAT], scope);
+	}
+	visitGreaterNode(greaterNode, scope) {
+		return this.handleInfixOperationWithFixedReturnType(greaterNode, '>', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
+	}
+	visitGreaterEqualNode(greaterEqualNode, scope) {
+		return this.handleInfixOperationWithFixedReturnType(greaterEqualNode, '>=', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
+	}
+	visitLessNode(lessNode, scope) {
+		return this.handleInfixOperationWithFixedReturnType(lessNode, '<', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
+	}
+	visitLessEqualNode(lessEqualNode, scope) {
+		return this.handleInfixOperationWithFixedReturnType(lessEqualNode, '<=', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
+	}
+	visitEqualNode(equalNode, scope) {
+		return this.handleInfixOperationWithFixedReturnType(equalNode, '==', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
+	}
+	visitNotEqualNode(notEqualNode, scope) {
+		return this.handleInfixOperationWithFixedReturnType(notEqualNode, '!=', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
+	}
+	visitAndNode(andNode, scope) {
+		return this.handleInfixOperationWithFixedReturnType(andNode, '&&', [ast.TYPE_BOOLEAN], scope, ast.TYPE_BOOLEAN);
+	}
+	visitOrNode(orNode, scope) {
+		return this.handleInfixOperationWithFixedReturnType(orNode, '||', [ast.TYPE_BOOLEAN], scope, ast.TYPE_BOOLEAN);
+	}
+
+	visitBooleanLiteralNode() {
+		return ast.TYPE_BOOLEAN;
+	}
+	visitStringLiteralNode() {
+		return ast.TYPE_STRING;
+	}
+	visitIntegerLiteralNode() {
+		return ast.TYPE_INTEGER;
+	}
+	visitFloatLiteralNode() {
+		return ast.TYPE_FLOAT;
+	}
+	visitMoneyLiteralNode() {
+		return ast.TYPE_MONEY;
+	}
+
+	visitIdentifierNode(identifierNode, scope) {
 		let name = identifierNode.name;
 
-		if (this.scope_stack.has(name) === false) {
+		if (scope.has(name) === false) {
 			this.nodeErrorlog.logError(identifierNode, "Undefined identifier `" + name + "`");
 
 			return TYPE_UNKNOWN;
 		}
 
-		return this.scope_stack.typeOf(name);
+		return scope.typeOf(name);
 	}
 }
 
@@ -166,7 +201,7 @@ export class SemanticAnalyser {
 		let nodeErrorlog = new NodeErrorLog(),
 			visitor = new SementicAnalysisVisitor(nodeErrorlog);
 
-		node.accept(visitor);
+		node.accept(visitor, new Scope());
 		return nodeErrorlog.errors;
 	}
 }
