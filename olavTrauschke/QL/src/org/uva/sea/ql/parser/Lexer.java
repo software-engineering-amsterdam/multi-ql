@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.util.Pair;
 
 public class Lexer implements Tokens {
     
@@ -18,10 +19,23 @@ public class Lexer implements Tokens {
     
     static {
         KEYWORDS = new HashMap<>();
-        Pair<Integer, ASTNode> boolTrue = new Pair<>(BOOLEAN, new Bool(true));
+        Pair<Integer, ASTNode> boolTrue = new Pair<>(BOOLEAN_LITERAL, new Bool(true));
         KEYWORDS.put("true", boolTrue);
-        Pair<Integer, ASTNode> boolFalse = new Pair<>(BOOLEAN, new Bool(false));
+        Pair<Integer, ASTNode> boolFalse = new Pair<>(BOOLEAN_LITERAL, new Bool(false));
         KEYWORDS.put("false", boolFalse);
+        
+        Pair<Integer, ASTNode> boolType = new Pair<>(BOOLEAN, null);
+        KEYWORDS.put("boolean", boolType);
+        Pair<Integer, ASTNode> date = new Pair<>(DATE, null);
+        KEYWORDS.put("date", date);
+        Pair<Integer, ASTNode> decimal = new Pair<>(DECIMAL, null);
+        KEYWORDS.put("decimal", decimal);
+        Pair<Integer, ASTNode> intType = new Pair<>(INT, null);
+        KEYWORDS.put("int", intType);
+        Pair<Integer, ASTNode> money = new Pair<>(MONEY, null);
+        KEYWORDS.put("money", money);
+        Pair<Integer, ASTNode> string = new Pair<>(STRING, null);
+        KEYWORDS.put("string", string);
         
         END_OF_LINE_CHARACTERS = new HashSet<>();
         END_OF_LINE_CHARACTERS.add((int) '\n');
@@ -131,7 +145,8 @@ public class Lexer implements Tokens {
                 case '(' :
                 case '+' :
                 case '-' :
-                case '!' : {
+                case '!' :
+                case ':' : {
                     token = character;
                     readNextCharacter();
                     return token;
@@ -188,14 +203,14 @@ public class Lexer implements Tokens {
                 
                 case '"' : {
                     semantic = new Str(readString());
-                    token = STRING;
+                    token = STRING_LITERAL;
                     return token;
                 }
                 
                 default : {
                     if (Character.isDigit(character)) {
                         semantic = new Int(readNumber());
-                        token = INT;
+                        token = INT_LITERAL;
                         return token;
                     }
                     if (Character.isLetter(character)) {

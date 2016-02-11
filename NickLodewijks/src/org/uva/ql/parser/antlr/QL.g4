@@ -11,8 +11,19 @@ import org.uva.ql.ast.stat.*;
 import org.uva.ql.ast.form.*;
 }
 
-file :  form* EOF
+file :  questionnaire EOF
      ;
+     
+questionnaire returns [Questionnaire result]
+    : forms { $result = new Questionnaire($forms.result); }
+    ;
+    
+forms returns [List<Form> result]
+    @init{
+        $result = new ArrayList<Form>();
+    }
+    :   (form{ $result.add($form.result); })+
+    ;
 
 form returns [Form result]
     :   'form' + ID + block { $result = new Form($ID.text, $block.result); }
@@ -22,7 +33,7 @@ block returns [Block result]
     @init {
         $result = new Block();
     }
-    : '{' + (ifStat { $result.add($ifStat.result); } | question[$result] { $result.add($question.result); } )+ '}'
+    : '{' + (ifStat { $result.add($ifStat.result); } | question { $result.add($question.result); } )+ '}'
     ;
     
 ifStat returns [IFStat result]
@@ -32,16 +43,14 @@ ifStat returns [IFStat result]
     }
     ;
 
-question[Block arg]  returns [Question result]
+question returns [Question result]
     : variable + STR + orExpr
     {
-         $arg.add($variable.result);
-         $result = new ComputedQuestion($variable.result.getId(), $STR.text, $orExpr.result);
+         $result = new ComputedQuestion($variable.result, $STR.text, $orExpr.result);
     }
     | variable + STR 
     { 
-        $arg.add($variable.result);
-        $result = new InputQuestion($variable.result.getId(), $STR.text);
+        $result = new InputQuestion($variable.result, $STR.text);
     }
     ;
     

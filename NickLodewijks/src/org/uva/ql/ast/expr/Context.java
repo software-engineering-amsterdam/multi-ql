@@ -35,6 +35,10 @@ public class Context {
 		public void contextChanged(Context context);
 	}
 
+	public void removeContextListener(ContextListener listener) {
+		contextListeners.remove(listener);
+	}
+
 	public void addContextListener(ContextListener listener) {
 		contextListeners.add(listener);
 	}

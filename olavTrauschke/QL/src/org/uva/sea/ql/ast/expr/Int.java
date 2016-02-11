@@ -10,7 +10,7 @@ public class Int extends NumericExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass().equals(o.getClass())) {
+        if (getClass() == o.getClass()) {
             Int other = (Int) o;
             return value == other.value;
         }

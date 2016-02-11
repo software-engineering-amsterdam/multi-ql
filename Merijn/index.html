@@ -3,10 +3,34 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Software construction QL parser</title>
+	<style type="text/css">
+		#container {
+			width: 1024px;
+		}
+		#input {
+			border: 1px solid black;
+			width: 100%;
+			height: 200px;
+		}
+		#log {
+			width: 100%;
+			height: 100px;
+		}
+		#render {
+			width: 100%;
+		}
+	</style>
 </head>
 <body>
-	<h1>QL app</h1>
-	<div id="main">Loading...</div>
+	<div id="container">
+		<h1>QL app</h1>
+		<h2>Input</h2>
+		<div id="input"></div>
+		<h2>Log</h2>
+		<textarea id="log"></textarea>
+		<h2>Render</h2>
+		<div id="render"></div>
+	</div>
 	<script src="jspm_packages/system.js"></script>
 	<script src="config.js"></script>
 	<script>

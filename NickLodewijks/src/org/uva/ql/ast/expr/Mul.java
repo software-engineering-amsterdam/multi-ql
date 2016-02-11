@@ -2,7 +2,7 @@ package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTNodeVisitor;
 
-public class Mul extends ArithmeticExpr {
+public class Mul extends BinaryExpr {
 
 	public Mul(Expr lhs, Expr rhs) {
 		super(lhs, rhs);
@@ -14,7 +14,7 @@ public class Mul extends ArithmeticExpr {
 	}
 
 	@Override
-	public void accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 }

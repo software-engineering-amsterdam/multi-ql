@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.expr.Str;
 
 public class LexerTest {
     
@@ -19,7 +17,7 @@ public class LexerTest {
         expectedResultComplexExpression.add((int) '(');
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) '+');
-        expectedResultComplexExpression.add(Tokens.INT);
+        expectedResultComplexExpression.add(Tokens.INT_LITERAL);
         expectedResultComplexExpression.add((int) '*');
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) '+');
@@ -28,7 +26,7 @@ public class LexerTest {
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) ')');
         expectedResultComplexExpression.add(Tokens.EQ);
-        expectedResultComplexExpression.add(Tokens.BOOLEAN);
+        expectedResultComplexExpression.add(Tokens.BOOLEAN_LITERAL);
         expectedResultComplexExpression.add(Tokens.ENDINPUT);
     }
     
@@ -38,9 +36,9 @@ public class LexerTest {
         Lexer lexer = new Lexer(reader);
         ArrayList<Integer> tokens = obtainTokens(lexer);
         ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(Tokens.INT);
+        expected.add(Tokens.INT_LITERAL);
         expected.add((int) '+');
-        expected.add(Tokens.INT);
+        expected.add(Tokens.INT_LITERAL);
         expected.add(Tokens.ENDINPUT);
         assertEquals(expected, tokens);
     }
@@ -62,18 +60,47 @@ public class LexerTest {
     @Test
     public void testStringAnalysis() throws FileNotFoundException {
         Lexer lexer = new Lexer("stringExpression.ql");
-        ArrayList<Integer> tokens = new ArrayList<>();
-        tokens.add(lexer.nextToken());
-        ASTNode semantic = lexer.getSemantic();
-        tokens.addAll(obtainTokens(lexer));
+        ArrayList<Integer> tokens = obtainTokens(lexer);
         
         ArrayList<Integer> expectedTokens = new ArrayList<>();
-        expectedTokens.add(Tokens.STRING);
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add((int) '+');
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.ENDINPUT);
         assertEquals(expectedTokens, tokens);
+    }
+    
+    @Test
+    public void testQuestionAnalysis() throws FileNotFoundException {
+        Lexer lexer = new Lexer("question.ql");
+        ArrayList<Integer> tokens = obtainTokens(lexer);
         
-        ASTNode expectedSemantic = new Str("Hello world!");
-        assertEquals(expectedSemantic, semantic);
+        ArrayList<Integer> expectedTokens = new ArrayList<>();
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.BOOLEAN);
+        expectedTokens.add(Tokens.ENDINPUT);
+        assertEquals(expectedTokens, tokens);
+    }
+    
+    @Test
+    public void testComputedQuestionAnalysis() throws FileNotFoundException {
+        Lexer lexer = new Lexer("computedQuestion.ql");
+        ArrayList<Integer> tokens = obtainTokens(lexer);
+        
+        ArrayList<Integer> expectedTokens = new ArrayList<>();
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.MONEY);
+        expectedTokens.add((int) '(');
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) '-');
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ')');
+        expectedTokens.add(Tokens.ENDINPUT);
+        assertEquals(expectedTokens, tokens);
     }
     
     private ArrayList<Integer> obtainTokens(Lexer lexer) {
