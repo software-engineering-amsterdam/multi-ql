@@ -83,24 +83,25 @@ fieldT = moneyT <|> integerT <|> stringT <|> boolT <?> "field type"
 field :: Parser Stmnt
 --field = Field <$> (P.try calculatedField <|> simpleField)
 field =   do
-  loc <- getPosition
   a <- P.try calculatedField <|> simpleField
-  return ( Field a, loc)
+  return  (Field a)
+
+field_ :: Parser (String, String, FieldType)
+field_ = do
+      text <- stringLiteral
+      name <- identifier
+      reserved ":"
+      t <-fieldT
+      return (text, name, t)
 
 simpleField :: Parser Field
 simpleField = do
-      text <- stringLiteral
-      name <- identifier
-      reserved ":"
-      t <-fieldT
-      return (SimpleField text name t) <?> "field"
+ (text, name, t) <- field_
+ return (SimpleField text name t) <?> "field"
 
 calculatedField :: Parser Field
 calculatedField = do
-      text <- stringLiteral
-      name <- identifier
-      reserved ":"
-      t <-fieldT
+      (text, name, t) <- field_
       reserved "="
       e <- expr
       return (CalculatedField text name t e ) <?> "field"
@@ -111,27 +112,56 @@ block = braces (many stmnt) <?> "block"
 expr :: Parser Expr
 expr = buildExpressionParser table term <?> "expression"
 
+binop_ :: SourcePos -> SourcePos -> (Expr -> Expr -> Expr') -> Expr -> Expr -> Expr
+binop_ s e f lhs rhs  = (f lhs rhs, s,e)
+
+uop_ :: SourcePos -> SourcePos -> (Expr -> Expr') -> Expr -> Expr
+uop_ s e f rhs  = (f rhs, s,e)
+
 table :: [[Operator Char a Expr]]
-table = [ [unary "not" (UnOp Neg)]
-        , [binary "and" (BinOp And) AssocLeft, binary "or" (BinOp Or) AssocLeft]
+table = [ [unary "not" (UnOp A.Neg)]
+        , [binary ">=" (BinOp A.GTE) AssocLeft, binary "<=" (BinOp A.LTE) AssocLeft, binary ">" (BinOp A.GT) AssocLeft, binary "<" (BinOp A.LT) AssocLeft]
         , [binary "==" (BinOp A.EQ) AssocLeft, binary "!=" (BinOp A.NEQ) AssocLeft]
-        , [binary ">" (BinOp A.GT) AssocLeft, binary "<" (BinOp A.LT) AssocLeft]
-        , [binary ">=" (BinOp A.GTE) AssocLeft, binary "<=" (BinOp A.LTE) AssocLeft]
-        , [binary "*" (BinOp Mul) AssocLeft, binary "/" (BinOp Div) AssocLeft ]
-        , [binary "+" (BinOp Add) AssocLeft, binary "-" (BinOp Sub) AssocLeft ]
-        , [binary "++" (BinOp SConcat) AssocLeft]
+        , [binary "and" (BinOp A.And) AssocLeft, binary "or" (BinOp A.Or) AssocLeft]
+        , [binary "*" (BinOp A.Mul) AssocLeft, binary "/" (BinOp A.Div) AssocLeft ]
+        , [binary "+" (BinOp A.Add) AssocLeft, binary "-" (BinOp A.Sub) AssocLeft ]
+        , [binary "++" (BinOp A.SConcat) AssocLeft]
         ]
-  where binary name f = Infix ( reservedOp name >> return f)
-        unary name f = Prefix ( reservedOp name >> return f)
+  where binary name f = Infix (do
+                                  {
+                                    s <- getPosition;
+                                    reservedOp name;
+                                    e <- getPosition;
+                                    return (binop_ s e f)
+                                  })
+        unary name f = Prefix (do
+                                  {
+                                    s <- getPosition;
+                                    reservedOp name;
+                                    e <- getPosition;
+                                    return (uop_ s e f)
+                                  })
+
+var :: Parser Expr
+var = do
+    s <- getPosition;
+    name <- identifier 
+    e <- getPosition;
+    return (Var name, s, e) <?> "variable"
 
 term :: Parser Expr
 term = parens expr
-       <|> fmap Var identifier
-       <|> lit
-       <?> "term"
+     <|> var 
+     <|> lit
+     <?> "term"
 
 lit :: Parser Expr
-lit = Lit <$> (slit <|> P.try mlit <|> ilit <|> blit) <?> "literal"
+lit = do
+    s <- getPosition;
+    literal <- slit <|> P.try mlit <|> ilit <|> blit
+    e <- getPosition;
+    return (Lit literal,s,e)   <?> "literal"
+
 
 slit :: Parser Lit
 slit = SLit <$> stringLiteral <?> "string literal"
@@ -154,23 +184,24 @@ stmnt = conditional <|> field <?> "statement"
 conditional :: Parser Stmnt
 conditional = P.try ifElseStmnt <|> ifStmnt <?> "conditional"
 
-ifStmnt :: Parser Stmnt
-ifStmnt = do
-        loc <- getPosition
+if_ :: Parser (Expr, Block)
+if_ =  do
         reserved "if"
         cond <- parens expr
         body <- block
-        return ((If cond body), loc) <?> "if statement"
+        return (cond, body)
+
+ifStmnt :: Parser Stmnt
+ifStmnt = do
+        (cond, body) <- if_
+        return (If cond body) <?> "if statement"
 
 ifElseStmnt :: Parser Stmnt
 ifElseStmnt = do
-        loc <- getPosition
-        reserved "if"
-        cond <- parens expr
-        firstBody <- block
+        (cond, firstBody) <- if_
         reserved "else"
         secondBody <- block
-        return ((IfElse cond firstBody secondBody), loc) <?> "if else statement"
+        return (IfElse cond firstBody secondBody) <?> "if else statement"
 
 form :: Parser Form
 form = do
@@ -179,19 +210,14 @@ form = do
      body <- block
      return (Form name body)
 
-parse :: String
-parse = undefined
+parse :: String -> String -> Either ParseError Form
+parse = P.parse form
 
 -- When values are changed check all variables in the environment to make sure if their value must be recomputed and then rerender the UI
 -- E.G:
 --lookup :: FiniteMap -> id  -> Maybe Value
 -- eval :: Expr -> a
 -- eval AExpr
-
-run :: String -> String
-run input = case P.parse form "ql" input of
-          Left err ->  "Error: " ++ show err
-          Right val -> show val
 
 
 
