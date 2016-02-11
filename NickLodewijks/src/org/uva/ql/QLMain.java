@@ -25,9 +25,10 @@ public class QLMain {
 
 		TypeChecker tc = new TypeChecker(fileContext.questionnaire().result);
 
-//		TreeViewer viewr = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-//		viewr.setScale(1.5);// scale a little
-//
-//		viewr.open();
+		// TreeViewer viewr = new
+		// TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
+		// viewr.setScale(1.5);// scale a little
+		//
+		// viewr.open();
 	}
 }
