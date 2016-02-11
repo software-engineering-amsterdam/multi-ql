@@ -53,12 +53,12 @@ extension QLBlockStatement {
         for statement in self.block {
             block.append(statement.implode())
         }
-        return Statement.Block(block: block)
+        return Block(block: block)
     }
 }
 
 extension QLIf {
     func implode() -> Statement {
-        return Statement.Conditional(condition: conditional.implode(), ifBlock: block.implode(), elseBlock: nil)
+        return Conditional(condition: conditional.implode(), ifBlock: block.implode(), elseBlock: nil)
     }
 }

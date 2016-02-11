@@ -23,7 +23,7 @@ class QLForm {
 // MARK: Implode
 
 extension QLForm {
-    func implode() -> AST {
-        return AST.Form(id: variable.implode(), statement: block.implode())
+    func implode() -> Form {
+        return Form(id: variable.implode(), statement: block.implode())
     }
 }

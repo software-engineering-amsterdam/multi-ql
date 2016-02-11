@@ -29,7 +29,7 @@ import SwiftParsec
  */
 class QLParser: NSObject {
     
-    func parse(ql: String) throws -> QLForm {
+    func parse(ql: QL) throws -> QLForm {
         do {
             return try qlParser().run(sourceName: "QL", input: ql)
         } catch let error {

@@ -8,6 +8,16 @@
 
 import Foundation
 
-enum AST {
-    case Form(id: Identifier, statement: Statement)
+
+protocol FormNode: FormNodeVisitable {
+}
+
+class Form: FormNode {
+    let id: Identifier
+    let statement: Statement
+    
+    init(id: Identifier, statement: Statement) {
+        self.id = id
+        self.statement = statement
+    }
 }

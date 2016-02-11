@@ -44,19 +44,19 @@ class QLExpressionLiteral: QLExpression {
 
 extension QLExpressionVariable {
     func implode() -> Expression {
-        return Expression.Id(id: variable.implode())
+        return variable.implode()
     }
 }
 
 extension QLBoolean {
     func implode() -> Expression {
-        return Expression.BooleanField
+        return BooleanField()
     }
 }
 
 extension QLMoney {
     func implode() -> Expression {
-        return Expression.MoneyField(expression: expr?.implode())
+        return MoneyField(expression: expr?.implode())
     }
 }
 

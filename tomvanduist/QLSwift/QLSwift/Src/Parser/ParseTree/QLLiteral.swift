@@ -49,24 +49,24 @@ class QLFloatLiteral: QLLiteral {
 
 extension QLBooleanLiteral {
     func implode() -> Expression {
-        return Expression.BooleanLiteral(value: bool)
+        return BooleanLiteral(bool: bool)
     }
 }
 
 extension QLStringLiteral {
     func implode() -> Expression {
-        return Expression.StringLiteral(value: string)
+        return StringLiteral(string: string)
     }
 }
 
 extension QLIntegerLiteral {
     func implode() -> Expression {
-        return Expression.IntegerLiteral(value: integer)
+        return IntegerLiteral(integer: integer)
     }
 }
 
 extension QLFloatLiteral {
     func implode() -> Expression {
-        return Expression.FloatLiteral(value: float)
+        return FloatLiteral(float: float)
     }
 }

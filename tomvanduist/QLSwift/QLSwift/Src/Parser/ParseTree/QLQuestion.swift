@@ -22,6 +22,6 @@ class QLQuestion {
 
 extension QLQuestion {
     func implode() -> Statement {
-        return Statement.Question(identifier: variable.implode(), label: stringLit.string, expression: expression.implode())
+        return Question(identifier: variable.implode(), label: stringLit.string, expression: expression.implode())
     }
 }

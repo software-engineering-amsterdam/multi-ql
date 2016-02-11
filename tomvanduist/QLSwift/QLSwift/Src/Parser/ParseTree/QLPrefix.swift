@@ -31,12 +31,12 @@ class QLNot: QLPrefixBase, QLPrefix {
 
 extension QLNeg {
     func implode() -> Expression {
-        return Expression.UnaryOperator(op: UnaryOp.Neg, rhs: rhs.implode())
+        return Prefix(op: UnaryOp.Neg, rhs: rhs.implode())
     }
 }
 
 extension QLNot {
     func implode() -> Expression {
-        return Expression.UnaryOperator(op: UnaryOp.Not, rhs: rhs.implode())
+        return Prefix(op: UnaryOp.Not, rhs: rhs.implode())
     }
 }
