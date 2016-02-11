@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let ql = QLParser()
         if let form = try? ql.parse(String(stringFromFile: "form", ofType: "ql")) {
             print(form)
+            let nForm = form.implode()
+            print(nForm)
         }
         
         

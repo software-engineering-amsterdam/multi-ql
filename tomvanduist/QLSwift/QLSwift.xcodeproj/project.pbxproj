@@ -7,11 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E211A4591C63822600D301C0 /* QLInfix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A4581C63822600D301C0 /* QLInfix.swift */; };
-		E211A45D1C6383AE00D301C0 /* QLPrefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A45C1C6383AE00D301C0 /* QLPrefix.swift */; };
-		E211A45F1C63858200D301C0 /* QLLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A45E1C63858200D301C0 /* QLLiteral.swift */; };
-		E211A4611C638EA400D301C0 /* QLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A4601C638EA400D301C0 /* QLVariable.swift */; };
-		E211A4631C638F4B00D301C0 /* QLQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211A4621C638F4B00D301C0 /* QLQuestion.swift */; };
+		E26CC9221C6B7CE80042B5FF /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91A1C6B7CE80042B5FF /* QLExpression.swift */; };
+		E26CC9231C6B7CE80042B5FF /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91B1C6B7CE80042B5FF /* QLForm.swift */; };
+		E26CC9241C6B7CE80042B5FF /* QLInfix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91C1C6B7CE80042B5FF /* QLInfix.swift */; };
+		E26CC9251C6B7CE80042B5FF /* QLLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91D1C6B7CE80042B5FF /* QLLiteral.swift */; };
+		E26CC9261C6B7CE80042B5FF /* QLPrefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91E1C6B7CE80042B5FF /* QLPrefix.swift */; };
+		E26CC9271C6B7CE80042B5FF /* QLQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91F1C6B7CE80042B5FF /* QLQuestion.swift */; };
+		E26CC9281C6B7CE80042B5FF /* QLStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9201C6B7CE80042B5FF /* QLStatement.swift */; };
+		E26CC9291C6B7CE80042B5FF /* QLVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9211C6B7CE80042B5FF /* QLVariable.swift */; };
+		E26CC92E1C6B8A260042B5FF /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92D1C6B8A260042B5FF /* Form.swift */; };
+		E26CC9341C6B8B030042B5FF /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* Statement.swift */; };
+		E26CC9351C6B8B030042B5FF /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9301C6B8B030042B5FF /* Identifier.swift */; };
+		E26CC93A1C6B8C8C0042B5FF /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9391C6B8C8C0042B5FF /* Expression.swift */; };
 		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
 		E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CE05FF1C621A1600F2B43B /* Assets.xcassets */; };
 		E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06011C621A1D00F2B43B /* AppDelegate.swift */; };
@@ -24,9 +31,6 @@
 		E2DF31031C6244D100F5227B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31021C6244D100F5227B /* StringExtension.swift */; };
 		E2DF31051C62481A00F5227B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
 		E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */; };
-		E2DF31151C634E8E00F5227B /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31111C634E8E00F5227B /* QLForm.swift */; };
-		E2DF31161C634E8E00F5227B /* QLStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31121C634E8E00F5227B /* QLStatement.swift */; };
-		E2DF311A1C634EC100F5227B /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31191C634EC100F5227B /* QLExpression.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,11 +58,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E211A4581C63822600D301C0 /* QLInfix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLInfix.swift; path = Src/Parser/AST/QLInfix.swift; sourceTree = "<group>"; };
-		E211A45C1C6383AE00D301C0 /* QLPrefix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLPrefix.swift; path = Src/Parser/AST/QLPrefix.swift; sourceTree = "<group>"; };
-		E211A45E1C63858200D301C0 /* QLLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteral.swift; path = Src/Parser/AST/QLLiteral.swift; sourceTree = "<group>"; };
-		E211A4601C638EA400D301C0 /* QLVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLVariable.swift; path = Src/Parser/AST/QLVariable.swift; sourceTree = "<group>"; };
-		E211A4621C638F4B00D301C0 /* QLQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLQuestion.swift; path = Src/Parser/AST/QLQuestion.swift; sourceTree = "<group>"; };
+		E26CC91A1C6B7CE80042B5FF /* QLExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpression.swift; path = Src/Parser/ParseTree/QLExpression.swift; sourceTree = "<group>"; };
+		E26CC91B1C6B7CE80042B5FF /* QLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLForm.swift; path = Src/Parser/ParseTree/QLForm.swift; sourceTree = "<group>"; };
+		E26CC91C1C6B7CE80042B5FF /* QLInfix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLInfix.swift; path = Src/Parser/ParseTree/QLInfix.swift; sourceTree = "<group>"; };
+		E26CC91D1C6B7CE80042B5FF /* QLLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteral.swift; path = Src/Parser/ParseTree/QLLiteral.swift; sourceTree = "<group>"; };
+		E26CC91E1C6B7CE80042B5FF /* QLPrefix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLPrefix.swift; path = Src/Parser/ParseTree/QLPrefix.swift; sourceTree = "<group>"; };
+		E26CC91F1C6B7CE80042B5FF /* QLQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLQuestion.swift; path = Src/Parser/ParseTree/QLQuestion.swift; sourceTree = "<group>"; };
+		E26CC9201C6B7CE80042B5FF /* QLStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLStatement.swift; path = Src/Parser/ParseTree/QLStatement.swift; sourceTree = "<group>"; };
+		E26CC9211C6B7CE80042B5FF /* QLVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLVariable.swift; path = Src/Parser/ParseTree/QLVariable.swift; sourceTree = "<group>"; };
+		E26CC92D1C6B8A260042B5FF /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Form.swift; path = Src/Parser/AST/Form.swift; sourceTree = "<group>"; };
+		E26CC92F1C6B8B030042B5FF /* Statement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statement.swift; path = Src/Parser/AST/Statement.swift; sourceTree = "<group>"; };
+		E26CC9301C6B8B030042B5FF /* Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Identifier.swift; path = Src/Parser/AST/Identifier.swift; sourceTree = "<group>"; };
+		E26CC9391C6B8C8C0042B5FF /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Expression.swift; path = Src/Parser/AST/Expression.swift; sourceTree = "<group>"; };
 		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
@@ -75,9 +86,6 @@
 		E2DF31021C6244D100F5227B /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		E2DF31041C62481A00F5227B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = "Supporting Files/Constants.swift"; sourceTree = "<group>"; };
 		E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLanguageDefinition.swift; path = Src/Parser/QLParser/QLLanguageDefinition.swift; sourceTree = "<group>"; };
-		E2DF31111C634E8E00F5227B /* QLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLForm.swift; path = Src/Parser/AST/QLForm.swift; sourceTree = "<group>"; };
-		E2DF31121C634E8E00F5227B /* QLStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLStatement.swift; path = Src/Parser/AST/QLStatement.swift; sourceTree = "<group>"; };
-		E2DF31191C634EC100F5227B /* QLExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpression.swift; path = Src/Parser/AST/QLExpression.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +114,17 @@
 			);
 			name = Frameworks;
 			path = Resources/Libraries;
+			sourceTree = "<group>";
+		};
+		E26CC92A1C6B7CF40042B5FF /* AST */ = {
+			isa = PBXGroup;
+			children = (
+				E26CC92F1C6B8B030042B5FF /* Statement.swift */,
+				E26CC92D1C6B8A260042B5FF /* Form.swift */,
+				E26CC9301C6B8B030042B5FF /* Identifier.swift */,
+				E26CC9391C6B8C8C0042B5FF /* Expression.swift */,
+			);
+			name = AST;
 			sourceTree = "<group>";
 		};
 		E2CE05CD1C62191F00F2B43B = {
@@ -205,7 +224,8 @@
 		E2DF30F91C6237E600F5227B /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				E2DF31081C62869600F5227B /* AST */,
+				E26CC92A1C6B7CF40042B5FF /* AST */,
+				E2DF31081C62869600F5227B /* ParseTree */,
 				E2DF30FC1C6237EB00F5227B /* QLParser */,
 			);
 			name = Parser;
@@ -228,19 +248,19 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		E2DF31081C62869600F5227B /* AST */ = {
+		E2DF31081C62869600F5227B /* ParseTree */ = {
 			isa = PBXGroup;
 			children = (
-				E2DF31191C634EC100F5227B /* QLExpression.swift */,
-				E2DF31111C634E8E00F5227B /* QLForm.swift */,
-				E211A4581C63822600D301C0 /* QLInfix.swift */,
-				E211A45E1C63858200D301C0 /* QLLiteral.swift */,
-				E211A45C1C6383AE00D301C0 /* QLPrefix.swift */,
-				E211A4621C638F4B00D301C0 /* QLQuestion.swift */,
-				E2DF31121C634E8E00F5227B /* QLStatement.swift */,
-				E211A4601C638EA400D301C0 /* QLVariable.swift */,
+				E26CC91A1C6B7CE80042B5FF /* QLExpression.swift */,
+				E26CC91B1C6B7CE80042B5FF /* QLForm.swift */,
+				E26CC91C1C6B7CE80042B5FF /* QLInfix.swift */,
+				E26CC91D1C6B7CE80042B5FF /* QLLiteral.swift */,
+				E26CC91E1C6B7CE80042B5FF /* QLPrefix.swift */,
+				E26CC91F1C6B7CE80042B5FF /* QLQuestion.swift */,
+				E26CC9201C6B7CE80042B5FF /* QLStatement.swift */,
+				E26CC9211C6B7CE80042B5FF /* QLVariable.swift */,
 			);
-			name = AST;
+			name = ParseTree;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,19 +387,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E26CC9251C6B7CE80042B5FF /* QLLiteral.swift in Sources */,
+				E26CC9231C6B7CE80042B5FF /* QLForm.swift in Sources */,
+				E26CC9341C6B8B030042B5FF /* Statement.swift in Sources */,
+				E26CC9261C6B7CE80042B5FF /* QLPrefix.swift in Sources */,
+				E26CC93A1C6B8C8C0042B5FF /* Expression.swift in Sources */,
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
-				E211A4591C63822600D301C0 /* QLInfix.swift in Sources */,
-				E211A45D1C6383AE00D301C0 /* QLPrefix.swift in Sources */,
+				E26CC9241C6B7CE80042B5FF /* QLInfix.swift in Sources */,
+				E26CC9281C6B7CE80042B5FF /* QLStatement.swift in Sources */,
+				E26CC9221C6B7CE80042B5FF /* QLExpression.swift in Sources */,
 				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
+				E26CC9351C6B8B030042B5FF /* Identifier.swift in Sources */,
+				E26CC92E1C6B8A260042B5FF /* Form.swift in Sources */,
 				E2DF31031C6244D100F5227B /* StringExtension.swift in Sources */,
+				E26CC9271C6B7CE80042B5FF /* QLQuestion.swift in Sources */,
 				E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */,
-				E2DF31151C634E8E00F5227B /* QLForm.swift in Sources */,
 				E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */,
-				E211A45F1C63858200D301C0 /* QLLiteral.swift in Sources */,
-				E2DF311A1C634EC100F5227B /* QLExpression.swift in Sources */,
-				E211A4631C638F4B00D301C0 /* QLQuestion.swift in Sources */,
-				E2DF31161C634E8E00F5227B /* QLStatement.swift in Sources */,
-				E211A4611C638EA400D301C0 /* QLVariable.swift in Sources */,
+				E26CC9291C6B7CE80042B5FF /* QLVariable.swift in Sources */,
 				E2CE06041C621A1D00F2B43B /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

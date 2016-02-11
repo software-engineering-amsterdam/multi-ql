@@ -8,7 +8,8 @@
 
 import Foundation
 
-class QLStatement: NSObject {
+protocol QLStatement {
+    func implode() -> Statement
 }
 
 class QLQuestionStatement: QLStatement {
@@ -17,8 +18,6 @@ class QLQuestionStatement: QLStatement {
     init(question: QLQuestion) {
         self.question = question
     }
-    
-    override var description: String { return super.description + ".question(\n\t\(question));" }
 }
 
 class QLBlockStatement: QLStatement {
@@ -26,14 +25,6 @@ class QLBlockStatement: QLStatement {
     
     init(block: [QLStatement]) {
         self.block = block
-    }
-    
-    override var description: String {
-        var result = super.description + " {\n"
-        for stmt in block {
-            result += "\t\(stmt)\n"
-        }
-        return result + "}"
     }
 }
 
@@ -45,6 +36,29 @@ class QLIf: QLStatement {
         self.block = block
         self.conditional = conditional
     }
-    
-    override var description: String { return super.description + ".conditional = \(conditional), .block = \(block); " }
+}
+
+
+// Mark: Implode
+
+extension QLQuestionStatement {
+    func implode() -> Statement {
+        return question.implode()
+    }
+}
+
+extension QLBlockStatement {
+    func implode() -> Statement {
+        var block: [Statement] = []
+        for statement in self.block {
+            block.append(statement.implode())
+        }
+        return Statement.Block(block: block)
+    }
+}
+
+extension QLIf {
+    func implode() -> Statement {
+        return Statement.Conditional(condition: conditional.implode(), ifBlock: block.implode(), elseBlock: nil)
+    }
 }

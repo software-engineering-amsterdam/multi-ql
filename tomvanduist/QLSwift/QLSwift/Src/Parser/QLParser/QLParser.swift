@@ -119,7 +119,7 @@ class QLParser: NSObject {
             variable.flatMap { qVar in
                 lexer.colon *> stringLit.flatMap { qLit in
                     expr.map { qExpr in
-                        QLQuestion(variable: qVar, string: qLit as! QLStringLiteral, expression: qExpr)
+                        QLQuestion(variable: qVar, stringLit: qLit as! QLStringLiteral, expression: qExpr)
                     }
                 }
             }
@@ -151,7 +151,7 @@ class QLParser: NSObject {
         
         let form: GenericParser<String, (), QLForm> =
             symbol("form") *> variable.flatMap { fVar in
-                return block.map { fStmt in QLForm(variable: fVar, statement: fStmt) }
+                return block.map { fBlock in QLForm(variable: fVar, block: fBlock) }
             }
         
         

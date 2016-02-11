@@ -8,12 +8,16 @@
 
 import Foundation
 
-class QLVariable: NSObject {
+class QLVariable {
     let identifier: String
     
     init(identifier: String) {
         self.identifier = identifier
     }
-    
-    override var description: String { return super.description + ".identifier = \(identifier);" }
+}
+
+extension QLVariable {
+    func implode() -> Identifier {
+        return Identifier(id: identifier)
+    }
 }
