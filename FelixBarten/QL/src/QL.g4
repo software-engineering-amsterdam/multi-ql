@@ -3,30 +3,33 @@ options { }
 
 @parser::header
 {
-	package ql.parser;
+
 	import ql.ast.*;
-	
 }
 
 @lexer::header
 
 {
-	package ql.parser;
-}
 
-form : 'form' WS*? Ident WS*? block
+}
+ 
+form : 'form' Ident block
 	;
 
 block :  '{' expr* '}'
+	;
+stat: question
 	;
 
 // todo expr
 expr : question
 	;
-
-question	: WS*? Str WS*? Ident WS*? ':' WS*? question_type { }
+ 
+/* question	: WS*? Str WS*? Ident WS*? ':' WS*? question_type WS*? { }
 	;
-
+*/
+question: Str Ident ':' question_type 
+;
 
 
 // Tokens
@@ -42,14 +45,6 @@ MONEY_TYPE : 'money';
 INTEGER_TYPE : 'integer';
 STRING_TYPE : 'string';
 
-
-WS  :	(' ' | '\t' | '\n' | '\r')
-    ;
-
-COMMENT 
-     : '/*' .* '*/' { }
-    ;
-
 Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 Int: ('0'..'9')+;
@@ -57,6 +52,7 @@ Int: ('0'..'9')+;
 Money: Int ',' Int;
 
 Str: '"' .* '"';
-IDENTIFIER : [a-zA-Z]+;
 
-/* WS: [ \n\t\r]+ -> skip; */
+ID  :  ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+
+WS  :	(' ' | '\t' | '\n' | '\r')+ -> channel(HIDDEN);
