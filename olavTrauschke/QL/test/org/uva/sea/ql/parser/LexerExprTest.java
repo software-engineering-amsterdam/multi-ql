@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LexerTest {
+public class LexerExprTest {
     
     private ArrayList<Integer> expectedResultComplexExpression;
     
@@ -17,7 +17,7 @@ public class LexerTest {
         expectedResultComplexExpression.add((int) '(');
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) '+');
-        expectedResultComplexExpression.add(Tokens.INT);
+        expectedResultComplexExpression.add(Tokens.INT_LITERAL);
         expectedResultComplexExpression.add((int) '*');
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) '+');
@@ -26,7 +26,7 @@ public class LexerTest {
         expectedResultComplexExpression.add(Tokens.IDENT);
         expectedResultComplexExpression.add((int) ')');
         expectedResultComplexExpression.add(Tokens.EQ);
-        expectedResultComplexExpression.add(Tokens.BOOLEAN);
+        expectedResultComplexExpression.add(Tokens.BOOLEAN_LITERAL);
         expectedResultComplexExpression.add(Tokens.ENDINPUT);
     }
     
@@ -36,9 +36,9 @@ public class LexerTest {
         Lexer lexer = new Lexer(reader);
         ArrayList<Integer> tokens = obtainTokens(lexer);
         ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(Tokens.INT);
+        expected.add(Tokens.INT_LITERAL);
         expected.add((int) '+');
-        expected.add(Tokens.INT);
+        expected.add(Tokens.INT_LITERAL);
         expected.add(Tokens.ENDINPUT);
         assertEquals(expected, tokens);
     }
@@ -63,9 +63,9 @@ public class LexerTest {
         ArrayList<Integer> tokens = obtainTokens(lexer);
         
         ArrayList<Integer> expectedTokens = new ArrayList<>();
-        expectedTokens.add(Tokens.STRING);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add((int) '+');
-        expectedTokens.add(Tokens.STRING);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.ENDINPUT);
         assertEquals(expectedTokens, tokens);
     }

@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.*;
 
-public class ParserTest {
+public class ParserExprTest {
 
     @Test
     public void testSimpleExpressionParsing() throws FileNotFoundException {
@@ -54,7 +54,7 @@ public class ParserTest {
         Expr result = parser.getResult();
         Expr firstStr = new Str("Hello");
         Expr secondStr = new Str(" world!");
-        Expr expected = new Concat(firstStr, secondStr);
+        Expr expected = new Add(firstStr, secondStr);
         assertEquals(expected, result);
     }
     
