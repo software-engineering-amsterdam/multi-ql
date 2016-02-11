@@ -22,7 +22,7 @@ public class Form extends ASTNode {
 	}
 
 	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context){
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 }

@@ -260,6 +260,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		@Override
 		public void setContext(Context context) {
 
+			context.setValue(variableName, Boolean.FALSE);
+
 			if (actionListener != null) {
 				rbNo.removeActionListener(actionListener);
 				rbYes.removeActionListener(actionListener);
@@ -323,6 +325,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			if (keyListener != null) {
 				textField.removeKeyListener(keyListener);
 			}
+
+			context.setValue(variableName, 0);
 
 			keyListener = new KeyAdapter() {
 				@Override
@@ -390,6 +394,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 		@Override
 		public void setContext(Context context) {
+
+			context.setValue(variableName, "");
 
 			if (keyListener != null) {
 				textField.removeKeyListener(keyListener);

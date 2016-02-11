@@ -2,7 +2,6 @@ package org.uva.ql.ast;
 
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
-import org.uva.ql.ast.expr.ArithmeticExpr;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Div;
 import org.uva.ql.ast.expr.Eq;
@@ -24,6 +23,7 @@ import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
+import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
@@ -38,11 +38,6 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(BinaryExpr node, U context) {
-		return visitChildren(node, context);
-	}
-
-	@Override
-	public T visit(ArithmeticExpr node, U context) {
 		return visitChildren(node, context);
 	}
 
@@ -216,6 +211,15 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(VariableIdentifier node, U context) {
+		return null;
+	}
+
+	@Override
+	public T visit(Questionnaire node, U context) {
+		for (Form form : node.getForms()) {
+			form.accept(this, context);
+		}
+
 		return null;
 	}
 }

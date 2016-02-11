@@ -17,7 +17,7 @@ import org.uva.sea.ql.parser.QLLexer;
 import org.uva.sea.ql.parser.QLParser;
 import org.uva.sea.ql.parser.QLParser.FormContext;
 import org.uva.sea.utils.Utils;
-import org.uva.sea.ql.ast.PrintVisitor;
+import org.uva.sea.ql.ast.NodeCollector;
 import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.*;
 
@@ -65,8 +65,11 @@ public class App
 	
 	public static void getAST(QLParser parser){
 		FormContext fc = parser.form(); // begin parsing at init rule
-		Visitor v = new PrintVisitor();
+		NodeCollector v = new NodeCollector();
 		fc.b.result.accept(v);
+		for (Expr literal : v.getLiterals()) {
+			System.out.println(literal.toString() + " " + literal.getType());
+		}
 		
 	}
 

@@ -1,7 +1,6 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.ValueType;
 
 public class Not extends Expr {
 
@@ -17,12 +16,7 @@ public class Not extends Expr {
 	}
 
 	@Override
-	public ValueType type() {
-		return ValueType.BOOLEAN;
-	}
-
-	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context){
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 

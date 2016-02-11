@@ -1,7 +1,6 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.literal.Literal;
 
 public class LiteralExpr extends Expr {
@@ -22,12 +21,7 @@ public class LiteralExpr extends Expr {
 	}
 
 	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context){
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
-	}
-
-	@Override
-	public ValueType type() {
-		return literal.type();
 	}
 }
