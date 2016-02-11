@@ -14,8 +14,9 @@ export class Node {
 }
 
 export class FormNode extends Node {
-	constructor(line, block) {
+	constructor(line, description, block) {
 		super(line);
+		this.description = description;
 		this.block = block;
 	}
 	accept (visitor, ...args) {
@@ -49,6 +50,7 @@ export class QuestionNode extends Node {
 	constructor(line, description, name) {
 		super(line);
 		this.line = line;
+		this.description = description;
 		this.name = name;
 	}
 }
