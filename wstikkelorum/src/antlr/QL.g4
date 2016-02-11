@@ -48,7 +48,7 @@ orExpression returns [Expression result]
 	;
 
 andExpression returns [Expression result]
-	: lhs=relExpression { $result = $lhs.result; } ( '&&' rhs=relExpression { $result = new AndExpresion($result, $rhs.result); } )*
+	: lhs=relExpression { $result = $lhs.result; } ( '&&' rhs=relExpression { $result = new AndExpression($result, $rhs.result); } )*
 	;
 
 relExpression returns [Expression result]

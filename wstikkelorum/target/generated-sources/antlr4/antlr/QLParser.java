@@ -527,7 +527,7 @@ public class QLParser extends Parser {
 				{
 				setState(96); match(T__11);
 				setState(97); ((AndExpressionContext)_localctx).rhs = relExpression();
-				 ((AndExpressionContext)_localctx).result =  new AndExpresion(_localctx.result, ((AndExpressionContext)_localctx).rhs.result); 
+				 ((AndExpressionContext)_localctx).result =  new AndExpression(_localctx.result, ((AndExpressionContext)_localctx).rhs.result); 
 				}
 				}
 				setState(104);
