@@ -1,11 +1,13 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Add extends Expr {
-	Expr lhs, rhs;
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class Add extends BinaryExpr implements Visitable {
 	
 	public Add(Expr lhs, Expr rhs) {
-		this.lhs = lhs;
-		this.rhs = rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
 	}
 	
 	@Override
@@ -16,5 +18,9 @@ public class Add extends Expr {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

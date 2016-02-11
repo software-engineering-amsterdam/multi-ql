@@ -1,0 +1,15 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public abstract class Expr {
+	
+	protected Type type;
+	
+	public abstract Object result(interpExpr expr);
+	
+	public abstract Boolean checkType();
+	
+	public abstract Type getType();
+	
+}

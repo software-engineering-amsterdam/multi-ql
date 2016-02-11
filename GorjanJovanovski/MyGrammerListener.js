@@ -38,33 +38,6 @@ MyGrammerListener.prototype.exitQuestion = function(ctx) {
 };
 
 
-// Enter a parse tree produced by MyGrammerParser#questionText.
-MyGrammerListener.prototype.enterQuestionText = function(ctx) {
-};
-
-// Exit a parse tree produced by MyGrammerParser#questionText.
-MyGrammerListener.prototype.exitQuestionText = function(ctx) {
-};
-
-
-// Enter a parse tree produced by MyGrammerParser#questionLabel.
-MyGrammerListener.prototype.enterQuestionLabel = function(ctx) {
-};
-
-// Exit a parse tree produced by MyGrammerParser#questionLabel.
-MyGrammerListener.prototype.exitQuestionLabel = function(ctx) {
-};
-
-
-// Enter a parse tree produced by MyGrammerParser#questionValue.
-MyGrammerListener.prototype.enterQuestionValue = function(ctx) {
-};
-
-// Exit a parse tree produced by MyGrammerParser#questionValue.
-MyGrammerListener.prototype.exitQuestionValue = function(ctx) {
-};
-
-
 // Enter a parse tree produced by MyGrammerParser#ifstmt.
 MyGrammerListener.prototype.enterIfstmt = function(ctx) {
 };
@@ -74,21 +47,66 @@ MyGrammerListener.prototype.exitIfstmt = function(ctx) {
 };
 
 
-// Enter a parse tree produced by MyGrammerParser#elsestmt.
-MyGrammerListener.prototype.enterElsestmt = function(ctx) {
+// Enter a parse tree produced by MyGrammerParser#decimalLiteral.
+MyGrammerListener.prototype.enterDecimalLiteral = function(ctx) {
 };
 
-// Exit a parse tree produced by MyGrammerParser#elsestmt.
-MyGrammerListener.prototype.exitElsestmt = function(ctx) {
+// Exit a parse tree produced by MyGrammerParser#decimalLiteral.
+MyGrammerListener.prototype.exitDecimalLiteral = function(ctx) {
 };
 
 
-// Enter a parse tree produced by MyGrammerParser#expr.
-MyGrammerListener.prototype.enterExpr = function(ctx) {
+// Enter a parse tree produced by MyGrammerParser#labelNode.
+MyGrammerListener.prototype.enterLabelNode = function(ctx) {
 };
 
-// Exit a parse tree produced by MyGrammerParser#expr.
-MyGrammerListener.prototype.exitExpr = function(ctx) {
+// Exit a parse tree produced by MyGrammerParser#labelNode.
+MyGrammerListener.prototype.exitLabelNode = function(ctx) {
+};
+
+
+// Enter a parse tree produced by MyGrammerParser#negationExpr.
+MyGrammerListener.prototype.enterNegationExpr = function(ctx) {
+};
+
+// Exit a parse tree produced by MyGrammerParser#negationExpr.
+MyGrammerListener.prototype.exitNegationExpr = function(ctx) {
+};
+
+
+// Enter a parse tree produced by MyGrammerParser#opExpr.
+MyGrammerListener.prototype.enterOpExpr = function(ctx) {
+};
+
+// Exit a parse tree produced by MyGrammerParser#opExpr.
+MyGrammerListener.prototype.exitOpExpr = function(ctx) {
+};
+
+
+// Enter a parse tree produced by MyGrammerParser#booleanLiteral.
+MyGrammerListener.prototype.enterBooleanLiteral = function(ctx) {
+};
+
+// Exit a parse tree produced by MyGrammerParser#booleanLiteral.
+MyGrammerListener.prototype.exitBooleanLiteral = function(ctx) {
+};
+
+
+// Enter a parse tree produced by MyGrammerParser#parenthesisExpr.
+MyGrammerListener.prototype.enterParenthesisExpr = function(ctx) {
+};
+
+// Exit a parse tree produced by MyGrammerParser#parenthesisExpr.
+MyGrammerListener.prototype.exitParenthesisExpr = function(ctx) {
+};
+
+
+// Enter a parse tree produced by MyGrammerParser#numberLiteral.
+MyGrammerListener.prototype.enterNumberLiteral = function(ctx) {
+};
+
+// Exit a parse tree produced by MyGrammerParser#numberLiteral.
+MyGrammerListener.prototype.exitNumberLiteral = function(ctx) {
 };
 
 

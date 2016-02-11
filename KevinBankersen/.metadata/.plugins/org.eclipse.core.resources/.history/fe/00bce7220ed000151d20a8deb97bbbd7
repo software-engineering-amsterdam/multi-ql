@@ -1,0 +1,20 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public abstract class intExpr extends Expr { 
+	
+	protected intExpr lhs;
+	protected intExpr rhs;
+	
+	protected Type type = Type.INTEGER;
+	
+	public Type getType() {
+		return type;
+	}
+	
+	public abstract Integer result(interpExpr expr);
+
+	public abstract Boolean checkType();
+	
+}

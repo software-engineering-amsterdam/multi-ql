@@ -1,0 +1,14 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import eu.bankersen.kevin.ql.ast.expr.Variable;
+
+public class Question {
+
+	private final Variable variable;
+	private final String text;
+
+	public Question(Variable variable, String text) {
+		this.variable = variable;
+		this.text = text;
+	}
+}

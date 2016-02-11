@@ -1,10 +1,10 @@
 package org.uva.ql.ast.form;
 
-import org.uva.ql.TypeChecker;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
 import org.uva.ql.ast.VariableIdentifier;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ui.QLQuestion;
+import org.uva.ql.ui.WidgetFactory;
 
 public class ComputedQuestion extends Question {
 
@@ -22,13 +22,5 @@ public class ComputedQuestion extends Question {
 	@Override
 	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
-
-		super.accept(visitor);
-		expression.accept(visitor);
-	}
-
-	@Override
-	public Result validate() {
-		return TypeChecker.checkType(expression, getVariableId().getType());
 	}
 }

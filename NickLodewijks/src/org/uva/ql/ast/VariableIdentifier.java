@@ -28,9 +28,4 @@ public class VariableIdentifier extends ASTNode {
 	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
 	}
-
-	@Override
-	public Result validate() {
-		return Result.TRUE();
-	}
 }

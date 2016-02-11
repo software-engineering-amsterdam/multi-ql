@@ -1,5 +1,7 @@
 package org.uva.sea.visit;
 
+import org.uva.sea.ql.ast.LeftDFSVisitor;
+
 public class VisitorDemo {
 	
 	
@@ -18,16 +20,20 @@ public class VisitorDemo {
 		add2.name = "add2";
 	    Expr add3 = new Add(add, add2);
 	    add3.name = "add3";
-		Visitor printVisitor = new VisitorPrinter();
+		/*Visitor printVisitor = new VisitorPrinter();
 		add3.accept(printVisitor);
 		
 		System.out.println("-------Running the value visitor on a small tree ------------");
 		System.out.println("Safe to compute the value of the Add node?? " + canEvaluate(add3));
 		
 		System.out.println("-------Running the typechecker visitor on a small tree ------------");
-		System.out.println("Are the types safe?:  " + typesSafe(add3));
+		System.out.println("Are the types safe?:  " + typesSafe(add3));*/
+	    Visitor v = new ConcreteVisitor();
+	    Visitor v2 = new LeftDFSVisitor();
+	    add3.accept(v);
+	   // add3.accept(v2);
 	}
-	
+/*	
 	public static boolean canEvaluate(Expr startNode) {
 		ValueVisitor valueVisitor = new ValueVisitor();
 		startNode.accept(valueVisitor);
@@ -39,4 +45,5 @@ public class VisitorDemo {
 		startNode.accept(typeVisitor);
 		return typeVisitor.typesSafe();
 	}
+	*/
 }

@@ -1,14 +1,14 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.TypeChecker;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.Result;
 import org.uva.ql.ast.ValueType;
 
-public class Neg extends AbstractUnaryExpr {
+public class Neg extends Expr {
+
+	private final Expr expr;
 
 	public Neg(Expr expr) {
-		super(expr);
+		this.expr = expr;
 	}
 
 	@Override
@@ -22,19 +22,11 @@ public class Neg extends AbstractUnaryExpr {
 	}
 
 	@Override
-	public void _accept(ASTNodeVisitor visitor) {
+	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
 	}
 
-	@Override
-	public Result validate() {
-		Result result;
-
-		result = TypeChecker.checkType(expr, ValueType.INTEGER);
-		if (result.isFalse()) {
-			return result;
-		}
-
-		return Result.TRUE();
+	public Expr getExpr() {
+		return expr;
 	}
 }

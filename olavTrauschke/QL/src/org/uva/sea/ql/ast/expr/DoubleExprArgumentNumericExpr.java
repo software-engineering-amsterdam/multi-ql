@@ -19,7 +19,7 @@ public abstract class DoubleExprArgumentNumericExpr extends NumericExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass().equals(o.getClass())) {
+        if (getClass() == o.getClass()) {
             DoubleExprArgumentNumericExpr other = (DoubleExprArgumentNumericExpr) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }

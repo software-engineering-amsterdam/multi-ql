@@ -7,6 +7,10 @@ public class Pos extends Expr {
 		super.type = ExprEnum.INTLITERAL; //someting weird, remove later!
 	}
 	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
+	
 	@Override
 	public Object eval() {
 		return 0;

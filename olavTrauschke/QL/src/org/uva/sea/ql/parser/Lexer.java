@@ -2,9 +2,10 @@ package org.uva.sea.ql.parser;
 
 import java.io.*;
 import java.util.*;
-import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.expr.Int;
-import org.uva.sea.ql.ast.expr.Ident;
+import java.util.function.Predicate;
+import org.uva.sea.ql.ast.*;
+import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.util.Pair;
 
 public class Lexer implements Tokens {
     
@@ -12,21 +13,21 @@ public class Lexer implements Tokens {
     public static final int ERROR_CHARACTER_VALUE = MINIMUM_CHARACTER_VALUE - 1;
     public static final String UNEXPECTED_CHAR_MESSAGE = "Unexpected character: ";
     
-    public static final Map<String, Integer> KEYWORDS;
+    public static final Map<String, Pair<Integer, ASTNode>> KEYWORDS;
+    public static final Set<Integer> END_OF_LINE_CHARACTERS;
+    public static final Set<Integer> WHITESPACE_CHARACTERS;
+    
     static {
         KEYWORDS = new HashMap<>();
-        //TODO add keywords
-    }
-    
-    public static final Set<Integer> END_OF_LINE_CHARACTERS;
-    static {
+        Pair<Integer, ASTNode> boolTrue = new Pair<>(BOOLEAN_LITERAL, new Bool(true));
+        KEYWORDS.put("true", boolTrue);
+        Pair<Integer, ASTNode> boolFalse = new Pair<>(BOOLEAN_LITERAL, new Bool(false));
+        KEYWORDS.put("false", boolFalse);
+        
         END_OF_LINE_CHARACTERS = new HashSet<>();
         END_OF_LINE_CHARACTERS.add((int) '\n');
         END_OF_LINE_CHARACTERS.add((int) '\r');
-    }
-    
-    public static final Set<Integer> WHITESPACE_CHARACTERS;
-    static {
+        
         WHITESPACE_CHARACTERS = new HashSet<>(END_OF_LINE_CHARACTERS);
         WHITESPACE_CHARACTERS.add((int) ' ');
         WHITESPACE_CHARACTERS.add((int) '\t');
@@ -71,9 +72,7 @@ public class Lexer implements Tokens {
         boolean inSingleLineComment = false;
         while (true) { //loop until a token was found and returned
             if (inMultiLineComment) {
-                while (character != '*' && character >= MINIMUM_CHARACTER_VALUE) {
-                    readNextCharacter();
-                }
+                readWhile((Integer c) -> c != '*');
                 if (character == '*') {
                     readNextCharacter();
                     if (character == '/') {
@@ -85,9 +84,7 @@ public class Lexer implements Tokens {
             }
             
             if (inSingleLineComment) {
-                while(!END_OF_LINE_CHARACTERS.contains(character) && character >= MINIMUM_CHARACTER_VALUE) {
-                    readNextCharacter();
-                }
+                readWhile((Integer c) -> !END_OF_LINE_CHARACTERS.contains(c));
                 if (END_OF_LINE_CHARACTERS.contains(character)) {
                     inSingleLineComment = false;
                     readNextCharacter();
@@ -144,6 +141,7 @@ public class Lexer implements Tokens {
                 case '&' : {
                     readNextCharacter();
                     if (character == '&') {
+                        readNextCharacter();
                         token = AND;
                         return token;
                     }
@@ -152,6 +150,7 @@ public class Lexer implements Tokens {
                 case '|' : {
                     readNextCharacter();
                     if (character == '|') {
+                        readNextCharacter();
                         token = OR;
                         return token;
                     }
@@ -161,6 +160,7 @@ public class Lexer implements Tokens {
                 case '<' : {
                     readNextCharacter();
                     if (character == '=') {
+                        readNextCharacter();
                         token = LEQ;
                         return token;
                     }
@@ -170,6 +170,7 @@ public class Lexer implements Tokens {
                 case '=' : {
                     readNextCharacter();
                     if (character == '=') {
+                        readNextCharacter();
                         token = EQ;
                         return token;
                     }
@@ -178,6 +179,7 @@ public class Lexer implements Tokens {
                 case '>' : {
                     readNextCharacter();
                     if (character == '=') {
+                        readNextCharacter();
                         token = GEQ;
                         return token;
                     }
@@ -185,14 +187,20 @@ public class Lexer implements Tokens {
                     return token;
                 }
                 
+                case '"' : {
+                    semantic = new Str(readString());
+                    token = STRING_LITERAL;
+                    return token;
+                }
+                
                 default : {
                     if (Character.isDigit(character)) {
                         semantic = new Int(readNumber());
-                        token = INT;
+                        token = INT_LITERAL;
                         return token;
                     }
                     if (Character.isLetter(character)) {
-                        token = readString();
+                        token = readText();
                         return token;
                     }
                     throw new RuntimeException(UNEXPECTED_CHAR_MESSAGE + (char) character);
@@ -200,7 +208,13 @@ public class Lexer implements Tokens {
             }
         }
     }
-
+    
+    private void readWhile(Predicate<Integer> condition) {
+        while (condition.test(character) && character >= MINIMUM_CHARACTER_VALUE) {
+                    readNextCharacter();
+        }
+    }
+    
     private int readNumber() {
         int result = 0;
         do {
@@ -210,7 +224,7 @@ public class Lexer implements Tokens {
         return result;
     }
     
-    private int readString() {
+    private int readText() {
         StringBuilder sb = new StringBuilder();
         do {
             sb.append((char) character);
@@ -218,9 +232,27 @@ public class Lexer implements Tokens {
         } while (Character.isLetterOrDigit(character));
         String name = sb.toString();
         if (KEYWORDS.containsKey(name)) {
-            return KEYWORDS.get(name);
+            Pair<Integer, ASTNode> tokenAndSemantic = KEYWORDS.get(name);
+            semantic = tokenAndSemantic.getSecondValue();
+            return tokenAndSemantic.getFirstValue();
         }
         semantic = new Ident(name);
         return IDENT;
+    }
+    
+    private String readString() {
+        StringBuilder sb = new StringBuilder();
+        readNextCharacter();
+        while (character != '"' && character >= MINIMUM_CHARACTER_VALUE) {
+            sb.append((char) character);
+            readNextCharacter();
+        }
+        if (character == '"') {
+            readNextCharacter();
+            return sb.toString();
+        }
+        else {
+            throw new IllegalStateException("A string was opened, but never closed");
+        }
     }
 }

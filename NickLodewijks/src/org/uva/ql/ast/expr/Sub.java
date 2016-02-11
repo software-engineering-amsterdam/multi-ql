@@ -14,7 +14,7 @@ public class Sub extends ArithmeticExpr {
 	}
 
 	@Override
-	public void _accept(ASTNodeVisitor visitor) {
+	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
 	}
 }

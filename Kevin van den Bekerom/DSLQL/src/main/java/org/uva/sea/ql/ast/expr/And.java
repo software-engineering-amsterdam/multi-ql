@@ -1,15 +1,21 @@
 package org.uva.sea.ql.ast.expr;
 
-public class And extends Expr{
-	Expr lhs, rhs;
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class And extends BinaryExpr implements Visitable{
 	
 	public And(Expr lhs, Expr rhs) {
-		this.lhs = lhs;
-		this.rhs = rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
 	}
 	
 	@Override
 	public Boolean eval() {
 		return (Boolean) lhs.eval() && (Boolean) rhs.eval();
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

@@ -33,19 +33,15 @@ ifStat returns [IFStat result]
     ;
 
 question[Block arg]  returns [Question result]
-    : variableType + identifier + STR + orExpr
+    : variable + STR + orExpr
     {
-         $arg.add(new VariableDecl($variableType.result, $identifier.result));
-         $result = new ComputedQuestion($identifier.result, $STR.text, $orExpr.result);
+         $arg.add($variable.result);
+         $result = new ComputedQuestion($variable.result.getId(), $STR.text, $orExpr.result);
     }
-    | variableType + identifier + STR 
+    | variable + STR 
     { 
-        $arg.add(new VariableDecl($variableType.result, $identifier.result));
-        $result = new InputQuestion($identifier.result, $STR.text);
-    }
-    | identifier + STR
-    { 
-        $result = new InputQuestion($identifier.result, $STR.text);
+        $arg.add($variable.result);
+        $result = new InputQuestion($variable.result.getId(), $STR.text);
     }
     ;
     
