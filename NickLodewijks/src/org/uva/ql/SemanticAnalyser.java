@@ -1,10 +1,14 @@
 package org.uva.ql;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.VariableDecl;
@@ -38,16 +42,27 @@ import org.uva.ql.ast.stat.IFStat;
 
 public class SemanticAnalyser {
 
+	private Result result = new Result();
+
 	public SemanticAnalyser() {
 
 	}
 
-	public void analyse(Questionnaire questionnaire) {
-		// Validate operand and condition types.
-		new TypeCheckValidator(questionnaire);
+	public Result analyse(Questionnaire questionnaire) {
+		result = new Result();
 
-		// Look for duplicate question declarations.
-		new DuplicateFinder(questionnaire);
+		// Validate the following:
+		// - Reference to undefined variables (=questions)
+		// - Conditions that are not of the type boolean
+		// - Operands of invalid type to operators
+		// - Duplicate variable (=question) declaration
+		new TypeCheckVisitor().visit(questionnaire);
+
+		// Validate:
+		// - duplicate question labels
+		new DuplicateQuestionLabelVisitor(questionnaire);
+
+		return result;
 	}
 
 	private static class SymbolTable {
@@ -72,18 +87,42 @@ public class SemanticAnalyser {
 		public ValueType getType(String name) {
 			return nameToType.get(name);
 		}
-
 	}
 
-	private class TypeCheckValidator extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
+	@FunctionalInterface
+	private static interface TypeChecker<T extends ASTNode> {
+		public ValueType check(T node, SymbolTable symbols);
+	}
 
-		public TypeCheckValidator(Questionnaire q) {
+	private class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
+
+		private final TypeChecker<BinaryExpr> numberRelation;
+		private final TypeChecker<BinaryExpr> booleanRelation;
+		private final TypeChecker<BinaryExpr> arithmeticOperation;
+
+		public TypeCheckVisitor() {
+			numberRelation = (BinaryExpr a, SymbolTable b) -> {
+				checkOperands(a, b, ValueType.INTEGER);
+				return ValueType.BOOLEAN;
+			};
+
+			booleanRelation = (BinaryExpr a, SymbolTable b) -> {
+				checkOperands(a, b, ValueType.BOOLEAN);
+				return ValueType.BOOLEAN;
+			};
+
+			arithmeticOperation = (BinaryExpr a, SymbolTable b) -> {
+				checkOperands(a, b, ValueType.INTEGER);
+				return ValueType.INTEGER;
+			};
+		}
+
+		public void visit(Questionnaire q) {
 			q.accept(this, new SymbolTable());
 		}
 
 		@Override
 		public ValueType visit(Questionnaire node, SymbolTable context) {
-
 			for (Form form : node.getForms()) {
 				form.accept(this, context);
 			}
@@ -176,6 +215,7 @@ public class SemanticAnalyser {
 			return type;
 		}
 
+		// Literals
 		@Override
 		public ValueType visit(BooleanLiteral node, SymbolTable context) {
 			return ValueType.BOOLEAN;
@@ -191,30 +231,28 @@ public class SemanticAnalyser {
 			return ValueType.STRING;
 		}
 
+		// Arithmetic operations
 		@Override
 		public ValueType visit(Add node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
-			return ValueType.INTEGER;
+			return arithmeticOperation.check(node, context);
 		}
 
 		@Override
 		public ValueType visit(Div node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
-			return ValueType.INTEGER;
+			return arithmeticOperation.check(node, context);
 		}
 
 		@Override
 		public ValueType visit(Mul node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
-			return ValueType.INTEGER;
+			return arithmeticOperation.check(node, context);
 		}
 
 		@Override
 		public ValueType visit(Sub node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
-			return ValueType.INTEGER;
+			return arithmeticOperation.check(node, context);
 		}
 
+		// Equality relations
 		@Override
 		public ValueType visit(Eq node, SymbolTable context) {
 			Expr lhs;
@@ -229,9 +267,8 @@ public class SemanticAnalyser {
 			if (lhsType != rhsType) {
 				String msg;
 
-				msg = String.format(
-						"[%s: %s] Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-						node.getLineIndex(), node.getCharIndex(), lhsType.getName(), rhsType.getName());
+				msg = String.format("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
+						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
 
 				error(msg);
 			}
@@ -240,45 +277,58 @@ public class SemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(GEq node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(NEq node, SymbolTable context) {
+			Expr lhs;
+			ValueType lhsType;
+			ValueType rhsType;
+			Expr rhs;
+
+			lhs = node.left();
+			lhsType = lhs.accept(this, context);
+			rhs = node.right();
+			rhsType = rhs.accept(this, context);
+			if (lhsType != rhsType) {
+				String msg;
+
+				msg = String.format("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
+						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
+
+				error(msg);
+			}
+
 			return ValueType.BOOLEAN;
+		}
+
+		// Number relations
+		@Override
+		public ValueType visit(GEq node, SymbolTable context) {
+			return numberRelation.check(node, context);
 		}
 
 		@Override
 		public ValueType visit(GT node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
-			return ValueType.BOOLEAN;
+			return numberRelation.check(node, context);
 		}
 
 		@Override
 		public ValueType visit(LEq node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
-			return ValueType.BOOLEAN;
+			return numberRelation.check(node, context);
 		}
 
 		@Override
 		public ValueType visit(LT node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
-			return ValueType.BOOLEAN;
+			return numberRelation.check(node, context);
 		}
 
-		@Override
-		public ValueType visit(NEq node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
-			return ValueType.BOOLEAN;
-		}
-
+		// Boolean relations
 		@Override
 		public ValueType visit(And node, SymbolTable context) {
-			checkOperands(node, context, ValueType.BOOLEAN);
-			return ValueType.BOOLEAN;
+			return booleanRelation.check(node, context);
 		}
 
 		@Override
 		public ValueType visit(Or node, SymbolTable context) {
-			checkOperands(node, context, ValueType.BOOLEAN);
-			return ValueType.BOOLEAN;
+			return booleanRelation.check(node, context);
 		}
 
 		private void checkOperands(BinaryExpr expr, SymbolTable context, ValueType expectedType) {
@@ -296,20 +346,19 @@ public class SemanticAnalyser {
 			} else if (actual != expectedType) {
 				String msg;
 
-				msg = String.format("[%s: %s] Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
-						expr.getLineIndex(), expr.getCharIndex(), expr.getText(), expectedType.getName(),
-						actual.getName());
+				msg = String.format("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
+						expr.getSourceLocation(), expr.getSourceText(), expectedType.getName(), actual.getName());
 
 				error(msg);
 			}
 		}
 	}
 
-	private class DuplicateFinder extends ASTNodeVisitorAdapter<Void, Void> {
+	private class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 
 		private Set<String> questions = new HashSet<String>();
 
-		public DuplicateFinder(Questionnaire q) {
+		public DuplicateQuestionLabelVisitor(Questionnaire q) {
 			q.accept(this, null);
 		}
 
@@ -333,14 +382,34 @@ public class SemanticAnalyser {
 			addQuestion(node);
 			return super.visit(node, context);
 		}
+	}
+
+	public static class Result {
+		private final List<String> messages = new ArrayList<>();
+
+		private Result() {
+
+		}
+
+		private void add(String msg) {
+			messages.add(msg);
+		}
+
+		public boolean hasMessages() {
+			return messages.isEmpty();
+		}
+
+		public List<String> getMessages() {
+			return Collections.unmodifiableList(messages);
+		}
 
 	}
 
 	private void warn(String msg) {
-		System.out.println(String.format("WARNING: %s", msg));
+		result.add(String.format("WARNING: %s", msg));
 	}
 
 	private void error(String msg) {
-		System.err.println(String.format("ERROR: %s", msg));
+		result.add(String.format("ERROR: %s", msg));
 	}
 }
