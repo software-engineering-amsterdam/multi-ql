@@ -1,7 +1,6 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.ValueType;
 
 public class GT extends BinaryExpr {
 
@@ -12,11 +11,6 @@ public class GT extends BinaryExpr {
 	@Override
 	public Boolean interpret(Context context) {
 		return (Integer) lhs.interpret(context) > (Integer) rhs.interpret(context);
-	}
-
-	@Override
-	public ValueType type() {
-		return ValueType.BOOLEAN;
 	}
 
 	@Override

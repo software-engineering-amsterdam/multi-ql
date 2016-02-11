@@ -1,7 +1,6 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.VariableIdentifier;
 
 public class VariableExpr extends Expr {
@@ -14,11 +13,6 @@ public class VariableExpr extends Expr {
 
 	public VariableIdentifier getVariableId() {
 		return identifier;
-	}
-
-	@Override
-	public ValueType type() {
-		return identifier.getType();
 	}
 
 	@Override

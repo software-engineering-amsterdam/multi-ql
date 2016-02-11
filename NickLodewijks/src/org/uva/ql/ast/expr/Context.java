@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.uva.ql.ast.ValueType;
-
 public class Context {
 
 	private Map<String, Object> valueMap;
