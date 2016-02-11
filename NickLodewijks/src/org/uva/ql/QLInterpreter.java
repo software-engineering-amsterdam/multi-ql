@@ -24,15 +24,21 @@ import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.stat.IFStat;
+import org.uva.ql.ui.DefaultWidgetFactory;
+import org.uva.ql.ui.QLQuestion;
+import org.uva.ql.ui.WidgetFactory;
 
 public class QLInterpreter extends ASTNodeVisitorAdapter {
 
 	private JFrame jframe = new JFrame("test");
 	private Context context = new Context();
 
+	private WidgetFactory widgetFactory;
+
 	private JPanel form;
 
 	public QLInterpreter() {
+		widgetFactory = new DefaultWidgetFactory();
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -51,10 +57,6 @@ public class QLInterpreter extends ASTNodeVisitorAdapter {
 		form.repaint();
 	}
 
-	private void addContextListener(ContextListener listener) {
-		context.addContextListener(listener);
-	}
-
 	private JPanel createPanel(Block block) {
 		JPanel blockPanel;
 
@@ -62,7 +64,17 @@ public class QLInterpreter extends ASTNodeVisitorAdapter {
 		blockPanel.setLayout(new BoxLayout(blockPanel, BoxLayout.PAGE_AXIS));
 
 		for (Question q : block.getQuestions()) {
-			blockPanel.add(new QuestionImpl(q));
+			JPanel panel;
+			QLQuestion uiQuestion;
+
+			uiQuestion = q.getUIComponent(widgetFactory);
+			uiQuestion.setContext(context);
+
+			panel = new JPanel();
+			panel.setSize(100, 40);
+			panel.add(uiQuestion.getLabelComponent());
+			panel.add(uiQuestion.getInputComponent());
+			blockPanel.add(panel);
 		}
 
 		for (IFStat statement : block.getIfStatements()) {
@@ -78,7 +90,7 @@ public class QLInterpreter extends ASTNodeVisitorAdapter {
 		panel = createPanel(ifStat.getBody());
 		panel.setVisible(ifStat.interpret(context));
 
-		addContextListener(new ContextListener() {
+		context.addContextListener(new ContextListener() {
 			@Override
 			public void contextChanged(Context context) {
 				boolean newValue;
@@ -92,95 +104,5 @@ public class QLInterpreter extends ASTNodeVisitorAdapter {
 		});
 
 		return panel;
-	}
-
-	private class QuestionImpl extends JPanel {
-		private String variableId;
-		private JLabel label;
-		private JTextField textField;
-		private JRadioButton rbYes;
-		private JRadioButton rbNo;
-
-		public QuestionImpl(Question q) {
-			ButtonGroup bg;
-
-			variableId = q.getVariableId().getName();
-
-			setSize(100, 40);
-
-			label = new JLabel(q.getLabel());
-
-			add(label);
-
-			switch (q.getVariableId().getType()) {
-			case BOOLEAN:
-				bg = new ButtonGroup();
-				rbYes = new JRadioButton("Yes");
-				rbYes.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						context.setValue(variableId, true);
-					}
-				});
-
-				rbNo = new JRadioButton("No");
-				rbNo.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						context.setValue(variableId, false);
-					}
-				});
-
-				bg.add(rbYes);
-				bg.add(rbNo);
-
-				add(rbYes);
-				add(rbNo);
-				break;
-			case INTEGER:
-			case STRING:
-				textField = new JTextField();
-				textField.setPreferredSize(new Dimension(100, 50));
-				textField.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyReleased(KeyEvent e) {
-						Object value;
-
-						if (q.getVariableId().getType() == ValueType.INTEGER) {
-							value = Integer.parseInt(textField.getText());
-						} else {
-							value = textField.getText();
-						}
-						context.setValue(variableId, value);
-					}
-				});
-
-				if (q instanceof ComputedQuestion) {
-					textField.setEditable(false);
-					addContextListener(new ContextListener() {
-						@Override
-						public void contextChanged(Context context) {
-							Object calculatedValue;
-
-							calculatedValue = ((ComputedQuestion) q).getExpression().interpret(context);
-
-							if (Objects.equals(context.getValue(variableId), calculatedValue)) {
-								return;
-							}
-
-							textField.setText(calculatedValue.toString());
-
-							context.setValue(variableId, calculatedValue);
-
-						}
-					});
-				}
-				add(textField);
-				break;
-			default:
-				break;
-			}
-		}
-
 	}
 }

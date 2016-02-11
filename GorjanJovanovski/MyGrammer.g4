@@ -1,74 +1,104 @@
 grammar MyGrammer;
 
-form: ('form' LABEL que=queries) ;
-
-queries: ( que=question | que=ifstmt )*;
-
-question: (questionText questionLabel DELIMITER questionValue) ;
-
-questionText: STRING ;
-
-questionLabel: LABEL ;
-
-questionValue: 	TYPE
-				| TYPE '=' expr
-				;
-
-ifstmt: 'if' expr que=queries els=elsestmt? ;
-
-elsestmt: 'else' que=queries ;
-
-expr returns[JSExpr result]
-	: a1=BOOLSTMT {$result = 'true' == $a1.text} #booleanLiteral
-	| a2=LABEL {$result = $a2.text} #labelLiteral
-	| a3=NUMBER {$result = parseInt($a3.text)} #numberLiteral
-	| '(' a4=expr ')' {$result = new JSExpr($a4.result)} #parenthesisExpr
-	| a5=expr a6=op a7=expr {$result = new JSOpExpr($a5.result, $a6.text, $a7.result)} #opExpr
-	| nooperator a8=expr {$result = new JSNoOpExpr($a8.result)} #negationExpr
+form returns[FormNode]
+	: 'form' lbl=LABEL que=queries {$FormNode = new FormNode($lbl.text, $que.QueriesNode)}
 	;
 
-BOOLSTMT: ('true' | 'false');
+queries returns[QueriesNode]
+	@init{ $QueriesNode = new Array(); }
+	: '{' (que=question {$QueriesNode.push($que.ResultNode)} | que=ifstmt {$QueriesNode.push($que.ResultNode)})* '}'
+	;
 
-TYPE :	('decimal' | 'integer' | 'boolean' | 'string' | 'money' | 'currency' | 'date') ;
+question returns[ResultNode]
+	: txt=STRING lbl=LABEL DELIMITER type=TYPE  				{$ResultNode = new QuestionNode($txt.text, $lbl.text, $type.text)}
+	| txt=STRING lbl=LABEL DELIMITER type=TYPE '=' exp=expr  	{$ResultNode = new QuestionNode($txt.text, $lbl.text, $type.text, $exp.ExprNode)}
+	;
 
-op: compop #compareOp
-	| boolop #boolOp
-	| mathop #mathOp
- ;
+ifstmt returns[ResultNode]
+	: 'if' exp=expr que=queries 						{$ResultNode = new ConditionNode($exp.ExprNode, $que.QueriesNode)}
+	| 'if' exp=expr que=queries 'else' elseque=queries 	{$ResultNode = new ConditionNode($exp.ExprNode, $que.QueriesNode, $elseque.QueriesNode)}
+	;
+
+expr returns[ExprNode]
+	: bool=BOOLEAN 								{$ExprNode = 'true' == $bool.text} 						#booleanLiteral
+	| lbl=LABEL 								{$ExprNode = new LabelNode($lbl.text)} 					#labelNode
+	| num=NUMBER 								{$ExprNode = parseInt($num.text)} 						#numberLiteral
+	| dec=DECIMAL 								{$ExprNode = parseFloat($dec.text)} 					#decimalLiteral
+	| '(' exp=expr ')' 							{$ExprNode = new ExpressionNode($exp.ExprNode)} 		#parenthesisExpr
+	| left=expr op=MULTDIVOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode)} #opExpr
+	| left=expr op=ADDSUBOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode)} #opExpr
+	| left=expr op=COMPAREOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode)} #opExpr
+	| left=expr op=BOOLOPERATOR right=expr 		{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode)} #opExpr
+	| NOTOPERATOR exp=expr 						{$ExprNode = new NotExpression($exp.ExprNode)} 			#negationExpr
+	;
 
 
-mathop: '+' #additionOp
-		| '-' #substractionOp
-		| '*' #multiplicationOp
-		| '/' #divisionOp
-		 ;
 
-boolop: '&&' #andOp 
-		| '||' #orOp
-		;
+MULTDIVOPERATOR
+	: '*' 
+	| '/' 
+	;
+
+ADDSUBOPERATOR
+	: '+' 
+	| '-' 
+	 ;
+
+BOOLOPERATOR
+	: '&&'  
+	| '||' 
+	;
 
 
-nooperator: '!' #noOp
-;
+NOTOPERATOR
+	: '!' 
+	;
 
-compop: '<' #ltOp
-		| '<=' #ltEqOp
-		| '>' #gtOp
-		| '>=' #gtEqOp
-		| '!=' #nEqOp
-		| '==' #eqOp
-		; 
+COMPAREOPERATOR
+	: '<' 
+	| '<=' 
+	| '>' 
+	| '>=' 
+	| '!=' 
+	| '==' 
+	; 
 
-DELIMITER: ':' ;
+TYPE
+	: ('decimal' | 'integer' | 'boolean' | 'string' | 'money' | 'currency' | 'date')
+	;
 
-LABEL :	[A-Za-z][A-Za-z0-9]* ;
+BOOLEAN
+	: ('true' | 'fasle')
+	;
 
-NEWLINE : [\r\n]+ -> skip ;
+DELIMITER
+	: ':'
+	;
 
-NUMBER     : [0-9]+ '.'? ','? [0-9]* ;
+LABEL
+	:[A-Za-z][A-Za-z0-9]*
+	;
 
-WHITESPACE : ( '\t' | ' ' )+ -> skip ;
+NEWLINE
+	: [\r\n]+ -> skip
+	;
 
-BRACKETS: ('}' | '{') -> skip ;
+NUMBER
+	: [0-9]+
+	;
 
-STRING : '"' (~('"' | '\\' | '\r' | '\n') | '\\' ('"' | '\\'))* '"' ;
+DECIMAL
+	: [0-9]+ '.'? ','? [0-9]*
+	;
+
+WHITESPACE
+	: ( '\t' | ' ' )+ -> skip
+	;
+
+BRACKETS
+	: ('}' | '{')
+	;
+
+STRING
+	: '"' (~('"' | '\\' | '\r' | '\n') | '\\' ('"' | '\\'))* '"'
+	;
