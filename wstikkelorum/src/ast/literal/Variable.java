@@ -3,9 +3,9 @@ package ast.literal;
 import ast.expression.Expression;
 
 public class Variable extends Expression{
-
+	private String text;
+	
 	public Variable(Object object) {
-		// TODO Auto-generated constructor stub
+		this.text = (String)object;
 	}
-
 }

@@ -1,9 +1,9 @@
 package ast.expression;
 
 public class Pos extends Expression {
-
+	private Expression expression;
 	public Pos(Expression result) {
-		// TODO Auto-generated constructor stub
+		this.expression = result;
 	}
 
 }
