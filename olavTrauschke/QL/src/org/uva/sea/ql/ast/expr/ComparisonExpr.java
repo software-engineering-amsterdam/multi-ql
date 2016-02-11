@@ -9,13 +9,14 @@ public abstract class ComparisonExpr extends BooleanExpr {
     private Expr secondExpr;
     
     public ComparisonExpr(Expr theFirstExpr, Expr theSecondExpr) {
-        if ((theFirstExpr.canBeBoolean() && theSecondExpr.canBeBoolean())
-                || (theFirstExpr.canBeNumeric() && theSecondExpr.canBeNumeric())) {
+        boolean canBeBoolean = theFirstExpr.canBeBoolean() && theSecondExpr.canBeBoolean();
+        boolean canBeNumeric = theFirstExpr.canBeNumeric() && theSecondExpr.canBeNumeric();
+        if (canBeBoolean || canBeNumeric) {
             firstExpr = theFirstExpr;
             secondExpr = theSecondExpr;
         }
         else {
-            throw new IllegalArgumentException("The arguments of a comparison should be of the same type");
+            throw new IllegalArgumentException("The arguments of a comparison should either both be booleans or both be numeric");
         }
     }
 

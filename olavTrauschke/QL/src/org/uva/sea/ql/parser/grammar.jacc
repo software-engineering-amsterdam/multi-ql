@@ -4,13 +4,21 @@
 %semantic org.uva.sea.ql.ast.ASTNode
 %start top
 
-%token <Int> INT
+%token BOOLEAN
+%token DATE
+%token DECIMAL
+%token INTEGER
+%token STRING
+
 %token <Ident> IDENT
-%token <Bool> BOOLEAN
-%token <Str> STRING
+%token <Bool> BOOLEAN_LITERAL
+%token <Int> INT_LITERAL
+%token <Str> STRING_LITERAL
+%token ':'
 %token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!'
 %token '(' ')'
 
+%left ':'
 %left OR
 %left AND
 %left '>' '<' GEQ LEQ NEQ EQ
@@ -18,9 +26,12 @@
 %left '*' '/'
 %left UMIN UPLUS UNOT
 
+%type <Question> question
+%type <Type> type
 %type <Expr> expr 
 
 %{
+import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 %}
 
@@ -28,26 +39,37 @@ import org.uva.sea.ql.ast.expr.*;
 
 top : expr { result = $1; };
 
-expr :    '+' expr %prec UPLUS  { $$ = new Pos($2); }
-        | '-' expr %prec UMIN   { $$ = new Neg($2); }
-        | '!' expr %prec UNOT   { $$ = new Not($2); }
-        | expr '*' expr         { $$ = new Mul($1, $3); }
-        | expr '/' expr         { $$ = new Div($1, $3); }
-        | expr '+' expr         { $$ = new Add($1, $3); }
-        | expr '-' expr         { $$ = new Sub($1, $3); }
-        | expr EQ expr          { $$ = new Eq($1, $3); }
-        | expr NEQ expr         { $$ = new NEq($1, $3); }
-        | expr '>' expr         { $$ = new GT($1, $3); }
-        | expr '<' expr         { $$ = new LT($1, $3); }
-        | expr GEQ expr         { $$ = new GEq($1, $3); }
-        | expr LEQ expr         { $$ = new LEq($1, $3); }
-        | expr AND expr         { $$ = new And($1, $3); }
-        | expr OR expr          { $$ = new Or($1, $3); }
-        | INT                   { $$ = $1; }
-        | IDENT                 { $$ = $1; }
-        | BOOLEAN               { $$ = $1; }
-        | STRING                { $$ = $1; }
-        | '(' expr ')'          { $$ = $2; }
+question : IDENT ':' STRING_LITERAL type
+         | IDENT ':' STRING_LITERAL type expr
+;
+
+type : BOOLEAN
+     | DATE
+     | DECIMAL
+     | INTEGER
+     | STRING
+;
+
+expr : '+' expr %prec UPLUS  { $$ = new Pos($2); }
+     | '-' expr %prec UMIN   { $$ = new Neg($2); }
+     | '!' expr %prec UNOT   { $$ = new Not($2); }
+     | expr '*' expr         { $$ = new Mul($1, $3); }
+     | expr '/' expr         { $$ = new Div($1, $3); }
+     | expr '+' expr         { $$ = new Add($1, $3); }
+     | expr '-' expr         { $$ = new Sub($1, $3); }
+     | expr EQ expr          { $$ = new Eq($1, $3); }
+     | expr NEQ expr         { $$ = new NEq($1, $3); }
+     | expr '>' expr         { $$ = new GT($1, $3); }
+     | expr '<' expr         { $$ = new LT($1, $3); }
+     | expr GEQ expr         { $$ = new GEq($1, $3); }
+     | expr LEQ expr         { $$ = new LEq($1, $3); }
+     | expr AND expr         { $$ = new And($1, $3); }
+     | expr OR expr          { $$ = new Or($1, $3); }
+     | IDENT                 { $$ = $1; }
+     | INT_LITERAL           { $$ = $1; }
+     | BOOLEAN_LITERAL       { $$ = $1; }
+     | STRING_LITERAL        { $$ = $1; }
+     | '(' expr ')'          { $$ = $2; }
 ;
 		 
 
