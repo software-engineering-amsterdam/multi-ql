@@ -24,7 +24,7 @@ public class boolLiteral extends boolExpr {
 	}
 
 	@Override
-	public Boolean checkType() {
+	public Boolean checkType(SymbolTabel table) {
 		return true;
 	}
 }

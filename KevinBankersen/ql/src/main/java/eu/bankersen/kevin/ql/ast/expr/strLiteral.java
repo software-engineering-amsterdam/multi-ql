@@ -1,7 +1,5 @@
 package eu.bankersen.kevin.ql.ast.expr;
 
-import eu.bankersen.kevin.ql.ast.var.Type;
-
 public class strLiteral extends strExpr{
 
 	private final String value;
@@ -16,7 +14,7 @@ public class strLiteral extends strExpr{
 	}
 
 	@Override
-	public Boolean checkType() {
+	public Boolean checkType(SymbolTabel table) {
 		return true;
 	}
 }

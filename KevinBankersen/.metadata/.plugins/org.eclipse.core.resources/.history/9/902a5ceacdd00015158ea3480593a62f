@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public abstract class AbstractForm {
+	
+	protected SymbolTabel symbolTable;
+
+	public abstract Boolean checkType();
+}

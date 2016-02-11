@@ -6,15 +6,15 @@ import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 
 public class Pos extends intExpr {
 
-	private final intExpr value;
+	private final Expr expr;
 
 	public Pos(Expr expr) {
-		this.value = (intExpr) expr;
+		this.expr = expr;
 	}
 
 	@Override
 	public Integer result(SymbolTabel table) {
-		return (value.result(table) < 0) ? -1 * value.result(table) : value.result(table);
+		return ( (Integer) expr.result(table) < 0) ? -1 * (Integer) expr.result(table) : (Integer) expr.result(table);
 	}
 
 }

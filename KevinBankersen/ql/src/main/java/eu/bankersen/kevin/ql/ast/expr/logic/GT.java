@@ -8,21 +8,13 @@ import eu.bankersen.kevin.ql.ast.var.Type;
 
 public class GT extends boolExpr {
 
-	private final intExpr lhs;
-	private final intExpr rhs;
-
 	public GT(Expr lhs, Expr rhs) {
-		this.lhs = (intExpr) lhs;
-		this.rhs = (intExpr) rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
 	}
 
 	@Override
 	public Boolean result(SymbolTabel table) {
-		return lhs.result(table) > rhs.result(table);
-	}
-
-	@Override
-	public Boolean checkType() {
-		return lhs.getType() == rhs.getType();
+		return (Integer) lhs.result(table) > (Integer) rhs.result(table);
 	}
 }

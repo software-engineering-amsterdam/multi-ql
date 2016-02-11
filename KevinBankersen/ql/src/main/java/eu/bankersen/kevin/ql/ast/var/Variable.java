@@ -28,13 +28,20 @@ public class Variable  extends Expr{
 		return type;
 	}
 	
-	public Boolean checkType(){
+	public Boolean checkType(SymbolTabel table){
 		if(value != null){
-			return value.getType() == type;
+			return value.checkType(table) && value.getType() == type;
 		}
 		return true;
 	}
 	
+	public void setValue(Expr value){
+		this.value = value;
+	}
+	
+	public Object getValue(SymbolTabel table){
+		return value.result(table);
+	}
 
 	@Override
 	public Object result(SymbolTabel expr) {

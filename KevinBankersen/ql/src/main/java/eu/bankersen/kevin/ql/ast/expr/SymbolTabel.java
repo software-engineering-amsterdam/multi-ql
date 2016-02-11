@@ -2,19 +2,21 @@ package eu.bankersen.kevin.ql.ast.expr;
 
 import java.util.HashMap;
 
+import eu.bankersen.kevin.ql.ast.var.Variable;
+
 public class SymbolTabel {
 	
-	private HashMap<String, Object> values;
+	private HashMap<String, Variable> table;
 
 	public SymbolTabel() {
-		values = new HashMap<String, Object>();
+		table = new HashMap<String, Variable>();
 	}
 
-	public void setValue(String key, Object value) {
-		values.put(key, value);
+	public void setValue(String key, Variable value) {
+		table.put(key, value);
 	}
 
-	public Object getValue(String key) {
-		return values.get(key);
+	public Variable getValue(String key) {
+		return table.get(key);
 	}
 }
