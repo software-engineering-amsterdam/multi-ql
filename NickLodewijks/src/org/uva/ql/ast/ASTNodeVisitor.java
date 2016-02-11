@@ -23,72 +23,71 @@ import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
-import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.IFStat;
 
-public interface ASTNodeVisitor {
+public interface ASTNodeVisitor<T, U> {
 
-	public void visit(ASTNode node);
+	public T visit(ASTNode node, U context);
 
-	public void visit(BinaryExpr node);
+	public T visit(BinaryExpr node, U context);
 
-	public void visit(ArithmeticExpr node);
+	public T visit(ArithmeticExpr node, U context);
 
-	public void visit(Add node);
+	public T visit(Add node, U context);
 
-	public void visit(Sub node);
+	public T visit(Sub node, U context);
 
-	public void visit(Div node);
+	public T visit(Div node, U context);
 
-	public void visit(Mul node);
+	public T visit(Mul node, U context);
 
-	public void visit(Eq node);
+	public T visit(Eq node, U context);
 
-	public void visit(GEq node);
+	public T visit(GEq node, U context);
 
-	public void visit(GT node);
+	public T visit(GT node, U context);
 
-	public void visit(LEq node);
+	public T visit(LEq node, U context);
 
-	public void visit(LT node);
+	public T visit(LT node, U context);
 
-	public void visit(NEq node);
+	public T visit(NEq node, U context);
 
-	public void visit(Or node);
+	public T visit(Or node, U context);
 
-	public void visit(And node);
+	public T visit(And node, U context);
 
-	public void visit(LiteralExpr node);
+	public T visit(LiteralExpr node, U context);
 
-	public void visit(Neg node);
+	public T visit(Neg node, U context);
 
-	public void visit(Not node);
+	public T visit(Not node, U context);
 
-	public void visit(Pos node);
+	public T visit(Pos node, U context);
 
-	public void visit(VariableExpr node);
+	public T visit(VariableExpr node, U context);
 
-	public void visit(Form node);
+	public T visit(Form node, U context);
 
-	public void visit(Block node);
+	public T visit(Block node, U context);
 
-	public void visit(IFStat node);
+	public T visit(IFStat node, U context);
 
-	public void visit(BooleanLiteral node);
+	public T visit(BooleanLiteral node, U context);
 
-	public void visit(IntegerLiteral node);
+	public T visit(IntegerLiteral node, U context);
 
-	public void visit(StringLiteral node);
+	public T visit(StringLiteral node, U context);
 
-	public void visit(VariableDecl node);
+	public T visit(VariableDecl node, U context);
 
-	public void visit(VariableIdentifier node);
+	public T visit(VariableIdentifier node, U context);
 
-	public void visit(InputQuestion node);
+	public T visit(InputQuestion node, U context);
 
-	public void visit(ComputedQuestion node);
+	public T visit(ComputedQuestion node, U context);
 
 }

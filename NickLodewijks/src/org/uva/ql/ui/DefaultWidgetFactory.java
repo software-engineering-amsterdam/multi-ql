@@ -50,10 +50,10 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		QLWidget widget;
 		String variableName;
 
-		variableName = q.getVariableId().getName();
+		variableName = q.getName();
 
 		label = new DefaultLabelWidget(q.getLabel());
-		switch (q.getVariableId().getType()) {
+		switch (q.getType()) {
 		case BOOLEAN:
 			widget = new DefaultBooleanWidget(variableName, expr);
 			break;
@@ -86,6 +86,10 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			this.name = name;
 
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		}
+
+		public String getName() {
+			return name;
 		}
 
 		@Override

@@ -6,7 +6,7 @@ public abstract class ASTNode {
 
 	private Token token;
 
-	public abstract void accept(ASTNodeVisitor visitor);
+	public abstract <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context);
 
 	public void setToken(Token start) {
 		this.token = start;

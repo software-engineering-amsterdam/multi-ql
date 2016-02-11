@@ -22,8 +22,8 @@ public class LiteralExpr extends Expr {
 	}
 
 	@Override
-	public void accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context){
+		return visitor.visit(this, context);
 	}
 
 	@Override
