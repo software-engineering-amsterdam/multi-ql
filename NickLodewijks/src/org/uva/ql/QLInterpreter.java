@@ -13,7 +13,7 @@ import org.uva.ql.ui.QLForm;
 import org.uva.ql.ui.QLQuestionaire;
 import org.uva.ql.ui.WidgetFactory;
 
-public class QLInterpreter extends ASTNodeVisitorAdapter {
+public class QLInterpreter extends ASTNodeVisitorAdapter<Void, Void> {
 
 	private WidgetFactory widgetFactory;
 
@@ -21,9 +21,11 @@ public class QLInterpreter extends ASTNodeVisitorAdapter {
 	private Expr currentCondition;
 	private QLQuestionaire questionaire;
 
-	public QLInterpreter() {
+	public QLInterpreter(Form form) {
 		widgetFactory = new DefaultWidgetFactory();
 		questionaire = new QLQuestionaire();
+
+		form.accept(this, null);
 	}
 
 	public QLQuestionaire getQuestionaire() {
@@ -31,43 +33,52 @@ public class QLInterpreter extends ASTNodeVisitorAdapter {
 	}
 
 	@Override
-	public void visit(Form node) {
-
+	public Void visit(Form node, Void context) {
 		currentForm = widgetFactory.create(node);
 		currentCondition = null;
 
 		questionaire.addForm(currentForm);
 
-		visit(node.getBody());
+		visit(node.getBody(), context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(IFStat node) {
+	public Void visit(IFStat node, Void context) {
 		currentCondition = node.getExpression();
 
 		// All questions in the body will use currentCondition
-		visit(node.getBody());
+		visit(node.getBody(), context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(Block node) {
+	public Void visit(Block node, Void context) {
 		// First traverse the questions.
 		for (Question q : node.getQuestions()) {
-			q.accept(this);
+			q.accept(this, context);
 		}
 
 		for (IFStat statement : node.getIfStatements()) {
-			statement.accept(this);
+			statement.accept(this, context);
 		}
+
+		return null;
 	}
 
 	@Override
-	public void visit(ComputedQuestion node) {
+	public Void visit(ComputedQuestion node, Void context) {
 		currentForm.addQuestion(widgetFactory.create(node), currentCondition);
+
+		return null;
 	}
 
 	@Override
-	public void visit(InputQuestion node) {
+	public Void visit(InputQuestion node, Void context) {
 		currentForm.addQuestion(widgetFactory.create(node), currentCondition);
+
+		return null;
 	}
 }

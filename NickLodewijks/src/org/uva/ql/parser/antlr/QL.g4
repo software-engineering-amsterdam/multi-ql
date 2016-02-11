@@ -22,7 +22,7 @@ block returns [Block result]
     @init {
         $result = new Block();
     }
-    : '{' + (ifStat { $result.add($ifStat.result); } | question[$result] { $result.add($question.result); } )+ '}'
+    : '{' + (ifStat { $result.add($ifStat.result); } | question { $result.add($question.result); } )+ '}'
     ;
     
 ifStat returns [IFStat result]
@@ -32,16 +32,14 @@ ifStat returns [IFStat result]
     }
     ;
 
-question[Block arg]  returns [Question result]
+question returns [Question result]
     : variable + STR + orExpr
     {
-         $arg.add($variable.result);
-         $result = new ComputedQuestion($variable.result.getId(), $STR.text, $orExpr.result);
+         $result = new ComputedQuestion($variable.result, $STR.text, $orExpr.result);
     }
     | variable + STR 
     { 
-        $arg.add($variable.result);
-        $result = new InputQuestion($variable.result.getId(), $STR.text);
+        $result = new InputQuestion($variable.result, $STR.text);
     }
     ;
     

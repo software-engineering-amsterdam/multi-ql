@@ -29,174 +29,193 @@ import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.IFStat;
 
-public class ASTNodeVisitorAdapter implements ASTNodeVisitor {
+public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
-	public void visit(ASTNode node) {
-		// TODO Auto-generated method stub
-
+	public T visit(ASTNode node, U context) {
+		return null;
 	}
 
 	@Override
-	public void visit(BinaryExpr node) {
-		visitChildren(node);
+	public T visit(BinaryExpr node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(ArithmeticExpr node) {
-		visitChildren(node);
+	public T visit(ArithmeticExpr node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(Add node) {
-		visitChildren(node);
+	public T visit(Add node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(Sub node) {
-		visitChildren(node);
+	public T visit(Sub node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(Div node) {
-		visitChildren(node);
+	public T visit(Div node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(Mul node) {
-		visitChildren(node);
+	public T visit(Mul node, U context) {
+		return visitChildren(node, context);
 	}
 
-	private void visitChildren(BinaryExpr node) {
-		node.left().accept(this);
-		node.right().accept(this);
-	}
+	private T visitChildren(BinaryExpr node, U context) {
+		node.left().accept(this, context);
+		node.right().accept(this, context);
 
-	@Override
-	public void visit(Eq node) {
-		visitChildren(node);
+		return null;
 	}
 
 	@Override
-	public void visit(GEq node) {
-		visitChildren(node);
+	public T visit(Eq node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(GT node) {
-		visitChildren(node);
+	public T visit(GEq node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(LEq node) {
-		visitChildren(node);
+	public T visit(GT node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(LT node) {
-		visitChildren(node);
+	public T visit(LEq node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(NEq node) {
-		visitChildren(node);
+	public T visit(LT node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(And node) {
-		visitChildren(node);
+	public T visit(NEq node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(Or node) {
-		visitChildren(node);
+	public T visit(And node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(LiteralExpr node) {
-		node.getLiteral().accept(this);
+	public T visit(Or node, U context) {
+		return visitChildren(node, context);
 	}
 
 	@Override
-	public void visit(Neg node) {
-		node.getExpr().accept(this);
+	public T visit(LiteralExpr node, U context) {
+		node.getLiteral().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(Not node) {
-		node.getExpr().accept(this);
+	public T visit(Neg node, U context) {
+		node.getExpr().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(Pos node) {
-		node.getExpr().accept(this);
+	public T visit(Not node, U context) {
+		node.getExpr().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(VariableExpr node) {
-		node.getVariableId().accept(this);
+	public T visit(Pos node, U context) {
+		node.getExpr().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(Form node) {
-		node.getBody().accept(this);
+	public T visit(VariableExpr node, U context) {
+		node.getVariableId().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(Block node) {
-		for (VariableDecl variable : node.getVariables()) {
-			variable.accept(this);
-		}
+	public T visit(Form node, U context) {
+		node.getBody().accept(this, context);
 
+		return null;
+	}
+
+	@Override
+	public T visit(Block node, U context) {
 		for (Question q : node.getQuestions()) {
-			q.accept(this);
+			q.accept(this, context);
 		}
 
 		for (IFStat statement : node.getIfStatements()) {
-			statement.accept(this);
+			statement.accept(this, context);
 		}
+
+		return null;
 	}
 
 	@Override
-	public void visit(IFStat node) {
-		node.getExpression().accept(this);
-		node.getBody().accept(this);
+	public T visit(IFStat node, U context) {
+		node.getExpression().accept(this, context);
+		node.getBody().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(BooleanLiteral node) {
-		// do nothing
+	public T visit(BooleanLiteral node, U context) {
+		return null;
 	}
 
 	@Override
-	public void visit(IntegerLiteral node) {
-		// do nothing
+	public T visit(IntegerLiteral node, U context) {
+		return null;
 	}
 
 	@Override
-	public void visit(StringLiteral node) {
-		// do nothing
+	public T visit(StringLiteral node, U context) {
+		return null;
 	}
 
 	@Override
-	public void visit(InputQuestion node) {
-		node.getVariableId().accept(this);
+	public T visit(InputQuestion node, U context) {
+		node.getVariableDecl().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(VariableDecl node) {
-		node.getType().accept(this);
-		node.getId().accept(this);
+	public T visit(ComputedQuestion node, U context) {
+		node.getVariableDecl().accept(this, context);
+		node.getExpression().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(VariableIdentifier node) {
-		// do nothing
+	public T visit(VariableDecl node, U context) {
+		node.getType().accept(this, context);
+		node.getId().accept(this, context);
+
+		return null;
 	}
 
 	@Override
-	public void visit(ComputedQuestion node) {
-		node.getVariableId().accept(this);
-		node.getExpression().accept(this);
+	public T visit(VariableIdentifier node, U context) {
+		return null;
 	}
 }

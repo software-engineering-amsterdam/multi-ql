@@ -46,6 +46,11 @@ class NormalizingVisitor extends NodeVisitor {
 			'type': literalNode.type
 		}];
 	}
+	visitIdentifierNode (identifierNode) {
+		return ['Identifier', {
+			'name': name
+		}];
+	}
 }
 
 export class NodeNormalizer {

@@ -10,7 +10,7 @@ public class IntegerLiteral extends Literal<Integer> {
 	}
 
 	@Override
-	public void accept(ASTNodeVisitor visitor) {
-		visitor.visit(this);
+	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context){
+		return visitor.visit(this, context);
 	}
 }
