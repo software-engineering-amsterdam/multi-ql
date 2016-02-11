@@ -416,7 +416,7 @@ MyGrammerParser.prototype.question = function() {
             this.match(MyGrammerParser.DELIMITER);
             this.state = 32;
             localctx.type = this.match(MyGrammerParser.TYPE);
-            localctx.ResultNode = new QuestionNode((localctx.txt===null ? null : localctx.txt.text), (localctx.lbl===null ? null : localctx.lbl.text), (localctx.type===null ? null : localctx.type.text))
+            localctx.ResultNode = new QuestionNode((localctx.txt===null ? null : localctx.txt.text), (localctx.lbl===null ? null : localctx.lbl.text), (localctx.type===null ? null : localctx.type.text), (localctx.txt === null ? 0 : localctx.txt.line))
             break;
 
         case 2:
@@ -433,7 +433,7 @@ MyGrammerParser.prototype.question = function() {
             this.match(MyGrammerParser.T__3);
             this.state = 39;
             localctx.exp = this.expr(0);
-            localctx.ResultNode = new QuestionNode((localctx.txt===null ? null : localctx.txt.text), (localctx.lbl===null ? null : localctx.lbl.text), (localctx.type===null ? null : localctx.type.text), localctx.exp.ExprNode)
+            localctx.ResultNode = new QuestionNode((localctx.txt===null ? null : localctx.txt.text), (localctx.lbl===null ? null : localctx.lbl.text), (localctx.type===null ? null : localctx.type.text), (localctx.txt === null ? 0 : localctx.txt.line), localctx.exp.ExprNode)
             break;
 
         }
@@ -528,7 +528,7 @@ MyGrammerParser.prototype.ifstmt = function() {
             localctx.exp = this.expr(0);
             this.state = 46;
             localctx.que = this.queries();
-            localctx.ResultNode = new ConditionNode(localctx.exp.ExprNode, localctx.que.QueriesNode)
+            localctx.ResultNode = new ConditionNode(localctx.exp.ExprNode, localctx.que.QueriesNode, (localctx.exp===null ? null : localctx.exp.start).line)
             break;
 
         case 2:
@@ -543,7 +543,7 @@ MyGrammerParser.prototype.ifstmt = function() {
             this.match(MyGrammerParser.T__5);
             this.state = 53;
             localctx.elseque = this.queries();
-            localctx.ResultNode = new ConditionNode(localctx.exp.ExprNode, localctx.que.QueriesNode, localctx.elseque.QueriesNode)
+            localctx.ResultNode = new ConditionNode(localctx.exp.ExprNode, localctx.que.QueriesNode, (localctx.exp===null ? null : localctx.exp.start).line, localctx.elseque.QueriesNode)
             break;
 
         }
@@ -890,7 +890,7 @@ MyGrammerParser.prototype.expr = function(_p) {
             this.match(MyGrammerParser.NOTOPERATOR);
             this.state = 60;
             localctx.exp = this.expr(1);
-            localctx.ExprNode = new NotExpression(localctx.exp.ExprNode)
+            localctx.ExprNode = new NotExpression(localctx.exp.ExprNode, (localctx.exp===null ? null : localctx.exp.start).line)
             break;
         case MyGrammerParser.BOOLEAN:
             localctx = new BooleanLiteralContext(this, localctx);
@@ -906,7 +906,7 @@ MyGrammerParser.prototype.expr = function(_p) {
             _prevctx = localctx;
             this.state = 65;
             localctx.lbl = this.match(MyGrammerParser.LABEL);
-            localctx.ExprNode = new LabelNode((localctx.lbl===null ? null : localctx.lbl.text))
+            localctx.ExprNode = new LabelNode((localctx.lbl===null ? null : localctx.lbl.text), (localctx.lbl === null ? 0 : localctx.lbl.line))
             break;
         case MyGrammerParser.NUMBER:
             localctx = new NumberLiteralContext(this, localctx);
@@ -934,7 +934,7 @@ MyGrammerParser.prototype.expr = function(_p) {
             localctx.exp = this.expr(0);
             this.state = 73;
             this.match(MyGrammerParser.T__7);
-            localctx.ExprNode = new ExpressionNode(localctx.exp.ExprNode)
+            localctx.ExprNode = new ExpressionNode(localctx.exp.ExprNode, (localctx.exp===null ? null : localctx.exp.start).line)
             break;
         default:
             throw new antlr4.error.NoViableAltException(this);
@@ -965,7 +965,7 @@ MyGrammerParser.prototype.expr = function(_p) {
                     localctx.op = this.match(MyGrammerParser.MULTDIVOPERATOR);
                     this.state = 80;
                     localctx.right = this.expr(6);
-                    localctx.ExprNode = new OperatorExpressionNode(localctx.left.ExprNode, (localctx.op===null ? null : localctx.op.text), localctx.right.ExprNode)
+                    localctx.ExprNode = new OperatorExpressionNode(localctx.left.ExprNode, (localctx.op===null ? null : localctx.op.text), localctx.right.ExprNode, (localctx.left===null ? null : localctx.left.start).line)
                     break;
 
                 case 2:
@@ -980,7 +980,7 @@ MyGrammerParser.prototype.expr = function(_p) {
                     localctx.op = this.match(MyGrammerParser.ADDSUBOPERATOR);
                     this.state = 85;
                     localctx.right = this.expr(5);
-                    localctx.ExprNode = new OperatorExpressionNode(localctx.left.ExprNode, (localctx.op===null ? null : localctx.op.text), localctx.right.ExprNode)
+                    localctx.ExprNode = new OperatorExpressionNode(localctx.left.ExprNode, (localctx.op===null ? null : localctx.op.text), localctx.right.ExprNode, (localctx.left===null ? null : localctx.left.start).line)
                     break;
 
                 case 3:
@@ -995,7 +995,7 @@ MyGrammerParser.prototype.expr = function(_p) {
                     localctx.op = this.match(MyGrammerParser.COMPAREOPERATOR);
                     this.state = 90;
                     localctx.right = this.expr(4);
-                    localctx.ExprNode = new OperatorExpressionNode(localctx.left.ExprNode, (localctx.op===null ? null : localctx.op.text), localctx.right.ExprNode)
+                    localctx.ExprNode = new OperatorExpressionNode(localctx.left.ExprNode, (localctx.op===null ? null : localctx.op.text), localctx.right.ExprNode, (localctx.left===null ? null : localctx.left.start).line)
                     break;
 
                 case 4:
@@ -1010,7 +1010,7 @@ MyGrammerParser.prototype.expr = function(_p) {
                     localctx.op = this.match(MyGrammerParser.BOOLOPERATOR);
                     this.state = 95;
                     localctx.right = this.expr(3);
-                    localctx.ExprNode = new OperatorExpressionNode(localctx.left.ExprNode, (localctx.op===null ? null : localctx.op.text), localctx.right.ExprNode)
+                    localctx.ExprNode = new OperatorExpressionNode(localctx.left.ExprNode, (localctx.op===null ? null : localctx.op.text), localctx.right.ExprNode, (localctx.left===null ? null : localctx.left.start).line)
                     break;
 
                 } 
