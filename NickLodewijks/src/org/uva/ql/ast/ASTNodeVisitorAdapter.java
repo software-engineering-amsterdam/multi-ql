@@ -1,10 +1,7 @@
 package org.uva.ql.ast;
 
-import java.util.Map.Entry;
-
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
-import org.uva.ql.ast.expr.ArithmeticExpr;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Div;
 import org.uva.ql.ast.expr.Eq;
@@ -41,11 +38,6 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(BinaryExpr node, U context) {
-		return visitChildren(node, context);
-	}
-
-	@Override
-	public T visit(ArithmeticExpr node, U context) {
 		return visitChildren(node, context);
 	}
 

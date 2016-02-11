@@ -11,7 +11,6 @@ import org.uva.ql.ast.VariableDecl;
 import org.uva.ql.ast.VariableIdentifier;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
-import org.uva.ql.ast.expr.ArithmeticExpr;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Div;
 import org.uva.ql.ast.expr.Eq;
