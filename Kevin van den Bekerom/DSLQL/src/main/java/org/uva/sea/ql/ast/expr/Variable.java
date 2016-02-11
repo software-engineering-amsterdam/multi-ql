@@ -2,14 +2,22 @@ package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.Visitable;
 import org.uva.sea.ql.ast.Visitor;
+import org.uva.sea.ql.ast.form.Value;
 
-public class VariableLiteral extends Expr implements Visitable {
+public class Variable extends Expr implements Visitable {
 	String identifier;
-	Object value;
-	
-	public VariableLiteral(String identifier) {
+	Value value;
+
+	public Variable(String identifier) {
 		this.identifier = identifier;
-		this.value = null;
+	}
+	
+	public void setValue(Value value) {
+		this.value = value;
+	}
+	
+	public String getIdentifier() {
+		return this.identifier;
 	}
 
 	@Override

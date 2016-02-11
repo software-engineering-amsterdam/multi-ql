@@ -6,14 +6,12 @@
 package ql;
 import java.io.IOException;
 
-import org.antlr.v4.Tool.*;
-import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import ql.parser.*;
+import ql.parser.QLLexer;
+import ql.parser.QLParser;
 /**
  *
  * @author felixbarten
@@ -28,12 +26,14 @@ public class QL {
     	String path = "/Users/felixbarten/Git/multi-ql/FelixBarten/QL/src/ql/parser/QL.g4";
     	String path2 = "";
     	String parseTest = "\"is this a test?\" testQuestion: money";
-
+    	String parseTest2 = ""
+    			+ "\"What was the selling price?\""
+    			+ "    sellingPrice : money";
         
         
         System.out.println("Starting parsing");
         QLLexer lexer = null;
-		lexer = new QLLexer( new ANTLRInputStream(parseTest));
+		lexer = new QLLexer( new ANTLRInputStream(parseTest2));
         CommonTokenStream tokens = new CommonTokenStream( lexer );
         QLParser parser = new QLParser( tokens );
         ParseTree tree = parser.question();
