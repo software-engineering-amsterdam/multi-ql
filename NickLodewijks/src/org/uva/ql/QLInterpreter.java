@@ -9,27 +9,29 @@ import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.stat.IFStat;
-import org.uva.ql.ui.DefaultWidgetFactory;
 import org.uva.ql.ui.QLForm;
 import org.uva.ql.ui.QLQuestionaire;
 import org.uva.ql.ui.WidgetFactory;
 
 public class QLInterpreter extends ASTNodeVisitorAdapter<Void, Void> {
 
-	private WidgetFactory widgetFactory;
+	private final WidgetFactory widgetFactory;
 
+	private QLQuestionaire questionaire;
 	private QLForm currentForm;
 	private Expr currentCondition;
-	private QLQuestionaire questionaire;
 
-	public QLInterpreter(Questionnaire q) {
-		widgetFactory = new DefaultWidgetFactory();
-		questionaire = new QLQuestionaire();
-
-		q.accept(this, null);
+	public QLInterpreter(WidgetFactory factory) {
+		widgetFactory = factory;
 	}
 
-	public QLQuestionaire getQuestionaire() {
+	public QLQuestionaire interpret(Questionnaire q) {
+		questionaire = new QLQuestionaire();
+		currentForm = null;
+		currentCondition = null;
+
+		q.accept(this, null);
+
 		return questionaire;
 	}
 
@@ -72,14 +74,12 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Void, Void> {
 	@Override
 	public Void visit(ComputedQuestion node, Void context) {
 		currentForm.addQuestion(widgetFactory.create(node), currentCondition);
-
 		return null;
 	}
 
 	@Override
 	public Void visit(InputQuestion node, Void context) {
 		currentForm.addQuestion(widgetFactory.create(node), currentCondition);
-
 		return null;
 	}
 }
