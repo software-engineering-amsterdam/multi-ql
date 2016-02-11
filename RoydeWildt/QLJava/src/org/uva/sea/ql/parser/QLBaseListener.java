@@ -4,13 +4,16 @@ package org.uva.sea.ql.parser;
 import java.util.List;
 import java.io.IOException;
 
-import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.expr.binary.*;
-import org.uva.sea.ql.ast.expr.unary.*;
-import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.val.*;
-import org.uva.sea.ql.ast.form.*;
-import org.uva.sea.ql.ast.var.*;
+import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.tree.expr.binary.*;
+import org.uva.sea.ql.ast.tree.expr.unary.*;
+import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.val.*;
+import org.uva.sea.ql.ast.tree.form.*;
+import org.uva.sea.ql.ast.tree.var.*;
+import org.uva.sea.ql.ast.tree.type.Boolean;
+import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.type.Type;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;

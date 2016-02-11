@@ -1,13 +1,10 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.ast.Node;
 import org.uva.sea.ql.ast.checker.*;
-import org.uva.sea.ql.ast.form.Form;
-import org.uva.sea.ql.ast.visitor.Visitor;
+import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.parser.*;
 
 import java.io.IOException;
-import java.util.List;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

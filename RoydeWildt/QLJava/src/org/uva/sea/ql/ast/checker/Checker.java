@@ -1,9 +1,9 @@
 package org.uva.sea.ql.ast.checker;
 
-import org.uva.sea.ql.ast.Node;
-import org.uva.sea.ql.ast.form.Form;
-import org.uva.sea.ql.ast.stat.Question;
-import org.uva.sea.ql.ast.var.Var;
+import org.uva.sea.ql.ast.tree.Node;
+import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.ast.tree.var.Var;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class Checker {
     public Checker(){}
 
     public void undefinedChecker(Form f){
-        List<Node> undefined = (new UndefinedCheck(f)).getUndefined();
+        List<Node> undefined = (new UndefinedVarsCheck(f)).getUndefined();
 
         for(Node n : undefined){
             StringBuilder sb = new StringBuilder();
@@ -29,7 +29,7 @@ public class Checker {
     }
 
     public void duplicateChecker(Form f){
-        List<List<Node>> duplicates = (new DuplicateCheck(f)).getDuplicates();
+        List<List<Node>> duplicates = (new DuplicateVarsCheck(f)).getDuplicates();
 
         for(List<Node> dups : duplicates){
             StringBuilder sb = new StringBuilder("");

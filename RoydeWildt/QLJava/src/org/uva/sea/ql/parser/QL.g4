@@ -5,13 +5,16 @@ grammar QL;
 import java.util.List;
 import java.io.IOException;
 
-import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.expr.binary.*;
-import org.uva.sea.ql.ast.expr.unary.*;
-import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.val.*;
-import org.uva.sea.ql.ast.form.*;
-import org.uva.sea.ql.ast.var.*;
+import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.tree.expr.binary.*;
+import org.uva.sea.ql.ast.tree.expr.unary.*;
+import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.val.*;
+import org.uva.sea.ql.ast.tree.form.*;
+import org.uva.sea.ql.ast.tree.var.*;
+import org.uva.sea.ql.ast.tree.type.Boolean;
+import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.type.Type;
 }
 
 @parser::members
@@ -156,9 +159,9 @@ orExpr returns [Expr result]
 
 //Type Grammar
 
-type returns [Val result]
-    : 'boolean'  {$result = new Bool();}
-    | 'money'    {$result = new Int();}
+type returns [Type result]
+    : x=Boolean  {$result = new Boolean($x.getLine());}
+    | x=Money    {$result = new Money($x.getLine());}
     ;
 
 bool returns [Val result]
@@ -174,6 +177,9 @@ COMMENT     : ( '//' ~[\r\n]* '\r'? '\n' | '/*' .*? '*/') -> channel(HIDDEN) ;
 
 True        : 'true';
 False       : 'false';
+
+Boolean     : 'boolean';
+Money       : 'money';
 
 Ident       :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

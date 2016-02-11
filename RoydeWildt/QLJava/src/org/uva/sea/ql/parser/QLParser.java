@@ -4,13 +4,16 @@ package org.uva.sea.ql.parser;
 import java.util.List;
 import java.io.IOException;
 
-import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.expr.binary.*;
-import org.uva.sea.ql.ast.expr.unary.*;
-import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.val.*;
-import org.uva.sea.ql.ast.form.*;
-import org.uva.sea.ql.ast.var.*;
+import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.tree.expr.binary.*;
+import org.uva.sea.ql.ast.tree.expr.unary.*;
+import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.val.*;
+import org.uva.sea.ql.ast.tree.form.*;
+import org.uva.sea.ql.ast.tree.var.*;
+import org.uva.sea.ql.ast.tree.type.Boolean;
+import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.type.Type;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -31,8 +34,8 @@ public class QLParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		WHITESPACE=25, COMMENT=26, True=27, False=28, Ident=29, Str=30, Int=31;
+		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, WHITESPACE=23, COMMENT=24, 
+		True=25, False=26, Boolean=27, Money=28, Ident=29, Str=30, Int=31;
 	public static final int
 		RULE_form = 0, RULE_forms = 1, RULE_varDecl = 2, RULE_varAss = 3, RULE_question = 4, 
 		RULE_stat = 5, RULE_stats = 6, RULE_primary = 7, RULE_unExpr = 8, RULE_mulExpr = 9, 
@@ -47,13 +50,13 @@ public class QLParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "'{'", "'}'", "'='", "'('", "')'", "':'", "'if'", "'else'", 
 		"'+'", "'-'", "'!'", "'*'", "'/'", "'<'", "'<='", "'>'", "'>='", "'=='", 
-		"'!='", "'&&'", "'||'", "'boolean'", "'money'", null, null, "'true'", 
-		"'false'"
+		"'!='", "'&&'", "'||'", null, null, "'true'", "'false'", "'boolean'", 
+		"'money'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, "WHITESPACE", "COMMENT", "True", "False", "Ident", "Str", "Int"
+		null, null, null, null, null, null, null, null, null, null, null, "WHITESPACE", 
+		"COMMENT", "True", "False", "Boolean", "Money", "Ident", "Str", "Int"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -1100,7 +1103,10 @@ public class QLParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public Val result;
+		public Type result;
+		public Token x;
+		public TerminalNode Boolean() { return getToken(QLParser.Boolean, 0); }
+		public TerminalNode Money() { return getToken(QLParser.Money, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1121,20 +1127,20 @@ public class QLParser extends Parser {
 		try {
 			setState(189);
 			switch (_input.LA(1)) {
-			case T__22:
+			case Boolean:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(185);
-				match(T__22);
-				((TypeContext)_localctx).result =  new Bool();
+				((TypeContext)_localctx).x = match(Boolean);
+				((TypeContext)_localctx).result =  new Boolean(((TypeContext)_localctx).x.getLine());
 				}
 				break;
-			case T__23:
+			case Money:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(187);
-				match(T__23);
-				((TypeContext)_localctx).result =  new Int();
+				((TypeContext)_localctx).x = match(Money);
+				((TypeContext)_localctx).result =  new Money(((TypeContext)_localctx).x.getLine());
 				}
 				break;
 			default:
@@ -1262,10 +1268,10 @@ public class QLParser extends Parser {
 		"\u00b1\5\32\16\2\u00b1\u00b8\b\17\1\2\u00b2\u00b3\7\30\2\2\u00b3\u00b4"+
 		"\5\32\16\2\u00b4\u00b5\b\17\1\2\u00b5\u00b7\3\2\2\2\u00b6\u00b2\3\2\2"+
 		"\2\u00b7\u00ba\3\2\2\2\u00b8\u00b6\3\2\2\2\u00b8\u00b9\3\2\2\2\u00b9\35"+
-		"\3\2\2\2\u00ba\u00b8\3\2\2\2\u00bb\u00bc\7\31\2\2\u00bc\u00c0\b\20\1\2"+
-		"\u00bd\u00be\7\32\2\2\u00be\u00c0\b\20\1\2\u00bf\u00bb\3\2\2\2\u00bf\u00bd"+
-		"\3\2\2\2\u00c0\37\3\2\2\2\u00c1\u00c2\7\35\2\2\u00c2\u00c6\b\21\1\2\u00c3"+
-		"\u00c4\7\36\2\2\u00c4\u00c6\b\21\1\2\u00c5\u00c1\3\2\2\2\u00c5\u00c3\3"+
+		"\3\2\2\2\u00ba\u00b8\3\2\2\2\u00bb\u00bc\7\35\2\2\u00bc\u00c0\b\20\1\2"+
+		"\u00bd\u00be\7\36\2\2\u00be\u00c0\b\20\1\2\u00bf\u00bb\3\2\2\2\u00bf\u00bd"+
+		"\3\2\2\2\u00c0\37\3\2\2\2\u00c1\u00c2\7\33\2\2\u00c2\u00c6\b\21\1\2\u00c3"+
+		"\u00c4\7\34\2\2\u00c4\u00c6\b\21\1\2\u00c5\u00c1\3\2\2\2\u00c5\u00c3\3"+
 		"\2\2\2\u00c6!\3\2\2\2\17.Fahq\u0082\u008c\u0097\u00a2\u00ad\u00b8\u00bf"+
 		"\u00c5";
 	public static final ATN _ATN =
