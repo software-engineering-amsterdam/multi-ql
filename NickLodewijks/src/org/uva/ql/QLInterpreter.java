@@ -1,108 +1,85 @@
 package org.uva.ql;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.Objects;
-
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
-import org.uva.ql.ast.ValueType;
-import org.uva.ql.ast.expr.Context;
-import org.uva.ql.ast.expr.Context.ContextListener;
+import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
+import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
+import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.stat.IFStat;
 import org.uva.ql.ui.DefaultWidgetFactory;
-import org.uva.ql.ui.QLQuestion;
+import org.uva.ql.ui.QLForm;
+import org.uva.ql.ui.QLQuestionaire;
 import org.uva.ql.ui.WidgetFactory;
 
-public class QLInterpreter extends ASTNodeVisitorAdapter {
-
-	private JFrame jframe = new JFrame("test");
-	private Context context = new Context();
+public class QLInterpreter extends ASTNodeVisitorAdapter<Void, Void> {
 
 	private WidgetFactory widgetFactory;
 
-	private JPanel form;
+	private QLForm currentForm;
+	private Expr currentCondition;
+	private QLQuestionaire questionaire;
 
-	public QLInterpreter() {
+	public QLInterpreter(Questionnaire q) {
 		widgetFactory = new DefaultWidgetFactory();
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		questionaire = new QLQuestionaire();
+
+		q.accept(this, null);
 	}
 
-	public JFrame getFrame() {
-		return jframe;
+	public QLQuestionaire getQuestionaire() {
+		return questionaire;
 	}
 
 	@Override
-	public void visit(Form node) {
-		form = new JPanel();
-		jframe.add(form);
+	public Void visit(Form node, Void context) {
+		currentForm = widgetFactory.create(node);
+		currentCondition = null;
 
-		form.setLayout(new BoxLayout(form, BoxLayout.PAGE_AXIS));
+		questionaire.addForm(currentForm);
 
-		form.add(createPanel(node.getBody()));
-		form.repaint();
+		visit(node.getBody(), context);
+
+		return null;
 	}
 
-	private JPanel createPanel(Block block) {
-		JPanel blockPanel;
+	@Override
+	public Void visit(IFStat node, Void context) {
+		currentCondition = node.getExpression();
 
-		blockPanel = new JPanel();
-		blockPanel.setLayout(new BoxLayout(blockPanel, BoxLayout.PAGE_AXIS));
+		// All questions in the body will use currentCondition
+		visit(node.getBody(), context);
 
-		for (Question q : block.getQuestions()) {
-			JPanel panel;
-			QLQuestion uiQuestion;
-
-			uiQuestion = q.getUIComponent(widgetFactory);
-			uiQuestion.setContext(context);
-
-			panel = new JPanel();
-			panel.setSize(100, 40);
-			panel.add(uiQuestion.getLabelComponent());
-			panel.add(uiQuestion.getInputComponent());
-			blockPanel.add(panel);
-		}
-
-		for (IFStat statement : block.getIfStatements()) {
-			blockPanel.add(createPanel(statement));
-		}
-
-		return blockPanel;
+		return null;
 	}
 
-	private JPanel createPanel(IFStat ifStat) {
-		JPanel panel;
+	@Override
+	public Void visit(Block node, Void context) {
+		// First traverse the questions.
+		for (Question q : node.getQuestions()) {
+			q.accept(this, context);
+		}
 
-		panel = createPanel(ifStat.getBody());
-		panel.setVisible(ifStat.interpret(context));
+		for (IFStat statement : node.getIfStatements()) {
+			statement.accept(this, context);
+		}
 
-		context.addContextListener(new ContextListener() {
-			@Override
-			public void contextChanged(Context context) {
-				boolean newValue;
+		return null;
+	}
 
-				newValue = ifStat.interpret(context);
-				if (panel.isVisible() != newValue) {
-					panel.setVisible(newValue);
-					jframe.pack();
-				}
-			}
-		});
+	@Override
+	public Void visit(ComputedQuestion node, Void context) {
+		currentForm.addQuestion(widgetFactory.create(node), currentCondition);
 
-		return panel;
+		return null;
+	}
+
+	@Override
+	public Void visit(InputQuestion node, Void context) {
+		currentForm.addQuestion(widgetFactory.create(node), currentCondition);
+
+		return null;
 	}
 }

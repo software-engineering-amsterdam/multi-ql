@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JFrame;
-
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.VariableDecl;
@@ -21,184 +19,286 @@ import org.uva.ql.ast.expr.GEq;
 import org.uva.ql.ast.expr.GT;
 import org.uva.ql.ast.expr.LEq;
 import org.uva.ql.ast.expr.LT;
+import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.Mul;
 import org.uva.ql.ast.expr.NEq;
 import org.uva.ql.ast.expr.Or;
 import org.uva.ql.ast.expr.Sub;
+import org.uva.ql.ast.expr.VariableExpr;
+import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
+import org.uva.ql.ast.form.Questionnaire;
+import org.uva.ql.ast.literal.BooleanLiteral;
+import org.uva.ql.ast.literal.IntegerLiteral;
+import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.IFStat;
+import org.uva.ql.ui.QLQuestionaire;
 
 public class TypeChecker {
 
-	public TypeChecker(Form form) {
+	public TypeChecker(Questionnaire q) {
+		QLQuestionaire questionaire;
 		QLInterpreter interpreter;
 
-		// Initialize symbol table.
-		form.accept(new VariabelChecker());
-
 		// Validate operand and condition types.
-		form.accept(new TypeCheckValidator());
+		new TypeCheckValidator(q);
 
 		// Look for duplicate question declarations.
-		form.accept(new DuplicateFinder());
+		new DuplicateFinder(q);
 
-		interpreter = new QLInterpreter();
-		form.accept(interpreter);
+		interpreter = new QLInterpreter(q);
 
-		JFrame jframe = interpreter.getFrame();
-		jframe.pack();
-		jframe.setVisible(true);
+		questionaire = interpreter.getQuestionaire();
+		questionaire.show();
+	}
+
+	private static class SymbolTable {
+		private Map<String, ValueType> nameToType = new HashMap<>();
+
+		public SymbolTable() {
+			nameToType = new HashMap<>();
+		}
+
+		public SymbolTable(SymbolTable table) {
+			nameToType = new HashMap<>(table.nameToType);
+		}
+
+		public boolean contains(String name) {
+			return nameToType.containsKey(name);
+		}
+
+		public void add(String name, ValueType type) {
+			nameToType.put(name, type);
+		}
+
+		public ValueType getType(String name) {
+			return nameToType.get(name);
+		}
 
 	}
 
-	private class VariabelChecker extends ASTNodeVisitorAdapter {
+	private class TypeCheckValidator extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
 
-		private Map<String, VariableDecl> symbols = new HashMap<String, VariableDecl>();
+		public TypeCheckValidator(Questionnaire q) {
+			q.accept(this, new SymbolTable());
+		}
 
 		@Override
-		public void visit(VariableDecl node) {
+		public ValueType visit(Questionnaire node, SymbolTable context) {
+
+			for (Form form : node.getForms()) {
+				form.accept(this, context);
+			}
+
+			return null;
+		}
+
+		@Override
+		public ValueType visit(Form node, SymbolTable context) {
+			// The body of every form has its own SymbolTable
+			node.getBody().accept(this, new SymbolTable());
+			return null;
+		}
+
+		@Override
+		public ValueType visit(Block node, SymbolTable context) {
+			// Copy the SymbolTable for scoping of variables
+			context = new SymbolTable(context);
+
+			// First traverse the questions.
+			for (Question question : node.getQuestions()) {
+				question.accept(this, context);
+			}
+
+			for (IFStat statement : node.getIfStatements()) {
+				statement.accept(this, context);
+			}
+
+			return null;
+		}
+
+		@Override
+		public ValueType visit(IFStat node, SymbolTable context) {
+			checkType(node.getExpression(), context, ValueType.BOOLEAN);
+			node.getBody().accept(this, context);
+			return null;
+		}
+
+		@Override
+		public ValueType visit(ComputedQuestion node, SymbolTable context) {
+			checkType(node.getExpression(), context, node.getType());
+
+			node.getVariableDecl().accept(this, context);
+			return null;
+		}
+
+		@Override
+		public ValueType visit(InputQuestion node, SymbolTable context) {
+			node.getVariableDecl().accept(this, context);
+			return null;
+		}
+
+		@Override
+		public ValueType visit(VariableDecl node, SymbolTable context) {
 			String variableName;
+			ValueType type;
 
 			variableName = node.getId().getName();
-			if (symbols.containsKey(variableName)) {
+			type = node.getType().getType();
+			if (context.contains(variableName)) {
 				error("Duplicate variable declaration " + node);
-				return;
+			} else {
+				context.add(variableName, type);
 			}
 
-			symbols.put(variableName, node);
+			return type;
 		}
 
 		@Override
-		public void visit(VariableIdentifier node) {
-			VariableDecl variableDecl;
-			String variableName;
+		public ValueType visit(LiteralExpr node, SymbolTable context) {
+			return node.getLiteral().accept(this, context);
+		}
 
-			variableName = node.getName();
+		@Override
+		public ValueType visit(VariableExpr node, SymbolTable context) {
+			return node.getVariableId().accept(this, context);
+		}
 
-			variableDecl = symbols.get(variableName);
-			if (variableDecl == null) {
-				error("Reference to undefined question " + node + " " + variableName);
-				return;
+		@Override
+		public ValueType visit(VariableIdentifier node, SymbolTable context) {
+			ValueType type;
+
+			type = context.getType(node.getName());
+			if (type == null) {
+				error("Undeclared variable " + node + node.getName());
 			}
 
-			node.setType(variableDecl.getType().getType());
-		}
-	}
+			node.setType(type);
 
-	private class TypeCheckValidator extends ASTNodeVisitorAdapter {
-
-		@Override
-		public void visit(IFStat node) {
-			checkType(node.getExpression(), ValueType.BOOLEAN);
-			super.visit(node);
+			return type;
 		}
 
 		@Override
-		public void visit(Add node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(BooleanLiteral node, SymbolTable context) {
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public void visit(Div node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(IntegerLiteral node, SymbolTable context) {
+			return ValueType.INTEGER;
 		}
 
 		@Override
-		public void visit(Mul node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(StringLiteral node, SymbolTable context) {
+			return ValueType.STRING;
 		}
 
 		@Override
-		public void visit(Sub node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(Add node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		@Override
-		public void visit(Eq node) {
+		public ValueType visit(Div node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.INTEGER;
+		}
+
+		@Override
+		public ValueType visit(Mul node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.INTEGER;
+		}
+
+		@Override
+		public ValueType visit(Sub node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.INTEGER;
+		}
+
+		@Override
+		public ValueType visit(Eq node, SymbolTable context) {
 			Expr lhs;
+			ValueType lhsType;
+			ValueType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
+			lhsType = lhs.accept(this, context);
 			rhs = node.right();
-			if (lhs.type() != rhs.type()) {
+			rhsType = rhs.accept(this, context);
+			if (lhsType != rhsType) {
 				String msg;
 
 				msg = String.format(
 						"[%s: %s] Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-						node.getLineIndex(), node.getCharIndex(), lhs.type().getName(), rhs.type().getName());
+						node.getLineIndex(), node.getCharIndex(), lhsType.getName(), rhsType.getName());
 
 				error(msg);
 			}
 
-			super.visit(node);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public void visit(ComputedQuestion node) {
-			checkType(node.getExpression(), node.getVariableId().getType());
-
-			super.visit(node);
+		public ValueType visit(GEq node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public void visit(GEq node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(GT node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public void visit(GT node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(LEq node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public void visit(LEq node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(LT node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public void visit(LT node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(NEq node, SymbolTable context) {
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public void visit(NEq node) {
-			checkOperands(node, ValueType.INTEGER);
-			super.visit(node);
+		public ValueType visit(And node, SymbolTable context) {
+			checkOperands(node, context, ValueType.BOOLEAN);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public void visit(And node) {
-			checkOperands(node, ValueType.BOOLEAN);
-			super.visit(node);
+		public ValueType visit(Or node, SymbolTable context) {
+			checkOperands(node, context, ValueType.BOOLEAN);
+			return ValueType.BOOLEAN;
 		}
 
-		@Override
-		public void visit(Or node) {
-			checkOperands(node, ValueType.BOOLEAN);
-			super.visit(node);
+		private void checkOperands(BinaryExpr expr, SymbolTable context, ValueType expectedType) {
+			checkType(expr.left(), context, expectedType);
+			checkType(expr.right(), context, expectedType);
 		}
 
-		private void checkOperands(BinaryExpr expr, ValueType expectedType) {
-			checkType(expr.left(), expectedType);
-			checkType(expr.right(), expectedType);
-		}
-
-		private void checkType(Expr expr, ValueType expectedType) {
+		private void checkType(Expr expr, SymbolTable context, ValueType expectedType) {
 			ValueType actual;
 
-			actual = expr.type();
-			if (actual != expectedType) {
+			actual = expr.accept(this, context);
+
+			if (actual == null) {
+				error("Unknown type for " + expr);
+			} else if (actual != expectedType) {
 				String msg;
 
 				msg = String.format("[%s: %s] Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
@@ -210,9 +310,13 @@ public class TypeChecker {
 		}
 	}
 
-	private class DuplicateFinder extends ASTNodeVisitorAdapter {
+	private class DuplicateFinder extends ASTNodeVisitorAdapter<Void, Void> {
 
 		private Set<String> questions = new HashSet<String>();
+
+		public DuplicateFinder(Questionnaire q) {
+			q.accept(this, null);
+		}
 
 		private void addQuestion(Question node) {
 			String label;
@@ -224,15 +328,15 @@ public class TypeChecker {
 		}
 
 		@Override
-		public void visit(ComputedQuestion node) {
+		public Void visit(ComputedQuestion node, Void context) {
 			addQuestion(node);
-			super.visit(node);
+			return super.visit(node, context);
 		}
 
 		@Override
-		public void visit(InputQuestion node) {
+		public Void visit(InputQuestion node, Void context) {
 			addQuestion(node);
-			super.visit(node);
+			return super.visit(node, context);
 		}
 
 	}

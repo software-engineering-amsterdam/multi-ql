@@ -10,26 +10,26 @@ queries returns[QueriesNode]
 	;
 
 question returns[ResultNode]
-	: txt=STRING lbl=LABEL DELIMITER type=TYPE  				{$ResultNode = new QuestionNode($txt.text, $lbl.text, $type.text)}
-	| txt=STRING lbl=LABEL DELIMITER type=TYPE '=' exp=expr  	{$ResultNode = new QuestionNode($txt.text, $lbl.text, $type.text, $exp.ExprNode)}
+	: txt=STRING lbl=LABEL DELIMITER type=TYPE  				{$ResultNode = new QuestionNode($txt.text, $lbl.text, $type.text, $txt.line)}
+	| txt=STRING lbl=LABEL DELIMITER type=TYPE '=' exp=expr  	{$ResultNode = new QuestionNode($txt.text, $lbl.text, $type.text, $txt.line, $exp.ExprNode)}
 	;
 
 ifstmt returns[ResultNode]
-	: 'if' exp=expr que=queries 						{$ResultNode = new ConditionNode($exp.ExprNode, $que.QueriesNode)}
-	| 'if' exp=expr que=queries 'else' elseque=queries 	{$ResultNode = new ConditionNode($exp.ExprNode, $que.QueriesNode, $elseque.QueriesNode)}
+	: 'if' exp=expr que=queries 						{$ResultNode = new ConditionNode($exp.ExprNode, $que.QueriesNode, $exp.start.line)}
+	| 'if' exp=expr que=queries 'else' elseque=queries 	{$ResultNode = new ConditionNode($exp.ExprNode, $que.QueriesNode, $exp.start.line, $elseque.QueriesNode)}
 	;
 
 expr returns[ExprNode]
 	: bool=BOOLEAN 								{$ExprNode = 'true' == $bool.text} 						#booleanLiteral
-	| lbl=LABEL 								{$ExprNode = new LabelNode($lbl.text)} 					#labelNode
+	| lbl=LABEL 								{$ExprNode = new LabelNode($lbl.text, $lbl.line)} 					#labelNode
 	| num=NUMBER 								{$ExprNode = parseInt($num.text)} 						#numberLiteral
 	| dec=DECIMAL 								{$ExprNode = parseFloat($dec.text)} 					#decimalLiteral
-	| '(' exp=expr ')' 							{$ExprNode = new ExpressionNode($exp.ExprNode)} 		#parenthesisExpr
-	| left=expr op=MULTDIVOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode)} #opExpr
-	| left=expr op=ADDSUBOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode)} #opExpr
-	| left=expr op=COMPAREOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode)} #opExpr
-	| left=expr op=BOOLOPERATOR right=expr 		{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode)} #opExpr
-	| NOTOPERATOR exp=expr 						{$ExprNode = new NotExpression($exp.ExprNode)} 			#negationExpr
+	| '(' exp=expr ')' 							{$ExprNode = new ExpressionNode($exp.ExprNode, $exp.start.line)} 		#parenthesisExpr
+	| left=expr op=MULTDIVOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode, $left.start.line)} #opExpr
+	| left=expr op=ADDSUBOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode, $left.start.line)} #opExpr
+	| left=expr op=COMPAREOPERATOR right=expr 	{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode, $left.start.line)} #opExpr
+	| left=expr op=BOOLOPERATOR right=expr 		{$ExprNode = new OperatorExpressionNode($left.ExprNode, $op.text, $right.ExprNode, $left.start.line)} #opExpr
+	| NOTOPERATOR exp=expr 						{$ExprNode = new NotExpression($exp.ExprNode, $exp.start.line)} 			#negationExpr
 	;
 
 

@@ -9,6 +9,7 @@ import org.uva.ql.parser.antlr.QLParser.AndExprContext;
 import org.uva.ql.parser.antlr.QLParser.BlockContext;
 import org.uva.ql.parser.antlr.QLParser.FileContext;
 import org.uva.ql.parser.antlr.QLParser.FormContext;
+import org.uva.ql.parser.antlr.QLParser.FormsContext;
 import org.uva.ql.parser.antlr.QLParser.IdentifierContext;
 import org.uva.ql.parser.antlr.QLParser.IfStatContext;
 import org.uva.ql.parser.antlr.QLParser.LiteralContext;
@@ -16,6 +17,7 @@ import org.uva.ql.parser.antlr.QLParser.MulExprContext;
 import org.uva.ql.parser.antlr.QLParser.OrExprContext;
 import org.uva.ql.parser.antlr.QLParser.PrimaryContext;
 import org.uva.ql.parser.antlr.QLParser.QuestionContext;
+import org.uva.ql.parser.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.parser.antlr.QLParser.RelExprContext;
 import org.uva.ql.parser.antlr.QLParser.UnExprContext;
 import org.uva.ql.parser.antlr.QLParser.VariableContext;
@@ -25,26 +27,18 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void visitTerminal(TerminalNode node) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void visitErrorNode(ErrorNode node) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void exitEveryRule(ParserRuleContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -53,13 +47,10 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void exitFile(FileContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void enterForm(FormContext ctx) {
-
 	}
 
 	@Override
@@ -69,8 +60,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterBlock(BlockContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -80,8 +69,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterIfStat(IfStatContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -91,8 +78,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterQuestion(QuestionContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -102,8 +87,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterVariable(VariableContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -113,8 +96,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterVariableType(VariableTypeContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -124,8 +105,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterAddExpr(AddExprContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -135,8 +114,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterMulExpr(MulExprContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -146,8 +123,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterUnExpr(UnExprContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -157,8 +132,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterPrimary(PrimaryContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -168,8 +141,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterIdentifier(IdentifierContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -179,8 +150,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterLiteral(LiteralContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -190,8 +159,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterOrExpr(OrExprContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -201,8 +168,6 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterAndExpr(AndExprContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -212,12 +177,27 @@ public class QLParseTreeListener implements QLListener {
 
 	@Override
 	public void enterRelExpr(RelExprContext ctx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void exitRelExpr(RelExprContext ctx) {
 		ctx.result.setToken(ctx.getStart());
+	}
+
+	@Override
+	public void enterQuestionnaire(QuestionnaireContext ctx) {
+	}
+
+	@Override
+	public void exitQuestionnaire(QuestionnaireContext ctx) {
+		ctx.result.setToken(ctx.getStart());
+	}
+
+	@Override
+	public void enterForms(FormsContext ctx) {
+	}
+
+	@Override
+	public void exitForms(FormsContext ctx) {
 	}
 }

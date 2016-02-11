@@ -13,6 +13,7 @@ System.config({
   },
 
   map: {
+    "ace": "github:ajaxorg/ace-builds@1.2.3",
     "antlr4": "npm:antlr4@4.5.2",
     "babel": "npm:babel-core@5.8.35",
     "babel-runtime": "npm:babel-runtime@5.8.35",

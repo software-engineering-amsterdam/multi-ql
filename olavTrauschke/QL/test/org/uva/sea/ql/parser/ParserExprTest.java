@@ -3,7 +3,6 @@ package org.uva.sea.ql.parser;
 import java.io.FileNotFoundException;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.*;
 
 public class ParserExprTest {
@@ -11,19 +10,17 @@ public class ParserExprTest {
     @Test
     public void testSimpleExpressionParsing() throws FileNotFoundException {
         Lexer lexer = new Lexer("simpleExpression.ql");
-        lexer.nextToken();
         Parser parser = new Parser(lexer);
         boolean parsed = parser.parse();
         assertTrue(parsed);
-        ASTNode result = parser.getResult();
-        ASTNode expected = new Add(new Int(1), new Int(1));
+        Expr result = parser.getResult();
+        Expr expected = new Add(new Int(1), new Int(1));
         assertEquals(expected, result);
     }
     
     @Test
     public void testComplexExpressionParsing() throws FileNotFoundException {
         Lexer lexer = new Lexer("complexExpression.ql");
-        lexer.nextToken();
         Parser parser = new Parser(lexer);
         boolean parsed = parser.parse();
         assertTrue(parsed);
@@ -47,7 +44,6 @@ public class ParserExprTest {
     @Test
     public void testStringExpressionParsing() throws FileNotFoundException {
         Lexer lexer = new Lexer("stringExpression.ql");
-        lexer.nextToken();
         Parser parser = new Parser(lexer);
         boolean parsed = parser.parse();
         assertTrue(parsed);

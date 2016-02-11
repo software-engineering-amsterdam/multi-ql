@@ -5,8 +5,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -18,68 +23,170 @@ import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Context.ContextListener;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.ComputedQuestion;
+import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
+import org.uva.ql.ast.form.Question;
 
 public class DefaultWidgetFactory implements WidgetFactory {
 
 	@Override
 	public QLQuestion create(ComputedQuestion q) {
-		QLQuestion question;
-		QLWidget label;
-		QLWidget widget;
-		String variableName;
-
-		variableName = q.getVariableId().getName();
-
-		label = new DefaultLabelWidget(q.getLabel());
-		switch (q.getVariableId().getType()) {
-		case BOOLEAN:
-			widget = new DefaultBooleanWidget(variableName, q.getExpression());
-			break;
-		case INTEGER:
-			widget = new DefaultIntegerWidget(variableName, q.getExpression());
-			break;
-		case STRING:
-			widget = new DefaultStringWidget(variableName, q.getExpression());
-			break;
-		default:
-			widget = null;
-			break;
-		}
-
-		question = new QLQuestion(label, widget);
-
-		return question;
+		return createQuestion(q, q.getExpression());
 	}
 
 	@Override
 	public QLQuestion create(InputQuestion q) {
+		return createQuestion(q, null);
+	}
+
+	@Override
+	public QLForm create(Form form) {
+		return new DefaultQLForm(form.getName());
+	}
+
+	private QLQuestion createQuestion(Question q, Expr expr) {
 		QLQuestion question;
 		QLWidget label;
 		QLWidget widget;
 		String variableName;
 
-		variableName = q.getVariableId().getName();
+		variableName = q.getName();
 
 		label = new DefaultLabelWidget(q.getLabel());
-		switch (q.getVariableId().getType()) {
+		switch (q.getType()) {
 		case BOOLEAN:
-			widget = new DefaultBooleanWidget(variableName);
+			widget = new DefaultBooleanWidget(variableName, expr);
 			break;
 		case INTEGER:
-			widget = new DefaultIntegerWidget(variableName);
+			widget = new DefaultIntegerWidget(variableName, expr);
 			break;
 		case STRING:
-			widget = new DefaultStringWidget(variableName);
+			widget = new DefaultStringWidget(variableName, expr);
 			break;
 		default:
 			widget = null;
 			break;
 		}
 
-		question = new QLQuestion(label, widget);
+		question = new DefaultQuestion(label, widget);
 
 		return question;
+	}
+
+	private static class DefaultQLForm extends JPanel implements QLForm {
+		private static final long serialVersionUID = 1L;
+
+		private final String name;
+
+		private List<QLQuestion> questions = new ArrayList<QLQuestion>();
+		private Map<Expr, List<QLQuestion>> conditionalQuestionsMap = new HashMap<>();
+		private Map<Expr, JPanel> conditionalQuestionPanel = new HashMap<>();
+
+		public DefaultQLForm(String name) {
+			this.name = name;
+
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public void addQuestion(QLQuestion question) {
+			addQuestion(question, null);
+		}
+
+		@Override
+		public void addQuestion(QLQuestion question, Expr condition) {
+			JPanel panel;
+
+			panel = new JPanel();
+			panel.setSize(100, 40);
+
+			questions.add(question);
+
+			panel.add(question.getLabelComponent());
+			panel.add(question.getInputComponent());
+
+			if (condition != null) {
+				List<QLQuestion> conditionalQuestions;
+				JPanel conditionPanel;
+
+				conditionalQuestions = conditionalQuestionsMap.get(condition);
+				if (conditionalQuestions == null) {
+					conditionalQuestions = new ArrayList<>();
+					conditionalQuestionsMap.put(condition, conditionalQuestions);
+				}
+
+				conditionPanel = conditionalQuestionPanel.get(condition);
+				if (conditionPanel == null) {
+					conditionPanel = new JPanel();
+					conditionPanel.setLayout(new BoxLayout(conditionPanel, BoxLayout.PAGE_AXIS));
+					conditionPanel.setVisible(false);
+					conditionalQuestionPanel.put(condition, conditionPanel);
+
+					add(conditionPanel);
+				}
+
+				conditionPanel.add(panel);
+			} else {
+				add(panel);
+			}
+		}
+
+		@Override
+		public void setContext(Context context) {
+			for (QLQuestion q : questions) {
+				q.setContext(context);
+			}
+
+			for (Map.Entry<Expr, JPanel> entry : conditionalQuestionPanel.entrySet()) {
+				context.addContextListener(new ContextListener() {
+
+					@Override
+					public void contextChanged(Context context) {
+						JPanel panell;
+
+						panell = entry.getValue();
+
+						panell.setVisible((Boolean) entry.getKey().interpret(context));
+						panell.repaint();
+						panell.revalidate();
+					}
+				});
+			}
+		}
+
+		@Override
+		public JComponent getComponent() {
+			return this;
+		}
+
+	}
+
+	private static class DefaultQuestion implements QLQuestion {
+
+		private final QLWidget label;
+		private final QLWidget input;
+
+		public DefaultQuestion(QLWidget label, QLWidget input) {
+			this.label = label;
+			this.input = input;
+		}
+
+		public void setContext(Context context) {
+			label.setContext(context);
+			input.setContext(context);
+		}
+
+		public JComponent getLabelComponent() {
+			return label.getComponent();
+		}
+
+		public JComponent getInputComponent() {
+			return input.getComponent();
+		}
 	}
 
 	private static class DefaultLabelWidget extends JLabel implements QLWidget {
@@ -98,12 +205,11 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		public JComponent getComponent() {
 			return this;
 		}
-
 	}
 
 	private static class DefaultBooleanWidget extends JPanel implements QLWidget {
 		private static final long serialVersionUID = 1L;
-		
+
 		private final String variableName;
 		private final JRadioButton rbYes;
 		private final JRadioButton rbNo;
@@ -112,10 +218,6 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 		private ContextListener contextListener;
 		private ActionListener actionListener;
-
-		public DefaultBooleanWidget(String variableName) {
-			this(variableName, null);
-		}
 
 		public DefaultBooleanWidget(String variableName, Expr valueExpr) {
 			ButtonGroup bg;
@@ -158,6 +260,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		@Override
 		public void setContext(Context context) {
 
+			context.setValue(variableName, Boolean.FALSE);
+
 			if (actionListener != null) {
 				rbNo.removeActionListener(actionListener);
 				rbYes.removeActionListener(actionListener);
@@ -175,7 +279,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 	private static class DefaultIntegerWidget extends JPanel implements QLWidget {
 		private static final long serialVersionUID = 1L;
-		
+
 		private final String variableName;
 		private final JTextField textField;
 
@@ -184,16 +288,12 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		private KeyListener keyListener;
 		private ContextListener contextListener;
 
-		public DefaultIntegerWidget(String variableName) {
-			this(variableName, null);
-		}
-
 		public DefaultIntegerWidget(String variableName, Expr valueExpr) {
 			this.valueExpr = valueExpr;
 			this.variableName = variableName;
 
 			textField = new JTextField();
-			textField.setPreferredSize(new Dimension(100, 50));
+			textField.setPreferredSize(new Dimension(100, 20));
 
 			add(textField);
 
@@ -226,6 +326,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 				textField.removeKeyListener(keyListener);
 			}
 
+			context.setValue(variableName, 0);
+
 			keyListener = new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
@@ -251,7 +353,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 	private static class DefaultStringWidget extends JPanel implements QLWidget {
 		private static final long serialVersionUID = 1L;
-		
+
 		private final String variableName;
 		private final JTextField textField;
 		private final Expr valueExpr;
@@ -259,16 +361,12 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		private KeyListener keyListener;
 		private ContextListener contextListener;
 
-		public DefaultStringWidget(String variableName) {
-			this(variableName, null);
-		}
-
 		public DefaultStringWidget(String variableName, Expr valueExpr) {
 			this.valueExpr = valueExpr;
 			this.variableName = variableName;
 
 			textField = new JTextField();
-			textField.setPreferredSize(new Dimension(100, 50));
+			textField.setPreferredSize(new Dimension(100, 20));
 
 			add(textField);
 
@@ -296,6 +394,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 		@Override
 		public void setContext(Context context) {
+
+			context.setValue(variableName, "");
 
 			if (keyListener != null) {
 				textField.removeKeyListener(keyListener);

@@ -56,12 +56,21 @@ QLListener.prototype.exitIf_ = function(ctx) {
 };
 
 
-// Enter a parse tree produced by QLParser#question.
-QLListener.prototype.enterQuestion = function(ctx) {
+// Enter a parse tree produced by QLParser#inputQuestionCase.
+QLListener.prototype.enterInputQuestionCase = function(ctx) {
 };
 
-// Exit a parse tree produced by QLParser#question.
-QLListener.prototype.exitQuestion = function(ctx) {
+// Exit a parse tree produced by QLParser#inputQuestionCase.
+QLListener.prototype.exitInputQuestionCase = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLParser#exprQuestionCase.
+QLListener.prototype.enterExprQuestionCase = function(ctx) {
+};
+
+// Exit a parse tree produced by QLParser#exprQuestionCase.
+QLListener.prototype.exitExprQuestionCase = function(ctx) {
 };
 
 
@@ -155,21 +164,12 @@ QLListener.prototype.exitMoneyLiteralCase = function(ctx) {
 };
 
 
-// Enter a parse tree produced by QLParser#booleanLiteralTrueCase.
-QLListener.prototype.enterBooleanLiteralTrueCase = function(ctx) {
+// Enter a parse tree produced by QLParser#booleanLiteral.
+QLListener.prototype.enterBooleanLiteral = function(ctx) {
 };
 
-// Exit a parse tree produced by QLParser#booleanLiteralTrueCase.
-QLListener.prototype.exitBooleanLiteralTrueCase = function(ctx) {
-};
-
-
-// Enter a parse tree produced by QLParser#booleanLiteralFalseCase.
-QLListener.prototype.enterBooleanLiteralFalseCase = function(ctx) {
-};
-
-// Exit a parse tree produced by QLParser#booleanLiteralFalseCase.
-QLListener.prototype.exitBooleanLiteralFalseCase = function(ctx) {
+// Exit a parse tree produced by QLParser#booleanLiteral.
+QLListener.prototype.exitBooleanLiteral = function(ctx) {
 };
 
 

@@ -1,5 +1,6 @@
 package ast.literal;
 
+import ast.Visitor;
 import ast.expression.Expression;
 
 public class Variable extends Expression{
@@ -7,5 +8,14 @@ public class Variable extends Expression{
 	
 	public Variable(Object object) {
 		this.text = (String)object;
+	}
+	
+	public String getText(){
+		return text;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

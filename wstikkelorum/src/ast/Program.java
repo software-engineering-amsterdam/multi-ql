@@ -19,8 +19,11 @@ public class Program {
 		QLParser parser = new QLParser(tokens);		
 		
 		FileContext fileContext = parser.file();
-		TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-		viewer.open();
+		
+		System.out.println(fileContext.form().toStringTree());
+		
+		//TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
+		//viewer.open();
 		
 		System.out.println("Done");
 	}
