@@ -15,11 +15,16 @@ public class boolLiteral extends boolExpr {
 	}
 
 	@Override
-	public Boolean result(interpExpr expr) {
+	public Boolean result(SymbolTabel table) {
 		return value;
 	}
 	
 	public Boolean result() {
 		return value;
+	}
+
+	@Override
+	public Boolean checkType() {
+		return true;
 	}
 }

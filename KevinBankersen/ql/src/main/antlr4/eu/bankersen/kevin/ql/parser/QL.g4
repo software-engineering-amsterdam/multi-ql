@@ -2,8 +2,7 @@ grammar QL;
 
 @parser::header
 {
-
-import eu.bankersen.kevin.ql.ast.expr.*;
+	import eu.bankersen.kevin.ql.ast.expr.*;
 import eu.bankersen.kevin.ql.ast.expr.logic.*;
 import eu.bankersen.kevin.ql.ast.expr.math.*;
 import eu.bankersen.kevin.ql.ast.stat.*;
@@ -20,7 +19,7 @@ form returns [Form result]
 
 block returns [Block result]
 	@init {
-		$result = new Block(); //Must be set at initialisation, otherwise cant add
+		$result = new Block();
 	}
 	: '{' + (ifStat[$result] | question[$result] ) + '}'
 	;
@@ -40,10 +39,7 @@ question[Block result]
 	;
 
 ifStat[Block arg]
-	:	'if' + '(' + orExpr + ')' + block 
-	{ 
-		$arg.add(new IFStat($orExpr.result, $block.result));
-	}
+	:	'if' + '(' + orExpr + ')' + block { $arg.add(new IFStat($orExpr.result, $block.result)); }
 	;
 
 mulExpr returns [Expr result]
@@ -97,30 +93,27 @@ relExpr returns [Expr result]
 
 
 unExpr returns [Expr result]
-	:	'+' x=unExpr { $result = new Pos($x.result); }
-	|	'-' x=unExpr { $result = new Neg($x.result); }
-	|	'!' x=unExpr { $result = new Not($x.result); }
-	|	y=primary    { $result = $y.result; }
+	:	'+' x=unExpr 	{ $result = new Pos($x.result); }
+	|	'-' x=unExpr 	{ $result = new Neg($x.result); }
+	|	'!' x=unExpr 	{ $result = new Not($x.result); }
+	|	y=primary    	{ $result = $y.result; }
 	;    
 
 	
-primary
-	:literal
-	|identifier //Maybe make a variable class?
-	|'(' + orExpr + ')'
+primary returns [Expr result]
+	: literal 				{ $result = $literal.result; }
+	| identifier 			{ $result = $identifier.result; }
+	| '(' + orExpr + ')' 	{ $result = $orExpr.result; }
 	;
 
 literal returns [Expr result]
-	: INT { $result = new intLiteral(Integer.valueOf($INT.text)); } 
-	| STR { $result = new strLiteral($STR.text); } 
-	| BOOL { $result = new boolLiteral(Boolean.valueOf($BOOL.text)); }
+	: INT 	{ $result = new intLiteral(Integer.valueOf($INT.text)); } 
+	| STR 	{ $result = new strLiteral($STR.text); } 
+	| BOOL 	{ $result = new boolLiteral(Boolean.valueOf($BOOL.text)); }
 	;
 	
 identifier returns [Expr result]
-	: ID
-	{   
-		$result = new Identifier($ID.text);
-	}
+	: ID	{ $result = new Identifier($ID.text); }
 	;
 	
 type returns [Type result]

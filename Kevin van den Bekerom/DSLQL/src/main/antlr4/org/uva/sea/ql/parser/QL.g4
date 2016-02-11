@@ -45,9 +45,10 @@ elseStatement [Block result]
 	;
 	
 question [Block result]
-	:  variable ':' label t = type ('(' orExpr ')')* {
-		$result.add(new Question(new Variable($variable.text, $t.result), $label.text, $t.result));
-	}
+	: variable ':' label t = type ('(' orExpr ')')+ {
+		$result.add(new Question(new Variable($variable.text, $t.result), $label.text, $t.result, $orExpr.result));}
+	| variable ':' label t = type {
+		$result.add(new Question(new Variable($variable.text, $t.result), $label.text, $t.result, null));}
 	;
 
 variable returns [Expr result]

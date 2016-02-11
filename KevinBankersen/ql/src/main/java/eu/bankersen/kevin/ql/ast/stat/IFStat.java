@@ -1,7 +1,12 @@
 package eu.bankersen.kevin.ql.ast.stat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.form.Block;
+import eu.bankersen.kevin.ql.ast.form.Question;
+import eu.bankersen.kevin.ql.ast.var.Type;
 
 public class IFStat {
 	
@@ -13,8 +18,17 @@ public class IFStat {
 		this.body = body;
 	}
 	
+	public Boolean checkType(){
+		
+		return body.checkType() && expr.getType() == Type.BOOLEAN;
+	}
+	
 	public Block getBody(){
 		return body;
 	}
-
+	
+	@Override
+	public String toString(){
+		return body.toString();
+	}
 }

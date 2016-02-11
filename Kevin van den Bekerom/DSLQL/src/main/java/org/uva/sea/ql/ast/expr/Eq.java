@@ -1,16 +1,22 @@
 package org.uva.sea.ql.ast.expr;
 
-public class Eq extends Expr {	
-	Expr lhs, rhs;
+import org.uva.sea.ql.ast.Visitable;
+import org.uva.sea.ql.ast.Visitor;
+
+public class Eq extends BinaryExpr implements Visitable {	
 	
 	public Eq(Expr lhs, Expr rhs) {
-		this.lhs = lhs;
-		this.rhs = rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
 	}
 	
 	//TODO: different check for Strings and booleans!!! Need to know the type
 	@Override
 	public Boolean eval() {
-		return  lhs.eval() ==  rhs.eval();
+		return lhs.eval() == rhs.eval();
+	}
+	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

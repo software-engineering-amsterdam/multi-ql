@@ -19,37 +19,39 @@ public class FormParser {
 
 	public static void main(String[] args) {
 		// Lexer
-		QLLexer lexer = new QLLexer(new ANTLRInputStream("Form test{q1 \"Some Text\" bool(1+2)}\r\n"));
+		QLLexer lexer = new QLLexer(new ANTLRInputStream("Form test{"
+				+ "q1 \"My first question\" int(1+2) "
+				+ "q2 \"My seccond question\" bool(1<=2) "
+				+ "if(1<=2){ "
+				+ "q3 \"My seccond question\" int "
+				+ "q4 \"My seccond question\" str "
+				+ "if(q2){ "
+				+ "q5 \"My seccond question\" bool"
+				+ " }}"
+				+ " }\r\n"));
 
-		// Tokens
+		// Tokens.
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-		// Parse
+		// Parse.
 		QLParser p = new QLParser(tokens);
 
-		
-		FileContext fileContext = p.file();
-		
-		System.out.println(fileContext.form().toString());
-		
-		System.out.println(fileContext.form().get(0).result);
-		
+		// Contains the actual model.
+		FileContext fileContext = p.file();	
 		
 		// Here we get our Form and have our AST present!
-		Form testForm = fileContext.form().get(0).result;
-		
-		// The body of the From..
-		Block testBody = testForm.body;
-		
-		// Returns the amount of questions in the body.
-		System.out.println(testBody.getQuestions().size());
-		//System.out.println(testBody.getStatements().get(0).getBody().getQuestions().size());
+		Form form = fileContext.form().get(0).result;
 		 
+		// Form to string
+		System.out.println(form.toString());
+		
 		// Show UI
 		TreeViewer viewr = new TreeViewer(Arrays.asList(p.getRuleNames()), fileContext);
 		viewr.setScale(1.5);// scale a little
+		viewr.open(); // Open the viewer
 		
-		viewr.open();	
+		//TypeChecker test
+		System.out.println("TypeCheck result: " + form.checkType());
 		
 	}
 }

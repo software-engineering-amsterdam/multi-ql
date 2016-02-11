@@ -1,0 +1,71 @@
+package eu.bankersen.kevin.ql.parser;
+
+import java.util.Arrays;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
+
+import eu.bankersen.kevin.ql.ast.expr.*;
+import eu.bankersen.kevin.ql.ast.expr.logic.*;
+import eu.bankersen.kevin.ql.ast.expr.math.*;
+import eu.bankersen.kevin.ql.ast.stat.*;
+import eu.bankersen.kevin.ql.ast.form.*;
+import eu.bankersen.kevin.ql.ast.var.*;
+import eu.bankersen.kevin.ql.parser.QLParser.FileContext;
+
+public class FormParser {
+
+	public static void main(String[] args) {
+		// Lexer
+		QLLexer lexer = new QLLexer(new ANTLRInputStream("Form test{q1 \"Some Text\" bool(1+2)}\r\n"));
+
+		// Tokens
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+		// Parse
+		QLParser p = new QLParser(tokens);
+
+		
+		FileContext fileContext = p.file();
+		
+		System.out.println(fileContext.form().toString());
+		
+		System.out.println(fileContext.form().get(0).result);
+		
+		
+		// Here we get our Form and have our AST present!
+		Form testForm = fileContext.form().get(0).result;
+		
+		// The body of the From..
+		Block testBody = testForm.body;
+		
+		// Returns the amount of questions in the body.
+		System.out.println(testBody.getQuestions().size());
+		//System.out.println(testBody.getStatements().get(0).getBody().getQuestions().size());
+		 
+		// Show UI
+		TreeViewer viewr = new TreeViewer(Arrays.asList(p.getRuleNames()), fileContext);
+		viewr.setScale(1.5);// scale a little
+		
+		viewr.open();
+		
+		interpExpr x = new interpExpr();
+		
+		intLiteral a = new intLiteral(1);
+		intLiteral b = new intLiteral(8);
+		
+		intLiteral d = new intLiteral(19);
+		
+		Add e = new Add(a, b);
+		
+		Add c = new Add(d, e);
+		
+		System.out.println(c.getType());
+		
+		//System.out.println("CheckType: " + e.checkType());
+		System.out.println("Result: " + c.result(x));
+		
+	}
+}
