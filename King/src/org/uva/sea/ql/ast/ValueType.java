@@ -1,11 +1,11 @@
 package org.uva.sea.ql.ast;
 
-public enum VALUETYPE {
+public enum ValueType {
 	BOOLEAN("boolean"), INTEGER("integer"), STRING("string"), MONEY("money");
 
 	private final String name;
 
-	private VALUETYPE(String name) {
+	private ValueType(String name) {
 		this.name = name;
 	}
 
@@ -13,8 +13,8 @@ public enum VALUETYPE {
 		return name;
 	}
 
-	public static VALUETYPE getByName(String name) {
-		for (VALUETYPE type : values()) {
+	public static ValueType getByName(String name) {
+		for (ValueType type : values()) {
 			if (type.name.equals(name)) {
 				return type;
 			}

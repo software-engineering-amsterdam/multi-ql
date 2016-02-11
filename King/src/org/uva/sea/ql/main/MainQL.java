@@ -9,15 +9,25 @@ import javax.swing.JPanel;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.BufferedTokenStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.TerminalNode;
+import org.antlr.v4.runtime.tree.Tree;
 import org.uva.sea.ql.ast.Edge;
 import org.uva.sea.ql.ast.Graph;
 import org.uva.sea.ql.ast.Vertex;
+import org.uva.sea.ql.ast.TaxForm.Form;
+import org.uva.sea.ql.parser.antlr.AST;
 import org.uva.sea.ql.parser.antlr.GraphBaseListener;
 import org.uva.sea.ql.parser.antlr.GraphLexer;
 import org.uva.sea.ql.parser.antlr.GraphParser;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
+import org.uva.sea.ql.parser.antlr.QLParser.FileContext;
+import org.uva.sea.ql.parser.antlr.QLParser.FormContext;
 
 
 public class MainQL {
@@ -33,57 +43,23 @@ public class MainQL {
 
 	    //Passing the tokens to the parser to create the parse trea. 
 	    QLParser parser = new QLParser(tokens);
-	   // parser.getBuildParseTree();
-	    //Semantic model to be populated
-	    /**Graph g = new Graph();
-
-	    //Adding the listener to facilitate walking through parse tree. 
-	    parser.addParseListener(new MyGraphBaseListener(g));
-	    
-	    //invoking the parser. 
-	    parser.graph();
-
-	    Graph.printGraph(g);*/
-	    
-	    
 	   
-	  //show AST in GUI
-        JFrame frame = new JFrame("Antlr AST");
-        JPanel panel = new JPanel();
-        TreeViewer viewr = new TreeViewer(Arrays.asList(parser.getRuleNames()), parser.form());
-        viewr.setScale(1.5);//scale a little
-        panel.add(viewr);
-        frame.add(panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500);
-        frame.setVisible(true);
+	    //Tree ast = new AST(parser.form());
+	    FileContext fileContext = parser.file();
+	    Form tree = fileContext.form(0).result;
+	    //System.out.println(tree.toStringTree());
+	    System.out.println(tree);
+	    //show AST in GUI
+        //JFrame frame = new JFrame("Antlr AST");
+         //JPanel panel = new JPanel();
+        //TreeViewer viewr = new TreeViewer(Arrays.asList(parser.getRuleNames()),tree);
+        //viewr.setScale(1.5);//scale a little
+        //viewr.open();
+        
+        
 
 	}
 
 }
 
-/**
- * Listener used for walking through the parse tree.
- 
 
-class MyGraphBaseListener extends GraphBaseListener {
-
-  Graph g;
-
-  public MyGraphBaseListener(Graph g) {
-    this.g = g;
-  }
-
-  @Override
-  public void exitEdge(GraphParser.EdgeContext ctx) {
-    //Once the edge rule is exited the data required for the edge i.e 
-    //vertices and the weight would be available in the EdgeContext
-    //and the same can be used to populate the semantic model
-    Vertex fromVertex = new Vertex(ctx.vertex(0).ID().getText());
-    Vertex toVertex = new Vertex(ctx.vertex(1).ID().getText());
-    double weight = Double.parseDouble(ctx.NUM().getText());
-    Edge e = new Edge(fromVertex, toVertex, weight);
-    g.addEdge(e);
-  }
-}
-*/

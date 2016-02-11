@@ -1,11 +1,11 @@
 package org.uva.sea.ql.ast;
 
-public class VARIDENTIFIER {
+public class VarIdentifier {
 	private final String name;
 	
-	private VALUETYPE type;
+	private ValueType type;
 
-	public VARIDENTIFIER(String name) {
+	public VarIdentifier(String name) {
 		this.name = name;
 	}
 
@@ -13,11 +13,11 @@ public class VARIDENTIFIER {
 		return name;
 	}
 
-	public VALUETYPE getType() {
+	public ValueType getType() {
 		return type;
 	}
 
-	public void setType(VALUETYPE type) {
+	public void setType(ValueType type) {
 		this.type = type;
 	}
 }
