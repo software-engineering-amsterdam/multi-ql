@@ -13,8 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    lazy var mainViewController: MainViewController = {
-        return MainViewController(nibName:"MainView", bundle:nil)
+    lazy var rootViewController: RootViewController = {
+        return RootViewController(nibName:"RootView", bundle:nil)
     }()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         
         if let window = window {
-            window.rootViewController = mainViewController
+            window.rootViewController = rootViewController
             window.makeKeyAndVisible()
         }
         
