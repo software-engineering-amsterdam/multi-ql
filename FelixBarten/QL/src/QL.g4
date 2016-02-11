@@ -13,7 +13,8 @@ options { }
 
 }
  
-form : 'form' Ident block
+form returns [Form result]
+	: 'form' Ident block
 	;
 
 block :  '{' expr* '}'
@@ -28,17 +29,88 @@ expr : question
 /* question	: WS*? Str WS*? Ident WS*? ':' WS*? question_type WS*? { }
 	;
 */
-question: Str Ident ':' question_type 
-;
-
-
-// Tokens
-question_type :
-	| STRING_TYPE
+question_type returns [QuestionType result] 
+	: STRING_TYPE
 	| INTEGER_TYPE
 	| MONEY_TYPE
 	| BOOLEAN_TYPE
 	;
+	
+question returns [Question result]
+	: q_text=Str identity=Ident ':' qt=question_type { $result = new Question($q_text, $identity, $qt.result); }
+	;
+
+
+unExpr returns [Expr result]
+    :  '+' x=unExpr { $result = new Pos($x.result); }
+    |  '-' x=unExpr { $result = new Neg($x.result); }
+    |  '!' x=unExpr { $result = new Not($x.result); }
+ //   |  x=primary    { $result = $x.result; }
+    ;
+    
+primary: ;
+    
+    
+mulExpr returns [Expr result]
+    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
+    { 
+      if ($op.text.equals("*")) {
+        $result = new Mul($result, rhs);
+      }
+      if ($op.text.equals("<=")) {
+        $result = new Div($result, rhs);      
+      }
+    })*
+    ;
+    
+  
+addExpr returns [Expr result]
+    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
+    { 
+      if ($op.text.equals("+")) {
+        $result = new Add($result, rhs);
+      }
+      if ($op.text.equals("-")) {
+        $result = new Sub($result, rhs);      
+      }
+    })*
+    ;
+  
+relExpr returns [Expr result]
+    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
+    { 
+      if ($op.text.equals("<")) {
+        $result = new LT($result, rhs);
+      }
+      if ($op.text.equals("<=")) {
+        $result = new LEq($result, rhs);      
+      }
+      if ($op.text.equals(">")) {
+        $result = new GT($result, rhs);
+      }
+      if ($op.text.equals(">=")) {
+        $result = new GEq($result, rhs);      
+      }
+      if ($op.text.equals("==")) {
+        $result = new Eq($result, rhs);
+      }
+      if ($op.text.equals("!=")) {
+        $result = new NEq($result, rhs);
+      }
+    })*
+    ;
+    
+andExpr returns [Expr result]
+    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, rhs); } )*
+    ;
+    
+
+orExpr returns [Expr result]
+    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, rhs); } )*
+    ;
+
+
+// Tokens
 
 BOOLEAN_TYPE : 'boolean';
 MONEY_TYPE : 'money';
