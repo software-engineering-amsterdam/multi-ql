@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LexerExprTest {
+public class LexerTest {
     
     private ArrayList<Integer> expectedResultComplexExpression;
     
@@ -66,6 +66,39 @@ public class LexerExprTest {
         expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add((int) '+');
         expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.ENDINPUT);
+        assertEquals(expectedTokens, tokens);
+    }
+    
+    @Test
+    public void testQuestionAnalysis() throws FileNotFoundException {
+        Lexer lexer = new Lexer("question.ql");
+        ArrayList<Integer> tokens = obtainTokens(lexer);
+        
+        ArrayList<Integer> expectedTokens = new ArrayList<>();
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.BOOLEAN);
+        expectedTokens.add(Tokens.ENDINPUT);
+        assertEquals(expectedTokens, tokens);
+    }
+    
+    @Test
+    public void testComputedQuestionAnalysis() throws FileNotFoundException {
+        Lexer lexer = new Lexer("computedQuestion.ql");
+        ArrayList<Integer> tokens = obtainTokens(lexer);
+        
+        ArrayList<Integer> expectedTokens = new ArrayList<>();
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.MONEY);
+        expectedTokens.add((int) '(');
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) '-');
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ')');
         expectedTokens.add(Tokens.ENDINPUT);
         assertEquals(expectedTokens, tokens);
     }
