@@ -6,10 +6,12 @@ public abstract class Expr extends ASTNode {
     
     private boolean canBeBoolean;
     private boolean canBeNumeric;
+    private boolean canBeString;
     
-    public Expr(boolean canBeBooleanExpr, boolean canBeNumericExpr) {
+    public Expr(boolean canBeBooleanExpr, boolean canBeNumericExpr, boolean canBeStringExpr) {
         canBeBoolean = canBeBooleanExpr;
         canBeNumeric = canBeNumericExpr;
+        canBeString = canBeStringExpr;
     }
     
     public boolean canBeBoolean() {
@@ -20,4 +22,8 @@ public abstract class Expr extends ASTNode {
         return canBeNumeric;
     }
     
+    
+    public boolean canBeString() {
+        return canBeString;
+    }
 }

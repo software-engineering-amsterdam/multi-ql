@@ -10,7 +10,7 @@ public class Bool extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass().equals(o.getClass())) {
+        if (getClass() == o.getClass()) {
             Bool other = (Bool) o;
             return value == other.value;
         }

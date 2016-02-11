@@ -17,7 +17,7 @@ public abstract class SingleExprArgumentNumericExpr extends NumericExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass().equals(o.getClass())) {
+        if (getClass() == o.getClass()) {
             SingleExprArgumentNumericExpr other = (SingleExprArgumentNumericExpr) o;
             return content.equals(other.content);
         }

@@ -25,7 +25,7 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass().equals(o.getClass())) {
+        if (getClass() == o.getClass()) {
             BooleanConjunctiveExpr other = (BooleanConjunctiveExpr) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
