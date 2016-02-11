@@ -30,10 +30,12 @@ import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.stat.IFStat;
+import org.uva.ql.ui.QLQuestionaire;
 
 public class TypeChecker {
 
 	public TypeChecker(Form form) {
+		QLQuestionaire questionaire;
 		QLInterpreter interpreter;
 
 		// Initialize symbol table.
@@ -48,9 +50,8 @@ public class TypeChecker {
 		interpreter = new QLInterpreter();
 		form.accept(interpreter);
 
-		JFrame jframe = interpreter.getFrame();
-		jframe.pack();
-		jframe.setVisible(true);
+		questionaire = interpreter.getQuestionaire();
+		questionaire.show();
 
 	}
 

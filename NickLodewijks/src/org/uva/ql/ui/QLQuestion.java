@@ -4,27 +4,11 @@ import javax.swing.JComponent;
 
 import org.uva.ql.ast.expr.Context;
 
-public class QLQuestion {
+public interface QLQuestion {
 
-	private final QLWidget label;
-	private final QLWidget input;
+	public void setContext(Context context);
 
-	public QLQuestion(QLWidget label, QLWidget input) {
-		this.label = label;
-		this.input = input;
-	}
+	public JComponent getLabelComponent();
 
-	public void setContext(Context context) {
-		label.setContext(context);
-		input.setContext(context);
-	}
-
-	public JComponent getLabelComponent() {
-		return label.getComponent();
-	}
-
-	public JComponent getInputComponent() {
-		return input.getComponent();
-	}
-
+	public JComponent getInputComponent();
 }

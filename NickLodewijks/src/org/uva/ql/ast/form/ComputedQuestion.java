@@ -23,9 +23,4 @@ public class ComputedQuestion extends Question {
 	public void accept(ASTNodeVisitor visitor) {
 		visitor.visit(this);
 	}
-
-	@Override
-	public QLQuestion getUIComponent(WidgetFactory factory) {
-		return factory.create(this);
-	}
 }
