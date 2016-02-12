@@ -17,7 +17,7 @@ import org.uva.sea.ql.parser.QLLexer;
 import org.uva.sea.ql.parser.QLParser;
 import org.uva.sea.ql.parser.QLParser.FormContext;
 import org.uva.sea.utils.Utils;
-import org.uva.sea.ql.ast.DependancyVisitor;
+import org.uva.sea.ql.ast.DependencyVisitor;
 import org.uva.sea.ql.ast.NodeCollector;
 import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.*;
@@ -70,7 +70,7 @@ public class App
 	}
 	
 	public static void testDependancy(QLParser parser) {
-		DependancyVisitor v = new DependancyVisitor();
+		DependencyVisitor v = new DependencyVisitor();
 		FormContext fc = parser.form(); // begin parsing at init rule
 		fc.b.result.accept(v);
 	}

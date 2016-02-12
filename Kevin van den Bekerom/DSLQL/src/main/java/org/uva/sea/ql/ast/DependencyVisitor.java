@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.uva.sea.ql.ast.expr.*;
 
-public class DependancyVisitor extends LeftDFSVisitor {
+public class DependencyVisitor extends LeftDFSVisitor {
 	private Set<String> visited; // keep track of visited questions that are safe.
 	private Set<String> undefinedQuestionIDs;
 	boolean cyclicDependancy;
@@ -19,7 +19,7 @@ public class DependancyVisitor extends LeftDFSVisitor {
 	private NodeCollector collector;
 	boolean add = true;
 	
-	public DependancyVisitor() {
+	public DependencyVisitor() {
 		cyclicDependancy = false;
 		undefinedQuestions = new ArrayList<Question>();
 		collector = new NodeCollector();
