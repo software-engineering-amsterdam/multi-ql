@@ -5,9 +5,6 @@ import org.uva.sea.ql.ast.checker.message.Message;
 import org.uva.sea.ql.ast.checker.message.WarningMessage;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
-import org.uva.sea.ql.ast.tree.expr.binary.BinaryExpr;
-import org.uva.sea.ql.ast.tree.expr.unary.Primary;
-import org.uva.sea.ql.ast.tree.expr.unary.UnaryExpr;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
@@ -24,7 +21,7 @@ public class Checker {
 
     public List<Message> undefinedChecker(Form f){
         List<Message> messages = new ArrayList<>();
-        List<Node> undefined = (new UndefinedVarsCheck(f)).getUndefined();
+        List<Node> undefined = (new UndefinedVarCheck(f)).getUndefined();
 
         for(Node n : undefined){
             StringBuilder sb = new StringBuilder();
@@ -59,7 +56,7 @@ public class Checker {
         return messages;
     }
 
-    public List<Message> invalidConditionChecker(Form f){
+    public List<Message> invalidExpressionChecker(Form f){
         List<Message> messages = new ArrayList<>();
         List<Node> invalidExpressions = (new InvalidExpressionCheck(f)).getInvalidExpressions();
 

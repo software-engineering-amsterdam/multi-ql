@@ -3,7 +3,7 @@
  * 1 + 1 || true && true
  * true || true || 1
  * <1: Q2_money + Q2_money == Q3_boolean> && Q3_boolean != Q4_boolean
- * <1: Q1_boolean + 1 == Q1_money> &&  <2: Q3_boolean != 1>
+ * <1: Q1_boolean + 1> == Q1_money &&  <2: Q3_boolean != 1>
  */
 
 form conditions2 {

@@ -9,12 +9,10 @@ import org.uva.sea.ql.parser.*;
  */
 public class Test {
     public static void main(String[] args) throws Throwable {
-        Form f2 = QLRunner.ParseFromPath("src/main/resources/duplicate1.ql");
-        Form f4 = QLRunner.ParseFromPath("src/main/resources/expressions2.ql");
+        //Form f1 = QLRunner.ParseFromPath("src/main/resources/duplicates1.ql");
 
-        Checker chk = new Checker();
-        chk.duplicateChecker(f2);
-        chk.invalidConditionChecker(f4);
+        //Checker chk = new Checker();
+        //chk.duplicateChecker(f1);
 
     }
 }

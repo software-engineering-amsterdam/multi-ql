@@ -16,6 +16,6 @@ public abstract class UnaryExpr extends Expr {
 
     @Override
     public String toString() {
-        return this.getSymbol() + " " + this.getValue().toString();
+        return this.getSymbol() + this.getValue().toString();
     }
 }

@@ -22,11 +22,11 @@ public abstract class Message {
 
     public abstract Type getType();
 
-    public String getMsgList() {
+    public String getMsg() {
         return msgStr;
     }
 
-    public Node getNodeList() {
+    public Node getNode() {
         return msgNode;
     }
 }

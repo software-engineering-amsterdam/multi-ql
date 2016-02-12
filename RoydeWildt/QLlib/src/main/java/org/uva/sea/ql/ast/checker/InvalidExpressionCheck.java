@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast.checker;
 
 import org.uva.sea.ql.ast.tree.Node;
+import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
@@ -184,7 +185,8 @@ public class InvalidExpressionCheck extends BaseVisitor{
     }
 
     private void addInvalidExpression(UnaryExpr expr, Type.Types type){
-        if(!rightType(expr.accept(this.getV()), type))
+        Expr e = expr.getValue();
+        if(!rightType(e.accept(this.getV()), type))
             if(!subExpressionExists(invalidExpressions, expr))
                 invalidExpressions.add(expr);
     }
