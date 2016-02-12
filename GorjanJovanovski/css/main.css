@@ -9,14 +9,14 @@ html, body{
 	height: 100%;
 }
 
-#errorpanel{
+#errorPanel{
 	display: none;
 	float: left;
 	width: 70%;
 	margin-top: 32px;
 }
 
-#warningpanel{
+#warningPanel{
 	display: none;
 	width: 100%;
 }

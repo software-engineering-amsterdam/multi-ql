@@ -5,12 +5,8 @@ var MyGrammerLexer = require('MyGrammerLexer');
 var MyGrammerParser = require('MyGrammerParser');
 var MyGrammerListener = require('MyGrammerListener');
 var MyGrammerVisitor = require('MyGrammerVisitor');
-
-
 var editor = ace.edit("input");
 
 var ast;
-var errors;
-var warnings;
 
 initiate(editor.getValue());
