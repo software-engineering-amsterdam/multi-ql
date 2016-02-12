@@ -25,5 +25,10 @@ public class Block extends ASTNode implements Visitable {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+	
+	@Override
+	public String toString() {
+		return "Block";
+	}
 
 }

@@ -8,6 +8,7 @@ public class Or extends BinaryExpr implements Visitable {
 	public Or(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
 		super.rhs = rhs;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override
