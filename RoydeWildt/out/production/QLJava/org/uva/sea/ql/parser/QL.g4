@@ -3,35 +3,21 @@ grammar QL;
 @parser::header
 {
 import java.util.List;
-import java.io.IOException;
-import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.val.*;
-import org.uva.sea.ql.ast.form.*;
-import org.uva.sea.ql.ast.var.*;
+
+import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.tree.expr.binary.*;
+import org.uva.sea.ql.ast.tree.expr.unary.*;
+import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.val.*;
+import org.uva.sea.ql.ast.tree.form.*;
+import org.uva.sea.ql.ast.tree.type.Boolean;
+import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.type.Type;
 }
 
 @parser::members
 {
-public static List<Form> ParseForm(String path) {
-		QLLexer lex = null;
-		try {
-			lex = new QLLexer(new ANTLRFileStream(path));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-		CommonTokenStream tok = new CommonTokenStream(lex);
-	    QLParser par = new QLParser(tok);
-
-		List<Form> result = null;
-	    try{
-	        result = par.forms().result;
-	    } catch (RecognitionException e) {
-			e.printStackTrace();
-	    }
-		return result;
-}
 }
 
 /*
@@ -41,7 +27,7 @@ public static List<Form> ParseForm(String path) {
 //Form Grammar
 
 form returns [Form result]
-    : 'form' i=Ident '{' s=stats '}' {$result = new Form($i.text, $s.result);}
+    : 'form' i=Ident '{' s=stats '}' {$result = new Form($i.getLine(), $i.text, $s.result);}
     ;
 
 forms returns [List<Form> result]
@@ -52,22 +38,22 @@ forms returns [List<Form> result]
 
 //Stat Grammar
 varDecl returns [Var result]
-    : i=Ident {$result = new Var($i.text);}
+    : i=Ident {$result = new Var($i.getLine(), $i.text);}
     ;
 
 varAss returns [Expr result]
-    : ('=' '(' x=orExpr ')') {$result = $x.result;}
+    : '=' '(' x=orExpr ')' {$result = $x.result;}
     ;
 
 question returns [Stat result]
-    : l=Str v=varDecl ':'  t=type {$result = new Question($l.text, $v.result, $t.result);}
-    | l=Str v=varDecl ':'  t=type e=varAss {$result = new Question($l.text, $v.result, $t.result, $e.result);}
+    : l=Str v=varDecl ':'  t=type  {$result = new Question($l.getLine(), $l.text, $v.result, $t.result);}
+    | l=Str v=varDecl ':'  t=type e=varAss {$result = new AssQuestion($l.getLine(), $l.text, $v.result, $t.result, $e.result);}
     ;
 
 stat returns [Stat result]
     : q=question {$result = $q.result;}
-    | 'if' '(' c=orExpr ')' '{' s=stats '}' {$result = new If($c.result, $s.result);}
-    | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}' {$result = new IfElse($c.result, $i.result, $e.result);}
+    | 'if' '(' c=orExpr ')' '{' s=stats '}' {$result = new If($c.start.getLine(), $c.result, $s.result);}
+    | 'if' '(' c=orExpr ')' '{' i=stats '}' 'else' '{' e=stats '}'{$result = new IfElse($c.start.getLine(), $c.result, $i.result, $e.result);}
     ;
 
 stats returns [List<Stat> result]
@@ -78,15 +64,15 @@ stats returns [List<Stat> result]
 
 //Expression Grammar
 primary returns [Expr result]
-    :   x=Int   {$result = new Int($x.text);}
-    |   x=Ident {$result = new Var($x.text);}
-    |   y=bool  {$result = $y.result;}
+    :   x=num   {$result = new Primary($x.start.getLine(), $x.result);}
+    |   y=id    {$result = new Primary($y.start.getLine(), $y.result);}
+    |   z=bool  {$result = new Primary($z.start.getLine(), $z.result);}
     ;
 
 unExpr returns [Expr result]
-    :  '+' value=unExpr { $result = new Pos($value.result); }
-    |  '-' value=unExpr { $result = new Neg($value.result); }
-    |  '!' value=unExpr { $result = new Not($value.result); }
+    :  '+' value=unExpr { $result = new Pos($value.start.getLine(), $value.result); }
+    |  '-' value=unExpr { $result = new Neg($value.start.getLine(), $value.result); }
+    |  '!' value=unExpr { $result = new Not($value.start.getLine(), $value.result); }
     |  y=primary    { $result = $y.result; }
     ;
     
@@ -94,10 +80,10 @@ mulExpr returns [Expr result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr
     { 
       if ($op.text.equals("*")) {
-        $result = new Mul($result, $rhs.result);
+        $result = new Mul($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("/")) {
-        $result = new Div($result, $rhs.result);
+        $result = new Div($lhs.start.getLine(), $result, $rhs.result);
       }
     })*
     ;
@@ -106,10 +92,10 @@ addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     { 
       if ($op.text.equals("+")) {
-        $result = new Add($result, $rhs.result);
+        $result = new Add($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("-")) {
-        $result = new Sub($result, $rhs.result);
+        $result = new Sub($lhs.start.getLine(), $result, $rhs.result);
       }
     })*
     ;
@@ -119,46 +105,56 @@ relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
     { 
       if ($op.text.equals("<")) {
-        $result = new LT($result, $rhs.result);
+        $result = new LT($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LEq($result, $rhs.result);
+        $result = new LEq($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, $rhs.result);
+        $result = new GT($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GEq($result, $rhs.result);
+        $result = new GEq($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("==")) {
-        $result = new Eq($result, $rhs.result);
+        $result = new Eq($lhs.start.getLine(), $result, $rhs.result);
       }
       if ($op.text.equals("!=")) {
-        $result = new NEq($result, $rhs.result);
+        $result = new NEq($lhs.start.getLine(), $result, $rhs.result);
       }
     })*
     ;
     
 andExpr returns [Expr result]
-    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
+    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr
+        { $result = new And($lhs.start.getLine(), $result, $rhs.result); } )*
     ;
     
 
 orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
+    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr
+        { $result = new Or($lhs.start.getLine(), $result, $rhs.result); } )*
     ;
 
 
 //Type Grammar
 
-type returns [Val result]
-    : 'boolean'  {$result = new Bool();}
-    | 'money'    {$result = new Int();}
+type returns [Type result]
+    : x=Boolean  {$result = new Boolean($x.getLine());}
+    | x=Money    {$result = new Money($x.getLine());}
     ;
 
 bool returns [Val result]
-    : value=True  {$result = new Bool($value.text);}
-    | value=False {$result = new Bool($value.text);}
+    : value=True  {$result = new Bool($value.getLine(), $value.text);}
+    | value=False {$result = new Bool($value.getLine(), $value.text);}
+    ;
+
+num returns [Val result]
+    : value=Int {$result = new Int($value.getLine(), $value.text); }
+    ;
+
+id returns [Val result]
+    : value=Ident {$result = new Var($value.getLine(), $value.text); }
     ;
     
 /*
@@ -169,6 +165,9 @@ COMMENT     : ( '//' ~[\r\n]* '\r'? '\n' | '/*' .*? '*/') -> channel(HIDDEN) ;
 
 True        : 'true';
 False       : 'false';
+
+Boolean     : 'boolean';
+Money       : 'money';
 
 Ident       :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

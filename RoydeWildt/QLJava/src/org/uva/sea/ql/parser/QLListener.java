@@ -1,8 +1,7 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /home/roy/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 
 import java.util.List;
-import java.io.IOException;
 
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
@@ -10,7 +9,6 @@ import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.val.*;
 import org.uva.sea.ql.ast.tree.form.*;
-import org.uva.sea.ql.ast.tree.var.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.type.Type;
@@ -182,4 +180,24 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBool(QLParser.BoolContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#num}.
+	 * @param ctx the parse tree
+	 */
+	void enterNum(QLParser.NumContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#num}.
+	 * @param ctx the parse tree
+	 */
+	void exitNum(QLParser.NumContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#id}.
+	 * @param ctx the parse tree
+	 */
+	void enterId(QLParser.IdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#id}.
+	 * @param ctx the parse tree
+	 */
+	void exitId(QLParser.IdContext ctx);
 }

@@ -5,7 +5,7 @@ import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.val.*;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.val.Var;
 
 /**
  * Created by roydewildt on 10/02/16.
@@ -182,7 +182,7 @@ public class BaseVisitor implements Visitor {
     @Override
     public <T> T visit(Neg expr) {
 
-        expr.getVal().accept(v);
+        expr.getValue().accept(v);
 
         return null;
     }
@@ -190,7 +190,7 @@ public class BaseVisitor implements Visitor {
     @Override
     public <T> T visit(Not expr) {
 
-        expr.getVal().accept(v);
+        expr.getValue().accept(v);
 
         return null;
     }
@@ -198,7 +198,15 @@ public class BaseVisitor implements Visitor {
     @Override
     public <T> T visit(Pos expr) {
 
-        expr.getVal().accept(v);
+        expr.getValue().accept(v);
+
+        return null;
+    }
+
+    @Override
+    public <T> T visit(Primary expr) {
+
+        expr.getValue().accept(v);
 
         return null;
     }

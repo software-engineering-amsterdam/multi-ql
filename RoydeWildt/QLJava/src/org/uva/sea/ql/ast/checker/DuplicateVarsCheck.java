@@ -3,7 +3,7 @@ package org.uva.sea.ql.ast.checker;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 
 import java.util.ArrayList;
@@ -16,12 +16,10 @@ import java.util.Map;
  */
 public class DuplicateVarsCheck extends BaseVisitor {
 
-    private final List<Node> decls;
-    private final Map<Var, List<Node>> duplicates;
+    private final List<Node> decls = new ArrayList<>();
+    private final Map<Var, List<Node>> duplicates = new HashMap<>();
 
     public DuplicateVarsCheck(Form f) {
-        this.decls = new ArrayList<>();
-        this.duplicates = new HashMap<>();
 
         f.accept(this);
     }

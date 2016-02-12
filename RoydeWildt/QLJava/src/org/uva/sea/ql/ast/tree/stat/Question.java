@@ -2,8 +2,7 @@ package org.uva.sea.ql.ast.tree.stat;
 
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.visitor.Visitor;
-import org.uva.sea.ql.ast.tree.val.Val;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.val.Var;
 
 /**
  * Created by roydewildt on 04/02/16.

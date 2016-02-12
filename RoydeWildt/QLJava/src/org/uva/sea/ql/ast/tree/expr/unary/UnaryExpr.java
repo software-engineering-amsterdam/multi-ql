@@ -1,25 +1,21 @@
 package org.uva.sea.ql.ast.tree.expr.unary;
 
 import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.visitor.Visitor;
 
 /**
  * Created by roydewildt on 10/02/16.
  */
 public abstract class UnaryExpr extends Expr {
-    private Expr val;
 
-    public UnaryExpr(int line, Expr val) {
+    public UnaryExpr(int line) {
         super(line);
-        this.val = val;
     }
 
-    public Expr getVal() {
-        return val;
-    }
-
+    public abstract <T> T getValue();
 
     @Override
     public String toString() {
-        return this.getSymbol() + " " + val.toString();
+        return this.getSymbol() + " " + this.getValue().toString();
     }
 }

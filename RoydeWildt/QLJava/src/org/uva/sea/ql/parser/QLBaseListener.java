@@ -1,8 +1,7 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /home/roy/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 
 import java.util.List;
-import java.io.IOException;
 
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
@@ -10,7 +9,6 @@ import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.val.*;
 import org.uva.sea.ql.ast.tree.form.*;
-import org.uva.sea.ql.ast.tree.var.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.type.Type;
@@ -218,6 +216,30 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBool(QLParser.BoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNum(QLParser.NumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNum(QLParser.NumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterId(QLParser.IdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitId(QLParser.IdContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

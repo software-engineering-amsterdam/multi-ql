@@ -7,8 +7,11 @@ import org.uva.sea.ql.ast.tree.expr.Expr;
  * Created by roydewildt on 04/02/16.
  */
 public class Not extends UnaryExpr {
+    Expr value;
+
     public Not (int line, Expr lhs){
-        super(line, lhs);
+        super(line);
+        this.value = lhs;
     }
     public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
@@ -17,5 +20,9 @@ public class Not extends UnaryExpr {
     @Override
     public String getSymbol() {
         return "!";
+    }
+
+    public Expr getValue() {
+        return value;
     }
 }

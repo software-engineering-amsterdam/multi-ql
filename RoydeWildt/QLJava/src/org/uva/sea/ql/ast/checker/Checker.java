@@ -2,9 +2,12 @@ package org.uva.sea.ql.ast.checker;
 
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.tree.expr.binary.BinaryExpr;
+import org.uva.sea.ql.ast.tree.expr.unary.Primary;
+import org.uva.sea.ql.ast.tree.expr.unary.UnaryExpr;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.val.Var;
 
 import java.util.List;
 
@@ -58,7 +61,8 @@ public class Checker {
             sb.append("Expression ");
             sb.append(e.toString());
             sb.append(" (line " + e.getLine() + ")");
-            sb.append(" contains incompatible types");
+            sb.append(" has incompatible argument types ");
+
             System.out.println(sb.toString());
         }
     }

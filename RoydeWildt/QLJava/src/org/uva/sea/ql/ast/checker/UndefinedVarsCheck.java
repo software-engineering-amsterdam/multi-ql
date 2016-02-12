@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.AssQuestion;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 
 import java.util.ArrayList;
@@ -15,13 +15,11 @@ import java.util.List;
  */
 public class UndefinedVarsCheck extends BaseVisitor {
 
-    private final List<Node> decls;
-    private final List<Node> undefined;
+    private final List<Node> decls = new ArrayList<>();
+    private final List<Node> undefined = new ArrayList<>();
 
 
     public UndefinedVarsCheck(Form f) {
-        this.decls = new ArrayList<>();
-        this.undefined = new ArrayList<>();
 
         f.accept(this);
     }

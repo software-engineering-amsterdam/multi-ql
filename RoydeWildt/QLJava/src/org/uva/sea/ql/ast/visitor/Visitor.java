@@ -5,8 +5,6 @@ import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.val.*;
-import org.uva.sea.ql.ast.tree.var.*;
-
 
 
 /**
@@ -36,6 +34,7 @@ public interface Visitor {
     <T> T visit(Neg expr);
     <T> T visit(Not expr);
     <T> T visit(Pos expr);
+    <T> T visit(Primary expr);
 
     <T> T visit(Bool  val);
     <T> T visit(Int  val);

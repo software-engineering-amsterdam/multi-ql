@@ -3,7 +3,6 @@ grammar QL;
 @parser::header
 {
 import java.util.List;
-import java.io.IOException;
 
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
@@ -11,7 +10,6 @@ import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.val.*;
 import org.uva.sea.ql.ast.tree.form.*;
-import org.uva.sea.ql.ast.tree.var.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.type.Type;
@@ -19,25 +17,7 @@ import org.uva.sea.ql.ast.tree.type.Type;
 
 @parser::members
 {
-public static List<Form> ParseForm(String path) {
-		QLLexer lex = null;
-		try {
-			lex = new QLLexer(new ANTLRFileStream(path));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-		CommonTokenStream tok = new CommonTokenStream(lex);
-	    QLParser par = new QLParser(tok);
-
-		List<Form> result = null;
-	    try{
-	        result = par.forms().result;
-	    } catch (RecognitionException e) {
-			e.printStackTrace();
-	    }
-		return result;
-}
 }
 
 /*
@@ -84,9 +64,9 @@ stats returns [List<Stat> result]
 
 //Expression Grammar
 primary returns [Expr result]
-    :   x=Int   {$result = new Int($x.getLine(), $x.text);}
-    |   x=Ident {$result = new Var($x.getLine(), $x.text);}
-    |   y=bool  {$result = $y.result;}
+    :   x=num   {$result = new Primary($x.start.getLine(), $x.result);}
+    |   y=id    {$result = new Primary($y.start.getLine(), $y.result);}
+    |   z=bool  {$result = new Primary($z.start.getLine(), $z.result);}
     ;
 
 unExpr returns [Expr result]
@@ -167,6 +147,14 @@ type returns [Type result]
 bool returns [Val result]
     : value=True  {$result = new Bool($value.getLine(), $value.text);}
     | value=False {$result = new Bool($value.getLine(), $value.text);}
+    ;
+
+num returns [Val result]
+    : value=Int {$result = new Int($value.getLine(), $value.text); }
+    ;
+
+id returns [Val result]
+    : value=Ident {$result = new Var($value.getLine(), $value.text); }
     ;
     
 /*

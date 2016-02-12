@@ -1,16 +1,17 @@
 package org.uva.sea.ql.ast.tree.val;
 
+import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.visitor.Visitor;
 
 /**
  * Created by roydewildt on 04/02/16.
  */
 public class Int extends Val {
-    Integer value;
+    private Integer value;
 
     public Int(int line, String x){
         super(line);
-        Integer.valueOf(x);
+        this.value = Integer.valueOf(x);
     }
 
     public <T> T accept(Visitor visitor) {
@@ -26,8 +27,4 @@ public class Int extends Val {
         return value;
     }
 
-    @Override
-    public String getSymbol() {
-        return null;
-    }
 }
