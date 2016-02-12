@@ -56,4 +56,29 @@ public class NodeCollector extends LeftDFSVisitor {
 	public List<Question> getQuestions() {
 		return this.questions;
 	}
+	
+	public List<String> getQuestionIdentifiers() {
+		List<String> qIds = new ArrayList<String>();
+		for (Question q : questions) {
+			qIds.add(q.getIdentifier());
+		}
+		return qIds;
+	}
+	
+	public List<String> getVariableNames() {
+		List<String> varNames = new ArrayList<String>();
+		for (Variable v : variables) {
+			varNames.add(v.getIdentifier());
+		}
+		return varNames;
+	}
+	
+	/*
+	 * Reset all datastructures 
+	 */
+	public void reset() {
+		literals.removeAll(literals);
+		variables.remove(variables);
+		questions.removeAll(questions);
+	}
 }
