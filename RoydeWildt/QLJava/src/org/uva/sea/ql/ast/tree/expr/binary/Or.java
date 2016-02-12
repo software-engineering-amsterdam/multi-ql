@@ -13,4 +13,9 @@ public class Or extends BinaryExpr {
     public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public String getSymbol() {
+        return "||";
+    }
 }

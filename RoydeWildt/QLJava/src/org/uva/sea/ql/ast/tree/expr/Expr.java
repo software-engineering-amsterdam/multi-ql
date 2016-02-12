@@ -8,6 +8,7 @@ import org.uva.sea.ql.ast.tree.Node;
  */
 abstract public class Expr extends Node {
 
+    public abstract String getSymbol();
     public Expr(int line) {
         super(line);
     }

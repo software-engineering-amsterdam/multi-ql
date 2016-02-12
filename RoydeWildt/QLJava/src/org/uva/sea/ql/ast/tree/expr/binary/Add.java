@@ -14,7 +14,12 @@ public class Add extends BinaryExpr {
     public Add(int line, Expr lhs, Expr rhs) {
         super(line, lhs, rhs);
     }
-    public List<? extends Node> accept(Visitor visitor) {
+    public <T> T accept(Visitor visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public String getSymbol() {
+        return "+";
     }
 }

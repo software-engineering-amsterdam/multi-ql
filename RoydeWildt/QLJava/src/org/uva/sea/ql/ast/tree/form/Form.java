@@ -23,6 +23,17 @@ public class Form extends Node {
         return visitor.visit(this);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(id);
+        sb.append("(");
+        sb.append(stms.toString());
+        sb.append(")");
+        return sb.toString();
+
+    }
+
     public List<Stat> getStms(){
         return stms;
     }

@@ -24,6 +24,17 @@ public class Question extends Stat {
         return visitor.visit(this);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Question(");
+        sb.append(label + ",");
+        sb.append(varname + ",");
+        sb.append(type);
+        sb.append(")");
+        return sb.toString();
+    }
+
     public String getLabel() {
         return label;
     }

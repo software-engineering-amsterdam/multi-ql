@@ -17,7 +17,17 @@ public class Bool extends Val {
         return visitor.visit(this);
     }
 
+    @Override
+    public String toString() {
+        return value.toString();
+    }
+
     public Boolean getValue() {
         return value;
+    }
+
+    @Override
+    public String getSymbol() {
+        return null;
     }
 }

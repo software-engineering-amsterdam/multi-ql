@@ -17,12 +17,13 @@ public class Test {
         Form f1 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/undefined1.ql")).get(0);
         Form f2 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/duplicate1.ql")).get(0);
         Form f3 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/operators1.ql")).get(0);
+        Form f4 = (QLParser.ParseForm(path.toAbsolutePath().toString() + "/resources/conditions1.ql")).get(0);
 
+        System.out.println(f4.toString());
         Checker chk = new Checker();
-        chk.undefinedChecker(f1);
-        chk.duplicateChecker(f2);
+        //chk.undefinedChecker(f1);
+        //chk.duplicateChecker(f2);
+        //chk.invalidConditionChecker(f4);
 
-        //System.out.println(res1.toString());
-        //System.out.println(res2.toString());
     }
 }

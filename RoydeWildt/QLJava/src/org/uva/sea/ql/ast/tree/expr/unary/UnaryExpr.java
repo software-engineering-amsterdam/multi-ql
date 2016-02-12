@@ -16,4 +16,10 @@ public abstract class UnaryExpr extends Expr {
     public Expr getVal() {
         return val;
     }
+
+
+    @Override
+    public String toString() {
+        return this.getSymbol() + " " + val.toString();
+    }
 }

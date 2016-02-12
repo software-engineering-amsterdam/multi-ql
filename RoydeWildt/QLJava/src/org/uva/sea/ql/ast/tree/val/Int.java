@@ -17,7 +17,17 @@ public class Int extends Val {
         return visitor.visit(this);
     }
 
+    @Override
+    public String toString() {
+        return value.toString();
+    }
+
     public Integer getValue() {
         return value;
+    }
+
+    @Override
+    public String getSymbol() {
+        return null;
     }
 }

@@ -16,4 +16,8 @@ public class Sub extends BinaryExpr {
     }
 
 
+    @Override
+    public String getSymbol() {
+        return "-";
+    }
 }

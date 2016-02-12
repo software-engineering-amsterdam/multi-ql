@@ -15,6 +15,17 @@ public abstract class BinaryExpr extends Expr {
         this.rhs = rhs;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(lhs.toString());
+        sb.append(' ');
+        sb.append(this.getSymbol());
+        sb.append(' ');
+        sb.append(rhs.toString());
+        return sb.toString();
+    }
+
     public Expr getLhs() {
         return lhs;
     }

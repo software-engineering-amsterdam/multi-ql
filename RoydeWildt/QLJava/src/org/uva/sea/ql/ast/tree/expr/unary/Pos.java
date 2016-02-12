@@ -15,4 +15,8 @@ public class Pos extends UnaryExpr {
         return visitor.visit(this);
     }
 
+    @Override
+    public String getSymbol() {
+        return "+";
+    }
 }

@@ -10,5 +10,4 @@ abstract public class Val extends Expr {
     public Val(int line){
         super(line);
     }
-
 }

@@ -16,6 +16,11 @@ public class Var extends Expr {
         return visitor.visit(this);
     }
 
+    @Override
+    public String toString() {
+        return value;
+    }
+
     public String getValue() {
         return value;
     }
@@ -32,5 +37,10 @@ public class Var extends Expr {
     @Override
     public int hashCode() {
         return value.hashCode();
+    }
+
+    @Override
+    public String getSymbol() {
+        return value;
     }
 }

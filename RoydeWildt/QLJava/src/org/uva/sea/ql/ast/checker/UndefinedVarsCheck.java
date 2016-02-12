@@ -15,13 +15,11 @@ import java.util.List;
  */
 public class UndefinedVarsCheck extends BaseVisitor {
 
-    private final List<Node> vars;
     private final List<Node> decls;
     private final List<Node> undefined;
 
 
     public UndefinedVarsCheck(Form f) {
-        this.vars = new ArrayList<>();
         this.decls = new ArrayList<>();
         this.undefined = new ArrayList<>();
 
@@ -31,7 +29,6 @@ public class UndefinedVarsCheck extends BaseVisitor {
     @Override
     public <T> T visit(Var var) {
 
-        vars.add(var);
         if(!decls.contains(var))
             undefined.add(var);
         return null;

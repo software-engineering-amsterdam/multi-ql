@@ -6,6 +6,8 @@ import org.uva.sea.ql.ast.visitor.Visitor;
  * Created by roydewildt on 11/02/16.
  */
 public class Boolean extends Type {
+    public Types getType(){return Types.BOOLEAN;}
+
     public Boolean(int line) {
         super(line);
     }

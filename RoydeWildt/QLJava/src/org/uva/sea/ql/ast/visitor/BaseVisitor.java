@@ -217,4 +217,8 @@ public class BaseVisitor implements Visitor {
     public <T> T visit(Var var) {
         return null;
     }
+
+    public Visitor getV() {
+        return v;
+    }
 }

@@ -16,6 +16,18 @@ public class AssQuestion extends Question {
         this.expr = expr;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Question(");
+        sb.append(this.getLabel() + ",");
+        sb.append(this.getVarname() + ",");
+        sb.append(this.getType() + ",");
+        sb.append(expr.toString());
+        sb.append(")");
+        return sb.toString();
+    }
+
     public Expr getExpr() {
         return expr;
     }

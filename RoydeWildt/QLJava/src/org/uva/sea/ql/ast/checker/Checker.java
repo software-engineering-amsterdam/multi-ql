@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast.checker;
 
 import org.uva.sea.ql.ast.tree.Node;
+import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.var.Var;
@@ -44,6 +45,20 @@ public class Checker {
                 sb.append(" (line " + org.getLine() + ")");
             }
 
+            System.out.println(sb.toString());
+        }
+    }
+
+    public void invalidConditionChecker(Form f){
+        List<Node> invalidExpressions = (new InvalidExpressionCheck(f)).getInvalidExpressions();
+
+        for(Node n : invalidExpressions){
+            Expr e = (Expr) n;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Expression ");
+            sb.append(e.toString());
+            sb.append(" (line " + e.getLine() + ")");
+            sb.append(" contains incompatible types");
             System.out.println(sb.toString());
         }
     }

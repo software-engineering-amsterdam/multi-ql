@@ -16,4 +16,9 @@ public class And extends BinaryExpr {
     public List<? extends Node> accept(Visitor visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public String getSymbol() {
+        return "&&";
+    }
 }

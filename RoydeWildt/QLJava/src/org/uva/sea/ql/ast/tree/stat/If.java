@@ -23,6 +23,16 @@ public class If extends Stat{
         return visitor.visit(this);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("If(");
+        sb.append(cond.toString() + ",");
+        sb.append(stms.toString());
+        sb.append(")");
+        return sb.toString();
+    }
+
     public Expr getCond() {
         return cond;
     }
