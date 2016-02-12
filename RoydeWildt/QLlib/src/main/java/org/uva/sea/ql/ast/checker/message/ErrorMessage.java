@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class ErrorMessage extends Message {
 
-    public ErrorMessage(List<String> msgList, List<Node> nodeList) {
-        super(msgList, nodeList);
+    public ErrorMessage(String msgStr, Node msgNode) {
+        super(msgStr, msgNode);
     }
 
     @Override

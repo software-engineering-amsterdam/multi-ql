@@ -12,21 +12,21 @@ public abstract class Message {
 
     public enum Type{ERROR, WARNING}
 
-    private List<String> msgList = new ArrayList<>();
-    private List<Node> nodeList = new ArrayList<>();
+    private String msgStr;
+    private Node msgNode;
 
-    public Message(List<String> msgList, List<Node> nodeList){
-        this.msgList = msgList;
-        this.nodeList = nodeList;
+    public Message(String msgStr, Node msgNode){
+        this.msgStr = msgStr;
+        this.msgNode = msgNode;
     }
 
     public abstract Type getType();
 
-    public List<String> getMsgList() {
-        return msgList;
+    public String getMsgList() {
+        return msgStr;
     }
 
-    public List<Node> getNodeList() {
-        return nodeList;
+    public Node getNodeList() {
+        return msgNode;
     }
 }

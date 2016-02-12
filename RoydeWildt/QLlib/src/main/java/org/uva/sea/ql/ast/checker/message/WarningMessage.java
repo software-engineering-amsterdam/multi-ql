@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class WarningMessage extends Message {
 
-    public WarningMessage(List<String> msgList, List<Node> nodeList) {
-        super(msgList, nodeList);
+    public WarningMessage(String msgStr, Node msgNode) {
+        super(msgStr, msgNode);
     }
 
     @Override
     public Type getType() {
-        return Type.WARNING;
+        return Type.ERROR;
     }
 
 

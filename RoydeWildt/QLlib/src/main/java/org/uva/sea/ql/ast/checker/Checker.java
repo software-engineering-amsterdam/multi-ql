@@ -1,5 +1,8 @@
 package org.uva.sea.ql.ast.checker;
 
+import org.uva.sea.ql.ast.checker.message.ErrorMessage;
+import org.uva.sea.ql.ast.checker.message.Message;
+import org.uva.sea.ql.ast.checker.message.WarningMessage;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.BinaryExpr;
@@ -9,6 +12,7 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,21 +22,22 @@ public class Checker {
 
     public Checker(){}
 
-    public void undefinedChecker(Form f){
+    public List<Message> undefinedChecker(Form f){
+        List<Message> messages = new ArrayList<>();
         List<Node> undefined = (new UndefinedVarsCheck(f)).getUndefined();
 
         for(Node n : undefined){
             StringBuilder sb = new StringBuilder();
             sb.append("Variable ");
             sb.append(((Var) n).getValue());
-            sb.append(" (line " + n.getLine() + ")");
             sb.append(" is undefined");
-            System.out.println(sb.toString());
+            messages.add(new ErrorMessage(sb.toString(), n));
         }
-
+        return messages;
     }
 
-    public void duplicateChecker(Form f){
+    public List<Message> duplicateChecker(Form f){
+        List<Message> messages = new ArrayList<>();
         List<List<Node>> duplicates = (new DuplicateVarsCheck(f)).getDuplicates();
 
         for(List<Node> dups : duplicates){
@@ -42,17 +47,20 @@ public class Checker {
                 Question dup = (Question) dups.get(i);
                 sb.append("Variable ");
                 sb.append(dup.getVarname().getValue() + " : " + dup.getType().getClass().getSimpleName());
-                sb.append(" (line " + dup.getLine() + ")");
                 sb.append(" is already defined as ");
                 sb.append(org.getVarname().getValue() + " : " + org.getType().getClass().getSimpleName());
-                sb.append(" (line " + org.getLine() + ")");
-            }
 
-            System.out.println(sb.toString());
+                if(dup.getType().getClass().getSimpleName() == org.getType().getClass().getSimpleName())
+                    messages.add(new WarningMessage(sb.toString(), dup));
+                else
+                    messages.add(new ErrorMessage(sb.toString(), dup));
+            }
         }
+        return messages;
     }
 
-    public void invalidConditionChecker(Form f){
+    public List<Message> invalidConditionChecker(Form f){
+        List<Message> messages = new ArrayList<>();
         List<Node> invalidExpressions = (new InvalidExpressionCheck(f)).getInvalidExpressions();
 
         for(Node n : invalidExpressions){
@@ -60,10 +68,10 @@ public class Checker {
             StringBuilder sb = new StringBuilder();
             sb.append("Expression ");
             sb.append(e.toString());
-            sb.append(" (line " + e.getLine() + ")");
             sb.append(" has incompatible argument types ");
 
-            System.out.println(sb.toString());
+            messages.add(new ErrorMessage(sb.toString(),e));
         }
+        return messages;
     }
 }
