@@ -2,59 +2,72 @@ package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.stat.*;
 
-import java.awt.List;
+import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.uva.sea.ql.ast.expr.*;
 
 public class DependancyVisitor extends LeftDFSVisitor {
-	private Set<String> identifiers;
+	private Set<String> visited; // keep track of visited questions that are safe.
+	private Set<String> undefinedQuestionIDs;
 	boolean cyclicDependancy;
+	private List<Question> undefinedQuestions;
+	private NodeCollector collector;
+	boolean add = true;
 	
 	public DependancyVisitor() {
-		identifiers = new HashSet<String>();
 		cyclicDependancy = false;
-	}
-	
-	@Override
-	public void visit(Block block) {
-		
+		undefinedQuestions = new ArrayList<Question>();
+		collector = new NodeCollector();
+		visited = new HashSet<String>();
+		undefinedQuestionIDs = new HashSet<String>();
 	}
 	
 	@Override
 	public void visit(Question question) {
-		NodeCollector collector = new NodeCollector(); 
+		if (! undefinedQuestionIDs.contains(question.getIdentifier()) ) {
+			System.out.println("Visiting Question : " + question.getIdentifier());
+			visited.add(question.getIdentifier());
+		}
 		int size = question.getComputedResult().size();
-		if (size == 1) {	
+		if (size >= 1) { // question contains a computed result	
+			System.out.println("we have a clause" );
 			Expr clause = question.getComputedResult().get(0);
 			clause.accept(collector);
+			Set<String> clauseVariables = new HashSet<String>(collector.getVariableNames());
+			clauseVariables.removeAll(visited); // now contains all conflicting variable identifiers.
+			for (String var : clauseVariables) {
+				System.out.println("We have an undefined variable : " + var);
+			}
 			
-			
-			
+			collector.reset();
 		}
-		identifiers.add(question.getIdentifier());
-		super.visit(question);
+		super.visit(question);	
 	}
+	
 	
 	@Override
 	public void visit(IfStatement ifStatement) {
-		NodeCollector collector = new NodeCollector(); 
 		ifStatement.getClause().accept(collector);
-		ArrayList<Variable> variables = new ArrayList<Variable>(collector.getVariables());
-		Set<String> varNames = new HashSet<String>();
-		
-		for (Variable var : variables) {
-			varNames.add(var.getIdentifier());
-		}		
-		
-		if (identifiers.containsAll(varNames)) {
-			cyclicDependancy = true;
-		} else {
-			super.visit(ifStatement);
+		Set<String> clauseVariables = new HashSet<String>(collector.getVariableNames());
+		clauseVariables.removeAll(visited); // now contains all conflicting variable identifiers.
+		for (String var : clauseVariables) {
+			System.out.println("We have an undefined variable in ifclause: " + var);
 		}
+		
+		if (clauseVariables.size() >= 1) {
+			collector.reset();
+			ifStatement.getBlock().accept(collector);
+			undefinedQuestionIDs.addAll(collector.getQuestionIdentifiers());
+		}
+		collector.reset();
+		super.visit(ifStatement);
 	}
+	
 	
 	public boolean containsCyclicDependancy() {
 		return this.cyclicDependancy;

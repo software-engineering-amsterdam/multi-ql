@@ -52,7 +52,7 @@ question [Block result]
 	;
 
 variable returns [Expr result]
-	: Ident {$result = new VariableLiteral($Ident.getText()); };
+	: Ident {$result = new Variable($Ident.getText()); };
 	
 label : Str;
 
