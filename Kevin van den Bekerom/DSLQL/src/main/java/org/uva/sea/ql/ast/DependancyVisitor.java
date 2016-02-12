@@ -19,7 +19,21 @@ public class DependancyVisitor extends LeftDFSVisitor {
 	}
 	
 	@Override
+	public void visit(Block block) {
+		
+	}
+	
+	@Override
 	public void visit(Question question) {
+		NodeCollector collector = new NodeCollector(); 
+		int size = question.getComputedResult().size();
+		if (size == 1) {	
+			Expr clause = question.getComputedResult().get(0);
+			clause.accept(collector);
+			
+			
+			
+		}
 		identifiers.add(question.getIdentifier());
 		super.visit(question);
 	}
