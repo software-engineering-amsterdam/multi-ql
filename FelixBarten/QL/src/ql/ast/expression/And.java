@@ -1,5 +1,12 @@
 package ql.ast.expression;
 
-public class And {
+import ql.ast.Expr;
+
+public class And extends BinaryExpr {
+
+	public And(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
+		// TODO Auto-generated constructor stub
+	}
 
 }

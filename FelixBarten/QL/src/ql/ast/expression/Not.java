@@ -2,11 +2,13 @@ package ql.ast.expression;
 
 import ql.ast.Expr;
 
-public class Ge extends BinaryExpr {
+public class Not extends UnaryExpr {
 
-	public Ge(Expr lhs, Expr rhs) {
-		super(lhs, rhs);
+	public Not(Expr exp) {
+		super(exp);
 		// TODO Auto-generated constructor stub
 	}
+
+
 
 }

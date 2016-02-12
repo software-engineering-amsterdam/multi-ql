@@ -1,5 +1,12 @@
 package ql.ast.expression;
 
-public class Gt {
+import ql.ast.Expr;
+
+public class GT extends BinaryExpr {
+
+	public GT(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
+		// TODO Auto-generated constructor stub
+	}
 
 }
