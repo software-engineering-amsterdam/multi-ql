@@ -9,11 +9,13 @@ public class Form {
 	private String name;
 	private Block mainBlock;
 	private Map<String, Value> variableValueMap;//name??
+	private Map<String, Question> undefined;
 	
 	public Form(String name, Block block) {
 		this.name = name;
 		this.mainBlock = block;
 		variableValueMap = new HashMap<String, Value>();
+		undefined = new HashMap<String, Question>();
 	}
 
 	public String getName() {
