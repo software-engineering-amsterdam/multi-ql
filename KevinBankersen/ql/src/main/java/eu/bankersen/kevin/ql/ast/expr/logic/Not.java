@@ -7,15 +7,15 @@ import eu.bankersen.kevin.ql.ast.var.Type;
 
 public class Not extends boolExpr {
 
-	private final boolExpr expr;
+	private final Expr expr;
 
 	public Not(Expr expr) {
-		this.expr = (boolExpr) expr;
+		this.expr = expr;
 	}
 
 	@Override
 	public Boolean result(SymbolTabel table) {
-		return !expr.result(table);
+		return !(Boolean) expr.result(table);
 	}
 
 }

@@ -4,15 +4,13 @@ import eu.bankersen.kevin.ql.ast.var.Type;
 
 public abstract class intExpr extends Expr { 
 	
-	protected intExpr lhs;
-	protected intExpr rhs;
 	private final Type type = Type.INTEGER;
 	
 	public abstract Integer result(SymbolTabel table);
 	
 	@Override
-	public Boolean checkType() {
-		return lhs.getType() == type && rhs.getType() == type;
+	public Boolean checkType(SymbolTabel table) {
+		return lhs.checkType(table) && lhs.getType().equals(type) && rhs.checkType(table) && rhs.getType().equals(type);
 	}
 	
 	@Override

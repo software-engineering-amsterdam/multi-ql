@@ -6,17 +6,14 @@ import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 
 public class Sub extends intExpr {
 
-	private final intExpr lhs;
-	private final intExpr rhs;
-
 	public Sub(Expr lhs, Expr rhs) {
-		this.lhs = (intExpr) lhs;
-		this.rhs = (intExpr) rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
 	}
 
 	@Override
 	public Integer result(SymbolTabel table) {
-		return lhs.result(table) - rhs.result(table);
+		return (Integer) lhs.result(table) * (Integer) rhs.result(table);
 	}
 
 }

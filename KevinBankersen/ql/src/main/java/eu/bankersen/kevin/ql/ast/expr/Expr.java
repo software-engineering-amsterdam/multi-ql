@@ -6,7 +6,10 @@ public abstract class Expr {
 	
 	public abstract Object result(SymbolTabel table);
 	
-	public abstract Boolean checkType();
+	protected Expr lhs;
+	protected Expr rhs;
+	
+	public abstract Boolean checkType(SymbolTabel table);
 	
 	public abstract Type getType();
 	

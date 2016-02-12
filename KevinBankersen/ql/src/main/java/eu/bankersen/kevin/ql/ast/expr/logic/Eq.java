@@ -7,17 +7,14 @@ import eu.bankersen.kevin.ql.ast.var.Type;
 
 public class Eq extends boolExpr {
 
-	private final boolExpr lhs;
-	private final boolExpr rhs;
-
 	public Eq(Expr lhs, Expr rhs) {
-		this.lhs = (boolExpr) lhs;
-		this.rhs = (boolExpr) rhs;
+		super.lhs = lhs;
+		super.rhs = rhs;
 	}
 
 	@Override
 	public Boolean result(SymbolTabel table) {
-		return lhs.result(table) == rhs.result(table);
+		return lhs.result(table).equals(rhs.result(table));
 	}
 
 }

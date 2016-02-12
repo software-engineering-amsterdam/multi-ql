@@ -6,15 +6,14 @@ import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 
 public class Neg extends intExpr {
 
-	private final intExpr value;
 
 	public Neg(Expr expr) {
-		this.value = (intExpr) expr;
+		super.rhs =  expr;
 	}
 
 	@Override
 	public Integer result(SymbolTabel table) {
-		return value.result(table) * -1;
+		return (Integer) rhs.result(table) * -1;
 	}
 
 }

@@ -3,6 +3,7 @@ package eu.bankersen.kevin.ql.ast.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 import eu.bankersen.kevin.ql.ast.stat.IFStat;
 
 public class Block {
@@ -15,16 +16,16 @@ public class Block {
 		statements = new ArrayList<IFStat>();
 	}
 	
-	public Boolean checkType(){
+	public Boolean checkType(SymbolTabel table){
 		
 		List<Boolean> check = new ArrayList<Boolean>();
 		
 		for(Question q: questions){
-			check.add(q.checkType());
+			check.add(q.checkType(table));
 		}
 		
 		for(IFStat s: statements){
-			check.add(s.checkType());
+			check.add(s.checkType(table));
 		}
 		
 		return !check.contains(new Boolean(false));

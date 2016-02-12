@@ -26,9 +26,17 @@ data FieldType
      | Boolean
        deriving (Eq, Enum, Show)
 
---type Expr = (Expr', SourcePos)
+data Region = Region { start::SourcePos
+                     , end::SourcePos
+                     }
+              deriving (Eq,Show)
 
-data Expr
+type Expr = (Expr', SourcePos, SourcePos)
+
+getExpr :: Expr -> Expr'
+getExpr (a,_,_) = a
+
+data Expr'
      = Var Name
      | Lit Lit
      | BinOp BinOp Expr Expr
@@ -54,9 +62,8 @@ data BinOp
      | LTE
        deriving (Eq, Show)
 
-type Stmnt = (Stmnt', SourcePos)
 
-data Stmnt'
+data Stmnt
      = Field Field
      | If Expr Block
      | IfElse Expr Block Block
