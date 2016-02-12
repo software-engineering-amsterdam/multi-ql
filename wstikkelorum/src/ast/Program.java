@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import antlr.QLLexer;
 import antlr.QLParser;
 import antlr.QLParser.FileContext;
+import ast.visitor.TypeVisitor;
 
 public class Program {
 	public static void main(String[] args) throws IOException{
@@ -19,11 +20,16 @@ public class Program {
 		QLParser parser = new QLParser(tokens);		
 		
 		FileContext fileContext = parser.file();
+		//System.out.println(fileContext.form().toStringTree());
 		
-		System.out.println(fileContext.form().toStringTree());
+		TypeVisitor visitor = new TypeVisitor();
+		visitor.visit(fileContext.form().result);
+		for(String s : visitor.types){
+			System.out.println(s);
+		}
 		
-		//TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-		//viewer.open();
+		TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
+		viewer.open();
 		
 		System.out.println("Done");
 	}

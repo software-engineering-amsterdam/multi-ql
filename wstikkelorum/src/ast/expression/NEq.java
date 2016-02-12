@@ -1,12 +1,12 @@
 package ast.expression;
 
-import ast.Visitor;
+import ast.visitor.Visitor;
 
-public class Neq extends Expression {
+public class NEq extends Expression {
 	private Expression lhs;
 	private Expression rhs;
 	
-	public Neq(Expression result, Expression result2) {
+	public NEq(Expression result, Expression result2) {
 		this.lhs = result;
 		this.rhs = result2;
 	}

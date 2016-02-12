@@ -1,4 +1,4 @@
-package ast;
+package ast.visitor;
 
 import ast.expression.Add;
 import ast.expression.AndExpression;
@@ -10,7 +10,7 @@ import ast.expression.LEq;
 import ast.expression.LT;
 import ast.expression.Mul;
 import ast.expression.Neg;
-import ast.expression.Neq;
+import ast.expression.NEq;
 import ast.expression.Not;
 import ast.expression.OrExpression;
 import ast.expression.Pos;
@@ -38,7 +38,7 @@ public interface Visitor {
 	public void visit(LEq leq);
 	public void visit(LT lt);
 	public void visit(Mul mul);
-	public void visit(Neq neq);
+	public void visit(NEq neq);
 	public void visit(Neg neg);
 	public void visit(Not not);
 	public void visit(OrExpression orExpression);
