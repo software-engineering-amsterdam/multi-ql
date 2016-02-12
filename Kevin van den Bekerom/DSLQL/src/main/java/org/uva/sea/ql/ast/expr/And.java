@@ -8,6 +8,7 @@ public class And extends BinaryExpr implements Visitable{
 	public And(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
 		super.rhs = rhs;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ public class Not extends UnaryExpr implements Visitable {
 	
 	public Not(Expr expr) {
 		super.child = expr;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override

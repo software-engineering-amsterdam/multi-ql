@@ -8,6 +8,7 @@ public class Add extends BinaryExpr implements Visitable {
 	public Add(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
 		super.rhs = rhs;
+		super.type = Type.INT;
 	}
 	
 	@Override

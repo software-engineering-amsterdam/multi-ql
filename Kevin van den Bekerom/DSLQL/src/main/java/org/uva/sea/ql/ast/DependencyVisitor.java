@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.stat.*;
+import org.uva.sea.ql.exceptions.UndefinedQuestionError;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,8 @@ public class DependencyVisitor extends LeftDFSVisitor {
 		if (! undefinedQuestionIDs.contains(question.getIdentifier()) ) {
 			System.out.println("Visiting Question : " + question.getIdentifier());
 			visited.add(question.getIdentifier());
+		} else {
+			throw new UndefinedQuestionError(question);
 		}
 		int size = question.getComputedResult().size();
 		if (size >= 1) { // question contains a computed result	
