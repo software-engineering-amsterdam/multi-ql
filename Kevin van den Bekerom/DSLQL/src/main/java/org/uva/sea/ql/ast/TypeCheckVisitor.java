@@ -8,95 +8,101 @@ public class TypeCheckVisitor extends LeftDFSVisitor {
 	
 	@Override
 	public void visit(And and) {
-		validateBooleanExpression(and);
+		childrenEqualityWrapper(and);
+		childrenOfType(and, Type.BOOLEAN);
 		super.visit(and);
 	}
 
 	@Override
 	public void visit(Or or) {
-		validateBooleanExpression(or);
+		childrenEqualityWrapper(or);
+		childrenOfType(or, Type.BOOLEAN);
 		super.visit(or);
 	}
 
 	@Override
 	public void visit(Not not) {
-		validateBooleanExpression(not);
+		childrenOfType(not, Type.BOOLEAN);
 		super.visit(not);
 	}
 
 	@Override
 	public void visit(Eq eq) {
-		Expr lhs = eq.getLhs();
-		Expr rhs = eq.getRhs();
-		if (! childrenEquality(lhs, rhs)) {
-			System.out.println("Node " + eq.toString() + " has children of unequal type!");
-		}
+		childrenEqualityWrapper(eq);
 		super.visit(eq);
 	}
 
 	@Override
 	public void visit(GEq geq) {
-		validateBooleanExpression(geq);
+		childrenEqualityWrapper(geq);
+		childrenOfType(geq, Type.INT);
 		super.visit(geq);
 	}
 
 	@Override
 	public void visit(GT gt) {
-		validateBooleanExpression(gt);
+		childrenEqualityWrapper(gt);
+		childrenOfType(gt, Type.INT);
 		super.visit(gt);
 	}
 
 	@Override
 	public void visit(LEq leq) {
-		validateBooleanExpression(leq);
+		childrenEqualityWrapper(leq);
+		childrenOfType(leq, Type.INT);
 		super.visit(leq);
 	}
 
 	@Override
 	public void visit(LT lt) {
-		validateBooleanExpression(lt);
+		childrenEqualityWrapper(lt);
+		childrenOfType(lt, Type.INT);
 		super.visit(lt);
 	}
 
 	@Override
 	public void visit(NEq neq) {
-		validateBooleanExpression(neq);
+		childrenEqualityWrapper(neq);
 		super.visit(neq);
 	}
 
 	@Override
 	public void visit(Add add) {
-		validateIntegerExpression(add);
+		childrenEqualityWrapper(add);
+		childrenOfType(add, Type.INT);
 		super.visit(add);
 	}
 
 	@Override
 	public void visit(Sub sub) {
-		validateIntegerExpression(sub);
+		childrenEqualityWrapper(sub);
+		childrenOfType(sub, Type.INT);
 		super.visit(sub);
 	}
 
 	@Override
 	public void visit(Div div) {
-		validateIntegerExpression(div);
+		childrenEqualityWrapper(div);
+		childrenOfType(div, Type.INT);
 		super.visit(div);
 	}
 
 	@Override
 	public void visit(Mul mul) {
-		validateIntegerExpression(mul);
+		childrenEqualityWrapper(mul);
+		childrenOfType(mul, Type.INT);
 		super.visit(mul);
 	}
 
 	@Override
 	public void visit(Neg neg) {
-		validateIntegerExpression(neg);
+		childrenOfType(neg, Type.INT);
 		super.visit(neg);
 	}
 
 	@Override
 	public void visit(Pos pos) {
-		validateIntegerExpression(pos);
+		childrenOfType(pos, Type.INT);
 		super.visit(pos);
 	}
 
@@ -105,63 +111,40 @@ public class TypeCheckVisitor extends LeftDFSVisitor {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	private void validateIntegerExpression(BinaryExpr e) {
-		Expr lhs = e.getLhs();
-		Expr rhs = e.getRhs();
-		if (! childrenEquality(lhs, rhs)) {
-			System.out.println("Node " + e.toString() + " has children of unequal type!");
-		}
-		if (! integerExpressionCheck(lhs, rhs)) {
-			System.out.println("Node " + e.toString() + " is an integer expression, but has children that are not of type integer!");
+
+	private void childrenEqualityWrapper(BinaryExpr expr) {
+		if (! childrenEqualType(expr)) {
+			System.out.println("Node " + expr.toString() + " has children of unequal type!");
 		}
 	}
 	
-	private void validateIntegerExpression(UnaryExpr e) {
-		Expr lhs = e.getChild();
-		if (! integerExpressionCheck(lhs)) {
-			System.out.println("Node " + e.toString() + " is an integer expression, but has children that are not of type integer!");
+	private void childrenOfType(BinaryExpr expr, Type type) {
+		if (! exprTypeCheck(expr, type)) {
+			System.out.println("Node " + expr.toString() + " has children of the wrong type. All children should be of type " + type.name());
 		}
 	}
 	
-	private void validateBooleanExpression(BinaryExpr e) {
-		Expr lhs = e.getLhs();
-		Expr rhs = e.getRhs();
-		if (! childrenEquality(lhs, rhs)) {
-			System.out.println("Node " + e.toString() + " has children of unequal type!");
-		}
-		if (! booleanExpressionCheck(lhs, rhs)) {
-			System.out.println("Node " + e.toString() + " is a boolean expression, but has children that are not of type boolean!");
+	private void childrenOfType(UnaryExpr expr, Type type) {
+		if (! exprTypeCheck(expr, type)) {
+			System.out.println("Node " + expr.toString() + " has a child of the wrong type. The child node should be of type " + type.name());
 		}
 	}
 	
-	private void validateBooleanExpression(UnaryExpr e) {
-		Expr lhs = e.getChild();
-		if (! booleanExpressionCheck(lhs)) {
-			System.out.println("Node " + e.toString() + " is a boolean expression, but has children that are not of type boolean!");
-		}
-	}
-	
-	
-	
-	private boolean childrenEquality(Expr lhs, Expr rhs) {
+	private boolean childrenEqualType(BinaryExpr expr) {
+		Expr lhs = expr.getLhs();
+		Expr rhs = expr.getRhs();
 		return lhs.getType().equals(rhs.getType());
 	}
-	
-	private boolean integerExpressionCheck(Expr lhs, Expr rhs) {
-		return lhs.getType().equals(Type.INT) && rhs.getType().equals(Type.INT);
+
+	private boolean exprTypeCheck(BinaryExpr expr, Type type) {
+		Expr lhs = expr.getLhs();
+		Expr rhs = expr.getRhs();
+		return lhs.getType().equals(type) && rhs.getType().equals(type);
 	}
 	
-	private boolean integerExpressionCheck(Expr lhs) {
-		return lhs.getType().equals(Type.INT);
-	}
-	
-	private boolean booleanExpressionCheck(Expr lhs, Expr rhs) {
-		return lhs.getType().equals(Type.BOOLEAN) && rhs.getType().equals(Type.BOOLEAN);
-	}
-	
-	private boolean booleanExpressionCheck(Expr lhs) {
-		return lhs.getType().equals(Type.BOOLEAN);
+	private boolean exprTypeCheck(UnaryExpr expr, Type type) {
+		Expr lhs = expr.getChild();
+		return lhs.getType().equals(type);
 	}
 	
 }
