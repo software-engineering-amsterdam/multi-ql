@@ -1,5 +1,6 @@
 package nl.nicasso.ql.ast.statement;
 
+import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.structure.Block;
 
@@ -14,6 +15,11 @@ public class IfElseStatement extends IfStatement {
 
 	public Block getBlock_else() {
 		return block_else;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 
 }

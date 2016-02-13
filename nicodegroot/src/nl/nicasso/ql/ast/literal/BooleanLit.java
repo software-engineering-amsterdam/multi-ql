@@ -1,6 +1,9 @@
 package nl.nicasso.ql.ast.literal;
 
-public class BooleanLit extends Literal {
+import nl.nicasso.ql.ast.Traversable;
+import nl.nicasso.ql.ast.Visitor;
+
+public class BooleanLit extends Literal implements Traversable {
 
 	boolean lit;
 
@@ -10,6 +13,11 @@ public class BooleanLit extends Literal {
 
 	public boolean getValue() {
 		return lit;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 	
 }

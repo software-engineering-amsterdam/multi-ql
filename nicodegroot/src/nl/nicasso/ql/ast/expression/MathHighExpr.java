@@ -1,13 +1,18 @@
 package nl.nicasso.ql.ast.expression;
 
-public class MathHighExpr extends Expression  {
+import nl.nicasso.ql.ast.Traversable;
+import nl.nicasso.ql.ast.Visitor;
+
+public class MathHighExpr extends Expression implements Traversable {
 
 	Expression expr_left;
 	Expression expr_right;
+	String operator;
 	
-	public MathHighExpr(Expression expr_left, Expression expr_right) {
+	public MathHighExpr(Expression expr_left, Expression expr_right, String operator) {
 		this.expr_left = expr_left;
 		this.expr_right = expr_right;
+		this.operator = operator;
 	}
 
 	public Expression getExpr_left() {
@@ -16,6 +21,15 @@ public class MathHighExpr extends Expression  {
 
 	public Expression getExpr_right() {
 		return expr_right;
+	}
+	
+	public String getOperator() {
+		return operator;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 		
 }

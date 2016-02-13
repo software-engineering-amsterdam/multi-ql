@@ -1,9 +1,11 @@
 package nl.nicasso.ql.ast.statement;
 
+import nl.nicasso.ql.ast.Traversable;
+import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.structure.Block;
 
-public class IfStatement extends Statement  {
+public class IfStatement extends Statement implements Traversable  {
 
 	Expression expr;
 	Block block_if;
@@ -19,6 +21,11 @@ public class IfStatement extends Statement  {
 
 	public Block getBlock_if() {
 		return block_if;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 
 }

@@ -1,6 +1,9 @@
 package nl.nicasso.ql.ast.expression;
 
-public class ParenthesisExpr extends Expression {
+import nl.nicasso.ql.ast.Traversable;
+import nl.nicasso.ql.ast.Visitor;
+
+public class ParenthesisExpr extends Expression implements Traversable {
 
 	Expression expr;
 
@@ -10,5 +13,10 @@ public class ParenthesisExpr extends Expression {
 
 	public Expression getExpr() {
 		return expr;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

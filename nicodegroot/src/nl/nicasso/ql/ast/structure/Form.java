@@ -1,9 +1,11 @@
 package nl.nicasso.ql.ast.structure;
 
 import nl.nicasso.ql.ast.ASTNode;
+import nl.nicasso.ql.ast.Traversable;
+import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.literal.IdentifierLit;
 
-public class Form extends ASTNode {
+public class Form extends ASTNode implements Traversable {
 
 	IdentifierLit id;
 	Block block;
@@ -21,4 +23,8 @@ public class Form extends ASTNode {
 		return block;
 	}
 	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }

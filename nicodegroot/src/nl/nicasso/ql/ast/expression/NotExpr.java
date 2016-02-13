@@ -1,6 +1,9 @@
 package nl.nicasso.ql.ast.expression;
 
-public class NotExpr extends Expression  {
+import nl.nicasso.ql.ast.Traversable;
+import nl.nicasso.ql.ast.Visitor;
+
+public class NotExpr extends Expression implements Traversable  {
 	
 	Expression expr;
 
@@ -10,6 +13,11 @@ public class NotExpr extends Expression  {
 
 	public Expression getExpr() {
 		return expr;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 	
 }

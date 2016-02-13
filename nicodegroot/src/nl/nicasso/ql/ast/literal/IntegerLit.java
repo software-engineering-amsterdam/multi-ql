@@ -1,6 +1,9 @@
 package nl.nicasso.ql.ast.literal;
 
-public class IntegerLit extends Literal {
+import nl.nicasso.ql.ast.Traversable;
+import nl.nicasso.ql.ast.Visitor;
+
+public class IntegerLit extends Literal implements Traversable {
 
 	int lit;
 
@@ -10,6 +13,11 @@ public class IntegerLit extends Literal {
 
 	public int getValue() {
 		return lit;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 	
 }
