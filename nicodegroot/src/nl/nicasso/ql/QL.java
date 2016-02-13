@@ -8,15 +8,14 @@ import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
 import nl.nicasso.ql.ast.structure.Form;
-import nl.nicasso.ql.symanticanalysis.SymanticAnalysis;
 
 public class QL {
 	
@@ -46,16 +45,16 @@ public class QL {
         CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
         
-        SymanticAnalysis semanticAnalyser = new SymanticAnalysis();
+        GetVarsVisitor varsVisitor = new GetVarsVisitor();
+        
+        ast.accept(varsVisitor);
+        
+        //SymanticAnalysis semanticAnalyser = new SymanticAnalysis();
 		//if (ast.accept(semanticAnalyser)) {
-			//GUIVisitor guiVisitor = new GUIVisitor();
-			//questionnaire.accept(guiVisitor);
-		//}
+        // @TODO Insert Fancy GUI here
+        //}
         
         //System.out.println("DEZE: "+a.getId().getIdentifier());
-        
-        //System.out.println(a.getLocation().getStartLine());
-        //System.out.println(a.getLocation().getEndLine());
         
         //Gui ex = new Gui();
         //ex.setVisible(true);
@@ -78,7 +77,7 @@ public class QL {
 	}
 	
 	private void displayParseTree() {
-	    JFrame frame = new JFrame("Antlr AST");
+	    JFrame frame = new JFrame("Antlr Parse Tree");
 	    JPanel panel = new JPanel();
 	    TreeViewer viewr = new TreeViewer(Arrays.asList(
 	            parser.getRuleNames()),tree);
