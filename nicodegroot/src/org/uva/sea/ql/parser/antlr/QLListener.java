@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package org.uva.sea.ql.parser.antlr;
 
@@ -30,18 +30,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitBlock(QLParser.BlockContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code questionExpr}
-	 * labeled alternative in {@link QLParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestionExpr(QLParser.QuestionExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code questionExpr}
-	 * labeled alternative in {@link QLParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestionExpr(QLParser.QuestionExprContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code computedQuestionExpr}
 	 * labeled alternative in {@link QLParser#statement}.
 	 * @param ctx the parse tree
@@ -54,17 +42,17 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitComputedQuestionExpr(QLParser.ComputedQuestionExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ifStatementExpr}
+	 * Enter a parse tree produced by the {@code questionExpr}
 	 * labeled alternative in {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfStatementExpr(QLParser.IfStatementExprContext ctx);
+	void enterQuestionExpr(QLParser.QuestionExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ifStatementExpr}
+	 * Exit a parse tree produced by the {@code questionExpr}
 	 * labeled alternative in {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfStatementExpr(QLParser.IfStatementExprContext ctx);
+	void exitQuestionExpr(QLParser.QuestionExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ifElseStatementExpr}
 	 * labeled alternative in {@link QLParser#statement}.
@@ -77,6 +65,18 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfElseStatementExpr(QLParser.IfElseStatementExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ifStatementExpr}
+	 * labeled alternative in {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStatementExpr(QLParser.IfStatementExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ifStatementExpr}
+	 * labeled alternative in {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStatementExpr(QLParser.IfStatementExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code notExpr}
 	 * labeled alternative in {@link QLParser#expression}.
@@ -210,51 +210,13 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitLitStringExpr(QLParser.LitStringExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code typeIntExpr}
-	 * labeled alternative in {@link QLParser#questionType}.
+	 * Enter a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypeIntExpr(QLParser.TypeIntExprContext ctx);
+	void enterQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code typeIntExpr}
-	 * labeled alternative in {@link QLParser#questionType}.
+	 * Exit a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypeIntExpr(QLParser.TypeIntExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code typeStrExpr}
-	 * labeled alternative in {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeStrExpr(QLParser.TypeStrExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code typeStrExpr}
-	 * labeled alternative in {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeStrExpr(QLParser.TypeStrExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code typeBoolExpr}
-	 * labeled alternative in {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeBoolExpr(QLParser.TypeBoolExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code typeBoolExpr}
-	 * labeled alternative in {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeBoolExpr(QLParser.TypeBoolExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code typeMonExpr}
-	 * labeled alternative in {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeMonExpr(QLParser.TypeMonExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code typeMonExpr}
-	 * labeled alternative in {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeMonExpr(QLParser.TypeMonExprContext ctx);
+	void exitQuestionType(QLParser.QuestionTypeContext ctx);
 }

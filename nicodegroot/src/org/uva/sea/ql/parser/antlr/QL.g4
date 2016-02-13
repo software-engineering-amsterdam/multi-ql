@@ -27,8 +27,8 @@ block
 statement
   : label = STRING identifier = IDENTIFIER ':' type = questionType #questionExpr
   | label = STRING identifier = IDENTIFIER ':' type = questionType '=' '(' expr = expression ')' #computedQuestionExpr
-  | 'if' '(' expression ')' ifBody = block #ifStatementExpr
-  | 'if' '(' expression ')' ifBody = block 'else' elseBody = block #ifElseStatementExpr
+  | 'if' '(' expr = expression ')' ifBody = block #ifStatementExpr
+  | 'if' '(' expr = expression ')' ifBody = block 'else' elseBody = block #ifElseStatementExpr
   ;
 
 expression
@@ -49,10 +49,10 @@ literal
   ;
     
 questionType 
-  : 'integer' #typeIntExpr
-  | 'string' #typeStrExpr
-  | 'boolean' #typeBoolExpr
-  | 'money' #typeMonExpr
+  : 'integer'
+  | 'string'
+  | 'boolean'
+  | 'money'
   ;
 
 /************************************

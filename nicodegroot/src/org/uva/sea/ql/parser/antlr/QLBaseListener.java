@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package org.uva.sea.ql.parser.antlr;
 
@@ -42,18 +42,6 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionExpr(QLParser.QuestionExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuestionExpr(QLParser.QuestionExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterComputedQuestionExpr(QLParser.ComputedQuestionExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -66,13 +54,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfStatementExpr(QLParser.IfStatementExprContext ctx) { }
+	@Override public void enterQuestionExpr(QLParser.QuestionExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfStatementExpr(QLParser.IfStatementExprContext ctx) { }
+	@Override public void exitQuestionExpr(QLParser.QuestionExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -85,6 +73,18 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIfElseStatementExpr(QLParser.IfElseStatementExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIfStatementExpr(QLParser.IfStatementExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIfStatementExpr(QLParser.IfStatementExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -222,49 +222,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypeIntExpr(QLParser.TypeIntExprContext ctx) { }
+	@Override public void enterQuestionType(QLParser.QuestionTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTypeIntExpr(QLParser.TypeIntExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeStrExpr(QLParser.TypeStrExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeStrExpr(QLParser.TypeStrExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeBoolExpr(QLParser.TypeBoolExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeBoolExpr(QLParser.TypeBoolExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeMonExpr(QLParser.TypeMonExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeMonExpr(QLParser.TypeMonExprContext ctx) { }
+	@Override public void exitQuestionType(QLParser.QuestionTypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
