@@ -9,11 +9,22 @@ form taxOfficeExample {
   if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money
+    if (hasSoldHouse) {
     "Private debts for the sold house:"
       privateDebt: money
+    } else {
+      "Value residue:"
+        valueResidue: money = 
+          (sellingPrice - privateDebt)
+        if (hasSoldHouse) {
+          "What was the selling price?"
+            dRol: money
+        }
+    }
     "Value residue:"
-      valueResidue: money = 
-        (sellingPrice - privateDebt)
+      aShit: money = 
+        (dRol - privateDebt)
+    
   } else {
     "What was the selling price?"
       schIjt: money
