@@ -48,6 +48,15 @@ public class QL {
         GetVarsVisitor varsVisitor = new GetVarsVisitor();
         
         ast.accept(varsVisitor);
+                
+        if (!varsVisitor.getErrors().isEmpty()) {
+        	
+        	for (String error : varsVisitor.getErrors()) {
+        		System.out.println(error);
+        	}
+        	
+        	return;
+        }
         
         //SymanticAnalysis semanticAnalyser = new SymanticAnalysis();
 		//if (ast.accept(semanticAnalyser)) {

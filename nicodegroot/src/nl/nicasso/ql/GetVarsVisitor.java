@@ -1,6 +1,7 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
@@ -26,163 +27,214 @@ import nl.nicasso.ql.ast.structure.Form;
 
 public class GetVarsVisitor implements Visitor {
 	
-	private ArrayList<ASTNode> identifiers;
+	private boolean debug = true;
+	
+	private Stack<ArrayList<IdentifierLit>> scopes;
+	private ArrayList<IdentifierLit> currentScope;
+	
+	private ArrayList<String> errors;
 	
 	GetVarsVisitor() {
-		identifiers = new ArrayList<ASTNode>();
+		scopes = new Stack<ArrayList<IdentifierLit>>();
+		currentScope = null;
+		errors = new ArrayList<String>();
 	}
 
 	@Override
 	public void visit(Form value) {
 
-		System.out.println("Form");
+		if (debug) 
+			System.out.println("Form");
 		
 		value.getBlock().accept(this);
 	}
 
 	@Override
 	public void visit(Block value) {
-		System.out.println("Block");
+		if (debug)
+			System.out.println("Block");
+		
+		if (currentScope != null) {
+			
+			for (IdentifierLit cur : currentScope) {
+				if (debug)
+					System.out.println("GO THROUGH CURRENT SCOPE: "+cur.getValue());
+			}
+			
+			scopes.push(currentScope);
+		} else {
+			currentScope = new ArrayList<IdentifierLit>();
+		}
 
 		for (Statement cur : value.getStatements()) {
-			System.out.println("Block i");
+			if (debug)
+				System.out.println("Block i");
 			
 			cur.accept(this);
+		}
+		
+		if (!scopes.isEmpty()) {
+			System.out.println("REALLLLLLLYYYY CLOSING A BLOCK!");
+			System.out.println("SIZE A: "+scopes.size());
+			currentScope = scopes.pop();
+			System.out.println("SIZE B: "+scopes.size());
 		}
 	}
 
 	@Override
 	public void visit(Question value) {
-		System.out.println("Question");
+		if (debug)
+			System.out.println("Question");
 
-		
+		currentScope.add(value.getId());
 	}
 
 	@Override
 	public void visit(ComputedQuestion value) {
-		System.out.println("ComputedQuestion");
-
+		if (debug)
+			System.out.println("ComputedQuestion");
 		
+		value.getExpr().accept(this);
+		
+		currentScope.add(value.getId());
 	}
 
 	@Override
 	public void visit(IfStatement value) {
-		System.out.println("IfStatement");
+		if (debug)
+			System.out.println("IfStatement");
+		
+		value.getExpr().accept(this);
 
-		for (Statement cur : value.getBlock_if().getStatements()) {
-			System.out.println("If Statement i");
-			cur.accept(this);
-		}
+		value.getBlock_if().accept(this);
 	}
 
 	@Override
 	public void visit(IfElseStatement value) {
-		System.out.println("IfElseStatement");
+		if (debug)
+			System.out.println("IfElseStatement");
 		
-		for (Statement cur : value.getBlock_if().getStatements()) {
-			System.out.println("IfElse If Statement i");
-			cur.accept(this);
-		}
+		value.getExpr().accept(this);
 		
-		for (Statement cur : value.getBlock_else().getStatements()) {
-			System.out.println("IfElse Else Statement i");
-			cur.accept(this);
-		}		
+		value.getBlock_if().accept(this);
+		
+		value.getBlock_else().accept(this);
 	}
 
 	@Override
 	public void visit(BooleanExpr value) {
-		System.out.println("BooleanExpr");
-
+		if (debug)
+			System.out.println("BooleanExpr");
+		
 		
 	}
 
 	@Override
 	public void visit(MathHighExpr value) {
-		System.out.println("MathHighExpr");
-
+		if (debug)
+			System.out.println("MathHighExpr");
 		
 	}
 
 	@Override
 	public void visit(MathLowExpr value) {
-		System.out.println("MathLowExpr");
-
+		if (debug)
+			System.out.println("MathLowExpr");
 		
 	}
 
 	@Override
 	public void visit(NotExpr value) {
-		System.out.println("NotExpr");
-
+		if (debug)
+			System.out.println("NotExpr");
 		
 	}
 
 	@Override
 	public void visit(ParenthesisExpr value) {
-		System.out.println("ParenthesisExpr");
-
+		if (debug)
+			System.out.println("ParenthesisExpr");
 		
 	}
 
 	@Override
 	public void visit(RelationExpr value) {
-		System.out.println("RelationExpr");
-
+		if (debug)
+			System.out.println("RelationExpr");
 		
 	}
 
 	@Override
 	public void visit(BooleanLit value) {
-		System.out.println("BooleanLit");
-
+		if (debug)
+			System.out.println("BooleanLit");
 		
 	}
 
 	@Override
 	public void visit(IdentifierLit value) {
-		System.out.println("IdentifierLit");
-
+		if (debug)
+			System.out.println("IdentifierLit: "+value.getValue());
 		
+		if (!checkExistanceIdentifier(value)) {
+			errors.add("Error: The identifier '"+value.getValue()+"' does not exist.");
+		}
 	}
 
 	@Override
 	public void visit(IntegerLit value) {
-		System.out.println("IntegerLit");
+		if (debug)
+			System.out.println("IntegerLit");
 
-		
 	}
 
 	@Override
 	public void visit(StringLit value) {
-		System.out.println("StringLit");
-
+		if (debug)
+			System.out.println("StringLit");
 		
 	}
 
 	@Override
 	public void visit(ASTNode node) {
-		// TODO Auto-generated method stub
-		
+		if (debug)
+			System.out.println("ASTNode");
 	}
 
 	@Override
 	public void visit(Statement value) {
-		// TODO Auto-generated method stub
-		
+		if (debug)
+			System.out.println("Statement");
 	}
 
 	@Override
 	public void visit(Expression value) {
-		// TODO Auto-generated method stub
-		
+		if (debug)
+			System.out.println("Expression");
 	}
 
 	@Override
 	public void visit(Literal value) {
-		// TODO Auto-generated method stub
+		if (debug)
+			System.out.println("Literal");
+	}
+	
+	public boolean checkExistanceIdentifier(IdentifierLit value) {
 		
+		for (IdentifierLit cur : currentScope) {
+			if (debug)
+				System.out.println("checkExistanceIdentifier: "+cur.getValue());
+			
+			if (cur.getValue().equals(value.getValue())) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
+	public ArrayList<String> getErrors() {
+		return errors;
+	}
 
 }
