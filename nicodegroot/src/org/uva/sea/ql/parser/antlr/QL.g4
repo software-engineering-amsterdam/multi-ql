@@ -17,90 +17,52 @@ options {
 ************************************/
     
 form
-  : FORM IDENTIFIER block
+  : 'form' identifier = IDENTIFIER block
   ;
 
 block
-  : LEFT_CURLY_BRACKET statement* RIGHT_CURLY_BRACKET
+  : '{' statement* '}'
   ;
 
 statement
-  : question
-  | computedQuestion
-  | ifStatement
-  ;
-
-ifStatement
-  : IF LEFT_PARENTHESES expression RIGHT_PARENTHESES ifBody = block
-  | IF LEFT_PARENTHESES expression RIGHT_PARENTHESES ifBody = block ELSE elseBody = block
-  ;
-  
-computedQuestion
-  : label = questionLabel identifier = questionIdentifier COLON type = QUESTION_TYPE IS LEFT_PARENTHESES expr = expression RIGHT_PARENTHESES
-  ;
-
-question
-  : label = questionLabel identifier = questionIdentifier COLON type = QUESTION_TYPE
-  ;
-
-questionIdentifier
-  : IDENTIFIER
-  ;
-  
-questionLabel
-  : STRING
+  : label = STRING identifier = IDENTIFIER ':' type = questionType #questionExpr
+  | label = STRING identifier = IDENTIFIER ':' type = questionType '=' '(' expr = expression ')' #computedQuestionExpr
+  | 'if' '(' expression ')' ifBody = block #ifStatementExpr
+  | 'if' '(' expression ')' ifBody = block 'else' elseBody = block #ifElseStatementExpr
   ;
 
 expression
-  : NOT expression
-  | left = expression MATHEMATICAL_OPERATOR_HIGH right = expression
-  | left = expression MATHEMATICAL_OPERATOR_LOW right = expression
-  | left = expression BOOLEAN_OPERATOR right = expression
-  | left = expression RELATION_OPERATOR right = expression
-  | LEFT_PARENTHESES expression RIGHT_PARENTHESES
-  | literal
+  : '!' expr = expression #notExpr
+  | left = expression op = ('*'|'/') right = expression #mathLowExpr
+  | left = expression op = ('+'|'-') right = expression #mathHighExpr
+  | left = expression op = ('&&'|'||') right = expression #boolExpr
+  | left = expression op = ('=='|'!='|'>'|'>='|'<'|'<=') right = expression #relExpr
+  | '(' expr = expression ')' #parenExpr
+  | lit = literal #litExpr
   ;
 
 literal
-  : IDENTIFIER
-  | INTEGER
-  | BOOLEAN
-  | STRING
+  : IDENTIFIER #litIdExpr
+  | INTEGER #litIntExpr
+  | BOOLEAN #litBoolExpr
+  | STRING #litStringExpr
   ;
     
+questionType 
+  : 'integer' #typeIntExpr
+  | 'string' #typeStrExpr
+  | 'boolean' #typeBoolExpr
+  | 'money' #typeMonExpr
+  ;
+
 /************************************
 			LEXER RULES
 ************************************/
 
-FORM : 'form';
-
-IF : 'if';
-ELSE : 'else';
-
-QUESTION_TYPE : 'integer'|'string'|'boolean'|'money'; 
-
-COLON : ':';
-
-LEFT_CURLY_BRACKET : '{';
-RIGHT_CURLY_BRACKET : '}';
-
-LEFT_PARENTHESES : '(';
-RIGHT_PARENTHESES : ')';
-
-NOT : '!';
-IS : '=';
-
-MATHEMATICAL_OPERATOR_HIGH : '*'|'/';
-MATHEMATICAL_OPERATOR_LOW : '+'|'-';
-
-BOOLEAN_OPERATOR : '&&'|'||';
-
-RELATION_OPERATOR : '=='|'!='|'>'|'>='|'<'|'<=';
-
-WHITESPACE : (' ' | '\t' | '\n' | '\r')+ -> channel(HIDDEN);
+WHITESPACE : (' '|'\t'|'\n'|'\r')+ -> channel(HIDDEN);
 COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
 LINE_COMMENT : '//' .*? '/n' -> channel(HIDDEN);
-BOOLEAN : ('true'|'TRUE'|'false'|'FALSE');
+BOOLEAN : ('true'|'false');
 IDENTIFIER: [a-z][a-zA-Z0-9]+;
 INTEGER: [0-9]+;
 STRING: '"' .*? '"';
