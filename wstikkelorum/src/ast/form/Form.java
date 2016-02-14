@@ -1,7 +1,7 @@
 package ast.form;
 
-import ast.Visitable;
-import ast.Visitor;
+import ast.visitor.Visitable;
+import ast.visitor.Visitor;
 
 public class Form implements Visitable{
 	private String id;

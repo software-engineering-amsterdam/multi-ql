@@ -8,6 +8,7 @@ public class BooleanLiteral extends Expr implements Visitable {
 	
 	public BooleanLiteral(boolean value) {
 		this.value = value;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override

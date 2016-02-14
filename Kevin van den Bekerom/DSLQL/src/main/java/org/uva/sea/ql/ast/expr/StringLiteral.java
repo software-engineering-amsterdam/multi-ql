@@ -8,6 +8,7 @@ public class StringLiteral extends Expr implements Visitable {
 	
 	public StringLiteral(String value) {
 		this.value = value;
+		this.type = Type.STRING;
 	}
 	
 	@Override

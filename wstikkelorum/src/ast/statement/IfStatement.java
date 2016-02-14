@@ -1,21 +1,21 @@
 package ast.statement;
 
-import ast.Visitable;
-import ast.Visitor;
 import ast.expression.Expression;
 import ast.form.Body;
+import ast.visitor.Visitable;
+import ast.visitor.Visitor;
 
 public class IfStatement implements Visitable{
-	private Expression orExpression;
+	private Expression expression;
 	private Body body;
 	
 	public IfStatement(Expression result, Body result2) {
-		this.orExpression = result;
+		this.expression = result;
 		this.body = result2;
 	}
 	
-	public Expression getOrExpression() {
-		return orExpression;
+	public Expression getExpression() {
+		return expression;
 	}
 
 	public Body getBody() {

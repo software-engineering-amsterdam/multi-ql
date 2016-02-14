@@ -8,6 +8,7 @@ public class GT extends BinaryExpr implements Visitable {
 	public GT(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
 		super.rhs = rhs;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override
