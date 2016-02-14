@@ -1,6 +1,9 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
 
 import nl.nicasso.ql.ast.ASTNode;
@@ -26,26 +29,29 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 
 public class GetVarsVisitor implements Visitor {
-	
+
 	private boolean debug = true;
-	
+
 	private Stack<ArrayList<IdentifierLit>> scopes;
 	private ArrayList<IdentifierLit> currentScope;
-	
+
+	private HashMap<Question, Literal> questionsAndValues;
+
 	private ArrayList<String> errors;
-	
+
 	GetVarsVisitor() {
 		scopes = new Stack<ArrayList<IdentifierLit>>();
 		currentScope = null;
 		errors = new ArrayList<String>();
+		questionsAndValues = new HashMap<Question, Literal>();
 	}
 
 	@Override
 	public void visit(Form value) {
 
-		if (debug) 
+		if (debug)
 			System.out.println("Form");
-		
+
 		value.getBlock().accept(this);
 	}
 
@@ -53,31 +59,23 @@ public class GetVarsVisitor implements Visitor {
 	public void visit(Block value) {
 		if (debug)
 			System.out.println("Block");
-		
+
 		if (currentScope != null) {
-			
-			for (IdentifierLit cur : currentScope) {
-				if (debug)
-					System.out.println("GO THROUGH CURRENT SCOPE: "+cur.getValue());
-			}
-			
-			scopes.push(currentScope);
+
+			// Otherwise it will pass by refernce...
+			ArrayList<IdentifierLit> scope = (ArrayList<IdentifierLit>) currentScope.clone();
+
+			scopes.push(scope);
 		} else {
 			currentScope = new ArrayList<IdentifierLit>();
 		}
 
 		for (Statement cur : value.getStatements()) {
-			if (debug)
-				System.out.println("Block i");
-			
 			cur.accept(this);
 		}
-		
+
 		if (!scopes.isEmpty()) {
-			System.out.println("REALLLLLLLYYYY CLOSING A BLOCK!");
-			System.out.println("SIZE A: "+scopes.size());
 			currentScope = scopes.pop();
-			System.out.println("SIZE B: "+scopes.size());
 		}
 	}
 
@@ -87,15 +85,34 @@ public class GetVarsVisitor implements Visitor {
 			System.out.println("Question");
 
 		currentScope.add(value.getId());
+		
+		Literal questionValue = null;
+		
+		switch(value.getType().getType()) {
+			case "boolean":
+				questionValue = new BooleanLit(false);
+				break;
+			case "integer":
+				questionValue = new IntegerLit(0);
+				break;
+			case "string":
+				questionValue = new StringLit("");
+				break;
+			case "money":
+				questionValue = new IntegerLit(0);
+				break;
+		}
+		
+		addNewQuestion(value, questionValue);
 	}
 
 	@Override
 	public void visit(ComputedQuestion value) {
 		if (debug)
 			System.out.println("ComputedQuestion");
-		
+
 		value.getExpr().accept(this);
-		
+
 		currentScope.add(value.getId());
 	}
 
@@ -103,7 +120,7 @@ public class GetVarsVisitor implements Visitor {
 	public void visit(IfStatement value) {
 		if (debug)
 			System.out.println("IfStatement");
-		
+
 		value.getExpr().accept(this);
 
 		value.getBlock_if().accept(this);
@@ -113,11 +130,11 @@ public class GetVarsVisitor implements Visitor {
 	public void visit(IfElseStatement value) {
 		if (debug)
 			System.out.println("IfElseStatement");
-		
+
 		value.getExpr().accept(this);
-		
+
 		value.getBlock_if().accept(this);
-		
+
 		value.getBlock_else().accept(this);
 	}
 
@@ -125,59 +142,85 @@ public class GetVarsVisitor implements Visitor {
 	public void visit(BooleanExpr value) {
 		if (debug)
 			System.out.println("BooleanExpr");
-		
-		
+
+		value.getExpr_left().accept(this);
+
+		value.getOperator();
+
+		value.getExpr_right().accept(this);
+
 	}
 
 	@Override
 	public void visit(MathHighExpr value) {
 		if (debug)
 			System.out.println("MathHighExpr");
-		
+
+		value.getExpr_left().accept(this);
+
+		value.getOperator();
+
+		value.getExpr_right().accept(this);
+
 	}
 
 	@Override
 	public void visit(MathLowExpr value) {
 		if (debug)
 			System.out.println("MathLowExpr");
-		
+
+		value.getExpr_left().accept(this);
+
+		value.getOperator();
+
+		value.getExpr_right().accept(this);
 	}
 
 	@Override
 	public void visit(NotExpr value) {
 		if (debug)
 			System.out.println("NotExpr");
-		
+
+		value.getExpr().accept(this);
+
 	}
 
 	@Override
 	public void visit(ParenthesisExpr value) {
 		if (debug)
 			System.out.println("ParenthesisExpr");
-		
+
+		value.getExpr().accept(this);
+
 	}
 
 	@Override
 	public void visit(RelationExpr value) {
 		if (debug)
 			System.out.println("RelationExpr");
-		
+
+		value.getExpr_left().accept(this);
+
+		value.getOperator();
+
+		value.getExpr_right().accept(this);
+
 	}
 
 	@Override
 	public void visit(BooleanLit value) {
 		if (debug)
 			System.out.println("BooleanLit");
-		
+
 	}
 
 	@Override
 	public void visit(IdentifierLit value) {
 		if (debug)
-			System.out.println("IdentifierLit: "+value.getValue());
-		
+			System.out.println("IdentifierLit: " + value.getValue());
+
 		if (!checkExistanceIdentifier(value)) {
-			errors.add("Error: The identifier '"+value.getValue()+"' does not exist.");
+			errors.add("Error: The identifier '" + value.getValue() + "' does not exist.");
 		}
 	}
 
@@ -192,7 +235,7 @@ public class GetVarsVisitor implements Visitor {
 	public void visit(StringLit value) {
 		if (debug)
 			System.out.println("StringLit");
-		
+
 	}
 
 	@Override
@@ -218,19 +261,30 @@ public class GetVarsVisitor implements Visitor {
 		if (debug)
 			System.out.println("Literal");
 	}
-	
+
 	public boolean checkExistanceIdentifier(IdentifierLit value) {
-		
+
 		for (IdentifierLit cur : currentScope) {
 			if (debug)
-				System.out.println("checkExistanceIdentifier: "+cur.getValue());
-			
-			if (cur.getValue().equals(value.getValue())) {
-				return true;
-			}
+				// System.out.println("checkExistanceIdentifier:
+				// "+cur.getValue());
+
+				if (cur.getValue().equals(value.getValue())) {
+					return true;
+				}
 		}
-		
+
 		return false;
+	}
+	
+	public boolean addNewQuestion(Question value, Literal questionValue) {
+		
+		for (Map.Entry<Question, Literal> entry : questionsAndValues.entrySet()) {
+			System.out.println(entry.getKey().getId().getValue()+" - "+entry.getValue());
+		}
+		questionsAndValues.put(value, questionValue);
+		
+		return true;
 	}
 
 	public ArrayList<String> getErrors() {
