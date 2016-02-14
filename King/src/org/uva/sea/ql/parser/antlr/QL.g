@@ -8,6 +8,8 @@ package org.uva.sea.ql.parser.antlr;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.TaxForm.*;
+import java.util.Map;
+import java.util.HashMap;
 }
 
 @lexer::header
@@ -25,6 +27,7 @@ form returns [Form result]
 	;
 	
 block returns [Block result]
+ locals [ Map<String, ValueType> varMap = new HashMap<String, ValueType>() ]
 	@init {
         $result = new Block();
     }
@@ -96,7 +99,8 @@ unExpr returns [Expr result]
 
 primary returns [Expr result]
     : identifier
-    {   
+    {  
+     	$identifier.result.setType($block::varMap.get($identifier.result.getName()));
         $result = new VarExpr($identifier.result);
     }
     | '(' orExpr ')' { $result = $orExpr.result; }
@@ -115,7 +119,9 @@ identifier returns [VarIdentifier result]
 variable returns [VarDeclaration result]
     :  identifier COLON question_response_type
     { 
+    	
         $result = new VarDeclaration($question_response_type.result, $identifier.result);
+        $block::varMap.put($identifier.result.getName(), $result.getType().getType());
         $identifier.result.setType($result.getType().getType());
     }
     ;
