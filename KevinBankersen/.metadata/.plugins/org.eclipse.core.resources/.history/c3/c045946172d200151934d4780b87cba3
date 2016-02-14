@@ -1,0 +1,24 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import java.util.HashMap;
+
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public class SymbolTabel2 {
+    
+    private static HashMap<String, SymbolTableObject> table = new HashMap<>();
+
+    public static void addVariable(final String name, final Type type) {
+	
+	table.put(name, new SymbolTableObject(name, type));
+    }
+    
+    public static Type getType(final String name) {
+	return table.get(name).type;
+    }
+    
+    public static String getContents() {
+	
+	return table.toString();
+    }
+}

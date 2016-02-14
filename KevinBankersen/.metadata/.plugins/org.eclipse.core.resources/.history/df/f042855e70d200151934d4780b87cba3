@@ -1,0 +1,46 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import eu.bankersen.kevin.ql.ast.var.Type;
+import eu.bankersen.kevin.ql.ast.var.Variable;
+
+public class SymbolTabel2 {
+    
+    private static List<SymbolObject> table;
+    
+    public SymbolTabel2() {
+	table = new ArrayList<SymbolObject>();
+    }
+    
+
+    public static void addVariable(String name, Type type){
+	table.add(new SymbolObject(name, type));
+    }
+    
+    static public String getContents(){
+	
+	return table.toString();
+    }
+    
+    public class SymbolObject {
+	
+	private final String name;
+	private final Type type;
+	
+	public SymbolObject(String name, Type type) {
+	    
+	    this.name = name;
+	    this.type = type;
+	}
+	
+	@Override
+	public String toString(){
+	    return name + " : " + type.toString();
+	    
+	}
+    }
+
+}

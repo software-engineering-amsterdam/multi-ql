@@ -1,0 +1,30 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import java.util.HashMap;
+
+import eu.bankersen.kevin.ql.ast.var.Variable;
+
+public class SymbolTabel2 {
+    
+    static public void changeString(String x){
+	table.setString(x);
+    }
+    
+    static public String getContent(){
+	return table.getString();
+    }
+    
+    private static class table {
+	
+	private static String test;
+	
+	public static void setString(String y){
+	    table.test = y;
+	}
+	
+	public static String getString(){
+	    return test;
+	}
+	
+    }
+}

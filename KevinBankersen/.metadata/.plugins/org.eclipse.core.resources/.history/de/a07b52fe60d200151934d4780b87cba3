@@ -1,0 +1,74 @@
+package eu.bankersen.kevin.ql;
+
+import java.io.IOException;
+import java.util.Arrays;
+
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.var.Type;
+import eu.bankersen.kevin.ql.ast.var.Variable;
+import eu.bankersen.kevin.ql.parser.FormParser;
+import eu.bankersen.kevin.ql.parser.QLParser.FormContext;
+
+/**
+ * Hello world!
+ *
+ */
+public class App {
+
+    private static void main(final String[] args) {
+	Log.DEBUG(); //Set log level
+	Log.setLogger(new CustomLogger()); //Our custom logger.
+
+	System.out.println("Welcome to the Questionnaire Language (QL)!\n");
+
+	String form;
+	try { // Currently the top level so here we catch exceptions.
+	    form = new FileReader().read("resources/Tax.form");
+	} catch (IOException e) {
+	    Log.error("Unable to read file, Terminating");
+	    System.exit(1);
+	    form = null;
+	}
+
+	FormParser parser = new FormParser(form);
+
+	Form parsedForm = parser.getForm();
+
+	Log.debug(parsedForm.toString());
+
+	FormContext formContext = parser.getFormContext();
+
+	/*
+	 * This is Lame code for prototyping.
+	 */
+
+	// Show UI
+	Log.info("Build view");
+	TreeViewer viewr = new TreeViewer(Arrays.asList(parser.getParseRules()), formContext);
+	viewr.setScale(1.5);// scale a little
+	viewr.open(); // Open the viewer
+
+	// Trying to create a symbolTable
+	Log.info("Building Symbol Table");
+	SymbolTabel symbolTable = new SymbolTabel();
+
+	symbolTable.setValue("hasSoldHouse", (new Variable("hasSoldHouse", Type.BOOLEAN)));
+	symbolTable.setValue("hasBoughtHouse", new Variable("hasBoughtHouse", Type.BOOLEAN));
+	symbolTable.setValue("hasMaintLoan", new Variable("hasMaintLoan", Type.BOOLEAN));
+	symbolTable.setValue("sellingPrice", new Variable("sellingPrice", Type.INTEGER));
+	symbolTable.setValue("privateDebt", new Variable("privateDebt", Type.INTEGER));
+	symbolTable.setValue("valueResidue", new Variable("valueResidue", Type.INTEGER));
+
+	//TypeChecker test
+	Log.info("Type Check Start");
+	parsedForm.setSymbolTable(symbolTable);
+	Log.info("Type Check Result: " + (parsedForm.checkType() ? "Passed!" : "Failed!"));
+
+
+    }
+}

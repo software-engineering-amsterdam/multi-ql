@@ -1,23 +1,32 @@
 form taxOffice { 
   "Did you sell a house in 2010?"
-    hasSoldHouse boolean
+  hasSoldHouse boolean
   
   "Did you buy a house in 2010?"
-    hasBoughtHouse boolean
+  hasBoughtHouse integer
   
   "Did you enter a loan?"
-    hasMaintLoan boolean
+  hasMaintLoan boolean
 
-  if (hasSoldHouse) {
+  if (1 > hasBoughtHouse) {
+    
+    "Are you happy with the house?"
+    happyHouse boolean
     
     "What was the selling price?"
-      sellingPrice money
+    sellingPrice integer
     
     "Private debts for the sold house:"
-      privateDebt money
+    privateDebt integer
+    
+    if (happyHouse){
+     
+      "What was the selling price again?"
+      sellingPrice2 boolean
+    }
     
     "Value residue:"
-      valueResidue integer = ( privateDebt - sellingPrice )
+    valueResidue integer = ( sellingPrice - hasBoughtHouse )
   }
 
 }
