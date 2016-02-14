@@ -55,7 +55,7 @@ class QLParser: NSObject {
         let floatLit: GenericParser<String, (), QLLiteral> =
             lexer.float.map { f in QLFloatLiteral(float: f) }
         let number: GenericParser<String, (), QLLiteral> =
-            intLit <|> floatLit
+            floatLit.attempt <|> intLit
         
         
         let expr: GenericParser<String, (), QLExpression> = GenericParser.recursive {

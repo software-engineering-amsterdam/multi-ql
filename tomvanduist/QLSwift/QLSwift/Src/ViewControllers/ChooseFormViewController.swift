@@ -34,6 +34,12 @@ class ChooseFormViewController: BaseViewController {
     private func displayErrors(error: ErrorType) {
         // TODO: implement error view
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.showForm(kForm1)
+    }
 }
 
 
