@@ -72,7 +72,7 @@ class QLParser: NSObject {
             let boolExpr: GenericParser<String, (), QLExpression> =
                 lexer.symbol("boolean").map { _ in QLBoolean() }
             let moneyExpr: GenericParser<String, (), QLExpression> =
-                (lexer.symbol("money") *> lexer.parentheses(expr).map { ding in QLMoney(expr: ding) }).attempt <|>
+                (lexer.symbol("money") *> lexer.parentheses(expr).map { e in QLMoney(expr: e) }).attempt <|>
                 lexer.symbol("money").map { _ in QLMoney() }
             let prefix: GenericParser<String, (), QLPrefix.Type> =
                 StringParser.character("-").map { _ in QLNeg.self } <|>
@@ -107,7 +107,7 @@ class QLParser: NSObject {
                 return opParser(rhs) <|> GenericParser(result: rhs)
             }
             let infixExpr: GenericParser<String, (), QLExpression> =
-                varExpr.flatMap { lhs in
+                (moneyExpr <|> prefixExpr <|> precExpr <|> boolExpr <|> litExpr <|> varExpr).flatMap { lhs in
                     opParser(lhs) <|> GenericParser(result: lhs)
                 }
         
