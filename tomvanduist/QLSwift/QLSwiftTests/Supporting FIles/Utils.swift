@@ -9,7 +9,7 @@
 import Foundation
 
 
-func getQL(owner: AnyObject, file: String) throws -> QL {
+internal func getQL(owner: AnyObject, file: String) throws -> QL {
     let bundle = NSBundle(forClass: owner.dynamicType)
     if let path = bundle.pathForResource(file, ofType: "ql") {
         if let content = try? QL(contentsOfFile: path, encoding: NSUTF8StringEncoding) {

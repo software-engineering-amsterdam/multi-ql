@@ -15,6 +15,11 @@ import XCTest
  */
 class QLParserTests: XCTestCase {
 
+    func testParseMultiple() {
+        let forms = parseFileMany("ParseMultiple").filter { form in form != nil }
+        XCTAssertTrue(forms.count == 2)
+    }
+    
     func testLiterals() {
         XCTAssertNotNil(parseFile("Literals"))
     }
@@ -30,13 +35,32 @@ class QLParserTests: XCTestCase {
     func testInfix() {
         XCTAssertNotNil(parseFile("Infix"))
     }
+    
+    func testQuestion() {
+        for form in parseFileMany("FailQuestion") {
+            XCTAssertNil(form)
+        }
+    }
 }
 
 
 // MARK: Convenience methods
 
 extension QLParserTests {
-    func parseFile(file: String) -> QLForm? {
+    private func parseFile(file: String) -> QLForm? {
         return try? QLParser().parse(getQL(self, file: file))
+    }
+    
+    private func parseFileMany(file: String) -> [QLForm?] {
+        let parser = QLParser()
+        var result: [QLForm?] = []
+        
+        if let ql = try? getQL(self, file: file) {
+            for s in ql.componentsSeparatedByString("#->") {
+                result.append(try? parser.parse(s))
+            }
+        }
+        
+        return result
     }
 }

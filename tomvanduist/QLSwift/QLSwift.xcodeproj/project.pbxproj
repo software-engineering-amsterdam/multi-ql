@@ -31,6 +31,8 @@
 		E26CC9341C6B8B030042B5FF /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* Statement.swift */; };
 		E26CC93A1C6B8C8C0042B5FF /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9391C6B8C8C0042B5FF /* Expression.swift */; };
 		E29A237E1C6D6C6500281E49 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E29A237D1C6D6C6500281E49 /* Podfile */; };
+		E29D0BE71C72766800AB3BCF /* FailQuestion.ql in Resources */ = {isa = PBXBuildFile; fileRef = E29D0BE61C72766800AB3BCF /* FailQuestion.ql */; };
+		E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */ = {isa = PBXBuildFile; fileRef = E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */; };
 		E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */; };
 		E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */; };
 		E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAB01C6CDF350009E869 /* StringExtension.swift */; };
@@ -125,6 +127,8 @@
 		E26CC92F1C6B8B030042B5FF /* Statement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statement.swift; path = Src/Parser/AST/Statement.swift; sourceTree = "<group>"; };
 		E26CC9391C6B8C8C0042B5FF /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Expression.swift; path = Src/Parser/AST/Expression.swift; sourceTree = "<group>"; };
 		E29A237D1C6D6C6500281E49 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E29D0BE61C72766800AB3BCF /* FailQuestion.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FailQuestion.ql; path = Resources/QL/QLParserTests/FailQuestion.ql; sourceTree = "<group>"; };
+		E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ParseMultiple.ql; path = Resources/QL/QLParserTests/ParseMultiple.ql; sourceTree = "<group>"; };
 		E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseFormViewController.swift; path = Src/ViewControllers/ChooseFormViewController.swift; sourceTree = "<group>"; };
 		E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Src/ViewControllers/RootViewController.swift; sourceTree = "<group>"; };
 		E2A5AAB01C6CDF350009E869 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Src/Extensions/StringExtension.swift; sourceTree = "<group>"; };
@@ -390,6 +394,8 @@
 				E2D518BF1C701177008030C4 /* Infix.ql */,
 				E2D518C01C701177008030C4 /* Literals.ql */,
 				E2D518C11C701177008030C4 /* Prefix.ql */,
+				E29D0BE61C72766800AB3BCF /* FailQuestion.ql */,
+				E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */,
 			);
 			name = QLParserTests;
 			sourceTree = "<group>";
@@ -571,8 +577,10 @@
 			files = (
 				E2D518C51C701177008030C4 /* Prefix.ql in Resources */,
 				E2D518C31C701177008030C4 /* Infix.ql in Resources */,
+				E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */,
 				E2D518C41C701177008030C4 /* Literals.ql in Resources */,
 				E2D518C21C701177008030C4 /* IfStatement.ql in Resources */,
+				E29D0BE71C72766800AB3BCF /* FailQuestion.ql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

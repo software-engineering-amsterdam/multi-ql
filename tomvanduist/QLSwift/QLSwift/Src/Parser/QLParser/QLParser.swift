@@ -30,12 +30,7 @@ import SwiftParsec
 class QLParser: NSObject {
     
     func parse(ql: QL) throws -> QLForm {
-        do {
-            return try qlParser().run(sourceName: "QL", input: ql)
-        } catch let error {
-            print(error)
-            throw error
-        }
+        return try qlParser().run(sourceName: "QL", input: ql)
     }
     
     private func qlParser() -> GenericParser<String, (), QLForm> {
