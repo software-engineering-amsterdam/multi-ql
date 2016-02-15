@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import nl.uva.sc.ql.exceptions.CompilerException;
+import nl.uva.sc.ql.exceptions.TypecheckerException;
 import nl.uva.sc.ql.parser.ast.SymbolTable;
 
 public class QLCompiler 
@@ -18,13 +20,13 @@ public class QLCompiler
         
         SymbolTable symbolTable = new SymbolTable();
         
-        System.out.println("Starting syntax analysis...");
-        SyntacticVisitor visitor = new SyntacticVisitor(symbolTable);
-        visitor.visit(tree);        
+        System.out.println("Starting typechecker...");
+        Typechecker checker = new Typechecker(symbolTable);
         
-        System.out.println("Starting semantic analysis...");
-        SemanticVisitor checker = new SemanticVisitor(symbolTable);
-        checker.visit(tree);
-        
+        try {
+        	checker.visit(tree);
+        } catch (TypecheckerException spe) {
+        	throw new CompilerException(spe.getMessage());
+        }
     }
 }

@@ -25,7 +25,6 @@ import java.util.Stack;
 import java.util.Hashtable;
 
 import nl.uva.sc.ql.exceptions.SymbolTableException;
-import nl.uva.sc.ql.parser.Value;
 
 /** Implements the symbol table data abstraction.
  *
@@ -63,7 +62,7 @@ import nl.uva.sc.ql.parser.Value;
  * @see SymtabExample
  * */
 public class SymbolTable {
-    private Stack<Hashtable<Object, Value>> tbl;
+    private Stack<Hashtable<Object, ASTNode>> tbl;
     
     /** Creates an empty symbol table. */
     public SymbolTable() {
@@ -90,11 +89,11 @@ public class SymbolTable {
      * @param id the symbol
      * @param info the data associated with id
      * */
-    public Value addId(Object id, Value info) {
+    public ASTNode addId(Object id, ASTNode info) {
 		if (tbl.empty()) {
 			throw new SymbolTableException("addId: can't add a symbol without a scope.");
 		}
-		return ((Hashtable<Object, Value>)tbl.peek()).put(id, info);
+		return ((Hashtable<Object, ASTNode>)tbl.peek()).put(id, info);
     }
 
     /**
@@ -105,14 +104,14 @@ public class SymbolTable {
      * @param sym the symbol
      * @return the info associated with sym, or null if not found
      * */
-    public Value lookup(Object sym) {
+    public ASTNode lookup(Object sym) {
 		if (tbl.empty()) {
 			throw new SymbolTableException("lookup: no scope in symbol table.");
 		}
 		// I break the abstraction here a bit by knowing that stack is 
 		// really a vector...
 		for (int i = tbl.size() - 1; i >= 0; i--) {
-			Value info = ((Hashtable<Object, Value>)tbl.elementAt(i)).get(sym);
+			ASTNode info = ((Hashtable<Object, ASTNode>)tbl.elementAt(i)).get(sym);
 		    if (info != null) return info;
 		}
 		return null;
@@ -126,11 +125,11 @@ public class SymbolTable {
      * @param sym the symbol
      * @return the info associated with sym, or null if not found
      * */
-    public Value probe(Object sym) {
+    public ASTNode probe(Object sym) {
 		if (tbl.empty()) {
-			throw new SymbolTableException("lookup: no scope in symbol table.");
+			throw new SymbolTableException("Lookup: no scope in symbol table.");
 		}
-		return ((Hashtable<Object, Value>)tbl.peek()).get(sym);
+		return ((Hashtable<Object, ASTNode>)tbl.peek()).get(sym);
     }
     
     /** Gets the string representation of the symbol table.  

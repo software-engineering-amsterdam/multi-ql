@@ -30,7 +30,7 @@ declaration
     ;
     
 assignment
-	: declaration '=' expr						#assignmentVariable
+	: declaration EQUAL expression				#declareAssignVariable
 	;
 
 type
@@ -45,7 +45,7 @@ if_stat
 
 
 condition_block
-    : expr stat_block
+    : expression stat_block
     ;
 
 
@@ -55,16 +55,17 @@ stat_block
     ;
 
 
-expr
-    : '(' expr ')'    							#parentisisExpression
-    | NOT expr                                  #notExpression
-    | expr op=(MULT | DIV | MOD) expr      		#multDivModExpression
- 	| expr op=(PLUS | MINUS) expr          		#additiveExpression
-    | expr op=(LTEQ | GTEQ | LT | GT) expr      #relationalExpression
-    | expr op=(EQ | NEQ) expr                   #equalityExpression
-    | expr AND expr                             #andExpression
-    | expr OR expr                              #orExpression
-    | unity                                     #unityExpression
+expression
+    : '(' expression ')'    								#parentisisExpression
+    | NOT expression                                  		#notExpression
+    | MINUS expression										#minusExpression
+    | expression op=(MULT | DIV | MOD) expression      		#multDivModExpression
+ 	| expression op=(PLUS | MINUS) expression          		#additiveExpression
+    | expression op=(LTEQ | GTEQ | LT | GT) expression      #relationalExpression
+    | expression op=(EQ | NEQ) expression                   #equalityExpression
+    | expression AND expression                             #andExpression
+    | expression OR expression                              #orExpression
+    | unity                                     			#unityExpression
     ;
 
 
@@ -96,6 +97,7 @@ MINUS : '-';
 MULT : '*';
 DIV : '/';
 MOD : '%';
+EQUAL : '=';
 
 TRUE : 'true';
 FALSE : 'false';
