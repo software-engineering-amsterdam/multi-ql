@@ -26,7 +26,7 @@ protocol FormNodeVisitor {
 
 extension FormNodeVisitor {
     func visit(node: Form) {
-        node.id.accept(self)
+        node.identifier.accept(self)
         node.statement.accept(self)
     }
     

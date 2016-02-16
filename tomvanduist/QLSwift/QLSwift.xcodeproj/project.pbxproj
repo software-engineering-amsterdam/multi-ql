@@ -14,6 +14,11 @@
 		E21DC3F91C6CE6E8005564FE /* FormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3F81C6CE6E8005564FE /* FormView.xib */; };
 		E21DC3FC1C6D6AAE005564FE /* QuestionTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */; };
 		E21DC3FE1C6D6AE4005564FE /* QuestionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3FD1C6D6AE4005564FE /* QuestionTextView.swift */; };
+		E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */ = {isa = PBXBuildFile; fileRef = E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */; };
+		E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */; };
+		E2270DB51C73C1B400E5FC2A /* SemanticAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */; };
+		E2270DB91C73C22800E5FC2A /* FormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2270DB81C73C22800E5FC2A /* FormTests.swift */; };
+		E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */; };
 		E23493091C6CB42900B40020 /* FormNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493081C6CB42900B40020 /* FormNodeVisitor.swift */; };
 		E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
 		E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
@@ -110,6 +115,11 @@
 		E21DC3F81C6CE6E8005564FE /* FormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FormView.xib; path = Views/FormView.xib; sourceTree = "<group>"; };
 		E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QuestionTextView.xib; path = Views/Form/QuestionTextView.xib; sourceTree = "<group>"; };
 		E21DC3FD1C6D6AE4005564FE /* QuestionTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionTextView.swift; path = Src/UI/Form/QuestionTextView.swift; sourceTree = "<group>"; };
+		E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypedValidForm.ql; path = Resources/QL/SemanticAnalyzerTests/TypedValidForm.ql; sourceTree = "<group>"; };
+		E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypedInvalidForms.ql; path = Resources/QL/SemanticAnalyzerTests/TypedInvalidForms.ql; sourceTree = "<group>"; };
+		E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalyzerTests.swift; path = Src/Parser/SemanticAnalyzerTests.swift; sourceTree = "<group>"; };
+		E2270DB81C73C22800E5FC2A /* FormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormTests.swift; path = Src/Parser/FormTests.swift; sourceTree = "<group>"; };
+		E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleForms.ql; path = Resources/QL/FormTests/SimpleForms.ql; sourceTree = "<group>"; };
 		E23493081C6CB42900B40020 /* FormNodeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormNodeVisitor.swift; path = Src/Parser/AST/FormNodeVisitor.swift; sourceTree = "<group>"; };
 		E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalyzer.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift; sourceTree = "<group>"; };
 		E234930D1C6CCE6700B40020 /* SemanticError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticError.swift; path = Src/Parser/SemanticAnalyzer/SemanticError.swift; sourceTree = "<group>"; };
@@ -200,6 +210,23 @@
 				E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */,
 			);
 			name = Form;
+			sourceTree = "<group>";
+		};
+		E21F69081C73CEEB00EB9E09 /* SemanticAnalyzerTests */ = {
+			isa = PBXGroup;
+			children = (
+				E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */,
+				E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */,
+			);
+			name = SemanticAnalyzerTests;
+			sourceTree = "<group>";
+		};
+		E2270DBA1C73C27A00E5FC2A /* FormTests */ = {
+			isa = PBXGroup;
+			children = (
+				E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */,
+			);
+			name = FormTests;
 			sourceTree = "<group>";
 		};
 		E234930A1C6CB70F00B40020 /* SemanticAnalyzer */ = {
@@ -359,6 +386,8 @@
 			isa = PBXGroup;
 			children = (
 				E2D518BC1C70115C008030C4 /* QLParserTests.swift */,
+				E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */,
+				E2270DB81C73C22800E5FC2A /* FormTests.swift */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -374,7 +403,9 @@
 		E2D5189A1C6FFBB0008030C4 /* QL */ = {
 			isa = PBXGroup;
 			children = (
+				E2270DBA1C73C27A00E5FC2A /* FormTests */,
 				E2D518BB1C70112A008030C4 /* QLParserTests */,
+				E21F69081C73CEEB00EB9E09 /* SemanticAnalyzerTests */,
 			);
 			name = QL;
 			sourceTree = "<group>";
@@ -390,12 +421,12 @@
 		E2D518BB1C70112A008030C4 /* QLParserTests */ = {
 			isa = PBXGroup;
 			children = (
+				E29D0BE61C72766800AB3BCF /* FailQuestion.ql */,
 				E2D518BE1C701177008030C4 /* IfStatement.ql */,
 				E2D518BF1C701177008030C4 /* Infix.ql */,
 				E2D518C01C701177008030C4 /* Literals.ql */,
-				E2D518C11C701177008030C4 /* Prefix.ql */,
-				E29D0BE61C72766800AB3BCF /* FailQuestion.ql */,
 				E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */,
+				E2D518C11C701177008030C4 /* Prefix.ql */,
 			);
 			name = QLParserTests;
 			sourceTree = "<group>";
@@ -577,8 +608,11 @@
 			files = (
 				E2D518C51C701177008030C4 /* Prefix.ql in Resources */,
 				E2D518C31C701177008030C4 /* Infix.ql in Resources */,
+				E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */,
 				E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */,
 				E2D518C41C701177008030C4 /* Literals.ql in Resources */,
+				E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */,
+				E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */,
 				E2D518C21C701177008030C4 /* IfStatement.ql in Resources */,
 				E29D0BE71C72766800AB3BCF /* FailQuestion.ql in Resources */,
 			);
@@ -685,11 +719,13 @@
 				E2D518A91C700252008030C4 /* FormNodeVisitor.swift in Sources */,
 				E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */,
 				E2D518AF1C700287008030C4 /* StringExtension.swift in Sources */,
+				E2270DB51C73C1B400E5FC2A /* SemanticAnalyzerTests.swift in Sources */,
 				E2D518A81C700252008030C4 /* Form.swift in Sources */,
 				E2D518BD1C70115C008030C4 /* QLParserTests.swift in Sources */,
 				E2D5189D1C700215008030C4 /* QLParser.swift in Sources */,
 				E2D518A11C700220008030C4 /* QLInfix.swift in Sources */,
 				E2D518A01C700220008030C4 /* QLForm.swift in Sources */,
+				E2270DB91C73C22800E5FC2A /* FormTests.swift in Sources */,
 				E2D518AE1C700270008030C4 /* Parser.swift in Sources */,
 				E2D518A21C700220008030C4 /* QLLiteral.swift in Sources */,
 				E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */,

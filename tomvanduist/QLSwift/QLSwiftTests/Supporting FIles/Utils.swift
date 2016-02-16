@@ -6,7 +6,7 @@
 //
 //
 
-import Foundation
+import XCTest
 
 
 internal func getQL(owner: AnyObject, file: String) throws -> QL {
@@ -18,4 +18,35 @@ internal func getQL(owner: AnyObject, file: String) throws -> QL {
     }
     
     throw NSError(domain: kDomain, code: 9000, userInfo: ["info": "File \(file).ql not found!"])
+}
+
+
+// MARK: Convenience methods
+
+extension XCTestCase {
+    internal func parseFile(file: String) -> QLForm? {
+        return try? QLParser().parse(getQL(self, file: file))
+    }
+    
+    internal func parseFileMany(file: String) -> [QLForm?] {
+        let parser = QLParser()
+        var result: [QLForm?] = []
+        
+        if let ql = try? getQL(self, file: file) {
+            for s in ql.componentsSeparatedByString("#->") {
+                result.append(try? parser.parse(s))
+            }
+        }
+        
+        return result
+    }
+    
+    internal func assertToForm(qlForm: QLForm?) -> Form? {
+        XCTAssertNotNil(qlForm)
+        
+        let form = qlForm?.implode()
+        XCTAssertNotNil(form)
+        
+        return form
+    }
 }

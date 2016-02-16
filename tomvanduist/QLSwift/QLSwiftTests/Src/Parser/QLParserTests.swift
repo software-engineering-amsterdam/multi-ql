@@ -42,25 +42,3 @@ class QLParserTests: XCTestCase {
         }
     }
 }
-
-
-// MARK: Convenience methods
-
-extension QLParserTests {
-    private func parseFile(file: String) -> QLForm? {
-        return try? QLParser().parse(getQL(self, file: file))
-    }
-    
-    private func parseFileMany(file: String) -> [QLForm?] {
-        let parser = QLParser()
-        var result: [QLForm?] = []
-        
-        if let ql = try? getQL(self, file: file) {
-            for s in ql.componentsSeparatedByString("#->") {
-                result.append(try? parser.parse(s))
-            }
-        }
-        
-        return result
-    }
-}

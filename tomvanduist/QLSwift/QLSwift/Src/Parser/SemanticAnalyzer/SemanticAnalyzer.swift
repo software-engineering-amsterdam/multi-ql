@@ -30,10 +30,10 @@ class SemanticAnalyser: FormNodeVisitor {
     }
     
     func visit(node: Form) {
-        do { try context.assign(node.id, object: (Type.Form, node.statement)) }
+        do { try context.assign(node.identifier, object: (Type.Form, node.statement)) }
         catch let e { error.collect(e) }
         
-        node.id.accept(self)
+        node.identifier.accept(self)
         node.statement.accept(self)
     }
     

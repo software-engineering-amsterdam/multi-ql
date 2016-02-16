@@ -24,6 +24,6 @@ class QLForm {
 
 extension QLForm {
     func implode() -> Form {
-        return Form(id: variable.implode(), statement: block.implode())
+        return Form(identifier: variable.implode(), statement: block.implode())
     }
 }

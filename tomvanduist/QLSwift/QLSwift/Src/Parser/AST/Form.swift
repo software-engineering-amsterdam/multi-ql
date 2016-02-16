@@ -13,11 +13,11 @@ protocol FormNode: FormNodeVisitable {
 }
 
 class Form: FormNode {
-    let id: Identifier
+    let identifier: Identifier
     let statement: Statement
     
-    init(id: Identifier, statement: Statement) {
-        self.id = id
+    init(identifier: Identifier, statement: Statement) {
+        self.identifier = identifier
         self.statement = statement
     }
 }
