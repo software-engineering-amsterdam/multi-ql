@@ -1,48 +1,33 @@
 grammar QL;
 
-form : FORM IDENTIFIER block ;
+form : 'form' IDENTIFIER box ;
 
-block : '{' statement* '}' ;
+box : '{' statement* '}' ;
 
 statement
- : question
- | ifstatement
+ : 'if' '(' expression ')' box								#ifStatement
+ | 'if' '(' expression ')' ifBox = box 'else' elseBox = box	#ifElseStatement
+ | IDENTIFIER ':' STRINGLITERAL type						#question
+ | IDENTIFIER ':' STRINGLITERAL type '(' expression ')'		#computedQuestion
  ;
- 
- question
-  : questionidentifier ':' questiontext questiontype 
-  | questionidentifier ':' questiontext questiontype '(' expression ')' 
-  ;
 
- ifstatement
- : 'if' '(' expression ')' block (ELSE block)?
- ;
- 
-questionidentifier : IDENTIFIER ;
- 
-questiontext : STRINGLITERAL ;
-
-questiontype : 'integer'|'string'|'boolean'|'money' ;
+type : 'integer'|'string'|'boolean'|'money' ;
 
 expression
- : NOT expression
- | expression (MUL | DIV) expression
- | expression (PLUS | MINUS) expression
- | expression (EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | AND | OR) expression
- | '(' expression ')'
- | literal
+ : NOT expression																							#notExpression
+ | leftOp = expression operation = (MUL | DIV | PLUS | MINUS) rightOp = expression												#mathExpression
+ | leftOp = expression operation = (EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL) rightOp = expression					#compareExpression
+ | leftOp = expression operation = (AND | OR) rightOp = expression																			#boolExpression
+ | '(' expression ')'																						#parExpression
+ | literal																									#literalExpression
  ;
 
 literal
- : IDENTIFIER
- | INTEGER
- | BOOLEAN
- | STRINGLITERAL
+ : IDENTIFIER		#identifierLiteral
+ | INTEGER			#integerLiteral
+ | BOOLEAN			#booleanLiteral
+ | STRINGLITERAL	#stringLiteral
  ;
- 
-FORM : 'form' ;
-IF : 'if' ;
-ELSE : 'else' ; 
 
 NOT : '!' ; 
 MUL : '*' ;
@@ -58,10 +43,10 @@ LESS_EQUAL : '<=';
 AND : '&&';
 OR : '||';
 
-WHITESPACE : (' ' | '\t' | '\n' | '\r')+ -> skip;
+IDENTIFIER: [a-zA-Z][a-zA-Z0-9]*;
+INTEGER: [0-9]+;
+BOOLEAN : ('true'|'false');
+STRINGLITERAL: '"' .*? '"';
 COMMENT : '/*' .*? '*/' -> skip;
 LINE_COMMENT : '//' .*? '/n' -> skip;
-BOOLEAN : ('true'|'false');
-IDENTIFIER: [a-z][a-zA-Z0-9]+;
-INTEGER: [0-9]+;
-STRINGLITERAL: '"' .*? '"';
+WHITESPACE : (' ' | '\t' | '\n' | '\r')+ -> skip;

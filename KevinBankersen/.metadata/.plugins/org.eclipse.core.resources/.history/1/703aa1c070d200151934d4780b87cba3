@@ -1,0 +1,21 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public class SymbolTableObject {
+	
+	private final String name;
+	private final Type type;
+	
+	public void SymbolObject(String name, Type type) {
+	    
+	    this.name = name;
+	    this.type = type;
+	}
+	
+	@Override
+	public String toString(){
+	    return name + " : " + type.toString();
+	    
+	}
+}

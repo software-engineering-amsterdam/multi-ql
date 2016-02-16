@@ -1,21 +1,19 @@
 package eu.bankersen.kevin.ql.ast.expr.logic;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.boolExpr;
-import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
-import eu.bankersen.kevin.ql.ast.var.Type;
+import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
 
-public class Not extends boolExpr {
+public class Not extends BooleanExpr {
 
-	private final Expr expr;
+    private final Expr expr;
 
-	public Not(Expr expr) {
-		this.expr = expr;
-	}
+    public Not(final Expr expr) {
+	this.expr = expr;
+    }
 
-	@Override
-	public Boolean result(SymbolTabel table) {
-		return !(Boolean) expr.result(table);
-	}
+    @Override
+    public final Boolean result() {
+	return !(Boolean) expr.result();
+    }
 
 }

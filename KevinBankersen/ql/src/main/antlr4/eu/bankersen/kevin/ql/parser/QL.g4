@@ -7,7 +7,7 @@ import eu.bankersen.kevin.ql.ast.expr.logic.*;
 import eu.bankersen.kevin.ql.ast.expr.math.*;
 import eu.bankersen.kevin.ql.ast.stat.*;
 import eu.bankersen.kevin.ql.ast.form.*;
-import eu.bankersen.kevin.ql.ast.var.*;
+import eu.bankersen.kevin.ql.ast.*;
 }
 
 form returns [Form result]
@@ -98,15 +98,15 @@ unExpr returns [Expr result]
 
 	
 primary returns [Expr result]
-	: literal 				{ $result = $literal.result; }
-	| identifier 			{ $result = $identifier.result; }
+	: literal 		{ $result = $literal.result; }
+	| identifier 		{ $result = $identifier.result; }
 	| '(' + orExpr + ')' 	{ $result = $orExpr.result; }
 	;
 
 literal returns [Expr result]
-	: INT 	{ $result = new intLiteral(Integer.valueOf($INT.text)); } 
-	| STR 	{ $result = new strLiteral($STR.text); } 
-	| BOOL 	{ $result = new boolLiteral(Boolean.valueOf($BOOL.text)); }
+	: INT 	{ $result = new Literal(Integer.valueOf($INT.text), Type.INTEGER); } 
+	| STR 	{ $result = new Literal($STR.text, Type.STRING); } 
+	| BOOL 	{ $result = new Literal(Boolean.valueOf($BOOL.text), Type.BOOLEAN); }
 	;
 	
 identifier returns [Expr result]

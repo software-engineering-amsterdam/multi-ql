@@ -81,7 +81,7 @@ function preformASTCheck(){
 			var evalResult = evaluateStmt(currentNode.condition);
 			if(typeof evalResult !== "boolean"){
 				noErrors = false;
-  				throwError(currentNode.line, "Condition '"+currentNode.conditionTxt+"' is not boolean");
+  				throwError(currentNode.line, "Condition '"+currentNode.toString() +"' is not boolean");
 			}
 
 			for (var i=0; i<currentNode.queries.length; i++) {
@@ -171,7 +171,6 @@ function resetQuestionVisibility(){
 
 //TODO strings
 function evaluateStmt(statement){
-	console.log(statement);
 	if(statement instanceof OperatorExpressionNode){
 		var left = evaluateStmt(statement.left);
 		var right = evaluateStmt(statement.right);
@@ -182,7 +181,8 @@ function evaluateStmt(statement){
 					return left+right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					//console.log(statement.toString());
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "-": 
@@ -190,7 +190,7 @@ function evaluateStmt(statement){
 					return left-right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "*": 
@@ -198,7 +198,7 @@ function evaluateStmt(statement){
 					return left*right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "/": 
@@ -206,7 +206,7 @@ function evaluateStmt(statement){
 					return left/right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "<": 
@@ -214,7 +214,7 @@ function evaluateStmt(statement){
 					return left<right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case ">":
@@ -222,7 +222,7 @@ function evaluateStmt(statement){
 					return left>right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "<=": 
@@ -230,7 +230,7 @@ function evaluateStmt(statement){
 					return left<=right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case ">=": 
@@ -238,7 +238,7 @@ function evaluateStmt(statement){
 					return left>=right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "==": 
@@ -246,7 +246,7 @@ function evaluateStmt(statement){
 					return left==right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number' OR 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number' OR 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "!=": 
@@ -254,7 +254,7 @@ function evaluateStmt(statement){
 					return left!=right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'number' OR 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number' OR 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "&&": 
@@ -262,7 +262,7 @@ function evaluateStmt(statement){
 					return left&&right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 			case "||": 
@@ -270,7 +270,7 @@ function evaluateStmt(statement){
 					return left||right;
 				}
 				else{
-					throwError(statement.line, "Expected left and right types of 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					throwError(statement.line, statement.toString() + " expected left and right types of 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
 					return undefined;
 				}
 		}

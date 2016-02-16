@@ -46,18 +46,30 @@ var QuestionNode = function(text, label, type, line, computedExpr){
 var ConditionNode = function(ifExpr, queries, line, elseQueries){
 	this.condition = ifExpr;
 	this.queries = queries;
-	this.line = line;
 	this.elseQueries = elseQueries;
+	this.line = line;
+
+
+	this.toString = function(){
+		return this.condition.toString();
+	};
 };
 
 var LabelNode = function(label, line){
 	this.label = label;
 	this.line = line;
+	this.toString = function(){
+		return label;
+	};
 };
 
 var ExpressionNode = function (expr, line){
 	this.expr = expr;
 	this.line = line;
+
+	this.toString = function(){
+		return expr.toString();
+	};
 };
 
 var OperatorExpressionNode = function (left, op, right, line){
@@ -65,9 +77,17 @@ var OperatorExpressionNode = function (left, op, right, line){
 	this.op = op;
 	this.right = right;
 	this.line = line;
+
+	this.toString = function(){
+		return left.toString() + op + right.toString();
+	};
 }
 
 var NotExpression = function (expr, line){
 	this.expr = expr;
 	this.line = line;
+
+	this.toString = function(){
+		return "!"+expr.toString();
+	};
 }

@@ -18,13 +18,11 @@
 <fullyQualifiedTypeName name="java.nio.file.Path"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.nio.file.Files"/>
-<fullyQualifiedTypeName name="java.nio.file.Paths"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="eu.bankersen.kevin.ql.parser.FormParser"/>
 <fullyQualifiedTypeName name="eu.bankersen.kevin.ql.FileReader"/>
 <fullyQualifiedTypeName name="eu.bankersen.kevin.ql.parser.QLParser.FormContext"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="com.esotericsoftware.minlog.Log"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="eu.bankersen.kevin.ql.ast.var.Variable"/>
 <fullyQualifiedTypeName name="eu.bankersen.kevin.ql.ast.var.Type"/>
@@ -32,4 +30,9 @@
 <fullyQualifiedTypeName name="java.lang.Boolean"/>
 <fullyQualifiedTypeName name="eu.bankersen.kevin.ql.ast.form.AbstractForm"/>
 <fullyQualifiedTypeName name="eu.bankersen.kevin.ql.ast.expr.SymbolTabel"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="com.esotericsoftware.minlog.Log"/>
+<fullyQualifiedTypeName name="com.esotericsoftware.minlog.Log.Logger"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="java.nio.file.Paths"/>
 </qualifiedTypeNameHistroy>

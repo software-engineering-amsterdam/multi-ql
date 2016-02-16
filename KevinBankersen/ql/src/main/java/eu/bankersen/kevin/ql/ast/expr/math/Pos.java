@@ -1,20 +1,19 @@
 package eu.bankersen.kevin.ql.ast.expr.math;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.intExpr;
-import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
 
-public class Pos extends intExpr {
+public class Pos extends IntegerExpr {
 
-	private final Expr expr;
+    private final Expr expr;
 
-	public Pos(Expr expr) {
-		this.expr = expr;
-	}
+    public Pos(final Expr expr) {
+	this.expr = expr;
+    }
 
-	@Override
-	public Integer result(SymbolTabel table) {
-		return ( (Integer) expr.result(table) < 0) ? -1 * (Integer) expr.result(table) : (Integer) expr.result(table);
-	}
+    @Override
+    public final Integer result() {
+	return Math.abs((Integer) expr.result());
+    }
 
 }
