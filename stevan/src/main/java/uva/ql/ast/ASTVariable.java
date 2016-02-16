@@ -38,6 +38,34 @@ public class ASTVariable extends ASTNode implements IVariable, IASTNode {
 	public void setType(int type) {
 		this.type = type;
 	}
+	
+	@Override
+	public void setType(String nodeType) {
+		int type = 0;
+		
+		switch (nodeType.toLowerCase()) {
+			case "boolean":
+				type = BOOLEAN;
+				break;
+			case "string":
+				type = STRING;
+				break;
+			case "int":
+				type = INT;
+				break;
+			case "date":
+				type = DATE;
+				break;
+			case "double":
+				type = DOUBLE;
+				break;
+			default:
+				type = DOUBLE;
+				break;
+		}
+		
+		setType(type);
+	}
 
 	@Override
 	public String getValue() {
@@ -51,6 +79,6 @@ public class ASTVariable extends ASTNode implements IVariable, IASTNode {
 
 	@Override
 	public void accept(IASTNodeVisitor visitor) {
-		visitor.visit(this);
+		visitor.visitVar(this);
 	}
 }
