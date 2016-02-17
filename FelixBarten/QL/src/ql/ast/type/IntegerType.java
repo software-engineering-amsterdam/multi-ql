@@ -1,4 +1,4 @@
-package ql.ast;
+package ql.ast.type;
 
 public class IntegerType {
 

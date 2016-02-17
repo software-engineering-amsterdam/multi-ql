@@ -142,13 +142,13 @@ export class GreaterEqualNode extends InfixNode {
 	}
 }
 
-export class LessNode extends Node {
+export class LessNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitLessNode(this, ...args);
 	}
 }
 
-export class LessEqualNode extends Node {
+export class LessEqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitLessEqualNode(this, ...args);
 	}
