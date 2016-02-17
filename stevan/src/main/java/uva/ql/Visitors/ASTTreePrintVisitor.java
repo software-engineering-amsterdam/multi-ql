@@ -14,21 +14,22 @@ public class ASTTreePrintVisitor implements IASTNodeVisitor {
 
 	@Override
 	public void visitForm(ASTForm form) {
+		
 		System.out.println("form: " + form.getName());
+		
 		if (form.size() > 0) {
 			form.get(0).accept(this);
 		}
 	}
 
 	@Override
-	public void visitNode(ASTNode node) {
-		System.out.println("Node: " + node.getNodeType());
-	}
+	public void visitNode(ASTNode node) {}
 
 	@Override
 	public void visitBlock(ASTBlock block) {
-		System.out.println("block: " + block.getNodeType());
-		System.out.println("block.size(): " + block.size());
+		
+		System.out.println("block: ");
+
 		for(int i=0; i<block.size(); i++) {
 			block.get(i).accept(this);
 		}
@@ -36,12 +37,21 @@ public class ASTTreePrintVisitor implements IASTNodeVisitor {
 
 	@Override
 	public void visitIfStmnt(ASTIfStatement ifStmnt) {
-		System.out.println("ifStmnt: " + ifStmnt.getNodeType());
+		
+		if (ASTNode.VARIABLE == ifStmnt.getExpression().getLeftNode().getNodeType()) {
+			ASTVariable var = (ASTVariable) ifStmnt.getExpression().getLeftNode();
+			System.out.println("ifStmnt: " + var.getName() + " - " + var.toString());
+		}
+		
+		for(int i=0; i<ifStmnt.size(); i++) {
+			ifStmnt.get(i).accept(this);
+		}
 	}
 
 	@Override
 	public void visitQuestion(ASTQuestion question) {
-		System.out.println("question: " + question.getNodeType());
+		
+		System.out.println("question: " + question.getLabel());
 		
 		for(int i=0; i<question.size(); i++) {
 			question.get(i).accept(this);
@@ -50,17 +60,20 @@ public class ASTTreePrintVisitor implements IASTNodeVisitor {
 
 	@Override
 	public void visitExp(ASTExpression exp) {
+		
 		System.out.println("exp: " + exp.getNodeType());
 	}
 
 	@Override
 	public void visitNum(ASTNumber number) {
-		System.out.println("number: " + number.getNodeType());
+		
+		System.out.println("number: " + number.getValue());
 	}
 
 	@Override
 	public void visitVar(ASTVariable var) {
-		System.out.println("var: " + var.getNodeType());
+		
+		System.out.println("var: " + var.getName() + " - " + var.toString());
 	}
 
 }

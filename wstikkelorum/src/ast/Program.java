@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import antlr.QLLexer;
 import antlr.QLParser;
 import antlr.QLParser.FileContext;
-import ast.visitor.TypeVisitor;
+import ast.visitor.TestVisitor;
 
 public class Program {
 	public static void main(String[] args) throws IOException{
@@ -22,7 +22,7 @@ public class Program {
 		FileContext fileContext = parser.file();
 		//System.out.println(fileContext.form().toStringTree());
 		
-		TypeVisitor visitor = new TypeVisitor();
+		TestVisitor visitor = new TestVisitor();
 		visitor.visit(fileContext.form().result);
 		for(String s : visitor.types){
 			System.out.println(s);

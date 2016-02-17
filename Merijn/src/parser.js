@@ -10,7 +10,7 @@ import { LineError } from 'src/error';
 // Use a visitor to convert the parse context into an ast
 class AstConversionVisitor extends GeneratedVisitor {
 	visitForm(ctx) {
-		return new ast.FormNode(ctx.start.line, ctx.block().accept(this));
+		return new ast.FormNode(ctx.start.line, ctx.STRING_LITERAL().getText().slice(1,-1), ctx.block().accept(this));
 	}
 	visitBlock(ctx) {
 		let statement_nodes = [];
