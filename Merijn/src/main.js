@@ -16,8 +16,13 @@ let LOCALSTORAGE_KEY = 'uva-software-process-ql-merijn-last-input',
 
 session.on('change', function (e) {
 	let val = session.getValue(),
-		parseResult = parser.parse(val),
-		errors = parseResult.errors;
+		parseResult,
+		errors;
+
+	window.localStorage.setItem(LOCALSTORAGE_KEY, val); // store before parse, as otherwise errors will block storing
+
+	parseResult = parser.parse(val);
+	errors = parseResult.errors;
 
 	session.clearAnnotations();
 	if (errors.length > 0) {
@@ -38,7 +43,5 @@ session.on('change', function (e) {
 		}
 		renderer.render(parseResult.ast, renderElement);
 	}
-
-	window.localStorage.setItem(LOCALSTORAGE_KEY, val);
 });
 session.setValue(window.localStorage.getItem(LOCALSTORAGE_KEY));
