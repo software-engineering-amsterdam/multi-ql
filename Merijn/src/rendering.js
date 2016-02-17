@@ -3,10 +3,10 @@ import { Scope } from 'src/scope';
 import { ExprObservableFactory } from 'src/expr_observable';
 
 class IfUpdater {
-	constructor(ifContainerElement, exprObservable, blockNode, renderingVisitor, scope) {
+	constructor(ifContainerElement, exprObservable, ifNode, renderingVisitor, scope) {
 		this.ifContainerElement = ifContainerElement;
 		this.exprObservable = exprObservable;
-		this.blockNode = blockNode;
+		this.ifNode = ifNode;
 		this.renderingVisitor = renderingVisitor;
 		this.scope = scope;
 	}
@@ -15,7 +15,9 @@ class IfUpdater {
 			this.ifContainerElement.removeChild(this.ifContainerElement.firstChild);
 		}
 		if (this.exprObservable.getValue() === true) {
-			this.blockNode.accept(this.renderingVisitor, this.ifContainerElement, this.scope);
+			this.ifNode.thenBlock.accept(this.renderingVisitor, this.ifContainerElement, this.scope);
+		} else if (this.ifNode.elseBlock !== null) {
+			this.ifNode.elseBlock.accept(this.renderingVisitor, this.ifContainerElement, this.scope);
 		}
 	}
 }
@@ -34,7 +36,7 @@ class QuestionRenderer {
 		questionlabelElement.textContent = questionNode.description;
 		questionContainerElement.appendChild(questionlabelElement);
 
-		widget = this.renderWidget(questionNode, questionContainerElement);
+		widget = this.renderWidget(questionNode, questionContainerElement, scope);
 
 		scope.set(questionNode.name, widget);
 		containerElement.appendChild(questionContainerElement);
@@ -49,7 +51,7 @@ class InputQuestionRenderer extends QuestionRenderer {
 	constructor(elementFactory, widgetFactory) {
 		super(elementFactory, widgetFactory);
 	}
-	renderWidget(inputQuestionNode, questionContainerElement) {
+	renderWidget(inputQuestionNode, questionContainerElement, scope) {
 		return this.widgetFactory.renderWidget(inputQuestionNode.type, questionContainerElement, false);
 	}
 }
@@ -71,7 +73,7 @@ class ExprQuestionRenderer extends QuestionRenderer {
 	}
 	renderWidget(exprQuestionNode, questionContainerElement, scope) {
 		let exprObservable = this.exprObservableFactory.createExprObservable(exprQuestionNode.expr, scope),
-			widget = this.widgetFactory.renderWidget(exprObservable.type, questionContainerElement, true),
+			widget = this.widgetFactory.renderWidget(exprObservable.getType(), questionContainerElement, true),
 			updater = new ExprQuestionUpdater(widget, exprObservable);
 
 		exprObservable.registerObserver(updater);
@@ -106,7 +108,7 @@ class RenderingVisitor extends ast.NodeVisitor {
 	visitIfNode(ifNode, containerElement, scope) {
 		let ifContainerElement = this.elementFactory.createElement('div'),
 			exprObservable = this.exprObservableFactory.createExprObservable(ifNode.condition),
-			ifUpdater = new IfUpdater(ifContainerElement, exprObservable, ifNode.block, this, scope);
+			ifUpdater = new IfUpdater(ifContainerElement, exprObservable, ifNode, this, scope);
 
 		exprObservable.registerObserver(ifUpdater);
 		ifUpdater.notify();
