@@ -25,7 +25,12 @@ internal func getQL(owner: AnyObject, file: String) throws -> QL {
 
 extension XCTestCase {
     internal func parseFile(file: String) -> QLForm? {
-        return try? QLParser().parse(getQL(self, file: file))
+        do {
+            return try QLParser().parse(getQL(self, file: file))
+        } catch let e {
+            print(e)
+            return nil
+        }
     }
     
     internal func parseFileMany(file: String) -> [QLForm?] {

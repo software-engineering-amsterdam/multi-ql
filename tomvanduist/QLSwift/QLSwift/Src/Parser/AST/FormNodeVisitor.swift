@@ -53,6 +53,9 @@ extension FormNodeVisitor {
     func visit(node: BooleanField) {
     }
     
+    func visit(node: StringField) {
+    }
+    
     func visit(node: MoneyField) {
         node.expression?.accept(self)
     }
@@ -114,6 +117,12 @@ extension Identifier {
 }
 
 extension BooleanField {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension StringField {
     func accept(visitor: FormNodeVisitor) {
         visitor.visit(self)
     }

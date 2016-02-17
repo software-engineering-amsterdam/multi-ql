@@ -7,6 +7,8 @@ form form1 {
 
     if (q1 && q2 && true) {
     }
-    if (q3 > q4 && (q1 && q2) && "test" == q5) {
-    }
+if (q3 > q4 && q1) {
+}
+//    if (q3 > q4 && (q1 && q2) && "test" == q5) {
+//    }
 }

@@ -98,8 +98,43 @@ class SemanticAnalyser: FormNodeVisitor {
     }
     
     func visit(node: Infix) {
-        if (!(type(node) == type(node.lhs) && type(node) == type(node.rhs))) {
-            error.collect(SemanticError.TypeMismatch(description: "Infix type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
+        let typeError = { [unowned self] in
+            self.error.collect(SemanticError.TypeMismatch(description: "Infix type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
+        }
+        
+        switch (node.op) {
+            case .Gt :
+                fallthrough
+            case .Ge:
+                fallthrough
+            case .Lt:
+                fallthrough
+            case .Le:
+                fallthrough
+            case .Add:
+                fallthrough
+            case .Sub:
+                fallthrough
+            case .Mul:
+                fallthrough
+            case .Div:
+                fallthrough
+            case .Pow:
+                if (type(node.lhs) != Type.Number || type(node.rhs) != Type.Number) {
+                    typeError()
+                }
+            case .Or:
+                fallthrough
+            case .And:
+                if (type(node.lhs) != Type.Bool || type(node.rhs) != Type.Bool) {
+                    typeError()
+                }
+            case .Eq:
+                fallthrough
+            case .Ne:
+                if (type(node.lhs) != type(node.rhs)) {
+                    typeError()
+                }
         }
         
         node.lhs.accept(self)

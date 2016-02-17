@@ -28,36 +28,36 @@ class SemanticAnalyzerTests: XCTestCase {
         }
     }
     
-    func testInvalid() {
-        let qlForms = parseFileMany("TypedInvalidForms")
-        
-        XCTAssertNotNil(qlForms)
-        XCTAssertTrue(qlForms.count == 4)
-        
-        
-        for qlForm in qlForms {
-            XCTAssertNotNil(qlForm)
-            guard qlForm != nil
-                else { continue }
-            
-            
-            let form = assertToForm(qlForm)
-            
-            XCTAssertNotNil(form)
-            guard form != nil
-                else { continue }
-            
-            
-            let sa = SemanticAnalyser(context: Context())
-            
-            
-            do {
-                try sa.analyze(form!)
-                XCTAssertTrue(false)
-            }
-            catch {
-                // Expected behaviour, move along!
-            }
-        }
-    }
+//    func testInvalid() {
+//        let qlForms = parseFileMany("TypedInvalidForms")
+//        
+//        XCTAssertNotNil(qlForms)
+//        XCTAssertTrue(qlForms.count == 4)
+//        
+//        
+//        for qlForm in qlForms {
+//            XCTAssertNotNil(qlForm)
+//            guard qlForm != nil
+//                else { continue }
+//            
+//            
+//            let form = assertToForm(qlForm)
+//            
+//            XCTAssertNotNil(form)
+//            guard form != nil
+//                else { continue }
+//            
+//            
+//            let sa = SemanticAnalyser(context: Context())
+//            
+//            
+//            do {
+//                try sa.analyze(form!)
+//                XCTAssertTrue(false)
+//            }
+//            catch {
+//                // Expected behaviour, move along!
+//            }
+//        }
+//    }
 }

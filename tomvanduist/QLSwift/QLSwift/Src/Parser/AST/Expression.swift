@@ -13,7 +13,7 @@ enum UnaryOp {
 }
 
 enum BinaryOp {
-    case Add, Sub, Mul, Div, Pow, Or, And, Lt, Le, Eq, Ge, Gt
+    case Add, Sub, Mul, Div, Pow, Or, And, Lt, Le, Eq, Ne, Ge, Gt
 }
 
 protocol Expression: FormNode {
@@ -40,6 +40,15 @@ class Identifier: Expression {
 
 class BooleanField: Expression {
     let type: Type = Type.Bool
+    var value: NSValue?
+    
+    internal func resolveType(context: Context) -> Type {
+        return type
+    }
+}
+
+class StringField: Expression {
+    let type: Type = Type.String
     var value: NSValue?
     
     internal func resolveType(context: Context) -> Type {
@@ -153,11 +162,12 @@ class Infix: Expression {
                 case .Mul: return Type.Number
                 case .Div: return Type.Number
                 case .Pow: return Type.Number
-                case .Eq: return lhs.type
-                case .Ge: return Type.Number
-                case .Gt: return Type.Number
-                case .Le: return Type.Number
-                case .Lt: return Type.Number
+                case .Eq: return Type.Bool
+                case .Ne: return Type.Bool
+                case .Ge: return Type.Bool
+                case .Gt: return Type.Bool
+                case .Le: return Type.Bool
+                case .Lt: return Type.Bool
                 case .And: return Type.Bool
                 case .Or: return Type.Bool
             }

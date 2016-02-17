@@ -23,6 +23,9 @@ class QLExpressionVariable: QLExpression {
 class QLBoolean: QLExpression {
 }
 
+class QLString: QLExpression {
+}
+
 class QLMoney: QLExpression {
     var expr: QLExpression?
     
@@ -51,6 +54,12 @@ extension QLExpressionVariable {
 extension QLBoolean {
     func implode() -> Expression {
         return BooleanField()
+    }
+}
+
+extension QLString {
+    func implode() -> Expression {
+        return StringField()
     }
 }
 

@@ -9,16 +9,22 @@
 import Foundation
 
 protocol QLInfix: QLExpression {
-    init(lhs: QLExpression, rhs:QLExpression)
+    init(o: (QLExpression, QLExpression))
+//    init(lhs: QLExpression, rhs:QLExpression)
 }
 
 internal class QLInfixBase {
     let lhs, rhs: QLExpression
     
-    required init(lhs: QLExpression, rhs:QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
+//    required init(lhs: QLExpression, rhs:QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+    required init(o: (QLExpression, QLExpression)) {
+        self.lhs = o.0
+        self.rhs = o.1
     }
+
 }
 
 class QLAdd: QLInfixBase, QLInfix {
@@ -78,6 +84,12 @@ class QLLe: QLInfixBase, QLInfix {
 class QLEq: QLInfixBase, QLInfix {
     func implode() -> Expression {
         return Infix(op: BinaryOp.Eq, lhs: lhs.implode(), rhs: rhs.implode())
+    }
+}
+
+class QLNe: QLInfixBase, QLInfix {
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Ne, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
