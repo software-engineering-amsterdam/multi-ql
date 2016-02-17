@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.VariableDecl;
@@ -89,32 +88,9 @@ public class SemanticAnalyser {
 		}
 	}
 
-	@FunctionalInterface
-	private static interface TypeChecker<T extends ASTNode> {
-		public ValueType check(T node, SymbolTable symbols);
-	}
-
 	private class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
 
-		private final TypeChecker<BinaryExpr> numberRelation;
-		private final TypeChecker<BinaryExpr> booleanRelation;
-		private final TypeChecker<BinaryExpr> arithmeticOperation;
-
 		public TypeCheckVisitor() {
-			numberRelation = (BinaryExpr a, SymbolTable b) -> {
-				checkOperands(a, b, ValueType.INTEGER);
-				return ValueType.BOOLEAN;
-			};
-
-			booleanRelation = (BinaryExpr a, SymbolTable b) -> {
-				checkOperands(a, b, ValueType.BOOLEAN);
-				return ValueType.BOOLEAN;
-			};
-
-			arithmeticOperation = (BinaryExpr a, SymbolTable b) -> {
-				checkOperands(a, b, ValueType.INTEGER);
-				return ValueType.INTEGER;
-			};
 		}
 
 		public void visit(Questionnaire q) {
@@ -234,22 +210,26 @@ public class SemanticAnalyser {
 		// Arithmetic operations
 		@Override
 		public ValueType visit(Add node, SymbolTable context) {
-			return arithmeticOperation.check(node, context);
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		@Override
 		public ValueType visit(Div node, SymbolTable context) {
-			return arithmeticOperation.check(node, context);
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		@Override
 		public ValueType visit(Mul node, SymbolTable context) {
-			return arithmeticOperation.check(node, context);
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		@Override
 		public ValueType visit(Sub node, SymbolTable context) {
-			return arithmeticOperation.check(node, context);
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		// Equality relations
@@ -302,33 +282,39 @@ public class SemanticAnalyser {
 		// Number relations
 		@Override
 		public ValueType visit(GEq node, SymbolTable context) {
-			return numberRelation.check(node, context);
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
 		public ValueType visit(GT node, SymbolTable context) {
-			return numberRelation.check(node, context);
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
 		public ValueType visit(LEq node, SymbolTable context) {
-			return numberRelation.check(node, context);
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
 		public ValueType visit(LT node, SymbolTable context) {
-			return numberRelation.check(node, context);
+			checkOperands(node, context, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		// Boolean relations
 		@Override
 		public ValueType visit(And node, SymbolTable context) {
-			return booleanRelation.check(node, context);
+			checkOperands(node, context, ValueType.BOOLEAN);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
 		public ValueType visit(Or node, SymbolTable context) {
-			return booleanRelation.check(node, context);
+			checkOperands(node, context, ValueType.BOOLEAN);
+			return ValueType.BOOLEAN;
 		}
 
 		private void checkOperands(BinaryExpr expr, SymbolTable context, ValueType expectedType) {
