@@ -185,31 +185,31 @@ export class LiteralNode extends Node {
 	}
 }
 
-export class BooleanLiteralNode extends Node {
+export class BooleanLiteralNode extends LiteralNode {
 	accept (visitor, ...args) {
 		return visitor.visitBooleanLiteralNode(this, ...args);
 	}
 }
 
-export class StringLiteralNode extends Node {
+export class StringLiteralNode extends LiteralNode {
 	accept (visitor, ...args) {
 		return visitor.visitStringLiteralNode(this, ...args);
 	}
 }
 
-export class IntegerLiteralNode extends Node {
+export class IntegerLiteralNode extends LiteralNode {
 	accept (visitor, ...args) {
 		return visitor.visitIntegerLiteralNode(this, ...args);
 	}
 }
 
-export class FloatLiteralNode extends Node {
+export class FloatLiteralNode extends LiteralNode {
 	accept (visitor, ...args) {
 		return visitor.visitFloatLiteralNode(this, ...args);
 	}
 }
 
-export class MoneyLiteralNode extends Node {
+export class MoneyLiteralNode extends LiteralNode {
 	accept (visitor, ...args) {
 		return visitor.visitMoneyLiteralNode(this, ...args);
 	}
