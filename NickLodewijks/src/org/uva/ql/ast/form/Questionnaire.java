@@ -3,6 +3,7 @@ package org.uva.ql.ast.form;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -17,6 +18,7 @@ import org.uva.ql.parser.antlr.QLLexer;
 import org.uva.ql.parser.antlr.QLParser;
 
 public class Questionnaire extends ASTNode {
+
 	private final List<Form> forms;
 
 	public Questionnaire(ParserRuleContext context, List<Form> forms) {
@@ -24,12 +26,8 @@ public class Questionnaire extends ASTNode {
 		this.forms = forms;
 	}
 
-	public void add(Form form) {
-		forms.add(form);
-	}
-
 	public List<Form> getForms() {
-		return forms;
+		return Collections.unmodifiableList(forms);
 	}
 
 	@Override

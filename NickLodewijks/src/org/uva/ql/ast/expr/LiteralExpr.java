@@ -6,7 +6,7 @@ import org.uva.ql.ast.literal.Literal;
 
 public class LiteralExpr extends Expr {
 
-	private Literal<?> literal;
+	private final Literal<?> literal;
 
 	public LiteralExpr(ParserRuleContext context, Literal<?> literal) {
 		super(context);
