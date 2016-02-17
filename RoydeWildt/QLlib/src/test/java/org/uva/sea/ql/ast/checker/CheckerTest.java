@@ -18,66 +18,29 @@ public class CheckerTest {
 
     @Test public void UndefinedVarsCheckerTest1(){
 
-        Form f1 = null;
-        try {
-            f1 = QLRunner.ParseFromPath("src/test/resources/undefined1.ql");
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-        Checker chk = new Checker();
-        List<Message> messages = chk.undefinedChecker(f1);
-        List<String> testList = new ArrayList<>();
-
-        for (Message m : messages)
-            testList.add(m.getNode().toString());
-
         List<String> checkList = new ArrayList<>();
         checkList.add("Q4_Undefined");
+        checkList.add("Q7_after");
 
-        Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));
+        Form f = parseFromPath("src/test/resources/undefined1.ql");
+        List<Message> messages = (new Checker()).undefinedChecker(f);
+
+        compareMessages(messages, checkList);
     }
 
     @Test public void DuplicateCheckerTest1(){
-
-        Form f1 = null;
-        try {
-            f1 = QLRunner.ParseFromPath("src/test/resources/duplicates1.ql");
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-        Checker chk = new Checker();
-        List<Message> messages = chk.duplicateChecker(f1);
-        List<String> testList = new ArrayList<>();
-
-        for (Message m : messages) {
-            Question q = (Question) m.getNode();
-            testList.add(q.getVarname().toString());
-        }
 
         List<String> checkList = new ArrayList<>();
         checkList.add("Q1_duplicate_error");
         checkList.add("Q2_duplicate_warning");
 
-        Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));
+        Form f = parseFromPath("src/test/resources/duplicates1.ql");
+        List<Message> messages = (new Checker()).duplicateChecker(f);
+
+        compareMessages(messages, checkList);
     }
 
     @Test public void InvalidExpressionCheckerTest1(){
-
-        Form f1 = null;
-        try {
-            f1 = QLRunner.ParseFromPath("src/test/resources/expressions1.ql");
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-        Checker chk = new Checker();
-        List<Message> messages = chk.invalidExpressionChecker(f1);
-        List<String> testList = new ArrayList<>();
-
-        for (Message m : messages)
-            testList.add(m.getNode().toString());
 
         List<String> checkList = new ArrayList<>();
         checkList.add("true && 1");
@@ -89,24 +52,13 @@ public class CheckerTest {
         checkList.add("Q1_money + Q3_boolean");
         checkList.add("Q2_money == Q4_boolean");
 
-        Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));
+        Form f = parseFromPath("src/test/resources/expressions1.ql");
+        List<Message> messages = (new Checker()).invalidExpressionChecker(f);
+
+        compareMessages(messages, checkList);
     }
 
     @Test public void InvalidExpressionCheckerTest2(){
-
-        Form f1 = null;
-        try {
-            f1 = QLRunner.ParseFromPath("src/test/resources/expressions2.ql");
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-        Checker chk = new Checker();
-        List<Message> messages = chk.invalidExpressionChecker(f1);
-        List<String> testList = new ArrayList<>();
-
-        for (Message m : messages)
-            testList.add(m.getNode().toString());
 
         List<String> checkList = new ArrayList<>();
         checkList.add("1 + 1 || true && true");
@@ -115,31 +67,41 @@ public class CheckerTest {
         checkList.add("Q1_boolean + 1");
         checkList.add("Q3_boolean != 1");
 
-        Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));
+        Form f = parseFromPath("src/test/resources/expressions2.ql");
+        List<Message> messages = (new Checker()).invalidExpressionChecker(f);
+
+        compareMessages(messages, checkList);
     }
 
     @Test public void InvalidConditionCheckerTest1(){
-
-        Form f1 = null;
-        try {
-            f1 = QLRunner.ParseFromPath("src/test/resources/conditions1.ql");
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
-        Checker chk = new Checker();
-        List<Message> messages = chk.invalidConditionChecker(f1);
-        List<String> testList = new ArrayList<>();
-
-        for (Message m : messages)
-            testList.add(m.getNode().toString());
 
         List<String> checkList = new ArrayList<>();
         checkList.add("1");
         checkList.add("Q1_money");
         checkList.add("Q3_null");
 
+        Form f = parseFromPath("src/test/resources/conditions1.ql");
+        List<Message> messages = (new Checker()).invalidConditionChecker(f);
+
+        compareMessages(messages,checkList);
+    }
+
+    private void compareMessages(List<Message> messages, List<String> checkList){
+
+        List<String> testList = new ArrayList<>();
+        for (Message m : messages)
+            testList.add(m.getNode().toString());
+
         Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));
+    }
+
+    private Form parseFromPath(String path){
+        try {
+            return QLRunner.ParseFromPath(path);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return null;
+        }
     }
 
 

@@ -48,9 +48,9 @@ public class Checker {
                 sb.append(org.getVarname().getValue() + " : " + org.getType().getClass().getSimpleName());
 
                 if(dup.getType().getClass().getSimpleName() == org.getType().getClass().getSimpleName())
-                    messages.add(new WarningMessage(sb.toString(), dup));
+                    messages.add(new WarningMessage(sb.toString(), dup.getVarname()));
                 else
-                    messages.add(new ErrorMessage(sb.toString(), dup));
+                    messages.add(new ErrorMessage(sb.toString(), dup.getVarname()));
             }
         }
         return messages;

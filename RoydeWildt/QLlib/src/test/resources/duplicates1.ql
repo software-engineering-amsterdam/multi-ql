@@ -1,4 +1,4 @@
-form undefined1 {
+form duplicates1 {
   "Q1"
     Q1_duplicate_error: money
   "Q1"

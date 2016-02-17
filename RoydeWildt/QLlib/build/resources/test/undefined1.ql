@@ -1,7 +1,7 @@
 /*
  * Fail cases:
  * Q4_undefined
- * Q5_scope
+ * Q7_after
  */
 form undefined1 {
   "Q1"
@@ -13,12 +13,20 @@ form undefined1 {
 
   if (Q3 && Q4_Undefined) {
     "Q5"
-      Q5_scope: boolean
+      Q5_outscope: boolean
   }
 
-  if (Q5_scope) {
+  if (Q5_outscope) {
     "Q6"
        Q6: money
   }
+
+  if (Q7_after) {
+      "Q6"
+         Q6: money
+    }
+
+  "Q7"
+      Q7_after: boolean
 
 }

@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by roydewildt on 11/02/16.
  */
 @SuppressWarnings("unchecked")
-public class InvalidExpressionCheck<T,U> extends BaseVisitor<T,U>{
+public class InvalidExpressionCheck<T,U> extends BaseVisitor<Type.Types,Void>{
     private final Map<Node,Node> decls = new HashMap<>();
     private final List<Node> invalidExpressions = new ArrayList<>();
 
@@ -31,42 +31,42 @@ public class InvalidExpressionCheck<T,U> extends BaseVisitor<T,U>{
     }
 
     @Override
-    public T visit(Question stat, U context) {
+    public Type.Types visit(Question stat, Void env) {
         decls.put(stat.getVarname(), stat);
         return null;
     }
 
     @Override
-    public T visit(AssQuestion stat, U context) {
+    public Type.Types visit(AssQuestion stat, Void env) {
         decls.put(stat.getVarname(), stat);
         return null;
     }
 
     @Override
-    public T visit(Add expr, U context) {
+    public Type.Types visit(Add expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.MONEY;
+        return  Type.Types.MONEY;
     }
 
     @Override
-    public T visit(And expr, U context) {
+    public Type.Types visit(And expr, Void env) {
         addInvalidExpression(expr, Type.Types.BOOLEAN);
-        return (T) Type.Types.BOOLEAN;
+        return  Type.Types.BOOLEAN;
     }
 
     @Override
-    public T visit(Div expr, U context) {
+    public Type.Types visit(Div expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.MONEY;
+        return  Type.Types.MONEY;
     }
 
     @Override
-    public T visit(Eq expr, U context) {
+    public Type.Types visit(Eq expr, Void env) {
         if(rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.BOOLEAN)){
-            return (T) Type.Types.BOOLEAN;
+            return  Type.Types.BOOLEAN;
         }
         else if (rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.MONEY)) {
-            return (T) Type.Types.BOOLEAN;
+            return  Type.Types.BOOLEAN;
         }
         else {
             if(!subExpressionExists(invalidExpressions, expr))
@@ -76,42 +76,42 @@ public class InvalidExpressionCheck<T,U> extends BaseVisitor<T,U>{
     }
 
     @Override
-    public T visit(GEq expr, U context) {
+    public Type.Types visit(GEq expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.BOOLEAN;
+        return  Type.Types.BOOLEAN;
     }
 
     @Override
-    public T visit(GT expr, U context) {
+    public Type.Types visit(GT expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.BOOLEAN;
+        return  Type.Types.BOOLEAN;
     }
 
     @Override
-    public T visit(LEq expr, U context) {
+    public Type.Types visit(LEq expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.BOOLEAN;
+        return  Type.Types.BOOLEAN;
     }
 
     @Override
-    public T visit(LT expr, U context) {
+    public Type.Types visit(LT expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.BOOLEAN;
+        return  Type.Types.BOOLEAN;
     }
 
     @Override
-    public T visit(Mul expr, U context) {
+    public Type.Types visit(Mul expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.MONEY;
+        return  Type.Types.MONEY;
     }
 
     @Override
-    public T visit(NEq expr, U context) {
+    public Type.Types visit(NEq expr, Void env) {
         if(rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.BOOLEAN)){
-            return (T) Type.Types.BOOLEAN;
+            return  Type.Types.BOOLEAN;
         }
         else if (rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.MONEY)) {
-            return (T) Type.Types.BOOLEAN;
+            return  Type.Types.BOOLEAN;
         }
         else {
             if(!subExpressionExists(invalidExpressions, expr))
@@ -121,47 +121,47 @@ public class InvalidExpressionCheck<T,U> extends BaseVisitor<T,U>{
     }
 
     @Override
-    public T visit(Or expr, U context) {
+    public Type.Types visit(Or expr, Void env) {
         addInvalidExpression(expr, Type.Types.BOOLEAN);
-        return (T) Type.Types.BOOLEAN;
+        return  Type.Types.BOOLEAN;
     }
 
     @Override
-    public T visit(Sub expr, U context) {
+    public Type.Types visit(Sub expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.MONEY;
+        return  Type.Types.MONEY;
     }
 
     @Override
-    public T visit(Neg expr, U context) {
+    public Type.Types visit(Neg expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.MONEY;
+        return  Type.Types.MONEY;
     }
 
     @Override
-    public T visit(Not expr, U context) {
+    public Type.Types visit(Not expr, Void env) {
         addInvalidExpression(expr, Type.Types.BOOLEAN);
-        return (T) Type.Types.BOOLEAN;
+        return  Type.Types.BOOLEAN;
     }
 
     @Override
-    public T visit(Pos expr, U context) {
+    public Type.Types visit(Pos expr, Void env) {
         addInvalidExpression(expr, Type.Types.MONEY);
-        return (T) Type.Types.MONEY;
+        return  Type.Types.MONEY;
     }
 
     @Override
-    public T visit(Primary expr, U context) {
-        return (T) expr.getValue().accept(this.getV(),null);
+    public Type.Types visit(Primary expr, Void env) {
+        return (Type.Types) expr.getValue().accept(this.getV(),null);
     }
 
     @Override
-    public T visit(Var var, U context) {
+    public Type.Types visit(Var var, Void env) {
         if (decls.containsKey(var)){
 
             Question q = (Question) decls.get(var);
             Type t = q.getType();
-            return (T) t.getType();
+            return  t.getType();
 
         }
         else
@@ -169,13 +169,13 @@ public class InvalidExpressionCheck<T,U> extends BaseVisitor<T,U>{
     }
 
     @Override
-    public T visit(Int val, U context) {
-        return (T) Type.Types.MONEY;
+    public Type.Types visit(Int val, Void env) {
+        return  Type.Types.MONEY;
     }
 
     @Override
-    public T visit(Bool val, U context) {
-        return (T) Type.Types.BOOLEAN;
+    public Type.Types visit(Bool val, Void env) {
+        return  Type.Types.BOOLEAN;
     }
 
     private void addInvalidExpression(BinaryExpr expr, Type.Types type){

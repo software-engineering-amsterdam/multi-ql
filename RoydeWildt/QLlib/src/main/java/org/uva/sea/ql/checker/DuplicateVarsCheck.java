@@ -14,9 +14,8 @@ import java.util.Map;
 /**
  * Created by roydewildt on 11/02/16.
  */
-public class DuplicateVarsCheck<T,U> extends BaseVisitor<T,U> {
+public class DuplicateVarsCheck extends BaseVisitor<Void,Void> {
 
-    private final List<Node> decls = new ArrayList<>();
     private final Map<Var, List<Node>> duplicates = new HashMap<>();
 
     public DuplicateVarsCheck(Form f) {
@@ -24,7 +23,8 @@ public class DuplicateVarsCheck<T,U> extends BaseVisitor<T,U> {
     }
 
     @Override
-    public T visit(Question stat, U context) {
+    public Void visit(Question stat, Void context) {
+
         Var key = stat.getVarname();
         if(duplicates.containsKey(key))
             duplicates.get(key).add(stat);
@@ -33,10 +33,12 @@ public class DuplicateVarsCheck<T,U> extends BaseVisitor<T,U> {
             value.add(stat);
             duplicates.put(key,value);
         }
+
         return null;
     }
 
     public List<List<Node>> getDuplicates() {
+
         List<List<Node>> result = new ArrayList<>();
         for (List<Node> value : duplicates.values()){
             if (value.size() > 1){
