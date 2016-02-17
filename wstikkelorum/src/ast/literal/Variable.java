@@ -4,14 +4,20 @@ import ast.expression.Expression;
 import ast.visitor.Visitor;
 
 public class Variable extends Expression{
-	private String text;
-	
-	public Variable(Object object) {
-		this.text = (String)object;
+	private String name;
+	private VariableType type;
+
+	public Variable(String name, VariableType type) {
+		this.name = name;
+		this.type = type;
 	}
-	
-	public String getText(){
-		return text;
+
+	public String getName() {
+		return name;
+	}
+
+	public VariableType getType() {
+		return type;
 	}
 	
 	@Override

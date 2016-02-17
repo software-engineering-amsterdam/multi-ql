@@ -11,6 +11,7 @@
 %token MONEY
 %token STRING
 
+%token ';'
 %token <Ident> IDENT
 %token <Bool> BOOLEAN_LITERAL
 %token <Int> INT_LITERAL
@@ -51,8 +52,8 @@ form : FORM IDENT block { $$ = new Form($2, $3); }
 block : '{' statements '}' { $$ = $2; }
 ;
 
-statements : statements question
-           | statements conditionalStatement
+statements : question ';' statements
+           | conditionalStatement ';' statements
            | /*empty*/
 ;
 
@@ -64,12 +65,12 @@ question : IDENT ':' STRING_LITERAL type      { $$ = new Question($1, $3, $4); }
          | IDENT ':' STRING_LITERAL type expr { $$ = new ComputedQuestion($1, $3, $4, $5); }
 ;
 
-type : BOOLEAN
-     | DATE
-     | DECIMAL
-     | INT
-     | MONEY
-     | STRING
+type : BOOLEAN { $$ = new Int(Tokens.BOOLEAN); }
+     | DATE    { $$ = new Int(Tokens.DATE); }
+     | DECIMAL { $$ = new Int(Tokens.DECIMAL); }
+     | INT     { $$ = new Int(Tokens.INT); }
+     | MONEY   { $$ = new Int(Tokens.MONEY); }
+     | STRING  { $$ = new Int(Tokens.STRING); }
 ;
 
 expr : '+' expr %prec UPLUS { $$ = new Pos($2); }

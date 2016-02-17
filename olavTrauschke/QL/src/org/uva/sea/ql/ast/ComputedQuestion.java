@@ -11,4 +11,9 @@ public class ComputedQuestion extends Question {
         calculation = theCalculation;
     }
     
+    @Override
+    public boolean completelyEquals(Question o) {
+        return super.completelyEquals(o) && calculation.equals(((ComputedQuestion) o).calculation);
+    }
+    
 }
