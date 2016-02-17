@@ -2,10 +2,10 @@ function setHandlers(){
 	$("input").change(function(){
 		var label = $(this).attr("name");
 		if($(this).attr("type")=="checkbox"){
-			getQuestion(label).value = $(this).is(":checked");
+			getQuestion(label).setValue($(this).is(":checked"));
 		}
 		else{
-			getQuestion(label).value = $(this).val();
+			getQuestion(label).setValue($(this).val());
 		}
 		refreshGUI();
 	});
@@ -25,7 +25,7 @@ function refreshGUI(){
 		var currentNode = stack.pop();
 		if(currentNode instanceof QuestionNode){
 			if(currentNode.computedExpr != undefined){
-				currentNode.value = evaluateStmt(currentNode.computedExpr);
+				currentNode.setValue(evaluateStmt(currentNode.computedExpr));
 			}
 			currentNode.visible = true;
 			$(".questionDiv[label='"+currentNode.label+"']").show();
@@ -118,28 +118,64 @@ function renderQuestions(){
 	$("#output").html(output);
 }
 
-function displayErrors(panel, set, critical){
-	var html = "<ul>";
-	var editorErrors = new Array();
+function resetInfoPanels(){
+	$("#error").html("");
+	$("#warning").html("");
+
+	$("#errorPanel").hide();
+	$("#warningPanel").hide();
+
+	$("#formWrapper").show();
+}
+
+function renderError(panel, errorObj){
+	var html = "<li><a href='#' onClick='editor.gotoLine(" + (errorObj.line) + ");'>[line " + errorObj.line + "] " + errorObj.msg + "</a></li>";
+
+	if($("#error").html().indexOf(html)>=0) return;
 	
-	set.forEach(function(errObj) {
-		editorErrors.push({
-		  row: errObj.line-1,
-		  text: errObj.error,
-		  type: panel
-		});
-		
-	  	html += "<li><a href='#' onClick='editor.gotoLine(" + (errObj.line) + ");'>" + errObj.error + "</a></li>";
+	var errorList = editor.getSession().getAnnotations();
+	if(errorList==undefined || typeof errorList != "object"){
+		errorList = new Array();
+	}
+
+	errorList.push({
+	  row: errorObj.line-1,
+	  text: errorObj.msg,
+	  type: "error"
 	});
 
-	editor.getSession().setAnnotations(editorErrors);
+	editor.getSession().setAnnotations(errorList);
 
-	html += "</ul>";
+	editor.gotoLine(errorObj.line);
 
-	$("#"+panel).html(html);
-	$("#"+panel+"panel").show();
+	$("#error").append(html);
+	$("#errorPanel").show();
+	$("#formWrapper").hide();
 
-	if(critical){
-		$("#formWrapper").hide();
+	
+}
+
+function renderWarning(panel, warningObj){
+	var html = "<li><a href='#' onClick='editor.gotoLine(" + (warningObj.line) + ");'>[line " + warningObj.line + "] " + warningObj.msg + "</a></li>";
+
+	if($("#warning").html().indexOf(html)>=0) return;
+
+	var warningList = editor.getSession().getAnnotations();
+	if(warningList==undefined || typeof warningList != "object"){
+		warningList = new Array();
 	}
+
+	warningList.push({
+	  row: warningObj.line-1,
+	  text: warningObj.msg,
+	  type: "warning"
+	});
+
+	editor.getSession().setAnnotations(warningList);
+
+	editor.gotoLine(warningObj.line);
+
+	$("#warning").append(html);
+	$("#warningPanel").show();
+
 }

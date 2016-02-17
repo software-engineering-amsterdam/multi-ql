@@ -40,6 +40,6 @@ public class ASTNumber extends ASTNode implements INumber, IASTNode {
 
 	@Override
 	public void accept(IASTNodeVisitor visitor) {
-		visitor.visit(this);
+		visitor.visitNum(this);
 	}
 }

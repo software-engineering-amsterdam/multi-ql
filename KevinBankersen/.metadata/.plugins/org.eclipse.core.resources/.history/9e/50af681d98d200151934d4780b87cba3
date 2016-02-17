@@ -1,0 +1,26 @@
+form taxOffice { 
+  "Did you sell a house in 2010?"
+    hasSoldHouse boolean
+  
+  "Did you buy a house in 2010?"
+    hasBoughtHouse boolean
+  
+  "Did you enter a loan?"
+    hasMaintLoan boolean
+
+  if (true) {
+    
+    "Are you happy with the house?"
+      happyHouse boolean
+    
+    "What was the selling price?"
+      sellingPrice integer
+    
+    "Private debts for the sold house:"
+      privateDebt integer
+    
+    "Value residue:"
+      valueResidue integer = ( privateDebt - 10 )
+  }
+
+}

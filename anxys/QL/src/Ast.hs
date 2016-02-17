@@ -1,91 +1,85 @@
-module Ast
-       where
+{-# LANGUAGE DeriveDataTypeable #-}
 
--- TODO: Origin tracking (How do I test this?)
-import           Text.ParserCombinators.Parsec.Pos
+module Ast where
+import Text.ParserCombinators.Parsec.Pos
+
+import Data.Data
+import Data.Generics
 
 type Money = Double --Datatype for money E.G. 10.50
 
 type Name = String
 
-type Value = String
-
 type Block = [Stmnt]
 
 data Lit
-     = ILit Integer
-     | MLit Money
-     | SLit String
-     | BLit Bool
-       deriving (Eq, Show)
+  = ILit Integer
+  | MLit Money
+  | SLit String
+  | BLit Bool
+  deriving (Eq,Show, Typeable, Data)
 
 data FieldType
-     = Money
-     | Integer
-     | String
-     | Boolean
-       deriving (Eq, Enum, Show)
+  = Money
+  | Integer
+  | String
+  | Boolean
+  deriving (Eq,Enum,Show)
 
-data Region = Region { start::SourcePos
-                     , end::SourcePos
-                     }
-              deriving (Eq,Show)
+data Region =
+  Region {start :: SourcePos
+         ,end :: SourcePos}
+  deriving (Eq,Show)
 
-type Expr = (Expr', SourcePos, SourcePos)
+data Expr
+  = Var Name
+  | Lit Lit
+  | BinOp BinOp
+          Expr
+          Expr
+  | UnOp UnOp
+         Expr
+  deriving (Eq,Show)
 
-getExpr :: Expr -> Expr'
-getExpr (a,_,_) = a
-
-data Expr'
-     = Var Name
-     | Lit Lit
-     | BinOp BinOp Expr Expr
-     | UnOp UnOp Expr
-       deriving (Eq, Show)
-
-data UnOp = Neg deriving (Eq, Show)
+data UnOp =
+  Not
+  deriving (Eq,Show)
 
 data BinOp
-     = Add
-     | Sub
-     | Div
-     | Mul
-     | And
-     | Or
-     | Not
-     | SConcat
-     | EQ
-     | NEQ
-     | GT
-     | GTE
-     | LT
-     | LTE
-       deriving (Eq, Show)
-
+  = Add
+  | Sub
+  | Div
+  | Mul
+  | And
+  | Or
+  | SConcat
+  | EQ
+  | NEQ
+  | GT
+  | GTE
+  | LT
+  | LTE
+  deriving (Eq,Show)
 
 data Stmnt
-     = Field Field
-     | If Expr Block
-     | IfElse Expr Block Block
-       deriving (Eq, Show)
-
+  = Field Field
+  | If Expr
+       Block
+  deriving (Eq,Show)
 
 data Field
-     = SimpleField { label     :: String
-                   , id        :: String
-                   , fieldType :: FieldType
-                   }
-     | CalculatedField { label     :: String
-                       , id        :: String
-                       , fieldType :: FieldType
-                       , exp       :: Expr
-                       }
-       deriving (Eq, Show)
+  = SimpField FieldInfo
+  | CalcField FieldInfo
+              Expr
+  deriving (Eq,Show)
 
--- TODO: Solve above duplication with this
---data FieldInformation = FieldInformation { label     :: String
---                   , id        :: String
---                   , fieldType :: FieldType
---                   }
+data FieldInfo =
+  FieldInfo {label :: String
+            ,id :: String
+            ,fieldType :: FieldType}
+  deriving (Eq,Show)
 
-data Form = Form String Block deriving Show
+data Form =
+  Form String
+       Block
+  deriving (Eq, Show)

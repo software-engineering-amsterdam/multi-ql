@@ -75,13 +75,13 @@ condition
  * boolean, string, integer, date and decimal and money/currency.
  */
  
-expression 
-	: (DIGIT+ | FLOAT)
-	| varName
-	| '(' expression ')'
-	| '!' expression 
-	| expression ('*' | '/') expression 
-	| expression ('+' | '-') expression 
-	| expression ('<' | '>' | '<=' | '>=' | '!=') expression 
-	| expression ('&&' | '||') expression 
-	;
+expression 														
+	: (DIGIT+ | FLOAT) 											#expNum
+	| varName 													#expVar
+	| '(' expression ')' 										#expParentheses
+	| '!' expression 											#expNot
+	| expression ('*' | '/') expression 						#expMultDivide
+	| expression ('+' | '-') expression 						#expPlusMinus
+	| expression ('<' | '>' | '<=' | '>=' | '!=') expression 	#expEquality
+	| expression ('&&' | '||') expression 						#expAndOr
+	;															

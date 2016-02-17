@@ -11,6 +11,7 @@
 %token MONEY
 %token STRING
 
+%token ';'
 %token <Ident> IDENT
 %token <Bool> BOOLEAN_LITERAL
 %token <Int> INT_LITERAL
@@ -51,8 +52,8 @@ form : FORM IDENT block { $$ = new Form($2, $3); }
 block : '{' statements '}' { $$ = $2; }
 ;
 
-statements : statements question
-           | statements conditionalStatement
+statements : question ';' statements
+           | conditionalStatement ';' statements
            | /*empty*/
 ;
 

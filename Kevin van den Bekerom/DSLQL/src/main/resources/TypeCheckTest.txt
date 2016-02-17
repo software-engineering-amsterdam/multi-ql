@@ -2,4 +2,5 @@ form TypeCheckTest {
 	if (true && 2 < true + false) {q1: "q1" boolean}
 	if (1 * 1) {q1: "q1" boolean}
 	if (true - true) {q1: "q1" boolean}
+	if (2 < true) {q1: "q1" boolean}
 }
