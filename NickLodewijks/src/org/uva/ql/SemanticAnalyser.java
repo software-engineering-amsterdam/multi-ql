@@ -98,90 +98,90 @@ public class SemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(Questionnaire node, SymbolTable context) {
+		public ValueType visit(Questionnaire node, SymbolTable st) {
 			for (Form form : node.getForms()) {
-				form.accept(this, context);
+				form.accept(this, st);
 			}
 
 			return null;
 		}
 
 		@Override
-		public ValueType visit(Form node, SymbolTable context) {
+		public ValueType visit(Form node, SymbolTable st) {
 			// The body of every form has its own SymbolTable
 			node.getBody().accept(this, new SymbolTable());
 			return null;
 		}
 
 		@Override
-		public ValueType visit(Block node, SymbolTable context) {
+		public ValueType visit(Block node, SymbolTable st) {
 			// Copy the SymbolTable for scoping of variables
-			context = new SymbolTable(context);
+			st = new SymbolTable(st);
 
 			// First traverse the questions.
 			for (Question question : node.getQuestions()) {
-				question.accept(this, context);
+				question.accept(this, st);
 			}
 
 			for (IFStat statement : node.getIfStatements()) {
-				statement.accept(this, context);
+				statement.accept(this, st);
 			}
 
 			return null;
 		}
 
 		@Override
-		public ValueType visit(IFStat node, SymbolTable context) {
-			checkType(node.getExpression(), context, ValueType.BOOLEAN);
-			node.getBody().accept(this, context);
+		public ValueType visit(IFStat node, SymbolTable st) {
+			checkType(node.getExpression(), st, ValueType.BOOLEAN);
+			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public ValueType visit(ComputedQuestion node, SymbolTable context) {
-			checkType(node.getExpression(), context, node.getType());
+		public ValueType visit(ComputedQuestion node, SymbolTable st) {
+			checkType(node.getExpression(), st, node.getType());
 
-			node.getVariableDecl().accept(this, context);
+			node.getVariableDecl().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public ValueType visit(InputQuestion node, SymbolTable context) {
-			node.getVariableDecl().accept(this, context);
+		public ValueType visit(InputQuestion node, SymbolTable st) {
+			node.getVariableDecl().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public ValueType visit(VariableDecl node, SymbolTable context) {
+		public ValueType visit(VariableDecl node, SymbolTable st) {
 			String variableName;
 			ValueType type;
 
 			variableName = node.getId().getName();
 			type = node.getType().getType();
-			if (context.contains(variableName)) {
+			if (st.contains(variableName)) {
 				error("Duplicate variable declaration " + node);
 			} else {
-				context.add(variableName, type);
+				st.add(variableName, type);
 			}
 
 			return type;
 		}
 
 		@Override
-		public ValueType visit(LiteralExpr node, SymbolTable context) {
-			return node.getLiteral().accept(this, context);
+		public ValueType visit(LiteralExpr node, SymbolTable st) {
+			return node.getLiteral().accept(this, st);
 		}
 
 		@Override
-		public ValueType visit(VariableExpr node, SymbolTable context) {
-			return node.getVariableId().accept(this, context);
+		public ValueType visit(VariableExpr node, SymbolTable st) {
+			return node.getVariableId().accept(this, st);
 		}
 
 		@Override
-		public ValueType visit(VariableIdentifier node, SymbolTable context) {
+		public ValueType visit(VariableIdentifier node, SymbolTable st) {
 			ValueType type;
 
-			type = context.getType(node.getName());
+			type = st.getType(node.getName());
 			if (type == null) {
 				error("Undeclared variable " + node + node.getName());
 			}
@@ -193,57 +193,57 @@ public class SemanticAnalyser {
 
 		// Literals
 		@Override
-		public ValueType visit(BooleanLiteral node, SymbolTable context) {
+		public ValueType visit(BooleanLiteral node, SymbolTable st) {
 			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(IntegerLiteral node, SymbolTable context) {
+		public ValueType visit(IntegerLiteral node, SymbolTable st) {
 			return ValueType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(StringLiteral node, SymbolTable context) {
+		public ValueType visit(StringLiteral node, SymbolTable st) {
 			return ValueType.STRING;
 		}
 
 		// Arithmetic operations
 		@Override
-		public ValueType visit(Add node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(Add node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
 			return ValueType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Div node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(Div node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
 			return ValueType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Mul node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(Mul node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
 			return ValueType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Sub node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(Sub node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
 			return ValueType.INTEGER;
 		}
 
 		// Equality relations
 		@Override
-		public ValueType visit(Eq node, SymbolTable context) {
+		public ValueType visit(Eq node, SymbolTable st) {
 			Expr lhs;
 			ValueType lhsType;
 			ValueType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
-			lhsType = lhs.accept(this, context);
+			lhsType = lhs.accept(this, st);
 			rhs = node.right();
-			rhsType = rhs.accept(this, context);
+			rhsType = rhs.accept(this, st);
 			if (lhsType != rhsType) {
 				String msg;
 
@@ -257,16 +257,16 @@ public class SemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(NEq node, SymbolTable context) {
+		public ValueType visit(NEq node, SymbolTable st) {
 			Expr lhs;
 			ValueType lhsType;
 			ValueType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
-			lhsType = lhs.accept(this, context);
+			lhsType = lhs.accept(this, st);
 			rhs = node.right();
-			rhsType = rhs.accept(this, context);
+			rhsType = rhs.accept(this, st);
 			if (lhsType != rhsType) {
 				String msg;
 
@@ -281,51 +281,51 @@ public class SemanticAnalyser {
 
 		// Number relations
 		@Override
-		public ValueType visit(GEq node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(GEq node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
 			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(GT node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(GT node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
 			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(LEq node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(LEq node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
 			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(LT node, SymbolTable context) {
-			checkOperands(node, context, ValueType.INTEGER);
+		public ValueType visit(LT node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
 			return ValueType.BOOLEAN;
 		}
 
 		// Boolean relations
 		@Override
-		public ValueType visit(And node, SymbolTable context) {
-			checkOperands(node, context, ValueType.BOOLEAN);
+		public ValueType visit(And node, SymbolTable st) {
+			checkOperands(node, st, ValueType.BOOLEAN);
 			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(Or node, SymbolTable context) {
-			checkOperands(node, context, ValueType.BOOLEAN);
+		public ValueType visit(Or node, SymbolTable st) {
+			checkOperands(node, st, ValueType.BOOLEAN);
 			return ValueType.BOOLEAN;
 		}
 
-		private void checkOperands(BinaryExpr expr, SymbolTable context, ValueType expectedType) {
-			checkType(expr.left(), context, expectedType);
-			checkType(expr.right(), context, expectedType);
+		private void checkOperands(BinaryExpr expr, SymbolTable st, ValueType expectedType) {
+			checkType(expr.left(), st, expectedType);
+			checkType(expr.right(), st, expectedType);
 		}
 
-		private void checkType(Expr expr, SymbolTable context, ValueType expectedType) {
+		private void checkType(Expr expr, SymbolTable st, ValueType expectedType) {
 			ValueType actual;
 
-			actual = expr.accept(this, context);
+			actual = expr.accept(this, st);
 
 			if (actual == null) {
 				error("Unknown type for " + expr);
