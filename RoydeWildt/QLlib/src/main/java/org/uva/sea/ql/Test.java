@@ -1,6 +1,6 @@
 package org.uva.sea.ql;
 
-import org.uva.sea.ql.ast.checker.*;
+import org.uva.sea.ql.checker.*;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.parser.*;
 
@@ -9,10 +9,10 @@ import org.uva.sea.ql.parser.*;
  */
 public class Test {
     public static void main(String[] args) throws Throwable {
-        //Form f1 = QLRunner.ParseFromPath("src/main/resources/duplicates1.ql");
+        Form f1 = QLRunner.ParseFromPath("src/test/resources/conditions1.ql");
 
-        //Checker chk = new Checker();
-        //chk.duplicateChecker(f1);
+        Checker chk = new Checker();
+        chk.invalidConditionChecker(f1);
 
     }
 }

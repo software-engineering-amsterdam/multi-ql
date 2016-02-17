@@ -1,9 +1,6 @@
-package org.uva.sea.ql.ast.checker.message;
+package org.uva.sea.ql.checker.message;
 
 import org.uva.sea.ql.ast.tree.Node;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by roydewildt on 12/02/16.

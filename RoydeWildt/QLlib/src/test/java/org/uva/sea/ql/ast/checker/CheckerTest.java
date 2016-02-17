@@ -1,9 +1,9 @@
 package org.uva.sea.ql.ast.checker;
 
-import org.hamcrest.Matcher;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.*;
-import org.uva.sea.ql.ast.checker.message.Message;
+import org.uva.sea.ql.checker.Checker;
+import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.parser.QLRunner;
@@ -20,7 +20,7 @@ public class CheckerTest {
 
         Form f1 = null;
         try {
-            f1 = QLRunner.ParseFromPath("src/main/resources/undefined1.ql");
+            f1 = QLRunner.ParseFromPath("src/test/resources/undefined1.ql");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class CheckerTest {
 
         Form f1 = null;
         try {
-            f1 = QLRunner.ParseFromPath("src/main/resources/duplicates1.ql");
+            f1 = QLRunner.ParseFromPath("src/test/resources/duplicates1.ql");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class CheckerTest {
 
         Form f1 = null;
         try {
-            f1 = QLRunner.ParseFromPath("src/main/resources/expressions1.ql");
+            f1 = QLRunner.ParseFromPath("src/test/resources/expressions1.ql");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -96,7 +96,7 @@ public class CheckerTest {
 
         Form f1 = null;
         try {
-            f1 = QLRunner.ParseFromPath("src/main/resources/expressions2.ql");
+            f1 = QLRunner.ParseFromPath("src/test/resources/expressions2.ql");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -114,6 +114,30 @@ public class CheckerTest {
         checkList.add("Q2_money + Q2_money == Q3_boolean");
         checkList.add("Q1_boolean + 1");
         checkList.add("Q3_boolean != 1");
+
+        Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));
+    }
+
+    @Test public void InvalidConditionCheckerTest1(){
+
+        Form f1 = null;
+        try {
+            f1 = QLRunner.ParseFromPath("src/test/resources/conditions1.ql");
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+        Checker chk = new Checker();
+        List<Message> messages = chk.invalidConditionChecker(f1);
+        List<String> testList = new ArrayList<>();
+
+        for (Message m : messages)
+            testList.add(m.getNode().toString());
+
+        List<String> checkList = new ArrayList<>();
+        checkList.add("1");
+        checkList.add("Q1_money");
+        checkList.add("Q3_null");
 
         Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));
     }

@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast.checker;
+package org.uva.sea.ql.checker;
 
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;

@@ -1,13 +1,13 @@
-package org.uva.sea.ql.ast.checker;
+package org.uva.sea.ql.checker;
 
-import org.uva.sea.ql.ast.checker.message.ErrorMessage;
-import org.uva.sea.ql.ast.checker.message.Message;
-import org.uva.sea.ql.ast.checker.message.WarningMessage;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.checker.message.ErrorMessage;
+import org.uva.sea.ql.checker.message.Message;
+import org.uva.sea.ql.checker.message.WarningMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +65,27 @@ public class Checker {
             StringBuilder sb = new StringBuilder();
             sb.append("Expression ");
             sb.append(e.toString());
-            sb.append(" has incompatible argument types ");
+            sb.append(" has incompatible argument types");
 
             messages.add(new ErrorMessage(sb.toString(),e));
         }
         return messages;
+    }
+
+    public List<Message> invalidConditionChecker(Form f){
+        List<Message> messages = new ArrayList<>();
+        List<Node> invalidConditions = (new InvalidConditionCheck(f)).getInvalidConditions();
+
+        for(Node n : invalidConditions){
+            Expr e = (Expr) n;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Condition ");
+            sb.append(e.toString());
+            sb.append(" is not of type Boolean");
+
+            messages.add(new ErrorMessage(sb.toString(),e));
+        }
+        return messages;
+
     }
 }

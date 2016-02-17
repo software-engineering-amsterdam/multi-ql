@@ -1,15 +1,13 @@
-package org.uva.sea.ql.ast.checker.message;
+package org.uva.sea.ql.checker.message;
 
 import org.uva.sea.ql.ast.tree.Node;
-
-import java.util.List;
 
 /**
  * Created by roydewildt on 12/02/16.
  */
-public class WarningMessage extends Message {
+public class ErrorMessage extends Message {
 
-    public WarningMessage(String msgStr, Node msgNode) {
+    public ErrorMessage(String msgStr, Node msgNode) {
         super(msgStr, msgNode);
     }
 
