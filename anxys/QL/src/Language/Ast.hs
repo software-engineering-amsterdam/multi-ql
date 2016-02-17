@@ -4,7 +4,6 @@ module Ast where
 import Text.ParserCombinators.Parsec.Pos
 
 import Data.Data
-import Data.Generics
 
 type Money = Double --Datatype for money E.G. 10.50
 
