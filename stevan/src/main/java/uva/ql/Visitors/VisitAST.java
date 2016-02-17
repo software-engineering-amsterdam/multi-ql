@@ -13,7 +13,7 @@ public final class VisitAST {
 	
 	public static ArrayList<ASTNode> getNodesByType( ASTNode startNode, int nodeType ) {
 		ASTForm root = getRootNode(startNode);
-		ArrayList<ASTNode> nodeList = visitBlock(root, nodeType);
+		ArrayList<ASTNode> nodeList = visitBlock((ASTBlock) root.get(0), nodeType);
 		
 		// to remove duplicate nodes, but I seem to need them to type check for duplicate questions
 		/*Set<ASTNode> set = new HashSet<ASTNode>(nodeList);

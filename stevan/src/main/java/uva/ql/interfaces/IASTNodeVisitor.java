@@ -10,6 +10,7 @@ import uva.ql.ast.ASTQuestion;
 import uva.ql.ast.ASTVariable;
 
 public interface IASTNodeVisitor {
+	
 	public void visitForm(ASTForm form);
 	public void visitNode(ASTNode node);
 	public void visitBlock(ASTBlock block);

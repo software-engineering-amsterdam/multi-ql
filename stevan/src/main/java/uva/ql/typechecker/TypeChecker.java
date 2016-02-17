@@ -1,4 +1,4 @@
-package uva.TaxForm.TypeChecker;
+package uva.ql.typechecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,11 +56,11 @@ public class TypeChecker {
 		
 		for (int i=0; i<nodeList.size(); i++) {
 			ASTQuestion question = (ASTQuestion) nodeList.get(i);
-			ASTVariable var = (ASTVariable) question.getExpression().getLeftNode();
+			ASTVariable var = (ASTVariable) question.get(0);
 			
 			for (int j=i+1; j<nodeList.size(); j++) {
 				ASTQuestion dupQuestion = (ASTQuestion) nodeList.get(j);
-				ASTVariable dupVar = (ASTVariable) dupQuestion.getExpression().getLeftNode();
+				ASTVariable dupVar = (ASTVariable) dupQuestion.get(0);
 				
 				if (var.getName().equals(dupVar.getName())) {
 					msg.put("Error: Duplicate of variable '" + dupVar.getName() + "' already exisits in form", -1);
