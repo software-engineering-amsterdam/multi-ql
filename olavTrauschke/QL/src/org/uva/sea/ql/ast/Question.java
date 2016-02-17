@@ -33,7 +33,7 @@ public class Question extends ASTNode {
     
     //Stricter implementation of equals for testing purpose
     public boolean completelyEquals(Question other) {
-        return identifier.equals(other.identifier) && label.equals(other.label) && type == other.type;
+        return identifier.equals(other.identifier) && label.equals(other.label) && type.equals(other.type);
     }
     
 }
