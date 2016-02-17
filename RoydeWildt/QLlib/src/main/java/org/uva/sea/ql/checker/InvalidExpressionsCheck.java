@@ -22,11 +22,11 @@ import java.util.Map;
  * Created by roydewildt on 11/02/16.
  */
 @SuppressWarnings("unchecked")
-public class InvalidExpressionCheck<T,U> extends BaseVisitor<Type.Types,Void>{
+public class InvalidExpressionsCheck<T,U> extends BaseVisitor<Type.Types,Void>{
     private final Map<Node,Node> decls = new HashMap<>();
     private final List<Node> invalidExpressions = new ArrayList<>();
 
-    public InvalidExpressionCheck(Form f){
+    public InvalidExpressionsCheck(Form f){
         f.accept(this,null);
     }
 

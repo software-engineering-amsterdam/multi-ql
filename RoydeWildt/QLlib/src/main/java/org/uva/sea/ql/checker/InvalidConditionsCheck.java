@@ -15,10 +15,10 @@ import java.util.Map;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class InvalidConditionCheck extends TypeVisitor<Type.Types,Void>{
+public class InvalidConditionsCheck extends TypeVisitor<Type.Types,Void>{
     private final List<Node> invalidConditions;
 
-    public InvalidConditionCheck(Form f) {
+    public InvalidConditionsCheck(Form f) {
         super(f);
         this.invalidConditions = new ArrayList<>();
         f.accept(this,null);

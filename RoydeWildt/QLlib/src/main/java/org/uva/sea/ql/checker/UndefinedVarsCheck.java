@@ -13,12 +13,12 @@ import java.util.List;
 /**
  * Created by roy on 5-2-16.
  */
-public class UndefinedVarCheck extends BaseVisitor<Void,Environment> {
+public class UndefinedVarsCheck extends BaseVisitor<Void,Environment> {
 
     private final List<Node> undefined = new ArrayList<>();
 
 
-    public UndefinedVarCheck(Form f) {
+    public UndefinedVarsCheck(Form f) {
 
         f.accept(this, new Environment());
     }

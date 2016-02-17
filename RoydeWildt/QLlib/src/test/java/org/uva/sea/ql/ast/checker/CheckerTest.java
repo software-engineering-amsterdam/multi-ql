@@ -86,6 +86,17 @@ public class CheckerTest {
         compareMessages(messages,checkList);
     }
 
+    @Test public void CyclicQuestionsCheckerTest1(){
+
+        List<String> checkList = new ArrayList<>();
+        checkList.add("Q1");
+
+        Form f = parseFromPath("src/test/resources/cycles1.ql");
+        List<Message> messages = (new Checker()).cyclicQuestionChecker(f);
+
+        compareMessages(messages,checkList);
+    }
+
     private void compareMessages(List<Message> messages, List<String> checkList){
 
         List<String> testList = new ArrayList<>();

@@ -21,7 +21,7 @@ public class Checker {
 
     public List<Message> undefinedChecker(Form f){
         List<Message> messages = new ArrayList<>();
-        List<Node> undefined = (new UndefinedVarCheck(f)).getUndefined();
+        List<Node> undefined = (new UndefinedVarsCheck(f)).getUndefined();
 
         for(Node n : undefined){
             StringBuilder sb = new StringBuilder();
@@ -58,7 +58,7 @@ public class Checker {
 
     public List<Message> invalidExpressionChecker(Form f){
         List<Message> messages = new ArrayList<>();
-        List<Node> invalidExpressions = (new InvalidExpressionCheck(f)).getInvalidExpressions();
+        List<Node> invalidExpressions = (new InvalidExpressionsCheck(f)).getInvalidExpressions();
 
         for(Node n : invalidExpressions){
             Expr e = (Expr) n;
@@ -74,7 +74,7 @@ public class Checker {
 
     public List<Message> invalidConditionChecker(Form f){
         List<Message> messages = new ArrayList<>();
-        List<Node> invalidConditions = (new InvalidConditionCheck(f)).getInvalidConditions();
+        List<Node> invalidConditions = (new InvalidConditionsCheck(f)).getInvalidConditions();
 
         for(Node n : invalidConditions){
             Expr e = (Expr) n;
@@ -84,6 +84,23 @@ public class Checker {
             sb.append(" is not of type Boolean");
 
             messages.add(new ErrorMessage(sb.toString(),e));
+        }
+        return messages;
+
+    }
+
+    public List<Message> cyclicQuestionChecker(Form f){
+        List<Message> messages = new ArrayList<>();
+        List<Node> cyclics = (new CyclicQuestionsCheck(f)).getCyclics();
+
+        for(Node n : cyclics){
+            Var v = (Var) n;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Question ");
+            sb.append(v.toString());
+            sb.append(" contains a cyclic cyclic dependencies");
+
+            messages.add(new ErrorMessage(sb.toString(),v));
         }
         return messages;
 

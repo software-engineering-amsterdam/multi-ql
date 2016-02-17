@@ -22,6 +22,11 @@ public class Environment {
             env.add(q.getVarname());
     }
 
+    public void removeDecl(Question q){
+        if(env.contains(q.getVarname()))
+            env.remove(q.getVarname());
+    }
+
     public boolean isDeclared(Var v){
         if(env.contains(v))
             return true;
