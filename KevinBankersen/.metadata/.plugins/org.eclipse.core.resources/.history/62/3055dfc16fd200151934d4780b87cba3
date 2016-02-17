@@ -1,0 +1,33 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import eu.bankersen.kevin.ql.ast.var.Type;
+import eu.bankersen.kevin.ql.ast.var.Variable;
+
+public class SymbolTabel2 {
+    
+    private static List<Variable> table;
+    
+    public SymbolTabel2() {
+	table = new ArrayList<Variable>();
+    }
+    
+
+    static public void addVariable(String name, Type type){
+	table.add(new Variable("hasSoldHouse", Type.BOOLEAN));
+    }
+    
+    static public String getContents(){
+	
+	return table.toString();
+    }
+    
+    protected class SymbolObject{
+	
+	
+    }
+
+}

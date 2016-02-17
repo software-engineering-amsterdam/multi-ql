@@ -1,0 +1,72 @@
+package eu.bankersen.kevin.ql.symboltable;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public final class SymbolTabel {
+    
+    private static HashMap<String, SymbolTableObject> tableList = new HashMap<>();
+    private static ArrayList<String> errorList = new ArrayList<String>();
+
+    public static void addVariable(final String name, final Type type) {
+	
+	tableList.put(name, new SymbolTableObject(type));
+    }
+
+    public static Type getType(final String name) {
+	try {	 
+	    return tableList.get(name).getType();
+	} catch (NullPointerException e) {
+	    Log.error("Object %S not found", name);
+	    errorList.add(name);
+	    return Type.UNDIFINED;
+	}
+    }
+
+    public static Object getValue(final String name) {
+	return tableList.get(name).getValue();
+    }
+
+    public static String getContents() {
+
+	return tableList.toString();
+    }
+    
+    public static void addError(final String error) {
+	errorList.add(error);
+    }
+    
+    private SymbolTabel() {
+    }
+}
+
+class SymbolTableObject {
+    
+    private final Type type;
+    private Object value;
+    
+
+    SymbolTableObject(final Type type) {
+	Log.debug("Added: " + type.toString());
+	this.type = type;
+    }
+    
+    public Type getType() {
+	Log.debug("Requested: " + type.toString());
+	return type;
+    }
+    
+    public Object getValue() {
+ 	return value;
+     }
+
+    @Override
+    public String toString() {
+	return type.toString() + " : " + value;
+
+    }
+}

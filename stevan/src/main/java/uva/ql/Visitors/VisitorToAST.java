@@ -1,36 +1,40 @@
 package uva.ql.Visitors;
 
 import org.antlr.v4.runtime.misc.NotNull;
+
 import uva.ql.antlr4.QLBaseVisitor;
 import uva.ql.antlr4.QLParser;
-import uva.ql.antlr4.QLParser.BlockContext;
-import uva.ql.antlr4.QLParser.ExpressionContext;
-import uva.ql.antlr4.QLParser.VarTypeContext;
+import uva.ql.antlr4.QLParser.QuestionContext;
 import uva.ql.ast.AST;
 import uva.ql.ast.ASTBlock;
 import uva.ql.ast.ASTExpression;
 import uva.ql.ast.ASTForm;
 import uva.ql.ast.ASTIfStatement;
+import uva.ql.ast.ASTNode;
 import uva.ql.ast.ASTQuestion;
 import uva.ql.ast.ASTVariable;
 
 public class VisitorToAST extends QLBaseVisitor<Object> {
+	
+/*	private ASTQuestion question = AST.newQuestion();
+	private ASTVariable varNode = AST.newVariable();
+	private ASTExpression exp = AST.newExpression();
+	private ASTIfStatement ifStmnt = AST.newIfStatement();*/
 
 	@Override
 	public ASTForm visitForm( @NotNull QLParser.FormContext ctx ) {
 		
 		ASTForm form = AST.newForm();
 		form.setName(ctx.varName().getText());
-		System.out.println("Create Form");
 		
 		for (int i=0; i<ctx.getChildCount(); i++) {
 			
-			System.out.println("\tVisit children of Form: " + ctx.getChild(i).getText());
-			ctx.getChild(i).accept(this);
-			/*
-			BlockContext blockCTX = (BlockContext) ctx.getChild(i);
-			visitBlock( blockCTX );
-			*/
+			if (ctx.getChild(i) == ctx.block()) {
+				ASTBlock block = AST.newBlock();
+				block = (ASTBlock) ctx.block().accept(this);
+				form.addChild(block);
+				block.setParent(form);
+			}
 		}
 		
 		return form;
@@ -40,92 +44,95 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public ASTBlock visitBlock( @NotNull QLParser.BlockContext ctx ) {
 		
 		ASTBlock block = AST.newBlock();
-		System.out.println("Create Block");
 		
 		for (int i=0; i<ctx.getChildCount(); i++) {
 			
-			System.out.println("\tVisit children of Block: " + ctx.getChild(i).getText());
-			ctx.getChild(i).accept(this);
-			
-			/*
-			try {
-				Object c = ctx.accept(this);
-				IfConditionContext ifCTX = (IfConditionContext) ctx.getChild(i);
-				ASTIfStatement ifStatement = AST.newIfStatement();
-				ifStatement.setParent(block);
-				block.addChild(ifStatement);
-				
-				visitIfCondition(ifCTX, ifStatement);
-			} catch (ClassCastException e) {}
-			try {
-				QuestionContext questionCTX = (QuestionContext) ctx.getChild(i);
+			if (ctx.getChild(i) == ctx.question(i)) {
 				ASTQuestion question = AST.newQuestion();
+				question = (ASTQuestion) visitQuestion((QuestionContext) ctx.question());
 				question.setParent(block);
-				
-				block.addChild( visitQuestion(questionCTX, question) );
-			} catch (ClassCastException e) {}
-			*/
+				block.addChild(question);
+			}
+			else if (ctx.getChild(i) == ctx.condition()) {
+				// Assuming that its an IfStatment... make an ASTCondition node?!
+				ASTIfStatement ifStmnt = AST.newIfStatement();
+				ifStmnt = (ASTIfStatement) ctx.getChild(i).accept(this);
+				ifStmnt.setParent(block);
+				block.addChild(ifStmnt);
+			}
+			ctx.getChild(i).accept(this);
 		}
-		//System.out.println("EndBlockVisit");
 		
 		return block;
+	}
+	
+	@Override
+	public ASTIfStatement visitIfCondition( @NotNull QLParser.IfConditionContext ctx ) {
+		
+		ASTIfStatement ifStmnt = AST.newIfStatement();
+		/*ifStmnt.setParent(block);
+		block.addChild(ifStmnt);
+		exp = AST.newExpression();
+		exp.setParent(ifStmnt);
+		ifStmnt.setExpression(exp);*/
+		
+		for (int i=0; i<ctx.getChildCount(); i++) {
+				
+			ctx.getChild(i).accept(this);
+		}
+
+		//System.out.println("Create IfStatement - " + ctx.getText());
+		
+		//System.out.println("StartVisit IfCondition");
+		for (int i=0; i<ctx.getChildCount(); i++) {
+			
+			//System.out.println("\tVisit children of IfStatement: " + ctx.getChild(i).getText());
+			ctx.getChild(i).accept(this);
+			
+		}
+		//System.out.println("EndVisit IfCondition");
+		return ifStmnt;
 	}
 	
 	@Override 
 	public ASTQuestion visitQuestion( @NotNull QLParser.QuestionContext ctx) {
 		
-		System.out.println("Create Question");
+		//System.out.println("Create Question");
 		
 		ASTQuestion question = AST.newQuestion();
-		question.setLabel(ctx.label().getText().substring(1, ctx.label().getText().length()-1));
+		/*question.setLabel(ctx.label().getText().substring(1, ctx.label().getText().length()-1));
+		question.setParent(block);
+		block.addChild(question);
+		//System.out.println(ctx.parent.getText());
+		varNode = AST.newVariable();
+		varNode.setName(ctx.varName().getText());
+		varNode.setType(ctx.varType().getText());
+		varNode.setParent(question);
+		question.addChild(varNode);*/
 		
-		for (int i=0; i<ctx.getChildCount(); i++) {
+		/*if(!ctx.expression().isEmpty()) {
 			
-			System.out.println("\tVisit children of Question: " + ctx.getChild(i).getText());
-			ctx.getChild(i).accept(this);
-		}
-		/*
-		System.out.println(ctx.getChildCount());
-		
-		ASTExpression expression = AST.newExpression();
-		expression.setParent(question);
-		question.setExpression(expression);
-		
-		ASTVariable variable = AST.newVariable();
-		variable.setParent(expression);
-		variable.setName(ctx.varName().getText());
-		visitVarType( (VarTypeContext) ctx.varType() );
-		
-		expression.setLeftNode(variable);
-		*/
-		/*
-		if (ctx.ASSIGN() != null) {
-			//expression.setExpressionType(ASTExpression.EXP);
-			expression.setExpressionType(ASTExpression.ASSIGN_EXP);
-			//question.setComputed(true);
-			//System.out.println(ctx.expression().size());
-			for (int i=0; i<ctx.expression().size(); i++) {
-				//System.out.println(ctx.expression(i).getText());
-				ASTExpression rightNodeExp = AST.newExpression();
-				rightNodeExp.setParent(expression);
-				expression.setRightNode(rightNodeExp);
-				visitExpression( (ExpressionContext) ctx.expression(i), rightNodeExp );
+			question.setComputed(true);
+			exp = AST.newExpression();
+			exp.setParent(question);
+			
+			for (int i=0; i<ctx.getChildCount(); i++) {
+				
+				ctx.getChild(i).accept(this);
 			}
-		}
-		else {
-			expression.setExpressionType(ASTExpression.SINGLE_EXP);
-		}
-		*/
+		}*/
+
 		return question;
 	}
 	
-	@Override
+/*	@Override
 	public ASTVariable visitVarName( @NotNull QLParser.VarNameContext ctx ) {
 		
-		ASTVariable varNode = AST.newVariable();
-		System.out.println("Create Variable Name - " + ctx.getText());
-		System.out.println(ctx.getChildCount());
-		System.out.println(ctx.getChild(0).getText());
+		varNode = AST.newVariable();
+		varNode.setName(ctx.getText());
+		//System.out.println("Create Variable Name - " + ctx.getText());
+		//System.out.println(ctx.getChildCount());
+		//System.out.println(ctx.getChild(0).getText());
 		
 		return varNode;
 	}
@@ -133,91 +140,83 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	@Override
 	public ASTVariable visitVarType( @NotNull QLParser.VarTypeContext ctx ) {
 		
-		ASTVariable varNode = AST.newVariable();
-		System.out.println("Create Variable - " + ctx.getText());
-		System.out.println(ctx.getChildCount());
-		System.out.println(ctx.getChild(0).getText());
-		/*
-		if (varType.BOOLEAN() != null) {
-			variableNode.setType(ASTVariable.BOOLEAN);
-		} else if (varType.INT() != null) {
-			variableNode.setType(ASTVariable.INT);
-		} else if (varType.MONEY() != null) {
-			variableNode.setType(ASTVariable.MONEY);
-		} else if (varType.STRING() != null) {
-			variableNode.setType(ASTVariable.STRING);
-		} else if (varType.DATE() != null) {
-			variableNode.setType(ASTVariable.DATE);
-		}
-		*/
+		varNode = AST.newVariable();
+		//System.out.println("Create Variable - " + ctx.getText());
+		//System.out.println(ctx.getChildCount());
+		//System.out.println(ctx.getChild(0).getText());
+
 		return varNode;
 	}
 	
 	@Override
-	public ASTExpression visitExpression( @NotNull QLParser.ExpressionContext ctx ) {
-		
-		ASTExpression exp = AST.newExpression();
-		System.out.println("Create Expression - " + ctx.getText());
-		
-		for (int i=0; i<ctx.getChildCount(); i++) {
-			
-			System.out.println("\tVisit children of Expression: " + ctx.getChild(i).getText());
-			ctx.getChild(i).accept(this);
-		}
-		/*
-		ArrayList<Object> infixList = ContextUtils.expressionToInfix(ctx, null);
-		ShuntingYardAlgorithm.infixToAST(infixList, exp);
-		*/
-		//System.out.println(ShuntingYardAlgorithm.astToPostfix(exp));
+	public ASTExpression visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
 		return exp;
 	}
 	
 	@Override
-	public ASTIfStatement visitIfCondition( @NotNull QLParser.IfConditionContext ctx ) {
+	public ASTExpression visitExpVar( @NotNull QLParser.ExpVarContext ctx ) {
 		
-		ASTIfStatement ifStmnt = AST.newIfStatement();
-		System.out.println("Create IfStatement - " + ctx.getText());
+		System.out.println(ctx.getText());
+		if (exp.getParent() != null) {
+			exp = AST.newExpression();
+		}
+		exp.setExpressionType(ASTExpression.SINGLE_EXP);
+		exp.setParent(null);
 		
-		//System.out.println("StartVisit IfCondition");
+		exp.setLeftNode(null);
+		return exp;
+	}
+	
+	@Override
+	public ASTExpression visitExpParentheses( @NotNull QLParser.ExpParenthesesContext ctx ) {
+		
+		//exp.setExpressionType(ctx.);
+		//System.out.println("Create expParentheses - " + ctx.getText() + " - " + ctx.getChildCount());
+		//System.out.println(exp.getLeftNode());
+		
+		
 		for (int i=0; i<ctx.getChildCount(); i++) {
 			
-			System.out.println("\tVisit children of IfStatement: " + ctx.getChild(i).getText());
+			//System.out.println("\tVisit children of Expression: " + ctx.getChild(i).getText());
 			ctx.getChild(i).accept(this);
-			
-			//System.out.println(i);
-			
-			/*
-			try {
-				ExpressionContext expressionCTX = (ExpressionContext) ctx.getChild(i);
-				ASTExpression exp = AST.newExpression();
-				exp.setParent(ifStmnt);
-				ifStmnt.setExpression(exp);
-				
-				visitExpression(expressionCTX);
-				//System.out.println(ctx.getChild(i).getText());
-			} catch (ClassCastException e) {}
-
-			try {
-				if (ifStmnt.getLeftNode() == null) {
-					BlockContext blockCTX = (BlockContext) ctx.getChild(i);
-					ASTBlock block = AST.newBlock();
-					block.setParent(ifStmnt);
-					ifStmnt.setLeftNode(block);
-					
-					visitBlock(blockCTX);
-				} else {
-					BlockContext blockCTX = (BlockContext) ctx.getChild(i);
-					ASTBlock block = AST.newBlock();
-					block.setParent(ifStmnt);
-					ifStmnt.setRightNode(block);
-					
-					visitBlock(blockCTX);
-				}
-				//System.out.println(ctx.getChild(i).getText());
-			} catch (ClassCastException e) {}
-			*/
+			//System.out.println(ctx.getChild(i).getText());
 		}
-		//System.out.println("EndVisit IfCondition");
-		return ifStmnt;
+
+		return exp;
 	}
+	
+	@Override
+	public ASTExpression visitExpNot( @NotNull QLParser.ExpNotContext ctx ) {
+		return exp;
+	}
+	
+	@Override
+	public ASTExpression visitExpMultDivide( @NotNull QLParser.ExpMultDivideContext ctx ) {
+		return exp;
+	}
+	
+	@Override
+	public ASTExpression visitExpPlusMinus( @NotNull QLParser.ExpPlusMinusContext ctx ) {
+		System.out.println("Create expPlusMinus - " + ctx.getText() + " - " + ctx.getChildCount());
+		//System.out.println(exp.getLeftNode());
+		
+		for (int i=0; i<ctx.getChildCount(); i++) {
+			
+			System.out.println(ctx.getChild(i).getText());
+		}
+		
+		return exp;
+	}
+	
+	@Override
+	public ASTExpression visitExpEquality( @NotNull QLParser.ExpEqualityContext ctx ) {
+		return exp;
+	}
+	
+	@Override
+	public ASTExpression visitExpAndOr( @NotNull QLParser.ExpAndOrContext ctx ) {
+		return exp;
+	}
+	*/
+	
 }

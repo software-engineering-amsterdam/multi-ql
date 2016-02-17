@@ -21,7 +21,8 @@ public class ParserQuestionTest {
         Str label = new Str("Did you sell a house in 2010?");
         Int type = new Int(Tokens.BOOLEAN);
         Question expected = new Question(identifier, label, type);
-        assertEquals(expected, result);
+        
+        assertTrue(expected.completelyEquals(result));
     }
     
     @Test
@@ -39,7 +40,8 @@ public class ParserQuestionTest {
         Expr secondIdentifier = new Ident("privateDebt");
         Expr calculation = new Sub(firstIdentifier, secondIdentifier);
         Question expected = new ComputedQuestion(identifier, label, type, calculation);
-        assertEquals(expected, result);
+        
+        assertTrue(expected.completelyEquals(result));
     }
     
 }

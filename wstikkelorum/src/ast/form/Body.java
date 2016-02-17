@@ -3,9 +3,9 @@ package ast.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.Visitable;
-import ast.Visitor;
 import ast.statement.Statement;
+import ast.visitor.Visitable;
+import ast.visitor.Visitor;
 
 public class Body implements Visitable {
 	private List<Statement> statements;
@@ -13,12 +13,11 @@ public class Body implements Visitable {
 	public Body(){
 		this.statements = new ArrayList<Statement>();
 	}
-
 	public void add(Statement result) {
 		this.statements.add(result);
 	}
 	
-	public List<Statement> getStatement() {
+	public List<Statement> getStatements() {
 		return statements;
 	}
 

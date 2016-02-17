@@ -7,6 +7,7 @@ public class Neg extends UnaryExpr implements Visitable {
 	
 	public Neg(Expr expr) {
 		super.child = expr;
+		super.type = Type.INT;
 	}
 	
 	@Override

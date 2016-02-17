@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
 
-public interface Visitor { //interface maken
+public interface Visitor { 
 	public void visit(ASTNode node);
 	
 	// visit expression nodes

@@ -7,6 +7,7 @@ public class Pos extends UnaryExpr implements Visitable {
 	
 	public Pos(Expr expr) {
 		super.child = expr;
+		super.type = Type.INT;
 	}
 	
 	@Override

@@ -14,6 +14,7 @@ public interface IVariable {
 	public void setName(String name);
 	public int getType();
 	public void setType(int type);
+	public void setType(String type);
 	public String getValue();
 	public void setValue(String value);
 }

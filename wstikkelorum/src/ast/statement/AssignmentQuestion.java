@@ -1,8 +1,8 @@
 package ast.statement;
 
-import ast.Visitable;
-import ast.Visitor;
 import ast.expression.Expression;
+import ast.visitor.Visitable;
+import ast.visitor.Visitor;
 
 public class AssignmentQuestion implements Visitable{
 	private String id;
@@ -10,8 +10,7 @@ public class AssignmentQuestion implements Visitable{
 	private String type;
 	private Expression expression;
 	
-	public AssignmentQuestion(Object object, Object object2, Object object3,
-			Expression result) {
+	public AssignmentQuestion(Object object, Object object2, Object object3, Expression result) {
 		this.id = (String) object;
 		this.str = (String) object2;
 		this.type = (String) object3;

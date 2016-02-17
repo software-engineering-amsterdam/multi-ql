@@ -1,7 +1,7 @@
 package ast.literal;
 
-import ast.Visitor;
 import ast.expression.Expression;
+import ast.visitor.Visitor;
 
 public class Variable extends Expression{
 	private String text;

@@ -10,16 +10,12 @@ public class Int extends NumericExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
-            Int other = (Int) o;
-            return value == other.value;
-        }
-        return false;
+        return super.equals(o) && value == ((Int) o).value;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = super.hashCode();
         hash = 23 * hash + this.value;
         return hash;
     }

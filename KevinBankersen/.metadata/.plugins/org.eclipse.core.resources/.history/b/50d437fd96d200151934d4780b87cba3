@@ -1,0 +1,72 @@
+package eu.bankersen.kevin.ql.ast;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.symboltable.SymbolTabel;
+
+public class Variable {
+
+    private final String name;
+    private final Type type;
+    private Object value;
+    private Expr expr;
+
+    public Variable(final String name, final Type type) {
+	this.name = name;
+	this.type = type;
+	this.expr = new Literal(null, type);
+    }
+
+    public Variable(final String name, final Type type, final Expr expr) {
+	this.name = name;
+	this.type = type;
+	this.expr = expr;
+    }
+
+    public final String getName() {
+	return name;
+    }
+
+    public final Type getType() {
+	return type;
+    }
+
+    public final void checkType() {
+	
+	SymbolTabel.addVariable(name, type);
+	
+	if (expr != null) {
+	    expr.checkType();
+	    if (!expr.getType().equals(type)) {
+		SymbolTabel.addError("Type missmatch, expected " + type + "got" + expr.getType());
+	    }
+	}
+    }
+
+    public final void setValue(final Expr value) {
+	this.value = value;
+    }
+
+    public final Object getValue() {
+	return value;
+    }
+
+    public final void result() {
+	
+	if (name.equals("privateDebt")) {
+	    int inte = 2;
+	    System.out.println(inte);
+	}
+	
+	try {
+	    value = expr.result();
+	    Log.info(name + " could be evaluated, value is " + value);
+	} catch (NullPointerException e) {
+	    Log.debug(name + "can't be evaluated");
+	    value = null;
+	}
+	SymbolTabel.updateValue(name, value);
+	
+    }
+}

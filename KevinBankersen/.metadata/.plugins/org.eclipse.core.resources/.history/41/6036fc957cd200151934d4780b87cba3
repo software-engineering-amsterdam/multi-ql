@@ -1,0 +1,6 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+public abstract class AbstractForm {
+
+    public abstract Boolean checkType();
+}

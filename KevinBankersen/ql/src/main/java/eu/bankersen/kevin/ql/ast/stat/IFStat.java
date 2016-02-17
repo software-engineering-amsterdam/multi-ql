@@ -1,31 +1,59 @@
 package eu.bankersen.kevin.ql.ast.stat;
 
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.Type;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
 import eu.bankersen.kevin.ql.ast.form.Block;
-import eu.bankersen.kevin.ql.ast.var.Type;
+import eu.bankersen.kevin.ql.symboltable.SymbolTabel;
 
 public class IFStat {
-	
-	private final Expr expr;
-	private final Block body;
 
-	public IFStat(Expr expression, Block body) {
-		this.expr = expression;
-		this.body = body;
-	}
+    private final Expr expr;
+    private final Block body;
+
+    public IFStat(final Expr expression, final Block body) {
+	this.expr = expression;
+	this.body = body;
+    }
+
+    public final void checkType() {
+
+	expr.checkType();
+	body.checkType();
 	
-	public Boolean checkType(SymbolTabel table){
+	Boolean check = expr.getType().equals(Type.BOOLEAN);
+	
+	if (!check) {
+	    SymbolTabel.addError("If statement needs a Boolean, statement=" + expr.getType());
+	}
 		
-		return body.checkType(table) && expr.checkType(table) && expr.getType().equals(Type.BOOLEAN);
-	}
+    }
+
+    public final void result() {
 	
-	public Block getBody(){
-		return body;
-	}
+	boolean statement; 
 	
-	@Override
-	public String toString(){
-		return body.toString();
+	try {
+	    statement = (Boolean) expr.result();
+	} catch (NullPointerException e) {
+	    Log.info("If statement cannot be evaluated");
+	    statement = false;
 	}
+	if (statement) {
+	    body.show();
+	    body.result();
+	} else {
+	    body.hide();
+	}
+    }
+
+    public final Block getBody() {
+	return body;
+    }
+
+    @Override
+    public final String toString() {
+	return body.toString();
+    }
 }

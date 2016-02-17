@@ -25,5 +25,8 @@ public class IfStatement extends Stat implements Visitable {
 		return clause;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "IfStatement";
+	}
 }

@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package org.uva.sea.ql.parser.antlr;
 
@@ -25,51 +25,114 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlock(QLParser.BlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#statement}.
+	 * Visit a parse tree produced by the {@code computedQuestionExpr}
+	 * labeled alternative in {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(QLParser.StatementContext ctx);
+	T visitComputedQuestionExpr(QLParser.ComputedQuestionExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#ifStatement}.
+	 * Visit a parse tree produced by the {@code questionExpr}
+	 * labeled alternative in {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfStatement(QLParser.IfStatementContext ctx);
+	T visitQuestionExpr(QLParser.QuestionExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#computedQuestion}.
+	 * Visit a parse tree produced by the {@code ifElseStatementExpr}
+	 * labeled alternative in {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitComputedQuestion(QLParser.ComputedQuestionContext ctx);
+	T visitIfElseStatementExpr(QLParser.IfElseStatementExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#question}.
+	 * Visit a parse tree produced by the {@code ifStatementExpr}
+	 * labeled alternative in {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestion(QLParser.QuestionContext ctx);
+	T visitIfStatementExpr(QLParser.IfStatementExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#questionIdentifier}.
+	 * Visit a parse tree produced by the {@code notExpr}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestionIdentifier(QLParser.QuestionIdentifierContext ctx);
+	T visitNotExpr(QLParser.NotExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#questionLabel}.
+	 * Visit a parse tree produced by the {@code mathLowExpr}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestionLabel(QLParser.QuestionLabelContext ctx);
+	T visitMathLowExpr(QLParser.MathLowExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#expression}.
+	 * Visit a parse tree produced by the {@code boolExpr}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(QLParser.ExpressionContext ctx);
+	T visitBoolExpr(QLParser.BoolExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#literal}.
+	 * Visit a parse tree produced by the {@code relExpr}
+	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLiteral(QLParser.LiteralContext ctx);
+	T visitRelExpr(QLParser.RelExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code litExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLitExpr(QLParser.LitExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code parenExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenExpr(QLParser.ParenExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mathHighExpr}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathHighExpr(QLParser.MathHighExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code litIdExpr}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLitIdExpr(QLParser.LitIdExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code litIntExpr}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLitIntExpr(QLParser.LitIntExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code litBoolExpr}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLitBoolExpr(QLParser.LitBoolExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code litStringExpr}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLitStringExpr(QLParser.LitStringExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#questionType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionType(QLParser.QuestionTypeContext ctx);
 }

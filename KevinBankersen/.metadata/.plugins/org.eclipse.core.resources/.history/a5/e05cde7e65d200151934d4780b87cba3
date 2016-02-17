@@ -1,0 +1,20 @@
+package eu.bankersen.kevin.ql.ast.expr.logic;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.boolExpr;
+import eu.bankersen.kevin.ql.ast.expr.intExpr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public class GT extends boolExpr {
+
+    public GT(final Expr lhs, final Expr rhs) {
+	super.lhs = lhs;
+	super.rhs = rhs;
+    }
+
+    @Override
+    public Boolean result(final SymbolTabel table) {
+	return (Integer) lhs.result(table) > (Integer) rhs.result(table);
+    }
+}

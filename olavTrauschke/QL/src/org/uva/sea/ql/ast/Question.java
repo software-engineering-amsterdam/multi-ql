@@ -17,18 +17,19 @@ public class Question extends ASTNode {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
-            Question other = (Question) o;
-            return identifier.equals(other.identifier);
-        }
-        return false;
+        return super.equals(o) && identifier.equals(((Question) o).identifier);
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 37 * hash + Objects.hashCode(this.identifier);
         return hash;
+    }
+    
+    //Stricter implementation of equals for testing purpose
+    public boolean completelyEquals(Question other) {
+        return equals(other) && label.equals(other.label) && type.equals(other.type);
     }
     
 }

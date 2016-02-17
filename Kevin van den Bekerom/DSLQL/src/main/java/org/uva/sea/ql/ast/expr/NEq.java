@@ -8,6 +8,7 @@ public class NEq extends BinaryExpr implements Visitable {
 	public NEq(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
 		super.rhs = rhs;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override

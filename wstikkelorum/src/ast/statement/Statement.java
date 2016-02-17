@@ -1,7 +1,7 @@
 package ast.statement;
 
-import ast.Visitable;
-import ast.Visitor;
+import ast.visitor.Visitable;
+import ast.visitor.Visitor;
 
 public class Statement implements Visitable{
 	private Question question;

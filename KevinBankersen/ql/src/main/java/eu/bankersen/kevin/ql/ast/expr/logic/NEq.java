@@ -1,21 +1,18 @@
 package eu.bankersen.kevin.ql.ast.expr.logic;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.boolExpr;
-import eu.bankersen.kevin.ql.ast.expr.intExpr;
-import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
-import eu.bankersen.kevin.ql.ast.var.Type;
+import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
 
-public class NEq extends boolExpr {
+public class NEq extends BooleanExpr {
 
-	public NEq(Expr lhs, Expr rhs) {
-		super.lhs = lhs;
-		super.rhs = rhs;
-	}
+    public NEq(final Expr lhs, final Expr rhs) {
+	super.lhs = lhs;
+	super.rhs = rhs;
+    }
 
-	@Override
-	public Boolean result(SymbolTabel table) {
-		return !lhs.result(table).equals(rhs.result(table));
-	}
+    @Override
+    public final Boolean result() {
+	return !lhs.result().equals(rhs.result());
+    }
 
 }
