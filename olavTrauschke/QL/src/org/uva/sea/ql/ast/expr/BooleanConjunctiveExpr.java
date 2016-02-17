@@ -15,7 +15,7 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
             secondExpr = theSecondExpr;
         }
         else {
-            setError(TYPE_ERROR_MESSAGE);
+            addError(TYPE_ERROR_MESSAGE);
         }
     }
     

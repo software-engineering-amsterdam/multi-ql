@@ -13,7 +13,7 @@ public abstract class DoubleExprArgumentNumericExpr extends NumericExpr {
             secondExpr = theSecondExpr;
         }
         else {
-            setError(TYPE_ERROR_MESSAGE);
+            addError(TYPE_ERROR_MESSAGE);
         }
     }
     

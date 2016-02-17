@@ -7,7 +7,7 @@ public class OrderedComparisonExpr extends ComparisonExpr {
     public OrderedComparisonExpr(Expr firstExpr, Expr secondExpr) {
         super(firstExpr, secondExpr);
         if (!(firstExpr.canBeNumeric() && secondExpr.canBeNumeric())) {
-            setError(TYPE_ERROR_MESSAGE);
+            addError(TYPE_ERROR_MESSAGE);
         }
     }
     

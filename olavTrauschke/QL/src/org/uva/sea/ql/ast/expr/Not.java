@@ -13,7 +13,7 @@ public class Not extends BooleanExpr {
             content = theContent;
         }
         else {
-            setError(TYPE_ERROR_MESSAGE);
+            addError(TYPE_ERROR_MESSAGE);
         }
     }
     

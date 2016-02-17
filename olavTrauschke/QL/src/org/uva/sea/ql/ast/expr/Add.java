@@ -20,7 +20,7 @@ public class Add extends Expr {
             setCanBeString(canBeString);
         }
         else {
-            setError(TYPE_ERROR_MESSAGE);
+            addError(TYPE_ERROR_MESSAGE);
         }
     }
     

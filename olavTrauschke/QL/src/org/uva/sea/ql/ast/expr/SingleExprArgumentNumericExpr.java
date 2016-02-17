@@ -11,7 +11,7 @@ public abstract class SingleExprArgumentNumericExpr extends NumericExpr {
             content = theContent;
         }
         else {
-            setError(TYPE_ERROR_MESSAGE);
+            addError(TYPE_ERROR_MESSAGE);
         }
     }
     
