@@ -1,45 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2fe6509e-12ac-42b3-a403-b4582894835f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/QLlib.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/checker/Checker.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/checker/InvalidExpressionCheck.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/checker/UndefinedVarCheck.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/checker/message/ErrorMessage.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/checker/message/Message$Type.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/checker/message/Message.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/checker/message/WarningMessage.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Main.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/checker/Checker.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Checker.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/checker/DuplicateVarsCheck.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/DuplicateVarsCheck.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/checker/InvalidExpressionCheck.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/InvalidExpressionCheck.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/checker/UndefinedVarCheck.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/UndefinedVarCheck.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/checker/message/ErrorMessage.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/message/ErrorMessage.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/checker/message/Message.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/message/Message.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/checker/message/WarningMessage.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/message/WarningMessage.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/duplicates1.ql" afterPath="$PROJECT_DIR$/src/test/resources/duplicates1.ql" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/example1.ql" afterPath="$PROJECT_DIR$/src/test/resources/example1.ql" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/expressions1.ql" afterPath="$PROJECT_DIR$/src/test/resources/expressions1.ql" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/expressions2.ql" afterPath="$PROJECT_DIR$/src/test/resources/expressions2.ql" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/undefined1.ql" afterPath="$PROJECT_DIR$/src/test/resources/undefined1.ql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/Test.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/Test.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/test/org/uva/sea/ql/ast/checker/CheckerTest.class" afterPath="$PROJECT_DIR$/build/classes/test/org/uva/sea/ql/ast/checker/CheckerTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/libs/SE-QLlib-1.0.jar" afterPath="$PROJECT_DIR$/build/libs/SE-QLlib-1.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/binary/test/results.bin" afterPath="$PROJECT_DIR$/build/test-results/binary/test/results.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/classes/org.uva.sea.ql.ast.checker.CheckerTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/classes/org.uva.sea.ql.ast.checker.CheckerTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/index.html" afterPath="$PROJECT_DIR$/build/reports/tests/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/packages/org.uva.sea.ql.ast.checker.html" afterPath="$PROJECT_DIR$/build/reports/tests/packages/org.uva.sea.ql.ast.checker.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/TEST-org.uva.sea.ql.ast.checker.CheckerTest.xml" afterPath="$PROJECT_DIR$/build/test-results/TEST-org.uva.sea.ql.ast.checker.CheckerTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/Test.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/Test.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/uva/sea/ql/ast/checker/CheckerTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/uva/sea/ql/ast/checker/CheckerTest.java" />
-    </list>
+    <list default="true" id="2fe6509e-12ac-42b3-a403-b4582894835f" name="Default" comment="" />
     <ignored path="QLlib.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -179,8 +141,8 @@
       <file leaf-file-name="CheckerTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/uva/sea/ql/ast/checker/CheckerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51958764">
-              <caret line="130" column="61" selection-start-line="130" selection-start-column="61" selection-end-line="130" selection-end-column="61" />
+            <state vertical-scroll-proportion="0.055670105">
+              <caret line="115" column="41" selection-start-line="115" selection-start-column="41" selection-end-line="115" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1509,7 +1471,7 @@
       <option name="number" value="Default" />
       <updated>1455309184735</updated>
       <workItem from="1455309187510" duration="5853000" />
-      <workItem from="1455702790360" duration="4007000" />
+      <workItem from="1455702790360" duration="4034000" />
     </task>
     <servers />
   </component>
@@ -1546,7 +1508,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9860000" />
+    <option name="totallyTimeSpent" value="9887000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -1560,7 +1522,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29726028" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29726028" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1954,8 +1916,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/uva/sea/ql/ast/checker/CheckerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51958764">
-          <caret line="130" column="61" selection-start-line="130" selection-start-column="61" selection-end-line="130" selection-end-column="61" />
+        <state vertical-scroll-proportion="0.055670105">
+          <caret line="115" column="41" selection-start-line="115" selection-start-column="41" selection-end-line="115" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
