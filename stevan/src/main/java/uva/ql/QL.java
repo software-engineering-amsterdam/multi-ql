@@ -7,11 +7,13 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import uva.TaxForm.TypeChecker.TypeChecker;
+import uva.ql.Visitors.ASTTreePrintVisitor;
 import uva.ql.Visitors.VisitorToAST;
 import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
+import uva.ql.ast.ASTForm;
 import uva.ql.ast.ASTNode;
+import uva.ql.typechecker.TypeChecker;
 
 public class QL {
 	private String filePath;
@@ -39,10 +41,14 @@ public class QL {
 		
 		ParseTree tree = parser.form();
 		VisitorToAST visitor = new VisitorToAST();
-		ASTNode root = (ASTNode) visitor.visit(tree);
-		TypeChecker.checkAST(root);
+		ASTForm form = (ASTForm) visitor.visit(tree);
+		
+		//form.accept(new ASTTreePrintVisitor());
 		
 		
-		return root;
+		TypeChecker.checkAST(form);
+		
+		
+		return form;
     }
 }

@@ -1,19 +1,35 @@
 package ast.statement;
 
 import ast.expression.Expression;
-import ast.expression.OrExpression;
+import ast.literal.Variable;
+import ast.visitor.Visitable;
+import ast.visitor.Visitor;
 
-public class AssignmentQuestion {
-	private String id;
+public class AssignmentQuestion implements Visitable{
+	private Variable variable;
 	private String str;
-	private String type;
 	private Expression expression;
 	
-	public AssignmentQuestion(Object object, Object object2, Object object3,
-			Expression result) {
-		this.id = (String) object;
-		this.str = (String) object2;
-		this.type = (String) object3;
-		this.expression = result;
+	public AssignmentQuestion(Variable variable, String str, Expression expression) {
+		this.variable = variable;
+		this.str = str;
+		this.expression = expression;
+	}
+	
+	public Variable getVariable() {
+		return variable;
+	}
+
+	public String getStr() {
+		return str;
+	}
+
+	public Expression getExpression() {
+		return expression;
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

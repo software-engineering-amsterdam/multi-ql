@@ -1,0 +1,58 @@
+package eu.bankersen.kevin.ql.symboltable;
+
+import java.util.HashMap;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public final class SymbolTabel {
+    
+    private static HashMap<String, SymbolTableObject> table = new HashMap<>();
+
+    public static void addVariable(final String name, final Type type) {
+	
+	table.put(name, new SymbolTableObject(name, type));
+    }
+
+    public static Type getType(final String name) {
+	return table.get(name).getType();
+    }
+
+    public static Object getValue(final String name) {
+	return table.get(name).getValue();
+    }
+
+    public static String getContents() {
+
+	return table.toString();
+    }
+    
+    private SymbolTabel() {
+    }
+}
+
+class SymbolTableObject {
+    
+    private final String name;
+    private final Type type;
+    private Object value;
+    
+
+    SymbolTableObject(final String name, final Type type) {
+	this.name = name;
+	this.type = type;
+    }
+    
+    public Type getType() {
+	return type;
+    }
+    
+    public Object getValue() {
+ 	return value;
+     }
+
+    @Override
+    public String toString() {
+	return name + " : " + type.toString() + " : " + value;
+
+    }
+}

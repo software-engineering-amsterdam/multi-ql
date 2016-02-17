@@ -1,4 +1,3 @@
-
 function initiate(inputString){
 
 	var characters = new antlr4.InputStream(inputString);
@@ -8,9 +7,11 @@ function initiate(inputString){
 
 	warnings = new Set();
 	errors = new Set();
-	$("#errorpanel").hide();
-	$("#warningpanel").hide();
-	$("#formWrapper").show();
+
+	editor.getSession().clearAnnotations();
+
+	resetInfoPanels();
+
 	var ErrorListener = function() {
 		antlr4.error.ErrorListener.call(this);
 	  	return this;
@@ -18,31 +19,21 @@ function initiate(inputString){
 	ErrorListener.prototype = Object.create(antlr4.error.ErrorListener.prototype);
 	ErrorListener.prototype.constructor = ErrorListener;
 	ErrorListener.prototype.syntaxError = function(rec, sym, line, col, msg, e) {
-	  	editor.gotoLine(line, col);
-	  	editor.getSession().setAnnotations([{
-		  row: line-1,
-		  text: msg,
-		  type: "error" // also warning and information
-		}]);
-	  	errors.add({line:line, error: "[line " + line +"]: Parse error: " + line + ":" + col + " - " + msg});
-	  	fillPanel("error", errors, true);
+	  	throwError(line, "Parse error: " + line + ":" + col + " - " + msg);
 	};
+
 	lexer.removeErrorListeners();
 	parserANTLR.removeErrorListeners();
 	lexer.addErrorListener(new ErrorListener());
 	parserANTLR.addErrorListener(new ErrorListener());
 
-	editor.getSession().clearAnnotations();
-
 	parserANTLR.buildParseTrees = true;
 	var tree = parserANTLR.form();
-	parseQuestions(tree);
+	createAst(tree);
 }	
 
-function parseQuestions(parseTree){
+function createAst(parseTree){
 	
-	var newDependencies = new Array();
-
 	var Visitor = function(){
 		MyGrammerVisitor.MyGrammerVisitor.call(this);
 		return this;
@@ -52,20 +43,19 @@ function parseQuestions(parseTree){
 
 	Visitor.prototype.visitForm = function (ctx){
 		ast = ctx.FormNode;
-		console.log(ast);
 		if(preformASTCheck()){
 			renderQuestions();
 	   		setHandlers();
 	    	refreshGUI();	
+	    	console.log("Generated AST: ");
+			console.log(ast);
 		}
 	};
 
 	var visitor = new Visitor();
 	parseTree.accept(visitor);
-
 }
 
-//done
 function preformASTCheck(){
 	var texts = new Set();
 	var labels = new Set();
@@ -80,24 +70,30 @@ function preformASTCheck(){
 
 	while(stack.length>0){
 		var currentNode = stack.pop();
+
 		if(currentNode instanceof QuestionNode){
-			evaluateStmt(currentNode.computedExpr);
+			if(currentNode.computedExpr != undefined && evaluateStmt(currentNode.computedExpr) == undefined){
+				noErrors = false;	
+			}
 			questions.push(currentNode);
 		}
 		else if(currentNode instanceof ConditionNode){
 			var evalResult = evaluateStmt(currentNode.condition);
 			if(typeof evalResult !== "boolean"){
-  				errors.add({line: currentNode.line, error: "[line " + currentNode.line +"]: Condition '"+currentNode.conditionTxt+"' is not boolean"});
-  				fillPanel("error", errors, true);
+				noErrors = false;
+  				throwError(currentNode.line, "Condition '"+currentNode.toString() +"' is not boolean");
 			}
+
 			for (var i=0; i<currentNode.queries.length; i++) {
 				stack.push(currentNode.queries[i]);
 			}
+
 			if(currentNode.elseQueries != undefined){
 				for (var i=0; i<currentNode.elseQueries.length; i++) {
 					stack.push(currentNode.elseQueries[i]);
 				}
 			}
+
 		}
 	}
 
@@ -106,14 +102,12 @@ function preformASTCheck(){
 	for(var i=0;i<questions.length;i++){
 		var currentNode = questions[i];
 		if(labels.has(currentNode.label)){
-				errors.add({line:currentNode.line, error: "[line " + currentNode.line +"]: Label '" + currentNode.label + "' is already defined"});
-				fillPanel("error", errors, true);
-				noErrors = true;
+				noErrors = false;
+				throwError(currentNode.line, "Label '" + currentNode.label + "' is already defined");
 			}
 			else{
 				if(texts.has(currentNode.text)){
-					warnings.add({line: currentNode.line, error: "[line " + currentNode.line +"]: Text '" + currentNode.text + "' is already defined"});
-					fillPanel("warning", warnings);
+					throwWarning(currentNode.line, "Text '" + currentNode.text + "' is already defined");
 				}
 
 				labels.add(currentNode.label);
@@ -123,12 +117,6 @@ function preformASTCheck(){
 	return noErrors;
 }
 
-//done
-function setASTQuestionValue(label, value){
-	getQuestion(label).value = value;
-}
-
-//done
 function getQuestion(label){
 	var stack = new Array();
 	for(var i=0;i<ast.queries.length;i++){
@@ -157,7 +145,6 @@ function getQuestion(label){
 	return undefined;
 }
 
-//done
 function resetQuestionVisibility(){
 	var stack = new Array();
 	for(var i=0;i<ast.queries.length;i++){
@@ -182,8 +169,6 @@ function resetQuestionVisibility(){
 	}
 }
 
-
-//done
 //TODO strings
 function evaluateStmt(statement){
 	if(statement instanceof OperatorExpressionNode){
@@ -192,30 +177,104 @@ function evaluateStmt(statement){
 
 		switch(statement.op){
 			case "+": 
-				return left+right;
+				if(typeof left == "number" && typeof right == "number"){
+					return left+right;
+				}
+				else{
+					//console.log(statement.toString());
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "-": 
-				return left-right;
+				if(typeof left == "number" && typeof right == "number"){
+					return left-right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "*": 
-				return left*right;
+				if(typeof left == "number" && typeof right == "number"){
+					return left*right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "/": 
-				return left/right;
+				if(typeof left == "number" && typeof right == "number"){
+					return left/right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "<": 
-				return left<right;
-			case ">": 
-				return left>right;
+				if(typeof left == "number" && typeof right == "number"){
+					return left<right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
+			case ">":
+				if(typeof left == "number" && typeof right == "number"){
+					return left>right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "<=": 
-				return left<=right;
+				if(typeof left == "number" && typeof right == "number"){
+					return left<=right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case ">=": 
-				return left>=right;
+				if(typeof left == "number" && typeof right == "number"){
+					return left>=right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "==": 
-				return left==right;
+				if((typeof left == "number" && typeof right == "number") || (typeof left == "boolean" && typeof right == "boolean")){
+					return left==right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number' OR 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "!=": 
-				return left!=right;
+				if((typeof left == "number" && typeof right == "number") || (typeof left == "boolean" && typeof right == "boolean")){
+					return left!=right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'number' OR 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "&&": 
-				return left&&right;
+				if(typeof left == "boolean" && typeof right == "boolean"){
+					return left&&right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 			case "||": 
-				return left||right;
+				if(typeof left == "boolean" && typeof right == "boolean"){
+					return left||right;
+				}
+				else{
+					throwError(statement.line, statement.toString() + " expected left and right types of 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
+					return undefined;
+				}
 		}
+
 	}
 	else if(statement instanceof NotExpression){
 		return !(evaluateStmt(statement.expr));
@@ -226,9 +285,8 @@ function evaluateStmt(statement){
 	else if(statement instanceof LabelNode){
 		var question = getQuestion(statement.label);
 		if(question==undefined){
-			errors.add({line:statement.line, error: "[line " + statement.line +"]: Question label '" + statement.label + "'' is undefined"});
-			fillPanel("error", errors, true);
-			return;
+			throwError(statement.line, "Question label '" + statement.label + "'' is undefined");
+			return undefined;
 		}
 		return getQuestion(statement.label).value;
 	}
@@ -244,8 +302,7 @@ function checkCyclicDependencies(){
 	for(var i = 0;i<questionLabels.length;i++){
 		questionDependencies[questionLabels[i]] = getQuestionsInSubtree(getQuestion(questionLabels[i]));
 	}
-	console.log("Generated AST: ");
-	console.log(newAst);
+
 
 	var detectedDepencendies = false;
 	for(var i=0;i<questionLabels.length;i++){
@@ -257,15 +314,11 @@ function checkCyclicDependencies(){
 				for(var k=0;k<otherDependencies.length;k++){
 					if(otherDependencies[k] == questionLabels[i]){
 						detectedDepencendies = true;
-						errors.add({line: -1, error: "Cyclic dependency detected for questions " + questionLabels[i] + " and " + dependency});
+						throwError(-1, "Cyclic dependency detected for questions " + questionLabels[i] + " and " + dependency);
 					}
 				}
 			}
 		}
-	}
-
-	if(detectedDepencendies){
-		fillPanel("error", errors, true);
 	}
 
 	return detectedDepencendies;
@@ -308,7 +361,7 @@ function getQuestionsInSubtree(node){
 	}
 }
 
-//done
+//todo
 function getLabelsInStatement(statement){
 	var labels = [];
 	
@@ -327,4 +380,12 @@ function getLabelsInStatement(statement){
 	}
 
 	return labels;
+}
+
+function throwError(line, errorMsg){
+	renderError(line, {line: line, msg: errorMsg});
+}
+
+function throwWarning(line, warningMsg){
+	renderWarning(line, {line: line, msg: errorMsg});
 }

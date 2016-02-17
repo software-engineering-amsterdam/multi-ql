@@ -53,11 +53,14 @@
 
 		</div>
 
-		<div class="panel panel-danger" id="errorpanel">
+		<div class="panel panel-danger" id="errorPanel">
 		  <div class="panel-heading">
 		    <h3 class="panel-title">Errors detected</h3>
 		  </div>
-		  <div class="panel-body" id="error">
+		  <div class="panel-body">
+		  	<ul>
+		  	<div id="error"></div>
+		  	</ul>
 		  </div>
 		</div>
 
@@ -66,24 +69,29 @@
 			<br style="clear:both;"/>
 			<div id="output"></div>
 
-			<div class="panel panel-warning" id="warningpanel">
+			<div class="panel panel-warning" id="warningPanel">
 			  <div class="panel-heading">
 			    <h3 class="panel-title">Warnings detected</h3>
 			  </div>
-			  <div class="panel-body" id="warning">
+			  <div class="panel-body">
+			  	<ul>
+			  		<div id="warning"></div>
+			  	</ul>
 			  </div>
 			</div>
 		</div>
 
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-		<script src="js/bootstrap.js"></script>
+		<script src="js/lib/bootstrap.js"></script>
 		<script type="text/javascript" src="js/lib/require.js"></script>
-		<script type="text/javascript" src="js/FileSaver.js"></script>
+		<script type="text/javascript" src="js/lib/FileSaver.js"></script>
+
 		<script type="text/javascript" src="js/ace/ace.js"></script>
 		<script type="text/javascript" src="js/classes.js"></script>
 		<script type="text/javascript" src="js/htmlGeneration.js"></script>
 		<script type="text/javascript" src="js/ast.js"></script>
+		<script type="text/javascript" src="js/eventHandlers.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 
 	</body>

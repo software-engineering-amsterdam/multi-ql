@@ -1,0 +1,119 @@
+package eu.bankersen.kevin.ql.parser;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.expr.*;
+import eu.bankersen.kevin.ql.ast.expr.logic.*;
+import eu.bankersen.kevin.ql.ast.expr.math.*;
+import eu.bankersen.kevin.ql.ast.stat.*;
+import eu.bankersen.kevin.ql.ast.form.*;
+import eu.bankersen.kevin.ql.ast.var.*;
+import eu.bankersen.kevin.ql.parser.QLParser.FormContext;
+
+public class FormParser {
+	
+	private String form;
+	
+	public FormParser() throws IOException{
+		
+		File file = new File("resources/Tax.form");
+		Log.info("Using: ", file.getPath());
+		
+		formReader(file);
+		
+	}
+	
+	public FormParser(File file) throws IOException{
+		
+		Log.info("Using: " + file.getPath());
+		formReader(file);
+	}
+	
+	public Form parse(){
+		
+		ANTLRInputStream ANTLRstream = new ANTLRInputStream(form);
+		
+		QLLexer lexer = new QLLexer(ANTLRstream);
+		
+		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+		
+		QLParser parser = new QLParser(tokenStream);
+		
+		FormContext formContext = parser.form();	
+		
+		Form parsedForm = formContext.result;
+		
+		return parsedForm;
+	}
+	
+	private void formReader(File file) throws IOException{
+		
+		InputStream in = new FileInputStream(file);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder out = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            out.append(line);
+        }
+        form.toString();
+        reader.close();
+		
+	}
+	
+	
+	
+	
+	
+
+	public static void main(String[] args) {
+		// Lexer
+		QLLexer lexer = new QLLexer(new ANTLRInputStream("Form test{"
+				+ "q1 \"My first question\" int(1+2) "
+				+ "q2 \"My seccond question\" bool(1<=2) "
+				+ "if(1<=2){ "
+				+ "q3 \"My seccond question\" int "
+				+ "q4 \"My seccond question\" str "
+				+ "if(q2){ "
+				+ "q5 \"My seccond question\" bool"
+				+ " }}"
+				+ " }\r\n"));
+
+		// Tokens.
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+		// Parse.
+		QLParser p = new QLParser(tokens);
+
+		// Contains the actual model.
+		FormContext formContext = p.form();	
+		
+		// Here we get our Form and have our AST present!
+		Form form = formContext.result;
+		 
+		// Form to string
+		System.out.println(form.toString());
+		
+		// Show UI
+		TreeViewer viewr = new TreeViewer(Arrays.asList(p.getRuleNames()), formContext);
+		viewr.setScale(1.5);// scale a little
+		viewr.open(); // Open the viewer
+		
+		//TypeChecker test
+		System.out.println("TypeCheck result: " + form.checkType());
+		
+	}
+}

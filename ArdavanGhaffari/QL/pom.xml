@@ -17,11 +17,11 @@
 			<artifactId>antlr4-runtime</artifactId>
 			<version>4.5.2-1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr4</artifactId>
-			<version>4.5.2-1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>4.5.2-1</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -40,6 +40,13 @@
 				<groupId>org.antlr</groupId>
 				<artifactId>antlr4-maven-plugin</artifactId>
 				<version>4.5</version>
+                <configuration>
+                    <outputDirectory>${basedir}/target/generated-sources/antlr4/antlrsources</outputDirectory>
+                    <arguments>
+                        <argument>-package</argument>
+                        <argument>antlrsources</argument>
+                    </arguments>
+                </configuration>
 				<executions>
 					<execution>
 						<goals>

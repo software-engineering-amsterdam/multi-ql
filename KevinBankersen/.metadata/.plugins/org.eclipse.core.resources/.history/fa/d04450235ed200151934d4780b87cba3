@@ -1,0 +1,63 @@
+package eu.bankersen.kevin.ql.parser;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.parser.QLParser.FormContext;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
+
+
+public class FormParser {
+
+
+  private final String input;
+    private FormContext formContext;
+    private QLParser parser;
+
+
+    public FormParser(String input) {
+	this.input = input;
+	parse();
+    }
+
+
+    private void parse() {
+
+	Log.info("Parsing File");
+
+	ANTLRInputStream ANTLRstream = new ANTLRInputStream(input);
+
+	QLLexer lexer = new QLLexer(ANTLRstream);
+
+	CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+
+	parser = new QLParser(tokenStream);
+
+	formContext = parser.form();
+
+	Log.info("File Parsed");
+    }
+
+
+    public FormContext getFormContext() {
+	return formContext;
+    }
+
+
+    public Form getForm() {
+	return formContext.result;
+    }
+
+
+    public String getParseErrors() {
+	return "";
+    }
+
+
+    public String[] getParseRules() {
+	return parser.getRuleNames();
+    }
+}

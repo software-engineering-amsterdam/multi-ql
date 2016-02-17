@@ -1,25 +1,22 @@
-
-//done
 function setHandlers(){
 	$("input").change(function(){
 		var label = $(this).attr("name");
 		if($(this).attr("type")=="checkbox"){
-			getQuestion(label).value = $(this).is(":checked");
+			getQuestion(label).setValue($(this).is(":checked"));
 		}
 		else{
-			getQuestion(label).value = $(this).val();
+			getQuestion(label).setValue($(this).val());
 		}
 		refreshGUI();
 	});
 }
 
-
-//done
 function refreshGUI(){
+	var stack = new Array();
+
 	$(".questionDiv").hide();
 	resetQuestionVisibility();
 
-	var stack = new Array();
 	for(var i=0;i<ast.queries.length;i++){
 		stack.push(ast.queries[i]);
 	}
@@ -28,7 +25,7 @@ function refreshGUI(){
 		var currentNode = stack.pop();
 		if(currentNode instanceof QuestionNode){
 			if(currentNode.computedExpr != undefined){
-				currentNode.value = evaluateStmt(currentNode.computedExpr);
+				currentNode.setValue(evaluateStmt(currentNode.computedExpr));
 			}
 			currentNode.visible = true;
 			$(".questionDiv[label='"+currentNode.label+"']").show();
@@ -36,11 +33,7 @@ function refreshGUI(){
 		}
 		else if(currentNode instanceof ConditionNode){
 			var evalResult = evaluateStmt(currentNode.condition);
-			if(typeof evalResult !== "boolean"){
-  				errors.add({line: currentNode.line, error: "[line " + currentNode.line +"]: Condition '"+currentNode.conditionTxt+"' is not boolean"});
-  				fillPanel("error", errors, true);
-			}
-			else if (evalResult) {
+			if (evalResult) {
 				for (var i=0; i<currentNode.queries.length; i++) {
 					stack.push(currentNode.queries[i]);
 				}	
@@ -54,7 +47,6 @@ function refreshGUI(){
 	}
 }
 
-//done
 function generateQuestionHTML(question){
 	var html = "<div class='questionDiv' label='" + question.label + "'>";
 	html += "<label class='question'>" + question.text + " ";
@@ -90,10 +82,8 @@ function generateQuestionHTML(question){
 	return html;
 }
 
-//done
 function renderQuestions(){
 	var questions = new Array();
-
 	var stack = new Array();
 
 	for(var i=0;i<ast.queries.length;i++){
@@ -128,73 +118,64 @@ function renderQuestions(){
 	$("#output").html(output);
 }
 
-//done
-function fillPanel(panel, set, critical){
-	var html = "<ul>";
-	var editorErrors = new Array();
-	set.forEach(function(errObj) {
-		editorErrors.push({
-		  row: errObj.line-1,
-		  text: errObj.error,
-		  type: panel // also warning and information
-		});
-		
-	  	html += "<li><a href='#' onClick='editor.gotoLine(" + (errObj.line) + ");'>" + errObj.error + "</a></li>";
-	});
+function resetInfoPanels(){
+	$("#error").html("");
+	$("#warning").html("");
 
-	editor.getSession().setAnnotations(editorErrors);
+	$("#errorPanel").hide();
+	$("#warningPanel").hide();
 
-	html += "</ul>";
-
-	$("#"+panel).html(html);
-	$("#"+panel+"panel").show();
-
-	if(critical){
-		$("#formWrapper").hide();
-	}
+	$("#formWrapper").show();
 }
 
-//done
-$("#generate").click(function(){
-	initiate(editor.getValue());
-});
+function renderError(panel, errorObj){
+	var html = "<li><a href='#' onClick='editor.gotoLine(" + (errorObj.line) + ");'>[line " + errorObj.line + "] " + errorObj.msg + "</a></li>";
 
-//done
-$("#save").click(function(){
-	var answers = new Array();
-
-
-	var stack = new Array();
+	if($("#error").html().indexOf(html)>=0) return;
 	
-	for(var i=0;i<ast.queries.length;i++){
-		stack.push(ast.queries[i]);
+	var errorList = editor.getSession().getAnnotations();
+	if(errorList==undefined || typeof errorList != "object"){
+		errorList = new Array();
 	}
 
-	while(stack.length>0){
-		var currentNode = stack.pop();
-		if(currentNode instanceof QuestionNode && currentNode.visible){
-			var answer = {};
-			answer.questionLabel = currentNode.label;
-			answer.questionText = currentNode.text;
-			answer.questionType = currentNode.type;
-			answer.value = currentNode.value;
-			answers.push(answer);
-		}
-		else if(currentNode instanceof ConditionNode){
-			for (var i=0; i<currentNode.queries.length; i++) {
-				stack.push(currentNode.queries[i]);
-			}
-			if(currentNode.elseQueries != undefined){
-				for (var i=0; i<currentNode.elseQueries.length; i++) {
-					stack.push(currentNode.elseQueries[i]);
-				}
-			}
-		}
+	errorList.push({
+	  row: errorObj.line-1,
+	  text: errorObj.msg,
+	  type: "error"
+	});
+
+	editor.getSession().setAnnotations(errorList);
+
+	editor.gotoLine(errorObj.line);
+
+	$("#error").append(html);
+	$("#errorPanel").show();
+	$("#formWrapper").hide();
+
+	
+}
+
+function renderWarning(panel, warningObj){
+	var html = "<li><a href='#' onClick='editor.gotoLine(" + (warningObj.line) + ");'>[line " + warningObj.line + "] " + warningObj.msg + "</a></li>";
+
+	if($("#warning").html().indexOf(html)>=0) return;
+
+	var warningList = editor.getSession().getAnnotations();
+	if(warningList==undefined || typeof warningList != "object"){
+		warningList = new Array();
 	}
 
-	answers = answers.reverse();
+	warningList.push({
+	  row: warningObj.line-1,
+	  text: warningObj.msg,
+	  type: "warning"
+	});
 
-	var blob = new Blob([JSON.stringify(answers, null, 2)], {type: "text/plain;charset=utf-8"});
-	saveAs(blob, "answers.txt");
-	
-});
+	editor.getSession().setAnnotations(warningList);
+
+	editor.gotoLine(warningObj.line);
+
+	$("#warning").append(html);
+	$("#warningPanel").show();
+
+}

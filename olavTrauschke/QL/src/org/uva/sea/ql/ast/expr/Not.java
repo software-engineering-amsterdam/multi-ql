@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Not extends BooleanExpr {
     
-    public static final String NON_BOOLEAN_OPERAND_MESSAGE = "Can not negate non-boolean operand";
+    public static final String TYPE_ERROR_MESSAGE = "Can not negate non-boolean operand";
     
     private Expr content;
     
@@ -13,26 +13,18 @@ public class Not extends BooleanExpr {
             content = theContent;
         }
         else {
-            throwNonBooleanOperandException();
+            setError(TYPE_ERROR_MESSAGE);
         }
-    }
-    
-    protected void throwNonBooleanOperandException() {
-        throw new IllegalArgumentException(NON_BOOLEAN_OPERAND_MESSAGE);
     }
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
-            Not other = (Not) o;
-            return content.equals(other.content);
-        }
-        return false;
+        return super.equals(o) && content.equals(((Not) o).content);
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 41 * hash + Objects.hashCode(this.content);
         return hash;
     }

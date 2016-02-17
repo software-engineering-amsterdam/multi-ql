@@ -13,13 +13,13 @@ public abstract class DoubleExprArgumentNumericExpr extends NumericExpr {
             secondExpr = theSecondExpr;
         }
         else {
-            throwNonNumericOperandsException();
+            setError(TYPE_ERROR_MESSAGE);
         }
     }
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (super.equals(o)) {
             DoubleExprArgumentNumericExpr other = (DoubleExprArgumentNumericExpr) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
@@ -28,7 +28,7 @@ public abstract class DoubleExprArgumentNumericExpr extends NumericExpr {
 
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = super.hashCode();
         hash = 89 * hash + Objects.hashCode(this.firstExpr);
         hash = 89 * hash + Objects.hashCode(this.secondExpr);
         return hash;

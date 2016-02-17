@@ -44,6 +44,6 @@ public class ASTIfStatement extends ASTNode implements IASTNode {
 
 	@Override
 	public void accept(IASTNodeVisitor visitor) {
-		visitor.visit(this);
+		visitor.visitIfStmnt(this);
 	}
 }

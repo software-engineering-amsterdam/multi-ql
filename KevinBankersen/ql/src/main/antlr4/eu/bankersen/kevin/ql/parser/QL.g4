@@ -7,14 +7,11 @@ import eu.bankersen.kevin.ql.ast.expr.logic.*;
 import eu.bankersen.kevin.ql.ast.expr.math.*;
 import eu.bankersen.kevin.ql.ast.stat.*;
 import eu.bankersen.kevin.ql.ast.form.*;
-import eu.bankersen.kevin.ql.ast.var.*;
+import eu.bankersen.kevin.ql.ast.*;
 }
 
-file :  form* EOF
-;
-
 form returns [Form result]
-	:	('Form'|'form') + ID + block { $result = new Form($ID.text, $block.result); }
+	:	('Form'|'form') + ID + block + EOF { $result = new Form($ID.text, $block.result); }
 	;
 
 block returns [Block result]
@@ -26,12 +23,12 @@ block returns [Block result]
 
 question[Block result]
 	
-	: ID + STR + type + '(' + orExpr + ')'
+	: STR + ID + type + '=' + '(' + orExpr + ')'
 	{
 		$result.add(new Question(new Variable($ID.text, $type.result, $orExpr.result), $STR.text));
 	}
 		
-	|	ID + STR + type
+	|	STR + ID + type
 	
 	{  
 		$result.add(new Question(new Variable($ID.text, $type.result), $STR.text));
@@ -101,15 +98,15 @@ unExpr returns [Expr result]
 
 	
 primary returns [Expr result]
-	: literal 				{ $result = $literal.result; }
-	| identifier 			{ $result = $identifier.result; }
+	: literal 		{ $result = $literal.result; }
+	| identifier 		{ $result = $identifier.result; }
 	| '(' + orExpr + ')' 	{ $result = $orExpr.result; }
 	;
 
 literal returns [Expr result]
-	: INT 	{ $result = new intLiteral(Integer.valueOf($INT.text)); } 
-	| STR 	{ $result = new strLiteral($STR.text); } 
-	| BOOL 	{ $result = new boolLiteral(Boolean.valueOf($BOOL.text)); }
+	: INT 	{ $result = new Literal(Integer.valueOf($INT.text), Type.INTEGER); } 
+	| STR 	{ $result = new Literal($STR.text, Type.STRING); } 
+	| BOOL 	{ $result = new Literal(Boolean.valueOf($BOOL.text), Type.BOOLEAN); }
 	;
 	
 identifier returns [Expr result]
@@ -137,9 +134,9 @@ COMMENT 		:   '/*' .*? '*/' -> channel(HIDDEN);
 LINE_COMMENT 	:   '//' ~[\r\n]* -> channel(HIDDEN);
 WS  	:	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 
-BOOLEAN :   'bool';
-INTEGER :   'int';
-STRING  :   'str';
+BOOLEAN :   'boolean';
+INTEGER :   'integer';
+STRING  :   'string';
 MONEY  	:   'money';
 
 BOOL	:	'true' | 'false';

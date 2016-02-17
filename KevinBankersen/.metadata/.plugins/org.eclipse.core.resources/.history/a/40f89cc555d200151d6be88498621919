@@ -1,0 +1,31 @@
+package eu.bankersen.kevin.ql;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import com.esotericsoftware.minlog.Log;
+
+public class FileReader {
+	
+	public String read(String filePath) throws IOException{
+		
+    BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
+    
+    Log.info("Reading " + filePath.toString());
+    
+    StringBuilder out = new StringBuilder();
+    String line;
+    while ((line = reader.readLine()) != null) {
+        out.append(line);
+    }
+    
+    reader.close();
+    
+    Log.info(out.toString());
+    
+    return out.toString();
+	}
+
+}

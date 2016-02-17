@@ -1,0 +1,30 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.var.Type;
+
+public class Identifier extends Expr {
+
+    private final String name;
+    private Type type;
+
+    public Identifier(final String name) {
+	this.name = name;
+    }
+
+    @Override
+    public final Object result(final SymbolTabel table) {
+	//return table.getValue(name);
+	return SymbolTabel2.getValue(name);
+    }
+
+    @Override
+    public final Boolean checkType(final SymbolTabel table) {
+	//type = table.getValue(name).getType();
+	return true;
+    }
+
+    @Override
+    public final Type getType() {
+	return SymbolTabel2.getType(name);
+    }
+}

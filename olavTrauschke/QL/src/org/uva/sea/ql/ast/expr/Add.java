@@ -7,6 +7,8 @@ public class Add extends Expr {
     private Expr firstExpr;
     private Expr secondExpr;
     
+    public static final String TYPE_ERROR_MESSAGE = "The arguments of the + operator should either both be numeric or both be strings";
+    
     public Add(Expr theFirstExpr, Expr theSecondExpr) {
         super(false, true, true);
         boolean canBeNumeric = theFirstExpr.canBeNumeric() && theSecondExpr.canBeNumeric();
@@ -18,13 +20,13 @@ public class Add extends Expr {
             setCanBeString(canBeString);
         }
         else {
-            throw new IllegalArgumentException("The arguments of the + operator should either both be numeric or both be strings");
+            setError(TYPE_ERROR_MESSAGE);
         }
     }
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (super.equals(o)) {
             Add other = (Add) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
@@ -33,7 +35,7 @@ public class Add extends Expr {
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 73 * hash + Objects.hashCode(this.firstExpr);
         hash = 73 * hash + Objects.hashCode(this.secondExpr);
         return hash;

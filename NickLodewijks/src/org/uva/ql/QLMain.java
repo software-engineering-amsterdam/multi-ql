@@ -4,30 +4,45 @@ import java.io.File;
 import java.io.IOException;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenStream;
+import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.parser.antlr.QLLexer;
 import org.uva.ql.parser.antlr.QLParser;
-import org.uva.ql.parser.antlr.QLParser.FileContext;
+import org.uva.ql.ui.DefaultWidgetFactory;
+import org.uva.ql.ui.QLQuestionaire;
 
 public class QLMain {
+	
 	public static void main(String[] args) throws IOException {
-		FileContext fileContext;
+		QLQuestionaire qlQuestionnaire;
+		Questionnaire questionnaire;
+		QLInterpreter qlInterpreter;
+		File inputFile;
 
-		ANTLRInputStream input = new ANTLRFileStream(new File("resources/Questionaire.ql").getPath());
-		QLLexer lexer = new QLLexer(input);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		QLParser parser = new QLParser(tokens);
+		inputFile = new File("resources/Questionaire.ql");
+		questionnaire = parseFile(inputFile);
 
+		new SemanticAnalyser().analyse(questionnaire);
+
+		qlInterpreter = new QLInterpreter(new DefaultWidgetFactory());
+
+		qlQuestionnaire = qlInterpreter.interpret(questionnaire);
+		qlQuestionnaire.show();
+	}
+
+	private static Questionnaire parseFile(File file) throws IOException {
+		TokenStream tokenStream;
+		CharStream is;
+		QLParser parser;
+
+		is = new ANTLRFileStream(file.getPath());
+
+		tokenStream = new CommonTokenStream(new QLLexer(is));
+		parser = new QLParser(tokenStream);
 		parser.addParseListener(new QLParseTreeListener());
 
-		fileContext = parser.file();
-
-		TypeChecker tc = new TypeChecker(fileContext.form(0).result);
-
-//		TreeViewer viewr = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-//		viewr.setScale(1.5);// scale a little
-//
-//		viewr.open();
+		return parser.file().questionnaire().result;
 	}
 }

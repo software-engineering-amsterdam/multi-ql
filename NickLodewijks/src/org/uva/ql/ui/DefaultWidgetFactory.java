@@ -50,10 +50,10 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		QLWidget widget;
 		String variableName;
 
-		variableName = q.getVariableId().getName();
+		variableName = q.getName();
 
 		label = new DefaultLabelWidget(q.getLabel());
-		switch (q.getVariableId().getType()) {
+		switch (q.getType()) {
 		case BOOLEAN:
 			widget = new DefaultBooleanWidget(variableName, expr);
 			break;
@@ -86,6 +86,10 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			this.name = name;
 
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		}
+
+		public String getName() {
+			return name;
 		}
 
 		@Override
@@ -256,6 +260,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		@Override
 		public void setContext(Context context) {
 
+			context.setValue(variableName, Boolean.FALSE);
+
 			if (actionListener != null) {
 				rbNo.removeActionListener(actionListener);
 				rbYes.removeActionListener(actionListener);
@@ -319,6 +325,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			if (keyListener != null) {
 				textField.removeKeyListener(keyListener);
 			}
+
+			context.setValue(variableName, 0);
 
 			keyListener = new KeyAdapter() {
 				@Override
@@ -386,6 +394,8 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 		@Override
 		public void setContext(Context context) {
+
+			context.setValue(variableName, "");
 
 			if (keyListener != null) {
 				textField.removeKeyListener(keyListener);

@@ -1,10 +1,13 @@
 package ast.statement;
 
-public class Statement {
+import ast.visitor.Visitable;
+import ast.visitor.Visitor;
+
+public class Statement implements Visitable{
 	private Question question;
 	private AssignmentQuestion assignmentQuestion;
 	private IfStatement ifStatement;
-	
+
 	public Statement(Question result) {
 		this.question = result;
 	}
@@ -15,5 +18,22 @@ public class Statement {
 
 	public Statement(IfStatement result) {
 		this.ifStatement = result;
+	}
+	
+	public Question getQuestion() {
+		return question;
+	}
+
+	public AssignmentQuestion getAssignmentQuestion() {
+		return assignmentQuestion;
+	}
+
+	public IfStatement getIfStatement() {
+		return ifStatement;
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

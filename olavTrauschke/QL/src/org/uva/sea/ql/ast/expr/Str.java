@@ -13,16 +13,12 @@ public class Str extends Expr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
-            Str other = (Str) o;
-            return value.equals(other.value);
-        }
-        return false;
+        return super.equals(o) && value.equals(((Str) o).value);
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 37 * hash + Objects.hashCode(this.value);
         return hash;
     }

@@ -17,10 +17,6 @@ public class Block extends ASTNode implements Visitable {
 	public List<Stat> getStmts() {
 		return stmts;
 	}
-
-	public void set(List<Stat> stmts) {
-		this.stmts = stmts;
-	}
 	
 	public void add(Stat stmt) {
 		stmts.add(stmt);
@@ -28,6 +24,11 @@ public class Block extends ASTNode implements Visitable {
 
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public String toString() {
+		return "Block";
 	}
 
 }

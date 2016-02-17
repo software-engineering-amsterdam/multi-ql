@@ -1,5 +1,7 @@
 package ast.expression;
 
-public abstract class Expression {
+import ast.visitor.Visitable;
+
+public abstract class Expression implements Visitable {
 
 }

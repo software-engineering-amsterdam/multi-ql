@@ -13,7 +13,7 @@ public class Ident extends Expr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (super.equals(o)) {
             Ident other = (Ident) o;
             return content.equals(other.content);
         }
@@ -22,7 +22,7 @@ public class Ident extends Expr {
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 59 * hash + Objects.hashCode(this.content);
         return hash;
     }

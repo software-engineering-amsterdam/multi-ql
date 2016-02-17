@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class BooleanConjunctiveExpr extends BooleanExpr {
     
-    public static final String NON_BOOLEAN_OPERANDS_MESSAGE = "Can not perform boolean conjunction operation on non-boolean operands";
+    public static final String TYPE_ERROR_MESSAGE = "Can not perform boolean conjunction operation on non-boolean operands";
     
     private Expr firstExpr;
     private Expr secondExpr;
@@ -15,17 +15,13 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
             secondExpr = theSecondExpr;
         }
         else {
-            throwNonBooleanOperandsException();
+            setError(TYPE_ERROR_MESSAGE);
         }
-    }
-    
-    protected void throwNonBooleanOperandsException() {
-        throw new IllegalArgumentException(NON_BOOLEAN_OPERANDS_MESSAGE);
     }
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (super.equals(o)) {
             BooleanConjunctiveExpr other = (BooleanConjunctiveExpr) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
@@ -34,7 +30,7 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 29 * hash + Objects.hashCode(this.firstExpr);
         hash = 29 * hash + Objects.hashCode(this.secondExpr);
         return hash;

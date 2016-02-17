@@ -18,4 +18,8 @@ public class ElseStatement extends Stat implements Visitable {
 		return block;
 	}
 	
+	@Override
+	public String toString() {
+		return "ElseStatement";
+	}
 }
