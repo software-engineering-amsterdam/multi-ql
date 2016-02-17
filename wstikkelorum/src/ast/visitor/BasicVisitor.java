@@ -29,10 +29,10 @@ import ast.statement.IfStatement;
 import ast.statement.Question;
 import ast.statement.Statement;
 
-public class TypeChecker implements Visitor {
-	private Visitor visitor;
+public class BasicVisitor implements Visitor<Object> {
+	private Visitor<Object> visitor;
 	
-	public TypeChecker(){
+	public BasicVisitor(){
 		visitor = this;
 	}
 
@@ -40,13 +40,13 @@ public class TypeChecker implements Visitor {
 	public Types visit(Form form) {
 		form.getBody().accept(visitor);
 		return null;
-	}
+	} 
 
 	@Override
 	public Types visit(Body body) {
 		for(Visitable v : body.getStatements()){
 			v.accept(visitor);
-		}
+		};
 		return null;
 	}
 	
@@ -65,119 +65,118 @@ public class TypeChecker implements Visitor {
 	}
 	
 	@Override
-	public Types visit(AssignmentQuestion assignmentQuestion) {
-		assignmentQuestion.getExpression().accept(visitor);
-		//TODO: typecheck
+	public Types visit(AssignmentQuestion assignementQuestion) {
+		assignementQuestion.getExpression().accept(visitor);
 		return null;
 	}
-
+	
 	@Override
 	public Types visit(IfStatement ifStatement) {
 		ifStatement.getExpression().accept(visitor);
-		//TODO: typecheck
 		ifStatement.getBody().accept(visitor);
 		return null;
 	}
-
+	
 	@Override
 	public Types visit(Question question) {
-		//Question has a type...
+		//TODO: moet ik hier nog verder een visit doen op de variable?
+		return null;
+	}
+	
+	@Override
+	public Types visit(BinaryExpression binaryExpression) {
+		binaryExpression.getLhs().accept(visitor);
+		binaryExpression.getRhs().accept(visitor);
 		return null;
 	}
 	
 	@Override
 	public Types visit(OrExpression orExpression) {
-		orExpression.getLhs().accept(visitor);
-		orExpression.getRhs().accept(visitor);
-		//TODO: typecheck lhs and rhs... or a binary expression
+		visit((BinaryExpression)orExpression);
 		return null;
 	}
 	
 	@Override
 	public Types visit(AndExpression andExpression) {
-		andExpression.getLhs().accept(visitor);
-		andExpression.getLhs().accept(visitor);
-		//check types for lhs and rhs are both boolean
+		visit((BinaryExpression)andExpression);
 		return null;
 	}
 
-	@Override
-	public Types visit(Eq eq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(GEq geq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(GT gt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(LEq leq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(LT lt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(NEq neq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(Neg neg) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	@Override
-	public Types visit(Mul mul) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	@Override
 	public Types visit(Add add) {
-		// TODO Auto-generated method stub
+		visit((BinaryExpression)add);
 		return null;
 	}
 
 	@Override
 	public Types visit(Div div) {
-		// TODO Auto-generated method stub
+		visit((BinaryExpression)div);
 		return null;
 	}
-	
+
 	@Override
-	public Types visit(Sub sub) {
-		sub.getLhs().accept(visitor);
-		sub.getRhs().accept(visitor);
+	public Types visit(Eq eq) {
+		visit((BinaryExpression)eq);
 		return null;
 	}
-	
+
+	@Override
+	public Types visit(GEq geq) {
+		visit((BinaryExpression)geq);
+		return null;
+	}
+
+	@Override
+	public Types visit(GT gt) {
+		visit((BinaryExpression)gt);
+		return null;
+	}
+
+	@Override
+	public Types visit(LEq leq) {
+		visit((BinaryExpression)leq);
+		return null;
+	}
+
+	@Override
+	public Types visit(LT lt) {
+		visit((BinaryExpression)lt);
+		return null;
+	}
+
+	@Override
+	public Types visit(Mul mul) {
+		visit((BinaryExpression)mul);
+		return null;
+	}
+
+	@Override
+	public Types visit(NEq neq) {
+		visit((BinaryExpression)neq);
+		return null;
+	}
+
+	@Override
+	public Types visit(Neg neg) {
+		neg.getExpression().accept(visitor);	
+		return null;
+	}
+
 	@Override
 	public Types visit(Not not) {
-		// TODO Auto-generated method stub
+		not.getExpression().accept(visitor);
 		return null;
 	}
 
 	@Override
 	public Types visit(Pos pos) {
-		// TODO Auto-generated method stub
+		pos.getExpression().accept(visitor);
+		return null;
+	}
+
+	@Override
+	public Types visit(Sub sub) {
+		visit((BinaryExpression)sub);
 		return null;
 	}
 
@@ -186,52 +185,34 @@ public class TypeChecker implements Visitor {
 		if(literal.getIntLiteral() != null){
 			literal.getIntLiteral().accept(visitor);
 		}
-		
-		if(literal.getBoolLiteral() != null){
-			literal.getBoolLiteral().accept(visitor);
-		}
-		
-		if(literal.getStringLiteral() != null){
-			literal.getStringLiteral().accept(visitor);
-		}
-		
 		if(literal.getVariableExpression() != null){
 			literal.getVariableExpression().accept(visitor);
 		}
-		
 		return null;
 	}
-
+	
 	@Override
 	public Types visit(IntLiteral intLiteral) {
-		return Types.INT;
+		return null;
 	}
 	
 	@Override
 	public Types visit(BoolLiteral boolLiteral) {
-		return Types.BOOLEAN;
+		return null;
 	}
 
 	@Override
 	public Types visit(StringLiteral stringLiteral) {
-		return Types.STRING;
+		return null;
 	}
 
 	@Override
 	public Types visit(Variable variable) {
-		variable.accept(visitor);
 		return null;
 	}
 
 	@Override
 	public Types visit(VariableExpression variableExpression) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visit(BinaryExpression binaryExpression) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

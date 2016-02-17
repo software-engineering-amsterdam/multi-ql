@@ -1,8 +1,6 @@
 package ast.statement;
 
 import ast.literal.Variable;
-import ast.literal.VariableType;
-import ast.visitor.Types;
 import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
