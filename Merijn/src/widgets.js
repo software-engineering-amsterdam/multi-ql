@@ -3,6 +3,7 @@ import { Observable } from 'src/observable';
 
 export class InputElementWidget extends Observable {
 	constructor(inputElement) {
+		super();
 		this.inputElement = inputElement;
 		this.inputElement.addEventListener('change', () => this.notifyObservers());
 	}
@@ -12,11 +13,14 @@ export class InputElementWidget extends Observable {
 	setValue(new_value) {
 		this.inputElement.value = new_value;
 	}
+	getType() {
+		throw new Error("Override in subclasses");
+	}
 }
 
 export class BooleanCheckboxWidget extends InputElementWidget {
 	constructor(elementFactory) {
-		super()
+		super();
 		this.elementFactory = elementFactory;
 	}
 	getValue() {
@@ -24,6 +28,9 @@ export class BooleanCheckboxWidget extends InputElementWidget {
 	}
 	setValue(new_value) {
 		this.inputElement.checked = !!new_value;
+	}
+	getType() {
+		return ast.TYPE_BOOLEAN;
 	}
 	static render(containerElement) {
 		let inputElement = this.elementFactory.createElement('input');
@@ -34,6 +41,9 @@ export class BooleanCheckboxWidget extends InputElementWidget {
 }
 
 export class StringInputWidget extends InputElementWidget {
+	getType() {
+		return ast.TYPE_STRING;
+	}
 	static render(elementFactory, containerElement) {
 		let inputElement = elementFactory.createElement('input');
 		inputElement.setAttribute('type', 'text');
@@ -49,6 +59,9 @@ export class IntegerInputWidget extends InputElementWidget {
 	setValue(new_value) {
 		this.inputElement.value = "" + new_value;
 	}
+	getType() {
+		return ast.TYPE_INTEGER;
+	}
 	static render(elementFactory, containerElement) {
 		let inputElement = elementFactory.createElement('input');
 		inputElement.setAttribute('type', 'number');
@@ -59,6 +72,9 @@ export class IntegerInputWidget extends InputElementWidget {
 }
 
 export class FloatInputWidget extends InputElementWidget {
+	getType() {
+		return ast.TYPE_FLOAT;
+	}
 	static render(elementFactory, containerElement) {
 		let inputElement = elementFactory.createElement('input');
 		inputElement.setAttribute('type', 'number');
@@ -71,7 +87,7 @@ export class WidgetFactory {
 	constructor(elementFactory) {
 		this.elementFactory = elementFactory;
 	}
-	render(type, containerElement, readOnly, initialValue) {
+	renderWidget(type, containerElement, readOnly, initialValue) {
 		switch (type) {
 			case ast.TYPE_BOOLEAN:
 				return BooleanCheckboxWidget.render(this.elementFactory, containerElement, readOnly, initialValue);
@@ -82,7 +98,7 @@ export class WidgetFactory {
 			case ast.TYPE_FLOAT:
 				return FloatInputWidget.render(this.elementFactory, containerElement, readOnly, initialValue);
 			default:
-				throw new Error("Unknown type");
+				throw new Error("Unknown type `" + type + "`");
 		}
 	}
 }
