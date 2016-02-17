@@ -10,7 +10,7 @@ import org.uva.sea.ql.ast.stat.*;
 public class LeftDFSVisitor implements Visitor {
 	protected Visitor v;
 	
-	LeftDFSVisitor() {
+	protected LeftDFSVisitor() {
 		this.v = this;
 	}
 	
@@ -19,7 +19,7 @@ public class LeftDFSVisitor implements Visitor {
 	}
 
 	public void visit(BinaryExpr binExpr) {
-
+		dfs(binExpr, this);	
 	}
 
 	public void visit(UnaryExpr unExpr) {
@@ -128,16 +128,10 @@ public class LeftDFSVisitor implements Visitor {
 		}
 	}
 
-	public void visit(Stat stat) {
-		
-	}
-
 	public void dfs(BinaryExpr e, Visitor v) {
-		if (e.getLhs() != null) {
-			e.getLhs().accept(v);
-		}
-		if (e.getLhs() != null) {
-			e.getRhs().accept(v);
-		}
+		assert e.getLhs() != null;
+		assert e.getRhs() != null;
+		e.getLhs().accept(v);
+		e.getRhs().accept(v);
 	}
 }

@@ -7,6 +7,7 @@ import org.uva.sea.ql.ast.form.Value;
 public class Variable extends Expr implements Visitable {
 	String identifier;
 	Value value;
+	Type type;
 
 	public Variable(String identifier) {
 		this.identifier = identifier;
@@ -21,11 +22,17 @@ public class Variable extends Expr implements Visitable {
 	}
 
 	@Override
-	Object eval() throws ClassCastException {
+	public Object eval() throws ClassCastException {
 		return value;
 	}
 	
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
