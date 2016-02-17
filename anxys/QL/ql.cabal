@@ -15,11 +15,15 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib
+                       src/Language
+  exposed-modules:     AnnotatedAst
+                       Simplify
                        Ast
                        TypeChecker
+                       Parsing
   build-depends:       base >= 4.7 && < 5
                      , parsec
+                     , syb
   default-language:    Haskell2010
 
 executable ql-exe
