@@ -107,7 +107,7 @@ class RenderingVisitor extends ast.NodeVisitor {
 	}
 	visitIfNode(ifNode, containerElement, scope) {
 		let ifContainerElement = this.elementFactory.createElement('div'),
-			exprObservable = this.exprObservableFactory.createExprObservable(ifNode.condition),
+			exprObservable = this.exprObservableFactory.createExprObservable(ifNode.condition, scope),
 			ifUpdater = new IfUpdater(ifContainerElement, exprObservable, ifNode, this, scope);
 
 		exprObservable.registerObserver(ifUpdater);
