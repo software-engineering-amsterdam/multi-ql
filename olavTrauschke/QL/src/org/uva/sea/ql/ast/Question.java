@@ -5,10 +5,10 @@ import org.uva.sea.ql.ast.expr.*;
 public class Question extends ASTNode {
     
     private final Ident identifier;
-    private final Str label;
+    private final Label label;
     private final Int type;
     
-    public Question(Ident theIdentifier, Str theLabel, Int theType) {
+    public Question(Ident theIdentifier, Label theLabel, Int theType) {
         assert theIdentifier != null && theLabel != null && theType != null;
         identifier = theIdentifier;
         label = theLabel;

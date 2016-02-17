@@ -141,7 +141,8 @@ public class Lexer implements Tokens {
                 case '!' :
                 case ':' :
                 case '{' :
-                case '}' : {
+                case '}' :
+                case ';' : {
                     token = character;
                     readNextCharacter();
                     return token;
