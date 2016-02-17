@@ -1,4 +1,4 @@
-package uva.ql.Visitors;
+package uva.ql.visitors;
 
 import org.antlr.v4.runtime.misc.NotNull;
 

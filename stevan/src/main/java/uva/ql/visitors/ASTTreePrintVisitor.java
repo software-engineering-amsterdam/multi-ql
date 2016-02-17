@@ -1,4 +1,4 @@
-package uva.ql.Visitors;
+package uva.ql.visitors;
 
 import uva.ql.ast.ASTBlock;
 import uva.ql.ast.ASTExpression;

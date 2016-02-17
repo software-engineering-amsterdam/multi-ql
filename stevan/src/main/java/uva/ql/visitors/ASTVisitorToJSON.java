@@ -1,4 +1,4 @@
-package uva.ql.Visitors;
+package uva.ql.visitors;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
