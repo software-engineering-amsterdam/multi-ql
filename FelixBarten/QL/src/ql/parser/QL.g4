@@ -20,13 +20,15 @@ form returns [Form result]
 	: 'form' Ident block
 	;
 
-block :  '{' expr* '}'
+block :  '{' statement* '}'
 	;
 	
-stat: question
+statement: question
+	| ifstatement
+	| ifelsestatement
 	;
 
-// todo expr
+// TODO expr
 expr : question
 	;
  
@@ -44,6 +46,21 @@ question returns [Question result]
 	: q_text=Str identity=Ident ':' qt=question_type { $result = new Question($q_text, $identity, $qt.result); }
 	;
 
+ifstatement returns [IfStatement result] 
+	:	'if' '(' cond=conditions ')' bloc=block { }
+	;
+	
+ifelsestatement returns [IfElseStatement result]
+	: 'if' '(' cond=conditions ')' bloc=block 'else' block {}
+	;
+
+
+
+conditions returns [Expr result]
+	: relExpr conditions*
+	| andExpr conditions*
+	| orExpr conditions*
+	;
 
 unExpr returns [Expr result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
