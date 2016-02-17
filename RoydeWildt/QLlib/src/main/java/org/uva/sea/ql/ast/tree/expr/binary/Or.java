@@ -10,8 +10,8 @@ public class Or extends BinaryExpr {
     public Or (int line, Expr lhs, Expr rhs){
         super(line, lhs, rhs);
     }
-    public <T> T accept(Visitor visitor) {
-        return visitor.visit(this);
+    public <T,U> T accept(Visitor<T,U> visitor, U context) {
+        return visitor.visit(this, context);
     }
 
     @Override

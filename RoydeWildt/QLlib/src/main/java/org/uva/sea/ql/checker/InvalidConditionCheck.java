@@ -15,29 +15,28 @@ import java.util.Map;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class InvalidConditionCheck extends TypeVisitor{
+public class InvalidConditionCheck<T,U> extends TypeVisitor<T,U>{
     private final List<Node> invalidConditions;
 
     public InvalidConditionCheck(Form f) {
         super(f);
         this.invalidConditions = new ArrayList<>();
-        f.accept(this);
+        f.accept(this,null);
 
     }
 
     @Override
-    public <T> T visit(IfElse stat) {
-        if(stat.getCond().accept(this.getV()) != Type.Types.BOOLEAN)
+    public T visit(IfElse stat, U context) {
+        if(stat.getCond().accept(this.getV(),null) != Type.Types.BOOLEAN)
             invalidConditions.add(stat.getCond());
-        return super.visit(stat);
+        return (T) super.visit(stat,null);
     }
 
     @Override
-    public <T> T visit(If stat) {
-        Type.Types x = stat.getCond().accept(this.getV());
-        if(stat.getCond().accept(this.getV()) != Type.Types.BOOLEAN)
+    public T visit(If stat, U context) {
+        if(stat.getCond().accept(this.getV(),null) != Type.Types.BOOLEAN)
             invalidConditions.add(stat.getCond());
-        return super.visit(stat);
+        return (T) super.visit(stat,null);
     }
 
     public List<Node> getInvalidConditions() {

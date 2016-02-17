@@ -4,41 +4,47 @@ import org.uva.sea.ql.ast.tree.form.*;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
+import org.uva.sea.ql.ast.tree.type.Boolean;
+import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.val.*;
+import org.uva.sea.ql.ast.tree.type.*;
 
 
 /**
  * Created by roy on 5-2-16.
  */
-public interface Visitor {
+public interface Visitor <T,U> {
     Visitor v = null;
-    <T> T visit(Form form);
 
-    <T> T visit(If stat);
-    <T> T visit(IfElse stat);
-    <T> T visit(Question stat);
-    <T> T visit(AssQuestion stat);
+    T visit(Form form, U context);
 
-    <T> T visit(Add expr);
-    <T> T visit(And expr);
-    <T> T visit(Div expr);
-    <T> T visit(Eq expr);
-    <T> T visit(GEq expr);
-    <T> T visit(GT expr);
-    <T> T visit(LEq expr);
-    <T> T visit(LT expr);
-    <T> T visit(Mul expr);
-    <T> T visit(NEq expr);
-    <T> T visit(Or expr);
-    <T> T visit(Sub expr);
-    <T> T visit(Neg expr);
-    <T> T visit(Not expr);
-    <T> T visit(Pos expr);
-    <T> T visit(Primary expr);
+    T visit(If          stat, U context);
+    T visit(IfElse      stat, U context);
+    T visit(Question    stat, U context);
+    T visit(AssQuestion stat, U context);
 
-    <T> T visit(Bool  val);
-    <T> T visit(Int  val);
+    T visit(Add     expr, U context);
+    T visit(And     expr, U context);
+    T visit(Div     expr, U context);
+    T visit(Eq      expr, U context);
+    T visit(GEq     expr, U context);
+    T visit(GT      expr, U context);
+    T visit(LEq     expr, U context);
+    T visit(LT      expr, U context);
+    T visit(Mul     expr, U context);
+    T visit(NEq     expr, U context);
+    T visit(Or      expr, U context);
+    T visit(Sub     expr, U context);
+    T visit(Neg     expr, U context);
+    T visit(Not     expr, U context);
+    T visit(Pos     expr, U context);
+    T visit(Primary expr, U context);
 
-    <T> T visit(Var var);
+    T visit(Boolean val, U context);
+    T visit(Money   val, U context);
+
+    T visit(Bool val, U context);
+    T visit(Int  val, U context);
+    T visit(Var  var, U context);
 
 }

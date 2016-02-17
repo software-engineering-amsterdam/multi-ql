@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class TypeVisitor extends BaseVisitor {
+public class TypeVisitor<T,U> extends BaseVisitor<T,U> {
     private final Map<Node,Node> decls;
 
     public TypeVisitor(Form f){
@@ -26,44 +26,44 @@ public class TypeVisitor extends BaseVisitor {
     }
 
     @Override
-    public <T> T visit(Question stat) {
+    public T visit(Question stat, U context) {
         decls.put(stat.getVarname(), stat);
         return null;
     }
 
     @Override
-    public <T> T visit(AssQuestion stat) {
+    public T visit(AssQuestion stat, U context) {
         decls.put(stat.getVarname(), stat);
         return null;
     }
 
     @Override
-    public <T> T visit(Add expr) {
+    public T visit(Add expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.MONEY;
     }
 
     @Override
-    public <T> T visit(And expr) {
+    public T visit(And expr, U context) {
         if(isInvalidExpression(expr, Type.Types.BOOLEAN))
             return null;
         return (T) Type.Types.BOOLEAN;
     }
 
     @Override
-    public <T> T visit(Div expr) {
+    public T visit(Div expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.MONEY;
     }
 
     @Override
-    public <T> T visit(Eq expr) {
-        if(rightType(expr.getLhs().accept(this.getV()), expr.getRhs().accept(this.getV()), Type.Types.BOOLEAN)){
+    public T visit(Eq expr, U context) {
+        if(rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.BOOLEAN)){
             return (T) Type.Types.BOOLEAN;
         }
-        else if (rightType(expr.getLhs().accept(this.getV()), expr.getRhs().accept(this.getV()), Type.Types.MONEY)) {
+        else if (rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.MONEY)) {
             return (T) Type.Types.BOOLEAN;
         }
         else {
@@ -72,46 +72,46 @@ public class TypeVisitor extends BaseVisitor {
     }
 
     @Override
-    public <T> T visit(GEq expr) {
+    public T visit(GEq expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.BOOLEAN;
     }
 
     @Override
-    public <T> T visit(GT expr) {
+    public T visit(GT expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.BOOLEAN;
     }
 
     @Override
-    public <T> T visit(LEq expr) {
+    public T visit(LEq expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.BOOLEAN;
     }
 
     @Override
-    public <T> T visit(LT expr) {
+    public T visit(LT expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.BOOLEAN;
     }
 
     @Override
-    public <T> T visit(Mul expr) {
+    public T visit(Mul expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.MONEY;
     }
 
     @Override
-    public <T> T visit(NEq expr) {
-        if(rightType(expr.getLhs().accept(this.getV()), expr.getRhs().accept(this.getV()), Type.Types.BOOLEAN)){
+    public T visit(NEq expr, U context) {
+        if(rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.BOOLEAN)){
             return (T) Type.Types.BOOLEAN;
         }
-        else if (rightType(expr.getLhs().accept(this.getV()), expr.getRhs().accept(this.getV()), Type.Types.MONEY)) {
+        else if (rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.MONEY)) {
             return (T) Type.Types.BOOLEAN;
         }
         else {
@@ -120,47 +120,47 @@ public class TypeVisitor extends BaseVisitor {
     }
 
     @Override
-    public <T> T visit(Or expr) {
+    public T visit(Or expr, U context) {
         if(isInvalidExpression(expr, Type.Types.BOOLEAN))
             return null;
         return (T) Type.Types.BOOLEAN;
     }
 
     @Override
-    public <T> T visit(Sub expr) {
+    public T visit(Sub expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.MONEY;
     }
 
     @Override
-    public <T> T visit(Neg expr) {
+    public T visit(Neg expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.MONEY;
     }
 
     @Override
-    public <T> T visit(Not expr) {
+    public T visit(Not expr, U context) {
         if(isInvalidExpression(expr, Type.Types.BOOLEAN))
             return null;
         return (T) Type.Types.BOOLEAN;
     }
 
     @Override
-    public <T> T visit(Pos expr) {
+    public T visit(Pos expr, U context) {
         if(isInvalidExpression(expr, Type.Types.MONEY))
             return null;
         return (T) Type.Types.MONEY;
     }
 
     @Override
-    public <T> T visit(Primary expr) {
-        return expr.getValue().accept(this.getV());
+    public T visit(Primary expr, U context) {
+        return (T) expr.getValue().accept(this.getV(),null);
     }
 
     @Override
-    public <T> T visit(Var var) {
+    public T visit(Var var, U context) {
         if (decls.containsKey(var)){
 
             Question q = (Question) decls.get(var);
@@ -173,24 +173,24 @@ public class TypeVisitor extends BaseVisitor {
     }
 
     @Override
-    public <T> T visit(Int val) {
+    public T visit(Int val, U context) {
         return (T) Type.Types.MONEY;
     }
 
     @Override
-    public <T> T visit(Bool val) {
+    public T visit(Bool val, U context) {
         return (T) Type.Types.BOOLEAN;
     }
 
-    private Boolean isInvalidExpression(BinaryExpr expr, Type.Types type){
-        if(!rightType(expr.getLhs().accept(this.getV()), expr.getRhs().accept(this.getV()), type))
+    private boolean isInvalidExpression(BinaryExpr expr, Type.Types type){
+        if(!rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(), null), type))
             return true;
         return false;
     }
 
-    private Boolean isInvalidExpression(UnaryExpr expr, Type.Types type){
+    private boolean isInvalidExpression(UnaryExpr expr, Type.Types type){
         Expr e = expr.getValue();
-        if(!rightType(e.accept(this.getV()), type))
+        if(!rightType(e.accept(this.getV(),null), type))
             return true;
         return false;
     }

@@ -10,11 +10,11 @@ public abstract class Node implements Visitable{
     private int line;
 
     public Node(int line){this.line = line;}
-    public abstract <T> T accept(Visitor visitor);
 
     public int getLine() {
         return line;
     }
 
     public abstract String toString();
+
 }

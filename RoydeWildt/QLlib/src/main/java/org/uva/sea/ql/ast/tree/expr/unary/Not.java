@@ -13,8 +13,8 @@ public class Not extends UnaryExpr {
         super(line);
         this.value = lhs;
     }
-    public <T> T accept(Visitor visitor) {
-        return visitor.visit(this);
+    public <T,U> T accept(Visitor<T,U> visitor, U context) {
+        return visitor.visit(this, context);
     }
 
     @Override

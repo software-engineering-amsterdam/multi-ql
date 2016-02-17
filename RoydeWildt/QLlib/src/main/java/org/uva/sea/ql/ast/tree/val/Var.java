@@ -12,8 +12,8 @@ public class Var extends Val {
         super(line);
         this.value = value;}
 
-    public <T> T accept(Visitor visitor) {
-        return visitor.visit(this);
+    public <T,U> T accept(Visitor<T,U> visitor, U context) {
+        return visitor.visit(this, context);
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by roy on 5-2-16.
  */
-public class UndefinedVarCheck extends BaseVisitor {
+public class UndefinedVarCheck<T,U> extends BaseVisitor<T,U> {
 
     private final List<Node> decls = new ArrayList<>();
     private final List<Node> undefined = new ArrayList<>();
@@ -21,11 +21,11 @@ public class UndefinedVarCheck extends BaseVisitor {
 
     public UndefinedVarCheck(Form f) {
 
-        f.accept(this);
+        f.accept(this,null);
     }
 
     @Override
-    public <T> T visit(Var var) {
+    public T visit(Var var, U context) {
 
         if(!decls.contains(var))
             undefined.add(var);
@@ -33,13 +33,13 @@ public class UndefinedVarCheck extends BaseVisitor {
     }
 
     @Override
-    public <T> T visit(Question stat) {
+    public T visit(Question stat, U context) {
         decls.add(stat.getVarname());
         return null;
     }
 
     @Override
-    public <T> T visit(AssQuestion stat) {
+    public T visit(AssQuestion stat, U context) {
         decls.add(stat.getVarname());
         return null;
     }

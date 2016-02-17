@@ -14,8 +14,8 @@ public class Int extends Val {
         this.value = Integer.valueOf(x);
     }
 
-    public <T> T accept(Visitor visitor) {
-        return visitor.visit(this);
+    public <T,U> T accept(Visitor<T,U> visitor, U context) {
+        return visitor.visit(this, context);
     }
 
     @Override

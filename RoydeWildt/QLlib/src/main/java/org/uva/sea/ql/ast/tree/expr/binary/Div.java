@@ -14,8 +14,8 @@ public class Div extends BinaryExpr {
     public Div(int line, Expr lhs, Expr rhs) {
         super(line, lhs, rhs);
     }
-    public List<? extends Node> accept(Visitor visitor) {
-        return visitor.visit(this);
+    public <T,U> T accept(Visitor<T,U> visitor, U context) {
+        return visitor.visit(this, context);
     }
 
     @Override

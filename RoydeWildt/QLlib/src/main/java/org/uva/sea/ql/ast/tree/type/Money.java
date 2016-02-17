@@ -11,9 +11,8 @@ public class Money extends Type {
         super(line);
     }
 
-    @Override
-    public <T> T accept(Visitor visitor) {
-        return null;
+    public <T,U> T accept(Visitor<T,U> visitor, U context) {
+        return visitor.visit(this, context);
     }
 
 }

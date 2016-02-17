@@ -25,9 +25,8 @@ public class Primary extends UnaryExpr {
         return "";
     }
 
-    @Override
-    public <T> T accept(Visitor visitor) {
-        return visitor.visit(this);
+    public <T,U> T accept(Visitor<T,U> visitor, U context) {
+        return visitor.visit(this, context);
     }
 
     public Val getValue() {

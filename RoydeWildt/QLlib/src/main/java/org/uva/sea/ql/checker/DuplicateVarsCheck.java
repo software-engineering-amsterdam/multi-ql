@@ -14,18 +14,17 @@ import java.util.Map;
 /**
  * Created by roydewildt on 11/02/16.
  */
-public class DuplicateVarsCheck extends BaseVisitor {
+public class DuplicateVarsCheck<T,U> extends BaseVisitor<T,U> {
 
     private final List<Node> decls = new ArrayList<>();
     private final Map<Var, List<Node>> duplicates = new HashMap<>();
 
     public DuplicateVarsCheck(Form f) {
-
-        f.accept(this);
+        f.accept(this,null);
     }
 
     @Override
-    public <T> T visit(Question stat) {
+    public T visit(Question stat, U context) {
         Var key = stat.getVarname();
         if(duplicates.containsKey(key))
             duplicates.get(key).add(stat);
