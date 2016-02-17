@@ -60,4 +60,18 @@ class SemanticAnalyzerTests: XCTestCase {
             }
         }
     }
+    
+    func testCyclicDependency() {
+        if let form = assertToForm(parseFile("CyclicDependency")) {
+            let sa = SemanticAnalyser(context: Context())
+            
+            do {
+                try sa.analyze(form)
+                XCTAssertTrue(false)
+            }
+            catch {
+                // Expected behaviour, move along!
+            }
+        }
+    }
 }

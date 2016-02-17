@@ -43,13 +43,13 @@ class SemanticAnalyser: FormNodeVisitor {
     }
     
     func visit(node: Conditional) {
-        if (type(node.condition) != Type.Bool) {
-            error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
-        }
-        
         node.condition.accept(self)
         node.ifBlock.accept(self)
         node.elseBlock?.accept(self)
+        
+        if (type(node.condition) != Type.Bool) {
+            error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
+        }
     }
     
     func visit(node: Block) {
@@ -65,13 +65,13 @@ class SemanticAnalyser: FormNodeVisitor {
     }
     
     func visit(node: MoneyField) {
+        node.expression?.accept(self)
+        
         if let expression = node.expression {
             if type(expression) != Type.Number {
                 error.collect(SemanticError.TypeMismatch(description: "Money expression must result in a numerical value: \(node.expression)"))
             }
         }
-        
-        node.expression?.accept(self)
     }
     
     func visit(node: StringLiteral) {
@@ -87,14 +87,17 @@ class SemanticAnalyser: FormNodeVisitor {
     }
     
     func visit(node: Prefix) {
+        node.rhs.accept(self)
+        
         if (type(node) != type(node.rhs)) {
             error.collect(SemanticError.TypeMismatch(description: "Prefix type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
         }
-        
-        node.rhs.accept(self)
     }
     
     func visit(node: Infix) {
+        node.lhs.accept(self)
+        node.rhs.accept(self)
+        
         let typeError = { [unowned self] in
             self.error.collect(SemanticError.TypeMismatch(description: "Infix type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
         }
@@ -133,9 +136,6 @@ class SemanticAnalyser: FormNodeVisitor {
                     typeError()
                 }
         }
-        
-        node.lhs.accept(self)
-        node.rhs.accept(self)
     }
     
     private func type(node: Expression) -> Type {

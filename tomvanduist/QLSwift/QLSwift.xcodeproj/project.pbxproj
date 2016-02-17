@@ -79,6 +79,7 @@
 		E2DF31001C6240F800F5227B /* form.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2DF30FF1C6240F800F5227B /* form.ql */; };
 		E2DF31051C62481A00F5227B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
 		E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */; };
+		E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +165,7 @@
 		E2DF30FF1C6240F800F5227B /* form.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = form.ql; path = Resources/form.ql; sourceTree = "<group>"; };
 		E2DF31041C62481A00F5227B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = "Supporting Files/Constants.swift"; sourceTree = "<group>"; };
 		E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLanguageDefinition.swift; path = Src/Parser/QLParser/QLLanguageDefinition.swift; sourceTree = "<group>"; };
+		E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CyclicDependency.ql; path = Resources/QL/SemanticAnalyzerTests/CyclicDependency.ql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */,
+				E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */,
 				E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */,
 			);
 			name = SemanticAnalyzerTests;
@@ -606,6 +609,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */,
 				E2D518C51C701177008030C4 /* Prefix.ql in Resources */,
 				E2D518C31C701177008030C4 /* Infix.ql in Resources */,
 				E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */,
