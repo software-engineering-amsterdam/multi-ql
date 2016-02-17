@@ -5,6 +5,8 @@ import java.util.Objects;
 
 public abstract class ComparisonExpr extends BooleanExpr {
     
+    public static final String TYPE_ERROR_MESSAGE = "The arguments of a comparison should either both be booleans or both be numeric";
+    
     private Expr firstExpr;
     private Expr secondExpr;
     
@@ -16,7 +18,7 @@ public abstract class ComparisonExpr extends BooleanExpr {
             secondExpr = theSecondExpr;
         }
         else {
-            throw new IllegalArgumentException("The arguments of a comparison should either both be booleans or both be numeric");
+            setError(TYPE_ERROR_MESSAGE);
         }
     }
 

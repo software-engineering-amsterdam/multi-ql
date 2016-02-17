@@ -8,20 +8,31 @@ public abstract class Expr extends ASTNode {
     private boolean canBeNumeric;
     private boolean canBeString;
     
+    private String error;
+    
     public Expr(boolean canBeBooleanExpr, boolean canBeNumericExpr, boolean canBeStringExpr) {
         canBeBoolean = canBeBooleanExpr;
         canBeNumeric = canBeNumericExpr;
         canBeString = canBeStringExpr;
     }
     
+    //use only for instantiating subclasses when canBeString was unknown when calling super
+    protected final void setCanBeBoolean(boolean newValue) {
+        canBeBoolean = newValue;
+    }
+    
     //use only for instantiating subclasses when canBeNumeric was unknown when calling super
-    protected void setCanBeNumeric(boolean newValue) {
+    protected final void setCanBeNumeric(boolean newValue) {
         canBeNumeric = newValue;
     }
     
     //use only for instantiating subclasses when canBeString was unknown when calling super
-    protected void setCanBeString(boolean newValue) {
+    protected final void setCanBeString(boolean newValue) {
         canBeString = newValue;
+    }
+    
+    protected final void setError(String message) {
+        error = message;
     }
     
     public boolean canBeBoolean() {

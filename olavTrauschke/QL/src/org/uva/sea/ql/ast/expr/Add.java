@@ -7,6 +7,8 @@ public class Add extends Expr {
     private Expr firstExpr;
     private Expr secondExpr;
     
+    public static final String TYPE_ERROR_MESSAGE = "The arguments of the + operator should either both be numeric or both be strings";
+    
     public Add(Expr theFirstExpr, Expr theSecondExpr) {
         super(false, true, true);
         boolean canBeNumeric = theFirstExpr.canBeNumeric() && theSecondExpr.canBeNumeric();
@@ -18,7 +20,7 @@ public class Add extends Expr {
             setCanBeString(canBeString);
         }
         else {
-            throw new IllegalArgumentException("The arguments of the + operator should either both be numeric or both be strings");
+            setError(TYPE_ERROR_MESSAGE);
         }
     }
     
