@@ -30,10 +30,15 @@ form returns [Form result]
     ;
     
 block returns [Block result]
-    @init {
-        $result = new Block();
+    locals [
+      List<Question> questions = new ArrayList<>();
+      List<IFStat> statements = new ArrayList<>();
+    ]
+    @after{
+        $result = new Block($ctx.questions, $ctx.statements);
     }
-    : '{' + (ifStat { $result.add($ifStat.result); } | question { $result.add($question.result); } )+ '}'
+    : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
+    
     ;
     
 ifStat returns [IFStat result]
