@@ -4,9 +4,9 @@ import org.uva.sea.ql.ast.expr.*;
 
 public class Question extends ASTNode {
     
-    private Ident identifier;
-    private Str label;
-    private Int type;
+    private final Ident identifier;
+    private final Str label;
+    private final Int type;
     
     public Question(Ident theIdentifier, Str theLabel, Int theType) {
         assert theIdentifier != null && theLabel != null && theType != null;

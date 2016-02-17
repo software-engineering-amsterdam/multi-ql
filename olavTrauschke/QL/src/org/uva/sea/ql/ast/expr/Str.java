@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 public class Str extends Expr {
     
-    private String value;
+    private final String value;
     
     public Str(String theValue) {
         assert theValue != null;

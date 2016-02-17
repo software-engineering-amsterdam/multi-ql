@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 public class Int extends NumericExpr {
     
-    private int value;
+    private final int value;
     
     public Int(int theValue) {
         value = theValue;

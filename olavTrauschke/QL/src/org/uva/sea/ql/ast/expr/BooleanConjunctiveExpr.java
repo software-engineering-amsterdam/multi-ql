@@ -2,8 +2,8 @@ package org.uva.sea.ql.ast.expr;
 
 public class BooleanConjunctiveExpr extends BooleanExpr {
     
-    private Expr firstExpr;
-    private Expr secondExpr;
+    private final Expr firstExpr;
+    private final Expr secondExpr;
     
     public BooleanConjunctiveExpr(Expr theFirstExpr, Expr theSecondExpr) {
         assert theFirstExpr != null && theSecondExpr != null;

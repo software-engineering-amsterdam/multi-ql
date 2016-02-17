@@ -4,8 +4,8 @@ import org.uva.sea.ql.ast.expr.Ident;
 
 public class Form extends ASTNode {
     
-    private Ident identifier;
-    private ASTNode questions;
+    private final Ident identifier;
+    private final ASTNode questions;
     
     public Form(Ident theIdentifier, ASTNode theQuestions) {
         assert theIdentifier != null && theQuestions != null;

@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.expr.*;
 
 public class ComputedQuestion extends Question {
     
-    private Expr calculation;
+    private final Expr calculation;
     
     public ComputedQuestion(Ident identifier, Str label, Int type, Expr theCalculation) {
         super (identifier, label, type);

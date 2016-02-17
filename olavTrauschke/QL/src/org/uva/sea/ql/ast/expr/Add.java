@@ -2,8 +2,8 @@ package org.uva.sea.ql.ast.expr;
 
 public class Add extends Expr {
     
-    private Expr firstExpr;
-    private Expr secondExpr;
+    private final Expr firstExpr;
+    private final Expr secondExpr;
     
     public Add(Expr theFirstExpr, Expr theSecondExpr) {
         assert theFirstExpr != null & theSecondExpr != null;

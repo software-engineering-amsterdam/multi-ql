@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class ASTNode {
     
-    private List<String> errors;
+    private final List<String> errors;
     
     protected ASTNode() {
         errors = new ArrayList<>();

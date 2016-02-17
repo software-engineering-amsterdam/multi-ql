@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 public class Not extends BooleanExpr {
     
-    private Expr content;
+    private final Expr content;
     
     public Not(Expr theContent) {
         assert theContent != null;

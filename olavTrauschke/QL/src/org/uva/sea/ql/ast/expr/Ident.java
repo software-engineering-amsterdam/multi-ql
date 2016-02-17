@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 public class Ident extends Expr {
     
-    private String content;
+    private final String content;
     
     public Ident(String theContent) {
         assert theContent != null;

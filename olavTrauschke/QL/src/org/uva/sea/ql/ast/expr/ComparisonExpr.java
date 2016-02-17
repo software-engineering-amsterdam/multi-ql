@@ -2,8 +2,8 @@ package org.uva.sea.ql.ast.expr;
 
 public abstract class ComparisonExpr extends BooleanExpr {
     
-    private Expr firstExpr;
-    private Expr secondExpr;
+    private final Expr firstExpr;
+    private final Expr secondExpr;
     
     public ComparisonExpr(Expr theFirstExpr, Expr theSecondExpr) {
         assert theFirstExpr != null && theSecondExpr != null;

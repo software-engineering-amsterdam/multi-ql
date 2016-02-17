@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 public abstract class SingleExprArgumentNumericExpr extends NumericExpr {
     
-    private Expr content;
+    private final Expr content;
     
     public SingleExprArgumentNumericExpr(Expr theContent) {
         assert theContent != null;

@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 public class Bool extends BooleanExpr {
     
-    private boolean value;
+    private final boolean value;
     
     public Bool(boolean theValue) {
         value = theValue;
