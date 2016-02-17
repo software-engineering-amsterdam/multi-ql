@@ -19,16 +19,12 @@ public class Not extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
-            Not other = (Not) o;
-            return content.equals(other.content);
-        }
-        return false;
+        return super.equals(o) && content.equals(((Not) o).content);
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 41 * hash + Objects.hashCode(this.content);
         return hash;
     }

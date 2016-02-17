@@ -21,21 +21,21 @@ public abstract class ComparisonExpr extends BooleanExpr {
             setError(TYPE_ERROR_MESSAGE);
         }
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.firstExpr);
-        hash = 67 * hash + Objects.hashCode(this.secondExpr);
-        return hash;
-    }
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (super.equals(o)) {
             ComparisonExpr other = (ComparisonExpr) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
         return false;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = super.hashCode();
+        hash = 67 * hash + Objects.hashCode(this.firstExpr);
+        hash = 67 * hash + Objects.hashCode(this.secondExpr);
+        return hash;
     }
 }

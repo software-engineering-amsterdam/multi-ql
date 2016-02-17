@@ -26,7 +26,7 @@ public class Add extends Expr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (super.equals(o)) {
             Add other = (Add) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
@@ -35,7 +35,7 @@ public class Add extends Expr {
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 73 * hash + Objects.hashCode(this.firstExpr);
         hash = 73 * hash + Objects.hashCode(this.secondExpr);
         return hash;

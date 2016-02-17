@@ -2,11 +2,13 @@ package org.uva.sea.ql.ast;
 
 public abstract class ASTNode {
     
-    //Force subclasses to implement equals
     @Override
-    public abstract boolean equals(Object o);
-    
-    //Force subclasses to implement hashCode
+    public boolean equals(Object o) {
+        return o != null && getClass() == o.getClass();
+    }
+
     @Override
-    public abstract int hashCode();
+    public int hashCode() {
+        return 0;
+    }
 }

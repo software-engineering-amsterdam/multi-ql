@@ -15,17 +15,13 @@ public class Form extends ASTNode {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
-            Form other = (Form) o;
-            return identifier.equals(other.identifier);
-        }
-        return false;
+        return super.equals(o) && identifier.equals(((Form) o).identifier);
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.identifier);
+        int hash = super.hashCode();
+        hash = 29 * hash + Objects.hashCode(this.identifier);
         return hash;
     }
     

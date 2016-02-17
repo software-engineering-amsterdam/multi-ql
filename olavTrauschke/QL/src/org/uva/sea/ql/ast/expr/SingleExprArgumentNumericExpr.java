@@ -17,16 +17,12 @@ public abstract class SingleExprArgumentNumericExpr extends NumericExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
-            SingleExprArgumentNumericExpr other = (SingleExprArgumentNumericExpr) o;
-            return content.equals(other.content);
-        }
-        return false;
+        return super.equals(o) && content.equals(((SingleExprArgumentNumericExpr) o).content);
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 23 * hash + Objects.hashCode(this.content);
         return hash;
     }

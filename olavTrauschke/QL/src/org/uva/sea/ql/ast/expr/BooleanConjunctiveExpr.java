@@ -21,7 +21,7 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (super.equals(o)) {
             BooleanConjunctiveExpr other = (BooleanConjunctiveExpr) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
@@ -30,7 +30,7 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = super.hashCode();
         hash = 29 * hash + Objects.hashCode(this.firstExpr);
         hash = 29 * hash + Objects.hashCode(this.secondExpr);
         return hash;
