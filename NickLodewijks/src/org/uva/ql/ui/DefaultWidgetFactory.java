@@ -54,18 +54,18 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 		label = new DefaultLabelWidget(q.getLabel());
 		switch (q.getType()) {
-		case BOOLEAN:
-			widget = new DefaultBooleanWidget(variableName, expr);
-			break;
-		case INTEGER:
-			widget = new DefaultIntegerWidget(variableName, expr);
-			break;
-		case STRING:
-			widget = new DefaultStringWidget(variableName, expr);
-			break;
-		default:
-			widget = null;
-			break;
+			case BOOLEAN:
+				widget = new DefaultBooleanWidget(variableName, expr);
+				break;
+			case INTEGER:
+				widget = new DefaultIntegerWidget(variableName, expr);
+				break;
+			case STRING:
+				widget = new DefaultStringWidget(variableName, expr);
+				break;
+			default:
+				widget = null;
+				break;
 		}
 
 		question = new DefaultQuestion(label, widget);

@@ -8,7 +8,7 @@ import org.uva.ql.ui.DefaultWidgetFactory;
 import org.uva.ql.ui.QLQuestionaire;
 
 public class QLMain {
-	
+
 	public static void main(String[] args) throws IOException {
 		QLQuestionaire qlQuestionnaire;
 		Questionnaire questionnaire;

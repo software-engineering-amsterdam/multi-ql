@@ -8,6 +8,7 @@ public class Div extends BinaryExpr {
 	public Div(ParserRuleContext context, Expr lhs, Expr rhs) {
 		super(context, lhs, rhs);
 	}
+
 	@Override
 	public Integer interpret(Context context) {
 		return (Integer) lhs.interpret(context) / (Integer) rhs.interpret(context);

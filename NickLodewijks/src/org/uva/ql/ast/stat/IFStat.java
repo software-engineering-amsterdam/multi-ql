@@ -8,7 +8,7 @@ import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.Block;
 
 public class IFStat extends ASTNode {
-	
+
 	private final Expr expression;
 	private final Block body;
 
