@@ -76,17 +76,13 @@ export class ExprQuestionNode extends QuestionNode {
 }
 
 export class UnaryPrefixNode extends Node {
-	constructor(line, operation, operand) {
+	constructor(line, operand) {
 		super(line);
 		this.operand = operand;
 	}
 }
 
 export class NegationNode extends UnaryPrefixNode {
-	constructor(line, operand) {
-		super(line);
-		this.operand = operand;
-	}
 	accept (visitor, ...args) {
 		return visitor.visitNegationNode(this, ...args);
 	}
