@@ -7,6 +7,7 @@ public class Not extends UnaryExpr implements Visitable {
 	
 	public Not(Expr expr) {
 		super.child = expr;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override
@@ -16,5 +17,11 @@ public class Not extends UnaryExpr implements Visitable {
 	
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

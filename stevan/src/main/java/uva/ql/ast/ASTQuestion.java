@@ -44,6 +44,6 @@ public class ASTQuestion extends ASTNode implements IASTNode {
 
 	@Override
 	public void accept(IASTNodeVisitor visitor) {
-		visitor.visit(this);
+		visitor.visitQuestion(this);
 	}
 }

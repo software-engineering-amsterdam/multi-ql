@@ -3,29 +3,30 @@ package ql.ast;
 import org.antlr.v4.runtime.Token;
 
 public class Question {
-	private Token question;
-	private Token name;
+	private String question;
+	private String name;
 	private QuestionType type;
 	
-	public Question (Token q_text, Token identity, QuestionType typ) {
+	public Question (String q_text, String identity, QuestionType typ) {
 		this.setQuestion(q_text);
 		this.setName(identity);
 		this.setType(typ);
 	}
 
-	public Token getQuestion() {
+
+	public String getQuestion() {
 		return question;
 	}
 
-	public void setQuestion(Token q_text) {
+	public void setQuestion(String q_text) {
 		this.question = q_text;
 	}
 
-	public Token getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(Token identity) {
+	public void setName(String identity) {
 		this.name = identity;
 	}
 

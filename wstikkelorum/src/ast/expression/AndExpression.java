@@ -1,6 +1,6 @@
 package ast.expression;
 
-import ast.Visitor;
+import ast.visitor.Visitor;
 
 public class AndExpression extends Expression {
 	private Expression lhs;

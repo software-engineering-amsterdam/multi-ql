@@ -1,7 +1,7 @@
 form DependancyCheck {
 	 q1: "question 1" boolean
 	 q2: "question 2" boolean
-	 if (q3) {
+	 if (q2) {
 	 	q4: "question 1" boolean
 	 }
 	 q3: "question 3" boolean
@@ -11,4 +11,3 @@ form DependancyCheck {
 	 	}
 	 }
 	}
-}

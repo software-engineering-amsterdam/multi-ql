@@ -1,11 +1,11 @@
 form Box1HouseOwning {
-	hasSoldHouse: "Did you sell a house in 2010?" boolean
-	hasBoughtHouse: "Did you by a house in 2010?" boolean
-	hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
+	hasSoldHouse: boolean "Did you sell a house in 2010?" 
+	hasBoughtHouse: boolean "Did you by a house in 2010?"
+	hasMaintLoan: boolean "Did you enter a loan for maintenance/reconstruction?"
 	if (hasSoldHouse) {
-		sellingPrice: "Price the house was sold for:" money
-		privateDebt: "Private debts for the sold house:" money
-		valueResidue: "Value residue:" money(sellingPrice - privateDebt)
-		test: "pre:" boolean (3+2*-1<6)
+		sellingPrice: int "Price the house was sold for:" 
+		privateDebt: int "Private debts for the sold house:"
+		valueResidue: int "Value residue:" (sellingPrice - privateDebt)
+		test: boolean "example wrong expression:" (3+2*-1<privateDebt)
 	}
 }

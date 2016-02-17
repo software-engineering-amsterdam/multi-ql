@@ -1,6 +1,6 @@
 package ast.expression;
 
-import ast.Visitor;
+import ast.visitor.Visitor;
 
 public class Div extends Expression {
 	private Expression lhs;

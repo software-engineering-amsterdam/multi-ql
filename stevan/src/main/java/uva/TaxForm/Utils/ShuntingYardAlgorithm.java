@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import uva.ql.Visitors.VisitAST;
 import uva.ql.ast.AST;
 import uva.ql.ast.ASTExpression;
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.ASTNumber;
 import uva.ql.ast.ASTVariable;
+import uva.ql.visitors.VisitAST;
 
 public class ShuntingYardAlgorithm {
 

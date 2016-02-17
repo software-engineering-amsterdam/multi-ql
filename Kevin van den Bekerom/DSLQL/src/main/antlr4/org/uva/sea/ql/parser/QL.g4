@@ -52,7 +52,7 @@ question [Block result]
 	;
 
 variable returns [Expr result]
-	: Ident {$result = new VariableLiteral($Ident.getText()); };
+	: Ident {$result = new Variable($Ident.getText()); };
 	
 label : Str;
 
@@ -161,7 +161,7 @@ COMMENT
     ;
     
 SLCOMMENT
-	: '//' .* '/n' -> channel(HIDDEN)
+	: '//' .* '\n' -> channel(HIDDEN)
 	;
 
 /* Keyword reservation */

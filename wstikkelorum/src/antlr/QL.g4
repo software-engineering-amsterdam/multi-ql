@@ -22,25 +22,33 @@ form returns [Form result]
 	
 body returns [Body result]
 	@init { $result = new Body(); }
-	: '{' statement* '}' { $result.add($statement.result); }
+	: '{' (statement[$result])* '}' 
 	;
 
-statement returns [Statement result]
-	: question { $result = new Statement($question.result); }
-	| assignmentQuestion { $result = new Statement($assignmentQuestion.result); }
-	| ifStatement { $result = new Statement($ifStatement.result); }
+statement [Body result]
+	: question { $result.add(new Statement($question.result)); }
+	| assignmentQuestion { $result.add(new Statement($assignmentQuestion.result)); }
+	| ifStatement { $result.add(new Statement($ifStatement.result)); }
 	;
 
 question returns [Question result]
-	: ID ':' STRING TYPE { $result = new Question($ID.text, $STRING.text, $TYPE.text); }
+	: variable STR { $result = new Question($variable.result, $STR.text); }
 	;
 
 assignmentQuestion returns [AssignmentQuestion result]
-	: ID ':' STRING TYPE '(' orExpression ')' { $result = new AssignmentQuestion($ID.text, $STRING.text, $TYPE.text, $orExpression.result); }
+	: variable STR '(' orExpression ')' { $result = new AssignmentQuestion($variable.result, $STR.text, $orExpression.result); }
 	;
-
+	
 ifStatement returns [IfStatement result]
 	: 'if' '(' orExpression ')' body { $result = new IfStatement($orExpression.result, $body.result); }
+	;
+
+variable returns [Variable result]
+	: ID ':' variableType { $result = new Variable($ID.text, $variableType.result); }
+	;
+	
+variableType returns [VariableType result]
+	: type=(BOOLEAN | INTEGER | STRING){ $result = new VariableType($type.text); }
 	;
 
 orExpression returns [Expression result]
@@ -52,7 +60,7 @@ andExpression returns [Expression result]
 	;
 
 relExpression returns [Expression result]
-	: lhs=addExpression ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpression {
+	: lhs=addExpression { $result = $lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpression {
 			if ($op.text.equals("<")) {
 			  $result = new LT($result, $rhs.result);
 			}
@@ -69,14 +77,14 @@ relExpression returns [Expression result]
 			  $result = new Eq($result, $rhs.result);
 			}
 			if ($op.text.equals("!=")) {
-			  $result = new Neq($result, $rhs.result);
+			  $result = new NEq($result, $rhs.result);
 			}
 		}
 	)*
 	;
 
 addExpression returns [Expression result]
-	: lhs=mulExpression ( op=('+' | '-') rhs=mulExpression {
+	: lhs=mulExpression { $result = $lhs.result; } ( op=('+' | '-') rhs=mulExpression {
 			if($op.text.equals("+")){
 				$result = new Add($result, $rhs.result);
 			}
@@ -88,7 +96,7 @@ addExpression returns [Expression result]
 	;
 
 mulExpression returns [Expression result]
-	: lhs=unExpression ( op=('*' | '/') rhs=unExpression {
+	: lhs=unExpression { $result = $lhs.result; } ( op=('*' | '/') rhs=unExpression {
 			if($op.text.equals("*")){
 				$result = new Mul($result, $rhs.result);
 			}
@@ -100,29 +108,44 @@ mulExpression returns [Expression result]
 	;
 
 unExpression returns [Expression result]
-	: '+' unExpression { $result = new Pos($unExpression.result); }
-	| '-' unExpression { $result = new Neg($unExpression.result); }
-	| '!' unExpression { $result = new Not($unExpression.result); }
-	| literal { $result = $literal.result; }
+	: '+' x=unExpression { $result = new Pos($x.result); }
+	| '-' x=unExpression { $result = new Neg($x.result); }
+	| '!' x=unExpression { $result = new Not($x.result); }
+	| y=literal { $result = $y.result; }
 	;
 
 literal returns [Literal result]
 	: intLiteral { $result = new Literal($intLiteral.result); }
-	| variable {$result = new Literal($variable.result); }
+	| boolLiteral { $result = new Literal($boolLiteral.result); }
+	| stringLiteral { $result = new Literal($stringLiteral.result); }
+	| variableExpression {$result = new Literal($variableExpression.result); }
 	;
 
 intLiteral returns [IntLiteral result]
 	: INT { $result = new IntLiteral(Integer.valueOf($INT.text)); }
 	;
+	
+boolLiteral returns [BoolLiteral result]
+	: BOOL { $result = new BoolLiteral(Boolean.valueOf($BOOL.text)); }
+	;
 
-variable returns [Variable result]
-	: ID { $result = new Variable($ID.text); }
+stringLiteral returns [StringLiteral result]
+	: STR { $result = new StringLiteral($STR.text); }
+	;
+
+variableExpression returns [VariableExpression result]
+	: ID { $result = new VariableExpression($ID.text); }
 	;
 	
 WHITESPACE: (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 COMMENT: '/*' .*? '/*' -> channel(HIDDEN);
 
-TYPE: 'boolean' | 'money';
+BOOLEAN: 'boolean';
+INTEGER: 'int';
+STRING: 'string';
+
+BOOL: 'true' | 'false';
 INT: ('0'..'9');
-STRING: '"' .*? '"';
+STR: '"' .*? '"';
+
 ID: ('a'..'z' | 'A'..'Z')('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;

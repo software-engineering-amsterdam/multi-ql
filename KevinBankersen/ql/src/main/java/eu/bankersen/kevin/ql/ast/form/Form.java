@@ -1,30 +1,37 @@
 package eu.bankersen.kevin.ql.ast.form;
 
+import eu.bankersen.kevin.ql.symboltable.SymbolTabel;
+
 public class Form {
 
-	private String name;
-	public Block body;
+    private String name;
+    private Block body;
 
-	public Form(String name, Block body) {
-		this.name = name;
-		this.body = body;
-	}
+    public Form(final String name, final Block body) {
+	this.name = name;
+	this.body = body;
+    }
+
+    public final Boolean checkType() {
+	body.checkType();
 	
-	public Boolean checkType(){
-		return body.checkType();
-	}
-	
-	@Override
-	public String toString() {
-		
-		StringBuilder sb;
+	return SymbolTabel.getErrors().size() == 0;
+    }
 
-		sb = new StringBuilder();
-		sb.append("Form: " + name + "\n");
-		sb.append(body);
-		sb.append("\n");
+    public final void result() {
+	body.result();
+    }
+    @Override
+    public final String toString() {
 
-		return sb.toString();
-	}
+	StringBuilder sb;
+
+	sb = new StringBuilder();
+	sb.append("\nForm: " + name + "\n");
+	sb.append(body);
+	sb.append("\n");
+
+	return sb.toString();
+    }
 }
 

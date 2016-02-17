@@ -1,26 +1,45 @@
 package ast.literal;
 
-import ast.Visitor;
 import ast.expression.Expression;
+import ast.expression.VariableExpression;
+import ast.visitor.Visitor;
 
 public class Literal extends Expression{
 	private IntLiteral intLiteral;
-	private Variable variable;
+	private BoolLiteral boolLiteral;
+	private StringLiteral stringLiteral;
+	private VariableExpression variableExpression;
 	
 	public Literal(IntLiteral result) {
 		this.intLiteral = result;
 	}
-
-	public Literal(Variable result) {
-		this.variable = result;
-	}
 	
+	public Literal(BoolLiteral result) {
+		this.boolLiteral = result;
+	}
+
+	public Literal(StringLiteral result) {
+		this.stringLiteral = result;
+	}
+
+	public Literal(VariableExpression result) {
+		this.variableExpression = result;
+	}
+
 	public IntLiteral getIntLiteral(){
 		return intLiteral;
 	}
 	
-	public Variable getVariable(){
-		return variable;
+	public BoolLiteral getBoolLiteral(){
+		return boolLiteral;
+	}
+	
+	public StringLiteral getStringLiteral(){
+		return stringLiteral;
+	}
+	
+	public VariableExpression getVariableExpression(){
+		return variableExpression;
 	}
 	
 	@Override

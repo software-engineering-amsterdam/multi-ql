@@ -10,12 +10,13 @@ import uva.ql.ast.ASTQuestion;
 import uva.ql.ast.ASTVariable;
 
 public interface IASTNodeVisitor {
-	public void visit(ASTForm form);
-	public void visit(ASTNode node);
-	public void visit(ASTBlock bblock);
-	public void visit(ASTIfStatement ifStatement);
-	public void visit(ASTQuestion question);
-	public void visit(ASTExpression  expression);
-	public void visit(ASTNumber number);
-	public void visit(ASTVariable variable);
+	
+	public void visitForm(ASTForm form);
+	public void visitNode(ASTNode node);
+	public void visitBlock(ASTBlock block);
+	public void visitIfStmnt(ASTIfStatement ifStatement);
+	public void visitQuestion(ASTQuestion question);
+	public void visitExp(ASTExpression  expression);
+	public void visitNum(ASTNumber number);
+	public void visitVar(ASTVariable variable);
 }

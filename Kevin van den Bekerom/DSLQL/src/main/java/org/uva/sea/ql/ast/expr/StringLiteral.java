@@ -8,6 +8,7 @@ public class StringLiteral extends Expr implements Visitable {
 	
 	public StringLiteral(String value) {
 		this.value = value;
+		this.type = Type.STRING;
 	}
 	
 	@Override
@@ -17,5 +18,11 @@ public class StringLiteral extends Expr implements Visitable {
 	
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

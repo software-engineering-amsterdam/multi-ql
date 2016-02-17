@@ -7,6 +7,7 @@ public class Pos extends UnaryExpr implements Visitable {
 	
 	public Pos(Expr expr) {
 		super.child = expr;
+		super.type = Type.INT;
 	}
 	
 	@Override
@@ -16,5 +17,11 @@ public class Pos extends UnaryExpr implements Visitable {
 	
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

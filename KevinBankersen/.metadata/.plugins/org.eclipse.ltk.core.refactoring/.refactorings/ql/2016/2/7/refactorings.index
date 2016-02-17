@@ -16,3 +16,29 @@
 1455109494301	Rename type 'QLType'
 1455142644140	Delete elements
 1455144124955	Rename type 'interpExpr'
+1455191904767	Delete element
+1455370851294	Rename type 'Log'
+1455370958770	Rename type 'Logger'
+1455370995966	Rename type 'Logging'
+1455371059929	Rename type 'Log'
+1455371389900	Rename type 'Logging'
+1455378348069	Rename type 'boolExpr'
+1455378375806	Delete element
+1455378383570	Delete element
+1455378399160	Rename type 'strExpr'
+1455378421117	Delete element
+1455378480318	Delete element
+1455378951814	Copy compilation unit
+1455383008240	Change method 'checkType'
+1455383050072	Change method 'result'
+1455383463822	Delete element
+1455384286002	Rename type 'SymbolTabel2'
+1455384702690	Move compilation units
+1455384729954	Move compilation units
+1455384736359	Delete element
+1455384745581	Move compilation unit
+1455384763918	Move compilation unit
+1455384978628	Delete element
+1455386823878	Delete element
+1455389448022	Rename field 'value'
+1455393082400	Change method 'checkType'

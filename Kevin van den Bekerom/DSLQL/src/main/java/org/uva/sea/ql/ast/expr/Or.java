@@ -8,6 +8,7 @@ public class Or extends BinaryExpr implements Visitable {
 	public Or(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
 		super.rhs = rhs;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override
@@ -17,5 +18,11 @@ public class Or extends BinaryExpr implements Visitable {
 	
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -8,6 +8,7 @@ public class BooleanLiteral extends Expr implements Visitable {
 	
 	public BooleanLiteral(boolean value) {
 		this.value = value;
+		super.type = Type.BOOLEAN;
 	}
 	
 	@Override
@@ -17,5 +18,11 @@ public class BooleanLiteral extends Expr implements Visitable {
 	
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -84,6 +84,26 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitIfStatement(QLParser.IfStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QLParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable(QLParser.VariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable(QLParser.VariableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#variableType}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableType(QLParser.VariableTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#variableType}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableType(QLParser.VariableTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLParser#orExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -164,13 +184,33 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitIntLiteral(QLParser.IntLiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#variable}.
+	 * Enter a parse tree produced by {@link QLParser#boolLiteral}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariable(QLParser.VariableContext ctx);
+	void enterBoolLiteral(QLParser.BoolLiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#variable}.
+	 * Exit a parse tree produced by {@link QLParser#boolLiteral}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariable(QLParser.VariableContext ctx);
+	void exitBoolLiteral(QLParser.BoolLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#stringLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringLiteral(QLParser.StringLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#stringLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringLiteral(QLParser.StringLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#variableExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableExpression(QLParser.VariableExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#variableExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableExpression(QLParser.VariableExpressionContext ctx);
 }

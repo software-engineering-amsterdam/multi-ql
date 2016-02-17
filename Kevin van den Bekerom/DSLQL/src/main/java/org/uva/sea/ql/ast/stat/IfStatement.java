@@ -25,5 +25,17 @@ public class IfStatement extends Stat implements Visitable {
 		return clause;
 	}
 	
+	@Override
+	public String toString() {
+		return "IfStatement";
+	}
 	
+	public boolean getClauseValue() {
+		try {
+			return (Boolean) clause.eval();
+		} catch (NullPointerException e) {
+			System.out.println(e.toString());
+			return false;
+		}
+	}
 }

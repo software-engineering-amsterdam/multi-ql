@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
 
-public interface Visitor { //interface maken
+public interface Visitor { 
 	public void visit(ASTNode node);
 	
 	// visit expression nodes
@@ -41,7 +41,5 @@ public interface Visitor { //interface maken
 	public void visit(ElseStatement elseStatement);
 	public void visit(IfStatement ifStatement);
 	public void visit(Question question);
-	public void visit(Stat stat);
-	
 	
 }

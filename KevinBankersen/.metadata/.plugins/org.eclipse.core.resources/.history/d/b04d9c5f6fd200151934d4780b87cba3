@@ -1,0 +1,52 @@
+package eu.bankersen.kevin.ql.ast.var;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.expr.SymbolTabel2;
+
+public class Variable  extends Expr {
+
+    private final String name;
+    private final Type type;
+    private Expr value;
+
+    public Variable(final String name, final Type type) {
+	SymbolTabel2.addVariable(name, type);
+	this.name = name;
+	this.type = type;
+    }
+
+    public Variable(final String name, final Type type, final Expr expr) {
+	this.name = name;
+	this.type = type;
+	this.value = expr;
+    }
+
+    public final String getName() {
+	return name;
+    }
+
+    public final Type getType() {
+	return type;
+    }
+
+    public final Boolean checkType(final SymbolTabel table) {
+	if (value != null) {
+	    return value.checkType(table) && value.getType() == type;
+	}
+	return true;
+    }
+
+    public final void setValue(final Expr value) {
+	this.value = value;
+    }
+
+    public final Object getValue(final SymbolTabel table) {
+	return value.result(table);
+    }
+
+    @Override
+    public final Object result(final SymbolTabel expr) {
+	return expr.getValue(name);
+    }
+}
