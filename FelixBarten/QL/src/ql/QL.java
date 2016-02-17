@@ -6,6 +6,8 @@
 package ql;
 import java.io.IOException;
 
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.DOTTreeGenerator;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -14,6 +16,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import ql.parser.QLLexer;
 import ql.parser.QLParser;
+import ql.parser.QLParser.QuestionContext;
 /**
  *
  * @author felixbarten
@@ -25,11 +28,8 @@ public class QL {
      */
     
     public static void main(String[] args) {
-    	String path = "/Users/felixbarten/Git/multi-ql/FelixBarten/QL/src/ql/parser/QL.g4";
-    	String path2 = "";
-    	String parseTest = "\"is this a test?\" testQuestion: money";
     	String parseTest2 = ""
-    			+ "\"What was the selling price?\""
+    			+ "\"What was the selling price\""
     			+ "    sellingPrice : money";
         String parseTest3 = ""
         		+ "form taxExampleForm {"
@@ -38,9 +38,11 @@ public class QL {
         		+ "}";
         
         System.out.println("Starting parsing");
+        System.out.println(parseTest2);
         QLLexer lexer = null;
 		lexer = new QLLexer( new ANTLRInputStream(parseTest2));
         CommonTokenStream tokens = new CommonTokenStream( lexer );
+        
         QLParser parser = new QLParser( tokens );
         ParseTree tree = parser.question();
         ParseTreeWalker walker = new ParseTreeWalker();
@@ -53,7 +55,7 @@ public class QL {
         QLParser parser2 = new QLParser( tokens2 );
         ParseTree tree2 = parser2.form();
         ParseTreeWalker walker2 = new ParseTreeWalker();
-        walker2.walk( new QLWalker(), tree2 );
+       // walker2.walk( new QLWalker(), tree2 );
     
         parseExamples();
         
@@ -64,9 +66,9 @@ public class QL {
     
 	private static void parseExamples() {
 		// TODO Auto-generated method stub
-		parseQuestionExample();
+		//parseQuestionExample();
 		parseFormExample();
-		parseIfExample();
+	//	parseIfExample();
 	}
 
 	private static void parseIfExample() {
@@ -82,9 +84,10 @@ public class QL {
         CommonTokenStream tokens = new CommonTokenStream( lexer );
         QLParser parser = new QLParser( tokens );
         ParseTree tree = parser.form();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk( new QLWalker(), tree );
-		System.out.println("Parsing If example");
+        System.out.println(tree.toStringTree());
+        QLWalker listener =  new QLWalker();
+        ParseTreeWalker.DEFAULT.walk(listener, tree);
+		System.out.println("Finished If example");
 
 	}
 
@@ -101,8 +104,13 @@ public class QL {
         CommonTokenStream tokens = new CommonTokenStream( lexer );
         QLParser parser = new QLParser( tokens );
         ParseTree tree = parser.form();
+        System.out.println(tree.toStringTree());
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk( new QLWalker(), tree );
+        QLWalker listener =  new QLWalker();
+        ParseTreeWalker.DEFAULT.walk(listener, tree);
+        
+
+        
 		System.out.println("Finished Form example");
 
         
@@ -122,9 +130,17 @@ public class QL {
 
         CommonTokenStream tokens = new CommonTokenStream( lexer );
         QLParser parser = new QLParser( tokens );
+        QuestionContext ctx = parser.question();
         ParseTree tree = parser.question();
+        QLWalker listener = new QLWalker();
+        parser.setBuildParseTree(true);
+        System.out.println(tree.toStringTree());
+        
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk( new QLWalker(), tree );
+        
+        ParseTreeWalker.DEFAULT.walk(listener, tree);
+        
+        walker.walk(listener, ctx );
 		System.out.println("Finished Question Example");
 
         
