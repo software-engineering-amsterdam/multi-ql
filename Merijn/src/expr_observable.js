@@ -4,6 +4,7 @@ import { Scope } from 'src/scope';
 
 class ExprObservable extends Observable {
 	constructor(value) {
+		super();
 		this.value = value;
 	}
 	getValue() {
@@ -29,9 +30,10 @@ class ExprObservingObservable extends ExprObservable {
 
 class UnaryPrefixObservable extends ExprObservingObservable {
 	constructor(operandObservable) {
-		super(this.applyUnaryPrefixOperation(operandObservable.getValue()));
+		super();
 		this.operandObservable = operandObservable;
 		this.operandObservable.registerObserver(this);
+		this.notify();
 	}
 	notify() {
 		this.updateValue(this.applyUnaryPrefixOperation(this.operandObservable.getValue()));
@@ -61,11 +63,12 @@ class NotObservable extends UnaryPrefixObservable {
 
 class InfixObservable extends ExprObservingObservable {
 	constructor(leftOperandObservable, rightOperandObservable) {
-		super(this.applyInfixOperation(leftOperandObservable.getValue(), rightOperandObservable.getValue()));
+		super();
 		this.leftOperandObservable = leftOperandObservable;
-		this.leftOperandObservable.registerObserver(this);
 		this.rightOperandObservable = rightOperandObservable;
+		this.leftOperandObservable.registerObserver(this);
 		this.rightOperandObservable.registerObserver(this);
+		this.notify();
 	}
 	notify() {
 		this.updateValue(this.applyInfixOperation(this.leftOperandObservable.getValue(), this.rightOperandObservable.getValue()));
