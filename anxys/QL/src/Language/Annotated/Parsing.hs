@@ -194,7 +194,7 @@ mlit = do
 ilit :: Parser (Literal Location)
 ilit = do
      s <- getPosition
-     v <- integer 
+     v <- integer
      e <- getPosition
      return (IntegerLiteral (newLoc s e) v) <?> "integer literal"
 
@@ -246,7 +246,7 @@ ifElseStmnt = do
         return (IfElse (newLoc s e) cond firstBody secondBody) <?> "if else statement"
 
 newLoc :: SourcePos -> SourcePos -> Location
-newLoc s e = Location s e
+newLoc = Location 
 
 form :: Parser (Form Location)
 form = do
