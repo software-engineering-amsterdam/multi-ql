@@ -1,0 +1,19 @@
+package eu.bankersen.kevin.ql.ast.expr.math;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
+import eu.bankersen.kevin.ql.symboltable.Context;
+
+public class Neg extends IntegerExpr {
+
+
+    public Neg(final Expr expr) {
+	super.rhs =  expr;
+    }
+
+    @Override
+    public final Integer eval(Context context) {
+	return -(Integer) rhs.eval(context);
+    }
+
+}

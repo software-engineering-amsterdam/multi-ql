@@ -13,7 +13,7 @@ public class Literal extends Expr {
     }
     
     @Override
-    public final Object result() {
+    public final Object eval() {
 	return value; 
     }
 
@@ -30,4 +30,5 @@ public class Literal extends Expr {
     public final String toString() {
 	return value.toString();
     }
+    
 }

@@ -1,0 +1,27 @@
+package eu.bankersen.kevin.ql.ast;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.symboltable.Context;
+
+public class Identifier extends Expr {
+
+    private final String name;
+
+    public Identifier(final String name) {
+	this.name = name;
+    }
+
+    @Override
+    public final Object eval(final Context context) {
+	return super.context.getSymbol(name).getValue();
+    }
+
+    @Override
+    public final void checkType() {	
+    }
+
+    @Override
+    public final Type getType() {
+	return super.context.getSymbol(name).getType();
+    }
+}

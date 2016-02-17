@@ -10,10 +10,16 @@ public class Not extends BooleanExpr {
     public Not(final Expr expr) {
 	this.expr = expr;
     }
+    
+    @Override
+    public final void checkType() {
+	expr.checkType();
+	expr.getType().equals(this.getType());
+    }
 
     @Override
-    public final Boolean result() {
-	return !(Boolean) expr.result();
+    public final Boolean eval() {
+	return !(Boolean) expr.eval();
     }
 
 }

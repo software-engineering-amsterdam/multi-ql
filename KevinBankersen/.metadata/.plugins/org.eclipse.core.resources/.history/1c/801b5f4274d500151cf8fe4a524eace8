@@ -1,0 +1,20 @@
+package eu.bankersen.kevin.ql.symboltable;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Context {
+    
+    private static HashMap<String, SymbolTable> symbolTable;
+    private static Set<Errors> errorList;
+    
+    public Context() {
+	symbolTable = new HashMap<>();
+	errorList = new HashSet<>();
+    }
+    public final SymbolTable getSymbolObject(final String symbol) {
+	return symbolTable.get(symbol);
+    }
+
+}

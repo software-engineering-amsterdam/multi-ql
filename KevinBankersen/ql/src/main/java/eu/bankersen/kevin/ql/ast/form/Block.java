@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.bankersen.kevin.ql.ast.stat.IFStat;
-import eu.bankersen.kevin.ql.symboltable.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.stat.Question;
 
-public class Block {
+public class Block extends AbstractForm {
 
     private List<Question> questions;
     private List<IFStat> statements;
@@ -15,35 +15,36 @@ public class Block {
 	questions = new ArrayList<Question>();
 	statements = new ArrayList<IFStat>();
     }
-    
-    public final void result() {
-	
-	visibility(true); // Inside a body meaning the above statement is true, show the questions.
-	
-	questions.forEach(question -> question.result());
-	
-	statements.forEach(statement -> statement.result());
+
+    @Override
+    public final void eval() {
+
+	visibile(true); // Inside a body meaning the above statement is true, show the questions.
+
+	questions.forEach(question -> question.eval());
+
+	statements.forEach(statement -> statement.eval());
     }
 
     public final void checkType() {
 
 	questions.forEach(question -> question.checkType());
-	
+
 	statements.forEach(statement -> statement.checkType());
-	
-	visibility(false); // We can use the visibility modifier to determine depth.
+
+	visibile(false); // We can use the visibility modifier to determine depth.
     }
-    
+
     public final void show() {
-	visibility(true);
+	visibile(true);
     }
-    
+
     public final void hide() {
-	visibility(false);
+	visibile(false);
     }
-    
-    private void visibility(final Boolean vis) {
-	questions.forEach(question -> SymbolTabel.setVisibility(question.getName(), vis));
+
+    public void visibile(final Boolean vis) {
+	questions.forEach(question -> super.context.setVisibility(question.getName(), vis));
     }
 
     @Override
@@ -53,13 +54,13 @@ public class Block {
 
 	sb = new StringBuilder();
 	for (Question q: questions) {
-	    if (SymbolTabel.getVisibility(q.getName())){
-	    sb.append(q.getText());
-	    sb.append("\t: ");
-	    sb.append(q.getType());
-	    sb.append(" : ");
-	    sb.append(q.getValue());
-	    sb.append("\n");
+	   if (super.context.getSymbol(q.getName()).getActive()) {
+		sb.append(q.getText());
+		sb.append("\t: ");
+		sb.append(q.getType());
+		sb.append(" : ");
+		sb.append(q.getValue());
+		sb.append("\n");
 	    }
 	}
 
