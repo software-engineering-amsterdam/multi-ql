@@ -48,29 +48,21 @@ ifStat returns [IFStat result]
     ;
 
 question returns [Question result]
-    : variable + STR + orExpr
+    : variableType + ID + STR + orExpr
     {
-         $result = new ComputedQuestion($ctx, $variable.result, $STR.text, $orExpr.result);
+        $result = new ComputedQuestion($ctx, $variableType.result, $ID.text,  $STR.text, $orExpr.result);
     }
-    | variable + STR 
+    | variableType + ID + STR 
     { 
-        $result = new InputQuestion($ctx, $variable.result, $STR.text);
-    }
-    ;
-    
-variable returns [VariableDecl result]
-    :  variableType + identifier 
-    { 
-        $result = new VariableDecl($ctx, $variableType.result, $identifier.result);
+        $result = new InputQuestion($ctx, $variableType.result, $ID.text, $STR.text);
     }
     ;
     
 variableType returns [VariableType result]
-    : t=( BOOLEAN | STRING | INTEGER ) 
-    { 
-        $result = new VariableType($ctx, $t.text);
-    }
-   ;
+    : BOOLEAN   { $result = new BooleanType($ctx); }
+    | STRING    { $result = new StringType($ctx);  }
+    | INTEGER   { $result = new IntegerType($ctx); }
+    ;
    
 addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
@@ -106,15 +98,8 @@ unExpr returns [Expr result]
     
 primary returns [Expr result]
     : literal        { $result = new LiteralExpr($ctx, $literal.result); }
-    | identifier     { $result = new VariableExpr($ctx, $identifier.result); }
+    | ID     { $result = new VariableExpr($ctx, $ID.text); }
     | '(' orExpr ')' { $result = $orExpr.result; }
-    ;
-    
-identifier returns [VariableIdentifier result]
-    : ID
-    {   
-        $result = new VariableIdentifier($ctx, $ID.text);
-    }
     ;
     
 literal returns [Literal result]

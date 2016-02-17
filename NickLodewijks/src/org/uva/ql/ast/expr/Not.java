@@ -3,13 +3,10 @@ package org.uva.ql.ast.expr;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 
-public class Not extends Expr {
-
-	private final Expr expr;
+public class Not extends UnaryExpr {
 
 	public Not(ParserRuleContext context, Expr expr) {
-		super(context);
-		this.expr = expr;
+		super(context, expr);
 	}
 
 	@Override
@@ -20,9 +17,5 @@ public class Not extends Expr {
 	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
-	}
-
-	public Expr getExpr() {
-		return expr;
 	}
 }

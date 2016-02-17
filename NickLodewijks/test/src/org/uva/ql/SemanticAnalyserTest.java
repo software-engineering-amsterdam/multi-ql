@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.uva.ql.SemanticAnalyser.Result;
 import org.uva.ql.ast.form.Questionnaire;
-
-import org.junit.Assert;
 
 public class SemanticAnalyserTest {
 
@@ -25,10 +24,8 @@ public class SemanticAnalyserTest {
 
 		result = new SemanticAnalyser().validateQuestions(questionnaire);
 
-		Assert.assertEquals("Invalid number of warnings:" + Arrays.toString(result.getWarnings().toArray()), 3,
-				result.getWarnings().size());
-		Assert.assertEquals("Invalid number of errors: " + Arrays.toString(result.getErrors().toArray()), 1,
-				result.getErrors().size());
+		assertNumberOfWarnings(result, 3);
+		assertNumberOfErrors(result, 1);
 	}
 
 	@Test
@@ -44,10 +41,17 @@ public class SemanticAnalyserTest {
 
 		result = new SemanticAnalyser().validateQuestions(questionnaire);
 
-		Assert.assertEquals("Invalid number of warnings: " + Arrays.toString(result.getWarnings().toArray()), 4,
-				result.getWarnings().size());
-		Assert.assertEquals("Invalid number of errors: " + Arrays.toString(result.getErrors().toArray()), 2,
-				result.getErrors().size());
+		assertNumberOfWarnings(result, 4);
+		assertNumberOfErrors(result, 2);
 	}
 
+	private void assertNumberOfWarnings(Result result, int warnings) {
+		Assert.assertEquals("Invalid number of warnings:\n" + Arrays.toString(result.getWarnings().toArray()) + "\n",
+				warnings, result.getWarnings().size());
+	}
+
+	private void assertNumberOfErrors(Result result, int errors) {
+		Assert.assertEquals("Invalid number of errors:\n" + Arrays.toString(result.getErrors().toArray()) + "\n",
+				errors, result.getErrors().size());
+	}
 }

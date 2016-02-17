@@ -10,9 +10,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.BooleanType;
+import org.uva.ql.ast.IntegerType;
+import org.uva.ql.ast.StringType;
 import org.uva.ql.ast.ValueType;
-import org.uva.ql.ast.VariableDecl;
-import org.uva.ql.ast.VariableIdentifier;
+import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BinaryExpr;
@@ -30,9 +32,7 @@ import org.uva.ql.ast.expr.Or;
 import org.uva.ql.ast.expr.Sub;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.Block;
-import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
-import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
@@ -140,34 +140,32 @@ public class SemanticAnalyser {
 
 		@Override
 		public ValueType visit(IFStat node, SymbolTable st) {
-			checkType(node.getExpression(), st, ValueType.BOOLEAN);
+			checkType(node.getExpr(), st, ValueType.BOOLEAN);
 			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public ValueType visit(ComputedQuestion node, SymbolTable st) {
-			checkType(node.getExpression(), st, node.getType());
-
-			node.getVariableDecl().accept(this, st);
-			return null;
-		}
-
-		@Override
-		public ValueType visit(InputQuestion node, SymbolTable st) {
-			node.getVariableDecl().accept(this, st);
-			return null;
-		}
-
-		@Override
-		public ValueType visit(VariableDecl node, SymbolTable st) {
+		public ValueType visit(Question node, SymbolTable st) {
 			String variableName;
 			ValueType type;
+			VariableType questionType;
 
-			variableName = node.getId().getName();
-			type = node.getType().getType();
+			variableName = node.getId();
+			questionType = node.getType();
+
+			if (questionType instanceof BooleanType) {
+				type = ValueType.BOOLEAN;
+			} else if (questionType instanceof IntegerType) {
+				type = ValueType.INTEGER;
+			} else if (questionType instanceof StringType) {
+				type = ValueType.STRING;
+			} else {
+				throw new IllegalStateException("Undefined question type '" + questionType.getClass() + "'");
+			}
+
 			if (st.contains(variableName)) {
-				error("Duplicate variable declaration " + node);
+				error("Duplicate question id " + node);
 			} else {
 				st.add(variableName, type);
 			}
@@ -182,16 +180,11 @@ public class SemanticAnalyser {
 
 		@Override
 		public ValueType visit(VariableExpr node, SymbolTable st) {
-			return node.getVariableId().accept(this, st);
-		}
-
-		@Override
-		public ValueType visit(VariableIdentifier node, SymbolTable st) {
 			ValueType type;
 
-			type = st.getType(node.getName());
+			type = st.getType(node.getVariableId());
 			if (type == null) {
-				error("Undeclared variable " + node + node.getName());
+				error("Undeclared variable " + node + node.getVariableId());
 			}
 
 			return type;
@@ -356,32 +349,25 @@ public class SemanticAnalyser {
 			q.accept(this, new QuestionTable());
 		}
 
-		private void checkQuestion(Question node, QuestionTable qt) {
+		@Override
+		public Void visit(Question node, QuestionTable qt) {
 			String label;
-			ValueType expectedType;
+			VariableType knownType;
+			VariableType nodeType;
 
 			label = node.getLabel();
-			expectedType = qt.add(label, node.getType());
-			if (expectedType != null) {
+			nodeType = node.getType();
+			knownType = qt.add(label, nodeType);
+			if (knownType != null) {
 				warn("Duplicate label: %s", label);
 
-				if (!Objects.equals(node.getType(), expectedType)) {
+				if (!Objects.equals(nodeType, knownType)) {
 					error("Question with '%s' has been declared twice, but with different types: %s and %s", label,
-							node.getType(), expectedType);
+							nodeType, knownType);
 				}
 			}
-		}
 
-		@Override
-		public Void visit(ComputedQuestion node, QuestionTable qt) {
-			checkQuestion(node, qt);
-			return super.visit(node, qt);
-		}
-
-		@Override
-		public Void visit(InputQuestion node, QuestionTable qt) {
-			checkQuestion(node, qt);
-			return super.visit(node, qt);
+			return null;
 		}
 	}
 
@@ -453,13 +439,13 @@ public class SemanticAnalyser {
 
 	private static class QuestionTable {
 
-		private final Map<String, ValueType> questionLabelToType;
+		private final Map<String, VariableType> questionLabelToType;
 
 		public QuestionTable() {
 			questionLabelToType = new HashMap<>();
 		}
 
-		public ValueType add(String label, ValueType type) {
+		public VariableType add(String label, VariableType type) {
 			return questionLabelToType.put(label, type);
 		}
 	}

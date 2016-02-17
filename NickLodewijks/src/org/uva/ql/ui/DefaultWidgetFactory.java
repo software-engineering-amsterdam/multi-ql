@@ -19,6 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import org.uva.ql.ast.BooleanType;
+import org.uva.ql.ast.IntegerType;
+import org.uva.ql.ast.StringType;
+import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Context.ContextListener;
 import org.uva.ql.ast.expr.Expr;
@@ -31,7 +35,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 	@Override
 	public QLQuestion create(ComputedQuestion q) {
-		return createQuestion(q, q.getExpression());
+		return createQuestion(q, q.getExpr());
 	}
 
 	@Override
@@ -48,24 +52,22 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		QLQuestion question;
 		QLWidget label;
 		QLWidget widget;
-		String variableName;
+		String id;
+		VariableType type;
 
-		variableName = q.getName();
+		id = q.getId();
+		type = q.getType();
 
 		label = new DefaultLabelWidget(q.getLabel());
-		switch (q.getType()) {
-			case BOOLEAN:
-				widget = new DefaultBooleanWidget(variableName, expr);
-				break;
-			case INTEGER:
-				widget = new DefaultIntegerWidget(variableName, expr);
-				break;
-			case STRING:
-				widget = new DefaultStringWidget(variableName, expr);
-				break;
-			default:
-				widget = null;
-				break;
+
+		if (type instanceof BooleanType) {
+			widget = new DefaultBooleanWidget(id, expr);
+		} else if (type instanceof IntegerType) {
+			widget = new DefaultIntegerWidget(id, expr);
+		} else if (type instanceof StringType) {
+			widget = new DefaultStringWidget(id, expr);
+		} else {
+			throw new IllegalStateException("Undefined question type '" + type + "'");
 		}
 
 		question = new DefaultQuestion(label, widget);
@@ -89,6 +91,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		}
 
+		@Override
 		public String getName() {
 			return name;
 		}
@@ -176,15 +179,18 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			this.input = input;
 		}
 
+		@Override
 		public void setContext(Context context) {
 			label.setContext(context);
 			input.setContext(context);
 		}
 
+		@Override
 		public JComponent getLabelComponent() {
 			return label.getComponent();
 		}
 
+		@Override
 		public JComponent getInputComponent() {
 			return input.getComponent();
 		}

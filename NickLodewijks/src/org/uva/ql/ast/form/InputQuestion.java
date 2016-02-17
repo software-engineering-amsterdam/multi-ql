@@ -2,12 +2,12 @@ package org.uva.ql.ast.form;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.VariableDecl;
+import org.uva.ql.ast.VariableType;
 
 public class InputQuestion extends Question {
 
-	public InputQuestion(ParserRuleContext context, VariableDecl variableDecl, String label) {
-		super(context, variableDecl, label);
+	public InputQuestion(ParserRuleContext context, VariableType type, String id, String label) {
+		super(context, type, id, label);
 	}
 
 	@Override

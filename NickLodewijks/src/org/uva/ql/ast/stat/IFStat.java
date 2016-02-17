@@ -9,17 +9,17 @@ import org.uva.ql.ast.form.Block;
 
 public class IFStat extends ASTNode {
 
-	private final Expr expression;
+	private final Expr expr;
 	private final Block body;
 
 	public IFStat(ParserRuleContext context, Expr condition, Block body) {
 		super(context);
-		this.expression = condition;
+		this.expr = condition;
 		this.body = body;
 	}
 
-	public Expr getExpression() {
-		return expression;
+	public Expr getExpr() {
+		return expr;
 	}
 
 	public Block getBody() {
@@ -27,7 +27,7 @@ public class IFStat extends ASTNode {
 	}
 
 	public Boolean interpret(Context context) {
-		return (Boolean) expression.interpret(context);
+		return (Boolean) expr.interpret(context);
 	}
 
 	@Override
