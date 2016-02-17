@@ -186,8 +186,6 @@ public class SemanticAnalyser {
 				error("Undeclared variable " + node + node.getName());
 			}
 
-			node.setType(type);
-
 			return type;
 		}
 
