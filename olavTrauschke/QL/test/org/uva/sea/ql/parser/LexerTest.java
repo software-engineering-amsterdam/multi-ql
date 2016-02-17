@@ -103,6 +103,63 @@ public class LexerTest {
         assertEquals(expectedTokens, tokens);
     }
     
+    @Test
+    public void testFormAnalysis() throws FileNotFoundException {
+        Lexer lexer = new Lexer("form.ql");
+        ArrayList<Integer> tokens = obtainTokens(lexer);
+        
+        ArrayList<Integer> expectedTokens = new ArrayList<>();
+        expectedTokens.add(Tokens.FORM);
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) '{');
+        
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.BOOLEAN);
+        
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.BOOLEAN);
+        
+        expectedTokens.add(Tokens.IF);
+        expectedTokens.add((int) '(');
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ')');
+        expectedTokens.add((int) '{');
+        
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.MONEY);
+        
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.MONEY);
+        expectedTokens.add((int) '(');
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) '-');
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ')');
+        
+        expectedTokens.add((int) '}');
+        expectedTokens.add(Tokens.ELSE);
+        expectedTokens.add((int) '{');
+        
+        expectedTokens.add(Tokens.IDENT);
+        expectedTokens.add((int) ':');
+        expectedTokens.add(Tokens.STRING_LITERAL);
+        expectedTokens.add(Tokens.BOOLEAN);
+        
+        expectedTokens.add((int) '}');
+        expectedTokens.add((int) '}');
+        expectedTokens.add(Tokens.ENDINPUT);
+        
+        assertEquals(expectedTokens, tokens);
+    }
+    
     private ArrayList<Integer> obtainTokens(Lexer lexer) {
         ArrayList<Integer> tokens = new ArrayList<>();
         int token;
