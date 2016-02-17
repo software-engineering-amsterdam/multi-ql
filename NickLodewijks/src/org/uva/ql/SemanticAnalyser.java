@@ -72,6 +72,7 @@ public class SemanticAnalyser {
 	}
 
 	private static class SymbolTable {
+
 		private Map<String, ValueType> nameToType = new HashMap<>();
 
 		public SymbolTable() {
@@ -385,6 +386,7 @@ public class SemanticAnalyser {
 	}
 
 	public static class Result {
+
 		private final List<String> warnings = new ArrayList<>();
 		private final List<String> errors = new ArrayList<>();
 
@@ -450,6 +452,7 @@ public class SemanticAnalyser {
 	}
 
 	private static class QuestionTable {
+
 		private final Map<String, ValueType> questionLabelToType;
 
 		public QuestionTable() {

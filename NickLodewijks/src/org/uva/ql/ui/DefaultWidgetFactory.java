@@ -74,6 +74,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 	}
 
 	private static class DefaultQLForm extends JPanel implements QLForm {
+
 		private static final long serialVersionUID = 1L;
 
 		private final String name;
@@ -190,6 +191,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 	}
 
 	private static class DefaultLabelWidget extends JLabel implements QLWidget {
+
 		private static final long serialVersionUID = 1L;
 
 		public DefaultLabelWidget(String label) {
@@ -208,6 +210,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 	}
 
 	private static class DefaultBooleanWidget extends JPanel implements QLWidget {
+
 		private static final long serialVersionUID = 1L;
 
 		private final String variableName;
@@ -237,6 +240,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 			if (valueExpr != null) {
 				contextListener = new ContextListener() {
+
 					@Override
 					public void contextChanged(Context context) {
 						Boolean value;
@@ -278,6 +282,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 	}
 
 	private static class DefaultIntegerWidget extends JPanel implements QLWidget {
+
 		private static final long serialVersionUID = 1L;
 
 		private final String variableName;
@@ -299,6 +304,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 			if (valueExpr != null) {
 				contextListener = new ContextListener() {
+
 					@Override
 					public void contextChanged(Context context) {
 						Integer value;
@@ -329,6 +335,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			context.setValue(variableName, 0);
 
 			keyListener = new KeyAdapter() {
+
 				@Override
 				public void keyReleased(KeyEvent e) {
 					Integer value;
@@ -352,6 +359,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 	}
 
 	private static class DefaultStringWidget extends JPanel implements QLWidget {
+
 		private static final long serialVersionUID = 1L;
 
 		private final String variableName;
@@ -372,6 +380,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 			if (valueExpr != null) {
 				contextListener = new ContextListener() {
+
 					@Override
 					public void contextChanged(Context context) {
 						String value;
@@ -402,6 +411,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			}
 
 			keyListener = new KeyAdapter() {
+
 				@Override
 				public void keyReleased(KeyEvent e) {
 					context.setValue(variableName, textField.getText());

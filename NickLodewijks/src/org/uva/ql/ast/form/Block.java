@@ -9,6 +9,7 @@ import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.stat.IFStat;
 
 public class Block extends ASTNode {
+
 	private final List<Question> questions;
 	private final List<IFStat> statements;
 
