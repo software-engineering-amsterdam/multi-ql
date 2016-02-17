@@ -32,6 +32,7 @@ import org.uva.ql.ast.expr.Or;
 import org.uva.ql.ast.expr.Sub;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.Block;
+import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
@@ -67,6 +68,14 @@ public class SemanticAnalyser {
 		// Validate:
 		// - duplicate question labels
 		new DuplicateQuestionLabelVisitor().visit(questionnaire);
+
+		return result;
+	}
+
+	public Result validateCyclicReferences(Questionnaire questionnaire) {
+		result = new Result();
+
+		new CyclicReferenceVisitor().visit(questionnaire);
 
 		return result;
 	}
@@ -450,18 +459,153 @@ public class SemanticAnalyser {
 		}
 	}
 
+	private static class ReferenceTable {
+
+		private final Map<String, Reference> referenceMapById;
+
+		public ReferenceTable() {
+			referenceMapById = new HashMap<>();
+		}
+
+		public Result findCyclicReferences() {
+			Result result;
+
+			result = new Result();
+
+			for (Reference r : referenceMapById.values()) {
+				if (r.getReferents().isEmpty()) {
+					continue;
+				}
+				for (String referencePath : getReferencePath(r.id)) {
+					System.out.println(referencePath);
+				}
+			}
+
+			return result;
+		}
+
+		private List<String> getReferencePath(String referer) {
+			return getReferencePath(referer, "");
+		}
+
+		private List<String> getReferencePath(String referer, String parentPath) {
+			List<String> referencePathList;
+
+			Reference r = getReference(referer);
+
+			referencePathList = new ArrayList<>();
+
+			// If the parentPath is not empty, we are extending the chain.
+			if (!parentPath.trim().isEmpty()) {
+				parentPath += " -> ";
+			}
+
+			// Add the referrer itself to the path
+			parentPath += referer;
+
+			// This is the end of the reference path.
+			if (r.getReferents().isEmpty()) {
+				referencePathList.add(parentPath);
+				return referencePathList;
+			}
+
+			for (Reference referent : r.getReferents()) {
+
+				// Found a cycle, no need to continue with this referent.
+				if (parentPath.contains(referent.id)) {
+					referencePathList.add(parentPath + " -> " + referent.id + " (cycle)");
+					continue;
+				}
+
+				// Add the reference paths of the referents
+				for (String subReferencePath : getReferencePath(referent.id, parentPath)) {
+					referencePathList.add(subReferencePath);
+				}
+			}
+
+			return referencePathList;
+		}
+
+		private Reference getReference(String id) {
+			Reference r;
+
+			r = referenceMapById.get(id);
+			if (r == null) {
+				r = new Reference(id);
+				referenceMapById.put(id, r);
+			}
+
+			return r;
+		}
+
+		private class Reference {
+
+			private final String id;
+			private List<Reference> referents = new ArrayList<>();
+
+			public Reference(String id) {
+				this.id = id;
+			}
+
+			public void addReferent(String id) {
+				referents.add(getReference(id));
+			}
+
+			public List<Reference> getReferents() {
+				return Collections.unmodifiableList(referents);
+			}
+		}
+	}
+
+	private class CyclicReferenceVisitor extends ASTNodeVisitorAdapter<Void, ReferenceTable> {
+
+		private ComputedQuestion currentQuestion;
+
+		public CyclicReferenceVisitor() {
+
+		}
+
+		public Result visit(Questionnaire q) {
+			ReferenceTable rt;
+
+			rt = new ReferenceTable();
+
+			q.accept(this, rt);
+
+			return rt.findCyclicReferences();
+		}
+
+		@Override
+		public Void visit(ComputedQuestion node, ReferenceTable rt) {
+			currentQuestion = node;
+
+			node.getExpr().accept(this, rt);
+
+			return null;
+		}
+
+		@Override
+		public Void visit(VariableExpr node, ReferenceTable context) {
+			context.getReference(currentQuestion.getId()).addReferent(node.getVariableId());
+
+			return null;
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		Questionnaire questionnaire;
 		SemanticAnalyser sa;
 		File inputFile;
 
-		inputFile = new File("resources/Questionaire.ql");
+		// inputFile = new File("resources/Questionaire.ql");
+		inputFile = new File("test/resources/org/uva/ql/CyclicReferences.ql");
 		questionnaire = Questionnaire.create(inputFile);
 
 		sa = new SemanticAnalyser();
 
 		sa.validateTypes(questionnaire).print();
 		sa.validateQuestions(questionnaire).print();
+		sa.validateCyclicReferences(questionnaire);
 	}
 
 }

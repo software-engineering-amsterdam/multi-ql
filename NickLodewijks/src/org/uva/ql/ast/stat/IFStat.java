@@ -3,7 +3,6 @@ package org.uva.ql.ast.stat;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.Block;
 
@@ -24,10 +23,6 @@ public class IFStat extends ASTNode {
 
 	public Block getBody() {
 		return body;
-	}
-
-	public Boolean interpret(Context context) {
-		return (Boolean) expr.interpret(context);
 	}
 
 	@Override

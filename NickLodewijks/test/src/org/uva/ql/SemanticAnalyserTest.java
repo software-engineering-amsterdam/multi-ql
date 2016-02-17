@@ -45,6 +45,21 @@ public class SemanticAnalyserTest {
 		assertNumberOfErrors(result, 2);
 	}
 
+	@Test
+	public void testCyclicReferences() throws IOException {
+		Result result;
+		InputStream is;
+
+		Questionnaire questionnaire;
+
+		is = SemanticAnalyserTest.class.getResourceAsStream("CyclicReferences.ql");
+
+		questionnaire = Questionnaire.create(is);
+
+		result = new SemanticAnalyser().validateCyclicReferences(questionnaire);
+		assertNumberOfErrors(result, 3);
+	}
+
 	private void assertNumberOfWarnings(Result result, int warnings) {
 		Assert.assertEquals("Invalid number of warnings:\n" + Arrays.toString(result.getWarnings().toArray()) + "\n",
 				warnings, result.getWarnings().size());
