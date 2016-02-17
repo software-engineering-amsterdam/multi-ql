@@ -51,6 +51,6 @@ public class ASTExpression extends ASTNode implements IExpression, IASTNode {
 
 	@Override
 	public void accept(IASTNodeVisitor visitor) {
-		visitor.visit(this);
+		visitor.visitExp(this);
 	}
 }

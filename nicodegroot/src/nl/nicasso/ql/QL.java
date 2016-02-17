@@ -50,7 +50,7 @@ public class QL {
         ast.accept(varsVisitor);
                 
         if (!varsVisitor.getErrors().isEmpty()) {
-        	
+        	System.out.println("ERRORS!");
         	for (String error : varsVisitor.getErrors()) {
         		System.out.println(error);
         	}

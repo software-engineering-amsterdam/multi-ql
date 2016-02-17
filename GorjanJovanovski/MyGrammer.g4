@@ -68,7 +68,7 @@ TYPE
 	;
 
 BOOLEAN
-	: ('true' | 'fasle')
+	: ('true' | 'false')
 	;
 
 DELIMITER

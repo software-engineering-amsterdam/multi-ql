@@ -1,25 +1,10 @@
 package org.uva.ql.ast;
 
-public class VariableType extends ASTNode {
+import org.antlr.v4.runtime.ParserRuleContext;
 
-	private final String name;
-	private final ValueType type;
+public abstract class VariableType extends ASTNode {
 
-	public VariableType(String name) {
-		this.name = name;
-		this.type = ValueType.getByName(name);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public ValueType getType() {
-		return type;
-	}
-
-	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
-		return visitor.visit(this, context);
+	public VariableType(ParserRuleContext context) {
+		super(context);
 	}
 }

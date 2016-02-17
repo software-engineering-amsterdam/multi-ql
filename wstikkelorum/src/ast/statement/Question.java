@@ -1,31 +1,29 @@
 package ast.statement;
 
+import ast.literal.Variable;
+import ast.literal.VariableType;
+import ast.visitor.Types;
 import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
 public class Question implements Visitable{
-	private String id;
+	private Variable variable;
 	private String str;
-	private String type;
 	
-	public Question(Object object, Object object2, Object object3) {
-		this.id = (String)object;
-		this.str = (String)object2;
-		this.type = (String)object3;
+	public Question(Variable variable, String str) {
+		this.variable = variable;
+		this.str = str;
 	}
 	
-	public String getId() {
-		return id;
+	public Variable getVariable() {
+		return variable;
 	}
+
 
 	public String getStr() {
 		return str;
 	}
 
-	public String getType() {
-		return type;
-	}
-	
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);

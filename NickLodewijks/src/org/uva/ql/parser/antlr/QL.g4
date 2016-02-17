@@ -15,67 +15,63 @@ file :  questionnaire EOF
      ;
      
 questionnaire returns [Questionnaire result]
-    : forms { $result = new Questionnaire($forms.result); }
-    ;
-    
-forms returns [List<Form> result]
-    @init{
-        $result = new ArrayList<Form>();
+    locals [
+      List<Form> forms = new ArrayList<>();
+    ]
+    @after{
+        $result = new Questionnaire($ctx, $ctx.forms);
     }
-    :   (form{ $result.add($form.result); })+
-    ;
+    :   (form{ $ctx.forms.add($form.result); })+
+    ;  
 
 form returns [Form result]
-    :   'form' + ID + block { $result = new Form($ID.text, $block.result); }
+    :   'form' + ID + block { $result = new Form($ctx, $ID.text, $block.result); }
     ;
     
 block returns [Block result]
-    @init {
-        $result = new Block();
+    locals [
+      List<Question> questions = new ArrayList<>();
+      List<IFStat> statements = new ArrayList<>();
+    ]
+    @after{
+        $result = new Block($ctx, $ctx.questions, $ctx.statements);
     }
-    : '{' + (ifStat { $result.add($ifStat.result); } | question { $result.add($question.result); } )+ '}'
+    : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
+    
     ;
     
 ifStat returns [IFStat result]
     : 'if' + '(' + orExpr + ')' + block 
     { 
-        $result = new IFStat($orExpr.result, $block.result);
+        $result = new IFStat($ctx, $orExpr.result, $block.result);
     }
     ;
 
 question returns [Question result]
-    : variable + STR + orExpr
+    : variableType + ID + STR + orExpr
     {
-         $result = new ComputedQuestion($variable.result, $STR.text, $orExpr.result);
+        $result = new ComputedQuestion($ctx, $variableType.result, $ID.text,  $STR.text, $orExpr.result);
     }
-    | variable + STR 
+    | variableType + ID + STR 
     { 
-        $result = new InputQuestion($variable.result, $STR.text);
-    }
-    ;
-    
-variable returns [VariableDecl result]
-    :  variableType + identifier 
-    { 
-        $result = new VariableDecl($variableType.result, $identifier.result);
+        $result = new InputQuestion($ctx, $variableType.result, $ID.text, $STR.text);
     }
     ;
     
 variableType returns [VariableType result]
-    : t=( BOOLEAN | STRING | INTEGER ) 
-    { 
-        $result = new VariableType($t.text);
-    }
-   ;
+    : BOOLEAN   { $result = new BooleanType($ctx); }
+    | STRING    { $result = new StringType($ctx);  }
+    | INTEGER   { $result = new IntegerType($ctx); }
+    ;
    
 addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     { 
       if ($op.text.equals("+")) {
-        $result = new Add($result, $rhs.result);
+        $result = new Add($ctx, $result, $rhs.result);
       }
       if ($op.text.equals("-")) {
-        $result = new Sub($result, $rhs.result);      
+        $result = new Sub($ctx, $result, $rhs.result);      
       }
     })*
     ;
@@ -84,69 +80,62 @@ mulExpr returns [Expr result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
     { 
       if ($op.text.equals("*")) {
-        $result = new Mul($result, $rhs.result);
+        $result = new Mul($ctx, $result, $rhs.result);
       }
       if ($op.text.equals("/")) {
-        $result = new Div($result, $rhs.result);      
+        $result = new Div($ctx, $result, $rhs.result);      
       }
     })*
     ;
 
 
 unExpr returns [Expr result]
-    :  '+' x=unExpr { $result = new Pos($x.result); }
-    |  '-' x=unExpr { $result = new Neg($x.result); }
-    |  '!' x=unExpr { $result = new Not($x.result); }
+    :  '+' x=unExpr { $result = new Pos($ctx, $x.result); }
+    |  '-' x=unExpr { $result = new Neg($ctx, $x.result); }
+    |  '!' x=unExpr { $result = new Not($ctx, $x.result); }
     |  z=primary    { $result = $z.result; }
     ;    
     
 primary returns [Expr result]
-    : literal        { $result = new LiteralExpr($literal.result); }
-    | identifier     { $result = new VariableExpr($identifier.result); }
+    : literal        { $result = new LiteralExpr($ctx, $literal.result); }
+    | ID     { $result = new VariableExpr($ctx, $ID.text); }
     | '(' orExpr ')' { $result = $orExpr.result; }
     ;
     
-identifier returns [VariableIdentifier result]
-    : ID
-    {   
-        $result = new VariableIdentifier($ID.text);
-    }
-    ;
-    
 literal returns [Literal result]
-    : INT   { $result = new IntegerLiteral(Integer.valueOf($INT.text)); }
-    | STR   { $result = new StringLiteral($STR.text); }
-    | BOOL  { $result = new BooleanLiteral(Boolean.valueOf($BOOL.text)); }
+    : INT   { $result = new IntegerLiteral($ctx, Integer.valueOf($INT.text)); }
+    | STR   { $result = new StringLiteral($ctx, $STR.text); }
+    | BOOL  { $result = new BooleanLiteral($ctx, Boolean.valueOf($BOOL.text)); }
     ;
 
 orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
+    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($ctx, $result, $rhs.result); } )*
     ;
     
 andExpr returns [Expr result]
-    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
+    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($ctx, $result, $rhs.result); } )*
     ;
   
 relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
     { 
       if ($op.text.equals("<")) {
-        $result = new LT($result, $rhs.result);
+        $result = new LT($ctx, $result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LEq($result, $rhs.result);      
+        $result = new LEq($ctx, $result, $rhs.result);      
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, $rhs.result);
+        $result = new GT($ctx, $result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GEq($result, $rhs.result);      
+        $result = new GEq($ctx, $result, $rhs.result);      
       }
       if ($op.text.equals("==")) {
-        $result = new Eq($result, $rhs.result);
+        $result = new Eq($ctx, $result, $rhs.result);
       }
       if ($op.text.equals("!=")) {
-        $result = new NEq($result, $rhs.result);
+        $result = new NEq($ctx, $result, $rhs.result);
       }
     })*
     ;

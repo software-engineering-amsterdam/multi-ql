@@ -26,6 +26,6 @@ public class ASTForm extends ASTBlock implements IASTNode {
 	
 	@Override
 	public void accept(IASTNodeVisitor visitor) {
-		visitor.visit(this);
+		visitor.visitForm(this);
 	}
 }

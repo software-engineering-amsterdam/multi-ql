@@ -1,9 +1,9 @@
 package uva.ql;
 
 import uva.TaxForm.GUI.GUI;
-import uva.ql.Visitors.ASTVisitorToGUI;
-import uva.ql.Visitors.ASTVisitorToGUIListeners;
 import uva.ql.ast.ASTForm;
+import uva.ql.visitors.ASTVisitorToGUI;
+import uva.ql.visitors.ASTVisitorToGUIListeners;
 
 public class App {
 	

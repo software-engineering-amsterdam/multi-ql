@@ -32,6 +32,7 @@ public class Context {
 	}
 
 	public static interface ContextListener {
+
 		public void contextChanged(Context context);
 	}
 

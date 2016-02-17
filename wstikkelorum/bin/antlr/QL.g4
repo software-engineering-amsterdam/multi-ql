@@ -32,15 +32,23 @@ statement [Body result]
 	;
 
 question returns [Question result]
-	: ID ':' STRING TYPE { $result = new Question($ID.text, $STRING.text, $TYPE.text); }
+	: variable STR { $result = new Question($variable.result, $STR.text); }
 	;
 
 assignmentQuestion returns [AssignmentQuestion result]
-	: ID ':' STRING TYPE '(' orExpression ')' { $result = new AssignmentQuestion($ID.text, $STRING.text, $TYPE.text, $orExpression.result); }
+	: variable STR '(' orExpression ')' { $result = new AssignmentQuestion($variable.result, $STR.text, $orExpression.result); }
 	;
-
+	
 ifStatement returns [IfStatement result]
 	: 'if' '(' orExpression ')' body { $result = new IfStatement($orExpression.result, $body.result); }
+	;
+
+variable returns [Variable result]
+	: ID ':' variableType { $result = new Variable($ID.text, $variableType.result); }
+	;
+	
+variableType returns [VariableType result]
+	: type=(BOOLEAN | INTEGER | STRING){ $result = new VariableType($type.text); }
 	;
 
 orExpression returns [Expression result]
@@ -108,21 +116,36 @@ unExpression returns [Expression result]
 
 literal returns [Literal result]
 	: intLiteral { $result = new Literal($intLiteral.result); }
-	| variable {$result = new Literal($variable.result); }
+	| boolLiteral { $result = new Literal($boolLiteral.result); }
+	| stringLiteral { $result = new Literal($stringLiteral.result); }
+	| variableExpression {$result = new Literal($variableExpression.result); }
 	;
 
 intLiteral returns [IntLiteral result]
 	: INT { $result = new IntLiteral(Integer.valueOf($INT.text)); }
 	;
+	
+boolLiteral returns [BoolLiteral result]
+	: BOOL { $result = new BoolLiteral(Boolean.valueOf($BOOL.text)); }
+	;
 
-variable returns [Variable result]
-	: ID { $result = new Variable($ID.text); }
+stringLiteral returns [StringLiteral result]
+	: STR { $result = new StringLiteral($STR.text); }
+	;
+
+variableExpression returns [VariableExpression result]
+	: ID { $result = new VariableExpression($ID.text); }
 	;
 	
 WHITESPACE: (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 COMMENT: '/*' .*? '/*' -> channel(HIDDEN);
 
-TYPE: 'boolean' | 'money';
+BOOLEAN: 'boolean';
+INTEGER: 'int';
+STRING: 'string';
+
+BOOL: 'true' | 'false';
 INT: ('0'..'9');
-STRING: '"' .*? '"';
+STR: '"' .*? '"';
+
 ID: ('a'..'z' | 'A'..'Z')('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;

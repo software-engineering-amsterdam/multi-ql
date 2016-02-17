@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 public class Bool extends BooleanExpr {
     
-    private boolean value;
+    private final boolean value;
     
     public Bool(boolean theValue) {
         value = theValue;
@@ -10,18 +10,14 @@ public class Bool extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
-            Bool other = (Bool) o;
-            return value == other.value;
-        }
-        return false;
+        return o != null
+                && getClass() == o.getClass()
+                && value == ((Bool) o).value;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 13 * hash + (this.value ? 1 : 0);
-        return hash;
+        return 71 * 7 + (value ? 1 : 0);
     }
     
 }

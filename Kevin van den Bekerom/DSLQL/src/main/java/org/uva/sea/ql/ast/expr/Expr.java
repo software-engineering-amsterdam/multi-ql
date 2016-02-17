@@ -3,7 +3,7 @@ package org.uva.sea.ql.ast.expr;
 import org.uva.sea.ql.ast.*;
 
 public abstract class Expr extends ASTNode implements Visitable {
-    protected Type type = Type.MONEY;
+    protected Type type;
 	
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
@@ -13,6 +13,6 @@ public abstract class Expr extends ASTNode implements Visitable {
 		return this.type;
 	}
 	
-	abstract Object eval() throws ClassCastException;
+	public abstract Object eval() throws ClassCastException;
 	//TODO: Implement try-catch blocks for all methods?!
 }
