@@ -24,7 +24,7 @@ public class QLMain {
 		inputFile = new File("resources/Questionaire.ql");
 		questionnaire = parseFile(inputFile);
 
-		new SemanticAnalyser().analyse(questionnaire);
+		new SemanticAnalyser().validateTypes(questionnaire);
 
 		qlInterpreter = new QLInterpreter(new DefaultWidgetFactory());
 

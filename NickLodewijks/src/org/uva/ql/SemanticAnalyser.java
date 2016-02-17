@@ -3,10 +3,9 @@ package org.uva.ql;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.ValueType;
@@ -47,7 +46,7 @@ public class SemanticAnalyser {
 
 	}
 
-	public Result analyse(Questionnaire questionnaire) {
+	public Result validateTypes(Questionnaire questionnaire) {
 		result = new Result();
 
 		// Validate the following:
@@ -57,9 +56,15 @@ public class SemanticAnalyser {
 		// - Duplicate variable (=question) declaration
 		new TypeCheckVisitor().visit(questionnaire);
 
+		return result;
+	}
+
+	public Result validateQuestions(Questionnaire questionnaire) {
+		result = new Result();
+
 		// Validate:
 		// - duplicate question labels
-		new DuplicateQuestionLabelVisitor(questionnaire);
+		new DuplicateQuestionLabelVisitor().visit(questionnaire);
 
 		return result;
 	}
@@ -338,62 +343,111 @@ public class SemanticAnalyser {
 		}
 	}
 
-	private class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, Void> {
+	private class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
 
-		private Set<String> questions = new HashSet<String>();
+		public DuplicateQuestionLabelVisitor() {
 
-		public DuplicateQuestionLabelVisitor(Questionnaire q) {
-			q.accept(this, null);
 		}
 
-		private void addQuestion(Question node) {
+		public void visit(Questionnaire q) {
+			q.accept(this, new QuestionTable());
+		}
+
+		private void checkQuestion(Question node, QuestionTable qt) {
 			String label;
+			ValueType expectedType;
 
 			label = node.getLabel();
-			if (!questions.add(label)) {
-				warn("Duplicate label:" + label);
+			expectedType = qt.add(label, node.getType());
+			if (expectedType != null) {
+				warn("Duplicate label: %s", label);
+
+				if (!Objects.equals(node.getType(), expectedType)) {
+					error("Question with '%s' has been declared twice, but with different types: %s and %s", label,
+							node.getType(), expectedType);
+				}
 			}
 		}
 
 		@Override
-		public Void visit(ComputedQuestion node, Void context) {
-			addQuestion(node);
-			return super.visit(node, context);
+		public Void visit(ComputedQuestion node, QuestionTable qt) {
+			checkQuestion(node, qt);
+			return super.visit(node, qt);
 		}
 
 		@Override
-		public Void visit(InputQuestion node, Void context) {
-			addQuestion(node);
-			return super.visit(node, context);
+		public Void visit(InputQuestion node, QuestionTable qt) {
+			checkQuestion(node, qt);
+			return super.visit(node, qt);
 		}
 	}
 
 	public static class Result {
-		private final List<String> messages = new ArrayList<>();
+		private final List<String> warnings = new ArrayList<>();
+		private final List<String> errors = new ArrayList<>();
 
 		private Result() {
 
 		}
 
-		private void add(String msg) {
-			messages.add(msg);
+		private void addWarning(String msg) {
+			warnings.add(String.format("WARNING: %s", msg));
+		}
+
+		private void addError(String msg) {
+			errors.add(String.format("ERROR: %s", msg));
+		}
+
+		public boolean hasErrors() {
+			return !errors.isEmpty();
+		}
+
+		public List<String> getErrors() {
+			return Collections.unmodifiableList(errors);
+		}
+
+		public boolean hasWarnings() {
+			return !warnings.isEmpty();
+		}
+
+		public List<String> getWarnings() {
+			return Collections.unmodifiableList(warnings);
 		}
 
 		public boolean hasMessages() {
-			return messages.isEmpty();
+			return hasErrors() || hasWarnings();
 		}
 
-		public List<String> getMessages() {
-			return Collections.unmodifiableList(messages);
+		public List<String> getAllMessages() {
+			List<String> allMessages;
+
+			allMessages = new ArrayList<>();
+			allMessages.addAll(getErrors());
+			allMessages.addAll(getWarnings());
+
+			return Collections.unmodifiableList(allMessages);
 		}
 
 	}
 
-	private void warn(String msg) {
-		result.add(String.format("WARNING: %s", msg));
+	private void warn(String msg, Object... args) {
+		result.addWarning(String.format(msg, args));
 	}
 
-	private void error(String msg) {
-		result.add(String.format("ERROR: %s", msg));
+	private void error(String msg, Object... args) {
+		result.addError(String.format(msg, args));
 	}
+
+	private static class QuestionTable {
+		private final Map<String, ValueType> questionLabelToType;
+
+		public QuestionTable() {
+			questionLabelToType = new HashMap<>();
+		}
+
+		public ValueType add(String label, ValueType type) {
+			return questionLabelToType.put(label, type);
+		}
+	}
+
 }
