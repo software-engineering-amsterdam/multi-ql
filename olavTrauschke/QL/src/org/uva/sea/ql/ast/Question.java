@@ -31,4 +31,9 @@ public class Question extends ASTNode {
         return hash;
     }
     
+    //Stricter implementation of equals for testing purpose
+    public boolean completelyEquals(Question other) {
+        return identifier.equals(other.identifier) && label.equals(other.label) && type == other.type;
+    }
+    
 }
