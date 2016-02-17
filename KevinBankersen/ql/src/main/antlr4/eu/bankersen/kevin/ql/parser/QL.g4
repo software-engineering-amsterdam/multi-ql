@@ -31,7 +31,7 @@ question[Block result]
 	|	STR + ID + type
 	
 	{  
-		$result.add(new Question(new Variable($ID.text, $type.result), $STR.text));
+		$result.add(new Question(new Variable($ID.text, $type.result, new Identifier($ID.text)), $STR.text));
 	}
 	;
 

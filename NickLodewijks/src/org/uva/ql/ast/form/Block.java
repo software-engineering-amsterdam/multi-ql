@@ -1,35 +1,30 @@
 package org.uva.ql.ast.form;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.stat.IFStat;
 
 public class Block extends ASTNode {
-	private List<Question> questions;
-	private List<IFStat> statements;
 
-	public Block() {
-		questions = new ArrayList<Question>();
-		statements = new ArrayList<IFStat>();
-	}
+	private final List<Question> questions;
+	private final List<IFStat> statements;
 
-	public void add(Question question) {
-		questions.add(question);
-	}
-
-	public void add(IFStat statement) {
-		statements.add(statement);
+	public Block(ParserRuleContext context, List<Question> questions, List<IFStat> statements) {
+		super(context);
+		this.questions = questions;
+		this.statements = statements;
 	}
 
 	public List<Question> getQuestions() {
-		return questions;
+		return Collections.unmodifiableList(questions);
 	}
 
 	public List<IFStat> getIfStatements() {
-		return statements;
+		return Collections.unmodifiableList(statements);
 	}
 
 	@Override

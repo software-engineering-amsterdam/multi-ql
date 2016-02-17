@@ -49,7 +49,7 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Void, Void> {
 
 	@Override
 	public Void visit(IFStat node, Void context) {
-		currentCondition = node.getExpression();
+		currentCondition = node.getExpr();
 
 		// All questions in the body will use currentCondition
 		visit(node.getBody(), context);

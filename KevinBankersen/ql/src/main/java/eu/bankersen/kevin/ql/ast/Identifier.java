@@ -1,9 +1,6 @@
 package eu.bankersen.kevin.ql.ast;
 
-import com.esotericsoftware.minlog.Log;
-
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.symboltable.SymbolTabel;
 
 public class Identifier extends Expr {
 
@@ -14,17 +11,19 @@ public class Identifier extends Expr {
     }
 
     @Override
-    public final Object result() {
-	return SymbolTabel.getValue(name);
+    public final Object eval() {
+	return super.context.getSymbol(name).getValue();
     }
 
     @Override
     public final void checkType() {
-	
+	if (!super.context.checkID(name)) {
+	    super.context.addError("SYMANTIC_ERROR " + name + " does not exist!");
+	}
     }
 
     @Override
     public final Type getType() {
-	return SymbolTabel.getType(name);
+	return super.context.getSymbol(name).getType();
     }
 }

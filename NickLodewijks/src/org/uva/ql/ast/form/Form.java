@@ -1,14 +1,16 @@
 package org.uva.ql.ast.form;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
 
 public class Form extends ASTNode {
 
-	private String name;
-	private Block body;
+	private final String name;
+	private final Block body;
 
-	public Form(String id, Block body) {
+	public Form(ParserRuleContext context, String id, Block body) {
+		super(context);
 		this.name = id;
 		this.body = body;
 	}

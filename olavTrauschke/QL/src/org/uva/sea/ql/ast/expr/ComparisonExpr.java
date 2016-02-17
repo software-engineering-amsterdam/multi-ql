@@ -1,30 +1,19 @@
 package org.uva.sea.ql.ast.expr;
 
-import java.util.Objects;
-
-
 public abstract class ComparisonExpr extends BooleanExpr {
     
-    public static final String TYPE_ERROR_MESSAGE = "The arguments of a comparison should either both be booleans or both be numeric";
-    
-    private Expr firstExpr;
-    private Expr secondExpr;
+    private final Expr firstExpr;
+    private final Expr secondExpr;
     
     public ComparisonExpr(Expr theFirstExpr, Expr theSecondExpr) {
-        boolean canBeBoolean = theFirstExpr.canBeBoolean() && theSecondExpr.canBeBoolean();
-        boolean canBeNumeric = theFirstExpr.canBeNumeric() && theSecondExpr.canBeNumeric();
-        if (canBeBoolean || canBeNumeric) {
-            firstExpr = theFirstExpr;
-            secondExpr = theSecondExpr;
-        }
-        else {
-            setError(TYPE_ERROR_MESSAGE);
-        }
+        assert theFirstExpr != null && theSecondExpr != null;
+        firstExpr = theFirstExpr;
+        secondExpr = theSecondExpr;
     }
     
     @Override
     public boolean equals(Object o) {
-        if (super.equals(o)) {
+        if (o != null && getClass() == o.getClass()) {
             ComparisonExpr other = (ComparisonExpr) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
@@ -34,8 +23,8 @@ public abstract class ComparisonExpr extends BooleanExpr {
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = 67 * hash + Objects.hashCode(this.firstExpr);
-        hash = 67 * hash + Objects.hashCode(this.secondExpr);
+        hash = 67 * hash + firstExpr.hashCode();
+        hash = 67 * hash + secondExpr.hashCode();
         return hash;
     }
 }
