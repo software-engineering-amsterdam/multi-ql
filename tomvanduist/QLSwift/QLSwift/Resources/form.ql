@@ -1,6 +1,6 @@
 form Box1HouseOwning {
-    hasSoldHouse: "Did you sell a house in 2010?" hasBoughtHouse
-    hasBoughtHouse: "Did you by a house in 2010?" hasSoldHouse
+    hasSoldHouse: "Did you sell a house in 2010?" 1
+    hasBoughtHouse: "Did you by a house in 2010?" 2
     hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" money(hasSoldHouse + hasBoughtHouse)
 
     if (privateDebt > 0) {
