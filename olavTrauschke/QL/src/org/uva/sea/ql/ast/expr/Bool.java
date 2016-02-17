@@ -10,14 +10,14 @@ public class Bool extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        return super.equals(o) && value == ((Bool) o).value;
+        return o != null
+                && getClass() == o.getClass()
+                && value == ((Bool) o).value;
     }
 
     @Override
     public int hashCode() {
-        int hash = super.hashCode();
-        hash = 13 * hash + (this.value ? 1 : 0);
-        return hash;
+        return 71 * 7 + (value ? 1 : 0);
     }
     
 }

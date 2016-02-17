@@ -8,12 +8,18 @@ public class ComputedQuestion extends Question {
     
     public ComputedQuestion(Ident identifier, Str label, Int type, Expr theCalculation) {
         super (identifier, label, type);
+        assert theCalculation != null;
         calculation = theCalculation;
     }
     
     @Override
-    public boolean completelyEquals(Question o) {
-        return super.completelyEquals(o) && calculation.equals(((ComputedQuestion) o).calculation);
+    public boolean equals(Object o) {
+        return super.equals(o) && calculation.equals(((ComputedQuestion) o).calculation);
+    }
+
+    @Override
+    public int hashCode() {
+        return 97 * 3 + calculation.hashCode();
     }
     
 }

@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.function.Predicate;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.util.Pair;
 
 public class Lexer implements Tokens {
     
@@ -13,29 +12,23 @@ public class Lexer implements Tokens {
     public static final int ERROR_CHARACTER_VALUE = MINIMUM_CHARACTER_VALUE - 1;
     public static final String UNEXPECTED_CHAR_MESSAGE = "Unexpected character: ";
     
-    public static final Map<String, Pair<Integer, ASTNode>> KEYWORDS;
+    public static final Map<String, Integer> KEYWORDS;
     public static final Set<Integer> END_OF_LINE_CHARACTERS;
     public static final Set<Integer> WHITESPACE_CHARACTERS;
     
     static {
         KEYWORDS = new HashMap<>();
-        Pair<Integer, ASTNode> boolTrue = new Pair<>(BOOLEAN_LITERAL, new Bool(true));
-        KEYWORDS.put("true", boolTrue);
-        Pair<Integer, ASTNode> boolFalse = new Pair<>(BOOLEAN_LITERAL, new Bool(false));
-        KEYWORDS.put("false", boolFalse);
-        
-        Pair<Integer, ASTNode> boolType = new Pair<>(BOOLEAN, null);
-        KEYWORDS.put("boolean", boolType);
-        Pair<Integer, ASTNode> date = new Pair<>(DATE, null);
-        KEYWORDS.put("date", date);
-        Pair<Integer, ASTNode> decimal = new Pair<>(DECIMAL, null);
-        KEYWORDS.put("decimal", decimal);
-        Pair<Integer, ASTNode> intType = new Pair<>(INT, null);
-        KEYWORDS.put("int", intType);
-        Pair<Integer, ASTNode> money = new Pair<>(MONEY, null);
-        KEYWORDS.put("money", money);
-        Pair<Integer, ASTNode> string = new Pair<>(STRING, null);
-        KEYWORDS.put("string", string);
+        KEYWORDS.put("true", BOOLEAN_LITERAL);
+        KEYWORDS.put("false", BOOLEAN_LITERAL);
+        KEYWORDS.put("boolean", BOOLEAN);
+        KEYWORDS.put("date", DATE);
+        KEYWORDS.put("decimal", DECIMAL);
+        KEYWORDS.put("int", INT);
+        KEYWORDS.put("money", MONEY);
+        KEYWORDS.put("string", STRING);
+        KEYWORDS.put("if", IF);
+        KEYWORDS.put("else", ELSE);
+        KEYWORDS.put("form", FORM);
         
         END_OF_LINE_CHARACTERS = new HashSet<>();
         END_OF_LINE_CHARACTERS.add((int) '\n');
@@ -146,7 +139,9 @@ public class Lexer implements Tokens {
                 case '+' :
                 case '-' :
                 case '!' :
-                case ':' : {
+                case ':' :
+                case '{' :
+                case '}' : {
                     token = character;
                     readNextCharacter();
                     return token;
@@ -246,9 +241,14 @@ public class Lexer implements Tokens {
         } while (Character.isLetterOrDigit(character));
         String name = sb.toString();
         if (KEYWORDS.containsKey(name)) {
-            Pair<Integer, ASTNode> tokenAndSemantic = KEYWORDS.get(name);
-            semantic = tokenAndSemantic.getSecondValue();
-            return tokenAndSemantic.getFirstValue();
+            if (name.equals("true")) {
+                semantic = new Bool(true);
+            }
+            else if (name.equals("false")) {
+                semantic = new Bool(false);
+            }
+            token = KEYWORDS.get(name);
+            return token;
         }
         semantic = new Ident(name);
         return IDENT;

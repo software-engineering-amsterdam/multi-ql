@@ -1,6 +1,5 @@
 package org.uva.sea.ql.ast;
 
-import java.util.Objects;
 import org.uva.sea.ql.ast.expr.Ident;
 
 public class Form extends ASTNode {
@@ -9,20 +8,21 @@ public class Form extends ASTNode {
     private ASTNode questions;
     
     public Form(Ident theIdentifier, ASTNode theQuestions) {
+        assert theIdentifier != null && theQuestions != null;
         identifier = theIdentifier;
         questions = theQuestions;
     }
     
     @Override
     public boolean equals(Object o) {
-        return super.equals(o) && identifier.equals(((Form) o).identifier);
+        return o != null
+                && getClass() == o.getClass()
+                && identifier.equals(((Form) o).identifier);
     }
-
+    
     @Override
     public int hashCode() {
-        int hash = super.hashCode();
-        hash = 29 * hash + Objects.hashCode(this.identifier);
-        return hash;
+        return 29 * 3 + identifier.hashCode();
     }
     
 }

@@ -46,11 +46,9 @@ import org.uva.sea.ql.ast.expr.*;
 
 top : form { result = $1; };
 
-form : FORM IDENT block { $$ = new Form($2, $3); }
-;
+form : FORM IDENT block { $$ = new Form($2, $3); };
 
-block : '{' statements '}' { $$ = $2; }
-;
+block : '{' statements '}' { $$ = $2; };
 
 statements : question ';' statements
            | conditionalStatement ';' statements

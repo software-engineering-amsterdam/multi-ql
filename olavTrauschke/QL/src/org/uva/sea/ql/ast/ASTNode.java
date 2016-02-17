@@ -11,16 +11,6 @@ public abstract class ASTNode {
         errors = new ArrayList<>();
     }
     
-    @Override
-    public boolean equals(Object o) {
-        return o != null && getClass() == o.getClass();
-    }
-
-    @Override
-    public int hashCode() {
-        return 0;
-    }
-    
     protected final void addError(String message) {
         errors.add(message);
     }
