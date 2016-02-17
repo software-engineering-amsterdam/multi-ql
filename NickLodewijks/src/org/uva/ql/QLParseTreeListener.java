@@ -9,7 +9,6 @@ import org.uva.ql.parser.antlr.QLParser.AndExprContext;
 import org.uva.ql.parser.antlr.QLParser.BlockContext;
 import org.uva.ql.parser.antlr.QLParser.FileContext;
 import org.uva.ql.parser.antlr.QLParser.FormContext;
-import org.uva.ql.parser.antlr.QLParser.FormsContext;
 import org.uva.ql.parser.antlr.QLParser.IdentifierContext;
 import org.uva.ql.parser.antlr.QLParser.IfStatContext;
 import org.uva.ql.parser.antlr.QLParser.LiteralContext;
@@ -191,13 +190,5 @@ public class QLParseTreeListener implements QLListener {
 	@Override
 	public void exitQuestionnaire(QuestionnaireContext ctx) {
 		ctx.result.setToken(ctx.getStart());
-	}
-
-	@Override
-	public void enterForms(FormsContext ctx) {
-	}
-
-	@Override
-	public void exitForms(FormsContext ctx) {
 	}
 }

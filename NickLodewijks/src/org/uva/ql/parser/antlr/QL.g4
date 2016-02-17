@@ -15,15 +15,14 @@ file :  questionnaire EOF
      ;
      
 questionnaire returns [Questionnaire result]
-    : forms { $result = new Questionnaire($forms.result); }
-    ;
-    
-forms returns [List<Form> result]
-    @init{
-        $result = new ArrayList<Form>();
+    locals [
+      List<Form> forms = new ArrayList<>();
+    ]
+    @after{
+        $result = new Questionnaire($ctx.forms);
     }
-    :   (form{ $result.add($form.result); })+
-    ;
+    :   (form{ $ctx.forms.add($form.result); })+
+    ;  
 
 form returns [Form result]
     :   'form' + ID + block { $result = new Form($ID.text, $block.result); }
