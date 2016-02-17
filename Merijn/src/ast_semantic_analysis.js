@@ -129,10 +129,10 @@ class SementicAnalysisVisitor extends ast.NodeVisitor {
 		return this.handleInfixOperationWithFixedReturnType(lessEqualNode, '<=', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
 	}
 	visitEqualNode(equalNode, scope) {
-		return this.handleInfixOperationWithFixedReturnType(equalNode, '==', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
+		return this.handleInfixOperationWithFixedReturnType(equalNode, '==', [ast.TYPE_BOOLEAN, ast.TYPE_STRING, ast.TYPE_INTEGER, ast.TYPE_FLOAT, ast.TYPE_MONEY], scope, ast.TYPE_BOOLEAN);
 	}
 	visitNotEqualNode(notEqualNode, scope) {
-		return this.handleInfixOperationWithFixedReturnType(notEqualNode, '!=', [ast.TYPE_INTEGER, ast.TYPE_FLOAT], scope, ast.TYPE_BOOLEAN);
+		return this.handleInfixOperationWithFixedReturnType(notEqualNode, '!=', [ast.TYPE_BOOLEAN, ast.TYPE_STRING, ast.TYPE_INTEGER, ast.TYPE_FLOAT, ast.TYPE_MONEY], scope, ast.TYPE_BOOLEAN);
 	}
 	visitAndNode(andNode, scope) {
 		return this.handleInfixOperationWithFixedReturnType(andNode, '&&', [ast.TYPE_BOOLEAN], scope, ast.TYPE_BOOLEAN);
