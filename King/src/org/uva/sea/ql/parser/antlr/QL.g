@@ -7,9 +7,11 @@ grammar QL;
 package org.uva.sea.ql.parser.antlr;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.expr.literal.*;
 import org.uva.sea.ql.ast.TaxForm.*;
 import java.util.Map;
 import java.util.HashMap;
+import org.joda.money.Money;
 }
 
 @lexer::header
@@ -34,7 +36,14 @@ block returns [Block result]
 	: '{' + ( condition { $result.add($condition.result); }  | question{ $result.add($question.result); }  )+ '}' 
 	;
 
-
+condition returns [IFblock result]
+    : 'if' + '(' + orExpr + ')' + block 
+    { 
+        $result = new IFblock($orExpr.result, $block.result);
+    }
+    
+    ;
+    
 question returns [Question result]
 	: STRING variable orExpr 
 	{
@@ -48,16 +57,16 @@ question returns [Question result]
     }
 	;
 
-	
     
-condition returns [IFblock result]
-    : 'if' + '(' + orExpr + ')' + block 
+variable returns [VarDeclaration result]
+    :  identifier COLON question_response_type
     { 
-        $result = new IFblock($orExpr.result, $block.result);
+    	
+        $result = new VarDeclaration($question_response_type.result, $identifier.result);
+        $block::varMap.put($identifier.result.getName(), $result.getType().getType());
+        $identifier.result.setType($result.getType().getType());
     }
-    
-    ;
-    
+    ; 
 question_response_type returns [VarType result]
     : t=( BOOLEAN | STRING | INT | MONEY ) 
     { 
@@ -98,11 +107,12 @@ unExpr returns [Expr result]
     ;    
 
 primary returns [Expr result]
-    : identifier
-    {  
-     	$identifier.result.setType($block::varMap.get($identifier.result.getName()));
-        $result = new VarExpr($identifier.result);
-    }
+    : literal        { $result = new LiteralExpression($literal.result); }
+    | identifier
+	    {  
+	     	$identifier.result.setType($block::varMap.get($identifier.result.getName()));
+	        $result = new VarExpr($identifier.result);
+	    }
     | '(' orExpr ')' { $result = $orExpr.result; }
     
 
@@ -116,14 +126,11 @@ identifier returns [VarIdentifier result]
     
     ;
     
-variable returns [VarDeclaration result]
-    :  identifier COLON question_response_type
-    { 
-    	
-        $result = new VarDeclaration($question_response_type.result, $identifier.result);
-        $block::varMap.put($identifier.result.getName(), $result.getType().getType());
-        $identifier.result.setType($result.getType().getType());
-    }
+literal returns [Literal result]
+    : INT   { $result = new IntegerLiteral(Integer.valueOf($INT.text)); }
+    | MONEY   { $result = new MoneyLiteral(Money.parse($MONEY.text)); }
+    | STRING   { $result = new StringLiteral($STRING.text); }
+    | BOOLEAN  { $result = new BooleanLiteral(Boolean.valueOf($BOOLEAN.text)); }
     ;
 orExpr returns [Expr result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new OR($result, $rhs.result); } )*
@@ -159,6 +166,7 @@ relExpr returns [Expr result]
 	
 	
 DIGIT			: [0-9] ;
+FLOAT			: DIGIT+ '.' DIGIT DIGIT ;
 
 SMALLER_THAN	: '<' ;
 GREATER_THAN	: '>' ;
@@ -181,7 +189,7 @@ FORM		: 'form';
 BOOLEAN		: 'boolean'|'true'|'false' ;
 STRING		: '"' .*? '"';
 INT			: DIGIT+ | 'integer' ;
-MONEY		: 'money' ;
+MONEY		: 'money'|'USD '+ FLOAT;
 DATE		: 'date' ;
 
 ID			: [a-zA-Z]+;

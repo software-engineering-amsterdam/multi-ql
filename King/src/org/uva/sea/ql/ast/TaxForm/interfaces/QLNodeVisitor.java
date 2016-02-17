@@ -5,7 +5,7 @@ import org.uva.sea.ql.ast.TaxForm.Form;
 import org.uva.sea.ql.ast.TaxForm.IFblock;
 import org.uva.sea.ql.ast.TaxForm.Question;
 
-public interface QLPartVisitor {
+public interface QLNodeVisitor {
 	public void visit(Form form);
 	public void visit(Block block);
 	public void visit(IFblock statement);

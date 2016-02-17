@@ -2,6 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.ValueType;
 import org.uva.sea.ql.ast.VarIdentifier;
+import org.uva.sea.ql.ast.TaxForm.interfaces.QLNodeVisitor;
 
 public class VarExpr extends Expr{
 	private final VarIdentifier identifier;
@@ -16,6 +17,12 @@ public class VarExpr extends Expr{
 	
 	public ValueType type() {
 		return identifier.getType();
+	}
+
+	@Override
+	public void accept(QLNodeVisitor visitor) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.TaxForm;
 
 import org.uva.sea.ql.ast.ASTNODE;
 import org.uva.sea.ql.ast.TaxForm.interfaces.QLPart;
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLPartVisitor;
+import org.uva.sea.ql.ast.TaxForm.interfaces.QLNodeVisitor;
 import org.uva.sea.ql.ast.expr.Expr;
 
 public class IFblock extends ASTNODE implements QLPart {
@@ -15,7 +15,7 @@ public class IFblock extends ASTNODE implements QLPart {
 	}
 
 	@Override
-	public void accept(QLPartVisitor qlPartVisitor) {
+	public void accept(QLNodeVisitor qlPartVisitor) {
 		qlPartVisitor.visit(this);
 		
 	}

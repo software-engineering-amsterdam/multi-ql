@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast.expr;
 
+import org.uva.sea.ql.ast.TaxForm.interfaces.QLNodeVisitor;
+
 public class TwoSidedExpression extends Expr {
 	protected final Expr e1;
 	protected final Expr e2;
@@ -15,5 +17,11 @@ public class TwoSidedExpression extends Expr {
 
 	public Expr getSecondExpression() {
 		return e2;
+	}
+
+	@Override
+	public void accept(QLNodeVisitor visitor) {
+		// TODO Auto-generated method stub
+		
 	}
 }
