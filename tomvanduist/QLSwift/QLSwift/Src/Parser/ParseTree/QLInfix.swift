@@ -9,22 +9,16 @@
 import Foundation
 
 protocol QLInfix: QLExpression {
-    init(o: (QLExpression, QLExpression))
-//    init(lhs: QLExpression, rhs:QLExpression)
+    init(lhs: QLExpression, rhs:QLExpression)
 }
 
 internal class QLInfixBase {
     let lhs, rhs: QLExpression
     
-//    required init(lhs: QLExpression, rhs:QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-    required init(o: (QLExpression, QLExpression)) {
-        self.lhs = o.0
-        self.rhs = o.1
+    required init(lhs: QLExpression, rhs:QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
-
 }
 
 class QLAdd: QLInfixBase, QLInfix {
