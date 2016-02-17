@@ -1,12 +1,14 @@
 package org.uva.ql.ast.expr;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 
 public class Not extends Expr {
 
 	private final Expr expr;
 
-	public Not(Expr expr) {
+	public Not(ParserRuleContext context, Expr expr) {
+		super(context);
 		this.expr = expr;
 	}
 

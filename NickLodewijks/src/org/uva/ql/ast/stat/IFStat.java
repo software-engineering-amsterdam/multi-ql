@@ -1,5 +1,6 @@
 package org.uva.ql.ast.stat;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.expr.Context;
@@ -10,7 +11,8 @@ public class IFStat extends ASTNode {
 	private final Expr expression;
 	private final Block body;
 
-	public IFStat(Expr condition, Block body) {
+	public IFStat(ParserRuleContext context, Expr condition, Block body) {
+		super(context);
 		this.expression = condition;
 		this.body = body;
 	}

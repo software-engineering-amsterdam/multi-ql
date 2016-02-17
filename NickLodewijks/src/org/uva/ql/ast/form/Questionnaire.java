@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
-import org.uva.ql.QLParseTreeListener;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.parser.antlr.QLLexer;
@@ -19,7 +19,8 @@ import org.uva.ql.parser.antlr.QLParser;
 public class Questionnaire extends ASTNode {
 	private final List<Form> forms;
 
-	public Questionnaire(List<Form> forms) {
+	public Questionnaire(ParserRuleContext context, List<Form> forms) {
+		super(context);
 		this.forms = forms;
 	}
 
@@ -50,7 +51,6 @@ public class Questionnaire extends ASTNode {
 
 		tokenStream = new CommonTokenStream(new QLLexer(cs));
 		parser = new QLParser(tokenStream);
-		parser.addParseListener(new QLParseTreeListener());
 
 		return parser.file().questionnaire().result;
 	}

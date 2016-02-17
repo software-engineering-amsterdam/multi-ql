@@ -1,5 +1,7 @@
 package org.uva.ql;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -395,7 +397,7 @@ public class SemanticAnalyser {
 		}
 
 		private void addError(String msg) {
-			errors.add(String.format("ERROR: %s", msg));
+			errors.add(String.format("ERROR  : %s", msg));
 		}
 
 		public boolean hasErrors() {
@@ -428,6 +430,15 @@ public class SemanticAnalyser {
 			return Collections.unmodifiableList(allMessages);
 		}
 
+		public void print() {
+			for (String msg : getErrors()) {
+				System.err.println(msg);
+			}
+
+			for (String msg : getWarnings()) {
+				System.out.println(msg);
+			}
+		}
 	}
 
 	private void warn(String msg, Object... args) {
@@ -448,6 +459,20 @@ public class SemanticAnalyser {
 		public ValueType add(String label, ValueType type) {
 			return questionLabelToType.put(label, type);
 		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		Questionnaire questionnaire;
+		SemanticAnalyser sa;
+		File inputFile;
+
+		inputFile = new File("resources/Questionaire.ql");
+		questionnaire = Questionnaire.create(inputFile);
+
+		sa = new SemanticAnalyser();
+
+		sa.validateTypes(questionnaire).print();
+		sa.validateQuestions(questionnaire).print();
 	}
 
 }

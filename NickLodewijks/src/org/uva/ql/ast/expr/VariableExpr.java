@@ -1,5 +1,6 @@
 package org.uva.ql.ast.expr;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.VariableIdentifier;
 
@@ -7,7 +8,8 @@ public class VariableExpr extends Expr {
 
 	private final VariableIdentifier identifier;
 
-	public VariableExpr(VariableIdentifier identifier) {
+	public VariableExpr(ParserRuleContext context, VariableIdentifier identifier) {
+		super(context);
 		this.identifier = identifier;
 	}
 

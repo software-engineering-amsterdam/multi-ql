@@ -1,11 +1,15 @@
 package org.uva.ql.ast;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+
 public class VariableDecl extends ASTNode {
 
 	private final VariableType type;
 	private final VariableIdentifier identifier;
 
-	public VariableDecl(VariableType type, VariableIdentifier identifier) {
+	public VariableDecl(ParserRuleContext context, VariableType type, VariableIdentifier identifier) {
+		super(context);
+
 		this.identifier = identifier;
 		this.type = type;
 	}

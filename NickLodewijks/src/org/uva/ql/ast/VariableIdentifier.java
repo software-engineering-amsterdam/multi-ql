@@ -1,10 +1,13 @@
 package org.uva.ql.ast;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+
 public class VariableIdentifier extends ASTNode {
 
 	private final String name;
 
-	public VariableIdentifier(String name) {
+	public VariableIdentifier(ParserRuleContext context, String name) {
+		super(context);
 		this.name = name;
 	}
 

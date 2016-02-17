@@ -1,5 +1,6 @@
 package org.uva.ql.ast.form;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.VariableDecl;
 import org.uva.ql.ast.expr.Expr;
@@ -8,8 +9,8 @@ public class ComputedQuestion extends Question {
 
 	private final Expr expression;
 
-	public ComputedQuestion(VariableDecl variableDecl, String label, Expr expression) {
-		super(variableDecl, label);
+	public ComputedQuestion(ParserRuleContext context, VariableDecl variableDecl, String label, Expr expression) {
+		super(context, variableDecl, label);
 		this.expression = expression;
 	}
 

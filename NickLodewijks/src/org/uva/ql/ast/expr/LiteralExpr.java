@@ -1,5 +1,6 @@
 package org.uva.ql.ast.expr;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.literal.Literal;
 
@@ -7,7 +8,8 @@ public class LiteralExpr extends Expr {
 
 	private Literal<?> literal;
 
-	public LiteralExpr(Literal<?> literal) {
+	public LiteralExpr(ParserRuleContext context, Literal<?> literal) {
+		super(context);
 		this.literal = literal;
 	}
 
