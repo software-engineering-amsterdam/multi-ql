@@ -19,6 +19,8 @@ enum BinaryOp {
 protocol Expression: FormNode {
     var type: Type { get }
     func resolveType(context: Context) -> Type
+    
+    func eval(context: Context) -> NSValue?
 }
 
 class Identifier: Expression {
@@ -36,6 +38,13 @@ class Identifier: Expression {
             return Type.Unknown
         }
     }
+    
+    func eval(context: Context) -> NSValue? {
+        if let (_, expression) = context.retrieve(self) {
+            return expression?.eval(context)
+        }
+        return nil
+    }
 }
 
 class BooleanField: Expression {
@@ -45,6 +54,10 @@ class BooleanField: Expression {
     internal func resolveType(context: Context) -> Type {
         return type
     }
+    
+    func eval(context: Context) -> NSValue? {
+        return value
+    }
 }
 
 class StringField: Expression {
@@ -53,6 +66,10 @@ class StringField: Expression {
     
     internal func resolveType(context: Context) -> Type {
         return type
+    }
+    
+    func eval(context: Context) -> NSValue? {
+        return value
     }
 }
 
@@ -67,6 +84,10 @@ class MoneyField: Expression {
     internal func resolveType(context: Context) -> Type {
         return type
     }
+    
+    func eval(context: Context) -> NSValue? {
+        return expression?.eval(context)
+    }
 }
 
 class StringLiteral: Expression {
@@ -79,6 +100,10 @@ class StringLiteral: Expression {
     
     internal func resolveType(context: Context) -> Type {
         return type
+    }
+    
+    func eval(context: Context) -> NSValue? {
+        return NSValue(pointer: string)
     }
 }
 
@@ -93,6 +118,10 @@ class IntegerLiteral: Expression {
     internal func resolveType(context: Context) -> Type {
         return type
     }
+    
+    func eval(context: Context) -> NSValue? {
+        return integer
+    }
 }
 
 class FloatLiteral: Expression {
@@ -106,6 +135,10 @@ class FloatLiteral: Expression {
     internal func resolveType(context: Context) -> Type {
         return type
     }
+    
+    func eval(context: Context) -> NSValue? {
+        return float
+    }
 }
 
 class BooleanLiteral: Expression {
@@ -118,6 +151,10 @@ class BooleanLiteral: Expression {
     
     internal func resolveType(context: Context) -> Type {
         return type
+    }
+    
+    func eval(context: Context) -> NSValue? {
+        return bool
     }
 }
 
@@ -141,6 +178,13 @@ class Prefix: Expression {
     
     internal func resolveType(context: Context) -> Type {
         return type
+    }
+    
+    func eval(context: Context) -> NSValue? {
+        switch op {
+            case .Neg: return rhs.eval(context) as! Double * -1
+            case .Not: return rhs.eval(context) == false
+        }
     }
 }
 
@@ -176,5 +220,23 @@ class Infix: Expression {
     
     internal func resolveType(context: Context) -> Type {
         return type
+    }
+    
+    func eval(context: Context) -> NSValue? {
+        switch op {
+            case .Add: return (lhs.eval(context) as! Double) + (rhs.eval(context) as! Double)
+            case .Sub: return (lhs.eval(context) as! Double) - (rhs.eval(context) as! Double)
+            case .Mul: return (lhs.eval(context) as! Double) * (rhs.eval(context) as! Double)
+            case .Div: return (lhs.eval(context) as! Double) / (rhs.eval(context) as! Double)
+            case .Pow: return pow((lhs.eval(context) as! Double), (rhs.eval(context) as! Double))
+            case .Eq: return lhs.eval(context) == rhs.eval(context)
+            case .Ne: return lhs.eval(context) != rhs.eval(context)
+            case .Ge: return (lhs.eval(context) as! Double) >= (rhs.eval(context) as! Double)
+            case .Gt: return (lhs.eval(context) as! Double) > (rhs.eval(context) as! Double)
+            case .Le: return (lhs.eval(context) as! Double) <= (rhs.eval(context) as! Double)
+            case .Lt: return (lhs.eval(context) as! Double) < (rhs.eval(context) as! Double)
+            case .And: return (lhs.eval(context) as! Bool) && (rhs.eval(context) as! Bool)
+            case .Or: return (lhs.eval(context) as! Bool) || (rhs.eval(context) as! Bool)
+        }
     }
 }

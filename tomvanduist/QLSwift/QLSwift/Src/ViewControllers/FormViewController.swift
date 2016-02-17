@@ -30,8 +30,8 @@ extension FormViewController {
     
     override func viewDidLoad() {
         reloadView()
-        super.viewDidLoad()
         
+        super.viewDidLoad()
     }
     
     private func reloadView() {

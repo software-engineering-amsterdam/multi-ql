@@ -17,9 +17,11 @@ enum Type {
     case Unknown
 }
 
-typealias Object = (type: Type, value: FormNode?)
+typealias Object = (type: Type, value: Expression?)
 
 class Context {
+    static let sharedInstance = Context()
+    
     private var context = [String: Object]()
     
     func assign(identifier: Identifier, object: Object) throws {

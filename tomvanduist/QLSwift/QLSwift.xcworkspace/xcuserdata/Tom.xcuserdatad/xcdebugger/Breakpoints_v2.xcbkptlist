@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
-            timestampString = "477398882.736996"
+            timestampString = "477415107.819386"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "type(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -41,46 +41,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-            timestampString = "477396766.403931"
+            filePath = "QLSwift/Src/ViewControllers/FormViewController.swift"
+            timestampString = "477414245.749092"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "testValid()"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "init(form:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "QLSwiftTests.SemanticAnalyzerTests.testValid (QLSwiftTests.SemanticAnalyzerTests)() -&gt; ()"
-                  moduleName = "QLSwiftTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-                  timestampString = "477411811.91834"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26"
-                  offsetFromSymbolStart = "935">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "QLSwiftTests.SemanticAnalyzerTests.(testValid (QLSwiftTests.SemanticAnalyzerTests) -&gt; () -&gt; ()).(implicit closure #1)"
-                  moduleName = "QLSwiftTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-                  timestampString = "477411811.918509"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26"
-                  offsetFromSymbolStart = "12">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QLSwift/Src/Parser/AST/Expression.swift"
+            timestampString = "477414607.506568"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
+            landmarkName = "eval(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QLSwift/Src/Parser/AST/Expression.swift"
+            timestampString = "477414984.725557"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "eval(_:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
