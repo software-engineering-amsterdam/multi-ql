@@ -161,7 +161,7 @@ COMMENT
     ;
     
 SLCOMMENT
-	: '//' .* '/n' -> channel(HIDDEN)
+	: '//' .* '\n' -> channel(HIDDEN)
 	;
 
 /* Keyword reservation */

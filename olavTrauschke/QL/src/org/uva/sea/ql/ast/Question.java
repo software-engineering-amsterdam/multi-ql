@@ -1,15 +1,15 @@
 package org.uva.sea.ql.ast;
 
-import java.util.Objects;
 import org.uva.sea.ql.ast.expr.*;
 
 public class Question extends ASTNode {
     
-    private Ident identifier;
-    private Str label;
-    private Int type;
+    private final Ident identifier;
+    private final Label label;
+    private final Int type;
     
-    public Question(Ident theIdentifier, Str theLabel, Int theType) {
+    public Question(Ident theIdentifier, Label theLabel, Int theType) {
+        assert theIdentifier != null && theLabel != null && theType != null;
         identifier = theIdentifier;
         label = theLabel;
         type = theType;
@@ -17,9 +17,11 @@ public class Question extends ASTNode {
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (o != null && getClass() == o.getClass()) {
             Question other = (Question) o;
-            return identifier.equals(other.identifier);
+            return identifier.equals(other.identifier)
+                    && label.equals(other.label)
+                    && type.equals(other.type);
         }
         return false;
     }
@@ -27,7 +29,9 @@ public class Question extends ASTNode {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.identifier);
+        hash = 59 * hash + identifier.hashCode();
+        hash = 59 * hash + label.hashCode();
+        hash = 59 * hash + type.hashCode();
         return hash;
     }
     

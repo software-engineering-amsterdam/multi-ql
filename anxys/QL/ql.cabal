@@ -16,6 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
                        src/Language
+                       src/Language/Annotated
   exposed-modules:     AnnotatedAst
                        Simplify
                        Ast

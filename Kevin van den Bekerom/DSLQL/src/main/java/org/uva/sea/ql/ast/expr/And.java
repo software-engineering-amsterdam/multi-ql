@@ -19,4 +19,10 @@ public class And extends BinaryExpr implements Visitable{
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

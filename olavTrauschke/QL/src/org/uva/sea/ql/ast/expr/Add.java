@@ -1,32 +1,19 @@
 package org.uva.sea.ql.ast.expr;
 
-import java.util.Objects;
-
 public class Add extends Expr {
     
-    private Expr firstExpr;
-    private Expr secondExpr;
-    
-    public static final String TYPE_ERROR_MESSAGE = "The arguments of the + operator should either both be numeric or both be strings";
+    private final Expr firstExpr;
+    private final Expr secondExpr;
     
     public Add(Expr theFirstExpr, Expr theSecondExpr) {
-        super(false, true, true);
-        boolean canBeNumeric = theFirstExpr.canBeNumeric() && theSecondExpr.canBeNumeric();
-        boolean canBeString = theFirstExpr.canBeString() && theSecondExpr.canBeString();
-        if (canBeNumeric || canBeString) {
-            firstExpr = theFirstExpr;
-            secondExpr = theSecondExpr;
-            setCanBeNumeric(canBeNumeric);
-            setCanBeString(canBeString);
-        }
-        else {
-            setError(TYPE_ERROR_MESSAGE);
-        }
+        assert theFirstExpr != null & theSecondExpr != null;
+        firstExpr = theFirstExpr;
+        secondExpr = theSecondExpr;
     }
     
     @Override
     public boolean equals(Object o) {
-        if (getClass() == o.getClass()) {
+        if (o != null && getClass() == o.getClass()) {
             Add other = (Add) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
@@ -36,8 +23,8 @@ public class Add extends Expr {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 73 * hash + Objects.hashCode(this.firstExpr);
-        hash = 73 * hash + Objects.hashCode(this.secondExpr);
+        hash = 67 * hash + firstExpr.hashCode();
+        hash = 67 * hash + secondExpr.hashCode();
         return hash;
     }
 }
