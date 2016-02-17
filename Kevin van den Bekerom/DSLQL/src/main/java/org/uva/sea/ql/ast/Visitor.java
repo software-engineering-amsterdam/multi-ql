@@ -41,7 +41,5 @@ public interface Visitor {
 	public void visit(ElseStatement elseStatement);
 	public void visit(IfStatement ifStatement);
 	public void visit(Question question);
-	public void visit(Stat stat);
-	
 	
 }

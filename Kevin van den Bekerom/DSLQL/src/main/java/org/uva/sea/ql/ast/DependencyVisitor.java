@@ -1,12 +1,10 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.exceptions.UndefinedQuestionError;
+import org.uva.sea.ql.errors.QLError;
 
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,13 +13,10 @@ import org.uva.sea.ql.ast.expr.*;
 public class DependencyVisitor extends LeftDFSVisitor {
 	private Set<String> visited; // keep track of visited questions that are safe.
 	private Set<String> undefinedQuestionIDs;
-	boolean cyclicDependancy;
 	private List<Question> undefinedQuestions;
 	private NodeCollector collector;
-	boolean add = true;
 	
 	public DependencyVisitor() {
-		cyclicDependancy = false;
 		undefinedQuestions = new ArrayList<Question>();
 		collector = new NodeCollector();
 		visited = new HashSet<String>();
@@ -31,38 +26,39 @@ public class DependencyVisitor extends LeftDFSVisitor {
 	@Override
 	public void visit(Question question) {
 		if (! undefinedQuestionIDs.contains(question.getIdentifier()) ) {
-			System.out.println("Visiting Question : " + question.getIdentifier());
 			visited.add(question.getIdentifier());
-		} else {
-			throw new UndefinedQuestionError(question);
-		}
+		} // refactor, i.e. remove 
+		else {
+			String errorMessage = "is dependent on question(s) that are not yet defined!";
+			System.out.println(new QLError(question, errorMessage).getErrorMessage());
+		}// refactor, i.e. remove 
+		
 		int size = question.getComputedResult().size();
 		if (size >= 1) { // question contains a computed result	
-			System.out.println("we have a clause" );
 			Expr clause = question.getComputedResult().get(0);
 			clause.accept(collector);
 			Set<String> clauseVariables = new HashSet<String>(collector.getVariableNames());
 			clauseVariables.removeAll(visited); // now contains all conflicting variable identifiers.
-			for (String var : clauseVariables) {
-				System.out.println("We have an undefined variable : " + var);
-			}
-			
+			undefinedQuestionIDs.addAll(clauseVariables);
+			undefinedQuestions.add(question);
 			collector.reset();
 		}
 		super.visit(question);	
 	}
 	
-	
+	//TODO: Fix bug of overreporting errors!!!
 	@Override
 	public void visit(IfStatement ifStatement) {
 		ifStatement.getClause().accept(collector);
 		Set<String> clauseVariables = new HashSet<String>(collector.getVariableNames());
 		clauseVariables.removeAll(visited); // now contains all conflicting variable identifiers.
+		undefinedQuestionIDs.addAll(clauseVariables);
 		for (String var : clauseVariables) {
-			System.out.println("We have an undefined variable in ifclause: " + var);
+			String errorMessage = "contains variable " + var + " which is not yet defined!";
+			System.out.println(new QLError(ifStatement, errorMessage).getErrorMessage());
 		}
 		
-		if (clauseVariables.size() >= 1) {
+		if (! clauseVariables.isEmpty()) {
 			collector.reset();
 			ifStatement.getBlock().accept(collector);
 			undefinedQuestionIDs.addAll(collector.getQuestionIdentifiers());
@@ -71,8 +67,8 @@ public class DependencyVisitor extends LeftDFSVisitor {
 		super.visit(ifStatement);
 	}
 	
-	
-	public boolean containsCyclicDependancy() {
-		return this.cyclicDependancy;
+	public Set<String> getUndefinedQuestionIDs() {
+		return this.undefinedQuestionIDs;
 	}
+	
 }

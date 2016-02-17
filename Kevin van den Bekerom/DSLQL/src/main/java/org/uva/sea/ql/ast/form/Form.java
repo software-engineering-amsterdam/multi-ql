@@ -26,4 +26,8 @@ public class Form {
 		return variableValueMap.get(key);
 	}
 	
+	public Block getMainBlock() {
+		return this.mainBlock;
+	}
+	
 }

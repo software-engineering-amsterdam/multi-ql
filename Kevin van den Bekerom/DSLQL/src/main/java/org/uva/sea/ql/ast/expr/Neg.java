@@ -19,4 +19,10 @@ public class Neg extends UnaryExpr implements Visitable {
 		visitor.visit(this);
 	}
 	//TODO{Check if this way of computation is correct}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
