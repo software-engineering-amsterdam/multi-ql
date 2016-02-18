@@ -29,10 +29,17 @@ class SemanticAnalyzerTests: XCTestCase {
     }
     
     func testInvalid() {
-        let qlForms = parseFileMany("TypedInvalidForms")
+        runInvalidForms("TypedInvalidForms")
+    }
+    
+    func testCyclicDependency() {
+        runInvalidForms("CyclicDependency")
+    }
+    
+    func runInvalidForms(file: String) {
+        let qlForms = parseFileMany(file)
         
         XCTAssertNotNil(qlForms)
-        XCTAssertTrue(qlForms.count == 4)
         
         
         for qlForm in qlForms {
@@ -53,20 +60,6 @@ class SemanticAnalyzerTests: XCTestCase {
             
             do {
                 try sa.analyze(form!)
-                XCTAssertTrue(false)
-            }
-            catch {
-                // Expected behaviour, move along!
-            }
-        }
-    }
-    
-    func testCyclicDependency() {
-        if let form = assertToForm(parseFile("CyclicDependency")) {
-            let sa = SemanticAnalyser(context: Context())
-            
-            do {
-                try sa.analyze(form)
                 XCTAssertTrue(false)
             }
             catch {
