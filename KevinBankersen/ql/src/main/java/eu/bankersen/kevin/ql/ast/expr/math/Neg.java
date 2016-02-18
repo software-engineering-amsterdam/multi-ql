@@ -5,14 +5,13 @@ import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
 
 public class Neg extends IntegerExpr {
 
-
     public Neg(final Expr expr) {
 	super.rhs =  expr;
     }
 
     @Override
-    public final Integer result() {
-	return -(Integer) rhs.result();
+    public final Integer eval() {
+	return -(Integer) rhs.eval();
     }
 
 }

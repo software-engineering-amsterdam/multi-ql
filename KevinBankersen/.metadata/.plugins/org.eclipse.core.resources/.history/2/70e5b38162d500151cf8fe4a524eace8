@@ -1,0 +1,114 @@
+package eu.bankersen.kevin.ql.gui;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+import eu.bankersen.kevin.ql.App;
+
+public class ExampleFrame extends JFrame {
+
+    private JButton add, remove;
+    private JPanel dynamicButtonPane, addRemovePane;
+
+    private boolean waitingForLocationClick;
+
+    public ExampleFrame() {
+        super("Dynamic button example");
+        waitingForLocationClick = false;
+        add = new JButton("Add Button");
+        add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+        	setWarningMsg("Dafuq!!");
+            }
+        });
+        remove = new JButton("Remove Button");
+        remove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lookingToRemove = true;
+            }
+        });
+        JPanel mainPane = new JPanel(new BorderLayout());
+        dynamicButtonPane = new JPanel();
+        dynamicButtonPane.setLayout(null);
+        dynamicButtonPane.setPreferredSize(new Dimension(300, 300));
+        addRemovePane = new JPanel();
+        addRemovePane.add(add);
+        addRemovePane.add(remove);
+        mainPane.add(dynamicButtonPane, BorderLayout.NORTH);
+        mainPane.add(addRemovePane, BorderLayout.SOUTH);
+        add(mainPane);
+        pack();
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+        dynamicButtonPane.addMouseListener(pointSelectorListener);
+    }
+
+    private JButton buttonToPlace;
+
+    public void addButton(String name) {
+	System.out.println(name);
+        JButton b = new JButton(name);
+        b.setActionCommand(name);
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (lookingToRemove) {
+                    if (e.getSource() instanceof JButton) {
+                        dynamicButtonPane.remove((Component) e.getSource());
+                        dynamicButtonPane.validate();
+                        dynamicButtonPane.repaint();
+                    }
+                } else
+                    JOptionPane.showMessageDialog(ExampleFrame.this, "This is " + e.getActionCommand());
+            }
+        });
+        waitingForLocationClick = true;
+        lookingToRemove = false;
+        buttonToPlace = b;
+    }
+
+    public void putButtonAtPoint(Point p) {
+        System.out.println("Placing a button at: " + p.toString());
+        dynamicButtonPane.add(buttonToPlace);
+        buttonToPlace.setBounds(new Rectangle(p, buttonToPlace
+                .getPreferredSize()));
+        dynamicButtonPane.validate();
+        buttonToPlace = null;
+        waitingForLocationClick = false;
+    }
+
+    private boolean lookingToRemove = false;
+
+    private final MouseListener pointSelectorListener = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (waitingForLocationClick) {
+                putButtonAtPoint(e.getPoint());
+            } else {
+                System.out.println("Not in waiting state");
+            }
+        }
+    };
+
+    public static void main(String[] args) {
+        new ExampleFrame();
+    }
+    
+    public static void setWarningMsg(String text){
+	    Toolkit.getDefaultToolkit().beep();
+	    JOptionPane optionPane = new JOptionPane(text,JOptionPane.WARNING_MESSAGE);
+	    JDialog dialog = optionPane.createDialog("Warning!");
+	    dialog.addWindowListener(new WindowAdapter(){
+		    public void windowClosed(WindowEvent e)
+		    {
+		      System.out.println("jdialog window closed event received");
+		    }
+	    });
+	    dialog.setAlwaysOnTop(true);
+	    dialog.setVisible(true);
+	}
+}

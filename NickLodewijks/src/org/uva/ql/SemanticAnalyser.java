@@ -1,18 +1,20 @@
 package org.uva.ql;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 
-import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.BooleanType;
+import org.uva.ql.ast.IntegerType;
+import org.uva.ql.ast.StringType;
 import org.uva.ql.ast.ValueType;
-import org.uva.ql.ast.VariableDecl;
-import org.uva.ql.ast.VariableIdentifier;
+import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BinaryExpr;
@@ -32,7 +34,6 @@ import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
-import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
@@ -48,7 +49,7 @@ public class SemanticAnalyser {
 
 	}
 
-	public Result analyse(Questionnaire questionnaire) {
+	public Result validateTypes(Questionnaire questionnaire) {
 		result = new Result();
 
 		// Validate the following:
@@ -58,14 +59,29 @@ public class SemanticAnalyser {
 		// - Duplicate variable (=question) declaration
 		new TypeCheckVisitor().visit(questionnaire);
 
+		return result;
+	}
+
+	public Result validateQuestions(Questionnaire questionnaire) {
+		result = new Result();
+
 		// Validate:
 		// - duplicate question labels
-		new DuplicateQuestionLabelVisitor(questionnaire);
+		new DuplicateQuestionLabelVisitor().visit(questionnaire);
+
+		return result;
+	}
+
+	public Result validateCyclicReferences(Questionnaire questionnaire) {
+		result = new Result();
+
+		new CyclicReferenceVisitor().visit(questionnaire);
 
 		return result;
 	}
 
 	private static class SymbolTable {
+
 		private Map<String, ValueType> nameToType = new HashMap<>();
 
 		public SymbolTable() {
@@ -89,32 +105,9 @@ public class SemanticAnalyser {
 		}
 	}
 
-	@FunctionalInterface
-	private static interface TypeChecker<T extends ASTNode> {
-		public ValueType check(T node, SymbolTable symbols);
-	}
-
 	private class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
 
-		private final TypeChecker<BinaryExpr> numberRelation;
-		private final TypeChecker<BinaryExpr> booleanRelation;
-		private final TypeChecker<BinaryExpr> arithmeticOperation;
-
 		public TypeCheckVisitor() {
-			numberRelation = (BinaryExpr a, SymbolTable b) -> {
-				checkOperands(a, b, ValueType.INTEGER);
-				return ValueType.BOOLEAN;
-			};
-
-			booleanRelation = (BinaryExpr a, SymbolTable b) -> {
-				checkOperands(a, b, ValueType.BOOLEAN);
-				return ValueType.BOOLEAN;
-			};
-
-			arithmeticOperation = (BinaryExpr a, SymbolTable b) -> {
-				checkOperands(a, b, ValueType.INTEGER);
-				return ValueType.INTEGER;
-			};
 		}
 
 		public void visit(Questionnaire q) {
@@ -122,148 +115,143 @@ public class SemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(Questionnaire node, SymbolTable context) {
+		public ValueType visit(Questionnaire node, SymbolTable st) {
 			for (Form form : node.getForms()) {
-				form.accept(this, context);
+				form.accept(this, st);
 			}
 
 			return null;
 		}
 
 		@Override
-		public ValueType visit(Form node, SymbolTable context) {
+		public ValueType visit(Form node, SymbolTable st) {
 			// The body of every form has its own SymbolTable
 			node.getBody().accept(this, new SymbolTable());
 			return null;
 		}
 
 		@Override
-		public ValueType visit(Block node, SymbolTable context) {
+		public ValueType visit(Block node, SymbolTable st) {
 			// Copy the SymbolTable for scoping of variables
-			context = new SymbolTable(context);
+			st = new SymbolTable(st);
 
 			// First traverse the questions.
 			for (Question question : node.getQuestions()) {
-				question.accept(this, context);
+				question.accept(this, st);
 			}
 
 			for (IFStat statement : node.getIfStatements()) {
-				statement.accept(this, context);
+				statement.accept(this, st);
 			}
 
 			return null;
 		}
 
 		@Override
-		public ValueType visit(IFStat node, SymbolTable context) {
-			checkType(node.getExpression(), context, ValueType.BOOLEAN);
-			node.getBody().accept(this, context);
+		public ValueType visit(IFStat node, SymbolTable st) {
+			checkType(node.getExpr(), st, ValueType.BOOLEAN);
+			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public ValueType visit(ComputedQuestion node, SymbolTable context) {
-			checkType(node.getExpression(), context, node.getType());
-
-			node.getVariableDecl().accept(this, context);
-			return null;
-		}
-
-		@Override
-		public ValueType visit(InputQuestion node, SymbolTable context) {
-			node.getVariableDecl().accept(this, context);
-			return null;
-		}
-
-		@Override
-		public ValueType visit(VariableDecl node, SymbolTable context) {
+		public ValueType visit(Question node, SymbolTable st) {
 			String variableName;
 			ValueType type;
+			VariableType questionType;
 
-			variableName = node.getId().getName();
-			type = node.getType().getType();
-			if (context.contains(variableName)) {
-				error("Duplicate variable declaration " + node);
+			variableName = node.getId();
+			questionType = node.getType();
+
+			if (questionType instanceof BooleanType) {
+				type = ValueType.BOOLEAN;
+			} else if (questionType instanceof IntegerType) {
+				type = ValueType.INTEGER;
+			} else if (questionType instanceof StringType) {
+				type = ValueType.STRING;
 			} else {
-				context.add(variableName, type);
+				throw new IllegalStateException("Undefined question type '" + questionType.getClass() + "'");
+			}
+
+			if (st.contains(variableName)) {
+				error("Duplicate question id " + node);
+			} else {
+				st.add(variableName, type);
 			}
 
 			return type;
 		}
 
 		@Override
-		public ValueType visit(LiteralExpr node, SymbolTable context) {
-			return node.getLiteral().accept(this, context);
+		public ValueType visit(LiteralExpr node, SymbolTable st) {
+			return node.getLiteral().accept(this, st);
 		}
 
 		@Override
-		public ValueType visit(VariableExpr node, SymbolTable context) {
-			return node.getVariableId().accept(this, context);
-		}
-
-		@Override
-		public ValueType visit(VariableIdentifier node, SymbolTable context) {
+		public ValueType visit(VariableExpr node, SymbolTable st) {
 			ValueType type;
 
-			type = context.getType(node.getName());
+			type = st.getType(node.getVariableId());
 			if (type == null) {
-				error("Undeclared variable " + node + node.getName());
+				error("Undeclared variable " + node + node.getVariableId());
 			}
-
-			node.setType(type);
 
 			return type;
 		}
 
 		// Literals
 		@Override
-		public ValueType visit(BooleanLiteral node, SymbolTable context) {
+		public ValueType visit(BooleanLiteral node, SymbolTable st) {
 			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(IntegerLiteral node, SymbolTable context) {
+		public ValueType visit(IntegerLiteral node, SymbolTable st) {
 			return ValueType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(StringLiteral node, SymbolTable context) {
+		public ValueType visit(StringLiteral node, SymbolTable st) {
 			return ValueType.STRING;
 		}
 
 		// Arithmetic operations
 		@Override
-		public ValueType visit(Add node, SymbolTable context) {
-			return arithmeticOperation.check(node, context);
+		public ValueType visit(Add node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Div node, SymbolTable context) {
-			return arithmeticOperation.check(node, context);
+		public ValueType visit(Div node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Mul node, SymbolTable context) {
-			return arithmeticOperation.check(node, context);
+		public ValueType visit(Mul node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Sub node, SymbolTable context) {
-			return arithmeticOperation.check(node, context);
+		public ValueType visit(Sub node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
+			return ValueType.INTEGER;
 		}
 
 		// Equality relations
 		@Override
-		public ValueType visit(Eq node, SymbolTable context) {
+		public ValueType visit(Eq node, SymbolTable st) {
 			Expr lhs;
 			ValueType lhsType;
 			ValueType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
-			lhsType = lhs.accept(this, context);
+			lhsType = lhs.accept(this, st);
 			rhs = node.right();
-			rhsType = rhs.accept(this, context);
+			rhsType = rhs.accept(this, st);
 			if (lhsType != rhsType) {
 				String msg;
 
@@ -277,16 +265,16 @@ public class SemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(NEq node, SymbolTable context) {
+		public ValueType visit(NEq node, SymbolTable st) {
 			Expr lhs;
 			ValueType lhsType;
 			ValueType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
-			lhsType = lhs.accept(this, context);
+			lhsType = lhs.accept(this, st);
 			rhs = node.right();
-			rhsType = rhs.accept(this, context);
+			rhsType = rhs.accept(this, st);
 			if (lhsType != rhsType) {
 				String msg;
 
@@ -301,45 +289,51 @@ public class SemanticAnalyser {
 
 		// Number relations
 		@Override
-		public ValueType visit(GEq node, SymbolTable context) {
-			return numberRelation.check(node, context);
+		public ValueType visit(GEq node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(GT node, SymbolTable context) {
-			return numberRelation.check(node, context);
+		public ValueType visit(GT node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(LEq node, SymbolTable context) {
-			return numberRelation.check(node, context);
+		public ValueType visit(LEq node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(LT node, SymbolTable context) {
-			return numberRelation.check(node, context);
+		public ValueType visit(LT node, SymbolTable st) {
+			checkOperands(node, st, ValueType.INTEGER);
+			return ValueType.BOOLEAN;
 		}
 
 		// Boolean relations
 		@Override
-		public ValueType visit(And node, SymbolTable context) {
-			return booleanRelation.check(node, context);
+		public ValueType visit(And node, SymbolTable st) {
+			checkOperands(node, st, ValueType.BOOLEAN);
+			return ValueType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(Or node, SymbolTable context) {
-			return booleanRelation.check(node, context);
+		public ValueType visit(Or node, SymbolTable st) {
+			checkOperands(node, st, ValueType.BOOLEAN);
+			return ValueType.BOOLEAN;
 		}
 
-		private void checkOperands(BinaryExpr expr, SymbolTable context, ValueType expectedType) {
-			checkType(expr.left(), context, expectedType);
-			checkType(expr.right(), context, expectedType);
+		private void checkOperands(BinaryExpr expr, SymbolTable st, ValueType expectedType) {
+			checkType(expr.left(), st, expectedType);
+			checkType(expr.right(), st, expectedType);
 		}
 
-		private void checkType(Expr expr, SymbolTable context, ValueType expectedType) {
+		private void checkType(Expr expr, SymbolTable st, ValueType expectedType) {
 			ValueType actual;
 
-			actual = expr.accept(this, context);
+			actual = expr.accept(this, st);
 
 			if (actual == null) {
 				error("Unknown type for " + expr);
@@ -354,62 +348,264 @@ public class SemanticAnalyser {
 		}
 	}
 
-	private class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, Void> {
+	private class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
 
-		private Set<String> questions = new HashSet<String>();
+		public DuplicateQuestionLabelVisitor() {
 
-		public DuplicateQuestionLabelVisitor(Questionnaire q) {
-			q.accept(this, null);
 		}
 
-		private void addQuestion(Question node) {
+		public void visit(Questionnaire q) {
+			q.accept(this, new QuestionTable());
+		}
+
+		@Override
+		public Void visit(Question node, QuestionTable qt) {
 			String label;
+			VariableType knownType;
+			VariableType nodeType;
 
 			label = node.getLabel();
-			if (!questions.add(label)) {
-				warn("Duplicate label:" + label);
+			nodeType = node.getType();
+			knownType = qt.add(label, nodeType);
+			if (knownType != null) {
+				warn("Duplicate label: %s", label);
+
+				if (!Objects.equals(nodeType, knownType)) {
+					error("Question with '%s' has been declared twice, but with different types: %s and %s", label,
+							nodeType, knownType);
+				}
 			}
-		}
 
-		@Override
-		public Void visit(ComputedQuestion node, Void context) {
-			addQuestion(node);
-			return super.visit(node, context);
-		}
-
-		@Override
-		public Void visit(InputQuestion node, Void context) {
-			addQuestion(node);
-			return super.visit(node, context);
+			return null;
 		}
 	}
 
 	public static class Result {
-		private final List<String> messages = new ArrayList<>();
+
+		private final List<String> warnings = new ArrayList<>();
+		private final List<String> errors = new ArrayList<>();
 
 		private Result() {
 
 		}
 
-		private void add(String msg) {
-			messages.add(msg);
+		private void addWarning(String msg) {
+			warnings.add(String.format("WARNING: %s", msg));
+		}
+
+		private void addError(String msg) {
+			errors.add(String.format("ERROR  : %s", msg));
+		}
+
+		public boolean hasErrors() {
+			return !errors.isEmpty();
+		}
+
+		public List<String> getErrors() {
+			return Collections.unmodifiableList(errors);
+		}
+
+		public boolean hasWarnings() {
+			return !warnings.isEmpty();
+		}
+
+		public List<String> getWarnings() {
+			return Collections.unmodifiableList(warnings);
 		}
 
 		public boolean hasMessages() {
-			return messages.isEmpty();
+			return hasErrors() || hasWarnings();
 		}
 
-		public List<String> getMessages() {
-			return Collections.unmodifiableList(messages);
+		public List<String> getAllMessages() {
+			List<String> allMessages;
+
+			allMessages = new ArrayList<>();
+			allMessages.addAll(getErrors());
+			allMessages.addAll(getWarnings());
+
+			return Collections.unmodifiableList(allMessages);
 		}
 
+		public void print() {
+			for (String msg : getErrors()) {
+				System.err.println(msg);
+			}
+
+			for (String msg : getWarnings()) {
+				System.out.println(msg);
+			}
+		}
 	}
 
-	private void warn(String msg) {
-		result.add(String.format("WARNING: %s", msg));
+	private void warn(String msg, Object... args) {
+		result.addWarning(String.format(msg, args));
 	}
 
-	private void error(String msg) {
-		result.add(String.format("ERROR: %s", msg));
+	private void error(String msg, Object... args) {
+		result.addError(String.format(msg, args));
 	}
+
+	private static class QuestionTable {
+
+		private final Map<String, VariableType> questionLabelToType;
+
+		public QuestionTable() {
+			questionLabelToType = new HashMap<>();
+		}
+
+		public VariableType add(String label, VariableType type) {
+			return questionLabelToType.put(label, type);
+		}
+	}
+
+	private static class ReferenceTable {
+
+		private final Map<String, Reference> referenceMapById;
+
+		public ReferenceTable() {
+			referenceMapById = new HashMap<>();
+		}
+
+		public Result findCyclicReferences() {
+			Result result;
+
+			result = new Result();
+
+			for (Reference r : referenceMapById.values()) {
+				if (r.getReferents().isEmpty()) {
+					continue;
+				}
+				for (String referencePath : getReferencePath(r.id)) {
+					System.out.println(referencePath);
+				}
+			}
+
+			return result;
+		}
+
+		private List<String> getReferencePath(String referer) {
+			return getReferencePath(referer, "");
+		}
+
+		private List<String> getReferencePath(String referer, String parentPath) {
+			List<String> referencePathList;
+
+			Reference r = getReference(referer);
+
+			referencePathList = new ArrayList<>();
+
+			// If the parentPath is not empty, we are extending the chain.
+			if (!parentPath.trim().isEmpty()) {
+				parentPath += " -> ";
+			}
+
+			// Add the referrer itself to the path
+			parentPath += referer;
+
+			// This is the end of the reference path.
+			if (r.getReferents().isEmpty()) {
+				referencePathList.add(parentPath);
+				return referencePathList;
+			}
+
+			for (Reference referent : r.getReferents()) {
+
+				// Found a cycle, no need to continue with this referent.
+				if (parentPath.contains(referent.id)) {
+					referencePathList.add(parentPath + " -> " + referent.id + " (cycle)");
+					continue;
+				}
+
+				// Add the reference paths of the referents
+				for (String subReferencePath : getReferencePath(referent.id, parentPath)) {
+					referencePathList.add(subReferencePath);
+				}
+			}
+
+			return referencePathList;
+		}
+
+		private Reference getReference(String id) {
+			Reference r;
+
+			r = referenceMapById.get(id);
+			if (r == null) {
+				r = new Reference(id);
+				referenceMapById.put(id, r);
+			}
+
+			return r;
+		}
+
+		private class Reference {
+
+			private final String id;
+			private List<Reference> referents = new ArrayList<>();
+
+			public Reference(String id) {
+				this.id = id;
+			}
+
+			public void addReferent(String id) {
+				referents.add(getReference(id));
+			}
+
+			public List<Reference> getReferents() {
+				return Collections.unmodifiableList(referents);
+			}
+		}
+	}
+
+	private class CyclicReferenceVisitor extends ASTNodeVisitorAdapter<Void, ReferenceTable> {
+
+		private ComputedQuestion currentQuestion;
+
+		public CyclicReferenceVisitor() {
+
+		}
+
+		public Result visit(Questionnaire q) {
+			ReferenceTable rt;
+
+			rt = new ReferenceTable();
+
+			q.accept(this, rt);
+
+			return rt.findCyclicReferences();
+		}
+
+		@Override
+		public Void visit(ComputedQuestion node, ReferenceTable rt) {
+			currentQuestion = node;
+
+			node.getExpr().accept(this, rt);
+
+			return null;
+		}
+
+		@Override
+		public Void visit(VariableExpr node, ReferenceTable context) {
+			context.getReference(currentQuestion.getId()).addReferent(node.getVariableId());
+
+			return null;
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		Questionnaire questionnaire;
+		SemanticAnalyser sa;
+		File inputFile;
+
+		// inputFile = new File("resources/Questionaire.ql");
+		inputFile = new File("test/resources/org/uva/ql/CyclicReferences.ql");
+		questionnaire = Questionnaire.create(inputFile);
+
+		sa = new SemanticAnalyser();
+
+		sa.validateTypes(questionnaire).print();
+		sa.validateQuestions(questionnaire).print();
+		sa.validateCyclicReferences(questionnaire);
+	}
+
 }

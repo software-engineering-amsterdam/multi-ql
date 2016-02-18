@@ -21,7 +21,6 @@ form: 'form' Identifier block;
 block: '{' statement* '}';
  
 // check -> 'ifStatements could only be done in one line instead of 2 . . . ?
-// below in questions, instead of questionIdentifier--> Identifier?
 
 statement
   : 'if' '(' expression ')' ifBody = block #If
@@ -34,7 +33,6 @@ statement
 questionIdentifier: Identifier;
 questionLabel: StringLiteral;
 
-// change money to int?
 
 questionType
   : 'int'       #TypeInt 
@@ -71,11 +69,7 @@ literal
   ;
 
 
-/* LEXER RULES */
-
-// below probably not needed . . .  CHECK!
-
-// Keywords
+// Keywords // not needed
 
 RETURN:		   'return';
 ABSTRACT:		'abstract';
@@ -102,7 +96,6 @@ IntegerLiteral: [1-9][0-9]*;
 
 BooleanLiteral: 'true' | 'false';
 
-//StringLiteral: '"' (~[\r\n"] | '""')* '"';
 StringLiteral: '"' .*? '"';
 
 WhiteSpace: (' ' | '\t' | '\n' | '\r') -> skip;

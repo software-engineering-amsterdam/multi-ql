@@ -2,6 +2,7 @@ package ast.visitor;
 
 import ast.expression.Add;
 import ast.expression.AndExpression;
+import ast.expression.BinaryExpression;
 import ast.expression.Div;
 import ast.expression.Eq;
 import ast.expression.GEq;
@@ -66,14 +67,14 @@ public class TypeChecker implements Visitor {
 	@Override
 	public Types visit(AssignmentQuestion assignmentQuestion) {
 		assignmentQuestion.getExpression().accept(visitor);
-		//this has an type....check it with the children
+		//TODO: typecheck
 		return null;
 	}
 
 	@Override
 	public Types visit(IfStatement ifStatement) {
 		ifStatement.getExpression().accept(visitor);
-		//this has a type and needs to be checked!
+		//TODO: typecheck
 		ifStatement.getBody().accept(visitor);
 		return null;
 	}
@@ -88,7 +89,7 @@ public class TypeChecker implements Visitor {
 	public Types visit(OrExpression orExpression) {
 		orExpression.getLhs().accept(visitor);
 		orExpression.getRhs().accept(visitor);
-		//check types for lhs and rhs are both boolean
+		//TODO: typecheck lhs and rhs... or a binary expression
 		return null;
 	}
 	
@@ -224,6 +225,12 @@ public class TypeChecker implements Visitor {
 
 	@Override
 	public Types visit(VariableExpression variableExpression) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visit(BinaryExpression binaryExpression) {
 		// TODO Auto-generated method stub
 		return null;
 	}

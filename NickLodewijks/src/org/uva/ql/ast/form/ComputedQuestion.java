@@ -1,20 +1,21 @@
 package org.uva.ql.ast.form;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.VariableDecl;
+import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Expr;
 
 public class ComputedQuestion extends Question {
 
-	private final Expr expression;
+	private final Expr expr;
 
-	public ComputedQuestion(VariableDecl variableDecl, String label, Expr expression) {
-		super(variableDecl, label);
-		this.expression = expression;
+	public ComputedQuestion(ParserRuleContext context, VariableType type, String id, String label, Expr expression) {
+		super(context, type, id, label);
+		this.expr = expression;
 	}
 
-	public Expr getExpression() {
-		return expression;
+	public Expr getExpr() {
+		return expr;
 	}
 
 	@Override

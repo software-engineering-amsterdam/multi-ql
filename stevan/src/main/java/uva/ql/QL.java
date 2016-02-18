@@ -7,13 +7,13 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import uva.ql.Visitors.ASTTreePrintVisitor;
-import uva.ql.Visitors.VisitorToAST;
 import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
 import uva.ql.ast.ASTForm;
 import uva.ql.ast.ASTNode;
-import uva.ql.typechecker.TypeChecker;
+import uva.ql.visitors.ASTTreePrintVisitor;
+import uva.ql.visitors.VisitorToAST;
+import uva.ql.visitors.typechecker.DuplicateQuestions;
 
 public class QL {
 	private String filePath;
@@ -44,9 +44,13 @@ public class QL {
 		ASTForm form = (ASTForm) visitor.visit(tree);
 		
 		//form.accept(new ASTTreePrintVisitor());
+		DuplicateQuestions dupQuestions = new DuplicateQuestions();
+		form.accept(dupQuestions);
+		
+		System.out.println(dupQuestions.getDuplicates().entrySet());
 		
 		
-		TypeChecker.checkAST(form);
+		//TypeChecker.checkAST(form);
 		
 		
 		return form;

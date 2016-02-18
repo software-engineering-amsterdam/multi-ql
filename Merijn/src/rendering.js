@@ -95,8 +95,8 @@ class RenderingVisitor extends ast.NodeVisitor {
 		let descriptionElement = this.elementFactory.createElement('h2');
 
 		descriptionElement.textContent = formNode.description;
-		formNode.block.accept(this, containerElement, scope);
 		containerElement.appendChild(descriptionElement);
+		formNode.block.accept(this, containerElement, scope);
 	}
 	visitBlockNode(blockNode, containerElement, scope) {
 		let blockScope = new Scope(scope);

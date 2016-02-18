@@ -1,0 +1,14 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.symboltable.Context;
+
+public abstract class Expr {
+
+    public abstract void eval(Context context);
+
+    public abstract void checkType();
+
+    public abstract Type getType();
+
+}

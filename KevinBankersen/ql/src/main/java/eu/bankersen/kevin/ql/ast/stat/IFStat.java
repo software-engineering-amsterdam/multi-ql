@@ -5,9 +5,8 @@ import com.esotericsoftware.minlog.Log;
 import eu.bankersen.kevin.ql.ast.Type;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.form.Block;
-import eu.bankersen.kevin.ql.symboltable.SymbolTabel;
 
-public class IFStat {
+public class IFStat extends AbstractStatement  {
 
     private final Expr expr;
     private final Block body;
@@ -25,24 +24,25 @@ public class IFStat {
 	Boolean check = expr.getType().equals(Type.BOOLEAN);
 	
 	if (!check) {
-	    SymbolTabel.addError("If statement needs a Boolean, statement=" + expr.getType());
-	}
-		
+	    super.context.addError("If statement needs a Boolean, statement=" + expr.getType());
+	}		
     }
 
-    public final void result() {
+    @Override
+    public final void eval() {
 	
 	boolean statement; 
 	
 	try {
-	    statement = (Boolean) expr.result();
+	    statement = (Boolean) expr.eval();
 	} catch (NullPointerException e) {
 	    Log.info("If statement cannot be evaluated");
 	    statement = false;
 	}
+	
 	if (statement) {
 	    body.show();
-	    body.result();
+	    body.eval();
 	} else {
 	    body.hide();
 	}
@@ -55,5 +55,10 @@ public class IFStat {
     @Override
     public final String toString() {
 	return body.toString();
+    }
+
+    @Override
+    public final void visible(final Boolean visible) {
+	body.visibile(visible);
     }
 }
