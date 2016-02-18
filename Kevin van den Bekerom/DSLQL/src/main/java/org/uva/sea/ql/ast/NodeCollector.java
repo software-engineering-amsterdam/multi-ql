@@ -21,8 +21,13 @@ public class NodeCollector extends LeftDFSVisitor {
 
 	@Override 
 	public void visit(Question question) {
-		super.visit(question);
 		questions.add(question);
+	}
+	
+	@Override 
+	public void visit(ComputedQuestion computedQuestion) {
+		super.visit(computedQuestion);
+		questions.add(computedQuestion);
 	}
 	
 	@Override
@@ -42,6 +47,7 @@ public class NodeCollector extends LeftDFSVisitor {
 	
 	@Override
 	public void visit(Variable e) {
+		System.out.println("VIsiting variable! : " + e.getIdentifier());
 		variables.add(e);
 	}
 	
@@ -78,7 +84,7 @@ public class NodeCollector extends LeftDFSVisitor {
 	 */
 	public void reset() {
 		literals.removeAll(literals);
-		variables.remove(variables);
+		variables.removeAll(variables);
 		questions.removeAll(questions);
 	}
 }

@@ -8,163 +8,319 @@
 
 import Foundation
 
-enum UnaryOp {
-    case Neg, Not
-}
 
-enum BinaryOp {
-    case Add, Sub, Mul, Div, Pow, Or, And, Lt, Le, Eq, Ge, Gt
-}
-
-protocol Expression: FormNode {
-    var type: Type { get }
-    func resolveType(context: Context) -> Type
+protocol Expression: ASTNode {
+    var type: ExpressionType { get }
+    
+    func eval() -> NSValue?
 }
 
 class Identifier: Expression {
-    let type: Type = Type.Id
-    let id: String
-    
-    init(id: String) {
-        self.id = id
+    private let _type: TypeThunk<Identifier, NSValue> = TypeThunk(IdentifierType())
+    var type: ExpressionType {
+        get {
+            if let expression = expression {
+                return expression.type
+            } else {
+                return UnknownType()
+            }
+        }
     }
     
-    internal func resolveType(context: Context) -> Type {
-        if let (type, _) = context.retrieve(self) {
-            return type
-        } else {
-            return Type.Unknown
-        }
+    let id: String
+    var expression: Expression?
+    
+    init(id: String, expression: Expression?) {
+        self.id = id
+        self.expression = expression
+    }
+    
+    func eval() -> NSValue? {
+        return self._type.eval(self)
     }
 }
 
 class BooleanField: Expression {
-    let type: Type = Type.Bool
+    let type: ExpressionType = BooleanType()
     var value: NSValue?
     
-    internal func resolveType(context: Context) -> Type {
-        return type
+    func eval() -> NSValue? {
+        return value
+    }
+}
+
+class StringField: Expression {
+    let type: ExpressionType = StringType()
+    var value: NSValue?
+    
+    func eval() -> NSValue? {
+        return value
     }
 }
 
 class MoneyField: Expression {
-    let type: Type = Type.Number
+    let type: ExpressionType = NumberType()
     let expression: Expression?
     
     init(expression: Expression?) {
         self.expression = expression
     }
     
-    internal func resolveType(context: Context) -> Type {
-        return type
+    func eval() -> NSValue? {
+        return expression?.eval()
     }
 }
 
 class StringLiteral: Expression {
-    let type: Type = Type.String
+    let type: ExpressionType = StringType()
     let string: String
     
     init(string: String) {
         self.string = string
     }
     
-    internal func resolveType(context: Context) -> Type {
-        return type
+    func eval() -> NSValue? {
+        return NSValue(pointer: string)
     }
 }
 
 class IntegerLiteral: Expression {
-    let type: Type = Type.Number
+    let type: ExpressionType = NumberType()
     let integer: NSInteger
     
     init(integer: NSInteger) {
         self.integer = integer
     }
     
-    internal func resolveType(context: Context) -> Type {
-        return type
+    func eval() -> NSValue? {
+        return integer
     }
 }
 
 class FloatLiteral: Expression {
-    let type: Type = Type.Number
+    let type: ExpressionType = NumberType()
     let float: Double
     
     init(float: Double) {
         self.float = float
     }
     
-    internal func resolveType(context: Context) -> Type {
-        return type
+    func eval() -> NSValue? {
+        return float
     }
 }
 
 class BooleanLiteral: Expression {
-    let type: Type = Type.Bool
+    let type: ExpressionType = BooleanType()
     let bool: Bool
     
     init (bool: Bool) {
         self.bool = bool
     }
     
-    internal func resolveType(context: Context) -> Type {
-        return type
+    func eval() -> NSValue? {
+        return bool
     }
 }
 
-class Prefix: Expression {
-    let op: UnaryOp
+class Neg: Expression {
+    private var _type: ExpressionType = BooleanType()
+    var type: ExpressionType { return _type }
+    
     let rhs: Expression
     
-    init (op: UnaryOp, rhs: Expression) {
-        self.op = op
+    init (rhs: Expression) {
         self.rhs = rhs
     }
     
-    var type: Type {
-        get {
-            switch op {
-                case .Neg: return Type.Number
-                case .Not: return Type.Bool
-            }
-        }
-    }
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
+    func eval() -> NSValue? {
+        return rhs.eval() == false
     }
 }
 
-class Infix: Expression {
-    let op: BinaryOp
+class Not: Expression {
+    private var _type: ExpressionType = BooleanType()
+    var type: ExpressionType { return _type }
+    
+    let rhs: Expression
+    
+    init (rhs: Expression) {
+        self.rhs = rhs
+    }
+    
+    func eval() -> NSValue? {
+        return rhs.eval() as! Double * -1
+    }
+}
+
+class Infix {
+    private var _type: ExpressionType = UnknownType()
+    var type: ExpressionType { return _type }
+    
     let lhs, rhs: Expression
     
-    init(op: BinaryOp, lhs: Expression, rhs: Expression) {
-        self.op = op
+    init(lhs: Expression, rhs: Expression) {
         self.lhs = lhs
         self.rhs = rhs
     }
     
-    var type: Type {
-        get {
-            switch op {
-                case .Add: return Type.Number
-                case .Sub: return Type.Number
-                case .Mul: return Type.Number
-                case .Div: return Type.Number
-                case .Pow: return Type.Number
-                case .Eq: return lhs.type
-                case .Ge: return Type.Number
-                case .Gt: return Type.Number
-                case .Le: return Type.Number
-                case .Lt: return Type.Number
-                case .And: return Type.Bool
-                case .Or: return Type.Bool
-            }
-        }
+    func eval() -> NSValue? {
+        fatalError("Override")
+    }
+}
+
+class Add: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = NumberType()
     }
     
-    internal func resolveType(context: Context) -> Type {
-        return type
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Double) + (rhs.eval() as! Double)
+    }
+}
+
+class Sub: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = NumberType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Double) - (rhs.eval() as! Double)
+    }
+}
+
+class Mul: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = NumberType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Double) * (rhs.eval() as! Double)
+    }
+}
+
+class Div: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = NumberType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Double) / (rhs.eval() as! Double)
+    }
+}
+
+class Pow: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = NumberType()
+    }
+    
+    override func eval() -> NSValue? {
+        return pow((lhs.eval() as! Double), (rhs.eval() as! Double))
+    }
+}
+
+class Eq: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
+        return lhs.eval() == rhs.eval()
+    }
+}
+
+class Ne: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
+        return lhs.eval() != rhs.eval()
+    }
+}
+
+class Ge: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Double) >= (rhs.eval() as! Double)
+    }
+}
+
+class Gt: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Double) > (rhs.eval() as! Double)
+    }
+}
+
+class Le: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Double) <= (rhs.eval() as! Double)
+    }
+}
+
+class Lt: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Double) < (rhs.eval() as! Double)
+    }
+}
+
+class And: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Bool) && (rhs.eval() as! Bool)
+    }
+}
+
+class Or: Infix, Expression {
+    override init(lhs: Expression, rhs: Expression) {
+        super.init(lhs: lhs, rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
+        return (lhs.eval() as! Bool) || (rhs.eval() as! Bool)
     }
 }

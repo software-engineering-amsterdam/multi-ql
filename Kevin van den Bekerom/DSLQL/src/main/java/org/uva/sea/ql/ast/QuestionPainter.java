@@ -15,7 +15,7 @@ public class QuestionPainter extends LeftDFSVisitor {
 	
 	@Override
 	public void visit(Block block) {
-		for (Stat stmt : block.getStmts()) {
+		for (ASTNode stmt : block.getStmts()) {
 			System.out.println(stmt.toString());
 			stmt.accept(this);
 		}

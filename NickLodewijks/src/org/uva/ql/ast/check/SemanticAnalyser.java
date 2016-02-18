@@ -650,7 +650,7 @@ public class SemanticAnalyser {
 					paths.addAll(referent.getPaths(myPath));
 				}
 
-				return paths;
+				return Collections.unmodifiableList(paths);
 			}
 
 			@Override
