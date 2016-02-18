@@ -1,8 +1,8 @@
 form schoolDuration { 
   "Do you live in Europe?: "
-  european boolean
+  European boolean
   
-  if(european){
+  if(European){
   
   	"What is your name?"
   	name string
@@ -18,8 +18,8 @@ form schoolDuration {
   	
   	if(startAge >= 20){
   		"You studied longer than most other students"
-  		longest boolean = (true)
+  		longest boolean
   	}
   }
-
+ 
 }

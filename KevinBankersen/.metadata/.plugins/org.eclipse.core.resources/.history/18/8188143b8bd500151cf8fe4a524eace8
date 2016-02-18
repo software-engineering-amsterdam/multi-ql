@@ -1,0 +1,23 @@
+package eu.bankersen.kevin.ql.ast.expr.math;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
+import eu.bankersen.kevin.ql.symboltable.Context;
+
+public class Sub extends IntegerExpr {
+
+    public Sub(final Expr lhs, final Expr rhs) {
+	super.lhs = lhs;
+	super.rhs = rhs;
+    }
+
+    @Override
+    public final Integer eval(final Context context) {
+	Log.debug(rhs.eval(null).toString());
+	Log.debug(lhs.eval(null).toString());
+	return (Integer) lhs.eval(context) - (Integer) rhs.eval(context);
+    }
+
+}

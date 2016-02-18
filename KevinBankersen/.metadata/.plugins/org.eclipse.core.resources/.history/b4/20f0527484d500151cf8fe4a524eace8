@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql.testing;
+
+public class cont {
+    
+    private int x;
+    
+    public void setCont(int x){
+	this.x = x;
+    }
+    
+    public int getCont(){
+	return x;
+    }
+    
+    
+
+}

@@ -3,7 +3,12 @@
 00:00  INFO: File Parsed
 00:00  INFO: Type Check Start
 00:00  INFO: Type Check succesful
-00:00  INFO: Doing random weird stuff
+00:00  INFO: 
+
+****************************
+* Doing random weird stuff *
+****************************
+
 00:00  INFO: Starting State
 00:00  INFO: If statement cannot be evaluated
 00:00  INFO: 
@@ -60,7 +65,7 @@ Form: schoolDuration
 "How old are you now?"	: INTEGER : 26
 "How old were you when you started school?"	: INTEGER : 4
 "You have studied this many years: "	: INTEGER : 22
-"You studied longer than most other students"	: BOOLEAN : true
+"You studied longer than most other students"	: BOOLEAN : null
 
 
 
@@ -72,7 +77,7 @@ Form: schoolDuration
 "How old are you now?"	: INTEGER : 26
 "How old were you when you started school?"	: INTEGER : 4
 "You have studied this many years: "	: INTEGER : 22
-"You studied longer than most other students"	: BOOLEAN : true
+"You studied longer than most other students"	: BOOLEAN : null
 
 
 

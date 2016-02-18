@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast;
 
+import org.uva.sea.ql.ast.expr.Str;
+
 public class Label extends ASTNode {
     
     private final String text;
@@ -7,6 +9,11 @@ public class Label extends ASTNode {
     public Label(String theText) {
         assert theText != null;
         text = theText;
+    }
+    
+    public Label(Str theText) {
+        assert theText != null;
+        text = theText.getValue();
     }
     
     @Override

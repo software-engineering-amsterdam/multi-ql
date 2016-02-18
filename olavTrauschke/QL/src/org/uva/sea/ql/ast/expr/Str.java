@@ -21,4 +21,8 @@ public class Str extends Expr {
         return 53 * 3 + value.hashCode();
     }
     
+    public String getValue() {
+        return value;
+    }
+    
 }

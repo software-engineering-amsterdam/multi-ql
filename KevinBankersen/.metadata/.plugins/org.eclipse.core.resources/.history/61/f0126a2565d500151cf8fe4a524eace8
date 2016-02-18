@@ -1,0 +1,27 @@
+form schoolDuration { 
+  "Do you live in Europe?: "
+  european boolean
+  
+  
+  
+  if(european){
+  
+  	"What is your name?"
+  	name string
+  	
+  	"How old are you now?"
+  	age integer
+  	
+  	"How old were you when you started school?"
+  	startSchool integer
+  	
+  	"You have studied this many years: "
+  	startAge integer = (age - name)
+  	
+  	if(startAge >= 20){
+  		"You studied longer than most other students"
+  		longest boolean
+  	}
+  }
+ 
+}
