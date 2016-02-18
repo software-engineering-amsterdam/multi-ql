@@ -17,14 +17,23 @@ enum BinaryOp {
 }
 
 protocol Expression: FormNode {
-    var type: Type { get }
-    func resolveType(context: Context) -> Type
+    var type: FormNodeType { get }
     
     func eval() -> NSValue?
 }
 
 class Identifier: Expression {
-    let type: Type = Type.Id
+    private let _type: TypeThunk<Identifier, NSValue> = TypeThunk(IdentifierType())
+    var type: FormNodeType {
+        get {
+            if let expression = expression {
+                return expression.type
+            } else {
+                return UnknownType()
+            }
+        }
+    }
+    
     let id: String
     var expression: Expression?
     
@@ -33,26 +42,14 @@ class Identifier: Expression {
         self.expression = expression
     }
     
-    internal func resolveType(context: Context) -> Type {
-        if let (type, _) = context.retrieve(self) {
-            return type
-        } else {
-            return Type.Unknown
-        }
-    }
-    
     func eval() -> NSValue? {
-        return expression?.eval()
+        return self._type.eval(self)
     }
 }
 
 class BooleanField: Expression {
-    let type: Type = Type.Bool
+    let type: FormNodeType = BooleanType()
     var value: NSValue?
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
-    }
     
     func eval() -> NSValue? {
         return value
@@ -60,12 +57,8 @@ class BooleanField: Expression {
 }
 
 class StringField: Expression {
-    let type: Type = Type.String
+    let type: FormNodeType = StringType()
     var value: NSValue?
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
-    }
     
     func eval() -> NSValue? {
         return value
@@ -73,15 +66,11 @@ class StringField: Expression {
 }
 
 class MoneyField: Expression {
-    let type: Type = Type.Number
+    let type: FormNodeType = NumberType()
     let expression: Expression?
     
     init(expression: Expression?) {
         self.expression = expression
-    }
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
     }
     
     func eval() -> NSValue? {
@@ -90,15 +79,11 @@ class MoneyField: Expression {
 }
 
 class StringLiteral: Expression {
-    let type: Type = Type.String
+    let type: FormNodeType = StringType()
     let string: String
     
     init(string: String) {
         self.string = string
-    }
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
     }
     
     func eval() -> NSValue? {
@@ -107,15 +92,11 @@ class StringLiteral: Expression {
 }
 
 class IntegerLiteral: Expression {
-    let type: Type = Type.Number
+    let type: FormNodeType = NumberType()
     let integer: NSInteger
     
     init(integer: NSInteger) {
         self.integer = integer
-    }
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
     }
     
     func eval() -> NSValue? {
@@ -124,15 +105,11 @@ class IntegerLiteral: Expression {
 }
 
 class FloatLiteral: Expression {
-    let type: Type = Type.Number
+    let type: FormNodeType = NumberType()
     let float: Double
     
     init(float: Double) {
         self.float = float
-    }
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
     }
     
     func eval() -> NSValue? {
@@ -141,15 +118,11 @@ class FloatLiteral: Expression {
 }
 
 class BooleanLiteral: Expression {
-    let type: Type = Type.Bool
+    let type: FormNodeType = BooleanType()
     let bool: Bool
     
     init (bool: Bool) {
         self.bool = bool
-    }
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
     }
     
     func eval() -> NSValue? {
@@ -158,25 +131,20 @@ class BooleanLiteral: Expression {
 }
 
 class Prefix: Expression {
+    private let _type: FormNodeType
+    var type: FormNodeType { return _type }
+    
     let op: UnaryOp
     let rhs: Expression
     
     init (op: UnaryOp, rhs: Expression) {
         self.op = op
         self.rhs = rhs
-    }
-    
-    var type: Type {
-        get {
-            switch op {
-                case .Neg: return Type.Number
-                case .Not: return Type.Bool
-            }
+        
+        switch op {
+            case .Neg: self._type = NumberType()
+            case .Not: self._type = BooleanType()
         }
-    }
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
     }
     
     func eval() -> NSValue? {
@@ -188,6 +156,9 @@ class Prefix: Expression {
 }
 
 class Infix: Expression {
+    private let _type: FormNodeType
+    var type: FormNodeType { return _type }
+    
     let op: BinaryOp
     let lhs, rhs: Expression
     
@@ -195,30 +166,23 @@ class Infix: Expression {
         self.op = op
         self.lhs = lhs
         self.rhs = rhs
-    }
-    
-    var type: Type {
-        get {
-            switch op {
-                case .Add: return Type.Number
-                case .Sub: return Type.Number
-                case .Mul: return Type.Number
-                case .Div: return Type.Number
-                case .Pow: return Type.Number
-                case .Eq: return Type.Bool
-                case .Ne: return Type.Bool
-                case .Ge: return Type.Bool
-                case .Gt: return Type.Bool
-                case .Le: return Type.Bool
-                case .Lt: return Type.Bool
-                case .And: return Type.Bool
-                case .Or: return Type.Bool
-            }
+        
+        switch op {
+            case .Add: self._type = NumberType()
+            case .Sub: self._type = NumberType()
+            case .Mul: self._type = NumberType()
+            case .Div: self._type = NumberType()
+            case .Pow: self._type = NumberType()
+            case .Eq: self._type = BooleanType()
+            case .Ne: self._type = BooleanType()
+            case .Ge: self._type = BooleanType()
+            case .Gt: self._type = BooleanType()
+            case .Le: self._type = BooleanType()
+            case .Lt: self._type = BooleanType()
+            case .And: self._type = BooleanType()
+            case .Or: self._type = BooleanType()
         }
-    }
-    
-    internal func resolveType(context: Context) -> Type {
-        return type
+
     }
     
     func eval() -> NSValue? {

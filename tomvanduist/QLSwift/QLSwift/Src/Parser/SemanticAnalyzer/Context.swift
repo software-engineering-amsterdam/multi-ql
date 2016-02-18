@@ -8,16 +8,8 @@
 
 import Foundation
 
-enum Type {
-    case Form
-    case Id
-    case Bool
-    case Number
-    case String
-    case Unknown
-}
 
-typealias Object = (type: Type, expression: Expression?)
+typealias Object = (type: FormNodeType, expression: Expression?)
 
 class Context {
     static let sharedInstance = Context()

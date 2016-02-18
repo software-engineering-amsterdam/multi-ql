@@ -47,9 +47,10 @@ class SemanticAnalyser: FormNodeVisitor {
         node.ifBlock.accept(self)
         node.elseBlock?.accept(self)
         
-        if (type(node.condition) != Type.Bool) {
+        if (type(node.condition) !== BooleanType()) {
             error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
         }
+
     }
     
     func visit(node: Block) {
@@ -68,16 +69,17 @@ class SemanticAnalyser: FormNodeVisitor {
         node.expression?.accept(self)
         
         if let expression = node.expression {
-            if type(expression) != Type.Number {
+            if type(expression) !== NumberType() {
                 error.collect(SemanticError.TypeMismatch(description: "Money expression must result in a numerical value: \(node.expression)"))
             }
+
         }
     }
     
     func visit(node: Prefix) {
         node.rhs.accept(self)
         
-        if (type(node) != type(node.rhs)) {
+        if (type(node) !== type(node.rhs)) {
             error.collect(SemanticError.TypeMismatch(description: "Prefix type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
         }
     }
@@ -108,31 +110,31 @@ class SemanticAnalyser: FormNodeVisitor {
             case .Div:
                 fallthrough
             case .Pow:
-                if (type(node.lhs) != Type.Number || type(node.rhs) != Type.Number) {
+                if (type(node.lhs) !== NumberType() || type(node.rhs) !== NumberType()) {
                     typeError()
                 }
             case .Or:
                 fallthrough
             case .And:
-                if (type(node.lhs) != Type.Bool || type(node.rhs) != Type.Bool) {
+                if (type(node.lhs) !== BooleanType() || type(node.rhs) !== BooleanType()) {
                     typeError()
                 }
             case .Eq:
                 fallthrough
             case .Ne:
-                if (type(node.lhs) != type(node.rhs)) {
+                if (type(node.lhs) !== type(node.rhs)) {
                     typeError()
                 }
         }
     }
     
-    private func type(node: Expression) -> Type {
-        let type = node.resolveType(context)
+    private func type(node: Expression) -> FormNodeType {
+        let type = node.type
         
-        if case .Unknown = type {
+        if node.type === UnknownType() {
             error.collect(SemanticError.NotDefined(description: "\(node) is not (yet) defined."))
         }
-        
+    
         return type
     }
 }
