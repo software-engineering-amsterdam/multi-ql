@@ -5,7 +5,7 @@ public class ASTBoolean extends ASTNode {
 	public ASTBoolean() {}
 	
 	public ASTBoolean(String value) {
-		super(Boolean.valueOf(value));
+		super.setValue(Boolean.valueOf(value));
 	}
 	
 	public ASTBoolean(Object value) {

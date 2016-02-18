@@ -1,12 +1,12 @@
 package nl.uva.sc.ql.exceptions;
 
-public class SyntaxAnalysisException extends RuntimeException {
+public class InterpreterException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String message;
 	
-	public SyntaxAnalysisException(String message){
+	public InterpreterException(String message){
 		this.message = message;
 	}
 	

@@ -1,6 +1,6 @@
 package nl.uva.sc.ql.parser;
 
-import nl.uva.sc.ql.exceptions.SyntaxAnalysisException;
+import nl.uva.sc.ql.exceptions.InterpreterException;
 import nl.uva.sc.ql.parser.ast.ASTBoolean;
 import nl.uva.sc.ql.parser.ast.ASTMoney;
 import nl.uva.sc.ql.parser.ast.ASTNode;
@@ -58,7 +58,7 @@ public class Interpreter extends QLBaseVisitor<ASTNode> {
         ASTNode node = this.visit(context.type());
         
         if (symbolTable.probe(identifier) != null) {
-            throw new SyntaxAnalysisException("Already defined variable: " + identifier + " in line " + context.IDENTIFIER().getSymbol().getLine());
+            throw new InterpreterException("Already defined variable: " + identifier + " in line " + context.IDENTIFIER().getSymbol().getLine());
         }
         
         node.setIdentifier(identifier);
@@ -73,7 +73,7 @@ public class Interpreter extends QLBaseVisitor<ASTNode> {
         ASTNode node = symbolTable.lookup(identifier);
         
         if (node == null) {
-            throw new SyntaxAnalysisException("No such variable: " + identifier + " in line " + context.IDENTIFIER().getSymbol().getLine());
+            throw new InterpreterException("No such variable: " + identifier + " in line " + context.IDENTIFIER().getSymbol().getLine());
         }
         
         return node;
@@ -134,7 +134,7 @@ public class Interpreter extends QLBaseVisitor<ASTNode> {
             case QLParser.MOD:
                 return new ASTMoney(left.asDouble() % right.asDouble());
             default:
-                throw new SyntaxAnalysisException("Unknown operator: " + QLParser.tokenNames[context.op.getType()] + " in line " + context.op.getLine());
+                throw new InterpreterException("Unknown operator: " + QLParser.tokenNames[context.op.getType()] + " in line " + context.op.getLine());
         }
     }
 
@@ -151,7 +151,7 @@ public class Interpreter extends QLBaseVisitor<ASTNode> {
             case QLParser.MINUS:
                 return new ASTMoney(left.asDouble() - right.asDouble());
             default:
-                throw new SyntaxAnalysisException("Unknown operator: " + QLParser.tokenNames[context.op.getType()] + " in line " + context.op.getLine());
+                throw new InterpreterException("Unknown operator: " + QLParser.tokenNames[context.op.getType()] + " in line " + context.op.getLine());
         }
     }
 
@@ -170,7 +170,7 @@ public class Interpreter extends QLBaseVisitor<ASTNode> {
             case QLParser.GTEQ:
                 return new ASTBoolean(left.asDouble() >= right.asDouble());
             default:
-                throw new SyntaxAnalysisException("Unknown operator: " + QLParser.tokenNames[context.op.getType()] + " in line " + context.op.getLine());
+                throw new InterpreterException("Unknown operator: " + QLParser.tokenNames[context.op.getType()] + " in line " + context.op.getLine());
         }
     }
 
@@ -189,7 +189,7 @@ public class Interpreter extends QLBaseVisitor<ASTNode> {
                         new ASTBoolean(Math.abs(left.asDouble() - right.asDouble()) >= SMALL_VALUE) :
                         new ASTBoolean(!left.equals(right));
             default:
-                throw new SyntaxAnalysisException("Unknown operator: " + QLParser.tokenNames[context.op.getType()] + " in line " + context.op.getLine());
+                throw new InterpreterException("Unknown operator: " + QLParser.tokenNames[context.op.getType()] + " in line " + context.op.getLine());
         }
     }
 
