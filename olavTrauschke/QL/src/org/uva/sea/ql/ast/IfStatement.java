@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast;
 
+import java.util.Objects;
 import org.uva.sea.ql.ast.expr.Expr;
 
 public class IfStatement extends ASTNode {
@@ -9,9 +10,29 @@ public class IfStatement extends ASTNode {
     private final ASTNode toDoElse;
     
     public IfStatement(Expr theCondition, ASTNode toDoInCase, ASTNode toDoInCaseNot) {
+        assert theCondition != null && toDoInCase != null;
         condition = theCondition;
         toDoIf = toDoInCase;
         toDoElse = toDoInCaseNot;
     }
     
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && getClass() == o.getClass()) {
+            IfStatement other = (IfStatement) o;
+            return condition.equals(other.condition)
+                    && toDoIf.equals(other.toDoIf)
+                    && toDoElse.equals(other.toDoElse);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 79 * hash + condition.hashCode();
+        hash = 79 * hash + toDoIf.hashCode();
+        hash = 79 * hash + Objects.hashCode(this.toDoElse);
+        return hash;
+    }
 }

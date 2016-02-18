@@ -15,9 +15,11 @@ public class Form extends ASTNode {
     
     @Override
     public boolean equals(Object o) {
-        return o != null
-                && getClass() == o.getClass()
-                && identifier.equals(((Form) o).identifier);
+        if (o != null && getClass() == o.getClass()) {
+            Form other = (Form) o;
+            return identifier.equals(other.identifier) && questions.equals(other.questions);
+        }
+        return false;
     }
     
     @Override
