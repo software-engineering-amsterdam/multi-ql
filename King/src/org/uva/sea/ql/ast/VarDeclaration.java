@@ -1,6 +1,8 @@
 package org.uva.sea.ql.ast;
 
-public class VarDeclaration {
+import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+
+public class VarDeclaration extends ASTNODE{
 	private final VarType type;
 	private final VarIdentifier identifier;
 
@@ -15,5 +17,14 @@ public class VarDeclaration {
 
 	public VarType getType() {
 		return type;
+	}
+
+	@Override
+	public void accept(QLNodeVisitor visitor) {
+		visitor.visit(this);
+		
+		type.accept(visitor);
+		identifier.accept(visitor);
+		
 	}
 }

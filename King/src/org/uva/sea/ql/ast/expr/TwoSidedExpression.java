@@ -1,6 +1,6 @@
 package org.uva.sea.ql.ast.expr;
 
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
 public class TwoSidedExpression extends Expr {
 	protected final Expr e1;

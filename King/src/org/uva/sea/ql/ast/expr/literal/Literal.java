@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr.literal;
 
 import org.uva.sea.ql.ast.ASTNODE;
 import org.uva.sea.ql.ast.ValueType;
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
 public class Literal<T> extends ASTNODE {
 

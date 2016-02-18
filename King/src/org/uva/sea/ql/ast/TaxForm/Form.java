@@ -1,10 +1,9 @@
 package org.uva.sea.ql.ast.TaxForm;
 
 import org.uva.sea.ql.ast.ASTNODE;
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLPart;
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
-public class Form extends ASTNODE implements QLPart{
+public class Form extends ASTNODE {
 	private String id;
 	private Block body;
 
@@ -24,6 +23,24 @@ public class Form extends ASTNODE implements QLPart{
 	@Override
 	public void accept(QLNodeVisitor qlPartVisitor) {
 		qlPartVisitor.visit(this);
+		body.accept(qlPartVisitor);
 		
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		for (Question q : body.getQuestions()) {
+		    builder.append(q);
+		    builder.append(":");
+		}
+		builder.setLength(builder.length() - 1);
+		builder.append(":::");
+		for (IFblock b : body.getStatements()) {
+		    builder.append(b);
+		    builder.append(":");
+		}
+		builder.setLength(builder.length() - 1);
+		return builder.toString();
 	}
 }

@@ -1,6 +1,8 @@
 package org.uva.sea.ql.ast;
 
-public class VarType {
+import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+
+public class VarType extends ASTNODE{
 	private final String name;
 	private final ValueType type;
 
@@ -15,5 +17,11 @@ public class VarType {
 
 	public ValueType getType() {
 		return type;
+	}
+
+	@Override
+	public void accept(QLNodeVisitor visitor) {
+		// TODO Auto-generated method stub
+		
 	}
 }

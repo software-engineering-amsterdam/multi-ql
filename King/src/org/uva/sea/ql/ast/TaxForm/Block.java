@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.ast.ASTNODE;
-import org.uva.sea.ql.ast.VarDeclaration;
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLPart;
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
-public class Block extends ASTNODE implements QLPart {
+public class Block extends ASTNODE {
 	//private List<VarDeclaration> variables;
 	private List<Question> questions;
 	private List<IFblock> statements;
@@ -18,10 +16,7 @@ public class Block extends ASTNODE implements QLPart {
 		questions = new ArrayList<Question>();
 		statements = new ArrayList<IFblock>();
 	}
-/**
-	public void add(VarDeclaration var) {
-		variables.add(var);
-	}*/
+
 
 	public void add(Question question) {
 		questions.add(question);
@@ -34,10 +29,24 @@ public class Block extends ASTNODE implements QLPart {
 	public List<Question> getQuestions() {
 		return questions;
 	}
+	
+	public List<IFblock> getStatements() {
+		return statements;
+	}
 
 	@Override
 	public void accept(QLNodeVisitor qlPartVisitor) {
 		qlPartVisitor.visit(this);
+
+
+		for (Question q : questions) {
+			q.accept(qlPartVisitor);
+			q.getVariableId().accept(qlPartVisitor);
+		}
+
+		for (IFblock statement : statements) {
+			statement.accept(qlPartVisitor);
+		}
 		
 	}
 }

@@ -1,6 +1,8 @@
 package org.uva.sea.ql.ast;
 
-public class VarIdentifier {
+import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+
+public class VarIdentifier extends ASTNODE{
 	private final String name;
 	
 	private ValueType type;
@@ -19,5 +21,11 @@ public class VarIdentifier {
 
 	public void setType(ValueType type) {
 		this.type = type;
+	}
+
+	@Override
+	public void accept(QLNodeVisitor visitor) {
+		visitor.visit(this);
+		
 	}
 }

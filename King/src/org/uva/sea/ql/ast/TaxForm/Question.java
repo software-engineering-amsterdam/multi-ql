@@ -2,10 +2,9 @@ package org.uva.sea.ql.ast.TaxForm;
 
 import org.uva.sea.ql.ast.ASTNODE;
 import org.uva.sea.ql.ast.VarDeclaration;
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLPart;
-import org.uva.sea.ql.ast.TaxForm.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
-public class Question extends ASTNODE implements QLPart {
+public class Question extends ASTNODE {
 	private final VarDeclaration varDeclaration;
 	private final String text;
 
@@ -25,6 +24,8 @@ public class Question extends ASTNODE implements QLPart {
 	@Override
 	public void accept(QLNodeVisitor qlPartVisitor) {
 		qlPartVisitor.visit(this);
+		
+		
 		
 	}
 }
