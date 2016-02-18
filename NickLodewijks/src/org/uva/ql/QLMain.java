@@ -3,6 +3,7 @@ package org.uva.ql;
 import java.io.File;
 import java.io.IOException;
 
+import org.uva.ql.ast.check.SemanticAnalyser;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ui.DefaultWidgetFactory;
 import org.uva.ql.ui.QLQuestionaire;
