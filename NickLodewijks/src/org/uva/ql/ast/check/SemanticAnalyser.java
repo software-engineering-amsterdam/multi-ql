@@ -466,6 +466,11 @@ public class SemanticAnalyser {
 			referenceMapById = new HashMap<>();
 		}
 
+		/**
+		 * Find all the cyclic references
+		 * 
+		 * @return
+		 */
 		public Result findCyclicReferences() {
 			Result result;
 
@@ -500,36 +505,74 @@ public class SemanticAnalyser {
 
 		public static class ReferencePath {
 
-			private final List<Reference> references;
+			private final List<Reference> readOnlyReferenceList;
 
 			public ReferencePath() {
-				references = Collections.emptyList();
+				readOnlyReferenceList = Collections.emptyList();
 			}
 
 			public ReferencePath(List<Reference> references) {
-				this.references = new ArrayList<>(references);
+				List<Reference> copyOfReferences;
+
+				copyOfReferences = new ArrayList<>(references);
+				readOnlyReferenceList = Collections.unmodifiableList(copyOfReferences);
 			}
 
-			public List<Reference> getPath() {
-				return Collections.unmodifiableList(references);
-			}
-
-			public boolean contains(Reference r) {
-				return references.contains(r);
-			}
-
+			/**
+			 * Make a copy of this {@code ReferencePath}, and add the supplied
+			 * Reference {@code r} to the path.
+			 * 
+			 * @param r
+			 *            the {@code Reference} to add.
+			 * @return a copy of this {@code ReferencePath} with the the
+			 *         supplied reference appended.
+			 */
 			public ReferencePath copyAndAdd(Reference r) {
 				List<Reference> refs;
 
-				refs = new ArrayList<>(references);
+				refs = new ArrayList<>(readOnlyReferenceList);
 				refs.add(r);
 
 				return new ReferencePath(refs);
 			}
 
+			/**
+			 * Find the root of this reference path.
+			 * 
+			 * @return the first {@code Reference} of this path, or {@code null}
+			 *         if the path does not contain any references.
+			 */
+			public Reference getRoot() {
+				if (readOnlyReferenceList.isEmpty()) {
+					return null;
+				}
+				return readOnlyReferenceList.get(0);
+			}
+
+			public List<Reference> getPath() {
+				return readOnlyReferenceList;
+			}
+
+			/**
+			 * Returns true if this path contains the specified reference.
+			 * 
+			 * @param r
+			 *            reference whose presence in this list is to be tested
+			 * @return {@code true} if this path contains the specified
+			 *         reference
+			 */
+			public boolean contains(Reference r) {
+				return readOnlyReferenceList.contains(r);
+			}
+
+			/**
+			 * Returns true if this path contains a cycle.
+			 * 
+			 * @return {@code true} if this path contains a cycle.
+			 */
 			public boolean hasCycle() {
-				for (Reference r : references) {
-					if (Collections.frequency(references, r) > 1) {
+				for (Reference r : readOnlyReferenceList) {
+					if (Collections.frequency(readOnlyReferenceList, r) > 1) {
 						return true;
 					}
 				}
@@ -544,7 +587,7 @@ public class SemanticAnalyser {
 				sb = new StringBuilder();
 
 				// Make a String in the form of 'a -> b -> c'
-				references.stream().forEachOrdered(ref -> {
+				readOnlyReferenceList.stream().forEachOrdered(ref -> {
 					if (sb.length() > 0) {
 						sb.append(" -> ");
 					}
