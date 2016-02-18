@@ -2,7 +2,7 @@
 %class Parser
 %interface Tokens
 %semantic org.uva.sea.ql.ast.ASTNode
-%start top
+%start form
 
 %token BOOLEAN
 %token DATE
@@ -39,25 +39,25 @@
 %type <Expr> expr
 
 %{
+import java.io.FileNotFoundException;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 %}
 
 %%
 
-top : form { result = $1; };
-
-form : FORM IDENT block { $$ = new Form($2, $3); };
+form : FORM IDENT block { result = new Form($2, $3); };
 
 block : '{' statements '}' { $$ = $2; };
 
-statements : question ';' statements
-           | conditionalStatement statements
-           | /*empty*/
+statements : question ';' statements             { $$ = new NestedStatement($1, $3); }
+           | conditionalStatement statements     { $$ = new NestedStatement($1, $2); }
+           | question ';'
+           | conditionalStatement
 ;
 
-conditionalStatement : IF '(' expr ')' block ELSE block
-                     | IF '(' expr ')' block
+conditionalStatement : IF '(' expr ')' block ELSE block { $$ = new IfStatement($3, $5, $7); }
+                     | IF '(' expr ')' block            { $$ = new IfStatement($3, $5, null); }
 ;
 
 question : IDENT ':' STRING_LITERAL type      { $$ = new Question($1, new Label($3), $4); }
@@ -88,11 +88,11 @@ expr : '+' expr %prec UPLUS { $$ = new Pos($2); }
      | expr LEQ expr        { $$ = new LEq($1, $3); }
      | expr AND expr        { $$ = new And($1, $3); }
      | expr OR expr         { $$ = new Or($1, $3); }
-     | IDENT                { $$ = $1; }
-     | INT_LITERAL          { $$ = $1; }
-     | BOOLEAN_LITERAL      { $$ = $1; }
-     | STRING_LITERAL       { $$ = $1; }
      | '(' expr ')'         { $$ = $2; }
+     | IDENT
+     | INT_LITERAL
+     | BOOLEAN_LITERAL
+     | STRING_LITERAL
 ;
 		 
 
@@ -100,6 +100,11 @@ expr : '+' expr %prec UPLUS { $$ = new Pos($2); }
 private Lexer lexer; 
 
 private Form result;
+
+public Parser(String filename) throws FileNotFoundException {
+    lexer = new Lexer(filename);
+    lexer.nextToken();
+}
 
 public Parser(Lexer theLexer) {
   theLexer.nextToken();

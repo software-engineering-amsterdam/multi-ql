@@ -19,7 +19,7 @@ public class FileReader {
 	String line;
 
 	while ((line = reader.readLine()) != null) {
-	    out.append(line);
+	    out.append(line + "\n");
 	}
 
 	reader.close();

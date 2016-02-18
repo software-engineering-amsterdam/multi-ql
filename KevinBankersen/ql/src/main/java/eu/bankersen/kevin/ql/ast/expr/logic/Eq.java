@@ -5,9 +5,10 @@ import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
 
 public class Eq extends BooleanExpr {
 
-    public Eq(final Expr lhs, final Expr rhs) {
+    public Eq(final Expr lhs, final Expr rhs, final int line) {
 	super.lhs = lhs;
 	super.rhs = rhs;
+	super.line = line;
     }
 
     @Override

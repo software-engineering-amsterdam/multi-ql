@@ -24,7 +24,7 @@ public class Form extends AbstractForm  {
 	StringBuilder sb;
 
 	sb = new StringBuilder();
-	sb.append("\nForm: " + name + "\n");
+	sb.append("Results\nForm: " + name + "\n");
 	sb.append(body);
 	sb.append("\n");
 
