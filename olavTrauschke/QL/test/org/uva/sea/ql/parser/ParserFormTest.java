@@ -40,16 +40,23 @@ public class ParserFormTest {
         Question question4 = new ComputedQuestion(question4Identifier,
                 question4Label, question4Type, question4Calculation);
         
-        NestedStatement inCase = new NestedStatement(question3, question4);
+        StatementSet inCase = new StatementSet();
+        inCase.add(question3);
+        inCase.add(question4);
         
         Ident question5Identifier = new Ident("wantsToSellHouse");
         Label question5Label = new Label("Do you want to sell a house in 2011?");
         ASTNode question5Type = new Bool(null);
         Question question5 = new Question(question5Identifier, question5Label, question5Type);
         
-        ConditionalStatement ifStatement = new ConditionalStatement(condition, inCase, question5);
-        NestedStatement followingStatements = new NestedStatement(question2, ifStatement);
-        NestedStatement statements = new NestedStatement(question1, followingStatements);
+        StatementSet inCaseNot = new StatementSet();
+        inCaseNot.add(question5);
+        
+        ConditionalStatement ifStatement = new ConditionalStatement(condition, inCase, inCaseNot);
+        StatementSet statements = new StatementSet();
+        statements.add(question1);
+        statements.add(question2);
+        statements.add(ifStatement);
         
         Ident formIdentifier = new Ident("Box1HouseOwning");
         Form expected = new Form(formIdentifier, statements);
