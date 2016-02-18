@@ -5,9 +5,10 @@ import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
 
 public class LT extends BooleanExpr {
 
-    public LT(final Expr lhs, final Expr rhs) {
+    public LT(final Expr lhs, final Expr rhs, final int line) {
 	super.lhs = lhs;
 	super.rhs = rhs;
+	super.line = line;
     }
 
     @Override
