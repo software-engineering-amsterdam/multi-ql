@@ -8,11 +8,9 @@
 
 import Foundation
 
-
-
-//enum UnaryOp {
-//    case Neg, Not
-//}
+enum UnaryOp {
+    case Neg, Not
+}
 
 enum BinaryOp {
     case Add, Sub, Mul, Div, Pow, Or, And, Lt, Le, Eq, Ne, Ge, Gt
@@ -45,7 +43,7 @@ class Identifier: Expression {
     }
     
     func eval() -> NSValue? {
-        return _type.eval(self)
+        return self._type.eval(self)
     }
 }
 
@@ -133,20 +131,20 @@ class BooleanLiteral: Expression {
 }
 
 class Prefix: Expression {
-    private let _type: TypeThunk<Expression, NSValue>
-    var type: FormNodeType { return op.type }
+    private let _type: FormNodeType
+    var type: FormNodeType { return _type }
     
-    let op: OperatorThunk<NSValue>
+    let op: UnaryOp
     let rhs: Expression
     
-    init (op: Neg, rhs: Expression) {
-        self.op = OperatorThunk(Neg())
+    init (op: UnaryOp, rhs: Expression) {
+        self.op = op
         self.rhs = rhs
         
-//        switch op {
-//            case .Neg: self._type = TypeThunk(NumberType())
-//            case .Not: self._type = TypeThunk(BooleanType())
-//        }
+        switch op {
+            case .Neg: self._type = NumberType()
+            case .Not: self._type = BooleanType()
+        }
     }
     
     func eval() -> NSValue? {
@@ -158,7 +156,7 @@ class Prefix: Expression {
 }
 
 class Infix: Expression {
-    private let _type: TypeThunk<Expression, NSValue>
+    private let _type: FormNodeType
     var type: FormNodeType { return _type }
     
     let op: BinaryOp
@@ -170,19 +168,19 @@ class Infix: Expression {
         self.rhs = rhs
         
         switch op {
-            case .Add: self._type = TypeThunk(NumberType())
-            case .Sub: self._type = TypeThunk(NumberType())
-            case .Mul: self._type = TypeThunk(NumberType())
-            case .Div: self._type = TypeThunk(NumberType())
-            case .Pow: self._type = TypeThunk(NumberType())
-            case .Eq: self._type = TypeThunk(BooleanType())
-            case .Ne: self._type = TypeThunk(BooleanType())
-            case .Ge: self._type = TypeThunk(BooleanType())
-            case .Gt: self._type = TypeThunk(BooleanType())
-            case .Le: self._type = TypeThunk(BooleanType())
-            case .Lt: self._type = TypeThunk(BooleanType())
-            case .And: self._type = TypeThunk(BooleanType())
-            case .Or: self._type = TypeThunk(BooleanType())
+            case .Add: self._type = NumberType()
+            case .Sub: self._type = NumberType()
+            case .Mul: self._type = NumberType()
+            case .Div: self._type = NumberType()
+            case .Pow: self._type = NumberType()
+            case .Eq: self._type = BooleanType()
+            case .Ne: self._type = BooleanType()
+            case .Ge: self._type = BooleanType()
+            case .Gt: self._type = BooleanType()
+            case .Le: self._type = BooleanType()
+            case .Lt: self._type = BooleanType()
+            case .And: self._type = BooleanType()
+            case .Or: self._type = BooleanType()
         }
 
     }
