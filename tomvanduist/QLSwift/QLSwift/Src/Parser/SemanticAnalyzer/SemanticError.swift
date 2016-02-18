@@ -12,6 +12,7 @@ enum SemanticError: ErrorType {
     case Collection(errors: [SemanticError])
     case TypeMismatch(description: String)
     case MultipleDeclarations(description: String)
+    case NotDefined(description: String)
     case Generic(description: String)
     case System(error: ErrorType)
     case None

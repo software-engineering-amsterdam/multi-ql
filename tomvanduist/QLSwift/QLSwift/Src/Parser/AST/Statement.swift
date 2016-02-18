@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Statement: FormNode {
+protocol Statement: ASTNode {
 }
 
 class Question: Statement {

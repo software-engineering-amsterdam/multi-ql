@@ -8,19 +8,18 @@
 
 import Foundation
 
-enum Type {
-    case Form
-    case Id
-    case Bool
-    case Number
-    case String
-    case Unknown
-}
 
-typealias Object = (type: Type, value: FormNode?)
+typealias Object = (type: ExpressionType, expression: Expression?)
 
 class Context {
+    static let sharedInstance = Context()
+    
+    let parent: Context?
     private var context = [String: Object]()
+    
+    init(parent: Context? = nil) {
+        self.parent = parent
+    }
     
     func assign(identifier: Identifier, object: Object) throws {
         if context[identifier.id] == nil {
@@ -32,6 +31,9 @@ class Context {
     }
     
     func retrieve(identifier: Identifier) -> Object? {
-        return context[identifier.id]
+        if let o = context[identifier.id] {
+            return o
+        }
+        return parent?.retrieve(identifier)
     }
 }
