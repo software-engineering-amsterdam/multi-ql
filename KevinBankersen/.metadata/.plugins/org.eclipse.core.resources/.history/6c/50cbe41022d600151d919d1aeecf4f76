@@ -1,0 +1,34 @@
+package eu.bankersen.kevin.ql.ast;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+
+public class Identifier extends Expr {
+
+    private final String name;
+    private Type type;
+
+    public Identifier(final String name) {
+	this.name = name;
+    }
+
+    @Override
+    public final Object eval() {
+	return super.context.getSymbol(name).getValue();
+    }
+
+    @Override
+    public final void checkType() {
+	if (!super.context.checkID(name)) {
+	    type = super.context.getSymbol(name).getType();
+	    super.context.addError("SYMANTIC_ERROR " + name + " does not exist!");
+	}
+    }
+
+    @Override
+    public final Type getType() {
+	Log.error("Get type for " + name);
+	return type;
+    }
+}

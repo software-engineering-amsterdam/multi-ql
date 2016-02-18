@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.esotericsoftware.minlog.Log;
+
 import eu.bankersen.kevin.ql.ast.Type;
 
 public final class Context {
@@ -44,6 +46,7 @@ public final class Context {
     }
     
     public void addError(final String error) {
+	Log.debug(error);
 	errorList.add(error);
     }
     
