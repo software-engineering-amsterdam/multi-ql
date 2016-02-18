@@ -1,13 +1,15 @@
 package nl.nicasso.ql.ast.expression;
 
+import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
+import nl.nicasso.ql.ast.type.Type;
 
-public class ParenthesisExpr extends Expression implements Traversable {
+public class Parenthesis extends Monomial implements Traversable {
 
 	Expression expr;
 
-	public ParenthesisExpr(Expression expr) {
+	public Parenthesis(Expression expr) {
 		this.expr = expr;
 	}
 
@@ -18,5 +20,10 @@ public class ParenthesisExpr extends Expression implements Traversable {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public Type accept(TypeChecker visitor) {
+		return visitor.visit(this);
 	}
 }

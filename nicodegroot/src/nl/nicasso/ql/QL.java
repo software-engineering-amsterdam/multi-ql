@@ -8,10 +8,10 @@ import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
@@ -45,19 +45,33 @@ public class QL {
         CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
         
-        GetVarsVisitor varsVisitor = new GetVarsVisitor();
+        SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
         
-        ast.accept(varsVisitor);
+        ast.accept(semanticAnalysis);
                 
-        if (!varsVisitor.getErrors().isEmpty()) {
-        	System.out.println("ERRORS!");
-        	for (String error : varsVisitor.getErrors()) {
+        if (!semanticAnalysis.getErrors().isEmpty()) {
+        	System.out.println("-------------------------------ERRORS!--------------------------------------------");
+        	for (String error : semanticAnalysis.getErrors()) {
         		System.out.println(error);
         	}
         	
         	return;
         }
+        /*
         
+        TypeChecker typeChecker = new TypeChecker();
+        
+        ast.accept(typeChecker);
+                
+        if (!typeChecker.getErrors().isEmpty()) {
+        	System.out.println("-------------------------------ERRORS!--------------------------------------------");
+        	for (String error : typeChecker.getErrors()) {
+        		System.out.println(error);
+        	}
+        	
+        	return;
+        }
+        */
         //SymanticAnalysis semanticAnalyser = new SymanticAnalysis();
 		//if (ast.accept(semanticAnalyser)) {
         // @TODO Insert Fancy GUI here
