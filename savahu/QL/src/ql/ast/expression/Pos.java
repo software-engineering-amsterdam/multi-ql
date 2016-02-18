@@ -10,10 +10,9 @@ package ql.ast.expression;
  * @author sander
  */
 public class Pos extends UnaryExpr {
-    
-    public Pos(Expr value)
-    {
+
+    public Pos(Expr value) {
         super(value);
     }
-    
+
 }

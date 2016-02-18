@@ -5,17 +5,13 @@
  */
 package ql.ast.type;
 
-import ql.ast.expression.Expr;
-
 /**
  *
  * @author sander
  */
-public class Str extends Expr {
-    private final String value;
-    
-    public Str(String stringValue)
-    {
-        this.value = stringValue;
+public class Str extends Type {
+
+    public Str() {
+        super();
     }
 }

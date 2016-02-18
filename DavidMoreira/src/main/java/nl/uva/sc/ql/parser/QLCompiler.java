@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import nl.uva.sc.ql.exceptions.CompilerException;
 import nl.uva.sc.ql.exceptions.TypecheckerException;
+import nl.uva.sc.ql.parser.ast.ASTNode;
 import nl.uva.sc.ql.parser.ast.SymbolTable;
 
 public class QLCompiler 
@@ -17,14 +18,14 @@ public class QLCompiler
         QLLexer lexer = new QLLexer(new ANTLRFileStream(filepath));
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
         ParseTree tree = parser.ql();
-        
+                
         SymbolTable symbolTable = new SymbolTable();
         
         System.out.println("Starting typechecker...");
         Typechecker checker = new Typechecker(symbolTable);
-        
+      
         try {
-        	checker.visit(tree);
+        	ASTNode aux = checker.visit(tree);
         } catch (TypecheckerException spe) {
         	throw new CompilerException(spe.getMessage());
         }

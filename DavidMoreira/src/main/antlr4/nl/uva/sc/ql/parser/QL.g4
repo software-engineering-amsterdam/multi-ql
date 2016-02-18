@@ -57,20 +57,20 @@ stat_block
 
 expression
     : '(' expression ')'    								#parentisisExpression
-    | NOT expression                                  		#notExpression
-    | MINUS expression										#minusExpression
+    | '!' expression                                  		#notExpression
+    | '-' expression										#minusExpression
     | expression op=(MULT | DIV | MOD) expression      		#multDivModExpression
  	| expression op=(PLUS | MINUS) expression          		#additiveExpression
     | expression op=(LTEQ | GTEQ | LT | GT) expression      #relationalExpression
     | expression op=(EQ | NEQ) expression                   #equalityExpression
-    | expression AND expression                             #andExpression
-    | expression OR expression                              #orExpression
+    | expression '&&' expression                            #andExpression
+    | expression '||' expression                            #orExpression
     | unity                                     			#unityExpression
     ;
 
 
 unity
-    : (TRUE | FALSE)    #booleanUnity
+    : ('true' | 'false')    #booleanUnity
     | IDENTIFIER        #identifierUnity
     | String			#stringUnity
     | money				#moneyUnity
@@ -83,25 +83,18 @@ money
 	;
 
 
-OR : '||';
-AND : '&&';
 EQ : '==';
 NEQ : '!=';
 GT : '>';
 LT : '<';
 GTEQ : '>=';
 LTEQ : '<=';
-NOT : '!';
 PLUS : '+';
 MINUS : '-';
 MULT : '*';
 DIV : '/';
 MOD : '%';
 EQUAL : '=';
-
-TRUE : 'true';
-FALSE : 'false';
-
 
 IDENTIFIER: ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

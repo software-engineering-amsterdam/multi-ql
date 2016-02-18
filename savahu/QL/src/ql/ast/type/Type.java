@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ql.ast.expression;
+package ql.ast.type;
 
 /**
  *
  * @author sander
  */
-public class LEq extends BinaryExpr {
+public class Type {
 
-    public LEq(Expr lhs, Expr rhs) {
-        super(lhs, rhs);
+    public Type() {
+
     }
 
 }

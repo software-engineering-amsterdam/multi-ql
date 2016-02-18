@@ -76,7 +76,7 @@ public class ASTNode {
         return String.valueOf(value);
     }
     
-    public String getType(){
+    public String getType() {
     	return "VOID";
     }
     

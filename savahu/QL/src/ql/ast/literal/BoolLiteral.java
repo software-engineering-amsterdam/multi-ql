@@ -3,21 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ql.ast.expression;
+package ql.ast.literal;
+
+import ql.ast.expression.Expr;
 
 /**
  *
  * @author sander
  */
-public class UnaryExpr extends Expr {
+public class BoolLiteral extends Expr {
 
-    private final Expr value;
+    private final Boolean value;
 
-    public UnaryExpr(Expr value) {
+    public BoolLiteral(Boolean value) {
         this.value = value;
     }
 
-    public Expr getValue() {
+    public Boolean getValue() {
         return this.value;
     }
+
 }

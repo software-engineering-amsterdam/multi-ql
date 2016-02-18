@@ -1,18 +1,9 @@
 package ql.ast.type;
 
-import ql.ast.expression.Expr;
+public class Int extends Type {
 
-public class Int extends Expr {
+    public Int(Integer value) {
+        super();
+    }
 
-	private final Integer value;
-
-        public Int(Integer value)
-        {
-            this.value = value;
-        }
-
-	public Integer getValue() {
-		return value;
-	}
-	
 }

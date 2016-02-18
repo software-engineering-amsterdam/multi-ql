@@ -10,10 +10,10 @@ package ql.ast.expression;
  * @author sander
  */
 public class Div extends Expr {
+
     private final Expr lhs, rhs;
-    
-        public Div(Expr lhs, Expr rhs)
-    {
+
+    public Div(Expr lhs, Expr rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
     }

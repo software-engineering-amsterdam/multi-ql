@@ -5,6 +5,7 @@
     import ql.ast.expression.*;
     import ql.ast.type.*;
     import ql.ast.form.*;
+    import ql.ast.literal.*;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -185,7 +186,7 @@ public class QLParser extends Parser {
 				{
 				setState(22);
 				((PrimaryContext)_localctx).Int = match(Int);
-				 ((PrimaryContext)_localctx).result =  new Int(Integer.parseInt((((PrimaryContext)_localctx).Int!=null?((PrimaryContext)_localctx).Int.getText():null))); 
+				 ((PrimaryContext)_localctx).result =  new IntegerLiteral(Integer.parseInt((((PrimaryContext)_localctx).Int!=null?((PrimaryContext)_localctx).Int.getText():null))); 
 				}
 				break;
 			case Ident:
@@ -201,7 +202,7 @@ public class QLParser extends Parser {
 				{
 				setState(26);
 				((PrimaryContext)_localctx).Str = match(Str);
-				 ((PrimaryContext)_localctx).result =  new Str((((PrimaryContext)_localctx).Str!=null?((PrimaryContext)_localctx).Str.getText():null)); 
+				 ((PrimaryContext)_localctx).result =  new StringLiteral((((PrimaryContext)_localctx).Str!=null?((PrimaryContext)_localctx).Str.getText():null)); 
 				}
 				break;
 			case T__3:
@@ -273,7 +274,7 @@ public class QLParser extends Parser {
 				{
 				setState(38);
 				((BoolContext)_localctx).t = match(T__3);
-				 ((BoolContext)_localctx).result =  new Bool(true); 
+				 ((BoolContext)_localctx).result =  new BoolLiteral(true); 
 				}
 				break;
 			case T__4:
@@ -281,7 +282,7 @@ public class QLParser extends Parser {
 				{
 				setState(40);
 				((BoolContext)_localctx).t = match(T__4);
-				 ((BoolContext)_localctx).result =  new Bool(false); 
+				 ((BoolContext)_localctx).result =  new BoolLiteral(false); 
 				}
 				break;
 			default:

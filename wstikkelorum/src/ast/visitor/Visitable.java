@@ -1,6 +1,6 @@
 package ast.visitor;
 
 public interface Visitable {
-	public void accept(Visitor visitor);
+	public Object accept(Visitor visitor);
 
 }

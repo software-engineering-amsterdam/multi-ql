@@ -10,10 +10,9 @@ package ql.ast.expression;
  * @author sander
  */
 public class Mul extends BinaryExpr {
-    
-    public Mul(Expr lhs, Expr rhs)
-    {
-     super(lhs, rhs);
+
+    public Mul(Expr lhs, Expr rhs) {
+        super(lhs, rhs);
     }
-    
+
 }

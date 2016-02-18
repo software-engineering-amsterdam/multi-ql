@@ -5,14 +5,28 @@
  */
 package ql.ast.question;
 
+import ql.ast.expression.Ident;
+
 /**
  *
  * @author sander
  */
 public class Question {
-    public Question()
-    {
-        
+
+    private final Ident questionName;
+    private final String questionValue;
+
+    public Question(Ident identifier, String questionValue) {
+        this.questionName = identifier;
+        this.questionValue = questionValue;
     }
-    
+
+    public Ident getQuestionName() {
+        return this.questionName;
+    }
+
+    public String getQuestionValue() {
+        return this.questionValue;
+    }
+
 }
