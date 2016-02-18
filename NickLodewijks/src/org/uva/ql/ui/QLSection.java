@@ -4,11 +4,11 @@ import javax.swing.JComponent;
 
 import org.uva.ql.ast.expr.Context;
 
-public interface QLForm {
+public interface QLSection {
 
 	public void setContext(Context context);
 
-	public void addSection(QLSection section);
+	public void addSubSection(QLSection section);
 
 	public void addQuestion(QLQuestion question);
 
