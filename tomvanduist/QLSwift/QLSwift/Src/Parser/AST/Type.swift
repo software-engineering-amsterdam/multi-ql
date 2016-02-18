@@ -21,9 +21,6 @@ func !== (left: FormNodeType, right: FormNodeType) -> Bool {
 protocol FormNodeType {
 }
 
-//class PlaceholderType: Type {
-//}
-
 protocol TypeEval: FormNodeType {
     typealias GenericParam
     typealias GenericReturn
@@ -33,17 +30,13 @@ protocol TypeEval: FormNodeType {
 
 
 class TypeThunk<P, R> : NSObject, TypeEval {
-    // closure which will be used to implement `magic()` as declared in the protocol
     private let _eval : (param: P?) -> R?
     
-    // `T` is effectively a handle for `AbstractType` in the protocol
     init<T : TypeEval where T.GenericParam == P, T.GenericReturn == R>(_ dep : T) {
-        // requires Swift 2, otherwise create explicit closure
         _eval = dep.eval
     }
     
     func eval(param: P?) -> R? {
-        // any protocol methods are implemented by forwarding
         return _eval(param: param)
     }
 }
@@ -60,10 +53,22 @@ class IdentifierType: TypeEval {
 class FormType: FormNodeType {
 }
 
-class BooleanType: FormNodeType {
+class BooleanType: TypeEval {
+    typealias GenericParam = Expression
+    typealias GenericReturn = NSValue
+    
+    func eval(expression: Expression?) -> NSValue? {
+        return expression?.eval()
+    }
 }
 
-class NumberType: FormNodeType {
+class NumberType: TypeEval {
+    typealias GenericParam = Expression
+    typealias GenericReturn = NSValue
+    
+    func eval(expression: Expression?) -> NSValue? {
+        return expression?.eval()
+    }
 }
 
 //class IntegerType: NumberType {

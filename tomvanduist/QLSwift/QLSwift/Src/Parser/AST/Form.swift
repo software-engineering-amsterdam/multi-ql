@@ -175,13 +175,13 @@ extension QLGt {
 
 extension QLNeg {
     func implode() -> Expression {
-        return Prefix(op: UnaryOp.Neg, rhs: rhs.implode())
+        return Prefix(op: Neg(), rhs: rhs.implode())
     }
 }
 
 extension QLNot {
     func implode() -> Expression {
-        return Prefix(op: UnaryOp.Not, rhs: rhs.implode())
+        return Prefix(op: Not(), rhs: rhs.implode())
     }
 }
 
