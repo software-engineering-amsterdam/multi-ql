@@ -2,18 +2,18 @@ package org.uva.sea.ql.ast.expr;
 
 import java.util.Objects;
 
-public class Int extends NumericExpr {
+public class Decimal extends NumericExpr {
     
-    private Integer value;
+    private Double value;
     
-    public Int(Integer theValue) {
+    public Decimal(Double theValue) {
         value = theValue;
     }
     
     @Override
     public boolean equals(Object o) {
         if (o != null && getClass() == o.getClass()) {
-            Int other = (Int) o;
+            Decimal other = (Decimal) o;
             return value == null ? other.value == null : value.equals(other.value);
         }
         return false;
@@ -21,8 +21,8 @@ public class Int extends NumericExpr {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.value);
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.value);
         return hash;
     }
 }

@@ -35,7 +35,7 @@
 %type statements
 %type conditionalStatement
 %type <Question> question
-%type <Int> type
+%type type
 %type <Expr> expr
 
 %{
@@ -64,13 +64,12 @@ question : IDENT ':' STRING_LITERAL type      { $$ = new Question($1, new Label(
          | IDENT ':' STRING_LITERAL type expr { $$ = new ComputedQuestion($1, new Label($3), $4, $5); }
 ;
 
-/* TODO get rid of Int wrapping*/
-type : BOOLEAN { $$ = new Int(Tokens.BOOLEAN); }
-     | DATE    { $$ = new Int(Tokens.DATE); }
-     | DECIMAL { $$ = new Int(Tokens.DECIMAL); }
-     | INT     { $$ = new Int(Tokens.INT); }
-     | MONEY   { $$ = new Int(Tokens.MONEY); }
-     | STRING  { $$ = new Int(Tokens.STRING); }
+type : BOOLEAN { $$ = new Bool(null); }
+     | DATE    { $$ = new Date(); }
+     | DECIMAL { $$ = new Decimal(null); }
+     | INT     { $$ = new Int(null); }
+     | MONEY   { $$ = new Money(null, null); }
+     | STRING  { $$ = new Str(null); }
 ;
 
 expr : '+' expr %prec UPLUS { $$ = new Pos($2); }

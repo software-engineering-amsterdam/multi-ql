@@ -20,9 +20,9 @@ public class ConditionalStatement extends ASTNode {
     public boolean equals(Object o) {
         if (o != null && getClass() == o.getClass()) {
             ConditionalStatement other = (ConditionalStatement) o;
-            return condition.equals(other.condition)
-                    && toDoIf.equals(other.toDoIf)
-                    && toDoElse.equals(other.toDoElse);
+            if (condition.equals(other.condition) && toDoIf.equals(other.toDoIf)) {
+                return toDoElse == null ? other.toDoElse == null : toDoElse.equals(other.toDoElse);
+            }
         }
         return false;
     }

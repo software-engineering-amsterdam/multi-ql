@@ -1,10 +1,10 @@
 package org.uva.sea.ql.ast.expr;
 
-public abstract class SingleExprArgumentNumericExpr extends NumericExpr {
+public abstract class SingleArgumentNumericExpr extends NumericExpr {
     
     private final Expr content;
     
-    public SingleExprArgumentNumericExpr(Expr theContent) {
+    public SingleArgumentNumericExpr(Expr theContent) {
         assert theContent != null;
         content = theContent;
     }
@@ -13,7 +13,7 @@ public abstract class SingleExprArgumentNumericExpr extends NumericExpr {
     public boolean equals(Object o) {
         return o != null
                 && getClass() == o.getClass()
-                && content.equals(((SingleExprArgumentNumericExpr) o).content);
+                && content.equals(((SingleArgumentNumericExpr) o).content);
     }
 
     @Override

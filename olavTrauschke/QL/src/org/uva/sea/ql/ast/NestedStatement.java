@@ -17,8 +17,14 @@ public class NestedStatement extends ASTNode {
     public boolean equals(Object o) {
         if (o != null && getClass() == o.getClass()) {
             NestedStatement other = (NestedStatement) o;
-            return statement.equals(other.statement)
-                    && nestedStatement.equals(other.nestedStatement);
+            if (statement.equals(other.statement)) {
+                if (nestedStatement == null) {
+                    return other.nestedStatement == null;
+                }
+                else {
+                    return nestedStatement.equals(other.nestedStatement);
+                }
+            }
         }
         return false;
     }

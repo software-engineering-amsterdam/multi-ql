@@ -1,11 +1,11 @@
 package org.uva.sea.ql.ast.expr;
 
-public abstract class DoubleExprArgumentNumericExpr extends NumericExpr {
+public abstract class DoubleArgumentNumericExpr extends NumericExpr {
     
     private final Expr firstExpr;
     private final Expr secondExpr;
     
-    public DoubleExprArgumentNumericExpr(Expr theFirstExpr, Expr theSecondExpr) {
+    public DoubleArgumentNumericExpr(Expr theFirstExpr, Expr theSecondExpr) {
         assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
@@ -14,7 +14,7 @@ public abstract class DoubleExprArgumentNumericExpr extends NumericExpr {
     @Override
     public boolean equals(Object o) {
         if (o != null && getClass() == o.getClass()) {
-            DoubleExprArgumentNumericExpr other = (DoubleExprArgumentNumericExpr) o;
+            DoubleArgumentNumericExpr other = (DoubleArgumentNumericExpr) o;
             return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
         }
         return false;
