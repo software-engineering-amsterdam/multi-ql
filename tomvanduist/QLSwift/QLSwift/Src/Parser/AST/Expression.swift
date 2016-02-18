@@ -153,7 +153,7 @@ class Not: Expression {
     }
 }
 
-class Infix {
+class Binary {
     private var _type: ExpressionType = UnknownType()
     var type: ExpressionType { return _type }
     
@@ -169,7 +169,7 @@ class Infix {
     }
 }
 
-class Add: Infix, Expression {
+class Add: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -181,7 +181,7 @@ class Add: Infix, Expression {
     }
 }
 
-class Sub: Infix, Expression {
+class Sub: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -193,7 +193,7 @@ class Sub: Infix, Expression {
     }
 }
 
-class Mul: Infix, Expression {
+class Mul: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -205,7 +205,7 @@ class Mul: Infix, Expression {
     }
 }
 
-class Div: Infix, Expression {
+class Div: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -217,7 +217,7 @@ class Div: Infix, Expression {
     }
 }
 
-class Pow: Infix, Expression {
+class Pow: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -229,7 +229,7 @@ class Pow: Infix, Expression {
     }
 }
 
-class Eq: Infix, Expression {
+class Eq: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -241,7 +241,7 @@ class Eq: Infix, Expression {
     }
 }
 
-class Ne: Infix, Expression {
+class Ne: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -253,7 +253,7 @@ class Ne: Infix, Expression {
     }
 }
 
-class Ge: Infix, Expression {
+class Ge: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -265,7 +265,7 @@ class Ge: Infix, Expression {
     }
 }
 
-class Gt: Infix, Expression {
+class Gt: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -277,7 +277,7 @@ class Gt: Infix, Expression {
     }
 }
 
-class Le: Infix, Expression {
+class Le: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -289,7 +289,7 @@ class Le: Infix, Expression {
     }
 }
 
-class Lt: Infix, Expression {
+class Lt: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -301,7 +301,7 @@ class Lt: Infix, Expression {
     }
 }
 
-class And: Infix, Expression {
+class And: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
@@ -313,7 +313,7 @@ class And: Infix, Expression {
     }
 }
 
-class Or: Infix, Expression {
+class Or: Binary, Expression {
     override init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         

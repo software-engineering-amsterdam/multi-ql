@@ -1,5 +1,5 @@
 //
-//  QLPrefix.swift
+//  QLUnary.swift
 //  QLSwift
 //
 //  Created by Tom van Duist on 04/02/16.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol QLPrefix: QLExpression {
+protocol QLUnary: QLExpression {
     init(rhs: QLExpression)
 }
 
-internal class QLPrefixBase {
+internal class QLUnaryBase {
     let rhs: QLExpression
     
     required init(rhs: QLExpression) {
@@ -20,8 +20,8 @@ internal class QLPrefixBase {
     }
 }
 
-class QLNeg: QLPrefixBase, QLPrefix {
+class QLNeg: QLUnaryBase, QLUnary {
 }
 
-class QLNot: QLPrefixBase, QLPrefix {
+class QLNot: QLUnaryBase, QLUnary {
 }

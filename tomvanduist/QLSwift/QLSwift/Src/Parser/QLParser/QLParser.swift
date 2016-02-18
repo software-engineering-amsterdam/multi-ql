@@ -20,10 +20,10 @@ import SwiftParsec
  * block        ::= { stmt* }
  * stmt         ::= 'if' ( expr) { block } | question
  * question     ::= var ':' stringLit expr
- * expr         ::= money | prefix expr | expr infix expr | ( expr ) | boolean | literal | var
+ * expr         ::= money | unaryOp expr | expr binary expr | ( expr ) | boolean | literal | var
  * literal      ::= true | false | stringLit | numberLit
- * prefix       ::= - | !
- * infix        ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
+ * unaryOp      ::= - | !
+ * binary       ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
  * var          ::= identifier
  * money        ::= 'money' || 'money' ( expr )
  */
@@ -70,14 +70,14 @@ class QLParser: NSObject {
             let moneyExpr: GenericParser<String, (), QLExpression> =
                 (lexer.symbol("money") *> lexer.parentheses(expr).map { e in QLMoney(expr: e) }).attempt <|>
                 lexer.symbol("money").map { _ in QLMoney() }
-            let prefix: GenericParser<String, (), QLPrefix.Type> =
+            let unary: GenericParser<String, (), QLUnary.Type> =
                 StringParser.character("-").map { _ in QLNeg.self } <|>
                 StringParser.character("!").map { _ in QLNot.self }
-            let prefixExpr: GenericParser<String, (), QLExpression> =
-                prefix.flatMap { ePrefix in
-                    expr.map { rhs in ePrefix.init(rhs: rhs) }
+            let unaryExpr: GenericParser<String, (), QLExpression> =
+                unary.flatMap { eUnary in
+                    expr.map { rhs in eUnary.init(rhs: rhs) }
                 }
-            let infix: GenericParser<String, (), QLInfix.Type> =
+            let binary: GenericParser<String, (), QLBinary.Type> =
                 lexer.symbol("+").map { _ in QLAdd.self } <|>
                 lexer.symbol("-").map { _ in QLSub.self } <|>
                 lexer.symbol("*").map { _ in QLMul.self } <|>
@@ -93,24 +93,24 @@ class QLParser: NSObject {
                 lexer.symbol(">").map { _ in QLGt.self }
 
             
-            // Left associative infix, TODO: properly define lhs
+            // Left associative binary, TODO: properly define lhs
             func opParser(lhs: QLExpression) -> GenericParser<String, (), QLExpression> {
-                return infix.flatMap { eInfix in
+                return binary.flatMap { eBinary in
                     expr.flatMap { rhs in
-                        opParser1(eInfix.init(lhs: lhs, rhs: rhs))
+                        opParser1(eBinary.init(lhs: lhs, rhs: rhs))
                     }
                 }
             }
             func opParser1(rhs: QLExpression) -> GenericParser<String, (), QLExpression> {
                 return opParser(rhs) <|> GenericParser(result: rhs)
             }
-            let infixExpr =
-                (moneyExpr <|> prefixExpr <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> varExpr).flatMap { lhs in
+            let binaryExpr =
+                (moneyExpr <|> unaryExpr <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> varExpr).flatMap { lhs in
                     opParser(lhs) <|> GenericParser(result: lhs)
                 }
         
             
-            return moneyExpr <|> prefixExpr <|> infixExpr.attempt <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> varExpr
+            return moneyExpr <|> unaryExpr <|> binaryExpr.attempt <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> varExpr
         }
         
         let question: GenericParser<String, (), QLQuestion> =
