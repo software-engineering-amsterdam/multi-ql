@@ -1,14 +1,13 @@
 package org.uva.ql.ui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.swing.BoxLayout;
@@ -17,25 +16,51 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import org.uva.ql.ast.BooleanType;
 import org.uva.ql.ast.IntegerType;
 import org.uva.ql.ast.StringType;
 import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
-import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.Context.ContextListener;
+import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
+import org.uva.ql.ast.stat.IFStat;
 
 public class DefaultWidgetFactory implements WidgetFactory {
 
 	@Override
 	public QLQuestion create(ComputedQuestion q) {
-		return createQuestion(q, q.getExpr());
+		QLQuestion question;
+		QLComponent label;
+		QLComponent widget;
+		String id;
+		VariableType type;
+
+		id = q.getId();
+		type = q.getType();
+
+		label = new DefaultLabelWidget(q.getLabel());
+
+		if (type instanceof BooleanType) {
+			widget = new DefaultComputedBooleanWidget(id, q.getExpr());
+		} else if (type instanceof IntegerType) {
+			widget = new DefaultIntegerWidget(id, q.getExpr());
+		} else if (type instanceof StringType) {
+			widget = new DefaultStringWidget(id, q.getExpr());
+		} else {
+			throw new IllegalStateException("Undefined question type '" + type + "'");
+		}
+
+		question = new DefaultQuestion(label, widget);
+
+		return question;
 	}
 
 	@Override
@@ -48,10 +73,15 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		return new DefaultQLForm(form.getName());
 	}
 
+	@Override
+	public QLSection create(IFStat condition) {
+		return new DefaultQLSection(condition.getExpr());
+	}
+
 	private QLQuestion createQuestion(Question q, Expr expr) {
 		QLQuestion question;
-		QLWidget label;
-		QLWidget widget;
+		QLComponent label;
+		QLComponent widget;
 		String id;
 		VariableType type;
 
@@ -61,7 +91,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		label = new DefaultLabelWidget(q.getLabel());
 
 		if (type instanceof BooleanType) {
-			widget = new DefaultBooleanWidget(id, expr);
+			widget = new DefaultBooleanWidget(id);
 		} else if (type instanceof IntegerType) {
 			widget = new DefaultIntegerWidget(id, expr);
 		} else if (type instanceof StringType) {
@@ -81,14 +111,19 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 		private final String name;
 
-		private List<QLQuestion> questions = new ArrayList<QLQuestion>();
-		private Map<Expr, List<QLQuestion>> conditionalQuestionsMap = new HashMap<>();
-		private Map<Expr, JPanel> conditionalQuestionPanel = new HashMap<>();
+		private final List<QLQuestion> questions = new ArrayList<QLQuestion>();
+		private final List<QLSection> sections = new ArrayList<>();
+
+		private final JScrollPane pane;
 
 		public DefaultQLForm(String name) {
 			this.name = name;
 
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+			setSize(250, 200);
+			pane = new JScrollPane(this, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		}
 
 		@Override
@@ -97,12 +132,14 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 
 		@Override
-		public void addQuestion(QLQuestion question) {
-			addQuestion(question, null);
+		public void addSection(QLSection section) {
+			sections.add(section);
+
+			add(section.getComponent());
 		}
 
 		@Override
-		public void addQuestion(QLQuestion question, Expr condition) {
+		public void addQuestion(QLQuestion question) {
 			JPanel panel;
 
 			panel = new JPanel();
@@ -113,53 +150,65 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			panel.add(question.getLabelComponent());
 			panel.add(question.getInputComponent());
 
-			if (condition != null) {
-				List<QLQuestion> conditionalQuestions;
-				JPanel conditionPanel;
-
-				conditionalQuestions = conditionalQuestionsMap.get(condition);
-				if (conditionalQuestions == null) {
-					conditionalQuestions = new ArrayList<>();
-					conditionalQuestionsMap.put(condition, conditionalQuestions);
-				}
-
-				conditionPanel = conditionalQuestionPanel.get(condition);
-				if (conditionPanel == null) {
-					conditionPanel = new JPanel();
-					conditionPanel.setLayout(new BoxLayout(conditionPanel, BoxLayout.PAGE_AXIS));
-					conditionPanel.setVisible(false);
-					conditionalQuestionPanel.put(condition, conditionPanel);
-
-					add(conditionPanel);
-				}
-
-				conditionPanel.add(panel);
-			} else {
-				add(panel);
-			}
+			add(panel);
 		}
 
 		@Override
 		public void setContext(Context context) {
-			for (QLQuestion q : questions) {
-				q.setContext(context);
-			}
+			questions.stream().forEach(q -> q.setContext(context));
+			sections.stream().forEach(s -> s.setContext(context));
+		}
 
-			for (Map.Entry<Expr, JPanel> entry : conditionalQuestionPanel.entrySet()) {
-				context.addContextListener(new ContextListener() {
+		@Override
+		public JComponent getComponent() {
+			return pane;
+		}
+	}
 
-					@Override
-					public void contextChanged(Context context) {
-						JPanel panell;
+	private static class DefaultQLSection extends JPanel implements QLSection, ContextListener {
 
-						panell = entry.getValue();
+		private static final long serialVersionUID = 1L;
 
-						panell.setVisible((Boolean) entry.getKey().interpret(context));
-						panell.repaint();
-						panell.revalidate();
-					}
-				});
-			}
+		private final Expr expr;
+		private final List<QLQuestion> questions = new ArrayList<>();
+		private final List<QLSection> subSections = new ArrayList<>();
+
+		public DefaultQLSection(Expr expr) {
+			this.expr = expr;
+
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			setVisible(false);
+		}
+
+		@Override
+		public void addQuestion(QLQuestion question) {
+			JPanel panel;
+
+			panel = new JPanel();
+			panel.setSize(100, 40);
+
+			questions.add(question);
+
+			panel.add(question.getLabelComponent());
+			panel.add(question.getInputComponent());
+
+			add(panel);
+		}
+
+		@Override
+		public void addSubSection(QLSection section) {
+			subSections.add(section);
+
+			add(section.getComponent());
+		}
+
+		@Override
+		public void setContext(Context context) {
+
+			context.addContextListener(this);
+
+			questions.stream().forEach(q -> q.setContext(context));
+			subSections.stream().forEach(s -> s.setContext(context));
 		}
 
 		@Override
@@ -167,14 +216,24 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			return this;
 		}
 
+		@Override
+		public void contextChanged(Context context) {
+			boolean value;
+
+			value = (Boolean) expr.interpret(context);
+
+			SwingUtilities.invokeLater(() -> {
+				setVisible(value);
+			});
+		}
 	}
 
 	private static class DefaultQuestion implements QLQuestion {
 
-		private final QLWidget label;
-		private final QLWidget input;
+		private final QLComponent label;
+		private final QLComponent input;
 
-		public DefaultQuestion(QLWidget label, QLWidget input) {
+		public DefaultQuestion(QLComponent label, QLComponent input) {
 			this.label = label;
 			this.input = input;
 		}
@@ -196,12 +255,12 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 	}
 
-	private static class DefaultLabelWidget extends JLabel implements QLWidget {
+	private static class DefaultLabelWidget extends JLabel implements QLComponent {
 
 		private static final long serialVersionUID = 1L;
 
 		public DefaultLabelWidget(String label) {
-			super(label);
+			super(label.replaceAll("\"", ""));
 		}
 
 		@Override
@@ -215,24 +274,44 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 	}
 
-	private static class DefaultBooleanWidget extends JPanel implements QLWidget {
+	private static class DefaultComputedBooleanWidget extends DefaultBooleanWidget implements ContextListener {
 
 		private static final long serialVersionUID = 1L;
 
+		private final Expr valueExpr;
+
+		public DefaultComputedBooleanWidget(String variableName, Expr valueExpr) {
+			super(variableName);
+
+			this.valueExpr = valueExpr;
+		}
+
+		@Override
+		public void setContext(Context context) {
+			super.setContext(context);
+
+			context.addContextListener(this);
+		}
+
+		@Override
+		public void contextChanged(Context context) {
+			setValue((Boolean) valueExpr.interpret(context));
+		}
+	}
+
+	private static class DefaultBooleanWidget extends JPanel implements QLBooleanWidget, ActionListener {
+
+		private static final long serialVersionUID = 1L;
 		private final String variableName;
 		private final JRadioButton rbYes;
 		private final JRadioButton rbNo;
 
-		private final Expr valueExpr;
+		private Context context;
 
-		private ContextListener contextListener;
-		private ActionListener actionListener;
-
-		public DefaultBooleanWidget(String variableName, Expr valueExpr) {
+		public DefaultBooleanWidget(String variableName) {
 			ButtonGroup bg;
 
 			this.variableName = variableName;
-			this.valueExpr = valueExpr;
 
 			rbYes = new JRadioButton("Yes");
 			rbNo = new JRadioButton("No");
@@ -243,23 +322,6 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 			add(rbYes);
 			add(rbNo);
-
-			if (valueExpr != null) {
-				contextListener = new ContextListener() {
-
-					@Override
-					public void contextChanged(Context context) {
-						Boolean value;
-
-						value = (Boolean) valueExpr.interpret(context);
-
-						if (rbNo.isSelected() != value) {
-							rbNo.setSelected(value);
-							context.setValue(variableName, false);
-						}
-					}
-				};
-			}
 		}
 
 		@Override
@@ -270,24 +332,43 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		@Override
 		public void setContext(Context context) {
 
+			this.context = context;
+
 			context.setValue(variableName, Boolean.FALSE);
 
-			if (actionListener != null) {
-				rbNo.removeActionListener(actionListener);
-				rbYes.removeActionListener(actionListener);
+			rbYes.addActionListener(this);
+			rbNo.addActionListener(this);
+		}
+
+		@Override
+		public boolean getValue() {
+			return rbYes.isSelected();
+		}
+
+		@Override
+		public boolean setValue(boolean value) {
+			if (getValue() == value) {
+				return false;
 			}
 
-			actionListener = actionEvent -> context.setValue(variableName, rbYes.isSelected());
-			rbYes.addActionListener(actionListener);
-			rbNo.addActionListener(actionListener);
-
-			if (valueExpr != null) {
-				context.addContextListener(contextListener);
+			// Call doClick to set the value, this will trigger an
+			// actionPerformed.
+			if (value) {
+				rbYes.doClick();
+			} else {
+				rbNo.doClick();
 			}
+
+			return true;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			context.setValue(variableName, rbYes.isSelected());
 		}
 	}
 
-	private static class DefaultIntegerWidget extends JPanel implements QLWidget {
+	private static class DefaultIntegerWidget extends JPanel implements QLComponent {
 
 		private static final long serialVersionUID = 1L;
 
@@ -364,7 +445,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 	}
 
-	private static class DefaultStringWidget extends JPanel implements QLWidget {
+	private static class DefaultStringWidget extends JPanel implements QLComponent {
 
 		private static final long serialVersionUID = 1L;
 

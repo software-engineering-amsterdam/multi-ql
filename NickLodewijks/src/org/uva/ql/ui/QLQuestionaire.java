@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.uva.ql.ast.expr.Context;
-import org.uva.ql.ast.expr.Context.ContextListener;
 
 public class QLQuestionaire {
 
@@ -32,17 +31,10 @@ public class QLQuestionaire {
 
 		jframe = new JFrame();
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		context.addContextListener(new ContextListener() {
-
-			@Override
-			public void contextChanged(Context context) {
-				jframe.pack();
-			}
-		});
+		jframe.setLocationRelativeTo(null);
 
 		jframe.setContentPane(forms.get(0).getComponent());
-		jframe.pack();
+		jframe.setSize(400, 300);
 		jframe.setVisible(true);
 	}
 

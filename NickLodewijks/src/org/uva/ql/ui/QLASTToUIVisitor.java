@@ -1,7 +1,6 @@
 package org.uva.ql.ui;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
-import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
@@ -16,7 +15,7 @@ public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 
 	private QLQuestionaire questionaire;
 	private QLForm currentForm;
-	private Expr currentCondition;
+	private QLSection currentSection;
 
 	public QLASTToUIVisitor(WidgetFactory factory) {
 		widgetFactory = factory;
@@ -25,7 +24,7 @@ public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 	public QLQuestionaire interpret(Questionnaire q) {
 		questionaire = new QLQuestionaire();
 		currentForm = null;
-		currentCondition = null;
+		currentSection = null;
 
 		q.accept(this, null);
 
@@ -35,7 +34,7 @@ public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 	@Override
 	public Void visit(Form node, Void context) {
 		currentForm = widgetFactory.create(node);
-		currentCondition = null;
+		currentSection = null;
 
 		questionaire.addForm(currentForm);
 
@@ -46,10 +45,24 @@ public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 
 	@Override
 	public Void visit(IFStat node, Void context) {
-		currentCondition = node.getExpr();
+		QLSection previousCurrentSection;
+
+		previousCurrentSection = currentSection;
+
+		// Add nested sections for nested if statements
+		currentSection = widgetFactory.create(node);
+		if (previousCurrentSection != null) {
+			previousCurrentSection.addSubSection(currentSection);
+		} else {
+			currentForm.addSection(currentSection);
+		}
 
 		// All questions in the body will use currentCondition
 		visit(node.getBody(), context);
+
+		// All if statements in the same scope should be added to the same
+		// section.
+		currentSection = previousCurrentSection;
 
 		return null;
 	}
@@ -70,13 +83,22 @@ public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 
 	@Override
 	public Void visit(ComputedQuestion node, Void context) {
-		currentForm.addQuestion(widgetFactory.create(node), currentCondition);
+
+		if (currentSection == null) {
+			currentForm.addQuestion(widgetFactory.create(node));
+		} else {
+			currentSection.addQuestion(widgetFactory.create(node));
+		}
 		return null;
 	}
 
 	@Override
 	public Void visit(InputQuestion node, Void context) {
-		currentForm.addQuestion(widgetFactory.create(node), currentCondition);
+		if (currentSection == null) {
+			currentForm.addQuestion(widgetFactory.create(node));
+		} else {
+			currentSection.addQuestion(widgetFactory.create(node));
+		}
 		return null;
 	}
 }

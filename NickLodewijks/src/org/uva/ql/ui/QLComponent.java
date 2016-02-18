@@ -4,13 +4,9 @@ import javax.swing.JComponent;
 
 import org.uva.ql.ast.expr.Context;
 
-public interface QLForm {
+public interface QLComponent {
 
 	public void setContext(Context context);
-
-	public void addSection(QLSection section);
-
-	public void addQuestion(QLQuestion question);
 
 	public JComponent getComponent();
 }
