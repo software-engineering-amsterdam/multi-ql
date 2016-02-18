@@ -39,6 +39,7 @@
 %type <Expr> expr
 
 %{
+import java.io.FileNotFoundException;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 %}
@@ -100,6 +101,11 @@ expr : '+' expr %prec UPLUS { $$ = new Pos($2); }
 private Lexer lexer; 
 
 private Form result;
+
+public Parser(String filename) throws FileNotFoundException {
+    lexer = new Lexer(filename);
+    lexer.nextToken();
+}
 
 public Parser(Lexer theLexer) {
   theLexer.nextToken();

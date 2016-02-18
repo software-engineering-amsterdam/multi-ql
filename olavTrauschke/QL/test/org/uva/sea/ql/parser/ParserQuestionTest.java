@@ -10,8 +10,7 @@ public class ParserQuestionTest {
     
     @Test
     public void testQuestionParsing() throws FileNotFoundException {
-        Lexer lexer = new Lexer("question.ql");
-        Parser parser = new Parser(lexer);
+        Parser parser = new Parser("question.ql");
         boolean parsed = parser.parse();
         assertTrue(parsed);
         Question result = parser.getResult();
@@ -26,8 +25,7 @@ public class ParserQuestionTest {
     
     @Test
     public void testComputedQuestionParsing() throws FileNotFoundException {
-        Lexer lexer = new Lexer("computedQuestion.ql");
-        Parser parser = new Parser(lexer);
+        Parser parser = new Parser("computedQuestion.ql");
         boolean parsed = parser.parse();
         assertTrue(parsed);
         Question result = parser.getResult();
