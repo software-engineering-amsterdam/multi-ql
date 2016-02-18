@@ -43,35 +43,46 @@ import org.uva.ql.ast.stat.IFStat;
 
 public class SemanticAnalyser {
 
-	private Result result = new Result();
-
 	public SemanticAnalyser() {
 
 	}
 
+	/**
+	 * Validate the types in the {@code questionnaire}.
+	 * <p>
+	 * This will check for:
+	 * <li>Reference to undefined variables (=questions)
+	 * <li>Duplicate declaration of variables (=questions)
+	 * <li>Conditions that are not of the type boolean
+	 * <li>Operands of invalid type to operators</br>
+	 * 
+	 * @param questionnaire
+	 * @return a {@link Result} containing errors and warnings.
+	 */
 	public Result validateTypes(Questionnaire questionnaire) {
-		result = new Result();
-
-		// Validate the following:
-		// - Reference to undefined variables (=questions)
-		// - Conditions that are not of the type boolean
-		// - Operands of invalid type to operators
-		// - Duplicate variable (=question) declaration
-		new TypeCheckVisitor().visit(questionnaire);
-
-		return result;
+		return new TypeCheckVisitor().visit(questionnaire);
 	}
 
+	/**
+	 * Validate the the questions of the supplied {@code questionnaire}.
+	 * <p>
+	 * This will check for:
+	 * <li>duplicate question labels</li></br>
+	 * 
+	 * @param questionnaire
+	 * @return a {@link Result} containing errors and warnings.
+	 */
 	public Result validateQuestions(Questionnaire questionnaire) {
-		result = new Result();
-
-		// Validate:
-		// - duplicate question labels
-		new DuplicateQuestionLabelVisitor().visit(questionnaire);
-
-		return result;
+		return new DuplicateQuestionLabelVisitor().visit(questionnaire);
 	}
 
+	/**
+	 * Validate the that there are no cyclic dependencies between questions of
+	 * the supplied {@code questionnaire}.
+	 * 
+	 * @param questionnaire
+	 * @return a {@link Result} containing errors and warnings.
+	 */
 	public Result validateCyclicReferences(Questionnaire questionnaire) {
 		return new CyclicReferenceVisitor().visit(questionnaire);
 	}
@@ -101,13 +112,19 @@ public class SemanticAnalyser {
 		}
 	}
 
-	private class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
+	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
+
+		private Result result;
 
 		public TypeCheckVisitor() {
 		}
 
-		public void visit(Questionnaire q) {
+		public Result visit(Questionnaire q) {
+			result = new Result();
+
 			q.accept(this, new SymbolTable());
+
+			return result;
 		}
 
 		@Override
@@ -170,7 +187,7 @@ public class SemanticAnalyser {
 			}
 
 			if (st.contains(variableName)) {
-				error("Duplicate question id " + node);
+				result.addError("Duplicate question id %s", node);
 			} else {
 				st.add(variableName, type);
 			}
@@ -189,7 +206,7 @@ public class SemanticAnalyser {
 
 			type = st.getType(node.getVariableId());
 			if (type == null) {
-				error("Undeclared variable " + node + node.getVariableId());
+				result.addError("Undeclared variable %s, %s", node, node.getVariableId());
 			}
 
 			return type;
@@ -249,12 +266,8 @@ public class SemanticAnalyser {
 			rhs = node.right();
 			rhsType = rhs.accept(this, st);
 			if (lhsType != rhsType) {
-				String msg;
-
-				msg = String.format("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
+				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
 						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
-
-				error(msg);
 			}
 
 			return ValueType.BOOLEAN;
@@ -272,12 +285,8 @@ public class SemanticAnalyser {
 			rhs = node.right();
 			rhsType = rhs.accept(this, st);
 			if (lhsType != rhsType) {
-				String msg;
-
-				msg = String.format("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
+				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
 						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
-
-				error(msg);
 			}
 
 			return ValueType.BOOLEAN;
@@ -332,26 +341,28 @@ public class SemanticAnalyser {
 			actual = expr.accept(this, st);
 
 			if (actual == null) {
-				error("Unknown type for " + expr);
+				result.addError("Unknown type for %s", expr);
 			} else if (actual != expectedType) {
-				String msg;
-
-				msg = String.format("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
+				result.addError("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
 						expr.getSourceLocation(), expr.getSourceText(), expectedType.getName(), actual.getName());
-
-				error(msg);
 			}
 		}
 	}
 
-	private class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
+	private static class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
+
+		private Result result;
 
 		public DuplicateQuestionLabelVisitor() {
 
 		}
 
-		public void visit(Questionnaire q) {
+		public Result visit(Questionnaire q) {
+			result = new Result();
+
 			q.accept(this, new QuestionTable());
+
+			return result;
 		}
 
 		@Override
@@ -364,11 +375,11 @@ public class SemanticAnalyser {
 			nodeType = node.getType();
 			knownType = qt.add(label, nodeType);
 			if (knownType != null) {
-				warn("Duplicate label: %s", label);
+				result.addWarning("Duplicate label: %s", label);
 
 				if (!Objects.equals(nodeType, knownType)) {
-					error("Question with '%s' has been declared twice, but with different types: %s and %s", label,
-							nodeType, knownType);
+					result.addError("Question with '%s' has been declared twice, but with different types: %s and %s",
+							label, nodeType, knownType);
 				}
 			}
 
@@ -434,14 +445,6 @@ public class SemanticAnalyser {
 		}
 	}
 
-	private void warn(String msg, Object... args) {
-		result.addWarning(String.format(msg, args));
-	}
-
-	private void error(String msg, Object... args) {
-		result.addError(String.format(msg, args));
-	}
-
 	private static class QuestionTable {
 
 		private final Map<String, VariableType> questionLabelToType;
@@ -475,7 +478,7 @@ public class SemanticAnalyser {
 
 				for (ReferencePath path : r.getPaths()) {
 					if (path.hasCycle()) {
-						result.addError("Cyclic dependency for question %s: %s", r.getId(), path.toString());
+						result.addError("Cyclic dependency for question %s: (%s)", r.getId(), path.toString());
 					}
 				}
 			}
@@ -547,10 +550,6 @@ public class SemanticAnalyser {
 					}
 					sb.append(ref.id);
 				});
-
-				if (hasCycle()) {
-					sb.append(" (cycle)");
-				}
 
 				return sb.toString();
 			}
@@ -688,7 +687,7 @@ public class SemanticAnalyser {
 
 		sa.validateTypes(questionnaire).print();
 		sa.validateQuestions(questionnaire).print();
-		sa.validateCyclicReferences(questionnaire);
+		sa.validateCyclicReferences(questionnaire).print();
 	}
 
 }
