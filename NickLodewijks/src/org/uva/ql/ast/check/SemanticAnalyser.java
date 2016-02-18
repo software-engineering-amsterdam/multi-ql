@@ -1,4 +1,4 @@
-package org.uva.ql;
+package org.uva.ql.ast.check;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,75 +43,63 @@ import org.uva.ql.ast.stat.IFStat;
 
 public class SemanticAnalyser {
 
-	private Result result = new Result();
-
 	public SemanticAnalyser() {
 
 	}
 
+	/**
+	 * Validate the types in the {@code questionnaire}.
+	 * <p>
+	 * This will check for:
+	 * <li>Reference to undefined variables (=questions)
+	 * <li>Duplicate declaration of variables (=questions)
+	 * <li>Conditions that are not of the type boolean
+	 * <li>Operands of invalid type to operators</br>
+	 * 
+	 * @param questionnaire
+	 * @return a {@link Result} containing errors and warnings.
+	 */
 	public Result validateTypes(Questionnaire questionnaire) {
-		result = new Result();
-
-		// Validate the following:
-		// - Reference to undefined variables (=questions)
-		// - Conditions that are not of the type boolean
-		// - Operands of invalid type to operators
-		// - Duplicate variable (=question) declaration
-		new TypeCheckVisitor().visit(questionnaire);
-
-		return result;
+		return new TypeCheckVisitor().visit(questionnaire);
 	}
 
+	/**
+	 * Validate the the questions of the supplied {@code questionnaire}.
+	 * <p>
+	 * This will check for:
+	 * <li>duplicate question labels</li></br>
+	 * 
+	 * @param questionnaire
+	 * @return a {@link Result} containing errors and warnings.
+	 */
 	public Result validateQuestions(Questionnaire questionnaire) {
-		result = new Result();
-
-		// Validate:
-		// - duplicate question labels
-		new DuplicateQuestionLabelVisitor().visit(questionnaire);
-
-		return result;
+		return new DuplicateQuestionLabelVisitor().visit(questionnaire);
 	}
 
+	/**
+	 * Validate the that there are no cyclic dependencies between questions of
+	 * the supplied {@code questionnaire}.
+	 * 
+	 * @param questionnaire
+	 * @return a {@link Result} containing errors and warnings.
+	 */
 	public Result validateCyclicReferences(Questionnaire questionnaire) {
-		result = new Result();
-
-		new CyclicReferenceVisitor().visit(questionnaire);
-
-		return result;
+		return new CyclicReferenceVisitor().visit(questionnaire);
 	}
 
-	private static class SymbolTable {
+	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
 
-		private Map<String, ValueType> nameToType = new HashMap<>();
-
-		public SymbolTable() {
-			nameToType = new HashMap<>();
-		}
-
-		public SymbolTable(SymbolTable table) {
-			nameToType = new HashMap<>(table.nameToType);
-		}
-
-		public boolean contains(String name) {
-			return nameToType.containsKey(name);
-		}
-
-		public void add(String name, ValueType type) {
-			nameToType.put(name, type);
-		}
-
-		public ValueType getType(String name) {
-			return nameToType.get(name);
-		}
-	}
-
-	private class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
+		private Result result;
 
 		public TypeCheckVisitor() {
 		}
 
-		public void visit(Questionnaire q) {
+		public Result visit(Questionnaire q) {
+			result = new Result();
+
 			q.accept(this, new SymbolTable());
+
+			return result;
 		}
 
 		@Override
@@ -174,7 +162,7 @@ public class SemanticAnalyser {
 			}
 
 			if (st.contains(variableName)) {
-				error("Duplicate question id " + node);
+				result.addError("Duplicate question id %s", node);
 			} else {
 				st.add(variableName, type);
 			}
@@ -193,7 +181,7 @@ public class SemanticAnalyser {
 
 			type = st.getType(node.getVariableId());
 			if (type == null) {
-				error("Undeclared variable " + node + node.getVariableId());
+				result.addError("Undeclared variable %s, %s", node, node.getVariableId());
 			}
 
 			return type;
@@ -253,12 +241,8 @@ public class SemanticAnalyser {
 			rhs = node.right();
 			rhsType = rhs.accept(this, st);
 			if (lhsType != rhsType) {
-				String msg;
-
-				msg = String.format("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
+				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
 						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
-
-				error(msg);
 			}
 
 			return ValueType.BOOLEAN;
@@ -276,12 +260,8 @@ public class SemanticAnalyser {
 			rhs = node.right();
 			rhsType = rhs.accept(this, st);
 			if (lhsType != rhsType) {
-				String msg;
-
-				msg = String.format("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
+				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
 						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
-
-				error(msg);
 			}
 
 			return ValueType.BOOLEAN;
@@ -336,47 +316,11 @@ public class SemanticAnalyser {
 			actual = expr.accept(this, st);
 
 			if (actual == null) {
-				error("Unknown type for " + expr);
+				result.addError("Unknown type for %s", expr);
 			} else if (actual != expectedType) {
-				String msg;
-
-				msg = String.format("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
+				result.addError("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
 						expr.getSourceLocation(), expr.getSourceText(), expectedType.getName(), actual.getName());
-
-				error(msg);
 			}
-		}
-	}
-
-	private class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
-
-		public DuplicateQuestionLabelVisitor() {
-
-		}
-
-		public void visit(Questionnaire q) {
-			q.accept(this, new QuestionTable());
-		}
-
-		@Override
-		public Void visit(Question node, QuestionTable qt) {
-			String label;
-			VariableType knownType;
-			VariableType nodeType;
-
-			label = node.getLabel();
-			nodeType = node.getType();
-			knownType = qt.add(label, nodeType);
-			if (knownType != null) {
-				warn("Duplicate label: %s", label);
-
-				if (!Objects.equals(nodeType, knownType)) {
-					error("Question with '%s' has been declared twice, but with different types: %s and %s", label,
-							nodeType, knownType);
-				}
-			}
-
-			return null;
 		}
 	}
 
@@ -389,12 +333,12 @@ public class SemanticAnalyser {
 
 		}
 
-		private void addWarning(String msg) {
-			warnings.add(String.format("WARNING: %s", msg));
+		void addWarning(String msg, Object... args) {
+			warnings.add(String.format("WARNING: %s", String.format(msg, args)));
 		}
 
-		private void addError(String msg) {
-			errors.add(String.format("ERROR  : %s", msg));
+		void addError(String msg, Object... args) {
+			errors.add(String.format("ERROR  : %s", String.format(msg, args)));
 		}
 
 		public boolean hasErrors() {
@@ -438,12 +382,67 @@ public class SemanticAnalyser {
 		}
 	}
 
-	private void warn(String msg, Object... args) {
-		result.addWarning(String.format(msg, args));
+	private static class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
+
+		private Result result;
+
+		public DuplicateQuestionLabelVisitor() {
+
+		}
+
+		public Result visit(Questionnaire q) {
+			result = new Result();
+
+			q.accept(this, new QuestionTable());
+
+			return result;
+		}
+
+		@Override
+		public Void visit(Question node, QuestionTable qt) {
+			String label;
+			VariableType knownType;
+			VariableType nodeType;
+
+			label = node.getLabel();
+			nodeType = node.getType();
+			knownType = qt.add(label, nodeType);
+			if (knownType != null) {
+				result.addWarning("Duplicate label: %s", label);
+
+				if (!Objects.equals(nodeType, knownType)) {
+					result.addError("Question with '%s' has been declared twice, but with different types: %s and %s",
+							label, nodeType, knownType);
+				}
+			}
+
+			return null;
+		}
 	}
 
-	private void error(String msg, Object... args) {
-		result.addError(String.format(msg, args));
+	private static class SymbolTable {
+
+		private Map<String, ValueType> nameToType = new HashMap<>();
+
+		public SymbolTable() {
+			nameToType = new HashMap<>();
+		}
+
+		public SymbolTable(SymbolTable table) {
+			nameToType = new HashMap<>(table.nameToType);
+		}
+
+		public boolean contains(String name) {
+			return nameToType.containsKey(name);
+		}
+
+		public void add(String name, ValueType type) {
+			nameToType.put(name, type);
+		}
+
+		public ValueType getType(String name) {
+			return nameToType.get(name);
+		}
 	}
 
 	private static class QuestionTable {
@@ -459,14 +458,19 @@ public class SemanticAnalyser {
 		}
 	}
 
-	private static class ReferenceTable {
+	public static class ReferenceTable {
 
 		private final Map<String, Reference> referenceMapById;
 
-		public ReferenceTable() {
+		private ReferenceTable() {
 			referenceMapById = new HashMap<>();
 		}
 
+		/**
+		 * Find all the cyclic references
+		 * 
+		 * @return
+		 */
 		public Result findCyclicReferences() {
 			Result result;
 
@@ -476,54 +480,15 @@ public class SemanticAnalyser {
 				if (r.getReferents().isEmpty()) {
 					continue;
 				}
-				for (String referencePath : getReferencePath(r.id)) {
-					System.out.println(referencePath);
+
+				for (ReferencePath path : r.getPaths()) {
+					if (path.hasCycle()) {
+						result.addError("Cyclic dependency for question %s: (%s)", r.getId(), path.toString());
+					}
 				}
 			}
 
 			return result;
-		}
-
-		private List<String> getReferencePath(String referer) {
-			return getReferencePath(referer, "");
-		}
-
-		private List<String> getReferencePath(String referer, String parentPath) {
-			List<String> referencePathList;
-
-			Reference r = getReference(referer);
-
-			referencePathList = new ArrayList<>();
-
-			// If the parentPath is not empty, we are extending the chain.
-			if (!parentPath.trim().isEmpty()) {
-				parentPath += " -> ";
-			}
-
-			// Add the referrer itself to the path
-			parentPath += referer;
-
-			// This is the end of the reference path.
-			if (r.getReferents().isEmpty()) {
-				referencePathList.add(parentPath);
-				return referencePathList;
-			}
-
-			for (Reference referent : r.getReferents()) {
-
-				// Found a cycle, no need to continue with this referent.
-				if (parentPath.contains(referent.id)) {
-					referencePathList.add(parentPath + " -> " + referent.id + " (cycle)");
-					continue;
-				}
-
-				// Add the reference paths of the referents
-				for (String subReferencePath : getReferencePath(referent.id, parentPath)) {
-					referencePathList.add(subReferencePath);
-				}
-			}
-
-			return referencePathList;
 		}
 
 		private Reference getReference(String id) {
@@ -538,13 +503,112 @@ public class SemanticAnalyser {
 			return r;
 		}
 
-		private class Reference {
+		public static class ReferencePath {
+
+			private final List<Reference> readOnlyReferenceList;
+
+			public ReferencePath() {
+				readOnlyReferenceList = Collections.emptyList();
+			}
+
+			public ReferencePath(List<Reference> references) {
+				List<Reference> copyOfReferences;
+
+				copyOfReferences = new ArrayList<>(references);
+				readOnlyReferenceList = Collections.unmodifiableList(copyOfReferences);
+			}
+
+			/**
+			 * Make a copy of this {@code ReferencePath}, and add the supplied
+			 * Reference {@code r} to the path.
+			 * 
+			 * @param r
+			 *            the {@code Reference} to add.
+			 * @return a copy of this {@code ReferencePath} with the the
+			 *         supplied reference appended.
+			 */
+			public ReferencePath copyAndAdd(Reference r) {
+				List<Reference> refs;
+
+				refs = new ArrayList<>(readOnlyReferenceList);
+				refs.add(r);
+
+				return new ReferencePath(refs);
+			}
+
+			/**
+			 * Find the root of this reference path.
+			 * 
+			 * @return the first {@code Reference} of this path, or {@code null}
+			 *         if the path does not contain any references.
+			 */
+			public Reference getRoot() {
+				if (readOnlyReferenceList.isEmpty()) {
+					return null;
+				}
+				return readOnlyReferenceList.get(0);
+			}
+
+			public List<Reference> getPath() {
+				return readOnlyReferenceList;
+			}
+
+			/**
+			 * Returns true if this path contains the specified reference.
+			 * 
+			 * @param r
+			 *            reference whose presence in this list is to be tested
+			 * @return {@code true} if this path contains the specified
+			 *         reference
+			 */
+			public boolean contains(Reference r) {
+				return readOnlyReferenceList.contains(r);
+			}
+
+			/**
+			 * Returns true if this path contains a cycle.
+			 * 
+			 * @return {@code true} if this path contains a cycle.
+			 */
+			public boolean hasCycle() {
+				for (Reference r : readOnlyReferenceList) {
+					if (Collections.frequency(readOnlyReferenceList, r) > 1) {
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+			@Override
+			public String toString() {
+				StringBuilder sb;
+
+				sb = new StringBuilder();
+
+				// Make a String in the form of 'a -> b -> c'
+				readOnlyReferenceList.stream().forEachOrdered(ref -> {
+					if (sb.length() > 0) {
+						sb.append(" -> ");
+					}
+					sb.append(ref.id);
+				});
+
+				return sb.toString();
+			}
+		}
+
+		public class Reference {
 
 			private final String id;
-			private List<Reference> referents = new ArrayList<>();
+			private final List<Reference> referents = new ArrayList<>();
 
-			public Reference(String id) {
+			private Reference(String id) {
 				this.id = id;
+			}
+
+			public String getId() {
+				return id;
 			}
 
 			public void addReferent(String id) {
@@ -554,10 +618,62 @@ public class SemanticAnalyser {
 			public List<Reference> getReferents() {
 				return Collections.unmodifiableList(referents);
 			}
+
+			public List<ReferencePath> getPaths() {
+				return getPaths(new ReferencePath());
+			}
+
+			public List<ReferencePath> getPaths(ReferencePath parentPath) {
+				List<ReferencePath> paths;
+				ReferencePath myPath;
+
+				myPath = parentPath.copyAndAdd(this);
+
+				// If this reference does not have any referents, this is the
+				// end of the reference path.
+				if (referents.isEmpty()) {
+					return Collections.singletonList(myPath);
+				}
+
+				paths = new ArrayList<>();
+
+				for (Reference referent : referents) {
+
+					// Found a cycle.
+					if (myPath.contains(referent)) {
+						// Add the referent to the path, so the cycle
+						// is actually present in the path.
+						paths.add(myPath.copyAndAdd(referent));
+						continue;
+					}
+
+					paths.addAll(referent.getPaths(myPath));
+				}
+
+				return paths;
+			}
+
+			@Override
+			public final boolean equals(Object obj) {
+				Reference other;
+
+				if (!(obj instanceof Reference)) {
+					return false;
+				}
+
+				other = (Reference) obj;
+
+				return id.equals(other.id) && referents.equals(other.referents);
+			}
+
+			@Override
+			public final int hashCode() {
+				return id.hashCode();
+			}
 		}
 	}
 
-	private class CyclicReferenceVisitor extends ASTNodeVisitorAdapter<Void, ReferenceTable> {
+	private static class CyclicReferenceVisitor extends ASTNodeVisitorAdapter<Void, ReferenceTable> {
 
 		private ComputedQuestion currentQuestion;
 
@@ -581,12 +697,21 @@ public class SemanticAnalyser {
 
 			node.getExpr().accept(this, rt);
 
+			currentQuestion = null;
+
 			return null;
 		}
 
 		@Override
-		public Void visit(VariableExpr node, ReferenceTable context) {
-			context.getReference(currentQuestion.getId()).addReferent(node.getVariableId());
+		public Void visit(VariableExpr node, ReferenceTable rt) {
+
+			// This expression is not part of the computation of a question.
+			if (currentQuestion == null) {
+				return null;
+			}
+
+			// Add the variable id of the expression as a referent of the
+			rt.getReference(currentQuestion.getId()).addReferent(node.getVariableId());
 
 			return null;
 		}
@@ -605,7 +730,7 @@ public class SemanticAnalyser {
 
 		sa.validateTypes(questionnaire).print();
 		sa.validateQuestions(questionnaire).print();
-		sa.validateCyclicReferences(questionnaire);
+		sa.validateCyclicReferences(questionnaire).print();
 	}
 
 }

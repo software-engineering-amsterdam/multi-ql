@@ -7,8 +7,9 @@ public class Not extends BooleanExpr {
 
     private final Expr expr;
 
-    public Not(final Expr expr) {
+    public Not(final Expr expr, final int line) {
 	this.expr = expr;
+	super.line = line;
     }
     
     @Override

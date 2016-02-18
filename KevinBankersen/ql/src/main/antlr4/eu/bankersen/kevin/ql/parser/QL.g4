@@ -2,7 +2,7 @@ grammar QL;
 
 @parser::header
 {
-	import eu.bankersen.kevin.ql.ast.expr.*;
+import eu.bankersen.kevin.ql.ast.expr.*;
 import eu.bankersen.kevin.ql.ast.expr.logic.*;
 import eu.bankersen.kevin.ql.ast.expr.math.*;
 import eu.bankersen.kevin.ql.ast.stat.*;
@@ -25,28 +25,28 @@ question[Block result]
 	
 	: STR + ID + type + '=' + '(' + orExpr + ')'
 	{
-		$result.add(new Question(new Variable($ID.text, $type.result, $orExpr.result), $STR.text));
+		$result.add(new Question(new Variable($ID.text, $type.result, $orExpr.result, $ID.getLine()), $STR.text));
 	}
 		
-	|	STR + ID + type
+	| STR + ID + type
 	
 	{  
-		$result.add(new Question(new Variable($ID.text, $type.result, new Identifier($ID.text)), $STR.text));
+		$result.add(new Question(new Variable($ID.text, $type.result, new Identifier($ID.text, $ID.getLine()), $ID.getLine()), $STR.text));
 	}
 	;
 
 ifStat[Block arg]
-	:	'if' + '(' + orExpr + ')' + block { $arg.add(new IFStat($orExpr.result, $block.result)); }
+	:	'if' + '(' + orExpr + ')' + block { $arg.add(new IFStat($orExpr.result, $block.result, $orExpr.start.getLine())); }
 	;
 
 mulExpr returns [Expr result]
 	:   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
 	{ 
 		if ($op.text.equals("*")) {
-			$result = new Mul($result, $rhs.result);
+			$result = new Mul($result, $rhs.result, $rhs.start.getLine());
 		}
 		if ($op.text.equals("/")) {
-			$result = new Div($result, $rhs.result);      
+			$result = new Div($result, $rhs.result, $rhs.start.getLine());      
 		}
 	})*
 	;
@@ -56,10 +56,10 @@ addExpr returns [Expr result]
 	:   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
 	{ 
 		if ($op.text.equals("+")) {
-			$result = new Add($result, $rhs.result);
+			$result = new Add($result, $rhs.result, $rhs.start.getLine());
 		}
 		if ($op.text.equals("-")) {
-			$result = new Sub($result, $rhs.result);      
+			$result = new Sub($result, $rhs.result, $rhs.start.getLine());      
 		}
 	})*
 	;
@@ -68,31 +68,31 @@ relExpr returns [Expr result]
 	:   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
 	{ 
 		if ($op.text.equals("<")) {
-			$result = new LT($result, $rhs.result);
+			$result = new LT($result, $rhs.result, $rhs.start.getLine());
 		}
 		if ($op.text.equals("<=")) {
-			$result = new LEq($result, $rhs.result);      
+			$result = new LEq($result, $rhs.result, $rhs.start.getLine());      
 		}
 		if ($op.text.equals(">")) {
-			$result = new GT($result, $rhs.result);
+			$result = new GT($result, $rhs.result, $rhs.start.getLine());
 		}
 		if ($op.text.equals(">=")) {
-			$result = new GEq($result, $rhs.result);      
+			$result = new GEq($result, $rhs.result, $rhs.start.getLine());      
 		}
 		if ($op.text.equals("==")) {
-			$result = new Eq($result, $rhs.result);
+			$result = new Eq($result, $rhs.result, $rhs.start.getLine());
 		}
 		if ($op.text.equals("!=")) {
-			$result = new NEq($result, $rhs.result);
+			$result = new NEq($result, $rhs.result, $rhs.start.getLine());
 		}
 	})*
 	;
 
 
 unExpr returns [Expr result]
-	:	'+' x=unExpr 	{ $result = new Pos($x.result); }
-	|	'-' x=unExpr 	{ $result = new Neg($x.result); }
-	|	'!' x=unExpr 	{ $result = new Not($x.result); }
+	:	'+' x=unExpr 	{ $result = new Pos($x.result, $x.start.getLine()); }
+	|	'-' x=unExpr 	{ $result = new Neg($x.result, $x.start.getLine()); }
+	|	'!' x=unExpr 	{ $result = new Not($x.result, $x.start.getLine()); }
 	|	y=primary    	{ $result = $y.result; }
 	;    
 
@@ -110,7 +110,7 @@ literal returns [Expr result]
 	;
 	
 identifier returns [Expr result]
-	: ID	{ $result = new Identifier($ID.text); }
+	: ID	{ $result = new Identifier($ID.text, $ID.getLine()); }
 	;
 	
 type returns [Type result]
@@ -121,11 +121,11 @@ type returns [Type result]
 	;
 
 orExpr returns [Expr result]
-	:   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
+	:   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result, $rhs.start.getLine()); } )*
 	;
 
 andExpr returns [Expr result]
-	:   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
+	:   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result, $rhs.start.getLine()); } )*
 	;
 	
 

@@ -10,10 +10,14 @@ public class IFStat extends AbstractStatement  {
 
     private final Expr expr;
     private final Block body;
+    private final int line;
+    private boolean statement;
 
-    public IFStat(final Expr expression, final Block body) {
+    public IFStat(final Expr expression, final Block body, final int line) {
 	this.expr = expression;
 	this.body = body;
+	this.line = line;
+	this.statement = false;
     }
 
     public final void checkType() {
@@ -24,27 +28,30 @@ public class IFStat extends AbstractStatement  {
 	Boolean check = expr.getType().equals(Type.BOOLEAN);
 	
 	if (!check) {
-	    super.context.addError("If statement needs a Boolean, statement=" + expr.getType());
-	}		
+	    super.context.addError("TYPE_ERROR @Line " + line 
+		    			+ ": If must resolve to " + Type.BOOLEAN 
+		    			+ " got " + expr.getType());
+	}
+	
     }
 
     @Override
     public final void eval() {
-	
-	boolean statement; 
-	
+ 
 	try {
 	    statement = (Boolean) expr.eval();
 	} catch (NullPointerException e) {
-	    Log.info("If statement cannot be evaluated");
+	    Log.debug("If-statement cannot be evaluated");
 	    statement = false;
 	}
 	
+	Log.debug("If-statement is: " + statement);
+	
 	if (statement) {
-	    body.show();
+	    visible(true);
 	    body.eval();
 	} else {
-	    body.hide();
+	    visible(false);
 	}
     }
 
@@ -54,11 +61,16 @@ public class IFStat extends AbstractStatement  {
 
     @Override
     public final String toString() {
-	return body.toString();
+
+	if (statement) {
+	    return body.toString();
+	} else {
+	    return "";
+	}
     }
 
     @Override
     public final void visible(final Boolean visible) {
-	body.visibile(visible);
+	body.visible(visible);
     }
 }
