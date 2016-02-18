@@ -2,7 +2,7 @@
 %class Parser
 %interface Tokens
 %semantic org.uva.sea.ql.ast.ASTNode
-%start top
+%start form
 
 %token BOOLEAN
 %token DATE
@@ -46,9 +46,7 @@ import org.uva.sea.ql.ast.expr.*;
 
 %%
 
-top : form { result = $1; };
-
-form : FORM IDENT block { $$ = new Form($2, $3); };
+form : FORM IDENT block { result = new Form($2, $3); };
 
 block : '{' statements '}' { $$ = $2; };
 
