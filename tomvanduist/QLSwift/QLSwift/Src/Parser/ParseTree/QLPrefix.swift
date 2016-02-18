@@ -25,18 +25,3 @@ class QLNeg: QLPrefixBase, QLPrefix {
 
 class QLNot: QLPrefixBase, QLPrefix {
 }
-
-
-// Mark: Implode
-
-extension QLNeg {
-    func implode() -> Expression {
-        return Prefix(op: UnaryOp.Neg, rhs: rhs.implode())
-    }
-}
-
-extension QLNot {
-    func implode() -> Expression {
-        return Prefix(op: UnaryOp.Not, rhs: rhs.implode())
-    }
-}

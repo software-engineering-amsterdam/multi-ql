@@ -19,9 +19,3 @@ class QLQuestion {
         self.expression = expression
     }
 }
-
-extension QLQuestion {
-    func implode() -> Statement {
-        return Question(identifier: variable.implode(), label: stringLit.string, expression: expression.implode())
-    }
-}
