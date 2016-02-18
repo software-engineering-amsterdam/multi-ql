@@ -12,15 +12,14 @@ import ql.ast.expression.Ident;
  * @author sander
  */
 public class Form {
+
     private final Ident Identifier;
-    
-    public Form(Ident identifier)
-    {
+
+    public Form(Ident identifier) {
         this.Identifier = identifier;
     }
-    
-    public Ident getIdentifier()
-    {
+
+    public Ident getIdentifier() {
         return this.Identifier;
     }
 }

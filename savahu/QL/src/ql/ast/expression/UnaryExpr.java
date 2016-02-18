@@ -10,27 +10,14 @@ package ql.ast.expression;
  * @author sander
  */
 public class UnaryExpr extends Expr {
+
     private final Expr value;
-    
-    public UnaryExpr(Expr value)
-    {
+
+    public UnaryExpr(Expr value) {
         this.value = value;
     }
-    
-    @Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
-			return false;
-		}
-		UnaryExpr un = (UnaryExpr)obj;
-		return getValue().equals(un.getValue());
-	}
-        
-        public Expr getValue()
-        {
-            return this.value;
-        }
+
+    public Expr getValue() {
+        return this.value;
+    }
 }

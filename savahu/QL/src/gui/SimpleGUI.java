@@ -28,4 +28,3 @@ public class SimpleGUI extends JFrame {
         });
     }
 }
-

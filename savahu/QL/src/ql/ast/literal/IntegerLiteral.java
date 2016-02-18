@@ -12,10 +12,14 @@ import ql.ast.expression.Expr;
  * @author sander
  */
 public class IntegerLiteral extends Expr {
+
     private final Integer value;
-    
-    public IntegerLiteral(Integer value)
-    {
+
+    public IntegerLiteral(Integer value) {
         this.value = value;
+    }
+
+    public Integer getValue() {
+        return this.value;
     }
 }

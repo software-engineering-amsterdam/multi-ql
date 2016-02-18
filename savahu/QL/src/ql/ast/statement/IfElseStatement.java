@@ -10,5 +10,5 @@ package ql.ast.statement;
  * @author sander
  */
 public class IfElseStatement {
-    
+
 }

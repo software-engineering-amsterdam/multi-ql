@@ -10,10 +10,9 @@ package ql.ast.expression;
  * @author sander
  */
 public class Neg extends UnaryExpr {
-    
-    public Neg(Expr value)
-    {
+
+    public Neg(Expr value) {
         super(value);
     }
-    
+
 }

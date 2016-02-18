@@ -12,11 +12,15 @@ import ql.ast.expression.Expr;
  * @author sander
  */
 public class BoolLiteral extends Expr {
+
     private final Boolean value;
-    
-    public BoolLiteral(Boolean value)
-    {
+
+    public BoolLiteral(Boolean value) {
         this.value = value;
     }
-    
+
+    public Boolean getValue() {
+        return this.value;
+    }
+
 }

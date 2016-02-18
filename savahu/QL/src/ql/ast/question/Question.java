@@ -24,7 +24,7 @@ public class Question {
     public Ident getQuestionName() {
         return this.questionName;
     }
-    
+
     public String getQuestionValue() {
         return this.questionValue;
     }
