@@ -52,13 +52,14 @@ form : FORM IDENT block { $$ = new Form($2, $3); };
 
 block : '{' statements '}' { $$ = $2; };
 
-statements : question ';' statements
-           | conditionalStatement statements
-           | /*empty*/
+statements : question ';' statements             { $$ = new NestedStatement($1, $2); }
+           | conditionalStatement statements     { $$ = new NestedStatement($1, $2); }
+           | question
+           | conditionalStatement
 ;
 
-conditionalStatement : IF '(' expr ')' block ELSE block
-                     | IF '(' expr ')' block
+conditionalStatement : IF '(' expr ')' block ELSE block { $$ = new IfStatement($3, $5, $7); }
+                     | IF '(' expr ')' block            { $$ = new IfStatement($3, $5, null); }
 ;
 
 question : IDENT ':' STRING_LITERAL type      { $$ = new Question($1, new Label($3), $4); }
