@@ -7,6 +7,7 @@ grammar QL;
     import ql.ast.expression.*;
     import ql.ast.type.*;
     import ql.ast.form.*;
+    import ql.ast.literal.*;
 }
 
 @lexer::header
@@ -19,16 +20,16 @@ form returns [Form result]
 ;
 
 primary returns [Expr result]
-  : Int   { $result = new Int(Integer.parseInt($Int.text)); }
+  : Int   { $result = new IntegerLiteral(Integer.parseInt($Int.text)); }
   | Ident { $result = new Ident($Ident.text); }
-  | Str   { $result = new Str($Str.text); }
+  | Str   { $result = new StringLiteral($Str.text); }
   | bool  { $result = $bool.result; }
   | '(' x=orExpr ')'{ $result = $x.result; }
   ;
 
 bool returns [Expr result]
-  : t='true'  { $result = new Bool(true); }
-  | t='false' { $result = new Bool(false); }
+  : t='true'  { $result = new BoolLiteral(true); }
+  | t='false' { $result = new BoolLiteral(false); }
   ; 
     
 unaryExpr returns [Expr result]

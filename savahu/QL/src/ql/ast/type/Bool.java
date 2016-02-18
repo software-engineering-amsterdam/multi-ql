@@ -1,21 +1,13 @@
 package ql.ast.type;
 
-import ql.ast.expression.Expr;
-
 /**
  *
  * @author sander
  */
-public class Bool extends Expr {
-    private final Boolean value;
+public class Bool extends Type {
     
-    public Bool(Boolean b)
+    public Bool()
     {
-        this.value = b;
-    }
-    
-    public Boolean getValue()
-    {
-        return value;
+        super();
     }
 }

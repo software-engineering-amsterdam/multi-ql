@@ -3,15 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ql.ast.type;
+package ql.ast.literal;
+
+import ql.ast.expression.Expr;
 
 /**
  *
  * @author sander
  */
-public class Str extends Type {
-
-    public Str() {
-        super();
+public class StringLiteral extends Expr {
+    private final String value;
+    
+    public StringLiteral(String value){
+        this.value = value;
     }
+    
 }
