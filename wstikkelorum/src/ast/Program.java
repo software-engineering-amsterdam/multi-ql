@@ -12,6 +12,7 @@ import antlr.QLLexer;
 import antlr.QLParser;
 import antlr.QLParser.FileContext;
 import ast.visitor.BasicVisitor;
+import ast.visitor.TypeChecker;
 
 public class Program {
 	public static void main(String[] args) throws IOException{
@@ -22,8 +23,11 @@ public class Program {
 		FileContext fileContext = parser.file();
 		//System.out.println(fileContext.form().toStringTree());
 		
-		BasicVisitor visitor = new BasicVisitor();
-		visitor.visit(fileContext.form().result);
+		//BasicVisitor visitor = new BasicVisitor();
+		//visitor.visit(fileContext.form().result);
+		
+		TypeChecker typeChecker = new TypeChecker();
+		typeChecker.visit(fileContext.form().result);
 		
 		TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
 		viewer.open();

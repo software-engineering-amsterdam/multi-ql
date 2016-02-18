@@ -37,13 +37,13 @@ public class BasicVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Types visit(Form form) {
+	public Object visit(Form form) {
 		form.getBody().accept(visitor);
 		return null;
 	} 
 
 	@Override
-	public Types visit(Body body) {
+	public Object visit(Body body) {
 		for(Visitable v : body.getStatements()){
 			v.accept(visitor);
 		};
@@ -51,7 +51,7 @@ public class BasicVisitor implements Visitor<Object> {
 	}
 	
 	@Override
-	public Types visit(Statement statement) {
+	public Object visit(Statement statement) {
 		if(statement.getAssignmentQuestion() != null){
 			statement.getAssignmentQuestion().accept(visitor);
 		}
@@ -65,125 +65,132 @@ public class BasicVisitor implements Visitor<Object> {
 	}
 	
 	@Override
-	public Types visit(AssignmentQuestion assignementQuestion) {
+	public Object visit(AssignmentQuestion assignementQuestion) {
 		assignementQuestion.getExpression().accept(visitor);
 		return null;
 	}
 	
 	@Override
-	public Types visit(IfStatement ifStatement) {
+	public Object visit(IfStatement ifStatement) {
 		ifStatement.getExpression().accept(visitor);
 		ifStatement.getBody().accept(visitor);
 		return null;
 	}
 	
 	@Override
-	public Types visit(Question question) {
+	public Object visit(Question question) {
 		//TODO: moet ik hier nog verder een visit doen op de variable?
+		question.getVariable().accept(visitor);
 		return null;
 	}
 	
 	@Override
-	public Types visit(BinaryExpression binaryExpression) {
+	public Object visit(BinaryExpression binaryExpression) {
 		binaryExpression.getLhs().accept(visitor);
 		binaryExpression.getRhs().accept(visitor);
 		return null;
 	}
 	
 	@Override
-	public Types visit(OrExpression orExpression) {
+	public Object visit(OrExpression orExpression) {
 		visit((BinaryExpression)orExpression);
 		return null;
 	}
 	
 	@Override
-	public Types visit(AndExpression andExpression) {
+	public Object visit(AndExpression andExpression) {
 		visit((BinaryExpression)andExpression);
 		return null;
 	}
 
 	@Override
-	public Types visit(Add add) {
+	public Object visit(Add add) {
 		visit((BinaryExpression)add);
 		return null;
 	}
 
 	@Override
-	public Types visit(Div div) {
+	public Object visit(Div div) {
 		visit((BinaryExpression)div);
 		return null;
 	}
 
 	@Override
-	public Types visit(Eq eq) {
+	public Object visit(Eq eq) {
 		visit((BinaryExpression)eq);
 		return null;
 	}
 
 	@Override
-	public Types visit(GEq geq) {
+	public Object visit(GEq geq) {
 		visit((BinaryExpression)geq);
 		return null;
 	}
 
 	@Override
-	public Types visit(GT gt) {
+	public Object visit(GT gt) {
 		visit((BinaryExpression)gt);
 		return null;
 	}
 
 	@Override
-	public Types visit(LEq leq) {
+	public Object visit(LEq leq) {
 		visit((BinaryExpression)leq);
 		return null;
 	}
 
 	@Override
-	public Types visit(LT lt) {
+	public Object visit(LT lt) {
 		visit((BinaryExpression)lt);
 		return null;
 	}
 
 	@Override
-	public Types visit(Mul mul) {
+	public Object visit(Mul mul) {
 		visit((BinaryExpression)mul);
 		return null;
 	}
 
 	@Override
-	public Types visit(NEq neq) {
+	public Object visit(NEq neq) {
 		visit((BinaryExpression)neq);
 		return null;
 	}
 
 	@Override
-	public Types visit(Neg neg) {
+	public Object visit(Neg neg) {
 		neg.getExpression().accept(visitor);	
 		return null;
 	}
 
 	@Override
-	public Types visit(Not not) {
+	public Object visit(Not not) {
 		not.getExpression().accept(visitor);
 		return null;
 	}
 
 	@Override
-	public Types visit(Pos pos) {
+	public Object visit(Pos pos) {
 		pos.getExpression().accept(visitor);
 		return null;
 	}
 
 	@Override
-	public Types visit(Sub sub) {
+	public Object visit(Sub sub) {
 		visit((BinaryExpression)sub);
 		return null;
 	}
 
 	@Override
-	public Types visit(Literal literal) {
+	public Object visit(Literal literal) {
+		if(literal.getBoolLiteral() != null){
+			literal.getBoolLiteral().accept(visitor);
+		}
 		if(literal.getIntLiteral() != null){
 			literal.getIntLiteral().accept(visitor);
+		}
+		if(literal.getStringLiteral() != null){
+			literal.getStringLiteral().accept(visitor);
 		}
 		if(literal.getVariableExpression() != null){
 			literal.getVariableExpression().accept(visitor);
@@ -192,27 +199,27 @@ public class BasicVisitor implements Visitor<Object> {
 	}
 	
 	@Override
-	public Types visit(IntLiteral intLiteral) {
+	public Object visit(IntLiteral intLiteral) {
 		return null;
 	}
 	
 	@Override
-	public Types visit(BoolLiteral boolLiteral) {
+	public Object visit(BoolLiteral boolLiteral) {
 		return null;
 	}
 
 	@Override
-	public Types visit(StringLiteral stringLiteral) {
+	public Object visit(StringLiteral stringLiteral) {
 		return null;
 	}
 
 	@Override
-	public Types visit(Variable variable) {
+	public Object visit(Variable variable) {
 		return null;
 	}
 
 	@Override
-	public Types visit(VariableExpression variableExpression) {
+	public Object visit(VariableExpression variableExpression) {
 		return null;
 	}
 }
