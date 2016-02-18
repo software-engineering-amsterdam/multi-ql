@@ -19,6 +19,10 @@ extension UIView {
     convenience init(nibName: String, owner: AnyObject?) {
         self.init()
         
+        self.setViewWithNib(nibName, owner: owner)
+    }
+    
+    func setViewWithNib(nibName: String, owner: AnyObject?) {
         let owner: AnyObject? = (owner != nil) ? owner : self
         
         if let view: UIView? = UINib(nibName: nibName, bundle: nil).instantiateWithOwner(owner, options: nil).first as? UIView {

@@ -81,15 +81,15 @@ extension FormViewController {
     }
     
     private func createView(statement: Question) -> QuestionView {
-        return QuestionTextView(nibName: "QuestionTextView")
+        return QuestionView(nibName: "QuestionTextView")
     }
     
     private func createView(statement: Conditional) -> QuestionView {
-        return QuestionTextView(nibName: "QuestionTextView")
+        return QuestionView(nibName: "QuestionTextView")
     }
     
     private func createView(statement: Block) -> QuestionView {
-        return QuestionTextView(nibName: "QuestionTextView")
+        return QuestionView(nibName: "QuestionTextView")
     }
 }
 

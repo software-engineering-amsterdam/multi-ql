@@ -13,7 +13,6 @@
 		E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3F61C6CE6C3005564FE /* FormViewController.swift */; };
 		E21DC3F91C6CE6E8005564FE /* FormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3F81C6CE6E8005564FE /* FormView.xib */; };
 		E21DC3FC1C6D6AAE005564FE /* QuestionTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */; };
-		E21DC3FE1C6D6AE4005564FE /* QuestionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3FD1C6D6AE4005564FE /* QuestionTextView.swift */; };
 		E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */ = {isa = PBXBuildFile; fileRef = E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */; };
 		E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */; };
 		E21F69111C747CBE00EB9E09 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21F69101C747CBE00EB9E09 /* Utils.swift */; };
@@ -42,6 +41,19 @@
 		E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */; };
 		E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */; };
 		E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAB01C6CDF350009E869 /* StringExtension.swift */; };
+		E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
+		E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E2C8D9F81C761CC5005F1C41 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9F71C761CC5005F1C41 /* BlockView.swift */; };
+		E2C8D9FA1C761CFE005F1C41 /* ConditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9F91C761CFE005F1C41 /* ConditionalView.swift */; };
+		E2C8DA001C761D8C005F1C41 /* BooleanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FC1C761D8C005F1C41 /* BooleanView.swift */; };
+		E2C8DA011C761D8C005F1C41 /* DecimalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FD1C761D8C005F1C41 /* DecimalView.swift */; };
+		E2C8DA021C761D8C005F1C41 /* IntegerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FE1C761D8C005F1C41 /* IntegerView.swift */; };
+		E2C8DA031C761D8C005F1C41 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FF1C761D8C005F1C41 /* TextView.swift */; };
+		E2C8DA051C761DB4005F1C41 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8DA041C761DB4005F1C41 /* Widget.swift */; };
+		E2C8DA081C7624EA005F1C41 /* BooleanView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA071C7624EA005F1C41 /* BooleanView.xib */; };
+		E2C8DA0C1C762509005F1C41 /* DecimalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA091C762509005F1C41 /* DecimalView.xib */; };
+		E2C8DA0D1C762509005F1C41 /* IntegerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA0A1C762509005F1C41 /* IntegerView.xib */; };
+		E2C8DA0E1C762509005F1C41 /* TextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA0B1C762509005F1C41 /* TextView.xib */; };
 		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
 		E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CE05FF1C621A1600F2B43B /* Assets.xcassets */; };
 		E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06011C621A1D00F2B43B /* AppDelegate.swift */; };
@@ -74,7 +86,6 @@
 		E2D518C31C701177008030C4 /* Infix.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2D518BF1C701177008030C4 /* Infix.ql */; };
 		E2D518C41C701177008030C4 /* Literals.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2D518C01C701177008030C4 /* Literals.ql */; };
 		E2D518C51C701177008030C4 /* Prefix.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2D518C11C701177008030C4 /* Prefix.ql */; };
-		E2DF30F61C62316500F5227B /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
 		E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF30FD1C62380600F5227B /* QLParser.swift */; };
 		E2DF31001C6240F800F5227B /* form.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2DF30FF1C6240F800F5227B /* form.ql */; };
 		E2DF31051C62481A00F5227B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
@@ -85,6 +96,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E2C8D9F41C761813005F1C41 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 57167F011B99E66800F35A29;
+			remoteInfo = SwiftParsec;
+		};
 		E2CE05EB1C62191F00F2B43B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E2CE05CE1C62191F00F2B43B /* Project object */;
@@ -108,6 +126,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E2C8D9F61C761814005F1C41 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1D015104EEC687B30D114585 /* Pods-QLSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QLSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-QLSwift/Pods-QLSwift.release.xcconfig"; sourceTree = "<group>"; };
 		47AD227412EA3A792D5B5DE7 /* Pods-QLSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QLSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QLSwift/Pods-QLSwift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -117,7 +149,6 @@
 		E21DC3F61C6CE6C3005564FE /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewController.swift; path = Src/ViewControllers/FormViewController.swift; sourceTree = "<group>"; };
 		E21DC3F81C6CE6E8005564FE /* FormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FormView.xib; path = Views/FormView.xib; sourceTree = "<group>"; };
 		E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QuestionTextView.xib; path = Views/Form/QuestionTextView.xib; sourceTree = "<group>"; };
-		E21DC3FD1C6D6AE4005564FE /* QuestionTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionTextView.swift; path = Src/UI/Form/QuestionTextView.swift; sourceTree = "<group>"; };
 		E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypedValidForm.ql; path = Resources/QL/SemanticAnalyzerTests/TypedValidForm.ql; sourceTree = "<group>"; };
 		E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypedInvalidForms.ql; path = Resources/QL/SemanticAnalyzerTests/TypedInvalidForms.ql; sourceTree = "<group>"; };
 		E21F69101C747CBE00EB9E09 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "Supporting Files/Utils.swift"; sourceTree = "<group>"; };
@@ -146,6 +177,17 @@
 		E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseFormViewController.swift; path = Src/ViewControllers/ChooseFormViewController.swift; sourceTree = "<group>"; };
 		E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Src/ViewControllers/RootViewController.swift; sourceTree = "<group>"; };
 		E2A5AAB01C6CDF350009E869 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Src/Extensions/StringExtension.swift; sourceTree = "<group>"; };
+		E2C8D9F71C761CC5005F1C41 /* BlockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockView.swift; path = Src/UI/Form/BlockView.swift; sourceTree = "<group>"; };
+		E2C8D9F91C761CFE005F1C41 /* ConditionalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConditionalView.swift; path = Src/UI/Form/ConditionalView.swift; sourceTree = "<group>"; };
+		E2C8D9FC1C761D8C005F1C41 /* BooleanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BooleanView.swift; path = Src/UI/Form/Widgets/BooleanView.swift; sourceTree = "<group>"; };
+		E2C8D9FD1C761D8C005F1C41 /* DecimalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecimalView.swift; path = Src/UI/Form/Widgets/DecimalView.swift; sourceTree = "<group>"; };
+		E2C8D9FE1C761D8C005F1C41 /* IntegerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntegerView.swift; path = Src/UI/Form/Widgets/IntegerView.swift; sourceTree = "<group>"; };
+		E2C8D9FF1C761D8C005F1C41 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextView.swift; path = Src/UI/Form/Widgets/TextView.swift; sourceTree = "<group>"; };
+		E2C8DA041C761DB4005F1C41 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Widget.swift; path = Src/UI/Form/Widgets/Widget.swift; sourceTree = "<group>"; };
+		E2C8DA071C7624EA005F1C41 /* BooleanView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BooleanView.xib; path = Views/Form/Widgets/BooleanView.xib; sourceTree = "<group>"; };
+		E2C8DA091C762509005F1C41 /* DecimalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DecimalView.xib; path = Views/Form/Widgets/DecimalView.xib; sourceTree = "<group>"; };
+		E2C8DA0A1C762509005F1C41 /* IntegerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = IntegerView.xib; path = Views/Form/Widgets/IntegerView.xib; sourceTree = "<group>"; };
+		E2C8DA0B1C762509005F1C41 /* TextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TextView.xib; path = Views/Form/Widgets/TextView.xib; sourceTree = "<group>"; };
 		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
@@ -176,7 +218,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2DF30F61C62316500F5227B /* SwiftParsec.framework in Frameworks */,
+				E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */,
 				0FA83CA2CB0E7E618D71379C /* Pods_QLSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,6 +254,7 @@
 		E21DC3FA1C6D6A10005564FE /* Form */ = {
 			isa = PBXGroup;
 			children = (
+				E2C8DA061C7624CE005F1C41 /* Widgets */,
 				E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */,
 			);
 			name = Form;
@@ -258,10 +301,10 @@
 			isa = PBXGroup;
 			children = (
 				E26CC9391C6B8C8C0042B5FF /* Expression.swift */,
+				E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */,
 				E26CC92D1C6B8A260042B5FF /* Form.swift */,
 				E23493081C6CB42900B40020 /* FormNodeVisitor.swift */,
 				E26CC92F1C6B8B030042B5FF /* Statement.swift */,
-				E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */,
 			);
 			name = AST;
 			sourceTree = "<group>";
@@ -269,7 +312,9 @@
 		E2A5AAA81C6CDE360009E869 /* Form */ = {
 			isa = PBXGroup;
 			children = (
-				E21DC3FD1C6D6AE4005564FE /* QuestionTextView.swift */,
+				E2C8D9FB1C761D11005F1C41 /* Widgets */,
+				E2C8D9F71C761CC5005F1C41 /* BlockView.swift */,
+				E2C8D9F91C761CFE005F1C41 /* ConditionalView.swift */,
 				E2D518921C6E15B5008030C4 /* QuestionView.swift */,
 			);
 			name = Form;
@@ -284,6 +329,29 @@
 				E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		E2C8D9FB1C761D11005F1C41 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				E2C8D9FC1C761D8C005F1C41 /* BooleanView.swift */,
+				E2C8D9FD1C761D8C005F1C41 /* DecimalView.swift */,
+				E2C8D9FE1C761D8C005F1C41 /* IntegerView.swift */,
+				E2C8D9FF1C761D8C005F1C41 /* TextView.swift */,
+				E2C8DA041C761DB4005F1C41 /* Widget.swift */,
+			);
+			name = Widgets;
+			sourceTree = "<group>";
+		};
+		E2C8DA061C7624CE005F1C41 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				E2C8DA071C7624EA005F1C41 /* BooleanView.xib */,
+				E2C8DA091C762509005F1C41 /* DecimalView.xib */,
+				E2C8DA0A1C762509005F1C41 /* IntegerView.xib */,
+				E2C8DA0B1C762509005F1C41 /* TextView.xib */,
+			);
+			name = Widgets;
 			sourceTree = "<group>";
 		};
 		E2CE05CD1C62191F00F2B43B = {
@@ -505,10 +573,12 @@
 				E2CE05D41C62191F00F2B43B /* Resources */,
 				B07A052DA8AFFCC2903B6A4C /* Embed Pods Frameworks */,
 				E3A29C4A9E774C21A2BDAEF5 /* Copy Pods Resources */,
+				E2C8D9F61C761814005F1C41 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E2C8D9F51C761813005F1C41 /* PBXTargetDependency */,
 			);
 			name = QLSwift;
 			productName = QLSwift;
@@ -544,6 +614,7 @@
 				TargetAttributes = {
 					E2CE05D51C62191F00F2B43B = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 6463X5VW9T;
 					};
 					E2CE05E91C62191F00F2B43B = {
 						CreatedOnToolsVersion = 7.2;
@@ -599,11 +670,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
+				E2C8DA0E1C762509005F1C41 /* TextView.xib in Resources */,
 				E2DF31001C6240F800F5227B /* form.ql in Resources */,
+				E2C8DA0D1C762509005F1C41 /* IntegerView.xib in Resources */,
 				E29A237E1C6D6C6500281E49 /* Podfile in Resources */,
 				E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */,
 				E21DC3FC1C6D6AAE005564FE /* QuestionTextView.xib in Resources */,
 				E21DC3EF1C6CE095005564FE /* ChooseFormView.xib in Resources */,
+				E2C8DA0C1C762509005F1C41 /* DecimalView.xib in Resources */,
+				E2C8DA081C7624EA005F1C41 /* BooleanView.xib in Resources */,
 				E21DC3F91C6CE6E8005564FE /* FormView.xib in Resources */,
 				E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */,
 			);
@@ -690,6 +765,9 @@
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
 				E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */,
 				E26CC9241C6B7CE80042B5FF /* QLInfix.swift in Sources */,
+				E2C8DA001C761D8C005F1C41 /* BooleanView.swift in Sources */,
+				E2C8DA021C761D8C005F1C41 /* IntegerView.swift in Sources */,
+				E2C8DA031C761D8C005F1C41 /* TextView.swift in Sources */,
 				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
 				E23493091C6CB42900B40020 /* FormNodeVisitor.swift in Sources */,
 				E2F0A2FA1C75CE5900D0C1AB /* ExpressionType.swift in Sources */,
@@ -698,16 +776,19 @@
 				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
 				E26CC92E1C6B8A260042B5FF /* Form.swift in Sources */,
 				E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */,
+				E2C8D9FA1C761CFE005F1C41 /* ConditionalView.swift in Sources */,
 				E26CC9271C6B7CE80042B5FF /* QLQuestion.swift in Sources */,
 				E23493101C6CD55000B40020 /* Context.swift in Sources */,
 				E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */,
+				E2C8DA011C761D8C005F1C41 /* DecimalView.swift in Sources */,
 				E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */,
 				E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */,
+				E2C8DA051C761DB4005F1C41 /* Widget.swift in Sources */,
+				E2C8D9F81C761CC5005F1C41 /* BlockView.swift in Sources */,
 				E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */,
 				E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */,
 				E26CC9291C6B7CE80042B5FF /* QLVariable.swift in Sources */,
 				E2D518931C6E15B5008030C4 /* QuestionView.swift in Sources */,
-				E21DC3FE1C6D6AE4005564FE /* QuestionTextView.swift in Sources */,
 				E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */,
 				E23493121C6CD59F00B40020 /* Parser.swift in Sources */,
 			);
@@ -748,6 +829,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E2C8D9F51C761813005F1C41 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftParsec;
+			targetProxy = E2C8D9F41C761813005F1C41 /* PBXContainerItemProxy */;
+		};
 		E2CE05EC1C62191F00F2B43B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E2CE05D51C62191F00F2B43B /* QLSwift */;
@@ -845,6 +931,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/QLSwift/Resources/Libraries",
@@ -862,6 +950,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/QLSwift/Resources/Libraries",
