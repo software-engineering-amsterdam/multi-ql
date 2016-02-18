@@ -10,14 +10,14 @@ import Foundation
 
 
 protocol Expression: ASTNode {
-    var type: FormNodeType { get }
+    var type: ExpressionType { get }
     
     func eval() -> NSValue?
 }
 
 class Identifier: Expression {
     private let _type: TypeThunk<Identifier, NSValue> = TypeThunk(IdentifierType())
-    var type: FormNodeType {
+    var type: ExpressionType {
         get {
             if let expression = expression {
                 return expression.type
@@ -41,7 +41,7 @@ class Identifier: Expression {
 }
 
 class BooleanField: Expression {
-    let type: FormNodeType = BooleanType()
+    let type: ExpressionType = BooleanType()
     var value: NSValue?
     
     func eval() -> NSValue? {
@@ -50,7 +50,7 @@ class BooleanField: Expression {
 }
 
 class StringField: Expression {
-    let type: FormNodeType = StringType()
+    let type: ExpressionType = StringType()
     var value: NSValue?
     
     func eval() -> NSValue? {
@@ -59,7 +59,7 @@ class StringField: Expression {
 }
 
 class MoneyField: Expression {
-    let type: FormNodeType = NumberType()
+    let type: ExpressionType = NumberType()
     let expression: Expression?
     
     init(expression: Expression?) {
@@ -72,7 +72,7 @@ class MoneyField: Expression {
 }
 
 class StringLiteral: Expression {
-    let type: FormNodeType = StringType()
+    let type: ExpressionType = StringType()
     let string: String
     
     init(string: String) {
@@ -85,7 +85,7 @@ class StringLiteral: Expression {
 }
 
 class IntegerLiteral: Expression {
-    let type: FormNodeType = NumberType()
+    let type: ExpressionType = NumberType()
     let integer: NSInteger
     
     init(integer: NSInteger) {
@@ -98,7 +98,7 @@ class IntegerLiteral: Expression {
 }
 
 class FloatLiteral: Expression {
-    let type: FormNodeType = NumberType()
+    let type: ExpressionType = NumberType()
     let float: Double
     
     init(float: Double) {
@@ -111,7 +111,7 @@ class FloatLiteral: Expression {
 }
 
 class BooleanLiteral: Expression {
-    let type: FormNodeType = BooleanType()
+    let type: ExpressionType = BooleanType()
     let bool: Bool
     
     init (bool: Bool) {
@@ -124,8 +124,8 @@ class BooleanLiteral: Expression {
 }
 
 class Neg: Expression {
-    private var _type: FormNodeType = BooleanType()
-    var type: FormNodeType { return _type }
+    private var _type: ExpressionType = BooleanType()
+    var type: ExpressionType { return _type }
     
     let rhs: Expression
     
@@ -139,8 +139,8 @@ class Neg: Expression {
 }
 
 class Not: Expression {
-    private var _type: FormNodeType = BooleanType()
-    var type: FormNodeType { return _type }
+    private var _type: ExpressionType = BooleanType()
+    var type: ExpressionType { return _type }
     
     let rhs: Expression
     
@@ -154,8 +154,8 @@ class Not: Expression {
 }
 
 class Infix {
-    private var _type: FormNodeType = UnknownType()
-    var type: FormNodeType { return _type }
+    private var _type: ExpressionType = UnknownType()
+    var type: ExpressionType { return _type }
     
     let lhs, rhs: Expression
     

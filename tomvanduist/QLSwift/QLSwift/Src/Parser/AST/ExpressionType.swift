@@ -9,10 +9,10 @@
 import Foundation
 
 
-protocol FormNodeType {
+protocol ExpressionType {
 }
 
-protocol TypeEval: FormNodeType {
+protocol TypeEval: ExpressionType {
     typealias GenericParam
     typealias GenericReturn
     
@@ -41,34 +41,28 @@ class IdentifierType: TypeEval {
     }
 }
 
-class FormType: FormNodeType {
+class FormType: ExpressionType {
 }
 
-class BooleanType: FormNodeType {
+class BooleanType: ExpressionType {
 }
 
-class NumberType: FormNodeType {
+class NumberType: ExpressionType {
 }
 
-//class IntegerType: NumberType {
-//}
-//
-//class FloatType: NumberType {
-//}
-
-class StringType: FormNodeType {
+class StringType: ExpressionType {
 }
 
-class UnknownType: FormNodeType {
+class UnknownType: ExpressionType {
 }
 
 
 infix operator === { associativity left precedence 140 }
-func === (left: FormNodeType, right: FormNodeType) -> Bool {
+func === (left: ExpressionType, right: ExpressionType) -> Bool {
     return left.dynamicType == right.dynamicType
 }
 
 infix operator !== { associativity left precedence 140 }
-func !== (left: FormNodeType, right: FormNodeType) -> Bool {
+func !== (left: ExpressionType, right: ExpressionType) -> Bool {
     return left.dynamicType != right.dynamicType
 }

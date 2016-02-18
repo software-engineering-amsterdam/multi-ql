@@ -182,7 +182,7 @@ class SemanticAnalyser: ASTNodeVisitor {
         visitInfixBool(node)
     }
     
-    private func type(node: Expression) -> FormNodeType {
+    private func type(node: Expression) -> ExpressionType {
         let type = node.type
         
         if node.type === UnknownType() {

@@ -9,7 +9,7 @@
 import Foundation
 
 
-typealias Object = (type: FormNodeType, expression: Expression?)
+typealias Object = (type: ExpressionType, expression: Expression?)
 
 class Context {
     static let sharedInstance = Context()

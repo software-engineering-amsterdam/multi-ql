@@ -80,8 +80,8 @@
 		E2DF31051C62481A00F5227B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
 		E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */; };
 		E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */; };
-		E2F0A2FA1C75CE5900D0C1AB /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* Type.swift */; };
-		E2F149A81C75DF88009BB7BC /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* Type.swift */; };
+		E2F0A2FA1C75CE5900D0C1AB /* ExpressionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */; };
+		E2F149A81C75DF88009BB7BC /* ExpressionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,7 +168,7 @@
 		E2DF31041C62481A00F5227B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = "Supporting Files/Constants.swift"; sourceTree = "<group>"; };
 		E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLanguageDefinition.swift; path = Src/Parser/QLParser/QLLanguageDefinition.swift; sourceTree = "<group>"; };
 		E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CyclicDependency.ql; path = Resources/QL/SemanticAnalyzerTests/CyclicDependency.ql; sourceTree = "<group>"; };
-		E2F0A2F91C75CE5900D0C1AB /* Type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Type.swift; path = Src/Parser/AST/Type.swift; sourceTree = "<group>"; };
+		E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpressionType.swift; path = Src/Parser/AST/ExpressionType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,7 +261,7 @@
 				E26CC92D1C6B8A260042B5FF /* Form.swift */,
 				E23493081C6CB42900B40020 /* FormNodeVisitor.swift */,
 				E26CC92F1C6B8B030042B5FF /* Statement.swift */,
-				E2F0A2F91C75CE5900D0C1AB /* Type.swift */,
+				E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */,
 			);
 			name = AST;
 			sourceTree = "<group>";
@@ -692,7 +692,7 @@
 				E26CC9241C6B7CE80042B5FF /* QLInfix.swift in Sources */,
 				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
 				E23493091C6CB42900B40020 /* FormNodeVisitor.swift in Sources */,
-				E2F0A2FA1C75CE5900D0C1AB /* Type.swift in Sources */,
+				E2F0A2FA1C75CE5900D0C1AB /* ExpressionType.swift in Sources */,
 				E26CC9281C6B7CE80042B5FF /* QLStatement.swift in Sources */,
 				E26CC9221C6B7CE80042B5FF /* QLExpression.swift in Sources */,
 				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
@@ -732,7 +732,7 @@
 				E2D518BD1C70115C008030C4 /* QLParserTests.swift in Sources */,
 				E2D5189D1C700215008030C4 /* QLParser.swift in Sources */,
 				E2D518A11C700220008030C4 /* QLInfix.swift in Sources */,
-				E2F149A81C75DF88009BB7BC /* Type.swift in Sources */,
+				E2F149A81C75DF88009BB7BC /* ExpressionType.swift in Sources */,
 				E2D518A01C700220008030C4 /* QLForm.swift in Sources */,
 				E2270DB91C73C22800E5FC2A /* FormTests.swift in Sources */,
 				E2D518AE1C700270008030C4 /* Parser.swift in Sources */,
