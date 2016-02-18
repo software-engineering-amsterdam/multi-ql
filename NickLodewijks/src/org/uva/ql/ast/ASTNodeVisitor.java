@@ -22,6 +22,7 @@ import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
 import org.uva.ql.ast.form.InputQuestion;
+import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
@@ -82,9 +83,7 @@ public interface ASTNodeVisitor<T, U> {
 
 	public T visit(StringLiteral node, U context);
 
-	public T visit(VariableDecl node, U context);
-
-	public T visit(VariableIdentifier node, U context);
+	public T visit(Question node, U context);
 
 	public T visit(InputQuestion node, U context);
 

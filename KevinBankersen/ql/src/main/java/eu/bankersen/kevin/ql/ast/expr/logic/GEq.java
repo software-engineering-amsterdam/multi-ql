@@ -5,14 +5,15 @@ import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
 
 public class GEq extends BooleanExpr {
 
-    public GEq(final Expr lhs, final Expr rhs) {
+    public GEq(final Expr lhs, final Expr rhs, final int line) {
 	super.lhs = lhs;
 	super.rhs = rhs;
+	super.line = line;
     }
 
     @Override
-    public final Boolean result() {
-	return (Integer) lhs.result() >= (Integer) rhs.result();
+    public final Boolean eval() {
+	return (Integer) lhs.eval() >= (Integer) rhs.eval();
     }
 
 }

@@ -1,5 +1,5 @@
 grammar QL;
-options { }
+options {  }
 
 @parser::header
 {
@@ -11,21 +11,35 @@ options { }
 }
 
 @lexer::header
-
 {
 
 }
+/*
+ * PARSER RULES
+ */
+questionnaire returns [Questionnaire result]
+	: forms EOF {}
+	;
+
+forms returns [List<Form> result]
+	: form*
+	;
   
 form returns [Form result]
 	: 'form' Ident block
 	;
-
-block :  '{' statement* '}'
+	
+block returns [Block result] 
+	:  '{' statement* '}'
+	;	
+statement returns [Statement result]
+	: question {}
+	| ifstatement {}
+	| ifelsestatement {}
 	;
 	
-statement: question
-	| ifstatement
-	| ifelsestatement
+question returns [Question result]
+	: STR Ident ':' qt=question_type { $result = new Question($STR.text, $Ident.text, $qt.result); }
 	;
 
 // TODO expr
@@ -42,24 +56,22 @@ question_type returns [QuestionType result]
 	| BOOLEAN_TYPE
 	;
 	
-question returns [Question result]
-	: q_text=Str identity=Ident ':' qt=question_type { $result = new Question($q_text, $identity, $qt.result); }
-	;
-
 ifstatement returns [IfStatement result] 
-	:	'if' '(' cond=conditions ')' bloc=block { }
+	:	'if' '(' cond=conditions ')' block { $result = new IfStatement($cond.result, $block.result) }
 	;
 	
 ifelsestatement returns [IfElseStatement result]
-	: 'if' '(' cond=conditions ')' bloc=block 'else' block {}
+	: 'if' '(' cond=conditions ')' bloc=block 'else' block { $result = new IfElseStatement($cond.result, $block.result) }
 	;
 
 
 
 conditions returns [Expr result]
-	: relExpr conditions*
-	| andExpr conditions*
-	| orExpr conditions*
+	: relExpr conditions* {} 
+	| andExpr conditions* {}
+	| orExpr conditions* {}
+	| unExpr conditions* {}
+	| Ident {}
 	;
 
 unExpr returns [Expr result]
@@ -131,7 +143,9 @@ orExpr returns [Expr result]
     ;
 
 
-// Tokens
+/*
+ * LEXER RULES
+ */
 
 BOOLEAN_TYPE : 'boolean';
 MONEY_TYPE : 'money';
@@ -140,12 +154,59 @@ STRING_TYPE : 'string';
 
 Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
-Int: ('0'..'9')+;
+INT: ('0'..'9')+;
 
-Money: Int ',' Int;
+MONEY: INT ',' INT;
 
-Str: '"' .* '"';
+STR: '"' (.|~[\\"])*? '"';
 
-ID  :  ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+StringLiteral
+    :   '"' StringCharacters? '"'
+    ;
+    
+fragment
+StringCharacters
+    :   StringCharacter+
+    ;
+    
+fragment
+StringCharacter
+    :   ~["\\]
+    |   EscapeSequence
+    ;
+    
+fragment
+EscapeSequence
+    :   '\\' [btnfr"'\\]
+    |   OctalEscape
+    |   UnicodeEscape
+    ;
 
+fragment
+OctalEscape
+    :   '\\' OctalDigit
+    |   '\\' OctalDigit OctalDigit
+    |   '\\' ZeroToThree OctalDigit OctalDigit
+    ;
+
+fragment
+UnicodeEscape
+    :   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
+    ;
+
+fragment
+ZeroToThree
+    :   [0-3]
+    ;
+
+fragment
+HexDigit
+    :   [0-9a-fA-F]
+    ;
+
+fragment
+OctalDigit
+    :   [0-7]
+    ;
+    
 WS  :	(' ' | '\t' | '\n' | '\r')+ -> channel(HIDDEN);

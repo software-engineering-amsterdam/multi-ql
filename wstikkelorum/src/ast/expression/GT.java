@@ -2,26 +2,14 @@ package ast.expression;
 
 import ast.visitor.Visitor;
 
-public class GT extends Expression {
-	private Expression lhs;
-	private Expression rhs;
-	
-	public GT(Expression result, Expression result2) {
-		this.lhs = result;
-		this.rhs = result2;
-	}
-	
-	public Expression getLhs() {
-		return lhs;
-	}
-
-	public Expression getRhs() {
-		return rhs;
+public class GT extends BinaryExpression {
+	public GT(Expression lhs, Expression rhs) {
+		super(lhs, rhs);
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public Object accept(Visitor visitor) {
+		return visitor.visit(this);
 	}
 
 }

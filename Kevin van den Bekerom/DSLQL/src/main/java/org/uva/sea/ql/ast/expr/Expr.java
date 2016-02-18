@@ -1,18 +1,15 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.*;
+import org.uva.sea.ql.ast.form.Context;
 
 public abstract class Expr extends ASTNode implements Visitable {
-    protected Type type;
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public abstract Object eval();
+	public abstract Type getType(Context context);
+	
+	@Override
+	public String toString() {
+		return "expression";
 	}
-	
-	public Type getType() {
-		return this.type;
-	}
-	
-	public abstract Object eval() throws ClassCastException;
-	//TODO: Implement try-catch blocks for all methods?!
 }

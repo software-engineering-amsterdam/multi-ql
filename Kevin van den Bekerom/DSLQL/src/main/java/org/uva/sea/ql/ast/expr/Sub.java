@@ -2,13 +2,13 @@ package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.Visitable;
 import org.uva.sea.ql.ast.Visitor;
+import org.uva.sea.ql.ast.form.Context;
 
 public class Sub extends BinaryExpr implements Visitable {
 	
 	public Sub(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
 		super.rhs = rhs;
-		super.type = Type.INT;
 	}
 	
 	@Override
@@ -17,12 +17,16 @@ public class Sub extends BinaryExpr implements Visitable {
 	}
 	
 	public void accept(Visitor visitor) {
-		visitor.visit(this);
+		visitor.visit(this, null);
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.toString() + " (-)";
+	}
+	
+	@Override
+	public Type getType(Context context) {
+		return Type.INT;
 	}
 }

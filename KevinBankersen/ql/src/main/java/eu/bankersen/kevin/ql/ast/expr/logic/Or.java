@@ -5,14 +5,15 @@ import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
 
 public class Or extends BooleanExpr {
 
-    public Or(final Expr lhs, final Expr rhs) {
+    public Or(final Expr lhs, final Expr rhs, final int line) {
 	super.lhs = lhs;
 	super.rhs = rhs;
+	super.line = line;
     }
 
     @Override
-    public final Boolean result() {
-	return (Boolean) lhs.result() || (Boolean) rhs.result();
+    public final Boolean eval() {
+	return (Boolean) lhs.eval() || (Boolean) rhs.eval();
     }
 
 }

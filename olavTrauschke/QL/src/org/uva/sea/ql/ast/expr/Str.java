@@ -1,24 +1,33 @@
 package org.uva.sea.ql.ast.expr;
 
+import java.util.Objects;
+
 public class Str extends Expr {
     
     private final String value;
     
     public Str(String theValue) {
-        assert theValue != null;
         value = theValue;
     }
     
     @Override
     public boolean equals(Object o) {
-        return o != null
-                && getClass() == o.getClass()
-                && value.equals(((Str) o).value);
+        if (o != null && getClass() == o.getClass()) {
+            Str other = (Str) o;
+            return value == null ? other.value == null : value.equals(other.value);
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return 53 * 3 + value.hashCode();
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.value);
+        return hash;
+    }
+    
+    public String getValue() {
+        return value;
     }
     
 }

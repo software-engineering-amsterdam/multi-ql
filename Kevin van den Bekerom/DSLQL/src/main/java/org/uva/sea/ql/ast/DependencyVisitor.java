@@ -10,14 +10,17 @@ import java.util.Set;
 
 import org.uva.sea.ql.ast.expr.*;
 
+// TODO: Check if refactoring went ok.
+// TODO: Same question ID, but different type!
 public class DependencyVisitor extends LeftDFSVisitor {
+	
 	private Set<String> visited; // keep track of visited questions that are safe.
 	private Set<String> undefinedQuestionIDs;
-	private List<Question> undefinedQuestions;
+	private Set<Question> undefinedQuestions;
 	private NodeCollector collector;
 	
 	public DependencyVisitor() {
-		undefinedQuestions = new ArrayList<Question>();
+		undefinedQuestions = new HashSet<Question>();
 		collector = new NodeCollector();
 		visited = new HashSet<String>();
 		undefinedQuestionIDs = new HashSet<String>();
@@ -25,32 +28,48 @@ public class DependencyVisitor extends LeftDFSVisitor {
 	
 	@Override
 	public void visit(Question question) {
-		if (! undefinedQuestionIDs.contains(question.getIdentifier()) ) {
+		if (! undefinedQuestionIDs.contains(question.getIdentifier())) {
 			visited.add(question.getIdentifier());
 		} // refactor, i.e. remove 
 		else {
-			String errorMessage = "is dependent on question(s) that are not yet defined!";
+			String errorMessage = "can not be reached!";
 			System.out.println(new QLError(question, errorMessage).getErrorMessage());
 		}// refactor, i.e. remove 
 		
-		int size = question.getComputedResult().size();
-		if (size >= 1) { // question contains a computed result	
-			Expr clause = question.getComputedResult().get(0);
-			clause.accept(collector);
-			Set<String> clauseVariables = new HashSet<String>(collector.getVariableNames());
-			clauseVariables.removeAll(visited); // now contains all conflicting variable identifiers.
-			undefinedQuestionIDs.addAll(clauseVariables);
-			undefinedQuestions.add(question);
-			collector.reset();
+	}
+	
+	@Override
+	public void visit(ComputedQuestion computedQuestion) {
+		if (! undefinedQuestionIDs.contains(computedQuestion.getIdentifier()) ) {
+			visited.add(computedQuestion.getIdentifier());
+		} // refactor, i.e. remove 
+		else {
+			String errorMessage = "can not be reached!";
+			System.out.println(new QLError(computedQuestion, errorMessage).getErrorMessage());
+		}// refactor, i.e. remove 
+		
+		computedQuestion.getExpr().accept(collector);
+		Set<String> clauseVariables = new HashSet<String>(collector.getVariableNames());
+		collector.reset();
+		clauseVariables.removeAll(visited); // now contains all conflicting variable identifiers.
+		undefinedQuestionIDs.addAll(clauseVariables);
+		if (clauseVariables.size() > 0) {
+			String errorMessage = "contains variables that are not yet defined!";
+			System.out.println(new QLError(computedQuestion, errorMessage).getErrorMessage());
 		}
-		super.visit(question);	
+		undefinedQuestions.add(computedQuestion);
+		collector.reset();
+		
+		super.visit(computedQuestion);	
 	}
 	
 	//TODO: Fix bug of overreporting errors!!!
 	@Override
 	public void visit(IfStatement ifStatement) {
+
 		ifStatement.getClause().accept(collector);
 		Set<String> clauseVariables = new HashSet<String>(collector.getVariableNames());
+	
 		clauseVariables.removeAll(visited); // now contains all conflicting variable identifiers.
 		undefinedQuestionIDs.addAll(clauseVariables);
 		for (String var : clauseVariables) {
@@ -70,5 +89,6 @@ public class DependencyVisitor extends LeftDFSVisitor {
 	public Set<String> getUndefinedQuestionIDs() {
 		return this.undefinedQuestionIDs;
 	}
+	
 	
 }

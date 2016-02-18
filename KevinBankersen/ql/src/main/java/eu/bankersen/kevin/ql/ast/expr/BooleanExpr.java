@@ -1,7 +1,6 @@
 package eu.bankersen.kevin.ql.ast.expr;
 
 import eu.bankersen.kevin.ql.ast.Type;
-import eu.bankersen.kevin.ql.symboltable.SymbolTabel;
 
 public abstract class BooleanExpr extends Expr {
 
@@ -9,16 +8,17 @@ public abstract class BooleanExpr extends Expr {
     
     protected Expr lhs;
     protected Expr rhs;
+    protected int line;
 
-    public abstract Boolean result();
+    public abstract Boolean eval();
 
     @Override
-    public final void checkType() {
+    public void checkType() {
 	lhs.checkType();
 	rhs.checkType();
 	
 	if (!lhs.getType().equals(rhs.getType())) {
-	  SymbolTabel.addError("Type mismatch lhs=" + lhs.getType() + " rhs=" + rhs.getType());  
+	  context.addError("SYMANTIC_ERROR, lhs=" + lhs.getType() + " rhs=" + rhs.getType());  
 	}
     }
 

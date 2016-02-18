@@ -3,27 +3,21 @@ package org.uva.sea.ql.ast.stat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.*;
 
-public class Question extends Stat {
-	private String identifier;
-	private String label;
-	private Type type;
-	private List<Expr> computedResult; // <==> Maybe Expr
+public class Question extends ASTNode {
+	protected String identifier;
+	protected String label;
+	protected Type type;
 
-	public Question(String identifier, String label, Type type, Expr expr) {
+	public Question(String identifier, String label, Type type, int startLine) {
+		super.startLine = startLine;
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;
-		computedResult = new ArrayList<Expr>();
-		if (expr != null) {
-			computedResult.add(expr);
-		}
-	}
-	
-	public List<Expr> getComputedResult() {
-		return computedResult;
+		
 	}
 	
 	public String getIdentifier() {
@@ -39,11 +33,11 @@ public class Question extends Stat {
 	}
 
 	public void accept(Visitor visitor) {
-		visitor.visit(this);
+		visitor.visit(this, null);
 	}
 	
 	@Override
 	public String toString() {
-		return "Question " + identifier;
+		return "Question " + identifier + " of type " + type.name();
 	}
 }

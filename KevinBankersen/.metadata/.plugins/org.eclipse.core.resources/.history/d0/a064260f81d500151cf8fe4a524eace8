@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import eu.bankersen.kevin.ql.symboltable.Context;
+
+public class AbstractForm {
+    
+    private Context context;
+    private void setContext(Context context);
+
+}

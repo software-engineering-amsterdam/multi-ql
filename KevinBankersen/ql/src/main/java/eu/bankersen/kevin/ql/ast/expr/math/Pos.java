@@ -7,13 +7,14 @@ public class Pos extends IntegerExpr {
 
     private final Expr expr;
 
-    public Pos(final Expr expr) {
+    public Pos(final Expr expr, final int line) {
 	this.expr = expr;
+	super.line = line;
     }
 
     @Override
-    public final Integer result() {
-	return Math.abs((Integer) expr.result());
+    public final Integer eval() {
+	return Math.abs((Integer) expr.eval());
     }
 
 }

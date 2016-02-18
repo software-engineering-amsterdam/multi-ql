@@ -1,23 +1,34 @@
 package org.uva.sea.ql.ast.expr;
 
+import java.util.Objects;
+
 public class Bool extends BooleanExpr {
     
-    private final boolean value;
+    private Boolean value;
     
-    public Bool(boolean theValue) {
+    public Bool(Boolean theValue) {
         value = theValue;
     }
     
     @Override
     public boolean equals(Object o) {
-        return o != null
-                && getClass() == o.getClass()
-                && value == ((Bool) o).value;
+        if (o != null && getClass() == o.getClass()) {
+            Bool other = (Bool) o;
+            if (value == null) {
+                return other.value == null;
+            }
+            else {
+                return value.equals(other.value);
+            }
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return 71 * 7 + (value ? 1 : 0);
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.value);
+        return hash;
     }
     
 }
