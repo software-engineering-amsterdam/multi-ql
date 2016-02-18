@@ -56,8 +56,8 @@ statements : question ';' statements             { $$ = new NestedStatement($1, 
            | conditionalStatement
 ;
 
-conditionalStatement : IF '(' expr ')' block ELSE block { $$ = new IfStatement($3, $5, $7); }
-                     | IF '(' expr ')' block            { $$ = new IfStatement($3, $5, null); }
+conditionalStatement : IF '(' expr ')' block ELSE block { $$ = new ConditionalStatement($3, $5, $7); }
+                     | IF '(' expr ')' block            { $$ = new ConditionalStatement($3, $5, null); }
 ;
 
 question : IDENT ':' STRING_LITERAL type      { $$ = new Question($1, new Label($3), $4); }

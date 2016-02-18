@@ -47,7 +47,7 @@ public class ParserFormTest {
         Int question5Type = new Int(Tokens.BOOLEAN);
         Question question5 = new Question(question5Identifier, question5Label, question5Type);
         
-        IfStatement ifStatement = new IfStatement(condition, inCase, question5);
+        ConditionalStatement ifStatement = new ConditionalStatement(condition, inCase, question5);
         NestedStatement followingStatements = new NestedStatement(question2, ifStatement);
         NestedStatement statements = new NestedStatement(question1, followingStatements);
         

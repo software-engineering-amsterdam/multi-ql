@@ -3,13 +3,13 @@ package org.uva.sea.ql.ast;
 import java.util.Objects;
 import org.uva.sea.ql.ast.expr.Expr;
 
-public class IfStatement extends ASTNode {
+public class ConditionalStatement extends ASTNode {
     
     private final Expr condition;
     private final ASTNode toDoIf;
     private final ASTNode toDoElse;
     
-    public IfStatement(Expr theCondition, ASTNode toDoInCase, ASTNode toDoInCaseNot) {
+    public ConditionalStatement(Expr theCondition, ASTNode toDoInCase, ASTNode toDoInCaseNot) {
         assert theCondition != null && toDoInCase != null;
         condition = theCondition;
         toDoIf = toDoInCase;
@@ -19,7 +19,7 @@ public class IfStatement extends ASTNode {
     @Override
     public boolean equals(Object o) {
         if (o != null && getClass() == o.getClass()) {
-            IfStatement other = (IfStatement) o;
+            ConditionalStatement other = (ConditionalStatement) o;
             return condition.equals(other.condition)
                     && toDoIf.equals(other.toDoIf)
                     && toDoElse.equals(other.toDoElse);
