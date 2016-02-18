@@ -9,8 +9,7 @@ public class ParserExprTest {
 
     @Test
     public void testSimpleExpressionParsing() throws FileNotFoundException {
-        Lexer lexer = new Lexer("simpleExpression.ql");
-        Parser parser = new Parser(lexer);
+        Parser parser = new Parser("simpleExpression.ql");
         boolean parsed = parser.parse();
         assertTrue(parsed);
         Expr result = parser.getResult();
@@ -20,8 +19,7 @@ public class ParserExprTest {
     
     @Test
     public void testComplexExpressionParsing() throws FileNotFoundException {
-        Lexer lexer = new Lexer("complexExpression.ql");
-        Parser parser = new Parser(lexer);
+        Parser parser = new Parser("complexExpression.ql");
         boolean parsed = parser.parse();
         assertTrue(parsed);
         Expr result = parser.getResult();
@@ -43,8 +41,7 @@ public class ParserExprTest {
     
     @Test
     public void testStringExpressionParsing() throws FileNotFoundException {
-        Lexer lexer = new Lexer("stringExpression.ql");
-        Parser parser = new Parser(lexer);
+        Parser parser = new Parser("stringExpression.ql");
         boolean parsed = parser.parse();
         assertTrue(parsed);
         Expr result = parser.getResult();

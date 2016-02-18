@@ -2,21 +2,9 @@ package ast.expression;
 
 import ast.visitor.Visitor;
 
-public class NEq extends Expression {
-	private Expression lhs;
-	private Expression rhs;
-	
-	public NEq(Expression result, Expression result2) {
-		this.lhs = result;
-		this.rhs = result2;
-	}
-	
-	public Expression getLhs() {
-		return lhs;
-	}
-
-	public Expression getRhs() {
-		return rhs;
+public class NEq extends BinaryExpression {
+	public NEq(Expression lhs, Expression rhs) {
+		super(lhs, rhs);
 	}
 	
 	@Override

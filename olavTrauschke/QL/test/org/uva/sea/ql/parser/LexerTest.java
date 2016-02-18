@@ -78,7 +78,7 @@ public class LexerTest {
         ArrayList<Integer> expectedTokens = new ArrayList<>();
         expectedTokens.add(Tokens.IDENT);
         expectedTokens.add((int) ':');
-        expectedTokens.add(Tokens.LABEL);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.BOOLEAN);
         expectedTokens.add(Tokens.ENDINPUT);
         assertEquals(expectedTokens, tokens);
@@ -92,7 +92,7 @@ public class LexerTest {
         ArrayList<Integer> expectedTokens = new ArrayList<>();
         expectedTokens.add(Tokens.IDENT);
         expectedTokens.add((int) ':');
-        expectedTokens.add(Tokens.LABEL);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.MONEY);
         expectedTokens.add((int) '(');
         expectedTokens.add(Tokens.IDENT);
@@ -115,13 +115,13 @@ public class LexerTest {
         
         expectedTokens.add(Tokens.IDENT);
         expectedTokens.add((int) ':');
-        expectedTokens.add(Tokens.LABEL);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.BOOLEAN);
         expectedTokens.add((int) ';');
         
         expectedTokens.add(Tokens.IDENT);
         expectedTokens.add((int) ':');
-        expectedTokens.add(Tokens.LABEL);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.BOOLEAN);
         expectedTokens.add((int) ';');
         
@@ -133,13 +133,13 @@ public class LexerTest {
         
         expectedTokens.add(Tokens.IDENT);
         expectedTokens.add((int) ':');
-        expectedTokens.add(Tokens.LABEL);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.MONEY);
         expectedTokens.add((int) ';');
         
         expectedTokens.add(Tokens.IDENT);
         expectedTokens.add((int) ':');
-        expectedTokens.add(Tokens.LABEL);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.MONEY);
         expectedTokens.add((int) '(');
         expectedTokens.add(Tokens.IDENT);
@@ -154,7 +154,7 @@ public class LexerTest {
         
         expectedTokens.add(Tokens.IDENT);
         expectedTokens.add((int) ':');
-        expectedTokens.add(Tokens.LABEL);
+        expectedTokens.add(Tokens.STRING_LITERAL);
         expectedTokens.add(Tokens.BOOLEAN);
         expectedTokens.add((int) ';');
         
