@@ -97,6 +97,17 @@ public class CheckerTest {
         compareMessages(messages,checkList);
     }
 
+    @Test public void DuplicateQuestionLabelsCheckerTest1(){
+
+        List<String> checkList = new ArrayList<>();
+        checkList.add("Q2");
+
+        Form f = parseFromPath("src/test/resources/labels1.ql");
+        List<Message> messages = (new Checker()).duplicateQuestionLabelChecker(f);
+
+        compareMessages(messages,checkList);
+    }
+
     private void compareMessages(List<Message> messages, List<String> checkList){
 
         List<String> testList = new ArrayList<>();

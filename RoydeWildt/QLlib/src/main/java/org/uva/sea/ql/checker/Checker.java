@@ -105,4 +105,22 @@ public class Checker {
         return messages;
 
     }
+
+    public List<Message> duplicateQuestionLabelChecker(Form f){
+        List<Message> messages = new ArrayList<>();
+        List<Node> duplicates = (new DuplicateLabelsCheck(f)).getDuplicatelabels();
+
+        for(Node n : duplicates){
+            Var v = ((Question) n).getVarname();
+            StringBuilder sb = new StringBuilder();
+            sb.append("Question ");
+            sb.append(v.toString());
+            sb.append(" uses a label that has already been used");
+
+            messages.add(new WarningMessage(sb.toString(),v));
+        }
+        return messages;
+
+    }
+
 }

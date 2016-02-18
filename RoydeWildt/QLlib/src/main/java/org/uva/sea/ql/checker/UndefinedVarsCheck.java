@@ -25,7 +25,7 @@ public class UndefinedVarsCheck extends BaseVisitor<Void,Environment> {
 
     @Override
     public Void visit(Var var, Environment env) {
-        if (!env.isDeclared(var)) {
+        if (!env.contains(var)) {
             undefined.add(var);
         }
         return null;
@@ -33,14 +33,14 @@ public class UndefinedVarsCheck extends BaseVisitor<Void,Environment> {
 
     @Override
     public Void visit(Question stat, Environment env) {
-        env.addDecl(stat);
+        env.add(stat.getVarname());
         return null;
     }
 
 
     @Override
     public Void visit(AssQuestion stat, Environment env) {
-        env.addDecl(stat);
+        env.add(stat.getVarname());
         return null;
     }
 
