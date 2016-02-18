@@ -57,7 +57,7 @@ public class SemanticAnalyserTest {
 		questionnaire = Questionnaire.create(is);
 
 		result = new SemanticAnalyser().validateCyclicReferences(questionnaire);
-		assertNumberOfErrors(result, 3);
+		assertNumberOfErrors(result, 6);
 	}
 
 	private void assertNumberOfWarnings(Result result, int warnings) {

@@ -73,11 +73,7 @@ public class SemanticAnalyser {
 	}
 
 	public Result validateCyclicReferences(Questionnaire questionnaire) {
-		result = new Result();
-
-		new CyclicReferenceVisitor().visit(questionnaire);
-
-		return result;
+		return new CyclicReferenceVisitor().visit(questionnaire);
 	}
 
 	private static class SymbolTable {
@@ -389,12 +385,12 @@ public class SemanticAnalyser {
 
 		}
 
-		private void addWarning(String msg) {
-			warnings.add(String.format("WARNING: %s", msg));
+		private void addWarning(String msg, Object... args) {
+			warnings.add(String.format("WARNING: %s", String.format(msg, args)));
 		}
 
-		private void addError(String msg) {
-			errors.add(String.format("ERROR  : %s", msg));
+		private void addError(String msg, Object... args) {
+			errors.add(String.format("ERROR  : %s", String.format(msg, args)));
 		}
 
 		public boolean hasErrors() {
@@ -459,11 +455,11 @@ public class SemanticAnalyser {
 		}
 	}
 
-	private static class ReferenceTable {
+	public static class ReferenceTable {
 
 		private final Map<String, Reference> referenceMapById;
 
-		public ReferenceTable() {
+		private ReferenceTable() {
 			referenceMapById = new HashMap<>();
 		}
 
@@ -476,54 +472,15 @@ public class SemanticAnalyser {
 				if (r.getReferents().isEmpty()) {
 					continue;
 				}
-				for (String referencePath : getReferencePath(r.id)) {
-					System.out.println(referencePath);
+
+				for (ReferencePath path : r.getPaths()) {
+					if (path.hasCycle()) {
+						result.addError("Cyclic dependency for question %s: %s", r.getId(), path.toString());
+					}
 				}
 			}
 
 			return result;
-		}
-
-		private List<String> getReferencePath(String referer) {
-			return getReferencePath(referer, "");
-		}
-
-		private List<String> getReferencePath(String referer, String parentPath) {
-			List<String> referencePathList;
-
-			Reference r = getReference(referer);
-
-			referencePathList = new ArrayList<>();
-
-			// If the parentPath is not empty, we are extending the chain.
-			if (!parentPath.trim().isEmpty()) {
-				parentPath += " -> ";
-			}
-
-			// Add the referrer itself to the path
-			parentPath += referer;
-
-			// This is the end of the reference path.
-			if (r.getReferents().isEmpty()) {
-				referencePathList.add(parentPath);
-				return referencePathList;
-			}
-
-			for (Reference referent : r.getReferents()) {
-
-				// Found a cycle, no need to continue with this referent.
-				if (parentPath.contains(referent.id)) {
-					referencePathList.add(parentPath + " -> " + referent.id + " (cycle)");
-					continue;
-				}
-
-				// Add the reference paths of the referents
-				for (String subReferencePath : getReferencePath(referent.id, parentPath)) {
-					referencePathList.add(subReferencePath);
-				}
-			}
-
-			return referencePathList;
 		}
 
 		private Reference getReference(String id) {
@@ -538,13 +495,78 @@ public class SemanticAnalyser {
 			return r;
 		}
 
-		private class Reference {
+		public static class ReferencePath {
+
+			private final List<Reference> references;
+
+			public ReferencePath() {
+				references = Collections.emptyList();
+			}
+
+			public ReferencePath(List<Reference> references) {
+				this.references = new ArrayList<>(references);
+			}
+
+			public List<Reference> getPath() {
+				return Collections.unmodifiableList(references);
+			}
+
+			public boolean contains(Reference r) {
+				return references.contains(r);
+			}
+
+			public ReferencePath copyAndAdd(Reference r) {
+				List<Reference> refs;
+
+				refs = new ArrayList<>(references);
+				refs.add(r);
+
+				return new ReferencePath(refs);
+			}
+
+			public boolean hasCycle() {
+				for (Reference r : references) {
+					if (Collections.frequency(references, r) > 1) {
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+			@Override
+			public String toString() {
+				StringBuilder sb;
+
+				sb = new StringBuilder();
+
+				// Make a String in the form of 'a -> b -> c'
+				references.stream().forEachOrdered(ref -> {
+					if (sb.length() > 0) {
+						sb.append(" -> ");
+					}
+					sb.append(ref.id);
+				});
+
+				if (hasCycle()) {
+					sb.append(" (cycle)");
+				}
+
+				return sb.toString();
+			}
+		}
+
+		public class Reference {
 
 			private final String id;
-			private List<Reference> referents = new ArrayList<>();
+			private final List<Reference> referents = new ArrayList<>();
 
-			public Reference(String id) {
+			private Reference(String id) {
 				this.id = id;
+			}
+
+			public String getId() {
+				return id;
 			}
 
 			public void addReferent(String id) {
@@ -554,10 +576,62 @@ public class SemanticAnalyser {
 			public List<Reference> getReferents() {
 				return Collections.unmodifiableList(referents);
 			}
+
+			public List<ReferencePath> getPaths() {
+				return getPaths(new ReferencePath());
+			}
+
+			public List<ReferencePath> getPaths(ReferencePath parentPath) {
+				List<ReferencePath> paths;
+				ReferencePath myPath;
+
+				myPath = parentPath.copyAndAdd(this);
+
+				// If this reference does not have any referents, this is the
+				// end of the reference path.
+				if (referents.isEmpty()) {
+					return Collections.singletonList(myPath);
+				}
+
+				paths = new ArrayList<>();
+
+				for (Reference referent : referents) {
+
+					// Found a cycle.
+					if (myPath.contains(referent)) {
+						// Add the referent to the path, so the cycle
+						// is actually present in the path.
+						paths.add(myPath.copyAndAdd(referent));
+						continue;
+					}
+
+					paths.addAll(referent.getPaths(myPath));
+				}
+
+				return paths;
+			}
+
+			@Override
+			public final boolean equals(Object obj) {
+				Reference other;
+
+				if (!(obj instanceof Reference)) {
+					return false;
+				}
+
+				other = (Reference) obj;
+
+				return id.equals(other.id) && referents.equals(other.referents);
+			}
+
+			@Override
+			public final int hashCode() {
+				return id.hashCode();
+			}
 		}
 	}
 
-	private class CyclicReferenceVisitor extends ASTNodeVisitorAdapter<Void, ReferenceTable> {
+	private static class CyclicReferenceVisitor extends ASTNodeVisitorAdapter<Void, ReferenceTable> {
 
 		private ComputedQuestion currentQuestion;
 
@@ -581,12 +655,21 @@ public class SemanticAnalyser {
 
 			node.getExpr().accept(this, rt);
 
+			currentQuestion = null;
+
 			return null;
 		}
 
 		@Override
-		public Void visit(VariableExpr node, ReferenceTable context) {
-			context.getReference(currentQuestion.getId()).addReferent(node.getVariableId());
+		public Void visit(VariableExpr node, ReferenceTable rt) {
+
+			// This expression is not part of the computation of a question.
+			if (currentQuestion == null) {
+				return null;
+			}
+
+			// Add the variable id of the expression as a referent of the
+			rt.getReference(currentQuestion.getId()).addReferent(node.getVariableId());
 
 			return null;
 		}
