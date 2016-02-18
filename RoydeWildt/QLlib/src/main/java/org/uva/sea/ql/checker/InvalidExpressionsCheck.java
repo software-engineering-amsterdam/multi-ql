@@ -21,7 +21,9 @@ import java.util.Map;
 /**
  * Created by roydewildt on 11/02/16.
  */
-@SuppressWarnings("unchecked")
+
+//TODO: use TypeVisitor
+
 public class InvalidExpressionsCheck<T,U> extends BaseVisitor<Type.Types,Void>{
     private final Map<Node,Node> decls = new HashMap<>();
     private final List<Node> invalidExpressions = new ArrayList<>();

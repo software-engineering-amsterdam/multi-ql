@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class InvalidConditionsCheck extends TypeVisitor<Type.Types,Void>{
+public class InvalidConditionsCheck extends TypeVisitor{
     private final List<Node> invalidConditions;
 
     public InvalidConditionsCheck(Form f) {
