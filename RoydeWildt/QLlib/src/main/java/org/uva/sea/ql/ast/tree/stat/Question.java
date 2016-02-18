@@ -14,7 +14,7 @@ public class Question extends Stat {
 
     public Question(int line, String label, Var varname, Type type){
         super(line);
-        this.label = label;
+        this.label = label.replace("\"", "");
         this.varname = varname;
         this.type = type;
     }

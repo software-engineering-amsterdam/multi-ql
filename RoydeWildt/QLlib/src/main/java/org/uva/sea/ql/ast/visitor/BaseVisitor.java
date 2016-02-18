@@ -218,12 +218,12 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     }
 
     @Override
-    public T visit(Boolean val, U env) {
+    public T visit(Boolean type, U env) {
         return null;
     }
 
     @Override
-    public T visit(Money val, U env) {
+    public T visit(Money type, U env) {
         return null;
     }
 

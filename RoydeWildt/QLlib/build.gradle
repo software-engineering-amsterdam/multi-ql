@@ -4,9 +4,7 @@ version '1.0'
 apply plugin: 'java'
 apply plugin: 'antlr'
 apply plugin:'application'
-
-mainClassName = "org.uva.sea.ql.Test"
-sourceCompatibility = 1.8
+apply from  : 'http://dl.bintray.com/content/shemnon/javafx-gradle/8.1.1/javafx.plugin'
 
 repositories {
     mavenCentral()
@@ -16,4 +14,24 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
     antlr "org.antlr:antlr4:4.5"
+}
+
+javafx {
+    // Points to JDK and its JavaFX libraries, also declares target runtime JDK
+    javaRuntime = '/Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk'
+    sourceCompatibility = 1.8
+
+    // Application name and ID presented by target OS
+    appID 'QLlib'
+    appName 'QLlib'
+
+    // Main class of application
+    mainClass 'org.uva.sea.ql.gui.Main'
+
+    // JVM arguments, system properties, application command line arguments
+    jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
+    systemProperties = ['prism.disableRegionCaching':'true']
+    arguments = ['-l', '--fast']
+
+
 }

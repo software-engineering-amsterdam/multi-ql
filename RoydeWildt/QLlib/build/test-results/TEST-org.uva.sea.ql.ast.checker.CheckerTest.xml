@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.uva.sea.ql.ast.checker.CheckerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2016-02-18T09:35:43" hostname="wcw-stud-145-109-25-181.wireless.uva.nl" time="0.222">
+<testsuite name="org.uva.sea.ql.ast.checker.CheckerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2016-02-18T15:00:57" hostname="wcw-stud-145-109-25-181.wireless.uva.nl" time="0.393">
   <properties/>
-  <testcase name="UndefinedVarsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.106"/>
-  <testcase name="CyclicQuestionsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.009"/>
-  <testcase name="DuplicateQuestionLabelsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.014"/>
-  <testcase name="DuplicateCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.016"/>
-  <testcase name="InvalidExpressionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.032"/>
-  <testcase name="InvalidExpressionCheckerTest2" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.024"/>
-  <testcase name="InvalidConditionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.004"/>
+  <testcase name="UndefinedVarsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.176"/>
+  <testcase name="CyclicQuestionsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.014"/>
+  <testcase name="DuplicateQuestionLabelsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.051"/>
+  <testcase name="DuplicateCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.009"/>
+  <testcase name="InvalidExpressionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.035"/>
+  <testcase name="InvalidExpressionCheckerTest2" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.076"/>
+  <testcase name="InvalidConditionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.011"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

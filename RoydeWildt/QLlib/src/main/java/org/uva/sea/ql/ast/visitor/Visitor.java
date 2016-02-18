@@ -40,8 +40,8 @@ public interface Visitor <T,U> {
     T visit(Pos     expr, U context);
     T visit(Primary expr, U context);
 
-    T visit(Boolean val, U context);
-    T visit(Money   val, U context);
+    T visit(Boolean type, U context);
+    T visit(Money   type, U context);
 
     T visit(Bool val, U context);
     T visit(Int  val, U context);
