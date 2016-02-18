@@ -2,7 +2,7 @@
 %class Parser
 %interface Tokens
 %semantic org.uva.sea.ql.ast.ASTNode
-%start top
+%start form
 
 %token BOOLEAN
 %token DATE
@@ -35,7 +35,7 @@
 %type statements
 %type conditionalStatement
 %type <Question> question
-%type <Int> type
+%type type
 %type <Expr> expr
 
 %{
@@ -46,33 +46,30 @@ import org.uva.sea.ql.ast.expr.*;
 
 %%
 
-top : form { result = $1; };
-
-form : FORM IDENT block { $$ = new Form($2, $3); };
+form : FORM IDENT block { result = new Form($2, $3); };
 
 block : '{' statements '}' { $$ = $2; };
 
-statements : question ';' statements             { $$ = new NestedStatement($1, $2); }
+statements : question ';' statements             { $$ = new NestedStatement($1, $3); }
            | conditionalStatement statements     { $$ = new NestedStatement($1, $2); }
-           | question
+           | question ';'
            | conditionalStatement
 ;
 
-conditionalStatement : IF '(' expr ')' block ELSE block { $$ = new IfStatement($3, $5, $7); }
-                     | IF '(' expr ')' block            { $$ = new IfStatement($3, $5, null); }
+conditionalStatement : IF '(' expr ')' block ELSE block { $$ = new ConditionalStatement($3, $5, $7); }
+                     | IF '(' expr ')' block            { $$ = new ConditionalStatement($3, $5, null); }
 ;
 
 question : IDENT ':' STRING_LITERAL type      { $$ = new Question($1, new Label($3), $4); }
          | IDENT ':' STRING_LITERAL type expr { $$ = new ComputedQuestion($1, new Label($3), $4, $5); }
 ;
 
-/* TODO get rid of Int wrapping*/
-type : BOOLEAN { $$ = new Int(Tokens.BOOLEAN); }
-     | DATE    { $$ = new Int(Tokens.DATE); }
-     | DECIMAL { $$ = new Int(Tokens.DECIMAL); }
-     | INT     { $$ = new Int(Tokens.INT); }
-     | MONEY   { $$ = new Int(Tokens.MONEY); }
-     | STRING  { $$ = new Int(Tokens.STRING); }
+type : BOOLEAN { $$ = new Bool(null); }
+     | DATE    { $$ = new Date(); }
+     | DECIMAL { $$ = new Decimal(null); }
+     | INT     { $$ = new Int(null); }
+     | MONEY   { $$ = new Money(null, null); }
+     | STRING  { $$ = new Str(null); }
 ;
 
 expr : '+' expr %prec UPLUS { $$ = new Pos($2); }
@@ -90,11 +87,11 @@ expr : '+' expr %prec UPLUS { $$ = new Pos($2); }
      | expr LEQ expr        { $$ = new LEq($1, $3); }
      | expr AND expr        { $$ = new And($1, $3); }
      | expr OR expr         { $$ = new Or($1, $3); }
-     | IDENT                { $$ = $1; }
-     | INT_LITERAL          { $$ = $1; }
-     | BOOLEAN_LITERAL      { $$ = $1; }
-     | STRING_LITERAL       { $$ = $1; }
      | '(' expr ')'         { $$ = $2; }
+     | IDENT
+     | INT_LITERAL
+     | BOOLEAN_LITERAL
+     | STRING_LITERAL
 ;
 		 
 

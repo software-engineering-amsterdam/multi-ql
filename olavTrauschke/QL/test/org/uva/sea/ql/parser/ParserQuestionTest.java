@@ -13,12 +13,12 @@ public class ParserQuestionTest {
         Parser parser = new Parser("question.ql");
         boolean parsed = parser.parse();
         assertTrue(parsed);
-        Question result = parser.getResult();
+        ASTNode result = parser.getResult();
         
         Ident identifier = new Ident("hasSoldHouse");
         Label label = new Label("Did you sell a house in 2010?");
         Int type = new Int(Tokens.BOOLEAN);
-        Question expected = new Question(identifier, label, type);
+        ASTNode expected = new Question(identifier, label, type);
         
         assertTrue(expected.equals(result));
     }
@@ -28,7 +28,7 @@ public class ParserQuestionTest {
         Parser parser = new Parser("computedQuestion.ql");
         boolean parsed = parser.parse();
         assertTrue(parsed);
-        Question result = parser.getResult();
+        ASTNode result = parser.getResult();
         
         Ident identifier = new Ident("valueResidue");
         Label label = new Label("Value residue:");
@@ -36,7 +36,7 @@ public class ParserQuestionTest {
         Expr firstIdentifier = new Ident("sellingPrice");
         Expr secondIdentifier = new Ident("privateDebt");
         Expr calculation = new Sub(firstIdentifier, secondIdentifier);
-        Question expected = new ComputedQuestion(identifier, label, type, calculation);
+        ASTNode expected = new ComputedQuestion(identifier, label, type, calculation);
         
         assertTrue(expected.equals(result));
     }

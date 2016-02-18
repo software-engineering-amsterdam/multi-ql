@@ -1,0 +1,78 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+
+public class Block extends AbstractForm {
+
+    private List<AbstractStatement> statements;
+    private Set<String> questions;
+
+    public Block() {
+	statements = new ArrayList<AbstractStatement>();
+	questions = new HashSet<String>;
+    }
+
+    @Override
+    public final void eval() {
+
+	visibile(true); // Inside a body meaning the above statement is true, show the questions.
+
+	statements.forEach(statement -> statement.eval());
+    }
+
+    public final void checkType() {
+
+	statements.forEach(statement -> statement.checkType());
+
+	visibile(false); // We can use the visibility modifier to determine depth.
+    }
+
+    public final void show() {
+	visibile(true);
+    }
+
+    public final void hide() {
+	visibile(false);
+    }
+
+    public void visibile(final Boolean vis) {
+	statements.forEach(statement -> statement.visible(vis));
+    }
+
+    @Override
+    public final String toString() {
+
+	StringBuilder sb;
+
+	sb = new StringBuilder();
+	/*for (Question q: statements) {
+	   if (super.context.getSymbol(q.getName()).getActive()) {
+		sb.append(q.getText());
+		sb.append("\t: ");
+		sb.append(q.getType());
+		sb.append(" : ");
+		sb.append(q.getValue());
+		sb.append("\n");
+	    }
+	}*/
+
+	for (AbstractStatement s: statements) {
+	    sb.append(s.toString() + "\n");
+	}
+
+
+	return sb.toString();
+    }
+
+    public final void add(final AbstractStatement statement) {
+	statements.add(statement);
+    }
+
+    public final List<AbstractStatement> getStatements() {
+	return statements;
+    }
+}

@@ -1,6 +1,6 @@
 package nl.uva.sc.ql.parser;
 
-import nl.uva.sc.ql.exceptions.SyntaxAnalysisException;
+import nl.uva.sc.ql.exceptions.TypecheckerException;
 import nl.uva.sc.ql.parser.ast.ASTBoolean;
 import nl.uva.sc.ql.parser.ast.ASTMoney;
 import nl.uva.sc.ql.parser.ast.ASTNode;
@@ -46,7 +46,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         ASTNode nodeValue = this.visit(context.expression());
         
         if (node.getType() != nodeValue.getType()) {
-            throw new SyntaxAnalysisException("Line "+context.EQUAL().getSymbol().getLine()+": incompatible types: "+node.getType()+" cannot be converted to "+nodeValue.getType());
+            throw new TypecheckerException("Line "+context.EQUAL().getSymbol().getLine()+": incompatible types: "+node.getType()+" cannot be converted to "+nodeValue.getType());
         }
         
         String identifier = node.getIdentifier();
@@ -59,10 +59,10 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitDeclarationVariable(@NotNull QLParser.DeclarationVariableContext context) {
         String identifier = context.IDENTIFIER().getText();
-        ASTNode node = this.visit(context.type());
+        ASTNode node = this.visit(context.type());        
         
         if (symbolTable.probe(identifier) != null) {
-            throw new SyntaxAnalysisException("Already defined variable: "+identifier+". Line "+context.IDENTIFIER().getSymbol().getLine());
+            throw new TypecheckerException("Already defined variable: "+identifier+". Line "+context.IDENTIFIER().getSymbol().getLine());
         }
         
         node.setIdentifier(identifier);
@@ -77,7 +77,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         ASTNode node = symbolTable.lookup(identifier);
         
         if (node == null) {
-            throw new SyntaxAnalysisException("Assigning undefined variable "+identifier+". Line "+context.IDENTIFIER().getSymbol().getLine());
+            throw new TypecheckerException("Assigning undefined variable "+identifier+". Line "+context.IDENTIFIER().getSymbol().getLine());
         }
         
         return node;
@@ -110,7 +110,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         ASTNode value = this.visit(context.expression());
         
         if (value.getType() != "Money") {
-        	throw new SyntaxAnalysisException("Line "+context.start.getLine()+": bad operand type "+value.getType()+" for unitary operator '-'");
+        	throw new TypecheckerException("Line "+context.start.getLine()+": bad operand type "+value.getType()+" for unitary operator '-'");
         }
         
         return new ASTMoney();
@@ -121,7 +121,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         ASTNode value = this.visit(context.expression());
         
         if (value.getType() != "Boolean") {
-        	throw new SyntaxAnalysisException("Line "+context.start.getLine()+": bad operand type "+value.getType()+" for unitary operator '!'");
+        	throw new TypecheckerException("Line "+context.start.getLine()+": bad operand type "+value.getType()+" for unitary operator '!'");
         }
         
         return new ASTBoolean();
@@ -146,7 +146,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         }
         
         if (left.getType() != right.getType() && left.getType() != "Money") {
-        	throw new SyntaxAnalysisException("Line "+context.start.getLine()+": bad operand types for binary operator '"+operator+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
+        	throw new TypecheckerException("Line "+context.start.getLine()+": bad operand types for binary operator '"+operator+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
         }
         
         return new ASTMoney();
@@ -169,7 +169,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         }
         
         if (left.getType() != right.getType() && left.getType() != "Money") {
-        	throw new SyntaxAnalysisException("Line "+context.start.getLine()+": bad operand types for binary operator '"+operator+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
+        	throw new TypecheckerException("Line "+context.start.getLine()+": bad operand types for binary operator '"+operator+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
         }
         
         return new ASTMoney();
@@ -196,7 +196,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         }
         
         if (left.getType() != right.getType() && left.getType() != "Boolean") {
-        	throw new SyntaxAnalysisException("Line "+context.start.getLine()+": bad operand types for binary operator '"+operator+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
+        	throw new TypecheckerException("Line "+context.start.getLine()+": bad operand types for binary operator '"+operator+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
         }
         
         return new ASTMoney();
@@ -219,7 +219,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         }
         
         if (left.getType() != right.getType() && left.getType() != "Boolean") {
-        	throw new SyntaxAnalysisException("Line "+context.start.getLine()+": bad operand types for binary operator '"+operator+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
+        	throw new TypecheckerException("Line "+context.start.getLine()+": bad operand types for binary operator '"+operator+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
         }
         
         return new ASTMoney();
@@ -231,7 +231,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         ASTNode right = this.visit(context.expression(1));
         
         if (left.getType() != right.getType() && left.getType() != "Boolean") {
-        	throw new SyntaxAnalysisException("Line "+context.start.getLine()+": bad operand types for binary operator '&&' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
+        	throw new TypecheckerException("Line "+context.start.getLine()+": bad operand types for binary operator '&&' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
         }
         
         return new ASTBoolean();
@@ -243,7 +243,7 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
         ASTNode right = this.visit(context.expression(1));
         
         if (left.getType() != right.getType() && left.getType() != "Boolean") {
-        	throw new SyntaxAnalysisException("Line "+context.start.getLine()+": bad operand types for binary operator '||' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
+        	throw new TypecheckerException("Line "+context.start.getLine()+": bad operand types for binary operator '||' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
         }
         
         return new ASTBoolean();
@@ -254,17 +254,17 @@ public class Typechecker extends QLBaseVisitor<ASTNode> {
     public ASTNode visitIf_stat(@NotNull QLParser.If_statContext context) {
         List<QLParser.Condition_blockContext> conditions = context.condition_block();
 
-        for(QLParser.Condition_blockContext condition : conditions) {
+        for (QLParser.Condition_blockContext condition : conditions) {
             ASTNode evaluated = this.visit(condition.expression());
             
-            if(evaluated.getType() != "Boolean"){
-            	throw new SyntaxAnalysisException("Line "+condition.start.getLine()+": incompatible types: "+evaluated.getType()+" cannot be converted to Boolean");
+            if (evaluated.getType() != "Boolean"){
+            	throw new TypecheckerException("Line "+condition.start.getLine()+": incompatible types: "+evaluated.getType()+" cannot be converted to Boolean");
             }
             
             this.visit(condition.stat_block());
         }
 
-        if(context.stat_block() != null) {
+        if (context.stat_block() != null) {
             this.visit(context.stat_block());
         }
 

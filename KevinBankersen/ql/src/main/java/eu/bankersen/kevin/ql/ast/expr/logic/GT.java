@@ -8,9 +8,10 @@ import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
 
 public class GT extends BooleanExpr {
 
-    public GT(final Expr lhs, final Expr rhs) {
+    public GT(final Expr lhs, final Expr rhs, final int line) {
 	super.lhs = lhs;
 	super.rhs = rhs;
+	super.line = line;
     }
 
     @Override

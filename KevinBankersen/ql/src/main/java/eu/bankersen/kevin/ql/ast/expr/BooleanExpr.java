@@ -8,6 +8,7 @@ public abstract class BooleanExpr extends Expr {
     
     protected Expr lhs;
     protected Expr rhs;
+    protected int line;
 
     public abstract Boolean eval();
 
@@ -17,7 +18,7 @@ public abstract class BooleanExpr extends Expr {
 	rhs.checkType();
 	
 	if (!lhs.getType().equals(rhs.getType())) {
-	  context.addError("Type mismatch lhs=" + lhs.getType() + " rhs=" + rhs.getType());  
+	  context.addError("SYMANTIC_ERROR, lhs=" + lhs.getType() + " rhs=" + rhs.getType());  
 	}
     }
 

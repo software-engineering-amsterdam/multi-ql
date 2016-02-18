@@ -7,8 +7,9 @@ public class Pos extends IntegerExpr {
 
     private final Expr expr;
 
-    public Pos(final Expr expr) {
+    public Pos(final Expr expr, final int line) {
 	this.expr = expr;
+	super.line = line;
     }
 
     @Override

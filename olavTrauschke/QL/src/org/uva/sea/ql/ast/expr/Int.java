@@ -1,22 +1,28 @@
 package org.uva.sea.ql.ast.expr;
 
+import java.util.Objects;
+
 public class Int extends NumericExpr {
     
-    private final int value;
+    private Integer value;
     
-    public Int(int theValue) {
+    public Int(Integer theValue) {
         value = theValue;
     }
     
     @Override
     public boolean equals(Object o) {
-        return o != null
-                && getClass() == o.getClass()
-                && value == ((Int) o).value;
+        if (o != null && getClass() == o.getClass()) {
+            Int other = (Int) o;
+            return value == null ? other.value == null : value.equals(other.value);
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return 43 * 7 + value;
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.value);
+        return hash;
     }
 }

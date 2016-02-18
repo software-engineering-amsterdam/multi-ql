@@ -5,6 +5,7 @@ import ast.expression.AndExpression;
 import ast.expression.BinaryExpression;
 import ast.expression.Div;
 import ast.expression.Eq;
+import ast.expression.Expression;
 import ast.expression.GEq;
 import ast.expression.GT;
 import ast.expression.LEq;
@@ -23,27 +24,26 @@ import ast.literal.BoolLiteral;
 import ast.literal.IntLiteral;
 import ast.literal.Literal;
 import ast.literal.StringLiteral;
-import ast.literal.Variable;
 import ast.statement.AssignmentQuestion;
 import ast.statement.IfStatement;
 import ast.statement.Question;
 import ast.statement.Statement;
 
-public class TypeChecker implements Visitor {
-	private Visitor visitor;
+public class TypeChecker extends BasicVisitor{
+	private TypeChecker visitor;
 	
 	public TypeChecker(){
-		visitor = this;
+		this.visitor = this;
 	}
-
+	
 	@Override
-	public Types visit(Form form) {
+	public Types visit(Form form){
 		form.getBody().accept(visitor);
 		return null;
 	}
-
+	
 	@Override
-	public Types visit(Body body) {
+	public Types visit(Body body){
 		for(Visitable v : body.getStatements()){
 			v.accept(visitor);
 		}
@@ -51,7 +51,7 @@ public class TypeChecker implements Visitor {
 	}
 	
 	@Override
-	public Types visit(Statement statement) {
+	public Types visit(Statement statement){
 		if(statement.getAssignmentQuestion() != null){
 			statement.getAssignmentQuestion().accept(visitor);
 		}
@@ -65,173 +65,161 @@ public class TypeChecker implements Visitor {
 	}
 	
 	@Override
-	public Types visit(AssignmentQuestion assignmentQuestion) {
-		assignmentQuestion.getExpression().accept(visitor);
-		//TODO: typecheck
-		return null;
+	public Types visit(AssignmentQuestion assignmentQuestion){
+		Types t = assignmentQuestion.getVariable().getType().getType();
+		compareTypes(assignmentQuestion.getExpression(), t);
+		return t;
 	}
-
+	
 	@Override
-	public Types visit(IfStatement ifStatement) {
-		ifStatement.getExpression().accept(visitor);
-		//TODO: typecheck
+	public Types visit(IfStatement ifStatement){
+		compareTypes(ifStatement.getExpression(), Types.BOOLEAN);
 		ifStatement.getBody().accept(visitor);
 		return null;
 	}
-
+	
 	@Override
-	public Types visit(Question question) {
-		//Question has a type...
-		return null;
+	public Types visit(Question question){
+		return question.getVariable().getType().getType();
 	}
 	
 	@Override
-	public Types visit(OrExpression orExpression) {
-		orExpression.getLhs().accept(visitor);
-		orExpression.getRhs().accept(visitor);
-		//TODO: typecheck lhs and rhs... or a binary expression
-		return null;
+	public Types visit(OrExpression orExpression){
+		compareTypesBinaryExpression(orExpression, Types.BOOLEAN);
+		return Types.BOOLEAN;
 	}
 	
 	@Override
-	public Types visit(AndExpression andExpression) {
-		andExpression.getLhs().accept(visitor);
-		andExpression.getLhs().accept(visitor);
-		//check types for lhs and rhs are both boolean
-		return null;
-	}
-
-	@Override
-	public Types visit(Eq eq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(GEq geq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(GT gt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(LEq leq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(LT lt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(NEq neq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(Neg neg) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	@Override
-	public Types visit(Mul mul) {
-		// TODO Auto-generated method stub
-		return null;
+	public Types visit(AndExpression andExpression){
+		compareTypesBinaryExpression(andExpression, Types.BOOLEAN);
+		return Types.BOOLEAN;
 	}
 	
 	@Override
-	public Types visit(Add add) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Types visit(Div div) {
-		// TODO Auto-generated method stub
-		return null;
+	public Types visit(LT lt){
+		compareTypesBinaryExpression(lt, Types.INT);
+		return Types.BOOLEAN;
 	}
 	
 	@Override
-	public Types visit(Sub sub) {
-		sub.getLhs().accept(visitor);
-		sub.getRhs().accept(visitor);
-		return null;
+	public Types visit(LEq leq){
+		compareTypesBinaryExpression(leq, Types.INT);
+		return Types.BOOLEAN;
 	}
 	
 	@Override
-	public Types visit(Not not) {
-		// TODO Auto-generated method stub
-		return null;
+	public Types visit(GT gt){
+		compareTypesBinaryExpression(gt, Types.INT);
+		return Types.BOOLEAN;
 	}
-
+	
 	@Override
-	public Types visit(Pos pos) {
-		// TODO Auto-generated method stub
-		return null;
+	public Types visit(GEq GEq){
+		compareTypesBinaryExpression(GEq, Types.INT);
+		return Types.BOOLEAN;
 	}
-
+	
 	@Override
-	public Types visit(Literal literal) {
-		if(literal.getIntLiteral() != null){
-			literal.getIntLiteral().accept(visitor);
-		}
-		
-		if(literal.getBoolLiteral() != null){
-			literal.getBoolLiteral().accept(visitor);
-		}
-		
-		if(literal.getStringLiteral() != null){
-			literal.getStringLiteral().accept(visitor);
-		}
-		
-		if(literal.getVariableExpression() != null){
-			literal.getVariableExpression().accept(visitor);
-		}
-		
-		return null;
+	public Types visit(Eq eq){
+		compareTypesBinaryExpression(eq, Types.INT);
+		return Types.BOOLEAN;
 	}
-
+	
 	@Override
-	public Types visit(IntLiteral intLiteral) {
+	public Types visit(NEq neq){
+		compareTypesBinaryExpression(neq, Types.INT);
+		return Types.BOOLEAN;
+	}
+	
+	@Override
+	public Types visit(Add add){
+		compareTypesBinaryExpression(add, Types.INT);
 		return Types.INT;
 	}
 	
 	@Override
-	public Types visit(BoolLiteral boolLiteral) {
+	public Types visit(Sub sub){
+		compareTypesBinaryExpression(sub, Types.INT);
+		return Types.INT;
+	}
+	
+	@Override
+	public Types visit(Mul mul){
+		compareTypesBinaryExpression(mul, Types.INT);
+		return Types.INT;
+	}	
+	
+	@Override
+	public Types visit(Div div){
+		compareTypesBinaryExpression(div, Types.INT);
+		return Types.INT;
+	}
+	
+	@Override
+	public Types visit(Pos pos){
+		compareTypes(pos.getExpression(), Types.BOOLEAN);
 		return Types.BOOLEAN;
 	}
-
+	
 	@Override
-	public Types visit(StringLiteral stringLiteral) {
+	public Types visit(Neg neg){
+		compareTypes(neg.getExpression(), Types.BOOLEAN);
+		return Types.BOOLEAN;
+	}
+	
+	@Override
+	public Types visit(Not not){	
+		compareTypes(not.getExpression(), Types.BOOLEAN);
+		return Types.BOOLEAN;
+	}
+	
+	@Override
+	public Types visit(Literal literal){
+		if(literal.getBoolLiteral() != null){
+			return (Types)literal.getBoolLiteral().accept(visitor);
+		}
+		if(literal.getIntLiteral() != null){
+			return (Types)literal.getIntLiteral().accept(visitor);
+		}
+		if(literal.getStringLiteral() != null){
+			return (Types)literal.getStringLiteral().accept(visitor);
+		}
+		if(literal.getVariableExpression() != null){
+			return (Types)literal.getVariableExpression().accept(visitor);
+		}
+		return null;
+	}
+	
+	@Override
+	public Types visit(IntLiteral intLiteral){
+		return Types.INT;
+	}
+	
+	@Override
+	public Types visit(BoolLiteral boolLiteral){
+		return Types.BOOLEAN;
+	}
+	
+	@Override
+	public Types visit(StringLiteral stringLiteral){
 		return Types.STRING;
 	}
-
+	
 	@Override
-	public Types visit(Variable variable) {
-		variable.accept(visitor);
+	public Types visit(VariableExpression variableExpression){
+		//TODO: get the type from the context scop or whatever!
 		return null;
 	}
-
-	@Override
-	public Types visit(VariableExpression variableExpression) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private void compareTypesBinaryExpression(BinaryExpression e, Types expectedType){
+		compareTypes(e.getLhs(), expectedType);
+		compareTypes(e.getRhs(), expectedType);	
 	}
-
-	@Override
-	public Object visit(BinaryExpression binaryExpression) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private void compareTypes(Expression e, Types expectedType){
+		Types actualType = (Types)e.accept(visitor);
+		if(actualType != expectedType){
+			System.out.println(String.format("Incorrect. Expected type: %s. Actual type: %s", expectedType, actualType));
+		}
 	}
 }
