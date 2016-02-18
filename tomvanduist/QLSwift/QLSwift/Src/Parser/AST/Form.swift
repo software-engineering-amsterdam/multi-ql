@@ -13,15 +13,10 @@ protocol FormNode: FormNodeVisitable {
 }
 
 class Form: FormNode {
-    private let _context: Context
-    weak var context: Context?
-    
     let identifier: Identifier
     let statement: Statement
     
-    required init(context: Context, identifier: Identifier, statement: Statement) {
-        self._context = context
-        self.context = _context
+    init(identifier: Identifier, statement: Statement) {
         self.identifier = identifier
         self.statement = statement
     }
@@ -31,185 +26,185 @@ class Form: FormNode {
 // MARK: Form creation
 
 extension QLForm {
-    func implode(context: Context) -> Form {
-        return Form(context: context, identifier: variable.implode(context), statement: block.implode(context))
+    func implode() -> Form {
+        return Form(identifier: variable.implode(), statement: block.implode())
     }
 }
 
 extension QLQuestionStatement {
-    func implode(context: Context) -> Statement {
-        return question.implode(context)
+    func implode() -> Statement {
+        return question.implode()
     }
 }
 
 extension QLBlockStatement {
-    func implode(context: Context) -> Statement {
+    func implode() -> Statement {
         var block: [Statement] = []
         for statement in self.block {
-            block.append(statement.implode(context))
+            block.append(statement.implode())
         }
         return Block(block: block)
     }
 }
 
 extension QLVariable {
-    func implode(context: Context) -> Identifier {
+    func implode() -> Identifier {
         return Identifier(id: identifier, expression: nil)
     }
 }
 
 extension QLIf {
-    func implode(context: Context) -> Statement {
-        return Conditional(condition: conditional.implode(context), ifBlock: block.implode(context), elseBlock: nil)
+    func implode() -> Statement {
+        return Conditional(condition: conditional.implode(), ifBlock: block.implode(), elseBlock: nil)
     }
 }
 
 extension QLQuestion {
-    func implode(context: Context) -> Statement {
-        return Question(identifier: variable.implode(context), label: stringLit.string, expression: expression.implode(context))
+    func implode() -> Statement {
+        return Question(identifier: variable.implode(), label: stringLit.string, expression: expression.implode())
     }
 }
 
 extension QLExpressionVariable {
-    func implode(context: Context) -> Expression {
-        return variable.implode(context)
+    func implode() -> Expression {
+        return variable.implode()
     }
 }
 
 extension QLBoolean {
-    func implode(context: Context) -> Expression {
+    func implode() -> Expression {
         return BooleanField()
     }
 }
 
 extension QLString {
-    func implode(context: Context) -> Expression {
+    func implode() -> Expression {
         return StringField()
     }
 }
 
 extension QLMoney {
-    func implode(context: Context) -> Expression {
-        return MoneyField(expression: expr?.implode(context))
+    func implode() -> Expression {
+        return MoneyField(expression: expr?.implode())
     }
 }
 
 extension QLExpressionLiteral {
-    func implode(context: Context) -> Expression {
-        return literal.implode(context)
+    func implode() -> Expression {
+        return literal.implode()
     }
 }
 
 extension QLAdd {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Add, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Add, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLSub {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Sub, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Sub, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLMul {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Mul, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Mul, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLDiv {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Div, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Div, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLPow {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Pow, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Pow, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLAnd {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.And, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.And, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLOr {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Or, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Or, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLLt {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Lt, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Lt, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLLe {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Le, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Le, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLEq {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Eq, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Eq, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLNe {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Ne, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Ne, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLGe {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Ge, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Ge, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLGt {
-    func implode(context: Context) -> Expression {
-        return Infix(op: BinaryOp.Gt, lhs: lhs.implode(context), rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Infix(op: BinaryOp.Gt, lhs: lhs.implode(), rhs: rhs.implode())
     }
 }
 
 extension QLNeg {
-    func implode(context: Context) -> Expression {
-        return Prefix(op: UnaryOp.Neg, rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Prefix(op: UnaryOp.Neg, rhs: rhs.implode())
     }
 }
 
 extension QLNot {
-    func implode(context: Context) -> Expression {
-        return Prefix(op: UnaryOp.Not, rhs: rhs.implode(context))
+    func implode() -> Expression {
+        return Prefix(op: UnaryOp.Not, rhs: rhs.implode())
     }
 }
 
 extension QLBooleanLiteral {
-    func implode(context: Context) -> Expression {
+    func implode() -> Expression {
         return BooleanLiteral(bool: bool)
     }
 }
 
 extension QLStringLiteral {
-    func implode(context: Context) -> Expression {
+    func implode() -> Expression {
         return StringLiteral(string: string)
     }
 }
 
 extension QLIntegerLiteral {
-    func implode(context: Context) -> Expression {
+    func implode() -> Expression {
         return IntegerLiteral(integer: integer)
     }
 }
 
 extension QLFloatLiteral {
-    func implode(context: Context) -> Expression {
+    func implode() -> Expression {
         return FloatLiteral(float: float)
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol QLLiteral {
-    func implode(context: Context) -> Expression
+    func implode() -> Expression
 }
 
 class QLBooleanLiteral: QLLiteral {

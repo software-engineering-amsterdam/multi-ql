@@ -21,7 +21,7 @@ class Parser {
         let qlParser = QLParser()
         
         let parseTree = try qlParser.parse(ql)
-        let form = parseTree.implode(Context())
+        let form = parseTree.implode()
         
         let sa = SemanticAnalyser(context: Context.sharedInstance)
         try sa.analyze(form)

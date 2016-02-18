@@ -9,7 +9,7 @@
 import Foundation
 
 protocol QLExpression {
-    func implode(context: Context) -> Expression
+    func implode() -> Expression
 }
 
 class QLExpressionVariable: QLExpression {
