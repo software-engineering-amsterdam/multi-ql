@@ -6,6 +6,11 @@ public class Label extends ASTNode {
     
     private final String text;
     
+    public Label(String theText) {
+        assert theText != null;
+        text = theText;
+    }
+    
     public Label(Str theText) {
         assert theText != null;
         text = theText.getValue();
