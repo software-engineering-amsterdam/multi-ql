@@ -9,7 +9,28 @@
 <!-- in the project's Project Properties dialog box.-->
 <project name="QL" default="default" basedir=".">
     <description>Builds, tests, and runs the project QL.</description>
-    <import file="nbproject/build-impl.xml"/>
+        <import file="nbproject/build-impl.xml"/>
+    <target name="-pre-compile" depends="antlr">
+    </target>
+ 
+    <target name="init-antlr">
+        <!-- Full path to Antlr jar -->
+        <property name="antlr.jar" location="lib/antlr/antlr-4.5.2-complete.jar"/>
+        <!-- Grammar path -->
+        <property name="antlr.grammar" location="src/ql/antlr/QL.g4"/>
+        <property name="antlr.builddir" location="src/ql/antlr/generatedcode"/>
+    </target>
+    
+    <target name="antlr" depends="init-antlr" unless="up-to-date">
+    <!-- Compiling grammar -->
+        <java classname="org.antlr.v4.Tool"  fork="true" failonerror="true">
+            <arg value="-visitor"/>
+            <arg value="-o" />
+            <arg path="${antlr.builddir}"/>
+            <arg value="${antlr.grammar}"/>
+            <classpath path="${antlr.jar}"/>
+        </java>        
+    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 
