@@ -76,7 +76,7 @@ class SemanticAnalyser: FormNodeVisitor {
         }
     }
     
-    func visit(node: Prefix) {
+    func visit(node: Neg) {
         node.rhs.accept(self)
         
         if (type(node) !== type(node.rhs)) {
@@ -84,48 +84,97 @@ class SemanticAnalyser: FormNodeVisitor {
         }
     }
     
-    func visit(node: Infix) {
-        node.lhs.accept(self)
+    func visit(node: Not) {
         node.rhs.accept(self)
         
-        let typeError = { [unowned self] in
-            self.error.collect(SemanticError.TypeMismatch(description: "Infix type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
+        if (type(node) !== type(node.rhs)) {
+            error.collect(SemanticError.TypeMismatch(description: "Prefix type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
         }
+    }
+    
+    func collectInfixTypeError(node: Infix) {
+        self.error.collect(SemanticError.TypeMismatch(description: "Infix type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
+    }
+    
+    func visitInfix(node: Infix) {
+        node.lhs.accept(self)
+        node.rhs.accept(self)
+    }
+
+    func visitInfixNumber(node: Infix) {
+        visitInfix(node)
         
-        switch (node.op) {
-            case .Gt :
-                fallthrough
-            case .Ge:
-                fallthrough
-            case .Lt:
-                fallthrough
-            case .Le:
-                fallthrough
-            case .Add:
-                fallthrough
-            case .Sub:
-                fallthrough
-            case .Mul:
-                fallthrough
-            case .Div:
-                fallthrough
-            case .Pow:
-                if (type(node.lhs) !== NumberType() || type(node.rhs) !== NumberType()) {
-                    typeError()
-                }
-            case .Or:
-                fallthrough
-            case .And:
-                if (type(node.lhs) !== BooleanType() || type(node.rhs) !== BooleanType()) {
-                    typeError()
-                }
-            case .Eq:
-                fallthrough
-            case .Ne:
-                if (type(node.lhs) !== type(node.rhs)) {
-                    typeError()
-                }
+        if (type(node.lhs) !== NumberType() || type(node.rhs) !== NumberType()) {
+            collectInfixTypeError(node)
         }
+    }
+    
+    func visit(node: Add) {
+        visitInfixNumber(node)
+    }
+    
+    func visit(node: Sub) {
+        visitInfixNumber(node)
+    }
+    
+    func visit(node: Mul) {
+        visitInfixNumber(node)
+    }
+    
+    func visit(node: Div) {
+        visitInfixNumber(node)
+    }
+    
+    func visit(node: Pow) {
+        visitInfixNumber(node)
+    }
+    
+    func visit(node: Ge) {
+        visitInfixNumber(node)
+    }
+    
+    func visit(node: Gt) {
+        visitInfixNumber(node)
+    }
+    
+    func visit(node: Le) {
+        visitInfixNumber(node)
+    }
+    
+    func visit(node: Lt) {
+        visitInfixNumber(node)
+    }
+    
+    func visitInfixEq(node: Infix) {
+        visitInfix(node)
+        
+        if (type(node.lhs) !== type(node.rhs)) {
+            collectInfixTypeError(node)
+        }
+    }
+    
+    func visit(node: Eq) {
+        visitInfixEq(node)
+    }
+    
+    func visit(node: Ne) {
+        visitInfixEq(node)
+    }
+    
+    func visitInfixBool(node: Infix) {
+        visitInfix(node)
+        
+        if (type(node.lhs) !== BooleanType() || type(node.rhs) !== BooleanType()) {
+            collectInfixTypeError(node)
+        }
+    }
+    
+    func visit(node: And) {
+        visitInfixBool(node)
+    }
+    
+    func visit(node: Or) {
+        visitInfixBool(node)
     }
     
     private func type(node: Expression) -> FormNodeType {

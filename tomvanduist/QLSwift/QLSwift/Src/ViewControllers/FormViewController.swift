@@ -17,7 +17,7 @@ class FormViewController: BaseViewController {
     
     init(form: Form) {
         self.form = form
-        
+        print(((form.statement as? Block)?.block[2] as! Question).expression.eval())
         super.init(nibName: "FormView", bundle: nil)
     }
     

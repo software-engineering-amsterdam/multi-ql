@@ -68,7 +68,7 @@ class FormTests: XCTestCase {
             guard cond != nil
                 else { return }
             
-            XCTAssertTrue(cond!.op == BinaryOp.And)
+            XCTAssertTrue(cond!.dynamicType == And.self)
             
             
             let lhs = cond!.lhs as? Identifier

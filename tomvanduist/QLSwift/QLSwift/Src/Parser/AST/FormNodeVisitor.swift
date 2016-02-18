@@ -20,8 +20,19 @@ protocol FormNodeVisitor {
     func visit(node: IntegerLiteral)
     func visit(node: FloatLiteral)
     func visit(node: BooleanLiteral)
-    func visit(node: Prefix)
-    func visit(node: Infix)
+    func visit(node: Add)
+    func visit(node: Sub)
+    func visit(node: Mul)
+    func visit(node: Div)
+    func visit(node: Pow)
+    func visit(node: Eq)
+    func visit(node: Ne)
+    func visit(node: Ge)
+    func visit(node: Gt)
+    func visit(node: Le)
+    func visit(node: Lt)
+    func visit(node: And)
+    func visit(node: Or)
 }
 
 extension FormNodeVisitor {
@@ -72,13 +83,56 @@ extension FormNodeVisitor {
     func visit(node: BooleanLiteral) {
     }
     
-    func visit(node: Prefix) {
+    func visit(node: Neg) {
         node.rhs.accept(self)
     }
     
-    func visit(node: Infix) {
+    func visit(node: Not) {
+        node.rhs.accept(self)
+    }
+    
+    func visitInfix(node: Infix) {
         node.lhs.accept(self)
         node.rhs.accept(self)
+    }
+    
+    func visit(node: Add) {
+    }
+    
+    func visit(node: Sub) {
+    }
+    
+    func visit(node: Mul) {
+    }
+    
+    func visit(node: Div) {
+    }
+    
+    func visit(node: Pow) {
+    }
+    
+    func visit(node: Eq) {
+    }
+    
+    func visit(node: Ne) {
+    }
+    
+    func visit(node: Ge) {
+    }
+    
+    func visit(node: Gt) {
+    }
+    
+    func visit(node: Le) {
+    }
+    
+    func visit(node: Lt) {
+    }
+    
+    func visit(node: And) {
+    }
+    
+    func visit(node: Or) {
     }
 }
 
@@ -158,13 +212,91 @@ extension BooleanLiteral {
     }
 }
 
-extension Prefix {
+extension Neg {
     func accept(visitor: FormNodeVisitor) {
         visitor.visit(self)
     }
 }
 
-extension Infix {
+extension Not {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Add {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Sub {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Mul {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Div {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Pow {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Eq {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Ne {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Ge {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Gt {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Le {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Lt {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension And {
+    func accept(visitor: FormNodeVisitor) {
+        visitor.visit(self)
+    }
+}
+
+extension Or {
     func accept(visitor: FormNodeVisitor) {
         visitor.visit(self)
     }
