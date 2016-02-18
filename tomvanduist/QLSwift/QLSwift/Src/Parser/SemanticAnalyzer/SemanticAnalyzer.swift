@@ -8,12 +8,12 @@
 
 import Foundation
 
-class SemanticAnalyser: FormNodeVisitor {
+class SemanticAnalyser: ConcreteFormNodeVisitor {
     
-    let context: Context
-    var error: SemanticError = SemanticError.None
+    var context: Context?
+    var error: SemanticError? = SemanticError.None
     
-    init(context: Context) {
+    convenience init(context: Context) {    
         self.context = context
     }
     
@@ -29,43 +29,23 @@ class SemanticAnalyser: FormNodeVisitor {
         }
     }
     
-    func visit(node: Form) {
-        node.identifier.accept(self)
-        node.statement.accept(self)
-    }
-    
-    func visit(node: Question) {
+    override func visit(node: Question) {
         do { try context.assign(node.identifier, object: (type(node.expression), node.expression)) }
         catch let e { error.collect(e) }
         
-        node.identifier.accept(self)
-        node.expression.accept(self)
+        super.visit(node)
     }
     
-    func visit(node: Conditional) {
-        node.condition.accept(self)
-        node.ifBlock.accept(self)
-        node.elseBlock?.accept(self)
+    override func visit(node: Conditional) {
+        super.visit(node)
         
         if (type(node.condition) != Type.Bool) {
             error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
         }
     }
     
-    func visit(node: Block) {
-        for statement in node.block {
-            statement.accept(self)
-        }
-    }
-    
-    func visit(node: Identifier) {
-    }
-    
-    func visit(node: BooleanField) {
-    }
-    
-    func visit(node: MoneyField) {
-        node.expression?.accept(self)
+    override func visit(node: MoneyField) {
+        super.visit(node)
         
         if let expression = node.expression {
             if type(expression) != Type.Number {
@@ -74,29 +54,16 @@ class SemanticAnalyser: FormNodeVisitor {
         }
     }
     
-    func visit(node: StringLiteral) {
-    }
-    
-    func visit(node: IntegerLiteral) {
-    }
-    
-    func visit(node: FloatLiteral) {
-    }
-    
-    func visit(node: BooleanLiteral) {
-    }
-    
-    func visit(node: Prefix) {
-        node.rhs.accept(self)
+    override func visit(node: Prefix) {
+        super.visit(node)
         
         if (type(node) != type(node.rhs)) {
             error.collect(SemanticError.TypeMismatch(description: "Prefix type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
         }
     }
     
-    func visit(node: Infix) {
-        node.lhs.accept(self)
-        node.rhs.accept(self)
+    override func visit(node: Infix) {
+        super.visit(node)
         
         let typeError = { [unowned self] in
             self.error.collect(SemanticError.TypeMismatch(description: "Infix type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
