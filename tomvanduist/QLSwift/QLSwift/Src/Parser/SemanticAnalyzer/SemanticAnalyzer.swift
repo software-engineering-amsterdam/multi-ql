@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SemanticAnalyser: FormNodeVisitor {
+class SemanticAnalyser: ASTNodeVisitor {
     
     var context: Context
     var error: SemanticError = SemanticError.None
@@ -17,7 +17,7 @@ class SemanticAnalyser: FormNodeVisitor {
         self.context = context
     }
     
-    func analyze(node: FormNode) throws -> FormNode {
+    func analyze(node: ASTNode) throws -> ASTNode {
         error = SemanticError.None
         
         node.accept(self)
@@ -50,7 +50,6 @@ class SemanticAnalyser: FormNodeVisitor {
         if (type(node.condition) !== BooleanType()) {
             error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
         }
-
     }
     
     func visit(node: Block) {

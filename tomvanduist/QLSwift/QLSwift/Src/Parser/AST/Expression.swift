@@ -9,7 +9,7 @@
 import Foundation
 
 
-protocol Expression: FormNode {
+protocol Expression: ASTNode {
     var type: FormNodeType { get }
     
     func eval() -> NSValue?

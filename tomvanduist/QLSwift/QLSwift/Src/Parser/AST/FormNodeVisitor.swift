@@ -1,5 +1,5 @@
 //
-//  FormNodeVisitor.swift
+//  ASTNodeVisitor.swift
 //  QLSwift
 //
 //  Created by Tom van Duist on 11/02/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol FormNodeVisitor {
+protocol ASTNodeVisitor {
     func visit(node: Form)
     func visit(node: Question)
     func visit(node: Conditional)
@@ -35,7 +35,7 @@ protocol FormNodeVisitor {
     func visit(node: Or)
 }
 
-extension FormNodeVisitor {
+extension ASTNodeVisitor {
     func visit(node: Form) {
         node.identifier.accept(self)
         node.statement.accept(self)
@@ -136,168 +136,168 @@ extension FormNodeVisitor {
     }
 }
 
-protocol FormNodeVisitable {
-    func accept(visitor: FormNodeVisitor) -> Void
+protocol ASTNodeVisitable {
+    func accept(visitor: ASTNodeVisitor)
 }
 
 extension Form {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Question {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Conditional {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Block {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Identifier {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension BooleanField {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension StringField {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension MoneyField {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension StringLiteral {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension IntegerLiteral {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension FloatLiteral {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension BooleanLiteral {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Neg {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Not {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Add {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Sub {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Mul {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Div {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Pow {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Eq {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Ne {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Ge {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Gt {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Le {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Lt {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension And {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }
 
 extension Or {
-    func accept(visitor: FormNodeVisitor) {
+    func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }
 }

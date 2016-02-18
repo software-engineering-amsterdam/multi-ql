@@ -9,10 +9,10 @@
 import Foundation
 
 
-protocol FormNode: FormNodeVisitable {
+protocol ASTNode: ASTNodeVisitable {
 }
 
-class Form: FormNode {
+class Form: ASTNode {
     let identifier: Identifier
     let statement: Statement
     
