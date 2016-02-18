@@ -1,4 +1,4 @@
-package org.uva.ql;
+package org.uva.ql.ast.check;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,31 +85,6 @@ public class SemanticAnalyser {
 	 */
 	public Result validateCyclicReferences(Questionnaire questionnaire) {
 		return new CyclicReferenceVisitor().visit(questionnaire);
-	}
-
-	private static class SymbolTable {
-
-		private Map<String, ValueType> nameToType = new HashMap<>();
-
-		public SymbolTable() {
-			nameToType = new HashMap<>();
-		}
-
-		public SymbolTable(SymbolTable table) {
-			nameToType = new HashMap<>(table.nameToType);
-		}
-
-		public boolean contains(String name) {
-			return nameToType.containsKey(name);
-		}
-
-		public void add(String name, ValueType type) {
-			nameToType.put(name, type);
-		}
-
-		public ValueType getType(String name) {
-			return nameToType.get(name);
-		}
 	}
 
 	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
@@ -349,44 +324,6 @@ public class SemanticAnalyser {
 		}
 	}
 
-	private static class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
-
-		private Result result;
-
-		public DuplicateQuestionLabelVisitor() {
-
-		}
-
-		public Result visit(Questionnaire q) {
-			result = new Result();
-
-			q.accept(this, new QuestionTable());
-
-			return result;
-		}
-
-		@Override
-		public Void visit(Question node, QuestionTable qt) {
-			String label;
-			VariableType knownType;
-			VariableType nodeType;
-
-			label = node.getLabel();
-			nodeType = node.getType();
-			knownType = qt.add(label, nodeType);
-			if (knownType != null) {
-				result.addWarning("Duplicate label: %s", label);
-
-				if (!Objects.equals(nodeType, knownType)) {
-					result.addError("Question with '%s' has been declared twice, but with different types: %s and %s",
-							label, nodeType, knownType);
-				}
-			}
-
-			return null;
-		}
-	}
-
 	public static class Result {
 
 		private final List<String> warnings = new ArrayList<>();
@@ -396,11 +333,11 @@ public class SemanticAnalyser {
 
 		}
 
-		private void addWarning(String msg, Object... args) {
+		void addWarning(String msg, Object... args) {
 			warnings.add(String.format("WARNING: %s", String.format(msg, args)));
 		}
 
-		private void addError(String msg, Object... args) {
+		void addError(String msg, Object... args) {
 			errors.add(String.format("ERROR  : %s", String.format(msg, args)));
 		}
 
@@ -442,6 +379,69 @@ public class SemanticAnalyser {
 			for (String msg : getWarnings()) {
 				System.out.println(msg);
 			}
+		}
+	}
+
+	private static class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
+
+		private Result result;
+
+		public DuplicateQuestionLabelVisitor() {
+
+		}
+
+		public Result visit(Questionnaire q) {
+			result = new Result();
+
+			q.accept(this, new QuestionTable());
+
+			return result;
+		}
+
+		@Override
+		public Void visit(Question node, QuestionTable qt) {
+			String label;
+			VariableType knownType;
+			VariableType nodeType;
+
+			label = node.getLabel();
+			nodeType = node.getType();
+			knownType = qt.add(label, nodeType);
+			if (knownType != null) {
+				result.addWarning("Duplicate label: %s", label);
+
+				if (!Objects.equals(nodeType, knownType)) {
+					result.addError("Question with '%s' has been declared twice, but with different types: %s and %s",
+							label, nodeType, knownType);
+				}
+			}
+
+			return null;
+		}
+	}
+
+	private static class SymbolTable {
+
+		private Map<String, ValueType> nameToType = new HashMap<>();
+
+		public SymbolTable() {
+			nameToType = new HashMap<>();
+		}
+
+		public SymbolTable(SymbolTable table) {
+			nameToType = new HashMap<>(table.nameToType);
+		}
+
+		public boolean contains(String name) {
+			return nameToType.containsKey(name);
+		}
+
+		public void add(String name, ValueType type) {
+			nameToType.put(name, type);
+		}
+
+		public ValueType getType(String name) {
+			return nameToType.get(name);
 		}
 	}
 

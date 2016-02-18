@@ -6,7 +6,8 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.uva.ql.SemanticAnalyser.Result;
+import org.uva.ql.ast.check.SemanticAnalyser;
+import org.uva.ql.ast.check.SemanticAnalyser.Result;
 import org.uva.ql.ast.form.Questionnaire;
 
 public class SemanticAnalyserTest {
