@@ -20,15 +20,17 @@ protocol Expression: FormNode {
     var type: Type { get }
     func resolveType(context: Context) -> Type
     
-    func eval(context: Context) -> NSValue?
+    func eval() -> NSValue?
 }
 
 class Identifier: Expression {
     let type: Type = Type.Id
     let id: String
+    var expression: Expression?
     
-    init(id: String) {
+    init(id: String, expression: Expression?) {
         self.id = id
+        self.expression = expression
     }
     
     internal func resolveType(context: Context) -> Type {
@@ -39,11 +41,8 @@ class Identifier: Expression {
         }
     }
     
-    func eval(context: Context) -> NSValue? {
-        if let (_, expression) = context.retrieve(self) {
-            return expression?.eval(context)
-        }
-        return nil
+    func eval() -> NSValue? {
+        return expression?.eval()
     }
 }
 
@@ -55,7 +54,7 @@ class BooleanField: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
+    func eval() -> NSValue? {
         return value
     }
 }
@@ -68,7 +67,7 @@ class StringField: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
+    func eval() -> NSValue? {
         return value
     }
 }
@@ -85,8 +84,8 @@ class MoneyField: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
-        return expression?.eval(context)
+    func eval() -> NSValue? {
+        return expression?.eval()
     }
 }
 
@@ -102,7 +101,7 @@ class StringLiteral: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
+    func eval() -> NSValue? {
         return NSValue(pointer: string)
     }
 }
@@ -119,7 +118,7 @@ class IntegerLiteral: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
+    func eval() -> NSValue? {
         return integer
     }
 }
@@ -136,7 +135,7 @@ class FloatLiteral: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
+    func eval() -> NSValue? {
         return float
     }
 }
@@ -153,7 +152,7 @@ class BooleanLiteral: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
+    func eval() -> NSValue? {
         return bool
     }
 }
@@ -180,10 +179,10 @@ class Prefix: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
+    func eval() -> NSValue? {
         switch op {
-            case .Neg: return rhs.eval(context) as! Double * -1
-            case .Not: return rhs.eval(context) == false
+            case .Neg: return rhs.eval() as! Double * -1
+            case .Not: return rhs.eval() == false
         }
     }
 }
@@ -222,21 +221,21 @@ class Infix: Expression {
         return type
     }
     
-    func eval(context: Context) -> NSValue? {
+    func eval() -> NSValue? {
         switch op {
-            case .Add: return (lhs.eval(context) as! Double) + (rhs.eval(context) as! Double)
-            case .Sub: return (lhs.eval(context) as! Double) - (rhs.eval(context) as! Double)
-            case .Mul: return (lhs.eval(context) as! Double) * (rhs.eval(context) as! Double)
-            case .Div: return (lhs.eval(context) as! Double) / (rhs.eval(context) as! Double)
-            case .Pow: return pow((lhs.eval(context) as! Double), (rhs.eval(context) as! Double))
-            case .Eq: return lhs.eval(context) == rhs.eval(context)
-            case .Ne: return lhs.eval(context) != rhs.eval(context)
-            case .Ge: return (lhs.eval(context) as! Double) >= (rhs.eval(context) as! Double)
-            case .Gt: return (lhs.eval(context) as! Double) > (rhs.eval(context) as! Double)
-            case .Le: return (lhs.eval(context) as! Double) <= (rhs.eval(context) as! Double)
-            case .Lt: return (lhs.eval(context) as! Double) < (rhs.eval(context) as! Double)
-            case .And: return (lhs.eval(context) as! Bool) && (rhs.eval(context) as! Bool)
-            case .Or: return (lhs.eval(context) as! Bool) || (rhs.eval(context) as! Bool)
+            case .Add: return (lhs.eval() as! Double) + (rhs.eval() as! Double)
+            case .Sub: return (lhs.eval() as! Double) - (rhs.eval() as! Double)
+            case .Mul: return (lhs.eval() as! Double) * (rhs.eval() as! Double)
+            case .Div: return (lhs.eval() as! Double) / (rhs.eval() as! Double)
+            case .Pow: return pow((lhs.eval() as! Double), (rhs.eval() as! Double))
+            case .Eq: return lhs.eval() == rhs.eval()
+            case .Ne: return lhs.eval() != rhs.eval()
+            case .Ge: return (lhs.eval() as! Double) >= (rhs.eval() as! Double)
+            case .Gt: return (lhs.eval() as! Double) > (rhs.eval() as! Double)
+            case .Le: return (lhs.eval() as! Double) <= (rhs.eval() as! Double)
+            case .Lt: return (lhs.eval() as! Double) < (rhs.eval() as! Double)
+            case .And: return (lhs.eval() as! Bool) && (rhs.eval() as! Bool)
+            case .Or: return (lhs.eval() as! Bool) || (rhs.eval() as! Bool)
         }
     }
 }

@@ -3,9 +3,9 @@ form Box1HouseOwning {
     hasBoughtHouse: "Did you by a house in 2010?" 2
     hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" money(hasSoldHouse + hasBoughtHouse)
 
-    if (privateDebt > 0) {
+    if (hasMaintLoan > 0) {
         sellingPrice: "Price the house was sold for:" money
-        privateDebt: "Private debts for the sold house:" (privateDebt + privateDebt * 10)
+        privateDebt: "Private debts for the sold house:" (privateDebt * 10)
         valueResidue: "Value residue:" money(privateDebt + privateDebt)
     }
 }

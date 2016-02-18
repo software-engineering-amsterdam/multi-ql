@@ -35,11 +35,11 @@ class SemanticAnalyser: FormNodeVisitor {
     }
     
     func visit(node: Question) {
-        do { try context.assign(node.identifier, object: (type(node.expression), node.expression)) }
-        catch let e { error.collect(e) }
-        
         node.identifier.accept(self)
         node.expression.accept(self)
+        
+        do { try context.assign(node.identifier, object: (type(node.expression), node.expression)) }
+        catch let e { error.collect(e) }
     }
     
     func visit(node: Conditional) {
@@ -59,9 +59,9 @@ class SemanticAnalyser: FormNodeVisitor {
     }
     
     func visit(node: Identifier) {
-    }
-    
-    func visit(node: BooleanField) {
+        if let o: Object = context.retrieve(node) {
+            node.expression = o.expression
+        }
     }
     
     func visit(node: MoneyField) {
@@ -72,18 +72,6 @@ class SemanticAnalyser: FormNodeVisitor {
                 error.collect(SemanticError.TypeMismatch(description: "Money expression must result in a numerical value: \(node.expression)"))
             }
         }
-    }
-    
-    func visit(node: StringLiteral) {
-    }
-    
-    func visit(node: IntegerLiteral) {
-    }
-    
-    func visit(node: FloatLiteral) {
-    }
-    
-    func visit(node: BooleanLiteral) {
     }
     
     func visit(node: Prefix) {
@@ -142,7 +130,7 @@ class SemanticAnalyser: FormNodeVisitor {
         let type = node.resolveType(context)
         
         if case .Unknown = type {
-            error.collect(SemanticError.TypeMismatch(description: "Unable to resolve type of expression \(node)."))
+            error.collect(SemanticError.NotDefined(description: "\(node) is not (yet) defined."))
         }
         
         return type

@@ -17,7 +17,7 @@ enum Type {
     case Unknown
 }
 
-typealias Object = (type: Type, value: Expression?)
+typealias Object = (type: Type, expression: Expression?)
 
 class Context {
     static let sharedInstance = Context()
