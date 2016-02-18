@@ -49,7 +49,7 @@ extension XCTestCase {
     internal func assertToForm(qlForm: QLForm?) -> Form? {
         XCTAssertNotNil(qlForm)
         
-        let form = qlForm?.implode()
+        let form = qlForm?.implode(Context())
         XCTAssertNotNil(form)
         
         return form

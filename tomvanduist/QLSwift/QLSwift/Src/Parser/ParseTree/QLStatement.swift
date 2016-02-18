@@ -9,7 +9,7 @@
 import Foundation
 
 protocol QLStatement {
-    func implode() -> Statement
+    func implode(context: Context) -> Statement
 }
 
 class QLQuestionStatement: QLStatement {
