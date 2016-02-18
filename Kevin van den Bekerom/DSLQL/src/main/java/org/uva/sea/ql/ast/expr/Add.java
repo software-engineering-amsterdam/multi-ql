@@ -2,32 +2,31 @@ package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.Visitable;
 import org.uva.sea.ql.ast.Visitor;
+import org.uva.sea.ql.ast.form.Context;
 
 public class Add extends BinaryExpr implements Visitable {
 	
 	public Add(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
 		super.rhs = rhs;
-		super.type = Type.INT;
 	}
 	
 	@Override
 	public Integer eval() {
-		try {
-			return (Integer) lhs.eval() + (Integer) rhs.eval();
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return (Integer) lhs.eval() + (Integer) rhs.eval();
 	}
 	
 	public void accept(Visitor visitor) {
-		visitor.visit(this);
+		visitor.visit(this, null);
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.toString() + " (+)";
+	}
+
+	@Override
+	public Type getType(Context context) {
+		return Type.INT;
 	}
 }

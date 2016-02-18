@@ -23,18 +23,9 @@ block returns [Block result]
 	}
 	: (ifStatement[$result] | elseStatement[$result] | question[$result])+;
 
-
-/* Statement Grammar Rules */
-
-// statement returns [Block result]
-//	: ifStatement[$result]
-//	| elseStatement[$result]
-//	| question[$result]
-//	;
-	
 ifStatement [Block result]
 	: IF '(' orExpr ')' '{' block '}' {
-		$result.add(new IfStatement($block.result, $orExpr.result));
+		$result.add(new IfStatement($block.result, $orExpr.result, $IF.getLine()));
 	}
 	;
 	
@@ -45,10 +36,10 @@ elseStatement [Block result]
 	;
 	
 question [Block result]
-	: variable ':' label t = type ('(' orExpr ')')+ {
-		$result.add(new Question($variable.text, $label.text, $t.result, $orExpr.result));}
-	| variable ':' label t = type {
-		$result.add(new Question($variable.text, $label.text, $t.result, null));}
+	: v=variable ':' label t = type ('(' orExpr ')')+ {
+		$result.add(new ComputedQuestion($v.text, $label.text, $t.result, $orExpr.result, $v.start.getLine()));}
+	| v=variable ':' label t = type {
+		$result.add(new Question($v.text, $label.text, $t.result, $v.start.getLine()));}
 	;
 
 variable returns [Expr result]
