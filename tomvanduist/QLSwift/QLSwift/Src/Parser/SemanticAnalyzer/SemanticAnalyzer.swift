@@ -10,7 +10,7 @@ import Foundation
 
 class SemanticAnalyser: FormNodeVisitor {
     
-    let context: Context
+    var context: Context
     var error: SemanticError = SemanticError.None
     
     init(context: Context) {
@@ -54,8 +54,14 @@ class SemanticAnalyser: FormNodeVisitor {
     }
     
     func visit(node: Block) {
+        context = Context(parent: context)
+        
         for statement in node.block {
             statement.accept(self)
+        }
+        
+        if let parent = context.parent {
+            context = parent
         }
     }
     
