@@ -31,10 +31,10 @@ public class QLQuestionaire {
 
 		jframe = new JFrame();
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jframe.setLocationRelativeTo(null);
 
 		jframe.setContentPane(forms.get(0).getComponent());
-		jframe.setSize(400, 300);
+		jframe.setSize(400, 600);
+		jframe.setLocationRelativeTo(null);
 		jframe.setVisible(true);
 	}
 
