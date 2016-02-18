@@ -1,4 +1,4 @@
-package org.uva.ql;
+package org.uva.ql.ui;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.Expr;
@@ -9,11 +9,8 @@ import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.stat.IFStat;
-import org.uva.ql.ui.QLForm;
-import org.uva.ql.ui.QLQuestionaire;
-import org.uva.ql.ui.WidgetFactory;
 
-public class QLInterpreter extends ASTNodeVisitorAdapter<Void, Void> {
+public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 
 	private final WidgetFactory widgetFactory;
 
@@ -21,7 +18,7 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Void, Void> {
 	private QLForm currentForm;
 	private Expr currentCondition;
 
-	public QLInterpreter(WidgetFactory factory) {
+	public QLASTToUIVisitor(WidgetFactory factory) {
 		widgetFactory = factory;
 	}
 
