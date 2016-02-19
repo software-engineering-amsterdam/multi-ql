@@ -4,6 +4,8 @@ import org.uva.sea.ql.ast.expr.*;
 
 public class ComputedQuestion extends Question {
     
+    public static final int HASH_FACTOR = 41;
+    
     private final Expr calculation;
     
     public ComputedQuestion(Ident identifier, Label label, ASTNode type, Expr theCalculation) {
@@ -19,9 +21,7 @@ public class ComputedQuestion extends Question {
 
     @Override
     public int hashCode() {
-        int hash = super.hashCode();
-        hash = 41 * hash + calculation.hashCode();
-        return hash;
+        return HASH_FACTOR * super.hashCode() + calculation.hashCode();
     }
     
 }

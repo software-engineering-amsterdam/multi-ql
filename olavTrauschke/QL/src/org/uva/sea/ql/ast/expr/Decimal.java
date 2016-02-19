@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class Decimal extends NumericExpr {
     
+    public static final int HASH_ORIGIN = 87;
+    
     private Double value;
     
     public Decimal(Double theValue) {
@@ -21,8 +23,6 @@ public class Decimal extends NumericExpr {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + Objects.hashCode(this.value);
-        return hash;
+        return HASH_ORIGIN + Objects.hashCode(this.value);
     }
 }

@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class Str extends Expr {
     
+    public static final int HASH_ORIGIN = 249;
+    
     private final String value;
     
     public Str(String theValue) {
@@ -21,9 +23,7 @@ public class Str extends Expr {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + Objects.hashCode(this.value);
-        return hash;
+        return HASH_ORIGIN + Objects.hashCode(this.value);
     }
     
     public String getValue() {

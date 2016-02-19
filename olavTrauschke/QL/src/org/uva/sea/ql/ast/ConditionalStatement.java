@@ -5,6 +5,9 @@ import org.uva.sea.ql.ast.expr.Expr;
 
 public class ConditionalStatement extends ASTNode {
     
+    public static final int HASH_ORIGIN = 3;
+    public static final int HASH_FACTOR = 79;
+    
     private final Expr condition;
     private final ASTNode toDoIf;
     private final ASTNode toDoElse;
@@ -29,10 +32,10 @@ public class ConditionalStatement extends ASTNode {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + condition.hashCode();
-        hash = 79 * hash + toDoIf.hashCode();
-        hash = 79 * hash + Objects.hashCode(this.toDoElse);
+        int hash = HASH_ORIGIN;
+        hash = HASH_FACTOR * hash + condition.hashCode();
+        hash = HASH_FACTOR * hash + toDoIf.hashCode();
+        hash = HASH_FACTOR * hash + Objects.hashCode(this.toDoElse);
         return hash;
     }
 }
