@@ -57,7 +57,7 @@ public class QL {
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
         
         // SEMANTIC ANALYSIS! DO WE STILL NEED THIS ONE?
-        SemanticAnalysis semanticAnalysis = new SemanticAnalysis(questions);
+        CyclicDependencyVisitor semanticAnalysis = new CyclicDependencyVisitor(questions);
         
         ast.accept(semanticAnalysis);
         
