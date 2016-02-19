@@ -57,12 +57,12 @@ public class QL {
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
         
         // SEMANTIC ANALYSIS! DO WE STILL NEED THIS ONE?
-        CyclicDependencyVisitor semanticAnalysis = new CyclicDependencyVisitor(questions);
+        CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor(questions);
         
-        ast.accept(semanticAnalysis);
+        ast.accept(cyclicDependencyVisitor);
         
-        displayMessages("SemanticAnalysis Warnings", semanticAnalysis.getWarnings());
-        displayMessages("SemanticAnalysis Errors", semanticAnalysis.getErrors());
+        displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
+        displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
                
         TypeChecker typeChecker = new TypeChecker(questions);
         
