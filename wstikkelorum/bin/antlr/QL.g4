@@ -17,7 +17,7 @@ file
 	;
 
 form returns [Form result]
-	: 'form' ID body { $result = new Form($ID.text, $body.result); }
+	: 'form' ID body { $result = new Form($ID.getLine(), $ID.text, $body.result); }
 	;
 	
 body returns [Body result]
@@ -32,52 +32,52 @@ statement [Body result]
 	;
 
 question returns [Question result]
-	: variable STR { $result = new Question($variable.result, $STR.text); }
+	: variable STR { $result = new Question($variable.start.getLine(), $variable.result, $STR.text); }
 	;
 
 assignmentQuestion returns [AssignmentQuestion result]
-	: variable STR '(' orExpression ')' { $result = new AssignmentQuestion($variable.result, $STR.text, $orExpression.result); }
+	: variable STR '(' orExpression ')' { $result = new AssignmentQuestion($variable.start.getLine(), $variable.result, $STR.text, $orExpression.result); }
 	;
 	
 ifStatement returns [IfStatement result]
-	: 'if' '(' orExpression ')' body { $result = new IfStatement($orExpression.result, $body.result); }
+	: 'if' '(' orExpression ')' body { $result = new IfStatement($orExpression.start.getLine(), $orExpression.result, $body.result); }
 	;
 
 variable returns [Variable result]
-	: ID ':' variableType { $result = new Variable($ID.text, $variableType.result); }
+	: ID ':' variableType { $result = new Variable($ID.getLine(), $ID.text, $variableType.result); }
 	;
 	
 variableType returns [VariableType result]
-	: type=(BOOLEAN | INTEGER | STRING){ $result = new VariableType($type.text); }
+	: type=(BOOLEAN | INTEGER | STRING){ $result = new VariableType($type.getLine(), $type.text); }
 	;
 
 orExpression returns [Expression result]
-	: lhs=andExpression { $result = $lhs.result; } ( '||' rhs=andExpression { $result = new OrExpression($result, $rhs.result); } )*
+	: lhs=andExpression { $result = $lhs.result; } ( '||' rhs=andExpression { $result = new OrExpression($lhs.start.getLine(), $result, $rhs.result); } )*
 	;
 
 andExpression returns [Expression result]
-	: lhs=relExpression { $result = $lhs.result; } ( '&&' rhs=relExpression { $result = new AndExpression($result, $rhs.result); } )*
+	: lhs=relExpression { $result = $lhs.result; } ( '&&' rhs=relExpression { $result = new AndExpression($lhs.start.getLine(), $result, $rhs.result); } )*
 	;
 
 relExpression returns [Expression result]
 	: lhs=addExpression { $result = $lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpression {
 			if ($op.text.equals("<")) {
-			  $result = new LT($result, $rhs.result);
+			  $result = new LT($lhs.start.getLine(), $result, $rhs.result);
 			}
 			if ($op.text.equals("<=")) {
-			  $result = new LEq($result, $rhs.result);      
+			  $result = new LEq($lhs.start.getLine(), $result, $rhs.result);      
 			}
 			if ($op.text.equals(">")) {
-			  $result = new GT($result, $rhs.result);
+			  $result = new GT($lhs.start.getLine(), $result, $rhs.result);
 			}
 			if ($op.text.equals(">=")) {
-			  $result = new GEq($result, $rhs.result);      
+			  $result = new GEq($lhs.start.getLine(), $result, $rhs.result);      
 			}
 			if ($op.text.equals("==")) {
-			  $result = new Eq($result, $rhs.result);
+			  $result = new Eq($lhs.start.getLine(), $result, $rhs.result);
 			}
 			if ($op.text.equals("!=")) {
-			  $result = new NEq($result, $rhs.result);
+			  $result = new NEq($lhs.start.getLine(), $result, $rhs.result);
 			}
 		}
 	)*
@@ -86,10 +86,10 @@ relExpression returns [Expression result]
 addExpression returns [Expression result]
 	: lhs=mulExpression { $result = $lhs.result; } ( op=('+' | '-') rhs=mulExpression {
 			if($op.text.equals("+")){
-				$result = new Add($result, $rhs.result);
+				$result = new Add($lhs.start.getLine(), $result, $rhs.result);
 			}
 			if($op.text.equals("-")){
-				$result = new Sub($result, $rhs.result);
+				$result = new Sub($lhs.start.getLine(), $result, $rhs.result);
 			}
 		}
 	)*
@@ -98,10 +98,10 @@ addExpression returns [Expression result]
 mulExpression returns [Expression result]
 	: lhs=unExpression { $result = $lhs.result; } ( op=('*' | '/') rhs=unExpression {
 			if($op.text.equals("*")){
-				$result = new Mul($result, $rhs.result);
+				$result = new Mul($lhs.start.getLine(), $result, $rhs.result);
 			}
 			if($op.text.equals("/")){
-				$result = new Div($result, $rhs.result);
+				$result = new Div($lhs.start.getLine(), $result, $rhs.result);
 			}
 		}
 	)*
@@ -122,19 +122,19 @@ literal returns [Literal result]
 	;
 
 intLiteral returns [IntLiteral result]
-	: INT { $result = new IntLiteral(Integer.valueOf($INT.text)); }
+	: INT { $result = new IntLiteral($INT.getLine(), Integer.valueOf($INT.text)); }
 	;
 	
 boolLiteral returns [BoolLiteral result]
-	: BOOL { $result = new BoolLiteral(Boolean.valueOf($BOOL.text)); }
+	: BOOL { $result = new BoolLiteral($BOOL.getLine(), Boolean.valueOf($BOOL.text)); }
 	;
 
 stringLiteral returns [StringLiteral result]
-	: STR { $result = new StringLiteral($STR.text); }
+	: STR { $result = new StringLiteral($STR.getLine(), $STR.text); }
 	;
 
 variableExpression returns [VariableExpression result]
-	: ID { $result = new VariableExpression($ID.text); }
+	: ID { $result = new VariableExpression($ID.getLine(), $ID.text); }
 	;
 	
 WHITESPACE: (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);

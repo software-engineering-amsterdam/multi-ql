@@ -1,13 +1,15 @@
 package ast.form;
 
+import ast.TreeNode;
 import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
-public class Form implements Visitable{
+public class Form extends TreeNode implements Visitable{
 	private String id;
 	private Body body;
 
-	public Form(String id, Body result) {
+	public Form(int lineNumber, String id, Body result) {
+		super(lineNumber);
 		this.id = id;
 		this.body = result;
 	}
