@@ -3,6 +3,7 @@ package nl.nicasso.ql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
+import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.structure.Form;
 
 public class QL {
@@ -45,31 +47,31 @@ public class QL {
         CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
         
-        SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
+        QuestionVisitor questionVisitor = new QuestionVisitor();
+        
+        ast.accept(questionVisitor);
+        
+        ArrayList<Question> identifiers = questionVisitor.getQuestions();
+        
+        displayMessages("QuestionVisitor Warnings", questionVisitor.getWarnings());
+        displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
+        
+        // SEMANTIC ANALYSIS!
+        SemanticAnalysis semanticAnalysis = new SemanticAnalysis(identifiers);
         
         ast.accept(semanticAnalysis);
         
-        if (!semanticAnalysis.getWarnings().isEmpty()) {
-        	System.out.println("-------------------------------WARNINGS!--------------------------------------------");
-        	for (String warning : semanticAnalysis.getWarnings()) {
-        		System.out.println(warning);
-        	}
-        }
-                
-        if (!semanticAnalysis.getErrors().isEmpty()) {
-        	System.out.println("-------------------------------ERRORS!--------------------------------------------");
-        	for (String error : semanticAnalysis.getErrors()) {
-        		System.out.println(error);
-        	}
-        	
-        	return;
-        }
+        displayMessages("SemanticAnalysis Warnings", semanticAnalysis.getWarnings());
+        displayMessages("SemanticAnalysis Errors", semanticAnalysis.getErrors());
         
         /*
         
         TypeChecker typeChecker = new TypeChecker();
         
         ast.accept(typeChecker);
+        
+        displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
+        displayMessages("TypeChecker Errors", typeChecker.getErrors());
                 
         if (!typeChecker.getErrors().isEmpty()) {
         	System.out.println("-------------------------------ERRORS!--------------------------------------------");
@@ -89,6 +91,15 @@ public class QL {
         
         //Gui ex = new Gui();
         //ex.setVisible(true);
+	}
+	
+	private void displayMessages(String title, ArrayList<String> messages) {
+		if (!messages.isEmpty()) {
+        	System.out.println("-------------------------------"+title+"--------------------------------------------");
+        	for (String message : messages) {
+        		System.out.println(message);
+        	}
+        }
 	}
 	
 	private ANTLRInputStream readInputDSL() {

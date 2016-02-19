@@ -42,9 +42,11 @@ public class TypeChecker implements Visitor<Type> {
 	private boolean debug = false;
 	
 	private ArrayList<String> errors;
+	private ArrayList<String> warnings;
 
 	TypeChecker() {
 		errors = new ArrayList<String>();
+		warnings = new ArrayList<String>();
 	}
 		
 	@Override
@@ -502,6 +504,10 @@ public class TypeChecker implements Visitor<Type> {
 	
 	public ArrayList<String> getErrors() {
 		return errors;
+	}
+	
+	public ArrayList<String> getWarnings() {
+		return warnings;
 	}
 	
 }

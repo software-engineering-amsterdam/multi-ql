@@ -1,17 +1,13 @@
 form taxOfficeExample { 
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
+  
   "What was the selling price?"
-    hasSoldHouse3: boolean
+    hasSoldHouse3: money
     
-  if (true) {
-  	"What was the sellllling price?"
-      sellingPrice2: money
-  } else {
-    "What was the sellllling price?"
-      sellingPrice2: money
-  }
+  "What was the selling price??"
+    hasSoldHouse3: integer
   
   "What was the selllasdlling price?"
-    sellingPrice123: money = (sellingPrice2)
+    sellingPrice123: money = (hasSoldHouse3)
 }
