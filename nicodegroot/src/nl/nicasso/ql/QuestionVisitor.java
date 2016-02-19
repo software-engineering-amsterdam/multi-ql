@@ -37,7 +37,6 @@ public class QuestionVisitor implements Visitor<IdentifierLit> {
 	private boolean debug = false;
 
 	private ArrayList<Question> questions;
-	
 	private ArrayList<String> warnings;
 	private ArrayList<String> errors;
 

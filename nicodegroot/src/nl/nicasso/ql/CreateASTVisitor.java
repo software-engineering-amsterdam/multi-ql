@@ -54,7 +54,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 		if (debug)
 			System.out.println("Form");
 
-		IdentifierLit id = new IdentifierLit(ctx.identifier.getText(), null);
+		IdentifierLit id = new IdentifierLit(ctx.identifier.getText());
 		Block bl = (Block) ctx.block().accept(this);
 
 		return new Form(id, bl);
@@ -80,11 +80,9 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 			System.out.println("Question");
 
 		Type type = (Type) ctx.type.accept(this);
-		IdentifierLit id = new IdentifierLit(ctx.identifier.getText(), type);
+		IdentifierLit id = new IdentifierLit(ctx.identifier.getText());
 		String label = ctx.label.getText();
 		
-		types.add(id);
-
 		return new Question(id, label, type);
 	}
 
@@ -94,11 +92,9 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 			System.out.println("ComputedQuestion");
 
 		Type type = (Type) ctx.type.accept(this);
-		IdentifierLit id = new IdentifierLit(ctx.identifier.getText(), type);
+		IdentifierLit id = new IdentifierLit(ctx.identifier.getText());
 		String label = ctx.label.getText();
 		Expression expr = (Expression) ctx.expr.accept(this);
-		
-		types.add(id);
 
 		return new ComputedQuestion(id, label, type, expr);
 	}
@@ -293,10 +289,8 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 	public ASTNode visitIdentifierLiteral(QLParser.IdentifierLiteralContext ctx) {
 		if (debug)
 			System.out.println("Identifier");
-		
-		Type relatedType = getIdentifierType(ctx.getText());
-		
-		return new IdentifierLit(ctx.getText(), relatedType);
+						
+		return new IdentifierLit(ctx.getText());
 	}
 	
 	private Type getIdentifierType(String identifier) {

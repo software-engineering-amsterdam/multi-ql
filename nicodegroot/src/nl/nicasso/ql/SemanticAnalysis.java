@@ -45,12 +45,12 @@ public class SemanticAnalysis implements Visitor<Void> {
 	private ArrayList<String> warnings;
 	private ArrayList<String> errors;
 
-	SemanticAnalysis(ArrayList<Question> identifiers) {
+	SemanticAnalysis(ArrayList<Question> questions) {
 		//scopes = new Stack<ArrayList<Question>>();
 		//currentScope = null;
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
-		this.questions = identifiers;
+		this.questions = questions;
 	}
 
 	@Override

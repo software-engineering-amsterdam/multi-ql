@@ -39,14 +39,17 @@ import nl.nicasso.ql.ast.type.Type;
 
 public class TypeChecker implements Visitor<Type> {
 
-	private boolean debug = false;
+	private boolean debug = true;
+	
+	private ArrayList<Question> questions;
 	
 	private ArrayList<String> errors;
 	private ArrayList<String> warnings;
 
-	TypeChecker() {
+	TypeChecker(ArrayList<Question> questions) {
 		errors = new ArrayList<String>();
 		warnings = new ArrayList<String>();
+		this.questions = questions;
 	}
 		
 	@Override
@@ -453,7 +456,7 @@ public class TypeChecker implements Visitor<Type> {
 			System.out.println("IdentifierLit: "+value.getValue());
 		}
 		
-		Type relatedType = value.getType();
+		Type relatedType = getIdentifierType(value.getValue());
 		
 		return relatedType;
 	}
@@ -500,6 +503,15 @@ public class TypeChecker implements Visitor<Type> {
 			return true;
 		}
 		return false;
+	}
+	
+	private Type getIdentifierType(String identifier) {
+		for (Question q : questions) {
+			if (q.getId().getValue().equals(identifier)) {
+				return q.getType();
+			}
+		}
+		return null;
 	}
 	
 	public ArrayList<String> getErrors() {

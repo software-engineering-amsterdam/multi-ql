@@ -7,20 +7,14 @@ import nl.nicasso.ql.ast.type.Type;
 
 public class IdentifierLit extends Literal implements Traversable {
 
-	Type type;
 	String lit;
 
-	public IdentifierLit(String lit, Type type) {
+	public IdentifierLit(String lit) {
 		this.lit = lit;
-		this.type = type;
 	}
 
 	public String getValue() {
 		return lit;
-	}
-	
-	public Type getType() {
-		return type;
 	}
 	
 	@Override

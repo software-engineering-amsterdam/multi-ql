@@ -51,43 +51,25 @@ public class QL {
         
         ast.accept(questionVisitor);
         
-        ArrayList<Question> identifiers = questionVisitor.getQuestions();
+        ArrayList<Question> questions = questionVisitor.getQuestions();
         
         displayMessages("QuestionVisitor Warnings", questionVisitor.getWarnings());
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
         
-        // SEMANTIC ANALYSIS!
-        SemanticAnalysis semanticAnalysis = new SemanticAnalysis(identifiers);
+        // SEMANTIC ANALYSIS! DO WE STILL NEED THIS ONE?
+        SemanticAnalysis semanticAnalysis = new SemanticAnalysis(questions);
         
         ast.accept(semanticAnalysis);
         
         displayMessages("SemanticAnalysis Warnings", semanticAnalysis.getWarnings());
         displayMessages("SemanticAnalysis Errors", semanticAnalysis.getErrors());
-        
-        /*
-        
-        TypeChecker typeChecker = new TypeChecker();
+               
+        TypeChecker typeChecker = new TypeChecker(questions);
         
         ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
-                
-        if (!typeChecker.getErrors().isEmpty()) {
-        	System.out.println("-------------------------------ERRORS!--------------------------------------------");
-        	for (String error : typeChecker.getErrors()) {
-        		System.out.println(error);
-        	}
-        	
-        	return;
-        }
-        */
-        //SymanticAnalysis semanticAnalyser = new SymanticAnalysis();
-		//if (ast.accept(semanticAnalyser)) {
-        // @TODO Insert Fancy GUI here
-        //}
-        
-        //System.out.println("DEZE: "+a.getId().getIdentifier());
         
         //Gui ex = new Gui();
         //ex.setVisible(true);
