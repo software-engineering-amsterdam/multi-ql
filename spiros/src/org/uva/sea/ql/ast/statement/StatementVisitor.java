@@ -2,13 +2,13 @@ package org.uva.sea.ql.ast.statement;
 
 import org.uva.sea.ql.ast.block.Block;
 
-public interface StatementVisitor<ASTNode> {
+public interface StatementVisitor<T> {
 
-	public ASTNode visit(Block block);
-	public ASTNode visit(ComputedQuestion computedQuestion);
-	public ASTNode visit(Question question);
-	public ASTNode visit(IfStatement ifStatement);
-	public ASTNode visit(IfElseStatement ifElseStatement);
+	public T visit(Block block);
+	public T visit(ComputedQuestion computedQuestion);
+	public T visit(Question question);
+	public T visit(IfStatement ifStatement);
+	public T visit(IfElseStatement ifElseStatement);
 	
 }
 

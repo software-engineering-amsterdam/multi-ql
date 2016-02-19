@@ -8,10 +8,10 @@ import org.uva.sea.ql.ast.type.Type;
 
 public class Question extends Statement {
 	Identifier id;
-	StringLiteral label;
+	String label;
 	Type type;
 
-	public Question(Identifier id, StringLiteral label, Type type, CodeFragment fragment) {
+	public Question(Identifier id, String label, Type type, CodeFragment fragment) {
 		super(fragment);
 		this.id = id;
 		this.label = label;
@@ -22,7 +22,7 @@ public class Question extends Statement {
 		return this.id;
 	}
 	
-	public StringLiteral getLabel() {
+	public String getLabel() {
 		return this.label;
 	}
 	
