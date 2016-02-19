@@ -39,15 +39,11 @@ public class SemanticAnalysis implements Visitor<Void> {
 	
 	private ArrayList<Question> questions;
 
-	//private Stack<ArrayList<Question>> scopes;
-	//private ArrayList<Question> currentScope;
 
 	private ArrayList<String> warnings;
 	private ArrayList<String> errors;
 
 	SemanticAnalysis(ArrayList<Question> questions) {
-		//scopes = new Stack<ArrayList<Question>>();
-		//currentScope = null;
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
 		this.questions = questions;
@@ -70,24 +66,10 @@ public class SemanticAnalysis implements Visitor<Void> {
 			System.out.println("Block");
 		}
 
-//		if (currentScope != null) {
-//
-//			// Otherwise it will pass by reference...
-//			ArrayList<Question> scope = (ArrayList<Question>) currentScope.clone();
-//
-//			scopes.push(scope);
-//		} else {
-//			currentScope = new ArrayList<Question>();
-//		}
-
 		for (Statement cur : value.getStatements()) {
 			cur.accept(this);
 		}
-
-//		if (!scopes.isEmpty()) {
-//			currentScope = scopes.pop();
-//		}
-		
+	
 		return null;
 	}
 
@@ -96,16 +78,7 @@ public class SemanticAnalysis implements Visitor<Void> {
 		if (debug) {
 			System.out.println("Question");
 		}
-		
-//		if (checkExistanceIdentifier(value.getId())) {
-//			errors.add("The identifier '" + value.getId().getValue() + "' already exist.");
-//		} 
-//		if (checkExistanceLabel(value.getLabel())){
-//			warnings.add("Warning: The label '" + value.getLabel() + "' already exist.");
-//		}
-		
-//		currentScope.add(value);
-		
+				
 		return null;
 	}
 
@@ -116,9 +89,7 @@ public class SemanticAnalysis implements Visitor<Void> {
 		}
 		
 		value.getExpr().accept(this);
-				
-//		currentScope.add(value);
-		
+
 		return null;
 	}
 
@@ -127,10 +98,6 @@ public class SemanticAnalysis implements Visitor<Void> {
 		if (debug) {
 			System.out.println("IdentifierLit: " + value.getValue());
 		}
-
-//		if (!checkExistanceIdentifier(value)) {
-//			errors.add("The identifier '" + value.getValue() + "' does not exist.");
-//		}
 
 		return null;
 	}
@@ -249,38 +216,6 @@ public class SemanticAnalysis implements Visitor<Void> {
 	public Void visit(StringLit value) {
 		return null;
 	}
-	
-//	private boolean checkExistanceIdentifier(IdentifierLit value) {
-////		for (Question cur : currentScope) {
-////			if (cur.getId().getValue().equals(value.getValue())) {
-////				return true;
-////			}
-////		}
-//		
-//		for (Question cur : questions) {
-//			if (cur.getId().getValue().equals(value.getValue())) {
-//				return true;
-//			}
-//		}
-//
-//		return false;
-//	}
-//	
-//	private boolean checkExistanceLabel(String value) {
-////		for (Question cur : currentScope) {
-////				if (cur.getLabel().equals(value)) {
-////					return true;
-////				}
-////		}
-//		
-//		for (Question cur : questions) {
-//			if (cur.getLabel().equals(value)) {
-//				return true;
-//			}
-//	}
-//
-//		return false;
-//	}
 
 	public ArrayList<String> getErrors() {
 		return errors;
