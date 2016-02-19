@@ -3,8 +3,8 @@ package ast.expression;
 import ast.visitor.Visitor;
 
 public class GEq extends BinaryExpression {
-	public GEq(Expression lhs, Expression rhs) {
-		super(lhs, rhs);
+	public GEq(int lineNumber, Expression lhs, Expression rhs) {
+		super(lineNumber, lhs, rhs);
 	}
 	
 	@Override

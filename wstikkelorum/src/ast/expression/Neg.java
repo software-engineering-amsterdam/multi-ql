@@ -6,6 +6,7 @@ public class Neg extends Expression {
 	private Expression expression;
 	
 	public Neg(Expression result) {
+		super(result.getLineNumber());
 		this.expression = result;
 	}
 	

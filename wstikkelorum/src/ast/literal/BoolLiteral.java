@@ -6,7 +6,8 @@ import ast.visitor.Visitor;
 public class BoolLiteral extends Expression {
 	private boolean value;
 	
-	public BoolLiteral(Boolean value){
+	public BoolLiteral(int lineNumber, Boolean value){
+		super(lineNumber);
 		this.value = value;
 	}
 	

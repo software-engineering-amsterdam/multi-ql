@@ -7,7 +7,8 @@ public class BinaryExpression extends Expression{
 	private Expression lhs;
 	private Expression rhs;
 	
-	public BinaryExpression(Expression lhs, Expression rhs) {
+	public BinaryExpression(int lineNumber, Expression lhs, Expression rhs) {
+		super(lineNumber);
 		this.lhs = lhs;
 		this.rhs = rhs;
 	}
