@@ -5,7 +5,6 @@ import java.util.Stack;
 
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.VisitorAbstraction;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -43,11 +42,13 @@ public class SemanticAnalysis implements Visitor<Void> {
 	private ArrayList<Question> currentScope;
 
 	private ArrayList<String> warnings;
+	private ArrayList<String> errors;
 
 	SemanticAnalysis() {
 		scopes = new Stack<ArrayList<Question>>();
 		currentScope = null;
 		warnings = new ArrayList<String>();
+		errors = new ArrayList<String>();
 	}
 
 	@Override
@@ -95,7 +96,7 @@ public class SemanticAnalysis implements Visitor<Void> {
 		}
 		
 		if (checkExistanceIdentifier(value.getId())) {
-			throw new SemanticException("The identifier '" + value.getId().getValue() + "' already exist.");
+			errors.add("The identifier '" + value.getId().getValue() + "' already exist.");
 		} 
 		if (checkExistanceLabel(value.getLabel())){
 			warnings.add("Warning: The label '" + value.getLabel() + "' already exist.");
@@ -126,7 +127,7 @@ public class SemanticAnalysis implements Visitor<Void> {
 		}
 
 		if (!checkExistanceIdentifier(value)) {
-			throw new SemanticException("The identifier '" + value.getValue() + "' does not exist.");
+			errors.add("The identifier '" + value.getValue() + "' does not exist.");
 		}
 
 		return null;
@@ -268,6 +269,10 @@ public class SemanticAnalysis implements Visitor<Void> {
 	}
 
 	public ArrayList<String> getErrors() {
+		return errors;
+	}
+	
+	public ArrayList<String> getWarnings() {
 		return warnings;
 	}
 

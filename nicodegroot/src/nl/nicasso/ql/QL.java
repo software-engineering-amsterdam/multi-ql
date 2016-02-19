@@ -48,6 +48,13 @@ public class QL {
         SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
         
         ast.accept(semanticAnalysis);
+        
+        if (!semanticAnalysis.getWarnings().isEmpty()) {
+        	System.out.println("-------------------------------WARNINGS!--------------------------------------------");
+        	for (String warning : semanticAnalysis.getWarnings()) {
+        		System.out.println(warning);
+        	}
+        }
                 
         if (!semanticAnalysis.getErrors().isEmpty()) {
         	System.out.println("-------------------------------ERRORS!--------------------------------------------");
@@ -57,6 +64,7 @@ public class QL {
         	
         	return;
         }
+        
         /*
         
         TypeChecker typeChecker = new TypeChecker();
