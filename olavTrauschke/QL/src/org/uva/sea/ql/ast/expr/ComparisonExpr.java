@@ -22,9 +22,9 @@ public abstract class ComparisonExpr extends BooleanExpr {
     
     @Override
     public int hashCode() {
-        int hash = super.hashCode();
-        hash = 67 * hash + firstExpr.hashCode();
-        hash = 67 * hash + secondExpr.hashCode();
+        int hash = 7;
+        hash = 83 * hash + firstExpr.hashCode();
+        hash = 83 * hash + secondExpr.hashCode();
         return hash;
     }
 }

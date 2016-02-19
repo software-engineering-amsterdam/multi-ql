@@ -19,7 +19,9 @@ public class ComputedQuestion extends Question {
 
     @Override
     public int hashCode() {
-        return 97 * 3 + calculation.hashCode();
+        int hash = super.hashCode();
+        hash = 41 * hash + calculation.hashCode();
+        return hash;
     }
     
 }

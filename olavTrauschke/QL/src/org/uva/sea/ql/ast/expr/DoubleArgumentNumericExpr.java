@@ -22,9 +22,9 @@ public abstract class DoubleArgumentNumericExpr extends NumericExpr {
 
     @Override
     public int hashCode() {
-        int hash = super.hashCode();
-        hash = 89 * hash + firstExpr.hashCode();
-        hash = 89 * hash + secondExpr.hashCode();
+        int hash = 5;
+        hash = 97 * hash + firstExpr.hashCode();
+        hash = 97 * hash + secondExpr.hashCode();
         return hash;
     }
     
