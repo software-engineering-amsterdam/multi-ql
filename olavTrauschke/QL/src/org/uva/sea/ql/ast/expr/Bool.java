@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class Bool extends BooleanExpr {
     
+    public static final int HASH_ORIGIN = 623;
+    
     private Boolean value;
     
     public Bool(Boolean theValue) {
@@ -26,9 +28,7 @@ public class Bool extends BooleanExpr {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.value);
-        return hash;
+        return HASH_ORIGIN + Objects.hashCode(this.value);
     }
     
 }

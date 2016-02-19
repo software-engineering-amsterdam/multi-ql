@@ -6,6 +6,7 @@ public class Pos extends Expression {
 	private Expression expression;
 	
 	public Pos(Expression result) {
+		super(result.getLineNumber());
 		this.expression = result;
 	}
 	

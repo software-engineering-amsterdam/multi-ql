@@ -4,6 +4,9 @@ import java.util.Objects;
 
 public class Money extends Expr {
     
+    public static final int HASH_ORIGIN = 3;
+    public static final int HASH_FACTOR = 83;
+    
     private Long units;
     private Byte cents;
     
@@ -25,9 +28,9 @@ public class Money extends Expr {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + Objects.hashCode(this.units);
-        hash = 83 * hash + Objects.hashCode(this.cents);
+        int hash = HASH_ORIGIN;
+        hash = HASH_FACTOR * hash + Objects.hashCode(this.units);
+        hash = HASH_FACTOR * hash + Objects.hashCode(this.cents);
         return hash;
     }
     

@@ -6,6 +6,7 @@ public class Not extends Expression {
 	private Expression expression;
 	
 	public Not(Expression result) {
+		super(result.getLineNumber());
 		this.expression = result;
 	}
 	

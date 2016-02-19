@@ -2,6 +2,8 @@ package org.uva.sea.ql.ast.expr;
 
 public abstract class SingleArgumentNumericExpr extends NumericExpr {
     
+    public static final int HASH_ORIGIN = 155;
+    
     private final Expr content;
     
     public SingleArgumentNumericExpr(Expr theContent) {
@@ -18,7 +20,7 @@ public abstract class SingleArgumentNumericExpr extends NumericExpr {
 
     @Override
     public int hashCode() {
-        return 31 * 5 + content.hashCode();
+        return HASH_ORIGIN + content.hashCode();
     }
     
 }

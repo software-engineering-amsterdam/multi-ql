@@ -219,7 +219,7 @@ public class TypeChecker extends BasicVisitor{
 	private void compareTypes(Expression e, Types expectedType){
 		Types actualType = (Types)e.accept(visitor);
 		if(actualType != expectedType){
-			System.out.println(String.format("Incorrect. Expected type: %s. Actual type: %s", expectedType, actualType));
+			System.out.println(String.format("Incorrect. Expected type: %s. Actual type: %s. On lineNumber: %d", expectedType, actualType, e.getLineNumber()));
 		}
 	}
 }

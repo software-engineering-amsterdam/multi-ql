@@ -5,6 +5,8 @@ import java.util.Set;
 
 public class StatementSet extends ASTNode {
     
+    public static final int HASH_ORIGIN = 119;
+    
     private final Set<ASTNode> set;
     
     public StatementSet() {
@@ -28,8 +30,6 @@ public class StatementSet extends ASTNode {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + set.hashCode();
-        return hash;
+        return HASH_ORIGIN + set.hashCode();
     }
 }
