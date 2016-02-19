@@ -15,9 +15,3 @@ class QLVariable {
         self.identifier = identifier
     }
 }
-
-extension QLVariable {
-    func implode() -> Identifier {
-        return Identifier(id: identifier)
-    }
-}
