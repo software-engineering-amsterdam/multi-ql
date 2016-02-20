@@ -3,6 +3,7 @@ package org.uva.sea.ql.type_checker;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.sea.ql.ast.expression.Literal.StringLiteral;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.statement.ComputedQuestion;
 import org.uva.sea.ql.ast.statement.ComputedQuestionsVisitor;
@@ -39,6 +40,9 @@ public class TypeChecker {
 	
 	private boolean checkForDuplicatedLabels() {
 		List<Question> questions = this.getAllQuestions();
+		
+		if (questions.isEmpty())
+			System.out.println("Fuck ");
 		List<String> labels = new ArrayList<String>();
 		
 		for (Question question: questions) {
@@ -51,8 +55,10 @@ public class TypeChecker {
 			
 			else 
 				labels.add(label);
+			
 		}
 		
+		System.out.println("Everything ok! ");
 		return true;
 	}
 

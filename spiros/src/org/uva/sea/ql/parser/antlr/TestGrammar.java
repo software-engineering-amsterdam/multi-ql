@@ -35,11 +35,12 @@ public class TestGrammar {
 		QLLexer lexer = new QLLexer(inputStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokenStream);
-		ParseTree parseTree = parser.questionnaire();
+		ParseTree parseTree = parser.form();
 		MyQLVisitor visitor = new MyQLVisitor();
-		Questionnaire ast = (Questionnaire) parseTree.accept(visitor);
+		//Questionnaire ast = (Questionnaire) parseTree.accept(visitor);
+		Form ast = (Form) parseTree.accept(visitor);
 		
-		TypeChecker typeChecker = new TypeChecker(form);
+		TypeChecker typeChecker = new TypeChecker(ast);
 		typeChecker.performTypeChecking();
 		
 		//show tree in simple GUI
@@ -52,6 +53,6 @@ public class TestGrammar {
 	    frame.add(panel);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setSize(1200,600);
-	    frame.setVisible(true);
+	    //frame.setVisible(true);
 	}
 }

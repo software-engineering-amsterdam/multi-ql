@@ -24,9 +24,12 @@ public class IfStatement extends Statement {
 		return this.block;
 	}
 
+
+
 	@Override
-	public ASTNode accept(StatementVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
+	public <T> T accept(StatementVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

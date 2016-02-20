@@ -9,7 +9,7 @@ public abstract class Statement extends ASTNode {
 		super(fragment);
 	}
 	
-	public abstract ASTNode accept(StatementVisitor<ASTNode> visitor);
+	public abstract <T> T accept(StatementVisitor<T> visitor);
 	
 
 }

@@ -4,11 +4,11 @@ import org.uva.sea.ql.ast.block.Block;
 
 public interface StatementVisitor<T> {
 
-	public T visit(Block block);
-	public T visit(ComputedQuestion computedQuestion);
-	public T visit(Question question);
-	public T visit(IfStatement ifStatement);
-	public T visit(IfElseStatement ifElseStatement);
+	public T visitBlock(Block block);
+	public T visitComputedQuestion(ComputedQuestion computedQuestion);
+	public T visitQuestion(Question question);
+	public T visitIfStatement(IfStatement ifStatement);
+	public T visitIfElseStatement(IfElseStatement ifElseStatement);
 	
 }
 

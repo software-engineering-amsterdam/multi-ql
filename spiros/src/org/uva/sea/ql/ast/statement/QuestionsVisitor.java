@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast.statement;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.uva.sea.ql.ast.block.Block;
@@ -16,44 +17,34 @@ public class QuestionsVisitor extends StatementsVisitor {
 	public QuestionsVisitor(Form form) {
 		super(form);
 		this.questions = new ArrayList<Question>();
+		
 	}
 
 	public List<Question> getQuestions() {
-		return this.questions;
+		List<Question> questions = new ArrayList<>();
+		this.visitForm();
+		Iterator<Question> iterator = this.questions.iterator();
+		iterator.forEachRemaining(questions::add);
+		return questions;
 	}
 	
 	@Override
-	public void visitQuestion(Question question) {
+	public Void visitQuestion(Question question) {
 		this.questions.add(question);	
+		return null;
 	}
 
 	@Override
-	public ASTNode visit(Block block) {
+	public Void visitBlock(Block block) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(ComputedQuestion computedQuestion) {
+	public Void visitIfElseStatement(IfElseStatement ifElseStatement) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public ASTNode visit(Question question) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public ASTNode visit(IfStatement ifStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNode visit(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

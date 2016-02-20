@@ -22,37 +22,23 @@ public class ComputedQuestionsVisitor extends StatementsVisitor {
 	}
 	
 	@Override
-	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
-		this.computedQuestions.add(computedQuestion);	
+	public Void visitComputedQuestion(ComputedQuestion computedQuestion) {
+		this.computedQuestions.add(computedQuestion);
+		return null;
 	}
 
 	@Override
-	public ASTNode visit(Block block) {
+	public Void visitBlock(Block block) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(ComputedQuestion computedQuestion) {
+	public Void visitIfElseStatement(IfElseStatement ifElseStatement) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public ASTNode visit(Question question) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public ASTNode visit(IfStatement ifStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNode visit(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	} 
+	
 }
