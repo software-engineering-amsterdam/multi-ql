@@ -11,4 +11,5 @@ public interface Visitor {
 	public void visit(IfNode node);
 	public void visit(IfElseNode node);
 	public void visit(ConditionBlockNode node);
+	public void visit(AssignVariableNode node);
 }

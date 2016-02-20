@@ -1,6 +1,7 @@
 package nl.uva.sc.ql.parser;
 
 import nl.uva.sc.ql.exceptions.CompilerException;
+import nl.uva.sc.ql.parser.ast.AssignVariableNode;
 import nl.uva.sc.ql.parser.ast.BooleanNode;
 import nl.uva.sc.ql.parser.ast.ConditionBlockNode;
 import nl.uva.sc.ql.parser.ast.IfElseNode;
@@ -17,7 +18,7 @@ import nl.uva.sc.ql.parser.ast.Visitor;
 
 public class Evaluator implements Visitor {
     
-	// local variable to check when a If block was evaluated
+	// local variable to check when an if block was evaluated
 	private boolean evaluatedIfBlock;
 	
 
@@ -34,6 +35,10 @@ public class Evaluator implements Visitor {
 	public void visit(RelationalExpressionNode node) {
 		Node left = node.getLeft();
 		Node right = node.getRight();
+		
+		// update node values
+		left.accept(this);
+		right.accept(this);
 		
 		String symbol = node.getSymbol();
 		switch(symbol){
@@ -68,6 +73,10 @@ public class Evaluator implements Visitor {
 		Node left = node.getLeft();
 		Node right = node.getRight();
 		
+		// update node values
+		left.accept(this);
+		right.accept(this);
+		
 		String symbol = node.getSymbol();
 		switch(symbol){
 			case "+":
@@ -94,6 +103,10 @@ public class Evaluator implements Visitor {
 	public void visit(LogicNode node) {
 		Node left = node.getLeft();
 		Node right = node.getRight();
+		
+		// update node values
+		left.accept(this);
+		right.accept(this);
 		
 		String symbol = node.getSymbol();
 		switch(symbol){
@@ -152,5 +165,11 @@ public class Evaluator implements Visitor {
 
 	@Override
 	public void visit(MoneyNode node) {}
+
+	@Override
+	public void visit(AssignVariableNode node) {
+		node.getLeft().accept(this);
+		node.getRight().accept(this);		
+	}
 
 }

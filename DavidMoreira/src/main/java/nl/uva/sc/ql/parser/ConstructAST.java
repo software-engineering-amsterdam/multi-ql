@@ -3,6 +3,7 @@ package nl.uva.sc.ql.parser;
 import nl.uva.sc.ql.exceptions.ErrorHandling;
 import nl.uva.sc.ql.parser.QLParser.Condition_blockContext;
 import nl.uva.sc.ql.parser.QLParser.StatementContext;
+import nl.uva.sc.ql.parser.ast.AssignVariableNode;
 import nl.uva.sc.ql.parser.ast.BooleanNode;
 import nl.uva.sc.ql.parser.ast.ConditionBlockNode;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
@@ -80,14 +81,12 @@ public class ConstructAST extends QLBaseVisitor<Node> {
     
     @Override
     public Node visitDeclareAssignVariable(@NotNull QLParser.DeclareAssignVariableContext context) {        
-    	VariableNode node = (VariableNode) this.visit(context.declaration());
-        Node nodeValue = this.visit(context.expression());
+    	VariableNode left = (VariableNode) this.visit(context.declaration());
+        Node right = this.visit(context.expression());
         
-        String name = node.getName();
-        node.setValue(nodeValue.getValue());
-        node.setLine(context.stop.getLine());
-
-        symbolTable.add(name, node); 
+        Node node = new AssignVariableNode();
+        node.init(left, right);
+        node.setLine(context.stop.getLine());;
         return node;
     }
     

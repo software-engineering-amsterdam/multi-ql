@@ -2,6 +2,7 @@ package nl.uva.sc.ql.parser;
 
 import nl.uva.sc.ql.exceptions.CompilerException;
 import nl.uva.sc.ql.exceptions.ErrorHandling;
+import nl.uva.sc.ql.parser.ast.AssignVariableNode;
 import nl.uva.sc.ql.parser.ast.BooleanNode;
 import nl.uva.sc.ql.parser.ast.IfElseNode;
 import nl.uva.sc.ql.parser.ast.MoneyNode;
@@ -132,5 +133,11 @@ public class Typecheker implements Visitor {
 
 	@Override
 	public void visit(MoneyNode node) {}
+
+	@Override
+	public void visit(AssignVariableNode node) {
+		node.getLeft().accept(this);
+		node.getRight().accept(this);		
+	}
 	
 }
