@@ -12,9 +12,9 @@ import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 
-import uva.ql.ast.ASTNode;
-import uva.ql.ast.ASTQuestion;
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTNode;
+import uva.ql.deprecated.ASTQuestion;
+import uva.ql.deprecated.ASTVariable;
 
 public class ASTVisitorToJSON {
 

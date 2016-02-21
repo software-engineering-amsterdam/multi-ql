@@ -25,6 +25,7 @@ public class Form extends ASTNode {
 	}
 	
 	public ASTNode accept(FormVisitor<ASTNode> visitor) {
+		System.out.println("Why?");
 		return visitor.visit(this);
 	}
 

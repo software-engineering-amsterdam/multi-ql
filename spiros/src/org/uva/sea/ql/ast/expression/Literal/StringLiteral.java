@@ -25,4 +25,8 @@ public class StringLiteral extends Literal {
 		return visitor.visit(this);
 	}
 	
+	@Override
+	public String toString() {
+		return this.value;
+	}
 }

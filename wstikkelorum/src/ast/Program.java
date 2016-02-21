@@ -29,8 +29,8 @@ public class Program {
 		TypeChecker typeChecker = new TypeChecker();
 		typeChecker.visit(fileContext.form().result);
 		
-		TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-		viewer.open();
+		//TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
+		//viewer.open();
 		
 		System.out.println("Done");
 	}

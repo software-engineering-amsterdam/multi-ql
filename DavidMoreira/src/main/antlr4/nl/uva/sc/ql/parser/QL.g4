@@ -1,6 +1,5 @@
 grammar QL;
 
-
 ql
     : form
     ;
@@ -11,15 +10,15 @@ form
     ;
 
 block
-	: '{' list_statments '}'					#blockScope
+	: '{' list_statements '}'
 	;
 
-list_statments
-    : statment*
+list_statements
+    : statement*
     ;
 
 
-statment
+statement
     : declaration
     | assignment
     | if_stat
@@ -34,9 +33,9 @@ assignment
 	;
 
 type
-	: 'boolean'		#booleanType
-	| 'String'		#stringType
-	| 'money'		#moneyType
+	: 'boolean'
+	| 'String'
+	| 'money'
 	;
 
 if_stat
@@ -51,14 +50,14 @@ condition_block
 
 stat_block
     : block
-    | statment
+    | statement
     ;
 
 
 expression
     : '(' expression ')'    								#parentisisExpression
     | '!' expression                                  		#notExpression
-    | '-' expression										#minusExpression
+    | '-' money												#minusExpression
     | expression op=(MULT | DIV | MOD) expression      		#multDivModExpression
  	| expression op=(PLUS | MINUS) expression          		#additiveExpression
     | expression op=(LTEQ | GTEQ | LT | GT) expression      #relationalExpression
@@ -71,9 +70,9 @@ expression
 
 unity
     : ('true' | 'false')    #booleanUnity
-    | IDENTIFIER        #identifierUnity
-    | String			#stringUnity
-    | money				#moneyUnity
+    | IDENTIFIER        	#identifierUnity
+    | String				#stringUnity
+    | money					#moneyUnity
     ;
 
 

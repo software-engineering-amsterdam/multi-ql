@@ -12,7 +12,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
 import uva.TaxForm.GUI.Fields.DocumentFilters.DateFilter;
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTVariable;
 
 public class DateSpinnerImproved extends JSpinner {
 	/*

@@ -12,6 +12,7 @@ import (
 	"ql/ast/vari"
 	"ql/ast/visit"
 	"ql/env"
+	"ql/gui"
 	"ql/lexer"
 	"ql/parser"
 )
@@ -34,7 +35,7 @@ func main() {
 	}
 
 	if parsedForm, ok := result.(stmt.Form); !ok {
-		panic("Pare result is not form")
+		panic("Parse result is not form")
 	} else {
 		log.WithFields(log.Fields{"Result": result}).Info("Form parsed")
 
@@ -42,16 +43,9 @@ func main() {
 		symbolTableStack := env.NewSymbolTableStack()
 
 		parsedForm.Accept(visitor, symbolTableStack)
+
+		gui.CreateGUI(parsedForm, symbolTableStack.Peek())
 	}
-	// init empty symbol table (env)
-	// parse form
-	// visit on form to create GUI elements
-	// When GUI changed, visit on form again but update symbol table
-	// call eval where possible to
-	// if block open, create new table based on parent table
-	//
-	// call eval(env) ato update (add eval on statements to eval condition)
-	// on block end pop off stack
 }
 
 func initLog() {
@@ -73,9 +67,9 @@ func (v VisitorAdapter) Visit(t interface{}, s interface{}) interface{} {
 		t.(stmt.Form).Identifier.Accept(v, s)
 		t.(stmt.Form).Content.Accept(v, s)
 	case vari.VarId:
-		log.Debug("Visit VarId") // TODO handle
+		log.Debug("Visit VarId")
 	case vari.VarDecl:
-		log.Debug("Visit VarDecl") // TODO handle
+		log.Debug("Visit VarDecl")
 		stack.SetValueForIdentifierInTopSymbolTable(nil, t.(vari.VarDecl).Ident)
 		t.(vari.VarDecl).Ident.Accept(v, s)
 	case stmt.StmtList:
@@ -110,11 +104,11 @@ func (v VisitorAdapter) Visit(t interface{}, s interface{}) interface{} {
 		t.(stmt.IfElse).IfBody.Accept(v, s)
 		t.(stmt.IfElse).ElseBody.Accept(v, s)
 	case lit.StrLit:
-		log.Debug("Visit StrLit") // TODO handle
+		log.Debug("Visit StrLit")
 	case lit.BoolLit:
-		log.Debug("Visit BoolLit") // TODO handle
+		log.Debug("Visit BoolLit")
 	case lit.IntLit:
-		log.Debug("Visit IntLit") // TODO handle
+		log.Debug("Visit IntLit")
 	case binaryoperatorexpr.BinaryOperatorExpr:
 		log.Debug("Visit BinaryOperatorExpr")
 		t.(binaryoperatorexpr.BinaryOperatorExpr).GetLhs().(expr.Expr).Accept(v, s)

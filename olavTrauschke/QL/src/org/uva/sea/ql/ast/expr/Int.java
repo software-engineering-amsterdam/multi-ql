@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class Int extends NumericExpr {
     
+    public static final int HASH_ORIGIN = 259;
+    
     private Integer value;
     
     public Int(Integer theValue) {
@@ -21,8 +23,6 @@ public class Int extends NumericExpr {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.value);
-        return hash;
+        return HASH_ORIGIN + Objects.hashCode(this.value);
     }
 }

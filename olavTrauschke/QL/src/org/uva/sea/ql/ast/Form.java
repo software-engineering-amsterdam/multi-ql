@@ -4,6 +4,8 @@ import org.uva.sea.ql.ast.expr.Ident;
 
 public class Form extends ASTNode {
     
+    public static final int HASH_ORIGIN = 87;
+    
     private final Ident identifier;
     private final ASTNode questions;
     
@@ -24,7 +26,7 @@ public class Form extends ASTNode {
     
     @Override
     public int hashCode() {
-        return 29 * 3 + identifier.hashCode();
+        return HASH_ORIGIN + identifier.hashCode();
     }
     
 }

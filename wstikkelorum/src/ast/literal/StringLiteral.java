@@ -6,7 +6,8 @@ import ast.visitor.Visitor;
 public class StringLiteral extends Expression{
 	private String value;
 	
-	public StringLiteral(String value){
+	public StringLiteral(int lineNumber, String value){
+		super(lineNumber);
 		this.value = value;
 	}
 	

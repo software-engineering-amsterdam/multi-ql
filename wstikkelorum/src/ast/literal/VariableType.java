@@ -1,11 +1,13 @@
 package ast.literal;
 
+import ast.TreeNode;
 import ast.visitor.Types;
 
-public class VariableType {
+public class VariableType extends TreeNode{
 	private String type;
 
-	public VariableType(String type) {
+	public VariableType(int lineNumber, String type) {
+		super(lineNumber);
 		this.type = type;
 	}
 	

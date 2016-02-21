@@ -20,7 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import uva.TaxForm.GUI.ActionListeners.LoadMenu;
 import uva.TaxForm.GUI.ActionListeners.SaveMenu;
-import uva.ql.ast.ASTNode;
+import uva.ql.deprecated.ASTNode;
 
 public class GUI{
 

@@ -5,7 +5,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTVariable;
 
 public abstract class Filter extends DocumentFilter {
 	

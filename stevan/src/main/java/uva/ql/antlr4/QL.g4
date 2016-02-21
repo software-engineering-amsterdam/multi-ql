@@ -76,12 +76,13 @@ condition
  */
  
 expression 														
-	: (DIGIT+ | FLOAT) 											#expNum
+	: BOOLEAN													#expBool
+	| (DIGIT+ | FLOAT) 											#expNum
 	| varName 													#expVar
 	| '(' expression ')' 										#expParentheses
 	| '!' expression 											#expNot
 	| expression ('*' | '/') expression 						#expMultDivide
 	| expression ('+' | '-') expression 						#expPlusMinus
-	| expression ('<' | '>' | '<=' | '>=' | '!=') expression 	#expEquality
+	| expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression 	#expEquality
 	| expression ('&&' | '||') expression 						#expAndOr
 	;															

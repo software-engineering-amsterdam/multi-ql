@@ -61,8 +61,8 @@ import nl.uva.sc.ql.exceptions.SymbolTableException;
  * @see AbstractSymbol
  * @see SymtabExample
  * */
-public class SymbolTable {
-    private Stack<Hashtable<Object, ASTNode>> tbl;
+public class SymbolTable<T> {
+    private Stack<Hashtable<Object, T>> tbl;
     
     /** Creates an empty symbol table. */
     public SymbolTable() {
@@ -89,11 +89,11 @@ public class SymbolTable {
      * @param id the symbol
      * @param info the data associated with id
      * */
-    public ASTNode addId(Object id, ASTNode info) {
+    public T add(Object id, T info) {
 		if (tbl.empty()) {
 			throw new SymbolTableException("addId: can't add a symbol without a scope.");
 		}
-		return ((Hashtable<Object, ASTNode>)tbl.peek()).put(id, info);
+		return ((Hashtable<Object, T>)tbl.peek()).put(id, info);
     }
 
     /**
@@ -104,14 +104,14 @@ public class SymbolTable {
      * @param sym the symbol
      * @return the info associated with sym, or null if not found
      * */
-    public ASTNode lookup(Object sym) {
+    public T lookup(Object sym) {
 		if (tbl.empty()) {
 			throw new SymbolTableException("lookup: no scope in symbol table.");
 		}
 		// I break the abstraction here a bit by knowing that stack is 
 		// really a vector...
 		for (int i = tbl.size() - 1; i >= 0; i--) {
-			ASTNode info = ((Hashtable<Object, ASTNode>)tbl.elementAt(i)).get(sym);
+			T info = ((Hashtable<Object, T>)tbl.elementAt(i)).get(sym);
 		    if (info != null) return info;
 		}
 		return null;
@@ -125,11 +125,11 @@ public class SymbolTable {
      * @param sym the symbol
      * @return the info associated with sym, or null if not found
      * */
-    public ASTNode probe(Object sym) {
+    public T probe(Object sym) {
 		if (tbl.empty()) {
 			throw new SymbolTableException("Lookup: no scope in symbol table.");
 		}
-		return ((Hashtable<Object, ASTNode>)tbl.peek()).get(sym);
+		return ((Hashtable<Object, T>)tbl.peek()).get(sym);
     }
     
     /** Gets the string representation of the symbol table.  
