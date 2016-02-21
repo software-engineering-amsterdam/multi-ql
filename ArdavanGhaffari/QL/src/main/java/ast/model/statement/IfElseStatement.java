@@ -1,7 +1,8 @@
 package ast.model.statement;
 
 import ast.model.Box;
-import ast.model.expression.Expression;
+import ast.model.Expression;
+import ast.visitor.StatementVisitor;
 
 public class IfElseStatement extends IfStatement {
 	private Box elseBox;
@@ -13,5 +14,10 @@ public class IfElseStatement extends IfStatement {
 	
 	public Box getElseBox() {
 		return this.elseBox;
+	}
+	
+	@Override
+	public void accept(StatementVisitor statementVisitor) {
+		statementVisitor.visit(this);
 	}
 }

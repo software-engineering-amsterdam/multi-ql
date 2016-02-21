@@ -1,6 +1,7 @@
-package ast.model.expression.literal;
+package ast.model.literal;
 
-import ast.model.expression.Expression;
+import ast.model.Expression;
+import ast.visitor.ExpressionVisitor;
 
 public class Identifier extends Expression {
 	private String identifier;
@@ -12,4 +13,9 @@ public class Identifier extends Expression {
 	public String getIdentifier() {
 		return identifier;
 	}
+
+	@Override
+	public <T> T accept(ExpressionVisitor<T> expressionVisitor) {
+		return expressionVisitor.visit(this);
+	}	
 }

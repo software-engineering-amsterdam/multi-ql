@@ -1,20 +1,26 @@
 package ast.model;
 
+import ast.model.literal.Identifier;
+import ast.visitor.FormVisitor;
+
 public class Form extends AbstractNode {
-	private String name;
+	private Identifier identifier;
 	private Box box;
 	
-	public Form(String name, Box box) {
-		this.name = name;
+	public Form(Identifier identifier, Box box) {
+		this.identifier = identifier;
 		this.box = box;
 	}
 
-	public String getName() {
-		return name;
+	public Identifier getIdentifier() {
+		return identifier;
 	}
 
 	public Box getBox() {
 		return box;
 	}
 	
+	public void accept(FormVisitor formVisitor){
+		formVisitor.visit(this);
+	}
 }

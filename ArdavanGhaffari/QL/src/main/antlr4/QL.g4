@@ -11,37 +11,32 @@ statement
  | IDENTIFIER ':' STRINGLITERAL type '(' expression ')'		#computedQuestion
  ;
 
-type : 'integer'|'string'|'boolean'|'money' ;
-
 expression
- : NOT expression																							#notExpression
- | leftOp = expression operation = (MUL | DIV | PLUS | MINUS) rightOp = expression												#mathExpression
- | leftOp = expression operation = (EQUAL | NOT_EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL) rightOp = expression					#compareExpression
- | leftOp = expression operation = (AND | OR) rightOp = expression																			#boolExpression
- | '(' expression ')'																						#parExpression
- | literal																									#literalExpression
+ : '!' expression									#Negation
+ | leftOp = expression '+' rightOp = expression		#Addition 
+ | leftOp = expression '-' rightOp = expression		#Subtraction
+ | leftOp = expression '*' rightOp = expression		#Multiplication
+ | leftOp = expression '/' rightOp = expression		#Division
+ | leftOp = expression '==' rightOp = expression	#Equal
+ | leftOp = expression '!=' rightOp = expression	#NotEqual
+ | leftOp = expression '>' rightOp = expression		#GreaterThan
+ | leftOp = expression '>=' rightOp = expression	#GreaterThanEqual
+ | leftOp = expression '<' rightOp = expression		#LessThan
+ | leftOp = expression '<=' rightOp = expression	#LessThanEqual
+ | leftOp = expression '&&' rightOp = expression	#Conjunction
+ | leftOp = expression '||' rightOp = expression	#Disjunction
+ | '(' expression ')'								#Parenthesis
+ | literal											#LiteralExpression
  ;
-
+ 
 literal
- : IDENTIFIER		#identifierLiteral
+ : BOOLEAN			#booleanLiteral
  | INTEGER			#integerLiteral
- | BOOLEAN			#booleanLiteral
+ | IDENTIFIER		#identifierLiteral
  | STRINGLITERAL	#stringLiteral
- ;
-
-NOT : '!' ; 
-MUL : '*' ;
-DIV : '/' ;
-PLUS : '+' ;
-MINUS : '-' ;
-EQUAL : '==';
-NOT_EQUAL : '!=';
-GREATER : '>';
-GREATER_EQUAL : '>='; 
-LESS : '<';
-LESS_EQUAL : '<=';
-AND : '&&';
-OR : '||';
+ ; 														
+ 
+type : 'integer'|'string'|'boolean'|'money' ; 
 
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]*;
 INTEGER: [0-9]+;
