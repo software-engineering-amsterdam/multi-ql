@@ -22,27 +22,27 @@ class FormTests: XCTestCase {
         if let form1 = assertToForm(qlForms[0]) {
             XCTAssertTrue(form1.identifier.id == "form1")
             
-            let block = form1.statement as? Block
+            let block = form1.block
             
             XCTAssertNotNil(block)
-            XCTAssertTrue(block!.block.count == 0)
+            XCTAssertTrue(block.block.count == 0)
         }
         
         if let form2 = assertToForm(qlForms[1]) {
             XCTAssertTrue(form2.identifier.id == "form2")
             
-            let block = form2.statement as? Block
+            let block = form2.block
             
             XCTAssertNotNil(block)
-            XCTAssertTrue(block!.block.count == 3)
+            XCTAssertTrue(block.block.count == 3)
             
-            guard block != nil || block!.block.count != 3
+            guard block.block.count != 3
                 else { return }
             
             
-            let q1 = block!.block[0] as? Question
-            let q2 = block!.block[1] as? Question
-            let _if = block!.block[2] as? Conditional
+            let q1 = block.block[0] as? Question
+            let q2 = block.block[1] as? Question
+            let _if = block.block[2] as? Conditional
             
             XCTAssertNotNil(q1)
             XCTAssertNotNil(q2)
@@ -60,7 +60,7 @@ class FormTests: XCTestCase {
             
             
             let cond = _if!.condition as? Binary
-            let ifBlock = _if!.ifBlock as? Block
+            let ifBlock = _if!.ifBlock
             
             XCTAssertNotNil(cond)
             XCTAssertNotNil(ifBlock)

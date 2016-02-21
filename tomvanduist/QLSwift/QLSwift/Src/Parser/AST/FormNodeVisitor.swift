@@ -38,7 +38,7 @@ protocol ASTNodeVisitor {
 extension ASTNodeVisitor {
     func visit(node: Form) {
         node.identifier.accept(self)
-        node.statement.accept(self)
+        node.block.accept(self)
     }
     
     func visit(node: Question) {

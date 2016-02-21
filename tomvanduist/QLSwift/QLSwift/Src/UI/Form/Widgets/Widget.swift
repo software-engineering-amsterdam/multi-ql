@@ -9,25 +9,33 @@
 import UIKit
 
 protocol Widget {
-    var delegate: WidgetDelegate { get }
+    var delegate: WidgetDelegate? { get }
+}
+
+protocol WidgetDelegate {
+    func valueChanged(value: NSValue)
 }
 
 class ViewWidget: UIView, Widget {
-    internal let delegate: WidgetDelegate
+    internal var delegate: WidgetDelegate?
     
-    init(delegate: WidgetDelegate, nibName: String) {
-        self.delegate = delegate
-        
+    convenience init(layout: Layout) {
+        self.init(layout: layout, delegate: nil)
+    }
+    
+    init(layout: Layout, delegate: WidgetDelegate?) {
         super.init(frame: CGRectZero)
         
-        self.setViewWithNib(nibName, owner: self)
+        self.delegate = delegate
+        
+        setupView(layout)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("Not supported")
     }
-}
-
-protocol WidgetDelegate {
-    func valueChanged(value: NSValue)
+    
+    func setupView(layout: Layout) {
+        fatalError("Override")
+    }
 }

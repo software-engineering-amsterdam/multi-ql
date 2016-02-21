@@ -17,7 +17,7 @@ class FormViewController: BaseViewController {
     
     init(form: Form) {
         self.form = form
-        print(((form.statement as? Block)?.block[2] as! Question).expression.eval())
+//        print((form.block.block[2] as! Question).expression.eval())
         super.init(nibName: "FormView", bundle: nil)
     }
     
@@ -29,13 +29,40 @@ class FormViewController: BaseViewController {
 extension FormViewController {
     
     override func viewDidLoad() {
-        reloadView()
+//        reloadView()
+        
+//        let widget = BooleanView(layout: DefaultFormLayout().widgetLayout)
+//        
+//        let questionView = QuestionView(layout: DefaultFormLayout().questionLayout, question: "1) Question?", widget: widget)
+//        questionView.backgroundColor = UIColor.redColor()
+//        
+//        
+//        
+//        
+//        
+//        self.contentView.addSubview(questionView)
+//        questionView.snp_makeConstraints { (make) -> Void in
+//            make.edges.equalTo(contentView)
+//        }
+        
+        
+        
+        let formViewFactory = ConcreteFormViewFactory(formLayout: DefaultFormLayout())
+        
+        let view = formViewFactory.createFormView(self.form)
+        
+        self.view.addSubview(view)
+        
+        view.snp_makeConstraints { [unowned self] (make) -> Void in
+            make.edges.equalTo(self.view)
+        }
+        
         
         super.viewDidLoad()
     }
     
     private func reloadView() {
-        placeStatement(form.statement, superView: contentView, prevView: nil, nextView: contentView)
+        placeStatement(form.block, superView: contentView, prevView: nil, nextView: contentView)
     }
     
     private func placeStatement(statement: Statement, superView: UIView, prevView: UIView?, nextView: UIView?) -> UIView {
@@ -81,6 +108,10 @@ extension FormViewController {
     }
     
     private func createView(statement: Question) -> QuestionView {
+//        if let expr = statement.expression as? BooleanField {
+//            let factory = ConcreteFormViewFactory(formLayout: DefaultFormLayout())
+////            return factory.createView(expr)
+//        }
         return QuestionView(nibName: "QuestionTextView")
     }
     

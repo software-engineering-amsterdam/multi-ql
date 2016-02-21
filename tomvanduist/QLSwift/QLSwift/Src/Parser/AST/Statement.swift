@@ -25,10 +25,10 @@ class Question: Statement {
 
 class Conditional: Statement {
     let condition: Expression
-    let ifBlock: Statement
-    let elseBlock: Statement?
+    let ifBlock: Block
+    let elseBlock: Block?
     
-    init(condition: Expression, ifBlock: Statement, elseBlock: Statement?) {
+    init(condition: Expression, ifBlock: Block, elseBlock: Block?) {
         self.condition = condition
         self.ifBlock = ifBlock
         self.elseBlock = elseBlock

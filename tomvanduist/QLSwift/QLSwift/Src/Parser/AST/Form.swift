@@ -14,11 +14,11 @@ protocol ASTNode: ASTNodeVisitable {
 
 class Form: ASTNode {
     let identifier: Identifier
-    let statement: Statement
+    let block: Block
     
-    init(identifier: Identifier, statement: Statement) {
+    init(identifier: Identifier, block: Block) {
         self.identifier = identifier
-        self.statement = statement
+        self.block = block
     }
 }
 
@@ -27,7 +27,7 @@ class Form: ASTNode {
 
 extension QLForm {
     func implode() -> Form {
-        return Form(identifier: variable.implode(), statement: block.implode())
+        return Form(identifier: variable.implode(), block: block.implode() as! Block)
     }
 }
 
@@ -55,7 +55,7 @@ extension QLVariable {
 
 extension QLIf {
     func implode() -> Statement {
-        return Conditional(condition: conditional.implode(), ifBlock: block.implode(), elseBlock: nil)
+        return Conditional(condition: conditional.implode(), ifBlock: block.implode() as! Block, elseBlock: nil)
     }
 }
 

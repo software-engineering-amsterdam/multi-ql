@@ -38,7 +38,7 @@ class ChooseFormViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-//        self.showForm(kForm1)
+        self.showForm(kForm1)
     }
 }
 

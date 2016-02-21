@@ -8,6 +8,6 @@
 
 import UIKit
 
-class TextView: ViewWidget {
+class TextWidget: ViewWidget {
     
 }

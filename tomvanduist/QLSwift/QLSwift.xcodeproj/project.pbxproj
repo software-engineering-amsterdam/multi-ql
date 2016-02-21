@@ -12,7 +12,6 @@
 		E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3F21C6CE127005564FE /* BaseViewController.swift */; };
 		E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3F61C6CE6C3005564FE /* FormViewController.swift */; };
 		E21DC3F91C6CE6E8005564FE /* FormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3F81C6CE6E8005564FE /* FormView.xib */; };
-		E21DC3FC1C6D6AAE005564FE /* QuestionTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */; };
 		E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */ = {isa = PBXBuildFile; fileRef = E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */; };
 		E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */; };
 		E21F69111C747CBE00EB9E09 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21F69101C747CBE00EB9E09 /* Utils.swift */; };
@@ -24,6 +23,7 @@
 		E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
 		E23493101C6CD55000B40020 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930F1C6CD55000B40020 /* Context.swift */; };
 		E23493121C6CD59F00B40020 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493111C6CD59F00B40020 /* Parser.swift */; };
+		E265696A1C766FDD000CB9E6 /* FormViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26569691C766FDD000CB9E6 /* FormViewFactory.swift */; };
 		E26CC9221C6B7CE80042B5FF /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91A1C6B7CE80042B5FF /* QLExpression.swift */; };
 		E26CC9231C6B7CE80042B5FF /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91B1C6B7CE80042B5FF /* QLForm.swift */; };
 		E26CC9241C6B7CE80042B5FF /* QLBinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91C1C6B7CE80042B5FF /* QLBinary.swift */; };
@@ -43,12 +43,10 @@
 		E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAB01C6CDF350009E869 /* StringExtension.swift */; };
 		E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
 		E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E2C8D9F81C761CC5005F1C41 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9F71C761CC5005F1C41 /* BlockView.swift */; };
-		E2C8D9FA1C761CFE005F1C41 /* ConditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9F91C761CFE005F1C41 /* ConditionalView.swift */; };
-		E2C8DA001C761D8C005F1C41 /* BooleanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FC1C761D8C005F1C41 /* BooleanView.swift */; };
-		E2C8DA011C761D8C005F1C41 /* DecimalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FD1C761D8C005F1C41 /* DecimalView.swift */; };
-		E2C8DA021C761D8C005F1C41 /* IntegerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FE1C761D8C005F1C41 /* IntegerView.swift */; };
-		E2C8DA031C761D8C005F1C41 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FF1C761D8C005F1C41 /* TextView.swift */; };
+		E2C8DA001C761D8C005F1C41 /* BooleanWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */; };
+		E2C8DA011C761D8C005F1C41 /* DecimalWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FD1C761D8C005F1C41 /* DecimalWidget.swift */; };
+		E2C8DA021C761D8C005F1C41 /* IntegerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */; };
+		E2C8DA031C761D8C005F1C41 /* TextWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */; };
 		E2C8DA051C761DB4005F1C41 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8DA041C761DB4005F1C41 /* Widget.swift */; };
 		E2C8DA081C7624EA005F1C41 /* BooleanView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA071C7624EA005F1C41 /* BooleanView.xib */; };
 		E2C8DA0C1C762509005F1C41 /* DecimalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA091C762509005F1C41 /* DecimalView.xib */; };
@@ -93,6 +91,10 @@
 		E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */; };
 		E2F0A2FA1C75CE5900D0C1AB /* ExpressionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */; };
 		E2F149A81C75DF88009BB7BC /* ExpressionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */; };
+		E2FA492C1C79E5D100FC5BE0 /* FormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA492B1C79E5D100FC5BE0 /* FormLayout.swift */; };
+		E2FA492F1C79ECD200FC5BE0 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA492E1C79ECD200FC5BE0 /* BaseView.swift */; };
+		E2FA49311C79EE6B00FC5BE0 /* UIEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */; };
+		E2FA49331C7A033900FC5BE0 /* ConditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA49321C7A033900FC5BE0 /* ConditionalView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,7 +150,6 @@
 		E21DC3F21C6CE127005564FE /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = Src/ViewControllers/BaseViewController.swift; sourceTree = "<group>"; };
 		E21DC3F61C6CE6C3005564FE /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewController.swift; path = Src/ViewControllers/FormViewController.swift; sourceTree = "<group>"; };
 		E21DC3F81C6CE6E8005564FE /* FormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FormView.xib; path = Views/FormView.xib; sourceTree = "<group>"; };
-		E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QuestionTextView.xib; path = Views/Form/QuestionTextView.xib; sourceTree = "<group>"; };
 		E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypedValidForm.ql; path = Resources/QL/SemanticAnalyzerTests/TypedValidForm.ql; sourceTree = "<group>"; };
 		E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypedInvalidForms.ql; path = Resources/QL/SemanticAnalyzerTests/TypedInvalidForms.ql; sourceTree = "<group>"; };
 		E21F69101C747CBE00EB9E09 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "Supporting Files/Utils.swift"; sourceTree = "<group>"; };
@@ -160,6 +161,7 @@
 		E234930D1C6CCE6700B40020 /* SemanticError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticError.swift; path = Src/Parser/SemanticAnalyzer/SemanticError.swift; sourceTree = "<group>"; };
 		E234930F1C6CD55000B40020 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Context.swift; path = Src/Parser/SemanticAnalyzer/Context.swift; sourceTree = "<group>"; };
 		E23493111C6CD59F00B40020 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Src/Parser/Parser.swift; sourceTree = "<group>"; };
+		E26569691C766FDD000CB9E6 /* FormViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewFactory.swift; path = Src/UI/Form/FormViewFactory.swift; sourceTree = "<group>"; };
 		E26CC91A1C6B7CE80042B5FF /* QLExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpression.swift; path = Src/Parser/ParseTree/QLExpression.swift; sourceTree = "<group>"; };
 		E26CC91B1C6B7CE80042B5FF /* QLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLForm.swift; path = Src/Parser/ParseTree/QLForm.swift; sourceTree = "<group>"; };
 		E26CC91C1C6B7CE80042B5FF /* QLBinary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLBinary.swift; path = Src/Parser/ParseTree/QLBinary.swift; sourceTree = "<group>"; };
@@ -177,12 +179,10 @@
 		E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseFormViewController.swift; path = Src/ViewControllers/ChooseFormViewController.swift; sourceTree = "<group>"; };
 		E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Src/ViewControllers/RootViewController.swift; sourceTree = "<group>"; };
 		E2A5AAB01C6CDF350009E869 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Src/Extensions/StringExtension.swift; sourceTree = "<group>"; };
-		E2C8D9F71C761CC5005F1C41 /* BlockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockView.swift; path = Src/UI/Form/BlockView.swift; sourceTree = "<group>"; };
-		E2C8D9F91C761CFE005F1C41 /* ConditionalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConditionalView.swift; path = Src/UI/Form/ConditionalView.swift; sourceTree = "<group>"; };
-		E2C8D9FC1C761D8C005F1C41 /* BooleanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BooleanView.swift; path = Src/UI/Form/Widgets/BooleanView.swift; sourceTree = "<group>"; };
-		E2C8D9FD1C761D8C005F1C41 /* DecimalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecimalView.swift; path = Src/UI/Form/Widgets/DecimalView.swift; sourceTree = "<group>"; };
-		E2C8D9FE1C761D8C005F1C41 /* IntegerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntegerView.swift; path = Src/UI/Form/Widgets/IntegerView.swift; sourceTree = "<group>"; };
-		E2C8D9FF1C761D8C005F1C41 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextView.swift; path = Src/UI/Form/Widgets/TextView.swift; sourceTree = "<group>"; };
+		E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BooleanWidget.swift; path = Src/UI/Form/Widgets/BooleanWidget.swift; sourceTree = "<group>"; };
+		E2C8D9FD1C761D8C005F1C41 /* DecimalWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecimalWidget.swift; path = Src/UI/Form/Widgets/DecimalWidget.swift; sourceTree = "<group>"; };
+		E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntegerWidget.swift; path = Src/UI/Form/Widgets/IntegerWidget.swift; sourceTree = "<group>"; };
+		E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextWidget.swift; path = Src/UI/Form/Widgets/TextWidget.swift; sourceTree = "<group>"; };
 		E2C8DA041C761DB4005F1C41 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Widget.swift; path = Src/UI/Form/Widgets/Widget.swift; sourceTree = "<group>"; };
 		E2C8DA071C7624EA005F1C41 /* BooleanView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BooleanView.xib; path = Views/Form/Widgets/BooleanView.xib; sourceTree = "<group>"; };
 		E2C8DA091C762509005F1C41 /* DecimalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DecimalView.xib; path = Views/Form/Widgets/DecimalView.xib; sourceTree = "<group>"; };
@@ -211,6 +211,10 @@
 		E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLanguageDefinition.swift; path = Src/Parser/QLParser/QLLanguageDefinition.swift; sourceTree = "<group>"; };
 		E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CyclicDependency.ql; path = Resources/QL/SemanticAnalyzerTests/CyclicDependency.ql; sourceTree = "<group>"; };
 		E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpressionType.swift; path = Src/Parser/AST/ExpressionType.swift; sourceTree = "<group>"; };
+		E2FA492B1C79E5D100FC5BE0 /* FormLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormLayout.swift; path = Src/UI/Form/FormLayout.swift; sourceTree = "<group>"; };
+		E2FA492E1C79ECD200FC5BE0 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseView.swift; path = Src/UI/BaseView.swift; sourceTree = "<group>"; };
+		E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeInsets.swift; path = Src/Extensions/UIEdgeInsets.swift; sourceTree = "<group>"; };
+		E2FA49321C7A033900FC5BE0 /* ConditionalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConditionalView.swift; path = Src/UI/Form/ConditionalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,7 +259,6 @@
 			isa = PBXGroup;
 			children = (
 				E2C8DA061C7624CE005F1C41 /* Widgets */,
-				E21DC3FB1C6D6AAE005564FE /* QuestionTextView.xib */,
 			);
 			name = Form;
 			sourceTree = "<group>";
@@ -313,9 +316,10 @@
 			isa = PBXGroup;
 			children = (
 				E2C8D9FB1C761D11005F1C41 /* Widgets */,
-				E2C8D9F71C761CC5005F1C41 /* BlockView.swift */,
-				E2C8D9F91C761CFE005F1C41 /* ConditionalView.swift */,
+				E26569691C766FDD000CB9E6 /* FormViewFactory.swift */,
+				E2FA49321C7A033900FC5BE0 /* ConditionalView.swift */,
 				E2D518921C6E15B5008030C4 /* QuestionView.swift */,
+				E2FA492B1C79E5D100FC5BE0 /* FormLayout.swift */,
 			);
 			name = Form;
 			sourceTree = "<group>";
@@ -334,10 +338,10 @@
 		E2C8D9FB1C761D11005F1C41 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				E2C8D9FC1C761D8C005F1C41 /* BooleanView.swift */,
-				E2C8D9FD1C761D8C005F1C41 /* DecimalView.swift */,
-				E2C8D9FE1C761D8C005F1C41 /* IntegerView.swift */,
-				E2C8D9FF1C761D8C005F1C41 /* TextView.swift */,
+				E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */,
+				E2C8D9FD1C761D8C005F1C41 /* DecimalWidget.swift */,
+				E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */,
+				E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */,
 				E2C8DA041C761DB4005F1C41 /* Widget.swift */,
 			);
 			name = Widgets;
@@ -445,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				E2A5AAA81C6CDE360009E869 /* Form */,
+				E2FA492E1C79ECD200FC5BE0 /* BaseView.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -540,6 +545,7 @@
 			isa = PBXGroup;
 			children = (
 				E2A5AAB01C6CDF350009E869 /* StringExtension.swift */,
+				E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */,
 				E2D5188E1C6D6F19008030C4 /* UIView.swift */,
 			);
 			name = Extensions;
@@ -675,7 +681,6 @@
 				E2C8DA0D1C762509005F1C41 /* IntegerView.xib in Resources */,
 				E29A237E1C6D6C6500281E49 /* Podfile in Resources */,
 				E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */,
-				E21DC3FC1C6D6AAE005564FE /* QuestionTextView.xib in Resources */,
 				E21DC3EF1C6CE095005564FE /* ChooseFormView.xib in Resources */,
 				E2C8DA0C1C762509005F1C41 /* DecimalView.xib in Resources */,
 				E2C8DA081C7624EA005F1C41 /* BooleanView.xib in Resources */,
@@ -765,32 +770,35 @@
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
 				E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */,
 				E26CC9241C6B7CE80042B5FF /* QLBinary.swift in Sources */,
-				E2C8DA001C761D8C005F1C41 /* BooleanView.swift in Sources */,
-				E2C8DA021C761D8C005F1C41 /* IntegerView.swift in Sources */,
-				E2C8DA031C761D8C005F1C41 /* TextView.swift in Sources */,
+				E2C8DA001C761D8C005F1C41 /* BooleanWidget.swift in Sources */,
+				E2C8DA021C761D8C005F1C41 /* IntegerWidget.swift in Sources */,
+				E2C8DA031C761D8C005F1C41 /* TextWidget.swift in Sources */,
 				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
 				E23493091C6CB42900B40020 /* FormNodeVisitor.swift in Sources */,
 				E2F0A2FA1C75CE5900D0C1AB /* ExpressionType.swift in Sources */,
+				E2FA492F1C79ECD200FC5BE0 /* BaseView.swift in Sources */,
 				E26CC9281C6B7CE80042B5FF /* QLStatement.swift in Sources */,
 				E26CC9221C6B7CE80042B5FF /* QLExpression.swift in Sources */,
 				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
 				E26CC92E1C6B8A260042B5FF /* Form.swift in Sources */,
 				E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */,
-				E2C8D9FA1C761CFE005F1C41 /* ConditionalView.swift in Sources */,
 				E26CC9271C6B7CE80042B5FF /* QLQuestion.swift in Sources */,
 				E23493101C6CD55000B40020 /* Context.swift in Sources */,
 				E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */,
-				E2C8DA011C761D8C005F1C41 /* DecimalView.swift in Sources */,
+				E2C8DA011C761D8C005F1C41 /* DecimalWidget.swift in Sources */,
 				E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */,
 				E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */,
+				E265696A1C766FDD000CB9E6 /* FormViewFactory.swift in Sources */,
 				E2C8DA051C761DB4005F1C41 /* Widget.swift in Sources */,
-				E2C8D9F81C761CC5005F1C41 /* BlockView.swift in Sources */,
+				E2FA492C1C79E5D100FC5BE0 /* FormLayout.swift in Sources */,
 				E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */,
 				E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */,
 				E26CC9291C6B7CE80042B5FF /* QLVariable.swift in Sources */,
+				E2FA49331C7A033900FC5BE0 /* ConditionalView.swift in Sources */,
 				E2D518931C6E15B5008030C4 /* QuestionView.swift in Sources */,
 				E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */,
 				E23493121C6CD59F00B40020 /* Parser.swift in Sources */,
+				E2FA49311C79EE6B00FC5BE0 /* UIEdgeInsets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
