@@ -1,10 +1,10 @@
 package org.uva.sea.ql.ast.TaxForm;
 
-import org.uva.sea.ql.ast.ASTNODE;
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
-public class IFblock extends ASTNODE {
+public class IFblock extends ASTNode {
 	private final Expr condition;
 	private final Block body;
 

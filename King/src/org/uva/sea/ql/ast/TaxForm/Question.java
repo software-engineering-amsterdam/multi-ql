@@ -1,10 +1,10 @@
 package org.uva.sea.ql.ast.TaxForm;
 
-import org.uva.sea.ql.ast.ASTNODE;
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.VarDeclaration;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
-public class Question extends ASTNODE {
+public class Question extends ASTNode {
 	private final VarDeclaration varDeclaration;
 	private final String text;
 

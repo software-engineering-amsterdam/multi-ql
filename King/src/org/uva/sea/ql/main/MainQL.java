@@ -31,6 +31,7 @@ public class MainQL {
 	   
 	    FileContext fileContext = parser.file();
 	    Form ast = fileContext.form(0).result;
+	    System.out.println(ast);
 	    TypeChecker typeChecker = new TypeChecker(ast);
 	    
         

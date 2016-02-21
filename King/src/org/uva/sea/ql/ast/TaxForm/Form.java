@@ -1,9 +1,9 @@
 package org.uva.sea.ql.ast.TaxForm;
 
-import org.uva.sea.ql.ast.ASTNODE;
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
-public class Form extends ASTNODE {
+public class Form extends ASTNode {
 	private String id;
 	private Block body;
 

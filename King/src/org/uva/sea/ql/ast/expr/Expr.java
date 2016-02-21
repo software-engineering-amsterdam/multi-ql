@@ -1,7 +1,7 @@
 package org.uva.sea.ql.ast.expr;
 
-import org.uva.sea.ql.ast.ASTNODE;
+import org.uva.sea.ql.ast.ASTNode;
 
-public abstract class Expr extends ASTNODE {
+public abstract class Expr extends ASTNode {
 
 }

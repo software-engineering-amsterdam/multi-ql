@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
-public class VarIdentifier extends ASTNODE{
+public class VarIdentifier extends ASTNode{
 	private final String name;
 	
 	private ValueType type;

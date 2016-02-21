@@ -29,31 +29,35 @@ form returns [Form result]
 	;
 	
 block returns [Block result]
- locals [ Map<String, ValueType> varMap = new HashMap<String, ValueType>() ]
-	@init {
-        $result = new Block();
-    }
-	: '{' + ( condition { $result.add($condition.result); }  | question{ $result.add($question.result); }  )+ '}' 
+ locals [ 
+ 		  List<Question> questions = new ArrayList<Question>(),
+ 		  List<IFblock> ifstatementblock = new ArrayList<IFblock>()
+ 		]
+	
+	: '{' + ( condition | question )+ '}' {$result = new Block($questions,$ifstatementblock);} 
 	;
 
 condition returns [IFblock result]
     : 'if' + '(' + orExpr + ')' + block 
     { 
         $result = new IFblock($orExpr.result, $block.result);
+        $block::ifstatementblock.add($result);
     }
     
     ;
     
 question returns [Question result]
-	: STRING variable orExpr 
+	: STR variable orExpr 
 	{
 		
-		$result = new ReadOnlyQuestion($variable.result, $STRING.text, $orExpr.result);
+		$result = new ReadOnlyQuestion($variable.result, $STR.text, $orExpr.result);
+		$block::questions.add($result);
     }
-    | STRING variable
+    | STR variable
     {
     	
-        $result = new NormalQuestion($variable.result, $STRING.text);
+        $result = new NormalQuestion($variable.result, $STR.text);
+        $block::questions.add($result);
     }
 	;
 
@@ -63,12 +67,11 @@ variable returns [VarDeclaration result]
     { 
     	
         $result = new VarDeclaration($question_response_type.result, $identifier.result);
-        $block::varMap.put($identifier.result.getName(), $result.getType().getType());
         $identifier.result.setType($result.getType().getType());
     }
     ; 
 question_response_type returns [VarType result]
-    : t=( BOOLEAN | STRING | INT | MONEY ) 
+    : t=( BOOLEAN | STRING | INTEGER | MONEY ) 
     { 
         $result = new VarType($t.text);
     }
@@ -110,7 +113,6 @@ primary returns [Expr result]
     : literal        { $result = new LiteralExpression($literal.result); }
     | identifier
 	    {  
-	     	$identifier.result.setType($block::varMap.get($identifier.result.getName()));
 	        $result = new VarExpr($identifier.result);
 	    }
     | '(' orExpr ')' { $result = $orExpr.result; }
@@ -119,18 +121,14 @@ primary returns [Expr result]
     ;    
         
 identifier returns [VarIdentifier result]
-    : ID
-    {   
-        $result = new VarIdentifier($ID.text);
-    }
-    
+    : ID {  $result = new VarIdentifier($ID.text); }
     ;
     
 literal returns [Literal result]
     : INT   { $result = new IntegerLiteral(Integer.valueOf($INT.text)); }
-    | MONEY   { $result = new MoneyLiteral(Money.parse($MONEY.text)); }
-    | STRING   { $result = new StringLiteral($STRING.text); }
-    | BOOLEAN  { $result = new BooleanLiteral(Boolean.valueOf($BOOLEAN.text)); }
+    | MON   { $result = new MoneyLiteral(Money.parse($MON.text)); }
+    | STR   { $result = new StringLiteral($STR.text); }
+    | BOOL  { $result = new BooleanLiteral(Boolean.valueOf($BOOL.text)); }
     ;
 orExpr returns [Expr result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new OR($result, $rhs.result); } )*
@@ -165,46 +163,19 @@ relExpr returns [Expr result]
     ;
 	
 	
-DIGIT			: [0-9] ;
-FLOAT			: DIGIT+ '.' DIGIT DIGIT ;
-
-SMALLER_THAN	: '<' ;
-GREATER_THAN	: '>' ;
-SMALLER_EQUAL	: '<=' ;
-GREATER_EQUAL	: '>=' ;
-EQUAL			: '==' ;
-NOT_EQUAL		: '!=' ;
-
-AND			: '&&' ;
-OR			: '||' ;
-NOT			: '!' ;
-
-ASSIGN		: '=' ;
-MINUS		: '-' ;
-ADD			: '+' ;
-MULTIPLY	: '*' ;
-DIVIDE		: '/' ;
+DIGIT		: [0-9] ;
+FLOAT		: DIGIT+ '.' DIGIT DIGIT ;
 FORM		: 'form';
-
-BOOLEAN		: 'boolean'|'true'|'false' ;
-STRING		: '"' .*? '"';
-INT			: DIGIT+ | 'integer' ;
-MONEY		: 'money'|'USD '+ FLOAT;
-DATE		: 'date' ;
-
+BOOLEAN		: 'boolean';
+STRING		: 'string';
+INTEGER		: 'integer' ;
+MONEY		: 'money';
+STR			: '"' .*? '"';
+BOOL		: 'true'|'false' ;
+INT			: DIGIT+;
+MON			: 'USD '+ FLOAT;
 ID			: [a-zA-Z]+;
-
-
-
-
-COLON 		: ':';
-
-LEFT_CURLY_BRACKET 	: '{';
-RIGHT_CURLY_BRACKET : '}';
-
-LEFT_PARENTHESES 	: '(';
-RIGHT_PARENTHESES 	: ')';
-	
+COLON 		: ':';	
 COMMENT 	: '//' .+? ('\n'|EOF) -> skip ;
 WS			: [ \t\r\u000C\n]+ -> skip ;
 NEW_LINE	: '\r'? '\n';

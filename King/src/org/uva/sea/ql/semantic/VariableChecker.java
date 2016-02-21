@@ -1,7 +1,8 @@
 package org.uva.sea.ql.semantic;
 
 
-import org.uva.sea.ql.ast.ASTNODE;
+
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.VarDeclaration;
 import org.uva.sea.ql.ast.VarIdentifier;
 import org.uva.sea.ql.ast.expr.Add;
@@ -15,8 +16,8 @@ public class VariableChecker implements QLNodeVisitor {
 	
 	@Override
 	public void visit(VarDeclaration node) {
-		if (node == null) {
-			System.err.println("Reference to undefined question " + node);
+		if (node.getType() == null) {
+			System.err.println("Reference to undefined question. ");
 			return;
 		}
 		String variableName = node.getIdentifier().getName();
@@ -40,10 +41,12 @@ public class VariableChecker implements QLNodeVisitor {
 	}
 
 	@Override
-	public void visit(ASTNODE node) {
+	public void visit(ASTNode node) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 
 }

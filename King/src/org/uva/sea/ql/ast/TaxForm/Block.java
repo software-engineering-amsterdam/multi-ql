@@ -1,37 +1,29 @@
 package org.uva.sea.ql.ast.TaxForm;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.sea.ql.ast.ASTNODE;
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
 
-public class Block extends ASTNODE {
+public class Block extends ASTNode {
 	//private List<VarDeclaration> variables;
 	private List<Question> questions;
-	private List<IFblock> statements;
+	private List<IFblock> ifstatementblock;
+	
+	
 
-	public Block() {
-		//variables = new ArrayList<VarDeclaration>();
-		questions = new ArrayList<Question>();
-		statements = new ArrayList<IFblock>();
+	public Block(List<Question> questions, List<IFblock> statements) {
+		this.questions = questions;
+		this.ifstatementblock = statements;
 	}
 
-
-	public void add(Question question) {
-		questions.add(question);
-	}
-
-	public void add(IFblock statement) {
-		statements.add(statement);
-	}
 
 	public List<Question> getQuestions() {
 		return questions;
 	}
 	
 	public List<IFblock> getStatements() {
-		return statements;
+		return ifstatementblock;
 	}
 
 	@Override
@@ -44,7 +36,7 @@ public class Block extends ASTNODE {
 			q.getVariableId().accept(qlPartVisitor);
 		}
 
-		for (IFblock statement : statements) {
+		for (IFblock statement : ifstatementblock) {
 			statement.accept(qlPartVisitor);
 		}
 		
