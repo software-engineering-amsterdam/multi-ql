@@ -4,7 +4,7 @@ import ast.TreeNode;
 import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
-public class Form extends TreeNode implements Visitable{
+public class Form extends TreeNode implements Visitable {
 	private String id;
 	private Body body;
 
@@ -13,12 +13,12 @@ public class Form extends TreeNode implements Visitable{
 		this.id = id;
 		this.body = result;
 	}
-	
-	public String getId(){
+
+	public String getId() {
 		return id;
 	}
-	
-	public Body getBody(){
+
+	public Body getBody() {
 		return body;
 	}
 

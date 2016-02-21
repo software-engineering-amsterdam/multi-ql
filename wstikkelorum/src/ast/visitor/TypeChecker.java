@@ -1,5 +1,7 @@
 package ast.visitor;
 
+import java.util.HashMap;
+
 import ast.expression.Add;
 import ast.expression.AndExpression;
 import ast.expression.BinaryExpression;
@@ -29,197 +31,223 @@ import ast.statement.IfStatement;
 import ast.statement.Question;
 import ast.statement.Statement;
 
-public class TypeChecker extends BasicVisitor{
+public class TypeChecker extends BasicVisitor {
 	private TypeChecker visitor;
-	
-	public TypeChecker(){
+	private HashMap<String, Types> variableMap;
+
+	public TypeChecker() {
 		this.visitor = this;
+		variableMap = new HashMap<String, Types>();
 	}
-	
+
 	@Override
-	public Types visit(Form form){
+	public Types visit(Form form) {
 		form.getBody().accept(visitor);
 		return null;
 	}
-	
+
 	@Override
-	public Types visit(Body body){
-		for(Visitable v : body.getStatements()){
+	public Types visit(Body body) {
+		for (Visitable v : body.getStatements()) {
 			v.accept(visitor);
 		}
 		return null;
 	}
-	
+
 	@Override
-	public Types visit(Statement statement){
-		if(statement.getAssignmentQuestion() != null){
+	public Types visit(Statement statement) {
+		if (statement.getAssignmentQuestion() != null) {
 			statement.getAssignmentQuestion().accept(visitor);
 		}
-		if(statement.getIfStatement() != null){
+		if (statement.getIfStatement() != null) {
 			statement.getIfStatement().accept(visitor);
 		}
-		if(statement.getQuestion() != null){
+		if (statement.getQuestion() != null) {
 			statement.getQuestion().accept(visitor);
 		}
 		return null;
 	}
-	
+
 	@Override
-	public Types visit(AssignmentQuestion assignmentQuestion){
+	public Types visit(AssignmentQuestion assignmentQuestion) {
+		declareVariable(assignmentQuestion.getVariable().getName(), 
+				assignmentQuestion.getVariable().getType().getType(),
+				assignmentQuestion.getLineNumber());
 		Types t = assignmentQuestion.getVariable().getType().getType();
 		compareTypes(assignmentQuestion.getExpression(), t);
 		return t;
 	}
-	
+
 	@Override
-	public Types visit(IfStatement ifStatement){
+	public Types visit(IfStatement ifStatement) {
 		compareTypes(ifStatement.getExpression(), Types.BOOLEAN);
 		ifStatement.getBody().accept(visitor);
 		return null;
 	}
-	
+
 	@Override
-	public Types visit(Question question){
+	public Types visit(Question question) {
+		declareVariable(question.getVariable().getName(),
+				question.getVariable().getType().getType(),
+				question.getLineNumber());
 		return question.getVariable().getType().getType();
 	}
-	
+
 	@Override
-	public Types visit(OrExpression orExpression){
+	public Types visit(OrExpression orExpression) {
 		compareTypesBinaryExpression(orExpression, Types.BOOLEAN);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(AndExpression andExpression){
+	public Types visit(AndExpression andExpression) {
 		compareTypesBinaryExpression(andExpression, Types.BOOLEAN);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(LT lt){
+	public Types visit(LT lt) {
 		compareTypesBinaryExpression(lt, Types.INT);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(LEq leq){
+	public Types visit(LEq leq) {
 		compareTypesBinaryExpression(leq, Types.INT);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(GT gt){
+	public Types visit(GT gt) {
 		compareTypesBinaryExpression(gt, Types.INT);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(GEq GEq){
+	public Types visit(GEq GEq) {
 		compareTypesBinaryExpression(GEq, Types.INT);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(Eq eq){
+	public Types visit(Eq eq) {
 		compareTypesBinaryExpression(eq, Types.INT);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(NEq neq){
+	public Types visit(NEq neq) {
 		compareTypesBinaryExpression(neq, Types.INT);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(Add add){
+	public Types visit(Add add) {
 		compareTypesBinaryExpression(add, Types.INT);
 		return Types.INT;
 	}
-	
+
 	@Override
-	public Types visit(Sub sub){
+	public Types visit(Sub sub) {
 		compareTypesBinaryExpression(sub, Types.INT);
 		return Types.INT;
 	}
-	
+
 	@Override
-	public Types visit(Mul mul){
+	public Types visit(Mul mul) {
 		compareTypesBinaryExpression(mul, Types.INT);
 		return Types.INT;
-	}	
-	
+	}
+
 	@Override
-	public Types visit(Div div){
+	public Types visit(Div div) {
 		compareTypesBinaryExpression(div, Types.INT);
 		return Types.INT;
 	}
-	
+
 	@Override
-	public Types visit(Pos pos){
+	public Types visit(Pos pos) {
 		compareTypes(pos.getExpression(), Types.BOOLEAN);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(Neg neg){
+	public Types visit(Neg neg) {
 		compareTypes(neg.getExpression(), Types.BOOLEAN);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(Not not){	
+	public Types visit(Not not) {
 		compareTypes(not.getExpression(), Types.BOOLEAN);
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(Literal literal){
-		if(literal.getBoolLiteral() != null){
-			return (Types)literal.getBoolLiteral().accept(visitor);
+	public Types visit(Literal literal) {
+		if (literal.getBoolLiteral() != null) {
+			return (Types) literal.getBoolLiteral().accept(visitor);
 		}
-		if(literal.getIntLiteral() != null){
-			return (Types)literal.getIntLiteral().accept(visitor);
+		if (literal.getIntLiteral() != null) {
+			return (Types) literal.getIntLiteral().accept(visitor);
 		}
-		if(literal.getStringLiteral() != null){
-			return (Types)literal.getStringLiteral().accept(visitor);
+		if (literal.getStringLiteral() != null) {
+			return (Types) literal.getStringLiteral().accept(visitor);
 		}
-		if(literal.getVariableExpression() != null){
-			return (Types)literal.getVariableExpression().accept(visitor);
+		if (literal.getVariableExpression() != null) {
+			return (Types) literal.getVariableExpression().accept(visitor);
 		}
 		return null;
 	}
-	
+
 	@Override
-	public Types visit(IntLiteral intLiteral){
+	public Types visit(IntLiteral intLiteral) {
 		return Types.INT;
 	}
-	
+
 	@Override
-	public Types visit(BoolLiteral boolLiteral){
+	public Types visit(BoolLiteral boolLiteral) {
 		return Types.BOOLEAN;
 	}
-	
+
 	@Override
-	public Types visit(StringLiteral stringLiteral){
+	public Types visit(StringLiteral stringLiteral) {
 		return Types.STRING;
 	}
-	
+
 	@Override
-	public Types visit(VariableExpression variableExpression){
-		//TODO: get the type from the context scop or whatever!
+	public Types visit(VariableExpression variableExpression) {
+		String variableName = variableExpression.getName();
+		if (variableMap.containsKey(variableName)) {
+			return variableMap.get(variableName);
+		}
+		System.out.println(String.format("Unknown variable: %s. At line: %s",
+							variableName, variableExpression.getLineNumber()));
 		return null;
 	}
-	
-	private void compareTypesBinaryExpression(BinaryExpression e, Types expectedType){
+
+	private void compareTypesBinaryExpression(BinaryExpression e,
+			Types expectedType) {
 		compareTypes(e.getLhs(), expectedType);
-		compareTypes(e.getRhs(), expectedType);	
+		compareTypes(e.getRhs(), expectedType);
 	}
-	
-	private void compareTypes(Expression e, Types expectedType){
-		Types actualType = (Types)e.accept(visitor);
-		if(actualType != expectedType){
-			System.out.println(String.format("Incorrect. Expected type: %s. Actual type: %s. On lineNumber: %d", expectedType, actualType, e.getLineNumber()));
+
+	private void compareTypes(Expression e, Types expectedType) {
+		Types actualType = (Types) e.accept(visitor);
+		if (actualType != expectedType) {
+			System.out.println(String.format("Incorrect type. Expected type: %s. Actual type: %s. On lineNumber: %d",
+									expectedType, actualType, e.getLineNumber()));
+		}
+	}
+
+	private void declareVariable(String name, Types type, int lineNumber) {
+		if (variableMap.containsKey(name)) {
+			if (variableMap.get(name) != type) {
+				System.out.println(String.format("Duplicate variable with a different type. Name: %s. Original Type: %s. New Declared Type: %s. LineNumber: %s",
+									name, variableMap.get(name), type, lineNumber));
+			}
+		} else {
+			variableMap.put(name, type);
 		}
 	}
 }
