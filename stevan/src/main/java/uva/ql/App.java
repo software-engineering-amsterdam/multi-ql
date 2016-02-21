@@ -1,7 +1,7 @@
 package uva.ql;
 
 import uva.TaxForm.GUI.GUI;
-import uva.ql.ast.ASTForm;
+import uva.ql.ast.Form;
 import uva.ql.visitors.ASTVisitorToGUI;
 import uva.ql.visitors.ASTVisitorToGUIListeners;
 
@@ -11,7 +11,7 @@ public class App {
 		String filePath;
 		boolean internal = true;
 		QL ql = null;
-		ASTForm root = null;
+		Form root = null;
 		GUI gui = null;
 
 		if (args.length == 0) {
@@ -24,7 +24,7 @@ public class App {
 		ql = new QL(filePath, internal);
 		
 		try {
-			root = (ASTForm) ql.start();
+			root = (Form) ql.start();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

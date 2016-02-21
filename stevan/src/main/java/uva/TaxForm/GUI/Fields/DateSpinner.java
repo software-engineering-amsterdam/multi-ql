@@ -9,7 +9,7 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTVariable;
 
 public class DateSpinner extends JSpinner {
 	
