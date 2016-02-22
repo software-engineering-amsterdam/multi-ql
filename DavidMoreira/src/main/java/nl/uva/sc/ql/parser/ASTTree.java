@@ -16,20 +16,22 @@ import nl.uva.sc.ql.parser.ast.Node;
 import nl.uva.sc.ql.parser.ast.RelationalExpressionNode;
 import nl.uva.sc.ql.parser.ast.StatementNode;
 import nl.uva.sc.ql.parser.ast.StringNode;
-import nl.uva.sc.ql.parser.ast.SymbolTable;
 import nl.uva.sc.ql.parser.ast.VariableNode;
+import nl.uva.sc.ql.parser.ast.StringVariableNode;
+import nl.uva.sc.ql.parser.ast.MoneyVariableNode;
+import nl.uva.sc.ql.parser.ast.BooleanVariableNode;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class ConstructAST extends QLBaseVisitor<Node> {
+public class ASTTree extends QLBaseVisitor<Node> {
  
     // store variables
 	private SymbolTable<Node> symbolTable;
     
-    public ConstructAST(SymbolTable<Node> symbolTable) {
+    public ASTTree(SymbolTable<Node> symbolTable) {
     	this.symbolTable = symbolTable;
     }
     
@@ -57,13 +59,17 @@ public class ConstructAST extends QLBaseVisitor<Node> {
         }
         
         Function<String, VariableNode> chooseNode = s -> { 
+        	VariableNode vNode;
         	switch(s) {
 				case "String":
-					return new StringNode();
+					vNode = new StringVariableNode();
+					return vNode;
 				case "boolean":
-					return new BooleanNode();
+					vNode = new BooleanVariableNode();
+					return vNode;
 				case "money":
-					return new MoneyNode();
+					vNode = new MoneyVariableNode();
+					return vNode;
 				default:
 					ErrorHandling.getInstance().addError(s+" cannot be solved to a type. Line "+context.type().getStart().getLine());
 					return null;

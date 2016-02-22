@@ -1,6 +1,8 @@
 package nl.uva.sc.ql.parser.ast;
 
-public class StringNode extends VariableNode {
+import nl.uva.sc.ql.parser.Visitor;
+
+public class StringNode extends Node {
 
 	@Override
 	public String getType() {

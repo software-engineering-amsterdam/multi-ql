@@ -7,7 +7,6 @@ import nl.uva.sc.ql.parser.ast.BooleanNode;
 import nl.uva.sc.ql.parser.ast.IfElseNode;
 import nl.uva.sc.ql.parser.ast.MoneyNode;
 import nl.uva.sc.ql.parser.ast.StringNode;
-import nl.uva.sc.ql.parser.ast.Visitor;
 import nl.uva.sc.ql.parser.ast.ConditionBlockNode;
 import nl.uva.sc.ql.parser.ast.IfNode;
 import nl.uva.sc.ql.parser.ast.LogicNode;
@@ -15,6 +14,7 @@ import nl.uva.sc.ql.parser.ast.MathExpressionNode;
 import nl.uva.sc.ql.parser.ast.Node;
 import nl.uva.sc.ql.parser.ast.RelationalExpressionNode;
 import nl.uva.sc.ql.parser.ast.StatementNode;
+import nl.uva.sc.ql.parser.ast.VariableNode;
 
 
 public class Typecheker implements Visitor {
@@ -36,7 +36,7 @@ public class Typecheker implements Visitor {
 		String symbol = node.getSymbol();
 		switch(symbol){
 			case "!":
-				if(left.getType() != "boolean"){
+				if(left.getType().equals("boolean")){
 		        	ErrorHandling.getInstance().addError("Line "+node.getLine()+": bad operand type "+left.getType()+" for unitary operator '!'");
 				}
 				break;
@@ -118,7 +118,8 @@ public class Typecheker implements Visitor {
 	public void visit(ConditionBlockNode node) {
 		Node left = node.getLeft();
 		left.accept(this);
-		if(left.getType() != "boolean"){
+    	System.out.println(left);
+		if(!left.getType().equals("boolean")){
         	ErrorHandling.getInstance().addError("Line "+left.getLine()+": incompatible types: "+left.getType()+" cannot be converted to boolean");
 		}
 		
@@ -139,5 +140,8 @@ public class Typecheker implements Visitor {
 		node.getLeft().accept(this);
 		node.getRight().accept(this);		
 	}
+
+	@Override
+	public void visit(VariableNode node) {}
 	
 }

@@ -1,4 +1,4 @@
-package nl.uva.sc.ql.parser.ast;
+package nl.uva.sc.ql.parser;
 
 /*
 Copyright (c) 2000 The Regents of the University of California.

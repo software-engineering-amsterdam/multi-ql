@@ -1,5 +1,8 @@
 package nl.uva.sc.ql.parser.ast;
 
+import nl.uva.sc.ql.exceptions.NoValueException;
+import nl.uva.sc.ql.parser.Visitor;
+
 public abstract class Node {
 	private Node left = null;
 	private Node right = null;
@@ -26,12 +29,11 @@ public abstract class Node {
 	public int getLine(){
 		return this.line;
 	}
-		
-	public abstract String getType();
-	public abstract void accept(Visitor visitor);
 
-	// TODO: check
 	public Object getValue() {
+		if (this.value == null) {
+			throw new NoValueException();
+		}
 		return this.value;
 	}
 	
@@ -53,4 +55,7 @@ public abstract class Node {
 
         return this.value.equals(that.value);	
     }
+	
+	public abstract String getType();
+	public abstract void accept(Visitor visitor);
 }

@@ -1,5 +1,7 @@
 package nl.uva.sc.ql.parser.ast;
 
+import nl.uva.sc.ql.parser.Visitor;
+
 public class ConditionBlockNode extends Node {
 		
 	@Override
@@ -11,4 +13,5 @@ public class ConditionBlockNode extends Node {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+	
 }

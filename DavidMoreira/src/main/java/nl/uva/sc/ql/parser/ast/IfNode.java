@@ -1,5 +1,7 @@
 package nl.uva.sc.ql.parser.ast;
 
+import nl.uva.sc.ql.parser.Visitor;
+
 public class IfNode extends IfElseNode {
 
 	@Override

@@ -1,6 +1,8 @@
 package nl.uva.sc.ql.parser.ast;
 
-public class BooleanNode extends VariableNode {
+import nl.uva.sc.ql.parser.Visitor;
+
+public class BooleanNode extends Node {
 
 	@Override
 	public String getType() {
@@ -11,4 +13,5 @@ public class BooleanNode extends VariableNode {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+
 }
