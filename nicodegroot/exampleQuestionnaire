@@ -1,19 +1,8 @@
 form taxOfficeExample { 
-  "Did you sell a house in 2016?"
-    hasSoldHouse: money
     
-  "Did you sell a house in 2015?"
-    hasSoldHouse2: money
+  "cQ1"
+    cQ1: money = (cQ2)
     
-  "What was the sellings price?"
-    sellingPrice: money = (hasSoldHouse + hasSoldHouse2)
-    
-  "How much money is in your wallet right now?"
-    walletValue: money
-    
-  "How much money is in your second wallet right now?"
-    walletValue2: money = (walletValue * 2)
-    
-  "Do you hate taxes?"
-    taxesAreABitch: money = (walletValue + walletValue2)
+  "cQ2"
+    cQ2: money = (cQ1)
 }
