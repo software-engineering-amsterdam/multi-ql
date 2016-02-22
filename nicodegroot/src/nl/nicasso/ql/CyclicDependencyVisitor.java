@@ -35,9 +35,8 @@ import nl.nicasso.ql.utils.Pair;
 
 public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 
-	private boolean debug = true;
+	private boolean debug = false;
 	
-	private ArrayList<Question> questions;
 	private ArrayList<String> warnings;
 	private ArrayList<String> errors;
 	
@@ -48,206 +47,172 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
 		
-		this.questions = questions;
 		this.dependencies = new ArrayList<Pair>();
 	}
 
 	@Override
-	public IdentifierLit visit(And value) {	
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
+	public IdentifierLit visit(And value) {
 		if (debug) {
 			System.out.println("And");
 		}
 		
-		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
 		
 		return null;
 	}
 	
 	@Override
-	public IdentifierLit visit(Addition value) {		
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
+	public IdentifierLit visit(Addition value) {
 		if (debug) {
 			System.out.println("Addition");
 		}
 		
-		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Subtraction value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
 		if (debug) {
 			System.out.println("Subtraction");
 		}
 		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Or value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
 		if (debug) {
 			System.out.println("Or");
 		}
 		
-		
-		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
+			
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Not value) {
-		value.getExpr().accept(this);
-		
 		if (debug) {
 			System.out.println("Not");
 		}
 		
+		value.getExpr().accept(this);
 		
 		return null;
 	}
 
 	@Override
-	public IdentifierLit visit(Parenthesis value) {		
-		value.getExpr().accept(this);
-		
+	public IdentifierLit visit(Parenthesis value) {
 		if (debug) {
 			System.out.println("Parenthesis");
 		}
+		
+		value.getExpr().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Equal value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
 		if (debug) {
 			System.out.println("Equal");
 		}
 		
-		
-		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
+				
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(NotEqual value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);	
-		
 		if (debug) {
 			System.out.println("NotEqual");
 		}
 		
-		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);	
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Division value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
 		if (debug) {
 			System.out.println("Division");
 		}
 		
-		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Multiplication value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
 		if (debug) {
 			System.out.println("Multiplication");
 		}
 		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Greater value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
 		if (debug) {
 			System.out.println("Greater");
 		}
 		
-		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(GreaterEqual value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
 		if (debug) {
 			System.out.println("GreaterEqual");
 		}
 		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Less value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-
 		if (debug) {
 			System.out.println("Less");
 		}
 		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(LessEqual value) {
-		value.getLeft().accept(this);
-
-		value.getRight().accept(this);
-		
 		if (debug) {
 			System.out.println("LessEqual");
 		}
 		
-		
-		
+		value.getLeft().accept(this);
+		value.getRight().accept(this);
+				
 		return null;
 	}
 
@@ -258,39 +223,23 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 
 	@Override
 	public IdentifierLit visit(Form value) {
-		value.getBlock().accept(this);
-		
 		if (debug) {
 			System.out.println("Form");
 		}
 		
-		// @TODO MOVE THIS ELSEWHERE
-		System.out.println("ORIGINAL");
-		for (Pair currentPair : dependencies) {
-			System.out.println(currentPair.getLeft().getValue()+"-"+currentPair.getRight().getValue());
-		}
-		
-		makePairsTransitive();
-		System.out.println("TRANSITIVE");
-		for (Pair currentPair : dependencies) {
-			System.out.println(currentPair.getLeft().getValue()+"-"+currentPair.getRight().getValue());
-		}
-		
-		if (findLoops()) {
-			System.out.println("IT HAS A CYCLIC DEPENDENCY!!!!");
-		}
+		value.getBlock().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(Block value) {
-		for (Statement cur : value.getStatements()) {
-			cur.accept(this);
-		}
-		
 		if (debug) {
 			System.out.println("Block");
+		}
+		
+		for (Statement cur : value.getStatements()) {
+			cur.accept(this);
 		}
 		
 		return null;
@@ -328,25 +277,26 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 
 	@Override
 	public IdentifierLit visit(IfStatement value) {
-		value.getExpr().accept(this);
-		value.getBlock_if().accept(this);
-		
 		if (debug) {
 			System.out.println("ifStatement");
 		}
+		
+		value.getExpr().accept(this);
+		value.getBlock_if().accept(this);
+		
 		return null;
 	}
 
 	@Override
 	public IdentifierLit visit(IfElseStatement value) {
+		if (debug) {
+			System.out.println("IfElseStatement");
+		}
+		
 		value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		value.getBlock_else().accept(this);
 		
-		
-		if (debug) {
-			System.out.println("IfElseStatement");
-		}
 		return null;
 	}
 
@@ -413,63 +363,41 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 		dependencies.add(new Pair(currentIdentifier, currentId));
 	}
 	
-	private void makePairsReflexive() {
-		int a = dependencies.size();
-		for (int i = 0; i < a; i++) {
-			Pair tmp = new Pair(dependencies.get(i).getLeft(), dependencies.get(i).getLeft());
-			Pair tmp2 = new Pair(dependencies.get(i).getRight(), dependencies.get(i).getRight());
-			if (!checkPairExistance(tmp)) {
-				dependencies.add(tmp);
-			}
-			if (!checkPairExistance(tmp2)) {
-				dependencies.add(tmp2);
-			}
-		}
-	}
-	
-	private void makePairsSymmetric() {
-		int a = dependencies.size();
-		for (int i = 0; i < a; i++) {
-			Pair tmp = new Pair(dependencies.get(i).getRight(), dependencies.get(i).getLeft());
-			if (!checkPairExistance(tmp)) {
-				dependencies.add(tmp);
-			}
-		}
-	}
-	
-	private boolean findLoops() {
+	public boolean detectCyclicDependencies() {
 		int a = dependencies.size();
 		for (int i = 0; i < a; i++) {
 			Pair tmp = new Pair(dependencies.get(i).getRight(), dependencies.get(i).getLeft());
 			if (checkPairExistance(tmp)) {
+				errors.add("A cyclic dependency has been detected!");
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	private void makePairsTransitive() {
-		ArrayList<Pair> tmpDependencies = dependencies;
+	private ArrayList<Pair> makePairsTransitive(ArrayList<Pair> tmpDependencies) {	
+		boolean keepRunning = true;
 		
-		boolean yay = true;
-		
-		while(yay) {
-			int a = dependencies.size();
-			for (int i = 0; i < a; i++) {
-				Pair cool = checkPairDependencyExistance(dependencies.get(i));
-				if (cool != null) {
-					if (!checkPairExistance(cool)) {
-						dependencies.add(cool);
+		while (keepRunning) {
+			int size = dependencies.size();
+			
+			for (int i = 0; i < size; i++) {
+				Pair transitivePair = checkPairDependencyExistance(dependencies.get(i));
+				if (transitivePair != null) {
+					if (!checkPairExistance(transitivePair)) {
+						dependencies.add(transitivePair);
 					}
 				}
 			}
-			System.out.println(tmpDependencies.size()+" - "+dependencies.size());
+
 			if (tmpDependencies.size() == dependencies.size()) {
-				yay = false;
+				keepRunning = false;
 			} else {
 				tmpDependencies = dependencies;
 			}
 		}
+		
+		return tmpDependencies;
 	}
 	
 	private Pair checkPairDependencyExistance(Pair p) {

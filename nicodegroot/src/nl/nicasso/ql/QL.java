@@ -61,6 +61,8 @@ public class QL {
         
         ast.accept(cyclicDependencyVisitor);
         
+        cyclicDependencyVisitor.detectCyclicDependencies();
+        
         displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
         displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
                
