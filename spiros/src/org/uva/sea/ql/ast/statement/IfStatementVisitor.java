@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast.statement;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.uva.sea.ql.ast.form.Form;
@@ -11,18 +13,23 @@ public class IfStatementVisitor extends StatementsVisitor {
 	
 	public IfStatementVisitor(Form form) {
 		super(form);
-		// TODO Auto-generated constructor stub
+		this.ifStatements = new ArrayList<IfStatement>();
 	}
 	
-	// check below.... goin to sleep . . . 
-
+	public List<IfStatement> getIfStatements() {
+		List<IfStatement> statements = new ArrayList<>();
+		this.visitForm();
+		Iterator<IfStatement> iterator = this.ifStatements.iterator();
+		iterator.forEachRemaining(statements::add);
+		return statements;
+	}
 		
-//	@Override
-//	public Void visitIfStatement(IfStatement ifStatement) {
-//		this.ifStatements.add(ifStatement);
-//		List<Statement> statements = ifStatement.getBlock().getStatements();
-//		for  (Statement statement: statements)
-//			statement.accept(this);	
-//		return null;
-//	}
+	@Override
+	public Void visitIfStatement(IfStatement ifStatement) {
+		this.ifStatements.add(ifStatement);
+		List<Statement> statements = ifStatement.getBlock().getStatements();
+		for  (Statement statement: statements)
+			statement.accept(this);	
+		return null;
+	}
 }

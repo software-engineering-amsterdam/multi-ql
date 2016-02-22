@@ -4,15 +4,10 @@ form Box1HouseOwning {
 	hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?"
 	boolean
 	valueResidue: "Value residue:" int(hasSoldHouse - hasBoughtHouse)
-	
-	if (hasSoldHouse) {
-		sellingPrice: "Price the house was sold for:" int
-		privateDebt: "Did you  a house in 2010?" int
-		valueResidue: "Value aresidue:" int(sellingPrice - privateDebt)
-		if (true) {
-			privateDebt: "Did you  a house in 2010?" int
-			}
-	}
+	if (false) {
+		takeMaintLoan: "Do u want a loan for maintenance/reconstruction?" boolean
+		}
+
 }
 
 

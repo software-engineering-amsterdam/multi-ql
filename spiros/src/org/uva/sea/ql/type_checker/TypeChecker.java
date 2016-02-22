@@ -3,13 +3,19 @@ package org.uva.sea.ql.type_checker;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.Literal.StringLiteral;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.statement.ComputedQuestion;
 import org.uva.sea.ql.ast.statement.ComputedQuestionsVisitor;
+import org.uva.sea.ql.ast.statement.IfStatement;
 import org.uva.sea.ql.ast.statement.IfStatementVisitor;
 import org.uva.sea.ql.ast.statement.Question;
 import org.uva.sea.ql.ast.statement.QuestionsVisitor;
+import org.uva.sea.ql.ast.type.BoolType;
+import org.uva.sea.ql.ast.type.Type;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import sun.awt.EmbeddedFrame;
 
@@ -42,16 +48,30 @@ public class TypeChecker {
 	}
 	
 	public void performTypeChecking() {	
-		boolean duplicatedLabelsFound = checkForDuplicatedLabels();	
+		boolean duplicatedLabelsFound = checkForDuplicatedLabels();
+		boolean booleanConditions = checkBooleanConditions();
 	}
 	
+	private boolean checkBooleanConditions() {
+		// TODO Auto-generated method stub
+		List<IfStatement> ifStatements = this.ifStatementVisitor.getIfStatements();
+		System.out.println("Size of IfStatements is " + ifStatements.size());
+		for (IfStatement ifStatement: ifStatements) {
+			Expression expression = ifStatement.getExpression();
+			if (expression.getTypeOfExpression() instanceof BoolType)
+				System.out.println("Yeah bitch!!!");
+			
+		}
+		return false;
+	}
+
 	private boolean checkForDuplicatedLabels() {
 		List<Question> questions = this.getAllQuestions();
 		
 		if (questions.isEmpty())
 			System.out.println("Fuck ");
 		else
-			System.out.println("The size of the list is " + questions.size());
+			System.out.println("The size of the questionsList is " + questions.size());
 		List<String> labels = new ArrayList<String>();
 		
 		for (Question question: questions) {
