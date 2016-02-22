@@ -1,53 +1,54 @@
-class FormNode{
+class FormNode {
 	constructor(label, block) {
 		this.label = label;
 		this.block = block;
 	}
 }
 
-class NumberType{
-	parseValue(value){
+class NumberType {
+	parseValue(value) {
 		return parseInt(value);
 	}
-	defaultValue(){
+
+	defaultValue() {
 		return 0;
 	}
 }
 
-class DecimalType{
-	parseValue(value){
+class DecimalType {
+	parseValue(value) {
 		return parseFloat(value);
 	}
 
-	defaultValue(){
+	defaultValue() {
 		return 0.0;
 	}
 }
 
-class BooleanType{
-	parseValue(value){
-		if(typeof value == 'boolean')
+class BooleanType {
+	parseValue(value) {
+		if (typeof value == 'boolean')
 			return value;
-		return value=="true";
+		return value == "true";
 	}
 
-	defaultValue(){
+	defaultValue() {
 		return false;
 	}
 }
 
-class StringType{
-	parseValue(value){
-		return value+"";
+class StringType {
+	parseValue(value) {
+		return value + "";
 	}
 
-	defaultValue(){
+	defaultValue() {
 		return "";
 	}
 }
 
-class QuestionNode{
-	constructor(text, label, type, line){
+class QuestionNode {
+	constructor(text, label, type, line) {
 		this.text = text;
 		this.label = label;
 		this.type = type;
@@ -57,19 +58,19 @@ class QuestionNode{
 		this.setValue(type.defaultValue())
 	}
 
-	setValue(value){
+	setValue(value) {
 		this.value = this.type.parseValue(value);
 	}
 }
 
-class ComputedQuestionNode extends QuestionNode{
-	constructor(text, label, type, line, computedExpr){
+class ComputedQuestionNode extends QuestionNode {
+	constructor(text, label, type, line, computedExpr) {
 		super(text, label, type, line);
-		this.computedExpr = computedExpr;		
+		this.computedExpr = computedExpr;
 	}
 }
 
-class ConditionNode{
+class ConditionNode {
 	constructor(ifExpr, ifBlock, line, elseBlock) {
 		this.condition = ifExpr;
 		this.ifBlock = ifBlock;
@@ -77,24 +78,24 @@ class ConditionNode{
 		this.line = line;
 	}
 
-	toString(){
+	toString() {
 		return this.condition.toString();
 	}
 }
 
-class LabelNode{
+class LabelNode {
 	constructor(label, line) {
 		this.label = label;
 		this.line = line;
 	}
 
-	toString(){
+	toString() {
 		return this.label;
 	}
 
-	compute(){
+	compute() {
 		var question = getQuestion(this.label);
-		if(question == undefined){
+		if (question == undefined) {
 			throwError(this.line, "Question label '" + this.label + "' is undefined");
 			return undefined;
 		}
@@ -103,24 +104,24 @@ class LabelNode{
 }
 
 
-class NotExpression{
+class NotExpression {
 	constructor(expr, line) {
 		this.expr = expr;
 		this.line = line;
 	}
 
-	compute(){
+	compute() {
 		return !this.expr.compute();
 	}
 
-	toString(){
-		return "!"+expr.toString();
+	toString() {
+		return "!" + expr.toString();
 	}
 
 }
 
 
-class OperatorExpressionNode{
+class OperatorExpressionNode {
 	constructor(left, opNode, right, line) {
 		this.left = left;
 		this.opNode = opNode;
@@ -128,16 +129,16 @@ class OperatorExpressionNode{
 		this.line = line;
 	}
 
-	compute(){
+	compute() {
 		return this.opNode.compute(this.left, this.right);
 	}
 
-	toString(){
+	toString() {
 		return this.left.toString() + this.opNode.toString() + this.right.toString();
 	}
 }
 
-class OperatorNode{
+class OperatorNode {
 
 	constructor(op, validArguments, line) {
 		this.op = op;
@@ -145,15 +146,15 @@ class OperatorNode{
 		this.line = line;
 	}
 
-	toString(){
+	toString() {
 		return this.op;
 	}
 
-	validateArguments(left, right){
-		if((typeof left == typeof right) && this.validArguments.indexOf(typeof left) != -1){
+	validateArguments(left, right) {
+		if ((typeof left == typeof right) && this.validArguments.indexOf(typeof left) != -1) {
 			return true;
 		}
-		else{
+		else {
 			throwError(this.line, "Statement '" + left + "" + this.op + "" + right + "' expecting left and right to be of " + this.validArguments + ", found " + typeof left + " and " + typeof right);
 			return false;
 		}
@@ -162,74 +163,89 @@ class OperatorNode{
 }
 
 
-class NumOperatorNode extends OperatorNode{
+class NumOperatorNode extends OperatorNode {
 	constructor(op, line) {
 		super(op, ["number"], line);
 	}
 
-	compute(left, right){
-		if(this.validateArguments(left.compute(), right.compute())){
-			switch(this.op){
-				case "*": return left.compute() * right.compute();
-				case "/": return left.compute() / right.compute();
-				case "+": return left.compute() + right.compute();
-				case "-": return left.compute() - right.compute();
-				case "<": return left.compute() < right.compute();
-				case "<=": return left.compute() <= right.compute();
-				case ">": return left.compute() > right.compute();
-				case ">=": return left.compute() >= right.compute();
-				default: return undefined;
+	compute(left, right) {
+		if (this.validateArguments(left.compute(), right.compute())) {
+			switch (this.op) {
+				case "*":
+					return left.compute() * right.compute();
+				case "/":
+					return left.compute() / right.compute();
+				case "+":
+					return left.compute() + right.compute();
+				case "-":
+					return left.compute() - right.compute();
+				case "<":
+					return left.compute() < right.compute();
+				case "<=":
+					return left.compute() <= right.compute();
+				case ">":
+					return left.compute() > right.compute();
+				case ">=":
+					return left.compute() >= right.compute();
+				default:
+					return undefined;
 			}
 		}
 	}
 }
 
-class BoolOperatorNode extends OperatorNode{
+class BoolOperatorNode extends OperatorNode {
 	constructor(op, line) {
 		super(op, ["boolean"], line);
 	}
 
-	compute(left, right){
+	compute(left, right) {
 
-		if(this.validateArguments(left.compute(), right.compute())){
-			switch(this.op){
-				case "&&": return left.compute() && right.compute();
-				case "||": return left.compute() || right.compute();
-				default: return undefined;
+		if (this.validateArguments(left.compute(), right.compute())) {
+			switch (this.op) {
+				case "&&":
+					return left.compute() && right.compute();
+				case "||":
+					return left.compute() || right.compute();
+				default:
+					return undefined;
 			}
 		}
 	}
 }
 
 
-class NumOrBoolOperatorNode extends OperatorNode{
+class NumOrBoolOperatorNode extends OperatorNode {
 	constructor(op, line) {
 		super(op, ["number", "boolean"], line);
 	}
 
-	compute(left, right){
+	compute(left, right) {
 
-		if(this.validateArguments(left.compute(), right.compute())){
-			switch(this.op){
-				case "==": return left.compute() == right.compute();
-				case "!=": return left.compute() != right.compute();
-				default: return undefined;
+		if (this.validateArguments(left.compute(), right.compute())) {
+			switch (this.op) {
+				case "==":
+					return left.compute() == right.compute();
+				case "!=":
+					return left.compute() != right.compute();
+				default:
+					return undefined;
 			}
 		}
 	}
 }
 
 
-class LiteralNode{
-	constructor(value){
+class LiteralNode {
+	constructor(value) {
 		this.value = value;
 	}
 
-	compute(){
+	compute() {
 		return this.value;
 	}
 
-	toString(){
+	toString() {
 		return this.value;
 	}
 }

@@ -1,4 +1,4 @@
-function initiate(inputString){
+function initiate(inputString) {
 
 	var antlr4 = require('antlr4/index');
 	var MyGrammerLexer = require('MyGrammerLexer');
@@ -7,21 +7,21 @@ function initiate(inputString){
 
 	var characters = new antlr4.InputStream(inputString);
 	var lexer = new MyGrammerLexer.MyGrammerLexer(characters);
-	var tokens  = new antlr4.CommonTokenStream(lexer);
+	var tokens = new antlr4.CommonTokenStream(lexer);
 	var parserANTLR = new MyGrammerParser.MyGrammerParser(tokens);
 
 	var editor = ace.edit("input");
 	editor.getSession().clearAnnotations();
 	resetErrorPanels();
 
-	var ErrorListener = function() {
+	var ErrorListener = function () {
 		antlr4.error.ErrorListener.call(this);
-	  	return this;
+		return this;
 	};
 	ErrorListener.prototype = Object.create(antlr4.error.ErrorListener.prototype);
 	ErrorListener.prototype.constructor = ErrorListener;
-	ErrorListener.prototype.syntaxError = function(rec, sym, line, col, msg, e) {
-	  	throwError(line, "Parse error: " + msg);
+	ErrorListener.prototype.syntaxError = function (rec, sym, line, col, msg, e) {
+		throwError(line, "Parse error: " + msg);
 	};
 	lexer.removeErrorListeners();
 	parserANTLR.removeErrorListeners();
@@ -31,26 +31,26 @@ function initiate(inputString){
 	parserANTLR.buildParseTrees = true;
 	var tree = parserANTLR.form();
 	createAst(tree);
-}	
+}
 
-function createAst(parseTree){
+function createAst(parseTree) {
 	
 	var MyGrammerVisitor = require('MyGrammerVisitor');
 
-	var Visitor = function(){
+	var Visitor = function () {
 		MyGrammerVisitor.MyGrammerVisitor.call(this);
 		return this;
 	};
 
 	Visitor.prototype = Object.create(MyGrammerVisitor.MyGrammerVisitor.prototype);
 
-	Visitor.prototype.visitForm = function (ctx){
+	Visitor.prototype.visitForm = function (ctx) {
 		ast = ctx.FormNode;
-		if(preformASTCheck(ast)){
+		if (preformASTCheck()) {
 			renderQuestions();
-	   		setHandlers();
-	    	refreshGUI();	
-	    	console.log("Generated AST: ");
+			setHandlers();
+			refreshGUI();
+			console.log("Generated AST: ");
 			console.log(ast);
 		}
 	};
@@ -60,31 +60,31 @@ function createAst(parseTree){
 }
 
 
-function preformASTCheck(ast){
+function preformASTCheck() {
 	var texts = new Set();
 	var labels = new Set();
 
 	var noErrors = true;
 
 	transverseAST(
-		function (questionNode){
-			if(labels.has(questionNode.label)){
+		function (questionNode) {
+			if (labels.has(questionNode.label)) {
 				throwError(questionNode.line, "Label '" + questionNode.label + "' is already defined");
 				noErrors = false;
 			}
-			if(texts.has(questionNode.text)){
-					throwWarning(questionNode.line, "Text '" + questionNode.text + "' is already defined");
+			if (texts.has(questionNode.text)) {
+				throwWarning(questionNode.line, "Text '" + questionNode.text + "' is already defined");
 			}
-			if(questionNode instanceof ComputedQuestionNode && evaluateStmt(questionNode.computedExpr) == undefined){
+			if (questionNode instanceof ComputedQuestionNode && evaluateStmt(questionNode.computedExpr) == undefined) {
 				throwError(questionNode.computedExpr.line, "Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
-				noErrors = false;	
+				noErrors = false;
 			}
 			labels.add(questionNode.label);
 			texts.add(questionNode.text);
 		},
-		function (conditionNode){
+		function (conditionNode) {
 			var evalResult = evaluateStmt(conditionNode.condition);
-			if(typeof evalResult !== "boolean"){
+			if (typeof evalResult !== "boolean") {
 				noErrors = false;
 				throwError(conditionNode.line, "Condition '" + conditionNode.condition.toString() + "' is not boolean");
 			}
@@ -94,34 +94,33 @@ function preformASTCheck(ast){
 	return noErrors;
 }
 
-function getQuestion(label){
-	var question = transverseAST(function (questionNode){
-		if(questionNode.label == label){
+function getQuestion(label) {
+	return transverseAST(function (questionNode) {
+		if (questionNode.label == label) {
 			return questionNode;
 		}
 	});
-	return question;
 }
 
-function resetQuestionVisibility(){
-	transverseAST(function (questionNode){
+function resetQuestionVisibility() {
+	transverseAST(function (questionNode) {
 		questionNode.visible = false;
 	});
 }
 
-function evaluateStmt(statement){
+function evaluateStmt(statement) {
 	var evaluation = statement.compute();
-	if(evaluation == undefined){
+	if (evaluation == undefined) {
 		throwError(statement.line, "Statement is undefined");
 	}
 	return evaluation;
 }
 
-function saveAnswers(){
-	var answers = new Array();
+function saveAnswers() {
+	var answers = [];
 
-	transverseAST(function (questionNode){
-		if(questionNode.visible){
+	transverseAST(function (questionNode) {
+		if (questionNode.visible) {
 			var answer = {};
 			answer.questionLabel = questionNode.label;
 			answer.questionText = questionNode.text;
@@ -136,29 +135,29 @@ function saveAnswers(){
 }
 
 
-function transverseAST(questionFunction, conditionFunction){
-	var queue = new Array();
-	for(var i=0;i<ast.block.length;i++){
+function transverseAST(questionFunction, conditionFunction) {
+	var queue = [];
+	for (var i = 0; i < ast.block.length; i++) {
 		queue.push(ast.block[i]);
 	}
-	while(queue.length>0){
+	while (queue.length > 0) {
 		var currentNode = queue.shift();
-		if(currentNode instanceof QuestionNode){
-			if(questionFunction!=undefined){
-				var result = questionFunction(currentNode);	
-				if(result!=undefined) return result;
-			}		
-		}
-		else{
-			if(conditionFunction!=undefined){
-				var result = conditionFunction(currentNode);	
-				if(result!=undefined) return result;
+		if (currentNode instanceof QuestionNode) {
+			if (questionFunction != undefined) {
+				var result = questionFunction(currentNode);
+				if (result != undefined) return result;
 			}
-			for (var i=0; i<currentNode.ifBlock.length; i++) {
+		}
+		else {
+			if (conditionFunction != undefined) {
+				var result = conditionFunction(currentNode);
+				if (result != undefined) return result;
+			}
+			for (var i = 0; i < currentNode.ifBlock.length; i++) {
 				queue.push(currentNode.ifBlock[i]);
 			}
-			if(currentNode.elseBlock != undefined){
-				for (var i=0; i<currentNode.elseBlock.length; i++) {
+			if (currentNode.elseBlock != undefined) {
+				for (var i = 0; i < currentNode.elseBlock.length; i++) {
 					queue.push(currentNode.elseBlock[i]);
 				}
 			}
@@ -166,11 +165,10 @@ function transverseAST(questionFunction, conditionFunction){
 	}
 }
 
-
-function throwError(line, errorMsg){
-	renderError(line, {line: line, msg: errorMsg});
+function throwError(line, errorMsg) {
+	renderError(line, errorMsg);
 }
 
-function throwWarning(line, warningMsg){
-	renderWarning(line, {line: line, msg: warningMsg});
+function throwWarning(line, warningMsg) {
+	renderWarning(line, warningMsg);
 }
