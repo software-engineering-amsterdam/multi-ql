@@ -7,22 +7,17 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/visitor/Environment.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/visitor/Environment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/visitor/TypeVisitor.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/visitor/TypeVisitor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/Checker.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/Checker.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/CyclicQuestionsCheck.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/CyclicQuestionsCheck.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/DuplicateLabelsCheck.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/DuplicateLabelsCheck.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/InvalidConditionsCheck.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/InvalidConditionsCheck.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/InvalidExpressionsCheck.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/checker/InvalidExpressionsCheck.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/test/org/uva/sea/ql/ast/checker/CheckerTest.class" afterPath="$PROJECT_DIR$/build/classes/test/org/uva/sea/ql/ast/checker/CheckerTest.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/binary/test/results.bin" afterPath="$PROJECT_DIR$/build/test-results/binary/test/results.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/classes/org.uva.sea.ql.ast.checker.CheckerTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/classes/org.uva.sea.ql.ast.checker.CheckerTest.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/index.html" afterPath="$PROJECT_DIR$/build/reports/tests/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/packages/org.uva.sea.ql.ast.checker.html" afterPath="$PROJECT_DIR$/build/reports/tests/packages/org.uva.sea.ql.ast.checker.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/resources/test/cycles1.ql" afterPath="$PROJECT_DIR$/build/resources/test/cycles1.ql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/TEST-org.uva.sea.ql.ast.checker.CheckerTest.xml" afterPath="$PROJECT_DIR$/build/test-results/TEST-org.uva.sea.ql.ast.checker.CheckerTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/Environment.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/Environment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Checker.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Checker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionsCheck.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionsCheck.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/uva/sea/ql/ast/checker/CheckerTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/uva/sea/ql/ast/checker/CheckerTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/cycles1.ql" afterPath="$PROJECT_DIR$/src/test/resources/cycles1.ql" />
     </list>
     <ignored path="QLlib.iws" />
@@ -129,17 +124,17 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionsCheck.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="50" column="38" selection-start-line="50" selection-start-column="38" selection-end-line="50" selection-end-column="38" />
+              <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Checker.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Checker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Checker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.50617284">
-              <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="100" column="37" selection-start-line="100" selection-start-column="37" selection-end-line="100" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -168,11 +163,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cycles1.ql" pinned="false" current-in-tab="false">
+      <file leaf-file-name="cycles1.ql" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/resources/cycles1.ql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="18" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.69135803">
+              <caret line="38" column="7" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -650,7 +645,6 @@
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/InvalidExpressionCheck.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionCheck.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/Test.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Checker.java" />
         <option value="$PROJECT_DIR$/src/test/resources/labels1.ql" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/UndefinedVarsCheck.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/DuplicateLabelsCheck.java" />
@@ -672,9 +666,10 @@
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/TypeVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/Environment.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/GraphNode.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/cycles1.ql" />
         <option value="$PROJECT_DIR$/src/test/java/org/uva/sea/ql/ast/checker/CheckerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Checker.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionsCheck.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/cycles1.ql" />
       </list>
     </option>
   </component>
@@ -998,7 +993,7 @@
       <recent name="$PROJECT_DIR$/src/test/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Tests in 'SE-QLlib'">
+  <component name="RunManager" selected="Gradle.QLlib [run]">
     <configuration default="false" name="QLlib [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -1569,8 +1564,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.Tests in 'SE-QLlib'" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.QLlib [run]" />
+        <item index="0" class="java.lang.String" itemvalue="Gradle.QLlib [run]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.Tests in 'SE-QLlib'" />
         <item index="2" class="java.lang.String" itemvalue="Application.Test" />
         <item index="3" class="java.lang.String" itemvalue="Gradle.CheckerTest" />
         <item index="4" class="java.lang.String" itemvalue="Gradle.QLlib [test]" />
@@ -1600,26 +1595,11 @@
       <updated>1455309184735</updated>
       <workItem from="1455309187510" duration="5853000" />
       <workItem from="1455702790360" duration="36625000" />
-      <workItem from="1456143334614" duration="4477000" />
+      <workItem from="1456143334614" duration="5163000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 23m 06s.xml">
-      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 25m 45s.xml">
-      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 34m 04s.xml">
-      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 37m 06s.xml">
-      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 39m 25s.xml">
-      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
-    </history-entry>
     <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 40m 08s.xml">
       <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
     </history-entry>
@@ -1635,9 +1615,24 @@
     <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 44m 20s.xml">
       <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
     </history-entry>
+    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 57m 24s.xml">
+      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 57m 38s.xml">
+      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 58m 15s.xml">
+      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 14h 59m 20s.xml">
+      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="Tests_in__SE-QLlib_ - 2016.02.22 at 15h 00m 49s.xml">
+      <configuration name="Tests in 'SE-QLlib'" configurationId="GradleRunConfiguration" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46955000" />
+    <option name="totallyTimeSpent" value="47641000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1721,7 +1716,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="41" />
+      <option name="time" value="42" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1939,13 +1934,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/example2.ql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/parser/QL.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.0">
@@ -1968,13 +1956,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.25773194">
           <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/example1.ql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2093,14 +2074,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/cycles1.ql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="18" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/uva/sea/ql/ast/checker/CheckerTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2109,18 +2082,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionsCheck.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Checker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="38" selection-start-line="50" selection-start-column="38" selection-end-line="50" selection-end-column="38" />
+          <caret line="100" column="37" selection-start-line="100" selection-start-column="37" selection-end-line="100" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/Checker.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/example2.ql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50617284">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/example1.ql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49382716">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionsCheck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/cycles1.ql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.69135803">
+          <caret line="38" column="7" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="7" />
           <folding />
         </state>
       </provider>

@@ -34,9 +34,11 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Var> {
     @Override
     public Void visit(Var var, Var env) {
 
-        List<Node> l  = references.get(env);
-        l.add(var);
-        references.put(env,l);
+        if(references.get(env) != null){
+            List<Node> l  = references.get(env);
+            l.add(var);
+            references.put(env,l);
+        }
 
         return null;
     }

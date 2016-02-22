@@ -98,7 +98,7 @@ public class Checker {
             StringBuilder sb = new StringBuilder();
             sb.append("Question ");
             sb.append(v.toString());
-            sb.append(" contains a cyclic cyclic dependencies");
+            sb.append(" contains cyclic dependencies");
 
             messages.add(new ErrorMessage(sb.toString(),v));
         }
