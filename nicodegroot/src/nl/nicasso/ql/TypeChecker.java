@@ -39,17 +39,20 @@ import nl.nicasso.ql.ast.type.Type;
 
 public class TypeChecker implements Visitor<Type> {
 
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	private ArrayList<Question> questions;
 	
 	private ArrayList<String> errors;
 	private ArrayList<String> warnings;
+	
+	private ArrayList<ArrayList<ComputedQuestion>> dependencies;
 
 	TypeChecker(ArrayList<Question> questions) {
 		errors = new ArrayList<String>();
 		warnings = new ArrayList<String>();
 		this.questions = questions;
+		this.dependencies = new ArrayList<ArrayList<ComputedQuestion>>();
 	}
 		
 	@Override
@@ -391,6 +394,8 @@ public class TypeChecker implements Visitor<Type> {
 		if (debug) {
 			System.out.println("ComputedQuestion");
 		}
+		
+		addComputedQuestion(value);
 				
 		return null;
 	}
@@ -520,6 +525,14 @@ public class TypeChecker implements Visitor<Type> {
 	
 	public ArrayList<String> getWarnings() {
 		return warnings;
+	}
+	
+	private void addComputedQuestion(ComputedQuestion key) {
+		
+	}
+	
+	private void addComputedQuestionDependency(ComputedQuestion key, ComputedQuestion value) {
+		
 	}
 	
 }

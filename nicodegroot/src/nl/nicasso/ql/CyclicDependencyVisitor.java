@@ -3,6 +3,8 @@ package nl.nicasso.ql;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import org.antlr.v4.runtime.misc.MultiMap;
+
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
@@ -33,23 +35,26 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 
-public class CyclicDependencyVisitor implements Visitor<Void> {
+public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 
-	private boolean debug = false;
+	private boolean debug = true;
 	
 	private ArrayList<Question> questions;
-
 	private ArrayList<String> warnings;
 	private ArrayList<String> errors;
+	
+	private MultiMap<IdentifierLit, IdentifierLit> dependencies;
 
 	CyclicDependencyVisitor(ArrayList<Question> questions) {
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
+		
 		this.questions = questions;
+		this.dependencies = new MultiMap<IdentifierLit, IdentifierLit>();  
 	}
 
 	@Override
-	public Void visit(Form value) {
+	public IdentifierLit visit(Form value) {
 		if (debug) {
 			System.out.println("Form");
 		}
@@ -60,7 +65,7 @@ public class CyclicDependencyVisitor implements Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(Block value) {
+	public IdentifierLit visit(Block value) {
 		if (debug) {
 			System.out.println("Block");
 		}
@@ -73,7 +78,7 @@ public class CyclicDependencyVisitor implements Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(Question value) {
+	public IdentifierLit visit(Question value) {
 		if (debug) {
 			System.out.println("Question");
 		}
@@ -82,10 +87,14 @@ public class CyclicDependencyVisitor implements Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(ComputedQuestion value) {
+	public IdentifierLit visit(ComputedQuestion value) {
 		if (debug) {
 			System.out.println("ComputedQuestion");
 		}
+		
+		System.out.println("CQ: "+value.getId());
+		
+		addComputedQuestion(value);
 		
 		value.getExpr().accept(this);
 
@@ -93,7 +102,7 @@ public class CyclicDependencyVisitor implements Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(IdentifierLit value) {
+	public IdentifierLit visit(IdentifierLit value) {
 		if (debug) {
 			System.out.println("IdentifierLit: " + value.getValue());
 		}
@@ -102,117 +111,117 @@ public class CyclicDependencyVisitor implements Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(ASTNode node) {
+	public IdentifierLit visit(ASTNode node) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Statement value) {
+	public IdentifierLit visit(Statement value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStatement value) {
+	public IdentifierLit visit(IfStatement value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStatement value) {
+	public IdentifierLit visit(IfElseStatement value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Expression value) {
+	public IdentifierLit visit(Expression value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Addition value) {
+	public IdentifierLit visit(Addition value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Subtraction value) {
+	public IdentifierLit visit(Subtraction value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(And value) {
+	public IdentifierLit visit(And value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Or value) {
+	public IdentifierLit visit(Or value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Not value) {
+	public IdentifierLit visit(Not value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Parenthesis value) {
+	public IdentifierLit visit(Parenthesis value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Equal value) {
+	public IdentifierLit visit(Equal value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(NotEqual value) {
+	public IdentifierLit visit(NotEqual value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Division value) {
+	public IdentifierLit visit(Division value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Multiplication value) {
+	public IdentifierLit visit(Multiplication value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Greater value) {
+	public IdentifierLit visit(Greater value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(GreaterEqual value) {
+	public IdentifierLit visit(GreaterEqual value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Less value) {
+	public IdentifierLit visit(Less value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(LessEqual value) {
+	public IdentifierLit visit(LessEqual value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(Literal value) {
+	public IdentifierLit visit(Literal value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(BooleanLit value) {
+	public IdentifierLit visit(BooleanLit value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(IntegerLit value) {
+	public IdentifierLit visit(IntegerLit value) {
 		return null;
 	}
 
 	@Override
-	public Void visit(StringLit value) {
+	public IdentifierLit visit(StringLit value) {
 		return null;
 	}
 
@@ -222,6 +231,14 @@ public class CyclicDependencyVisitor implements Visitor<Void> {
 	
 	public ArrayList<String> getWarnings() {
 		return warnings;
+	}
+	
+	private void addComputedQuestion(ComputedQuestion key) {
+		//dependencies.put(key.getId(), key.getExpr().accept(this));
+	}
+	
+	private void addComputedQuestionDependency(ComputedQuestion key, ComputedQuestion value) {
+		
 	}
 
 }
