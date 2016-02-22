@@ -7,23 +7,30 @@ import org.uva.sea.ql.ast.expression.Literal.StringLiteral;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.statement.ComputedQuestion;
 import org.uva.sea.ql.ast.statement.ComputedQuestionsVisitor;
+import org.uva.sea.ql.ast.statement.IfStatementVisitor;
 import org.uva.sea.ql.ast.statement.Question;
 import org.uva.sea.ql.ast.statement.QuestionsVisitor;
+
+import sun.awt.EmbeddedFrame;
 
 public class TypeChecker {
 	
 	private final Form form;
 	private final QuestionsVisitor questionsVisitor;
 	private final ComputedQuestionsVisitor computedQuestionsVisitor;
+	private final IfStatementVisitor ifStatementVisitor;
 	
 	
 	public TypeChecker(Form form) {
 		this.form = form;
 		this.questionsVisitor = new QuestionsVisitor(form);
-		this.computedQuestionsVisitor = new ComputedQuestionsVisitor(form);		
+		this.computedQuestionsVisitor = new ComputedQuestionsVisitor(form);
+		this.ifStatementVisitor = new IfStatementVisitor(form);
 	}
 	
 	public List<Question> getAllQuestions() {
+		// mallon edw to VisitForm...
+		
 		List<Question> questions = this.questionsVisitor.getQuestions();
 		List<ComputedQuestion> computedQuestions = this.computedQuestionsVisitor.getComputedQuestions();
 		questions.addAll(computedQuestions);
@@ -43,13 +50,15 @@ public class TypeChecker {
 		
 		if (questions.isEmpty())
 			System.out.println("Fuck ");
+		else
+			System.out.println("The size of the list is " + questions.size());
 		List<String> labels = new ArrayList<String>();
 		
 		for (Question question: questions) {
 			String label = question.getLabel();
 			
 			if (labels.contains(label)) {
-				System.out.println("You broke it man!!! ");
+				System.out.println("Duplicate label found ");
 				return false;
 			}
 			
@@ -58,7 +67,7 @@ public class TypeChecker {
 			
 		}
 		
-		System.out.println("Everything ok! ");
+		System.out.println("No duplicates found ");
 		return true;
 	}
 

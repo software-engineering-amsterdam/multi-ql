@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.form.Form;
-import org.uva.sea.ql.ast.node.ASTNode;
 
 
 
@@ -30,21 +29,10 @@ public class QuestionsVisitor extends StatementsVisitor {
 	
 	@Override
 	public Void visitQuestion(Question question) {
-		this.questions.add(question);	
+		this.questions.add(question);
+		//System.out.println("Question added");
 		return null;
 	}
-
-	@Override
-	public Void visitBlock(Block block) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitIfElseStatement(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 
 }

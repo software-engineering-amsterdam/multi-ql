@@ -2,8 +2,8 @@ package org.uva.sea.ql.ast.statement;
 
 import java.util.List;
 
+import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.form.Form;
-import org.uva.sea.ql.ast.node.ASTNode;
 
 
 public abstract class StatementsVisitor implements StatementVisitor<Void> {
@@ -20,9 +20,9 @@ public abstract class StatementsVisitor implements StatementVisitor<Void> {
 	
 	public Void visitForm () {
 		List<Statement> statements = this.form.getBlock().getStatements();  //////
-		System.out.println("Episkeptomai ti forma!");
+		System.out.println("Visiting form...");
 		if (statements.isEmpty())
-				System.out.println("H lista me ta statements einai empty");
+				System.out.println("Statements list is empty");
 		for  (Statement statement: statements)
 			statement.accept(this);	
 		return null;
@@ -36,6 +36,16 @@ public abstract class StatementsVisitor implements StatementVisitor<Void> {
 		List<Statement> statements = ifStatement.getBlock().getStatements();
 		for  (Statement statement: statements)
 			statement.accept(this);	
+		return null;
+	}
+	
+	public Void visitBlock(Block block) {
+		return null;
+	}
+	
+	// BELOW modify... IF NEEDED! ASK
+	
+	public Void visitIfElseStatement(IfElseStatement ifElseStatement) {
 		return null;
 	}
 

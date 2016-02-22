@@ -23,7 +23,7 @@ public class ComputedQuestion extends Question {
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		// TODO Auto-generated method stub
-		return null;
+		return visitor.visitComputedQuestion(this);
 	}
 	
 }

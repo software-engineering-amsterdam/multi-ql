@@ -2,7 +2,6 @@ package org.uva.sea.ql.ast.statement;
 
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
-import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
 
 public class IfStatement extends Statement {
@@ -29,7 +28,7 @@ public class IfStatement extends Statement {
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		// TODO Auto-generated method stub
-		return null;
+		return visitor.visitIfStatement(this);
 	}
 	
 }

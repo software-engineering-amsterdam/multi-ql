@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast.statement;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.uva.sea.ql.ast.block.Block;
@@ -17,28 +18,21 @@ public class ComputedQuestionsVisitor extends StatementsVisitor {
 		this.computedQuestions = new ArrayList<ComputedQuestion>();
 	}
 	
+	
 	public List<ComputedQuestion> getComputedQuestions() {
-		return this.computedQuestions;
+		List<ComputedQuestion> questions = new ArrayList<>();
+		this.visitForm();
+		Iterator<ComputedQuestion> iterator = this.computedQuestions.iterator();
+		iterator.forEachRemaining(questions::add);
+		return questions;
 	}
 	
 	@Override
 	public Void visitComputedQuestion(ComputedQuestion computedQuestion) {
 		this.computedQuestions.add(computedQuestion);
+		//System.out.println("Computed Question added");
 		return null;
 	}
-
-	@Override
-	public Void visitBlock(Block block) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitIfElseStatement(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	
 }

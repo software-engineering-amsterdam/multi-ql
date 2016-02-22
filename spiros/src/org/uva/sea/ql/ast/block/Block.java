@@ -20,8 +20,10 @@ public class Block extends ASTNode {
 		return this.statements;
 	}
 
-	public ASTNode accept(BlockVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
-	}
+	// change below... goin to sleep . . .
+	
+//	public ASTNode accept(BlockVisitor<ASTNode> visitor) {
+//		return visitor.visit(this);
+//	}
 	
 }

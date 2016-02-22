@@ -1,6 +1,5 @@
 package org.uva.sea.ql.ast.visitor;
 
-import org.omg.CORBA.OBJ_ADAPTER;
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.Comparison.Equal;
@@ -65,7 +64,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
 		String id = ctx.Identifier().getText();
 		Block block = (Block) ctx.block().accept(this);
-		Form form = new Form(id, block, fragment);
+		Form form = new Form(id, block, fragment);	
 		return  form;
 	}
 	
