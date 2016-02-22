@@ -17,30 +17,30 @@ function refreshGUI(){
 	$(".questionDiv").hide();
 	resetQuestionVisibility();
 
-	for(var i=0;i<ast.queries.length;i++){
-		stack.push(ast.queries[i]);
+	for(var i=0;i<ast.block.length;i++){
+		stack.push(ast.block[i]);
 	}
 
 	while(stack.length>0){
-		var currentNode = stack.pop();
+		var currentNode = stack.shift();
 		if(currentNode instanceof QuestionNode){
-			if(currentNode.computedExpr != undefined){
+			if(currentNode instanceof ComputedQuestionNode){
 				currentNode.setValue(evaluateStmt(currentNode.computedExpr));
 			}
 			currentNode.visible = true;
 			$(".questionDiv[label='"+currentNode.label+"']").show();
 			$("input[name='"+currentNode.label+"']").val(currentNode.value);
 		}
-		else if(currentNode instanceof ConditionNode){
+		else{
 			var evalResult = evaluateStmt(currentNode.condition);
 			if (evalResult) {
-				for (var i=0; i<currentNode.queries.length; i++) {
-					stack.push(currentNode.queries[i]);
+				for (var i=0; i<currentNode.ifBlock.length; i++) {
+					stack.push(currentNode.ifBlock[i]);
 				}	
 			}
-			else if(currentNode.elseQueries != undefined){
-				for (var i=0; i<currentNode.elseQueries.length; i++) {
-					stack.push(currentNode.elseQueries[i]);
+			else if(currentNode.elseBlock != undefined){
+				for (var i=0; i<currentNode.elseBlock.length; i++) {
+					stack.push(currentNode.elseBlock[i]);
 				}	
 			}
 		}
@@ -52,28 +52,20 @@ function generateQuestionHTML(question){
 	html += "<label class='question'>" + question.text + " ";
     html += "<input name='"+ question.label + "' type='";
 
-	switch(question.type){
-		case "integer": 	html += "number";
-							break;
-		case "decimal": 	html += "number";
-							break;
-		case "money": 		html += "number";
-							break;
-		case "currency": 		html += "number";
-							break;
-		case "string": 		html += "text";
-							break;
-		case "date": 		html += "text";
-							break;
-		case "boolean": 	html += "checkbox";
-							break;
-		default: 			html += "text";
-							break;
+	if(question.type instanceof NumberType || question.type instanceof DecimalType){
+		html += "number";
 	}
+	else if(question.type instanceof BooleanType){
+		html += "checkbox";
+	} 
+	else{
+		html += "text";
+	} 
 
 	html += "'";
 
-	if(question.computedExpr != undefined){
+
+	if(question instanceof ComputedQuestionNode){
 		html += " disabled";
 	}
 
@@ -83,42 +75,14 @@ function generateQuestionHTML(question){
 }
 
 function renderQuestions(){
-	var questions = new Array();
-	var stack = new Array();
-
-	for(var i=0;i<ast.queries.length;i++){
-		stack.push(ast.queries[i]);
-	}
-
-	while(stack.length>0){
-		var currentNode = stack.pop();
-		if(currentNode instanceof QuestionNode){
-			questions.push(currentNode);
-		}
-		else if(currentNode instanceof ConditionNode){
-			for (var i=0; i<currentNode.queries.length; i++) {
-				stack.push(currentNode.queries[i]);
-			}
-			if(currentNode.elseQueries != undefined){
-				for (var i=0; i<currentNode.elseQueries.length; i++) {
-					stack.push(currentNode.elseQueries[i]);
-				}
-			}
-		}
-	}
-
-	questions = questions.reverse();
-
 	var output = "";
-
-	for(var i=0;i<questions.length;i++){
-		output += generateQuestionHTML(questions[i]);
-	}
-
+	transverseAST(function (questionNode){
+		output += generateQuestionHTML(questionNode);
+	});
 	$("#output").html(output);
 }
 
-function resetInfoPanels(){
+function resetErrorPanels(){
 	$("#error").html("");
 	$("#warning").html("");
 
@@ -129,9 +93,8 @@ function resetInfoPanels(){
 }
 
 function renderError(panel, errorObj){
-	var html = "<li><a href='#' onClick='editor.gotoLine(" + (errorObj.line) + ");'>[line " + errorObj.line + "] " + errorObj.msg + "</a></li>";
-
-	if($("#error").html().indexOf(html)>=0) return;
+	var editor = ace.edit("input");
+	var html = "<li><a href='#' onClick='gotoLine(" + (errorObj.line) + ");'>[line " + errorObj.line + "] " + errorObj.msg + "</a></li>";
 	
 	var errorList = editor.getSession().getAnnotations();
 	if(errorList==undefined || typeof errorList != "object"){
@@ -156,9 +119,8 @@ function renderError(panel, errorObj){
 }
 
 function renderWarning(panel, warningObj){
-	var html = "<li><a href='#' onClick='editor.gotoLine(" + (warningObj.line) + ");'>[line " + warningObj.line + "] " + warningObj.msg + "</a></li>";
-
-	if($("#warning").html().indexOf(html)>=0) return;
+	var editor = ace.edit("input");
+	var html = "<li><a href='#' onClick='gotoLine(" + (warningObj.line) + ");'>[line " + warningObj.line + "] " + warningObj.msg + "</a></li>";
 
 	var warningList = editor.getSession().getAnnotations();
 	if(warningList==undefined || typeof warningList != "object"){

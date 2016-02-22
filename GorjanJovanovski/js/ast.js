@@ -1,16 +1,18 @@
 function initiate(inputString){
 
+	var antlr4 = require('antlr4/index');
+	var MyGrammerLexer = require('MyGrammerLexer');
+	var MyGrammerParser = require('MyGrammerParser');
+	var MyGrammerListener = require('MyGrammerListener');
+
 	var characters = new antlr4.InputStream(inputString);
 	var lexer = new MyGrammerLexer.MyGrammerLexer(characters);
 	var tokens  = new antlr4.CommonTokenStream(lexer);
 	var parserANTLR = new MyGrammerParser.MyGrammerParser(tokens);
 
-	warnings = new Set();
-	errors = new Set();
-
+	var editor = ace.edit("input");
 	editor.getSession().clearAnnotations();
-
-	resetInfoPanels();
+	resetErrorPanels();
 
 	var ErrorListener = function() {
 		antlr4.error.ErrorListener.call(this);
@@ -19,9 +21,8 @@ function initiate(inputString){
 	ErrorListener.prototype = Object.create(antlr4.error.ErrorListener.prototype);
 	ErrorListener.prototype.constructor = ErrorListener;
 	ErrorListener.prototype.syntaxError = function(rec, sym, line, col, msg, e) {
-	  	throwError(line, "Parse error: " + line + ":" + col + " - " + msg);
+	  	throwError(line, "Parse error: " + msg);
 	};
-
 	lexer.removeErrorListeners();
 	parserANTLR.removeErrorListeners();
 	lexer.addErrorListener(new ErrorListener());
@@ -34,6 +35,8 @@ function initiate(inputString){
 
 function createAst(parseTree){
 	
+	var MyGrammerVisitor = require('MyGrammerVisitor');
+
 	var Visitor = function(){
 		MyGrammerVisitor.MyGrammerVisitor.call(this);
 		return this;
@@ -43,7 +46,7 @@ function createAst(parseTree){
 
 	Visitor.prototype.visitForm = function (ctx){
 		ast = ctx.FormNode;
-		if(preformASTCheck()){
+		if(preformASTCheck(ast)){
 			renderQuestions();
 	   		setHandlers();
 	    	refreshGUI();	
@@ -56,336 +59,118 @@ function createAst(parseTree){
 	parseTree.accept(visitor);
 }
 
-function preformASTCheck(){
+
+function preformASTCheck(ast){
 	var texts = new Set();
 	var labels = new Set();
 
-	var stack = new Array();
 	var noErrors = true;
-	var questions = new Array();
 
-	for(var i=0;i<ast.queries.length;i++){
-		stack.push(ast.queries[i]);
-	}
-
-	while(stack.length>0){
-		var currentNode = stack.pop();
-
-		if(currentNode instanceof QuestionNode){
-			if(currentNode.computedExpr != undefined && evaluateStmt(currentNode.computedExpr) == undefined){
+	transverseAST(
+		function (questionNode){
+			if(labels.has(questionNode.label)){
+				throwError(questionNode.line, "Label '" + questionNode.label + "' is already defined");
+				noErrors = false;
+			}
+			if(texts.has(questionNode.text)){
+					throwWarning(questionNode.line, "Text '" + questionNode.text + "' is already defined");
+			}
+			if(questionNode instanceof ComputedQuestionNode && evaluateStmt(questionNode.computedExpr) == undefined){
+				throwError(questionNode.computedExpr.line, "Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
 				noErrors = false;	
 			}
-			questions.push(currentNode);
-		}
-		else if(currentNode instanceof ConditionNode){
-			var evalResult = evaluateStmt(currentNode.condition);
+			labels.add(questionNode.label);
+			texts.add(questionNode.text);
+		},
+		function (conditionNode){
+			var evalResult = evaluateStmt(conditionNode.condition);
 			if(typeof evalResult !== "boolean"){
 				noErrors = false;
-  				throwError(currentNode.line, "Condition '"+currentNode.toString() +"' is not boolean");
+				throwError(conditionNode.line, "Condition '" + conditionNode.condition.toString() + "' is not boolean");
 			}
-
-			for (var i=0; i<currentNode.queries.length; i++) {
-				stack.push(currentNode.queries[i]);
-			}
-
-			if(currentNode.elseQueries != undefined){
-				for (var i=0; i<currentNode.elseQueries.length; i++) {
-					stack.push(currentNode.elseQueries[i]);
-				}
-			}
-
 		}
-	}
+	);
 
-	questions = questions.reverse();
-
-	for(var i=0;i<questions.length;i++){
-		var currentNode = questions[i];
-		if(labels.has(currentNode.label)){
-				noErrors = false;
-				throwError(currentNode.line, "Label '" + currentNode.label + "' is already defined");
-			}
-			else{
-				if(texts.has(currentNode.text)){
-					throwWarning(currentNode.line, "Text '" + currentNode.text + "' is already defined");
-				}
-
-				labels.add(currentNode.label);
-				texts.add(currentNode.text);
-			}
-	}
 	return noErrors;
 }
 
 function getQuestion(label){
-	var stack = new Array();
-	for(var i=0;i<ast.queries.length;i++){
-		stack.push(ast.queries[i]);
-	}
-
-	while(stack.length>0){
-		var currentNode = stack.pop();
-		if(currentNode instanceof QuestionNode){
-			if(currentNode.label == label){
-				return currentNode;
-			}
+	var question = transverseAST(function (questionNode){
+		if(questionNode.label == label){
+			return questionNode;
 		}
-		else if(currentNode instanceof ConditionNode){
-			for (var i=0; i<currentNode.queries.length; i++) {
-				stack.push(currentNode.queries[i]);
-			}
-			if(currentNode.elseQueries != undefined){
-				for (var i=0; i<currentNode.elseQueries.length; i++) {
-					stack.push(currentNode.elseQueries[i]);
-				}
-			}
-		}
-	}
-
-	return undefined;
+	});
+	return question;
 }
 
 function resetQuestionVisibility(){
-	var stack = new Array();
-	for(var i=0;i<ast.queries.length;i++){
-		stack.push(ast.queries[i]);
-	}
-
-	while(stack.length>0){
-		var currentNode = stack.pop();
-		if(currentNode instanceof QuestionNode){
-			currentNode.visible = false;
-		}
-		else if(currentNode instanceof ConditionNode){
-			for (var i=0; i<currentNode.queries.length; i++) {
-				stack.push(currentNode.queries[i]);
-			}
-			if(currentNode.elseQueries != undefined){
-				for (var i=0; i<currentNode.elseQueries.length; i++) {
-					stack.push(currentNode.elseQueries[i]);
-				}
-			}
-		}
-	}
+	transverseAST(function (questionNode){
+		questionNode.visible = false;
+	});
 }
 
-//TODO strings
 function evaluateStmt(statement){
-	if(statement instanceof OperatorExpressionNode){
-		var left = evaluateStmt(statement.left);
-		var right = evaluateStmt(statement.right);
-
-		switch(statement.op){
-			case "+": 
-				if(typeof left == "number" && typeof right == "number"){
-					return left+right;
-				}
-				else{
-					//console.log(statement.toString());
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "-": 
-				if(typeof left == "number" && typeof right == "number"){
-					return left-right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "*": 
-				if(typeof left == "number" && typeof right == "number"){
-					return left*right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "/": 
-				if(typeof left == "number" && typeof right == "number"){
-					return left/right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "<": 
-				if(typeof left == "number" && typeof right == "number"){
-					return left<right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case ">":
-				if(typeof left == "number" && typeof right == "number"){
-					return left>right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "<=": 
-				if(typeof left == "number" && typeof right == "number"){
-					return left<=right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case ">=": 
-				if(typeof left == "number" && typeof right == "number"){
-					return left>=right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "==": 
-				if((typeof left == "number" && typeof right == "number") || (typeof left == "boolean" && typeof right == "boolean")){
-					return left==right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number' OR 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "!=": 
-				if((typeof left == "number" && typeof right == "number") || (typeof left == "boolean" && typeof right == "boolean")){
-					return left!=right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'number' OR 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "&&": 
-				if(typeof left == "boolean" && typeof right == "boolean"){
-					return left&&right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-			case "||": 
-				if(typeof left == "boolean" && typeof right == "boolean"){
-					return left||right;
-				}
-				else{
-					throwError(statement.line, statement.toString() + " expected left and right types of 'boolean', got '" + (typeof left) + "' and '" + (typeof right) + "'");
-					return undefined;
-				}
-		}
-
+	var evaluation = statement.compute();
+	if(evaluation == undefined){
+		throwError(statement.line, "Statement is undefined");
 	}
-	else if(statement instanceof NotExpression){
-		return !(evaluateStmt(statement.expr));
-	}
-	else if(statement instanceof ExpressionNode){
-		return evaluateStmt(statement.expr);
-	}
-	else if(statement instanceof LabelNode){
-		var question = getQuestion(statement.label);
-		if(question==undefined){
-			throwError(statement.line, "Question label '" + statement.label + "'' is undefined");
-			return undefined;
-		}
-		return getQuestion(statement.label).value;
-	}
-	else{
-		return statement;
-	}
+	return evaluation;
 }
 
-//todo
-function checkCyclicDependencies(){
-	var questionLabels = getQuestionLabels();
-	var questionDependencies = new Array();
-	for(var i = 0;i<questionLabels.length;i++){
-		questionDependencies[questionLabels[i]] = getQuestionsInSubtree(getQuestion(questionLabels[i]));
+function saveAnswers(){
+	var answers = new Array();
+
+	transverseAST(function (questionNode){
+		if(questionNode.visible){
+			var answer = {};
+			answer.questionLabel = questionNode.label;
+			answer.questionText = questionNode.text;
+			answer.questionType = questionNode.type;
+			answer.value = questionNode.value;
+			answers.push(answer);
+		}
+	});
+
+	var blob = new Blob([JSON.stringify(answers, null, 2)], {type: "text/plain;charset=utf-8"});
+	saveAs(blob, "answers.json");
+}
+
+
+function transverseAST(questionFunction, conditionFunction){
+	var queue = new Array();
+	for(var i=0;i<ast.block.length;i++){
+		queue.push(ast.block[i]);
 	}
-
-
-	var detectedDepencendies = false;
-	for(var i=0;i<questionLabels.length;i++){
-		var dependencies = questionDependencies[questionLabels[i]];
-		for(var j=0;j<dependencies.length;j++){
-			var dependency = dependencies[j];
-			if(questionDependencies[dependency].length>0){
-				var otherDependencies = questionDependencies[dependency];
-				for(var k=0;k<otherDependencies.length;k++){
-					if(otherDependencies[k] == questionLabels[i]){
-						detectedDepencendies = true;
-						throwError(-1, "Cyclic dependency detected for questions " + questionLabels[i] + " and " + dependency);
-					}
+	while(queue.length>0){
+		var currentNode = queue.shift();
+		if(currentNode instanceof QuestionNode){
+			if(questionFunction!=undefined){
+				var result = questionFunction(currentNode);	
+				if(result!=undefined) return result;
+			}		
+		}
+		else{
+			if(conditionFunction!=undefined){
+				var result = conditionFunction(currentNode);	
+				if(result!=undefined) return result;
+			}
+			for (var i=0; i<currentNode.ifBlock.length; i++) {
+				queue.push(currentNode.ifBlock[i]);
+			}
+			if(currentNode.elseBlock != undefined){
+				for (var i=0; i<currentNode.elseBlock.length; i++) {
+					queue.push(currentNode.elseBlock[i]);
 				}
 			}
 		}
 	}
-
-	return detectedDepencendies;
 }
 
-//todo
-function getQuestionLabels(){
-	var labels = new Array();
-	var stack = new Array();
-	for(var i=0;i<newAst.root.length;i++){
-		stack.push(newAst.root[i]);
-	}
-
-	while(stack.length>0){
-		var currentNode = stack.pop();
-		if(currentNode.nodeType=="question"){
-			labels.push(currentNode.label);
-		}
-		else if(currentNode.children != undefined){
-			for (var j = 0; j<currentNode.children.length; j++) {
-				stack.push(currentNode.children[j]);
-			}
-		}
-	}
-	return labels;
-}
-
-//todo
-function getQuestionsInSubtree(node){
-	if(node.parent.length==0){
-		return [];
-	}
-	else{
-		var labels = [];
-		for(var i=0;i<node.parent.length;i++){
-			var parent = node.parent[i];
-			labels = labels.concat(getLabelsInStatement(parent.condition));
-		}
-		return labels;
-	}
-}
-
-//todo
-function getLabelsInStatement(statement){
-	var labels = [];
-	
-	if(statement instanceof LabelNode){
-		return [statement.label];
-	}
-	else if(statement instanceof OperatorExpressionNode){	
-		labels = labels.concat(getLabelsInStatement(statement.left));
-		labels = labels.concat(getLabelsInStatement(statement.right));
-	}
-	else if(statement instanceof NotExpression || statement instanceof ExpressionNode){
-		labels = labels.concat(getLabelsInStatement(statement.expr));
-	}
-	else {
-		return [];
-	}
-
-	return labels;
-}
 
 function throwError(line, errorMsg){
 	renderError(line, {line: line, msg: errorMsg});
 }
 
 function throwWarning(line, warningMsg){
-	renderWarning(line, {line: line, msg: errorMsg});
+	renderWarning(line, {line: line, msg: warningMsg});
 }

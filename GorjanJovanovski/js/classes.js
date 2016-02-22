@@ -1,93 +1,235 @@
-var FormNode = function(label, queries){
-	this.label = label;
-	this.queries = queries;
-};
-
-var QuestionNode = function(text, label, type, line, computedExpr){
-	this.text = text;
-	this.label = label;
-	this.type = type;
-	this.computedExpr = computedExpr;
-	this.visible = true;
-	this.line = line;
-
-	this.setValue = function (value) {
-		if(this.type == "integer"){
-			this.value = parseInt(value);
-		}
-		else if(this.type == "float" || this.type == "money" || this.type == "currency"){
-			this.value = parseFloat(value);
-		}
-		else if(this.type == "boolean"){
-			this.value = value;
-		}
-		else{
-			this.value = value;
-		}
-	};
-
-	if(this.type == "integer"){
-		this.value = 0;
+class FormNode{
+	constructor(label, block) {
+		this.label = label;
+		this.block = block;
 	}
-	else if(this.type == "float" || this.type == "money" || this.type == "currency"){
-		this.value = 0.0;
-	}
-	else if(this.type == "boolean"){
-		this.value = false;
-	}
-	else{
-		this.value = "";
-	}
-	
-	
-
-};
-
-var ConditionNode = function(ifExpr, queries, line, elseQueries){
-	this.condition = ifExpr;
-	this.queries = queries;
-	this.elseQueries = elseQueries;
-	this.line = line;
-
-
-	this.toString = function(){
-		return this.condition.toString();
-	};
-};
-
-var LabelNode = function(label, line){
-	this.label = label;
-	this.line = line;
-	this.toString = function(){
-		return label;
-	};
-};
-
-var ExpressionNode = function (expr, line){
-	this.expr = expr;
-	this.line = line;
-
-	this.toString = function(){
-		return expr.toString();
-	};
-};
-
-var OperatorExpressionNode = function (left, op, right, line){
-	this.left = left;
-	this.op = op;
-	this.right = right;
-	this.line = line;
-
-	this.toString = function(){
-		return left.toString() + op + right.toString();
-	};
 }
 
-var NotExpression = function (expr, line){
-	this.expr = expr;
-	this.line = line;
+class NumberType{
+	parseValue(value){
+		return parseInt(value);
+	}
+	defaultValue(){
+		return 0;
+	}
+}
 
-	this.toString = function(){
+class DecimalType{
+	parseValue(value){
+		return parseFloat(value);
+	}
+
+	defaultValue(){
+		return 0.0;
+	}
+}
+
+class BooleanType{
+	parseValue(value){
+		if(typeof value == 'boolean')
+			return value;
+		return value=="true";
+	}
+
+	defaultValue(){
+		return false;
+	}
+}
+
+class StringType{
+	parseValue(value){
+		return value+"";
+	}
+
+	defaultValue(){
+		return "";
+	}
+}
+
+class QuestionNode{
+	constructor(text, label, type, line){
+		this.text = text;
+		this.label = label;
+		this.type = type;
+		this.visible = false;
+		this.line = line;
+
+		this.setValue(type.defaultValue())
+	}
+
+	setValue(value){
+		this.value = this.type.parseValue(value);
+	}
+}
+
+class ComputedQuestionNode extends QuestionNode{
+	constructor(text, label, type, line, computedExpr){
+		super(text, label, type, line);
+		this.computedExpr = computedExpr;		
+	}
+}
+
+class ConditionNode{
+	constructor(ifExpr, ifBlock, line, elseBlock) {
+		this.condition = ifExpr;
+		this.ifBlock = ifBlock;
+		this.elseBlock = elseBlock;
+		this.line = line;
+	}
+
+	toString(){
+		return this.condition.toString();
+	}
+}
+
+class LabelNode{
+	constructor(label, line) {
+		this.label = label;
+		this.line = line;
+	}
+
+	toString(){
+		return this.label;
+	}
+
+	compute(){
+		var question = getQuestion(this.label);
+		if(question == undefined){
+			throwError(this.line, "Question label '" + this.label + "' is undefined");
+			return undefined;
+		}
+		return getQuestion(this.label).value;
+	}
+}
+
+
+class NotExpression{
+	constructor(expr, line) {
+		this.expr = expr;
+		this.line = line;
+	}
+
+	compute(){
+		return !this.expr.compute();
+	}
+
+	toString(){
 		return "!"+expr.toString();
-	};
+	}
+
+}
+
+
+class OperatorExpressionNode{
+	constructor(left, opNode, right, line) {
+		this.left = left;
+		this.opNode = opNode;
+		this.right = right;
+		this.line = line;
+	}
+
+	compute(){
+		return this.opNode.compute(this.left, this.right);
+	}
+
+	toString(){
+		return this.left.toString() + this.opNode.toString() + this.right.toString();
+	}
+}
+
+class OperatorNode{
+
+	constructor(op, validArguments, line) {
+		this.op = op;
+		this.validArguments = validArguments;
+		this.line = line;
+	}
+
+	toString(){
+		return this.op;
+	}
+
+	validateArguments(left, right){
+		if((typeof left == typeof right) && this.validArguments.indexOf(typeof left) != -1){
+			return true;
+		}
+		else{
+			throwError(this.line, "Statement '" + left + "" + this.op + "" + right + "' expecting left and right to be of " + this.validArguments + ", found " + typeof left + " and " + typeof right);
+			return false;
+		}
+	}
+
+}
+
+
+class NumOperatorNode extends OperatorNode{
+	constructor(op, line) {
+		super(op, ["number"], line);
+	}
+
+	compute(left, right){
+		if(this.validateArguments(left.compute(), right.compute())){
+			switch(this.op){
+				case "*": return left.compute() * right.compute();
+				case "/": return left.compute() / right.compute();
+				case "+": return left.compute() + right.compute();
+				case "-": return left.compute() - right.compute();
+				case "<": return left.compute() < right.compute();
+				case "<=": return left.compute() <= right.compute();
+				case ">": return left.compute() > right.compute();
+				case ">=": return left.compute() >= right.compute();
+				default: return undefined;
+			}
+		}
+	}
+}
+
+class BoolOperatorNode extends OperatorNode{
+	constructor(op, line) {
+		super(op, ["boolean"], line);
+	}
+
+	compute(left, right){
+
+		if(this.validateArguments(left.compute(), right.compute())){
+			switch(this.op){
+				case "&&": return left.compute() && right.compute();
+				case "||": return left.compute() || right.compute();
+				default: return undefined;
+			}
+		}
+	}
+}
+
+
+class NumOrBoolOperatorNode extends OperatorNode{
+	constructor(op, line) {
+		super(op, ["number", "boolean"], line);
+	}
+
+	compute(left, right){
+
+		if(this.validateArguments(left.compute(), right.compute())){
+			switch(this.op){
+				case "==": return left.compute() == right.compute();
+				case "!=": return left.compute() != right.compute();
+				default: return undefined;
+			}
+		}
+	}
+}
+
+
+class LiteralNode{
+	constructor(value){
+		this.value = value;
+	}
+
+	compute(){
+		return this.value;
+	}
+
+	toString(){
+		return this.value;
+	}
 }
