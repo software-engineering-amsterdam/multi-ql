@@ -4,6 +4,7 @@ import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.stat.Question;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,10 +12,13 @@ import java.util.List;
  */
 public class Environment {
 
-    private List<Node> env;
+    private Collection<Node> env;
 
     public Environment() {
         this.env = new ArrayList<>();
+    }
+    public Environment(Collection<Node> c) {
+        this.env = c;
     }
 
     public void add(Node q){
@@ -34,7 +38,7 @@ public class Environment {
 
     }
 
-    public List<Node> getEnv() {
+    public Collection<Node> getEnv() {
         return env;
     }
 

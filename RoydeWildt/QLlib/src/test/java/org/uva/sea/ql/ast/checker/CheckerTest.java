@@ -90,6 +90,9 @@ public class CheckerTest {
 
         List<String> checkList = new ArrayList<>();
         checkList.add("Q1");
+        checkList.add("Q2");
+        checkList.add("Q3");
+        checkList.add("Q4");
 
         Form f = parseFromPath("src/test/resources/cycles1.ql");
         List<Message> messages = (new Checker()).cyclicQuestionChecker(f);

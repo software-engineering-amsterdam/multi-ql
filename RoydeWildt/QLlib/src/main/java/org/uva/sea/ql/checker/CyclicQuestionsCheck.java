@@ -7,36 +7,71 @@ import org.uva.sea.ql.ast.tree.stat.AssQuestion;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class CyclicQuestionsCheck extends BaseVisitor<Void,Environment> {
-    final private List<Node> cyclics = new ArrayList<>();
+public class CyclicQuestionsCheck extends BaseVisitor<Void,Var> {
+    private Node root;
+    private final Map<Node,List<Node>> references = new HashMap<>();
 
     public CyclicQuestionsCheck(Form f) {
-        f.accept(this,new Environment());
-
+        f.accept(this,null);
     }
 
     @Override
-    public Void visit(AssQuestion stat, Environment env) {
-        env.add(stat.getVarname());
-        stat.getExpr().accept(this.getV(),env);
-        env.remove(stat.getVarname());
+    public Void visit(AssQuestion stat, Var env) {
+        if(root == null)
+            root = stat.getVarname();
+
+        if(!references.containsKey(stat.getVarname()))
+            references.put(stat.getVarname(),new ArrayList<>());
+        stat.getExpr().accept(this.getV(),stat.getVarname());
         return null;
     }
 
     @Override
-    public Void visit(Var var, Environment env) {
-        if(env.contains(var))
-            cyclics.add(var);
+    public Void visit(Var var, Var env) {
+
+        List<Node> l  = references.get(env);
+        l.add(var);
+        references.put(env,l);
+
         return null;
     }
 
     public List<Node> getCyclics() {
-        return cyclics;
+        Set<Node> questions = references.keySet();
+        List<Node> cycles = new ArrayList<>();
+
+        for(Node n : questions){
+            Node cycleNode = getCyclePathBFS(n);
+            if(cycleNode != null)
+                cycles.add(cycleNode);
+        }
+        return cycles;
     }
+
+    public Node getCyclePathBFS(Node n){
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(n);
+
+        List<Node> visited = new ArrayList<>();
+
+        while(!queue.isEmpty()){
+            Node x = queue.remove();
+            if(visited.contains(x)){
+                return n;
+            }
+            else{
+                visited.add(x);
+                queue.addAll(references.get(x));
+            }
+        }
+
+        return null;
+    }
+
 }
