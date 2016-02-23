@@ -4,10 +4,11 @@ form Box1HouseOwning {
 	hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?"
 	boolean
 	valueResidue: "Value residue:" int(hasSoldHouse - hasBoughtHouse)
-	if (false) {
+	
+	if (hasMaintLoan) {
 		takeMaintLoan: "Do u want a loan for maintenance/reconstruction?" boolean
-		}
-
+	}
+	
 }
 
 

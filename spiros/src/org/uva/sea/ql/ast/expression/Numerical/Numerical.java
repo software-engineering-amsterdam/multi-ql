@@ -16,11 +16,7 @@ public abstract class Numerical extends Binary {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	
 	@Override
 	public Type getTypeOfExpression() {

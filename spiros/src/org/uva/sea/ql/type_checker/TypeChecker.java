@@ -14,6 +14,7 @@ import org.uva.sea.ql.ast.statement.Question;
 import org.uva.sea.ql.ast.statement.QuestionsVisitor;
 import org.uva.sea.ql.ast.type.BoolType;
 import org.uva.sea.ql.ast.type.Type;
+import org.uva.sea.ql.ast.type.UndefinedType;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
@@ -48,7 +49,7 @@ public class TypeChecker {
 	}
 	
 	public void performTypeChecking() {	
-		boolean duplicatedLabelsFound = checkForDuplicatedLabels();
+		//boolean duplicatedLabelsFound = checkForDuplicatedLabels();
 		boolean booleanConditions = checkBooleanConditions();
 	}
 	
@@ -58,8 +59,15 @@ public class TypeChecker {
 		System.out.println("Size of IfStatements is " + ifStatements.size());
 		for (IfStatement ifStatement: ifStatements) {
 			Expression expression = ifStatement.getExpression();
-			if (expression.getTypeOfExpression() instanceof BoolType)
-				System.out.println("Yeah bitch!!!");
+			if (expression.getTypeOfExpression(this.form) instanceof BoolType)		// allakse to!
+				System.out.println("This is boolean type: " +expression.getClass().toString());
+			else if (expression.getTypeOfExpression(this.form) instanceof UndefinedType)
+				//System.out.println("wtf");
+				System.out.println("Undefined type: " + expression.getClass().toString());
+			
+			else
+				//System.out.println("wtf");
+				System.out.println("This is not boolean type: " + expression.getClass().toString());
 			
 		}
 		return false;

@@ -14,13 +14,14 @@ public class Negative extends Unary {
 	}
 
 	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
-	}
-
-	@Override
 	public Type getTypeOfExpression() {
 		// TODO Auto-generated method stub
 		return new IntType();
+	}
+
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return visitor.visit(this);
 	}
 }

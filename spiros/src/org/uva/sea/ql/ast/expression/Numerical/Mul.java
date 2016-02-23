@@ -14,8 +14,8 @@ public class Mul extends Numerical {
 	}
 	
 	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
-
 }

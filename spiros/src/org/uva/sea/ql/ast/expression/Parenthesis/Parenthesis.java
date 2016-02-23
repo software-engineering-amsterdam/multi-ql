@@ -21,16 +21,18 @@ public class Parenthesis extends Expression{
 	public Expression getExpression() {
 		return this.expression;
 	}
-	
-	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
-	}
+
 
 	@Override
 	public Type getTypeOfExpression() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return visitor.visit(this);
 	}
 
 }
