@@ -73,8 +73,6 @@ public class QL {
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
         
-    	
-        
         //Gui ex = new Gui();
         //ex.setVisible(true);
 	}
