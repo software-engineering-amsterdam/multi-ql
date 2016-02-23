@@ -4,5 +4,11 @@ form taxOfficeExample {
     cQ1: money = (cQ2)
     
   "cQ2"
-    cQ2: money = (cQ1)
+    cQ2: money = (cQ3)
+    
+  "cQ3"
+    cQ3: money = (cQ4)
+    
+  "cQ4"
+    cQ4: money = (cQ0)
 }

@@ -364,6 +364,9 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 	
 	public boolean detectCyclicDependencies() {
+		
+		makePairsTransitive(dependencies);
+		
 		int a = dependencies.size();
 		for (int i = 0; i < a; i++) {
 			Pair tmp = new Pair(dependencies.get(i).getRight(), dependencies.get(i).getLeft());

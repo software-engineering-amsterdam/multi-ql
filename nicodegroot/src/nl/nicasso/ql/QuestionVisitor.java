@@ -34,14 +34,16 @@ import nl.nicasso.ql.ast.structure.Form;
 
 public class QuestionVisitor implements Visitor<IdentifierLit> {
 
-	private boolean debug = false;
+	private boolean debug = true;
 
 	private ArrayList<Question> questions;
+	private ArrayList<IdentifierLit> identifiers;
 	private ArrayList<String> warnings;
 	private ArrayList<String> errors;
 
 	QuestionVisitor() {
 		questions = new ArrayList<Question>();
+		identifiers = new ArrayList<IdentifierLit>();
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
 	}
@@ -99,6 +101,8 @@ public class QuestionVisitor implements Visitor<IdentifierLit> {
 		if (debug) {
 			System.out.println("IdentifierLit: " + value.getValue());
 		}
+		
+		identifiers.add(value);
 
 		return null;
 	}
@@ -222,12 +226,31 @@ public class QuestionVisitor implements Visitor<IdentifierLit> {
 		return questions;
 	}
 	
+	public ArrayList<IdentifierLit> getIdentifiers() {
+		return identifiers;
+	}
+	
+	public void checkNullPointers() {
+		for (IdentifierLit id : identifiers) {
+			if (checkExistanceIdentifier(id) == null) {
+				errors.add("The identifier " + id.getValue() + " does not exist.");
+			}
+		}
+	}
+
 	public boolean addQuestion(Question q) {
 		
 		boolean insert = true;
 		
-		if (checkExistanceIdentifier(q.getId())) {
-			insert = false;
+		Question cur = checkExistanceIdentifier(q.getId());
+		
+		if (cur != null) {
+			if (cur.getType().getType().equals(q.getType().getType())) {
+				warnings.add("The identifier " + q.getId().getValue() + " already exist.");
+				insert = false;
+			} else {
+				errors.add("The identifier " + q.getId().getValue() + " already exist.");
+			}
 		}
 		
 		checkExistanceLabel(q.getLabel());
@@ -240,20 +263,14 @@ public class QuestionVisitor implements Visitor<IdentifierLit> {
 		return false;
 	}
 	
-	private boolean checkExistanceIdentifier(IdentifierLit value) {
+	private Question checkExistanceIdentifier(IdentifierLit value) {
 		for (Question cur : questions) {
 			if (cur.getId().getValue().equals(value.getValue())) {
-				if (cur.getType().getType().equals(value.getType().getType())) {
-					warnings.add("The identifier " + value.getValue() + " already exist.");
-					return false;	
-				} else {
-					errors.add("The identifier " + value.getValue() + " already exist.");
-					return true;
-				}
+				return cur;
 			}
 		}
 
-		return false;
+		return null;
 	}
 	
 	private boolean checkExistanceLabel(String value) {

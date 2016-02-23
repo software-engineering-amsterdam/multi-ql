@@ -45,14 +45,11 @@ public class TypeChecker implements Visitor<Type> {
 	
 	private ArrayList<String> errors;
 	private ArrayList<String> warnings;
-	
-	private ArrayList<ArrayList<ComputedQuestion>> dependencies;
 
 	TypeChecker(ArrayList<Question> questions) {
 		errors = new ArrayList<String>();
 		warnings = new ArrayList<String>();
 		this.questions = questions;
-		this.dependencies = new ArrayList<ArrayList<ComputedQuestion>>();
 	}
 		
 	@Override
