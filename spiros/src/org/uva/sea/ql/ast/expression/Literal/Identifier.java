@@ -38,11 +38,9 @@ public class Identifier extends Literal {
 		List<Question> questions = questionsVisitor.getQuestions();
 		List<ComputedQuestion> computedQuestions = computedQuestionsVisitor.getComputedQuestions();
 		questions.addAll(computedQuestions);
-		System.out.println("so far so good.The list has " + questions.size() + "questions!. To id aytou pou psaxnw einai: " + this.id );
 		
 		for (Question question:questions) {
-			System.out.println(question.getLabel());
-			if (this.id == question.getLabel())
+			if (this.id.equals(question.getId().getValue()))
 				return question.getType();
 		}
 		return new UndefinedType(new CodeFragment(-1, -1), "Undefined");
