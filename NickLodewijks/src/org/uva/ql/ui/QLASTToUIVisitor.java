@@ -11,14 +11,12 @@ import org.uva.ql.ast.stat.IFStat;
 
 public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 
-	private final WidgetFactory widgetFactory;
-
 	private QLQuestionaire questionaire;
 	private QLForm currentForm;
 	private QLSection currentSection;
 
-	public QLASTToUIVisitor(WidgetFactory factory) {
-		widgetFactory = factory;
+	public QLASTToUIVisitor() {
+
 	}
 
 	public QLQuestionaire interpret(Questionnaire q) {
@@ -33,7 +31,7 @@ public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 
 	@Override
 	public Void visit(Form node, Void context) {
-		currentForm = widgetFactory.create(node);
+		currentForm = new QLForm(node.getName());
 		currentSection = null;
 
 		questionaire.addForm(currentForm);
@@ -50,7 +48,7 @@ public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 		previousCurrentSection = currentSection;
 
 		// Add nested sections for nested if statements
-		currentSection = widgetFactory.create(node);
+		currentSection = new QLSection(node.getExpr());
 		if (previousCurrentSection != null) {
 			previousCurrentSection.addSubSection(currentSection);
 		} else {
@@ -83,21 +81,26 @@ public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 
 	@Override
 	public Void visit(ComputedQuestion node, Void context) {
+		QLQuestion question;
 
+		question = new QLQuestion(node);
 		if (currentSection == null) {
-			currentForm.addQuestion(widgetFactory.create(node));
+			currentForm.addQuestion(question);
 		} else {
-			currentSection.addQuestion(widgetFactory.create(node));
+			currentSection.addQuestion(question);
 		}
 		return null;
 	}
 
 	@Override
 	public Void visit(InputQuestion node, Void context) {
+		QLQuestion question;
+
+		question = new QLQuestion(node);
 		if (currentSection == null) {
-			currentForm.addQuestion(widgetFactory.create(node));
+			currentForm.addQuestion(question);
 		} else {
-			currentSection.addQuestion(widgetFactory.create(node));
+			currentSection.addQuestion(question);
 		}
 		return null;
 	}

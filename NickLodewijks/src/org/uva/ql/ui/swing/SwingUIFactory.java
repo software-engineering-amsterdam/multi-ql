@@ -1,4 +1,4 @@
-package org.uva.ql.ui;
+package org.uva.ql.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,6 +17,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,31 +32,22 @@ import org.uva.ql.ast.StringType;
 import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Context.ContextListener;
+import org.uva.ql.ui.QLForm;
+import org.uva.ql.ui.QLQuestion;
+import org.uva.ql.ui.QLQuestionaire;
+import org.uva.ql.ui.QLSection;
+import org.uva.ql.ui.UIFactory;
+import org.uva.ql.ui.UIQuestionnaire;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.form.ComputedQuestion;
-import org.uva.ql.ast.form.Form;
-import org.uva.ql.ast.form.InputQuestion;
-import org.uva.ql.ast.stat.IFStat;
 
-public class DefaultWidgetFactory implements WidgetFactory {
+public class SwingUIFactory implements UIFactory {
 
 	@Override
-	public QLQuestion create(ComputedQuestion q) {
-		QLQuestion question;
-		QLComponent label;
-		QLWidget widget;
-
-		label = new DefaultLabelWidget(q.getLabel());
-
-		widget = createWidget(q.getId(), q.getType());
-		widget = new ComputedWidget(widget, q.getExpr());
-
-		question = new DefaultQuestion(label, widget);
-
-		return question;
+	public UIQuestionnaire create(QLQuestionaire questionnaire) {
+		return new DefaultQLQuestionaire(questionnaire);
 	}
 
-	private QLWidget createWidget(String variableName, VariableType type) {
+	private static QLSwingComponent createWidget(String variableName, VariableType type) {
 
 		if (type instanceof BooleanType) {
 			return new DefaultBooleanWidget(variableName);
@@ -68,84 +60,81 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 	}
 
-	@Override
-	public QLQuestion create(InputQuestion q) {
-		QLQuestion question;
-		QLComponent label;
-		QLWidget widget;
+	public static class DefaultQLQuestionaire implements UIQuestionnaire {
 
-		label = new DefaultLabelWidget(q.getLabel());
+		private final QLQuestionaire questionnaire;
+		private final List<DefaultQLForm> forms = new ArrayList<>();
 
-		widget = createWidget(q.getId(), q.getType());
+		private final JFrame jframe;
 
-		question = new DefaultQuestion(label, widget);
+		public DefaultQLQuestionaire(QLQuestionaire q) {
+			this.questionnaire = q;
 
-		return question;
+			jframe = new JFrame();
+
+			jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			for (QLForm form : q.getForms()) {
+				forms.add(new DefaultQLForm(form));
+			}
+
+			jframe.setContentPane(forms.get(0).getComponent());
+			jframe.setSize(400, 600);
+			jframe.setLocationRelativeTo(null);
+		}
+
+		@Override
+		public void show() {
+			Context context;
+
+			context = new Context();
+			for (DefaultQLForm form : forms) {
+				form.setContext(context);
+			}
+
+			jframe.setVisible(true);
+		}
 	}
 
-	@Override
-	public QLForm create(Form form) {
-		return new DefaultQLForm(form.getName());
-	}
+	private static class DefaultQLForm implements QLSwingComponent {
 
-	@Override
-	public QLSection create(IFStat condition) {
-		return new DefaultQLSection(condition.getExpr());
-	}
-
-	private static class DefaultQLForm extends JPanel implements QLForm {
-
-		private static final long serialVersionUID = 1L;
-
-		private final String name;
-
-		private final List<QLQuestion> questions = new ArrayList<QLQuestion>();
-		private final List<QLSection> sections = new ArrayList<>();
+		private final QLForm form;
+		private final List<DefaultQLQuestion> questions = new ArrayList<>();
+		private final List<DefaultQLSection> sections = new ArrayList<>();
 
 		private final JScrollPane pane;
+		private final JPanel panel;
 
-		public DefaultQLForm(String name) {
-			this.name = name;
+		public DefaultQLForm(QLForm form) {
+			this.form = form;
+			panel = new JPanel();
 
-			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-			pane = new JScrollPane(this, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			pane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-			setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), this.getBorder()));
-		}
-
-		@Override
-		public String getName() {
-			return name;
-		}
-
-		@Override
-		public void addSection(QLSection section) {
-			sections.add(section);
-
-			add(section.getComponent());
-			add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-
-		@Override
-		public void addQuestion(QLQuestion question) {
-			JPanel panel;
-
-			panel = new JPanel(new BorderLayout());
-
-			questions.add(question);
-
-			panel.add(question.getLabelComponent(), BorderLayout.CENTER);
-			panel.add(question.getInputComponent(), BorderLayout.EAST);
-			panel.setMaximumSize(new Dimension(400, 40));
-			panel.setMinimumSize(new Dimension(400, 40));
-
 			panel.setBorder(
 					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), panel.getBorder()));
 
-			add(panel);
-			add(Box.createRigidArea(new Dimension(0, 2)));
+			for (QLQuestion question : form.getQuestions()) {
+				add(new DefaultQLQuestion(question));
+			}
+
+			for (QLSection section : form.getSections()) {
+				add(new DefaultQLSection(section));
+			}
+		}
+
+		private void add(DefaultQLQuestion question) {
+			questions.add(question);
+			panel.add(question.getComponent());
+			panel.add(Box.createRigidArea(new Dimension(0, 2)));
+		}
+
+		private void add(DefaultQLSection section) {
+			sections.add(section);
+			panel.add(section.getComponent());
+			panel.add(Box.createRigidArea(new Dimension(0, 2)));
 		}
 
 		@Override
@@ -160,85 +149,102 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 	}
 
-	private static class DefaultQLSection extends JPanel implements QLSection, ContextListener {
+	private static class DefaultQLSection implements QLSwingComponent, ContextListener {
 
-		private static final long serialVersionUID = 1L;
+		private final JPanel panel;
+		private final QLSection section;
+		private final List<DefaultQLQuestion> questions = new ArrayList<>();
+		private final List<DefaultQLSection> sections = new ArrayList<>();
 
-		private final Expr expr;
-		private final List<QLQuestion> questions = new ArrayList<>();
-		private final List<QLSection> subSections = new ArrayList<>();
+		public DefaultQLSection(QLSection section) {
 
-		public DefaultQLSection(Expr expr) {
-			this.expr = expr;
+			this.section = section;
 
-			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-			setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), this.getBorder()));
-		}
-
-		@Override
-		public void addQuestion(QLQuestion question) {
-			JPanel panel;
-
-			questions.add(question);
-
-			panel = new JPanel(new BorderLayout());
-
-			panel.add(question.getLabelComponent(), BorderLayout.CENTER);
-			panel.add(question.getInputComponent(), BorderLayout.EAST);
-			panel.setMaximumSize(new Dimension(400, 40));
-			panel.setMinimumSize(new Dimension(400, 40));
+			panel = new JPanel();
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 			panel.setBorder(
 					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), panel.getBorder()));
 
-			add(panel);
+			for (QLQuestion question : section.getQuestions()) {
+				add(new DefaultQLQuestion(question));
+			}
 
-			add(Box.createRigidArea(new Dimension(0, 2)));
+			for (QLSection subSection : section.getSections()) {
+				add(new DefaultQLSection(subSection));
+			}
+
+			panel.setVisible(false);
 		}
 
-		@Override
-		public void addSubSection(QLSection section) {
-			subSections.add(section);
+		private void add(DefaultQLQuestion question) {
+			questions.add(question);
+			panel.add(question.getComponent());
+			panel.add(Box.createRigidArea(new Dimension(0, 2)));
+		}
 
-			add(section.getComponent());
-
-			add(Box.createRigidArea(new Dimension(0, 2)));
+		private void add(DefaultQLSection section) {
+			sections.add(section);
+			panel.add(section.getComponent());
+			panel.add(Box.createRigidArea(new Dimension(0, 2)));
 		}
 
 		@Override
 		public void setContext(Context context) {
-			context.addContextListener(this);
-
+			if (section.getExpr() != null) {
+				context.addContextListener(this);
+			}
 			questions.stream().forEach(q -> q.setContext(context));
-			subSections.stream().forEach(s -> s.setContext(context));
+			sections.stream().forEach(s -> s.setContext(context));
 		}
 
 		@Override
 		public JComponent getComponent() {
-			return this;
+			return panel;
 		}
 
 		@Override
 		public void contextChanged(Context context) {
 			boolean value;
 
-			value = QLExpressionInterpreter.interpret(expr, context);
+			value = QLExpressionInterpreter.interpret(section.getExpr(), context);
 
 			SwingUtilities.invokeLater(() -> {
-				setVisible(value);
+				panel.setVisible(value);
 			});
 		}
 	}
 
-	private static class DefaultQuestion implements QLQuestion {
+	private static class DefaultQLQuestion implements QLSwingComponent {
 
-		private final QLComponent label;
-		private final QLComponent input;
+		private JPanel panel;
+		private QLSwingComponent label;
+		private QLSwingComponent input;
 
-		public DefaultQuestion(QLComponent label, QLComponent input) {
-			this.label = label;
-			this.input = input;
+		public DefaultQLQuestion(QLQuestion q) {
+			panel = new JPanel();
+
+			panel.setLayout(new BorderLayout());
+
+			label = new DefaultLabelWidget(q.getLabel());
+
+			input = createWidget(q.getId(), q.getType());
+			if (q.getExpr() != null) {
+				input = new ComputedWidget((QLSwingWidget) input, q.getExpr());
+			}
+
+			panel.add(label.getComponent(), BorderLayout.CENTER);
+			panel.add(input.getComponent(), BorderLayout.EAST);
+			panel.setMaximumSize(new Dimension(400, 40));
+			panel.setMinimumSize(new Dimension(400, 40));
+
+			panel.setBorder(
+					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), panel.getBorder()));
+		}
+
+		@Override
+		public JComponent getComponent() {
+			return panel;
 		}
 
 		@Override
@@ -246,19 +252,9 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			label.setContext(context);
 			input.setContext(context);
 		}
-
-		@Override
-		public JComponent getLabelComponent() {
-			return label.getComponent();
-		}
-
-		@Override
-		public JComponent getInputComponent() {
-			return input.getComponent();
-		}
 	}
 
-	private static class DefaultLabelWidget extends JLabel implements QLComponent {
+	private static class DefaultLabelWidget extends JLabel implements QLSwingWidget {
 
 		private static final long serialVersionUID = 1L;
 
@@ -277,19 +273,40 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		public JComponent getComponent() {
 			return this;
 		}
+
+		@Override
+		public Object getValue() {
+			return getText();
+		}
+
+		@Override
+		public boolean setValue(Object value) {
+			if (getValue().equals(value)) {
+				return false;
+			}
+
+			setText((String) value);
+
+			return true;
+		}
+
+		@Override
+		public void setEditable(boolean editable) {
+			// NOOP
+		}
 	}
 
 	/**
-	 * This class wraps a {@link QLWidget} and uses an expression to compute its
-	 * value.
+	 * This class wraps a {@link QLSwingWidget} and uses an expression to
+	 * compute its value.
 	 *
 	 */
-	private static class ComputedWidget implements QLWidget, ContextListener {
+	private static class ComputedWidget implements QLSwingWidget, ContextListener {
 
-		private final QLWidget widget;
+		private final QLSwingWidget widget;
 		private final Expr expr;
 
-		public ComputedWidget(QLWidget widget, Expr expr) {
+		public ComputedWidget(QLSwingWidget widget, Expr expr) {
 			this.widget = widget;
 
 			widget.setEditable(false);
@@ -330,7 +347,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 	}
 
-	private static class DefaultBooleanWidget extends JPanel implements QLWidget, ActionListener {
+	private static class DefaultBooleanWidget extends JPanel implements QLSwingWidget, ActionListener {
 
 		private static final long serialVersionUID = 1L;
 		private final String variableName;
@@ -406,7 +423,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 	}
 
-	private static class DefaultIntegerWidget extends JPanel implements QLWidget {
+	private static class DefaultIntegerWidget extends JPanel implements QLSwingWidget {
 
 		private static final long serialVersionUID = 1L;
 
@@ -475,7 +492,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		}
 	}
 
-	private static class DefaultStringWidget extends JPanel implements QLWidget {
+	private static class DefaultStringWidget extends JPanel implements QLSwingWidget {
 
 		private static final long serialVersionUID = 1L;
 
@@ -539,4 +556,5 @@ public class DefaultWidgetFactory implements WidgetFactory {
 			textField.setEditable(editable);
 		}
 	}
+
 }

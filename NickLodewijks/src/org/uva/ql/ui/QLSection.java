@@ -1,16 +1,38 @@
 package org.uva.ql.ui;
 
-import javax.swing.JComponent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.uva.ql.ast.expr.Context;
+import org.uva.ql.ast.expr.Expr;
 
-public interface QLSection {
+public class QLSection {
 
-	public void setContext(Context context);
+	private final Expr expr;
+	private final List<QLQuestion> questions = new ArrayList<>();
+	private final List<QLSection> subSections = new ArrayList<>();
 
-	public void addSubSection(QLSection section);
+	public QLSection(Expr expr) {
+		this.expr = expr;
+	}
 
-	public void addQuestion(QLQuestion question);
+	public Expr getExpr() {
+		return expr;
+	}
 
-	public JComponent getComponent();
+	public void addQuestion(QLQuestion question) {
+		questions.add(question);
+	}
+
+	public void addSubSection(QLSection section) {
+		subSections.add(section);
+	}
+
+	public List<QLQuestion> getQuestions() {
+		return Collections.unmodifiableList(questions);
+	}
+
+	public List<QLSection> getSections() {
+		return Collections.unmodifiableList(subSections);
+	}
 }

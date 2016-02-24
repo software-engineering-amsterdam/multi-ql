@@ -1,11 +1,8 @@
 package org.uva.ql.ui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import javax.swing.JFrame;
-
-import org.uva.ql.ast.expr.Context;
 
 public class QLQuestionaire {
 
@@ -19,23 +16,7 @@ public class QLQuestionaire {
 		forms.add(form);
 	}
 
-	public void show() {
-		JFrame jframe;
-		Context context;
-
-		context = new Context();
-
-		for (QLForm form : forms) {
-			form.setContext(context);
-		}
-
-		jframe = new JFrame();
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		jframe.setContentPane(forms.get(0).getComponent());
-		jframe.setSize(400, 600);
-		jframe.setLocationRelativeTo(null);
-		jframe.setVisible(true);
+	public List<QLForm> getForms() {
+		return Collections.unmodifiableList(forms);
 	}
-
 }

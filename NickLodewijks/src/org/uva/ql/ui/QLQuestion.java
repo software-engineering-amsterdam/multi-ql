@@ -1,14 +1,45 @@
 package org.uva.ql.ui;
 
-import javax.swing.JComponent;
+import org.uva.ql.ast.VariableType;
+import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.form.ComputedQuestion;
+import org.uva.ql.ast.form.InputQuestion;
 
-import org.uva.ql.ast.expr.Context;
+public class QLQuestion {
 
-public interface QLQuestion {
+	private final String id;
+	private final String label;
+	private final Expr expr;
+	private final VariableType type;
 
-	public void setContext(Context context);
+	public QLQuestion(ComputedQuestion question) {
+		this(question.getId(), question.getLabel(), question.getExpr(), question.getType());
+	}
 
-	public JComponent getLabelComponent();
+	public QLQuestion(InputQuestion question) {
+		this(question.getId(), question.getLabel(), null, question.getType());
+	}
 
-	public JComponent getInputComponent();
+	private QLQuestion(String id, String label, Expr expr, VariableType type) {
+		this.id = id;
+		this.label = label;
+		this.expr = expr;
+		this.type = type;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public Expr getExpr() {
+		return expr;
+	}
+
+	public VariableType getType() {
+		return type;
+	}
 }

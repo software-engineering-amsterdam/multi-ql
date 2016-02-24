@@ -1,16 +1,37 @@
 package org.uva.ql.ui;
 
-import javax.swing.JComponent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.uva.ql.ast.expr.Context;
+public class QLForm {
 
-public interface QLForm {
+	private final String name;
 
-	public void setContext(Context context);
+	private final List<QLQuestion> questions = new ArrayList<QLQuestion>();
+	private final List<QLSection> sections = new ArrayList<>();
 
-	public void addSection(QLSection section);
+	public QLForm(String name) {
+		this.name = name;
+	}
 
-	public void addQuestion(QLQuestion question);
+	public String getName() {
+		return name;
+	}
 
-	public JComponent getComponent();
+	public void addSection(QLSection section) {
+		sections.add(section);
+	}
+
+	public void addQuestion(QLQuestion question) {
+		questions.add(question);
+	}
+
+	public List<QLQuestion> getQuestions() {
+		return Collections.unmodifiableList(questions);
+	}
+
+	public List<QLSection> getSections() {
+		return Collections.unmodifiableList(sections);
+	}
 }

@@ -1,10 +1,10 @@
-package org.uva.ql.ui;
+package org.uva.ql.ui.swing;
 
 /**
  * A QLWidget represents the GUI component for an input field, or computed value
  * in the questionnaire.
  */
-public interface QLWidget extends QLComponent {
+public interface QLSwingWidget extends QLSwingComponent {
 
 	/**
 	 * Return the current value of the widget
@@ -29,5 +29,4 @@ public interface QLWidget extends QLComponent {
 	 *            the boolean to set.
 	 */
 	public void setEditable(boolean editable);
-
 }
