@@ -29,113 +29,113 @@ import SwiftParsec
  */
 class QLParser: NSObject {
     
-    func parse(ql: QL) throws -> QLForm {
+    func parse(ql: QL) throws -> Form {
         return try qlParser().run(sourceName: "QL", input: ql)
     }
     
-    private func qlParser() -> GenericParser<String, (), QLForm> {
+    private func qlParser() -> GenericParser<String, (), Form> {
         let lexer   = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
         
         
-        let variable = lexer.identifier.map { id in QLVariable(identifier: id) }
+        let identifier: GenericParser<String, (), Expression> =
+            lexer.identifier.map { id in Identifier(id: id) }
         
-        let boolLit: GenericParser<String, (), QLLiteral> =
-            lexer.symbol("true") *> GenericParser(result: QLBooleanLiteral(bool: true)) <|>
-            lexer.symbol("false") *> GenericParser(result: QLBooleanLiteral(bool: false))
-        let stringLit: GenericParser<String, (), QLLiteral> =
-            lexer.stringLiteral.map{ s in QLStringLiteral(string: s) }
-        let intLit: GenericParser<String, (), QLLiteral> =
-            lexer.integer.map { i in QLIntegerLiteral(integer: i) }
-        let floatLit: GenericParser<String, (), QLLiteral> =
-            lexer.float.map { f in QLFloatLiteral(float: f) }
-        let number: GenericParser<String, (), QLLiteral> =
+        let boolLit: GenericParser<String, (), Expression> =
+            lexer.symbol("true") *> GenericParser(result: BooleanLiteral(bool: true)) <|>
+            lexer.symbol("false") *> GenericParser(result: BooleanLiteral(bool: false))
+        let stringLit: GenericParser<String, (), Expression> =
+            lexer.stringLiteral.map{ s in StringLiteral(string: s) }
+        let intLit: GenericParser<String, (), Expression> =
+            lexer.integer.map { i in IntegerLiteral(integer: i) }
+        let floatLit: GenericParser<String, (), Expression> =
+            lexer.float.map { f in FloatLiteral(float: f) }
+        let number: GenericParser<String, (), Expression> =
             floatLit.attempt <|> intLit
         
         
-        let expr: GenericParser<String, (), QLExpression> = GenericParser.recursive {
-            (expr: GenericParser<String, (), QLExpression>) in
+        let expr: GenericParser<String, (), Expression> = GenericParser.recursive {
+            (expr: GenericParser<String, (), Expression>) in
             
-            let precExpr: GenericParser<String, (), QLExpression> =
+            let precExpr: GenericParser<String, (), Expression> =
                 lexer.parentheses(expr)
-            let litExpr: GenericParser<String, (), QLExpression> =
-                (boolLit <|> stringLit <|> number).map { literal in
-                    QLExpressionLiteral(literal: literal)
-                }
-            let varExpr: GenericParser<String, (), QLExpression> =
-                variable.map { eVar in QLExpressionVariable(variable: eVar) }
-            let boolExpr: GenericParser<String, (), QLExpression> =
-                lexer.symbol("boolean").map { _ in QLBoolean() }
-            let stringExpr: GenericParser<String, (), QLExpression> =
-                lexer.symbol("string").map { _ in QLString() }
-            let moneyExpr: GenericParser<String, (), QLExpression> =
-                (lexer.symbol("money") *> lexer.parentheses(expr).map { e in QLMoney(expr: e) }).attempt <|>
-                lexer.symbol("money").map { _ in QLMoney() }
-            let unary: GenericParser<String, (), QLUnary.Type> =
-                StringParser.character("-").map { _ in QLNeg.self } <|>
-                StringParser.character("!").map { _ in QLNot.self }
-            let unaryExpr: GenericParser<String, (), QLExpression> =
+            let litExpr: GenericParser<String, (), Expression> =
+                boolLit <|> stringLit <|> number
+//            let varExpr: GenericParser<String, (), Expression> =
+//                variable.map { eVar in QLExpressionVariable(variable: eVar) }
+            let boolExpr: GenericParser<String, (), Expression> =
+                lexer.symbol("boolean").map { _ in BooleanField() }
+            let stringExpr: GenericParser<String, (), Expression> =
+                lexer.symbol("string").map { _ in StringField() }
+            let moneyExpr: GenericParser<String, (), Expression> =
+                (lexer.symbol("money") *> lexer.parentheses(expr).map { e in MoneyField(expression: e) }).attempt <|>
+                lexer.symbol("money").map { _ in MoneyField() }
+            let unary: GenericParser<String, (), Unary.Type> =
+                StringParser.character("-").map { _ in Neg.self } <|>
+                StringParser.character("!").map { _ in Not.self }
+            let unaryExpr: GenericParser<String, (), Expression> =
                 unary.flatMap { eUnary in
-                    expr.map { rhs in eUnary.init(rhs: rhs) }
+                    expr.map { rhs in eUnary.init(rhs: rhs) as! Expression }
                 }
-            let binary: GenericParser<String, (), QLBinary.Type> =
-                lexer.symbol("+").map { _ in QLAdd.self } <|>
-                lexer.symbol("-").map { _ in QLSub.self } <|>
-                lexer.symbol("*").map { _ in QLMul.self } <|>
-                lexer.symbol("/").map { _ in QLDiv.self } <|>
-                lexer.symbol("^").map { _ in QLPow.self } <|>
-                lexer.symbol("&&").map { _ in QLAnd.self } <|>
-                lexer.symbol("||").map { _ in QLOr.self } <|>
-                lexer.symbol("==").map { _ in QLEq.self } <|>
-                lexer.symbol("!=").map { _ in QLNe.self } <|>
-                lexer.symbol("<=").map { _ in QLLe.self }.attempt <|>
-                lexer.symbol(">=").map { _ in QLGe.self }.attempt <|>
-                lexer.symbol("<").map { _ in QLLt.self } <|>
-                lexer.symbol(">").map { _ in QLGt.self }
+            let binary: GenericParser<String, (), Binary.Type> =
+                lexer.symbol("+").map { _ in Add.self } <|>
+                lexer.symbol("-").map { _ in Sub.self } <|>
+                lexer.symbol("*").map { _ in Mul.self } <|>
+                lexer.symbol("/").map { _ in Div.self } <|>
+                lexer.symbol("^").map { _ in Pow.self } <|>
+                lexer.symbol("&&").map { _ in And.self } <|>
+                lexer.symbol("||").map { _ in Or.self } <|>
+                lexer.symbol("==").map { _ in Eq.self } <|>
+                lexer.symbol("!=").map { _ in Ne.self } <|>
+                lexer.symbol("<=").map { _ in Le.self }.attempt <|>
+                lexer.symbol(">=").map { _ in Ge.self }.attempt <|>
+                lexer.symbol("<").map { _ in Lt.self } <|>
+                lexer.symbol(">").map { _ in Gt.self }
 
             
             // Left associative binary, TODO: properly define lhs
-            func opParser(lhs: QLExpression) -> GenericParser<String, (), QLExpression> {
+            func opParser(lhs: Expression) -> GenericParser<String, (), Expression> {
                 return binary.flatMap { eBinary in
                     expr.flatMap { rhs in
-                        opParser1(eBinary.init(lhs: lhs, rhs: rhs))
+                        opParser1(eBinary.init(lhs: lhs, rhs: rhs) as! Expression)
                     }
                 }
             }
-            func opParser1(rhs: QLExpression) -> GenericParser<String, (), QLExpression> {
+            func opParser1(rhs: Expression) -> GenericParser<String, (), Expression> {
                 return opParser(rhs) <|> GenericParser(result: rhs)
             }
             let binaryExpr =
-                (moneyExpr <|> unaryExpr <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> varExpr).flatMap { lhs in
+                (moneyExpr <|> unaryExpr <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> identifier).flatMap { lhs in
                     opParser(lhs) <|> GenericParser(result: lhs)
                 }
         
             
-            return moneyExpr <|> unaryExpr <|> binaryExpr.attempt <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> varExpr
+            return moneyExpr <|> unaryExpr <|> binaryExpr.attempt <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> identifier
         }
         
-        let question: GenericParser<String, (), QLQuestion> =
-            variable.flatMap { qVar in
-                lexer.colon *> stringLit.flatMap { qLit in
+        let question: GenericParser<String, (), Statement> =
+            identifier.flatMap { qId in
+                lexer.colon *> lexer.stringLiteral.flatMap { qLit in
                     expr.map { qExpr in
-                        QLQuestion(variable: qVar, stringLit: qLit as! QLStringLiteral, expression: qExpr)
+                        Question(identifier: qId as! Identifier, label: qLit, expression: qExpr)
                     }
                 }
             }
         
         
         // This declaration is needed to define statements with blocks such as if statements
-        var block: GenericParser<String, (), QLBlockStatement>!
+        var block: GenericParser<String, (), Block>!
         
         
-        let qStmt: GenericParser<String, (), QLStatement> =
-            question.map { sQuestion in QLQuestionStatement(question: sQuestion) }
-        let ifStmt: GenericParser<String, (), QLStatement> =
+//        let qStmt: GenericParser<String, (), Statement> =
+//            question.map { sQuestion in QuestionStatement(question: sQuestion) }
+        let ifStmt: GenericParser<String, (), Statement> =
             lexer.symbol("if") *> lexer.parentheses(expr).flatMap { cond in
                 block.map { blockStmt in
-                    QLIf(conditional: cond, block: blockStmt)
+                    Conditional(condition: cond, ifBlock: blockStmt)
                 }
             }
-        let stmt = ifStmt <|> qStmt
+        let stmt: GenericParser<String, (), Statement> =
+            ifStmt <|> question
         
         
         // Now define blocks as a list of statements
@@ -145,11 +145,11 @@ class QLParser: NSObject {
                 tmp.append(acc)
                 return tmp
             }
-        ).map { stmts in QLBlockStatement(block: stmts) }
+        ).map { stmts in Block(block: stmts) }
         
-        let form: GenericParser<String, (), QLForm> =
-            lexer.symbol("form") *> variable.flatMap { fVar in
-                return block.map { fBlock in QLForm(variable: fVar, block: fBlock) }
+        let form: GenericParser<String, (), Form> =
+            lexer.symbol("form") *> identifier.flatMap { fId in
+                return block.map { fBlock in Form(identifier: fId as! Identifier, block: fBlock) }
             }
         
         

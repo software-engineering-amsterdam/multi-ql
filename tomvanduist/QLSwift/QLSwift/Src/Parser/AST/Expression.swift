@@ -30,7 +30,7 @@ class Identifier: Expression {
     let id: String
     var expression: Expression?
     
-    init(id: String, expression: Expression?) {
+    init(id: String, expression: Expression? = nil) {
         self.id = id
         self.expression = expression
     }
@@ -62,7 +62,7 @@ class MoneyField: Expression {
     let type: ExpressionType = NumberType()
     let expression: Expression?
     
-    init(expression: Expression?) {
+    init(expression: Expression? = nil) {
         self.expression = expression
     }
     
@@ -123,32 +123,41 @@ class BooleanLiteral: Expression {
     }
 }
 
-class Neg: Expression {
+class Unary {
     private var _type: ExpressionType = BooleanType()
     var type: ExpressionType { return _type }
     
     let rhs: Expression
     
-    init (rhs: Expression) {
+    required init(rhs: Expression) {
         self.rhs = rhs
     }
     
     func eval() -> NSValue? {
+        fatalError("Override")
+    }
+}
+
+class Not: Unary, Expression {
+    required init (rhs: Expression) {
+        super.init(rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSValue? {
         return rhs.eval() == false
     }
 }
 
-class Not: Expression {
-    private var _type: ExpressionType = BooleanType()
-    var type: ExpressionType { return _type }
-    
-    let rhs: Expression
-    
-    init (rhs: Expression) {
-        self.rhs = rhs
+class Neg: Unary, Expression {
+    required init (rhs: Expression) {
+        super.init(rhs: rhs)
+        
+        _type = NumberType()
     }
     
-    func eval() -> NSValue? {
+    override func eval() -> NSValue? {
         return rhs.eval() as! Double * -1
     }
 }
@@ -159,7 +168,7 @@ class Binary {
     
     let lhs, rhs: Expression
     
-    init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -170,7 +179,7 @@ class Binary {
 }
 
 class Add: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = NumberType()
@@ -182,7 +191,7 @@ class Add: Binary, Expression {
 }
 
 class Sub: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = NumberType()
@@ -194,7 +203,7 @@ class Sub: Binary, Expression {
 }
 
 class Mul: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = NumberType()
@@ -206,7 +215,7 @@ class Mul: Binary, Expression {
 }
 
 class Div: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = NumberType()
@@ -218,7 +227,7 @@ class Div: Binary, Expression {
 }
 
 class Pow: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = NumberType()
@@ -230,7 +239,7 @@ class Pow: Binary, Expression {
 }
 
 class Eq: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
@@ -242,7 +251,7 @@ class Eq: Binary, Expression {
 }
 
 class Ne: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
@@ -254,7 +263,7 @@ class Ne: Binary, Expression {
 }
 
 class Ge: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
@@ -266,7 +275,7 @@ class Ge: Binary, Expression {
 }
 
 class Gt: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
@@ -278,7 +287,7 @@ class Gt: Binary, Expression {
 }
 
 class Le: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
@@ -290,7 +299,7 @@ class Le: Binary, Expression {
 }
 
 class Lt: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
@@ -302,7 +311,7 @@ class Lt: Binary, Expression {
 }
 
 class And: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
@@ -314,7 +323,7 @@ class And: Binary, Expression {
 }
 
 class Or: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()

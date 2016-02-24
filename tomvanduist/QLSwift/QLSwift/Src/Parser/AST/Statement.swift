@@ -28,7 +28,7 @@ class Conditional: Statement {
     let ifBlock: Block
     let elseBlock: Block?
     
-    init(condition: Expression, ifBlock: Block, elseBlock: Block?) {
+    init(condition: Expression, ifBlock: Block, elseBlock: Block? = nil) {
         self.condition = condition
         self.ifBlock = ifBlock
         self.elseBlock = elseBlock

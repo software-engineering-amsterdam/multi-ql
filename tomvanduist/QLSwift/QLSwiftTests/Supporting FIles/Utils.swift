@@ -24,7 +24,7 @@ internal func getQL(owner: AnyObject, file: String) throws -> QL {
 // MARK: Convenience methods
 
 extension XCTestCase {
-    internal func parseFile(file: String) -> QLForm? {
+    internal func parseFile(file: String) -> Form? {
         do {
             return try QLParser().parse(getQL(self, file: file))
         } catch let e {
@@ -33,9 +33,9 @@ extension XCTestCase {
         }
     }
     
-    internal func parseFileMany(file: String) -> [QLForm?] {
+    internal func parseFileMany(file: String) -> [Form?] {
         let parser = QLParser()
-        var result: [QLForm?] = []
+        var result: [Form?] = []
         
         if let ql = try? getQL(self, file: file) {
             for s in ql.componentsSeparatedByString("#->") {
@@ -44,14 +44,5 @@ extension XCTestCase {
         }
         
         return result
-    }
-    
-    internal func assertToForm(qlForm: QLForm?) -> Form? {
-        XCTAssertNotNil(qlForm)
-        
-        let form = qlForm?.implode()
-        XCTAssertNotNil(form)
-        
-        return form
     }
 }
