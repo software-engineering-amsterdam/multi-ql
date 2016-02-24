@@ -45,11 +45,11 @@ class AstConversionVisitor extends GeneratedVisitor {
 		return new ast.IdentifierNode(ctx.start.line, ctx.getText());
 	}
 
-	visitUnaryPrefixExpr(ctx) {
+	visitUnaryPrefixExprCase(ctx) {
 		let line = ctx.start.line,
 			operand = ctx.expr().accept(this);
 
-		switch (ctx.children[1].start.type) {
+		switch (ctx.children[0].symbol.type) {
 			case GeneratedParser.MINUS:
 				return new ast.NegationNode(line, operand);
 			case GeneratedParser.NOT:

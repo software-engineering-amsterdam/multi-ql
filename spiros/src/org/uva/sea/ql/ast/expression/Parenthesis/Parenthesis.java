@@ -4,6 +4,10 @@ import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
 import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
+import org.uva.sea.ql.ast.type.Type;
+
+
+// class to be removed???
 
 public class Parenthesis extends Expression{
 	
@@ -17,9 +21,17 @@ public class Parenthesis extends Expression{
 	public Expression getExpression() {
 		return this.expression;
 	}
-	
+
+
 	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
+	public Type getTypeOfExpression() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 

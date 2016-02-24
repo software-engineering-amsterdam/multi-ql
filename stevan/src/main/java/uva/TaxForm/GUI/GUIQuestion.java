@@ -14,7 +14,7 @@ import uva.TaxForm.GUI.Fields.DateSpinner;
 import uva.TaxForm.GUI.Fields.DateSpinnerImproved;
 import uva.TaxForm.GUI.Fields.IntTextField;
 import uva.TaxForm.GUI.Fields.MoneyTextField;
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTVariable;
 
 public class GUIQuestion extends JPanel {
 

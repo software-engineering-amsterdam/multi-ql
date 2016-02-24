@@ -8,8 +8,7 @@ public abstract class Statement extends ASTNode {
 	public Statement(CodeFragment fragment) {
 		super(fragment);
 	}
-	
-	public abstract ASTNode accept(StatementVisitor<ASTNode> visitor);
-	
+
+	public abstract void accept(StatementVisitor visitor);
 
 }

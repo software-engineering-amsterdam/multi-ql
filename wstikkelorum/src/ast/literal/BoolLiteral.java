@@ -5,17 +5,18 @@ import ast.visitor.Visitor;
 
 public class BoolLiteral extends Expression {
 	private boolean value;
-	
-	public BoolLiteral(Boolean value){
+
+	public BoolLiteral(int lineNumber, Boolean value) {
+		super(lineNumber);
 		this.value = value;
 	}
-	
-	public boolean getValue(){
+
+	public boolean getValue() {
 		return value;
 	}
-	
+
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(Visitor<T> visitor) {
+		return visitor.visit(this);
 	}
 }

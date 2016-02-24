@@ -1,30 +1,25 @@
 package uva.ql.interfaces;
 
-import uva.ql.ast.ASTNode;
-
 public interface IExpression {
 
-	public final static int SINGLE_EXP 		= 1;
-	public final static int AND_EXP 		= 2;
-	public final static int OR_EXP 			= 3;
-	public final static int NOT_EXP 		= 4;
-	public final static int LOWER_EXP 		= 5;
-	public final static int UPPER_EXP 		= 6;
-	public final static int LOWER_EQUAL_EXP = 7;
-	public final static int UPPER_EQUAL_EXP = 8;
-	public final static int EQUAL_EXP 		= 9;
-	public final static int NOT_EQUAL_EXP 	= 10;
-	public final static int MINUS_EXP 		= 11;
-	public final static int ADD_EXP 		= 12;
-	public final static int MULTIPLY_EXP 	= 13;
-	public final static int DIVIDE_EXP 		= 14;
-	public final static int ASSIGN_EXP 		= 15;
-	public final static int EXP		 		= 16;
+	public final static int VARIABLE 		= 101;
+	public final static int NUMBER 			= 102;
 	
-	public int getExpressionType();
-	public void setExpressionType(int expressionType);
-	public ASTNode getLeftNode();
-	public void setLeftNode(ASTNode leftNode);
-	public ASTNode getRightNode();
-	public void setRightNode(ASTNode rightNode);
+	public final static int SML_THEN		= 201;
+	public final static int GRT_THEN		= 202;
+	public final static int SML_EQL			= 203;
+	public final static int GRT_EQL			= 204;
+	public final static int NOT_EQL			= 205;
+	public final static int EQL				= 206;
+	public final static int NOT_EXP 		= 207;
+	public final static int AND_EXP 		= 208;
+	public final static int OR_EXP 			= 209;
+	
+	//public final static int ASSIGN_EXP 		= 301;
+	
+	public final static int MULTIPLY_EXP 	= 401;
+	public final static int DIVIDE_EXP 		= 402;
+	public final static int MINUS_EXP 		= 403;
+	public final static int ADD_EXP 		= 404;
+	
 }

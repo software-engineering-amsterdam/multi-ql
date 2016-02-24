@@ -1,5 +1,5 @@
 /* FileSaver.js
- * A saveAs() FileSaver implementation.
+ * A fileSaverSaveAs() FileSaver implementation.
  * 1.1.20151003
  *
  * By Eli Grey, http://eligrey.com
@@ -12,7 +12,7 @@
 
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
-var saveAs = saveAs || (function(view) {
+var fileSaverSaveAs = fileSaverSaveAs || (function (view) {
 	"use strict";
 	// IE <10 is explicitly unsupported
 	if (typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
@@ -219,11 +219,11 @@ var saveAs = saveAs || (function(view) {
 			}), fs_error);
 		}
 		, FS_proto = FileSaver.prototype
-		, saveAs = function(blob, name, no_auto_bom) {
+		, fileSaverSaveAs = function (blob, name, no_auto_bom) {
 			return new FileSaver(blob, name, no_auto_bom);
 		}
 	;
-	// IE 10+ (native saveAs)
+		// IE 10+ (native fileSaverSaveAs)
 	if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
 		return function(blob, name, no_auto_bom) {
 			if (!no_auto_bom) {
@@ -251,7 +251,7 @@ var saveAs = saveAs || (function(view) {
 	FS_proto.onwriteend =
 		null;
 
-	return saveAs;
+		return fileSaverSaveAs;
 }(
 	   typeof self !== "undefined" && self
 	|| typeof window !== "undefined" && window
@@ -262,9 +262,9 @@ var saveAs = saveAs || (function(view) {
 // with an attribute `content` that corresponds to the window
 
 if (typeof module !== "undefined" && module.exports) {
-  module.exports.saveAs = saveAs;
+	module.exports.fileSaverSaveAs = fileSaverSaveAs;
 } else if ((typeof define !== "undefined" && define !== null) && (define.amd != null)) {
   define([], function() {
-    return saveAs;
+	  return fileSaverSaveAs;
   });
 }

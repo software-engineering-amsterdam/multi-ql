@@ -3,6 +3,7 @@ package org.uva.sea.ql.ast.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.sea.ql.ast.form.FormVisitor;
 import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
 import org.uva.sea.ql.ast.statement.Statement;
@@ -20,8 +21,8 @@ public class Block extends ASTNode {
 		return this.statements;
 	}
 
-	public ASTNode accept(BlockVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
+	public void accept(FormVisitor formVisitor) {
+		formVisitor.visitBlock(this);
 	}
 	
 }

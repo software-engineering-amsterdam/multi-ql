@@ -18,13 +18,14 @@ import org.uva.sea.ql.parser.QLLexer;
 import org.uva.sea.ql.parser.QLParser;
 import org.uva.sea.ql.parser.QLParser.FormContext;
 import org.uva.sea.utils.Utils;
-import org.uva.sea.ql.ast.DependencyVisitor;
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.NodeCollector;
 import org.uva.sea.ql.ast.QuestionPainter;
 import org.uva.sea.ql.ast.TypeCheckVisitor;
 import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Form;
+import org.uva.sea.ql.errors.QLError;
 import org.uva.sea.ql.experiment.ASTVisualizer;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -37,12 +38,12 @@ public class App
 {
 	public static void main(String [] args) throws Exception {
 		String FA = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\SampleForm.txt";
-		String FB = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\DependancyCheckUnsafe.txt";
+		String FB = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\DependancyCheckIfStatements.txt";
 		String FC = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\DependancyCheckSafe.txt";
 		String FD = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\TypeCheckTest.txt";
 		
 		
-		BufferedReader br = new BufferedReader(new FileReader(FA));
+		BufferedReader br = new BufferedReader(new FileReader(FB));
 		try {
 		    StringBuilder sb = new StringBuilder();
 		    String line = br.readLine();
@@ -54,14 +55,13 @@ public class App
 		    }
 		    String everything = sb.toString();
 		    
-		 //   testGrammar(getParser(everything));
+		    testGrammar(getParser(everything));
 		 //   getAST(getParser(everything));
 		    System.out.println("Now testing dependancy!");
-		    testDependancy(getParser(everything));
 		    
 		    
-		  //  System.out.println("Now testing type check");
-		  //  testTypeCheck(getParser(everything));
+		    System.out.println("Now testing type check");
+		    testTypeCheck(getParser(everything));
 		    
 		//  System.out.println("Now testing question painter");
 		 // testDrawVisitor(getParser(everything));
@@ -83,31 +83,28 @@ public class App
 
         viewr.open();
 	}
-	
-	public static void testDependancy(QLParser parser) {
-		DependencyVisitor v = new DependencyVisitor();
-		FormContext fc = parser.form(); // begin parsing at init rule
-		fc.b.result.accept(v);
-		for (String var : v.getUndefinedQuestionIDs()) {
-			System.out.println(var.toString());
-		}
-	}
+
 	
 	public static void testTypeCheck(QLParser parser) {
-		TypeCheckVisitor v = new TypeCheckVisitor();
 		FormContext fc = parser.form();
-		fc.b.result.accept(v);
+		ASTNode startNode = fc.b.result;
+		
+		for (QLError error : TypeCheckVisitor.getErrorMessages(startNode, null)) {
+			System.out.println(error.getErrorMessage());
+		}
+		
 	}
 	
-	public static void getAST(QLParser parser){
+	/*public static void getAST(QLParser parser){
 		FormContext fc = parser.form(); // begin parsing at init rule
 		NodeCollector v = new NodeCollector();
 		fc.b.result.accept(v);
+		
 		for (Expr literal : v.getLiterals()) {
 			System.out.println(literal.toString() + " " + literal.getType());
 		}
 		
-	}
+	}*/
 	
 	public static void testDrawVisitor(QLParser parser, JPanel formContext) {
 		FormContext fc = parser.form(); // begin parsing at init rule

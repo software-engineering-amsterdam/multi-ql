@@ -31,6 +31,7 @@ public class Context {
 		}
 	}
 
+	@FunctionalInterface
 	public static interface ContextListener {
 
 		public void contextChanged(Context context);

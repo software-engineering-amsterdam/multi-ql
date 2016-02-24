@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseFormViewController" customModule="QLSwift" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="TYS-VQ-3pf"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jmy-UK-CbP">
+                    <rect key="frame" x="275.5" y="250" width="49" height="100"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwI-VM-Fr5">
+                            <rect key="frame" x="0.0" y="0.0" width="49" height="30"/>
+                            <state key="normal" title="Form 1"/>
+                            <connections>
+                                <action selector="form1Pressed:" destination="-1" eventType="touchUpInside" id="L6b-J3-gcN"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U3O-gh-oCU">
+                            <rect key="frame" x="0.0" y="70" width="49" height="30"/>
+                            <state key="normal" title="Form 2"/>
+                            <connections>
+                                <action selector="form2Pressed:" destination="-1" eventType="touchUpInside" id="rmg-qA-tgN"/>
+                                <action selector="formPressed:" destination="-1" eventType="touchUpInside" id="6Fq-v0-cBq"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="U3O-gh-oCU" secondAttribute="trailing" id="0hn-yV-oPo"/>
+                        <constraint firstAttribute="trailing" secondItem="EwI-VM-Fr5" secondAttribute="trailing" id="1zZ-uj-wkh"/>
+                        <constraint firstItem="EwI-VM-Fr5" firstAttribute="leading" secondItem="Jmy-UK-CbP" secondAttribute="leading" id="7HW-OF-vtl"/>
+                        <constraint firstAttribute="bottom" secondItem="U3O-gh-oCU" secondAttribute="bottom" id="hLo-Fe-coM"/>
+                        <constraint firstItem="U3O-gh-oCU" firstAttribute="leading" secondItem="Jmy-UK-CbP" secondAttribute="leading" id="nKS-MI-yq5"/>
+                        <constraint firstItem="EwI-VM-Fr5" firstAttribute="top" secondItem="Jmy-UK-CbP" secondAttribute="top" id="q9X-1I-aC9"/>
+                        <constraint firstItem="U3O-gh-oCU" firstAttribute="top" secondItem="EwI-VM-Fr5" secondAttribute="bottom" constant="40" id="sRA-av-mts"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Jmy-UK-CbP" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="8Hc-Uq-oB9"/>
+                <constraint firstItem="Jmy-UK-CbP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="DCi-uW-qXD"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

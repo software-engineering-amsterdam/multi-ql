@@ -1,19 +1,29 @@
 package uva.ql.visitors;
 
-import uva.ql.ast.ASTBlock;
-import uva.ql.ast.ASTExpression;
-import uva.ql.ast.ASTForm;
-import uva.ql.ast.ASTIfStatement;
-import uva.ql.ast.ASTNode;
-import uva.ql.ast.ASTNumber;
-import uva.ql.ast.ASTQuestion;
-import uva.ql.ast.ASTVariable;
-import uva.ql.interfaces.IASTNodeVisitor;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ASTTreePrintVisitor implements IASTNodeVisitor {
+import uva.ql.ast.AExpression;
+import uva.ql.ast.ANode;
+import uva.ql.ast.ANumber;
+import uva.ql.ast.AVariable;
+import uva.ql.ast.Block;
+import uva.ql.ast.Form;
+import uva.ql.ast.IfStatement;
+import uva.ql.ast.Question;
+import uva.ql.ast.numbers.NumDouble;
+import uva.ql.ast.numbers.NumInt;
+import uva.ql.deprecated.ASTNode;
+import uva.ql.interfaces.IExpression;
+import uva.ql.interfaces.INodeVisitor;
+import uva.ql.interfaces.INumber;
 
+public class ASTTreePrintVisitor implements INodeVisitor {
+
+	private final Map<String, Integer> store = new HashMap<String, Integer>(0);
+	
 	@Override
-	public void visitForm(ASTForm form) {
+	public void visitForm(Form form) {
 		
 		System.out.println("form: " + form.getName());
 		
@@ -23,12 +33,9 @@ public class ASTTreePrintVisitor implements IASTNodeVisitor {
 	}
 
 	@Override
-	public void visitNode(ASTNode node) {}
-
-	@Override
-	public void visitBlock(ASTBlock block) {
+	public void visitBlock(Block block) {
 		
-		System.out.println("block: ");
+		System.out.println("block: " + block.size());
 
 		for(int i=0; i<block.size(); i++) {
 			block.get(i).accept(this);
@@ -36,12 +43,15 @@ public class ASTTreePrintVisitor implements IASTNodeVisitor {
 	}
 
 	@Override
-	public void visitIfStmnt(ASTIfStatement ifStmnt) {
+	public void visitIfStmnt(IfStatement ifStmnt) {
+		
+		System.out.println("If: ");
 		
 		if (ASTNode.VARIABLE == ifStmnt.getExpression().getLeftNode().getNodeType()) {
-			ASTVariable var = (ASTVariable) ifStmnt.getExpression().getLeftNode();
+			AVariable var = (AVariable) ifStmnt.getExpression().getLeftNode();
 			System.out.println("ifStmnt: " + var.getName() + " - " + var.toString());
 		}
+		ifStmnt.getExpression().accept(this);
 		
 		for(int i=0; i<ifStmnt.size(); i++) {
 			ifStmnt.get(i).accept(this);
@@ -49,7 +59,7 @@ public class ASTTreePrintVisitor implements IASTNodeVisitor {
 	}
 
 	@Override
-	public void visitQuestion(ASTQuestion question) {
+	public void visitQuestion(Question question) {
 		
 		System.out.println("question: " + question.getLabel());
 		
@@ -59,21 +69,37 @@ public class ASTTreePrintVisitor implements IASTNodeVisitor {
 	}
 
 	@Override
-	public void visitExp(ASTExpression exp) {
+	public void visitExp(AExpression exp) {
 		
-		System.out.println("exp: " + exp.getNodeType());
+		System.out.println("exp: " + exp.getExprType());
+		if (exp.getExprType() != IExpression.NUMBER) {
+			exp.getLeftNode().accept(this);
+			if (exp.getRightNode() != null) {
+				exp.getRightNode().accept(this);
+			}
+		}
 	}
 
 	@Override
-	public void visitNum(ASTNumber number) {
+	public void visitNum(ANumber number) {
 		
-		System.out.println("number: " + number.getValue());
+		if(number.getNumType() == INumber.DOUBLE) {
+			NumDouble num = (NumDouble) number;
+			System.out.println("number: " + num.getValue());
+		}
+		else {
+			NumInt num = (NumInt) number;
+			System.out.println("number: " + num.getValue());
+		}
 	}
 
 	@Override
-	public void visitVar(ASTVariable var) {
+	public void visitVar(AVariable var) {
 		
-		System.out.println("var: " + var.getName() + " - " + var.toString());
+		System.out.println(var.getName());
 	}
 
+	@Override
+	public void visitNode(ANode node) {}
+	
 }

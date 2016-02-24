@@ -1,13 +1,15 @@
-form taxOfficeExample { 
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
+form taxOfficeExample {
 
-  if (hasSoldHouse) {
-    "What was the selling price?"
-      sellingPrice: money  
-  }
+  "cQ1"
+    cQ1: integer = (1)
+    
+  "cQ2"
+    cQ2: money = (100)
+    
+  "cQ3"
+    cQ3: boolean = (false && true)
+    
+  "cQ4"
+    cQ4: string = ("a")
+    
 }

@@ -3,13 +3,13 @@ package ast.expression;
 import ast.visitor.Visitor;
 
 public class OrExpression extends BinaryExpression {
-	public OrExpression(Expression lhs, Expression rhs) {
-		super(lhs, rhs);
+	public OrExpression(int lineNumber, Expression lhs, Expression rhs) {
+		super(lineNumber, lhs, rhs);
 	}
-	
+
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(Visitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

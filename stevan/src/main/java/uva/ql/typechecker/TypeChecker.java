@@ -3,13 +3,13 @@ package uva.ql.typechecker;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import uva.TaxForm.Utils.ShuntingYardAlgorithm;
-import uva.ql.ast.ASTExpression;
-import uva.ql.ast.ASTIfStatement;
-import uva.ql.ast.ASTNode;
-import uva.ql.ast.ASTNumber;
-import uva.ql.ast.ASTQuestion;
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTExpression;
+import uva.ql.deprecated.ASTIfStatement;
+import uva.ql.deprecated.ASTNode;
+import uva.ql.deprecated.ASTNumber;
+import uva.ql.deprecated.ASTQuestion;
+import uva.ql.deprecated.ASTVariable;
+import uva.ql.deprecated.ShuntingYardAlgorithm;
 import uva.ql.visitors.VisitAST;
 
 public class TypeChecker {

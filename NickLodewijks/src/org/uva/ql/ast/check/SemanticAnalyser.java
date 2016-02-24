@@ -123,7 +123,8 @@ public class SemanticAnalyser {
 			// Copy the SymbolTable for scoping of variables
 			st = new SymbolTable(st);
 
-			// First traverse the questions.
+			// First traverse the questions, because they
+			// declare variables that can be used in the if statements.
 			for (Question question : node.getQuestions()) {
 				question.accept(this, st);
 			}
@@ -636,7 +637,6 @@ public class SemanticAnalyser {
 				}
 
 				paths = new ArrayList<>();
-
 				for (Reference referent : referents) {
 
 					// Found a cycle.
@@ -650,7 +650,7 @@ public class SemanticAnalyser {
 					paths.addAll(referent.getPaths(myPath));
 				}
 
-				return paths;
+				return Collections.unmodifiableList(paths);
 			}
 
 			@Override
@@ -695,7 +695,7 @@ public class SemanticAnalyser {
 		public Void visit(ComputedQuestion node, ReferenceTable rt) {
 			currentQuestion = node;
 
-			node.getExpr().accept(this, rt);
+			node.expr().accept(this, rt);
 
 			currentQuestion = null;
 

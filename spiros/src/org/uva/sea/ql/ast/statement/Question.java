@@ -1,17 +1,15 @@
 package org.uva.sea.ql.ast.statement;
 
 import org.uva.sea.ql.ast.expression.Literal.Identifier;
-import org.uva.sea.ql.ast.expression.Literal.StringLiteral;
-import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
 import org.uva.sea.ql.ast.type.Type;
 
 public class Question extends Statement {
 	Identifier id;
-	StringLiteral label;
+	String label;
 	Type type;
 
-	public Question(Identifier id, StringLiteral label, Type type, CodeFragment fragment) {
+	public Question(Identifier id, String label, Type type, CodeFragment fragment) {
 		super(fragment);
 		this.id = id;
 		this.label = label;
@@ -22,7 +20,7 @@ public class Question extends Statement {
 		return this.id;
 	}
 	
-	public StringLiteral getLabel() {
+	public String getLabel() {
 		return this.label;
 	}
 	
@@ -31,8 +29,8 @@ public class Question extends Statement {
 	}
 	
 	@Override
-	public ASTNode accept(StatementVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
+	public void accept(StatementVisitor visitor) {
+		visitor.visitQuestion(this);
 	}
 
 }
