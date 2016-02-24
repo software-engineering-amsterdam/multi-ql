@@ -23,10 +23,10 @@ export class TypeInferer extends TypeVisitor {
 
 class AddSubtractTypeInferer extends TypeInferer {
 	receiveFloat(floatType, otherType) {
-		return otherType.accept(new FloatAddSubtractTypeInferer());
+		return otherType.dispatch(new FloatAddSubtractTypeInferer());
 	}
 	receiveMoney(moneyType, otherType) {
-		return otherType.accept(new MoneyAddSubtractTypeInferer());
+		return otherType.dispatch(new MoneyAddSubtractTypeInferer());
 	}
 }
 
@@ -55,11 +55,20 @@ class MoneyAddSubtractTypeInferer extends TypeInferer {
 }
 
 export class AddTypeInferer extends AddSubtractTypeInferer {
+	receiveBoolean(booleanType, otherType) {
+		return otherType.dispatch(new BooleanAddTypeInferer());
+	}
 	receiveString(stringType, otherType) {
-		return otherType.accept(new StringAddTypeInferer());
+		return otherType.dispatch(new StringAddTypeInferer());
 	}
 	receiveInteger(integerType, otherType) {
-		return otherType.accept(new IntegerAddTypeInferer());
+		return otherType.dispatch(new IntegerAddTypeInferer());
+	}
+}
+
+class BooleanAddTypeInferer extends TypeInferer {
+	receiveString() {
+		return new StringType();
 	}
 }
 
@@ -91,7 +100,7 @@ export class SubtractTypeInferer extends AddSubtractTypeInferer {}
 
 class MultiplyDivideTypeInferer extends TypeInferer {
 	receiveFloat(floatType, otherType) {
-		return otherType.accept(new FloatMultiplyDivideTypeInferer());
+		return otherType.dispatch(new FloatMultiplyDivideTypeInferer());
 	}
 }
 
@@ -112,7 +121,7 @@ class FloatMultiplyDivideTypeInferer extends MultiplyDivideTypeInferer {
 
 export class MultiplyTypeInferer extends MultiplyDivideTypeInferer {
 	receiveInteger(integerType, otherType) {
-		return otherType.accept(new IntegerMultiplyTypeInferer());
+		return otherType.dispatch(new IntegerMultiplyTypeInferer());
 	}
 }
 
@@ -124,7 +133,7 @@ class IntegerMultiplyTypeInferer extends IntegerMultiplyDivideTypeInferer {
 
 export class DivideTypeInferer extends MultiplyDivideTypeInferer {
 	receiveInteger(integerType, otherType) {
-		return otherType.accept(new IntegerDivideTypeInferer());
+		return otherType.dispatch(new IntegerDivideTypeInferer());
 	}
 }
 
@@ -136,10 +145,10 @@ class IntegerDivideTypeInferer extends IntegerMultiplyDivideTypeInferer {
 
 class OrderingTypeInferer extends TypeInferer {
 	receiveInteger(integerType, otherType) {
-		return otherType.accept(new NumberOrderingTypeInferer());
+		return otherType.dispatch(new NumberOrderingTypeInferer());
 	}
 	receiveFloat(floatType, otherType) {
-		return otherType.accept(new NumberOrderingTypeInferer());
+		return otherType.dispatch(new NumberOrderingTypeInferer());
 	}
 }
 
@@ -159,19 +168,19 @@ export class LessEqualTypeInferer extends OrderingTypeInferer {}
 
 class EqualNotEqualTypeInferer extends TypeInferer {
 	receiveBoolean(booleanType, otherType) {
-		return otherType.accept(new BooleanEqualNotEqualTypeInferer());
+		return otherType.dispatch(new BooleanEqualNotEqualTypeInferer());
 	}
 	receiveString(stringType, otherType) {
-		return otherType.accept(new StringEqualNotEqualTypeInferer());
+		return otherType.dispatch(new StringEqualNotEqualTypeInferer());
 	}
 	receiveInteger(integerType, otherType) {
-		return otherType.accept(new NumberEqualNotEqualTypeInferer());
+		return otherType.dispatch(new NumberEqualNotEqualTypeInferer());
 	}
 	receiveFloat(floatType, otherType) {
-		return otherType.accept(new NumberEqualNotEqualTypeInferer());
+		return otherType.dispatch(new NumberEqualNotEqualTypeInferer());
 	}
 	receiveMoney(moneyType, otherType) {
-		return otherType.accept(new MoneyEqualNotEqualTypeInferer());
+		return otherType.dispatch(new MoneyEqualNotEqualTypeInferer());
 	}
 }
 
@@ -207,7 +216,7 @@ export class NotEqualTypeInferer extends EqualNotEqualTypeInferer {}
 
 class LogicalTypeInferer extends TypeInferer {
 	receiveBoolean(booleanType, otherType) {
-		return otherType.accept(new BooleanLogicalTypeInferer());
+		return otherType.dispatch(new BooleanLogicalTypeInferer());
 	}
 }
 
