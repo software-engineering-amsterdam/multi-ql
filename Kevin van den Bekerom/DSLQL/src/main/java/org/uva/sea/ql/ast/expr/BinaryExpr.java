@@ -1,7 +1,7 @@
 package org.uva.sea.ql.ast.expr;
 
-import org.uva.sea.ql.ast.Visitable;
-import org.uva.sea.ql.ast.Visitor;
+import org.uva.sea.ql.ast.visit.Visitable;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public abstract class BinaryExpr extends Expr implements Visitable {
 	protected Expr lhs, rhs;

@@ -7,6 +7,7 @@ import org.uva.sea.ql.ast.stat.Block;
 import org.uva.sea.ql.ast.stat.ComputedQuestion;
 import org.uva.sea.ql.ast.stat.IfStatement;
 import org.uva.sea.ql.ast.stat.Question;
+import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 import org.uva.sea.ql.ast.visit.QuestionCollector;
 import org.uva.sea.ql.ast.visit.VariableCollector;
 import org.uva.sea.ql.graph.Graph;

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.uva.sea.ql.ast.stat.*;
+import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 import org.uva.sea.ql.ast.visit.QuestionCollector;
 import org.uva.sea.ql.ast.visit.VariableCollector;
 import org.uva.sea.ql.errors.QLError;

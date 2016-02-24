@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 import org.uva.sea.ql.errors.QLError;
 
 //TODO: update for MONEY Types

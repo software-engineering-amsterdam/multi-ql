@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.stat.*;
+import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 import org.uva.sea.ql.ast.form.*;
 
 public class ContextVisitor extends LeftDFSVisitor<Context> {
