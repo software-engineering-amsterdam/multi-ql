@@ -23,13 +23,37 @@ public class IfStatementVisitor extends StatementsVisitor {
 		iterator.forEachRemaining(statements::add);
 		return statements;
 	}
-		
+
 	@Override
-	public Void visitIfStatement(IfStatement ifStatement) {
-		this.ifStatements.add(ifStatement);
-		List<Statement> statements = ifStatement.getBlock().getStatements();
-		for  (Statement statement: statements)
-			statement.accept(this);	
-		return null;
+	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	@Override
+	public void visitQuestion(Question question) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visitIfStatement(IfStatement ifStatement) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visitIfElseStatement(IfElseStatement ifElseStatement) {
+		// TODO Auto-generated method stub
+		
+	}
+		
+//	@Override
+//	public Void visitIfStatement(IfStatement ifStatement) {
+//		this.ifStatements.add(ifStatement);
+//		List<Statement> statements = ifStatement.getBlock().getStatements();
+//		for  (Statement statement: statements)
+//			statement.accept(this);	
+//		return null;
+//	}
 }

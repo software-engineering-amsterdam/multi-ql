@@ -8,6 +8,4 @@ public abstract class Expr extends ASTNode {
 	public Expr(ParserRuleContext context) {
 		super(context);
 	}
-
-	public abstract Object interpret(Context context);
 }

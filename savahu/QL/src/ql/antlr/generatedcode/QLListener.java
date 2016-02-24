@@ -6,6 +6,7 @@
     import ql.ast.type.*;
     import ql.ast.form.*;
     import ql.ast.literal.*;
+    import ql.ast.statement.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -24,6 +25,56 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitForm(QLParser.FormContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(QLParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(QLParser.BlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(QLParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(QLParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#ifstatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfstatement(QLParser.IfstatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#ifstatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfstatement(QLParser.IfstatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#ifelsestatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfelsestatement(QLParser.IfelsestatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#ifelsestatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfelsestatement(QLParser.IfelsestatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestion(QLParser.QuestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestion(QLParser.QuestionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#primary}.
 	 * @param ctx the parse tree

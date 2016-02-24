@@ -20,52 +20,19 @@ import ast.expression.OrExpression;
 import ast.expression.Pos;
 import ast.expression.Sub;
 import ast.expression.VariableExpression;
-import ast.form.Body;
-import ast.form.Form;
 import ast.literal.BoolLiteral;
 import ast.literal.IntLiteral;
-import ast.literal.Literal;
 import ast.literal.StringLiteral;
 import ast.statement.AssignmentQuestion;
 import ast.statement.IfStatement;
 import ast.statement.Question;
-import ast.statement.Statement;
 
+//vaker doorheen lopen het is niet sequeltieel dus je kan dingen gebruiken die pas later worden gedefinieerd~!
 public class TypeChecker extends BasicVisitor {
-	private TypeChecker visitor;
 	private HashMap<String, Types> variableMap;
 
 	public TypeChecker() {
-		this.visitor = this;
 		variableMap = new HashMap<String, Types>();
-	}
-
-	@Override
-	public Types visit(Form form) {
-		form.getBody().accept(visitor);
-		return null;
-	}
-
-	@Override
-	public Types visit(Body body) {
-		for (Visitable v : body.getStatements()) {
-			v.accept(visitor);
-		}
-		return null;
-	}
-
-	@Override
-	public Types visit(Statement statement) {
-		if (statement.getAssignmentQuestion() != null) {
-			statement.getAssignmentQuestion().accept(visitor);
-		}
-		if (statement.getIfStatement() != null) {
-			statement.getIfStatement().accept(visitor);
-		}
-		if (statement.getQuestion() != null) {
-			statement.getQuestion().accept(visitor);
-		}
-		return null;
 	}
 
 	@Override
@@ -81,7 +48,7 @@ public class TypeChecker extends BasicVisitor {
 	@Override
 	public Types visit(IfStatement ifStatement) {
 		compareTypes(ifStatement.getExpression(), Types.BOOLEAN);
-		ifStatement.getBody().accept(visitor);
+		ifStatement.getBody().accept(this);
 		return null;
 	}
 
@@ -167,37 +134,20 @@ public class TypeChecker extends BasicVisitor {
 
 	@Override
 	public Types visit(Pos pos) {
-		compareTypes(pos.getExpression(), Types.BOOLEAN);
-		return Types.BOOLEAN;
+		compareTypes(pos.getExpression(), Types.INT);
+		return Types.INT;
 	}
 
 	@Override
 	public Types visit(Neg neg) {
-		compareTypes(neg.getExpression(), Types.BOOLEAN);
-		return Types.BOOLEAN;
+		compareTypes(neg.getExpression(), Types.INT);
+		return Types.INT;
 	}
 
 	@Override
 	public Types visit(Not not) {
 		compareTypes(not.getExpression(), Types.BOOLEAN);
 		return Types.BOOLEAN;
-	}
-
-	@Override
-	public Types visit(Literal literal) {
-		if (literal.getBoolLiteral() != null) {
-			return (Types) literal.getBoolLiteral().accept(visitor);
-		}
-		if (literal.getIntLiteral() != null) {
-			return (Types) literal.getIntLiteral().accept(visitor);
-		}
-		if (literal.getStringLiteral() != null) {
-			return (Types) literal.getStringLiteral().accept(visitor);
-		}
-		if (literal.getVariableExpression() != null) {
-			return (Types) literal.getVariableExpression().accept(visitor);
-		}
-		return null;
 	}
 
 	@Override
@@ -226,14 +176,13 @@ public class TypeChecker extends BasicVisitor {
 		return null;
 	}
 
-	private void compareTypesBinaryExpression(BinaryExpression e,
-			Types expectedType) {
+	private void compareTypesBinaryExpression(BinaryExpression e, Types expectedType) {
 		compareTypes(e.getLhs(), expectedType);
 		compareTypes(e.getRhs(), expectedType);
 	}
 
 	private void compareTypes(Expression e, Types expectedType) {
-		Types actualType = (Types) e.accept(visitor);
+		Types actualType = (Types) e.accept(this);
 		if (actualType != expectedType) {
 			System.out.println(String.format("Incorrect type. Expected type: %s. Actual type: %s. On lineNumber: %d",
 									expectedType, actualType, e.getLineNumber()));

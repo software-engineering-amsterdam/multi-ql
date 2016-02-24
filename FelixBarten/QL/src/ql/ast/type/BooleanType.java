@@ -1,5 +1,7 @@
 package ql.ast.type;
 
-public class BooleanType {
+import ql.ast.QuestionType;
+
+public class BooleanType extends QuestionType {
 
 }

@@ -43,7 +43,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	private ArrayList<Pair> dependencies;
 	private IdentifierLit currentIdentifier;
 
-	CyclicDependencyVisitor(ArrayList<Question> questions) {
+	CyclicDependencyVisitor() {
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
 		

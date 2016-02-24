@@ -8,12 +8,13 @@ import ql.parser.QLBaseListener;
 import ql.parser.QLParser;
 import ql.parser.QLParser.AddExprContext;
 import ql.parser.QLParser.AndExprContext;
-import ql.parser.QLParser.ConditionsContext;
-import ql.parser.QLParser.ExprContext;
-import ql.parser.QLParser.IfelsestatementContext;
+import ql.parser.QLParser.IfelsestatContext;
+import ql.parser.QLParser.IfstatContext;
+import ql.parser.QLParser.InputquestionContext;
 import ql.parser.QLParser.MulExprContext;
 import ql.parser.QLParser.OrExprContext;
 import ql.parser.QLParser.PrimaryContext;
+import ql.parser.QLParser.QuestionContext;
 import ql.parser.QLParser.Question_typeContext;
 import ql.parser.QLParser.RelExprContext;
 import ql.parser.QLParser.StatementContext;
@@ -45,25 +46,37 @@ public void enterQuestiontype(QLParser.Question_typeContext ctx) {
 	System.out.println("Entering QuestionType");
 }
 
-public void enterIfstatement(QLParser.IfstatementContext ctx) {
+public void enterIfstatement(IfstatContext ctx) {
 	System.out.println("Entered If statement");
 	System.out.println(ctx.cond);
 }
 
-public void exitIfstatement(QLParser.IfstatementContext ctx) {
+public void exitIfstatement(IfstatContext ctx) {
 	System.out.println("Entered If statement");
 	System.out.println(ctx.cond);
 }
+@Override
+	public void enterQuestion(QuestionContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterQuestion(ctx);
+	}
 
-public void enterQuestion(QLParser.QuestionContext ctx ) {
-    System.out.println( "Entering Question : ");
-    System.out.println(ctx.STR().getText() + " with the identifier: " + ctx.Ident().getText() + " with type: " + ctx.question_type().getText() );
+public void enterInputquestion(InputquestionContext ctx ) {
+    System.out.println( "Entering Input Question : ");
+    System.out.println(ctx.STR().getText() + " with the identifier: " + ctx.ID().getText() + " with type: " + ctx.question_type().getText() );
   }
 
-  public void exitQuestion(QLParser.QuestionContext ctx ) {
+  public void exitInputquestion(QLParser.InputquestionContext ctx ) {
     System.out.println( "Exiting Question" );
   }
 
+public void enterComputedquestion(ql.parser.QLParser.ComputedquestionContext ctx) { 
+	System.out.println("entering computed Question");
+}
+
+public void exitComputedquestion(ql.parser.QLParser.ComputedquestionContext ctx) {
+	System.out.println("Exiting computed question");
+};
   
 @Override
 public void enterOrExpr(OrExprContext ctx) {
@@ -75,18 +88,6 @@ public void enterOrExpr(OrExprContext ctx) {
 public void exitOrExpr(OrExprContext ctx) {
 	// TODO Auto-generated method stub
 	super.exitOrExpr(ctx);
-}
-
-@Override
-public void enterIfelsestatement(IfelsestatementContext ctx) {
-	// TODO Auto-generated method stub
-	super.enterIfelsestatement(ctx);
-}
-
-@Override
-public void exitIfelsestatement(IfelsestatementContext ctx) {
-	// TODO Auto-generated method stub
-	super.exitIfelsestatement(ctx);
 }
 
 @Override
@@ -140,65 +141,6 @@ public void exitMulExpr(MulExprContext ctx) {
 	super.exitMulExpr(ctx);
 }
 
-@Override
-public void enterExpr(ExprContext ctx) {
-	// TODO Auto-generated method stub
-	super.enterExpr(ctx);
-}
-
-@Override
-public void exitExpr(ExprContext ctx) {
-	// TODO Auto-generated method stub
-	super.exitExpr(ctx);
-}
-
-@Override
-public void enterConditions(ConditionsContext ctx) {
-	// TODO Auto-generated method stub
-	super.enterConditions(ctx);
-}
-
-@Override
-public void exitConditions(ConditionsContext ctx) {
-	// TODO Auto-generated method stub
-	super.exitConditions(ctx);
-}
-
-@Override
-public void enterRelExpr(RelExprContext ctx) {
-	// TODO Auto-generated method stub
-	super.enterRelExpr(ctx);
-}
-
-@Override
-public void exitRelExpr(RelExprContext ctx) {
-	// TODO Auto-generated method stub
-	super.exitRelExpr(ctx);
-}
-
-@Override
-public void enterPrimary(PrimaryContext ctx) {
-	// TODO Auto-generated method stub
-	super.enterPrimary(ctx);
-}
-
-@Override
-public void exitPrimary(PrimaryContext ctx) {
-	// TODO Auto-generated method stub
-	super.exitPrimary(ctx);
-}
-
-@Override
-public void enterAndExpr(AndExprContext ctx) {
-	// TODO Auto-generated method stub
-	super.enterAndExpr(ctx);
-}
-
-@Override
-public void exitAndExpr(AndExprContext ctx) {
-	// TODO Auto-generated method stub
-	super.exitAndExpr(ctx);
-}
 
 @Override
 public void enterEveryRule(ParserRuleContext ctx) {

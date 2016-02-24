@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import uva.ql.ast.AExpression;
-import uva.ql.ast.ANode;
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
@@ -28,7 +26,7 @@ public class DuplicateQuestions implements INodeVisitor {
 			
 			Entry<String, Integer> record = it.next();
 			
-			if (record.getValue() > 1) {
+			if (record.getValue() > 0) {
 				
 				dups.put(record.getKey(), record.getValue());
 			}
@@ -37,9 +35,6 @@ public class DuplicateQuestions implements INodeVisitor {
 		return dups;
 	}
 
-	@Override
-	public void visitVar(AVariable variable) {}
-	
 	@Override
 	public void visitForm(Form form) {
 
@@ -79,13 +74,13 @@ public class DuplicateQuestions implements INodeVisitor {
 			store.put(variable.getName(), 1);
 		}
 	}
+	
+	@Override
+	public <T> void visitExp(T expression) {}
 
 	@Override
-	public void visitExp(AExpression expression) {}
-
+	public void visitVar(AVariable variable) {}
+	
 	@Override
 	public void visitNum(ANumber number) {}
-
-	@Override
-	public void visitNode(ANode node) {}
 }

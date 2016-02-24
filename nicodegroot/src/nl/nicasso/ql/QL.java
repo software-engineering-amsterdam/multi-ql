@@ -5,18 +5,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
-import nl.nicasso.ql.ast.literal.IdentifierLit;
+import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.structure.Form;
 
@@ -24,13 +26,13 @@ public class QL {
 	
 	public final static String DSLFILE = "exampleQuestionnaire";
 	
-	QLLexer lexer;
-	CommonTokenStream tokens;
-	QLParser parser;		
-	ParseTree tree;
+	private QLParser parser;		
+	private ParseTree tree;
+	
+	public static SymbolTable symbolTable;
 	
 	public QL() {
-		//Empty?
+		// Empty?
 	}
 	
 	public void start() {
@@ -38,10 +40,13 @@ public class QL {
 		
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		QLParser parser = new QLParser(tokens);		
-		ParseTree tree = parser.form();
+		
+		parser = new QLParser(tokens);		
+		tree = parser.form();
 		
 		//System.out.println(tree.toStringTree(parser));
+		
+		symbolTable = new SymbolTable();
         
         // VISITOR PATTERN!
         CreateASTVisitor astVisitor = new CreateASTVisitor();
@@ -51,13 +56,15 @@ public class QL {
         
         ast.accept(questionVisitor);
         
-        ArrayList<Question> questions = questionVisitor.getQuestions();
-        questionVisitor.checkNullPointers();
+        //ArrayList<Question> questions = questionVisitor.getQuestions();
+        //questionVisitor.checkNullPointers();
         
         displayMessages("QuestionVisitor Warnings", questionVisitor.getWarnings());
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
+	    
+        //displaySymbolTable();
         
-        CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor(questions);
+        CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor();
         
         ast.accept(cyclicDependencyVisitor);
         
@@ -66,15 +73,35 @@ public class QL {
         displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
         displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
         
-        TypeChecker typeChecker = new TypeChecker(questions);
+        TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
         
         ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
         
+        EvaluatorVisitor evaluator = new EvaluatorVisitor();
+        // Get all initial values
+        ast.accept(evaluator);
+        
+        // Use values to evaluate expressions
+        ast.accept(evaluator);
+        
+        //displaySymbolTable();
+        
         //Gui ex = new Gui();
         //ex.setVisible(true);
+        
+	}
+	
+	private void displaySymbolTable() {
+		Iterator<Entry<Question, Literal>> it = QL.symbolTable.getSymbols().entrySet().iterator();
+	    while (it.hasNext()) {
+	    	Entry<Question, Literal> pair = it.next();
+	        Question key = (Question) pair.getKey();
+	        Literal value = (Literal) pair.getValue();
+	        System.out.println(key.getId().getValue()+" ("+ key.getType().getType() +")"+ " = " + value.getValue());
+	    }
 	}
 	
 	private void displayMessages(String title, ArrayList<String> messages) {

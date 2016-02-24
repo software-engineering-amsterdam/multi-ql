@@ -6,6 +6,7 @@ import ast.visitor.Visitor;
 public class Variable extends Expression {
 	private String name;
 	private VariableType type;
+	private Object value;
 
 	public Variable(int lineNumber, String name, VariableType type) {
 		super(lineNumber);
@@ -20,9 +21,18 @@ public class Variable extends Expression {
 	public VariableType getType() {
 		return type;
 	}
+	
+	//do i need this?????
+	public void setValue(Object o){
+		value = o;
+	}
+	
+	public Object getValue(){
+		return value;
+	}
 
 	@Override
-	public Object accept(Visitor visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }

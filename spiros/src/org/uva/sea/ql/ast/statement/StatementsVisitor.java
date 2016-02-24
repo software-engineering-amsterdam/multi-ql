@@ -6,7 +6,7 @@ import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.form.Form;
 
 
-public abstract class StatementsVisitor implements StatementVisitor<Void> {
+public abstract class StatementsVisitor implements StatementVisitor {
 	
 	private final Form form;	// protected maybe...? ask...
 	
@@ -28,25 +28,25 @@ public abstract class StatementsVisitor implements StatementVisitor<Void> {
 		return null;
 	}
 	
-	public Void visitQuestion(Question question) {return null;	}		
-	
-	public Void visitComputedQuestion(ComputedQuestion question) {	 return null;}
-	
-	public Void visitIfStatement(IfStatement ifStatement) {
-		List<Statement> statements = ifStatement.getBlock().getStatements();
-		for  (Statement statement: statements)
-			statement.accept(this);	
-		return null;
-	}
-	
-	public Void visitBlock(Block block) {
-		return null;
-	}
-	
-	// BELOW modify... IF NEEDED! ASK
-	
-	public Void visitIfElseStatement(IfElseStatement ifElseStatement) {
-		return null;
-	}
+//	public void visitQuestion(Question question) {return null;	}		
+//	
+//	public Void visitComputedQuestion(ComputedQuestion question) {	 return null;}
+//	
+//	public Void visitIfStatement(IfStatement ifStatement) {
+//		List<Statement> statements = ifStatement.getBlock().getStatements();
+//		for  (Statement statement: statements)
+//			statement.accept(this);	
+//		return null;
+//	}
+//	
+//	public Void visitBlock(Block block) {
+//		return null;
+//	}
+//	
+//	// BELOW modify... IF NEEDED! ASK
+//	
+//	public Void visitIfElseStatement(IfElseStatement ifElseStatement) {
+//		return null;
+//	}
 
 }

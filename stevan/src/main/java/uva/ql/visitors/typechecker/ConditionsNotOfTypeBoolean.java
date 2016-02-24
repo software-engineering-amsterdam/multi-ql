@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import uva.ql.ast.AExpression;
-import uva.ql.ast.ANode;
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
@@ -22,6 +21,11 @@ import uva.ql.interfaces.INodeVisitor;
 public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 
 	private final Map<String, Integer> store = new HashMap<String, Integer>(0);
+	private static final Set<Integer> CON_BOOL = new HashSet<Integer>(
+			Arrays.asList(
+					 IExpression.SML_THEN ,IExpression.GRT_THEN ,IExpression.SML_EQL
+					,IExpression.GRT_EQL ,IExpression.NOT_EQL ,IExpression.EQL
+					,IExpression.NOT_EXP ,IExpression.AND_EXP ,IExpression.OR_EXP));
 	
 	public Map<String, Integer> getResult() {
 		
@@ -32,7 +36,7 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 			
 			Entry<String, Integer> record = it.next();
 			
-			if (record.getValue() > 1) {
+			if (record.getValue() > 0) {
 				
 				dups.put(record.getKey(), record.getValue());
 			}
@@ -41,12 +45,6 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 		return dups;
 	}
 
-	@Override
-	public void visitVar(AVariable variable) {}
-	
-	@Override
-	public void visitNum(ANumber number) {}
-	
 	@Override
 	public void visitForm(Form form) {
 
@@ -62,7 +60,7 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 			block.get(i).accept(this);
 		}
 	}
-
+	
 	@Override
 	public void visitIfStmnt(IfStatement ifStatement) {
 		
@@ -73,35 +71,43 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 	}
 	
 	@Override
-	public void visitExp(AExpression expression) {
+	public void visitQuestion(Question question) {}
+
+	@Override
+	public <T> void visitExp(T expression) {
 		
-		int expType = expression.getExprType();
-		Set<Integer> expTypeList = new HashSet<Integer>(
-										Arrays.asList(
-												IExpression.ADD_EXP,
-												IExpression.MINUS_EXP,
-												IExpression.MULTIPLY_EXP,
-												IExpression.DIVIDE_EXP));
+		checkExprType( ((AExpression) expression).getExprType() );
 		
-		if (expTypeList.contains(expType)) {
-		
-			System.out.println("Eval : " + expression.eval());
-		}
-		else {
+		if (((AExpression) expression).getLeftNode() != null) {
+			((AExpression) expression).getLeftNode().accept(this);
 			
-			if (expression.getLeftNode() != null) {
-				expression.getLeftNode().accept(this);
+		}
+		if (((AExpression) expression).getRightNode() != null) {
+			((AExpression) expression).getRightNode().accept(this);
+		}
+	}
+	
+	@Override
+	public void visitVar(AVariable variable) {}
+	
+	@Override
+	public void visitNum(ANumber number) {}
+
+	private void checkExprType(int type) {
+		
+		if (!CON_BOOL.contains(type)) {
+			
+			String msg = "Expression not of condition Boolean";
+
+			if ( store.containsKey(msg) ) {
+				
+				int counter = store.get(msg);
+				store.put(msg, counter+1);
 			}
-			if (expression.getRightNode() != null) {
-				expression.getRightNode().accept(this);
+			else {
+				
+				store.put(msg, 1);
 			}
 		}
 	}
-
-	@Override
-	public void visitQuestion(Question question) {}
-	
-	@Override
-	public void visitNode(ANode node) {}
-
 }

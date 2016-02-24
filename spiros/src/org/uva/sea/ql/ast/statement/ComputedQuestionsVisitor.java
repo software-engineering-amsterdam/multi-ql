@@ -26,13 +26,40 @@ public class ComputedQuestionsVisitor extends StatementsVisitor {
 		iterator.forEachRemaining(questions::add);
 		return questions;
 	}
-	
+
+
 	@Override
-	public Void visitComputedQuestion(ComputedQuestion computedQuestion) {
-		this.computedQuestions.add(computedQuestion);
-		//System.out.println("Computed Question added");
-		return null;
+	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
+		// TODO Auto-generated method stub
+		
 	}
 
+
+	@Override
+	public void visitQuestion(Question question) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void visitIfStatement(IfStatement ifStatement) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void visitIfElseStatement(IfElseStatement ifElseStatement) {
+		// TODO Auto-generated method stub
+		
+	}
 	
+//	@Override
+//	public Void visitComputedQuestion(ComputedQuestion computedQuestion) {
+//		this.computedQuestions.add(computedQuestion);
+//		//System.out.println("Computed Question added");
+//		return null;
+//	}
+
 }

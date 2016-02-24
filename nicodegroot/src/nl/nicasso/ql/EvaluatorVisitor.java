@@ -29,7 +29,6 @@ import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
-import nl.nicasso.ql.ast.type.Type;
 
 public class EvaluatorVisitor implements Visitor<Literal> {
 	
@@ -40,20 +39,14 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 		Literal leftLiteral = value.getLeft().accept(this);
 
 		Literal rightLiteral = value.getRight().accept(this);
-		
+				
 		if (debug) {
 			System.out.println("And");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		BooleanLit result = new BooleanLit((Boolean) leftLiteral.getValue() && (Boolean) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new BooleanLiteral()) || !checkLiteral(rightLiteral, new BooleanLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new BooleanLiteral();
+		return result;
 	}
 	
 	@Override
@@ -66,15 +59,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Addition");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
-		
-		if (!checkLiteral(leftLiteral, new NumericLiteral()) || !checkLiteral(rightLiteral, new NumericLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new NumericLiteral();
+		IntegerLit result = new IntegerLit((Integer) leftLiteral.getValue() + (Integer) rightLiteral.getValue());
+		System.out.println("Addition: "+leftLiteral.getValue()+" + "+ rightLiteral.getValue());
+		return result;
 	}
 
 	@Override
@@ -87,15 +74,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Subtraction");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		IntegerLit result = new IntegerLit((Integer) leftLiteral.getValue() - (Integer) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new NumericLiteral()) || !checkLiteral(rightLiteral, new NumericLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new NumericLiteral();
+		return result;
 	}
 
 	@Override
@@ -108,15 +89,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Or");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		BooleanLit result = new BooleanLit((Boolean) leftLiteral.getValue() || (Boolean) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new BooleanLiteral()) || !checkLiteral(rightLiteral, new BooleanLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new BooleanLiteral();
+		return result;
 	}
 
 	@Override
@@ -127,11 +102,11 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Not");
 		}
 		
-		if (!checkLiteral(exprLiteral, new BooleanLiteral())) {
-			errors.add("Error: Incompatible Literal detected");
+		if ((Boolean) exprLiteral.getValue() == true) {
+			return new BooleanLit(false);
+		} else {
+			return new BooleanLit(true);
 		}
-		
-		return new BooleanLiteral();
 	}
 
 	@Override
@@ -140,10 +115,6 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 		
 		if (debug) {
 			System.out.println("Parenthesis");
-		}
-		
-		if (!checkLiteral(exprLiteral, new Literal())) {
-			errors.add("Error: Incompatible Literal detected");
 		}
 		
 		return exprLiteral;
@@ -159,15 +130,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Equal");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		BooleanLit result = new BooleanLit((Boolean) leftLiteral.getValue() == (Boolean) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new Literal()) || !checkLiteral(rightLiteral, new Literal())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new BooleanLiteral();
+		return result;
 	}
 
 	@Override
@@ -180,15 +145,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("NotEqual");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		BooleanLit result = new BooleanLit((Boolean) leftLiteral.getValue() != (Boolean) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new Literal()) || !checkLiteral(rightLiteral, new Literal())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new BooleanLiteral();
+		return result;
 	}
 
 	@Override
@@ -201,15 +160,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Division");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		IntegerLit result = new IntegerLit((Integer) leftLiteral.getValue() / (Integer) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new NumericLiteral()) || !checkLiteral(rightLiteral, new NumericLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new NumericLiteral();
+		return result;
 	}
 
 	@Override
@@ -222,15 +175,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Multiplication");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		IntegerLit result = new IntegerLit((Integer) leftLiteral.getValue() * (Integer) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new NumericLiteral()) || !checkLiteral(rightLiteral, new NumericLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new NumericLiteral();
+		return result;
 	}
 
 	@Override
@@ -243,15 +190,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Greater");
 		}
 		
-		if (!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		BooleanLit result = new BooleanLit((Integer) leftLiteral.getValue() > (Integer) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new NumericLiteral()) || !checkLiteral(rightLiteral, new NumericLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new BooleanLiteral();
+		return result;
 	}
 
 	@Override
@@ -264,15 +205,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("GreaterEqual");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		BooleanLit result = new BooleanLit((Integer) leftLiteral.getValue() >= (Integer) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new NumericLiteral()) || !checkLiteral(rightLiteral, new NumericLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new BooleanLiteral();
+		return result;
 	}
 
 	@Override
@@ -285,15 +220,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("Less");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		BooleanLit result = new BooleanLit((Integer) leftLiteral.getValue() < (Integer) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new NumericLiteral()) || !checkLiteral(rightLiteral, new NumericLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new BooleanLiteral();
+		return result;
 	}
 
 	@Override
@@ -306,15 +235,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("LessEqual");
 		}
 		
-		if(!checkEqualLiterals(leftLiteral, rightLiteral)) {
-			errors.add("Error: Literals are not equal.");
-		}
+		BooleanLit result = new BooleanLit((Integer) leftLiteral.getValue() <= (Integer) rightLiteral.getValue());
 		
-		if (!checkLiteral(leftLiteral, new NumericLiteral()) || !checkLiteral(rightLiteral, new NumericLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
-		return new BooleanLiteral();
+		return result;
 	}
 
 	@Override
@@ -359,7 +282,9 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 		if (debug) {
 			System.out.println("Question");
 		}
-				
+		
+		QL.symbolTable.addSymbol(value, null);
+		
 		return null;
 	}
 
@@ -367,17 +292,13 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 	public Literal visit(ComputedQuestion value) {
 		Literal expr = value.getExpr().accept(this);
 		
-		if (!checkEqualLiterals(expr, value.getLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
 		if (debug) {
 			System.out.println("ComputedQuestion");
 		}
 		
-		addComputedQuestion(value);
-				
-		return null;
+		QL.symbolTable.addSymbol(value, expr);
+
+		return expr;
 	}
 
 	@Override
@@ -385,14 +306,11 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 		Literal expr = value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		
-		if (!checkEqualLiterals(expr, new BooleanLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
-		
 		if (debug) {
 			System.out.println("ifStatement");
 		}
-		return null;
+		
+		return new BooleanLit(true);
 	}
 
 	@Override
@@ -400,10 +318,6 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 		Literal expr = value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		value.getBlock_else().accept(this);
-		
-		if (!checkEqualLiterals(expr, new BooleanLiteral())) {
-			errors.add("Error: Incompatible Literals detected");
-		}
 		
 		if (debug) {
 			System.out.println("IfElseStatement");
@@ -416,7 +330,7 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 		if (debug) {
 			System.out.println("Expression");
 		}
-		return null;//new Literal();
+		return null;
 	}
 
 	@Override
@@ -432,6 +346,7 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 		if (debug) {
 			System.out.println("BooleanLit: "+value.getValue());
 		}
+		
 		return new BooleanLit(value.getValue());
 	}
 
@@ -441,8 +356,8 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 			System.out.println("IdentifierLit: "+value.getValue());
 		}
 		
-		Literal relatedLiteral = null;//getIdentifierLiteral(value.getValue());
-		
+		Literal relatedLiteral = QL.symbolTable.getSymbolValueFromIdentifier(value);
+				
 		return relatedLiteral;
 	}
 

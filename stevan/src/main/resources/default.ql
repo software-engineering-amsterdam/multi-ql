@@ -25,7 +25,7 @@ form taxOfficeExample {
 				(sellingPrice - privateDebt) + giftMoney
 	}
 	
-	if (age + 5) {
+	if (age + 5.1) {
 		"Do you see yourself as being old?"
 			old: boolean
 	}
@@ -33,7 +33,7 @@ form taxOfficeExample {
 	"Did you steal in 2010?"
 		hasStolen: boolean
 		
-	if (hasStolen + true) {
+	if (hasStolen && true) {
 		"How much did you steal?"
 			stealingAmount: money
 		"Did you hurt anyone in the process?"
