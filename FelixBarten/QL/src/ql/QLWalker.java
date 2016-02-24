@@ -8,11 +8,13 @@ import ql.parser.QLBaseListener;
 import ql.parser.QLParser;
 import ql.parser.QLParser.AddExprContext;
 import ql.parser.QLParser.AndExprContext;
-import ql.parser.QLParser.IfelsestatementContext;
+import ql.parser.QLParser.IfelsestatContext;
+import ql.parser.QLParser.IfstatContext;
 import ql.parser.QLParser.InputquestionContext;
 import ql.parser.QLParser.MulExprContext;
 import ql.parser.QLParser.OrExprContext;
 import ql.parser.QLParser.PrimaryContext;
+import ql.parser.QLParser.QuestionContext;
 import ql.parser.QLParser.Question_typeContext;
 import ql.parser.QLParser.RelExprContext;
 import ql.parser.QLParser.StatementContext;
@@ -44,22 +46,27 @@ public void enterQuestiontype(QLParser.Question_typeContext ctx) {
 	System.out.println("Entering QuestionType");
 }
 
-public void enterIfstatement(QLParser.IfstatementContext ctx) {
+public void enterIfstatement(IfstatContext ctx) {
 	System.out.println("Entered If statement");
 	System.out.println(ctx.cond);
 }
 
-public void exitIfstatement(QLParser.IfstatementContext ctx) {
+public void exitIfstatement(IfstatContext ctx) {
 	System.out.println("Entered If statement");
 	System.out.println(ctx.cond);
 }
+@Override
+	public void enterQuestion(QuestionContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterQuestion(ctx);
+	}
 
-public void enterInputQuestion(InputquestionContext ctx ) {
-    System.out.println( "Entering Question : ");
+public void enterInputquestion(InputquestionContext ctx ) {
+    System.out.println( "Entering Input Question : ");
     System.out.println(ctx.STR().getText() + " with the identifier: " + ctx.ID().getText() + " with type: " + ctx.question_type().getText() );
   }
 
-  public void exitInputQuestion(QLParser.InputquestionContext ctx ) {
+  public void exitInputquestion(QLParser.InputquestionContext ctx ) {
     System.out.println( "Exiting Question" );
   }
 
@@ -81,18 +88,6 @@ public void enterOrExpr(OrExprContext ctx) {
 public void exitOrExpr(OrExprContext ctx) {
 	// TODO Auto-generated method stub
 	super.exitOrExpr(ctx);
-}
-
-@Override
-public void enterIfelsestatement(IfelsestatementContext ctx) {
-	// TODO Auto-generated method stub
-	super.enterIfelsestatement(ctx);
-}
-
-@Override
-public void exitIfelsestatement(IfelsestatementContext ctx) {
-	// TODO Auto-generated method stub
-	super.exitIfelsestatement(ctx);
 }
 
 @Override

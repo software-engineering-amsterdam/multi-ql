@@ -3,7 +3,7 @@ options {  }
 
 @parser::header
 {
-
+	import java.util.ArrayList;
 	import ql.ast.*;
 	import ql.ast.expression.*;
 	import ql.ast.statement.*;
@@ -20,29 +20,41 @@ options {  }
  * PARSER RULES
  */
 questionnaire returns [Questionnaire result]
-	: forms EOF {}
+	: forms EOF { $result = new Questionnaire($forms.result); }
 	;
 
 forms returns [List<Form> result]
-	: form*
+	locals [ 
+		List<Form> formslist = new ArrayList<Form>();
+	]
+	@after { $result = $ctx.formslist; }
+	: (form { $ctx.formslist.add($form.result);})*
 	;
   
 form returns [Form result]
-	: 'form' ID block
+	: 'form' ID block { $result = new Form($ID.text, $block.result); }
 	;
 	
+// Because questions don't derive from statements split block params in two lists.
 block returns [Block result] 
-	:  '{' statement* '}'
+	locals [ 
+		List<Statement> statements = new ArrayList<Statement>();
+		List<Question> questions = new ArrayList<Question>();
+	]
+	@init { 
+		$ctx.statements = new ArrayList<Statement>();
+	}
+	@after { $result = new Block($ctx.statements, $ctx.questions); }
+	:  '{' (statement { $ctx.statements.add($statement.result); } | question { $ctx.questions.add($question.result); })* '}'
 	;	
 statement returns [Statement result]
-	: question {}
-	| ifstatement {}
-	| ifelsestatement {}
+	: ifstat { $result = $ifstat.result; }
+	| ifelsestat { $result = $ifelsestat.result; }
 	;
 
 question returns [Question result]
-	: inputquestion {}
-	| computedquestion {}
+	: inputquestion { $result = $inputquestion.result;}
+	| computedquestion { $result = $computedquestion.result;  }
 	;
 
 inputquestion returns [Question result]
@@ -62,22 +74,19 @@ expr returns [Expr result]
 	| conditions
 	;
  */
- 
-/* question	: WS*? Str WS*? Ident WS*? ':' WS*? question_type WS*? { }
-	;
-*/
+
 question_type returns [QuestionType result] 
-	: STRING_TYPE
-	| INTEGER_TYPE
-	| MONEY_TYPE
-	| BOOLEAN_TYPE
+	: STRING_TYPE { $result = new StringType(); }
+	| INTEGER_TYPE { $result = new IntegerType(); }
+	| MONEY_TYPE { $result = new MoneyType(); }
+	| BOOLEAN_TYPE { $result = new BooleanType(); }
 	;
 	
-ifstatement returns [IfStatement result] 
+ifstat returns [IfStatement result] 
 	:	'if' '(' cond=orExpr ')' block { $result = new IfStatement($cond.result, $block.result); }
 	;
 	
-ifelsestatement returns [IfElseStatement result]
+ifelsestat returns [IfElseStatement result]
 	: 'if' '(' cond=orExpr ')' bloc=block 'else' block { $result = new IfElseStatement($cond.result, $block.result); }
 	;
 
@@ -111,12 +120,7 @@ literal returns [Literal result]
 	: STR { $result = new StringLiteral($STR.text); }
 	| INT { $result = new IntegerLiteral(Integer.parseInt($INT.text)); }
 	| MONEY { $result = new MoneyLiteral(Double.parseDouble($MONEY.text)); }
-	| BOOL {  
-		$result = new BooleanLiteral(true);
-		if ($BOOL.text == "false") {
-			$result.setValue(false);				
-		}	
-	}
+	| BOOL {  $result = new BooleanLiteral(Boolean.valueOf($BOOL.text));	}
 	;
 	
 mulExpr returns [Expr result]

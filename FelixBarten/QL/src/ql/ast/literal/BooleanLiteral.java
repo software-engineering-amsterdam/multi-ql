@@ -1,10 +1,11 @@
 package ql.ast.literal;
 
-public class BooleanLiteral extends Literal{
+public class BooleanLiteral extends Literal<Boolean>{
 
-	public BooleanLiteral(Object value) {
-		super(value);
+
+	public BooleanLiteral(Boolean value) {
 		// TODO Auto-generated constructor stub
+		super(value);
 	}
 
 }

@@ -1,5 +1,5 @@
 package ql.ast;
 
-public class QuestionType {
+public abstract class QuestionType {
 
 }

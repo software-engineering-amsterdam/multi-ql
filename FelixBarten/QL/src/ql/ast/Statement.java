@@ -1,5 +1,7 @@
 package ql.ast;
 
-public class Statement {
+import ql.ASTNode;
+
+public abstract class Statement extends ASTNode {
 
 }

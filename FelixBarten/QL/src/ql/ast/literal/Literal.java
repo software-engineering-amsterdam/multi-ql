@@ -1,19 +1,18 @@
 package ql.ast.literal;
 
-public abstract class Literal {
+public abstract class Literal<T> {
 
-	private Object value;
+	private T value;
 
-	public Object getValue() {
+	public T getValue() {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
 
-	public Literal(Object value) {
-		super();
+	public Literal(T value) {
 		this.setValue(value);
 	}
 	

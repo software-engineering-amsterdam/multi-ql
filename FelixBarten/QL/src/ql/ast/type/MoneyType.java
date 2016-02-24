@@ -1,5 +1,7 @@
 package ql.ast.type;
 
-public class MoneyType {
+import ql.ast.QuestionType;
+
+public class MoneyType extends QuestionType {
 
 }
