@@ -10,8 +10,7 @@
 		8C3477951C621E85003E099E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3477941C621E85003E099E /* AppDelegate.swift */; };
 		8C3477971C621E85003E099E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477961C621E85003E099E /* Assets.xcassets */; };
 		8C34779A1C621E85003E099E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477981C621E85003E099E /* MainMenu.xib */; };
-		8C3477C01C622BD7003E099E /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477A31C621EE0003E099E /* test.json */; };
-		8C3477DF1C623884003E099E /* test.ql in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477DE1C623884003E099E /* test.ql */; };
+		8C3477DF1C623884003E099E /* input.ql in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477DE1C623884003E099E /* input.ql */; };
 		8CD6D28E1C638677005FC3D6 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CD6D28D1C638677005FC3D6 /* SwiftParsec.framework */; };
 		8CD6D2901C638A39005FC3D6 /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD6D28F1C638A39005FC3D6 /* QLParser.swift */; };
 		8CF4EAFF1C7DBE200029F88D /* ASTNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EAFE1C7DBE200029F88D /* ASTNode.swift */; };
@@ -55,8 +54,7 @@
 		8C3477961C621E85003E099E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C3477991C621E85003E099E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8C34779B1C621E85003E099E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8C3477A31C621EE0003E099E /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test.json; path = QL/test.json; sourceTree = "<group>"; };
-		8C3477DE1C623884003E099E /* test.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test.ql; path = QL/test.ql; sourceTree = "<group>"; };
+		8C3477DE1C623884003E099E /* input.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.ql; path = QL/input.ql; sourceTree = "<group>"; };
 		8CD6D28D1C638677005FC3D6 /* SwiftParsec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftParsec.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Software_Construction-dobzpcusviawmqcqyqhtrryfnzgi/Build/Products/Release/SwiftParsec.framework"; sourceTree = "<group>"; };
 		8CD6D28F1C638A39005FC3D6 /* QLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLParser.swift; sourceTree = "<group>"; };
 		8CF4EAFE1C7DBE200029F88D /* ASTNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTNode.swift; sourceTree = "<group>"; };
@@ -110,8 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				8CD6D28D1C638677005FC3D6 /* SwiftParsec.framework */,
-				8C3477DE1C623884003E099E /* test.ql */,
-				8C3477A31C621EE0003E099E /* test.json */,
+				8CF4EB481C7E14AB0029F88D /* TestFiles */,
 				8C3477931C621E85003E099E /* QL */,
 				8C3477921C621E85003E099E /* Products */,
 			);
@@ -202,6 +199,14 @@
 			name = Visitor;
 			sourceTree = "<group>";
 		};
+		8CF4EB481C7E14AB0029F88D /* TestFiles */ = {
+			isa = PBXGroup;
+			children = (
+				8C3477DE1C623884003E099E /* input.ql */,
+			);
+			name = TestFiles;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -260,9 +265,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C3477C01C622BD7003E099E /* test.json in Resources */,
 				8C3477971C621E85003E099E /* Assets.xcassets in Resources */,
-				8C3477DF1C623884003E099E /* test.ql in Resources */,
+				8C3477DF1C623884003E099E /* input.ql in Resources */,
 				8C34779A1C621E85003E099E /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

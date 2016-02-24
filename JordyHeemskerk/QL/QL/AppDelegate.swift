@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        guard let location = NSBundle.mainBundle().pathForResource("test", ofType: "ql") else {
+        guard let location = NSBundle.mainBundle().pathForResource("input", ofType: "ql") else {
             NSLog("File not found")
             exit(2)
         }
