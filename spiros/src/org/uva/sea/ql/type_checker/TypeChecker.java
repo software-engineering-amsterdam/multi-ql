@@ -45,8 +45,6 @@ import org.uva.sea.ql.ast.type.Type;
 import org.uva.sea.ql.ast.type.UndefinedType;
 import org.uva.sea.ql.ast.statement.Statement;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-
 
 public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVisitor<Type> {
 	
@@ -66,7 +64,6 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	}
 	
 //	public List<Question> getAllQuestions() {
-//		// mallon edw to VisitForm...
 //		
 //		List<Question> questions = this.questionsVisitor.getQuestions();
 //		List<ComputedQuestion> computedQuestions = this.computedQuestionsVisitor.getComputedQuestions();
@@ -80,54 +77,11 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	
 	public void performTypeChecking() {	
 		this.visitForm(form);
-		boolean booleanConditions = checkBooleanConditions();
 	}
 	
-	private boolean checkBooleanConditions() {
-		// TODO Auto-generated method stub
-//		List<IfStatement> ifStatements = this.ifStatementVisitor.getIfStatements();
-//		System.out.println("Size of IfStatements is " + ifStatements.size());
-//		for (IfStatement ifStatement: ifStatements) {
-//			Expression expression = ifStatement.getExpression();
-//			if (expression.getTypeOfExpression(this.form) instanceof BoolType)		// allakse to!
-//				System.out.println("This is boolean type: " +expression.getClass().toString());
-//			else if (expression.getTypeOfExpression(this.form) instanceof UndefinedType)
-//				//System.out.println("wtf");
-//				System.out.println("Undefined type: " + expression.getClass().toString());
-//			
-//			else
-//				//System.out.println("wtf");
-//				System.out.println("This is not boolean type: " + expression.getClass().toString());
-//			
-//		}
-		return false;
-	}
+	
 
-	private boolean checkForDuplicatedLabels() {
-//		List<Question> questions = this.getAllQuestions();
-//		
-//		if (questions.isEmpty())
-//			System.out.println("Fuck ");
-//		else
-//			System.out.println("The size of the questionsList is " + questions.size());
-//		List<String> labels = new ArrayList<String>();
-//		
-//		for (Question question: questions) {
-//			String label = question.getLabel();
-//			
-//			if (labels.contains(label)) {
-//				System.out.println("Duplicate label found ");
-//				return false;
-//			}
-//			
-//			else 
-//				labels.add(label);
-//			
-//		}
-//		
-//		System.out.println("No duplicates found ");
-		return true;
-	}
+	
 
 	@Override
 	public Type visit(Equal node) {

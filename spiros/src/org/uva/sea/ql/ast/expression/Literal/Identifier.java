@@ -27,32 +27,6 @@ public class Identifier extends Literal {
 	}
 	
 	@Override
-	public Type getTypeOfExpression(Form form) {
-		
-		// below is duplicate...F	I	X	!	!	!
-		
-		QuestionsVisitor questionsVisitor = new QuestionsVisitor(form);
-		ComputedQuestionsVisitor computedQuestionsVisitor = new ComputedQuestionsVisitor(form);
-		
-		List<Question> questions = questionsVisitor.getQuestions();
-		List<ComputedQuestion> computedQuestions = computedQuestionsVisitor.getComputedQuestions();
-		questions.addAll(computedQuestions);
-		
-		for (Question question:questions) {
-			if (this.id.equals(question.getId().getValue()))
-				return question.getType();
-		}
-		return new UndefinedType(new CodeFragment(-1, -1), "Undefined");
-	}
-
-	
-	@Override
-	public Type getTypeOfExpression() {
-		// TODO Auto-generated method stub
-		return new BoolType();
-	}
-
-	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		// TODO Auto-generated method stub
 		return visitor.visit(this);

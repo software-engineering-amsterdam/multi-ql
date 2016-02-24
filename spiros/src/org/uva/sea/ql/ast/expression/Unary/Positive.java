@@ -13,11 +13,11 @@ public class Positive extends Unary {
 	}
 
 
-	@Override
-	public Type getTypeOfExpression() {
-		// TODO Auto-generated method stub
-		return new IntType();
-	}
+//	@Override
+//	public Type getTypeOfExpression() {
+//		// TODO Auto-generated method stub
+//		return new IntType();
+//	}
 
 
 	@Override

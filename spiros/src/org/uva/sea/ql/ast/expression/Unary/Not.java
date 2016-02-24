@@ -13,11 +13,11 @@ public class Not extends Unary {
 	}
 	
 
-	@Override
-	public Type getTypeOfExpression() {
-		// TODO Auto-generated method stub
-		return new BoolType();
-	}
+//	@Override
+//	public Type getTypeOfExpression() {
+//		// TODO Auto-generated method stub
+//		return new BoolType();
+//	}
 
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {

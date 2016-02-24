@@ -5,8 +5,8 @@ import org.uva.sea.ql.ast.node.CodeFragment;
 
 public class UndefinedType extends Type {
 
-	public UndefinedType(CodeFragment fragment, String typeName) {
-		super(fragment, typeName);
+	public UndefinedType(CodeFragment fragment) {
+		super(fragment, "Undefined");
 	}
 	
 	public UndefinedType() {
@@ -14,14 +14,14 @@ public class UndefinedType extends Type {
 		super(new CodeFragment(-1, -1), "Undefined");
 	}
 
-	@Override
-	public boolean isUndefined() {
-		return true;
-	}
+//	@Override
+//	public boolean isUndefined() {
+//		return true;
+//	}
 	
-	@Override
-	public ASTNode accept(TypeVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
-	}
+//	@Override
+//	public ASTNode accept(TypeVisitor<ASTNode> visitor) {
+//		return visitor.visit(this);
+//	}
 
 }

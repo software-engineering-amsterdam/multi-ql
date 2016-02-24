@@ -4,8 +4,6 @@ import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
 
 
-// or maybe not extend . . . ?
-
 public abstract class Type extends ASTNode {
 	
 	private final String typeName;
@@ -19,26 +17,26 @@ public abstract class Type extends ASTNode {
 		return this.typeName;
 	}
 	
-	public boolean isUndefined() {
-		return false;
-	}
+//	public boolean isUndefined() {
+//		return false;
+//	}
+//	
+//	public boolean isIntType(){
+//		return false;
+//	}
+//	
+//	public boolean isBoolType(){
+//		return false;
+//	}
+//	
+//	public boolean isStrType(){
+//		return false;
+//	}
+//	
+//	public boolean isDoubleType() {
+//		return false;
+//	}
 	
-	public boolean isIntType(){
-		return false;
-	}
-	
-	public boolean isBoolType(){
-		return false;
-	}
-	
-	public boolean isStrType(){
-		return false;
-	}
-	
-	public boolean isDoubleType() {
-		return false;
-	}
-	
-	public abstract ASTNode accept(TypeVisitor<ASTNode> visitor);
+	//public abstract ASTNode accept(TypeVisitor<ASTNode> visitor);
 
 }

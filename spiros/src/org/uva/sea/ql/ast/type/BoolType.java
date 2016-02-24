@@ -11,17 +11,17 @@ public class BoolType extends Type {
 	
 	public BoolType() {
 		// TODO Auto-generated constructor stub
-		super(new CodeFragment(0, 0), "boolean");
+		super(new CodeFragment(-1, -1), "boolean");
 	}
 	
-	@Override
-	public boolean isBoolType() {
-		return true;
-	}
+//	@Override
+//	public boolean isBoolType() {
+//		return true;
+//	}
 	
-	@Override
-	public ASTNode accept(TypeVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
-	}
+//	@Override
+//	public ASTNode accept(TypeVisitor<ASTNode> visitor) {
+//		return visitor.visit(this);
+//	}
 
 }
