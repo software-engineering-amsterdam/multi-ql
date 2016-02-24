@@ -16,39 +16,19 @@ function setHandlers() {
 }
 
 function refreshGUI() {
-	var stack = [];
-
 	$(".questionDiv").hide();
+
 	ast.resetQuestionVisibility();
 
-	for (var i = 0; i < ast.block.length; i++) {
-		stack.push(ast.block[i]);
-	}
+	ast.transverseAST((questionNode) => {
+		if (questionNode instanceof ComputedQuestionNode) {
+			questionNode.setValue(questionNode.computedExpr.compute());
+		}
+		questionNode.visible = true;
+		$(".questionDiv[label='" + questionNode.label + "']").show();
+		$("input[name='" + questionNode.label + "']").val(questionNode.value);
+	}, undefined, true);
 
-	while (stack.length > 0) {
-		var currentNode = stack.shift();
-		if (currentNode instanceof QuestionNode) {
-			if (currentNode instanceof ComputedQuestionNode) {
-				currentNode.setValue(currentNode.computedExpr.compute());
-			}
-			currentNode.visible = true;
-			$(".questionDiv[label='" + currentNode.label + "']").show();
-			$("input[name='" + currentNode.label + "']").val(currentNode.value);
-		}
-		else {
-			var evalResult = currentNode.condition.compute();
-			if (evalResult) {
-				for (i = 0; i < currentNode.ifBlock.length; i++) {
-					stack.push(currentNode.ifBlock[i]);
-				}
-			}
-			else if (currentNode.elseBlock !== undefined) {
-				for (i = 0; i < currentNode.elseBlock.length; i++) {
-					stack.push(currentNode.elseBlock[i]);
-				}
-			}
-		}
-	}
 }
 
 function generateQuestionHTML(question) {
@@ -80,7 +60,7 @@ function generateQuestionHTML(question) {
 
 function renderQuestions() {
 	var output = "";
-	ast.transverseAST(function (questionNode) {
+	ast.transverseAST((questionNode) => {
 		output += generateQuestionHTML(questionNode);
 	});
 	$("#output").html(output);

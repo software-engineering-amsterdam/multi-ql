@@ -65,7 +65,7 @@ function performASTCheck() {
 	var noErrors = true;
 
 	ast.transverseAST(
-		function (questionNode) {
+		(questionNode) => {
 			if (labels.has(questionNode.label)) {
 				throwError(questionNode.line, "Label '" + questionNode.label + "' is already defined");
 				noErrors = false;
@@ -80,7 +80,7 @@ function performASTCheck() {
 			labels.add(questionNode.label);
 			texts.add(questionNode.text);
 		},
-		function (conditionNode) {
+		(conditionNode) => {
 			var evalResult = conditionNode.condition.compute();
 			if (typeof evalResult !== "boolean") {
 				noErrors = false;

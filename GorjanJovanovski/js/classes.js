@@ -54,7 +54,7 @@ class FormNode {
 	}
 
 	getQuestion(label) {
-		return this.transverseAST(function (questionNode) {
+		return this.transverseAST((questionNode) => {
 			if (questionNode.label === label) {
 				return questionNode;
 			}
@@ -62,7 +62,7 @@ class FormNode {
 	}
 
 	resetQuestionVisibility() {
-		this.transverseAST(function (questionNode) {
+		this.transverseAST((questionNode) => {
 			questionNode.visible = false;
 		});
 	}
@@ -70,7 +70,7 @@ class FormNode {
 	getAnswerList() {
 		var answerList = new AnswerList();
 
-		this.transverseAST(function (questionNode) {
+		this.transverseAST((questionNode) => {
 			if (questionNode.visible) {
 				answerList.addQuestion(questionNode);
 			}
@@ -79,7 +79,7 @@ class FormNode {
 		return answerList;
 	}
 
-	transverseAST(questionReturnFunction, conditionReturnFunction) {
+	transverseAST(questionReturnFunction, conditionReturnFunction, evaluateConditions) {
 		var queue = [];
 
 		for (var i = 0; i < this.block.length; i++) {
@@ -99,12 +99,28 @@ class FormNode {
 				if (conditionReturnFunction !== undefined) {
 					return conditionReturnFunction(currentNode);
 				}
-				for (i = 0; i < currentNode.ifBlock.length; i++) {
-					queue.push(currentNode.ifBlock[i]);
+				if (evaluateConditions === true) {
+					if (currentNode.condition.compute() === true) {
+						for (i = 0; i < currentNode.ifBlock.length; i++) {
+							queue.push(currentNode.ifBlock[i]);
+						}
+					}
+					else {
+						if (currentNode.elseBlock !== undefined) {
+							for (i = 0; i < currentNode.elseBlock.length; i++) {
+								queue.push(currentNode.elseBlock[i]);
+							}
+						}
+					}
 				}
-				if (currentNode.elseBlock !== undefined) {
-					for (i = 0; i < currentNode.elseBlock.length; i++) {
-						queue.push(currentNode.elseBlock[i]);
+				else {
+					for (i = 0; i < currentNode.ifBlock.length; i++) {
+						queue.push(currentNode.ifBlock[i]);
+					}
+					if (currentNode.elseBlock !== undefined) {
+						for (i = 0; i < currentNode.elseBlock.length; i++) {
+							queue.push(currentNode.elseBlock[i]);
+						}
 					}
 				}
 			}
@@ -112,30 +128,11 @@ class FormNode {
 	}
 
 	setQuestionReferences() {
-		var queue = [];
-
-		for (var i = 0; i < this.block.length; i++) {
-			queue.push(this.block[i]);
-		}
-
-		while (queue.length > 0) {
-			var currentNode = queue.shift();
-
-			if (currentNode instanceof ComputedQuestionNode) {
-				this.addQuestionReferenceToExpr(currentNode.computedExpr);
-			}
-			else if (currentNode instanceof ConditionNode) {
-				this.addQuestionReferenceToExpr(currentNode.condition);
-				for (i = 0; i < currentNode.ifBlock.length; i++) {
-					queue.push(currentNode.ifBlock[i]);
-				}
-				if (currentNode.elseBlock !== undefined) {
-					for (i = 0; i < currentNode.elseBlock.length; i++) {
-						queue.push(currentNode.elseBlock[i]);
-					}
-				}
-			}
-		}
+		this.transverseAST((questionNode) => {
+			this.addQuestionReferenceToExpr(questionNode.computedExpr);
+		}, (conditionNode) => {
+			this.addQuestionReferenceToExpr(conditionNode.condition);
+		});
 	}
 
 	addQuestionReferenceToExpr(expression) {
@@ -147,7 +144,13 @@ class FormNode {
 			this.addQuestionReferenceToExpr(expression.right);
 		}
 		else if (expression instanceof LabelNode) {
-			expression.setQuestionReference(this.getQuestion(expression.label));
+			var question = this.getQuestion(expression.label);
+			if (question !== undefined) {
+				expression.setQuestionReference(this.getQuestion(expression.label));
+			}
+			else {
+				throwError(expression.line, "Question label " + expression.label + " is undefined");
+			}
 		}
 	}
 }
