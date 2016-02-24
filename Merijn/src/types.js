@@ -9,7 +9,7 @@ export class Type {
 
 export class BooleanType extends Type  {
 	dispatch(receiver, ...args) {
-		receiver.receiveBoolean(this, ...args);
+		return receiver.receiveBoolean(this, ...args);
 	}
 	toString() {
 		return "boolean";
@@ -27,7 +27,7 @@ export class StringType extends Type  {
 
 export class IntegerType extends Type {
 	dispatch(receiver, ...args) {
-		receiver.receiveInteger(this, ...args);
+		return receiver.receiveInteger(this, ...args);
 	}
 	toString() {
 		return "integer";
