@@ -22,7 +22,6 @@
 		8CF4EB0B1C7DC8D40029F88D /* QuestionDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB0A1C7DC8D40029F88D /* QuestionDeclaration.swift */; };
 		8CF4EB0D1C7DCC8E0029F88D /* IfStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB0C1C7DCC8E0029F88D /* IfStatement.swift */; };
 		8CF4EB0F1C7DCEFE0029F88D /* ElseIfStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB0E1C7DCEFE0029F88D /* ElseIfStatement.swift */; };
-		8CF4EB111C7DD1290029F88D /* ConditionClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB101C7DD1290029F88D /* ConditionClause.swift */; };
 		8CF4EB131C7DD3450029F88D /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB121C7DD3450029F88D /* Expression.swift */; };
 		8CF4EB151C7DD37C0029F88D /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB141C7DD37C0029F88D /* Literal.swift */; };
 		8CF4EB181C7DD3B20029F88D /* IntegerLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB171C7DD3B20029F88D /* IntegerLiteral.swift */; };
@@ -68,7 +67,6 @@
 		8CF4EB0A1C7DC8D40029F88D /* QuestionDeclaration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionDeclaration.swift; sourceTree = "<group>"; };
 		8CF4EB0C1C7DCC8E0029F88D /* IfStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfStatement.swift; sourceTree = "<group>"; };
 		8CF4EB0E1C7DCEFE0029F88D /* ElseIfStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElseIfStatement.swift; sourceTree = "<group>"; };
-		8CF4EB101C7DD1290029F88D /* ConditionClause.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionClause.swift; sourceTree = "<group>"; };
 		8CF4EB121C7DD3450029F88D /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		8CF4EB141C7DD37C0029F88D /* Literal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		8CF4EB171C7DD3B20029F88D /* IntegerLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerLiteral.swift; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 				8CF4EB0A1C7DC8D40029F88D /* QuestionDeclaration.swift */,
 				8CF4EB0C1C7DCC8E0029F88D /* IfStatement.swift */,
 				8CF4EB0E1C7DCEFE0029F88D /* ElseIfStatement.swift */,
-				8CF4EB101C7DD1290029F88D /* ConditionClause.swift */,
 				8CF4EB171C7DD3B20029F88D /* IntegerLiteral.swift */,
 				8CF4EB191C7DD4DB0029F88D /* FloatLiteral.swift */,
 				8CF4EB1B1C7DD5320029F88D /* BooleanLiteral.swift */,
@@ -281,7 +278,6 @@
 				8CF4EB1E1C7DD5BD0029F88D /* Variable.swift in Sources */,
 				8CF4EB271C7E01A30029F88D /* SubExpression.swift in Sources */,
 				8CF4EB131C7DD3450029F88D /* Expression.swift in Sources */,
-				8CF4EB111C7DD1290029F88D /* ConditionClause.swift in Sources */,
 				8CF4EB3F1C7E05650029F88D /* Type.swift in Sources */,
 				8CF4EB2D1C7E02C50029F88D /* LtExpression.swift in Sources */,
 				8CF4EB311C7E02F30029F88D /* GtExpression.swift in Sources */,

@@ -10,11 +10,11 @@ import Foundation
 
 struct IfStatement: Statement {
     
-    let conditionClause: ConditionClause
+    let conditionClause: Expression
     let block: Block
     let elseClause: ElseIfStatement?
     
-    init(tupleInput: ((ConditionClause, Block), [ElseIfStatement])) {
+    init(tupleInput: ((Expression, Block), [ElseIfStatement])) {
         let ((conditionClause, block), elseClause) = tupleInput
         self.conditionClause = conditionClause
         self.block = block

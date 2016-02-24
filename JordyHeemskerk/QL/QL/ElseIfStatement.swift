@@ -10,7 +10,7 @@ import Foundation
 
 struct ElseIfStatement: Statement {
     
-    let conditionClause: ConditionClause?
+    let conditionClause: Expression?
     let block: Block
     let elseClause: Statement? // Because structs dont allow recursive values
     

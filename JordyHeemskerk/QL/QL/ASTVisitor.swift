@@ -15,7 +15,6 @@ protocol ASTVisitor {
     func visit(questionDeclaration: QuestionDeclaration)
     func visit(ifStatement: IfStatement)
     func visit(elseIfStatement: ElseIfStatement)
-    func visit(conditionClause: ConditionClause)
     func visit(integerLiteral: IntegerLiteral)
     func visit(floatLiteral: FloatLiteral)
     func visit(booleanLiteral: BooleanLiteral)

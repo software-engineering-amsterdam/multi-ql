@@ -16,6 +16,7 @@ infix operator  >~ {associativity left precedence 140}
 
 struct QLParser : Parser {
     
+    // Symbols
     static let skip = regex("\\s*")
     static let dquote = const("\"")
     static let ocurly = const("{") ~> skip
@@ -23,28 +24,26 @@ struct QLParser : Parser {
     static let obrack = const("(") ~> skip
     static let cbrack = const(")") ~> skip
     static let colon = const(":") ~> skip
-    static let ddot = const("..") ~> skip
     static let eq = const("=") ~> skip
     
-    
+    // Base elements
     static let form = const("form") ~> skip >~ ID ~>~ block |> Form.init
     
     static let block = ocurly >~ (statement ~> skip)* ~> ccurly |> Block.init
     
+    // Statements
     static let statement = (questionDeclaration | ifStatement)
     
     static let questionDeclaration = LateBound<Statement>()
     static let questionDeclarationImpl = dquote >~ regex("[^\"]*") ~> dquote ~> skip ~>~ ID ~> colon ~>~ type ~>~ (eq >~ expr)❓ |> QuestionDeclaration.init
     
     static let ifStatement = LateBound<Statement>()
-    static let ifStatementImpl = const("if") ~> skip >~ conditionClause ~>~ block ~>~ (elseIfClause | elseClause)❓ |> IfStatement.init
+    static let ifStatementImpl = const("if") ~> skip >~ obrack >~ expr ~> cbrack ~>~ block ~>~ (elseIfClause | elseClause)❓ |> IfStatement.init
     
     static let elseClause = const("else") ~> skip >~ block |> ElseIfStatement.init
     
     static let elseIfClause = LateBound<ElseIfStatement>()
     static let elseIfClauseImpl = const("else") ~> skip >~ ifStatementImpl |> ElseIfStatement.init
-    
-    static let conditionClause = obrack >~ expr ~> cbrack |> ConditionClause.init
     
     
     

@@ -27,9 +27,6 @@ class ConcreteASTVisitor: ASTVisitor {
     func visit(elseIfStatement: ElseIfStatement) {
         
     }
-    func visit(conditionClause: ConditionClause) {
-        
-    }
     func visit(integerLiteral: IntegerLiteral) {
         
     }
