@@ -1,20 +1,3 @@
-function setHandlers() {
-	$("input").change(function () {
-		var label = $(this).attr("name");
-
-		var questionNode = ast.getQuestion(label);
-		if (questionNode === undefined) return;
-
-		if ($(this).attr("type") === "checkbox") {
-			questionNode.setValue($(this).is(":checked"));
-		}
-		else {
-			questionNode.setValue($(this).val());
-		}
-		refreshGUI();
-	});
-}
-
 function refreshGUI() {
 	$(".questionDiv").hide();
 
@@ -86,6 +69,7 @@ function saveAnswers() {
 
 function renderDebugMessage(type, line, message) {
 	var editor = ace.edit("input");
+	message = message.replace("<", "&lt;").replace(">", "&gt;")
 	var html = "<li><a href='#' onClick='goToLine(" + line + ");'>[line " + line + "] " + message + "</a></li>";
 	
 	var debugAnnotationList = editor.getSession().getAnnotations();

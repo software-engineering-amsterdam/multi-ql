@@ -30,65 +30,61 @@ import ast.statement.Question;
 import ast.statement.Statement;
 
 public class BasicVisitor implements Visitor<Object> {
-	private Visitor<Object> visitor;
-
 	public BasicVisitor() {
-		visitor = this;
 	}
 
 	@Override
 	public Object visit(Form form) {
-		form.getBody().accept(visitor);
+		form.getBody().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(Body body) {
 		for (Visitable v : body.getStatements()) {
-			v.accept(visitor);
+			v.accept(this);
 		}
-		;
 		return null;
 	}
 
 	@Override
 	public Object visit(Statement statement) {
 		if (statement.getAssignmentQuestion() != null) {
-			return statement.getAssignmentQuestion().accept(visitor);
+			return statement.getAssignmentQuestion().accept(this);
 		}
 		if (statement.getIfStatement() != null) {
-			return statement.getIfStatement().accept(visitor);
+			return statement.getIfStatement().accept(this);
 		}
 		if (statement.getQuestion() != null) {
-			return statement.getQuestion().accept(visitor);
+			return statement.getQuestion().accept(this);
 		}
 		return null;
 	}
 
 	@Override
 	public Object visit(AssignmentQuestion assignementQuestion) {
-		assignementQuestion.getExpression().accept(visitor);
+		assignementQuestion.getExpression().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(IfStatement ifStatement) {
-		ifStatement.getExpression().accept(visitor);
-		ifStatement.getBody().accept(visitor);
+		ifStatement.getExpression().accept(this);
+		ifStatement.getBody().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(Question question) {
 		// TODO: moet ik hier nog verder een visit doen op de variable?
-		question.getVariable().accept(visitor);
+		question.getVariable().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(BinaryExpression binaryExpression) {
-		binaryExpression.getLhs().accept(visitor);
-		binaryExpression.getRhs().accept(visitor);
+		binaryExpression.getLhs().accept(this);
+		binaryExpression.getRhs().accept(this);
 		return null;
 	}
 
@@ -160,19 +156,19 @@ public class BasicVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(Neg neg) {
-		neg.getExpression().accept(visitor);
+		neg.getExpression().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(Not not) {
-		not.getExpression().accept(visitor);
+		not.getExpression().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(Pos pos) {
-		pos.getExpression().accept(visitor);
+		pos.getExpression().accept(this);
 		return null;
 	}
 
@@ -185,16 +181,16 @@ public class BasicVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Literal literal) {
 		if (literal.getBoolLiteral() != null) {
-			return literal.getBoolLiteral().accept(visitor);
+			return literal.getBoolLiteral().accept(this);
 		}
 		if (literal.getIntLiteral() != null) {
-			return literal.getIntLiteral().accept(visitor);
+			return literal.getIntLiteral().accept(this);
 		}
 		if (literal.getStringLiteral() != null) {
-			return literal.getStringLiteral().accept(visitor);
+			return literal.getStringLiteral().accept(this);
 		}
 		if (literal.getVariableExpression() != null) {
-			return literal.getVariableExpression().accept(visitor);
+			return literal.getVariableExpression().accept(this);
 		}
 		return null;
 	}
