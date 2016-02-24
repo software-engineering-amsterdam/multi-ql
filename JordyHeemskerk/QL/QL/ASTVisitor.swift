@@ -1,0 +1,26 @@
+//
+//  Visitor.swift
+//  QL
+//
+//  Created by Jordy Heemskerk on 24/02/16.
+//  Copyright © 2016 Jordy Heemskerk. All rights reserved.
+//
+
+import Foundation
+
+protocol ASTVisitor {
+    func visit(form: Form)
+    func visit(block: Block)
+    func visit(questionDeclaration: QuestionDeclaration)
+    func visit(ifStatement: IfStatement)
+    func visit(elseIfStatement: ElseIfStatement)
+    func visit(conditionClause: ConditionClause)
+    func visit(integerLiteral: IntegerLiteral)
+    func visit(floatLiteral: FloatLiteral)
+    func visit(booleanLiteral: BooleanLiteral)
+    func visit(variable: Variable)
+    func visit(addition: Addition)
+    
+    func visit(binaryExpression: BinaryExpression)
+    func visit(unaryExpression: UnaryExpression)
+}
