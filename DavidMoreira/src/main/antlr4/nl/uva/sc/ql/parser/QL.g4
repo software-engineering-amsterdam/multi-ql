@@ -1,6 +1,5 @@
 grammar QL;
 
-
 ql
     : form
     ;
@@ -11,15 +10,15 @@ form
     ;
 
 block
-	: '{' list_statments '}'					#blockScope
+	: '{' list_statements '}'
 	;
 
-list_statments
-    : statment*
+list_statements
+    : statement*
     ;
 
 
-statment
+statement
     : declaration
     | assignment
     | if_stat
@@ -34,9 +33,9 @@ assignment
 	;
 
 type
-	: 'boolean'		#booleanType
-	| 'String'		#stringType
-	| 'money'		#moneyType
+	: 'boolean'
+	| 'String'
+	| 'money'
 	;
 
 if_stat
@@ -51,29 +50,29 @@ condition_block
 
 stat_block
     : block
-    | statment
+    | statement
     ;
 
 
 expression
     : '(' expression ')'    								#parentisisExpression
-    | NOT expression                                  		#notExpression
-    | MINUS expression										#minusExpression
+    | '!' expression                                  		#notExpression
+    | '-' money												#minusExpression
     | expression op=(MULT | DIV | MOD) expression      		#multDivModExpression
  	| expression op=(PLUS | MINUS) expression          		#additiveExpression
     | expression op=(LTEQ | GTEQ | LT | GT) expression      #relationalExpression
     | expression op=(EQ | NEQ) expression                   #equalityExpression
-    | expression AND expression                             #andExpression
-    | expression OR expression                              #orExpression
+    | expression '&&' expression                            #andExpression
+    | expression '||' expression                            #orExpression
     | unity                                     			#unityExpression
     ;
 
 
 unity
-    : (TRUE | FALSE)    #booleanUnity
-    | IDENTIFIER        #identifierUnity
-    | String			#stringUnity
-    | money				#moneyUnity
+    : ('true' | 'false')    #booleanUnity
+    | IDENTIFIER        	#identifierUnity
+    | String				#stringUnity
+    | money					#moneyUnity
     ;
 
 
@@ -83,25 +82,18 @@ money
 	;
 
 
-OR : '||';
-AND : '&&';
 EQ : '==';
 NEQ : '!=';
 GT : '>';
 LT : '<';
 GTEQ : '>=';
 LTEQ : '<=';
-NOT : '!';
 PLUS : '+';
 MINUS : '-';
 MULT : '*';
 DIV : '/';
 MOD : '%';
 EQUAL : '=';
-
-TRUE : 'true';
-FALSE : 'false';
-
 
 IDENTIFIER: ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.testing;
+
+public class var {
+    
+    private cont context;
+    
+    public void setCont(cont context){
+	this.context = context;
+	this.context.setCont(5);
+    }
+    
+    public int getValue(){
+	return context.getCont();
+    }
+
+}

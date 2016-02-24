@@ -1,5 +1,6 @@
 package nl.nicasso.ql.ast.statement;
 
+import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.literal.IdentifierLit;
@@ -32,6 +33,11 @@ public class Question extends Statement implements Traversable {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public Type accept(TypeChecker visitor) {
+		return visitor.visit(this);
 	}
 		
 }

@@ -4,6 +4,8 @@ import org.uva.sea.ql.ast.expr.Ident;
 
 public class Form extends ASTNode {
     
+    public static final int HASH_ORIGIN = 87;
+    
     private final Ident identifier;
     private final ASTNode questions;
     
@@ -15,14 +17,16 @@ public class Form extends ASTNode {
     
     @Override
     public boolean equals(Object o) {
-        return o != null
-                && getClass() == o.getClass()
-                && identifier.equals(((Form) o).identifier);
+        if (o != null && getClass() == o.getClass()) {
+            Form other = (Form) o;
+            return identifier.equals(other.identifier) && questions.equals(other.questions);
+        }
+        return false;
     }
     
     @Override
     public int hashCode() {
-        return 29 * 3 + identifier.hashCode();
+        return HASH_ORIGIN + identifier.hashCode();
     }
     
 }

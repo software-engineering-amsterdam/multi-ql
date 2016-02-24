@@ -18,12 +18,3 @@ class QLForm {
         self.block = block
     }
 }
-
-
-// MARK: Implode
-
-extension QLForm {
-    func implode() -> Form {
-        return Form(id: variable.implode(), statement: block.implode())
-    }
-}

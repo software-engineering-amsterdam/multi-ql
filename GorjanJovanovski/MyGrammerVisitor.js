@@ -17,8 +17,13 @@ MyGrammerVisitor.prototype.visitForm = function(ctx) {
 };
 
 
-// Visit a parse tree produced by MyGrammerParser#queries.
-MyGrammerVisitor.prototype.visitQueries = function(ctx) {
+// Visit a parse tree produced by MyGrammerParser#block.
+MyGrammerVisitor.prototype.visitBlock = function(ctx) {
+};
+
+
+// Visit a parse tree produced by MyGrammerParser#blockstmt.
+MyGrammerVisitor.prototype.visitBlockstmt = function(ctx) {
 };
 
 
@@ -27,43 +32,18 @@ MyGrammerVisitor.prototype.visitQuestion = function(ctx) {
 };
 
 
+// Visit a parse tree produced by MyGrammerParser#computedquestion.
+MyGrammerVisitor.prototype.visitComputedquestion = function(ctx) {
+};
+
+
 // Visit a parse tree produced by MyGrammerParser#ifstmt.
 MyGrammerVisitor.prototype.visitIfstmt = function(ctx) {
 };
 
 
-// Visit a parse tree produced by MyGrammerParser#decimalLiteral.
-MyGrammerVisitor.prototype.visitDecimalLiteral = function(ctx) {
-};
-
-
-// Visit a parse tree produced by MyGrammerParser#labelNode.
-MyGrammerVisitor.prototype.visitLabelNode = function(ctx) {
-};
-
-
-// Visit a parse tree produced by MyGrammerParser#negationExpr.
-MyGrammerVisitor.prototype.visitNegationExpr = function(ctx) {
-};
-
-
-// Visit a parse tree produced by MyGrammerParser#opExpr.
-MyGrammerVisitor.prototype.visitOpExpr = function(ctx) {
-};
-
-
-// Visit a parse tree produced by MyGrammerParser#booleanLiteral.
-MyGrammerVisitor.prototype.visitBooleanLiteral = function(ctx) {
-};
-
-
-// Visit a parse tree produced by MyGrammerParser#parenthesisExpr.
-MyGrammerVisitor.prototype.visitParenthesisExpr = function(ctx) {
-};
-
-
-// Visit a parse tree produced by MyGrammerParser#numberLiteral.
-MyGrammerVisitor.prototype.visitNumberLiteral = function(ctx) {
+// Visit a parse tree produced by MyGrammerParser#expr.
+MyGrammerVisitor.prototype.visitExpr = function(ctx) {
 };
 
 

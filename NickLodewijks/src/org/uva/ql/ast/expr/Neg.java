@@ -1,17 +1,12 @@
 package org.uva.ql.ast.expr;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 
-public class Neg extends Expr {
+public class Neg extends UnaryExpr {
 
-	private final Expr expr;
-
-	public Neg(Expr expr) {
-		this.expr = expr;
-	}
-
-	public Expr getExpr() {
-		return expr;
+	public Neg(ParserRuleContext context, Expr expr) {
+		super(context, expr);
 	}
 
 	@Override

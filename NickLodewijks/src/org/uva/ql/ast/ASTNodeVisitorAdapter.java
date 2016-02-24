@@ -38,30 +38,6 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(BinaryExpr node, U context) {
-		return visitChildren(node, context);
-	}
-
-	@Override
-	public T visit(Add node, U context) {
-		return visitChildren(node, context);
-	}
-
-	@Override
-	public T visit(Sub node, U context) {
-		return visitChildren(node, context);
-	}
-
-	@Override
-	public T visit(Div node, U context) {
-		return visitChildren(node, context);
-	}
-
-	@Override
-	public T visit(Mul node, U context) {
-		return visitChildren(node, context);
-	}
-
-	private T visitChildren(BinaryExpr node, U context) {
 		node.left().accept(this, context);
 		node.right().accept(this, context);
 
@@ -69,43 +45,63 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	}
 
 	@Override
+	public T visit(Add node, U context) {
+		return visit((BinaryExpr) node, context);
+	}
+
+	@Override
+	public T visit(Sub node, U context) {
+		return visit((BinaryExpr) node, context);
+	}
+
+	@Override
+	public T visit(Div node, U context) {
+		return visit((BinaryExpr) node, context);
+	}
+
+	@Override
+	public T visit(Mul node, U context) {
+		return visit((BinaryExpr) node, context);
+	}
+
+	@Override
 	public T visit(Eq node, U context) {
-		return visitChildren(node, context);
+		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(GEq node, U context) {
-		return visitChildren(node, context);
+		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(GT node, U context) {
-		return visitChildren(node, context);
+		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(LEq node, U context) {
-		return visitChildren(node, context);
+		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(LT node, U context) {
-		return visitChildren(node, context);
+		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(NEq node, U context) {
-		return visitChildren(node, context);
+		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(And node, U context) {
-		return visitChildren(node, context);
+		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(Or node, U context) {
-		return visitChildren(node, context);
+		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
@@ -138,8 +134,6 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(VariableExpr node, U context) {
-		node.getVariableId().accept(this, context);
-
 		return null;
 	}
 
@@ -165,7 +159,7 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(IFStat node, U context) {
-		node.getExpression().accept(this, context);
+		node.getExpr().accept(this, context);
 		node.getBody().accept(this, context);
 
 		return null;
@@ -187,31 +181,20 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	}
 
 	@Override
-	public T visit(InputQuestion node, U context) {
-		node.getVariableDecl().accept(this, context);
+	public T visit(Question node, U context) {
+		node.getType().accept(this, context);
 
 		return null;
+	}
+
+	@Override
+	public T visit(InputQuestion node, U context) {
+		return visit((Question) node, context);
 	}
 
 	@Override
 	public T visit(ComputedQuestion node, U context) {
-		node.getVariableDecl().accept(this, context);
-		node.getExpression().accept(this, context);
-
-		return null;
-	}
-
-	@Override
-	public T visit(VariableDecl node, U context) {
-		node.getType().accept(this, context);
-		node.getId().accept(this, context);
-
-		return null;
-	}
-
-	@Override
-	public T visit(VariableIdentifier node, U context) {
-		return null;
+		return visit((Question) node, context);
 	}
 
 	@Override

@@ -1,0 +1,101 @@
+package eu.bankersen.kevin.ql.gui;
+
+import java.awt.Container;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+
+import eu.bankersen.kevin.ql.App;
+
+public class QuitButtonEx extends JFrame {
+
+    public QuitButtonEx() {
+
+        initUI();
+    }
+
+    private void initUI() {
+	
+	createMenuBar();
+	
+        JButton quitButton = new JButton("Quit");
+        quitButton.setToolTipText("A button component");
+
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+               App.main(null);
+            }
+        });
+        
+        createLayout(quitButton);
+        
+	
+        setTitle("Questionaire-Language");
+        setSize(500, 800);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+
+	EventQueue.invokeLater(new Runnable() {
+	        
+            @Override
+            public void run() {
+                QuitButtonEx ex = new QuitButtonEx();
+                ex.setVisible(true);
+            }
+        });
+    }
+    
+    private void createLayout(JComponent... arg) {
+
+        Container pane = getContentPane();
+        GroupLayout gl = new GroupLayout(pane);
+        pane.setLayout(gl);
+
+        gl.setAutoCreateContainerGaps(true);
+
+        gl.setHorizontalGroup(gl.createSequentialGroup()
+                .addComponent(arg[0])
+                .addGap(200)
+        );
+
+        gl.setVerticalGroup(gl.createSequentialGroup()
+                .addComponent(arg[0])
+                .addGap(200)
+        );
+    }
+    
+
+    private void createMenuBar() {
+
+        JMenuBar menubar = new JMenuBar();
+        ImageIcon icon = new ImageIcon("exit.png");
+
+        JMenu file = new JMenu("File");
+        file.setMnemonic(KeyEvent.VK_F);
+
+        JMenuItem eMenuItem = new JMenuItem("Exit", icon);
+        eMenuItem.setMnemonic(KeyEvent.VK_E);
+        eMenuItem.setToolTipText("Exit application");
+        eMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+
+        file.add(eMenuItem);
+        menubar.add(file);
+
+        setJMenuBar(menubar);
+    }
+}

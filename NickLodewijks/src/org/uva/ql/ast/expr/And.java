@@ -1,11 +1,12 @@
 package org.uva.ql.ast.expr;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 
 public class And extends BinaryExpr {
 
-	public And(Expr lhs, Expr rhs) {
-		super(lhs, rhs);
+	public And(ParserRuleContext context, Expr lhs, Expr rhs) {
+		super(context, lhs, rhs);
 	}
 
 	@Override

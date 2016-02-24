@@ -1,5 +1,6 @@
 package eu.bankersen.kevin.ql;
 
+import eu.bankersen.kevin.ql.testing.singletonTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -29,5 +30,8 @@ public class AppTest extends TestCase {
      */
     public void testApp() {
         assertTrue(true);
+        singletonTest context = singletonTest.getInstance();
+	
+        assertTrue(context.getMessage().equals("Hello World!"));
     }
 }

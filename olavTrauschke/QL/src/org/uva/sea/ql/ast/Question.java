@@ -4,11 +4,14 @@ import org.uva.sea.ql.ast.expr.*;
 
 public class Question extends ASTNode {
     
+    public static final int HASH_ORIGIN = 7;
+    public static final int HASH_FACTOR = 23;
+    
     private final Ident identifier;
     private final Label label;
-    private final Int type;
+    private final ASTNode type;
     
-    public Question(Ident theIdentifier, Label theLabel, Int theType) {
+    public Question(Ident theIdentifier, Label theLabel, ASTNode theType) {
         assert theIdentifier != null && theLabel != null && theType != null;
         identifier = theIdentifier;
         label = theLabel;
@@ -28,10 +31,10 @@ public class Question extends ASTNode {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + identifier.hashCode();
-        hash = 59 * hash + label.hashCode();
-        hash = 59 * hash + type.hashCode();
+        int hash = HASH_ORIGIN;
+        hash = HASH_FACTOR * hash + identifier.hashCode();
+        hash = HASH_FACTOR * hash + label.hashCode();
+        hash = HASH_FACTOR * hash + type.hashCode();
         return hash;
     }
     

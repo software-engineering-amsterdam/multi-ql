@@ -1,25 +1,20 @@
 package eu.bankersen.kevin.ql.ast;
 
-import com.esotericsoftware.minlog.Log;
-
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.symboltable.SymbolTabel;
+import eu.bankersen.kevin.ql.ast.form.AbstractForm;
 
-public class Variable {
+public class Variable extends AbstractForm {
 
     private final String name;
     private final Type type;
+    private final int line;
     private Expr expr;
 
-    public Variable(final String name, final Type type) {
-	this.name = name;
-	this.type = type;
-    }
-
-    public Variable(final String name, final Type type, final Expr expr) {
+    public Variable(final String name, final Type type, final Expr expr, final int line) {
 	this.name = name;
 	this.type = type;
 	this.expr = expr;
+	this.line = line;
     }
 
     public final String getName() {
@@ -32,31 +27,37 @@ public class Variable {
 
     public final void checkType() {
 
-	SymbolTabel.addVariable(name, type);
+	if (super.context.checkID(name)) {
+	    super.context.addError("TYPE_ERROR @Line " + line 
+		    			+ " question " + name + " already defined!");
+	} else {
+	    super.context.addSymbol(name, type);
+	}
 
-	if (expr != null) {
-	    expr.checkType();
-	    if (!expr.getType().equals(type)) {
-		SymbolTabel.addError("Type missmatch, expected " + type + "got" + expr.getType());
-	    }
+	expr.checkType();
+	
+	if (!expr.getType().equals(type)) {
+	    super.context.addError("TYPE_ERROR @Line " + line 
+		    			+ ": expected " + type 
+		    			+ " got " + expr.getType() + "!");
 	}
     }
 
     public final Object getValue() {
-	return SymbolTabel.getValue(name);
+	return super.context.getSymbol(name).getValue();
     }
 
-    public final void result() {
+    public final String toString() {
+	return this.getName() + ": " + this.getType() + "=" + this.getValue();
+    }
 
-	if (expr != null) {
-	    try {
-		Object value = expr.result();
-		SymbolTabel.updateValue(name, value);
-		Log.debug(name + ", new value=" + value);
-	    } catch (NullPointerException e) {
-		Log.debug(name + "requires more data");
-	    }
+    public final void eval() {
+
+	try {
+	    Object value = expr.eval();
+	    super.context.updateSymbol(name, value);
+	} catch (NullPointerException e) {
+	    super.context.updateSymbol(name, null);
 	}
-
     }
 }

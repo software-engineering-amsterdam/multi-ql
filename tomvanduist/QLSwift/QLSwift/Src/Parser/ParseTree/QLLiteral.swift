@@ -43,30 +43,3 @@ class QLFloatLiteral: QLLiteral {
         self.float = float
     }
 }
-
-
-// Mark: Implode
-
-extension QLBooleanLiteral {
-    func implode() -> Expression {
-        return BooleanLiteral(bool: bool)
-    }
-}
-
-extension QLStringLiteral {
-    func implode() -> Expression {
-        return StringLiteral(string: string)
-    }
-}
-
-extension QLIntegerLiteral {
-    func implode() -> Expression {
-        return IntegerLiteral(integer: integer)
-    }
-}
-
-extension QLFloatLiteral {
-    func implode() -> Expression {
-        return FloatLiteral(float: float)
-    }
-}

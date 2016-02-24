@@ -7,13 +7,14 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import uva.ql.Visitors.ASTTreePrintVisitor;
-import uva.ql.Visitors.VisitorToAST;
 import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
-import uva.ql.ast.ASTForm;
-import uva.ql.ast.ASTNode;
-import uva.ql.typechecker.TypeChecker;
+import uva.ql.ast.ANode;
+import uva.ql.ast.Form;
+import uva.ql.visitors.ASTTreePrintVisitor;
+import uva.ql.visitors.VisitorToAST;
+import uva.ql.visitors.typechecker.ConditionsNotOfTypeBoolean;
+import uva.ql.visitors.typechecker.DuplicateQuestions;
 
 public class QL {
 	private String filePath;
@@ -22,7 +23,7 @@ public class QL {
     	this.filePath = filePath;
     }
     
-    public ASTNode start() throws Exception {
+    public ANode start() throws Exception {
     	
     	InputStream in = getClass().getClassLoader().getResourceAsStream(filePath);
     	QLLexer lexer;
@@ -41,12 +42,23 @@ public class QL {
 		
 		ParseTree tree = parser.form();
 		VisitorToAST visitor = new VisitorToAST();
-		ASTForm form = (ASTForm) visitor.visit(tree);
+		Form form = (Form) visitor.visit(tree);
 		
 		//form.accept(new ASTTreePrintVisitor());
 		
 		
-		TypeChecker.checkAST(form);
+		DuplicateQuestions dupQuestions = new DuplicateQuestions();
+		form.accept(dupQuestions);
+		System.out.println(dupQuestions.getResult().entrySet());
+		
+		ConditionsNotOfTypeBoolean cndtnsNOTB = new ConditionsNotOfTypeBoolean();
+		form.accept(cndtnsNOTB);
+		System.out.println(cndtnsNOTB.getResult().entrySet());
+		
+		
+		
+		
+		//TypeChecker.checkAST(form);
 		
 		
 		return form;

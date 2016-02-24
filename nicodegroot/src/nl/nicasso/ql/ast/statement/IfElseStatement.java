@@ -1,8 +1,10 @@
 package nl.nicasso.ql.ast.statement;
 
+import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.structure.Block;
+import nl.nicasso.ql.ast.type.Type;
 
 public class IfElseStatement extends IfStatement {
 
@@ -20,6 +22,11 @@ public class IfElseStatement extends IfStatement {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public Type accept(TypeChecker visitor) {
+		return visitor.visit(this);
 	}
 
 }

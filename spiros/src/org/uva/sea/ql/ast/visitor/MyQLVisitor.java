@@ -1,6 +1,5 @@
 package org.uva.sea.ql.ast.visitor;
 
-import org.omg.CORBA.OBJ_ADAPTER;
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.Comparison.Equal;
@@ -65,7 +64,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
 		String id = ctx.Identifier().getText();
 		Block block = (Block) ctx.block().accept(this);
-		Form form = new Form(id, block, fragment);
+		Form form = new Form(id, block, fragment);	
 		return  form;
 	}
 	
@@ -105,10 +104,11 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 	public ASTNode visitQuestionCompute(QLParser.QuestionComputeContext ctx) {
 		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
 		Identifier id = (Identifier) ctx.identi.accept(this);
-		StringLiteral label = (StringLiteral) ctx.label.accept(this);
+		StringLiteral label = new StringLiteral(fragment,ctx.questionLabel().getText());
+		String finalLabel = label.toString();
 		Type type = (Type) ctx.questionType().accept(this);
 		Expression expression = (Expression) ctx.expression().accept(this);
-		ComputedQuestion computedQuestion = new ComputedQuestion(fragment, id, label, type, expression);
+		ComputedQuestion computedQuestion = new ComputedQuestion(fragment, id, finalLabel, type, expression);
 		return computedQuestion; 
 	}
 	
@@ -117,9 +117,11 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 	@Override public ASTNode visitQuestionNormal(QLParser.QuestionNormalContext ctx) {
 		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
 		Identifier id = (Identifier) ctx.identi.accept(this);
-		StringLiteral label = (StringLiteral) ctx.label.accept(this);
+		
+		StringLiteral label = new StringLiteral(fragment,ctx.questionLabel().getText());
+		String finalLabel = label.toString();
 		Type type = (Type) ctx.questionType().accept(this);
-		Question question = new Question(id, label, type, fragment);
+		Question question = new Question(id, finalLabel, type, fragment);
 		return question; 
 	}
 	

@@ -5,14 +5,15 @@ import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
 
 public class Mul extends IntegerExpr {
 
-    public Mul(final Expr lhs, final Expr rhs) {
+    public Mul(final Expr lhs, final Expr rhs,  final int line) {
 	super.lhs =  lhs;
 	super.rhs =  rhs;
+	super.line = line;
     }
 
     @Override
-    public final Integer result() {
-	return (Integer) lhs.result() * (Integer) rhs.result();
+    public final Integer eval() {
+	return (Integer) lhs.eval() * (Integer) rhs.eval();
     }
 
 

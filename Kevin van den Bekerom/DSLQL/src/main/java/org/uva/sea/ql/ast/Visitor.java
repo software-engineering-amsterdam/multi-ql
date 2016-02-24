@@ -4,42 +4,41 @@ import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
 
-public interface Visitor { 
-	public void visit(ASTNode node);
-	
+public interface Visitor <U>{ 
+
 	// visit expression nodes
-	public void visit(Expr expr);
-	public void visit(BinaryExpr binExpr);
-	public void visit(UnaryExpr unExpr);
+	public void visit(BinaryExpr binExpr, U context);
+	public void visit(UnaryExpr unExpr, U context);
 	
-	public void visit(And and);
-	public void visit(Or or);
-	public void visit(Not not);
+	public void visit(And and, U context);
+	public void visit(Or or, U context);
+	public void visit(Not not, U context);
 	
-	public void visit(Eq eq);
-	public void visit(GEq geq);
-	public void visit(GT gt);
-	public void visit(LEq leq);
-	public void visit(LT lt);
-	public void visit(NEq neq);
+	public void visit(Eq eq, U context);
+	public void visit(GEq geq, U context);
+	public void visit(GT gt, U context);
+	public void visit(LEq leq, U context);
+	public void visit(LT lt, U context);
+	public void visit(NEq neq, U context);
 	
-	public void visit(Add add);
-	public void visit(Sub sub);
-	public void visit(Div div);
-	public void visit(Mul mul);
+	public void visit(Add add, U context);
+	public void visit(Sub sub, U context);
+	public void visit(Div div, U context);
+	public void visit(Mul mul, U context);
 	
-	public void visit(Neg neg);
-	public void visit(Pos pos);
+	public void visit(Neg neg, U context);
+	public void visit(Pos pos, U context);
 	
-	public void visit(IntegerLiteral integerLiteral);
-	public void visit(StringLiteral stringLiteral);
-	public void visit(BooleanLiteral booleanLiteral);
-	public void visit(Variable variable);
+	public void visit(IntegerLiteral integerLiteral, U context);
+	public void visit(StringLiteral stringLiteral, U context);
+	public void visit(BooleanLiteral booleanLiteral, U context);
+	public void visit(Variable variable, U context);
 	
 	// visit statement nodes
-	public void visit(Block block);
-	public void visit(ElseStatement elseStatement);
-	public void visit(IfStatement ifStatement);
-	public void visit(Question question);
+	public void visit(Block block, U context);
+	public void visit(ElseStatement elseStatement, U context);
+	public void visit(IfStatement ifStatement, U context);
+	public void visit(Question question, U context);
+	public void visit(ComputedQuestion question, U context);
 	
 }

@@ -2,6 +2,8 @@ package org.uva.sea.ql.ast.expr;
 
 public class Not extends BooleanExpr {
     
+    public static final int HASH_ORIGIN = 65;
+    
     private final Expr content;
     
     public Not(Expr theContent) {
@@ -18,7 +20,7 @@ public class Not extends BooleanExpr {
 
     @Override
     public int hashCode() {
-        return 13 * 5 + content.hashCode();
+        return HASH_ORIGIN + content.hashCode();
     }
     
 }

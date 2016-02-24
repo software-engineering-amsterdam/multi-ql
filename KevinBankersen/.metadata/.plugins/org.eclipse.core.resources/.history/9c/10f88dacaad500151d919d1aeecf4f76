@@ -1,0 +1,56 @@
+package eu.bankersen.kevin.ql.symboltable;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public final class Context {
+    
+    private static HashMap<String, Symbol> symbolTable = new HashMap<>();;
+    private static Set<Errors> errorList = new HashSet<>();
+    
+    private static Context instance = new Context();
+
+    private Context() { }
+
+    public static Context getInstance() {
+       return instance;
+    }
+    
+    
+    public Symbol getSymbol(final String symbol) {
+	return symbolTable.get(symbol);
+    }
+    
+    public void checkID(String name){
+	// errorList.add(e)addError("Trying to access a non-existing variable: " + name);
+    }
+    
+    public Symbol addSymbol(final String symbol, final Type type) {
+	return symbolTable.put(symbol, new Symbol(type));
+    }
+    
+    public final void updateSymbol(final String name, final Object value) {
+	Symbol symbol = symbolTable.get(name);
+	symbol.setValue(value);
+	symbolTable.put(name, symbol);
+    }
+    
+    public final void setVisibility(String name, Boolean active){
+	Symbol symbol = symbolTable.get(name);
+	symbol.setActive(active);
+	symbolTable.put(name, symbol);
+    }
+    
+    public final void addError(String error){
+	errorList.add(error);
+    }
+    
+    public Set<Errors> getErrors() {
+	return errorList;
+	
+    }
+
+}

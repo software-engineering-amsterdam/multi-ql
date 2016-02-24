@@ -1,27 +1,24 @@
 package org.uva.ql.ast.expr;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.VariableIdentifier;
 
 public class VariableExpr extends Expr {
 
-	private final VariableIdentifier identifier;
+	private final String variableId;
 
-	public VariableExpr(VariableIdentifier identifier) {
-		this.identifier = identifier;
+	public VariableExpr(ParserRuleContext context, String variableId) {
+		super(context);
+		this.variableId = variableId;
 	}
 
-	public VariableIdentifier getVariableId() {
-		return identifier;
+	public String getVariableId() {
+		return variableId;
 	}
 
 	@Override
 	public Object interpret(Context context) {
-		Object value;
-
-		value = context.getValue(identifier.getName());
-
-		return value;
+		return context.getValue(variableId);
 	}
 
 	@Override

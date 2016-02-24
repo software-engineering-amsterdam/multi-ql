@@ -23,7 +23,7 @@ class Parser {
         let parseTree = try qlParser.parse(ql)
         let form = parseTree.implode()
         
-        let sa = SemanticAnalyser(context: Context())
+        let sa = SemanticAnalyser(context: Context.sharedInstance)
         try sa.analyze(form)
         
         return form

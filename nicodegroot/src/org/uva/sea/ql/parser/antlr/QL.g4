@@ -25,34 +25,42 @@ block
   ;
 
 statement
-  : label = STRING identifier = IDENTIFIER ':' type = questionType #questionExpr
-  | label = STRING identifier = IDENTIFIER ':' type = questionType '=' '(' expr = expression ')' #computedQuestionExpr
-  | 'if' '(' expr = expression ')' ifBody = block #ifStatementExpr
-  | 'if' '(' expr = expression ')' ifBody = block 'else' elseBody = block #ifElseStatementExpr
+  : label = STRING identifier = IDENTIFIER ':' type = questionType #questionStatement
+  | label = STRING identifier = IDENTIFIER ':' type = questionType '=' '(' expr = expression ')' #computedQuestionStatement
+  | 'if' '(' expr = expression ')' ifBody = block #ifStatement
+  | 'if' '(' expr = expression ')' ifBody = block 'else' elseBody = block #ifElseStatement
   ;
 
 expression
-  : '!' expr = expression #notExpr
-  | left = expression op = ('*'|'/') right = expression #mathLowExpr
-  | left = expression op = ('+'|'-') right = expression #mathHighExpr
-  | left = expression op = ('&&'|'||') right = expression #boolExpr
-  | left = expression op = ('=='|'!='|'>'|'>='|'<'|'<=') right = expression #relExpr
-  | '(' expr = expression ')' #parenExpr
-  | lit = literal #litExpr
+  : left = expression op = '*' right = expression #mulExpression
+  | left = expression op = '/' right = expression #divExpression
+  | left = expression op = '+' right = expression #addExpression
+  | left = expression op = '-' right = expression #subExpression
+  | left = expression op = '==' right = expression #eqExpression
+  | left = expression op = '!=' right = expression #noteqExpression
+  | left = expression op = '>' right = expression #greatExpression
+  | left = expression op = '>=' right = expression #greatEqExpression
+  | left = expression op = '<' right = expression #lessExpression
+  | left = expression op = '<=' right = expression #lessEqExpression
+  | left = expression op = '&&' right = expression #andExpression
+  | left = expression op = '||' right = expression #orExpression
+  | '(' expr = expression ')' #parenExpression
+  | '!' expr = expression #notExpr
+  | lit = literal #litExpression
   ;
 
 literal
-  : IDENTIFIER #litIdExpr
-  | INTEGER #litIntExpr
-  | BOOLEAN #litBoolExpr
-  | STRING #litStringExpr
+  : IDENTIFIER #identifierLiteral
+  | INTEGER #integerLiteral
+  | BOOLEAN #booleanliteral
+  | STRING #stringLiteral
   ;
     
 questionType 
-  : 'integer'
-  | 'string'
-  | 'boolean'
-  | 'money'
+  : 'integer' #integerType
+  | 'string' #stringType
+  | 'boolean' #booleanType
+  | 'money' #moneyType
   ;
 
 /************************************

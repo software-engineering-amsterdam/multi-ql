@@ -1,7 +1,9 @@
 package ast.model.statement;
 
 import ast.model.Box;
-import ast.model.expression.Expression;
+import ast.model.Expression;
+import ast.model.Statement;
+import ast.visitor.StatementVisitor;
 
 public class IfStatement extends Statement {
 	private Expression expression;
@@ -18,6 +20,11 @@ public class IfStatement extends Statement {
 
 	public Box getIfBox() {
 		return ifBox;
+	}
+
+	@Override
+	public void accept(StatementVisitor statementVisitor) {
+		statementVisitor.visit(this);
 	}
 	
 }

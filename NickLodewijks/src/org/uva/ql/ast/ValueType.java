@@ -12,16 +12,4 @@ public enum ValueType {
 	public String getName() {
 		return name;
 	}
-
-	public static ValueType getByName(String name) {
-		for (ValueType type : values()) {
-			if (type.name.equals(name)) {
-				return type;
-			}
-		}
-
-		assert false : "Unknown ValueType '" + name + "'";
-
-		return null;
-	}
 }

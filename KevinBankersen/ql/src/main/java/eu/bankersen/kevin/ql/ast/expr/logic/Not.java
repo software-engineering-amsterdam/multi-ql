@@ -7,13 +7,20 @@ public class Not extends BooleanExpr {
 
     private final Expr expr;
 
-    public Not(final Expr expr) {
+    public Not(final Expr expr, final int line) {
 	this.expr = expr;
+	super.line = line;
+    }
+    
+    @Override
+    public final void checkType() {
+	expr.checkType();
+	expr.getType().equals(this.getType());
     }
 
     @Override
-    public final Boolean result() {
-	return !(Boolean) expr.result();
+    public final Boolean eval() {
+	return !(Boolean) expr.eval();
     }
 
 }

@@ -18,7 +18,10 @@ import org.antlr.v4.runtime.tree.*;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.questionnaire.Questionnaire;
 import org.uva.sea.ql.ast.visitor.MyQLVisitor;
+import org.uva.sea.ql.type_checker.TypeChecker;
  
+
+// TODO TODAY: change so that i get AST as a form, not as questionnaire...
 
 public class TestGrammar {
 
@@ -32,9 +35,13 @@ public class TestGrammar {
 		QLLexer lexer = new QLLexer(inputStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokenStream);
-		ParseTree parseTree = parser.questionnaire();
+		ParseTree parseTree = parser.form();
 		MyQLVisitor visitor = new MyQLVisitor();
-		Questionnaire ast = (Questionnaire) parseTree.accept(visitor);
+		//Questionnaire ast = (Questionnaire) parseTree.accept(visitor);
+		Form ast = (Form) parseTree.accept(visitor);
+		
+		TypeChecker typeChecker = new TypeChecker(ast);
+		typeChecker.performTypeChecking();
 		
 		//show tree in simple GUI
 	    JFrame frame = new JFrame("Generated Parse Tree");
@@ -46,6 +53,6 @@ public class TestGrammar {
 	    frame.add(panel);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setSize(1200,600);
-	    frame.setVisible(true);
+	    //frame.setVisible(true);
 	}
 }

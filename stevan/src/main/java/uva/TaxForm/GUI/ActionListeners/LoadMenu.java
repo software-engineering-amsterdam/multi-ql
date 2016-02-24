@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 
 import uva.TaxForm.GUI.GUI;
 import uva.ql.QL;
-import uva.ql.Visitors.ASTVisitorToGUI;
-import uva.ql.ast.ASTForm;
+import uva.ql.deprecated.ASTForm;
+import uva.ql.visitors.ASTVisitorToGUI;
 
 public class LoadMenu implements ActionListener {
 

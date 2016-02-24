@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.PlainDocument;
 
 import uva.TaxForm.GUI.Fields.DocumentFilters.IntFilter;
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTVariable;
 
 public class IntTextField  extends JTextField {
 	

@@ -2,26 +2,14 @@ package ast.expression;
 
 import ast.visitor.Visitor;
 
-public class GEq extends Expression {
-	private Expression lhs;
-	private Expression rhs;
-	
-	public GEq(Expression result, Expression result2) {
-		this.lhs = result;
-		this.rhs = result2;
-	}
-	
-	public Expression getLhs() {
-		return lhs;
+public class GEq extends BinaryExpression {
+	public GEq(int lineNumber, Expression lhs, Expression rhs) {
+		super(lineNumber, lhs, rhs);
 	}
 
-	public Expression getRhs() {
-		return rhs;
-	}
-	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public Object accept(Visitor visitor) {
+		return visitor.visit(this);
 	}
 
 }

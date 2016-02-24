@@ -8,10 +8,10 @@ import org.uva.sea.ql.ast.type.Type;
 
 public class Question extends Statement {
 	Identifier id;
-	StringLiteral label;
+	String label;
 	Type type;
 
-	public Question(Identifier id, StringLiteral label, Type type, CodeFragment fragment) {
+	public Question(Identifier id, String label, Type type, CodeFragment fragment) {
 		super(fragment);
 		this.id = id;
 		this.label = label;
@@ -22,7 +22,7 @@ public class Question extends Statement {
 		return this.id;
 	}
 	
-	public StringLiteral getLabel() {
+	public String getLabel() {
 		return this.label;
 	}
 	
@@ -30,9 +30,11 @@ public class Question extends Statement {
 		return this.type;
 	}
 	
+
 	@Override
-	public ASTNode accept(StatementVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
+	public <T> T accept(StatementVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return visitor.visitQuestion(this);
 	}
 
 }
