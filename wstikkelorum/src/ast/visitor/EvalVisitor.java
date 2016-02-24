@@ -17,6 +17,7 @@ import ast.expression.Not;
 import ast.expression.OrExpression;
 import ast.expression.Pos;
 import ast.expression.Sub;
+import ast.expression.VariableExpression;
 import ast.literal.BoolLiteral;
 import ast.literal.IntLiteral;
 import ast.literal.StringLiteral;
@@ -142,13 +143,30 @@ public class EvalVisitor extends BasicVisitor {
 	public Object visit(StringLiteral stringLiteral){
 		return stringLiteral.getValue();
 	}
+	
+	@Override
+	public Object visit(VariableExpression variableExpression){
+		return getValue(variableExpression.getName(), variableExpression.getLineNumber());
+	}
 
 	private void putValue(String name, Object value){
 		evaluationMap.put(name, value);
 	}
 	
-	private void getValue(String name){
-		evaluationMap.get(name);
+	private Object getValue(String name, int lineNumber){
+		if(!evaluationMap.containsKey(name)){
+			System.out.println(String.format("Variable: %s, unknown. At line number: %d",
+					name, lineNumber));
+			return null;
+		}
+		
+		if(evaluationMap.get(name) == null){
+			System.out.println(String.format("Variable: %s, has no value. At line number: %d",
+					name, lineNumber));
+			return null;
+		}
+		
+		return evaluationMap.get(name);
 	}
 
 }

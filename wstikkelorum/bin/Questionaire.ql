@@ -10,4 +10,7 @@ form Box1HouseOwning {
 		test: boolean "example wrong expression:" (3+2*1<9)
 		booltest: boolean "must be true then" (true)
 	}
+	
+	if(unknownVariable){
+	}
 }
