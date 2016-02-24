@@ -34,10 +34,11 @@ import nl.nicasso.ql.ast.structure.Form;
 
 public class QuestionVisitor implements Visitor<IdentifierLit> {
 
-	private boolean debug = true;
+	private boolean debug = false;
 
 	private ArrayList<Question> questions;
 	private ArrayList<IdentifierLit> identifiers;
+	
 	private ArrayList<String> warnings;
 	private ArrayList<String> errors;
 
@@ -55,6 +56,8 @@ public class QuestionVisitor implements Visitor<IdentifierLit> {
 		}
 
 		value.getBlock().accept(this);
+		
+		checkNullPointers();
 		
 		return null;
 	}
@@ -78,6 +81,8 @@ public class QuestionVisitor implements Visitor<IdentifierLit> {
 			System.out.println("Question");
 		}
 		
+		QL.symbolTable.addSymbol(value, null);
+		
 		addQuestion(value);
 		
 		return null;
@@ -88,6 +93,8 @@ public class QuestionVisitor implements Visitor<IdentifierLit> {
 		if (debug) {
 			System.out.println("ComputedQuestion");
 		}
+		
+		QL.symbolTable.addSymbol(value, null);
 		
 		addQuestion(value);
 		
