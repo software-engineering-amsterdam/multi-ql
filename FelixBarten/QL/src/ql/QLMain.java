@@ -110,12 +110,8 @@ public class QLMain {
         ParseTreeWalker walker = new ParseTreeWalker();
         QLWalker listener =  new QLWalker();
         ParseTreeWalker.DEFAULT.walk(listener, tree);
-        
-
-        
+   
 		System.out.println("Finished Form example");
-
-        
 	}
 	
 	private static void parseFormExample() {
