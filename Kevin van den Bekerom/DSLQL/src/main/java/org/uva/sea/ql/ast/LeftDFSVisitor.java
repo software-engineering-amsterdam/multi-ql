@@ -16,7 +16,7 @@ public class LeftDFSVisitor<U> implements Visitor<U> {
 	
 
 	public void visit(BinaryExpr binExpr, U context) {
-		dfs(binExpr, this);	
+		dfs(binExpr, this, context);	
 	}
 
 	public void visit(UnaryExpr unExpr, U context) {
@@ -28,63 +28,63 @@ public class LeftDFSVisitor<U> implements Visitor<U> {
 	}
 
 	public void visit(And and, U context) {
-		dfs(and, this);
+		dfs(and, this, context);
 	}
 
 	public void visit(Or or, U context) {
-		dfs(or, this);
+		dfs(or, this, context);
 	}
 
 	public void visit(Not not, U context) {
-		not.getChild().accept(this);
+		not.getChild().accept(this, context);
 	}
 
 	public void visit(Eq eq, U context) {
-		dfs(eq, this);
+		dfs(eq, this, context);
 	}
 
 	public void visit(GEq geq, U context) {
-		dfs(geq, this);
+		dfs(geq, this, context);
 	}
 
 	public void visit(GT gt, U context) {
-		dfs(gt, this);
+		dfs(gt, this, context);
 	}
 
 	public void visit(LEq leq, U context) {
-		dfs(leq, this);
+		dfs(leq, this, context);
 	}
 
 	public void visit(LT lt, U context) {
-		dfs(lt, this);
+		dfs(lt, this, context);
 	}
 
 	public void visit(NEq neq, U context) {
-		dfs(neq, this);
+		dfs(neq, this, context);
 	}
 
 	public void visit(Add add, U context) {
-		dfs(add, this);
+		dfs(add, this, context);
 	}
 
 	public void visit(Sub sub, U context) {
-		dfs(sub, this);
+		dfs(sub, this, context);
 	}
 
 	public void visit(Div div, U context) {
-		dfs(div, this);
+		dfs(div, this, context);
 	}
 
 	public void visit(Mul mul, U context) {
-		dfs(mul, this);
+		dfs(mul, this, context);
 	}
 
 	public void visit(Neg neg, U context) {
-		neg.getChild().accept(this);
+		neg.getChild().accept(this, context);
 	}
 
 	public void visit(Pos pos, U context) {
-		pos.getChild().accept(this);
+		pos.getChild().accept(this, context);
 	}
 
 	public void visit(IntegerLiteral integerLiteral, U context) {
@@ -105,17 +105,17 @@ public class LeftDFSVisitor<U> implements Visitor<U> {
 
 	public void visit(Block block, U context) {
 		for (ASTNode stmt : block.getStmts()) {
-			stmt.accept(this);
+			stmt.accept(this, context);
 		}
 	}
 
 	public void visit(ElseStatement elseStatement, U context) {
-		elseStatement.getBlock().accept(this); 
+		elseStatement.getBlock().accept(this, context); 
 	}
 
 	public void visit(IfStatement ifStatement, U context) {
-		ifStatement.getClause().accept(this);
-		ifStatement.getBlock().accept(this);
+		ifStatement.getClause().accept(this, context);
+		ifStatement.getBlock().accept(this, context);
 	}
 
 	public void visit(Question question, U context) {
@@ -123,13 +123,13 @@ public class LeftDFSVisitor<U> implements Visitor<U> {
 	}
 	
 	public void visit(ComputedQuestion computedQuestion, U context) {
-		computedQuestion.getExpr().accept(this);
+		computedQuestion.getExpr().accept(this, context);
 	}
 
-	public void dfs(BinaryExpr e, Visitor v) {
+	public <U> void dfs(BinaryExpr e, Visitor v, U context) {
 		assert e.getLhs() != null;
 		assert e.getRhs() != null;
-		e.getLhs().accept(v);
-		e.getRhs().accept(v);
+		e.getLhs().accept(v, context);
+		e.getRhs().accept(v, context);
 	}
 }

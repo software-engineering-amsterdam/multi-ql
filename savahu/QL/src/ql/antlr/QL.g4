@@ -8,6 +8,7 @@ grammar QL;
     import ql.ast.type.*;
     import ql.ast.form.*;
     import ql.ast.literal.*;
+    import ql.ast.statement.*;
 }
 
 @lexer::header
@@ -16,7 +17,29 @@ grammar QL;
 }
 
 form returns [Form result]
-: 'form' Ident { $result = new Form(new Ident($Ident.text)); }
+: 'form' Ident '{' body = block '}' EOF
+{ $result = new Form(new Ident($Ident.text), $body.result); }
+;
+
+block returns [Block result]
+@init { List<Statement> statements = new ArrayList<Statement>(); }
+: { $result = new Block(statements); }
+;
+
+statement returns [Statement result]
+: { $result = new Statement(); }
+;
+
+ifstatement returns [IfStatement result]
+: { $result = new IfStatement(); }
+;
+
+ifelsestatement returns [IfElseStatement result]
+: { $result = new IfElseStatement(); }
+;
+
+question returns [Question result]
+: { $result  = new Question(); }
 ;
 
 primary returns [Expr result]

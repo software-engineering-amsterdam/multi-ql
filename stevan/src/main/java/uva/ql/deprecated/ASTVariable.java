@@ -2,8 +2,6 @@ package uva.ql.deprecated;
 
 import uva.ql.ast.AST;
 import uva.ql.ast.variables.Str;
-import uva.ql.interfaces.IASTNode;
-import uva.ql.interfaces.IASTNodeVisitor;
 import uva.ql.interfaces.IVariable;
 
 public class ASTVariable extends ASTNode implements IVariable, IASTNode {

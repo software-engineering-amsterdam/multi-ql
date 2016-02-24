@@ -18,6 +18,10 @@ public class Form {
 		questionVariableMap = new HashMap<String, Variable>();
 		this.context = new Context();
 	}
+	
+	public void initializeContext() {
+		
+	}
 
 	public String getName() {
 		return name;

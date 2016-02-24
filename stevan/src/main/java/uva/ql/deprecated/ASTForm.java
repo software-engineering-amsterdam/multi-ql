@@ -2,8 +2,6 @@ package uva.ql.deprecated;
 
 import uva.ql.ast.AST;
 import uva.ql.ast.variables.Str;
-import uva.ql.interfaces.IASTNode;
-import uva.ql.interfaces.IASTNodeVisitor;
 
 public class ASTForm extends ASTBlock implements IASTNode {
 	

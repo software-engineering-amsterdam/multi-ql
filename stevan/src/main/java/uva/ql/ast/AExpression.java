@@ -1,6 +1,8 @@
 package uva.ql.ast;
 
-public abstract class AExpression extends ANode {
+import uva.ql.interfaces.IExpression;
+
+public abstract class AExpression extends ANode implements IExpression {
 	
 	private int exprType = 0;	
 	private AExpression leftNode = null;
@@ -37,7 +39,5 @@ public abstract class AExpression extends ANode {
 	public void setRightNode(AExpression rightNode) {
 		this.rightNode = rightNode;
 	}
-
-	public abstract <T> T eval();
-
+	
 }
