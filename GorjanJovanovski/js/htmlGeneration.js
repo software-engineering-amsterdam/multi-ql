@@ -67,6 +67,7 @@ function renderQuestions() {
 }
 
 function resetErrorPanels() {
+	editor.getSession().clearAnnotations();
 	$("#error").html("");
 	$("#warning").html("");
 
@@ -75,6 +76,13 @@ function resetErrorPanels() {
 
 	$("#formWrapper").show();
 }
+
+function saveAnswers() {
+	var answerList = ast.getAnswerList();
+	var blob = new Blob([answerList.toString()], {type: "text/plain;charset=utf-8"});
+	fileSaverSaveAs(blob, "answers.json");
+}
+
 
 function renderDebugMessage(type, line, message) {
 	var editor = ace.edit("input");

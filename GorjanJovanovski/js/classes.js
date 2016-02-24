@@ -88,40 +88,29 @@ class FormNode {
 
 		while (queue.length > 0) {
 			var currentNode = queue.shift();
+			var result;
 
-			if (currentNode instanceof QuestionNode) {
-				if (questionReturnFunction !== undefined) {
-					var result = questionReturnFunction(currentNode);
-					if (result !== undefined) return result;
+			if (currentNode instanceof QuestionNode && questionReturnFunction !== undefined) {
+				result = questionReturnFunction(currentNode);
+				if (result !== undefined) {
+					return result;
 				}
 			}
-			else {
+			else if (currentNode instanceof ConditionNode) {
 				if (conditionReturnFunction !== undefined) {
-					return conditionReturnFunction(currentNode);
+					result = conditionReturnFunction(currentNode);
+					if (result !== undefined) return result;
 				}
-				if (evaluateConditions === true) {
-					if (currentNode.condition.compute() === true) {
-						for (i = 0; i < currentNode.ifBlock.length; i++) {
-							queue.push(currentNode.ifBlock[i]);
-						}
-					}
-					else {
-						if (currentNode.elseBlock !== undefined) {
-							for (i = 0; i < currentNode.elseBlock.length; i++) {
-								queue.push(currentNode.elseBlock[i]);
-							}
-						}
-					}
-				}
-				else {
+				if (evaluateConditions === undefined || (evaluateConditions === true && currentNode.condition.compute() === true)) {
 					for (i = 0; i < currentNode.ifBlock.length; i++) {
 						queue.push(currentNode.ifBlock[i]);
 					}
-					if (currentNode.elseBlock !== undefined) {
-						for (i = 0; i < currentNode.elseBlock.length; i++) {
-							queue.push(currentNode.elseBlock[i]);
-						}
+				} else if (evaluateConditions === undefined ||
+					(evaluateConditions === true && currentNode.elseBlock !== undefined && currentNode.condition.compute() === false)) {
+					for (i = 0; i < currentNode.elseBlock.length; i++) {
+						queue.push(currentNode.elseBlock[i]);
 					}
+
 				}
 			}
 		}
@@ -129,7 +118,9 @@ class FormNode {
 
 	setQuestionReferences() {
 		this.transverseAST((questionNode) => {
-			this.addQuestionReferenceToExpr(questionNode.computedExpr);
+			if (questionNode instanceof ComputedQuestionNode) {
+				this.addQuestionReferenceToExpr(questionNode.computedExpr);
+			}
 		}, (conditionNode) => {
 			this.addQuestionReferenceToExpr(conditionNode.condition);
 		});

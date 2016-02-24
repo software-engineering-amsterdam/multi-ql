@@ -1,5 +1,7 @@
 function initiate(inputString) {
 
+	resetErrorPanels();
+
 	var antlr4 = require('antlr4/index');
 	var QLGrammarLexer = require('QLGrammarLexer');
 	var QLGrammarParser = require('QLGrammarParser');
@@ -8,11 +10,7 @@ function initiate(inputString) {
 	var lexer = new QLGrammarLexer.QLGrammarLexer(characters);
 	var tokens = new antlr4.CommonTokenStream(lexer);
 	var parserANTLR = new QLGrammarParser.QLGrammarParser(tokens);
-
-	//TODO go to other function
-	var editor = ace.edit("input");
-	editor.getSession().clearAnnotations();
-	resetErrorPanels();
+	parserANTLR.buildParseTrees = true;
 
 	var ErrorListener = function () {
 		antlr4.error.ErrorListener.call(this);
@@ -23,15 +21,14 @@ function initiate(inputString) {
 	ErrorListener.prototype.syntaxError = function (rec, sym, line, col, msg, e) {
 		throwError(line, "Parse error: " + msg);
 	};
+
 	lexer.removeErrorListeners();
 	parserANTLR.removeErrorListeners();
 	lexer.addErrorListener(new ErrorListener());
 	parserANTLR.addErrorListener(new ErrorListener());
 
-	parserANTLR.buildParseTrees = true;
 
-	var tree = parserANTLR.form();
-	visitParseTree(tree);
+	visitParseTree(parserANTLR.form());
 }
 
 function visitParseTree(parseTree) {
@@ -42,15 +39,15 @@ function visitParseTree(parseTree) {
 		QLGrammarVisitor.QLGrammarVisitor.call(this);
 		return this;
 	};
+
 	Visitor.prototype = Object.create(QLGrammarVisitor.QLGrammarVisitor.prototype);
+
 	Visitor.prototype.visitForm = function (ctx) {
 		ast = ctx.FormNode;
 		if (performASTCheck()) {
 			renderQuestions();
 			setHandlers();
 			refreshGUI();
-			console.log("Generated AST: ");
-			console.log(ast);
 		}
 	};
 
@@ -83,8 +80,8 @@ function performASTCheck() {
 		(conditionNode) => {
 			var evalResult = conditionNode.condition.compute();
 			if (typeof evalResult !== "boolean") {
-				noErrors = false;
 				throwError(conditionNode.line, "Condition '" + conditionNode.condition.toString() + "' is not boolean");
+				noErrors = false;
 			}
 		}
 	);
