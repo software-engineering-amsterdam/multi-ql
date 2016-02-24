@@ -14,7 +14,7 @@ public class ComputedQuestion extends Question {
 		this.expr = expression;
 	}
 
-	public Expr getExpr() {
+	public Expr expr() {
 		return expr;
 	}
 

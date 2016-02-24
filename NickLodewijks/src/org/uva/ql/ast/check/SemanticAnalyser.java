@@ -695,7 +695,7 @@ public class SemanticAnalyser {
 		public Void visit(ComputedQuestion node, ReferenceTable rt) {
 			currentQuestion = node;
 
-			node.getExpr().accept(this, rt);
+			node.expr().accept(this, rt);
 
 			currentQuestion = null;
 

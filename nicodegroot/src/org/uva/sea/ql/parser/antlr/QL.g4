@@ -32,7 +32,8 @@ statement
   ;
 
 expression
-  : left = expression op = '*' right = expression #mulExpression
+  : '!' expr = expression #notExpr
+  | left = expression op = '*' right = expression #mulExpression
   | left = expression op = '/' right = expression #divExpression
   | left = expression op = '+' right = expression #addExpression
   | left = expression op = '-' right = expression #subExpression
@@ -45,7 +46,6 @@ expression
   | left = expression op = '&&' right = expression #andExpression
   | left = expression op = '||' right = expression #orExpression
   | '(' expr = expression ')' #parenExpression
-  | '!' expr = expression #notExpr
   | lit = literal #litExpression
   ;
 

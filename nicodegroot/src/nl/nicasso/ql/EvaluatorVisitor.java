@@ -1,8 +1,5 @@
 package nl.nicasso.ql;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
@@ -35,7 +32,7 @@ import nl.nicasso.ql.ast.structure.Form;
 
 public class EvaluatorVisitor implements Visitor<Literal> {
 	
-	private boolean debug = true;
+	private boolean debug = false;
 
 	@Override
 	public Literal visit(And value) {	

@@ -1,8 +1,10 @@
 package org.uva.sea.ql.type_checker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.stringtemplate.v4.compiler.STParser.ifstat_return;
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
@@ -47,6 +49,7 @@ import org.uva.sea.ql.ast.statement.Statement;
 public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVisitor<Type> {
 	
 	private final Form form;
+	private HashMap<String, Identifier> questionData;
 //	private final QuestionsVisitor questionsVisitor;
 //	private final ComputedQuestionsVisitor computedQuestionsVisitor;
 //	private final IfStatementVisitor ifStatementVisitor;
@@ -54,6 +57,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	
 	public TypeChecker(Form form) {
 		this.form = form;
+		this.questionData = new HashMap<>();
 //		this.questionsVisitor = new QuestionsVisitor(form);
 //		this.computedQuestionsVisitor = new ComputedQuestionsVisitor(form);
 //		this.ifStatementVisitor = new IfStatementVisitor(form);
@@ -73,9 +77,8 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	}
 	
 	public void performTypeChecking() {	
-		boolean duplicatedLabelsFound = checkForDuplicatedLabels();
+		this.visitForm(form);
 		boolean booleanConditions = checkBooleanConditions();
-		System.out.println("alles goet!");
 	}
 	
 	private boolean checkBooleanConditions() {
@@ -232,35 +235,52 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
-		// TODO Auto-generated method stub
-		
-		// TO DO
+		if (labelIsDuplicate(computedQuestion))
+			System.out.println("Duplicate label found! Do sth!");
+		else {
+			System.out.println("Pass!");
+			insertAtHashMap(computedQuestion.getLabel(),computedQuestion.getId());
+		}
 	}
 
 	@Override
 	public void visitQuestion(Question question) {
-		// TODO Auto-generated method stub
-		
-		// TO DO!
-		
+		if (labelIsDuplicate(question))
+			System.out.println("Duplicate label found! Do sth!");
+		else {
+			System.out.println("Pass!");
+			insertAtHashMap(question.getLabel(),question.getId());
+		}
+	}
+
+	private boolean labelIsDuplicate(Question question) {
+		if (questionData.containsKey(question.getLabel()))
+			return true;
+
+		return false;
+	}
+	
+	private void insertAtHashMap(String label,Identifier id) {
+		this.questionData.put(label, id);
 	}
 
 	@Override
 	public void visitIfStatement(IfStatement ifStatement) {
-		// TODO Auto-generated method stub
-		
-		// TO DO
+		ifStatement.getBlock().accept(this);
 		
 	}
 
 	@Override
 	public void visitIfElseStatement(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
-		
-		// TO DO
-
+		ifElseStatement.getBlock().accept(this);
+		ifElseStatement.getElseBlock().accept(this);
 	}
-
+	
+		/****************************
+		*********Form Visitor********
+		*****************************/
+	
+	
 	@Override
 	public void visitForm(Form form) {
 		form.getBlock().accept(this);
