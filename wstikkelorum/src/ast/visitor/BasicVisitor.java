@@ -54,13 +54,13 @@ public class BasicVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Statement statement) {
 		if (statement.getAssignmentQuestion() != null) {
-			statement.getAssignmentQuestion().accept(visitor);
+			return statement.getAssignmentQuestion().accept(visitor);
 		}
 		if (statement.getIfStatement() != null) {
-			statement.getIfStatement().accept(visitor);
+			return statement.getIfStatement().accept(visitor);
 		}
 		if (statement.getQuestion() != null) {
-			statement.getQuestion().accept(visitor);
+			return statement.getQuestion().accept(visitor);
 		}
 		return null;
 	}
@@ -185,16 +185,16 @@ public class BasicVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Literal literal) {
 		if (literal.getBoolLiteral() != null) {
-			literal.getBoolLiteral().accept(visitor);
+			return literal.getBoolLiteral().accept(visitor);
 		}
 		if (literal.getIntLiteral() != null) {
-			literal.getIntLiteral().accept(visitor);
+			return literal.getIntLiteral().accept(visitor);
 		}
 		if (literal.getStringLiteral() != null) {
-			literal.getStringLiteral().accept(visitor);
+			return literal.getStringLiteral().accept(visitor);
 		}
 		if (literal.getVariableExpression() != null) {
-				literal.getVariableExpression().accept(visitor);
+			return literal.getVariableExpression().accept(visitor);
 		}
 		return null;
 	}
