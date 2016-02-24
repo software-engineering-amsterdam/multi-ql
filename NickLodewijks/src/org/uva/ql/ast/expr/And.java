@@ -11,7 +11,7 @@ public class And extends BinaryExpr {
 
 	@Override
 	public Boolean interpret(Context context) {
-		return (Boolean) lhs.interpret(context) && (Boolean) rhs.interpret(context);
+		return (Boolean) left().interpret(context) && (Boolean) right().interpret(context);
 	}
 
 	@Override

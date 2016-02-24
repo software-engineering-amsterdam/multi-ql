@@ -98,7 +98,7 @@ unExpr returns [Expr result]
     
 primary returns [Expr result]
     : literal        { $result = new LiteralExpr($ctx, $literal.result); }
-    | ID     { $result = new VariableExpr($ctx, $ID.text); }
+    | ID             { $result = new VariableExpr($ctx, $ID.text); }
     | '(' orExpr ')' { $result = $orExpr.result; }
     ;
     
@@ -154,8 +154,8 @@ INTEGER :   'int';
 STRING  :   'str';
 
 BOOL :  'true' | 'false';
-INT :   ('0'..'9')+;
-STR :   '"' .*? '"';
+INT  :   ('0'..'9')+;
+STR  :   '"' .*? '"';
 
-ID  :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+ID   :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

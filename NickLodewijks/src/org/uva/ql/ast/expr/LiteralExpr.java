@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.literal.Literal;
 
-public class LiteralExpr extends Expr {
+public final class LiteralExpr extends Expr {
 
 	private final Literal<?> literal;
 
