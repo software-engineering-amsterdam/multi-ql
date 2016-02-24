@@ -1,19 +1,19 @@
 //
-//  TextView.swift
+//  StaticWidget.swift
 //  QLSwift
 //
-//  Created by Tom van Duist on 18/02/16.
+//  Created by Tom van Duist on 24/02/16.
 //
 //
 
 import UIKit
 
-class TextWidget: ViewWidget, UITextFieldDelegate {
-    let stringField: StringField
+class StaticWidget: ViewWidget {
+    let expression: Expression
     var textField: UITextField?
     
-    init(layout: Layout, delegate: WidgetDelegate?, stringField: StringField) {
-        self.stringField = stringField
+    init(layout: Layout, delegate: WidgetDelegate?, expression: Expression) {
+        self.expression = expression
         
         super.init(layout: layout, delegate: delegate)
     }
@@ -28,8 +28,9 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
         if textField == nil {
             textField = UITextField()
             textField!.borderStyle = .Line
-            textField!.delegate = self
-            textField!.text = ""
+            textField!.textColor = UIColor.lightGrayColor()
+            
+            updateValue()
             
             self.addSubview(textField!)
             
@@ -44,8 +45,19 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
         }
     }
     
-    func textFieldDidEndEditing(sender: UITextField) {
-        stringField.value = NSValue(pointer: sender.text!)
-        delegate?.widgetChangedValue(self, value: NSValue(pointer: sender.text!))
+    override func reloadView() {
+        super.reloadView()
+        
+        updateValue()
+    }
+    
+    private func updateValue() {
+        if expression.type === BooleanType() {
+            textField!.text = (expression.eval() as! Bool) ? "Yes" : "No"
+        } else if let value = expression.eval() {
+            textField!.text = "\(value)"
+        } else {
+            textField!.text = ""
+        }
     }
 }

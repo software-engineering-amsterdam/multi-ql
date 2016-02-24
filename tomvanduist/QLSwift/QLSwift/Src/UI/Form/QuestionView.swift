@@ -8,13 +8,20 @@
 
 import UIKit
 
-class QuestionView: BaseView {
-    private let widgetContainer = UIView()
+
+protocol WidgetContainable {
+    var widgetContainer: UIView { get }
+}
+
+
+class QuestionView: BaseView, WidgetContainable {
+    internal let widgetContainer = UIView()
     
-    convenience init(layout: Layout, question: String, widget: ViewWidget) {
+    
+    convenience init(layout: Layout, question: Question, widget: ViewWidget) {
         self.init(frame: CGRectZero)
         
-        setupView(layout, question: question, widget: widget)
+        setupView(layout, question: question.label, widget: widget)
     }
     
     private func setupView(layout: Layout, question: String, widget: ViewWidget) {
@@ -42,11 +49,5 @@ class QuestionView: BaseView {
             make.right.equalTo(self.snp_right).offset(layout.margin.right)
             make.bottom.equalTo(widgetContainer.snp_top).offset(-layout.margin.bottom)
         }
-    }
-}
-
-extension QuestionView: WidgetDelegate {
-    func valueChanged(value: NSValue) {
-        
     }
 }

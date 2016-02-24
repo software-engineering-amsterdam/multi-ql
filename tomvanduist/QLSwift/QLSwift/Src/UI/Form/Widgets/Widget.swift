@@ -13,7 +13,7 @@ protocol Widget {
 }
 
 protocol WidgetDelegate {
-    func valueChanged(value: NSValue)
+    func widgetChangedValue(widget: Widget, value: NSValue)
 }
 
 class ViewWidget: UIView, Widget {

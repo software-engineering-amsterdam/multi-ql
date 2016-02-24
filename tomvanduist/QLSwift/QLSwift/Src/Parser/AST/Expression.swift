@@ -42,7 +42,7 @@ class Identifier: Expression {
 
 class BooleanField: Expression {
     let type: ExpressionType = BooleanType()
-    var value: NSValue?
+    var value: Bool = false
     
     func eval() -> NSValue? {
         return value

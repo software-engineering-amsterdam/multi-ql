@@ -23,6 +23,9 @@
 		E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
 		E23493101C6CD55000B40020 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930F1C6CD55000B40020 /* Context.swift */; };
 		E23493121C6CD59F00B40020 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493111C6CD59F00B40020 /* Parser.swift */; };
+		E2360B7C1C7DA50900DEA51A /* FormViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2360B7B1C7DA50900DEA51A /* FormViewBuilder.swift */; };
+		E2360B7F1C7DACD700DEA51A /* StaticWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */; };
+		E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D3B1C7DF1CA00AC42ED /* FormView.swift */; };
 		E265696A1C766FDD000CB9E6 /* FormViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26569691C766FDD000CB9E6 /* FormViewFactory.swift */; };
 		E26CC9221C6B7CE80042B5FF /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91A1C6B7CE80042B5FF /* QLExpression.swift */; };
 		E26CC9231C6B7CE80042B5FF /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC91B1C6B7CE80042B5FF /* QLForm.swift */; };
@@ -161,6 +164,9 @@
 		E234930D1C6CCE6700B40020 /* SemanticError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticError.swift; path = Src/Parser/SemanticAnalyzer/SemanticError.swift; sourceTree = "<group>"; };
 		E234930F1C6CD55000B40020 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Context.swift; path = Src/Parser/SemanticAnalyzer/Context.swift; sourceTree = "<group>"; };
 		E23493111C6CD59F00B40020 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Src/Parser/Parser.swift; sourceTree = "<group>"; };
+		E2360B7B1C7DA50900DEA51A /* FormViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewBuilder.swift; path = Src/UI/Form/FormViewBuilder.swift; sourceTree = "<group>"; };
+		E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaticWidget.swift; path = Src/UI/Form/Widgets/StaticWidget.swift; sourceTree = "<group>"; };
+		E2591D3B1C7DF1CA00AC42ED /* FormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormView.swift; path = Src/UI/Form/FormView.swift; sourceTree = "<group>"; };
 		E26569691C766FDD000CB9E6 /* FormViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewFactory.swift; path = Src/UI/Form/FormViewFactory.swift; sourceTree = "<group>"; };
 		E26CC91A1C6B7CE80042B5FF /* QLExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpression.swift; path = Src/Parser/ParseTree/QLExpression.swift; sourceTree = "<group>"; };
 		E26CC91B1C6B7CE80042B5FF /* QLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLForm.swift; path = Src/Parser/ParseTree/QLForm.swift; sourceTree = "<group>"; };
@@ -291,6 +297,26 @@
 			name = SemanticAnalyzer;
 			sourceTree = "<group>";
 		};
+		E2591D3E1C7E0AD600AC42ED /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				E26569691C766FDD000CB9E6 /* FormViewFactory.swift */,
+				E2FA492B1C79E5D100FC5BE0 /* FormLayout.swift */,
+			);
+			name = Factory;
+			sourceTree = "<group>";
+		};
+		E2591D3F1C7E0AE400AC42ED /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E2FA492E1C79ECD200FC5BE0 /* BaseView.swift */,
+				E2FA49321C7A033900FC5BE0 /* ConditionalView.swift */,
+				E2591D3B1C7DF1CA00AC42ED /* FormView.swift */,
+				E2D518921C6E15B5008030C4 /* QuestionView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		E264170A1C622BD3006F9056 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,11 +341,10 @@
 		E2A5AAA81C6CDE360009E869 /* Form */ = {
 			isa = PBXGroup;
 			children = (
+				E2591D3E1C7E0AD600AC42ED /* Factory */,
+				E2591D3F1C7E0AE400AC42ED /* Views */,
 				E2C8D9FB1C761D11005F1C41 /* Widgets */,
-				E26569691C766FDD000CB9E6 /* FormViewFactory.swift */,
-				E2FA49321C7A033900FC5BE0 /* ConditionalView.swift */,
-				E2D518921C6E15B5008030C4 /* QuestionView.swift */,
-				E2FA492B1C79E5D100FC5BE0 /* FormLayout.swift */,
+				E2360B7B1C7DA50900DEA51A /* FormViewBuilder.swift */,
 			);
 			name = Form;
 			sourceTree = "<group>";
@@ -341,6 +366,7 @@
 				E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */,
 				E2C8D9FD1C761D8C005F1C41 /* DecimalWidget.swift */,
 				E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */,
+				E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */,
 				E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */,
 				E2C8DA041C761DB4005F1C41 /* Widget.swift */,
 			);
@@ -449,7 +475,6 @@
 			isa = PBXGroup;
 			children = (
 				E2A5AAA81C6CDE360009E869 /* Form */,
-				E2FA492E1C79ECD200FC5BE0 /* BaseView.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -768,6 +793,7 @@
 				E26CC93A1C6B8C8C0042B5FF /* Expression.swift in Sources */,
 				E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */,
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
+				E2360B7C1C7DA50900DEA51A /* FormViewBuilder.swift in Sources */,
 				E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */,
 				E26CC9241C6B7CE80042B5FF /* QLBinary.swift in Sources */,
 				E2C8DA001C761D8C005F1C41 /* BooleanWidget.swift in Sources */,
@@ -777,6 +803,7 @@
 				E23493091C6CB42900B40020 /* FormNodeVisitor.swift in Sources */,
 				E2F0A2FA1C75CE5900D0C1AB /* ExpressionType.swift in Sources */,
 				E2FA492F1C79ECD200FC5BE0 /* BaseView.swift in Sources */,
+				E2360B7F1C7DACD700DEA51A /* StaticWidget.swift in Sources */,
 				E26CC9281C6B7CE80042B5FF /* QLStatement.swift in Sources */,
 				E26CC9221C6B7CE80042B5FF /* QLExpression.swift in Sources */,
 				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
@@ -784,6 +811,7 @@
 				E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */,
 				E26CC9271C6B7CE80042B5FF /* QLQuestion.swift in Sources */,
 				E23493101C6CD55000B40020 /* Context.swift in Sources */,
+				E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */,
 				E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */,
 				E2C8DA011C761D8C005F1C41 /* DecimalWidget.swift in Sources */,
 				E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */,
