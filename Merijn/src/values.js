@@ -54,7 +54,9 @@ export class StringValue extends PrimitiveValue {
 	}
 }
 
-export class IntegerValue extends PrimitiveValue {
+export class NumberValue extends PrimitiveValue {}
+
+export class IntegerValue extends NumberValue {
 	constructor(value) {
 		super(value);
 	}
@@ -69,7 +71,7 @@ export class IntegerValue extends PrimitiveValue {
 	}
 }
 
-export class FloatValue extends PrimitiveValue {
+export class FloatValue extends NumberValue {
 	constructor(value) {
 		super(value);
 	}
@@ -110,10 +112,29 @@ export class UndefinedValue extends Value {
 }
 
 export class ValueReceiver {
-	receiveBoolean(booleanValue, ...args) {}
-	receiveString(stringValue, ...args) {}
-	receiveInteger(integerValue, ...args) {}
-	receiveFloat(floatValue, ...args) {}
-	receiveMoney(moneyValue, ...args) {}
-	receiveUndefined(undefinedValue, ...args) {}
+	receiveValue(value, ...args) {}
+	receivePrimitiveValue(primitiveValue, ...args) {
+		return this.receiveValue(primitiveValue, ...args);
+	}
+	receiveBoolean(booleanValue, ...args) {
+		return this.receiveValue(booleanValue, ...args);
+	}
+	receiveString(stringValue, ...args) {
+		return this.receiveValue(stringValue, ...args);
+	}
+	receiveNumber(numberValue, ...args) {
+		return this.receiveValue(numberValue, ...args);
+	}
+	receiveInteger(integerValue, ...args) {
+		return this.receiveNumber(integerValue, ...args);
+	}
+	receiveFloat(floatValue, ...args) {
+		return this.receiveNumber(floatValue, ...args);
+	}
+	receiveMoney(moneyValue, ...args) {
+		return this.receiveValue(moneyValue, ...args);
+	}
+	receiveUndefined(undefinedValue, ...args) {
+		return this.receiveValue(undefinedValue, ...args);
+	}
 }
