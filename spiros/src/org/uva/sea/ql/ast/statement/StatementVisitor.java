@@ -1,15 +1,11 @@
 package org.uva.sea.ql.ast.statement;
 
-import org.uva.sea.ql.ast.block.Block;
 
-public interface StatementVisitor<T> {
+public interface StatementVisitor {
 
-	public T visitBlock(Block block);
-	public T visitComputedQuestion(ComputedQuestion computedQuestion);
-	public T visitQuestion(Question question);
-	public T visitIfStatement(IfStatement ifStatement);
-	public T visitIfElseStatement(IfElseStatement ifElseStatement);
+	public void visitComputedQuestion(ComputedQuestion computedQuestion);
+	public void visitQuestion(Question question);
+	public void visitIfStatement(IfStatement ifStatement);
+	public void visitIfElseStatement(IfElseStatement ifElseStatement);
 	
 }
-
-

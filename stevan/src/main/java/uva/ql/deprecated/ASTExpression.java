@@ -1,8 +1,6 @@
 package uva.ql.deprecated;
 
 import uva.ql.ast.AST;
-import uva.ql.interfaces.IASTNode;
-import uva.ql.interfaces.IASTNodeVisitor;
 import uva.ql.interfaces.IExpression;
 
 public class ASTExpression extends ASTNode implements IExpression, IASTNode {

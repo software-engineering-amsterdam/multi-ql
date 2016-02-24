@@ -15,8 +15,8 @@ public class IfStatement extends ASTNode implements Visitable {
 		this.clause = clause;
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 
 	public Block getBlock() {

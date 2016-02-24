@@ -11,13 +11,13 @@ package ql.ast.expression;
  */
 public class UnaryExpr extends Expr {
 
-    private final Expr value;
+    private final Expr _Value;
 
     public UnaryExpr(Expr value) {
-        this.value = value;
+        this._Value = value;
     }
 
     public Expr getValue() {
-        return this.value;
+        return this._Value;
     }
 }

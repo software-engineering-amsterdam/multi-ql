@@ -1,8 +1,11 @@
 package ql;
 
 import ql.ast.Block;
+import ql.ast.ComputedQuestion;
 import ql.ast.Form;
+import ql.ast.InputQuestion;
 import ql.ast.Question;
+import ql.ast.QuestionType;
 import ql.ast.Questionnaire;
 import ql.ast.expression.Add;
 import ql.ast.expression.And;
@@ -12,9 +15,11 @@ import ql.ast.expression.Eq;
 import ql.ast.expression.GEq;
 import ql.ast.expression.GT;
 import ql.ast.expression.Ge;
+import ql.ast.expression.IdentityExpr;
 import ql.ast.expression.LEq;
 import ql.ast.expression.LT;
 import ql.ast.expression.Le;
+import ql.ast.expression.LiteralExpr;
 import ql.ast.expression.Mul;
 import ql.ast.expression.NEq;
 import ql.ast.expression.Neg;
@@ -25,6 +30,7 @@ import ql.ast.expression.Sub;
 import ql.ast.expression.UnaryExpr;
 import ql.ast.literal.BooleanLiteral;
 import ql.ast.literal.IntegerLiteral;
+import ql.ast.literal.Literal;
 import ql.ast.literal.MoneyLiteral;
 import ql.ast.literal.StringLiteral;
 import ql.ast.statement.IfElseStatement;
@@ -35,217 +41,244 @@ import ql.ast.type.MoneyType;
 import ql.ast.type.StringType;
 import ql.parser.QLBaseVisitor;
 
-public class QLSemanticVisitor implements QLVisitorInterface<ASTNode>{
-	
+public class QLSemanticVisitor<T> implements QLVisitorInterface<T>{
 
 	@Override
-	public ASTNode visit(ASTNode node) {
+	public T visit(ASTNode node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Block node) {
+	public T visit(Block node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Form node) {
+	public T visit(Form node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Question node) {
+	public T visit(Question node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Questionnaire node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// expr
-	
-	@Override
-	public ASTNode visit(Add node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public ASTNode visit(And node) {
+	public T visit(InputQuestion node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(BinaryExpr node) {
+	public T visit(ComputedQuestion node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Div node) {
+	public T visit(Questionnaire node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Eq node) {
+	public T visit(Add node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Ge node) {
+	public T visit(And node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(GEq node) {
+	public T visit(BinaryExpr node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(GT node) {
+	public T visit(Div node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Le node) {
+	public T visit(Eq node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(LEq node) {
+	public T visit(Ge node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(LT node) {
+	public T visit(GEq node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Mul node) {
+	public T visit(GT node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Neg node) {
+	public T visit(Le node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(NEq node) {
+	public T visit(LEq node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Not node) {
+	public T visit(LT node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Or node) {
+	public T visit(Mul node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Pos node) {
+	public T visit(Neg node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(Sub node) {
+	public T visit(NEq node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(UnaryExpr node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// statements
-	
-	@Override
-	public ASTNode visit(IfStatement node) {
+	public T visit(Not node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(IfElseStatement node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	// Literals
-	
-	@Override
-	public ASTNode visit(BooleanLiteral node) {
+	public T visit(Or node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(MoneyLiteral node) {
+	public T visit(Pos node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(IntegerLiteral node) {
+	public T visit(Sub node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(StringLiteral node) {
+	public T visit(UnaryExpr node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(BooleanType node) {
+	public T visit(IdentityExpr node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(MoneyType node) {
+	public T visit(LiteralExpr node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(IntegerType node) {
+	public T visit(IfStatement node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visit(StringType node) {
+	public T visit(IfElseStatement node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(Literal node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(BooleanLiteral node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(MoneyLiteral node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(IntegerLiteral node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(StringLiteral node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(QuestionType node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(BooleanType node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(MoneyType node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(IntegerType node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(StringType node) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -7,6 +7,10 @@ import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.errors.QLError;
 
+//TODO: update for MONEY Types
+// MONEY + | - MONEY OK
+// MONEY * | / MONEY NOT OK
+// MONEY (+ | - | * | /) INT OK
 public class TypeCheckVisitor extends LeftDFSVisitor<Void> {
 	
 	private List<QLError> errorMessages;

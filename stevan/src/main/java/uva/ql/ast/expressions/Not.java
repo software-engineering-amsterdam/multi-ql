@@ -21,9 +21,5 @@ public class Not extends AExpression implements IExpression {
 		return IExpression.NOT_EXP;
 	}
 
-	@Override
-	public boolean eval() {
-		
-		return this.getLeftNode().eval();
-	}
+	
 }

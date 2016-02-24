@@ -10,11 +10,6 @@ public class Pos extends UnaryExpr {
 	}
 
 	@Override
-	public Integer interpret(Context context) {
-		return Math.abs((Integer) expr.interpret(context));
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}

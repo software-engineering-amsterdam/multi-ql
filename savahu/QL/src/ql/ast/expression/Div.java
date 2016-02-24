@@ -11,10 +11,10 @@ package ql.ast.expression;
  */
 public class Div extends Expr {
 
-    private final Expr lhs, rhs;
+    private final Expr _Lhs, _Rhs;
 
     public Div(Expr lhs, Expr rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
+        this._Lhs = lhs;
+        this._Rhs = rhs;
     }
 }

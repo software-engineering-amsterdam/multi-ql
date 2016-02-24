@@ -10,11 +10,6 @@ public class Not extends UnaryExpr {
 	}
 
 	@Override
-	public Boolean interpret(Context context) {
-		return !(Boolean) expr.interpret(context);
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}

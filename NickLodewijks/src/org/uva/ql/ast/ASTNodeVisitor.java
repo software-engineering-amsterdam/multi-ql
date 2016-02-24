@@ -5,6 +5,7 @@ import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Div;
 import org.uva.ql.ast.expr.Eq;
+import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.GEq;
 import org.uva.ql.ast.expr.GT;
 import org.uva.ql.ast.expr.LEq;
@@ -17,6 +18,7 @@ import org.uva.ql.ast.expr.Not;
 import org.uva.ql.ast.expr.Or;
 import org.uva.ql.ast.expr.Pos;
 import org.uva.ql.ast.expr.Sub;
+import org.uva.ql.ast.expr.UnaryExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
@@ -33,7 +35,11 @@ public interface ASTNodeVisitor<T, U> {
 
 	public T visit(ASTNode node, U context);
 
+	public T visit(Expr node, U context);
+
 	public T visit(BinaryExpr node, U context);
+
+	public T visit(UnaryExpr node, U context);
 
 	public T visit(Add node, U context);
 

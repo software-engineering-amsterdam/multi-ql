@@ -24,6 +24,4 @@ public interface IExpression {
 	//public final static int EQUALITY_EXP	= 408;
 	public final static int AND_EXP 		= 409;
 	public final static int OR_EXP 			= 410;
-	
-	public <T> T eval();
 }

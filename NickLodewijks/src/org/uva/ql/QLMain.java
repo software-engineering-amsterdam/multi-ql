@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.uva.ql.ast.check.SemanticAnalyser;
 import org.uva.ql.ast.form.Questionnaire;
-import org.uva.ql.ui.DefaultWidgetFactory;
+import org.uva.ql.domain.QLQuestionaire;
 import org.uva.ql.ui.QLASTToUIVisitor;
-import org.uva.ql.ui.QLQuestionaire;
+import org.uva.ql.ui.swing.SwingUIFactory;
 
 public class QLMain {
 
@@ -22,9 +22,10 @@ public class QLMain {
 
 		new SemanticAnalyser().validateTypes(questionnaire);
 
-		qlInterpreter = new QLASTToUIVisitor(new DefaultWidgetFactory());
+		qlInterpreter = new QLASTToUIVisitor();
 
 		qlQuestionnaire = qlInterpreter.interpret(questionnaire);
-		qlQuestionnaire.show();
+
+		new SwingUIFactory().create(qlQuestionnaire).show();
 	}
 }

@@ -10,11 +10,6 @@ public class Mul extends BinaryExpr {
 	}
 
 	@Override
-	public Integer interpret(Context context) {
-		return (Integer) lhs.interpret(context) * (Integer) rhs.interpret(context);
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}

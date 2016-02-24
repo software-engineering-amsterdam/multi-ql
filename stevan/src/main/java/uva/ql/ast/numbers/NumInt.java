@@ -29,4 +29,8 @@ public class NumInt extends ANumber {
 	public void setValue(int value) {
 		this.value = value;
 	}
+	
+	public int evalInt() {
+		return getValue();
+	}
 }

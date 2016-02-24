@@ -10,11 +10,6 @@ public class NEq extends BinaryExpr {
 	}
 
 	@Override
-	public Boolean interpret(Context context) {
-		return !lhs.interpret(context).equals(rhs.interpret(context));
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
