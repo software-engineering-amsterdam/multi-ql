@@ -11,6 +11,7 @@ import ql.parser.QLParser.AndExprContext;
 import ql.parser.QLParser.ConditionsContext;
 import ql.parser.QLParser.ExprContext;
 import ql.parser.QLParser.IfelsestatementContext;
+import ql.parser.QLParser.InputquestionContext;
 import ql.parser.QLParser.MulExprContext;
 import ql.parser.QLParser.OrExprContext;
 import ql.parser.QLParser.PrimaryContext;
@@ -55,15 +56,22 @@ public void exitIfstatement(QLParser.IfstatementContext ctx) {
 	System.out.println(ctx.cond);
 }
 
-public void enterQuestion(QLParser.QuestionContext ctx ) {
+public void enterInputQuestion(InputquestionContext ctx ) {
     System.out.println( "Entering Question : ");
     System.out.println(ctx.STR().getText() + " with the identifier: " + ctx.Ident().getText() + " with type: " + ctx.question_type().getText() );
   }
 
-  public void exitQuestion(QLParser.QuestionContext ctx ) {
+  public void exitInputQuestion(QLParser.InputquestionContext ctx ) {
     System.out.println( "Exiting Question" );
   }
 
+public void enterComputedquestion(ql.parser.QLParser.ComputedquestionContext ctx) { 
+	System.out.println("entering computed Question");
+}
+
+public void exitComputedquestion(ql.parser.QLParser.ComputedquestionContext ctx) {
+	System.out.println("Exiting computed question");
+};
   
 @Override
 public void enterOrExpr(OrExprContext ctx) {

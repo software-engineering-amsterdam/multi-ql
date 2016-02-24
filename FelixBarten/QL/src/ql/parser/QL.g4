@@ -37,13 +37,26 @@ statement returns [Statement result]
 	| ifstatement {}
 	| ifelsestatement {}
 	;
-	
+
 question returns [Question result]
-	: STR Ident ':' qt=question_type { $result = new Question($STR.text, $Ident.text, $qt.result); }
+	: inputquestion {}
+	| computedquestion {}
+	;
+
+inputquestion returns [Question result]
+	: question_text=STR question_name=Ident ':' qt=question_type { $result = new InputQuestion($question_text.text, $question_name.text, $qt.result); }
+	;
+
+computedquestion returns [Question result]
+	: q=inputquestion '=' '(' expr ')' { $result = new ComputedQuestion($q.result.getQuestion(), $q.result.getName(), $q.result.getType(), $expr.result);}
 	;
 
 // TODO expr
-expr : question
+expr returns [Expr result]
+	: unExpr
+	| mulExpr
+	| addExpr
+	| conditions
 	;
  
 /* question	: WS*? Str WS*? Ident WS*? ':' WS*? question_type WS*? { }
@@ -78,10 +91,12 @@ unExpr returns [Expr result]
     :  '+' x=unExpr { $result = new Pos($x.result); }
     |  '-' x=unExpr { $result = new Neg($x.result); }
     |  '!' x=unExpr { $result = new Not($x.result); }
- //   |  x=primary    { $result = $x.result; }
+    |  x=primary    { $result = $x.result; }
     ;
     
-primary: ;
+primary returns [String result]
+	: Ident 
+	;
     
     
 mulExpr returns [Expr result]
