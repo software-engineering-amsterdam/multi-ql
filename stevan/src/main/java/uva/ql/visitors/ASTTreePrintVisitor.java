@@ -14,6 +14,7 @@ import uva.ql.ast.Question;
 import uva.ql.ast.numbers.NumDouble;
 import uva.ql.ast.numbers.NumInt;
 import uva.ql.deprecated.ASTNode;
+import uva.ql.interfaces.IExpression;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.INumber;
 
@@ -71,9 +72,11 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 	public void visitExp(AExpression exp) {
 		
 		System.out.println("exp: " + exp.getExprType());
-		exp.getLeftNode().accept(this);
-		if (exp.getRightNode() != null) {
-			exp.getRightNode().accept(this);
+		if (exp.getExprType() != IExpression.NUMBER) {
+			exp.getLeftNode().accept(this);
+			if (exp.getRightNode() != null) {
+				exp.getRightNode().accept(this);
+			}
 		}
 	}
 
