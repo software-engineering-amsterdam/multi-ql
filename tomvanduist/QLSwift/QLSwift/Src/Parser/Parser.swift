@@ -20,8 +20,6 @@ class Parser {
     func parse(ql: QL) throws -> Form {
         let qlParser = QLParser()
         
-//        let parseTree = try qlParser.parse(ql)
-//        let form = parseTree.implode()
         let form = try qlParser.parse(ql)
         
         let sa = SemanticAnalyser(context: Context.sharedInstance)

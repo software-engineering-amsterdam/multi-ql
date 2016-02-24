@@ -28,6 +28,5 @@ class BaseView: UIView {
     }
     
     func initialize() {
-        NSLog("common init")
     }
 }

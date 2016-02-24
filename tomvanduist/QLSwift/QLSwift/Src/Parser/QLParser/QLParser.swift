@@ -60,8 +60,6 @@ class QLParser: NSObject {
                 lexer.parentheses(expr)
             let litExpr: GenericParser<String, (), Expression> =
                 boolLit <|> stringLit <|> number
-//            let varExpr: GenericParser<String, (), Expression> =
-//                variable.map { eVar in QLExpressionVariable(variable: eVar) }
             let boolExpr: GenericParser<String, (), Expression> =
                 lexer.symbol("boolean").map { _ in BooleanField() }
             let stringExpr: GenericParser<String, (), Expression> =
@@ -126,8 +124,6 @@ class QLParser: NSObject {
         var block: GenericParser<String, (), Block>!
         
         
-//        let qStmt: GenericParser<String, (), Statement> =
-//            question.map { sQuestion in QuestionStatement(question: sQuestion) }
         let ifStmt: GenericParser<String, (), Statement> =
             lexer.symbol("if") *> lexer.parentheses(expr).flatMap { cond in
                 block.map { blockStmt in
