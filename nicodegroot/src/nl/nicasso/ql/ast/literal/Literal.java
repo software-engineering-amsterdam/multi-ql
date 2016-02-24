@@ -11,4 +11,8 @@ public abstract class Literal extends Expression {
 		return type;
 	}
 	
+	public Object getValue() {
+		return null;
+	}
+	
 }

@@ -1,20 +1,3 @@
-function setHandlers() {
-	$("input").change(function () {
-		var label = $(this).attr("name");
-
-		var questionNode = ast.getQuestion(label);
-		if (questionNode === undefined) return;
-
-		if ($(this).attr("type") === "checkbox") {
-			questionNode.setValue($(this).is(":checked"));
-		}
-		else {
-			questionNode.setValue($(this).val());
-		}
-		refreshGUI();
-	});
-}
-
 function refreshGUI() {
 	$(".questionDiv").hide();
 
@@ -25,14 +8,14 @@ function refreshGUI() {
 			questionNode.setValue(questionNode.computedExpr.compute());
 		}
 		questionNode.visible = true;
-		$(".questionDiv[label='" + questionNode.label + "']").show();
+		$(".questionDiv[qllabel='" + questionNode.label + "']").show();
 		$("input[name='" + questionNode.label + "']").val(questionNode.value);
 	}, undefined, true);
 
 }
 
 function generateQuestionHTML(question) {
-	var html = "<div class='questionDiv' label='" + question.label + "'>";
+	var html = "<div class='questionDiv' qllabel='" + question.label + "'>";
 	html += "<label class='question'>" + question.text + " ";
 	html += "<input name='" + question.label + "' type='";
 
@@ -67,6 +50,7 @@ function renderQuestions() {
 }
 
 function resetErrorPanels() {
+	editor.getSession().clearAnnotations();
 	$("#error").html("");
 	$("#warning").html("");
 
@@ -76,8 +60,16 @@ function resetErrorPanels() {
 	$("#formWrapper").show();
 }
 
+function saveAnswers() {
+	var answerList = ast.getAnswerList();
+	var blob = new Blob([answerList.toString()], {type: "text/plain;charset=utf-8"});
+	fileSaverSaveAs(blob, "answers.json");
+}
+
+
 function renderDebugMessage(type, line, message) {
 	var editor = ace.edit("input");
+	message = message.replace("<", "&lt;").replace(">", "&gt;")
 	var html = "<li><a href='#' onClick='goToLine(" + line + ");'>[line " + line + "] " + message + "</a></li>";
 	
 	var debugAnnotationList = editor.getSession().getAnnotations();

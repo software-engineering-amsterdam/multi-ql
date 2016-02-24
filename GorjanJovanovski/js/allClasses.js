@@ -8,6 +8,10 @@ class NumberType {
 	defaultValue() {
 		return 0;
 	}
+
+	getTypeString() {
+		return 'number';
+	}
 }
 
 class DecimalType {
@@ -17,6 +21,10 @@ class DecimalType {
 
 	defaultValue() {
 		return 0.0;
+	}
+
+	getTypeString() {
+		return 'number';
 	}
 }
 
@@ -30,6 +38,10 @@ class BooleanType {
 	defaultValue() {
 		return false;
 	}
+
+	getTypeString() {
+		return 'boolean';
+	}
 }
 
 class StringType {
@@ -39,6 +51,10 @@ class StringType {
 
 	defaultValue() {
 		return "";
+	}
+
+	getTypeString() {
+		return 'string';
 	}
 }
 
@@ -71,10 +87,8 @@ class FormNode {
 		var answerList = new AnswerList();
 
 		this.transverseAST((questionNode) => {
-			if (questionNode.visible) {
-				answerList.addQuestion(questionNode);
-			}
-		});
+			answerList.addQuestion(questionNode);
+		}, undefined, true);
 
 		return answerList;
 	}
@@ -85,42 +99,29 @@ class FormNode {
 		for (var i = 0; i < this.block.length; i++) {
 			queue.push(this.block[i]);
 		}
-
 		while (queue.length > 0) {
 			var currentNode = queue.shift();
-
-			if (currentNode instanceof QuestionNode) {
-				if (questionReturnFunction !== undefined) {
-					var result = questionReturnFunction(currentNode);
-					if (result !== undefined) return result;
+			var result;
+			if (currentNode instanceof QuestionNode && questionReturnFunction !== undefined) {
+				result = questionReturnFunction(currentNode);
+				if (result !== undefined) {
+					return result;
 				}
 			}
-			else {
+			else if (currentNode instanceof ConditionNode) {
 				if (conditionReturnFunction !== undefined) {
-					return conditionReturnFunction(currentNode);
+					result = conditionReturnFunction(currentNode);
+					if (result !== undefined) return result;
 				}
-				if (evaluateConditions === true) {
-					if (currentNode.condition.compute() === true) {
-						for (i = 0; i < currentNode.ifBlock.length; i++) {
-							queue.push(currentNode.ifBlock[i]);
-						}
-					}
-					else {
-						if (currentNode.elseBlock !== undefined) {
-							for (i = 0; i < currentNode.elseBlock.length; i++) {
-								queue.push(currentNode.elseBlock[i]);
-							}
-						}
-					}
-				}
-				else {
+				if (evaluateConditions === undefined || (evaluateConditions === true && currentNode.condition.compute() === true)) {
 					for (i = 0; i < currentNode.ifBlock.length; i++) {
 						queue.push(currentNode.ifBlock[i]);
 					}
-					if (currentNode.elseBlock !== undefined) {
-						for (i = 0; i < currentNode.elseBlock.length; i++) {
-							queue.push(currentNode.elseBlock[i]);
-						}
+				}
+				if (currentNode.elseBlock !== undefined && (evaluateConditions === undefined ||
+					(evaluateConditions === true && currentNode.condition.compute() === false))) {
+					for (i = 0; i < currentNode.elseBlock.length; i++) {
+						queue.push(currentNode.elseBlock[i]);
 					}
 				}
 			}
@@ -129,7 +130,9 @@ class FormNode {
 
 	setQuestionReferences() {
 		this.transverseAST((questionNode) => {
-			this.addQuestionReferenceToExpr(questionNode.computedExpr);
+			if (questionNode instanceof ComputedQuestionNode) {
+				this.addQuestionReferenceToExpr(questionNode.computedExpr);
+			}
 		}, (conditionNode) => {
 			this.addQuestionReferenceToExpr(conditionNode.condition);
 		});
@@ -149,6 +152,7 @@ class FormNode {
 				expression.setQuestionReference(this.getQuestion(expression.label));
 			}
 			else {
+				//TODO don't throw here?
 				throwError(expression.line, "Question label " + expression.label + " is undefined");
 			}
 		}
@@ -260,7 +264,8 @@ class OperatorNode {
 			return true;
 		}
 		else {
-			throwError(this.line, "Statement '" + left + "" + this.op + "" + right + "' expecting left and right to be of " + this.validArguments + ", found " + typeof left + " and " + typeof right);
+			//TODO don't throw here?
+			throwError(this.line, "Statement '" + left + this.op.toString() + right + "' expecting left and right to be of " + this.validArguments + ", found " + typeof left + " and " + typeof right);
 			return false;
 		}
 	}

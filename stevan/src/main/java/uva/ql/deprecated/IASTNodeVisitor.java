@@ -1,14 +1,6 @@
-package uva.ql.interfaces;
+package uva.ql.deprecated;
 
 import uva.ql.ast.ANode;
-import uva.ql.deprecated.ASTBlock;
-import uva.ql.deprecated.ASTExpression;
-import uva.ql.deprecated.ASTForm;
-import uva.ql.deprecated.ASTIfStatement;
-import uva.ql.deprecated.ASTNode;
-import uva.ql.deprecated.ASTNumber;
-import uva.ql.deprecated.ASTQuestion;
-import uva.ql.deprecated.ASTVariable;
 
 public interface IASTNodeVisitor {
 	

@@ -27,8 +27,8 @@ public class Variable extends Expr implements Visitable {
 		return value;
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 
 	@Override
@@ -38,6 +38,6 @@ public class Variable extends Expr implements Visitable {
 	
 	@Override
 	public Type getType(Context context) {
-		return Type.UNDEFINED;
+		return context.getTypeFromQuestion(identifier);
 	}
 }

@@ -1,5 +1,7 @@
 package ast;
 
+import gui.QLFrame;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -47,8 +49,9 @@ public class Program {
 		}
 
 		TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-		//viewer.open();
+		viewer.open();
 
+		new QLFrame(fileContext.form().result);
 		System.out.println("Done");
 	}
 }

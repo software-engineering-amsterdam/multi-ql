@@ -1,10 +1,12 @@
 package nl.nicasso.ql.ast.type;
 
-import nl.nicasso.ql.TypeChecker;
+import nl.nicasso.ql.EvaluatorVisitor;
+import nl.nicasso.ql.TypeCheckerVisitor;
+import nl.nicasso.ql.ast.literal.Literal;
 
 public class BooleanType extends Type {
 
-	String type;
+	private final String type;
 
 	public BooleanType() {
 		super();
@@ -16,7 +18,12 @@ public class BooleanType extends Type {
 	}
 	
 	@Override
-	public Type accept(TypeChecker visitor) {
+	public Type accept(TypeCheckerVisitor visitor) {
+		return visitor.visit(this);
+	}
+	
+	@Override
+	public Literal accept(EvaluatorVisitor visitor) {
 		return visitor.visit(this);
 	}
 	

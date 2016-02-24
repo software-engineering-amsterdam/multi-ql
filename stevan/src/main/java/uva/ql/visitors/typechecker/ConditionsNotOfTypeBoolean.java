@@ -16,6 +16,7 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
+import uva.ql.ast.expressions.Add;
 import uva.ql.interfaces.IExpression;
 import uva.ql.interfaces.INodeVisitor;
 
@@ -42,10 +43,14 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 	}
 
 	@Override
-	public void visitVar(AVariable variable) {}
+	public void visitVar(AVariable variable) {
+		System.out.println("var");
+	}
 	
 	@Override
-	public void visitNum(ANumber number) {}
+	public void visitNum(ANumber number) {
+		System.out.println("num");
+	}
 	
 	@Override
 	public void visitForm(Form form) {
@@ -75,31 +80,27 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 	@Override
 	public void visitExp(AExpression expression) {
 		
-		int expType = expression.getExprType();
-		Set<Integer> expTypeList = new HashSet<Integer>(
-										Arrays.asList(
-												IExpression.ADD_EXP,
-												IExpression.MINUS_EXP,
-												IExpression.MULTIPLY_EXP,
-												IExpression.DIVIDE_EXP));
+		System.out.println("exp: " + expression.getExprType());
 		
-		if (expTypeList.contains(expType)) {
 		
-			System.out.println("Eval : " + expression.eval());
-		}
-		else {
+		if (expression.getLeftNode() != null) {
+			expression.getLeftNode().accept(this);
 			
-			if (expression.getLeftNode() != null) {
-				expression.getLeftNode().accept(this);
-			}
-			if (expression.getRightNode() != null) {
-				expression.getRightNode().accept(this);
-			}
+		}
+		if (expression.getRightNode() != null) {
+			expression.getRightNode().accept(this);
 		}
 	}
-
+	
 	@Override
-	public void visitQuestion(Question question) {}
+	public void visitQuestion(Question question) {
+		
+		if (question.getExpression() != null) {
+			System.out.println(question.getLabel());
+			
+			question.getExpression().accept(this);
+		}
+	}
 	
 	@Override
 	public void visitNode(ANode node) {}
