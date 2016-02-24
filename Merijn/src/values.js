@@ -117,13 +117,13 @@ export class ValueReceiver {
 		return this.receiveValue(primitiveValue, ...args);
 	}
 	receiveBoolean(booleanValue, ...args) {
-		return this.receiveValue(booleanValue, ...args);
+		return this.receivePrimitive(booleanValue, ...args);
 	}
 	receiveString(stringValue, ...args) {
-		return this.receiveValue(stringValue, ...args);
+		return this.receivePrimitive(stringValue, ...args);
 	}
 	receiveNumber(numberValue, ...args) {
-		return this.receiveValue(numberValue, ...args);
+		return this.receivePrimitive(numberValue, ...args);
 	}
 	receiveInteger(integerValue, ...args) {
 		return this.receiveNumber(integerValue, ...args);
@@ -132,7 +132,7 @@ export class ValueReceiver {
 		return this.receiveNumber(floatValue, ...args);
 	}
 	receiveMoney(moneyValue, ...args) {
-		return this.receiveValue(moneyValue, ...args);
+		return this.receivePrimitive(moneyValue, ...args);
 	}
 	receiveUndefined(undefinedValue, ...args) {
 		return this.receiveValue(undefinedValue, ...args);
