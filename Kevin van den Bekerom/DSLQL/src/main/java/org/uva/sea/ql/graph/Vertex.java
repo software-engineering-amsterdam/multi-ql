@@ -6,18 +6,24 @@ import java.util.List;
 public class Vertex {
 	private final String identifier; 
 	private List<String> neighbors;
-	private final boolean terminal;
 	
-	public Vertex(String identifier, boolean terminal) {
+	public Vertex(String identifier) {
 		neighbors = new ArrayList<String>();
 		this.identifier = identifier;
-		this.terminal = terminal;
 	}
 	
-	public void addVertex(String vID) {
+	public void addNeighbor(String vID) {
 		neighbors.add(vID);
 	}
 	
+	public List<String> getNeighbors() {
+		return neighbors;
+	}
+
+	public boolean isTerminal() {
+		return neighbors.size() == 0;
+	}
+
 	public String getIdentifier() {
 		return this.identifier;
 	}
