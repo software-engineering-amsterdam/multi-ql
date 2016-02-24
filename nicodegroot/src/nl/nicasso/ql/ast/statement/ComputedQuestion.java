@@ -1,5 +1,6 @@
 package nl.nicasso.ql.ast.statement;
 
+import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.literal.IdentifierLit;
@@ -21,6 +22,11 @@ public class ComputedQuestion extends Question {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public Type accept(TypeChecker visitor) {
+		return visitor.visit(this);
 	}
 
 }

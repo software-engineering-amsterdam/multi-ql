@@ -2,6 +2,9 @@ package org.uva.sea.ql.ast.expr;
 
 public class BooleanConjunctiveExpr extends BooleanExpr {
     
+    public static final int HASH_ORIGIN = 3;
+    public static final int HASH_FACTOR = 29;
+    
     private final Expr firstExpr;
     private final Expr secondExpr;
     
@@ -22,9 +25,9 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + firstExpr.hashCode();
-        hash = 29 * hash + secondExpr.hashCode();
+        int hash = HASH_ORIGIN;
+        hash = HASH_FACTOR * hash + firstExpr.hashCode();
+        hash = HASH_FACTOR * hash + secondExpr.hashCode();
         return hash;
     }
     

@@ -2,12 +2,12 @@ package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.Visitable;
 import org.uva.sea.ql.ast.Visitor;
+import org.uva.sea.ql.ast.form.Context;
 
 public class Neg extends UnaryExpr implements Visitable {
 	
 	public Neg(Expr expr) {
 		super.child = expr;
-		super.type = Type.INT;
 	}
 	
 	@Override
@@ -16,13 +16,17 @@ public class Neg extends UnaryExpr implements Visitable {
 	}
 	
 	public void accept(Visitor visitor) {
-		visitor.visit(this);
+		visitor.visit(this, null);
 	}
 	//TODO{Check if this way of computation is correct}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.toString() + " (negation)";
+	}
+	
+	@Override
+	public Type getType(Context context) {
+		return Type.INT;
 	}
 }

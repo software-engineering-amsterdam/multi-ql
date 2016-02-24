@@ -20,27 +20,21 @@ import SwiftParsec
  * block        ::= { stmt* }
  * stmt         ::= 'if' ( expr) { block } | question
  * question     ::= var ':' stringLit expr
- * expr         ::= money | prefix expr | expr infix expr | ( expr ) | boolean | literal | var
+ * expr         ::= money | unaryOp expr | expr binary expr | ( expr ) | boolean | literal | var
  * literal      ::= true | false | stringLit | numberLit
- * prefix       ::= - | !
- * infix        ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
+ * unaryOp      ::= - | !
+ * binary       ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
  * var          ::= identifier
  * money        ::= 'money' || 'money' ( expr )
  */
 class QLParser: NSObject {
     
     func parse(ql: QL) throws -> QLForm {
-        do {
-            return try qlParser().run(sourceName: "QL", input: ql)
-        } catch let error {
-            print(error)
-            throw error
-        }
+        return try qlParser().run(sourceName: "QL", input: ql)
     }
     
     private func qlParser() -> GenericParser<String, (), QLForm> {
         let lexer   = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
-        let symbol  = lexer.symbol
         
         
         let variable = lexer.identifier.map { id in QLVariable(identifier: id) }
@@ -55,7 +49,7 @@ class QLParser: NSObject {
         let floatLit: GenericParser<String, (), QLLiteral> =
             lexer.float.map { f in QLFloatLiteral(float: f) }
         let number: GenericParser<String, (), QLLiteral> =
-            intLit <|> floatLit
+            floatLit.attempt <|> intLit
         
         
         let expr: GenericParser<String, (), QLExpression> = GenericParser.recursive {
@@ -71,17 +65,19 @@ class QLParser: NSObject {
                 variable.map { eVar in QLExpressionVariable(variable: eVar) }
             let boolExpr: GenericParser<String, (), QLExpression> =
                 lexer.symbol("boolean").map { _ in QLBoolean() }
+            let stringExpr: GenericParser<String, (), QLExpression> =
+                lexer.symbol("string").map { _ in QLString() }
             let moneyExpr: GenericParser<String, (), QLExpression> =
-                (lexer.symbol("money") *> lexer.parentheses(expr).map { ding in QLMoney(expr: ding) }).attempt <|>
+                (lexer.symbol("money") *> lexer.parentheses(expr).map { e in QLMoney(expr: e) }).attempt <|>
                 lexer.symbol("money").map { _ in QLMoney() }
-            let prefix: GenericParser<String, (), QLPrefix.Type> =
+            let unary: GenericParser<String, (), QLUnary.Type> =
                 StringParser.character("-").map { _ in QLNeg.self } <|>
                 StringParser.character("!").map { _ in QLNot.self }
-            let prefixExpr: GenericParser<String, (), QLExpression> =
-                prefix.flatMap { ePrefix in
-                    expr.map { rhs in ePrefix.init(rhs: rhs) }
+            let unaryExpr: GenericParser<String, (), QLExpression> =
+                unary.flatMap { eUnary in
+                    expr.map { rhs in eUnary.init(rhs: rhs) }
                 }
-            let infix: GenericParser<String, (), QLInfix.Type> =
+            let binary: GenericParser<String, (), QLBinary.Type> =
                 lexer.symbol("+").map { _ in QLAdd.self } <|>
                 lexer.symbol("-").map { _ in QLSub.self } <|>
                 lexer.symbol("*").map { _ in QLMul.self } <|>
@@ -90,29 +86,31 @@ class QLParser: NSObject {
                 lexer.symbol("&&").map { _ in QLAnd.self } <|>
                 lexer.symbol("||").map { _ in QLOr.self } <|>
                 lexer.symbol("==").map { _ in QLEq.self } <|>
+                lexer.symbol("!=").map { _ in QLNe.self } <|>
                 lexer.symbol("<=").map { _ in QLLe.self }.attempt <|>
                 lexer.symbol(">=").map { _ in QLGe.self }.attempt <|>
                 lexer.symbol("<").map { _ in QLLt.self } <|>
                 lexer.symbol(">").map { _ in QLGt.self }
 
-            // Left associative infix, TODO: remove lhs constraint on varExpr
+            
+            // Left associative binary, TODO: properly define lhs
             func opParser(lhs: QLExpression) -> GenericParser<String, (), QLExpression> {
-                return infix.flatMap { eInfix in
+                return binary.flatMap { eBinary in
                     expr.flatMap { rhs in
-                        opParser1(eInfix.init(lhs: lhs, rhs: rhs))
+                        opParser1(eBinary.init(lhs: lhs, rhs: rhs))
                     }
                 }
             }
             func opParser1(rhs: QLExpression) -> GenericParser<String, (), QLExpression> {
                 return opParser(rhs) <|> GenericParser(result: rhs)
             }
-            let infixExpr: GenericParser<String, (), QLExpression> =
-                varExpr.flatMap { lhs in
+            let binaryExpr =
+                (moneyExpr <|> unaryExpr <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> varExpr).flatMap { lhs in
                     opParser(lhs) <|> GenericParser(result: lhs)
                 }
         
             
-            return moneyExpr <|> prefixExpr <|> infixExpr.attempt <|> precExpr <|> boolExpr <|> litExpr <|> varExpr
+            return moneyExpr <|> unaryExpr <|> binaryExpr.attempt <|> precExpr <|> boolExpr <|> stringExpr <|> litExpr <|> varExpr
         }
         
         let question: GenericParser<String, (), QLQuestion> =
@@ -150,7 +148,7 @@ class QLParser: NSObject {
         ).map { stmts in QLBlockStatement(block: stmts) }
         
         let form: GenericParser<String, (), QLForm> =
-            symbol("form") *> variable.flatMap { fVar in
+            lexer.symbol("form") *> variable.flatMap { fVar in
                 return block.map { fBlock in QLForm(variable: fVar, block: fBlock) }
             }
         

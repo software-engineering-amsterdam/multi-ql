@@ -3,10 +3,10 @@ package ast.expression;
 import ast.visitor.Visitor;
 
 public class LEq extends BinaryExpression {
-	public LEq(Expression lhs, Expression rhs) {
-		super(lhs, rhs);
+	public LEq(int lineNumber, Expression lhs, Expression rhs) {
+		super(lineNumber, lhs, rhs);
 	}
-	
+
 	@Override
 	public Object accept(Visitor visitor) {
 		return visitor.visit(this);

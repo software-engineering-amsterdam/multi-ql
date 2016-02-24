@@ -1,10 +1,7 @@
 package org.uva.sea.ql.ast.statement;
 
-import java.util.List;
-
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
-import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
 
 public class IfStatement extends Statement {
@@ -21,14 +18,17 @@ public class IfStatement extends Statement {
 	public Expression getExpression() {
 		return this.expression;
 	}
-
-	public Block block() {
+	
+	public Block getBlock() {
 		return this.block;
 	}
 
+
+
 	@Override
-	public ASTNode accept(StatementVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
+	public <T> T accept(StatementVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return visitor.visitIfStatement(this);
 	}
 	
 }

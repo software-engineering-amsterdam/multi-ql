@@ -3,20 +3,23 @@ package ast.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import ast.TreeNode;
 import ast.statement.Statement;
 import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
-public class Body implements Visitable {
+public class Body extends TreeNode implements Visitable {
 	private List<Statement> statements;
-	
-	public Body(){
+
+	public Body() {
+		super(1);// TODO:???????????
 		this.statements = new ArrayList<Statement>();
 	}
+
 	public void add(Statement result) {
 		this.statements.add(result);
 	}
-	
+
 	public List<Statement> getStatements() {
 		return statements;
 	}
@@ -24,6 +27,6 @@ public class Body implements Visitable {
 	@Override
 	public Object accept(Visitor visitor) {
 		return visitor.visit(this);
-		
+
 	}
 }

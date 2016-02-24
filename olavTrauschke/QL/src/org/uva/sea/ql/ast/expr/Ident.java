@@ -2,6 +2,8 @@ package org.uva.sea.ql.ast.expr;
 
 public class Ident extends Expr {
     
+    public static final int HASH_ORIGIN = 291;
+    
     private final String content;
     
     public Ident(String theContent) {
@@ -18,7 +20,7 @@ public class Ident extends Expr {
 
     @Override
     public int hashCode() {
-        return 97 * 3 + content.hashCode();
+        return HASH_ORIGIN + content.hashCode();
     }
     
 }

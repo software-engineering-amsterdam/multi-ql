@@ -14,7 +14,7 @@ public class Greater extends Binary {
 	}
 	
 	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

@@ -4,6 +4,8 @@ import org.uva.sea.ql.ast.expr.Str;
 
 public class Label extends ASTNode {
     
+    public static final int HASH_ORIGIN = 237;
+    
     private final String text;
     
     public Label(String theText) {
@@ -25,6 +27,6 @@ public class Label extends ASTNode {
 
     @Override
     public int hashCode() {
-        return 79 * 3 + text.hashCode();
+        return HASH_ORIGIN + text.hashCode();
     }
 }

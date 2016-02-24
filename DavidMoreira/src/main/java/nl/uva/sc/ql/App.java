@@ -3,10 +3,13 @@ package nl.uva.sc.ql;
 import java.io.IOException;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 import nl.uva.sc.ql.exceptions.CompilerException;
+import nl.uva.sc.ql.gui.QLGui;
 import nl.uva.sc.ql.parser.QLCompiler;
+import nl.uva.sc.ql.parser.ast.Node;
 
 public class App {
 
@@ -25,7 +28,11 @@ public class App {
 		QLCompiler compiler = new QLCompiler();
 		
         try {
-        	compiler.compile("src/main/resources/example.ql");
+        	Node ast = compiler.compile("src/main/resources/example.ql");
+        	
+            QLGui gui = new QLGui(ast);
+            gui.start();
+        	
         } catch (CompilerException ce) {
         	System.err.println(ce.getMessage());
         }

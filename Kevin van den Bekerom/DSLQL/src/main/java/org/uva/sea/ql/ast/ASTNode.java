@@ -1,12 +1,7 @@
 package org.uva.sea.ql.ast;
 
 public abstract class ASTNode implements Visitable {
-	protected int startLine;
-	protected int endLine;
-	
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
+	protected int startLine = 0; // default value
 	
 	public int getStartLine() {
 		return this.startLine;

@@ -3,8 +3,8 @@ package ast.expression;
 import ast.visitor.Visitor;
 
 public class Add extends BinaryExpression {
-	public Add(Expression lhs, Expression rhs) {
-		super(lhs, rhs);
+	public Add(int lineNumber, Expression lhs, Expression rhs) {
+		super(lineNumber, lhs, rhs);
 	}
 
 	@Override

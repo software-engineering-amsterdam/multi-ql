@@ -10,6 +10,7 @@ public class Lexer implements Tokens {
     
     public static final int MINIMUM_CHARACTER_VALUE = 0;
     public static final int ERROR_CHARACTER_VALUE = MINIMUM_CHARACTER_VALUE - 1;
+    public static final int NUMERIC_SYSTEM_BASE = 10;
     public static final String UNEXPECTED_CHAR_MESSAGE = "Unexpected character: ";
     
     public static final Map<String, Integer> KEYWORDS;
@@ -228,7 +229,7 @@ public class Lexer implements Tokens {
     private int readNumber() {
         int result = 0;
         do {
-            result = 10 * result + (character - '0');
+            result = NUMERIC_SYSTEM_BASE * result + (character - '0');
             readNextCharacter();
         } while (Character.isDigit(character));
         return result;

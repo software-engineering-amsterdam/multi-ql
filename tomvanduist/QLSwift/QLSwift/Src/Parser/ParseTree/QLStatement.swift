@@ -37,28 +37,3 @@ class QLIf: QLStatement {
         self.conditional = conditional
     }
 }
-
-
-// Mark: Implode
-
-extension QLQuestionStatement {
-    func implode() -> Statement {
-        return question.implode()
-    }
-}
-
-extension QLBlockStatement {
-    func implode() -> Statement {
-        var block: [Statement] = []
-        for statement in self.block {
-            block.append(statement.implode())
-        }
-        return Block(block: block)
-    }
-}
-
-extension QLIf {
-    func implode() -> Statement {
-        return Conditional(condition: conditional.implode(), ifBlock: block.implode(), elseBlock: nil)
-    }
-}

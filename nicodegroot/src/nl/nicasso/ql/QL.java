@@ -3,6 +3,7 @@ package nl.nicasso.ql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
@@ -15,6 +16,8 @@ import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
+import nl.nicasso.ql.ast.literal.IdentifierLit;
+import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.structure.Form;
 
 public class QL {
@@ -41,32 +44,46 @@ public class QL {
 		//System.out.println(tree.toStringTree(parser));
         
         // VISITOR PATTERN!
-        //Form a = (Form) new QLCustomVisitor().visit(tree);
         CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
         
-        GetVarsVisitor varsVisitor = new GetVarsVisitor();
+        QuestionVisitor questionVisitor = new QuestionVisitor();
         
-        ast.accept(varsVisitor);
-                
-        if (!varsVisitor.getErrors().isEmpty()) {
-        	System.out.println("ERRORS!");
-        	for (String error : varsVisitor.getErrors()) {
-        		System.out.println(error);
-        	}
-        	
-        	return;
-        }
+        ast.accept(questionVisitor);
         
-        //SymanticAnalysis semanticAnalyser = new SymanticAnalysis();
-		//if (ast.accept(semanticAnalyser)) {
-        // @TODO Insert Fancy GUI here
-        //}
+        ArrayList<Question> questions = questionVisitor.getQuestions();
+        questionVisitor.checkNullPointers();
         
-        //System.out.println("DEZE: "+a.getId().getIdentifier());
+        displayMessages("QuestionVisitor Warnings", questionVisitor.getWarnings());
+        displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
+        
+        CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor(questions);
+        
+        ast.accept(cyclicDependencyVisitor);
+        
+        cyclicDependencyVisitor.detectCyclicDependencies();
+        
+        displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
+        displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
+        
+        TypeChecker typeChecker = new TypeChecker(questions);
+        
+        ast.accept(typeChecker);
+        
+        displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
+        displayMessages("TypeChecker Errors", typeChecker.getErrors());
         
         //Gui ex = new Gui();
         //ex.setVisible(true);
+	}
+	
+	private void displayMessages(String title, ArrayList<String> messages) {
+		if (!messages.isEmpty()) {
+        	System.out.println("-------------------------------"+title+"--------------------------------------------");
+        	for (String message : messages) {
+        		System.out.println(message);
+        	}
+        }
 	}
 	
 	private ANTLRInputStream readInputDSL() {

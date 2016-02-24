@@ -1,19 +1,21 @@
 package ast.statement;
 
+import ast.TreeNode;
 import ast.expression.Expression;
 import ast.form.Body;
 import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
-public class IfStatement implements Visitable{
+public class IfStatement extends TreeNode implements Visitable {
 	private Expression expression;
 	private Body body;
-	
-	public IfStatement(Expression result, Body result2) {
+
+	public IfStatement(int lineNumber, Expression result, Body result2) {
+		super(lineNumber);
 		this.expression = result;
 		this.body = result2;
 	}
-	
+
 	public Expression getExpression() {
 		return expression;
 	}
@@ -21,7 +23,7 @@ public class IfStatement implements Visitable{
 	public Body getBody() {
 		return body;
 	}
-	
+
 	@Override
 	public Object accept(Visitor visitor) {
 		return visitor.visit(this);

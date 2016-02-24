@@ -2,130 +2,128 @@ package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
-
+import org.uva.sea.ql.ast.form.*;
 
 /* Visitor that visits every node in the AST based on Depth First Search 
  * starting with the leftmost node.
  */
-public class LeftDFSVisitor implements Visitor {
+public class LeftDFSVisitor<U> implements Visitor<U> {
 	protected Visitor v;
 	
 	protected LeftDFSVisitor() {
 		this.v = this;
 	}
 	
-	public void visit(Expr expr) {
 
-	}
-
-	public void visit(BinaryExpr binExpr) {
+	public void visit(BinaryExpr binExpr, U context) {
 		dfs(binExpr, this);	
 	}
 
-	public void visit(UnaryExpr unExpr) {
+	public void visit(UnaryExpr unExpr, U context) {
 		
 	}
 	
-	public void visit(ASTNode node) {
+	public void visit(ASTNode node, U context) {
 		
 	}
 
-	public void visit(And and) {
+	public void visit(And and, U context) {
 		dfs(and, this);
 	}
 
-	public void visit(Or or) {
+	public void visit(Or or, U context) {
 		dfs(or, this);
 	}
 
-	public void visit(Not not) {
+	public void visit(Not not, U context) {
 		not.getChild().accept(this);
 	}
 
-	public void visit(Eq eq) {
+	public void visit(Eq eq, U context) {
 		dfs(eq, this);
 	}
 
-	public void visit(GEq geq) {
+	public void visit(GEq geq, U context) {
 		dfs(geq, this);
 	}
 
-	public void visit(GT gt) {
+	public void visit(GT gt, U context) {
 		dfs(gt, this);
 	}
 
-	public void visit(LEq leq) {
+	public void visit(LEq leq, U context) {
 		dfs(leq, this);
 	}
 
-	public void visit(LT lt) {
+	public void visit(LT lt, U context) {
 		dfs(lt, this);
 	}
 
-	public void visit(NEq neq) {
+	public void visit(NEq neq, U context) {
 		dfs(neq, this);
 	}
 
-	public void visit(Add add) {
+	public void visit(Add add, U context) {
 		dfs(add, this);
 	}
 
-	public void visit(Sub sub) {
+	public void visit(Sub sub, U context) {
 		dfs(sub, this);
 	}
 
-	public void visit(Div div) {
+	public void visit(Div div, U context) {
 		dfs(div, this);
 	}
 
-	public void visit(Mul mul) {
+	public void visit(Mul mul, U context) {
 		dfs(mul, this);
 	}
 
-	public void visit(Neg neg) {
+	public void visit(Neg neg, U context) {
 		neg.getChild().accept(this);
 	}
 
-	public void visit(Pos pos) {
+	public void visit(Pos pos, U context) {
 		pos.getChild().accept(this);
 	}
 
-	public void visit(IntegerLiteral integerLiteral) {
+	public void visit(IntegerLiteral integerLiteral, U context) {
 		// leaf node
 	}
 
-	public void visit(StringLiteral stringLiteral) {
+	public void visit(StringLiteral stringLiteral, U context) {
 		// leaf node
 	}
 
-	public void visit(BooleanLiteral booleanLiteral) {
+	public void visit(BooleanLiteral booleanLiteral, U context) {
 		// leaf node
 	}
 
-	public void visit(Variable variable) {
+	public void visit(Variable variable, U context) {
 		// leaf node
 	}
 
-	public void visit(Block block) {
-		for (Stat stmt : block.getStmts()) {
+	public void visit(Block block, U context) {
+		for (ASTNode stmt : block.getStmts()) {
 			stmt.accept(this);
 		}
 	}
 
-	public void visit(ElseStatement elseStatement) {
+	public void visit(ElseStatement elseStatement, U context) {
 		elseStatement.getBlock().accept(this); 
 	}
 
-	public void visit(IfStatement ifStatement) {
+	public void visit(IfStatement ifStatement, U context) {
 		ifStatement.getClause().accept(this);
 		ifStatement.getBlock().accept(this);
 	}
 
-	public void visit(Question question) {
-		int size = question.getComputedResult().size();
-		if (size == 1) {
-			question.getComputedResult().get(0).accept(this);
-		}
+	public void visit(Question question, U context) {
+		// no further action required
+	}
+	
+	public void visit(ComputedQuestion computedQuestion, U context) {
+		computedQuestion.getExpr().accept(this);
 	}
 
 	public void dfs(BinaryExpr e, Visitor v) {

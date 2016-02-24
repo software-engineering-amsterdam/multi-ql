@@ -1,9 +1,10 @@
 package org.uva.sea.ql.ast.stat;
 
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.Visitable;
 import org.uva.sea.ql.ast.Visitor;
 
-public class ElseStatement extends Stat implements Visitable {
+public class ElseStatement extends ASTNode implements Visitable {
 	private Block block;
 	
 	public ElseStatement(Block block) {
@@ -11,7 +12,7 @@ public class ElseStatement extends Stat implements Visitable {
 	}
 	
 	public void accept(Visitor visitor) {
-		visitor.visit(this);
+		visitor.visit(this, null);
 	}
 
 	public Block getBlock() {
