@@ -2,13 +2,13 @@ package ql.ast.expression;
 
 public class Ident extends Expr {
 
-    private final String name;
+    private final String _Name;
 
     public Ident(String name) {
-        this.name = name;
+        this._Name = name;
     }
 
     public String getName() {
-        return name;
+        return _Name;
     }
 }
