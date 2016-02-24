@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,15 +26,13 @@ public class QL {
 	
 	public final static String DSLFILE = "exampleQuestionnaire";
 	
-	QLLexer lexer;
-	CommonTokenStream tokens;
-	QLParser parser;		
-	ParseTree tree;
+	private QLParser parser;		
+	private ParseTree tree;
 	
 	public static SymbolTable symbolTable;
 	
 	public QL() {
-		//Empty?
+		// Empty?
 	}
 	
 	public void start() {
@@ -42,8 +40,9 @@ public class QL {
 		
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		QLParser parser = new QLParser(tokens);		
-		ParseTree tree = parser.form();
+		
+		parser = new QLParser(tokens);		
+		tree = parser.form();
 		
 		//System.out.println(tree.toStringTree(parser));
 		
@@ -88,7 +87,7 @@ public class QL {
         // Use values to evaluate expressions
         ast.accept(evaluator);
         
-        displaySymbolTable();
+        //displaySymbolTable();
         
         //Gui ex = new Gui();
         //ex.setVisible(true);
@@ -96,13 +95,12 @@ public class QL {
 	}
 	
 	private void displaySymbolTable() {
-		Iterator it = QL.symbolTable.getSymbols().entrySet().iterator();
+		Iterator<Entry<Question, Literal>> it = QL.symbolTable.getSymbols().entrySet().iterator();
 	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
+	    	Entry<Question, Literal> pair = it.next();
 	        Question key = (Question) pair.getKey();
 	        Literal value = (Literal) pair.getValue();
 	        System.out.println(key.getId().getValue()+" ("+ key.getType().getType() +")"+ " = " + value.getValue());
-	        //it.remove(); // avoids a ConcurrentModificationException
 	    }
 	}
 	

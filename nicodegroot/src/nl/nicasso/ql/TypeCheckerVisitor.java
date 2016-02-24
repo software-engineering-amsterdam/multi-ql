@@ -2,7 +2,7 @@ package nl.nicasso.ql;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
@@ -41,7 +41,7 @@ import nl.nicasso.ql.ast.type.Type;
 
 public class TypeCheckerVisitor implements Visitor<Type> {
 
-	private boolean debug = false;
+	private boolean debug = true;
 		
 	private ArrayList<String> errors;
 	private ArrayList<String> warnings;
@@ -66,7 +66,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new BooleanType()) || !checkType(rightType, new BooleanType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (And)");
 		}
 		
 		return new BooleanType();
@@ -87,7 +87,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new NumericType()) || !checkType(rightType, new NumericType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (Addition)");
 		}
 		
 		return new NumericType();
@@ -108,7 +108,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new NumericType()) || !checkType(rightType, new NumericType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (Subtraction)");
 		}
 		
 		return new NumericType();
@@ -129,7 +129,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new BooleanType()) || !checkType(rightType, new BooleanType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (Or)");
 		}
 		
 		return new BooleanType();
@@ -144,7 +144,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(exprType, new BooleanType())) {
-			errors.add("Error: Incompatible type detected");
+			errors.add("Error: Incompatible type detected (Not)");
 		}
 		
 		return new BooleanType();
@@ -180,7 +180,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new Type()) || !checkType(rightType, new Type())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (Equal)");
 		}
 		
 		return new BooleanType();
@@ -201,7 +201,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new Type()) || !checkType(rightType, new Type())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (NotEqual)");
 		}
 		
 		return new BooleanType();
@@ -222,7 +222,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new NumericType()) || !checkType(rightType, new NumericType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (Division)");
 		}
 		
 		return new NumericType();
@@ -243,7 +243,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new NumericType()) || !checkType(rightType, new NumericType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (Multiplication)");
 		}
 		
 		return new NumericType();
@@ -264,7 +264,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new NumericType()) || !checkType(rightType, new NumericType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (Greater)");
 		}
 		
 		return new BooleanType();
@@ -285,7 +285,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new NumericType()) || !checkType(rightType, new NumericType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (GreaterEqual)");
 		}
 		
 		return new BooleanType();
@@ -306,7 +306,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new NumericType()) || !checkType(rightType, new NumericType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (Less)");
 		}
 		
 		return new BooleanType();
@@ -327,7 +327,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		}
 		
 		if (!checkType(leftType, new NumericType()) || !checkType(rightType, new NumericType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (LessEqual)");
 		}
 		
 		return new BooleanType();
@@ -384,14 +384,14 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		Type expr = value.getExpr().accept(this);
 		
 		if (!checkEqualTypes(expr, value.getType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (ComputedQuestion)");
 		}
 		
 		if (debug) {
 			System.out.println("ComputedQuestion");
 		}
 		
-		addComputedQuestion(value);
+		//addComputedQuestion(value);
 				
 		return null;
 	}
@@ -402,7 +402,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		value.getBlock_if().accept(this);
 		
 		if (!checkEqualTypes(expr, new BooleanType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (IfStatement)");
 		}
 		
 		if (debug) {
@@ -418,7 +418,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		value.getBlock_else().accept(this);
 		
 		if (!checkEqualTypes(expr, new BooleanType())) {
-			errors.add("Error: Incompatible types detected");
+			errors.add("Error: Incompatible types detected (IfElseStatement)");
 		}
 		
 		if (debug) {
@@ -507,24 +507,15 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	}
 	
 	private Type getIdentifierType(String identifier) {
-		
-		Iterator it = QL.symbolTable.getSymbols().entrySet().iterator();
+		Iterator<Entry<Question, Literal>> it = QL.symbolTable.getSymbols().entrySet().iterator();
 	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
+	    	Entry<Question, Literal> pair = it.next();
 	        Question key = (Question) pair.getKey();
 	        if(key.getId().getValue().equals(identifier)) {
 	        	return key.getType();
 	        }
 	        //System.out.println(key.getId().getValue()+" ("+ key.getType().getType() +")"+ " = " + pair.getValue());
 	    }
-	    
-		/*
-		for (Question q : questions) {
-			if (q.getId().getValue().equals(identifier)) {
-				return q.getType();
-			}
-		}
-		*/
 		return null;
 	}
 	
@@ -534,14 +525,6 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	
 	public ArrayList<String> getWarnings() {
 		return warnings;
-	}
-	
-	private void addComputedQuestion(ComputedQuestion key) {
-		
-	}
-	
-	private void addComputedQuestionDependency(ComputedQuestion key, ComputedQuestion value) {
-		
 	}
 	
 }
