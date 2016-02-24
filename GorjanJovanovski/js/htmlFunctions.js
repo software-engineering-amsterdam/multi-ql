@@ -69,6 +69,7 @@ function saveAnswers() {
 
 function renderDebugMessage(type, line, message) {
 	var editor = ace.edit("input");
+	message = message.replace("<", "&lt;").replace(">", "&gt;")
 	var html = "<li><a href='#' onClick='goToLine(" + line + ");'>[line " + line + "] " + message + "</a></li>";
 	
 	var debugAnnotationList = editor.getSession().getAnnotations();

@@ -152,6 +152,7 @@ class FormNode {
 				expression.setQuestionReference(this.getQuestion(expression.label));
 			}
 			else {
+				//TODO don't throw here?
 				throwError(expression.line, "Question label " + expression.label + " is undefined");
 			}
 		}
@@ -263,7 +264,8 @@ class OperatorNode {
 			return true;
 		}
 		else {
-			throwError(this.line, "Statement '" + left + "" + this.op + "" + right + "' expecting left and right to be of " + this.validArguments + ", found " + typeof left + " and " + typeof right);
+			//TODO don't throw here?
+			throwError(this.line, "Statement '" + left + this.op.toString() + right + "' expecting left and right to be of " + this.validArguments + ", found " + typeof left + " and " + typeof right);
 			return false;
 		}
 	}

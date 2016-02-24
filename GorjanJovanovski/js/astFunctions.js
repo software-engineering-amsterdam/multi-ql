@@ -66,19 +66,19 @@ function performAstChecks() {
 	ast.transverseAST(
 		(questionNode) => {
 			if (labels.has(questionNode.label)) {
-				throwError(questionNode.line, "Label '" + questionNode.label + "' is already defined");
+				throwError(questionNode.line, "Question error: Qeustion label '" + questionNode.label + "' is already defined");
 				noErrors = false;
 			}
 			if (texts.has(questionNode.text)) {
-				throwWarning(questionNode.line, "Text '" + questionNode.text + "' is already defined");
+				throwWarning(questionNode.line, "Question warning: Text '" + questionNode.text + "' for question '" + questionNode.label + "' is already defined");
 			}
 			if (questionNode instanceof ComputedQuestionNode) {
 				if (questionNode.computedExpr.compute() === undefined) {
-					throwError(questionNode.computedExpr.line, "Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
+					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
 					noErrors = false;
 				}
 				else if (questionNode.type.getTypeString() !== typeof questionNode.computedExpr.compute()) {
-					throwError(questionNode.computedExpr.line, "Computed expression '" + questionNode.computedExpr.toString() + "' must evaluate to " + questionNode.type.getTypeString());
+					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' must evaluate to " + questionNode.type.getTypeString());
 					noErrors = false;
 				}
 			}
@@ -88,7 +88,7 @@ function performAstChecks() {
 		(conditionNode) => {
 			var evalResult = conditionNode.condition.compute();
 			if (typeof evalResult !== "boolean") {
-				throwError(conditionNode.line, "Condition '" + conditionNode.condition.toString() + "' is not boolean");
+				throwError(conditionNode.line, "Type error: Condition '" + conditionNode.condition.toString() + "' is not boolean");
 				noErrors = false;
 			}
 		}
