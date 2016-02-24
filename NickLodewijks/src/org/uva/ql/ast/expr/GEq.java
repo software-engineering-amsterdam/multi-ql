@@ -11,7 +11,7 @@ public class GEq extends BinaryExpr {
 
 	@Override
 	public Boolean interpret(Context context) {
-		return (Integer) lhs.interpret(context) >= (Integer) rhs.interpret(context);
+		return (Integer) left().interpret(context) >= (Integer) right().interpret(context);
 	}
 
 	@Override

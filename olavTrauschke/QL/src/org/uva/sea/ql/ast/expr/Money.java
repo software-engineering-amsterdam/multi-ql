@@ -17,13 +17,12 @@ public class Money extends Expr {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            Money other = (Money) o;
-            boolean unitsEqual = units == null ? other.units == null : units.equals(other.units);
-            boolean centsEqual = cents == null ? other.cents == null : cents.equals(other.cents);
-            return unitsEqual && centsEqual;
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Money other = (Money) o;
+        boolean unitsEqual = units == null ? other.units == null : units.equals(other.units);
+        boolean centsEqual = cents == null ? other.cents == null : cents.equals(other.cents);
+        return unitsEqual && centsEqual;
     }
 
     @Override

@@ -96,7 +96,7 @@ expr : '+' expr %prec UPLUS { $$ = new Pos($2); }
 		 
 
 %%
-private Lexer lexer; 
+private final Lexer lexer; 
 
 private Form result;
 

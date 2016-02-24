@@ -20,13 +20,12 @@ public class Question extends ASTNode {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            Question other = (Question) o;
-            return identifier.equals(other.identifier)
-                    && label.equals(other.label)
-                    && type.equals(other.type);
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Question other = (Question) o;
+        return identifier.equals(other.identifier)
+               && label.equals(other.label)
+               && type.equals(other.type);
     }
 
     @Override

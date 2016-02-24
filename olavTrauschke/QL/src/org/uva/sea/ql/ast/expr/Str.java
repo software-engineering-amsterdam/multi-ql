@@ -14,11 +14,10 @@ public class Str extends Expr {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            Str other = (Str) o;
-            return value == null ? other.value == null : value.equals(other.value);
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Str other = (Str) o;
+        return value == null ? other.value == null : value.equals(other.value);
     }
 
     @Override
