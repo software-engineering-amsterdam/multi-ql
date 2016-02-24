@@ -62,10 +62,10 @@ export class UndefinedType extends Type {
 }
 
 export class TypeReceiver {
-	receiveBoolean() {}
-	receiveString() {}
-	receiveInteger() {}
-	receiveFloat() {}
-	receiveMoney() {}
-	receiveUndefined() {}
+	receiveBoolean(booleanValue, ...args) {}
+	receiveString(stringValue, ...args) {}
+	receiveInteger(integerValue, ...args) {}
+	receiveFloat(floatValue, ...args) {}
+	receiveMoney(moneyValue, ...args) {}
+	receiveUndefined(undefinedValue, ...args) {}
 }

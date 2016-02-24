@@ -1,6 +1,6 @@
-import { BooleanType, StringType, IntegerType, FloatType, MoneyType, UndefinedType, TypeVisitor } from 'src/types';
+import { BooleanType, StringType, IntegerType, FloatType, MoneyType, UndefinedType, TypeReceiver } from 'src/types';
 
-export class TypeInferer extends TypeVisitor {
+export class TypeInferer extends TypeReceiver {
 	receiveBoolean() {
 		return new UndefinedType();
 	}
