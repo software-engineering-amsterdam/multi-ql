@@ -1,0 +1,28 @@
+1456057744371	Delete element
+1456315054972	Change method 'buildContext'
+1456315068910	Rename method 'buildContext'
+1456315490716	Rename type 'Error'
+1456316251553	Rename method 'someUIelementChanged'
+1456316284209	Rename method 'interfaceUpdate'
+1456316300097	Rename type 'UIListener'
+1456316322790	Change method 'viewUpdate'
+1456316541074	Infer generic type arguments
+1456316554537	Rename method 'someDataChanged'
+1456316566920	Change method 'dataUpdate'
+1456316731544	Delete elements
+1456317242822	Delete element
+1456317524431	Delete element
+1456318443814	Rename method 'someUIelementChanged'
+1456323090720	Delete element
+1456324564310	Change method 'dataUpdate'
+1456324593469	Change method 'viewUpdate'
+1456324725417	Rename type 'SymbolTable'
+1456324786708	Change method 'viewUpdate'
+1456325271632	Delete element
+1456326089569	Rename type 'ContextBuilder'
+1456326104558	Rename method 'build'
+1456326820455	Change method 'evalStatement'
+1456326848184	Change method 'visible'
+1456326905616	Change method 'eval'
+1456329384939	Rename type 'MainPanel'
+1456338635460	Delete element

@@ -4,19 +4,25 @@ import java.io.IOException;
 
 import com.esotericsoftware.minlog.Log;
 import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.context.TypeChecker;
+import eu.bankersen.kevin.ql.context.errors.ContextBuildException;
+import eu.bankersen.kevin.ql.parser.ANTLRParseException;
 import eu.bankersen.kevin.ql.parser.FormParser;
-import eu.bankersen.kevin.ql.symboltable.Context;
+import eu.bankersen.kevin.ql.util.CustomLogger;
+import eu.bankersen.kevin.ql.util.FileReader;
 
 /**
  * Hello world!
  *
  */
 public final class App {
-    
+
     private App() {
     }
 
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
 	Log.INFO(); // Set log level
 	Log.setLogger(new CustomLogger()); // Our custom logger.
 
@@ -24,13 +30,13 @@ public final class App {
 
 	String form;
 
-	int selectedForm = 1;
 	String resource;
+	
+	//resource = "resources/Tax.form";
+	resource = "resources/Tax2.form";
+	//resource = "resources/Tax3.form";
 
-	switch(selectedForm) {
-	default: resource = "resources/Tax.form";
-	case 1 : resource = "resources/Tax2.form";
-	}
+
 
 	try { // Currently the top level so here we catch exceptions.
 	    form = new FileReader().read(resource);
@@ -40,60 +46,62 @@ public final class App {
 	    form = null;
 	}
 
-	FormParser parser = new FormParser(form);
+	FormParser parser;
+	Form parsedForm;
 
-	Form parsedForm = parser.getForm();
-
-	if (parser.getParseErrors() > 0) {
+	try {
+	    parser = new FormParser(form);
+	    parsedForm = parser.getForm();
+	    Log.info("File Parsed");
+	} catch (ANTLRParseException e) {
+	    parsedForm = null;
+	    e.getErrors().forEach(error -> Log.error("Line " + error[0] + ": " + error[1]));
 	    Log.error("Parse Errors, Terminating!");
 	    System.exit(1);
-	} else {
-	    Log.info("File Parsed");
 	}
-
-	Context context = Context.getInstance();
 
 	// Trying to type check.
-	Log.info("Type Check Start");
-	parsedForm.checkType();
-	if (context.getErrors().size() > 0) {
-	    context.getErrors().forEach(error -> Log.error(error.toString()));
-	    Log.error("Type Check error, Terminating!");
+	Log.info("Trying to build context");
+	SymbolTable symbolTable;
+	try {
+	    symbolTable = new TypeChecker(parsedForm).getSymbolTable();
+	} catch (ContextBuildException e) {
+	    symbolTable = null;
+	    e.getErrors().forEach(error -> Log.error(error.toString()));
+	    Log.error("Parse Errors, Terminating!");
 	    System.exit(1);
-	} else {
-	    Log.info("Type Check succesful");
 	}
 
 
-	Log.info("\n\n****************************\n"
-		   + "* Doing random weird stuff *\n"
-		   + "****************************\n");
+	Log.info("\n\n***********************\n"
+		+ "* Doing random  stuff *\n"
+		+ "***********************\n");
 
-	if (selectedForm == 1) {
+	if (resource.equals("resources/Tax2.form")) {
 
 	    Log.info("Starting State");
-	    parsedForm.eval(); // Initialize the form
+	    symbolTable = parsedForm.evalForm(symbolTable); // Initialize the form
 	    Log.info(parsedForm.toString());
 
 	    Log.info("Answer european: yes");
-	    context.updateSymbol("European", new Boolean(true));
-	    parsedForm.eval();
+	    symbolTable.updateSymbol("European", new Boolean(true));
+	    symbolTable = parsedForm.evalForm(symbolTable);
 	    Log.info(parsedForm.toString());
 
 	    Log.info("Answer name: Kevin");
-	    context.updateSymbol("name", new String("Kevin"));
-	    parsedForm.eval();
+	    symbolTable.updateSymbol("name", new String("Kevin"));
+	    symbolTable = parsedForm.evalForm(symbolTable);
 	    Log.info(parsedForm.toString());
 
 	    Log.info("Answer age: 26");
-	    context.updateSymbol("age", new Integer(26));
-	    parsedForm.eval();
+	    symbolTable.updateSymbol("age", new Integer(26));
+	    symbolTable = parsedForm.evalForm(symbolTable);
 	    Log.info(parsedForm.toString());
 
 	    Integer age = 4;
 	    Log.info("Answer startSchool: " + age.toString());
-	    context.updateSymbol("startSchool", age);
-	    parsedForm.eval();
+	    symbolTable.updateSymbol("startSchool", age);
+	    symbolTable = parsedForm.evalForm(symbolTable);
 	    Log.info(parsedForm.toString());
 
 	    Log.info(parsedForm.toString());

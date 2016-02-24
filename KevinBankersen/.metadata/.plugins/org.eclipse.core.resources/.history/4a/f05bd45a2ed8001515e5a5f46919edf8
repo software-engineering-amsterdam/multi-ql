@@ -1,0 +1,59 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class MainPanel extends JPanel implements DataListener, UIListener {
+    
+    JPanel mainPanel;
+    JLabel label;
+    
+    
+    private List<DataListener> listeners = new ArrayList<DataListener>();
+    private List<UIListener> ui = new ArrayList<UIListener>();
+    
+    
+    public MainPanel() {
+	mainPanel = new JPanel(new BorderLayout());
+	
+	JFormattedTextField txField = new JFormattedTextField();
+	txField.addActionListener(new ActionListener() {
+	    
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		JFormattedTextField field = (JFormattedTextField) e.getSource();
+		someUIelementChanged(Integer.valueOf(field.getText()));
+		
+	    }
+	});
+	add(txField, BorderLayout.SOUTH);
+	
+	label = new JLabel("Test");
+	add(label, BorderLayout.NORTH);
+    }
+    
+    public void addListener(DataListener toAdd) {
+        listeners.add(toAdd);
+    }
+    public void addListener(UIListener toAdd) {
+	ui.add(toAdd);
+    }
+
+    @Override
+    public void someDataChanged(int data) {
+	label.setText(String.valueOf(data));
+    }
+
+    @Override
+    public void someUIelementChanged(int data) {
+	ui.forEach(l -> l.someUIelementChanged(data));
+    }
+}

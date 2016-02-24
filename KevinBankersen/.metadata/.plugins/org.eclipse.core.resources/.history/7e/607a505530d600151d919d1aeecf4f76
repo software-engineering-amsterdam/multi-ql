@@ -1,0 +1,15 @@
+form schoolDuration { 
+  "Do you live in Europe?"
+  q1 boolean
+  
+  if(q1 + q2){
+  
+  	"What is your name?"
+  	q3 string
+  	
+  	}
+
+  	"This is a trailing question..?"
+  	q2 integer
+ 
+}

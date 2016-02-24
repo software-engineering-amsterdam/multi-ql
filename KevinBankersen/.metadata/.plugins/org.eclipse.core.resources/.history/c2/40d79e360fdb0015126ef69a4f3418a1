@@ -1,0 +1,57 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
+import javax.swing.JFrame;
+
+import eu.bankersen.kevin.ql.context.Symbol;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+
+public class TestUI extends JFrame implements DataListener, ViewListener {
+    private List<DataListener> listeners = new ArrayList<DataListener>();
+    private List<ViewListener> ui = new ArrayList<ViewListener>();
+
+    public TestUI(SymbolTable symbolTable) {
+
+	for (Entry<String, Symbol> entry : symbolTable.getEntries().entrySet()) {
+
+	    MainPanel mainPanel = new MainPanel(entry.getKey());
+
+	    //Register listeners.
+	    this.addDataListener(mainPanel);
+	    mainPanel.addUIListener(this);
+	    
+	    System.out.println("Hi!");
+
+
+	    add(mainPanel);
+	}
+
+
+
+	//Build the application
+	setTitle("Simple Test");
+	setSize(300, 200);
+	setLocationRelativeTo(null);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void dataUpdate(SymbolTable symbolTable) {
+	listeners.forEach(listener -> listener.dataUpdate(symbolTable));
+    }
+
+    public void addDataListener(DataListener listener) {
+	listeners.add(listener);
+    }
+    public void addViewListener(ViewListener listener) {
+	ui.add(listener);
+    }
+
+    @Override
+    public void viewUpdate(String name, Object value) {
+	ui.forEach(listener -> listener.viewUpdate(name, value));
+    }
+}

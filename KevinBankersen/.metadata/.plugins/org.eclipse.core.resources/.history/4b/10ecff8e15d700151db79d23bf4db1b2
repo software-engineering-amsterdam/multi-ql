@@ -1,0 +1,28 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class ExprTypeError extends Error {
+
+
+    public ExprTypeError(int line, Type lhs, Type rhs, Type expr) {
+	super(line, "Expected " + expr + " got " + lhs + " and " + rhs + "!");
+    }
+    
+    public ExprTypeError(int line, Type lhs, Type rhs) {
+	super(line, "Expected " + lhs + " got " + rhs + "!");
+	message = "Line " + line 
+			+ ": expected " + lhs 
+			+ " got " + rhs + "!";
+    }
+    
+    public ExprTypeError(int line, String name) {
+	message = "Line " + line 
+			+ " question \"" + name + "\" already defined!";
+    }
+
+    @Override
+    public String message() {
+	return message;
+    }
+}

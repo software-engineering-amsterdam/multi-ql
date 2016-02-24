@@ -1,0 +1,22 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class TestUI extends JFrame implements DataListener {
+
+    public TestUI() {
+	JPanel mainPanel = new MainPanel();
+	add(new mainPanel);
+	setTitle("Simple example");
+	setSize(300, 200);
+	setLocationRelativeTo(null);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void someDataChanged(int data) {
+	// TODO Auto-generated method stub
+	
+    }
+}

@@ -1,0 +1,34 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+public class Form {
+
+    private final String name;
+    private final Block body;
+
+    public Form(String name, Block body) {
+	this.name = name;
+	this.body = body;
+    }
+
+    public void checkType() {
+	body.checkType();
+    }
+
+    public void eval() {
+	body.eval();
+    }
+    
+    @Override
+    public String toString() {
+
+	StringBuilder sb;
+
+	sb = new StringBuilder();
+	sb.append("Results\nForm: " + name + "\n");
+	sb.append(body);
+	sb.append("\n");
+
+	return sb.toString();
+    }
+}
+

@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import javax.swing.JFrame;
+
+public class TestUI extends JFrame implements DataListener {
+
+    public TestUI() {
+	
+    }
+
+    @Override
+    public void someDataChanged(int data) {
+	// TODO Auto-generated method stub
+	
+    }
+}

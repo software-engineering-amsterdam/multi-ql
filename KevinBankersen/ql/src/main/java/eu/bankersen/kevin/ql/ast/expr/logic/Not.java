@@ -1,26 +1,26 @@
 package eu.bankersen.kevin.ql.ast.expr.logic;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.SymbolTable;
 import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
 
 public class Not extends BooleanExpr {
 
-    private final Expr expr;
-
-    public Not(final Expr expr, final int line) {
-	this.expr = expr;
-	super.line = line;
+    public Not(Expr expr, int line) {
+	super(expr, null, line);
     }
     
     @Override
-    public final void checkType() {
-	expr.checkType();
-	expr.getType().equals(this.getType());
+    public Context checkType(Context context) {
+	context = lhs().checkType(context);
+	lhs().getType(context).equals(this.getType(context));
+	return context;
     }
 
     @Override
-    public final Boolean eval() {
-	return !(Boolean) expr.eval();
+    public final Boolean eval(SymbolTable symbolTable) throws EvaluateExeption {
+	return !(Boolean) lhs().eval(symbolTable);
     }
-
 }

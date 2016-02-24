@@ -2,7 +2,7 @@ form schoolDuration {
   "Do you live in Europe?"
   European boolean
   
-  if(name){
+  if(European){
   
   	"What is your name?"
   	name string
@@ -14,15 +14,15 @@ form schoolDuration {
   	startSchool integer
   	
   	"You have studied this many years: "
-  	startAge integer = (age - name)
+  	startAge integer = (age - startSchool)
   	
 	  	if(startAge >= 20){
 	  		"You studied longer than most other students"
-	  		longest boolean
+	  		longest boolean = true
 	  	}
   	}
 
-  	"This is a trailing question..?"
-  	trailing boolean
+  "This is a trailing question..?"
+  Trailing boolean
  
 }

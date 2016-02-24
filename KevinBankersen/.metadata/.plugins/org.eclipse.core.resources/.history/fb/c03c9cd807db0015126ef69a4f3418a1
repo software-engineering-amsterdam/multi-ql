@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.context;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.context.errors.ContextBuildException;
+
+public class TypeChecker {
+    
+    private final Context context;
+    
+    public TypeChecker() {
+	this.context = new Context;
+    }
+    
+    public SymbolTable check(Form qlForm) throws ContextBuildException {
+	
+	Context context = qlForm.checkType();
+	if (context.getErrors().size() > 0) {
+	    throw new ContextBuildException(context.getErrors());
+	}
+	return context.getSymbolTable();
+    }
+
+}

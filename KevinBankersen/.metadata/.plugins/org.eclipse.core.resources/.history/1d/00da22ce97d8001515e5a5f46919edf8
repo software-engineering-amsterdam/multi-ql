@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.context;
+
+public class ContextBuilder {
+    
+    public ContextBuilder() {
+	// TODO Auto-generated constructor stub
+    }
+
+}

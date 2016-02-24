@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql.ast.expr.math;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
+
+public class Sub extends IntegerExpr {
+
+    public Sub(Expr lhs, Expr rhs, int line) {
+	super(lhs, rhs, line);
+    }
+
+    @Override
+    public final Integer eval() {
+	return (Integer) lhs().eval() - (Integer) rhs().eval();
+    }
+
+}

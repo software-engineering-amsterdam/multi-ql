@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql.ast.expr.logic;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
+
+public class And extends BooleanExpr {
+
+    public And(Expr lhs, Expr rhs, int line) {
+	super(lhs,rhs,line);
+    }
+
+    @Override
+    public Boolean eval() {
+	return (Boolean) lhs().eval() && (Boolean) rhs().eval();
+    }
+
+}

@@ -1,0 +1,7 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+public class OutOfScope extends Error {
+    
+    
+
+}

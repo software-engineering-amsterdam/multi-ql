@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.parser;
+
+public class ANTLRParseException extends Exception {
+    
+    private List<String[]> exceptions;
+    
+    public ANTLRParseException(final ArrayList<String[]> exceptions){
+	this.exceptions = exceptions;
+    }
+}

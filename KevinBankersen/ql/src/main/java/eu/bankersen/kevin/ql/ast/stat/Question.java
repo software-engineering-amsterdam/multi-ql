@@ -2,48 +2,57 @@ package eu.bankersen.kevin.ql.ast.stat;
 
 import eu.bankersen.kevin.ql.ast.Type;
 import eu.bankersen.kevin.ql.ast.Variable;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.SymbolTable;
 
-public class Question extends AbstractStatement  {
+public class Question extends Statement  {
 
     private final Variable variable;
     private final String text;
+    private Object value;
 
-    public Question(final Variable variable, final String text) {
+    public Question(Variable variable, String text) {
 	this.variable = variable;
-	this.text = text;
+	this.text = text.substring(1, text.length()-1);
     }
 
-    public final String getText() {
+    public String getText() {
 	return text;
     }
 
-    public final void checkType() {
-	variable.checkType();
+    public Context checkType(Context context) {
+	return variable.checkType(context, text);
     }
 
-    public final Type getType() {
+    public Type getType() {
 	return variable.getType();
     }
     
-    public final String getName() {
+    public String getName() {
 	return variable.getName();
     }
     
-    public final Object getValue() {
-	return super.context.getSymbol(variable.getName()).getValue();
+    public Object getValue() {
+	return value;
     }
     
-    public final void visible(final Boolean visible) {
-	super.context.setVisibility(this.getName(), visible);
+    public SymbolTable visible(SymbolTable symbolTable, Boolean visible) {
+	symbolTable.setVisibility(this.getName(), visible);
+	return symbolTable;
     }
     
     @Override
-    public final String toString() {
+    public Context visible(Context context, Boolean visible) {
+	context.setVisibility(this.getName(), visible);
+	return context;
+    }
+    
+    public SymbolTable evalStatement(SymbolTable symbolTable) {
+	return variable.eval(symbolTable);
+    }
+    
+    @Override
+    public String toString() {
 	return text + "\n" + variable.toString() + "\n\n";
-    }
-
-    @Override
-    public final void eval() {
-	variable.eval();
     }
 }

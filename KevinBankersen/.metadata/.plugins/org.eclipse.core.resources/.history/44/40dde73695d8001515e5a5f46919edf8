@@ -1,0 +1,41 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class TestUI extends JFrame implements DataListener, UIListener {
+    private List<DataListener> listeners = new ArrayList<DataListener>();
+    private List<UIListener> ui = new ArrayList<UIListener>();
+    
+    public TestUI() {
+	MainPanel mainPanel = new MainPanel();
+	this.addDataListener(mainPanel);
+	mainPanel.addUIListener(this);
+	add(mainPanel);
+	setTitle("Simple example");
+	setSize(300, 200);
+	setLocationRelativeTo(null);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void someDataChanged(int data) {
+	listeners.forEach(l -> l.someDataChanged(data));
+
+    }
+    
+    public void addDataListener(DataListener toAdd) {
+        listeners.add(toAdd);
+    }
+    public void addUIListener(UIListener toAdd) {
+	ui.add(toAdd);
+    }
+
+    @Override
+    public void someUIelementChanged(int data) {
+	ui.forEach(l -> l.someUIelementChanged(data));
+    }
+}

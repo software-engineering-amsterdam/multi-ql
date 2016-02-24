@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import eu.bankersen.kevin.ql.context.String;
+
+public interface DataListener {
+
+    void dataUpdate(String symbolTable);
+
+}

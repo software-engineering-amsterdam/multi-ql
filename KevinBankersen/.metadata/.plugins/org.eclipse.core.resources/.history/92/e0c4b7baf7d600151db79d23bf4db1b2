@@ -1,0 +1,51 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+
+public class Block {
+
+    private List<AbstractStatement> statements;
+
+    public Block(List statements) {
+	this.statements = statements;
+    }
+
+    public void eval() {
+
+	visible(true); // Inside a body meaning the above statement is true, show the questions.
+
+	statements.forEach(statement -> statement.eval());
+    }
+
+    public void checkType() {
+
+	statements.forEach(statement -> statement.checkType());
+
+	visible(false); // We can use the visibility modifier to determine depth.
+    }
+
+    public void visible(Boolean vis) {
+	statements.forEach(statement -> statement.visible(vis));
+    }
+
+    @Override
+    public String toString() {
+
+	StringBuilder sb = new StringBuilder();
+	
+	statements.forEach(statement -> sb.append(statement.toString()));
+	
+	return sb.toString();
+    }
+
+    public void add(AbstractStatement statement) {
+	statements.add(statement);
+    }
+
+    public List<AbstractStatement> getStatements() {
+	return statements;
+    }
+}

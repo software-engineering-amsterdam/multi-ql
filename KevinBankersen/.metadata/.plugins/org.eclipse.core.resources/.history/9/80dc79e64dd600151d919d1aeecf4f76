@@ -1,0 +1,77 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.form.Block;
+import eu.bankersen.kevin.ql.context.Context;
+
+public class IFStat extends AbstractStatement  {
+
+    private final Expr expr;
+    private final Block body;
+    private final int line;
+    private final Context context;
+    private boolean expression;
+
+    public IFStat(Expr expression, Block body, int line) {
+	context = Context.getInstance();
+	this.expr = expression;
+	this.body = body;
+	this.line = line;
+    }
+
+    public void checkType() {
+
+	expr.checkType();
+	body.checkType();
+	
+	Boolean check = expr.getType().equals(Type.BOOLEAN);
+	
+	if (!check) {
+	    context.addError("TYPE_ERROR @Line " + line 
+		    			+ ": If must resolve to " + Type.BOOLEAN 
+		    			+ " got " + expr.getType());
+	}
+	
+    }
+
+    public void eval() {
+ 
+	try {
+	    expression = (Boolean) expr.eval();
+	} catch (NullPointerException e) {
+	    Log.debug("If-statement cannot be evaluated");
+	    expression = false;
+	}
+	
+	Log.debug("If-statement is: " + expression);
+	
+	if (expression) {
+	    visible(true);
+	    body.eval();
+	} else {
+	    visible(false);
+	}
+    }
+
+    public Block getBody() {
+	return body;
+    }
+
+    @Override
+    public String toString() {
+
+	if (statement) {
+	    return body.toString();
+	} else {
+	    return "";
+	}
+    }
+
+    @Override
+    public void visible(final Boolean visible) {
+	body.visible(visible);
+    }
+}

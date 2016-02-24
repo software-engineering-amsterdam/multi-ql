@@ -1,0 +1,22 @@
+package eu.bankersen.kevin.ql.context;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.context.errors.ContextBuildException;
+
+public class TypeChecker {
+    
+    private final Context context;
+    
+    public TypeChecker(Form qlForm) throws ContextBuildException {
+	
+	this.context = qlForm.checkType();
+	if (context.getErrors().size() > 0) {
+	    throw new ContextBuildException(context.getErrors());
+	}
+    }
+    
+    public SymbolTable getSymbolTable() {
+	return context.getSymbolTable();
+    }
+
+}

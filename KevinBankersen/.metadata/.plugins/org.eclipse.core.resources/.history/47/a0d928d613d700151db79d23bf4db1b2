@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public abstract class Errors {
+    
+    private final String message;
+    
+    public Errors(String message){
+	this.message = message;
+    }
+    
+    public String toString(){
+	return message;
+    }
+    
+}

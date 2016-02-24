@@ -1,0 +1,80 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class MainPanel extends JPanel implements DataListener {
+
+    private JPanel mainPanel;
+    private JLabel label;
+
+    private List<ViewListener> ui = new ArrayList<ViewListener>();
+
+
+    public MainPanel() {
+	mainPanel = new JPanel(new BorderLayout());
+	
+
+	JFormattedTextField txField = new JFormattedTextField();
+
+	txField.addKeyListener(new KeyListener() {
+
+	    @Override
+	    public void keyTyped(KeyEvent e) {
+
+
+	    }
+
+	    @Override
+	    public void keyReleased(KeyEvent e) {
+
+		JFormattedTextField field = (JFormattedTextField) e.getSource();
+
+		if (field.getText().equals("")){
+		    someUIelementChanged(0);
+		}else {
+		    someUIelementChanged(Integer.valueOf(field.getText()));
+		}
+		MainPanel.this.mainPanel.revalidate();
+		MainPanel.this.mainPanel.repaint();
+
+	    }
+
+	    @Override
+	    public void keyPressed(KeyEvent e) {
+
+
+	    }
+	});
+
+	txField.setPreferredSize(new Dimension(200, 30));
+	mainPanel.add(txField, BorderLayout.SOUTH);
+
+	label = new JLabel("Test");
+
+	mainPanel.add(label, BorderLayout.NORTH);
+	add(mainPanel);
+    }
+
+    public void addUIListener(ViewListener toAdd) {
+	ui.add(toAdd);
+    }
+
+    @Override
+    public void dataUpdate(Object data) {
+	label.setText(String.valueOf(data));
+    }
+
+    private void someUIelementChanged(int data) {
+	System.out.println(data);
+	ui.forEach(l -> l.viewUpdate(data));
+    }
+}

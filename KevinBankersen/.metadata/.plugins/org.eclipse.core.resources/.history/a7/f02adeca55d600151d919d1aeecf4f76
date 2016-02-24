@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql.ast.expr.math;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
+
+public class Pos extends IntegerExpr {
+    
+    public Pos(final Expr expr, final int line) {
+	super(expr, null, line);
+    }
+
+    @Override
+    public final Integer eval() {
+	return Math.abs((Integer) lhs().eval());
+    }
+
+}
