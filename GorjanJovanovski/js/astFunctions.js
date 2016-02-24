@@ -1,12 +1,27 @@
 function initiate(inputString) {
-
 	resetErrorPanels();
+	var tree = getAntrlParseTree(inputString);
+	var visitor = getAntlrVisitor();
+	visitor.visitForm = function (ctx) {
+		ast = ctx.FormNode;
+		if (performAstChecks()) {
+			renderQuestions();
+			setHTMLEventHandlers();
+			refreshGUI();
+		}
+		else {
+			throwError(1, "Form checks failed");
+		}
+	};
+	tree.accept(visitor);
+}
 
+function getAntrlParseTree(input) {
 	var antlr4 = require('antlr4/index');
-	var QLGrammarLexer = require('QLGrammarLexer');
-	var QLGrammarParser = require('QLGrammarParser');
+	var QLGrammarLexer = require('js/antlrGen/QLGrammarLexer');
+	var QLGrammarParser = require('js/antlrGen/QLGrammarParser');
 
-	var characters = new antlr4.InputStream(inputString);
+	var characters = new antlr4.InputStream(input);
 	var lexer = new QLGrammarLexer.QLGrammarLexer(characters);
 	var tokens = new antlr4.CommonTokenStream(lexer);
 	var parserANTLR = new QLGrammarParser.QLGrammarParser(tokens);
@@ -28,34 +43,21 @@ function initiate(inputString) {
 	parserANTLR.addErrorListener(new ErrorListener());
 
 
-	visitParseTree(parserANTLR.form());
+	return parserANTLR.form();
 }
 
-function visitParseTree(parseTree) {
+function getAntlrVisitor() {
 
-	var QLGrammarVisitor = require('QLGrammarVisitor');
-
+	var QLGrammarVisitor = require('js/antlrGen/QLGrammarVisitor');
 	var Visitor = function () {
 		QLGrammarVisitor.QLGrammarVisitor.call(this);
 		return this;
 	};
-
 	Visitor.prototype = Object.create(QLGrammarVisitor.QLGrammarVisitor.prototype);
-
-	Visitor.prototype.visitForm = function (ctx) {
-		ast = ctx.FormNode;
-		if (performASTCheck()) {
-			renderQuestions();
-			setHandlers();
-			refreshGUI();
-		}
-	};
-
-	var visitor = new Visitor();
-	parseTree.accept(visitor);
+	return new Visitor();
 }
 
-function performASTCheck() {
+function performAstChecks() {
 	var texts = new Set();
 	var labels = new Set();
 
@@ -70,9 +72,15 @@ function performASTCheck() {
 			if (texts.has(questionNode.text)) {
 				throwWarning(questionNode.line, "Text '" + questionNode.text + "' is already defined");
 			}
-			if (questionNode instanceof ComputedQuestionNode && questionNode.computedExpr.compute() === undefined) {
-				throwError(questionNode.computedExpr.line, "Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
-				noErrors = false;
+			if (questionNode instanceof ComputedQuestionNode) {
+				if (questionNode.computedExpr.compute() === undefined) {
+					throwError(questionNode.computedExpr.line, "Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
+					noErrors = false;
+				}
+				else if (questionNode.type.getTypeString() !== typeof questionNode.computedExpr.compute()) {
+					throwError(questionNode.computedExpr.line, "Computed expression '" + questionNode.computedExpr.toString() + "' must evaluate to " + questionNode.type.getTypeString());
+					noErrors = false;
+				}
 			}
 			labels.add(questionNode.label);
 			texts.add(questionNode.text);
