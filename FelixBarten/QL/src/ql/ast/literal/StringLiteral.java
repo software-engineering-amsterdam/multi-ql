@@ -1,8 +1,8 @@
 package ql.ast.literal;
 
-public class StringLiteral extends Literal {
+public class StringLiteral extends Literal<String> {
 
-	public StringLiteral(Object value) {
+	public StringLiteral(String value) {
 		super(value);
 		// TODO Auto-generated constructor stub
 	}
