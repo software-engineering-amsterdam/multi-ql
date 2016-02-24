@@ -223,7 +223,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		public void contextChanged(Context context) {
 			boolean value;
 
-			value = (Boolean) QLExpressionInterpreter.interpret(expr, context);
+			value = QLExpressionInterpreter.interpret(expr, context);
 
 			SwingUtilities.invokeLater(() -> {
 				setVisible(value);

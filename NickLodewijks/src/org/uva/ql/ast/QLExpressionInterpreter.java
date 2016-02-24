@@ -21,12 +21,9 @@ import org.uva.ql.ast.expr.VariableExpr;
 
 public class QLExpressionInterpreter extends ASTNodeVisitorAdapter<Object, Context> {
 
-	public static Object interpret(Expr expr, Context context) {
-		QLExpressionInterpreter i;
-
-		i = new QLExpressionInterpreter();
-
-		return expr.accept(i, context);
+	@SuppressWarnings("unchecked")
+	public static <T> T interpret(Expr expr, Context context) {
+		return (T) expr.accept(new QLExpressionInterpreter(), context);
 	}
 
 	private QLExpressionInterpreter() {
