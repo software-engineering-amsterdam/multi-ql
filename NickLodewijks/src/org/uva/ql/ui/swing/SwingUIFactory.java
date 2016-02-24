@@ -1,7 +1,6 @@
 package org.uva.ql.ui.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -32,13 +30,13 @@ import org.uva.ql.ast.StringType;
 import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Context.ContextListener;
+import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.domain.QLForm;
 import org.uva.ql.domain.QLQuestion;
 import org.uva.ql.domain.QLQuestionaire;
 import org.uva.ql.domain.QLSection;
 import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIQuestionnaire;
-import org.uva.ql.ast.expr.Expr;
 
 public class SwingUIFactory implements UIFactory {
 
@@ -68,6 +66,10 @@ public class SwingUIFactory implements UIFactory {
 		private final JFrame jframe;
 
 		public DefaultQLQuestionaire(QLQuestionaire q) {
+			JScrollPane scrollPanel;
+			JPanel panel;
+			JPanel root;
+
 			this.questionnaire = q;
 
 			jframe = new JFrame();
@@ -78,7 +80,20 @@ public class SwingUIFactory implements UIFactory {
 				forms.add(new DefaultQLForm(form));
 			}
 
-			jframe.setContentPane(forms.get(0).getComponent());
+			scrollPanel = new JScrollPane(forms.get(0).getComponent());
+
+			root = new JPanel();
+			root.setLayout(new BoxLayout(root, BoxLayout.X_AXIS));
+
+			panel = new JPanel();
+			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+			panel.add(scrollPanel);
+
+			root.add(Box.createGlue());
+			root.add(panel);
+			root.add(Box.createGlue());
+
+			jframe.setContentPane(root);
 			jframe.setSize(400, 600);
 			jframe.setLocationRelativeTo(null);
 		}
@@ -102,19 +117,13 @@ public class SwingUIFactory implements UIFactory {
 		private final List<DefaultQLQuestion> questions = new ArrayList<>();
 		private final List<DefaultQLSection> sections = new ArrayList<>();
 
-		private final JScrollPane pane;
 		private final JPanel panel;
 
 		public DefaultQLForm(QLForm form) {
 			this.form = form;
+
 			panel = new JPanel();
-
-			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-			pane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			panel.setBorder(
-					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), panel.getBorder()));
+			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
 			for (QLQuestion question : form.getQuestions()) {
 				add(new DefaultQLQuestion(question));
@@ -145,7 +154,7 @@ public class SwingUIFactory implements UIFactory {
 
 		@Override
 		public JComponent getComponent() {
-			return pane;
+			return panel;
 		}
 	}
 
@@ -162,9 +171,6 @@ public class SwingUIFactory implements UIFactory {
 
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-			panel.setBorder(
-					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), panel.getBorder()));
 
 			for (QLQuestion question : section.getQuestions()) {
 				add(new DefaultQLQuestion(question));
@@ -211,6 +217,7 @@ public class SwingUIFactory implements UIFactory {
 
 			SwingUtilities.invokeLater(() -> {
 				panel.setVisible(value);
+				SwingUtilities.windowForComponent(panel).revalidate();
 			});
 		}
 	}
@@ -236,10 +243,7 @@ public class SwingUIFactory implements UIFactory {
 			panel.add(label.getComponent(), BorderLayout.CENTER);
 			panel.add(input.getComponent(), BorderLayout.EAST);
 			panel.setMaximumSize(new Dimension(400, 40));
-			panel.setMinimumSize(new Dimension(400, 40));
-
-			panel.setBorder(
-					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), panel.getBorder()));
+			panel.setMinimumSize(new Dimension(200, 40));
 		}
 
 		@Override
@@ -261,7 +265,6 @@ public class SwingUIFactory implements UIFactory {
 		public DefaultLabelWidget(String label) {
 			super(label.replaceAll("\"", ""));
 			setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-			setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red), this.getBorder()));
 		}
 
 		@Override
@@ -358,6 +361,7 @@ public class SwingUIFactory implements UIFactory {
 
 		public DefaultBooleanWidget(String variableName) {
 			ButtonGroup bg;
+
 			setLayout(new BorderLayout());
 
 			this.variableName = variableName;
@@ -435,6 +439,13 @@ public class SwingUIFactory implements UIFactory {
 
 			textField = new JTextField();
 			textField.setPreferredSize(new Dimension(100, 20));
+			textField.addKeyListener(new KeyAdapter() {
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+					textField.postActionEvent();
+				}
+			});
 
 			add(textField);
 		}
@@ -454,14 +465,6 @@ public class SwingUIFactory implements UIFactory {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					context.setValue(variableName, getValue());
-				}
-			});
-
-			textField.addKeyListener(new KeyAdapter() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					textField.postActionEvent();
 				}
 			});
 		}
