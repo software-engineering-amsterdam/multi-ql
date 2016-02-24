@@ -41,7 +41,7 @@ public class StatementSet extends ASTNode {
      * Compares <code>this StatementSet</code> to another <code>Object</code>. A
      * <code>StatementSet</code> is considered equal only to other objects of
      * this class, containing exactly the same elements, as specified by
-     * {@link java.util.AbstractSet#equals(java.lang.Object)}.
+     * {@link java.util.AbstractSet#equals(java.lang.Object) AbstractSet.equals(Object)}.
      * 
      * @param o the <code>Object</code> to compare to
      *          <code>this StatementSet</code>

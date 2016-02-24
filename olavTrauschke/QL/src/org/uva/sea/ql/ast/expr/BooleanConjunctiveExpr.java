@@ -54,7 +54,7 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
     }
     
     /**
-     * @return an <code>int</code> containing a hash for <code>this Add</code>
+     * @return an <code>int</code> containing a hash for <code>this BooleanConjunctiveExpr</code>
      */
     @Override
     public int hashCode() {

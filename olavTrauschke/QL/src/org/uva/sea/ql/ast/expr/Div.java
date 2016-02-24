@@ -6,7 +6,7 @@ package org.uva.sea.ql.ast.expr;
  * @author Olav Trauschke, 10329463
  * @version 24-feb-2016
  */
-public class Div extends DoubleArgumentNumericExpr {
+public class Div extends BinaryNumericOperatorExpr {
     
     /**
      * Constructor for objects of class <code>Div</code>.

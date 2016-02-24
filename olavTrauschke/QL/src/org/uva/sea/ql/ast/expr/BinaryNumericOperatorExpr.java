@@ -7,7 +7,7 @@ package org.uva.sea.ql.ast.expr;
  * @author Olav Trauschke
  * @version 24-feb-2016
  */
-public abstract class DoubleArgumentNumericExpr extends NumericExpr {
+public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
     /**
      * Start value used to calculate hashes for objects of this class.
@@ -23,38 +23,39 @@ public abstract class DoubleArgumentNumericExpr extends NumericExpr {
     private final Expr secondExpr;
     
     /**
-     * Constructor for objects of class <code>DoubleArgumentNumericExpr</code>.
+     * Constructor for objects of class <code>BinaryNumericOperatorExpr</code>.
      * 
      * @param theFirstExpr the <code>Expr</code> on the left hand side of the operator
      * @param theSecondExpr the <code>Expr</code> on the right hand side of the operator
      */
-    public DoubleArgumentNumericExpr(Expr theFirstExpr, Expr theSecondExpr) {
+    public BinaryNumericOperatorExpr(Expr theFirstExpr, Expr theSecondExpr) {
         assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
     }
     
     /**
-     * Compares <code>this DoubleArgumentNumericExpr</code> to another
-     * <code>Object</code>. A <code>DoubleArgumentNumericExpr</code> is
+     * Compares <code>this BinaryNumericOperatorExpr</code> to another
+     * <code>Object</code>. A <code>BinaryNumericOperatorExpr</code> is
      * considered equal only to other objects of the same class as
-     * <code>this DoubleArgumentNumericExpr</code>, for which <code>theFirstExpr</code>
+     * <code>this BinaryNumericOperatorExpr</code>, for which <code>theFirstExpr</code>
      * and <code>theSecondExpr</code> are equal to its own values for these field.
      * 
-     * @param o the <code>Object</code> to compare to <code>this DoubleArgumentNumericExpr</code>
+     * @param o the <code>Object</code> to compare to <code>this BinaryNumericOperatorExpr</code>
      * @return <code>true</code> if and only if o is equal to
-     *          <code>this DoubleArgumentNumericExpr</code> 
+     *          <code>this BinaryNumericOperatorExpr</code> 
      */
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         
-        DoubleArgumentNumericExpr other = (DoubleArgumentNumericExpr) o;
+        BinaryNumericOperatorExpr other = (BinaryNumericOperatorExpr) o;
         return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
     }
     
     /**
-     * @return an <code>int</code> containing a hash for <code>this Add</code>
+     * @return an <code>int</code> containing a hash for
+     *          <code>this BinaryNumericOperatorExpr</code>
      */
     @Override
     public int hashCode() {

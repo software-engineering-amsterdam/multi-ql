@@ -54,7 +54,7 @@ public abstract class ComparisonExpr extends BooleanExpr {
     }
     
     /**
-     * @return an <code>int</code> containing a hash for <code>this Add</code>
+     * @return an <code>int</code> containing a hash for <code>this ComparisonExpr</code>
      */
     @Override
     public int hashCode() {
