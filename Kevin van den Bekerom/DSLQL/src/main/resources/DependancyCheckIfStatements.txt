@@ -1,14 +1,15 @@
 form DependancyCheckIfStatements {
+	 if (q3) {
+	 	q5: "question 5" boolean
+	 }
 	 q1: "question 1" boolean
 	 q2: "question 2" boolean
-	 if (q3) {
-	 	q4: "question 1" boolean /* safe */
-	 	if (q5) { /* unsafe */
+	 if (q4) {
+	 	q4: "question 1" boolean 
+	 	if (q5) { 
 	 		q6: "question 6" boolean
 	 	}
 	 }
 	 q3: "question 3" boolean (q1 + q5)
-	 if (q4) { /* unsafe */
-	 	q5: "question 5" boolean
-	 }
+	 
 }
