@@ -9,6 +9,11 @@ public class UndefinedType extends Type {
 		super(fragment, typeName);
 	}
 	
+	public UndefinedType() {
+		// TODO Auto-generated constructor stub
+		super(new CodeFragment(-1, -1), "Undefined");
+	}
+
 	@Override
 	public boolean isUndefined() {
 		return true;

@@ -11,7 +11,7 @@ public class BoolType extends Type {
 	
 	public BoolType() {
 		// TODO Auto-generated constructor stub
-		super(new CodeFragment(0, 0), "Boolean");
+		super(new CodeFragment(0, 0), "boolean");
 	}
 	
 	@Override
