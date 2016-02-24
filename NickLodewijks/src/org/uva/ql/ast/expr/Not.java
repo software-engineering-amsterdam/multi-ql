@@ -11,7 +11,7 @@ public class Not extends UnaryExpr {
 
 	@Override
 	public Boolean interpret(Context context) {
-		return !(Boolean) expr.interpret(context);
+		return !(Boolean) expr().interpret(context);
 	}
 
 	@Override

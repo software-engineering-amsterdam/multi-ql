@@ -11,7 +11,7 @@ public class Neg extends UnaryExpr {
 
 	@Override
 	public Integer interpret(Context context) {
-		return -Math.abs((Integer) expr.interpret(context));
+		return -Math.abs((Integer) expr().interpret(context));
 	}
 
 	@Override
