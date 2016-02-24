@@ -1,5 +1,5 @@
 export class Type {
-	accept(visitor) {
+	dispatch(receiver) {
 		throw new Error("Override in subclasses");
 	}
 	toString() {
@@ -8,8 +8,8 @@ export class Type {
 }
 
 export class BooleanType extends Type  {
-	accept(visitor, ...args) {
-		visitor.visitBoolean(...args);
+	dispatch(receiver, ...args) {
+		receiver.receiveBoolean(this, ...args);
 	}
 	toString() {
 		return "boolean";
@@ -17,8 +17,8 @@ export class BooleanType extends Type  {
 }
 
 export class StringType extends Type  {
-	accept(visitor, ...args) {
-		return visitor.visitString(...args);
+	dispatch(receiver, ...args) {
+		return receiver.receiveString(this, ...args);
 	}
 	toString() {
 		return "string";
@@ -26,8 +26,8 @@ export class StringType extends Type  {
 }
 
 export class IntegerType extends Type {
-	accept(visitor, ...args) {
-		visitor.visitInteger(...args);
+	dispatch(receiver, ...args) {
+		receiver.receiveInteger(this, ...args);
 	}
 	toString() {
 		return "integer";
@@ -35,8 +35,8 @@ export class IntegerType extends Type {
 }
 
 export class FloatType extends Type {
-	accept(visitor, ...args) {
-		return visitor.visitFloat(...args);
+	dispatch(receiver, ...args) {
+		return receiver.receiveFloat(this, ...args);
 	}
 	toString() {
 		return "float";
@@ -44,8 +44,8 @@ export class FloatType extends Type {
 }
 
 export class MoneyType extends Type {
-	accept(visitor, ...args) {
-		return visitor.visitMoney(...args);
+	dispatch(receiver, ...args) {
+		return receiver.receiveMoney(this, ...args);
 	}
 	toString() {
 		return "money";
@@ -53,19 +53,19 @@ export class MoneyType extends Type {
 }
 
 export class UndefinedType extends Type {
-	accept(visitor, ...args) {
-		return visitor.visitUndefined(...args);
+	dispatch(receiver, ...args) {
+		return receiver.receiveUndefined(this, ...args);
 	}
 	toString() {
 		return "undefined";
 	}
 }
 
-export class TypeVisitor {
-	visitBoolean() {}
-	visitString() {}
-	visitInteger() {}
-	visitFloat() {}
-	visitMoney() {}
-	visitUndefined() {}
+export class TypeReceiver {
+	receiveBoolean() {}
+	receiveString() {}
+	receiveInteger() {}
+	receiveFloat() {}
+	receiveMoney() {}
+	receiveUndefined() {}
 }

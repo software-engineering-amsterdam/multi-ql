@@ -1,88 +1,88 @@
 import { BooleanType, StringType, IntegerType, FloatType, MoneyType, UndefinedType, TypeVisitor } from 'src/types';
 
 export class TypeInferer extends TypeVisitor {
-	visitBoolean() {
+	receiveBoolean() {
 		return new UndefinedType();
 	}
-	visitString() {
+	receiveString() {
 		return new UndefinedType();
 	}
-	visitInteger() {
+	receiveInteger() {
 		return new UndefinedType();
 	}
-	visitFloat() {
+	receiveFloat() {
 		return new UndefinedType();
 	}
-	visitMoney() {
+	receiveMoney() {
 		return new UndefinedType();
 	}
-	visitUndefined() {
+	receiveUndefined() {
 		return new UndefinedType();
 	}
 }
 
 class AddSubtractTypeInferer extends TypeInferer {
-	visitFloat(otherType) {
+	receiveFloat(floatType, otherType) {
 		return otherType.accept(new FloatAddSubtractTypeInferer());
 	}
-	visitMoney(otherType) {
+	receiveMoney(moneyType, otherType) {
 		return otherType.accept(new MoneyAddSubtractTypeInferer());
 	}
 }
 
 class IntegerAddSubtractTypeInferer extends TypeInferer {
-	visitInteger() {
+	receiveInteger() {
 		return new IntegerType();
 	}
-	visitFloat() {
+	receiveFloat() {
 		return new FloatType();
 	}
 }
 
 class FloatAddSubtractTypeInferer extends TypeInferer {
-	visitInteger() {
+	receiveInteger() {
 		return new FloatType();
 	}
-	visitFloat() {
+	receiveFloat() {
 		return new FloatType();
 	}
 }
 
 class MoneyAddSubtractTypeInferer extends TypeInferer {
-	visitMoney() {
+	receiveMoney() {
 		return new MoneyType();
 	}
 }
 
 export class AddTypeInferer extends AddSubtractTypeInferer {
-	visitString(otherType) {
+	receiveString(stringType, otherType) {
 		return otherType.accept(new StringAddTypeInferer());
 	}
-	visitInteger(otherType) {
+	receiveInteger(integerType, otherType) {
 		return otherType.accept(new IntegerAddTypeInferer());
 	}
 }
 
 class StringAddTypeInferer extends TypeInferer {
-	visitBoolean() {
+	receiveBoolean() {
 		return new StringType();
 	}
-	visitString() {
+	receiveString() {
 		return new StringType();
 	}
-	visitInteger() {
+	receiveInteger() {
 		return new StringType();
 	}
-	visitFloat() {
+	receiveFloat() {
 		return new StringType();
 	}
-	visitMoney() {
+	receiveMoney() {
 		return new StringType();
 	}
 }
 
 class IntegerAddTypeInferer extends IntegerAddSubtractTypeInferer  {
-	visitString() {
+	receiveString() {
 		return new StringType();
 	}
 }
@@ -90,64 +90,64 @@ class IntegerAddTypeInferer extends IntegerAddSubtractTypeInferer  {
 export class SubtractTypeInferer extends AddSubtractTypeInferer {}
 
 class MultiplyDivideTypeInferer extends TypeInferer {
-	visitFloat(otherType) {
+	receiveFloat(floatType, otherType) {
 		return otherType.accept(new FloatMultiplyDivideTypeInferer());
 	}
 }
 
 class IntegerMultiplyDivideTypeInferer extends MultiplyDivideTypeInferer {
-	visitFloat() {
+	receiveFloat() {
 		return new FloatType();
 	}
 }
 
 class FloatMultiplyDivideTypeInferer extends MultiplyDivideTypeInferer {
-	visitInteger() {
+	receiveInteger() {
 		return new FloatType();
 	}
-	visitFloat() {
+	receiveFloat() {
 		return new FloatType();
 	}
 }
 
 export class MultiplyTypeInferer extends MultiplyDivideTypeInferer {
-	visitInteger(otherType) {
+	receiveInteger(integerType, otherType) {
 		return otherType.accept(new IntegerMultiplyTypeInferer());
 	}
 }
 
 class IntegerMultiplyTypeInferer extends IntegerMultiplyDivideTypeInferer {
-	visitInteger() {
+	receiveInteger() {
 		return new IntegerType();
 	}
 }
 
 export class DivideTypeInferer extends MultiplyDivideTypeInferer {
-	visitInteger(otherType) {
+	receiveInteger(integerType, otherType) {
 		return otherType.accept(new IntegerDivideTypeInferer());
 	}
 }
 
 class IntegerDivideTypeInferer extends IntegerMultiplyDivideTypeInferer {
-	visitInteger() {
+	receiveInteger() {
 		return new FloatType();
 	}
 }
 
 class OrderingTypeInferer extends TypeInferer {
-	visitInteger(otherType) {
+	receiveInteger(integerType, otherType) {
 		return otherType.accept(new NumberOrderingTypeInferer());
 	}
-	visitFloat(otherType) {
-		return otherType.accpe(new NumberOrderingTypeInferer());
+	receiveFloat(floatType, otherType) {
+		return otherType.accept(new NumberOrderingTypeInferer());
 	}
 }
 
 class NumberOrderingTypeInferer extends TypeInferer {
-	visitInteger() {
+	receiveInteger() {
 		return new BooleanType();
 	}
-	visitFloat() {
+	receiveFloat() {
 		return new BooleanType();
 	}
 }
@@ -158,46 +158,46 @@ export class LessTypeInferer extends OrderingTypeInferer {}
 export class LessEqualTypeInferer extends OrderingTypeInferer {}
 
 class EqualNotEqualTypeInferer extends TypeInferer {
-	visitBoolean(otherType) {
+	receiveBoolean(booleanType, otherType) {
 		return otherType.accept(new BooleanEqualNotEqualTypeInferer());
 	}
-	visitString(otherType) {
+	receiveString(stringType, otherType) {
 		return otherType.accept(new StringEqualNotEqualTypeInferer());
 	}
-	visitInteger(otherType) {
+	receiveInteger(integerType, otherType) {
 		return otherType.accept(new NumberEqualNotEqualTypeInferer());
 	}
-	visitFloat(otherType) {
+	receiveFloat(floatType, otherType) {
 		return otherType.accept(new NumberEqualNotEqualTypeInferer());
 	}
-	visitMoney(otherType) {
+	receiveMoney(moneyType, otherType) {
 		return otherType.accept(new MoneyEqualNotEqualTypeInferer());
 	}
 }
 
 class BooleanEqualNotEqualTypeInferer extends TypeInferer {
-	visitBoolean() {
+	receiveBoolean() {
 		return new BooleanType();
 	}
 }
 
 class StringEqualNotEqualTypeInferer extends TypeInferer {
-	visitString() {
+	receiveString() {
 		return new BooleanType();
 	}
 }
 
 class NumberEqualNotEqualTypeInferer extends TypeInferer {
-	visitInteger() {
+	receiveInteger() {
 		return new BooleanType();
 	}
-	visitFloat() {
+	receiveFloat() {
 		return new BooleanType();
 	}
 }
 
 class MoneyEqualNotEqualTypeInferer extends TypeInferer {
-	visitMoney() {
+	receiveMoney() {
 		return new BooleanType();
 	}
 }
@@ -206,13 +206,13 @@ export class EqualTypeInferer extends EqualNotEqualTypeInferer {}
 export class NotEqualTypeInferer extends EqualNotEqualTypeInferer {}
 
 class LogicalTypeInferer extends TypeInferer {
-	visitBoolean(otherType) {
+	receiveBoolean(booleanType, otherType) {
 		return otherType.accept(new BooleanLogicalTypeInferer());
 	}
 }
 
 class BooleanLogicalTypeInferer extends TypeInferer {
-	visitBoolean() {
+	receiveBoolean() {
 		return new BooleanType();
 	}
 }
