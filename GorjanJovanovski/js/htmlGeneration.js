@@ -25,14 +25,14 @@ function refreshGUI() {
 			questionNode.setValue(questionNode.computedExpr.compute());
 		}
 		questionNode.visible = true;
-		$(".questionDiv[label='" + questionNode.label + "']").show();
+		$(".questionDiv[qllabel='" + questionNode.label + "']").show();
 		$("input[name='" + questionNode.label + "']").val(questionNode.value);
 	}, undefined, true);
 
 }
 
 function generateQuestionHTML(question) {
-	var html = "<div class='questionDiv' label='" + question.label + "'>";
+	var html = "<div class='questionDiv' qllabel='" + question.label + "'>";
 	html += "<label class='question'>" + question.text + " ";
 	html += "<input name='" + question.label + "' type='";
 

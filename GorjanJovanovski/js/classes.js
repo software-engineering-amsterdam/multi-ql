@@ -97,20 +97,23 @@ class FormNode {
 				}
 			}
 			else if (currentNode instanceof ConditionNode) {
+
 				if (conditionReturnFunction !== undefined) {
 					result = conditionReturnFunction(currentNode);
 					if (result !== undefined) return result;
 				}
+
 				if (evaluateConditions === undefined || (evaluateConditions === true && currentNode.condition.compute() === true)) {
 					for (i = 0; i < currentNode.ifBlock.length; i++) {
 						queue.push(currentNode.ifBlock[i]);
 					}
-				} else if (evaluateConditions === undefined ||
-					(evaluateConditions === true && currentNode.elseBlock !== undefined && currentNode.condition.compute() === false)) {
+				}
+
+				if (currentNode.elseBlock !== undefined && (evaluateConditions === undefined ||
+					(evaluateConditions === true && currentNode.condition.compute() === false))) {
 					for (i = 0; i < currentNode.elseBlock.length; i++) {
 						queue.push(currentNode.elseBlock[i]);
 					}
-
 				}
 			}
 		}
