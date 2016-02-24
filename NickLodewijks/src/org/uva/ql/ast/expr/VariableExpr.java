@@ -3,7 +3,7 @@ package org.uva.ql.ast.expr;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 
-public class VariableExpr extends Expr {
+public final class VariableExpr extends Expr {
 
 	private final String variableId;
 

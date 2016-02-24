@@ -11,7 +11,7 @@ public class NEq extends BinaryExpr {
 
 	@Override
 	public Boolean interpret(Context context) {
-		return !lhs.interpret(context).equals(rhs.interpret(context));
+		return !left().interpret(context).equals(right().interpret(context));
 	}
 
 	@Override

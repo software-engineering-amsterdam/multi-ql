@@ -14,11 +14,10 @@ public class Decimal extends NumericExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            Decimal other = (Decimal) o;
-            return value == null ? other.value == null : value.equals(other.value);
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Decimal other = (Decimal) o;
+        return value == null ? other.value == null : value.equals(other.value);
     }
 
     @Override

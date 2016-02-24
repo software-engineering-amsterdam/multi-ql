@@ -13,13 +13,15 @@ import ql.ast.expression.Ident;
  */
 public class Form {
 
-    private final Ident Identifier;
+    private final Ident _Identifier;
+    private final Block _Block;
 
-    public Form(Ident identifier) {
-        this.Identifier = identifier;
+    public Form(Ident identifier, Block block) {
+        this._Identifier = identifier;
+        this._Block = block;
     }
 
     public Ident getIdentifier() {
-        return this.Identifier;
+        return this._Identifier;
     }
 }

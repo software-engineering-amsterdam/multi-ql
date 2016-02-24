@@ -6,18 +6,18 @@ package ql.ast.expression;
  */
 public class BinaryExpr extends Expr {
 
-    private final Expr lhs, rhs;
+    private final Expr _Lhs, _Rhs;
 
     public BinaryExpr(Expr lhs, Expr rhs) {
-        this.lhs = lhs;
-        this.rhs = rhs;
+        this._Lhs = lhs;
+        this._Rhs = rhs;
     }
 
     public Expr getLhs() {
-        return this.lhs;
+        return this._Lhs;
     }
 
     public Expr getRhs() {
-        return this.rhs;
+        return this._Rhs;
     }
 }

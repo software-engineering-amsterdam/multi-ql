@@ -14,16 +14,11 @@ public class Bool extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            Bool other = (Bool) o;
-            if (value == null) {
-                return other.value == null;
-            }
-            else {
-                return value.equals(other.value);
-            }
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Bool other = (Bool) o;
+        if (value == null) return other.value == null;
+        else return value.equals(other.value);
     }
 
     @Override

@@ -21,7 +21,7 @@ import ql.parser.QLParser.QuestionContext;
  *
  * @author felixbarten
  */
-public class QL {
+public class QLMain {
 
     /**
      * @param args the command line arguments
@@ -68,6 +68,8 @@ public class QL {
 		// TODO Auto-generated method stub
 		//parseQuestionExample();
 		parseFormExample();
+		parseQuestionnaireExample();
+		//parseComputedQuestionExample();
 	//	parseIfExample();
 	}
 
@@ -91,6 +93,27 @@ public class QL {
 
 	}
 
+	private static void parseQuestionnaireExample() {
+		System.out.println("Parsing Form example");
+        QLLexer lexer = null;
+		try {
+			lexer = new QLLexer( new ANTLRFileStream("examples/questionnaire.ql"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        CommonTokenStream tokens = new CommonTokenStream( lexer );
+        QLParser parser = new QLParser( tokens );
+        ParseTree tree = parser.questionnaire();
+        System.out.println(tree.toStringTree());
+        ParseTreeWalker walker = new ParseTreeWalker();
+        QLWalker listener =  new QLWalker();
+        ParseTreeWalker.DEFAULT.walk(listener, tree);
+   
+		System.out.println("Finished Form example");
+	}
+	
 	private static void parseFormExample() {
 		System.out.println("Parsing Form example");
         QLLexer lexer = null;
@@ -146,6 +169,34 @@ public class QL {
         
 	}
     
-    
+	private static void parseComputedQuestionExample() {
+		System.out.println("Parsing ComputedQuestion example");
+
+		// TODO Auto-generated method stub
+        QLLexer lexer = null;
+		try {
+			lexer = new QLLexer( new ANTLRFileStream("examples/computedquestionexample.ql"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        CommonTokenStream tokens = new CommonTokenStream( lexer );
+        QLParser parser = new QLParser( tokens );
+        QuestionContext ctx = parser.question();
+        ParseTree tree = parser.question();
+        QLWalker listener = new QLWalker();
+        parser.setBuildParseTree(true);
+        System.out.println(tree.toStringTree());
+        
+        ParseTreeWalker walker = new ParseTreeWalker();
+        
+        ParseTreeWalker.DEFAULT.walk(listener, tree);
+        
+        walker.walk(listener, ctx );
+		System.out.println("Finished Question Example");
+
+        
+	}
     
 }

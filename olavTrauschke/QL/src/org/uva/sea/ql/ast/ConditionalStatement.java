@@ -21,13 +21,13 @@ public class ConditionalStatement extends ASTNode {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            ConditionalStatement other = (ConditionalStatement) o;
-            if (condition.equals(other.condition) && toDoIf.equals(other.toDoIf)) {
-                return toDoElse == null ? other.toDoElse == null : toDoElse.equals(other.toDoElse);
-            }
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        ConditionalStatement other = (ConditionalStatement) o;
+        if (condition.equals(other.condition) && toDoIf.equals(other.toDoIf)) {
+            return toDoElse == null ? other.toDoElse == null : toDoElse.equals(other.toDoElse);
         }
-        return false;
+        else return false;
     }
 
     @Override

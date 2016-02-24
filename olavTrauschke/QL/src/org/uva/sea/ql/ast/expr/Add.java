@@ -16,11 +16,10 @@ public class Add extends Expr {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            Add other = (Add) o;
-            return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Add other = (Add) o;
+        return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
     }
 
     @Override

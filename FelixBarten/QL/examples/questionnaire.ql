@@ -18,5 +18,10 @@ form postOfficeExample {
   "How many packages did you receive in 2015?" 
   	amountOfPackagesReceived : integer
 
-
+  "How much did you sell your house for?"
+  	howMuchHouse: money
+  "How much did you make in 2013?"
+  	howMuchIncome: money
+  "Total amount of money made from income and house sales?"
+  	totalIncome: money = ( howMuchHouse + howMuchIncome)
 }

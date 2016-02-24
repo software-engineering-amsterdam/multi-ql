@@ -113,21 +113,21 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(Neg node, U context) {
-		node.getExpr().accept(this, context);
+		node.expr().accept(this, context);
 
 		return null;
 	}
 
 	@Override
 	public T visit(Not node, U context) {
-		node.getExpr().accept(this, context);
+		node.expr().accept(this, context);
 
 		return null;
 	}
 
 	@Override
 	public T visit(Pos node, U context) {
-		node.getExpr().accept(this, context);
+		node.expr().accept(this, context);
 
 		return null;
 	}

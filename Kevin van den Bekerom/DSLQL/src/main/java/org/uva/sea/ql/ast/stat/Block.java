@@ -22,8 +22,8 @@ public class Block extends ASTNode implements Visitable {
 		stmts.add(stmt);
 	}
 
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 	
 	@Override

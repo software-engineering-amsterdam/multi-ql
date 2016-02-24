@@ -11,8 +11,8 @@ public class ElseStatement extends ASTNode implements Visitable {
 		this.block = block;
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 
 	public Block getBlock() {
