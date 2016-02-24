@@ -1,8 +1,8 @@
 form someName {
-    "Some question" money: money
+    "Some question" money: float
     "Some other question" newvar: int
-    "another question" cool: bool = true == !false && false == !(true && false)
-    f(2 <= 1) {
+    "another question" cool: bool = 1 + 2
+    if(2 <= 1) {
         "Some indented question" newvar: bool
     } else if(1 - 2 >= 0) {
         "some" newvar: bool

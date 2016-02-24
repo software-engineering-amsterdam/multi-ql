@@ -27,7 +27,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("Parse error")
             return
         }
-        //let sa = SemanticAnalyser()
+        let sa = ConcreteASTVisitor()
+        sa.visit(quesionair)
+        print("done")
 //        sa.visit(quesionair)
 //        guard sa.messages.count == 0 else {
 //            sa.messages.forEach({ print("Error: \($0)")})

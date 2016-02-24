@@ -34,7 +34,7 @@ struct QLParser : Parser {
     static let statement = (questionDeclaration | ifStatement)
     
     static let questionDeclaration = LateBound<Statement>()
-    static let questionDeclarationImpl = dquote >~ regex("[^\"]*") ~> dquote ~> skip ~>~ ID ~> colon ~>~ type ~> skip ~>~ (eq >~ expr)❓ |> QuestionDeclaration.init
+    static let questionDeclarationImpl = dquote >~ regex("[^\"]*") ~> dquote ~> skip ~>~ ID ~> colon ~>~ type ~>~ (eq >~ expr)❓ |> QuestionDeclaration.init
     
     static let ifStatement = LateBound<Statement>()
     static let ifStatementImpl = const("if") ~> skip >~ conditionClause ~>~ block ~>~ (elseIfClause | elseClause)❓ |> IfStatement.init
@@ -48,7 +48,11 @@ struct QLParser : Parser {
     
     
     
-    static let type = (const("int") | const("money") | const("bool")) |> { type in Type(rawValue: type)! }
+    static let type = (intType | floatType | boolType) ~> skip
+    
+    static let intType = const("int") |> { _ -> Type in return IntegerType() }
+    static let floatType = const("float") |> { _ -> Type in return FloatType() }
+    static let boolType = const("bool") |> { _ -> Type in return BooleanType() }
     
     static let expr = LateBound<Expression>()
     static let exprImpl = OperatorPrecedence(opFormat: opFormat, primary: primary)
@@ -100,19 +104,19 @@ struct QLParser : Parser {
             variable.inner = variableImpl.parse
             
             // Add implementation of the operators
-            exprImpl.addOperator("||", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .OR, rightOperand: $1) }, 20))
-            exprImpl.addOperator("&&", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .AND, rightOperand: $1) }, 30))
-            exprImpl.addOperator("==", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .EQ, rightOperand: $1) }, 40))
-            exprImpl.addOperator("!=", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .NEQ, rightOperand: $1) }, 40))
-            exprImpl.addOperator("<=", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .LET, rightOperand: $1) }, 40))
-            exprImpl.addOperator(">=", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .GET, rightOperand: $1) }, 40))
-            exprImpl.addOperator("<", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .LT, rightOperand: $1) }, 40))
-            exprImpl.addOperator(">", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .GT, rightOperand: $1) }, 40))
-            exprImpl.addOperator("+", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .Add, rightOperand: $1) }, 50))
-            exprImpl.addOperator("-", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .Sub, rightOperand: $1) }, 50))
-            exprImpl.addOperator("*", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .Mul, rightOperand: $1) }, 70))
-            exprImpl.addOperator("/", .LeftInfix({ return BinaryExpression(leftOperand: $0, op: .Div, rightOperand: $1) }, 70))
-            exprImpl.addOperator("!", .Prefix({ return UnaryExpression(operand: $0, op: .NOT) }, 80))
+            exprImpl.addOperator("||", .LeftInfix({ return OrExpression(lhs: $0, rhs: $1) }, 20))
+            exprImpl.addOperator("&&", .LeftInfix({ return AndExpression(lhs: $0, rhs: $1) }, 30))
+            exprImpl.addOperator("==", .LeftInfix({ return EqExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator("!=", .LeftInfix({ return NeqExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator("<=", .LeftInfix({ return LetExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator(">=", .LeftInfix({ return GetExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator("<", .LeftInfix({ return LtExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator(">", .LeftInfix({ return GtExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator("+", .LeftInfix({ return AddExpression(lhs: $0, rhs: $1) }, 50))
+            exprImpl.addOperator("-", .LeftInfix({ return SubExpression(lhs: $0, rhs: $1) }, 50))
+            exprImpl.addOperator("*", .LeftInfix({ return MulExpression(lhs: $0, rhs: $1) }, 70))
+            exprImpl.addOperator("/", .LeftInfix({ return DivExpression(lhs: $0, rhs: $1) }, 70))
+            exprImpl.addOperator("!", .Prefix({ return NotExpression(operand: $0) }, 80))
         }
         return form.parse(stream)
     }

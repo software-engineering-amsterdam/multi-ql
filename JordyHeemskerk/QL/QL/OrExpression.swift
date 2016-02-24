@@ -1,5 +1,5 @@
 //
-//  Addition.swift
+//  MulExpression.swift
 //  QL
 //
 //  Created by Jordy Heemskerk on 24/02/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Addition: Expression {
+struct OrExpression: Expression {
     
     let lhs: Expression
     let rhs: Expression
