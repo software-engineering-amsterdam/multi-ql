@@ -8,6 +8,10 @@ import org.uva.ql.ast.form.InputQuestion;
 import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.stat.IFStat;
+import org.uva.ql.domain.QLForm;
+import org.uva.ql.domain.QLQuestion;
+import org.uva.ql.domain.QLQuestionaire;
+import org.uva.ql.domain.QLSection;
 
 public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
 

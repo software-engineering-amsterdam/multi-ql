@@ -1,4 +1,4 @@
-package org.uva.ql.ui;
+package org.uva.ql.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;

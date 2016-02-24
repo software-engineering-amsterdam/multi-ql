@@ -1,4 +1,4 @@
-package org.uva.ql.ui;
+package org.uva.ql.domain;
 
 import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Expr;
