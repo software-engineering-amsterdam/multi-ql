@@ -16,11 +16,10 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            BooleanConjunctiveExpr other = (BooleanConjunctiveExpr) o;
-            return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        BooleanConjunctiveExpr other = (BooleanConjunctiveExpr) o;
+        return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
     }
 
     @Override

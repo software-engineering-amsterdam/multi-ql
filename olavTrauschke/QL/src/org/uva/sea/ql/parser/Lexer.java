@@ -12,6 +12,7 @@ public class Lexer implements Tokens {
     public static final int ERROR_CHARACTER_VALUE = MINIMUM_CHARACTER_VALUE - 1;
     public static final int NUMERIC_SYSTEM_BASE = 10;
     public static final String UNEXPECTED_CHAR_MESSAGE = "Unexpected character: ";
+    public static final String UNCLOSED_STRING_MESSAGE = "A string was opened, but never closed";
     
     public static final Map<String, Integer> KEYWORDS;
     public static final Set<Integer> END_OF_LINE_CHARACTERS;
@@ -74,7 +75,7 @@ public class Lexer implements Tokens {
         return semantic;
     }
     
-    public int nextToken() {
+    public final int nextToken() {
         boolean inMultiLineComment = false;
         boolean inSingleLineComment = false;
         while (true) { //loop until a token was found and returned
@@ -86,7 +87,7 @@ public class Lexer implements Tokens {
                         inMultiLineComment = false;
                         readNextCharacter();
                     }
-                    continue;
+                    else continue;
                 }
             }
             
@@ -95,12 +96,12 @@ public class Lexer implements Tokens {
                 if (END_OF_LINE_CHARACTERS.contains(character)) {
                     inSingleLineComment = false;
                     readNextCharacter();
-                    continue;
                 }
             }
             
             while (WHITESPACE_CHARACTERS.contains(character)) {
                 readNextCharacter();
+                continue;
             }
             
             if (character < MINIMUM_CHARACTER_VALUE) {
@@ -109,6 +110,21 @@ public class Lexer implements Tokens {
             }
             
             switch (character) {
+                case ')' :
+                case '(' :
+                case '*' :
+                case '+' :
+                case '-' :
+                case '!' :
+                case ':' :
+                case '{' :
+                case '}' :
+                case ';' : {
+                    token = character;
+                    readNextCharacter();
+                    return token;
+                }
+                
                 case '/' : {
                     readNextCharacter();
                     if (character == '*') {
@@ -122,30 +138,6 @@ public class Lexer implements Tokens {
                         continue;
                     }
                     token = '/';
-                    return token;
-                }
-                case '*' : {
-                    readNextCharacter();
-                    if (inMultiLineComment && character == '/') {
-                        inMultiLineComment = false;
-                        readNextCharacter();
-                        continue;
-                    }
-                    token = '*';
-                    return token;
-                }
-                
-                case ')' :
-                case '(' :
-                case '+' :
-                case '-' :
-                case '!' :
-                case ':' :
-                case '{' :
-                case '}' :
-                case ';' : {
-                    token = character;
-                    readNextCharacter();
                     return token;
                 }
                 
@@ -268,7 +260,7 @@ public class Lexer implements Tokens {
             return sb.toString();
         }
         else {
-            throw new IllegalStateException("A string was opened, but never closed");
+            throw new IllegalStateException(UNCLOSED_STRING_MESSAGE);
         }
     }
 }

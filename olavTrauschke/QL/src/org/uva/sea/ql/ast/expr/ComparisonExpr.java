@@ -16,11 +16,10 @@ public abstract class ComparisonExpr extends BooleanExpr {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            ComparisonExpr other = (ComparisonExpr) o;
-            return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        ComparisonExpr other = (ComparisonExpr) o;
+        return firstExpr.equals(other.firstExpr) && secondExpr.equals(other.secondExpr);
     }
     
     @Override

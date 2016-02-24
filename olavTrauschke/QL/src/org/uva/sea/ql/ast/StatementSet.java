@@ -21,11 +21,10 @@ public class StatementSet extends ASTNode {
     
     @Override
     public boolean equals(Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            StatementSet other = (StatementSet) o;
-            return set == null ? other.set == null : set.equals(other.set);
-        }
-        return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        StatementSet other = (StatementSet) o;
+        return set == null ? other.set == null : set.equals(other.set);
     }
 
     @Override
