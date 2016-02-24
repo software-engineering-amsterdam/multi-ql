@@ -1,5 +1,8 @@
 package org.uva.ql.ui;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
@@ -11,101 +14,121 @@ import org.uva.ql.ast.stat.IFStat;
 import org.uva.ql.domain.QLForm;
 import org.uva.ql.domain.QLQuestion;
 import org.uva.ql.domain.QLQuestionaire;
-import org.uva.ql.domain.QLSection;
+import org.uva.ql.domain.QLQuestionCondition;
 
-public class QLASTToUIVisitor extends ASTNodeVisitorAdapter<Void, Void> {
+public class QLASTToUIVisitor {
 
-	private QLQuestionaire questionaire;
-	private QLForm currentForm;
-	private QLSection currentSection;
+	public static QLQuestionaire create(Questionnaire q) {
+		QLQuestionnaireBuilder builder;
 
-	public QLASTToUIVisitor() {
+		builder = new QLQuestionnaireBuilder(q);
 
+		q.accept(new QLQuestionnaireVisitor(), builder);
+
+		return builder.build();
 	}
 
-	public QLQuestionaire interpret(Questionnaire q) {
-		questionaire = new QLQuestionaire();
-		currentForm = null;
-		currentSection = null;
+	private static class QLQuestionnaireBuilder {
 
-		q.accept(this, null);
+		private QLQuestionaire questionaire;
+		private Deque<QLForm> forms = new LinkedList<>();
+		private Deque<QLQuestionCondition> conditions = new LinkedList<>();
 
-		return questionaire;
-	}
-
-	@Override
-	public Void visit(Form node, Void context) {
-		currentForm = new QLForm(node.getName());
-		currentSection = null;
-
-		questionaire.addForm(currentForm);
-
-		visit(node.getBody(), context);
-
-		return null;
-	}
-
-	@Override
-	public Void visit(IFStat node, Void context) {
-		QLSection previousCurrentSection;
-
-		previousCurrentSection = currentSection;
-
-		// Add nested sections for nested if statements
-		currentSection = new QLSection(node.getExpr());
-		if (previousCurrentSection != null) {
-			previousCurrentSection.addSubSection(currentSection);
-		} else {
-			currentForm.addSection(currentSection);
+		public QLQuestionnaireBuilder(Questionnaire q) {
+			questionaire = new QLQuestionaire();
 		}
 
-		// All questions in the body will use currentCondition
-		visit(node.getBody(), context);
+		public void begin(Form form) {
+			QLForm qlForm;
+			qlForm = new QLForm(form.getName());
 
-		// All if statements in the same scope should be added to the same
-		// section.
-		currentSection = previousCurrentSection;
+			questionaire.addForm(qlForm);
+			forms.push(qlForm);
+		}
 
-		return null;
+		public void end(Form form) {
+			forms.pop();
+		}
+
+		public void begin(IFStat ifstat) {
+			conditions.push(new QLQuestionCondition(ifstat.getExpr()));
+		}
+
+		public void end(IFStat ifstat) {
+			conditions.pop();
+		}
+
+		private void add(QLQuestion qlQuestion) {
+			conditions.stream().forEach(c -> qlQuestion.addCondition(c));
+			forms.peek().addQuestion(qlQuestion);
+		}
+
+		public void add(ComputedQuestion question) {
+			add(new QLQuestion(question));
+		}
+
+		public void add(InputQuestion question) {
+			add(new QLQuestion(question));
+		}
+
+		public QLQuestionaire build() {
+			return questionaire;
+		}
+
 	}
 
-	@Override
-	public Void visit(Block node, Void context) {
-		// First traverse the questions.
-		for (Question q : node.getQuestions()) {
-			q.accept(this, context);
+	private static class QLQuestionnaireVisitor extends ASTNodeVisitorAdapter<Void, QLQuestionnaireBuilder> {
+
+		private QLQuestionnaireVisitor() {
+
 		}
 
-		for (IFStat statement : node.getIfStatements()) {
-			statement.accept(this, context);
+		@Override
+		public Void visit(Form node, QLQuestionnaireBuilder builder) {
+			builder.begin(node);
+
+			visit(node.getBody(), builder);
+
+			builder.end(node);
+
+			return null;
 		}
 
-		return null;
-	}
+		@Override
+		public Void visit(IFStat node, QLQuestionnaireBuilder builder) {
+			builder.begin(node);
 
-	@Override
-	public Void visit(ComputedQuestion node, Void context) {
-		QLQuestion question;
+			visit(node.getBody(), builder);
 
-		question = new QLQuestion(node);
-		if (currentSection == null) {
-			currentForm.addQuestion(question);
-		} else {
-			currentSection.addQuestion(question);
+			builder.end(node);
+
+			return null;
 		}
-		return null;
-	}
 
-	@Override
-	public Void visit(InputQuestion node, Void context) {
-		QLQuestion question;
+		@Override
+		public Void visit(Block node, QLQuestionnaireBuilder builder) {
+			// First traverse the questions.
+			for (Question q : node.getQuestions()) {
+				q.accept(this, builder);
+			}
 
-		question = new QLQuestion(node);
-		if (currentSection == null) {
-			currentForm.addQuestion(question);
-		} else {
-			currentSection.addQuestion(question);
+			for (IFStat statement : node.getIfStatements()) {
+				statement.accept(this, builder);
+			}
+
+			return null;
 		}
-		return null;
+
+		@Override
+		public Void visit(ComputedQuestion node, QLQuestionnaireBuilder builder) {
+			builder.add(node);
+			return null;
+		}
+
+		@Override
+		public Void visit(InputQuestion node, QLQuestionnaireBuilder builder) {
+			builder.add(node);
+			return null;
+		}
 	}
 }

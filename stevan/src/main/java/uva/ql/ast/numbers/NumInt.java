@@ -4,9 +4,9 @@ import uva.ql.ast.ANumber;
 import uva.ql.ast.AST;
 import uva.ql.interfaces.INumber;
 
-public class NumInt extends ANumber {
+public class NumInt<T> extends ANumber {
 
-	private int value = 0;
+	private T value;
 	
 	public NumInt(AST ast) {
 		super(ast);
@@ -17,20 +17,17 @@ public class NumInt extends ANumber {
 		return INumber.INT;
 	}
 
-	public int getValue() {
-		return value;
+	@Override
+	public <T> T getValue() {
+		return (T) value;
 	}
 	
 	@Override
 	public void setValue(String value) {
-		this.value = Integer.valueOf(value);
+		setValue((T) Integer.valueOf(value));
 	}
 
-	public void setValue(int value) {
+	public void setValue(T value) {
 		this.value = value;
-	}
-	
-	public int evalInt() {
-		return getValue();
 	}
 }

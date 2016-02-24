@@ -21,7 +21,7 @@ import uva.ql.deprecated.ASTIfStatement;
 import uva.ql.deprecated.ASTNode;
 import uva.ql.deprecated.ASTQuestion;
 import uva.ql.deprecated.ASTVariable;
-import uva.ql.utils.ShuntingYardAlgorithm;
+import uva.ql.deprecated.ShuntingYardAlgorithm;
 
 public class ASTVisitorToGUIListeners {
 	

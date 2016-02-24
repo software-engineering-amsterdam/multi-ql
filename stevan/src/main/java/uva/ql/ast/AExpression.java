@@ -1,6 +1,8 @@
 package uva.ql.ast;
 
 import uva.ql.interfaces.IExpression;
+import uva.ql.interfaces.INode;
+import uva.ql.interfaces.INodeVisitor;
 
 public abstract class AExpression extends ANode implements IExpression {
 	
@@ -12,6 +14,11 @@ public abstract class AExpression extends ANode implements IExpression {
 		super(ast);
 		
 		setExprType(getExprType0());
+	}
+	
+	@Override
+	protected int getNodeType0() {
+		return INode.EXPRESSION;
 	}
 
 	protected abstract int getExprType0();
@@ -40,4 +47,8 @@ public abstract class AExpression extends ANode implements IExpression {
 		this.rightNode = rightNode;
 	}
 	
+	@Override
+	public void accept(INodeVisitor visitor) {
+		visitor.visitExp(this);
+	}
 }

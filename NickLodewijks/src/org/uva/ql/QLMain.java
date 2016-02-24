@@ -14,7 +14,6 @@ public class QLMain {
 	public static void main(String[] args) throws IOException {
 		QLQuestionaire qlQuestionnaire;
 		Questionnaire questionnaire;
-		QLASTToUIVisitor qlInterpreter;
 		File inputFile;
 
 		inputFile = new File("resources/Questionaire.ql");
@@ -22,9 +21,7 @@ public class QLMain {
 
 		new SemanticAnalyser().validateTypes(questionnaire);
 
-		qlInterpreter = new QLASTToUIVisitor();
-
-		qlQuestionnaire = qlInterpreter.interpret(questionnaire);
+		qlQuestionnaire = QLASTToUIVisitor.create(questionnaire);
 
 		new SwingUIFactory().create(qlQuestionnaire).show();
 	}

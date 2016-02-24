@@ -292,15 +292,6 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 						
 		return new IdentifierLit(ctx.getText());
 	}
-	
-	private Type getIdentifierType(String identifier) {
-		for (IdentifierLit id : types) {
-			if (id.getValue().equals(identifier)) {
-				return id.getType();
-			}
-		}
-		return null;
-	}
 
 	@Override
 	public ASTNode visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) {

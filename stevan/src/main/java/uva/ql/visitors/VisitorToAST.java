@@ -8,7 +8,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 import uva.ql.antlr4.QLBaseVisitor;
 import uva.ql.antlr4.QLParser;
 import uva.ql.ast.AExpression;
-import uva.ql.ast.ANode;
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AST;
 import uva.ql.ast.AVariable;
@@ -16,7 +15,6 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
-import uva.ql.interfaces.INode;
 
 public class VisitorToAST extends QLBaseVisitor<Object> {
 
@@ -27,7 +25,6 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public Form visitForm( @NotNull QLParser.FormContext ctx ) {
 		
 		form.setName(ctx.varName().getText());
-		//System.out.println(ctx.getText());
 		
 		for (int i=0; i<ctx.getChildCount(); i++) {
 			
@@ -46,7 +43,6 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public Block visitBlock( @NotNull QLParser.BlockContext ctx ) {
 		
 		Block block = AST.newBlock();
-		//System.out.println(ctx.getText());
 		
 		for (int i=0; i<ctx.question().size(); i++) {
 			
@@ -54,7 +50,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 			question.setParent(block);
 			block.addChild(question);
 		}
-		//System.out.println("block size: " + block.size());
+
 		for (int i=0; i<ctx.condition().size(); i++) {
 			
 			// Assuming that its an IfStatment... make an ASTCondition node?!
@@ -70,7 +66,6 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public IfStatement visitIfCondition( @NotNull QLParser.IfConditionContext ctx ) {
 		
 		IfStatement ifStmnt = AST.newIfStatement();
-		//System.out.println(ctx.getText());
 		
 		for (int i=0; i<ctx.expression().size(); i++) {
 			
@@ -92,8 +87,6 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	@Override 
 	public Question visitQuestion( @NotNull QLParser.QuestionContext ctx) {
 		
-		//System.out.println(ctx.getText());
-		
 		Question question = AST.newQuestion();
 		AVariable var = createVariable(ctx.varType().getText());
 
@@ -101,14 +94,11 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		question.setLabel(ctx.label().getText().substring(1, ctx.label().getText().length()-1));
 		
 		var.setName(ctx.varName().getText());
-		//System.out.println("varType: " + var.getVarType());
 		var.setParent(question);
 		varStore.put(var.getName(), var);
 		
 		for (int i=0; i<ctx.expression().size(); i++) {
 		
-			//System.out.println(ctx.expression(i).getText());
-			
 			AExpression exp = (AExpression) ctx.expression(i).accept(this);
 			exp.setParent(question);
 			question.setExpression(exp);
@@ -130,7 +120,12 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		if(varStore.get(ctx.getText()) == null) {
 			
-			var = AST.newVarGeneric();
+			if ( Boolean.parseBoolean(ctx.getText()) ) {
+				var = AST.newVarBool();
+			} 
+			else {
+				var = AST.newVarGeneric();
+			}			
 		}
 		else {
 			
@@ -182,40 +177,16 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		exp.setLeftNode(leftExp);
 		exp.setRightNode(rightExp);
 		
-		//System.out.println(rightExp.getExprType());
-		
 		leftExp.setParent(exp);
 		rightExp.setParent(exp);
 		
 		return exp;
 	}
-
 	
 	@Override
 	public AExpression visitExpEquality( @NotNull QLParser.ExpEqualityContext ctx ) {
 		
-		AExpression exp = null;
-		
-		switch(ctx.getChild(1).getText().intern()) {
-			case "<":
-				exp = AST.newExpSmlThen();
-				break;
-			case ">":
-				exp = AST.newExpGrtThen();
-				break;
-			case "<=":
-				exp = AST.newExpSmlEql();
-				break;
-			case ">=":
-				exp = AST.newExpGrtEql();
-				break;
-			case "!=":
-				exp = AST.newExpNotEql();
-				break;
-			default:
-				exp = AST.newExpEql();
-				break;
-		}
+		AExpression exp = createExpEquality(ctx.getChild(1).getText().intern());
 		
 		AExpression leftExp = (AExpression) ctx.getChild(0).accept(this);
 		AExpression rightExp = (AExpression) ctx.getChild(2).accept(this);
@@ -313,6 +284,34 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		}
 		
 		return var;
+	}
+	
+	private AExpression createExpEquality(String type) {
+
+		AExpression exp;
+		
+		switch(type) {
+			case "<":
+				exp = AST.newExpSmlThen();
+				break;
+			case ">":
+				exp = AST.newExpGrtThen();
+				break;
+			case "<=":
+				exp = AST.newExpSmlEql();
+				break;
+			case ">=":
+				exp = AST.newExpGrtEql();
+				break;
+			case "!=":
+				exp = AST.newExpNotEql();
+				break;
+			default:
+				exp = AST.newExpEql();
+				break;
+		}
+		
+		return exp;
 	}
 	
 }
