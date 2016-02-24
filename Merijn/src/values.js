@@ -1,18 +1,15 @@
-export class PrimitiveValue {
+export class Value {
+	dispatch(receiver) {
+		throw new Error("Override in subclasses");
+	}
+	toString() {
+		throw new Error("Override in subclasses");
+	}
+}
+
+export class PrimitiveValue extends Value {
 	constructor(value) {
 		this.value = value;
-	}
-	equal(otherValue) {
-		return otherValue.rhsEqualPrimitive(this);
-	}
-	rhsEqualPrimitive(lhsPrimitiveValue) {
-		return new BooleanValue(lhsPrimitiveValue.value === this.value);
-	}
-	notEqual(otherValue) {
-		return otherValue.rhsNotEqualPrimitive(this);
-	}
-	rhsNotEqualPrimitive(lhsPrimitiveValue) {
-		return new BooleanValue(lhsPrimitiveValue.value !== this.value);
 	}
 }
 
@@ -20,20 +17,25 @@ export class BooleanValue extends PrimitiveValue {
 	constructor(value) {
 		super(value);
 	}
-	not() {
-		return new BooleanValue(!this.value);
+	dispatch(receiver, ...args) {
+		return receiver.receiveBoolean(this, ...args);
 	}
-	and(otherValue) {
-		otherValue.rhsAndBoolean(this);
+	toString() {
+		return this.value === true ? "true" : "false";
 	}
-	rhsAndBoolean(lhsBooleanValue) {
-		return new BooleanValue(lhsBooleanValue.value && this.value);
-	}
-	or(otherValue) {
-		otherValue.rhsOrBoolean(this);
-	}
-	rhsOrBoolean(lhsBooleanValue) {
-		return new BooleanValue(lhsBooleanValue.value || this.value);
+	static fromString(str) {
+		var value;
+		switch (str) {
+			case "true":
+				value = true;
+				break;
+			case "false":
+				value = false;
+				break;
+			default:
+				throw new Error("Expected string to be either 'true' or 'false', but was '" + str + "'");
+		}
+		return new BooleanValue(value);
 	}
 }
 
@@ -41,226 +43,77 @@ export class StringValue extends PrimitiveValue {
 	constructor(value) {
 		super(value);
 	}
-	add(otherValue) {
-		return otherValue.rhsAddString(this);
+	dispatch(receiver, ...args) {
+		return receiver.receiveString(this, ...args);
 	}
-	rhsAddBoolean(lhsBooleanValue) {
-		return new StringValue(lhsBooleanValue.value === true ? "true" : "value");
+	toString() {
+		return this.value;
 	}
-	rhsAddString(lhsStringValue) {
-		return new StringValue(lhsStringValue.value + this.value);
-	}
-	rhsAddInteger(lhsIntegerValue) {
-		return new StringValue("" + lhsIntegerValue.value + this.value);
-	}
-	rhsAddFloat(lhsFloatValue) {
-		return new StringValue("" + lhsFloatValue.value + this.value);
-	}
-	rhsAddMoney(lhsMoneyValue) {
-		return new StringValue(); //TODO
-	}
-	subtract(otherValue) {
-		return otherValue.rhsSubtractString(this);
-	}
-	multiply(otherValue) {
-		return otherValue.rhsMultiplyString(this);
-	}
-	rhsMultiplyInteger(integerValue) {
-		return new StringValue(this.value.repeat(integerValue.value));
-	}
-	divide(otherValue) {
-		return otherValue.rhsDivideString(this);
+	static fromString(str) {
+		return new StringValue(str);
 	}
 }
 
-export class NumberValue extends PrimitiveValue {
+export class IntegerValue extends PrimitiveValue {
 	constructor(value) {
 		super(value);
 	}
-	greater(otherValue) {
-		return otherValue.rhsGreaterNumber(this);
+	dispatch(receiver, ...args) {
+		return receiver.receiveInteger(this, ...args);
 	}
-	rhsGreaterNumber(lhsNumberValue) {
-		return new BooleanValue(lhsNumberValue.value > this.value);
+	toString() {
+		return "" + this.value;
 	}
-	greaterEqual(otherValue) {
-		return otherValue.rhsGreaterEqualNumber(this);
-	}
-	rhsGreaterEqualNumber(lhsNumberValue) {
-		return new BooleanValue(lhsNumberValue.value >= this.value);
-	}
-	less(otherValue) {
-		return otherValue.rhsLessNumber(this);
-	}
-	rhsLessNumber(lhsNumberValue) {
-		return new BooleanValue(lhsNumberValue.value < this.value);
-	}
-	lessEqual(otherValue) {
-		return otherValue.rhsLessEqualNum(this);
-	}
-	rhsLessEqualNum(lhsNumberValue) {
-		return new BooleanValue(lhsNumberValue.value <= this.value);
+	static fromString(str) {
+		return new IntegerValue(parseInt(str, 10));
 	}
 }
 
-export class IntegerValue {
+export class FloatValue extends PrimitiveValue {
 	constructor(value) {
-		this.value = value;
+		super(value);
 	}
-	negate() {
-		return new IntegerValue(-this.value);
+	dispatch(receiver, ...args) {
+		return receiver.receiveInteger(this, ...args);
 	}
-	add(otherValue) {
-		return otherValue.rhsAddInteger(this);
+	toString() {
+		return "" + this.value;
 	}
-	rhsAddString(lhsStringValue) {
-		return new StringValue("" + lhsStringValue.value + this.value);
-	}
-	rhsAddInteger(lhsIntegerValue) {
-		return new IntegerValue(lhsIntegerValue.value + this.value);
-	}
-	rhsAddFloat(lhsFloatValue) {
-		return new FloatValue(lhsFloatValue.value + this.value);
-	}
-	subtract(otherValue) {
-		return otherValue.rhsSubtractInteger(this);
-	}
-	rhsSubtractInteger(lhsIntegerValue) {
-		return new IntegerValue(lhsIntegerValue.value - this.value);
-	}
-	rhsSubtractFloat(lhsFloatValue) {
-		return new FloatValue(lhsFloatValue.value - this.value);
-	}
-	multiply(otherValue) {
-		return otherValue.rhsMultiplyInteger(this);
-	}
-	rhsMultiplyString(lhsStringValue) {
-		return new StringValue(lhsStringValue.value.repeat(this.value));
-	}
-	rhsMultiplyInteger(lhsIntegerValue) {
-		return new IntegerValue(lhsIntegerValue.value / this.value);
-	}
-	rhsMultiplyFloat(lhsFloatValue) {
-		return new FloatValue(lhsFloatValue.value / this.value);
-	}
-	rhsMultiplyMoney(lhsMoneyValue) {
-		return new MoneyValue(); // TODO
-	}
-	divide(otherValue) {
-		return otherValue.rhsDivideInteger(this);
-	}
-	rhsDivideInteger(lhsIntegerValue) {
-		return new FloatValue(lhsIntegerValue.value / this.value);
-	}
-	rhsDivideFloat(lhsFloatValue) {
-		return new FloatValue(lhsFloatValue.value / this.value);
-	}
-	rhsDivideMoney(lhsMoneyValue) {
-		return new MoneyValue(); // TODO
+	static fromString(str) {
+		return new FloatValue(parseFloat(str));
 	}
 }
 
-export class FloatValue {
-	constructor(value) {
-		this.value = value;
-	}
-	negate() {
-		return new FloatValue(-this.value);
-	}
-	add(otherValue) {
-		return otherValue.rhsAddFloat(this);
-	}
-	rhsAddString(lhsStringValue) {
-		return new StringValue("" + lhsStringValue.value + this.value);
-	}
-	rhsAddInteger(lhsIntegerValue) {
-		return new FloatValue(lhsIntegerValue.value + this.value);
-	}
-	rhsAddFloat(lhsFloatValue) {
-		return new FloatValue(lhsFloatValue.value + this.value);
-	}
-	subtract(otherValue) {
-		return otherValue.rhsSubtractFloat(this);
-	}
-	rhsSubtractInteger(lhsIntegerValue) {
-		return new FloatValue(lhsIntegerValue.value - this.value);
-	}
-	rhsSubtractFloat(lhsFloatValue) {
-		return new FloatValue(lhsFloatValue.value - this.value);
-	}
-	multiply(otherValue) {
-		return otherValue.rhsMultiplyFloat(this);
-	}
-	rhsMultiplyInteger(lhsIntegerValue) {
-		return new FloatValue(lhsIntegerValue.value / this.value);
-	}
-	rhsMultiplyFloat(lhsFloatValue) {
-		return new FloatValue(lhsFloatValue.value / this.value);
-	}
-	rhsMultiplyMoney(lhsMoneyValue) {
-		return new MoneyValue(); // TODO
-	}
-	divide(otherValue) {
-		return otherValue.rhsDivideFloat(this);
-	}
-	rhsDivideInteger(lhsIntegerValue) {
-		return new FloatValue(lhsIntegerValue.value / this.value);
-	}
-	rhsDivideFloat(lhsFloatValue) {
-		return new FloatValue(lhsFloatValue.value / this.value);
-	}
-	rhsDivideMoney(lhsMoneyValue) {
-		return new MoneyValue(); // TODO
-	}
-
-}
-
-export class MoneyValue {
+export class MoneyValue extends Value {
 	constructor(euros, cents) {
 		this.euros = euros;
 		this.cents = cents;
 	}
-	negate() {
-		return new MoneyValue();
+	dispatch(receiver, ...args) {
+		return receiver.receiveInteger(this, ...args);
 	}
-	add(otherValue) {
-		return otherValue.rhsAddMoney(this);
+	toString() {
+		return "" + this.value;
 	}
-	rhsAddMoney(otherValue) {
-		return new MoneyValue();
-	}
-	subtract(otherValue) {
-		return otherValue.rhsSubtractMoney(this);
-	}
-	rhsSubtractMoney(lhsMoney) {
-
-	}
-	multiply(otherValue) {
-		return otherValue.rhsMultiplyMoney(this);
-	}
-	divide(otherValue) {
-		return otherValue.rhsDivideMoney(this);
-	}
-	greater(otherMoney) {
-		return this.euros > otherMoney || this.euros === otherMoney.euros && this.cents > otherMoney.cents;
-	}
-	greaterEqual(otherMoney) {
-		return this.euros > otherMoney || this.euros === otherMoney.euros && this.cents >= otherMoney.cents;
-	}
-	less(otherMoney) {
-		return otherMoney.greaterEqual(this);
-	}
-	lessEqual(otherMoney) {
-		return otherMoney.greater(this);
+	static fromString(str) {
+		throw new Error("todo");
 	}
 }
 
-export class UndefinedValue {
-	add() {
-		return this;
+export class UndefinedValue extends Value {
+	dispatch(receiver, ...args) {
+		return receiver.receiveUndefined(this, ...args);
 	}
-	subtract() {
-		return this;
+	toString() {
+		return "*undefined*";
 	}
+}
 
+export class ValueReceiver {
+	receiveBoolean(booleanValue, ...args) {}
+	receiveString(stringValue, ...args) {}
+	receiveInteger(integerValue, ...args) {}
+	receiveFloat(floatValue, ...args) {}
+	receiveMoney(moneyValue, ...args) {}
+	receiveUndefined(undefinedValue, ...args) {}
 }
