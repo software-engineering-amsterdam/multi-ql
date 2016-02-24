@@ -26,25 +26,23 @@ import ast.statement.IfStatement;
 import ast.statement.Question;
 
 public class EvalVisitor extends BasicVisitor {
-	private EvalVisitor visitor;
-	public HashMap<String, Object> evaluationMap;
+	public HashMap<String, Object> evaluationMap;//andere naam, naar eigen klasses met interface(api) met minder low level names die representeren wat er daadwerkelijk gebeurd.
 	
 	public EvalVisitor(){
-		visitor = this;
 		evaluationMap = new HashMap<String, Object>();
 	}
 	
 	@Override
 	public Object visit(AssignmentQuestion assignmentQuestion){
-		Object value = assignmentQuestion.getExpression().accept(visitor);
+		Object value = assignmentQuestion.getExpression().accept(this);
 		putValue(assignmentQuestion.getVariable().getName(), value);
 		return null;
 	}
 
 	@Override
 	public Object visit(IfStatement ifStatement){
-		Object value = ifStatement.getExpression().accept(visitor);
-		ifStatement.getBody().accept(visitor);
+		Object value = ifStatement.getExpression().accept(this);
+		ifStatement.getBody().accept(this);
 		return null;
 	}
 	
@@ -56,77 +54,77 @@ public class EvalVisitor extends BasicVisitor {
 	
 	@Override
 	public Object visit(OrExpression orExpression){
-		return (boolean)orExpression.getLhs().accept(visitor) || (boolean)orExpression.getRhs().accept(visitor);
+		return (boolean)orExpression.getLhs().accept(this) || (boolean)orExpression.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(AndExpression andExpression){
-		return (boolean)andExpression.getLhs().accept(visitor) && (boolean)andExpression.getRhs().accept(visitor);
+		return (boolean)andExpression.getLhs().accept(this) && (boolean)andExpression.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(Eq eq){
-		return eq.getLhs().accept(visitor) == (eq.getRhs().accept(visitor));
+		return eq.getLhs().accept(this) == (eq.getRhs().accept(this));
 	}
 	
 	@Override
 	public Object visit(GEq geq){
-		return (int)geq.getLhs().accept(visitor) >= (int)geq.getRhs().accept(visitor);
+		return (int)geq.getLhs().accept(this) >= (int)geq.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(GT gt){
-		return (int)gt.getLhs().accept(visitor) > (int)gt.getRhs().accept(visitor);
+		return (int)gt.getLhs().accept(this) > (int)gt.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(LEq leq){
-		return (int)leq.getLhs().accept(visitor) <= (int)leq.getRhs().accept(visitor);
+		return (int)leq.getLhs().accept(this) <= (int)leq.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(LT lt){
-		return (int)lt.getLhs().accept(visitor) < (int)lt.getRhs().accept(visitor);
+		return (int)lt.getLhs().accept(this) < (int)lt.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(NEq neq){
-		return neq.getLhs().accept(visitor) != neq.getRhs().accept(visitor);
+		return neq.getLhs().accept(this) != neq.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(Add add){
-		return (int)add.getLhs().accept(visitor) + (int)add.getRhs().accept(visitor);
+		return (int)add.getLhs().accept(this) + (int)add.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(Sub sub){
-		return (int)sub.getLhs().accept(visitor) - (int)sub.getRhs().accept(visitor);
+		return (int)sub.getLhs().accept(this) - (int)sub.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(Mul mul){
-		return (int)mul.getLhs().accept(visitor) * (int)mul.getRhs().accept(visitor);
+		return (int)mul.getLhs().accept(this) * (int)mul.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(Div div){
-		return (int)div.getLhs().accept(visitor) / (int)div.getRhs().accept(visitor);
+		return (int)div.getLhs().accept(this) / (int)div.getRhs().accept(this);
 	}
 	
 	@Override
 	public Object visit(Pos pos){
-		return Math.abs((int) pos.getExpression().accept(visitor));
+		return Math.abs((int) pos.getExpression().accept(this));
 	}
 	
 	@Override 
 	public Object visit(Neg neg){
-		return -Math.abs((int) neg.getExpression().accept(visitor));
+		return -Math.abs((int) neg.getExpression().accept(this));
 	}
 	
 	@Override
 	public Object visit(Not not){
-		return !(boolean)not.getExpression().accept(visitor);
+		return !(boolean)not.getExpression().accept(this);
 	}
 	
 	@Override
@@ -153,6 +151,7 @@ public class EvalVisitor extends BasicVisitor {
 		evaluationMap.put(name, value);
 	}
 	
+	//naar andere klassen verplaatsen en het printen van warning scheiden van het ophalen van een value etc
 	private Object getValue(String name, int lineNumber){
 		if(!evaluationMap.containsKey(name)){
 			System.out.println(String.format("Variable: %s, unknown. At line number: %d",

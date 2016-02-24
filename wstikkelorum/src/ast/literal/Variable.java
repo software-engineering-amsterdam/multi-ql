@@ -32,7 +32,7 @@ public class Variable extends Expression {
 	}
 
 	@Override
-	public Object accept(Visitor visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }

@@ -27,12 +27,11 @@ import ast.statement.AssignmentQuestion;
 import ast.statement.IfStatement;
 import ast.statement.Question;
 
+//vaker doorheen lopen het is niet sequeltieel dus je kan dingen gebruiken die pas later worden gedefinieerd~!
 public class TypeChecker extends BasicVisitor {
-	private TypeChecker visitor;
 	private HashMap<String, Types> variableMap;
 
 	public TypeChecker() {
-		this.visitor = this;
 		variableMap = new HashMap<String, Types>();
 	}
 
@@ -49,7 +48,7 @@ public class TypeChecker extends BasicVisitor {
 	@Override
 	public Types visit(IfStatement ifStatement) {
 		compareTypes(ifStatement.getExpression(), Types.BOOLEAN);
-		ifStatement.getBody().accept(visitor);
+		ifStatement.getBody().accept(this);
 		return null;
 	}
 
@@ -183,7 +182,7 @@ public class TypeChecker extends BasicVisitor {
 	}
 
 	private void compareTypes(Expression e, Types expectedType) {
-		Types actualType = (Types) e.accept(visitor);
+		Types actualType = (Types) e.accept(this);
 		if (actualType != expectedType) {
 			System.out.println(String.format("Incorrect type. Expected type: %s. Actual type: %s. On lineNumber: %d",
 									expectedType, actualType, e.getLineNumber()));
