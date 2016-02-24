@@ -1,22 +1,7 @@
 import { BooleanType, StringType, IntegerType, FloatType, MoneyType, UndefinedType, TypeReceiver } from 'src/types';
 
 export class TypeInferer extends TypeReceiver {
-	receiveBoolean() {
-		return new UndefinedType();
-	}
-	receiveString() {
-		return new UndefinedType();
-	}
-	receiveInteger() {
-		return new UndefinedType();
-	}
-	receiveFloat() {
-		return new UndefinedType();
-	}
-	receiveMoney() {
-		return new UndefinedType();
-	}
-	receiveUndefined() {
+	receiveType() {
 		return new UndefinedType();
 	}
 }
@@ -40,10 +25,7 @@ class IntegerAddSubtractTypeInferer extends TypeInferer {
 }
 
 class FloatAddSubtractTypeInferer extends TypeInferer {
-	receiveInteger() {
-		return new FloatType();
-	}
-	receiveFloat() {
+	receiveNumber() {
 		return new FloatType();
 	}
 }
@@ -79,10 +61,7 @@ class StringAddTypeInferer extends TypeInferer {
 	receiveString() {
 		return new StringType();
 	}
-	receiveInteger() {
-		return new StringType();
-	}
-	receiveFloat() {
+	receiveNumber() {
 		return new StringType();
 	}
 	receiveMoney() {
@@ -111,10 +90,7 @@ class IntegerMultiplyDivideTypeInferer extends MultiplyDivideTypeInferer {
 }
 
 class FloatMultiplyDivideTypeInferer extends MultiplyDivideTypeInferer {
-	receiveInteger() {
-		return new FloatType();
-	}
-	receiveFloat() {
+	receiveNumber() {
 		return new FloatType();
 	}
 }
@@ -144,19 +120,13 @@ class IntegerDivideTypeInferer extends IntegerMultiplyDivideTypeInferer {
 }
 
 class OrderingTypeInferer extends TypeInferer {
-	receiveInteger(integerType, otherType) {
-		return otherType.dispatch(new NumberOrderingTypeInferer());
-	}
-	receiveFloat(floatType, otherType) {
+	receiveNumber(numberType, otherType) {
 		return otherType.dispatch(new NumberOrderingTypeInferer());
 	}
 }
 
 class NumberOrderingTypeInferer extends TypeInferer {
-	receiveInteger() {
-		return new BooleanType();
-	}
-	receiveFloat() {
+	receiveNumber() {
 		return new BooleanType();
 	}
 }
@@ -173,10 +143,7 @@ class EqualNotEqualTypeInferer extends TypeInferer {
 	receiveString(stringType, otherType) {
 		return otherType.dispatch(new StringEqualNotEqualTypeInferer());
 	}
-	receiveInteger(integerType, otherType) {
-		return otherType.dispatch(new NumberEqualNotEqualTypeInferer());
-	}
-	receiveFloat(floatType, otherType) {
+	receiveNumber(numberType, otherType) {
 		return otherType.dispatch(new NumberEqualNotEqualTypeInferer());
 	}
 	receiveMoney(moneyType, otherType) {
@@ -197,10 +164,7 @@ class StringEqualNotEqualTypeInferer extends TypeInferer {
 }
 
 class NumberEqualNotEqualTypeInferer extends TypeInferer {
-	receiveInteger() {
-		return new BooleanType();
-	}
-	receiveFloat() {
+	receiveNumber() {
 		return new BooleanType();
 	}
 }

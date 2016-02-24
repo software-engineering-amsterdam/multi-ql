@@ -25,7 +25,13 @@ export class StringType extends Type  {
 	}
 }
 
-export class IntegerType extends Type {
+export class NumberType extends Type {
+	dispatch(receiver, ...args) {
+		return receiver.receiveNumber(this, ...args);
+	}
+}
+
+export class IntegerType extends NumberType {
 	dispatch(receiver, ...args) {
 		return receiver.receiveInteger(this, ...args);
 	}
@@ -34,7 +40,7 @@ export class IntegerType extends Type {
 	}
 }
 
-export class FloatType extends Type {
+export class FloatType extends NumberType {
 	dispatch(receiver, ...args) {
 		return receiver.receiveFloat(this, ...args);
 	}
@@ -62,10 +68,26 @@ export class UndefinedType extends Type {
 }
 
 export class TypeReceiver {
-	receiveBoolean(booleanValue, ...args) {}
-	receiveString(stringValue, ...args) {}
-	receiveInteger(integerValue, ...args) {}
-	receiveFloat(floatValue, ...args) {}
-	receiveMoney(moneyValue, ...args) {}
-	receiveUndefined(undefinedValue, ...args) {}
+	receiveType(type, ...args) {}
+	receiveBoolean(booleanType, ...args) {
+		return this.receiveType(booleanType, ...args);
+	}
+	receiveString(stringType, ...args) {
+		return this.receiveType(stringType, ...args);
+	}
+	receiveNumber(numberType, ...args) {
+		return this.receiveType(numberType, ...args);
+	}
+	receiveInteger(integerType, ...args) {
+		return this.receiveNumber(integerType, ...args);
+	}
+	receiveFloat(floatType, ...args) {
+		return this.receiveNumber(floatType, ...args);
+	}
+	receiveMoney(moneyType, ...args) {
+		return this.receiveType(moneyType, ...args);
+	}
+	receiveUndefined(undefinedType, ...args) {
+		return this.receiveType(undefinedType, ...args);
+	}
 }
