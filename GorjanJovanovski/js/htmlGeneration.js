@@ -1,11 +1,15 @@
 function setHandlers() {
 	$("input").change(function () {
 		var label = $(this).attr("name");
-		if ($(this).attr("type") == "checkbox") {
-			getQuestion(label).setValue($(this).is(":checked"));
+
+		var questionNode = ast.getQuestion(label);
+		if (questionNode === undefined) return;
+
+		if ($(this).attr("type") === "checkbox") {
+			questionNode.setValue($(this).is(":checked"));
 		}
 		else {
-			getQuestion(label).setValue($(this).val());
+			questionNode.setValue($(this).val());
 		}
 		refreshGUI();
 	});
@@ -15,7 +19,7 @@ function refreshGUI() {
 	var stack = [];
 
 	$(".questionDiv").hide();
-	resetQuestionVisibility();
+	ast.resetQuestionVisibility();
 
 	for (var i = 0; i < ast.block.length; i++) {
 		stack.push(ast.block[i]);
@@ -25,21 +29,21 @@ function refreshGUI() {
 		var currentNode = stack.shift();
 		if (currentNode instanceof QuestionNode) {
 			if (currentNode instanceof ComputedQuestionNode) {
-				currentNode.setValue(evaluateStmt(currentNode.computedExpr));
+				currentNode.setValue(currentNode.computedExpr.compute());
 			}
 			currentNode.visible = true;
 			$(".questionDiv[label='" + currentNode.label + "']").show();
 			$("input[name='" + currentNode.label + "']").val(currentNode.value);
 		}
 		else {
-			var evalResult = evaluateStmt(currentNode.condition);
+			var evalResult = currentNode.condition.compute();
 			if (evalResult) {
-				for (var i = 0; i < currentNode.ifBlock.length; i++) {
+				for (i = 0; i < currentNode.ifBlock.length; i++) {
 					stack.push(currentNode.ifBlock[i]);
 				}
 			}
-			else if (currentNode.elseBlock != undefined) {
-				for (var i = 0; i < currentNode.elseBlock.length; i++) {
+			else if (currentNode.elseBlock !== undefined) {
+				for (i = 0; i < currentNode.elseBlock.length; i++) {
 					stack.push(currentNode.elseBlock[i]);
 				}
 			}
@@ -76,7 +80,7 @@ function generateQuestionHTML(question) {
 
 function renderQuestions() {
 	var output = "";
-	transverseAST(function (questionNode) {
+	ast.transverseAST(function (questionNode) {
 		output += generateQuestionHTML(questionNode);
 	});
 	$("#output").html(output);
@@ -92,52 +96,28 @@ function resetErrorPanels() {
 	$("#formWrapper").show();
 }
 
-function renderError(line, message) {
+function renderDebugMessage(type, line, message) {
 	var editor = ace.edit("input");
 	var html = "<li><a href='#' onClick='goToLine(" + line + ");'>[line " + line + "] " + message + "</a></li>";
 	
-	var errorList = editor.getSession().getAnnotations();
-	if (errorList == undefined || typeof errorList != "object") {
-		errorList = [];
+	var debugAnnotationList = editor.getSession().getAnnotations();
+	if (debugAnnotationList === undefined || typeof debugAnnotationList !== "object") {
+		debugAnnotationList = [];
 	}
 
-	errorList.push({
+	debugAnnotationList.push({
 		row: line - 1,
 		text: message,
-		type: "error"
+		type: type
 	});
 
-	editor.getSession().setAnnotations(errorList);
+	editor.getSession().setAnnotations(debugAnnotationList);
 
 	editor.gotoLine(line);
 
-	$("#error").append(html);
-	$("#errorPanel").show();
+	$("#" + type).append(html);
+	$("#" + type + "Panel").show();
 	$("#formWrapper").hide();
 
 	
-}
-
-function renderWarning(line, message) {
-	var editor = ace.edit("input");
-	var html = "<li><a href='#' onClick='goToLine(" + line + ");'>[line " + line + "] " + message + "</a></li>";
-
-	var warningList = editor.getSession().getAnnotations();
-	if (warningList == undefined || typeof warningList != "object") {
-		warningList = [];
-	}
-
-	warningList.push({
-		row: line - 1,
-		text: message,
-		type: "warning"
-	});
-
-	editor.getSession().setAnnotations(warningList);
-
-	editor.gotoLine(line);
-
-	$("#warning").append(html);
-	$("#warningPanel").show();
-
 }
