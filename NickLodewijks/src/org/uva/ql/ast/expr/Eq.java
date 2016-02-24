@@ -10,11 +10,6 @@ public class Eq extends BinaryExpr {
 	}
 
 	@Override
-	public Boolean interpret(Context context) {
-		return left().interpret(context).equals(right().interpret(context));
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}

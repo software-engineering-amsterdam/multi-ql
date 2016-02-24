@@ -5,6 +5,7 @@ import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Div;
 import org.uva.ql.ast.expr.Eq;
+import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.GEq;
 import org.uva.ql.ast.expr.GT;
 import org.uva.ql.ast.expr.LEq;
@@ -17,6 +18,7 @@ import org.uva.ql.ast.expr.Not;
 import org.uva.ql.ast.expr.Or;
 import org.uva.ql.ast.expr.Pos;
 import org.uva.ql.ast.expr.Sub;
+import org.uva.ql.ast.expr.UnaryExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.Block;
 import org.uva.ql.ast.form.ComputedQuestion;
@@ -37,11 +39,23 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	}
 
 	@Override
+	public T visit(Expr node, U context) {
+		return null;
+	}
+
+	@Override
 	public T visit(BinaryExpr node, U context) {
 		node.left().accept(this, context);
 		node.right().accept(this, context);
 
-		return null;
+		return visit((Expr) node, context);
+	}
+
+	@Override
+	public T visit(UnaryExpr node, U context) {
+		node.expr().accept(this, context);
+
+		return visit((Expr) node, context);
 	}
 
 	@Override
@@ -108,33 +122,27 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	public T visit(LiteralExpr node, U context) {
 		node.getLiteral().accept(this, context);
 
-		return null;
+		return visit((Expr) node, context);
 	}
 
 	@Override
 	public T visit(Neg node, U context) {
-		node.expr().accept(this, context);
-
-		return null;
+		return visit((UnaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(Not node, U context) {
-		node.expr().accept(this, context);
-
-		return null;
+		return visit((UnaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(Pos node, U context) {
-		node.expr().accept(this, context);
-
-		return null;
+		return visit((UnaryExpr) node, context);
 	}
 
 	@Override
 	public T visit(VariableExpr node, U context) {
-		return null;
+		return visit((Expr) node, context);
 	}
 
 	@Override

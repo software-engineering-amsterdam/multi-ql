@@ -18,11 +18,6 @@ public final class LiteralExpr extends Expr {
 	}
 
 	@Override
-	public Object interpret(Context context) {
-		return literal.getValue();
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}

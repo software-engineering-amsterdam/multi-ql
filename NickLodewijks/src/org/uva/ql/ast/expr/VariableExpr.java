@@ -17,11 +17,6 @@ public final class VariableExpr extends Expr {
 	}
 
 	@Override
-	public Object interpret(Context context) {
-		return context.getValue(variableId);
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}

@@ -10,11 +10,6 @@ public class Or extends BinaryExpr {
 	}
 
 	@Override
-	public Boolean interpret(Context context) {
-		return (Boolean) left().interpret(context) || (Boolean) right().interpret(context);
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}

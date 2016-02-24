@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 
 import org.uva.ql.ast.BooleanType;
 import org.uva.ql.ast.IntegerType;
+import org.uva.ql.ast.QLExpressionInterpreter;
 import org.uva.ql.ast.StringType;
 import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
@@ -222,7 +223,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 		public void contextChanged(Context context) {
 			boolean value;
 
-			value = (Boolean) expr.interpret(context);
+			value = (Boolean) QLExpressionInterpreter.interpret(expr, context);
 
 			SwingUtilities.invokeLater(() -> {
 				setVisible(value);
@@ -305,7 +306,7 @@ public class DefaultWidgetFactory implements WidgetFactory {
 
 		@Override
 		public void contextChanged(Context context) {
-			setValue(expr.interpret(context));
+			setValue(QLExpressionInterpreter.interpret(expr, context));
 		}
 
 		@Override

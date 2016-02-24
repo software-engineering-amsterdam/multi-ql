@@ -10,11 +10,6 @@ public class LEq extends BinaryExpr {
 	}
 
 	@Override
-	public Boolean interpret(Context context) {
-		return (Integer) left().interpret(context) <= (Integer) right().interpret(context);
-	}
-
-	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
