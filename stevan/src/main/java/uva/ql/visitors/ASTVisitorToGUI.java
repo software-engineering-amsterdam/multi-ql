@@ -7,12 +7,12 @@ import javax.swing.JPanel;
 
 import uva.TaxForm.GUI.GUI;
 import uva.TaxForm.GUI.GUIQuestion;
-import uva.ql.ast.ASTBlock;
-import uva.ql.ast.ASTExpression;
-import uva.ql.ast.ASTIfStatement;
-import uva.ql.ast.ASTNode;
-import uva.ql.ast.ASTQuestion;
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTBlock;
+import uva.ql.deprecated.ASTExpression;
+import uva.ql.deprecated.ASTIfStatement;
+import uva.ql.deprecated.ASTNode;
+import uva.ql.deprecated.ASTQuestion;
+import uva.ql.deprecated.ASTVariable;
 
 public class ASTVisitorToGUI {
 

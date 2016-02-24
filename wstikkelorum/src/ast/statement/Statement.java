@@ -4,7 +4,7 @@ import ast.TreeNode;
 import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
-public class Statement extends TreeNode implements Visitable{
+public class Statement extends TreeNode implements Visitable {
 	private Question question;
 	private AssignmentQuestion assignmentQuestion;
 	private IfStatement ifStatement;
@@ -23,7 +23,7 @@ public class Statement extends TreeNode implements Visitable{
 		super(result.getLineNumber());
 		this.ifStatement = result;
 	}
-	
+
 	public Question getQuestion() {
 		return question;
 	}
@@ -35,7 +35,7 @@ public class Statement extends TreeNode implements Visitable{
 	public IfStatement getIfStatement() {
 		return ifStatement;
 	}
-	
+
 	@Override
 	public Object accept(Visitor visitor) {
 		return visitor.visit(this);

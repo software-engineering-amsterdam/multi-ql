@@ -59,7 +59,7 @@ class FormTests: XCTestCase {
             XCTAssertNotNil(q2!.expression as? BooleanField)
             
             
-            let cond = _if!.condition as? Infix
+            let cond = _if!.condition as? Binary
             let ifBlock = _if!.ifBlock as? Block
             
             XCTAssertNotNil(cond)

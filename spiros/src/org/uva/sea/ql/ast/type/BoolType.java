@@ -9,6 +9,11 @@ public class BoolType extends Type {
 		super(fragment, "boolean");
 	}
 	
+	public BoolType() {
+		// TODO Auto-generated constructor stub
+		super(new CodeFragment(0, 0), "Boolean");
+	}
+	
 	@Override
 	public boolean isBoolType() {
 		return true;

@@ -1,17 +1,13 @@
 package ast.model.type;
 
-public enum Type {
-	INTEGER,
-	STRING,
-	BOOLEAN,
-	MONEY,
-	UNKNOWN;
+public class Type {
+	private String name;
 	
-	public static Type getType(String type) {
-		try {
-			return Type.valueOf(type.toUpperCase());
-		} catch (IllegalArgumentException e) {
-			return UNKNOWN;
-		}
+	public Type(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
 	}
 }

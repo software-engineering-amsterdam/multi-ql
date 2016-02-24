@@ -9,6 +9,10 @@ public class IntType extends Type {
 		super(fragment, "int");
 	}
 	
+	public IntType() {
+		super(new CodeFragment(0, 0), "Int");
+	}
+	
 	public boolean isIntType() {
 		return false;
 	}

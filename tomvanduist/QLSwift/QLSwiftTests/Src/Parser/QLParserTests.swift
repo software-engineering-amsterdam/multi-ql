@@ -28,12 +28,12 @@ class QLParserTests: XCTestCase {
         XCTAssertNotNil(parseFile("IfStatement"))
     }
     
-    func testPrefix() {
-        XCTAssertNotNil(parseFile("Prefix"))
+    func testUnary() {
+        XCTAssertNotNil(parseFile("Unary"))
     }
     
-    func testInfix() {
-        XCTAssertNotNil(parseFile("Infix"))
+    func testBinary() {
+        XCTAssertNotNil(parseFile("Binary"))
     }
     
     func testQuestion() {

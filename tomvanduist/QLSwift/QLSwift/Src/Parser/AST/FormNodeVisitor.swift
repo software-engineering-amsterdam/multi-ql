@@ -91,7 +91,7 @@ extension ASTNodeVisitor {
         node.rhs.accept(self)
     }
     
-    func visitInfix(node: Infix) {
+    func visitBinary(node: Binary) {
         node.lhs.accept(self)
         node.rhs.accept(self)
     }

@@ -85,7 +85,7 @@ class SemanticAnalyser: ASTNodeVisitor {
         node.rhs.accept(self)
         
         if (type(node) !== type(node.rhs)) {
-            error.collect(SemanticError.TypeMismatch(description: "Prefix type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
+            error.collect(SemanticError.TypeMismatch(description: "Unary type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
         }
     }
     
@@ -93,93 +93,93 @@ class SemanticAnalyser: ASTNodeVisitor {
         node.rhs.accept(self)
         
         if (type(node) !== type(node.rhs)) {
-            error.collect(SemanticError.TypeMismatch(description: "Prefix type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
+            error.collect(SemanticError.TypeMismatch(description: "Unary type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
         }
     }
     
-    func collectInfixTypeError(node: Infix) {
-        self.error.collect(SemanticError.TypeMismatch(description: "Infix type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
+    func collectBinaryTypeError(node: Binary) {
+        self.error.collect(SemanticError.TypeMismatch(description: "Binary type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
     }
     
-    func visitInfix(node: Infix) {
+    func visitBinary(node: Binary) {
         node.lhs.accept(self)
         node.rhs.accept(self)
     }
 
-    func visitInfixNumber(node: Infix) {
-        visitInfix(node)
+    func visitBinaryNumber(node: Binary) {
+        visitBinary(node)
         
         if (type(node.lhs) !== NumberType() || type(node.rhs) !== NumberType()) {
-            collectInfixTypeError(node)
+            collectBinaryTypeError(node)
         }
     }
     
     func visit(node: Add) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
     func visit(node: Sub) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
     func visit(node: Mul) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
     func visit(node: Div) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
     func visit(node: Pow) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
     func visit(node: Ge) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
     func visit(node: Gt) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
     func visit(node: Le) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
     func visit(node: Lt) {
-        visitInfixNumber(node)
+        visitBinaryNumber(node)
     }
     
-    func visitInfixEq(node: Infix) {
-        visitInfix(node)
+    func visitBinaryEq(node: Binary) {
+        visitBinary(node)
         
         if (type(node.lhs) !== type(node.rhs)) {
-            collectInfixTypeError(node)
+            collectBinaryTypeError(node)
         }
     }
     
     func visit(node: Eq) {
-        visitInfixEq(node)
+        visitBinaryEq(node)
     }
     
     func visit(node: Ne) {
-        visitInfixEq(node)
+        visitBinaryEq(node)
     }
     
-    func visitInfixBool(node: Infix) {
-        visitInfix(node)
+    func visitBinaryBool(node: Binary) {
+        visitBinary(node)
         
         if (type(node.lhs) !== BooleanType() || type(node.rhs) !== BooleanType()) {
-            collectInfixTypeError(node)
+            collectBinaryTypeError(node)
         }
     }
     
     func visit(node: And) {
-        visitInfixBool(node)
+        visitBinaryBool(node)
     }
     
     func visit(node: Or) {
-        visitInfixBool(node)
+        visitBinaryBool(node)
     }
     
     private func type(node: Expression) -> ExpressionType {

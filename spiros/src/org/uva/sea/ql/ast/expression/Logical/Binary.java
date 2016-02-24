@@ -2,6 +2,8 @@ package org.uva.sea.ql.ast.expression.Logical;
 
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.node.CodeFragment;
+import org.uva.sea.ql.ast.type.BoolType;
+import org.uva.sea.ql.ast.type.Type;
 
 public abstract class Binary extends Expression {
 	
@@ -24,6 +26,11 @@ public abstract class Binary extends Expression {
 	public Expression getLeftExpression() {
 		return leftExpression;
 	}
+	
+//	public Type getTypeOfExpression() {
+//		System.out.println("getTypeOfExpression");
+//		return new BoolType();
+//	}
 	
 
 }

@@ -15,13 +15,13 @@ import uva.TaxForm.GUI.Fields.ActionListeners.JCheckBoxActionListener;
 import uva.TaxForm.GUI.Fields.DocumentListeners.IntTextFieldDocumentListener;
 import uva.TaxForm.GUI.Fields.DocumentListeners.MoneyDocumentListener;
 import uva.TaxForm.GUI.Fields.DocumentListeners.MoneyTextFieldDocumentListener;
-import uva.TaxForm.Utils.ShuntingYardAlgorithm;
-import uva.ql.ast.ASTBlock;
-import uva.ql.ast.ASTExpression;
-import uva.ql.ast.ASTIfStatement;
-import uva.ql.ast.ASTNode;
-import uva.ql.ast.ASTQuestion;
-import uva.ql.ast.ASTVariable;
+import uva.ql.deprecated.ASTBlock;
+import uva.ql.deprecated.ASTExpression;
+import uva.ql.deprecated.ASTIfStatement;
+import uva.ql.deprecated.ASTNode;
+import uva.ql.deprecated.ASTQuestion;
+import uva.ql.deprecated.ASTVariable;
+import uva.ql.utils.ShuntingYardAlgorithm;
 
 public class ASTVisitorToGUIListeners {
 	
@@ -109,7 +109,7 @@ public class ASTVisitorToGUIListeners {
 		
 		ArrayList<ASTNode> pfNodeList = ShuntingYardAlgorithm.astToPostfix(exp);
 		
-		if (exp.getExpressionType() == ASTExpression.SINGLE_EXP) {
+		if (exp.getExpressionType() == ASTExpression.NUM_VAR_EXP) {
 			
 			ASTVariable var = (ASTVariable) exp.getLeftNode();
 			
