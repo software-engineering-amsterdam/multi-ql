@@ -21,7 +21,6 @@ public interface Visitor <T,U> {
     T visit(If          stat, U context);
     T visit(IfElse      stat, U context);
     T visit(Question    stat, U context);
-    T visit(AssQuestion stat, U context);
 
     T visit(Add     expr, U context);
     T visit(And     expr, U context);

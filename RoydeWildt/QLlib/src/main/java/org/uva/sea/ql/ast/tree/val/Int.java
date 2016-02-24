@@ -9,6 +9,10 @@ import org.uva.sea.ql.ast.visitor.Visitor;
 public class Int extends Val {
     private Integer value;
 
+    public Int(int i){
+        super(0);
+        this.value = i;}
+
     public Int(int line, String x){
         super(line);
         this.value = Integer.valueOf(x);

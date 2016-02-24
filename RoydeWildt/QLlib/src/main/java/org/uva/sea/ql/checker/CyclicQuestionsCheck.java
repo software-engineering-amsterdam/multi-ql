@@ -2,8 +2,7 @@ package org.uva.sea.ql.checker;
 
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.visitor.Environment;
-import org.uva.sea.ql.ast.tree.stat.AssQuestion;
+import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 
@@ -21,13 +20,13 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Var> {
     }
 
     @Override
-    public Void visit(AssQuestion stat, Var env) {
+    public Void visit(Question stat, Var env) {
         if(root == null)
             root = stat.getVarname();
 
         if(!references.containsKey(stat.getVarname()))
             references.put(stat.getVarname(),new ArrayList<>());
-        stat.getExpr().accept(this.getV(),stat.getVarname());
+        stat.getExpr().accept(this,stat.getVarname());
         return null;
     }
 

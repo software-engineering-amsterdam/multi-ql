@@ -18,10 +18,7 @@ import java.util.List;
  */
 public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
 
-    Visitor v;
-
     public BaseVisitor(){
-        this.v = this;
     }
 
     @Override
@@ -29,7 +26,7 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
 
         if (form.getStms() != null){
             for (Stat s: form.getStms()) {
-                s.accept(v,env);
+                s.accept(this,env);
             }
         }
 
@@ -39,9 +36,9 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(If stat, U env) {
 
-        stat.getCond().accept(v,env);
+        stat.getCond().accept(this,env);
         for(Stat s : stat.getStms())
-            s.accept(v,env);
+            s.accept(this,env);
 
         return null;
     }
@@ -49,11 +46,11 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(IfElse stat, U env) {
 
-        stat.getCond().accept(v,env);
+        stat.getCond().accept(this,env);
         for(Stat s : stat.getIfStms())
-            s.accept(v,env);
+            s.accept(this,env);
         for(Stat s : stat.getElseStms())
-            s.accept(v,env);
+            s.accept(this,env);
 
         return null;
     }
@@ -61,18 +58,9 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Question stat, U env) {
 
-        stat.getType().accept(v,env);
-        stat.getVarname().accept(v,env);
-
-        return null;
-    }
-
-    @Override
-    public T visit(AssQuestion stat, U env) {
-
-        stat.getType().accept(v,env);
-        stat.getVarname().accept(v,env);
-        stat.getExpr().accept(v,env);
+        stat.getType().accept(this,env);
+        stat.getVarname().accept(this,env);
+        stat.getExpr().accept(this,env);
 
         return null;
     }
@@ -80,8 +68,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Add expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -89,8 +77,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(And expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -98,8 +86,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Div expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -107,8 +95,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Eq expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -116,8 +104,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(GEq expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -125,8 +113,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(GT expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -134,8 +122,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(LEq expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -143,8 +131,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(LT expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -152,8 +140,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Mul expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -161,8 +149,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(NEq expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -170,8 +158,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Or expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -179,8 +167,8 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Sub expr, U env) {
 
-        expr.getLhs().accept(v,env);
-        expr.getRhs().accept(v,env);
+        expr.getLhs().accept(this,env);
+        expr.getRhs().accept(this,env);
 
         return null;
     }
@@ -188,7 +176,7 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Neg expr, U env) {
 
-        expr.getValue().accept(v,env);
+        expr.getValue().accept(this,env);
 
         return null;
     }
@@ -196,7 +184,7 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Not expr, U env) {
 
-        expr.getValue().accept(v,env);
+        expr.getValue().accept(this,env);
 
         return null;
     }
@@ -204,7 +192,7 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Pos expr, U env) {
 
-        expr.getValue().accept(v,env);
+        expr.getValue().accept(this,env);
 
         return null;
     }
@@ -212,7 +200,7 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
     @Override
     public T visit(Primary expr, U env) {
 
-        expr.getValue().accept(v,env);
+        expr.getValue().accept(this,env);
 
         return null;
     }
@@ -242,7 +230,4 @@ public abstract class BaseVisitor<T,U> implements Visitor<T,U> {
         return null;
     }
 
-    public Visitor getV() {
-        return v;
-    }
 }

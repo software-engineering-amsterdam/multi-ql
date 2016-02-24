@@ -77,7 +77,7 @@ form conditions2 {
     }
 
     //FAIL
-    if (Q1_boolean + 1 == Q1_money && Q3_boolean != 1){
+    if (Q3_boolean + 1 == Q1_money && Q3_boolean != 1){
           "Q5"
             Q5: money
     }

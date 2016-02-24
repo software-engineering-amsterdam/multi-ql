@@ -1,4 +1,4 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -29,7 +29,7 @@ public class QLLexer extends Lexer {
 		"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
 		"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
 		"T__17", "T__18", "T__19", "T__20", "T__21", "WHITESPACE", "COMMENT", 
-		"True", "False", "Boolean", "Money", "Ident", "Str", "Int"
+		"True", "False", "BooleanType", "Money", "Ident", "Str", "Int"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -41,7 +41,7 @@ public class QLLexer extends Lexer {
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, "WHITESPACE", 
-		"COMMENT", "True", "False", "Boolean", "Money", "Ident", "Str", "Int"
+		"COMMENT", "True", "False", "BooleanType", "Money", "Ident", "Str", "Int"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 

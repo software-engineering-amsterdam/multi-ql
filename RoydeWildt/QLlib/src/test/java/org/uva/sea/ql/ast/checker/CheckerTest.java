@@ -64,7 +64,7 @@ public class CheckerTest {
         checkList.add("1 + 1 || true && true");
         checkList.add("true || true || 1");
         checkList.add("Q2_money + Q2_money == Q3_boolean");
-        checkList.add("Q1_boolean + 1");
+        checkList.add("Q3_boolean + 1");
         checkList.add("Q3_boolean != 1");
 
         Form f = parseFromPath("src/test/resources/expressions2.ql");

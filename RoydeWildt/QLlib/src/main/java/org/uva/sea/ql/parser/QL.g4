@@ -42,7 +42,7 @@ varAss returns [Expr result]
 
 question returns [Stat result]
     : l=Str v=varDecl ':'  t=type  {$result = new Question($l.getLine(), $l.text, $v.result, $t.result);}
-    | l=Str v=varDecl ':'  t=type e=varAss {$result = new AssQuestion($l.getLine(), $l.text, $v.result, $t.result, $e.result);}
+    | l=Str v=varDecl ':'  t=type e=varAss {$result = new Question($l.getLine(), $l.text, $v.result, $t.result, $e.result);}
     ;
 
 stat returns [Stat result]
@@ -132,7 +132,7 @@ orExpr returns [Expr result]
     ;
 
 
-//Type Grammar
+//ValueType Grammar
 
 type returns [Type result]
     : x=Boolean  {$result = new Boolean($x.getLine());}

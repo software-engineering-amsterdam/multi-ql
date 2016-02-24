@@ -2,7 +2,6 @@ package org.uva.sea.ql.checker;
 
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.AssQuestion;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
@@ -18,16 +17,7 @@ public class DuplicateLabelsCheck extends BaseVisitor<Void,Environment>{
     private final List<Node> duplicatelabels = new ArrayList<>();
 
     public DuplicateLabelsCheck(Form f) {
-        f.accept(this.getV(), new Environment());
-    }
-
-    @Override
-    public Void visit(AssQuestion stat, Environment env) {
-        if(labelExists(env,stat.getLabel()) && !varExists(env, stat.getVarname()))
-            duplicatelabels.add(stat);
-        env.add(stat);
-        super.visit(stat,env);
-        return null;
+        f.accept(this, new Environment());
     }
 
     @Override

@@ -37,13 +37,6 @@ public class UndefinedVarsCheck extends BaseVisitor<Void,Environment> {
         return null;
     }
 
-
-    @Override
-    public Void visit(AssQuestion stat, Environment env) {
-        env.add(stat.getVarname());
-        return null;
-    }
-
     public List<Node> getUndefined() {
         return undefined;
     }

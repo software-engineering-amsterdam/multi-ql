@@ -58,7 +58,7 @@ public class Checker {
 
     public List<Message> invalidExpressionChecker(Form f){
         List<Message> messages = new ArrayList<>();
-        List<Node> invalidExpressions = (new InvalidExpressionsCheck(f)).getInvalidExpressions();
+        List<Expr> invalidExpressions = (new InvalidExpressionsCheck(f)).getInvalidExpressions();
 
         for(Node n : invalidExpressions){
             Expr e = (Expr) n;
@@ -81,7 +81,7 @@ public class Checker {
             StringBuilder sb = new StringBuilder();
             sb.append("Condition ");
             sb.append(e.toString());
-            sb.append(" is not of type Boolean");
+            sb.append(" is not of type BooleanType");
 
             messages.add(new ErrorMessage(sb.toString(),e));
         }

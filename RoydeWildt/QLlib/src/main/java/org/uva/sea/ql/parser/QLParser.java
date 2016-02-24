@@ -1,4 +1,4 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLJava/src/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 
 import java.util.List;
@@ -54,7 +54,7 @@ public class QLParser extends Parser {
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, "WHITESPACE", 
-		"COMMENT", "True", "False", "Boolean", "Money", "Ident", "Str", "Int"
+		"COMMENT", "True", "False", "BooleanType", "Money", "Ident", "Str", "Int"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -311,7 +311,7 @@ public class QLParser extends Parser {
 				((QuestionContext)_localctx).t = type();
 				setState(60);
 				((QuestionContext)_localctx).e = varAss();
-				((QuestionContext)_localctx).result =  new AssQuestion(((QuestionContext)_localctx).l.getLine(), (((QuestionContext)_localctx).l!=null?((QuestionContext)_localctx).l.getText():null), ((QuestionContext)_localctx).v.result, ((QuestionContext)_localctx).t.result, ((QuestionContext)_localctx).e.result);
+				((QuestionContext)_localctx).result =  new Question(((QuestionContext)_localctx).l.getLine(), (((QuestionContext)_localctx).l!=null?((QuestionContext)_localctx).l.getText():null), ((QuestionContext)_localctx).v.result, ((QuestionContext)_localctx).t.result, ((QuestionContext)_localctx).e.result);
 				}
 				break;
 			}

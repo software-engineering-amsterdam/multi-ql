@@ -4,13 +4,14 @@ import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
-import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.AssQuestion;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
 import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.ast.type.BooleanType;
+import org.uva.sea.ql.ast.type.MoneyType;
+import org.uva.sea.ql.ast.type.ValueType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,149 +23,132 @@ import java.util.Map;
 //TODO: Replace void with environment and remove global decls var
 
 
-public class TypeVisitor extends BaseVisitor<Type.Types,Void> {
-    private final Map<Node,Node> decls;
-
-    public TypeVisitor(Form f){
-        this.decls = new HashMap<>();
-    }
+public class TypeVisitor extends BaseVisitor<ValueType,Void> {
+    private final Map<Node,Node> decls = new HashMap<>();
 
     @Override
-    public Type.Types visit(Question stat, Void env) {
+    public ValueType visit(Question stat, Void env) {
         decls.put(stat.getVarname(), stat);
         return null;
     }
 
     @Override
-    public Type.Types visit(AssQuestion stat, Void env) {
-        decls.put(stat.getVarname(), stat);
+    public ValueType visit(Add expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
+            return null;
+        return new MoneyType();
+    }
+
+    @Override
+    public ValueType visit(And expr, Void env) {
+        if(incompatibleTypes(expr, new BooleanType()))
+            return null;
+        return new BooleanType();
+    }
+
+    @Override
+    public ValueType visit(Div expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
+            return null;
+        return new MoneyType();
+    }
+
+    @Override
+    public ValueType visit(Eq expr, Void env) {
+        if(!incompatibleTypes(expr, new BooleanType()) ||
+                !incompatibleTypes(expr, new MoneyType())){
+            return new BooleanType();
+        }
         return null;
     }
 
     @Override
-    public Type.Types visit(Add expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
+    public ValueType visit(GEq expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
             return null;
-        return Type.Types.MONEY;
+        return new BooleanType();
     }
 
     @Override
-    public Type.Types visit(And expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.BOOLEAN))
+    public ValueType visit(GT expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
             return null;
-        return Type.Types.BOOLEAN;
+        return new BooleanType();
     }
 
     @Override
-    public Type.Types visit(Div expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
+    public ValueType visit(LEq expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
             return null;
-        return Type.Types.MONEY;
+        return new BooleanType();
     }
 
     @Override
-    public Type.Types visit(Eq expr, Void env) {
-        if(rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.BOOLEAN)){
-            return Type.Types.BOOLEAN;
+    public ValueType visit(LT expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
+            return null;
+        return new BooleanType();
+    }
+
+    @Override
+    public ValueType visit(Mul expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
+            return null;
+        return new MoneyType();
+    }
+
+    @Override
+    public ValueType visit(NEq expr, Void env) {
+        if(!incompatibleTypes(expr, new BooleanType()) ||
+                !incompatibleTypes(expr, new MoneyType())){
+            return new BooleanType();
         }
-        else if (rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.MONEY)) {
-            return Type.Types.BOOLEAN;
-        }
-        else {
+        return null;
+
+    }
+
+    @Override
+    public ValueType visit(Or expr, Void env) {
+        if(incompatibleTypes(expr, new BooleanType()))
             return null;
-        }
+        return new BooleanType();
     }
 
     @Override
-    public Type.Types visit(GEq expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
+    public ValueType visit(Sub expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
             return null;
-        return Type.Types.BOOLEAN;
+        return new MoneyType();
     }
 
     @Override
-    public Type.Types visit(GT expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
+    public ValueType visit(Neg expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
             return null;
-        return Type.Types.BOOLEAN;
+        return new MoneyType();
     }
 
     @Override
-    public Type.Types visit(LEq expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
+    public ValueType visit(Not expr, Void env) {
+        if(incompatibleTypes(expr, new BooleanType()))
             return null;
-        return Type.Types.BOOLEAN;
+        return new BooleanType();
     }
 
     @Override
-    public Type.Types visit(LT expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
+    public ValueType visit(Pos expr, Void env) {
+        if(incompatibleTypes(expr, new MoneyType()))
             return null;
-        return Type.Types.BOOLEAN;
+        return new MoneyType();
     }
 
     @Override
-    public Type.Types visit(Mul expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
-            return null;
-        return Type.Types.MONEY;
+    public ValueType visit(Primary expr, Void env) {
+        return expr.getValue().accept(this,null);
     }
 
     @Override
-    public Type.Types visit(NEq expr, Void env) {
-        if(rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.BOOLEAN)){
-            return Type.Types.BOOLEAN;
-        }
-        else if (rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(),null), Type.Types.MONEY)) {
-            return Type.Types.BOOLEAN;
-        }
-        else {
-            return null;
-        }
-    }
-
-    @Override
-    public Type.Types visit(Or expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.BOOLEAN))
-            return null;
-        return Type.Types.BOOLEAN;
-    }
-
-    @Override
-    public Type.Types visit(Sub expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
-            return null;
-        return Type.Types.MONEY;
-    }
-
-    @Override
-    public Type.Types visit(Neg expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
-            return null;
-        return Type.Types.MONEY;
-    }
-
-    @Override
-    public Type.Types visit(Not expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.BOOLEAN))
-            return null;
-        return Type.Types.BOOLEAN;
-    }
-
-    @Override
-    public Type.Types visit(Pos expr, Void env) {
-        if(isInvalidExpression(expr, Type.Types.MONEY))
-            return null;
-        return Type.Types.MONEY;
-    }
-
-    @Override
-    public Type.Types visit(Primary expr, Void env) {
-        return (Type.Types) expr.getValue().accept(this.getV(),null);
-    }
-
-    @Override
-    public Type.Types visit(Var var, Void env) {
+    public ValueType visit(Var var, Void env) {
         if (decls.containsKey(var)){
 
             Question q = (Question) decls.get(var);
@@ -177,41 +161,34 @@ public class TypeVisitor extends BaseVisitor<Type.Types,Void> {
     }
 
     @Override
-    public Type.Types visit(Int val, Void env) {
-        return Type.Types.MONEY;
+    public ValueType visit(Int val, Void env) {
+        return new MoneyType();
     }
 
     @Override
-    public Type.Types visit(Bool val, Void env) {
-        return Type.Types.BOOLEAN;
+    public ValueType visit(Bool val, Void env) {
+        return new BooleanType();
     }
 
-    private boolean isInvalidExpression(BinaryExpr expr, Type.Types type){
-        if(!rightType(expr.getLhs().accept(this.getV(),null), expr.getRhs().accept(this.getV(), null), type))
+    private boolean incompatibleTypes(BinaryExpr expr, ValueType type){
+        ValueType vlhs = expr.getLhs().accept(this,null);
+        ValueType vrhs = expr.getRhs().accept(this,null);
+
+        if(vlhs == null ||
+                vrhs == null ||
+                !vlhs.equals(type) ||
+                !vrhs.equals(type) ||
+                !vlhs.equals(vrhs))
             return true;
         return false;
     }
 
-    private boolean isInvalidExpression(UnaryExpr expr, Type.Types type){
+    private boolean incompatibleTypes(UnaryExpr expr, ValueType type){
         Expr e = expr.getValue();
-        if(!rightType(e.accept(this.getV(),null), type))
+        ValueType v = e.accept(this,null);
+        if(v == null ||
+                !v.equals(type))
             return true;
-        return false;
-    }
-
-    private boolean rightType(Object x, Object type)
-    {
-        if(x instanceof Type.Types && type instanceof Type.Types)
-            if (x == type)
-                return true;
-        return false;
-    }
-
-    private boolean rightType(Object x, Object y, Object type)
-    {
-        if(x instanceof Type.Types && y instanceof Type.Types && type instanceof Type.Types)
-            if (x == y && y == type)
-                return true;
         return false;
     }
 

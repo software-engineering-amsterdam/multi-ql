@@ -8,6 +8,11 @@ import org.uva.sea.ql.ast.visitor.Visitor;
 public class Bool extends Val {
     private Boolean value;
 
+    public Bool(boolean b){
+        super(0);
+        this.value = b;
+    }
+
     public Bool(int line, String x){
         super(line);
         this.value = Boolean.valueOf(x);

@@ -1,18 +1,20 @@
 package org.uva.sea.ql.ast.tree.type;
 
 import org.uva.sea.ql.ast.tree.Node;
+import org.uva.sea.ql.ast.tree.val.Val;
+import org.uva.sea.ql.ast.type.ValueType;
 
 /**
  * Created by roydewildt on 11/02/16.
  */
 public abstract class Type extends Node {
 
-    public enum Types {BOOLEAN, MONEY}
-    public abstract Types getType();
-
     public Type(int line) {
         super(line);
     }
+
+    public abstract ValueType getType();
+    public abstract Val defaultValue();
 
     @Override
     public String toString() {
@@ -32,4 +34,5 @@ public abstract class Type extends Node {
     public int hashCode() {
         return this.getClass().getSimpleName().hashCode();
     }
+
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.uva.sea.ql.ast.checker.CheckerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2016-02-22T14:00:48" hostname="wcw-stud-145-109-24-236.wireless.uva.nl" time="0.32">
+<testsuite name="org.uva.sea.ql.ast.checker.CheckerTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2016-02-24T15:54:36" hostname="wcw-stud-145-109-24-236.wireless.uva.nl" time="0.184">
   <properties/>
-  <testcase name="UndefinedVarsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.097"/>
-  <testcase name="CyclicQuestionsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.011"/>
-  <testcase name="DuplicateQuestionLabelsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.016"/>
-  <testcase name="DuplicateCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.006"/>
-  <testcase name="InvalidExpressionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.093"/>
-  <testcase name="InvalidExpressionCheckerTest2" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.054"/>
-  <testcase name="InvalidConditionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.01"/>
+  <testcase name="UndefinedVarsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.084"/>
+  <testcase name="CyclicQuestionsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.005"/>
+  <testcase name="DuplicateQuestionLabelsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.003"/>
+  <testcase name="DuplicateCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.008"/>
+  <testcase name="InvalidExpressionCheckerTest0" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.013"/>
+  <testcase name="InvalidExpressionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.02"/>
+  <testcase name="InvalidExpressionCheckerTest2" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.043"/>
+  <testcase name="InvalidConditionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast.tree.stat;
 
+import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.visitor.Visitor;
 import org.uva.sea.ql.ast.tree.val.Var;
@@ -11,12 +13,22 @@ public class Question extends Stat {
     private String label;
     private Var varname;
     private Type type;
+    private Expr expr;
 
     public Question(int line, String label, Var varname, Type type){
         super(line);
         this.label = label.replace("\"", "");
         this.varname = varname;
         this.type = type;
+        this.expr = new Primary(type.defaultValue());
+    }
+
+    public Question(int line, String label, Var varname, Type type, Expr expr){
+        super(line);
+        this.label = label.replace("\"", "");
+        this.varname = varname;
+        this.type = type;
+        this.expr = expr;
     }
 
     public <T,U> T accept(Visitor<T,U> visitor, U context) {
@@ -27,9 +39,10 @@ public class Question extends Stat {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Question(");
-        sb.append(label + ",");
-        sb.append(varname + ",");
-        sb.append(type);
+        sb.append(this.getLabel() + ",");
+        sb.append(this.getVarname() + ",");
+        sb.append(this.getType() + ",");
+        sb.append(expr.toString());
         sb.append(")");
         return sb.toString();
     }
@@ -46,4 +59,7 @@ public class Question extends Stat {
         return type;
     }
 
+    public Expr getExpr() {
+        return expr;
+    }
 }

@@ -10,6 +10,11 @@ public class Primary extends UnaryExpr {
 
     private Val value;
 
+    public Primary (Val value){
+        super(0);
+        this.value = value;
+    }
+
     public Primary(int line, Val value) {
         super(line);
         this.value = value;
