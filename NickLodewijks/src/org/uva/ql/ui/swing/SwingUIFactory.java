@@ -34,7 +34,6 @@ import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.domain.QLForm;
 import org.uva.ql.domain.QLQuestion;
 import org.uva.ql.domain.QLQuestionaire;
-import org.uva.ql.domain.QLSection;
 import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIQuestionnaire;
 
@@ -45,17 +44,29 @@ public class SwingUIFactory implements UIFactory {
 		return new DefaultQLQuestionaire(questionnaire);
 	}
 
-	private static QLSwingComponent createWidget(String variableName, VariableType type) {
+	private static QLSwingWidget createWidget(QLQuestion q) {
+		QLSwingWidget widget;
+		VariableType type;
+		String id;
+
+		type = q.getType();
+		id = q.getId();
 
 		if (type instanceof BooleanType) {
-			return new DefaultBooleanWidget(variableName);
+			widget = new DefaultBooleanWidget(id);
 		} else if (type instanceof IntegerType) {
-			return new DefaultIntegerWidget(variableName);
+			widget = new DefaultIntegerWidget(id);
 		} else if (type instanceof StringType) {
-			return new DefaultStringWidget(variableName);
+			widget = new DefaultStringWidget(id);
 		} else {
 			throw new IllegalStateException("Undefined question type '" + type + "'");
 		}
+
+		if (q.isComputed()) {
+			widget = new ComputedWidget(widget, q.getExpr());
+		}
+
+		return widget;
 	}
 
 	public static class DefaultQLQuestionaire implements UIQuestionnaire {
@@ -115,7 +126,6 @@ public class SwingUIFactory implements UIFactory {
 
 		private final QLForm form;
 		private final List<DefaultQLQuestion> questions = new ArrayList<>();
-		private final List<DefaultQLSection> sections = new ArrayList<>();
 
 		private final JPanel panel;
 
@@ -128,10 +138,10 @@ public class SwingUIFactory implements UIFactory {
 			for (QLQuestion question : form.getQuestions()) {
 				add(new DefaultQLQuestion(question));
 			}
+		}
 
-			for (QLSection section : form.getSections()) {
-				add(new DefaultQLSection(section));
-			}
+		public String getName() {
+			return form.getName();
 		}
 
 		private void add(DefaultQLQuestion question) {
@@ -140,16 +150,9 @@ public class SwingUIFactory implements UIFactory {
 			panel.add(Box.createRigidArea(new Dimension(0, 2)));
 		}
 
-		private void add(DefaultQLSection section) {
-			sections.add(section);
-			panel.add(section.getComponent());
-			panel.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-
 		@Override
 		public void setContext(Context context) {
 			questions.stream().forEach(q -> q.setContext(context));
-			sections.stream().forEach(s -> s.setContext(context));
 		}
 
 		@Override
@@ -158,87 +161,21 @@ public class SwingUIFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultQLSection implements QLSwingComponent, ContextListener {
+	private static class DefaultQLQuestion implements QLSwingComponent, ContextListener {
 
-		private final JPanel panel;
-		private final QLSection section;
-		private final List<DefaultQLQuestion> questions = new ArrayList<>();
-		private final List<DefaultQLSection> sections = new ArrayList<>();
-
-		public DefaultQLSection(QLSection section) {
-
-			this.section = section;
-
-			panel = new JPanel();
-			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-			for (QLQuestion question : section.getQuestions()) {
-				add(new DefaultQLQuestion(question));
-			}
-
-			for (QLSection subSection : section.getSections()) {
-				add(new DefaultQLSection(subSection));
-			}
-
-			panel.setVisible(false);
-		}
-
-		private void add(DefaultQLQuestion question) {
-			questions.add(question);
-			panel.add(question.getComponent());
-			panel.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-
-		private void add(DefaultQLSection section) {
-			sections.add(section);
-			panel.add(section.getComponent());
-			panel.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-
-		@Override
-		public void setContext(Context context) {
-			if (section.getExpr() != null) {
-				context.addContextListener(this);
-			}
-			questions.stream().forEach(q -> q.setContext(context));
-			sections.stream().forEach(s -> s.setContext(context));
-		}
-
-		@Override
-		public JComponent getComponent() {
-			return panel;
-		}
-
-		@Override
-		public void contextChanged(Context context) {
-			boolean value;
-
-			value = QLExpressionInterpreter.interpret(section.getExpr(), context);
-
-			SwingUtilities.invokeLater(() -> {
-				panel.setVisible(value);
-				SwingUtilities.windowForComponent(panel).revalidate();
-			});
-		}
-	}
-
-	private static class DefaultQLQuestion implements QLSwingComponent {
+		private final QLQuestion question;
 
 		private JPanel panel;
 		private QLSwingComponent label;
-		private QLSwingComponent input;
+		private QLSwingWidget input;
 
 		public DefaultQLQuestion(QLQuestion q) {
-			panel = new JPanel();
+			this.question = q;
 
-			panel.setLayout(new BorderLayout());
+			panel = new JPanel(new BorderLayout());
 
 			label = new DefaultLabelWidget(q.getLabel());
-
-			input = createWidget(q.getId(), q.getType());
-			if (q.getExpr() != null) {
-				input = new ComputedWidget((QLSwingWidget) input, q.getExpr());
-			}
+			input = createWidget(q);
 
 			panel.add(label.getComponent(), BorderLayout.CENTER);
 			panel.add(input.getComponent(), BorderLayout.EAST);
@@ -253,8 +190,20 @@ public class SwingUIFactory implements UIFactory {
 
 		@Override
 		public void setContext(Context context) {
+			if (question.isConditional()) {
+				context.addContextListener(this);
+			}
+
 			label.setContext(context);
 			input.setContext(context);
+		}
+
+		@Override
+		public void contextChanged(Context context) {
+			SwingUtilities.invokeLater(() -> {
+				panel.setVisible(question.isEnabled(context));
+				SwingUtilities.windowForComponent(panel).revalidate();
+			});
 		}
 	}
 
