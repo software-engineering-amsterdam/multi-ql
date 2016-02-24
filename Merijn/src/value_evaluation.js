@@ -309,7 +309,7 @@ class MoneyNotEqualEvaluator extends MoneyEvaluator {
 
 export class AndEvaluator extends Evaluator {
 	receiveBoolean(booleanValue, otherValue) {
-		otherValue.dispatch(new BooleanAndEvaluator(booleanValue));
+		return otherValue.dispatch(new BooleanAndEvaluator(booleanValue));
 	}
 }
 
@@ -321,7 +321,7 @@ class BooleanAndEvaluator extends BooleanEvaluator {
 
 export class OrEvaluator extends Evaluator {
 	receiveBoolean(booleanValue, otherValue) {
-		otherValue.dispatch(new BooleanOrEvaluator(booleanValue));
+		return otherValue.dispatch(new BooleanOrEvaluator(booleanValue));
 	}
 }
 
