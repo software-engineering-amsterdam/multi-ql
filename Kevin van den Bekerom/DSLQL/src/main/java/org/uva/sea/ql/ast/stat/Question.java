@@ -32,8 +32,8 @@ public class Question extends ASTNode {
 		return this.type;
 	}
 
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 	
 	@Override

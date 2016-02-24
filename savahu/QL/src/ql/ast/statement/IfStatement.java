@@ -9,6 +9,6 @@ package ql.ast.statement;
  *
  * @author sander
  */
-public class IfStatement {
+public class IfStatement extends Statement {
 
 }

@@ -3,8 +3,6 @@ package uva.ql.deprecated;
 import java.util.ArrayList;
 
 import uva.ql.ast.AST;
-import uva.ql.interfaces.IASTNode;
-import uva.ql.interfaces.IASTNodeVisitor;
 
 
 public abstract class ASTNode implements IASTNode {

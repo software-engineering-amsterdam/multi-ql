@@ -1,5 +1,5 @@
 package org.uva.sea.ql.ast;
 
-public interface Visitable {
-	public void accept(Visitor visitor);
+public interface Visitable<U> {
+	public void accept(Visitor visitor, U context);
 }

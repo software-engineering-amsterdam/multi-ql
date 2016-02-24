@@ -6,17 +6,59 @@ import java.util.function.Predicate;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 
+/**
+ * Class for inerpretation of the syntax of ql-files.
+ * 
+ * @author Olav Trauschke
+ * @version 24-feb-2016
+ */
 public class Lexer implements Tokens {
     
+    /**
+     * The minimum (<code>int</code>) value of a <code>char</code> objects of
+     * this class can interpretate.
+     */
     public static final int MINIMUM_CHARACTER_VALUE = 0;
+    
+    /**
+     * The (<code>int</code>) value that is used to signal that something went
+     * wrong. This value can never be used to represent a character, because
+     * it is smaller than {@link #MINIMUM_CHARACTER_VALUE MINIMUM_CHARACTER_VALUE}.
+     */
     public static final int ERROR_CHARACTER_VALUE = MINIMUM_CHARACTER_VALUE - 1;
+    
+    /**
+     * The base of the numeric system used
+     */
     public static final int NUMERIC_SYSTEM_BASE = 10;
+    
+    /**
+     * Message displayed to signal an unexpected character was found.
+     */
     public static final String UNEXPECTED_CHAR_MESSAGE = "Unexpected character: ";
     
+    /**
+     * Message displayed to signal the file ended while a string was unclosed.
+     */
+    public static final String UNCLOSED_STRING_MESSAGE = "A string was opened, but never closed";
+    
+    /**
+     * A map from keywords in ql to the tokens representing them.
+     */
     public static final Map<String, Integer> KEYWORDS;
+    
+    /**
+     * A set of the characters that signal the end of a line.
+     */
     public static final Set<Integer> END_OF_LINE_CHARACTERS;
+    
+    /**
+     * A set of characters that are used to seperate things only and do not have
+     * semantic meaning.
+     */
     public static final Set<Integer> WHITESPACE_CHARACTERS;
     
+    //initialization of KEYWORDS, END_OF_LINE_CHARACTERS and WHITESPACE_CHARACTERS
     static {
         KEYWORDS = new HashMap<>();
         KEYWORDS.put("true", BOOLEAN_LITERAL);
@@ -45,11 +87,25 @@ public class Lexer implements Tokens {
     private int token;
     private ASTNode semantic;
     
+    /**
+     * Constructor for objects of this class.
+     * 
+     * @param filename a <code>String</code> containing the path to the file
+     *                  the constructed <code>Lexer</code> should analyze
+     * @throws FileNotFoundException if <code>filename</code> is not the path
+     *                                  to a file that can be read
+     */
     public Lexer(String filename) throws FileNotFoundException {
         input = new FileReader(filename);
         readNextCharacter();
     }
     
+    /**
+     * Constructor for objects of this class.
+     * 
+     * @param theInput a <code>Reader</code> reading from the source the constructed
+     *                  <code>Lexer</code> should analyze
+     */
     public Lexer(Reader theInput) {
         input = theInput;
         readNextCharacter();
@@ -66,18 +122,29 @@ public class Lexer implements Tokens {
         }
     }
     
+    /**
+     * @return the last generated token
+     */
     public int getToken() {
         return token;
     }
     
+    /**
+     * @return an <code>ASTNode</code> representing the semantic of the last
+     *          generated token with semantic meaning
+     */
     public ASTNode getSemantic() {
         return semantic;
     }
     
-    public int nextToken() {
+    /**
+     * Find the next token in the source.
+     * @return the token that was found
+     */
+    public final int nextToken() {
         boolean inMultiLineComment = false;
         boolean inSingleLineComment = false;
-        while (true) { //loop until a token was found and returned
+        loop: while (true) { //loop until a token was found and returned
             if (inMultiLineComment) {
                 readWhile((Integer c) -> c != '*');
                 if (character == '*') {
@@ -86,7 +153,7 @@ public class Lexer implements Tokens {
                         inMultiLineComment = false;
                         readNextCharacter();
                     }
-                    continue;
+                    else continue;
                 }
             }
             
@@ -95,12 +162,12 @@ public class Lexer implements Tokens {
                 if (END_OF_LINE_CHARACTERS.contains(character)) {
                     inSingleLineComment = false;
                     readNextCharacter();
-                    continue;
                 }
             }
             
             while (WHITESPACE_CHARACTERS.contains(character)) {
                 readNextCharacter();
+                continue loop;
             }
             
             if (character < MINIMUM_CHARACTER_VALUE) {
@@ -109,6 +176,21 @@ public class Lexer implements Tokens {
             }
             
             switch (character) {
+                case ')' :
+                case '(' :
+                case '*' :
+                case '+' :
+                case '-' :
+                case '!' :
+                case ':' :
+                case '{' :
+                case '}' :
+                case ';' : {
+                    token = character;
+                    readNextCharacter();
+                    return token;
+                }
+                
                 case '/' : {
                     readNextCharacter();
                     if (character == '*') {
@@ -122,30 +204,6 @@ public class Lexer implements Tokens {
                         continue;
                     }
                     token = '/';
-                    return token;
-                }
-                case '*' : {
-                    readNextCharacter();
-                    if (inMultiLineComment && character == '/') {
-                        inMultiLineComment = false;
-                        readNextCharacter();
-                        continue;
-                    }
-                    token = '*';
-                    return token;
-                }
-                
-                case ')' :
-                case '(' :
-                case '+' :
-                case '-' :
-                case '!' :
-                case ':' :
-                case '{' :
-                case '}' :
-                case ';' : {
-                    token = character;
-                    readNextCharacter();
                     return token;
                 }
                 
@@ -268,7 +326,7 @@ public class Lexer implements Tokens {
             return sb.toString();
         }
         else {
-            throw new IllegalStateException("A string was opened, but never closed");
+            throw new IllegalStateException(UNCLOSED_STRING_MESSAGE);
         }
     }
 }

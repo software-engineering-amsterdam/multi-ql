@@ -1,8 +1,11 @@
 package ql;
 
 import ql.ast.Block;
+import ql.ast.ComputedQuestion;
 import ql.ast.Form;
+import ql.ast.InputQuestion;
 import ql.ast.Question;
+import ql.ast.QuestionType;
 import ql.ast.Questionnaire;
 import ql.ast.expression.Add;
 import ql.ast.expression.And;
@@ -12,9 +15,11 @@ import ql.ast.expression.Eq;
 import ql.ast.expression.GEq;
 import ql.ast.expression.GT;
 import ql.ast.expression.Ge;
+import ql.ast.expression.IdentityExpr;
 import ql.ast.expression.LEq;
 import ql.ast.expression.LT;
 import ql.ast.expression.Le;
+import ql.ast.expression.LiteralExpr;
 import ql.ast.expression.Mul;
 import ql.ast.expression.NEq;
 import ql.ast.expression.Neg;
@@ -25,6 +30,7 @@ import ql.ast.expression.Sub;
 import ql.ast.expression.UnaryExpr;
 import ql.ast.literal.BooleanLiteral;
 import ql.ast.literal.IntegerLiteral;
+import ql.ast.literal.Literal;
 import ql.ast.literal.MoneyLiteral;
 import ql.ast.literal.StringLiteral;
 import ql.ast.statement.IfElseStatement;
@@ -36,46 +42,52 @@ import ql.ast.type.StringType;
 
 public interface QLVisitorInterface<T> {
 
-	public ASTNode visit(ASTNode node);
+	public T visit(ASTNode node);
 	
 
-	public ASTNode visit(Block node);
-	public ASTNode visit(Form node);
-	public ASTNode visit(Question node);
-	public ASTNode visit(Questionnaire node);
+	public T visit(Block node);
+	public T visit(Form node);
+	public T visit(Question node);
+	public T visit(InputQuestion node);
+	public T visit(ComputedQuestion node);
+	public T visit(Questionnaire node);
 	// visit expressions
-	public ASTNode visit(Add node);
-	public ASTNode visit(And node);
-	public ASTNode visit(BinaryExpr node);
-	public ASTNode visit(Div node);
-	public ASTNode visit(Eq node);
-	public ASTNode visit(Ge node);
-	public ASTNode visit(GEq node);
-	public ASTNode visit(GT node);
-	public ASTNode visit(Le node);
-	public ASTNode visit(LEq node);
-	public ASTNode visit(LT node);
-	public ASTNode visit(Mul node);
-	public ASTNode visit(Neg node);
-	public ASTNode visit(NEq node);
-	public ASTNode visit(Not node);
-	public ASTNode visit(Or node);
-	public ASTNode visit(Pos node);
-	public ASTNode visit(Sub node);
-	public ASTNode visit(UnaryExpr node);
+	public T visit(Add node);
+	public T visit(And node);
+	public T visit(BinaryExpr node);
+	public T visit(Div node);
+	public T visit(Eq node);
+	public T visit(Ge node);
+	public T visit(GEq node);
+	public T visit(GT node);
+	public T visit(Le node);
+	public T visit(LEq node);
+	public T visit(LT node);
+	public T visit(Mul node);
+	public T visit(Neg node);
+	public T visit(NEq node);
+	public T visit(Not node);
+	public T visit(Or node);
+	public T visit(Pos node);
+	public T visit(Sub node);
+	public T visit(UnaryExpr node);
+	public T visit(IdentityExpr node);
+	public T visit(LiteralExpr node);
 	// visit statements
-	public ASTNode visit(IfStatement node);
-	public ASTNode visit(IfElseStatement node);
+	public T visit(IfStatement node);
+	public T visit(IfElseStatement node);
 	// visit literals
-	public ASTNode visit(BooleanLiteral node);
-	public ASTNode visit(MoneyLiteral node);	
-	public ASTNode visit(IntegerLiteral node);
-	public ASTNode visit(StringLiteral node);
+	public T visit(Literal node);
+	public T visit(BooleanLiteral node);
+	public T visit(MoneyLiteral node);	
+	public T visit(IntegerLiteral node);
+	public T visit(StringLiteral node);
 	// visit not quite literals. exclude these from project?
-	public ASTNode visit(BooleanType node);
-	public ASTNode visit(MoneyType node);	
-	public ASTNode visit(IntegerType node);
-	public ASTNode visit(StringType node);
+	public T visit(QuestionType node);
+	public T visit(BooleanType node);
+	public T visit(MoneyType node);	
+	public T visit(IntegerType node);
+	public T visit(StringType node);
 
 	
 }

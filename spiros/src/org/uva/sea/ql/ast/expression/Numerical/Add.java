@@ -2,7 +2,6 @@ package org.uva.sea.ql.ast.expression.Numerical;
 
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
-import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
 
 public class Add extends Numerical {
