@@ -2,7 +2,6 @@ package org.uva.sea.ql.ast.statement;
 
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
-import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
 
 public class IfElseStatement extends IfStatement {
@@ -19,9 +18,9 @@ public class IfElseStatement extends IfStatement {
 	}
 	
 	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
-		// TODO Auto-generated method stub
-		return null;
+	public void accept(StatementVisitor visitor) {
+		visitor.visitIfElseStatement(this);
+		
 	}
 
 }

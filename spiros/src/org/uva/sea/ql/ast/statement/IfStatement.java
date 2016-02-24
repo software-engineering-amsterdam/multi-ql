@@ -23,12 +23,11 @@ public class IfStatement extends Statement {
 		return this.block;
 	}
 
-
-
 	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
-		// TODO Auto-generated method stub
-		return visitor.visitIfStatement(this);
+	public void accept(StatementVisitor visitor) {
+		visitor.visitIfStatement(this);
+		
 	}
+
 	
 }

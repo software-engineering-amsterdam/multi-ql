@@ -4,7 +4,6 @@ import org.uva.sea.ql.ast.node.CodeFragment;
 import org.uva.sea.ql.ast.type.Type;
 import org.uva.sea.ql.ast.expression.*;
 import org.uva.sea.ql.ast.expression.Literal.Identifier;
-import org.uva.sea.ql.ast.expression.Literal.StringLiteral;
 
 public class ComputedQuestion extends Question {
 	
@@ -21,9 +20,8 @@ public class ComputedQuestion extends Question {
 	}
 
 	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
-		// TODO Auto-generated method stub
-		return visitor.visitComputedQuestion(this);
+	public void accept(StatementVisitor visitor) {
+		visitor.visitComputedQuestion(this);
 	}
 	
 }
