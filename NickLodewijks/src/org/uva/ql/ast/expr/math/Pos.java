@@ -1,7 +1,9 @@
-package org.uva.ql.ast.expr;
+package org.uva.ql.ast.expr.math;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
+import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.expr.UnaryExpr;
 
 public class Pos extends UnaryExpr {
 

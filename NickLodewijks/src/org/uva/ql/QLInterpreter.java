@@ -1,24 +1,24 @@
 package org.uva.ql;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
-import org.uva.ql.ast.expr.Add;
-import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.Context;
-import org.uva.ql.ast.expr.Div;
-import org.uva.ql.ast.expr.Eq;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.expr.GEq;
-import org.uva.ql.ast.expr.GT;
-import org.uva.ql.ast.expr.LEq;
-import org.uva.ql.ast.expr.LT;
 import org.uva.ql.ast.expr.LiteralExpr;
-import org.uva.ql.ast.expr.Mul;
-import org.uva.ql.ast.expr.Neg;
-import org.uva.ql.ast.expr.Not;
-import org.uva.ql.ast.expr.Or;
-import org.uva.ql.ast.expr.Pos;
-import org.uva.ql.ast.expr.Sub;
 import org.uva.ql.ast.expr.VariableExpr;
+import org.uva.ql.ast.expr.math.Add;
+import org.uva.ql.ast.expr.math.Div;
+import org.uva.ql.ast.expr.math.Mul;
+import org.uva.ql.ast.expr.math.Neg;
+import org.uva.ql.ast.expr.math.Pos;
+import org.uva.ql.ast.expr.math.Sub;
+import org.uva.ql.ast.expr.rel.And;
+import org.uva.ql.ast.expr.rel.Eq;
+import org.uva.ql.ast.expr.rel.GEq;
+import org.uva.ql.ast.expr.rel.GT;
+import org.uva.ql.ast.expr.rel.LEq;
+import org.uva.ql.ast.expr.rel.LT;
+import org.uva.ql.ast.expr.rel.Not;
+import org.uva.ql.ast.expr.rel.Or;
 
 public class QLInterpreter extends ASTNodeVisitorAdapter<Object, Context> {
 

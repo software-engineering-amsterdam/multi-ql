@@ -5,10 +5,13 @@ grammar QL;
 import java.util.Map;
 import java.util.HashMap;
 import org.uva.ql.ast.*;
-import org.uva.ql.ast.literal.*;
 import org.uva.ql.ast.expr.*;
+import org.uva.ql.ast.expr.math.*;
+import org.uva.ql.ast.expr.rel.*;
 import org.uva.ql.ast.stat.*;
+import org.uva.ql.ast.type.*;
 import org.uva.ql.ast.form.*;
+import org.uva.ql.ast.literal.*;
 }
 
 file :  questionnaire EOF

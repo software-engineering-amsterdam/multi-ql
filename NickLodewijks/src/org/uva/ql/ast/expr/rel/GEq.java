@@ -1,11 +1,13 @@
-package org.uva.ql.ast.expr;
+package org.uva.ql.ast.expr.rel;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
+import org.uva.ql.ast.expr.BinaryExpr;
+import org.uva.ql.ast.expr.Expr;
 
-public class And extends BinaryExpr {
+public class GEq extends BinaryExpr {
 
-	public And(ParserRuleContext context, Expr lhs, Expr rhs) {
+	public GEq(ParserRuleContext context, Expr lhs, Expr rhs) {
 		super(context, lhs, rhs);
 	}
 
