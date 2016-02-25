@@ -164,15 +164,6 @@ QLListener.prototype.exitMoneyLiteralCase = function(ctx) {
 };
 
 
-// Enter a parse tree produced by QLParser#booleanLiteral.
-QLListener.prototype.enterBooleanLiteral = function(ctx) {
-};
-
-// Exit a parse tree produced by QLParser#booleanLiteral.
-QLListener.prototype.exitBooleanLiteral = function(ctx) {
-};
-
-
 // Enter a parse tree produced by QLParser#type.
 QLListener.prototype.enterType = function(ctx) {
 };
