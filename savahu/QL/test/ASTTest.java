@@ -10,8 +10,8 @@ import java.io.Reader;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
-import ql.antlr.QLLexer;
-import ql.antlr.QLParser;
+import ql.antlr.generatedcode.QLLexer;
+import ql.antlr.generatedcode.QLParser;
 
 /**
  *

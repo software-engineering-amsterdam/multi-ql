@@ -15,8 +15,8 @@ public class Neg extends UnaryExpr implements Visitable {
 		return  (Integer) child.eval() * -1;
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 	//TODO{Check if this way of computation is correct}
 
