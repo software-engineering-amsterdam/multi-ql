@@ -27,7 +27,7 @@ struct QLParser : Parser {
     static let eq = const("=") ~> skip
     
     // Base elements
-    static let form = const("form") ~> skip >~ ID ~>~ block |> Form.init
+    static let form = const("form") ~> skip >~ identifier ~>~ block |> Form.init
     
     static let block = ocurly >~ (statement ~> skip)* ~> ccurly |> Block.init
     
@@ -35,7 +35,7 @@ struct QLParser : Parser {
     static let statement = (questionDeclaration | ifStatement)
     
     static let questionDeclaration = LateBound<Statement>()
-    static let questionDeclarationImpl = dquote >~ regex("[^\"]*") ~> dquote ~> skip ~>~ ID ~> colon ~>~ type ~>~ (eq >~ expr)❓ |> QuestionDeclaration.init
+    static let questionDeclarationImpl = dquote >~ regex("[^\"]*") ~> dquote ~> skip ~>~ identifier ~> colon ~>~ type ~>~ (eq >~ expr)❓ |> QuestionDeclaration.init
     
     static let ifStatement = LateBound<Statement>()
     static let ifStatementImpl = const("if") ~> skip >~ obrack >~ expr ~> cbrack ~>~ block ~>~ (elseIfClause | elseClause)❓ |> IfStatement.init
@@ -77,11 +77,12 @@ struct QLParser : Parser {
     static let booleanLiteralImpl = (const("true") | const("false")) ~> skip |> BooleanLiteral.init
     
     static let variable = LateBound<Expression>()
-    static let variableImpl = ID |> Variable.init
+    static let variableImpl = identifier |> Variable.init
     
     
     
-    static let ID = regex("[A-Za-z]+") ~> skip
+    static let identifier = regex("[A-Za-z]+") ~> skip
+    static let reservedKeywords = regex("(true|false|int|float|bool|if|else)[^\\w]") ~> skip |> { _ -> String? in return nil }
     
     
     static func parse(str:String) -> Target? {
@@ -103,19 +104,19 @@ struct QLParser : Parser {
             variable.inner = variableImpl.parse
             
             // Add implementation of the operators
-            exprImpl.addOperator("||", .LeftInfix({ return OrExpression(lhs: $0, rhs: $1) }, 20))
+            exprImpl.addOperator("||", .LeftInfix({ return  OrExpression(lhs: $0, rhs: $1) }, 20))
             exprImpl.addOperator("&&", .LeftInfix({ return AndExpression(lhs: $0, rhs: $1) }, 30))
-            exprImpl.addOperator("==", .LeftInfix({ return EqExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator("==", .LeftInfix({ return  EqExpression(lhs: $0, rhs: $1) }, 40))
             exprImpl.addOperator("!=", .LeftInfix({ return NeqExpression(lhs: $0, rhs: $1) }, 40))
             exprImpl.addOperator("<=", .LeftInfix({ return LetExpression(lhs: $0, rhs: $1) }, 40))
             exprImpl.addOperator(">=", .LeftInfix({ return GetExpression(lhs: $0, rhs: $1) }, 40))
-            exprImpl.addOperator("<", .LeftInfix({ return LtExpression(lhs: $0, rhs: $1) }, 40))
-            exprImpl.addOperator(">", .LeftInfix({ return GtExpression(lhs: $0, rhs: $1) }, 40))
-            exprImpl.addOperator("+", .LeftInfix({ return AddExpression(lhs: $0, rhs: $1) }, 50))
-            exprImpl.addOperator("-", .LeftInfix({ return SubExpression(lhs: $0, rhs: $1) }, 50))
-            exprImpl.addOperator("*", .LeftInfix({ return MulExpression(lhs: $0, rhs: $1) }, 70))
-            exprImpl.addOperator("/", .LeftInfix({ return DivExpression(lhs: $0, rhs: $1) }, 70))
-            exprImpl.addOperator("!", .Prefix({ return NotExpression(operand: $0) }, 80))
+            exprImpl.addOperator("<",  .LeftInfix({ return  LtExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator(">",  .LeftInfix({ return  GtExpression(lhs: $0, rhs: $1) }, 40))
+            exprImpl.addOperator("+",  .LeftInfix({ return AddExpression(lhs: $0, rhs: $1) }, 50))
+            exprImpl.addOperator("-",  .LeftInfix({ return SubExpression(lhs: $0, rhs: $1) }, 50))
+            exprImpl.addOperator("*",  .LeftInfix({ return MulExpression(lhs: $0, rhs: $1) }, 70))
+            exprImpl.addOperator("/",  .LeftInfix({ return DivExpression(lhs: $0, rhs: $1) }, 70))
+            exprImpl.addOperator("!",  .Prefix(   { return NotExpression(operand: $0)      }, 80))
         }
         return form.parse(stream)
     }

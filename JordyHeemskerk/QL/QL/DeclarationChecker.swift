@@ -11,19 +11,18 @@ import Foundation
 class DeclarationChecker: BaseASTVisitor {
     
     var symbolTable = SymbolTable()
-    var warnings = [String]()
-    var errors = [String]()
+    var semanticLog = SemanticLog()
     
-    static func check(form: Form) -> (symbolTable: SymbolTable, warnings: [String], errors: [String]) {
+    static func check(form: Form) -> (symbolTable: SymbolTable, semanticLog: SemanticLog) {
         let declarationChecker = DeclarationChecker()
         declarationChecker.visit(form)
-        return (symbolTable: declarationChecker.symbolTable, warnings: declarationChecker.warnings, errors: declarationChecker.errors)
+        return (symbolTable: declarationChecker.symbolTable, semanticLog: declarationChecker.semanticLog)
     }
     
     override func visit(questionDeclaration: QuestionDeclaration) {
         questionDeclaration.computation?.accept(self)
         guard !symbolTable.isVariableDefined(questionDeclaration.identifier) else {
-            errors.append("Variable \(questionDeclaration.identifier) already defined.")
+            semanticLog.logError(.VariableAlreadyDefined(identifier: questionDeclaration.identifier))
             return;
         }
         symbolTable.defineVariable(questionDeclaration.identifier, type: questionDeclaration.type)

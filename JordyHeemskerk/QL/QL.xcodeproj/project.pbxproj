@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C1663641C7F000F00E4B763 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1663631C7F000F00E4B763 /* SemanticError.swift */; };
 		8C3477951C621E85003E099E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3477941C621E85003E099E /* AppDelegate.swift */; };
 		8C3477971C621E85003E099E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477961C621E85003E099E /* Assets.xcassets */; };
 		8C34779A1C621E85003E099E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477981C621E85003E099E /* MainMenu.xib */; };
 		8C3477DF1C623884003E099E /* input.ql in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477DE1C623884003E099E /* input.ql */; };
+		8C8C80181C7F05160096D1BC /* SemanticWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C80171C7F05160096D1BC /* SemanticWarning.swift */; };
+		8C8C801A1C7F05910096D1BC /* SemanticLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C80191C7F05910096D1BC /* SemanticLog.swift */; };
+		8C8C801C1C7F0AE40096D1BC /* SemanticLoggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C801B1C7F0AE40096D1BC /* SemanticLoggable.swift */; };
 		8CD6D28E1C638677005FC3D6 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CD6D28D1C638677005FC3D6 /* SwiftParsec.framework */; };
 		8CD6D2901C638A39005FC3D6 /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD6D28F1C638A39005FC3D6 /* QLParser.swift */; };
 		8CF4EAFF1C7DBE200029F88D /* ASTNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EAFE1C7DBE200029F88D /* ASTNode.swift */; };
@@ -53,12 +57,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C1663631C7F000F00E4B763 /* SemanticError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticError.swift; sourceTree = "<group>"; };
 		8C3477911C621E85003E099E /* QL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C3477941C621E85003E099E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C3477961C621E85003E099E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C3477991C621E85003E099E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8C34779B1C621E85003E099E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C3477DE1C623884003E099E /* input.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.ql; path = QL/input.ql; sourceTree = "<group>"; };
+		8C8C80171C7F05160096D1BC /* SemanticWarning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticWarning.swift; sourceTree = "<group>"; };
+		8C8C80191C7F05910096D1BC /* SemanticLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticLog.swift; sourceTree = "<group>"; };
+		8C8C801B1C7F0AE40096D1BC /* SemanticLoggable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticLoggable.swift; sourceTree = "<group>"; };
 		8CD6D28D1C638677005FC3D6 /* SwiftParsec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftParsec.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Software_Construction-dobzpcusviawmqcqyqhtrryfnzgi/Build/Products/Release/SwiftParsec.framework"; sourceTree = "<group>"; };
 		8CD6D28F1C638A39005FC3D6 /* QLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLParser.swift; sourceTree = "<group>"; };
 		8CF4EAFE1C7DBE200029F88D /* ASTNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTNode.swift; sourceTree = "<group>"; };
@@ -207,6 +215,10 @@
 				8CF4EB241C7E003F0029F88D /* DeclarationChecker.swift */,
 				8CF4EB4D1C7E1E3B0029F88D /* TypeChecker.swift */,
 				8CF4EB4F1C7E2D100029F88D /* SymbolTable.swift */,
+				8C1663631C7F000F00E4B763 /* SemanticError.swift */,
+				8C8C80171C7F05160096D1BC /* SemanticWarning.swift */,
+				8C8C80191C7F05910096D1BC /* SemanticLog.swift */,
+				8C8C801B1C7F0AE40096D1BC /* SemanticLoggable.swift */,
 			);
 			name = Visitor;
 			sourceTree = "<group>";
@@ -290,12 +302,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C8C80181C7F05160096D1BC /* SemanticWarning.swift in Sources */,
+				8C1663641C7F000F00E4B763 /* SemanticError.swift in Sources */,
 				8CF4EB1A1C7DD4DB0029F88D /* FloatLiteral.swift in Sources */,
 				8CF4EB1E1C7DD5BD0029F88D /* Variable.swift in Sources */,
 				8CF4EB271C7E01A30029F88D /* SubExpression.swift in Sources */,
 				8CF4EB131C7DD3450029F88D /* Expression.swift in Sources */,
 				8CF4EB3F1C7E05650029F88D /* Type.swift in Sources */,
 				8CF4EB2D1C7E02C50029F88D /* LtExpression.swift in Sources */,
+				8C8C801A1C7F05910096D1BC /* SemanticLog.swift in Sources */,
 				8CF4EB311C7E02F30029F88D /* GtExpression.swift in Sources */,
 				8CF4EB351C7E036C0029F88D /* EqExpression.swift in Sources */,
 				8CD6D2901C638A39005FC3D6 /* QLParser.swift in Sources */,
@@ -311,6 +326,7 @@
 				8CF4EB3D1C7E03E30029F88D /* NotExpression.swift in Sources */,
 				8CF4EB0D1C7DCC8E0029F88D /* IfStatement.swift in Sources */,
 				8CF4EB1C1C7DD5320029F88D /* BooleanLiteral.swift in Sources */,
+				8C8C801C1C7F0AE40096D1BC /* SemanticLoggable.swift in Sources */,
 				8CF4EB0B1C7DC8D40029F88D /* QuestionDeclaration.swift in Sources */,
 				8CF4EB451C7E066C0029F88D /* FloatType.swift in Sources */,
 				8CF4EB181C7DD3B20029F88D /* IntegerLiteral.swift in Sources */,

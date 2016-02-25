@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        
         guard let location = NSBundle.mainBundle().pathForResource("input", ofType: "ql") else {
             NSLog("File not found")
             exit(2)
@@ -28,15 +29,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
-        var (symbolTable, warnings, errors) = DeclarationChecker.check(questionair)
-        (symbolTable, warnings, errors) = TypeChecker.check(questionair, withSymbolTable: symbolTable, warnings: warnings, andErrors: errors)
+        var (symbolTable, semanticLog) = DeclarationChecker.check(questionair)
+        (symbolTable, semanticLog) = TypeChecker.check(questionair, withSymbolTable: symbolTable, andSemanticLog: semanticLog)
         
-        guard errors.count == 0 else {
-            errors.forEach {
-                print("Error: \($0)")
-            }
-            return
-        }
+        semanticLog.printLog()
         
     }
     

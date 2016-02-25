@@ -10,20 +10,18 @@ import Foundation
 
 class TypeChecker: BaseASTVisitor {
     
-    var symbolTable = SymbolTable()
-    var warnings = [String]()
-    var errors = [String]()
+    var symbolTable: SymbolTable
+    var semanticLog: SemanticLog
     
-    private init(symbolTable: SymbolTable, warnings: [String], errors: [String]) {
+    private init(symbolTable: SymbolTable, semanticLog: SemanticLog) {
         self.symbolTable = symbolTable
-        self.warnings = warnings
-        self.errors = errors
+        self.semanticLog = semanticLog
     }
     
-    static func check(form: Form, withSymbolTable symbolTable: SymbolTable, warnings: [String], andErrors errors: [String]) -> (symbolTable: SymbolTable, warnings: [String], errors: [String]) {
-        let typeChecker = TypeChecker(symbolTable: symbolTable, warnings: warnings, errors: errors)
+    static func check(form: Form, withSymbolTable symbolTable: SymbolTable, andSemanticLog semanticLog: SemanticLog) -> (symbolTable: SymbolTable, semanticLog: SemanticLog) {
+        let typeChecker = TypeChecker(symbolTable: symbolTable, semanticLog: semanticLog)
         typeChecker.visit(form)
-        return (symbolTable: typeChecker.symbolTable, warnings: typeChecker.warnings, errors: typeChecker.errors)
+        return (symbolTable: typeChecker.symbolTable, semanticLog: typeChecker.semanticLog)
     }
     
     override func visit(questionDeclaration: QuestionDeclaration) {
@@ -31,24 +29,22 @@ class TypeChecker: BaseASTVisitor {
             return
         }
         if !questionDeclaration.type.compatible(computation, symbolTable: symbolTable) {
-            errors.append("Computed type of variable '\(questionDeclaration.identifier)' does not match declaration, expected \(questionDeclaration.type) but got \(computation.inferType(symbolTable))")
+            semanticLog.logError(.ComputedTypeMismatch(identifier: questionDeclaration.identifier, expectedType: questionDeclaration.type, inferedType: computation.inferType(symbolTable)))
         }
     }
     
     override func visit(ifStatement: IfStatement) {
-        let expected = BooleanType()
-        if !expected.compatible(ifStatement.conditionClause, symbolTable: symbolTable) {
-            errors.append("Condition type is not of type \(expected), expected \(expected) but got \(ifStatement.conditionClause.inferType(symbolTable))")
+        if !BooleanType().compatible(ifStatement.conditionClause, symbolTable: symbolTable) {
+            semanticLog.logError(.ConditionTypeMismatch(inferedType: ifStatement.conditionClause.inferType(symbolTable)))
         }
         ifStatement.block.accept(self)
         ifStatement.elseClause?.accept(self)
     }
     
     override func visit(elseIfStatement: ElseIfStatement) {
-        let expected = BooleanType()
         if let conditionClause = elseIfStatement.conditionClause {
-            if !expected.compatible(conditionClause, symbolTable: symbolTable) {
-                errors.append("Condition type is not of type \(expected), expected \(expected) but got \(conditionClause.inferType(symbolTable))")
+            if !BooleanType().compatible(conditionClause, symbolTable: symbolTable) {
+                semanticLog.logError(.ConditionTypeMismatch(inferedType: conditionClause.inferType(symbolTable)))
             }
         }
         elseIfStatement.block.accept(self)
