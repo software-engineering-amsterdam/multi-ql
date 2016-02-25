@@ -10,5 +10,4 @@ public class TreeNode {
 	public int getLineNumber() {
 		return lineNumber;
 	}
-
 }

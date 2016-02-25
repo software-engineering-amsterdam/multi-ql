@@ -21,34 +21,35 @@ import ast.expression.VariableExpression;
 import ast.literal.BoolLiteral;
 import ast.literal.IntLiteral;
 import ast.literal.StringLiteral;
-import ast.statement.AssignmentQuestion;
+import ast.statement.ComputedQuestion;
 import ast.statement.IfStatement;
 import ast.statement.Question;
 
+//TODO: BROKEN NEED TO FIX FOR THE NEW VISITORS>>>>
 public class EvalVisitor extends BasicVisitor {
-	public HashMap<String, Object> evaluationMap;//andere naam, naar eigen klasses met interface(api) met minder low level names die representeren wat er daadwerkelijk gebeurd.
+	private Context context;
 	
 	public EvalVisitor(){
-		evaluationMap = new HashMap<String, Object>();
+		context = new Context();
 	}
 	
 	@Override
-	public Object visit(AssignmentQuestion assignmentQuestion){
-		Object value = assignmentQuestion.getExpression().accept(this);
-		putValue(assignmentQuestion.getVariable().getName(), value);
+	public Object visit(ComputedQuestion computedQuestion){
+		Object value = computedQuestion.getExpression().accept(this);
+		//context.addVariable(computedQuestion.getVariable());
 		return null;
 	}
 
 	@Override
 	public Object visit(IfStatement ifStatement){
-		Object value = ifStatement.getExpression().accept(this);
+		Object value = ifStatement.getExpression().accept(this);//TODO:store value
 		ifStatement.getBody().accept(this);
 		return null;
 	}
 	
 	@Override
 	public Object visit(Question question){
-		putValue(question.getVariable().getName(), question.getVariable().getValue());
+		//context.addVariable(question.getVariable());
 		return null;
 	}
 	
@@ -144,28 +145,6 @@ public class EvalVisitor extends BasicVisitor {
 	
 	@Override
 	public Object visit(VariableExpression variableExpression){
-		return getValue(variableExpression.getName(), variableExpression.getLineNumber());
+		return null;//TODO:getvaribale value from map or something!!!!!
 	}
-
-	private void putValue(String name, Object value){
-		evaluationMap.put(name, value);
-	}
-	
-	//naar andere klassen verplaatsen en het printen van warning scheiden van het ophalen van een value etc
-	private Object getValue(String name, int lineNumber){
-		if(!evaluationMap.containsKey(name)){
-			System.out.println(String.format("Variable: %s, unknown. At line number: %d",
-					name, lineNumber));
-			return null;
-		}
-		
-		if(evaluationMap.get(name) == null){
-			System.out.println(String.format("Variable: %s, has no value. At line number: %d",
-					name, lineNumber));
-			return null;
-		}
-		
-		return evaluationMap.get(name);
-	}
-
 }

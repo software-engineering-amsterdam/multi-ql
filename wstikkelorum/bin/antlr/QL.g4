@@ -27,16 +27,12 @@ body returns [Body result]
 
 statement [Body result]
 	: question { $result.add(new Statement($question.result)); }
-	| assignmentQuestion { $result.add(new Statement($assignmentQuestion.result)); }
 	| ifStatement { $result.add(new Statement($ifStatement.result)); }
 	;
 
 question returns [Question result]
-	: variable STR { $result = new Question($variable.start.getLine(), $variable.result, $STR.text); }
-	;
-
-assignmentQuestion returns [AssignmentQuestion result]
-	: variable STR '(' orExpression ')' { $result = new AssignmentQuestion($variable.start.getLine(), $variable.result, $STR.text, $orExpression.result); }
+	: variable STR { $result = new InputQuestion($variable.start.getLine(), $variable.result, $STR.text); }
+	| variable STR '(' orExpression ')' { $result = new ComputedQuestion($variable.start.getLine(), $variable.result, $STR.text, $orExpression.result); }
 	;
 	
 ifStatement returns [IfStatement result]
@@ -145,7 +141,7 @@ INTEGER: 'int';
 STRING: 'string';
 
 BOOL: 'true' | 'false';
-INT: ('0'..'9');
+INT: ('0'..'9')+;
 STR: '"' .*? '"';
 
 ID: ('a'..'z' | 'A'..'Z')('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
