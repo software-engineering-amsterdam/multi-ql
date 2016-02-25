@@ -1,5 +1,7 @@
 package org.uva.sea.ql.checker;
 
+import org.uva.sea.ql.ast.question.ComputedQuestion;
+import org.uva.sea.ql.ast.question.Question;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 

@@ -7,7 +7,7 @@ import org.uva.sea.ql.checker.ASTVisitor;
 /**
  * Representation of the contents of a block in an AST.
  * 
- * @author Olav Trauschke, 10329463
+ * @author Olav Trauschke
  * @version 25-feb-2016
  */
 public class StatementSet extends ASTNode {

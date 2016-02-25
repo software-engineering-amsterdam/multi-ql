@@ -35,7 +35,7 @@
 %type statements
 %type conditionalStatement
 %type <Question> question
-%type type
+%type <ComputedQuestion> computedQuestion
 %type <Expr> expr
 
 %{
@@ -43,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.util.Set;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.question.*;
 %}
 
 %%
@@ -60,16 +61,21 @@ conditionalStatement : IF '(' expr ')' block ELSE block { $$ = new ConditionalSt
                      | IF '(' expr ')' block            { $$ = new ConditionalStatement($3, $5, null); }
 ;
 
-question : IDENT ':' STRING_LITERAL type      { $$ = new Question($1, new Label($3), $4); }
-         | IDENT ':' STRING_LITERAL type expr { $$ = new ComputedQuestion($1, new Label($3), $4, $5); }
+question : IDENT ':' STRING_LITERAL BOOLEAN   { $$ = new BooleanQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL DATE      { $$ = new DateQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL DECIMAL   { $$ = new DecimalQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL INT       { $$ = new IntQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL MONEY     { $$ = new MoneyQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL STRING    { $$ = new StringQuestion($1, new Label($3)); }
+         | computedQuestion
 ;
 
-type : BOOLEAN { $$ = new Bool(null); }
-     | DATE    { $$ = new Date(); }
-     | DECIMAL { $$ = new Decimal(null); }
-     | INT     { $$ = new Int(null); }
-     | MONEY   { $$ = new Money(null, null); }
-     | STRING  { $$ = new Str(null); }
+computedQuestion : IDENT ':' STRING_LITERAL BOOLEAN expr { $$ = new ComputedBooleanQuestion($1, new Label($3), $5); }
+                 | IDENT ':' STRING_LITERAL DATE expr    { $$ = new ComputedDateQuestion($1, new Label($3), $5); }
+                 | IDENT ':' STRING_LITERAL DECIMAL expr { $$ = new ComputedDecimalQuestion($1, new Label($3), $5); }
+                 | IDENT ':' STRING_LITERAL INT expr     { $$ = new ComputedIntQuestion($1, new Label($3), $5); }
+                 | IDENT ':' STRING_LITERAL MONEY expr   { $$ = new ComputedMoneyQuestion($1, new Label($3), $5); }
+                 | IDENT ':' STRING_LITERAL STRING expr  { $$ = new ComputedStrQuestion($1, new Label($3), $5); }
 ;
 
 expr : '+' expr %prec UPLUS { $$ = $2; }

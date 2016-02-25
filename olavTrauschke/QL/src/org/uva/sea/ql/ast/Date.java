@@ -5,7 +5,7 @@ import org.uva.sea.ql.checker.ASTVisitor;
 /**
  * Representation of <code>Date</code>s in an AST.
  * 
- * @author Olav Trauschke, 10329463
+ * @author Olav Trauschke
  * @version 25-feb-2016
  */
 public class Date extends ASTNode {
