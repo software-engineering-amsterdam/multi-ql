@@ -5,9 +5,9 @@ package org.uva.sea.ql.ast.expr;
  * in some way for which these operands need to be ordered in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
-public class OrderedComparisonExpr extends ComparisonExpr {
+public abstract class OrderedComparisonExpr extends ComparisonExpr {
     
     /**
      * Constructor for objects of class <code>OrderedComparisonExpr</code>.

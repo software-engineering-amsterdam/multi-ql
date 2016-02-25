@@ -16,8 +16,8 @@ public class And extends BinaryExpr implements Visitable{
 		return (Boolean) lhs.eval() && (Boolean) rhs.eval();
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 	
 	@Override
