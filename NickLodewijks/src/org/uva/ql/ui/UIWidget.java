@@ -1,10 +1,10 @@
-package org.uva.ql.ui.swing;
+package org.uva.ql.ui;
 
 /**
  * A QLWidget represents the GUI component for an input field, or computed value
  * in the questionnaire.
  */
-public interface QLSwingWidget extends QLSwingComponent {
+public interface UIWidget extends UIComponent {
 
 	/**
 	 * Return the current value of the widget

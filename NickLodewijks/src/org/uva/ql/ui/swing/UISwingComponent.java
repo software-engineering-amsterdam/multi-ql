@@ -2,7 +2,9 @@ package org.uva.ql.ui.swing;
 
 import javax.swing.JComponent;
 
-public interface QLSwingComponent extends QLComponent {
+import org.uva.ql.ui.UIComponent;
+
+public interface UISwingComponent extends UIComponent {
 
 	public JComponent getComponent();
 }

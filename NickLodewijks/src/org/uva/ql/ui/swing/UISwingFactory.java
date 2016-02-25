@@ -9,7 +9,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,40 +29,36 @@ import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.QLInterpreterContext.ContextListener;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.type.QLBooleanType;
-import org.uva.ql.ast.type.QLIntegerType;
-import org.uva.ql.ast.type.QLStringType;
 import org.uva.ql.ast.type.QLType;
 import org.uva.ql.domain.Form;
 import org.uva.ql.domain.Question;
 import org.uva.ql.domain.Questionnaire;
 import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIQuestionnaire;
+import org.uva.ql.ui.UIWidgetFactory;
 
-public class SwingUIFactory implements UIFactory {
+public class UISwingFactory implements UIFactory {
+
+	private static final Map<QLType, UIWidgetFactory<UISwingWidget>> TYPE_TO_WIDGET_FACTORY;
+
+	static {
+		TYPE_TO_WIDGET_FACTORY = new HashMap<>();
+		TYPE_TO_WIDGET_FACTORY.put(QLType.BOOLEAN, q -> new DefaultBooleanWidget(q.getId()));
+		TYPE_TO_WIDGET_FACTORY.put(QLType.STRING, q -> new DefaultStringWidget(q.getId()));
+		TYPE_TO_WIDGET_FACTORY.put(QLType.INTEGER, q -> new DefaultIntegerWidget(q.getId()));
+	}
 
 	@Override
 	public UIQuestionnaire create(Questionnaire questionnaire) {
 		return new DefaultQLQuestionaire(questionnaire);
 	}
 
-	private static QLSwingWidget createWidget(Question q) {
-		QLSwingWidget widget;
+	private static UISwingWidget createWidget(Question q) {
+		UISwingWidget widget;
 		QLType type;
-		String id;
 
 		type = q.getType();
-		id = q.getId();
-
-		if (type instanceof QLBooleanType) {
-			widget = new DefaultBooleanWidget(id);
-		} else if (type instanceof QLIntegerType) {
-			widget = new DefaultIntegerWidget(id);
-		} else if (type instanceof QLStringType) {
-			widget = new DefaultStringWidget(id);
-		} else {
-			throw new IllegalStateException("Undefined question type '" + type + "'");
-		}
+		widget = TYPE_TO_WIDGET_FACTORY.get(type).create(q);
 
 		if (q.isComputed()) {
 			widget = new ComputedWidget(widget, q.getExpr());
@@ -122,7 +120,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultQLForm implements QLSwingComponent {
+	private static class DefaultQLForm implements UISwingComponent {
 
 		private final Form form;
 		private final List<DefaultQLQuestion> questions = new ArrayList<>();
@@ -161,13 +159,13 @@ public class SwingUIFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultQLQuestion implements QLSwingComponent, ContextListener {
+	private static class DefaultQLQuestion implements UISwingComponent, ContextListener {
 
 		private final Question question;
 
 		private JPanel panel;
-		private QLSwingComponent label;
-		private QLSwingWidget input;
+		private UISwingComponent label;
+		private UISwingWidget input;
 
 		public DefaultQLQuestion(Question q) {
 			this.question = q;
@@ -207,7 +205,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultLabelWidget extends JLabel implements QLSwingWidget {
+	private static class DefaultLabelWidget extends JLabel implements UISwingWidget {
 
 		private static final long serialVersionUID = 1L;
 
@@ -249,16 +247,16 @@ public class SwingUIFactory implements UIFactory {
 	}
 
 	/**
-	 * This class wraps a {@link QLSwingWidget} and uses an expression to
+	 * This class wraps a {@link UISwingWidget} and uses an expression to
 	 * compute its value.
 	 *
 	 */
-	private static class ComputedWidget implements QLSwingWidget, ContextListener {
+	private static class ComputedWidget implements UISwingWidget, ContextListener {
 
-		private final QLSwingWidget widget;
+		private final UISwingWidget widget;
 		private final Expr expr;
 
-		public ComputedWidget(QLSwingWidget widget, Expr expr) {
+		public ComputedWidget(UISwingWidget widget, Expr expr) {
 			this.widget = widget;
 
 			widget.setEditable(false);
@@ -299,7 +297,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultBooleanWidget extends JPanel implements QLSwingWidget, ActionListener {
+	private static class DefaultBooleanWidget extends JPanel implements UISwingWidget, ActionListener {
 
 		private static final long serialVersionUID = 1L;
 		private final String variableName;
@@ -376,7 +374,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultIntegerWidget extends JPanel implements QLSwingWidget {
+	private static class DefaultIntegerWidget extends JPanel implements UISwingWidget {
 
 		private static final long serialVersionUID = 1L;
 
@@ -444,7 +442,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultStringWidget extends JPanel implements QLSwingWidget {
+	private static class DefaultStringWidget extends JPanel implements UISwingWidget {
 
 		private static final long serialVersionUID = 1L;
 

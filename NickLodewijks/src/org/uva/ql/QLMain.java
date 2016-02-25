@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.domain.Questionnaire;
-import org.uva.ql.ui.QLASTToUIVisitor;
-import org.uva.ql.ui.swing.SwingUIFactory;
+import org.uva.ql.domain.QuestionnaireFactory;
+import org.uva.ql.ui.swing.UISwingFactory;
 
 public class QLMain {
 
@@ -21,8 +21,8 @@ public class QLMain {
 
 		new QLSemanticAnalyser().validateTypes(questionnaire);
 
-		qlQuestionnaire = QLASTToUIVisitor.create(questionnaire);
+		qlQuestionnaire = QuestionnaireFactory.create(questionnaire);
 
-		new SwingUIFactory().create(qlQuestionnaire).show();
+		new UISwingFactory().create(qlQuestionnaire).show();
 	}
 }
