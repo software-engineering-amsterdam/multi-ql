@@ -143,12 +143,22 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public Type visit(And node) {
-		return new IntType();
+		Type typeOfLeftExpression = node.getLeftExpression().accept(this);
+		Type typeOfRightExpression = node.getRightExpression().accept(this);
+		if (typeOfLeftExpression.getTypeName().equals("boolean") && typeOfRightExpression.getTypeName().equals("boolean"))
+			return new BoolType();
+		else
+			return new UndefinedType();		//  check...
 	}
 
 	@Override
 	public Type visit(Or node) {
-		return new IntType();
+		Type typeOfLeftExpression = node.getLeftExpression().accept(this);
+		Type typeOfRightExpression = node.getRightExpression().accept(this);
+		if (typeOfLeftExpression.getTypeName().equals("boolean") && typeOfRightExpression.getTypeName().equals("boolean"))
+			return new BoolType();
+		else
+			return new UndefinedType();		//  check...
 	}
 
 	@Override
@@ -200,25 +210,49 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
+		
 		if (labelIsDuplicate(computedQuestion))
 			System.out.println("Duplicate label found!");
-		else {
-			//System.out.println("Pass");
-			insertAtHashMap(computedQuestion.getId().getValue(),computedQuestion.getLabel(),computedQuestion.getType());
-		}
+		
+		Identifier identifier = computedQuestion.getId();
+		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
+		
+		Expression expression = computedQuestion.getExpression();
 	}
 
 	@Override
 	public void visitQuestion(Question question) {
+		
 		if (labelIsDuplicate(question))
 			System.out.println("Duplicate label found!");
+		
+		if (isDeclaredWithDifferentType(question))
+			System.out.println("Question is declared with different type");
+		
 		else {
-			//System.out.println("Pass");
-			insertAtHashMap(question.getId().getValue(),question.getLabel(),question.getType());
+			
+			Identifier identifier = question.getId();
+			insertAtHashMap(identifier.getValue(),question.getLabel(),question.getType());
 		}
 	}
 
+	private boolean isDeclaredWithDifferentType(Question question) {
+		
+		Identifier identifier = question.getId();
+		
+		if (questionData.keySet().contains(identifier.getValue())) {
+			String identifierString = identifier.getValue();
+			IdentifierData identifierData = questionData.get(identifierString);
+			
+			if (!identifierString.equals(identifierData.getType().getTypeName()))	// fix-> demeter...
+				return true;
+		}
+		
+		return false;
+	}
+
 	private boolean labelIsDuplicate(Question question) {
+		
 		for(IdentifierData identifierData: questionData.values())
 		if (identifierData.getLabel().equals(question.getLabel()))
 			return true;
