@@ -44,7 +44,8 @@ public class DependencyGraphBuilder extends LeftDFSVisitor<Graph> {
 	}
 	
 	@Override 
-	public void visit(ComputedQuestion compQuestion, Graph DependencyGraph) {
+	public void visit(ComputedQuestion compQuestion, Graph dependencyGraph) {
+		dependencyGraph.addVertex(new Vertex(compQuestion.getIdentifier()));
 		Set<String> varIDs = new HashSet<String>();
 		varIDs.addAll(VariableCollector.geVariableIDs(compQuestion.getExpr()));
 		
@@ -56,7 +57,9 @@ public class DependencyGraphBuilder extends LeftDFSVisitor<Graph> {
 	
 	@Override 
 	public void visit(Question question, Graph dependencyGraph) {
-		// skip
+		if (! dependencyGraph.containsVertex(question.getIdentifier())) {
+			dependencyGraph.addVertex(new Vertex(question.getIdentifier()));
+		}
 	}
 	
 	public Graph getDependencyGraph() {
