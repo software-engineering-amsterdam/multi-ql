@@ -2,9 +2,10 @@ package org.uva.ql.ui.swing;
 
 import javax.swing.JComponent;
 
-import org.uva.ql.ui.UIComponent;
+import org.uva.ql.ui.UIForm;
 
-interface UISwingComponent extends UIComponent {
+public interface UISwingForm extends UIForm {
 
 	public JComponent getComponent();
+
 }

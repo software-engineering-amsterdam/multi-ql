@@ -50,10 +50,47 @@ public class UISwingFactory implements UIFactory {
 
 	@Override
 	public UIQuestionnaire create(Questionnaire questionnaire) {
-		return new DefaultQLQuestionaire(questionnaire);
+		DefaultQLQuestionaire q;
+
+		q = new DefaultQLQuestionaire(questionnaire);
+
+		for (Form form : questionnaire.getForms()) {
+			q.addForm(create(form));
+		}
+
+		return q;
 	}
 
-	private static UISwingWidget createWidget(Question q) {
+	@Override
+	public UISwingForm create(Form form) {
+		DefaultQLForm qlForm;
+
+		qlForm = new DefaultQLForm(form);
+		for (Question question : form.getQuestions()) {
+			qlForm.add(create(question));
+		}
+
+		return qlForm;
+	}
+
+	@Override
+	public UISwingQuestion create(Question question) {
+		UISwingWidget label;
+		UISwingWidget value;
+
+		label = createLabelWidget(question);
+		value = createValueWidget(question);
+
+		return new DefaultQLQuestion(question, label, value);
+	}
+
+	@Override
+	public UISwingWidget createLabelWidget(Question q) {
+		return new DefaultLabelWidget(q.getLabel());
+	}
+
+	@Override
+	public UISwingWidget createValueWidget(Question q) {
 		UISwingWidget widget;
 		QLType type;
 
@@ -66,14 +103,14 @@ public class UISwingFactory implements UIFactory {
 		return widget;
 	}
 
-	public static class DefaultQLQuestionaire implements UIQuestionnaire {
+	private static class DefaultQLQuestionaire implements UIQuestionnaire {
 
-		private final List<DefaultQLForm> forms = new ArrayList<>();
+		private final List<UISwingForm> forms = new ArrayList<>();
 
 		private final JFrame jframe;
+		private final JScrollPane scrollPanel;
 
 		public DefaultQLQuestionaire(Questionnaire q) {
-			JScrollPane scrollPanel;
 			JPanel panel;
 			JPanel root;
 
@@ -81,11 +118,7 @@ public class UISwingFactory implements UIFactory {
 
 			jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-			for (Form form : q.getForms()) {
-				forms.add(new DefaultQLForm(form));
-			}
-
-			scrollPanel = new JScrollPane(forms.get(0).getComponent());
+			scrollPanel = new JScrollPane();
 
 			root = new JPanel();
 			root.setLayout(new BoxLayout(root, BoxLayout.X_AXIS));
@@ -103,12 +136,17 @@ public class UISwingFactory implements UIFactory {
 			jframe.setLocationRelativeTo(null);
 		}
 
+		public void addForm(UISwingForm form) {
+			forms.add(form);
+			scrollPanel.setViewportView(form.getComponent());
+		}
+
 		@Override
 		public void show() {
 			QLInterpreterContext context;
 
 			context = new QLInterpreterContext();
-			for (DefaultQLForm form : forms) {
+			for (UISwingForm form : forms) {
 				form.setContext(context);
 			}
 
@@ -116,21 +154,17 @@ public class UISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultQLForm implements UISwingComponent {
+	private static class DefaultQLForm implements UISwingForm {
 
-		private final List<DefaultQLQuestion> questions = new ArrayList<>();
+		private final List<UISwingQuestion> questions = new ArrayList<>();
 		private final JPanel panel;
 
 		public DefaultQLForm(Form form) {
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-
-			for (Question question : form.getQuestions()) {
-				add(new DefaultQLQuestion(question));
-			}
 		}
 
-		private void add(DefaultQLQuestion question) {
+		public void add(UISwingQuestion question) {
 			questions.add(question);
 			panel.add(question.getComponent());
 			panel.add(Box.createRigidArea(new Dimension(0, 2)));
@@ -147,24 +181,23 @@ public class UISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultQLQuestion implements UISwingComponent, ContextListener {
+	private static class DefaultQLQuestion implements UISwingQuestion, ContextListener {
 
 		private final Question question;
 
-		private JPanel panel;
-		private UISwingWidget label;
-		private UISwingWidget input;
+		private final UISwingWidget labelWidget;
+		private final UISwingWidget valueWidget;
+		private final JPanel panel;
 
-		public DefaultQLQuestion(Question q) {
+		public DefaultQLQuestion(Question q, UISwingWidget labelWidget, UISwingWidget valueWidget) {
 			this.question = q;
 
+			this.labelWidget = labelWidget;
+			this.valueWidget = valueWidget;
+
 			panel = new JPanel(new BorderLayout());
-
-			label = new DefaultLabelWidget(q.getLabel());
-			input = createWidget(q);
-
-			panel.add(label.getComponent(), BorderLayout.CENTER);
-			panel.add(input.getComponent(), BorderLayout.EAST);
+			panel.add(labelWidget.getComponent(), BorderLayout.CENTER);
+			panel.add(valueWidget.getComponent(), BorderLayout.EAST);
 			panel.setMaximumSize(new Dimension(400, 40));
 			panel.setMinimumSize(new Dimension(200, 40));
 		}
@@ -180,8 +213,8 @@ public class UISwingFactory implements UIFactory {
 				context.addContextListener(this);
 			}
 
-			label.setContext(context);
-			input.setContext(context);
+			labelWidget.setContext(context);
+			valueWidget.setContext(context);
 		}
 
 		@Override
@@ -190,6 +223,16 @@ public class UISwingFactory implements UIFactory {
 				panel.setVisible(question.isEnabled(context));
 				SwingUtilities.windowForComponent(panel).revalidate();
 			});
+		}
+
+		@Override
+		public UISwingWidget getLabelWidget() {
+			return labelWidget;
+		}
+
+		@Override
+		public UISwingWidget getValueWidget() {
+			return valueWidget;
 		}
 	}
 
@@ -494,5 +537,4 @@ public class UISwingFactory implements UIFactory {
 			textField.setEditable(editable);
 		}
 	}
-
 }
