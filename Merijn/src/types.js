@@ -5,6 +5,15 @@ export class Type {
 	toString() {
 		throw new Error("Override in subclasses");
 	}
+	equals() {
+		throw new Error("Override in subclasses");
+	}
+	is(otherType) {
+		return otherType.isSuperTypeOf(this);
+	}
+	isSuperTypeOf(otherType) {
+		throw new Error("Override in subclasses");
+	}
 }
 
 export class BooleanType extends Type  {
@@ -13,6 +22,9 @@ export class BooleanType extends Type  {
 	}
 	toString() {
 		return "boolean";
+	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof BooleanType;
 	}
 }
 
@@ -23,11 +35,20 @@ export class StringType extends Type  {
 	toString() {
 		return "string";
 	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof StringType;
+	}
 }
 
 export class NumberType extends Type {
 	dispatch(receiver, ...args) {
 		return receiver.receiveNumber(this, ...args);
+	}
+	toString() {
+		return "number";
+	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof NumberType;
 	}
 }
 
@@ -38,6 +59,9 @@ export class IntegerType extends NumberType {
 	toString() {
 		return "integer";
 	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof IntegerType;
+	}
 }
 
 export class FloatType extends NumberType {
@@ -46,6 +70,9 @@ export class FloatType extends NumberType {
 	}
 	toString() {
 		return "float";
+	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof FloatType;
 	}
 }
 
@@ -56,6 +83,9 @@ export class MoneyType extends Type {
 	toString() {
 		return "money";
 	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof MoneyType;
+	}
 }
 
 export class UndefinedType extends Type {
@@ -64,6 +94,9 @@ export class UndefinedType extends Type {
 	}
 	toString() {
 		return "undefined";
+	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof UndefinedType;
 	}
 }
 
