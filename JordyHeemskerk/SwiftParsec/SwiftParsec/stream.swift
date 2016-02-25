@@ -6,11 +6,24 @@ import Foundation
 public class CharStream {
   let str: String
   var pos: String.Index
+    var lines = [Int]()
 
   public init(str: String) {
     self.str = str
     self.pos = str.startIndex
+    str.enumerateLines { (line, stop) -> () in
+        let lastLineEnd = self.lines.last ?? 0
+        self.lines.append(lastLineEnd + line.startIndex.distanceTo(line.endIndex) + 1)
+    }
   }
+    
+    var currentLine: Int {
+        let intPos = str.startIndex.distanceTo(pos)
+        for i in 0..<lines.count {
+            if intPos <= lines[i] { return i + 1 }
+        }
+        return -1
+    }
 
   var head:Character? {
     get {
@@ -53,6 +66,7 @@ public class CharStream {
 
   func advance(count: Int) -> Void {
     pos = pos.advancedBy(count)
+    print("Now on line \(currentLine)")
   }
 
   func error(msg: String) -> Void {}
