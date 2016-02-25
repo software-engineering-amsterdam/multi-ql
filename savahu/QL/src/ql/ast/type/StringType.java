@@ -9,10 +9,9 @@ package ql.ast.type;
  *
  * @author sander
  */
-public class Type {
+public class StringType extends QuestionType {
 
-    public Type() {
-
+    public StringType() {
+        super();
     }
-
 }

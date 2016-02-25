@@ -4,9 +4,9 @@ package ql.ast.type;
  *
  * @author sander
  */
-public class Bool extends Type {
+public class BoolType extends QuestionType {
 
-    public Bool() {
+    public BoolType() {
         super();
     }
 }
