@@ -1,12 +1,13 @@
 package org.uva.sea.ql.ast.expr;
 
 import java.util.Objects;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type boolean in an AST.
  * 
  * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
 public class Bool extends BooleanExpr {
     
@@ -27,6 +28,16 @@ public class Bool extends BooleanExpr {
      */
     public Bool(Boolean theValue) {
         value = theValue;
+    }
+    
+    /**
+     * Has <code>v visit this Bool</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Bool</code>
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
     /**

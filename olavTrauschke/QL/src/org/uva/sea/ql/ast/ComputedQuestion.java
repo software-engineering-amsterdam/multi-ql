@@ -40,14 +40,14 @@ public class ComputedQuestion extends Question {
      * <code>this ComputedQuestion accept v</code> and then has
      * <code>v visit this ComputedQuestion</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should visit
-     *          <code>this ComputedQuestion</code> and its children
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this ComputedQuestion</code> and its children
      */
     @Override
     public void accept(ASTVisitor v) {
-        getIdentifier().accept(v);
-        getLabel().accept(v);
-        getType().accept(v);
+        identifierAccept(v);
+        labelAccept(v);
+        typeAccept(v);
         calculation.accept(v);
         
         v.visit(this);

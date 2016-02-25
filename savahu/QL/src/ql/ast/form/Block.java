@@ -7,6 +7,7 @@ package ql.ast.form;
 
 import java.util.ArrayList;
 import java.util.List;
+import ql.ast.question.Question;
 import ql.ast.statement.Statement;
 
 /**
@@ -16,10 +17,12 @@ import ql.ast.statement.Statement;
 public class Block {
     
     private final List<Statement> _Statements;
+    private final List<Question> _Questions;
     
-    public Block(List<Statement> statements)
+    public Block(List<Statement> statements, List<Question> questions)
     {
         this._Statements = statements;
+        this._Questions = questions;
     }
    
     

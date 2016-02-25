@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast.expr;
 
+import org.uva.sea.ql.checker.ASTVisitor;
+
 /**
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
@@ -24,6 +26,16 @@ public class Ident extends Expr {
     public Ident(String theContent) {
         assert theContent != null;
         content = theContent;
+    }
+    
+    /**
+     * Has <code>v visit this Ident</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Ident</code>
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
     /**

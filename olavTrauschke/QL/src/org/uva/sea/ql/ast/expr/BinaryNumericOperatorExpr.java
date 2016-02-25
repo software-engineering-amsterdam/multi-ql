@@ -1,11 +1,13 @@
 package org.uva.sea.ql.ast.expr;
 
+import org.uva.sea.ql.checker.ASTVisitor;
+
 /**
  * Representation of <code>Expr</code>s which are sure to have a numeric value
  * and have two arguments in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
 public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
@@ -32,6 +34,22 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
         assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
+    }
+    
+    /**
+     * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
+     * <code>this BinaryNumericOperatorExpr accept v</code> and then has
+     * <code>v visit this BinaryNumericOperatorExpr</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this BinaryNumericOperatorExpr</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        firstExpr.accept(v);
+        secondExpr.accept(v);
+        
+        v.visit(this);
     }
     
     /**

@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast.expr;
 
+import org.uva.sea.ql.checker.ASTVisitor;
+
 /**
  * Representation of <code>Expr</code>s which compare two other <code>Expr</code>s
  * in some way for which these operands need to be ordered in an AST.
@@ -17,6 +19,22 @@ public abstract class OrderedComparisonExpr extends ComparisonExpr {
      */
     public OrderedComparisonExpr(Expr firstExpr, Expr secondExpr) {
         super(firstExpr, secondExpr);
+    }
+    
+    /**
+     * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
+     * <code>this OrderedComparisonExpr accept v</code> and then has
+     * <code>v visit this OrderedComparisonExpr</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this OrderedComparisonExpr</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        firstExprAccept(v);
+        secondExprAccept(v);
+        
+        v.visit(this);
     }
     
 }
