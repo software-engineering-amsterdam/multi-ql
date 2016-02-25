@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.BinaryExpr;
@@ -43,12 +44,24 @@ public class QLSemanticAnalyser {
 
 	}
 
+	public Result validate(QLQuestionnaire questionnaire) {
+		Result result;
+
+		result = new Result();
+
+		result.addAll(validateTypes(questionnaire));
+		result.addAll(validateCyclicReferences(questionnaire));
+
+		return result;
+	}
+
 	/**
 	 * Validate the types in the {@code questionnaire}.
 	 * <p>
 	 * This will check for:
-	 * <li>Reference to undefined variables (=questions)
-	 * <li>Duplicate declaration of variables (=questions)
+	 * <li>Reference to undefined questions
+	 * <li>Duplicate question (name) declaration with different types
+	 * <li>duplicate question labels
 	 * <li>Conditions that are not of the type boolean
 	 * <li>Operands of invalid type to operators</br>
 	 * 
@@ -57,19 +70,6 @@ public class QLSemanticAnalyser {
 	 */
 	public Result validateTypes(QLQuestionnaire questionnaire) {
 		return new TypeCheckVisitor().visit(questionnaire);
-	}
-
-	/**
-	 * Validate the the questions of the supplied {@code questionnaire}.
-	 * <p>
-	 * This will check for:
-	 * <li>duplicate question labels</li></br>
-	 * 
-	 * @param questionnaire
-	 * @return a {@link Result} containing errors and warnings.
-	 */
-	public Result validateQuestions(QLQuestionnaire questionnaire) {
-		return new DuplicateQuestionLabelVisitor().visit(questionnaire);
 	}
 
 	/**
@@ -87,13 +87,57 @@ public class QLSemanticAnalyser {
 
 		private Result result;
 
-		public TypeCheckVisitor() {
+		private TypeCheckVisitor() {
 		}
 
 		public Result visit(QLQuestionnaire q) {
+			SymbolTable table;
+
 			result = new Result();
 
-			q.accept(this, new SymbolTable());
+			table = new SymbolTable();
+			q.accept(this, table);
+
+			result.duplicateNameQuestions.forEach(name -> {
+
+				StringBuilder sb;
+				String msg;
+
+				msg = String.format("Question '%s' has been declared multiple times, but with different types:", name);
+
+				sb = new StringBuilder();
+				sb.append(msg);
+				sb.append(System.lineSeparator());
+				table.getByName(name).stream().forEach(c -> {
+					sb.append("  ");
+					sb.append(c.getSourceLocation());
+					sb.append("  ");
+					sb.append(c.getSourceText());
+					sb.append(System.lineSeparator());
+				});
+
+				result.addError(sb.toString());
+			});
+
+			result.duplicateLabelQuestions.forEach(label -> {
+				StringBuilder sb;
+				String msg;
+
+				msg = String.format("Duplicate labels: %s", label);
+
+				sb = new StringBuilder();
+				sb.append(msg);
+				sb.append(System.lineSeparator());
+				table.getByLabel(label).stream().forEach(c -> {
+					sb.append("  ");
+					sb.append(c.getSourceLocation());
+					sb.append("  ");
+					sb.append(c.getSourceText());
+					sb.append(System.lineSeparator());
+				});
+
+				result.addWarning(sb.toString());
+			});
 
 			return result;
 		}
@@ -110,15 +154,12 @@ public class QLSemanticAnalyser {
 		@Override
 		public QLType visit(QLForm node, SymbolTable st) {
 			// The body of every form has its own SymbolTable
-			node.getBody().accept(this, new SymbolTable());
+			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
 		public QLType visit(QLBlock node, SymbolTable st) {
-			// Copy the SymbolTable for scoping of variables
-			st = new SymbolTable(st);
-
 			// First traverse the questions, because they
 			// declare variables that can be used in the if statements.
 			for (QLQuestion question : node.getQuestions()) {
@@ -141,19 +182,21 @@ public class QLSemanticAnalyser {
 
 		@Override
 		public QLType visit(QLQuestion node, SymbolTable st) {
-			String variableName;
-			QLType questionType;
 
-			variableName = node.getId();
-			questionType = node.getType();
-
-			if (st.contains(variableName)) {
-				result.addError("Duplicate question id %s", node);
-			} else {
-				st.add(variableName, questionType);
+			if (!st.getByLabel(node.getLabel()).isEmpty()) {
+				result.addDuplicateQuestionLabel(node);
 			}
 
-			return questionType;
+			for (QLQuestion other : st.getByName(node.getId())) {
+				if (!other.getType().equals(node.getType())) {
+					result.addDuplicateQuestionName(node);
+					break;
+				}
+			}
+
+			st.add(node);
+
+			return node.getType();
 		}
 
 		@Override
@@ -315,8 +358,27 @@ public class QLSemanticAnalyser {
 		private final List<String> warnings = new ArrayList<>();
 		private final List<String> errors = new ArrayList<>();
 
+		private Set<String> duplicateNameQuestions = new HashSet<>();
+		private Set<String> duplicateLabelQuestions = new HashSet<>();
+
 		private Result() {
 
+		}
+
+		void addAll(Result result) {
+			warnings.addAll(result.warnings);
+			errors.addAll(result.errors);
+
+			duplicateNameQuestions.addAll(result.duplicateNameQuestions);
+			duplicateLabelQuestions.addAll(result.duplicateLabelQuestions);
+		}
+
+		void addDuplicateQuestionLabel(QLQuestion q) {
+			duplicateLabelQuestions.add(q.getLabel());
+		}
+
+		void addDuplicateQuestionName(QLQuestion q) {
+			duplicateNameQuestions.add(q.getId());
 		}
 
 		void addWarning(String msg, Object... args) {
@@ -368,79 +430,50 @@ public class QLSemanticAnalyser {
 		}
 	}
 
-	private static class DuplicateQuestionLabelVisitor extends ASTNodeVisitorAdapter<Void, QuestionTable> {
-
-		private Result result;
-
-		public DuplicateQuestionLabelVisitor() {
-
-		}
-
-		public Result visit(QLQuestionnaire q) {
-			result = new Result();
-
-			q.accept(this, new QuestionTable());
-
-			return result;
-		}
-
-		@Override
-		public Void visit(QLQuestion node, QuestionTable qt) {
-			String label;
-			QLType knownType;
-			QLType nodeType;
-
-			label = node.getLabel();
-			nodeType = node.getType();
-			knownType = qt.add(label, nodeType);
-			if (knownType != null) {
-				result.addWarning("Duplicate label: %s", label);
-
-				if (!Objects.equals(nodeType, knownType)) {
-					result.addError("Question with '%s' has been declared twice, but with different types: %s and %s",
-							label, nodeType, knownType);
-				}
-			}
-
-			return null;
-		}
-	}
-
 	private static class SymbolTable {
 
-		private Map<String, QLType> nameToType = new HashMap<>();
+		private Map<String, List<QLQuestion>> nameToQuestion = new HashMap<>();
+		private Map<String, List<QLQuestion>> labelToQuestion = new HashMap<>();
 
 		public SymbolTable() {
-			nameToType = new HashMap<>();
+
 		}
 
-		public SymbolTable(SymbolTable table) {
-			nameToType = new HashMap<>(table.nameToType);
+		public List<QLQuestion> getByName(String name) {
+			return nameToQuestion.getOrDefault(name, Collections.emptyList());
 		}
 
-		public boolean contains(String name) {
-			return nameToType.containsKey(name);
+		public List<QLQuestion> getByLabel(String label) {
+			return labelToQuestion.getOrDefault(label, Collections.emptyList());
 		}
 
-		public void add(String name, QLType type) {
-			nameToType.put(name, type);
+		public void add(QLQuestion node) {
+			List<QLQuestion> questionListByName;
+			List<QLQuestion> questionListByLabel;
+			String name;
+			String label;
+
+			name = node.getId();
+			label = node.getLabel();
+
+			questionListByName = nameToQuestion.getOrDefault(name, new ArrayList<>());
+			questionListByName.add(node);
+			nameToQuestion.putIfAbsent(name, questionListByName);
+
+			questionListByLabel = labelToQuestion.getOrDefault(label, new ArrayList<>());
+			questionListByLabel.add(node);
+			labelToQuestion.putIfAbsent(label, questionListByLabel);
 		}
 
 		public QLType getType(String name) {
-			return nameToType.get(name);
-		}
-	}
+			List<QLQuestion> questionList;
 
-	private static class QuestionTable {
+			questionList = getByName(name);
+			if (questionList.isEmpty()) {
+				return null;
+			}
 
-		private final Map<String, QLType> questionLabelToType;
-
-		public QuestionTable() {
-			questionLabelToType = new HashMap<>();
-		}
-
-		public QLType add(String label, QLType type) {
-			return questionLabelToType.put(label, type);
+			return questionList.get(0).getType();
 		}
 	}
 
@@ -700,6 +733,7 @@ public class QLSemanticAnalyser {
 
 			return null;
 		}
+
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -715,7 +749,6 @@ public class QLSemanticAnalyser {
 		sa = new QLSemanticAnalyser();
 
 		sa.validateTypes(questionnaire).print();
-		sa.validateQuestions(questionnaire).print();
 		sa.validateCyclicReferences(questionnaire).print();
 	}
 

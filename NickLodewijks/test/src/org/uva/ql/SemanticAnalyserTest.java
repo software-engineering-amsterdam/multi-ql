@@ -1,7 +1,6 @@
 package org.uva.ql;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 
 import org.junit.Assert;
@@ -14,33 +13,21 @@ public class SemanticAnalyserTest {
 	@Test
 	public void testDuplicateQuestions() throws IOException {
 		Result result;
-		InputStream is;
 
-		QLQuestionnaire questionnaire;
+		result = new QLSemanticAnalyser().validate(createQuestionnaire("DuplicateQuestions.ql"));
 
-		is = SemanticAnalyserTest.class.getResourceAsStream("DuplicateQuestions.ql");
-
-		questionnaire = QLQuestionnaire.create(is);
-
-		result = new QLSemanticAnalyser().validateQuestions(questionnaire);
-
-		assertNumberOfWarnings(result, 3);
-		assertNumberOfErrors(result, 1);
+		result.print();
+		assertNumberOfWarnings(result, 4);
+		assertNumberOfErrors(result, 2);
 	}
 
 	@Test
 	public void testDuplicateQuestionsNested() throws IOException {
 		Result result;
-		InputStream is;
 
-		QLQuestionnaire questionnaire;
+		result = new QLSemanticAnalyser().validate(createQuestionnaire("DuplicateQuestionsNested.ql"));
 
-		is = SemanticAnalyserTest.class.getResourceAsStream("DuplicateQuestionsNested.ql");
-
-		questionnaire = QLQuestionnaire.create(is);
-
-		result = new QLSemanticAnalyser().validateQuestions(questionnaire);
-
+		result.print();
 		assertNumberOfWarnings(result, 4);
 		assertNumberOfErrors(result, 2);
 	}
@@ -48,16 +35,27 @@ public class SemanticAnalyserTest {
 	@Test
 	public void testCyclicReferences() throws IOException {
 		Result result;
-		InputStream is;
 
-		QLQuestionnaire questionnaire;
+		result = new QLSemanticAnalyser().validateCyclicReferences(createQuestionnaire("CyclicReferences.ql"));
 
-		is = SemanticAnalyserTest.class.getResourceAsStream("CyclicReferences.ql");
-
-		questionnaire = QLQuestionnaire.create(is);
-
-		result = new QLSemanticAnalyser().validateCyclicReferences(questionnaire);
+		result.print();
 		assertNumberOfErrors(result, 6);
+		assertNumberOfWarnings(result, 0);
+	}
+
+	@Test
+	public void testValidQuestions() throws IOException {
+		Result result;
+
+		result = new QLSemanticAnalyser().validate(createQuestionnaire("ValidQuestions.ql"));
+
+		result.print();
+		assertNumberOfErrors(result, 0);
+		assertNumberOfWarnings(result, 0);
+	}
+
+	private QLQuestionnaire createQuestionnaire(String fileName) throws IOException {
+		return QLQuestionnaire.create(SemanticAnalyserTest.class.getResourceAsStream(fileName));
 	}
 
 	private void assertNumberOfWarnings(Result result, int warnings) {
