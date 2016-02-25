@@ -1,14 +1,15 @@
-package org.uva.ql.ast;
+package org.uva.ql.ast.type;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.ASTNodeVisitor;
 
-public final class StringType extends VariableType {
+public final class IntegerType extends VariableType {
 
-	public StringType() {
+	public IntegerType() {
 		super(null);
 	}
 
-	public StringType(ParserRuleContext context) {
+	public IntegerType(ParserRuleContext context) {
 		super(context);
 	}
 
@@ -19,7 +20,7 @@ public final class StringType extends VariableType {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof StringType;
+		return obj instanceof IntegerType;
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package org.uva.ql.ast.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
-import org.uva.ql.ast.VariableType;
+import org.uva.ql.ast.type.VariableType;
 
 public abstract class Question extends ASTNode {
 

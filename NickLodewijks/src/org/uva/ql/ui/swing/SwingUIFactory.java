@@ -24,12 +24,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import org.uva.ql.QLInterpreter;
-import org.uva.ql.ast.BooleanType;
-import org.uva.ql.ast.IntegerType;
-import org.uva.ql.ast.StringType;
-import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Context.ContextListener;
+import org.uva.ql.ast.type.BooleanType;
+import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.ast.type.StringType;
+import org.uva.ql.ast.type.VariableType;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.domain.QLForm;
 import org.uva.ql.domain.QLQuestion;

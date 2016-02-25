@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.stat.ComputedQuestion;
 import org.uva.ql.ast.stat.InputQuestion;
+import org.uva.ql.ast.type.VariableType;
 
 public class QLQuestion {
 
