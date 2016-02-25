@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.domain.Questionnaire;
 import org.uva.ql.domain.QuestionnaireFactory;
-import org.uva.ql.ui.swing.UISwingFactory;
+import org.uva.ql.ui.swing.DefaultUISwingFactory;
 
 public class QLMain {
 
@@ -23,6 +23,6 @@ public class QLMain {
 
 		qlQuestionnaire = QuestionnaireFactory.create(questionnaire);
 
-		new UISwingFactory().create(qlQuestionnaire).show();
+		new DefaultUISwingFactory().create(qlQuestionnaire).show();
 	}
 }

@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,13 +32,16 @@ import org.uva.ql.ast.type.QLType;
 import org.uva.ql.domain.Form;
 import org.uva.ql.domain.Question;
 import org.uva.ql.domain.Questionnaire;
+import org.uva.ql.ui.UIComponent;
 import org.uva.ql.ui.UIFactory;
+import org.uva.ql.ui.UIForm;
 import org.uva.ql.ui.UIQuestionnaire;
+import org.uva.ql.ui.UIWidget;
 import org.uva.ql.ui.UIWidgetFactory;
 
-public class UISwingFactory implements UIFactory {
+public class DefaultUISwingFactory implements UIFactory<JComponent> {
 
-	private static final Map<QLType, UIWidgetFactory<UISwingWidget>> TYPE_TO_WIDGET_FACTORY;
+	private static final Map<QLType, UIWidgetFactory<UIWidget<JComponent>>> TYPE_TO_WIDGET_FACTORY;
 
 	static {
 		TYPE_TO_WIDGET_FACTORY = new HashMap<>();
@@ -62,7 +64,7 @@ public class UISwingFactory implements UIFactory {
 	}
 
 	@Override
-	public UISwingForm create(Form form) {
+	public UIComponent<JComponent> create(Form form) {
 		DefaultQLForm qlForm;
 
 		qlForm = new DefaultQLForm(form);
@@ -74,9 +76,9 @@ public class UISwingFactory implements UIFactory {
 	}
 
 	@Override
-	public UISwingQuestion create(Question question) {
-		UISwingWidget label;
-		UISwingWidget value;
+	public UIComponent<JComponent> create(Question question) {
+		UIWidget<JComponent> label;
+		UIWidget<JComponent> value;
 
 		label = createLabelWidget(question);
 		value = createValueWidget(question);
@@ -85,13 +87,13 @@ public class UISwingFactory implements UIFactory {
 	}
 
 	@Override
-	public UISwingWidget createLabelWidget(Question q) {
+	public UIWidget<JComponent> createLabelWidget(Question q) {
 		return new DefaultLabelWidget(q.getLabel());
 	}
 
 	@Override
-	public UISwingWidget createValueWidget(Question q) {
-		UISwingWidget widget;
+	public UIWidget<JComponent> createValueWidget(Question q) {
+		UIWidget<JComponent> widget;
 		QLType type;
 
 		type = q.getType();
@@ -105,7 +107,7 @@ public class UISwingFactory implements UIFactory {
 
 	private static class DefaultQLQuestionaire implements UIQuestionnaire {
 
-		private final List<UISwingForm> forms = new ArrayList<>();
+		private final List<UIComponent<JComponent>> forms = new ArrayList<>();
 
 		private final JFrame jframe;
 		private final JScrollPane scrollPanel;
@@ -115,17 +117,16 @@ public class UISwingFactory implements UIFactory {
 			JPanel root;
 
 			jframe = new JFrame();
-
 			jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			scrollPanel = new JScrollPane();
 
-			root = new JPanel();
-			root.setLayout(new BoxLayout(root, BoxLayout.X_AXIS));
-
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 			panel.add(scrollPanel);
+
+			root = new JPanel();
+			root.setLayout(new BoxLayout(root, BoxLayout.X_AXIS));
 
 			root.add(Box.createGlue());
 			root.add(panel);
@@ -136,7 +137,7 @@ public class UISwingFactory implements UIFactory {
 			jframe.setLocationRelativeTo(null);
 		}
 
-		public void addForm(UISwingForm form) {
+		public void addForm(UIComponent<JComponent> form) {
 			forms.add(form);
 			scrollPanel.setViewportView(form.getComponent());
 		}
@@ -146,7 +147,7 @@ public class UISwingFactory implements UIFactory {
 			QLInterpreterContext context;
 
 			context = new QLInterpreterContext();
-			for (UISwingForm form : forms) {
+			for (UIComponent<?> form : forms) {
 				form.setContext(context);
 			}
 
@@ -154,9 +155,9 @@ public class UISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultQLForm implements UISwingForm {
+	private static class DefaultQLForm implements UIForm<JComponent> {
 
-		private final List<UISwingQuestion> questions = new ArrayList<>();
+		private final List<UIComponent<JComponent>> questions = new ArrayList<>();
 		private final JPanel panel;
 
 		public DefaultQLForm(Form form) {
@@ -164,7 +165,7 @@ public class UISwingFactory implements UIFactory {
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		}
 
-		public void add(UISwingQuestion question) {
+		public void add(UIComponent<JComponent> question) {
 			questions.add(question);
 			panel.add(question.getComponent());
 			panel.add(Box.createRigidArea(new Dimension(0, 2)));
@@ -181,15 +182,15 @@ public class UISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultQLQuestion implements UISwingQuestion, ContextListener {
+	private static class DefaultQLQuestion implements UIComponent<JComponent>, ContextListener {
 
 		private final Question question;
 
-		private final UISwingWidget labelWidget;
-		private final UISwingWidget valueWidget;
+		private final UIWidget<JComponent> labelWidget;
+		private final UIWidget<JComponent> valueWidget;
 		private final JPanel panel;
 
-		public DefaultQLQuestion(Question q, UISwingWidget labelWidget, UISwingWidget valueWidget) {
+		public DefaultQLQuestion(Question q, UIWidget<JComponent> labelWidget, UIWidget<JComponent> valueWidget) {
 			this.question = q;
 
 			this.labelWidget = labelWidget;
@@ -219,30 +220,25 @@ public class UISwingFactory implements UIFactory {
 
 		@Override
 		public void contextChanged(QLInterpreterContext context) {
-			SwingUtilities.invokeLater(() -> {
-				panel.setVisible(question.isEnabled(context));
-				SwingUtilities.windowForComponent(panel).revalidate();
-			});
-		}
+			boolean isEnabled;
 
-		@Override
-		public UISwingWidget getLabelWidget() {
-			return labelWidget;
-		}
-
-		@Override
-		public UISwingWidget getValueWidget() {
-			return valueWidget;
+			isEnabled = question.isEnabled(context);
+			if (isEnabled != panel.isVisible()) {
+				SwingUtilities.invokeLater(() -> {
+					panel.setVisible(isEnabled);
+					SwingUtilities.windowForComponent(panel).revalidate();
+				});
+			}
 		}
 	}
 
-	private static class DefaultLabelWidget extends JLabel implements UISwingWidget {
+	private static class DefaultLabelWidget implements UIWidget<JComponent> {
 
-		private static final long serialVersionUID = 1L;
+		private final JLabel label;
 
-		public DefaultLabelWidget(String label) {
-			super(label.replaceAll("\"", ""));
-			setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		public DefaultLabelWidget(String text) {
+			label = new JLabel(text.replaceAll("\"", ""));
+			label.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		}
 
 		@Override
@@ -252,12 +248,12 @@ public class UISwingFactory implements UIFactory {
 
 		@Override
 		public JComponent getComponent() {
-			return this;
+			return label;
 		}
 
 		@Override
 		public Object getValue() {
-			return getText();
+			return label.getText();
 		}
 
 		@Override
@@ -266,7 +262,7 @@ public class UISwingFactory implements UIFactory {
 				return false;
 			}
 
-			setText((String) value);
+			label.setText((String) value);
 
 			return true;
 		}
@@ -278,16 +274,16 @@ public class UISwingFactory implements UIFactory {
 	}
 
 	/**
-	 * This class wraps a {@link UISwingWidget} and uses an expression to
+	 * This class wraps a {@link UIWidget<JComponent>} and uses an expression to
 	 * compute its value.
 	 *
 	 */
-	private static class ComputedWidget implements UISwingWidget, ContextListener {
+	private static class ComputedWidget implements UIWidget<JComponent>, ContextListener {
 
-		private final UISwingWidget widget;
+		private final UIWidget<JComponent> widget;
 		private final Expr expr;
 
-		public ComputedWidget(UISwingWidget widget, Expr expr) {
+		public ComputedWidget(UIWidget<JComponent> widget, Expr expr) {
 			this.widget = widget;
 
 			widget.setEditable(false);
@@ -328,22 +324,21 @@ public class UISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultBooleanWidget extends JPanel implements UISwingWidget, ActionListener {
+	private static class DefaultBooleanWidget implements UIWidget<JComponent>, ActionListener {
 
-		private static final long serialVersionUID = 1L;
 		private final String variableName;
 		private final JRadioButton rbYes;
 		private final JRadioButton rbNo;
+		private final JPanel panel;
 
 		private QLInterpreterContext context;
 
 		public DefaultBooleanWidget(String variableName) {
 			ButtonGroup bg;
 
-			setLayout(new BorderLayout());
-
 			this.variableName = variableName;
 
+			panel = new JPanel(new BorderLayout());
 			rbYes = new JRadioButton("Yes");
 			rbNo = new JRadioButton("No");
 
@@ -351,15 +346,15 @@ public class UISwingFactory implements UIFactory {
 			bg.add(rbYes);
 			bg.add(rbNo);
 
-			add(rbYes, BorderLayout.WEST);
-			add(rbNo, BorderLayout.EAST);
+			panel.add(rbYes, BorderLayout.WEST);
+			panel.add(rbNo, BorderLayout.EAST);
 
-			setPreferredSize(new Dimension(90, 30));
+			panel.setPreferredSize(new Dimension(90, 30));
 		}
 
 		@Override
 		public JComponent getComponent() {
-			return this;
+			return panel;
 		}
 
 		@Override
@@ -405,15 +400,18 @@ public class UISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultIntegerWidget extends JPanel implements UISwingWidget {
-
-		private static final long serialVersionUID = 1L;
+	private static class DefaultIntegerWidget implements UIWidget<JComponent> {
 
 		private final String variableName;
 		private final JTextField textField;
+		private JPanel panel;
+
+		private QLInterpreterContext context;
 
 		public DefaultIntegerWidget(String variableName) {
 			this.variableName = variableName;
+
+			panel = new JPanel();
 
 			textField = new JTextField();
 			textField.setPreferredSize(new Dimension(100, 20));
@@ -425,26 +423,22 @@ public class UISwingFactory implements UIFactory {
 				}
 			});
 
-			add(textField);
+			textField.addActionListener(e -> {
+				context.setValue(variableName, getValue());
+			});
+
+			panel.add(textField);
 		}
 
 		@Override
 		public JComponent getComponent() {
-			return this;
+			return panel;
 		}
 
 		@Override
 		public void setContext(QLInterpreterContext context) {
-
+			this.context = context;
 			context.setValue(variableName, 0);
-
-			textField.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					context.setValue(variableName, getValue());
-				}
-			});
 		}
 
 		@Override
@@ -473,47 +467,45 @@ public class UISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultStringWidget extends JPanel implements UISwingWidget {
-
-		private static final long serialVersionUID = 1L;
+	private static class DefaultStringWidget implements UIWidget<JComponent> {
 
 		private final String variableName;
 		private final JTextField textField;
+		private final JPanel panel;
 
-		private KeyListener keyListener;
+		private QLInterpreterContext context;
 
 		public DefaultStringWidget(String variableName) {
 			this.variableName = variableName;
 
+			panel = new JPanel();
+
 			textField = new JTextField();
 			textField.setPreferredSize(new Dimension(100, 20));
+			textField.addKeyListener(new KeyAdapter() {
 
-			add(textField);
+				@Override
+				public void keyReleased(KeyEvent e) {
+					textField.postActionEvent();
+				}
+			});
+
+			textField.addActionListener(e -> {
+				context.setValue(variableName, getValue());
+			});
+
+			panel.add(textField);
 		}
 
 		@Override
 		public JComponent getComponent() {
-			return this;
+			return panel;
 		}
 
 		@Override
 		public void setContext(QLInterpreterContext context) {
-
+			this.context = context;
 			context.setValue(variableName, "");
-
-			if (keyListener != null) {
-				textField.removeKeyListener(keyListener);
-			}
-
-			keyListener = new KeyAdapter() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					context.setValue(variableName, textField.getText());
-				}
-			};
-
-			textField.addKeyListener(keyListener);
 		}
 
 		@Override
