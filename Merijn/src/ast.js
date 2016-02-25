@@ -41,27 +41,18 @@ export class IfNode extends Node {
 }
 
 export class QuestionNode extends Node {
-	constructor(line, description, name) {
+	constructor(line, description, name, type) {
 		super(line);
 		this.line = line;
 		this.description = description;
 		this.name = name;
-	}
-}
-
-export class InputQuestionNode extends QuestionNode {
-	constructor(line, description, name, type) {
-		super(line, description, name);
 		this.type = type;
-	}
-	accept (visitor, ...args) {
-		return visitor.visitInputQuestionNode(this, ...args);
 	}
 }
 
 export class ExprQuestionNode extends QuestionNode {
-	constructor(line, description, name, expr) {
-		super(line, description, name);
+	constructor(line, description, name, type, expr) {
+		super(line, description, name, type);
 		this.expr = expr;
 	}
 	accept (visitor, ...args) {
@@ -250,9 +241,6 @@ export class NodeVisitor {
 	}
 	visitQuestionNode(questionNode, ...args) {
 		return this.visitNode(questionNode, ...args);
-	}
-	visitInputQuestionNode (inputQuestionNode, ...args) {
-		return this.visitQuestionNode(inputQuestionNode, ...args);
 	}
 	visitExprQuestionNode(exprQuestionNode, ...args) {
 		return this.visitQuestionNode(exprQuestionNode, ...args);
