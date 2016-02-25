@@ -22,7 +22,6 @@ public class CheckerTest {
 
         List<String> checkList = new ArrayList<>();
         checkList.add("Q4_Undefined");
-        checkList.add("Q7_after");
 
         Form f = parseFromPath("src/test/resources/undefined1.ql");
         List<Message> messages = (new Checker()).undefinedChecker(f);

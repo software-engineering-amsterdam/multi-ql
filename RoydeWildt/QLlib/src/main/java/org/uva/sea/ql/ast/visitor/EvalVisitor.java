@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object> {
 
-    private Map<Var,Expr>  decls;
+    private final Map<Var,Expr>  decls;
 
     public EvalVisitor(Form f) {
         DeclVisitor dv = new DeclVisitor();
