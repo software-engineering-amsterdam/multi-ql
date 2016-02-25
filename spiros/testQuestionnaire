@@ -9,4 +9,8 @@ form Box1HouseOwning {
 		takeMaintLoan: "Did you buy a house in 2010?" boolean
 	}
 	
+	if (hasSoldHoluse) {
+		takeMaintLoan: "Did you buy a house in 2010?" boolean
+	}
+	
 }

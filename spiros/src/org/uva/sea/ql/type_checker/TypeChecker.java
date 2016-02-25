@@ -119,9 +119,14 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	@Override
 	public Type visit(Identifier node) {
 		
-		for (IdentifierData identifierData: questionData.values())
-			if (identifierData.getLabel().equals(node.getValue()))
-				return identifierData.getType();
+		String nodeString = node.getValue();
+		if (questionData.containsKey(nodeString)) {
+			IdentifierData identifierData = questionData.get(nodeString);
+			return identifierData.getType();
+		}
+//		for (IdentifierData identifierData: questionData.values())
+//			if (identifierData.getLabel().equals(node.getValue()))
+//				return identifierData.getType();
 		
 		return new UndefinedType();
 	}
