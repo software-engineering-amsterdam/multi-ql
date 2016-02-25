@@ -31,9 +31,9 @@ public class StringLiteral extends Literal {
 		return this.value;
 	}
 
-	@Override
-	public Type getTypeOfExpression() {
-		// TODO Auto-generated method stub
-		return new StrType();
-	}
+//	@Override
+//	public Type getTypeOfExpression() {
+//		// TODO Auto-generated method stub
+//		return new StrType();
+//	}
 }

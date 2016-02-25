@@ -1,8 +1,8 @@
 package org.uva.sea.ql.ast.stat;
 
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.Type;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public class ComputedQuestion extends Question {
 	private Expr expr;

@@ -1,15 +1,9 @@
-export var TYPE_BOOLEAN = "boolean";
-export var TYPE_STRING = "string";
-export var TYPE_INTEGER = "integer";
-export var TYPE_FLOAT = "float";
-export var TYPE_MONEY = "money";
-
 export class Node {
 	constructor (line) {
 		this.line = line;
 	}
 	accept() {
-		throw new Error("Override this in subclasses");
+		throw new Error("Override in subclasses");
 	}
 }
 
@@ -47,27 +41,18 @@ export class IfNode extends Node {
 }
 
 export class QuestionNode extends Node {
-	constructor(line, description, name) {
+	constructor(line, description, name, type) {
 		super(line);
 		this.line = line;
 		this.description = description;
 		this.name = name;
-	}
-}
-
-export class InputQuestionNode extends QuestionNode {
-	constructor(line, description, name, type) {
-		super(line, description, name);
 		this.type = type;
-	}
-	accept (visitor, ...args) {
-		return visitor.visitInputQuestionNode(this, ...args);
 	}
 }
 
 export class ExprQuestionNode extends QuestionNode {
-	constructor(line, description, name, expr) {
-		super(line, description, name);
+	constructor(line, description, name, type, expr) {
+		super(line, description, name, type);
 		this.expr = expr;
 	}
 	accept (visitor, ...args) {
@@ -75,7 +60,13 @@ export class ExprQuestionNode extends QuestionNode {
 	}
 }
 
-export class UnaryPrefixNode extends Node {
+export class OperationNode extends Node {
+	toString() {
+		throw new Error("Override in subclasses");
+	}
+}
+
+export class UnaryPrefixNode extends OperationNode {
 	constructor(line, operand) {
 		super(line);
 		this.operand = operand;
@@ -86,15 +77,21 @@ export class NegationNode extends UnaryPrefixNode {
 	accept (visitor, ...args) {
 		return visitor.visitNegationNode(this, ...args);
 	}
+	toString() {
+		return '-';
+	}
 }
 
 export class NotNode extends UnaryPrefixNode {
 	accept (visitor, ...args) {
 		return visitor.visitNotNode(this, ...args);
 	}
+	toString() {
+		return '!';
+	}
 }
 
-export class InfixNode extends Node {
+export class InfixNode extends OperationNode {
 	constructor(line, leftOperand, rightOperand) {
 		super(line);
 		this.leftOperand = leftOperand;
@@ -106,11 +103,17 @@ export class AddNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitAddNode(this, ...args);
 	}
+	toString() {
+		return '+';
+	}
 }
 
 export class SubtractNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitSubtractNode(this, ...args);
+	}
+	toString() {
+		return '-';
 	}
 }
 
@@ -118,11 +121,17 @@ export class MultiplyNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitMultiplyNode(this, ...args);
 	}
+	toString() {
+		return '*';
+	}
 }
 
 export class DivideNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitDivideNode(this, ...args);
+	}
+	toString() {
+		return '/';
 	}
 }
 
@@ -130,11 +139,17 @@ export class GreaterNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitGreaterNode(this, ...args);
 	}
+	toString() {
+		return '>';
+	}
 }
 
 export class GreaterEqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitGreaterEqualNode(this, ...args);
+	}
+	toString() {
+		return '>=';
 	}
 }
 
@@ -142,11 +157,17 @@ export class LessNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitLessNode(this, ...args);
 	}
+	toString() {
+		return '<';
+	}
 }
 
 export class LessEqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitLessEqualNode(this, ...args);
+	}
+	toString() {
+		return '<=';
 	}
 }
 
@@ -154,11 +175,17 @@ export class EqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitEqualNode(this, ...args);
 	}
+	toString() {
+		return '==';
+	}
 }
 
 export class NotEqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitNotEqualNode(this, ...args);
+	}
+	toString() {
+		return '!=';
 	}
 }
 
@@ -166,48 +193,25 @@ export class AndNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitAndNode(this, ...args);
 	}
+	toString() {
+		return '&&';
+	}
 }
 
 export class OrNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitOrNode(this, ...args);
 	}
+	toString() {
+		return '||';
+	}
 }
 
 export class LiteralNode extends Node {
-	constructor(line, value) {
+	constructor(line, type, value) {
 		super(line);
+		this.type = type;
 		this.value = value;
-	}
-}
-
-export class BooleanLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitBooleanLiteralNode(this, ...args);
-	}
-}
-
-export class StringLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitStringLiteralNode(this, ...args);
-	}
-}
-
-export class IntegerLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitIntegerLiteralNode(this, ...args);
-	}
-}
-
-export class FloatLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitFloatLiteralNode(this, ...args);
-	}
-}
-
-export class MoneyLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitMoneyLiteralNode(this, ...args);
 	}
 }
 
@@ -225,29 +229,24 @@ export class IdentifierNode extends Node {
  * Node Visitor which by default simply recurses over all nodes
  */
 export class NodeVisitor {
+	visitNode (node, ...args) {}
 	visitFormNode (formNode, ...args) {
-		return formNode.block.accept(this, ...args);
+		return this.visitNode(formNode, ...args);
 	}
 	visitBlockNode (blockNode, ...args) {
-		return blockNode.statements.map((statement) => {
-			return statement.accept(this, ...args);
-		});
+		return this.visitNode(blockNode, ...args);
 	}
 	visitIfNode (ifNode, ...args) {
-		return [
-			ifNode.condition.accept(this, ...args),
-			ifNode.thenBlock.accept(this, ...args),
-			ifNode.elseBlock !== null ? ifNode.elseBlock.accept(this, ...args) : null
-		];
+		return this.visitNode(ifNode, ...args);
 	}
-
-	visitInputQuestionNode () {}
+	visitQuestionNode(questionNode, ...args) {
+		return this.visitNode(questionNode, ...args);
+	}
 	visitExprQuestionNode(exprQuestionNode, ...args) {
-		return exprQuestionNode.expr.accept(this, ...args);
+		return this.visitQuestionNode(exprQuestionNode, ...args);
 	}
-
 	visitUnaryPrefixNode (unaryPrefixNode, ...args) {
-		return unaryPrefixNode.operand.accept(this, ...args);
+		return this.visitNode(unaryPrefixNode, ...args);
 	}
 	visitNegationNode (negationNode, ...args) {
 		return this.visitUnaryPrefixNode(negationNode, ...args);
@@ -255,12 +254,8 @@ export class NodeVisitor {
 	visitNotNode (notNode, ...args) {
 		return this.visitUnaryPrefixNode(notNode, ...args);
 	}
-
 	visitInfixNode (infixNode, ...args) {
-		return [
-			infixNode.leftOperand.accept(this, ...args),
-			infixNode.rightOperand.accept(this, ...args)
-		];
+		return this.visitNode(infixNode, ...args);
 	}
 	visitAddNode (addNode, ...args) {
 		return this.visitInfixNode(addNode, ...args);
@@ -298,12 +293,10 @@ export class NodeVisitor {
 	visitOrNode (orNode, ...args) {
 		return this.visitInfixNode(orNode, ...args);
 	}
-
-	visitBooleanLiteralNode() {}
-	visitStringLiteralNode() {}
-	visitIntegerLiteralNode() {}
-	visitFloatLiteralNode() {}
-	visitMoneyLiteralNode() {}
-
-	visitIdentifierNode () {}
+	visitLiteralNode(literalNode, ...args) {
+		return this.visitNode(literalNode, ...args);
+	}
+	visitIdentifierNode (identifierNode, ...args) {
+		return this.visitNode(identifierNode, ...args);
+	}
 }

@@ -69,29 +69,6 @@ literal
   ;
 
 
-// Keywords // not needed
-
-RETURN:		   'return';
-ABSTRACT:		'abstract';
-CONTINUE:		'continue';
-NEW:			'new';
-SWITCH:			'switch';
-ASSERT:			'assert';
-IMPORT:			'import';
-PUBLIC:			'public';
-THROWS:			'throws';
-PRIVATE:		'private';
-THIS:			'this';
-DEFAULT:		'default';
-SYNCHRONIZED:	'synchronized';
-BREAK:			'break';
-TRY:			'try';
-CATCH:			'catch';
-FINALLY:		'finally';
-CASE:			'case';
-FINAL:			'final';
-
-
 IntegerLiteral: [1-9][0-9]*;
 
 BooleanLiteral: 'true' | 'false';
@@ -106,4 +83,4 @@ Identifier: [a-zA-Z][a-zA-Z0-9_]*;
     
 //	WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 
-Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+//Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;

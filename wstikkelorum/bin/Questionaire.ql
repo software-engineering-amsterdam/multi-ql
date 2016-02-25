@@ -8,8 +8,15 @@ form Box1HouseOwning {
 		privateDebt: int "Private debts for the sold house:"
 		valueResidue: int "Value residue:" (2 - 3)
 		test: boolean "example wrong expression:" (3+2*1<9)
-		booltest: boolean "must be true then" (true)
+		booltest: boolean "This should be accepted" (true)
+		booltest: int "duplicate with different type"
 	}
+	
+	if(laterDeclared){
+		fault: boolean "this does not work" (true < 2)
+	}
+	
+	laterDeclared: boolean "This should be accepted"
 	
 	if(unknownVariable){
 	}

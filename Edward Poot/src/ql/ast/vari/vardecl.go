@@ -6,11 +6,20 @@ import (
 
 type VarDecl struct {
 	Ident VarId
-	Type  VarType
+	Type  variType
 }
 
-func (va VarDecl) GetType() VarType {
-	return va.Type
+// TODO: needed to break import cycle, look at better solution
+type variType interface {
+	GetDefaultValue() interface{}
+}
+
+func (v VarDecl) GetType() variType {
+	return v.Type
+}
+
+func (v VarDecl) GetIdentifier() VarId {
+	return v.Ident
 }
 
 func (va VarDecl) Accept(v visit.Visitor, s interface{}) interface{} {

@@ -8,7 +8,7 @@ public abstract class ASTNode {
 	private final SourceCodeInfo token;
 
 	public ASTNode(ParserRuleContext context) {
-		token = context == null ? SourceCodeInfo.NULL_OBJECT : new SourceCodeInfo(context.getStart());
+		token = context == null ? SourceCodeInfo.NULL_OBJECT : new SourceCodeInfo(context);
 	}
 
 	public abstract <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context);
@@ -34,10 +34,27 @@ public abstract class ASTNode {
 		private final int charPositionInLine;
 		private final String text;
 
-		public SourceCodeInfo(Token token) {
-			line = token == null ? -1 : token.getLine();
-			charPositionInLine = token == null ? -1 : token.getCharPositionInLine() + 1;
-			text = token == null ? "" : token.getText();
+		public SourceCodeInfo(ParserRuleContext context) {
+			Token start;
+
+			start = (context == null ? null : context.getStart());
+
+			line = start == null ? -1 : start.getLine();
+			charPositionInLine = start == null ? -1 : start.getCharPositionInLine() + 1;
+
+			if (context == null) {
+				text = "";
+			} else {
+				StringBuilder builder;
+
+				builder = new StringBuilder();
+				for (int i = 0; i < context.getChildCount(); i++) {
+					builder.append(context.getChild(i).getText());
+					builder.append(" ");
+				}
+
+				text = builder.toString();
+			}
 		}
 
 		public int getLine() {

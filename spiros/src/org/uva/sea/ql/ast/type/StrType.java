@@ -11,17 +11,17 @@ public class StrType extends Type {
 	}
 	
 	public StrType() {
-		super(new CodeFragment(0, 0), "String");
+		super(new CodeFragment(-1, -1), "str");
 	}
 	
-	@Override
-	public boolean isStrType() {
-		return true;
-	}
+//	@Override
+//	public boolean isStrType() {
+//		return true;
+//	}
 	
-	@Override
-	public ASTNode accept(TypeVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
-	}
+//	@Override
+//	public ASTNode accept(TypeVisitor<ASTNode> visitor) {
+//		return visitor.visit(this);
+//	}
 	
 }

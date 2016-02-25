@@ -1,15 +1,15 @@
 form taxOfficeExample {
 
   "cQ1"
-    cQ1: integer = (1)
-    
+    cQ1: integer = (20-10)
+
   "cQ2"
     cQ2: money = (100)
     
   "cQ3"
-    cQ3: boolean = (false && true)
+    cQ3: money = (100)
     
   "cQ4"
-    cQ4: string = ("a")
-    
+    cQ4: integer = (cQ2*cQ3)
+     
 }

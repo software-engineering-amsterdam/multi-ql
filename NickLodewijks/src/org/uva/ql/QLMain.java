@@ -3,23 +3,23 @@ package org.uva.ql;
 import java.io.File;
 import java.io.IOException;
 
-import org.uva.ql.ast.check.SemanticAnalyser;
-import org.uva.ql.ast.form.Questionnaire;
-import org.uva.ql.domain.QLQuestionaire;
+import org.uva.ql.ast.form.QLQuestionnaire;
+import org.uva.ql.domain.Questionnaire;
 import org.uva.ql.ui.QLASTToUIVisitor;
 import org.uva.ql.ui.swing.SwingUIFactory;
 
 public class QLMain {
 
 	public static void main(String[] args) throws IOException {
-		QLQuestionaire qlQuestionnaire;
-		Questionnaire questionnaire;
+		Questionnaire qlQuestionnaire;
+		QLQuestionnaire questionnaire;
 		File inputFile;
 
-		inputFile = new File("resources/Questionaire.ql");
-		questionnaire = Questionnaire.create(inputFile);
+		// resources/Questionaire.ql
+		inputFile = new File(args[0]);
+		questionnaire = QLQuestionnaire.create(inputFile);
 
-		new SemanticAnalyser().validateTypes(questionnaire);
+		new QLSemanticAnalyser().validateTypes(questionnaire);
 
 		qlQuestionnaire = QLASTToUIVisitor.create(questionnaire);
 

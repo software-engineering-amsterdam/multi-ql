@@ -196,16 +196,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitVariable(@NotNull QLParser.VariableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#assignmentQuestion}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#assignmentQuestion}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QLParser#mulExpression}.
 	 * @param ctx the parse tree
 	 */

@@ -1,12 +1,13 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s which values are calculated automatically in an AST.
  * 
  * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
 public class ComputedQuestion extends Question {
     
@@ -31,6 +32,25 @@ public class ComputedQuestion extends Question {
         super (identifier, label, type);
         assert theCalculation != null;
         calculation = theCalculation;
+    }
+    
+    /**
+     * Has the <code>identifier</code>, the <code>label</code>, the
+     * <code>type</code> and the <code>calculation</code> of
+     * <code>this ComputedQuestion accept v</code> and then has
+     * <code>v visit this ComputedQuestion</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this ComputedQuestion</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        identifierAccept(v);
+        labelAccept(v);
+        typeAccept(v);
+        calculation.accept(v);
+        
+        v.visit(this);
     }
     
     /**

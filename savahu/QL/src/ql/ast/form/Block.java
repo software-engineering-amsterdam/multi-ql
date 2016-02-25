@@ -5,21 +5,24 @@
  */
 package ql.ast.form;
 
-import java.util.ArrayList;
 import java.util.List;
+import ql.ast.ASTNode;
+import ql.ast.question.Question;
 import ql.ast.statement.Statement;
 
 /**
  *
  * @author sander
  */
-public class Block {
+public class Block implements ASTNode {
     
     private final List<Statement> _Statements;
+    private final List<Question> _Questions;
     
-    public Block(List<Statement> statements)
+    public Block(List<Statement> statements, List<Question> questions)
     {
         this._Statements = statements;
+        this._Questions = questions;
     }
    
     

@@ -1,4 +1,3 @@
 var ast;
 
-var editor = ace.edit("input");
-initiate(editor.getValue());
+initiate(ace.edit("input").getValue());

@@ -25,20 +25,9 @@ public class BooleanLit extends Literal implements Traversable {
 	public Type getType() {
 		return type;
 	}
-	
+
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
-	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
-	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
-		return visitor.visit(this);
-	}
-	
 }

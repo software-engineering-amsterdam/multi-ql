@@ -2,45 +2,76 @@ grammar QL;
 
 @parser::header
 {
-    package ql.antlr;
+    package ql.antlr.generatedcode;
     import ql.ast.*;
     import ql.ast.expression.*;
     import ql.ast.type.*;
     import ql.ast.form.*;
     import ql.ast.literal.*;
     import ql.ast.statement.*;
+    import ql.ast.question.*;
 }
 
 @lexer::header
 {
-    package ql.antlr;
+    package ql.antlr.generatedcode;
 }
 
 form returns [Form result]
-: 'form' Ident '{' body = block '}' EOF
-{ $result = new Form(new Ident($Ident.text), $body.result); }
-;
+  : 'form' Ident body = block
+  { $result = new Form(new Ident($Ident.text), $body.result); }
+  ;
 
 block returns [Block result]
-@init { List<Statement> statements = new ArrayList<Statement>(); }
-: { $result = new Block(statements); }
-;
+  @init { 
+          List<Statement> statements = new ArrayList<Statement>(); 
+          List<Question> questions = new ArrayList<Question>(); 
+        }
+  :  '{' (question { questions.add($question.result); } | statement { statements.add($statement.result); })* '}' { 
+       $result = new Block(statements, questions); 
+     }
+  ;
 
 statement returns [Statement result]
-: { $result = new Statement(); }
-;
+  : ifstatement { $result = $ifstatement.result; }
+  | ifelsestatement { $result = $ifelsestatement.result; }
+  ;
 
-ifstatement returns [IfStatement result]
-: { $result = new IfStatement(); }
-;
+ifstatement returns [Statement result]
+  : 'if' '(' condition=orExpr ')' block { $result = new IfStatement($condition.result, $block.result); }
+  ;
 
-ifelsestatement returns [IfElseStatement result]
-: { $result = new IfElseStatement(); }
-;
+ifelsestatement returns [Statement result]
+  : 'if' '(' condition=orExpr ')' thenstatement=block 'else' elsestatement=block { $result = new IfElseStatement($condition.result, $thenstatement.result, $elsestatement.result); }
+  ;
 
 question returns [Question result]
-: { $result  = new Question(); }
-;
+  : simplequestion { $result = $simplequestion.result;}
+  | computedquestion { $result = $computedquestion.result;}
+  ;
+
+simplequestion returns [Question result]
+  : questionid=Ident ':' questionlabel=label questiontype { 
+    $result = new SimpleQuestion(new Ident($questionid.text), new Label($questionlabel.text), $questiontype.result); 
+    }
+  ;
+
+computedquestion returns [Question result]
+  : simplequestion '(' orExpr ')' { 
+    $result = new ComputedQuestion($simplequestion.result.getId(), $simplequestion.result.getLabel(), $simplequestion.result.getType(), $orExpr.result);
+    }
+  ;
+
+questiontype returns [QuestionType result] 
+  : STRING_TYPE { $result = new StringType(); }
+  | INTEGER_TYPE { $result = new IntType(); }
+  | MONEY_TYPE { $result = new IntType(); }
+  | BOOLEAN_TYPE { $result = new BoolType(); }
+  ;
+
+label returns [Label result] 
+  : Str { $result = new Label($Str.text); }
+  ;
 
 primary returns [Expr result]
   : Int   { $result = new IntegerLiteral(Integer.parseInt($Int.text)); }
@@ -120,8 +151,14 @@ orExpr returns [Expr result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
     ;
 
+// Lexer Rules
+
+BOOLEAN_TYPE : 'boolean';
+MONEY_TYPE : 'money';
+INTEGER_TYPE : 'integer';
+STRING_TYPE : 'string';
     
-// Tokens
+    // Tokens
 WS  :	(' ' | '\t' | '\n' | '\r') -> skip
     ;
 

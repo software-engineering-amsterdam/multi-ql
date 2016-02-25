@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
+import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 
 public class QuestionPainter extends LeftDFSVisitor {
 	private List<Question> drawQuestions;

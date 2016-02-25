@@ -32,26 +32,19 @@ statement
   ;
 
 expression
-  : '!' expr = expression #notExpr
-  | left = expression op = '*' right = expression #mulExpression
-  | left = expression op = '/' right = expression #divExpression
-  | left = expression op = '+' right = expression #addExpression
-  | left = expression op = '-' right = expression #subExpression
-  | left = expression op = '==' right = expression #eqExpression
-  | left = expression op = '!=' right = expression #noteqExpression
-  | left = expression op = '>' right = expression #greatExpression
-  | left = expression op = '>=' right = expression #greatEqExpression
-  | left = expression op = '<' right = expression #lessExpression
-  | left = expression op = '<=' right = expression #lessEqExpression
-  | left = expression op = '&&' right = expression #andExpression
-  | left = expression op = '||' right = expression #orExpression
-  | '(' expr = expression ')' #parenExpression
-  | lit = literal #litExpression
+  : '!' expr = expression #notExpression
+  | '(' expr = expression ')' #parenthesisExpression
+  | left = expression op = ('*'|'/') right = expression #multiplicativeExpressions
+  | left = expression op = ('+'|'-') right = expression #additiveExpressions
+  | left = expression op = ('>'|'>='|'<'|'<=') right = expression #relationalExpressions
+  | left = expression op = ('=='|'!=') right = expression #equalityExpressions
+  | left = expression op = ('&&'|'||') right = expression #conditionalExpressions
+  | literalValue = literal #literalExpression
+  | identifier = IDENTIFIER #identifierExpression
   ;
 
 literal
-  : IDENTIFIER #identifierLiteral
-  | INTEGER #integerLiteral
+  : INTEGER #integerLiteral
   | BOOLEAN #booleanliteral
   | STRING #stringLiteral
   ;
