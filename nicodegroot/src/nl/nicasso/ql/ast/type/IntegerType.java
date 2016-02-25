@@ -1,8 +1,5 @@
 package nl.nicasso.ql.ast.type;
 
-import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
-
 public class IntegerType extends NumericType {
 
 	private final String type;
@@ -14,5 +11,20 @@ public class IntegerType extends NumericType {
 
 	public String getType() {
 		return type;
+	}
+	
+	public boolean CompatibleWith(Type type) {
+		switch(type.getType()) {
+			case "Boolean":
+				return false;
+			case "Integer":
+				return true;
+			case "Money":
+				return true;
+			case "String":
+				return false;
+			default:
+				return false;
+		}
 	}
 }

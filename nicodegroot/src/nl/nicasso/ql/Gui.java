@@ -4,9 +4,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
-import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -24,7 +22,6 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -33,10 +30,6 @@ import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
-import nl.nicasso.ql.ast.type.BooleanType;
-import nl.nicasso.ql.ast.type.IntegerType;
-import nl.nicasso.ql.ast.type.MoneyType;
-import nl.nicasso.ql.ast.type.StringType;
 
 public class Gui implements Visitor<Void> {
 	

@@ -40,16 +40,13 @@ import nl.nicasso.ql.ast.type.IntegerType;
 import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
-import nl.nicasso.ql.symbolTable.SymbolTable;
 
 public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNode> {
 
 	private boolean debug = false;
 	
-	private SymbolTable symbolTable;
+	CreateASTVisitor() {
 
-	CreateASTVisitor(SymbolTable symbolTable) {
-		this.symbolTable = symbolTable;
 	}
 
 	@Override

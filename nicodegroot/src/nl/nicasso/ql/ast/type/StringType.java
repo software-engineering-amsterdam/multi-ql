@@ -16,4 +16,19 @@ public class StringType extends Type {
 		return type;
 	}
 	
+	public boolean CompatibleWith(Type type) {
+		switch(type.getType()) {
+			case "Boolean":
+				return false;
+			case "Integer":
+				return false;
+			case "Money":
+				return false;
+			case "String":
+				return true;
+			default:
+				return false;
+		}
+	}
+	
 }

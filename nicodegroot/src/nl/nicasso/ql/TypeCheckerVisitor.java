@@ -1,8 +1,6 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
@@ -22,7 +20,6 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
