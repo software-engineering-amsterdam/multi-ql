@@ -35,16 +35,11 @@ expr
 	;
 
 literal
-	: booleanLiteral    # booleanLiteralCase
+	: BOOLEAN_LITERAL   # booleanLiteralCase
 	| STRING_LITERAL    # stringLiteralCase
 	| INTEGER_LITERAL   # integerLiteralCase
 	| FLOAT_LITERAL     # floatLiteralCase
 	| MONEY_LITERAL     # moneyLiteralCase
-	;
-
-booleanLiteral
-	: BOOLEAN_TRUE
-	| BOOLEAN_FALSE
 	;
 
 type
@@ -83,9 +78,6 @@ MINUS : '-';
 MUL : '*';
 DIV : '/';
 
-BOOLEAN_TRUE : 'true';
-BOOLEAN_FALSE : 'false';
-
 AND : '&&';
 OR : '||';
 NOT : '!';
@@ -106,6 +98,7 @@ MONEY_LITERAL_CENTS
 	: DIGIT DIGIT
 	| '-'
 	;
+BOOLEAN_LITERAL : 'true' | 'false';
 
 IDENTIFIER
 	: [a-zA-Z_]+

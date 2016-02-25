@@ -217,39 +217,10 @@ export class OrNode extends InfixNode {
 }
 
 export class LiteralNode extends Node {
-	constructor(line, value) {
+	constructor(line, type, value) {
 		super(line);
+		this.type = type;
 		this.value = value;
-	}
-}
-
-export class BooleanLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitBooleanLiteralNode(this, ...args);
-	}
-}
-
-export class StringLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitStringLiteralNode(this, ...args);
-	}
-}
-
-export class IntegerLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitIntegerLiteralNode(this, ...args);
-	}
-}
-
-export class FloatLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitFloatLiteralNode(this, ...args);
-	}
-}
-
-export class MoneyLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitMoneyLiteralNode(this, ...args);
 	}
 }
 
@@ -340,12 +311,6 @@ export class NodeVisitor {
 	visitOrNode (orNode, ...args) {
 		return this.visitInfixNode(orNode, ...args);
 	}
-
-	visitBooleanLiteralNode() {}
-	visitStringLiteralNode() {}
-	visitIntegerLiteralNode() {}
-	visitFloatLiteralNode() {}
-	visitMoneyLiteralNode() {}
-
+	visitLiteralNode() {}
 	visitIdentifierNode () {}
 }
