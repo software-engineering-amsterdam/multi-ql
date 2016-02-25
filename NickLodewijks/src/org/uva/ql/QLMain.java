@@ -16,7 +16,8 @@ public class QLMain {
 		Questionnaire questionnaire;
 		File inputFile;
 
-		inputFile = new File("resources/Questionaire.ql");
+		// resources/Questionaire.ql
+		inputFile = new File(args[0]);
 		questionnaire = Questionnaire.create(inputFile);
 
 		new SemanticAnalyser().validateTypes(questionnaire);
