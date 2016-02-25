@@ -11,7 +11,7 @@
             <arg line="${gen-src.dir}/QL.g4"/>
             <arg line="-o ${gen-src.dir}"/>
             <arg line="-no-listener -no-visitor -encoding UTF-8"/>
-            <arg line="-package org.uva.ql.parser.antlr"/>
+            <arg line="-package ${antlr.package}"/>
         </java>
     </target>
 	
