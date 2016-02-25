@@ -36,8 +36,8 @@ class IdentifierType: TypeEval {
     typealias GenericParam = Identifier
     typealias GenericReturn = NSValue
     
-    func eval(identifier: Identifier?) -> NSValue? {
-        return identifier?.expression?.eval()
+    func eval(param: Identifier?) -> NSValue? {
+        return param?.expression?.eval()
     }
 }
 
