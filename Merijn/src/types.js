@@ -1,18 +1,27 @@
 export class Type {
-	dispatch(receiver) {
-		throw new Error("Override in subclasses");
+	dispatch(receiver, ...args) {
+		return receiver.receiveType(this, ...args);
 	}
 	toString() {
-		throw new Error("Override in subclasses");
+		return "type";
+	}
+	is(otherType) {
+		return otherType.isSuperTypeOf(this);
+	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof Type;
 	}
 }
 
 export class BooleanType extends Type  {
 	dispatch(receiver, ...args) {
-		receiver.receiveBoolean(this, ...args);
+		return receiver.receiveBoolean(this, ...args);
 	}
 	toString() {
 		return "boolean";
+	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof BooleanType;
 	}
 }
 
@@ -23,23 +32,44 @@ export class StringType extends Type  {
 	toString() {
 		return "string";
 	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof StringType;
+	}
 }
 
-export class IntegerType extends Type {
+export class NumberType extends Type {
 	dispatch(receiver, ...args) {
-		receiver.receiveInteger(this, ...args);
+		return receiver.receiveNumber(this, ...args);
+	}
+	toString() {
+		return "number";
+	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof NumberType;
+	}
+}
+
+export class IntegerType extends NumberType {
+	dispatch(receiver, ...args) {
+		return receiver.receiveInteger(this, ...args);
 	}
 	toString() {
 		return "integer";
 	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof NumberType;
+	}
 }
 
-export class FloatType extends Type {
+export class FloatType extends NumberType {
 	dispatch(receiver, ...args) {
 		return receiver.receiveFloat(this, ...args);
 	}
 	toString() {
 		return "float";
+	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof FloatType;
 	}
 }
 
@@ -50,6 +80,9 @@ export class MoneyType extends Type {
 	toString() {
 		return "money";
 	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof MoneyType;
+	}
 }
 
 export class UndefinedType extends Type {
@@ -59,13 +92,32 @@ export class UndefinedType extends Type {
 	toString() {
 		return "undefined";
 	}
+	isSuperTypeOf(otherType) {
+		return otherType instanceof UndefinedType;
+	}
 }
 
 export class TypeReceiver {
-	receiveBoolean() {}
-	receiveString() {}
-	receiveInteger() {}
-	receiveFloat() {}
-	receiveMoney() {}
-	receiveUndefined() {}
+	receiveType(type, ...args) {}
+	receiveBoolean(booleanType, ...args) {
+		return this.receiveType(booleanType, ...args);
+	}
+	receiveString(stringType, ...args) {
+		return this.receiveType(stringType, ...args);
+	}
+	receiveNumber(numberType, ...args) {
+		return this.receiveType(numberType, ...args);
+	}
+	receiveInteger(integerType, ...args) {
+		return this.receiveNumber(integerType, ...args);
+	}
+	receiveFloat(floatType, ...args) {
+		return this.receiveNumber(floatType, ...args);
+	}
+	receiveMoney(moneyType, ...args) {
+		return this.receiveType(moneyType, ...args);
+	}
+	receiveUndefined(undefinedType, ...args) {
+		return this.receiveType(undefinedType, ...args);
+	}
 }

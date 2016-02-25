@@ -2,7 +2,7 @@ package nl.nicasso.ql;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IdentifierLit;
@@ -36,9 +36,9 @@ public class SymbolTable {
 	}
 	
 	public Literal getSymbolValueFromIdentifier(IdentifierLit key) {
-		Iterator it = symbols.entrySet().iterator();
+		Iterator<Entry<Question, Literal>> it = symbols.entrySet().iterator();
 	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
+	    	Entry<Question, Literal> pair = it.next();
 	        Question qKey = (Question) pair.getKey();
 	        if (qKey.getId().getValue().equals(key.getValue())) {
 	        	return (Literal) pair.getValue();

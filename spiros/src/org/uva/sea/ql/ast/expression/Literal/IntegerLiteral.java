@@ -26,10 +26,4 @@ public class IntegerLiteral extends Literal {
 	}
 
 
-	@Override
-	public Type getTypeOfExpression() {
-		// TODO Auto-generated method stub
-		return new IntType();
-	}
-
 }

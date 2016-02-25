@@ -50,8 +50,9 @@ public class TestAlgo {
 		for (String neighborID : next.getNeighbors()) {
 			return algo(start, visited, g.getVertex(neighborID), g);
 		}	
-		System.out.println("should never happen");
-		return true; //default
+		
+		assert false;
+		return true; // 
 	}
 	
 }

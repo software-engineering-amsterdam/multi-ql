@@ -9,7 +9,7 @@ import uva.ql.deprecated.ASTNode;
 import uva.ql.deprecated.ASTNumber;
 import uva.ql.deprecated.ASTQuestion;
 import uva.ql.deprecated.ASTVariable;
-import uva.ql.utils.ShuntingYardAlgorithm;
+import uva.ql.deprecated.ShuntingYardAlgorithm;
 import uva.ql.visitors.VisitAST;
 
 public class TypeChecker {

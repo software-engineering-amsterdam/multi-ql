@@ -12,11 +12,11 @@ public class Negative extends Unary {
 		super(fragment, expression);
 	}
 
-	@Override
-	public Type getTypeOfExpression() {
-		// TODO Auto-generated method stub
-		return new IntType();
-	}
+//	@Override
+//	public Type getTypeOfExpression() {
+//		// TODO Auto-generated method stub
+//		return new IntType();
+//	}
 
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {

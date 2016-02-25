@@ -1,7 +1,7 @@
 package uva.ql.ast;
 
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INode;
+import uva.ql.interfaces.INodeVisitor;
 
 public abstract class ANumber extends AExpression {
 
@@ -11,6 +11,11 @@ public abstract class ANumber extends AExpression {
 		super(ast);
 		
 		setNumType(getNumType0());
+	}
+	
+	@Override
+	protected int getExprType0() {
+		return IExpression.NUMBER;
 	}
 
 	protected abstract int getNumType0();
@@ -23,15 +28,11 @@ public abstract class ANumber extends AExpression {
 		this.numType = numType;
 	}
 	
-	@Override
-	protected int getExprType0() {
-		return IExpression.NUMBER;
-	}
-
-	@Override
-	protected int getNodeType0() {
-		return INode.EXPRESSION;
-	}
-	
 	abstract public void setValue(String value);
+	abstract public <T> T getValue();
+	
+	@Override
+	public void accept(INodeVisitor visitor) {
+		visitor.visitNum(this);
+	}
 }

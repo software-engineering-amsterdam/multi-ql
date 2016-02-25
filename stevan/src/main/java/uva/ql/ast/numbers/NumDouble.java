@@ -4,9 +4,9 @@ import uva.ql.ast.ANumber;
 import uva.ql.ast.AST;
 import uva.ql.interfaces.INumber;
 
-public class NumDouble extends ANumber {
+public class NumDouble<T> extends ANumber {
 
-	private double value = 0;
+	private T value;
 	
 	public NumDouble(AST ast) {
 		super(ast);
@@ -17,16 +17,17 @@ public class NumDouble extends ANumber {
 		return INumber.DOUBLE;
 	}
 
-	public double getValue() {
-		return value;
+	@Override
+	public <T> T getValue() {
+		return (T) value;
 	}
 
 	@Override
 	public void setValue(String value) {
-		this.value = Double.valueOf(value);
+		setValue((T) Double.valueOf(value));
 	}
 	
-	public void setValue(double value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
 }

@@ -24,8 +24,8 @@ function getAntrlParseTree(input) {
 	var characters = new antlr4.InputStream(input);
 	var lexer = new QLGrammarLexer.QLGrammarLexer(characters);
 	var tokens = new antlr4.CommonTokenStream(lexer);
-	var parserANTLR = new QLGrammarParser.QLGrammarParser(tokens);
-	parserANTLR.buildParseTrees = true;
+	var parserAntlr = new QLGrammarParser.QLGrammarParser(tokens);
+	parserAntlr.buildParseTrees = true;
 
 	var ErrorListener = function () {
 		antlr4.error.ErrorListener.call(this);
@@ -38,16 +38,15 @@ function getAntrlParseTree(input) {
 	};
 
 	lexer.removeErrorListeners();
-	parserANTLR.removeErrorListeners();
+	parserAntlr.removeErrorListeners();
 	lexer.addErrorListener(new ErrorListener());
-	parserANTLR.addErrorListener(new ErrorListener());
+	parserAntlr.addErrorListener(new ErrorListener());
 
 
-	return parserANTLR.form();
+	return parserAntlr.form();
 }
 
 function getAntlrVisitor() {
-
 	var QLGrammarVisitor = require('js/antlrGen/QLGrammarVisitor');
 	var Visitor = function () {
 		QLGrammarVisitor.QLGrammarVisitor.call(this);
@@ -66,7 +65,7 @@ function performAstChecks() {
 	ast.transverseAST(
 		(questionNode) => {
 			if (labels.has(questionNode.label)) {
-				throwError(questionNode.line, "Question error: Qeustion label '" + questionNode.label + "' is already defined");
+				throwError(questionNode.line, "Question error: Question label '" + questionNode.label + "' is already defined");
 				noErrors = false;
 			}
 			if (texts.has(questionNode.text)) {
@@ -77,7 +76,7 @@ function performAstChecks() {
 					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
 					noErrors = false;
 				}
-				else if (questionNode.type.getTypeString() !== typeof questionNode.computedExpr.compute()) {
+				else if (questionNode.type.toString() !== typeof questionNode.computedExpr.compute()) {
 					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' must evaluate to " + questionNode.type.getTypeString());
 					noErrors = false;
 				}
@@ -86,8 +85,7 @@ function performAstChecks() {
 			texts.add(questionNode.text);
 		},
 		(conditionNode) => {
-			var evalResult = conditionNode.condition.compute();
-			if (typeof evalResult !== "boolean") {
+			if ("boolean" !== typeof conditionNode.condition.compute()) {
 				throwError(conditionNode.line, "Type error: Condition '" + conditionNode.condition.toString() + "' is not boolean");
 				noErrors = false;
 			}

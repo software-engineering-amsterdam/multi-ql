@@ -1,14 +1,10 @@
-package uva.ql.utils;
+package uva.ql.deprecated;
 
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
 import uva.ql.ast.AST;
-import uva.ql.deprecated.ASTExpression;
-import uva.ql.deprecated.ASTNode;
-import uva.ql.deprecated.ASTNumber;
-import uva.ql.deprecated.ASTVariable;
 import uva.ql.visitors.VisitAST;
 
 public class ShuntingYardAlgorithm {
