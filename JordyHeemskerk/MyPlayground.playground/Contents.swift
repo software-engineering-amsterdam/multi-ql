@@ -2,51 +2,20 @@
 
 import Cocoa
 
-extension Array {
-    func any(fn: (Element) -> Bool) -> Bool {
-        return !self.filter(fn).isEmpty
+struct CharStream {
+    let str: String
+    var pos: String.Index
+    var lines = [Int]()
+    
+    init(str: String) {
+        self.str = str
+        self.pos = str.startIndex
+        str.enumerateLines { (line, stop) -> () in
+            let lastLineEnd = self.lines.last ?? 0
+            self.lines.append(lastLineEnd + line.startIndex.distanceTo(line.endIndex) + 1)
+        }
     }
 }
 
-struct SymbolTable {
-
-    internal var symbolTable = [String:Type]()
-    
-    mutating func pushVariable(identifier: String, type: Type) {
-        symbolTable[identifier] = type
-    }
-    
-    func variableExists(identifier: String) -> Bool {
-        return symbolTable[identifier] != nil
-    }
-    
-}
-
-protocol Type {}
-
-
-
-
-
-protocol ASTVisitor {
-    func visit(form form: Form)
-    func visit(node node: ASTNode)
-}
-
-class ASTNode {
-    func accept(visitor: ASTVisitor) { visitor.visit(node: self) }
-}
-
-class Form: ASTNode {
-    
-}
-
-class SomeVisitor: ASTVisitor {
-    func visit(node node: ASTNode) {
-        print("not implemented")
-    }
-    
-    func visit(form form: Form) {
-        print("visiting form!")
-    }
-}
+let cs = CharStream(str: "SOmeaklsdfjadfj ald\n dsfjaklfajsd ;lfajlf\n sdfkjashf kjasfljsak hdjshfsjk fh\na kfha askldfj khfakf l;")
+print(cs.lines)
