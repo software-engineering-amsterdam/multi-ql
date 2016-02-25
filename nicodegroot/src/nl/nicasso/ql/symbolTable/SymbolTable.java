@@ -1,41 +1,32 @@
-package nl.nicasso.ql;
+package nl.nicasso.ql.symbolTable;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
-import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
-import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.Literal;
-import nl.nicasso.ql.ast.literal.StringLit;
-import nl.nicasso.ql.ast.statement.Question;
+import nl.nicasso.ql.ast.expression.Identifier;
 
 public class SymbolTable {
 
-	private HashMap<Question, Literal> symbols;
+	private HashMap<Identifier, SymbolTableEntry> symbols;
 
 	public SymbolTable() {
 		super();
-		this.symbols = new HashMap<Question, Literal>();
+		this.symbols = new HashMap<Identifier, SymbolTableEntry>();
 	}
 
-	public HashMap<Question, Literal> getSymbols() {
+	public HashMap<Identifier, SymbolTableEntry> getSymbols() {
 		return symbols;
 	}
 	
-	public void addSymbol(Question key, Literal value) {
-		if (value == null) {
-			value = createLiteralWithDefaultValue(key);
-		}
+	public void addSymbol(Identifier key, SymbolTableEntry value) {
 		symbols.put(key, value);
 	}
 	
-	public Literal getSymbolValue(Question key) {
+	public SymbolTableEntry getEntry(Identifier key) {
 		return symbols.get(key);
 	}
 	
-	public Literal getSymbolValueFromIdentifier(IdentifierLit key) {
+	/*
+	public Literal getSymbolValueFromIdentifier(Identifier key) {
 		Iterator<Entry<Question, Literal>> it = symbols.entrySet().iterator();
 	    while (it.hasNext()) {
 	    	Entry<Question, Literal> pair = it.next();
@@ -70,5 +61,5 @@ public class SymbolTable {
 		}
 		return lit;
 	}
-	
+	*/
 }

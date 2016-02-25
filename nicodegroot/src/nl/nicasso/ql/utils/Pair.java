@@ -1,23 +1,23 @@
 package nl.nicasso.ql.utils;
 
-import nl.nicasso.ql.ast.literal.IdentifierLit;
+import nl.nicasso.ql.ast.expression.Identifier;
 
 public class Pair {
 
-	IdentifierLit left;
-	IdentifierLit right;
+	Identifier left;
+	Identifier right;
 	
-	public Pair(IdentifierLit left, IdentifierLit right) {
+	public Pair(Identifier left, Identifier right) {
 		super();
 		this.left = left;
 		this.right = right;
 	}
 
-	public IdentifierLit getLeft() {
+	public Identifier getLeft() {
 		return left;
 	}
 
-	public IdentifierLit getRight() {
+	public Identifier getRight() {
 		return right;
 	}
 	
