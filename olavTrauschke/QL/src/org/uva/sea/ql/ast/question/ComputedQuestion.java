@@ -1,15 +1,16 @@
-package org.uva.sea.ql.ast;
+package org.uva.sea.ql.ast.question;
 
+import org.uva.sea.ql.ast.Label;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s which values are calculated automatically in an AST.
  * 
- * @author Olav Trauschke, 10329463
+ * @author Olav Trauschke
  * @version 25-feb-2016
  */
-public class ComputedQuestion extends Question {
+public abstract class ComputedQuestion extends Question {
     
     /**
      * Factor partial hashes are multiplied by to generate a hash for objects of this class.
@@ -23,13 +24,13 @@ public class ComputedQuestion extends Question {
      * 
      * @param identifier the <code>Ident</code> used to identify the constructed
      *                      <code>ComputedQuestion</code>
-     * @param label the <code>Label</code> to display with the constructed <code>ComputedQuestion</code>
-     * @param type an <code>ASTNode</code> representing the type of the answer
-     *              to the constructed <code>ComputedQuestion</code>
-     * @param theCalculation an <code>Expr</code> defining how to compute the value of the constructed <code>ComputedQuestion</code>
+     * @param label the <code>Label</code> to display with the constructed
+     *              <code>ComputedQuestion</code>
+     * @param theCalculation an <code>Expr</code> defining how to compute the value
+     *                          of the constructed <code>ComputedQuestion</code>
      */
-    public ComputedQuestion(Ident identifier, Label label, ASTNode type, Expr theCalculation) {
-        super (identifier, label, type);
+    public ComputedQuestion(Ident identifier, Label label, Expr theCalculation) {
+        super (identifier, label);
         assert theCalculation != null;
         calculation = theCalculation;
     }
@@ -47,7 +48,6 @@ public class ComputedQuestion extends Question {
     public void accept(ASTVisitor v) {
         identifierAccept(v);
         labelAccept(v);
-        typeAccept(v);
         calculation.accept(v);
         
         v.visit(this);

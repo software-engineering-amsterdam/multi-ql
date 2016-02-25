@@ -5,7 +5,7 @@ import org.uva.sea.ql.checker.VisitableASTNode;
 /**
  * Root class for the AST hierarchy.
  * 
- * @author Olav Trauschke, 10329463
+ * @author Olav Trauschke
  * @version 24-feb-2016
  */
 public abstract class ASTNode implements VisitableASTNode {}

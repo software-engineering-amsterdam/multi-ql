@@ -6,7 +6,7 @@ import org.uva.sea.ql.checker.ASTVisitor;
 /**
  * Representation of (literals of) the type decimal in an AST.
  * 
- * @author Olav Trauschke, 10329463
+ * @author Olav Trauschke
  * @version 25-feb-2016
  */
 public class Decimal extends NumericExpr {

@@ -7,7 +7,7 @@ import org.uva.sea.ql.checker.ASTVisitor;
 /**
  * Representation of <code>ConditionalStatement</code>s in an AST.
  * 
- * @author Olav Trauschke, 10329463
+ * @author Olav Trauschke
  * @version 25-feb-2016
  */
 public class ConditionalStatement extends ASTNode {
@@ -41,6 +41,15 @@ public class ConditionalStatement extends ASTNode {
         condition = theCondition;
         toDoIf = toDoInCase;
         toDoElse = toDoInCaseNot;
+    }
+    
+    /**
+     * @return the <code>condition</code> determing whether to execute
+     *          <code>toDoInCase</code> or <code>toDoInCaseNot</code> for
+     *          <code>this ConditionalStatement</code>
+     */
+    public Expr getCondition() {
+        return condition;
     }
     
     /**
