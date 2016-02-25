@@ -19,8 +19,6 @@ import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
 import nl.nicasso.ql.ast.expression.Identifier;
-import nl.nicasso.ql.ast.literal.Literal;
-import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
@@ -47,7 +45,7 @@ public class QL {
 				
 		SymbolTable symbolTable = new SymbolTable();
         
-        CreateASTVisitor astVisitor = new CreateASTVisitor(symbolTable);
+        CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
           
         QuestionVisitor questionVisitor = new QuestionVisitor(symbolTable);

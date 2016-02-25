@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.util.test2;
+
+public class ClassB {
+    
+    public static void main(String[] args) {
+	Object x = new Boolean(true);
+	ClassA a = new ClassA("haha", x);
+    }
+
+}

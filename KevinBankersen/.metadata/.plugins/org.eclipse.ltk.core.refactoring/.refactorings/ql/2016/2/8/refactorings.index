@@ -10,3 +10,29 @@
 1455722646373	Delete element
 1455722967336	Change method 'eval'
 1455723612842	Delete element
+1455796921820	Rename package 'eu.bankersen.kevin.ql.symboltable'
+1455798417508	Delete element
+1455798472196	Move compilation units
+1455804657246	Delete element
+1455805021207	Delete element
+1455882316085	Rename type 'Context'
+1455882878049	Rename type 'Block'
+1455884088030	Rename type 'AbstractStatement'
+1455887869159	Delete element
+1455891377246	Move compilation unit
+1455891380955	Move compilation unit
+1455891385915	Move compilation unit
+1455891395466	Move compilation unit
+1455891549980	Rename compilation unit 'Errors.java'
+1455892015581	Rename type 'OutOfScope'
+1455892203048	Rename type 'TypeError'
+1455892385815	Delete element
+1455895839371	Rename type 'MyGUI'
+1455988804106	Delete element
+1455988814161	Delete element
+1456007766736	Delete element
+1456007769866	Delete element
+1456008222866	Delete element
+1456008592126	Change method 'someDataChanged'
+1456010997472	Rename type 'ListenerData'
+1456012184216	Change method 'someUIelementChanged'

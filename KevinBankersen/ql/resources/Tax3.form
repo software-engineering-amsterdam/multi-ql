@@ -1,0 +1,7 @@
+form schoolDuration { 
+  "Do you live in Europe?"
+  European string
+  
+  "Do you live in Europe?"
+  European2 boolean
+}

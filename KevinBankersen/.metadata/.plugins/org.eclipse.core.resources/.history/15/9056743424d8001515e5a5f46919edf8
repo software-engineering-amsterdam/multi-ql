@@ -1,0 +1,29 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Data implements ListenerData {
+    
+    private int x = 10;
+    
+    private List<ListenerData> listeners = new ArrayList<ListenerData>();
+    
+    public void addListener(ListenerData toAdd) {
+        listeners.add(toAdd);
+    }
+
+    @Override
+    public void someUIelementChanged() {
+	System.out.println("Create new data!");
+	
+    }
+
+    @Override
+    public void someDataChanged() {
+	System.out.println("I changed some data");
+	listeners.forEach(listener -> listener.someDataChanged(x));
+	
+    }
+
+}

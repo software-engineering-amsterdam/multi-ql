@@ -24,10 +24,6 @@ import nl.nicasso.ql.ast.statement.IfStatement;
 import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
-import nl.nicasso.ql.ast.type.BooleanType;
-import nl.nicasso.ql.ast.type.IntegerType;
-import nl.nicasso.ql.ast.type.MoneyType;
-import nl.nicasso.ql.ast.type.StringType;
 
 public interface Visitor<T> {
 	
@@ -39,7 +35,6 @@ public interface Visitor<T> {
 	public T visit(IfStatement value);
 	public T visit(IfElseStatement value);
 	
-	//public T visit(Expression value);
 	public T visit(Addition value);
 	public T visit(Subtraction value);
 	public T visit(And value);
@@ -61,10 +56,4 @@ public interface Visitor<T> {
 	public T visit(IntegerLit value);
 	public T visit(StringLit value);
 	
-	//public T visit(BooleanType value);
-	//public T visit(IntegerType value);
-	//public T visit(MoneyType value);
-	//public T visit(StringType value);
-	
-
 }

@@ -1,0 +1,97 @@
+package eu.bankersen.kevin.ql.util.testing.widget;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.context.Symbol;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.util.testing.QuestionExample;
+import eu.bankersen.kevin.ql.util.testing.ViewListener;
+
+public class DropdownWidget implements Widget {
+
+    private final String name;
+    private final JPanel panel;
+    private final Type type;
+    private final JComboBox  inputField;
+    private final List<Widget> widgetListeners;
+
+    DropdownWidget(Symbol data) {
+	this.name = data.getName();
+	this.type = data.getType();
+	this.panel = new JPanel();
+	widgetListeners = new ArrayList<>();
+
+	String[] params = {"True", "False"}; 
+	inputField = new JComboBox(params);
+	inputField.setPreferredSize(new Dimension(120, 50));
+	inputField.addKeyListener(new BoxListener());
+
+	panel.add(inputField);
+    }
+
+    private Object returnValue(String data) {
+	if (type.equals(Type.INTEGER)) {
+	    try {
+		return Integer.parseInt(data);
+	    } catch(NumberFormatException e) {
+		return 0;
+	    }
+	} else {
+	    return data;
+	}
+    }
+
+    @Override
+    public JPanel build() {
+	return panel;
+    }
+
+    @Override
+    public void dataUpdate(SymbolTable symbolTable) {
+	Symbol data = symbolTable.getSymbol(name);
+
+	if (!data.getValue().equals(Type.EMPTY)) {
+	    inputField.setText(data.getValue().toString());
+	} else {
+	    inputField.setText("");
+	}
+
+	// Update the view.
+	DropdownWidget.this.panel.revalidate();
+	DropdownWidget.this.panel.repaint();
+
+    }
+
+    @Override
+    public void widgetUpdate(Object value) {
+	widgetListeners.forEach(l -> l.widgetUpdate(value));
+    }
+
+    @Override
+    public void addWidgetListener(Widget listener) {
+	widgetListeners.add(listener);
+
+    }
+    class ComboListener implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    // TODO Auto-generated method stub
+
+	}
+
+
+    }

@@ -1,0 +1,48 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import java.util.List;
+
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+
+public class Body {
+
+    private final List<AbstractStatement> statements;
+
+    public Body(List<AbstractStatement> statements) {
+	this.statements = statements;
+    }
+
+    public void evalBody(Context context) {
+
+	// To evaluate a block its contents must be visible.
+	visible(true);
+
+	statements.forEach(statement -> statement.eval());
+    }
+
+    public void checkType() {
+
+	statements.forEach(statement -> statement.checkType());
+
+	// When a block is checked its contents must be hidden.
+	visible(false);
+    }
+
+    public void visible(Boolean vis) {
+	statements.forEach(statement -> statement.visible(vis));
+    }
+
+    @Override
+    public String toString() {
+
+	StringBuilder sb = new StringBuilder();
+	
+	statements.forEach(statement -> sb.append(statement.toString()));
+	
+	return sb.toString();
+    }
+
+    public List<AbstractStatement> getStatements() {
+	return statements;
+    }
+}

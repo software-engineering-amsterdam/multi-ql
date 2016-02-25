@@ -18,7 +18,6 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -303,7 +302,7 @@ public class EvaluatorVisitor implements Visitor<Object> {
 			System.out.println("ifStatement");
 		}
 		
-		return new BooleanLit(true);
+		return (boolean) exprValue;
 	}
 
 	@Override
@@ -315,7 +314,7 @@ public class EvaluatorVisitor implements Visitor<Object> {
 		if (debug) {
 			System.out.println("IfElseStatement");
 		}
-		return null;
+		return (boolean) exprValue;
 	}
 
 	@Override

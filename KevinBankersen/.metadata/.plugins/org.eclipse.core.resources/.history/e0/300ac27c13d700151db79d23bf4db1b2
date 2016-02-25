@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public interface Errors {
+    
+    String message();
+    
+}

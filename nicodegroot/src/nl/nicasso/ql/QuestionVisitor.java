@@ -245,7 +245,7 @@ public class QuestionVisitor implements Visitor<Identifier> {
 		
 		checkExistanceLabel(q.getLabel());
 		
-		if (insert = true) {
+		if (insert == true) {
 			questions.add(q);
 			return true;
 		}

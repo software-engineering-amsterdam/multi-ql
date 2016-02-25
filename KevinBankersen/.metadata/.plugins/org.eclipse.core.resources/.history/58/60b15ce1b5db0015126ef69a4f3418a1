@@ -1,0 +1,76 @@
+package eu.bankersen.kevin.ql.util.testing.widget;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+import eu.bankersen.kevin.ql.context.Symbol;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.util.testing.BooleanQuestion;
+import eu.bankersen.kevin.ql.util.testing.ViewListener;
+
+public class RadioButtonWidget extends Widget {
+
+    private final String name;
+    private final JPanel panel;
+    private List<ViewListener> viewListeners;
+    private final JRadioButton trueToggle;
+    private final JRadioButton falseToggle;
+
+    RadioButtonWidget(Symbol data) {
+	this.name = data.getName();
+	this.panel = new JPanel();
+
+	ButtonGroup group = new ButtonGroup();
+	trueToggle = new JRadioButton("True");
+	falseToggle = new JRadioButton("False");
+
+	trueToggle.addActionListener(RadioListener());
+	falseToggle.addActionListener(RadioListener());
+
+	
+	group.add(trueToggle);
+	group.add(falseToggle);
+	panel.add(trueToggle);
+	panel.add(falseToggle);
+    }
+    @Override
+    public JPanel build() {
+	return new JPanel();
+    }
+
+    private ActionListener RadioListener(){
+
+	return new ActionListener() {		
+	    public void actionPerformed(ActionEvent actionEvent) {
+		AbstractButton aButton = (AbstractButton) actionEvent.getSource();
+		viewUpdate(Boolean.valueOf(aButton.getText()));
+	    }
+	};
+    }
+    @Override
+    public void dataUpdate(SymbolTable symbolTable) {
+	Symbol data = symbolTable.getSymbol(name);
+	mainPanel.setVisible(data.getActive());
+	
+	if (data.getValue().equals(true)) {
+	    a.setSelected(true);
+	} else if (data.getValue().equals(false)) {
+	    b.setSelected(true);
+	}
+
+	// Update the view.
+	BooleanQuestion.this.mainPanel.revalidate();
+	BooleanQuestion.this.mainPanel.repaint();
+    }
+
+	
+    }
+
+}

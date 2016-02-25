@@ -1,63 +1,70 @@
 package eu.bankersen.kevin.ql.ast;
 
-import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.form.AbstractForm;
+import com.esotericsoftware.minlog.Log;
 
-public class Variable extends AbstractForm {
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.context.errors.AllreadyDeclaredError;
+import eu.bankersen.kevin.ql.context.errors.ExprTypeError;
+
+public class Variable {
 
     private final String name;
     private final Type type;
     private final int line;
-    private Expr expr;
+    private final Expr expr;
+    private Object value;
 
-    public Variable(final String name, final Type type, final Expr expr, final int line) {
+    public Variable(String name, Type type, Expr expr, int line) {
 	this.name = name;
 	this.type = type;
 	this.expr = expr;
 	this.line = line;
+	this.value = Type.EMPTY;
     }
 
-    public final String getName() {
+    public String getName() {
 	return name;
     }
 
-    public final Type getType() {
+    public Type getType() {
 	return type;
     }
 
-    public final void checkType() {
+    public Context checkType(Context context, String text) {
 
-	if (super.context.checkID(name)) {
-	    super.context.addError("TYPE_ERROR @Line " + line 
-		    			+ " question " + name + " already defined!");
+	if (context.checkID(name)) {
+	    context.addError(new AllreadyDeclaredError(line, name));
 	} else {
-	    super.context.addSymbol(name, type);
+	    context.addSymbol(name, text, type, value);
 	}
 
-	expr.checkType();
+	context = expr.checkType(context);
 	
-	if (!expr.getType().equals(type)) {
-	    super.context.addError("TYPE_ERROR @Line " + line 
-		    			+ ": expected " + type 
-		    			+ " got " + expr.getType() + "!");
+	if (!expr.getType(context).equals(type)) {
+	    context.addError(new ExprTypeError(line, getType(), expr.getType(context)));
 	}
+	return context;
     }
 
-    public final Object getValue() {
-	return super.context.getSymbol(name).getValue();
+    public Object getValue() {
+	return value;
     }
 
-    public final String toString() {
+    public String toString() {
 	return this.getName() + ": " + this.getType() + "=" + this.getValue();
     }
 
-    public final void eval() {
+    public SymbolTable eval(SymbolTable symbolTable) {
 
 	try {
-	    Object value = expr.eval();
-	    super.context.updateSymbol(name, value);
-	} catch (NullPointerException e) {
-	    super.context.updateSymbol(name, null);
+	    value = expr.eval(symbolTable);
+	    symbolTable.updateSymbol(name, value);
+	} catch (EvaluateExeption  e) {
+	    Log.debug("Cannot evaluate expression yet");
 	}
+	return symbolTable;
     }
 }

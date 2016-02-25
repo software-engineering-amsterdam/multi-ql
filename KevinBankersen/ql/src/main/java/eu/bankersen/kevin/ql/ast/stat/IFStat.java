@@ -3,66 +3,68 @@ package eu.bankersen.kevin.ql.ast.stat;
 import com.esotericsoftware.minlog.Log;
 
 import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.form.Block;
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.context.errors.ExprTypeError;
 
-public class IFStat extends AbstractStatement  {
+public class IFStat extends Statement  {
 
     private final Expr expr;
-    private final Block body;
+    private final Body body;
     private final int line;
-    private boolean statement;
+    private boolean exprValue;
 
-    public IFStat(final Expr expression, final Block body, final int line) {
+    public IFStat(Expr expression, Body body, int line) {
 	this.expr = expression;
 	this.body = body;
 	this.line = line;
-	this.statement = false;
+	this.exprValue = false;
     }
 
-    public final void checkType() {
+    public Context checkType(Context context) {
 
-	expr.checkType();
-	body.checkType();
-	
-	Boolean check = expr.getType().equals(Type.BOOLEAN);
-	
+	context = expr.checkType(context);
+	context = body.checkType(context);
+
+	Boolean check = expr.getType(context).equals(Type.BOOLEAN);
+
 	if (!check) {
-	    super.context.addError("TYPE_ERROR @Line " + line 
-		    			+ ": If must resolve to " + Type.BOOLEAN 
-		    			+ " got " + expr.getType());
+	    context.addError(new ExprTypeError(
+		    line,
+		    Type.BOOLEAN,
+		    expr.getType(context)
+		    ));
 	}
-	
+	return context;
     }
 
-    @Override
-    public final void eval() {
- 
+    public SymbolTable evalStatement(SymbolTable symbolTable) {	
+
 	try {
-	    statement = (Boolean) expr.eval();
-	} catch (NullPointerException e) {
+	    exprValue = (Boolean) expr.eval(symbolTable);
+	} catch (EvaluateExeption e) {
 	    Log.debug("If-statement cannot be evaluated");
-	    statement = false;
+	    exprValue = false;
 	}
-	
-	Log.debug("If-statement is: " + statement);
-	
-	if (statement) {
-	    visible(true);
-	    body.eval();
+
+	Log.debug("If-statement is: " + exprValue);
+
+	if (exprValue) {
+	    symbolTable = visible(symbolTable, true);
+	    return body.evalBody(symbolTable);
 	} else {
-	    visible(false);
-	}
+	    return visible(symbolTable, false);
+	} 
     }
 
-    public final Block getBody() {
-	return body;
-    }
 
     @Override
-    public final String toString() {
+    public String toString() {
 
-	if (statement) {
+	if (exprValue) {
 	    return body.toString();
 	} else {
 	    return "";
@@ -70,7 +72,13 @@ public class IFStat extends AbstractStatement  {
     }
 
     @Override
-    public final void visible(final Boolean visible) {
-	body.visible(visible);
+    public SymbolTable visible(SymbolTable symbolTable, Boolean visible) {
+	return body.visible(symbolTable, visible);
     }
+    
+    // Turn this into a nice interface..
+    public Context visible(Context context, Boolean visible) {
+	return body.visible(context, visible);
+    }
+    
 }

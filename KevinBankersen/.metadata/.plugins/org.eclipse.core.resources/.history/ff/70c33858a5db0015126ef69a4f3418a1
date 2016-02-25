@@ -1,0 +1,7 @@
+package eu.bankersen.kevin.ql.util.testing2;
+
+abstract class Children {
+    
+    private final String name;
+
+}

@@ -1,25 +1,28 @@
 package eu.bankersen.kevin.ql.ast.form;
 
-public class Form extends AbstractForm  {
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.SymbolTable;
 
-    private String name;
-    private Block body;
+public class Form {
 
-    public Form(final String name, final Block body) {
+    private final String name;
+    private final Body body;
+
+    public Form(String name, Body body) {
 	this.name = name;
 	this.body = body;
     }
 
-    public final void checkType() {
-	body.checkType();
+    public Context checkType() {
+	return body.checkType(new Context(name));
     }
 
-    public final void eval() {
-	body.eval();
+    public SymbolTable evalForm(SymbolTable symbolTable) {
+	return body.evalBody(symbolTable);
     }
     
     @Override
-    public final String toString() {
+    public String toString() {
 
 	StringBuilder sb;
 

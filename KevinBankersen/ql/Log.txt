@@ -1,8 +1,141 @@
 00:00  INFO: Reading resources/Tax2.form
 00:00  INFO: Parsing File
 00:00  INFO: File Parsed
-00:00  INFO: Type Check Start
-00:00 ERROR: SYMANTIC_ERROR @Line 5: "name" does not exist!
-00:00 ERROR: TYPE_ERROR @Line 5: If must resolve to BOOLEAN got UNDIFINED
-00:00 ERROR: TYPE_ERROR @Line 17: expected INTEGER got INTEGER and STRING
-00:00 ERROR: Type Check error, Terminating!
+00:00  INFO: Trying to build context
+00:00  INFO: 
+
+***********************
+* Doing random  stuff *
+***********************
+
+00:00  INFO: Starting State
+00:00  INFO: Results
+Form: schoolDuration
+"Do you live in Europe?"
+European: BOOLEAN=EMPTY
+
+"This is a trailing question..?"
+Trailing: INTEGER=1
+
+
+
+00:00  INFO: Answer european: yes
+00:00  INFO: Results
+Form: schoolDuration
+"Do you live in Europe?"
+European: BOOLEAN=true
+
+"What is your name?"
+name: STRING=EMPTY
+
+"How old are you now?"
+age: INTEGER=EMPTY
+
+"How old were you when you started school?"
+startSchool: INTEGER=EMPTY
+
+"You have studied this many years: "
+startAge: INTEGER=EMPTY
+
+"This is a trailing question..?"
+Trailing: INTEGER=1
+
+
+
+00:00  INFO: Answer name: Kevin
+00:00  INFO: Results
+Form: schoolDuration
+"Do you live in Europe?"
+European: BOOLEAN=true
+
+"What is your name?"
+name: STRING=Kevin
+
+"How old are you now?"
+age: INTEGER=EMPTY
+
+"How old were you when you started school?"
+startSchool: INTEGER=EMPTY
+
+"You have studied this many years: "
+startAge: INTEGER=EMPTY
+
+"This is a trailing question..?"
+Trailing: INTEGER=1
+
+
+
+00:00  INFO: Answer age: 26
+00:00  INFO: Results
+Form: schoolDuration
+"Do you live in Europe?"
+European: BOOLEAN=true
+
+"What is your name?"
+name: STRING=Kevin
+
+"How old are you now?"
+age: INTEGER=26
+
+"How old were you when you started school?"
+startSchool: INTEGER=EMPTY
+
+"You have studied this many years: "
+startAge: INTEGER=EMPTY
+
+"This is a trailing question..?"
+Trailing: INTEGER=1
+
+
+
+00:00  INFO: Answer startSchool: 4
+00:00  INFO: Results
+Form: schoolDuration
+"Do you live in Europe?"
+European: BOOLEAN=true
+
+"What is your name?"
+name: STRING=Kevin
+
+"How old are you now?"
+age: INTEGER=26
+
+"How old were you when you started school?"
+startSchool: INTEGER=4
+
+"You have studied this many years: "
+startAge: INTEGER=22
+
+"You studied longer than most other students"
+longest: BOOLEAN=true
+
+"This is a trailing question..?"
+Trailing: INTEGER=1
+
+
+
+00:00  INFO: Results
+Form: schoolDuration
+"Do you live in Europe?"
+European: BOOLEAN=true
+
+"What is your name?"
+name: STRING=Kevin
+
+"How old are you now?"
+age: INTEGER=26
+
+"How old were you when you started school?"
+startSchool: INTEGER=4
+
+"You have studied this many years: "
+startAge: INTEGER=22
+
+"You studied longer than most other students"
+longest: BOOLEAN=true
+
+"This is a trailing question..?"
+Trailing: INTEGER=1
+
+
+
