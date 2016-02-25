@@ -97,11 +97,6 @@ QLVisitor.prototype.visitMoneyLiteralCase = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLParser#booleanLiteral.
-QLVisitor.prototype.visitBooleanLiteral = function(ctx) {
-};
-
-
 // Visit a parse tree produced by QLParser#type.
 QLVisitor.prototype.visitType = function(ctx) {
 };

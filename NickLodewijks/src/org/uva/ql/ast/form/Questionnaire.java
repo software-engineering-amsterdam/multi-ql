@@ -14,8 +14,8 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.parser.antlr.QLLexer;
-import org.uva.ql.parser.antlr.QLParser;
+import org.uva.ql.parser.QLLexer;
+import org.uva.ql.parser.QLParser;
 
 public class Questionnaire extends ASTNode {
 

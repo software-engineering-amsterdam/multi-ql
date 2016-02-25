@@ -1,0 +1,38 @@
+<project name="QL" basedir="." default="jar">
+	<property file="./build.properties"/>
+    
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+	
+    <target name="generate-parser" depends="clean">
+        <mkdir dir="${gen-src.dir}"/>
+        <java jar="${tools.antlr.jar}" fork="true">
+            <arg line="${gen-src.dir}/QL.g4"/>
+            <arg line="-o ${gen-src.dir}"/>
+            <arg line="-no-listener -no-visitor -encoding UTF-8"/>
+            <arg line="-package ${antlr.package}"/>
+        </java>
+    </target>
+	
+    <target name="compile" depends="generate-parser">
+       <mkdir dir="${build.dir}"/>
+       <javac srcdir="${src.dir}" 
+   			  destdir="${build.dir}"
+   			  classpath="${tools.antlr.jar}:${build.dir}"
+              includeantruntime="false"/>
+    </target>
+	
+	<target name="jar" depends="compile">
+		<mkdir dir="${dist.dir}"/>
+    	<jar destfile="${dist.dir}/QL.jar">
+    	   <fileset dir="${build.dir}"/>
+           <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+    	   <manifest>
+    	     <attribute name="Main-Class"
+    	           value="${main-class}"/>
+    	   </manifest>
+    	 </jar>
+	</target>
+	
+</project>

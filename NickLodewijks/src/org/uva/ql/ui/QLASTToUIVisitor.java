@@ -13,8 +13,8 @@ import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.stat.IFStat;
 import org.uva.ql.domain.QLForm;
 import org.uva.ql.domain.QLQuestion;
-import org.uva.ql.domain.QLQuestionaire;
 import org.uva.ql.domain.QLQuestionCondition;
+import org.uva.ql.domain.QLQuestionaire;
 
 public class QLASTToUIVisitor {
 
@@ -74,7 +74,6 @@ public class QLASTToUIVisitor {
 		public QLQuestionaire build() {
 			return questionaire;
 		}
-
 	}
 
 	private static class QLQuestionnaireVisitor extends ASTNodeVisitorAdapter<Void, QLQuestionnaireBuilder> {
@@ -97,9 +96,7 @@ public class QLASTToUIVisitor {
 		@Override
 		public Void visit(IFStat node, QLQuestionnaireBuilder builder) {
 			builder.begin(node);
-
 			visit(node.getBody(), builder);
-
 			builder.end(node);
 
 			return null;

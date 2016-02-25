@@ -5,6 +5,8 @@ import { QLParser as GeneratedParser } from 'src/generated_parser/QLParser';
 import { QLVisitor as GeneratedVisitor } from 'src/generated_parser/QLVisitor';
 import { SemanticAnalyser } from 'src/ast_semantic_analysis';
 import * as ast from 'src/ast';
+import * as types from 'src/types';
+import * as values from 'src/values';
 import { LineError } from 'src/error';
 
 // Use a visitor to convert the parse context into an ast
@@ -65,7 +67,7 @@ class AstConversionVisitor extends GeneratedVisitor {
 
 		switch (ctx.children[1].symbol.type) {
 			case GeneratedParser.MUL:
-				return new ast.MuliplyNode(line, leftOperand, rightOperand);
+				return new ast.MultiplyNode(line, leftOperand, rightOperand);
 			case GeneratedParser.DIV:
 				return new ast.DivideNode(line, leftOperand, rightOperand);
 			case GeneratedParser.PLUS:
@@ -93,46 +95,32 @@ class AstConversionVisitor extends GeneratedVisitor {
 		}
 	}
 	visitBooleanLiteralCase (ctx) {
-		return ctx.booleanLiteral().accept(this);
+		return new ast.LiteralNode(ctx.start.line, new ast.BooleanType(), values.BooleanValue.fromString(ctx.getText()));
 	}
 	visitStringLiteralCase (ctx) {
-		return new ast.StringLiteralNode(ctx.start.line, ctx.getText().slice(1,-1));
+		return new ast.LiteralNode(ctx.start.line, new ast.StringType(), values.StringValue.fromString(ctx.getText().slice(1,-1)));
 	}
 	visitIntegerLiteralCase (ctx) {
-		return new ast.IntegerLiteralNode(ctx.start.line, parseInt(ctx.getText(), 10));
+		return new ast.LiteralNode(ctx.start.line, new ast.IntegerType(), values.IntegerValue.fromString(ctx.getText()));
 	}
 	visitFloatLiteralCase (ctx) {
-		return new ast.FloatLiteralNode(ctx.start.line, parseFloat(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new ast.FloatType(), values.FloatValue.fromString(ctx.getText()));
 	}
 	visitMoneyLiteralCase (ctx) {
-		return new ast.MoneyLiteralNode(ctx.start.line, ctx.getText());
-	}
-	visitBooleanLiteral(ctx) {
-		let value;
-		switch (ctx.start.type) {
-			case GeneratedParser.BOOLEAN_TRUE:
-				value = true;
-				break;
-			case GeneratedParser.BOOLEAN_FALSE:
-				value = false;
-				break;
-			default:
-				throw new Error("Unexpected boolean literal `" + ctx.getText() + "`");
-		}
-		return new ast.BooleanLiteralNode(ctx.start.line, value);
+		return new ast.LiteralNode(ctx.start.line, new ast.MoneyType(), values.MoneyValue.fromString(ctx.getText()));
 	}
 	visitType(ctx) {
 		switch (ctx.start.type) {
 			case GeneratedParser.TYPE_BOOLEAN:
-				return ast.TYPE_BOOLEAN;
+				return new types.BooleanType();
 			case GeneratedParser.TYPE_STRING:
-				return ast.TYPE_STRING;
+				return new types.StringType();
 			case GeneratedParser.TYPE_INTEGER:
-				return ast.TYPE_INTEGER;
+				return new types.IntegerType();
 			case GeneratedParser.TYPE_FLOAT:
-				return ast.TYPE_FLOAT;
+				return new types.FloatType();
 			case GeneratedParser.TYPE_MONEY:
-				return ast.TYPE_FLOAT;
+				return new types.MoneyType();
 			default:
 				throw new Error("Unexpected type `" + ctx.getText() + "`");
 		}
