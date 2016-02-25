@@ -1,36 +1,123 @@
+{-# LANGUAGE PatternSynonyms #-}
+
 module TypeChecker where
 
 import           AnnotatedAst as A
-import           Ast as S (FieldType, FieldType(Integer), FieldType(Money), FieldType(String),
-                           FieldType(Boolean))
-import           Simplify
+import           Ast as S (FieldType(Integer, Money, String, Boolean))
+import qualified Data.List as L
+import           Location (Location) 
 
-data TypeError = UndeclaredVariable Location
-               | TypeMismatch S.FieldType S.FieldType Location
+type LeftType = S.FieldType
+
+type RightType = S.FieldType
+
+type Identifier = String
+
+type TypeMap = (Identifier, S.FieldType)
+
+data SemanticResult =
+       SemanticResult
+         { typeErrors :: [TypeError]
+         , cycleErrors :: [DependencyError]
+         , duplicationErrors :: [DuplicationIssue]
+         }
   deriving (Eq, Show)
 
-data CyclicDependencyError = CyclicDependencyError Location
+data SemanticError = DuplicationIssue DuplicationIssue
+                   | TypeError TypeError
+                   | DependencyError DependencyError
 
-type TypeMap = (String, S.FieldType)
+data DuplicationIssue = DuplicateIdentifier Identifier [Location]
+                      | RedeclarationError Identifier Location [Location]
+  deriving (Eq, Show)
 
-type CalcFieldEnv = (String, Expression Location)
+data TypeError = UndeclaredVariable Location
+               | TypeMismatch LeftType RightType Location
+  deriving (Eq, Show) -- Maybe use an instance declaration for show
 
-type CalculatedValue = (String, Expression Location)
+data DependencyError = CyclicDependencyError Identifier Location
+  deriving (Eq, Show)
 
-hasCycles :: [CalculatedValue] -> [CyclicDependencyError]
-hasCycles [] =
-  []
-hasCycles (c:cs) =
-  rs c ++ hasCycles cs
+hasNoErrors :: SemanticResult -> Bool
+hasNoErrors a = (null . cycleErrors) a && (null . typeErrors) a && (null . duplicationErrors) a
+
+analyze' :: Form Location -> [SemanticError]
+analyze' x =
+  let res = analyze x
+  in map DuplicationIssue (duplicationErrors res)
+     ++ map DependencyError (cycleErrors res)
+        ++ map TypeError (typeErrors res)
+
+analyze :: Form Location -> SemanticResult
+analyze x = SemanticResult typeErrors cycleErrors duplicationErrors
   where
-    rs (varName, Variable loc name) =
-      [CyclicDependencyError loc | varName == name]
+    typeErrors = typecheckForm (collectFormTypeMap x) x
+    cycleErrors = findCycles ((transitiveClosure . getIdentifierRelation) calcFields) calcFields
+    calcFields = collectCalculatedFields x
+    fields = collectFields x
+    duplicationErrors = checkForDuplicates fields
+
+checkForDuplicates :: [Field Location] -> [DuplicationIssue]
+checkForDuplicates xs = map warning groups
+  where
+    dups = findDuplicates xs
+    warning p = if sameType p
+                  then DuplicateIdentifier ((A.id . fst . head) p) (map getLoc p)
+                  else RedeclarationError ((A.id . fst . head) p) ((getLoc . head) p) (map getLoc p)
+    sameType ys = all (== getT ((fst . head) ys)) (map (getT . fst) (tail ys))
+    getT = getSimpleType . A.fieldType
+    groups = L.groupBy sameIden fieldMap
+    sameIden (x, _) (y, _) = A.id x == A.id y
+    fieldMap = map (\x -> (getFieldInfo x, x)) dups
+    getFieldInfo (CalculatedField _ i _) = i
+    getFieldInfo (SimpleField _ i) = i
+    getLoc (_, CalculatedField l _ _) = l
+    getLoc (_, SimpleField l _) = l
+
+findDuplicates :: [Field Location] -> [Field Location]
+findDuplicates xs = map snd (concat (getDups group))
+  where
+    idmap = map (\x -> (A.id (getFieldInfo x), x)) xs
+    sameIden (x, _) (y, _) = x == y
+    group = L.groupBy sameIden idmap
+    getDups = filter (\x -> length x > 1)
+    getFieldInfo (CalculatedField _ i _) = i
+    getFieldInfo (SimpleField _ i) = i
+
+findCycles :: [(Identifier, Identifier)] -> [Field Location] -> [DependencyError]
+findCycles [] _ = []
+findCycles (x:xs) env = checkForCycles x ++ findCycles xs env
+  where
+    checkForCycles (y, z) = if (y, y) `elem` (x : xs)
+                              then map (uncurry CyclicDependencyError) (findIdent (y, z))
+                              else []
+    env' = map (\(CalculatedField loc info _) -> (A.id info, loc)) env
+    findIdent q = filter (\(i, _) -> i == fst q) env'
+
+transitiveClosure :: Eq a => [(a, a)] -> [(a, a)]
+transitiveClosure closure
+  | closure == closureUntilNow = closure
+  | otherwise = transitiveClosure closureUntilNow
+  where
+    closureUntilNow =
+      L.nub $ closure ++ [(a, c) | (a, b) <- closure
+                                 , (b', c) <- closure
+                                 , b == b']
+
+getIdentifierRelation :: [Field Location] -> [(Identifier, Identifier)]
+getIdentifierRelation [] = []
+getIdentifierRelation (x:xs) =
+  rs (aux x) ++ getIdentifierRelation xs
+  where
+    rs (varName, Variable _ name) = [(varName, name)]
     rs (_, Literal _ _) =
       []
     rs (varName, UnaryOperation _ _ rhs) =
       rs (varName, rhs)
     rs (varName, BinaryOperation _ _ lhs rhs) =
       rs (varName, lhs) ++ rs (varName, rhs)
+    aux (CalculatedField _ info expr) = (A.id info, expr)
+    aux (SimpleField _ _) = error "Attempted to get values for SimpleFields"
 
 mapBlock :: (Statement a -> b) -> Block a -> [b]
 mapBlock _ [] =
@@ -38,36 +125,44 @@ mapBlock _ [] =
 mapBlock f (s:ss) =
   f s : mapBlock f ss
 
-collectCalculatedValuesFromForm :: Form Location -> [CalculatedValue]
-collectCalculatedValuesFromForm (Form _ _ stmnts) =
-  getCalcFieldStmnts stmnts
+collectFields :: Form Location -> [Field Location]
+collectFields (Form _ _ stmnts) =
+  getFieldStmnts stmnts
   where
-    getCalcFieldStmnts' (If _ _ ifblock) =
-      getCalcFieldStmnts ifblock
-    getCalcFieldStmnts' (IfElse _ _ ifblock elseblock) =
-      getCalcFieldStmnts ifblock ++ getCalcFieldStmnts elseblock
-    getCalcFieldStmnts' (Field _ (SimpleField _ _)) =
-      []
-    getCalcFieldStmnts' (Field _ (CalculatedField _ info expr)) =
-      [(A.id info, expr)]
-    getCalcFieldStmnts =
-      concatMap getCalcFieldStmnts'
+    getFieldStmnts =
+      concatMap getFieldStmnts'
+    getFieldStmnts' (If _ _ ifblock) =
+      getFieldStmnts ifblock
+    getFieldStmnts' (IfElse _ _ ifblock elseblock) =
+      getFieldStmnts ifblock ++ getFieldStmnts elseblock
+    getFieldStmnts' (Field _ field) =
+      [field]
+
+collectCalculatedFields :: Form Location -> [Field Location]
+collectCalculatedFields form = filter isCalc (collectFields form)
+  where
+    isCalc x =
+      case x of
+        CalculatedField{} -> True
+        SimpleField{}     -> False
 
 typecheckForm :: [TypeMap] -> Form Location -> [TypeError]
 typecheckForm types (Form _ _ ss) =
   typeCheckStatement ss
   where
+    typeCheckStatement =
+      concatMap typeCheckStatement'
     typeCheckStatement' (If _ expr ifblock) =
       case getType types expr of
         Left e ->
           e
-        Right _ ->
+        Right _ -> -- Gotta be bools
           [] ++ typeCheckStatement ifblock
     typeCheckStatement' (IfElse _ expr ifblock elseblock) =
       case getType types expr of
         Left e ->
           e
-        Right _ ->
+        Right _ -> -- Gotta be bools
           [] ++ typeCheckStatement ifblock ++ typeCheckStatement elseblock
     typeCheckStatement' (Field _ (SimpleField _ _)) =
       []
@@ -77,8 +172,6 @@ typecheckForm types (Form _ _ ss) =
           e
         Right _ ->
           []
-    typeCheckStatement =
-      concatMap typeCheckStatement'
 
 getType :: [TypeMap] -> Expression Location -> Either [TypeError] S.FieldType
 getType _ (Literal _ (IntegerLiteral _ _)) =
@@ -95,16 +188,11 @@ getType types (Variable loc name) =
       Left [UndeclaredVariable loc]
     Just a ->
       Right a
-getType types (UnaryOperation _ _ rhs) =
-  case getType types rhs of
-    Right a ->
-      Right a
-    Left b ->
-      Left b
+getType types (UnaryOperation _ _ rhs) = getType types rhs
 getType types (BinaryOperation loc t lhs rhs) =
   case getBinType oExp rType lType of
     Left a ->
-      Left a ---Todo?
+      Left a
     Right b ->
       Right b
   where
@@ -127,7 +215,7 @@ getBinType (BinaryOperation loc op _ _) (Right lhs) (Right rhs) =
     then Right lhs
     else Left [TypeMismatch lhs rhs loc]
 getBinType _ (Right _) (Right rhs) =
-  Right rhs
+  Right rhs -- TODO: Maybe not do this.
 
 isValidBinOp :: BinaryOperation Location -> S.FieldType -> S.FieldType -> Bool
 isValidBinOp (A.Equals _) lhs rhs =
@@ -138,35 +226,23 @@ isValidBinOp op lhs rhs =
   lhs `elem` ops && rhs `elem` ops
   where
     ops =
-      table op
+      allowedOps op
 
-table :: BinaryOperation a -> [S.FieldType]
-table (A.Addition _) =
-  [S.Integer, S.Money]
-table (A.Subtraction _) =
-  [S.Integer, S.Money]
-table (A.Multiplication _) =
-  [S.Integer, S.Money]
-table (A.Division _) =
-  [S.Integer, S.Money]
-table (A.And _) =
-  [S.Boolean]
-table (A.Or _) =
-  [S.Boolean]
-table (A.GreaterThanOrEquals _) =
-  [S.Integer, S.Money]
-table (A.GreaterThan _) =
-  [S.Integer, S.Money]
-table (A.LesserThanOrEquals _) =
-  [S.Integer, S.Money]
-table (A.LesserThan _) =
-  [S.Integer, S.Money]
-table (A.StringConcatenation _) =
-  [S.String]
-table (A.NotEquals _) =
-  [S.Integer, S.Money, S.Boolean, S.String]
-table (A.Equals _) =
-  [S.Integer, S.Money, S.Boolean, S.String]
+-- Simpler to just do this
+allowedOps :: BinaryOperation a -> [S.FieldType]
+allowedOps (A.Addition _) = [S.Integer, S.Money]
+allowedOps (A.Subtraction _) = [S.Integer, S.Money]
+allowedOps (A.Multiplication _) = [S.Integer, S.Money]
+allowedOps (A.Division _) = [S.Integer, S.Money]
+allowedOps (A.And _) = [S.Boolean]
+allowedOps (A.Or _) = [S.Boolean]
+allowedOps (A.GreaterThanOrEquals _) = [S.Integer, S.Money]
+allowedOps (A.GreaterThan _) = [S.Integer, S.Money]
+allowedOps (A.LesserThanOrEquals _) = [S.Integer, S.Money]
+allowedOps (A.LesserThan _) = [S.Integer, S.Money]
+allowedOps (A.StringConcatenation _) = [S.String]
+allowedOps (A.NotEquals _) = [S.Integer, S.Money, S.Boolean, S.String]
+allowedOps (A.Equals _) = [S.Integer, S.Money, S.Boolean, S.String]
 
 collectFormTypeMap :: Form Location -> [TypeMap]
 collectFormTypeMap =
@@ -174,19 +250,27 @@ collectFormTypeMap =
 
 collectTypeMap :: [FieldInformation a] -> [TypeMap]
 collectTypeMap =
-  map (\y -> (A.id y, sFieldType $ A.fieldType y))
+  map (\y -> (A.id y, getSimpleType $ A.fieldType y))
+
 
 collectFieldInfo :: A.Form a -> [FieldInformation a]
 collectFieldInfo (A.Form _ _ stmts) =
-  concatMap getFieldInfo stmts
+  getFieldInfo stmts
   where
-    getFieldInfo st =
+    getFieldInfo = concatMap getFieldInfo'
+    getFieldInfo' st =
       case st of
         Field _ (SimpleField _ f) ->
           [f]
         Field _ (CalculatedField _ f _) ->
           [f]
         If _ _ ss ->
-          concatMap getFieldInfo ss
+          getFieldInfo ss
         IfElse _ _ xs ys ->
-          concatMap getFieldInfo xs ++ concatMap getFieldInfo ys
+          getFieldInfo xs ++ getFieldInfo ys
+
+getSimpleType :: A.FieldType a -> S.FieldType
+getSimpleType (A.Money _) = S.Money
+getSimpleType (A.Integer _) = S.Integer
+getSimpleType (A.String _) = S.String
+getSimpleType (A.Boolean _) = S.Boolean
