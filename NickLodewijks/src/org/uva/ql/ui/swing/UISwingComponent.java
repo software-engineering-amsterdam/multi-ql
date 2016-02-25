@@ -4,7 +4,7 @@ import javax.swing.JComponent;
 
 import org.uva.ql.ui.UIComponent;
 
-public interface UISwingComponent extends UIComponent {
+interface UISwingComponent extends UIComponent {
 
 	public JComponent getComponent();
 }

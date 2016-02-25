@@ -59,7 +59,6 @@ public class UISwingFactory implements UIFactory {
 
 		type = q.getType();
 		widget = TYPE_TO_WIDGET_FACTORY.get(type).create(q);
-
 		if (q.isComputed()) {
 			widget = new ComputedWidget(widget, q.getExpr());
 		}
@@ -69,7 +68,6 @@ public class UISwingFactory implements UIFactory {
 
 	public static class DefaultQLQuestionaire implements UIQuestionnaire {
 
-		private final Questionnaire questionnaire;
 		private final List<DefaultQLForm> forms = new ArrayList<>();
 
 		private final JFrame jframe;
@@ -78,8 +76,6 @@ public class UISwingFactory implements UIFactory {
 			JScrollPane scrollPanel;
 			JPanel panel;
 			JPanel root;
-
-			this.questionnaire = q;
 
 			jframe = new JFrame();
 
@@ -122,24 +118,16 @@ public class UISwingFactory implements UIFactory {
 
 	private static class DefaultQLForm implements UISwingComponent {
 
-		private final Form form;
 		private final List<DefaultQLQuestion> questions = new ArrayList<>();
-
 		private final JPanel panel;
 
 		public DefaultQLForm(Form form) {
-			this.form = form;
-
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
 			for (Question question : form.getQuestions()) {
 				add(new DefaultQLQuestion(question));
 			}
-		}
-
-		public String getName() {
-			return form.getName();
 		}
 
 		private void add(DefaultQLQuestion question) {
@@ -164,7 +152,7 @@ public class UISwingFactory implements UIFactory {
 		private final Question question;
 
 		private JPanel panel;
-		private UISwingComponent label;
+		private UISwingWidget label;
 		private UISwingWidget input;
 
 		public DefaultQLQuestion(Question q) {
