@@ -9,7 +9,7 @@ import org.uva.sea.ql.checker.ASTVisitor;
  * @author Olav Trauschke, 10329463
  * @version 25-feb-2016
  */
-public class Money extends Expr {
+public class Money extends NumericExpr {
     
     /**
      * Start value used to calculate hashes for objects of this class.
