@@ -3,8 +3,6 @@ package org.uva.sea.ql.type_checker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.stringtemplate.v4.compiler.STParser.ifstat_return;
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
@@ -122,7 +120,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	public Type visit(Identifier node) {
 		
 		for (IdentifierData identifierData: questionData.values())
-			if (identifierData.getId().getValue().equals(node.getValue()))
+			if (identifierData.getLabel().equals(node.getValue()))
 				return identifierData.getType();
 		
 		return new UndefinedType();
@@ -201,7 +199,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 			System.out.println("Duplicate label found!");
 		else {
 			//System.out.println("Pass");
-			insertAtHashMap(computedQuestion.getLabel(),computedQuestion.getId(),computedQuestion.getType());
+			insertAtHashMap(computedQuestion.getId().getValue(),computedQuestion.getLabel(),computedQuestion.getType());
 		}
 	}
 
@@ -211,19 +209,20 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 			System.out.println("Duplicate label found!");
 		else {
 			//System.out.println("Pass");
-			insertAtHashMap(question.getLabel(),question.getId(),question.getType());
+			insertAtHashMap(question.getId().getValue(),question.getLabel(),question.getType());
 		}
 	}
 
 	private boolean labelIsDuplicate(Question question) {
-		if (questionData.containsKey(question.getLabel()))
+		for(IdentifierData identifierData: questionData.values())
+		if (identifierData.getLabel().equals(question.getLabel()))
 			return true;
 
 		return false;
 	}
 	
-	private void insertAtHashMap(String label,Identifier id,Type type) {
-		this.questionData.put(label, new IdentifierData(type, id));
+	private void insertAtHashMap(String id,String label,Type type) {
+		this.questionData.put(id, new IdentifierData(type,label));
 	}
 
 	@Override
@@ -241,7 +240,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		if (type.getTypeName().equals("boolean"))
 			return true;
 		
-		return false;
+		return false;	// give info about the type
 	}
 
 	
