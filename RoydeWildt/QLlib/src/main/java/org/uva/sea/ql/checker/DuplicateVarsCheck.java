@@ -14,16 +14,16 @@ import java.util.Map;
 /**
  * Created by roydewildt on 11/02/16.
  */
-public class DuplicateVarsCheck extends BaseVisitor<Void,Void> {
+public class DuplicateVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void> {
 
     private final Map<Var, List<Node>> duplicates = new HashMap<>();
 
     public DuplicateVarsCheck(Form f) {
-        f.accept(this,null);
+        f.accept(this);
     }
 
     @Override
-    public Void visit(Question stat, Void context) {
+    public Void visit(Question stat) {
 
         Var key = stat.getVarname();
         if(duplicates.containsKey(key))

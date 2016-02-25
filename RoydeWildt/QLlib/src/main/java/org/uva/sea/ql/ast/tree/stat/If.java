@@ -1,7 +1,7 @@
 package org.uva.sea.ql.ast.tree.stat;
 
-import org.uva.sea.ql.ast.visitor.Visitor;
 import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.visitor.interfaces.IStatVisitor;
 
 import java.util.List;
 
@@ -19,10 +19,6 @@ public class If extends Stat{
         this.stms = stms;
     }
 
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -31,6 +27,11 @@ public class If extends Stat{
         sb.append(stms.toString());
         sb.append(")");
         return sb.toString();
+    }
+
+    @Override
+    public <S> S accept(IStatVisitor<S> visitor) {
+        return visitor.visit(this);
     }
 
     public Expr getCond() {

@@ -1,15 +1,16 @@
 package org.uva.sea.ql.ast.tree.form;
 
 import org.uva.sea.ql.ast.tree.Node;
-import org.uva.sea.ql.ast.visitor.Visitor;
 import org.uva.sea.ql.ast.tree.stat.Stat;
+import org.uva.sea.ql.ast.visitor.interfaces.IFormVisitable;
+import org.uva.sea.ql.ast.visitor.interfaces.IFormVisitor;
 
 import java.util.List;
 
 /**
  * Created by roydewildt on 04/02/16.
  */
-public class Form extends Node {
+public class Form extends Node implements IFormVisitable {
     private String id;
     private List<Stat> stms;
 
@@ -19,8 +20,12 @@ public class Form extends Node {
         this.stms = stms;
     }
 
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
+    public List<Stat> getStms(){
+        return stms;
+    }
+
+    public String getId(){
+        return id;
     }
 
     @Override
@@ -34,12 +39,8 @@ public class Form extends Node {
 
     }
 
-    public List<Stat> getStms(){
-        return stms;
+    @Override
+    public <F> F accept(IFormVisitor<F> visitor) {
+        return visitor.visit(this);
     }
-
-    public String getId(){
-        return id;
-    }
-
 }

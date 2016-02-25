@@ -1,7 +1,7 @@
 package org.uva.sea.ql.ast.tree.expr.unary;
 
 import org.uva.sea.ql.ast.tree.val.Val;
-import org.uva.sea.ql.ast.visitor.Visitor;
+import org.uva.sea.ql.ast.visitor.interfaces.IExprVisitor;
 
 /**
  * Created by roy on 12-2-16.
@@ -20,6 +20,10 @@ public class Primary extends UnaryExpr {
         this.value = value;
     }
 
+    public Val getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return value.toString();
@@ -30,11 +34,8 @@ public class Primary extends UnaryExpr {
         return "";
     }
 
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
-    }
-
-    public Val getValue() {
-        return value;
+    @Override
+    public <E> E accept(IExprVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 }

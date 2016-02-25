@@ -11,32 +11,35 @@ import java.util.*;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class CyclicQuestionsCheck extends BaseVisitor<Void,Var> {
-    private Node root;
+public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void> {
+    private Var current;
     private final Map<Node,List<Node>> references = new HashMap<>();
 
     public CyclicQuestionsCheck(Form f) {
-        f.accept(this,null);
+        f.accept(this);
     }
 
     @Override
-    public Void visit(Question stat, Var env) {
-        if(root == null)
-            root = stat.getVarname();
+    public Void visit(Question stat) {
+        // TODO do not use temp var (bad code smell here)
+        current = stat.getVarname();
 
         if(!references.containsKey(stat.getVarname()))
             references.put(stat.getVarname(),new ArrayList<>());
-        stat.getExpr().accept(this,stat.getVarname());
+        stat.getExpr().accept(this);
+
+        current = null;
+
         return null;
     }
 
     @Override
-    public Void visit(Var var, Var env) {
+    public Void visit(Var var) {
 
-        if(references.get(env) != null){
-            List<Node> l  = references.get(env);
+        if(references.get(current) != null){
+            List<Node> l  = references.get(current);
             l.add(var);
-            references.put(env,l);
+            references.put(current,l);
         }
 
         return null;

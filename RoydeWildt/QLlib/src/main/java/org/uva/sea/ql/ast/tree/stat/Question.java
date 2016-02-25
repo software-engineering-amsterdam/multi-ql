@@ -3,8 +3,8 @@ package org.uva.sea.ql.ast.tree.stat;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.type.Type;
-import org.uva.sea.ql.ast.visitor.Visitor;
 import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.ast.visitor.interfaces.IStatVisitor;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -31,22 +31,6 @@ public class Question extends Stat {
         this.expr = expr;
     }
 
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Question(");
-        sb.append(this.getLabel() + ",");
-        sb.append(this.getVarname() + ",");
-        sb.append(this.getType() + ",");
-        sb.append(expr.toString());
-        sb.append(")");
-        return sb.toString();
-    }
-
     public String getLabel() {
         return label;
     }
@@ -61,5 +45,22 @@ public class Question extends Stat {
 
     public Expr getExpr() {
         return expr;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Question(");
+        sb.append(this.getLabel() + ",");
+        sb.append(this.getVarname() + ",");
+        sb.append(this.getType() + ",");
+        sb.append(expr.toString());
+        sb.append(")");
+        return sb.toString();
+    }
+
+    @Override
+    public <S> S accept(IStatVisitor<S> visitor) {
+        return visitor.visit(this);
     }
 }

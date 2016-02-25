@@ -5,49 +5,41 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.ast.visitor.Environment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by roydewildt on 18/02/16.
  */
-public class DuplicateLabelsCheck extends BaseVisitor<Void,Environment>{
+public class DuplicateLabelsCheck extends BaseVisitor<Void,Void,Void,Void,Void>{
+
+    private final Map<String, Var> questions = new HashMap<>();
     private final List<Node> duplicatelabels = new ArrayList<>();
 
     public DuplicateLabelsCheck(Form f) {
-        f.accept(this, new Environment());
+        f.accept(this);
     }
 
     @Override
-    public Void visit(Question stat, Environment env) {
-        if(labelExists(env,stat.getLabel()) && !varExists(env, stat.getVarname()))
-            duplicatelabels.add(stat);
-        env.add(stat);
-        super.visit(stat,env);
+    public Void visit(Question stat) {
+
+        if(questions.containsKey(stat.getLabel())){
+            Var v = questions.get(stat.getVarname());
+            if(v != stat.getVarname())
+                duplicatelabels.add(stat);
+        }
+        else {
+            questions.put(stat.getLabel(), stat.getVarname());
+        }
+
         return null;
     }
 
     public List<Node> getDuplicatelabels() {
         return duplicatelabels;
-    }
-
-    private boolean labelExists(Environment env, String label){
-        for (Node n : env.getEnv()){
-            String nLabel = ((Question) n).getLabel();
-            if (nLabel.equals(label))
-                return true;
-        }
-        return false;
-    }
-
-    private boolean varExists(Environment env, Var var){
-        for (Node n : env.getEnv()){
-            if (((Question) n).getVarname() == var)
-                return true;
-        }
-        return false;
     }
 
 }

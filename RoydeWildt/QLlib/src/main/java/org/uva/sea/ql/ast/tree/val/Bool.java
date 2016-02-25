@@ -1,6 +1,6 @@
 package org.uva.sea.ql.ast.tree.val;
 
-import org.uva.sea.ql.ast.visitor.Visitor;
+import org.uva.sea.ql.ast.visitor.interfaces.IValVisitor;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -18,8 +18,8 @@ public class Bool extends Val {
         this.value = Boolean.valueOf(x);
     }
 
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
+    public Boolean getValue() {
+        return value;
     }
 
     @Override
@@ -27,7 +27,8 @@ public class Bool extends Val {
         return value.toString();
     }
 
-    public Boolean getValue() {
-        return value;
+    @Override
+    public <V> V accept(IValVisitor<V> visitor) {
+        return visitor.visit(this);
     }
 }

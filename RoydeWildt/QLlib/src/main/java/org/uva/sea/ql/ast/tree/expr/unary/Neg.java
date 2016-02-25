@@ -1,7 +1,7 @@
 package org.uva.sea.ql.ast.tree.expr.unary;
 
-import org.uva.sea.ql.ast.visitor.Visitor;
 import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.visitor.interfaces.IExprVisitor;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -13,8 +13,9 @@ public class Neg extends UnaryExpr {
         super(line);
         this.value = lhs;
     }
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
+
+    public Expr getValue() {
+        return value;
     }
 
     @Override
@@ -22,7 +23,8 @@ public class Neg extends UnaryExpr {
         return "-";
     }
 
-    public Expr getValue() {
-        return value;
+    @Override
+    public <E> E accept(IExprVisitor<E> visitor) {
+        return visitor.visit(this);
     }
 }

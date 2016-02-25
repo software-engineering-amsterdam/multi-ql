@@ -14,26 +14,26 @@ import java.util.List;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class InvalidConditionsCheck extends TypeVisitor {
+public class InvalidConditionsCheck extends TypeVisitor<Void,Void,Void> {
     private final List<Node> invalidConditions;
 
     public InvalidConditionsCheck(Form f) {
         this.invalidConditions = new ArrayList<>();
-        f.accept(this,null);
+        f.accept(this);
 
     }
 
     @Override
-    public ValueType visit(IfElse stat, Void env) {
-        ValueType exprType = stat.getCond().accept(this, env);
+    public Void visit(IfElse stat) {
+        ValueType exprType = stat.getCond().accept(this);
         if(exprType == null || !exprType.equals(new BooleanType()))
             invalidConditions.add(stat.getCond());
         return null;
     }
 
     @Override
-    public ValueType visit(If stat, Void env) {
-        ValueType exprType = stat.getCond().accept(this, env);
+    public Void visit(If stat) {
+        ValueType exprType = stat.getCond().accept(this);
         if(exprType == null || !exprType.equals(new BooleanType()))
             invalidConditions.add(stat.getCond());
         return null;

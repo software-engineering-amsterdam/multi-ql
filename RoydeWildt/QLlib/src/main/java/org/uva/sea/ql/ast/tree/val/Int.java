@@ -1,7 +1,6 @@
 package org.uva.sea.ql.ast.tree.val;
 
-import org.uva.sea.ql.ast.tree.type.Type;
-import org.uva.sea.ql.ast.visitor.Visitor;
+import org.uva.sea.ql.ast.visitor.interfaces.IValVisitor;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -18,8 +17,8 @@ public class Int extends Val {
         this.value = Integer.valueOf(x);
     }
 
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
+    public Integer getValue() {
+        return value;
     }
 
     @Override
@@ -27,8 +26,8 @@ public class Int extends Val {
         return value.toString();
     }
 
-    public Integer getValue() {
-        return value;
+    @Override
+    public <V> V accept(IValVisitor<V> visitor) {
+        return visitor.visit(this);
     }
-
 }

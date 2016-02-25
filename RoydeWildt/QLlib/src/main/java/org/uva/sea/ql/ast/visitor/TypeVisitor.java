@@ -23,38 +23,38 @@ import java.util.Map;
 //TODO: Replace void with environment and remove global decls var
 
 
-public class TypeVisitor extends BaseVisitor<ValueType,Void> {
+public class TypeVisitor<F,S,T> extends BaseVisitor<F,S,ValueType,T,ValueType> {
     private final Map<Node,Node> decls = new HashMap<>();
 
     @Override
-    public ValueType visit(Question stat, Void env) {
+    public S visit(Question stat) {
         decls.put(stat.getVarname(), stat);
         return null;
     }
 
     @Override
-    public ValueType visit(Add expr, Void env) {
+    public ValueType visit(Add expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new MoneyType();
     }
 
     @Override
-    public ValueType visit(And expr, Void env) {
+    public ValueType visit(And expr) {
         if(incompatibleTypes(expr, new BooleanType()))
             return null;
         return new BooleanType();
     }
 
     @Override
-    public ValueType visit(Div expr, Void env) {
+    public ValueType visit(Div expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new MoneyType();
     }
 
     @Override
-    public ValueType visit(Eq expr, Void env) {
+    public ValueType visit(Eq expr) {
         if(!incompatibleTypes(expr, new BooleanType()) ||
                 !incompatibleTypes(expr, new MoneyType())){
             return new BooleanType();
@@ -63,42 +63,42 @@ public class TypeVisitor extends BaseVisitor<ValueType,Void> {
     }
 
     @Override
-    public ValueType visit(GEq expr, Void env) {
+    public ValueType visit(GEq expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new BooleanType();
     }
 
     @Override
-    public ValueType visit(GT expr, Void env) {
+    public ValueType visit(GT expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new BooleanType();
     }
 
     @Override
-    public ValueType visit(LEq expr, Void env) {
+    public ValueType visit(LEq expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new BooleanType();
     }
 
     @Override
-    public ValueType visit(LT expr, Void env) {
+    public ValueType visit(LT expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new BooleanType();
     }
 
     @Override
-    public ValueType visit(Mul expr, Void env) {
+    public ValueType visit(Mul expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new MoneyType();
     }
 
     @Override
-    public ValueType visit(NEq expr, Void env) {
+    public ValueType visit(NEq expr) {
         if(!incompatibleTypes(expr, new BooleanType()) ||
                 !incompatibleTypes(expr, new MoneyType())){
             return new BooleanType();
@@ -108,47 +108,47 @@ public class TypeVisitor extends BaseVisitor<ValueType,Void> {
     }
 
     @Override
-    public ValueType visit(Or expr, Void env) {
+    public ValueType visit(Or expr) {
         if(incompatibleTypes(expr, new BooleanType()))
             return null;
         return new BooleanType();
     }
 
     @Override
-    public ValueType visit(Sub expr, Void env) {
+    public ValueType visit(Sub expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new MoneyType();
     }
 
     @Override
-    public ValueType visit(Neg expr, Void env) {
+    public ValueType visit(Neg expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new MoneyType();
     }
 
     @Override
-    public ValueType visit(Not expr, Void env) {
+    public ValueType visit(Not expr) {
         if(incompatibleTypes(expr, new BooleanType()))
             return null;
         return new BooleanType();
     }
 
     @Override
-    public ValueType visit(Pos expr, Void env) {
+    public ValueType visit(Pos expr) {
         if(incompatibleTypes(expr, new MoneyType()))
             return null;
         return new MoneyType();
     }
 
     @Override
-    public ValueType visit(Primary expr, Void env) {
-        return expr.getValue().accept(this,null);
+    public ValueType visit(Primary expr) {
+        return expr.getValue().accept(this);
     }
 
     @Override
-    public ValueType visit(Var var, Void env) {
+    public ValueType visit(Var var) {
         if (decls.containsKey(var)){
 
             Question q = (Question) decls.get(var);
@@ -161,18 +161,18 @@ public class TypeVisitor extends BaseVisitor<ValueType,Void> {
     }
 
     @Override
-    public ValueType visit(Int val, Void env) {
+    public ValueType visit(Int val) {
         return new MoneyType();
     }
 
     @Override
-    public ValueType visit(Bool val, Void env) {
+    public ValueType visit(Bool val) {
         return new BooleanType();
     }
 
     private boolean incompatibleTypes(BinaryExpr expr, ValueType type){
-        ValueType vlhs = expr.getLhs().accept(this,null);
-        ValueType vrhs = expr.getRhs().accept(this,null);
+        ValueType vlhs = expr.getLhs().accept(this);
+        ValueType vrhs = expr.getRhs().accept(this);
 
         if(vlhs == null ||
                 vrhs == null ||
@@ -185,7 +185,7 @@ public class TypeVisitor extends BaseVisitor<ValueType,Void> {
 
     private boolean incompatibleTypes(UnaryExpr expr, ValueType type){
         Expr e = expr.getValue();
-        ValueType v = e.accept(this,null);
+        ValueType v = e.accept(this);
         if(v == null ||
                 !v.equals(type))
             return true;

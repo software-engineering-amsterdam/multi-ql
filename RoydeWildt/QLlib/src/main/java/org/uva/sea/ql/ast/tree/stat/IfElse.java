@@ -1,7 +1,7 @@
 package org.uva.sea.ql.ast.tree.stat;
 
-import org.uva.sea.ql.ast.visitor.Visitor;
 import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.visitor.interfaces.IStatVisitor;
 
 import java.util.List;
 
@@ -21,8 +21,16 @@ public class IfElse extends Stat{
         this.elseStms = elseStms;
     }
 
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
+    public Expr getCond() {
+        return cond;
+    }
+
+    public List<Stat> getIfStms() {
+        return ifStms;
+    }
+
+    public List<Stat> getElseStms() {
+        return elseStms;
     }
 
     @Override
@@ -36,15 +44,8 @@ public class IfElse extends Stat{
         return sb.toString();
     }
 
-    public Expr getCond() {
-        return cond;
-    }
-
-    public List<Stat> getIfStms() {
-        return ifStms;
-    }
-
-    public List<Stat> getElseStms() {
-        return elseStms;
+    @Override
+    public <S> S accept(IStatVisitor<S> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -1,7 +1,6 @@
 package org.uva.sea.ql.ast.tree.expr.unary;
 
 import org.uva.sea.ql.ast.tree.expr.Expr;
-import org.uva.sea.ql.ast.visitor.Visitor;
 
 /**
  * Created by roydewildt on 10/02/16.

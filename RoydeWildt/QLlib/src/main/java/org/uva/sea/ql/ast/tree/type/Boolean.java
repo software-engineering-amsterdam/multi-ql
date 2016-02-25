@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Val;
 import org.uva.sea.ql.ast.type.BooleanType;
 import org.uva.sea.ql.ast.type.ValueType;
-import org.uva.sea.ql.ast.visitor.Visitor;
+import org.uva.sea.ql.ast.visitor.interfaces.ITypeVisitor;
 
 /**
  * Created by roydewildt on 11/02/16.
@@ -21,7 +21,8 @@ public class Boolean extends Type {
         super(line);
     }
 
-    public <T,U> T accept(Visitor<T,U> visitor, U context) {
-        return visitor.visit(this, context);
+    @Override
+    public <T> T accept(ITypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

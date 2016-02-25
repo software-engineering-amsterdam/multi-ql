@@ -1,12 +1,9 @@
 package org.uva.sea.ql.ast.tree;
 
-import org.uva.sea.ql.ast.visitor.Visitable;
-import org.uva.sea.ql.ast.visitor.Visitor;
-
 /**
  * Created by roy on 5-2-16.
  */
-public abstract class Node implements Visitable{
+public abstract class Node{
     private int line;
 
     public Node(int line){this.line = line;}
