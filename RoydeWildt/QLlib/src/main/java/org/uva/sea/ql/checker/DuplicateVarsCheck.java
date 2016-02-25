@@ -22,6 +22,7 @@ public class DuplicateVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void> {
         f.accept(this);
     }
 
+
     @Override
     public Void visit(Question stat) {
 

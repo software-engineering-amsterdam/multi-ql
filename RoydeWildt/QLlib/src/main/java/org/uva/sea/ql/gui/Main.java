@@ -32,9 +32,8 @@ public class Main extends Application {
     public void initPreview() {
         Stage previewStage = new Stage();
 
-        Form f = parseFromPath("src/test/resources/gui1.ql");
-        List<Question> questions = (new EvalVisitor(f)).getQuestions();
-        Parent uiElements = (new GuiBuilder(f.getId(),questions)).getFormUI();
+        Form f = parseFromPath("src/test/resources/gui3.ql");
+        Parent uiElements = (new GuiVisitor(f)).getFormUI();
 
         AnchorPane pane = new AnchorPane();
         pane.getChildren().add(uiElements);

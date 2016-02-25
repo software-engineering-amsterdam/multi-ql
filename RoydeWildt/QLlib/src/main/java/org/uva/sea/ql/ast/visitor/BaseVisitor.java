@@ -15,9 +15,6 @@ import org.uva.sea.ql.ast.visitor.interfaces.*;
  */
 public abstract class BaseVisitor<F,S,E,T,V> implements IFormVisitor<F>,IStatVisitor<S>,IExprVisitor<E>,ITypeVisitor<T>,IValVisitor<V> {
 
-    public BaseVisitor(){
-    }
-
     @Override
     public F visit(Form form) {
 

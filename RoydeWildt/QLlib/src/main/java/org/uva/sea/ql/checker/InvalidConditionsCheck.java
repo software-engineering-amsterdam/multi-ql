@@ -15,13 +15,12 @@ import java.util.List;
  * Created by roydewildt on 17/02/16.
  */
 public class InvalidConditionsCheck extends TypeVisitor<Void,Void,Void> {
-    private final List<Node> invalidConditions;
+    private final List<Node> invalidConditions = new ArrayList<>();
 
     public InvalidConditionsCheck(Form f) {
-        this.invalidConditions = new ArrayList<>();
         f.accept(this);
-
     }
+
 
     @Override
     public Void visit(IfElse stat) {

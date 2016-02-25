@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.visitor;
 
+import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.Neg;
 import org.uva.sea.ql.ast.tree.expr.unary.Not;
@@ -21,32 +22,19 @@ import java.util.Map;
  * Created by roydewildt on 22/02/16.
  */
 public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object> {
-    
-    List<Question> questions;
-    Map<Var,Object> decls;
+
+    private Map<Var,Expr>  decls;
 
     public EvalVisitor(Form f) {
-
-        questions = new ArrayList<>();
-        decls = new HashMap<>();
-
-        f.accept(this);
+        DeclVisitor dv = new DeclVisitor();
+        f.accept(dv);
+        this.decls = dv.getDecls();
     }
 
     @Override
     public F visit(Form form) {
-        super.visit(form);
         return null;
     }
-
-    @Override
-    public S visit(Question stat) {
-        questions.add(stat);
-        decls.put(stat.getVarname(), stat.getExpr().accept(this));
-        super.visit(stat);
-        return null;
-    }
-
 
     @Override
     public S visit(If stat) {
@@ -178,9 +166,9 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object> {
     }
 
     @Override
-    public Object visit(Var var) {
-        Object val = decls.get(var);
-        return val;
+    public Object visit(Var val) {
+        Expr expr = decls.get(val);
+        return expr.accept(this);
     }
 
     @Override
@@ -193,7 +181,4 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object> {
         return val.getValue();
     }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
 }

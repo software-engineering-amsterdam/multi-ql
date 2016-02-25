@@ -17,11 +17,10 @@ public class UndefinedVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void> {
     private final List<Node> undefined = new ArrayList<>();
     private final List<Node> decls = new ArrayList<>();
 
-
     public UndefinedVarsCheck(Form f) {
-
         f.accept(this);
     }
+
 
     @Override
     public Void visit(Var var) {

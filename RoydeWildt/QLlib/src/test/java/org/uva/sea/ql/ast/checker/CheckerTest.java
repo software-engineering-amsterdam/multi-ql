@@ -1,12 +1,14 @@
 package org.uva.sea.ql.ast.checker;
 
+import javafx.scene.Parent;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.*;
 import org.uva.sea.ql.checker.Checker;
 import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.gui.GuiVisitor;
 import org.uva.sea.ql.parser.QLRunner;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +113,21 @@ public class CheckerTest {
         compareMessages(messages,checkList);
     }
 
+    /*
+    @Test public void GuiTest1(){
+
+        List<String> checkList = new ArrayList<>();
+        checkList.add("Q1");
+        checkList.add("Q2");
+        checkList.add("Q3");
+
+        Form f = parseFromPath("src/test/resources/gui3.ql");
+        Parent uiElements = (new GuiVisitor(f)).getFormUI();
+
+        compareMessages(new ArrayList<>(),checkList);
+    }
+    */
+
     private void compareMessages(List<Message> messages, List<String> checkList){
 
         List<String> testList = new ArrayList<>();
@@ -128,6 +145,4 @@ public class CheckerTest {
             return null;
         }
     }
-
-
 }
