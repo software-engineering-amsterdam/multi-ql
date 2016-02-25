@@ -6,8 +6,7 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.uva.ql.ast.check.SemanticAnalyser;
-import org.uva.ql.ast.check.SemanticAnalyser.Result;
+import org.uva.ql.QLSemanticAnalyser.Result;
 import org.uva.ql.ast.form.Questionnaire;
 
 public class SemanticAnalyserTest {
@@ -23,7 +22,7 @@ public class SemanticAnalyserTest {
 
 		questionnaire = Questionnaire.create(is);
 
-		result = new SemanticAnalyser().validateQuestions(questionnaire);
+		result = new QLSemanticAnalyser().validateQuestions(questionnaire);
 
 		assertNumberOfWarnings(result, 3);
 		assertNumberOfErrors(result, 1);
@@ -40,7 +39,7 @@ public class SemanticAnalyserTest {
 
 		questionnaire = Questionnaire.create(is);
 
-		result = new SemanticAnalyser().validateQuestions(questionnaire);
+		result = new QLSemanticAnalyser().validateQuestions(questionnaire);
 
 		assertNumberOfWarnings(result, 4);
 		assertNumberOfErrors(result, 2);
@@ -57,7 +56,7 @@ public class SemanticAnalyserTest {
 
 		questionnaire = Questionnaire.create(is);
 
-		result = new SemanticAnalyser().validateCyclicReferences(questionnaire);
+		result = new QLSemanticAnalyser().validateCyclicReferences(questionnaire);
 		assertNumberOfErrors(result, 6);
 	}
 

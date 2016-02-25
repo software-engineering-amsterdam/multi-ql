@@ -21,15 +21,15 @@ import org.uva.ql.ast.expr.Sub;
 import org.uva.ql.ast.expr.UnaryExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.Block;
-import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
-import org.uva.ql.ast.form.InputQuestion;
-import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
+import org.uva.ql.ast.stat.ComputedQuestion;
 import org.uva.ql.ast.stat.IFStat;
+import org.uva.ql.ast.stat.InputQuestion;
+import org.uva.ql.ast.stat.Question;
 
 public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 

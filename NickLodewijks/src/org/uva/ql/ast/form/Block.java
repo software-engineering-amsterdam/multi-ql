@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.stat.IFStat;
+import org.uva.ql.ast.stat.Question;
 
 public class Block extends ASTNode {
 

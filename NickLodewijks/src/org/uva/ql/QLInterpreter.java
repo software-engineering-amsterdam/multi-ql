@@ -1,5 +1,6 @@
-package org.uva.ql.ast;
+package org.uva.ql;
 
+import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.Context;
@@ -19,14 +20,14 @@ import org.uva.ql.ast.expr.Pos;
 import org.uva.ql.ast.expr.Sub;
 import org.uva.ql.ast.expr.VariableExpr;
 
-public class QLExpressionInterpreter extends ASTNodeVisitorAdapter<Object, Context> {
+public class QLInterpreter extends ASTNodeVisitorAdapter<Object, Context> {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T interpret(Expr expr, Context context) {
-		return (T) expr.accept(new QLExpressionInterpreter(), context);
+		return (T) expr.accept(new QLInterpreter(), context);
 	}
 
-	private QLExpressionInterpreter() {
+	private QLInterpreter() {
 
 	}
 

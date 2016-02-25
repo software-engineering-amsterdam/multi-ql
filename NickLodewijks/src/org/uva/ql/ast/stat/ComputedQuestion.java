@@ -1,4 +1,4 @@
-package org.uva.ql.ast.form;
+package org.uva.ql.ast.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;

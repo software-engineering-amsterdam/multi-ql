@@ -23,9 +23,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import org.uva.ql.QLInterpreter;
 import org.uva.ql.ast.BooleanType;
 import org.uva.ql.ast.IntegerType;
-import org.uva.ql.ast.QLExpressionInterpreter;
 import org.uva.ql.ast.StringType;
 import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
@@ -275,7 +275,7 @@ public class SwingUIFactory implements UIFactory {
 
 		@Override
 		public void contextChanged(Context context) {
-			setValue(QLExpressionInterpreter.interpret(expr, context));
+			setValue(QLInterpreter.interpret(expr, context));
 		}
 
 		@Override

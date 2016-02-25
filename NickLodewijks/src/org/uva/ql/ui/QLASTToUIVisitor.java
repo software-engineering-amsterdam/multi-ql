@@ -5,12 +5,12 @@ import java.util.LinkedList;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.form.Block;
-import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
-import org.uva.ql.ast.form.InputQuestion;
-import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
+import org.uva.ql.ast.stat.ComputedQuestion;
 import org.uva.ql.ast.stat.IFStat;
+import org.uva.ql.ast.stat.InputQuestion;
+import org.uva.ql.ast.stat.Question;
 import org.uva.ql.domain.QLForm;
 import org.uva.ql.domain.QLQuestion;
 import org.uva.ql.domain.QLQuestionCondition;

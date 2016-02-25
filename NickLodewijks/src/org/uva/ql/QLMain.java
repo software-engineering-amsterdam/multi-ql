@@ -3,7 +3,6 @@ package org.uva.ql;
 import java.io.File;
 import java.io.IOException;
 
-import org.uva.ql.ast.check.SemanticAnalyser;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.domain.QLQuestionaire;
 import org.uva.ql.ui.QLASTToUIVisitor;
@@ -20,7 +19,7 @@ public class QLMain {
 		inputFile = new File(args[0]);
 		questionnaire = Questionnaire.create(inputFile);
 
-		new SemanticAnalyser().validateTypes(questionnaire);
+		new QLSemanticAnalyser().validateTypes(questionnaire);
 
 		qlQuestionnaire = QLASTToUIVisitor.create(questionnaire);
 

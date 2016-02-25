@@ -1,6 +1,6 @@
 package org.uva.ql.domain;
 
-import org.uva.ql.ast.QLExpressionInterpreter;
+import org.uva.ql.QLInterpreter;
 import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Expr;
 
@@ -13,6 +13,6 @@ public class QLQuestionCondition {
 	}
 
 	public boolean evaluate(Context context) {
-		return QLExpressionInterpreter.interpret(condition, context);
+		return QLInterpreter.interpret(condition, context);
 	}
 }

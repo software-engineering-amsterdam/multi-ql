@@ -1,4 +1,4 @@
-package org.uva.ql.ast.check;
+package org.uva.ql;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,18 +32,18 @@ import org.uva.ql.ast.expr.Or;
 import org.uva.ql.ast.expr.Sub;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.Block;
-import org.uva.ql.ast.form.ComputedQuestion;
 import org.uva.ql.ast.form.Form;
-import org.uva.ql.ast.form.Question;
 import org.uva.ql.ast.form.Questionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
+import org.uva.ql.ast.stat.ComputedQuestion;
 import org.uva.ql.ast.stat.IFStat;
+import org.uva.ql.ast.stat.Question;
 
-public class SemanticAnalyser {
+public class QLSemanticAnalyser {
 
-	public SemanticAnalyser() {
+	public QLSemanticAnalyser() {
 
 	}
 
@@ -719,14 +719,14 @@ public class SemanticAnalyser {
 
 	public static void main(String[] args) throws IOException {
 		Questionnaire questionnaire;
-		SemanticAnalyser sa;
+		QLSemanticAnalyser sa;
 		File inputFile;
 
 		// inputFile = new File("resources/Questionaire.ql");
 		inputFile = new File("test/resources/org/uva/ql/CyclicReferences.ql");
 		questionnaire = Questionnaire.create(inputFile);
 
-		sa = new SemanticAnalyser();
+		sa = new QLSemanticAnalyser();
 
 		sa.validateTypes(questionnaire).print();
 		sa.validateQuestions(questionnaire).print();

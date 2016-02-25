@@ -7,8 +7,8 @@ import java.util.List;
 import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.form.ComputedQuestion;
-import org.uva.ql.ast.form.InputQuestion;
+import org.uva.ql.ast.stat.ComputedQuestion;
+import org.uva.ql.ast.stat.InputQuestion;
 
 public class QLQuestion {
 
