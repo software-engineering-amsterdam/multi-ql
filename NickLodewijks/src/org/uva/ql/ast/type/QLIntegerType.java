@@ -3,13 +3,13 @@ package org.uva.ql.ast.type;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 
-public final class StringType extends VariableType {
+public final class QLIntegerType extends QLType {
 
-	public StringType() {
+	public QLIntegerType() {
 		super(null);
 	}
 
-	public StringType(ParserRuleContext context) {
+	public QLIntegerType(ParserRuleContext context) {
 		super(context);
 	}
 
@@ -20,7 +20,7 @@ public final class StringType extends VariableType {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof StringType;
+		return obj instanceof QLIntegerType;
 	}
 
 	@Override

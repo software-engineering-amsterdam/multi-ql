@@ -17,16 +17,16 @@ import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.parser.QLLexer;
 import org.uva.ql.parser.QLParser;
 
-public class Questionnaire extends ASTNode {
+public class QLQuestionnaire extends ASTNode {
 
-	private final List<Form> forms;
+	private final List<QLForm> forms;
 
-	public Questionnaire(ParserRuleContext context, List<Form> forms) {
+	public QLQuestionnaire(ParserRuleContext context, List<QLForm> forms) {
 		super(context);
 		this.forms = forms;
 	}
 
-	public List<Form> getForms() {
+	public List<QLForm> getForms() {
 		return Collections.unmodifiableList(forms);
 	}
 
@@ -35,15 +35,15 @@ public class Questionnaire extends ASTNode {
 		return visitor.visit(this, context);
 	}
 
-	public static Questionnaire create(InputStream is) throws IOException {
-		return Questionnaire.create(new ANTLRInputStream(is));
+	public static QLQuestionnaire create(InputStream is) throws IOException {
+		return QLQuestionnaire.create(new ANTLRInputStream(is));
 	}
 
-	public static Questionnaire create(File file) throws IOException {
-		return Questionnaire.create(new ANTLRFileStream(file.getAbsolutePath()));
+	public static QLQuestionnaire create(File file) throws IOException {
+		return QLQuestionnaire.create(new ANTLRFileStream(file.getAbsolutePath()));
 	}
 
-	private static Questionnaire create(CharStream cs) throws IOException {
+	private static QLQuestionnaire create(CharStream cs) throws IOException {
 		TokenStream tokenStream;
 		QLParser parser;
 

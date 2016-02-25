@@ -1,16 +1,16 @@
-package org.uva.ql.ast.expr;
+package org.uva.ql;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Context {
+public class QLInterpreterContext {
 
 	private Map<String, Object> valueMap;
 	private List<ContextListener> contextListeners;
 
-	public Context() {
+	public QLInterpreterContext() {
 		valueMap = new HashMap<String, Object>();
 		contextListeners = new ArrayList<ContextListener>();
 	}
@@ -34,7 +34,7 @@ public class Context {
 	@FunctionalInterface
 	public static interface ContextListener {
 
-		public void contextChanged(Context context);
+		public void contextChanged(QLInterpreterContext context);
 	}
 
 	public void removeContextListener(ContextListener listener) {

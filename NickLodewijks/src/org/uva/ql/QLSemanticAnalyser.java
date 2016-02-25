@@ -19,26 +19,23 @@ import org.uva.ql.ast.expr.math.Div;
 import org.uva.ql.ast.expr.math.Mul;
 import org.uva.ql.ast.expr.math.Sub;
 import org.uva.ql.ast.expr.rel.And;
-import org.uva.ql.ast.expr.rel.Eq;
-import org.uva.ql.ast.expr.rel.GEq;
-import org.uva.ql.ast.expr.rel.GT;
-import org.uva.ql.ast.expr.rel.LEq;
-import org.uva.ql.ast.expr.rel.LT;
-import org.uva.ql.ast.expr.rel.NEq;
+import org.uva.ql.ast.expr.rel.Equals;
+import org.uva.ql.ast.expr.rel.EqualsNot;
+import org.uva.ql.ast.expr.rel.GreaterThan;
+import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
+import org.uva.ql.ast.expr.rel.LessThan;
+import org.uva.ql.ast.expr.rel.LessThanOrEquals;
 import org.uva.ql.ast.expr.rel.Or;
-import org.uva.ql.ast.form.Block;
-import org.uva.ql.ast.form.Form;
-import org.uva.ql.ast.form.Questionnaire;
+import org.uva.ql.ast.form.QLBlock;
+import org.uva.ql.ast.form.QLForm;
+import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
-import org.uva.ql.ast.stat.ComputedQuestion;
-import org.uva.ql.ast.stat.IFStat;
-import org.uva.ql.ast.stat.Question;
-import org.uva.ql.ast.type.BooleanType;
-import org.uva.ql.ast.type.IntegerType;
-import org.uva.ql.ast.type.StringType;
-import org.uva.ql.ast.type.VariableType;
+import org.uva.ql.ast.stat.QLIFStatement;
+import org.uva.ql.ast.stat.QLQuestion;
+import org.uva.ql.ast.stat.QLQuestionComputed;
+import org.uva.ql.ast.type.QLType;
 
 public class QLSemanticAnalyser {
 
@@ -58,7 +55,7 @@ public class QLSemanticAnalyser {
 	 * @param questionnaire
 	 * @return a {@link Result} containing errors and warnings.
 	 */
-	public Result validateTypes(Questionnaire questionnaire) {
+	public Result validateTypes(QLQuestionnaire questionnaire) {
 		return new TypeCheckVisitor().visit(questionnaire);
 	}
 
@@ -71,7 +68,7 @@ public class QLSemanticAnalyser {
 	 * @param questionnaire
 	 * @return a {@link Result} containing errors and warnings.
 	 */
-	public Result validateQuestions(Questionnaire questionnaire) {
+	public Result validateQuestions(QLQuestionnaire questionnaire) {
 		return new DuplicateQuestionLabelVisitor().visit(questionnaire);
 	}
 
@@ -82,18 +79,18 @@ public class QLSemanticAnalyser {
 	 * @param questionnaire
 	 * @return a {@link Result} containing errors and warnings.
 	 */
-	public Result validateCyclicReferences(Questionnaire questionnaire) {
+	public Result validateCyclicReferences(QLQuestionnaire questionnaire) {
 		return new CyclicReferenceVisitor().visit(questionnaire);
 	}
 
-	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<VariableType, SymbolTable> {
+	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<QLType, SymbolTable> {
 
 		private Result result;
 
 		public TypeCheckVisitor() {
 		}
 
-		public Result visit(Questionnaire q) {
+		public Result visit(QLQuestionnaire q) {
 			result = new Result();
 
 			q.accept(this, new SymbolTable());
@@ -102,8 +99,8 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public VariableType visit(Questionnaire node, SymbolTable st) {
-			for (Form form : node.getForms()) {
+		public QLType visit(QLQuestionnaire node, SymbolTable st) {
+			for (QLForm form : node.getForms()) {
 				form.accept(this, st);
 			}
 
@@ -111,24 +108,24 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public VariableType visit(Form node, SymbolTable st) {
+		public QLType visit(QLForm node, SymbolTable st) {
 			// The body of every form has its own SymbolTable
 			node.getBody().accept(this, new SymbolTable());
 			return null;
 		}
 
 		@Override
-		public VariableType visit(Block node, SymbolTable st) {
+		public QLType visit(QLBlock node, SymbolTable st) {
 			// Copy the SymbolTable for scoping of variables
 			st = new SymbolTable(st);
 
 			// First traverse the questions, because they
 			// declare variables that can be used in the if statements.
-			for (Question question : node.getQuestions()) {
+			for (QLQuestion question : node.getQuestions()) {
 				question.accept(this, st);
 			}
 
-			for (IFStat statement : node.getIfStatements()) {
+			for (QLIFStatement statement : node.getIfStatements()) {
 				statement.accept(this, st);
 			}
 
@@ -136,48 +133,37 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public VariableType visit(IFStat node, SymbolTable st) {
-			checkType(node.getExpr(), st, VariableType.BOOLEAN);
+		public QLType visit(QLIFStatement node, SymbolTable st) {
+			checkType(node.getExpr(), st, QLType.BOOLEAN);
 			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public VariableType visit(Question node, SymbolTable st) {
+		public QLType visit(QLQuestion node, SymbolTable st) {
 			String variableName;
-			VariableType type;
-			VariableType questionType;
+			QLType questionType;
 
 			variableName = node.getId();
 			questionType = node.getType();
 
-			if (questionType instanceof BooleanType) {
-				type = VariableType.BOOLEAN;
-			} else if (questionType instanceof IntegerType) {
-				type = VariableType.INTEGER;
-			} else if (questionType instanceof StringType) {
-				type = VariableType.STRING;
-			} else {
-				throw new IllegalStateException("Undefined question type '" + questionType.getClass() + "'");
-			}
-
 			if (st.contains(variableName)) {
 				result.addError("Duplicate question id %s", node);
 			} else {
-				st.add(variableName, type);
+				st.add(variableName, questionType);
 			}
 
-			return type;
+			return questionType;
 		}
 
 		@Override
-		public VariableType visit(LiteralExpr node, SymbolTable st) {
+		public QLType visit(LiteralExpr node, SymbolTable st) {
 			return node.getLiteral().accept(this, st);
 		}
 
 		@Override
-		public VariableType visit(VariableExpr node, SymbolTable st) {
-			VariableType type;
+		public QLType visit(VariableExpr node, SymbolTable st) {
+			QLType type;
 
 			type = st.getType(node.getVariableId());
 			if (type == null) {
@@ -189,135 +175,135 @@ public class QLSemanticAnalyser {
 
 		// Literals
 		@Override
-		public VariableType visit(BooleanLiteral node, SymbolTable st) {
-			return VariableType.BOOLEAN;
+		public QLType visit(BooleanLiteral node, SymbolTable st) {
+			return QLType.BOOLEAN;
 		}
 
 		@Override
-		public VariableType visit(IntegerLiteral node, SymbolTable st) {
-			return VariableType.INTEGER;
+		public QLType visit(IntegerLiteral node, SymbolTable st) {
+			return QLType.INTEGER;
 		}
 
 		@Override
-		public VariableType visit(StringLiteral node, SymbolTable st) {
-			return VariableType.STRING;
+		public QLType visit(StringLiteral node, SymbolTable st) {
+			return QLType.STRING;
 		}
 
 		// Arithmetic operations
 		@Override
-		public VariableType visit(Add node, SymbolTable st) {
-			checkOperands(node, st, VariableType.INTEGER);
-			return VariableType.INTEGER;
+		public QLType visit(Add node, SymbolTable st) {
+			checkOperands(node, st, QLType.INTEGER);
+			return QLType.INTEGER;
 		}
 
 		@Override
-		public VariableType visit(Div node, SymbolTable st) {
-			checkOperands(node, st, VariableType.INTEGER);
-			return VariableType.INTEGER;
+		public QLType visit(Div node, SymbolTable st) {
+			checkOperands(node, st, QLType.INTEGER);
+			return QLType.INTEGER;
 		}
 
 		@Override
-		public VariableType visit(Mul node, SymbolTable st) {
-			checkOperands(node, st, VariableType.INTEGER);
-			return VariableType.INTEGER;
+		public QLType visit(Mul node, SymbolTable st) {
+			checkOperands(node, st, QLType.INTEGER);
+			return QLType.INTEGER;
 		}
 
 		@Override
-		public VariableType visit(Sub node, SymbolTable st) {
-			checkOperands(node, st, VariableType.INTEGER);
-			return VariableType.INTEGER;
+		public QLType visit(Sub node, SymbolTable st) {
+			checkOperands(node, st, QLType.INTEGER);
+			return QLType.INTEGER;
 		}
 
 		// Equality relations
 		@Override
-		public VariableType visit(Eq node, SymbolTable st) {
+		public QLType visit(Equals node, SymbolTable st) {
 			Expr lhs;
-			VariableType lhsType;
-			VariableType rhsType;
+			QLType lhsType;
+			QLType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
 			lhsType = lhs.accept(this, st);
 			rhs = node.right();
 			rhsType = rhs.accept(this, st);
-			if (lhsType != rhsType) {
+			if (!lhsType.equals(rhsType)) {
 				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
 						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
 			}
 
-			return VariableType.BOOLEAN;
+			return QLType.BOOLEAN;
 		}
 
 		@Override
-		public VariableType visit(NEq node, SymbolTable st) {
+		public QLType visit(EqualsNot node, SymbolTable st) {
 			Expr lhs;
-			VariableType lhsType;
-			VariableType rhsType;
+			QLType lhsType;
+			QLType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
 			lhsType = lhs.accept(this, st);
 			rhs = node.right();
 			rhsType = rhs.accept(this, st);
-			if (lhsType != rhsType) {
+			if (!lhsType.equals(rhsType)) {
 				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
 						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
 			}
 
-			return VariableType.BOOLEAN;
+			return QLType.BOOLEAN;
 		}
 
 		// Number relations
 		@Override
-		public VariableType visit(GEq node, SymbolTable st) {
-			checkOperands(node, st, VariableType.INTEGER);
-			return VariableType.BOOLEAN;
+		public QLType visit(GreaterThanOrEquals node, SymbolTable st) {
+			checkOperands(node, st, QLType.INTEGER);
+			return QLType.BOOLEAN;
 		}
 
 		@Override
-		public VariableType visit(GT node, SymbolTable st) {
-			checkOperands(node, st, VariableType.INTEGER);
-			return VariableType.BOOLEAN;
+		public QLType visit(GreaterThan node, SymbolTable st) {
+			checkOperands(node, st, QLType.INTEGER);
+			return QLType.BOOLEAN;
 		}
 
 		@Override
-		public VariableType visit(LEq node, SymbolTable st) {
-			checkOperands(node, st, VariableType.INTEGER);
-			return VariableType.BOOLEAN;
+		public QLType visit(LessThanOrEquals node, SymbolTable st) {
+			checkOperands(node, st, QLType.INTEGER);
+			return QLType.BOOLEAN;
 		}
 
 		@Override
-		public VariableType visit(LT node, SymbolTable st) {
-			checkOperands(node, st, VariableType.INTEGER);
-			return VariableType.BOOLEAN;
+		public QLType visit(LessThan node, SymbolTable st) {
+			checkOperands(node, st, QLType.INTEGER);
+			return QLType.BOOLEAN;
 		}
 
 		// Boolean relations
 		@Override
-		public VariableType visit(And node, SymbolTable st) {
-			checkOperands(node, st, VariableType.BOOLEAN);
-			return VariableType.BOOLEAN;
+		public QLType visit(And node, SymbolTable st) {
+			checkOperands(node, st, QLType.BOOLEAN);
+			return QLType.BOOLEAN;
 		}
 
 		@Override
-		public VariableType visit(Or node, SymbolTable st) {
-			checkOperands(node, st, VariableType.BOOLEAN);
-			return VariableType.BOOLEAN;
+		public QLType visit(Or node, SymbolTable st) {
+			checkOperands(node, st, QLType.BOOLEAN);
+			return QLType.BOOLEAN;
 		}
 
-		private void checkOperands(BinaryExpr expr, SymbolTable st, VariableType expectedType) {
+		private void checkOperands(BinaryExpr expr, SymbolTable st, QLType expectedType) {
 			checkType(expr.left(), st, expectedType);
 			checkType(expr.right(), st, expectedType);
 		}
 
-		private void checkType(Expr expr, SymbolTable st, VariableType expectedType) {
-			VariableType actual;
+		private void checkType(Expr expr, SymbolTable st, QLType expectedType) {
+			QLType actual;
 
 			actual = expr.accept(this, st);
 
 			if (actual == null) {
 				result.addError("Unknown type for %s", expr);
-			} else if (actual != expectedType) {
+			} else if (!actual.equals(expectedType)) {
 				result.addError("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
 						expr.getSourceLocation(), expr.getSourceText(), expectedType.getName(), actual.getName());
 			}
@@ -390,7 +376,7 @@ public class QLSemanticAnalyser {
 
 		}
 
-		public Result visit(Questionnaire q) {
+		public Result visit(QLQuestionnaire q) {
 			result = new Result();
 
 			q.accept(this, new QuestionTable());
@@ -399,10 +385,10 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public Void visit(Question node, QuestionTable qt) {
+		public Void visit(QLQuestion node, QuestionTable qt) {
 			String label;
-			VariableType knownType;
-			VariableType nodeType;
+			QLType knownType;
+			QLType nodeType;
 
 			label = node.getLabel();
 			nodeType = node.getType();
@@ -422,7 +408,7 @@ public class QLSemanticAnalyser {
 
 	private static class SymbolTable {
 
-		private Map<String, VariableType> nameToType = new HashMap<>();
+		private Map<String, QLType> nameToType = new HashMap<>();
 
 		public SymbolTable() {
 			nameToType = new HashMap<>();
@@ -436,24 +422,24 @@ public class QLSemanticAnalyser {
 			return nameToType.containsKey(name);
 		}
 
-		public void add(String name, VariableType type) {
+		public void add(String name, QLType type) {
 			nameToType.put(name, type);
 		}
 
-		public VariableType getType(String name) {
+		public QLType getType(String name) {
 			return nameToType.get(name);
 		}
 	}
 
 	private static class QuestionTable {
 
-		private final Map<String, VariableType> questionLabelToType;
+		private final Map<String, QLType> questionLabelToType;
 
 		public QuestionTable() {
 			questionLabelToType = new HashMap<>();
 		}
 
-		public VariableType add(String label, VariableType type) {
+		public QLType add(String label, QLType type) {
 			return questionLabelToType.put(label, type);
 		}
 	}
@@ -674,13 +660,13 @@ public class QLSemanticAnalyser {
 
 	private static class CyclicReferenceVisitor extends ASTNodeVisitorAdapter<Void, ReferenceTable> {
 
-		private ComputedQuestion currentQuestion;
+		private QLQuestionComputed currentQuestion;
 
 		public CyclicReferenceVisitor() {
 
 		}
 
-		public Result visit(Questionnaire q) {
+		public Result visit(QLQuestionnaire q) {
 			ReferenceTable rt;
 
 			rt = new ReferenceTable();
@@ -691,7 +677,7 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public Void visit(ComputedQuestion node, ReferenceTable rt) {
+		public Void visit(QLQuestionComputed node, ReferenceTable rt) {
 			currentQuestion = node;
 
 			node.expr().accept(this, rt);
@@ -717,13 +703,14 @@ public class QLSemanticAnalyser {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Questionnaire questionnaire;
+		QLQuestionnaire questionnaire;
 		QLSemanticAnalyser sa;
 		File inputFile;
 
-		// inputFile = new File("resources/Questionaire.ql");
-		inputFile = new File("test/resources/org/uva/ql/CyclicReferences.ql");
-		questionnaire = Questionnaire.create(inputFile);
+		inputFile = new File("resources/Questionaire.ql");
+		// inputFile = new
+		// File("test/resources/org/uva/ql/CyclicReferences.ql");
+		questionnaire = QLQuestionnaire.create(inputFile);
 
 		sa = new QLSemanticAnalyser();
 

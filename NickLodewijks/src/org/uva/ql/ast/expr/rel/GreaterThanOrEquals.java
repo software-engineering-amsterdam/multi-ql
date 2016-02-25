@@ -5,9 +5,9 @@ import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
 
-public class LT extends BinaryExpr {
+public class GreaterThanOrEquals extends BinaryExpr {
 
-	public LT(ParserRuleContext context, Expr lhs, Expr rhs) {
+	public GreaterThanOrEquals(ParserRuleContext context, Expr lhs, Expr rhs) {
 		super(context, lhs, rhs);
 	}
 

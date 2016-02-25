@@ -24,39 +24,39 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import org.uva.ql.QLInterpreter;
-import org.uva.ql.ast.expr.Context;
-import org.uva.ql.ast.expr.Context.ContextListener;
-import org.uva.ql.ast.type.BooleanType;
-import org.uva.ql.ast.type.IntegerType;
-import org.uva.ql.ast.type.StringType;
-import org.uva.ql.ast.type.VariableType;
+import org.uva.ql.QLInterpreterContext;
+import org.uva.ql.QLInterpreterContext.ContextListener;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.domain.QLForm;
-import org.uva.ql.domain.QLQuestion;
-import org.uva.ql.domain.QLQuestionaire;
+import org.uva.ql.ast.type.QLBooleanType;
+import org.uva.ql.ast.type.QLIntegerType;
+import org.uva.ql.ast.type.QLStringType;
+import org.uva.ql.ast.type.QLType;
+import org.uva.ql.domain.Form;
+import org.uva.ql.domain.Question;
+import org.uva.ql.domain.Questionnaire;
 import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIQuestionnaire;
 
 public class SwingUIFactory implements UIFactory {
 
 	@Override
-	public UIQuestionnaire create(QLQuestionaire questionnaire) {
+	public UIQuestionnaire create(Questionnaire questionnaire) {
 		return new DefaultQLQuestionaire(questionnaire);
 	}
 
-	private static QLSwingWidget createWidget(QLQuestion q) {
+	private static QLSwingWidget createWidget(Question q) {
 		QLSwingWidget widget;
-		VariableType type;
+		QLType type;
 		String id;
 
 		type = q.getType();
 		id = q.getId();
 
-		if (type instanceof BooleanType) {
+		if (type instanceof QLBooleanType) {
 			widget = new DefaultBooleanWidget(id);
-		} else if (type instanceof IntegerType) {
+		} else if (type instanceof QLIntegerType) {
 			widget = new DefaultIntegerWidget(id);
-		} else if (type instanceof StringType) {
+		} else if (type instanceof QLStringType) {
 			widget = new DefaultStringWidget(id);
 		} else {
 			throw new IllegalStateException("Undefined question type '" + type + "'");
@@ -71,12 +71,12 @@ public class SwingUIFactory implements UIFactory {
 
 	public static class DefaultQLQuestionaire implements UIQuestionnaire {
 
-		private final QLQuestionaire questionnaire;
+		private final Questionnaire questionnaire;
 		private final List<DefaultQLForm> forms = new ArrayList<>();
 
 		private final JFrame jframe;
 
-		public DefaultQLQuestionaire(QLQuestionaire q) {
+		public DefaultQLQuestionaire(Questionnaire q) {
 			JScrollPane scrollPanel;
 			JPanel panel;
 			JPanel root;
@@ -87,7 +87,7 @@ public class SwingUIFactory implements UIFactory {
 
 			jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-			for (QLForm form : q.getForms()) {
+			for (Form form : q.getForms()) {
 				forms.add(new DefaultQLForm(form));
 			}
 
@@ -111,9 +111,9 @@ public class SwingUIFactory implements UIFactory {
 
 		@Override
 		public void show() {
-			Context context;
+			QLInterpreterContext context;
 
-			context = new Context();
+			context = new QLInterpreterContext();
 			for (DefaultQLForm form : forms) {
 				form.setContext(context);
 			}
@@ -124,18 +124,18 @@ public class SwingUIFactory implements UIFactory {
 
 	private static class DefaultQLForm implements QLSwingComponent {
 
-		private final QLForm form;
+		private final Form form;
 		private final List<DefaultQLQuestion> questions = new ArrayList<>();
 
 		private final JPanel panel;
 
-		public DefaultQLForm(QLForm form) {
+		public DefaultQLForm(Form form) {
 			this.form = form;
 
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
-			for (QLQuestion question : form.getQuestions()) {
+			for (Question question : form.getQuestions()) {
 				add(new DefaultQLQuestion(question));
 			}
 		}
@@ -151,7 +151,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 
 		@Override
-		public void setContext(Context context) {
+		public void setContext(QLInterpreterContext context) {
 			questions.stream().forEach(q -> q.setContext(context));
 		}
 
@@ -163,13 +163,13 @@ public class SwingUIFactory implements UIFactory {
 
 	private static class DefaultQLQuestion implements QLSwingComponent, ContextListener {
 
-		private final QLQuestion question;
+		private final Question question;
 
 		private JPanel panel;
 		private QLSwingComponent label;
 		private QLSwingWidget input;
 
-		public DefaultQLQuestion(QLQuestion q) {
+		public DefaultQLQuestion(Question q) {
 			this.question = q;
 
 			panel = new JPanel(new BorderLayout());
@@ -189,7 +189,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 
 		@Override
-		public void setContext(Context context) {
+		public void setContext(QLInterpreterContext context) {
 			if (question.isConditional()) {
 				context.addContextListener(this);
 			}
@@ -199,7 +199,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 
 		@Override
-		public void contextChanged(Context context) {
+		public void contextChanged(QLInterpreterContext context) {
 			SwingUtilities.invokeLater(() -> {
 				panel.setVisible(question.isEnabled(context));
 				SwingUtilities.windowForComponent(panel).revalidate();
@@ -217,7 +217,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 
 		@Override
-		public void setContext(Context context) {
+		public void setContext(QLInterpreterContext context) {
 			// DefaultLabelWidget does not use the context
 		}
 
@@ -267,14 +267,14 @@ public class SwingUIFactory implements UIFactory {
 		}
 
 		@Override
-		public void setContext(Context context) {
+		public void setContext(QLInterpreterContext context) {
 			widget.setContext(context);
 
 			context.addContextListener(this);
 		}
 
 		@Override
-		public void contextChanged(Context context) {
+		public void contextChanged(QLInterpreterContext context) {
 			setValue(QLInterpreter.interpret(expr, context));
 		}
 
@@ -306,7 +306,7 @@ public class SwingUIFactory implements UIFactory {
 		private final JRadioButton rbYes;
 		private final JRadioButton rbNo;
 
-		private Context context;
+		private QLInterpreterContext context;
 
 		public DefaultBooleanWidget(String variableName) {
 			ButtonGroup bg;
@@ -334,7 +334,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 
 		@Override
-		public void setContext(Context context) {
+		public void setContext(QLInterpreterContext context) {
 			this.context = context;
 
 			context.setValue(variableName, Boolean.FALSE);
@@ -405,7 +405,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 
 		@Override
-		public void setContext(Context context) {
+		public void setContext(QLInterpreterContext context) {
 
 			context.setValue(variableName, 0);
 
@@ -468,7 +468,7 @@ public class SwingUIFactory implements UIFactory {
 		}
 
 		@Override
-		public void setContext(Context context) {
+		public void setContext(QLInterpreterContext context) {
 
 			context.setValue(variableName, "");
 

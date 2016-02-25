@@ -1,7 +1,6 @@
 package org.uva.ql;
 
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
-import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.VariableExpr;
@@ -12,18 +11,18 @@ import org.uva.ql.ast.expr.math.Neg;
 import org.uva.ql.ast.expr.math.Pos;
 import org.uva.ql.ast.expr.math.Sub;
 import org.uva.ql.ast.expr.rel.And;
-import org.uva.ql.ast.expr.rel.Eq;
-import org.uva.ql.ast.expr.rel.GEq;
-import org.uva.ql.ast.expr.rel.GT;
-import org.uva.ql.ast.expr.rel.LEq;
-import org.uva.ql.ast.expr.rel.LT;
+import org.uva.ql.ast.expr.rel.Equals;
+import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
+import org.uva.ql.ast.expr.rel.GreaterThan;
+import org.uva.ql.ast.expr.rel.LessThanOrEquals;
+import org.uva.ql.ast.expr.rel.LessThan;
 import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
 
-public class QLInterpreter extends ASTNodeVisitorAdapter<Object, Context> {
+public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterContext> {
 
 	@SuppressWarnings("unchecked")
-	public static <T> T interpret(Expr expr, Context context) {
+	public static <T> T interpret(Expr expr, QLInterpreterContext context) {
 		return (T) expr.accept(new QLInterpreter(), context);
 	}
 
@@ -32,88 +31,88 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, Context> {
 	}
 
 	@Override
-	public Object visit(Expr node, Context context) {
+	public Object visit(Expr node, QLInterpreterContext context) {
 		assert false : "No interpreter implementation for expression type " + node.getClass();
 		return null;
 	}
 
 	@Override
-	public Object visit(Add node, Context context) {
+	public Object visit(Add node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) + (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(Sub node, Context context) {
+	public Object visit(Sub node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) - (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(And node, Context context) {
+	public Object visit(And node, QLInterpreterContext context) {
 		return (Boolean) node.left().accept(this, context) && (Boolean) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(Or node, Context context) {
+	public Object visit(Or node, QLInterpreterContext context) {
 		return (Boolean) node.left().accept(this, context) || (Boolean) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(Div node, Context context) {
+	public Object visit(Div node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) / (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(Mul node, Context context) {
+	public Object visit(Mul node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) * (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(Eq node, Context context) {
+	public Object visit(Equals node, QLInterpreterContext context) {
 		return node.left().accept(this, context).equals(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(GEq node, Context context) {
+	public Object visit(GreaterThanOrEquals node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) >= (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(GT node, Context context) {
+	public Object visit(GreaterThan node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) > (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(LEq node, Context context) {
+	public Object visit(LessThanOrEquals node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) <= (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(LT node, Context context) {
+	public Object visit(LessThan node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) < (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(Not node, Context context) {
+	public Object visit(Not node, QLInterpreterContext context) {
 		return !(Boolean) node.expr().accept(this, context);
 	}
 
 	@Override
-	public Object visit(Pos node, Context context) {
+	public Object visit(Pos node, QLInterpreterContext context) {
 		return Math.abs((Integer) node.expr().accept(this, context));
 	}
 
 	@Override
-	public Object visit(Neg node, Context context) {
+	public Object visit(Neg node, QLInterpreterContext context) {
 		return -Math.abs((Integer) node.expr().accept(this, context));
 	}
 
 	@Override
-	public Object visit(LiteralExpr node, Context context) {
+	public Object visit(LiteralExpr node, QLInterpreterContext context) {
 		return node.getLiteral().getValue();
 	}
 
 	@Override
-	public Object visit(VariableExpr node, Context context) {
+	public Object visit(VariableExpr node, QLInterpreterContext context) {
 		return context.getValue(node.getVariableId());
 	}
 }

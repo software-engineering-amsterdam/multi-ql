@@ -1,18 +1,18 @@
 package org.uva.ql.domain;
 
+import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.QLInterpreter;
-import org.uva.ql.ast.expr.Context;
 import org.uva.ql.ast.expr.Expr;
 
-public class QLQuestionCondition {
+public class QuestionCondition {
 
 	private final Expr condition;
 
-	public QLQuestionCondition(Expr condition) {
+	public QuestionCondition(Expr condition) {
 		this.condition = condition;
 	}
 
-	public boolean evaluate(Context context) {
+	public boolean evaluate(QLInterpreterContext context) {
 		return QLInterpreter.interpret(condition, context);
 	}
 }

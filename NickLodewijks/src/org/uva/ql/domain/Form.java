@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class QLForm {
+public class Form {
 
 	private final String name;
-	private final List<QLQuestion> questions = new ArrayList<>();
+	private final List<Question> questions = new ArrayList<>();
 
-	public QLForm(String name) {
+	public Form(String name) {
 		this.name = name;
 	}
 
@@ -17,11 +17,11 @@ public class QLForm {
 		return name;
 	}
 
-	public void addQuestion(QLQuestion question) {
+	public void addQuestion(Question question) {
 		questions.add(question);
 	}
 
-	public List<QLQuestion> getQuestions() {
+	public List<Question> getQuestions() {
 		return Collections.unmodifiableList(questions);
 	}
 }

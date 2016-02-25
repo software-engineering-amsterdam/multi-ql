@@ -4,31 +4,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.uva.ql.ast.expr.Context;
+import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.stat.ComputedQuestion;
-import org.uva.ql.ast.stat.InputQuestion;
-import org.uva.ql.ast.type.VariableType;
+import org.uva.ql.ast.stat.QLQuestionComputed;
+import org.uva.ql.ast.stat.QLQuestionInput;
+import org.uva.ql.ast.type.QLType;
 
-public class QLQuestion {
+public class Question {
 
 	private final String name;
 	private final String label;
-	private final VariableType type;
+	private final QLType type;
 
 	private final Expr valueComputation;
 
-	private final List<QLQuestionCondition> conditions = new ArrayList<>();
+	private final List<QuestionCondition> conditions = new ArrayList<>();
 
-	public QLQuestion(ComputedQuestion question) {
+	public Question(QLQuestionComputed question) {
 		this(question.getId(), question.getLabel(), question.expr(), question.getType());
 	}
 
-	public QLQuestion(InputQuestion question) {
+	public Question(QLQuestionInput question) {
 		this(question.getId(), question.getLabel(), null, question.getType());
 	}
 
-	private QLQuestion(String id, String label, Expr expr, VariableType type) {
+	private Question(String id, String label, Expr expr, QLType type) {
 		this.name = id;
 		this.label = label;
 		this.valueComputation = expr;
@@ -51,12 +51,12 @@ public class QLQuestion {
 		return valueComputation;
 	}
 
-	public VariableType getType() {
+	public QLType getType() {
 		return type;
 	}
 
-	public boolean isEnabled(Context context) {
-		for (QLQuestionCondition condition : conditions) {
+	public boolean isEnabled(QLInterpreterContext context) {
+		for (QuestionCondition condition : conditions) {
 			if (!condition.evaluate(context)) {
 				return false;
 			}
@@ -65,7 +65,7 @@ public class QLQuestion {
 		return true;
 	}
 
-	public void addCondition(QLQuestionCondition condition) {
+	public void addCondition(QuestionCondition condition) {
 		conditions.add(condition);
 	}
 
@@ -73,7 +73,7 @@ public class QLQuestion {
 		return !conditions.isEmpty();
 	}
 
-	public List<QLQuestionCondition> getConditions() {
+	public List<QuestionCondition> getConditions() {
 		return Collections.unmodifiableList(conditions);
 	}
 }

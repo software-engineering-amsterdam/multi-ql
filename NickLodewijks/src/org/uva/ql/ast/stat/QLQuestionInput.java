@@ -2,11 +2,11 @@ package org.uva.ql.ast.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.type.VariableType;
+import org.uva.ql.ast.type.QLType;
 
-public class InputQuestion extends Question {
+public class QLQuestionInput extends QLQuestion {
 
-	public InputQuestion(ParserRuleContext context, VariableType type, String id, String label) {
+	public QLQuestionInput(ParserRuleContext context, QLType type, String id, String label) {
 		super(context, type, id, label);
 	}
 

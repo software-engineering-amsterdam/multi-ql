@@ -3,13 +3,13 @@ package org.uva.ql.ast.stat;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.type.VariableType;
+import org.uva.ql.ast.type.QLType;
 
-public class ComputedQuestion extends Question {
+public class QLQuestionComputed extends QLQuestion {
 
 	private final Expr expr;
 
-	public ComputedQuestion(ParserRuleContext context, VariableType type, String id, String label, Expr expression) {
+	public QLQuestionComputed(ParserRuleContext context, QLType type, String id, String label, Expr expression) {
 		super(context, type, id, label);
 		this.expr = expression;
 	}

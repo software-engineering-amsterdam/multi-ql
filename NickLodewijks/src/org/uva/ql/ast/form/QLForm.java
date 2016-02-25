@@ -4,18 +4,18 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
 
-public class Form extends ASTNode {
+public class QLForm extends ASTNode {
 
 	private final String name;
-	private final Block body;
+	private final QLBlock body;
 
-	public Form(ParserRuleContext context, String id, Block body) {
+	public QLForm(ParserRuleContext context, String id, QLBlock body) {
 		super(context);
 		this.name = id;
 		this.body = body;
 	}
 
-	public Block getBody() {
+	public QLBlock getBody() {
 		return body;
 	}
 

@@ -4,14 +4,14 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.form.Block;
+import org.uva.ql.ast.form.QLBlock;
 
-public class IFStat extends ASTNode {
+public class QLIFStatement extends ASTNode {
 
 	private final Expr expr;
-	private final Block body;
+	private final QLBlock body;
 
-	public IFStat(ParserRuleContext context, Expr condition, Block body) {
+	public QLIFStatement(ParserRuleContext context, Expr condition, QLBlock body) {
 		super(context);
 		this.expr = condition;
 		this.body = body;
@@ -21,7 +21,7 @@ public class IFStat extends ASTNode {
 		return expr;
 	}
 
-	public Block getBody() {
+	public QLBlock getBody() {
 		return body;
 	}
 

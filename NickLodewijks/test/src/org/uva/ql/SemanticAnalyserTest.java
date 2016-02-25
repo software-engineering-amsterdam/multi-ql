@@ -7,7 +7,7 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 import org.uva.ql.QLSemanticAnalyser.Result;
-import org.uva.ql.ast.form.Questionnaire;
+import org.uva.ql.ast.form.QLQuestionnaire;
 
 public class SemanticAnalyserTest {
 
@@ -16,11 +16,11 @@ public class SemanticAnalyserTest {
 		Result result;
 		InputStream is;
 
-		Questionnaire questionnaire;
+		QLQuestionnaire questionnaire;
 
 		is = SemanticAnalyserTest.class.getResourceAsStream("DuplicateQuestions.ql");
 
-		questionnaire = Questionnaire.create(is);
+		questionnaire = QLQuestionnaire.create(is);
 
 		result = new QLSemanticAnalyser().validateQuestions(questionnaire);
 
@@ -33,11 +33,11 @@ public class SemanticAnalyserTest {
 		Result result;
 		InputStream is;
 
-		Questionnaire questionnaire;
+		QLQuestionnaire questionnaire;
 
 		is = SemanticAnalyserTest.class.getResourceAsStream("DuplicateQuestionsNested.ql");
 
-		questionnaire = Questionnaire.create(is);
+		questionnaire = QLQuestionnaire.create(is);
 
 		result = new QLSemanticAnalyser().validateQuestions(questionnaire);
 
@@ -50,11 +50,11 @@ public class SemanticAnalyserTest {
 		Result result;
 		InputStream is;
 
-		Questionnaire questionnaire;
+		QLQuestionnaire questionnaire;
 
 		is = SemanticAnalyserTest.class.getResourceAsStream("CyclicReferences.ql");
 
-		questionnaire = Questionnaire.create(is);
+		questionnaire = QLQuestionnaire.create(is);
 
 		result = new QLSemanticAnalyser().validateCyclicReferences(questionnaire);
 		assertNumberOfErrors(result, 6);

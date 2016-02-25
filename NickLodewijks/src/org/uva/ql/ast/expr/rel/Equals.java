@@ -5,9 +5,9 @@ import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
 
-public class NEq extends BinaryExpr {
+public class Equals extends BinaryExpr {
 
-	public NEq(ParserRuleContext context, Expr lhs, Expr rhs) {
+	public Equals(ParserRuleContext context, Expr lhs, Expr rhs) {
 		super(context, lhs, rhs);
 	}
 

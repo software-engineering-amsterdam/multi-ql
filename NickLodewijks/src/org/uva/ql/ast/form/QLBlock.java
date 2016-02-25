@@ -6,25 +6,25 @@ import java.util.List;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.stat.IFStat;
-import org.uva.ql.ast.stat.Question;
+import org.uva.ql.ast.stat.QLIFStatement;
+import org.uva.ql.ast.stat.QLQuestion;
 
-public class Block extends ASTNode {
+public class QLBlock extends ASTNode {
 
-	private final List<Question> questions;
-	private final List<IFStat> statements;
+	private final List<QLQuestion> questions;
+	private final List<QLIFStatement> statements;
 
-	public Block(ParserRuleContext context, List<Question> questions, List<IFStat> statements) {
+	public QLBlock(ParserRuleContext context, List<QLQuestion> questions, List<QLIFStatement> statements) {
 		super(context);
 		this.questions = questions;
 		this.statements = statements;
 	}
 
-	public List<Question> getQuestions() {
+	public List<QLQuestion> getQuestions() {
 		return Collections.unmodifiableList(questions);
 	}
 
-	public List<IFStat> getIfStatements() {
+	public List<QLIFStatement> getIfStatements() {
 		return Collections.unmodifiableList(statements);
 	}
 

@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class QLQuestionaire {
+public class Questionnaire {
 
-	private List<QLForm> forms = new ArrayList<QLForm>();
+	private List<Form> forms = new ArrayList<Form>();
 
-	public QLQuestionaire() {
+	public Questionnaire() {
 
 	}
 
-	public void addForm(QLForm form) {
+	public void addForm(Form form) {
 		forms.add(form);
 	}
 
-	public List<QLForm> getForms() {
+	public List<Form> getForms() {
 		return Collections.unmodifiableList(forms);
 	}
 }
