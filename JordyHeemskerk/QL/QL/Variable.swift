@@ -12,7 +12,15 @@ struct Variable: Literal {
     
     let identifier: String
     
+    init(identifier: String) {
+        self.identifier = identifier
+    }
+    
     func accept(visitor: ASTVisitor) {
         visitor.visit(self)
+    }
+    
+    func inferType(symbolTable: SymbolTable) -> Type {
+        return symbolTable.getVariableType(identifier) ?? ErrorType()
     }
 }

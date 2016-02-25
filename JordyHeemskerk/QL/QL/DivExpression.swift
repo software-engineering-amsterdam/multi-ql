@@ -17,4 +17,8 @@ struct DivExpression: Expression {
         visitor.visit(self)
     }
     
+    func inferType(symbolTable: SymbolTable) -> Type {
+        return lhs.inferType(symbolTable).div(rhs, symbolTable: symbolTable)
+    }
+    
 }

@@ -15,4 +15,9 @@ struct FloatLiteral: Literal {
     func accept(visitor: ASTVisitor) {
         visitor.visit(self)
     }
+    
+    func inferType(symbolTable: SymbolTable) -> Type {
+        return FloatType()
+    }
+    
 }

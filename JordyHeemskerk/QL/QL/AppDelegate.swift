@@ -23,18 +23,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let qlInput = try! String(contentsOfFile: location)
         
         let ql = QLParser.parse(qlInput)
-        guard let quesionair = ql else {
+        guard let questionair = ql else {
             print("Parse error")
             return
         }
-        let sa = ConcreteASTVisitor()
-        sa.visit(quesionair)
-        print("done")
-//        sa.visit(quesionair)
-//        guard sa.messages.count == 0 else {
-//            sa.messages.forEach({ print("Error: \($0)")})
-//            return
-//        }
+        
+        var (symbolTable, warnings, errors) = DeclarationChecker.check(questionair)
+        (symbolTable, warnings, errors) = TypeChecker.check(questionair, withSymbolTable: symbolTable, warnings: warnings, andErrors: errors)
+        
+        guard errors.count == 0 else {
+            errors.forEach {
+                print("Error: \($0)")
+            }
+            return
+        }
         
     }
     

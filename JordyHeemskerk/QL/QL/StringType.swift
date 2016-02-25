@@ -8,12 +8,12 @@
 
 import Foundation
 
-class BooleanType: Type {
+class StringType: Type {
     
-    var description: String { return "Boolean" }
+    var description: String { return "String" }
     
     func compatible(expression: Expression, symbolTable: SymbolTable) -> Bool {
-        return expression.inferType(symbolTable).compatibleWithBoolean(self)
+        return expression.inferType(symbolTable).compatibleWithString(self)
     }
     
     func compatibleWithInteger(integer: IntegerType) -> Bool {
@@ -25,11 +25,11 @@ class BooleanType: Type {
     }
     
     func compatibleWithBoolean(boolean: BooleanType) -> Bool {
-        return true
+        return false
     }
     
     func compatibleWithString(string: StringType) -> Bool{
-        return false
+        return true
     }
     
     func compatibleWithError(error: ErrorType) -> Bool {
@@ -135,5 +135,5 @@ class BooleanType: Type {
     func divError(error: ErrorType) -> Type {
         return ErrorType()
     }
-    
+
 }

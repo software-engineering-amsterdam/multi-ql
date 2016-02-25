@@ -17,4 +17,8 @@ struct LtExpression: Expression {
         visitor.visit(self)
     }
     
+    func inferType(symbolTable: SymbolTable) -> Type {
+        return ErrorType()
+    }
+    
 }

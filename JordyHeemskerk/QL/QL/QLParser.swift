@@ -65,10 +65,10 @@ struct QLParser : Parser {
     
     static let brackets = obrack >~ expr ~> cbrack
     
-    static let literal = floatLiteral | integerLiteral | booleanLiteral | variable
+    static let literal = (floatLiteral | integerLiteral | booleanLiteral | variable)
     
     static let floatLiteral = LateBound<Expression>()
-    static let floatLiteralImpl = FloatParser(strict: false) ~> skip |> FloatLiteral.init
+    static let floatLiteralImpl = FloatParser() ~> skip |> FloatLiteral.init
     
     static let integerLiteral = LateBound<Expression>()
     static let integerLiteralImpl = Integer() ~> skip |> IntegerLiteral.init

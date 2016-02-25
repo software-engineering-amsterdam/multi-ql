@@ -8,4 +8,8 @@
 
 import Foundation
 
-protocol Expression: ASTNode {}
+protocol Expression: ASTNode {
+
+    func inferType(symbolTable: SymbolTable) -> Type
+    
+}

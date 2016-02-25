@@ -17,4 +17,8 @@ struct AddExpression: Expression {
         visitor.visit(self)
     }
     
+    func inferType(symbolTable: SymbolTable) -> Type {
+        return lhs.inferType(symbolTable).add(rhs, symbolTable: symbolTable)
+    }
+    
 }

@@ -17,4 +17,8 @@ struct MulExpression: Expression {
         visitor.visit(self)
     }
     
+    func inferType(symbolTable: SymbolTable) -> Type {
+        return lhs.inferType(symbolTable).mul(rhs, symbolTable: symbolTable)
+    }
+    
 }
