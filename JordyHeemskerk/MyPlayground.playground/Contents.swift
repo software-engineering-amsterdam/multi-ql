@@ -10,45 +10,23 @@ extension Array {
 
 struct SymbolTable {
 
-    internal var stack = [[String:Type]]()
-    
-    init() {
-        stack.append([String:Type]())
-    }
-    
-    mutating func pushState() {
-        if let last = stack.last {
-            stack.append(last)
-        }
-    }
-    
-    mutating func popState() {
-        if stack.count > 1 {
-            stack.removeLast()
-        }
-    }
+    internal var symbolTable = [String:Type]()
     
     mutating func pushVariable(identifier: String, type: Type) {
-        stack[stack.count - 1][identifier] = type
+        symbolTable[identifier] = type
     }
     
-    func get(identifier: String) -> Type? {
-        return stack.last?[identifier]
+    func variableExists(identifier: String) -> Bool {
+        return symbolTable[identifier] != nil
     }
     
 }
 
-enum Type {
-    case bool, money, int
-}
+protocol Type {}
 
-var st = SymbolTable()
-st.pushVariable("test", type: .bool)
-st.pushState()
-st.pushVariable("test2", type: .int)
-st.get("test2")
 
-print(st.stack)
+
+
 
 protocol ASTVisitor {
     func visit(form form: Form)
