@@ -4,9 +4,9 @@ package org.uva.sea.ql.ast.expr;
  * Representation of a conjunction or disjunction of booleans in an AST.
  * 
  * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
-public class BooleanConjunctiveExpr extends BooleanExpr {
+public abstract class BooleanConjunctiveExpr extends BooleanExpr {
     
     /**
      * Start value used to calculate hashes for objects of this class.
