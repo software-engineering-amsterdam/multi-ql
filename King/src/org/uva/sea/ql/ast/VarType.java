@@ -1,6 +1,8 @@
 package org.uva.sea.ql.ast;
 
+import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.semantic.SymbolTable;
 
 public class VarType extends ASTNode{
 	private final String name;
@@ -13,9 +15,9 @@ public class VarType extends ASTNode{
 		return name;
 	}
 
-	public ValueType getType() {
+	/*public Type getType() {
 		return ValueType.getByName(this.name);
-	}
+	}*/
 
 	@Override
 	public void accept(QLNodeVisitor visitor) {

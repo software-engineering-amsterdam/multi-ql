@@ -9,6 +9,7 @@ import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.expr.literal.*;
 import org.uva.sea.ql.ast.TaxForm.*;
+import org.uva.sea.ql.ast.expr.type.*;
 import java.util.Map;
 import java.util.HashMap;
 import org.joda.money.Money;
@@ -67,14 +68,15 @@ variable returns [VarDeclaration result]
     { 
     	
         $result = new VarDeclaration($question_response_type.result, $identifier.result);
-        $identifier.result.setType($result.getType().getType());
+        $identifier.result.setType($result.getType());
     }
     ; 
-question_response_type returns [VarType result]
-    : t=( BOOLEAN | STRING | INTEGER | MONEY ) 
-    { 
-        $result = new VarType($t.text);
-    }
+question_response_type returns [Type result]
+    : BOOLEAN { $result = new BooleanType();}
+    | STRING  { $result = new StringType();}
+    | INTEGER { $result = new IntegerType();}
+    | MONEY   { $result = new MoneyType();}
+    
    ;
    
 addExpr returns [Expr result]
@@ -111,10 +113,7 @@ unExpr returns [Expr result]
 
 primary returns [Expr result]
     : literal        { $result = new LiteralExpression($literal.result); }
-    | identifier
-	    {  
-	        $result = new VarExpr($identifier.result);
-	    }
+    | identifier     { $result = new VarExpr($identifier.result);}
     | '(' orExpr ')' { $result = $orExpr.result; }
     
 

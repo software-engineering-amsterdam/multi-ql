@@ -1,11 +1,11 @@
 package org.uva.sea.ql.ast.expr.literal;
 
-import org.uva.sea.ql.ast.ValueType;
+import org.uva.sea.ql.ast.expr.type.StringType;
 
 public class StringLiteral extends Literal<String> {
 
 	public StringLiteral(String value) {
-		super(ValueType.STRING, value);
+		super(new StringType(), value);
 		// TODO Auto-generated constructor stub
 	}
 

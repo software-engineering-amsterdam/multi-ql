@@ -1,11 +1,11 @@
 package org.uva.sea.ql.ast.expr.literal;
 
-import org.uva.sea.ql.ast.ValueType;
+import org.uva.sea.ql.ast.expr.type.BooleanType;
 
 public class BooleanLiteral extends Literal<Boolean> {
 
 	public BooleanLiteral(boolean value) {
-		super(ValueType.BOOLEAN, value);
+		super(new BooleanType(), value);
 		// TODO Auto-generated constructor stub
 	}
 

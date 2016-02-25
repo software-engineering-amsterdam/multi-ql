@@ -4,25 +4,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.uva.sea.ql.ast.ValueType;
+import org.uva.sea.ql.ast.expr.type.Type;
 
 public class SymbolTable {
 	
-	private Map<String, ValueType> symTable = new HashMap<>();
+	private Map<String,Type> symTable;
 
 	public SymbolTable() {
-		symTable = new HashMap<>();
+		symTable = new HashMap<String,Type>();
 	}
 
-	public boolean contains(String name) {
-		return symTable.containsKey(name);
+	public boolean contains(String varName) {
+		return symTable.containsKey(varName);
 	}
 
-	public void add(String name, ValueType type) {
-		symTable.put(name, type);
+	public void add(String varName,Type type) {
+		symTable.put(varName, type);
 	}
 
-	public ValueType lookupType(String name) {
-		return symTable.get(name);
+	public Type lookupType(String varName) {
+		return symTable.get(varName);
+	}
+	
+	public Boolean isEmpty() {
+		return symTable.isEmpty();
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return symTable.toString();
 	}
 
 }

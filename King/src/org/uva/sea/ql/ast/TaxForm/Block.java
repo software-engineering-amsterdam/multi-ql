@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.semantic.SymbolTable;
 
 public class Block extends ASTNode {
 	//private List<VarDeclaration> variables;
@@ -29,16 +30,6 @@ public class Block extends ASTNode {
 	@Override
 	public void accept(QLNodeVisitor qlPartVisitor) {
 		qlPartVisitor.visit(this);
-
-
-		for (Question q : questions) {
-			q.accept(qlPartVisitor);
-			q.getVariableId().accept(qlPartVisitor);
-		}
-
-		for (IFblock statement : ifstatementblock) {
-			statement.accept(qlPartVisitor);
-		}
 		
 	}
 }

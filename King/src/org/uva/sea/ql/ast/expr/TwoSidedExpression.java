@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.semantic.SymbolTable;
 
 public class TwoSidedExpression extends Expr {
 	protected final Expr e1;

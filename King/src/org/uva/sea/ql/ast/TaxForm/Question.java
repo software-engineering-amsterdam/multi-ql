@@ -3,6 +3,7 @@ package org.uva.sea.ql.ast.TaxForm;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.VarDeclaration;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.semantic.SymbolTable;
 
 public class Question extends ASTNode {
 	private final VarDeclaration varDeclaration;

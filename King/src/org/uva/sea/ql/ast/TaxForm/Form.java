@@ -2,6 +2,7 @@ package org.uva.sea.ql.ast.TaxForm;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.semantic.SymbolTable;
 
 public class Form extends ASTNode {
 	private String id;

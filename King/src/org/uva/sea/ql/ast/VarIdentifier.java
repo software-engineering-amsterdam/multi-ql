@@ -1,11 +1,13 @@
 package org.uva.sea.ql.ast;
 
+import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.semantic.SymbolTable;
 
 public class VarIdentifier extends ASTNode{
 	private final String name;
 	
-	private ValueType type;
+	private Type type;
 
 	public VarIdentifier(String name) {
 		this.name = name;
@@ -15,17 +17,17 @@ public class VarIdentifier extends ASTNode{
 		return name;
 	}
 
-	public ValueType getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(ValueType type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
 	@Override
 	public void accept(QLNodeVisitor visitor) {
-		visitor.visit(this);
+		
 		
 	}
 }
