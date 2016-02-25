@@ -17,5 +17,6 @@ struct CharStream {
     }
 }
 
-let cs = CharStream(str: "SOmeaklsdfjadfj ald\n dsfjaklfajsd ;lfajlf\n sdfkjashf kjasfljsak hdjshfsjk fh\na kfha askldfj khfakf l;")
-print(cs.lines)
+let fn: (Int, Int) -> () = { (start, eind) -> () in
+    let x = 1
+}
