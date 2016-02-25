@@ -23,8 +23,8 @@ class Prefix<T> {
 
 
 public enum OperatorHandler<T> {
-  public typealias Binary = (T, T) -> T?
-  public typealias Unary = T -> T?
+  public typealias Binary = (T, T, Position) -> T?
+  public typealias Unary = (T, Position) -> T?
 
   case Prefix(Unary, Int)
   case LeftInfix(Binary, Int)
@@ -36,28 +36,29 @@ public enum OperatorHandler<T> {
       where P.Target==T, O.Target==String>
       (opp:OperatorPrecedence<T,O,P>, _ stream:CharStream, _ lft:T?) -> T? 
 {
+    let currentPosition = stream.currentPosition
     switch self {
       case Prefix(let unary, let prec):
         assert(lft == nil, "Prefix operators don't have left hand sides.")
         if let arg = opp.parse(stream, prec) {
-          return unary(arg)
+          return unary(arg, currentPosition)
         }
         break
 
       case LeftInfix(let binary, let prec):
         if let rgt = opp.parse(stream, prec) {
-          return binary(lft!, rgt)
+          return binary(lft!, rgt, currentPosition)
         }
         break
 
       case RightInfix(let binary, let prec):
         if let rgt = opp.parse(stream, prec-1) {
-          return binary(lft!, rgt)
+          return binary(lft!, rgt, currentPosition)
         }
         break
 
       case Postfix(let unary, _):
-        return unary(lft!)
+        return unary(lft!, currentPosition)
     }
     return nil
   }

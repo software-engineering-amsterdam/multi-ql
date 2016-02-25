@@ -3,27 +3,28 @@ public class Pipe<T:Parser, V> : Parser {
   typealias R = T.Target
 
   let parser: T
-  let fn    : R -> V
+  let fn    : (R, Position) -> V
 
-  init(inner: T, fn: R -> V) {
+  init(inner: T, fn: (R, Position) -> V) {
     self.parser = inner
     self.fn = fn
   }
 
   public func parse(stream: CharStream) -> Target? {
+    let currentPosition = stream.currentPosition
     if let value = parser.parse(stream) {
-      return fn(value)
+      return fn(value, currentPosition)
     }
     return nil
   }
 }
 
-func pipe<T:Parser, V>(inner: T, fn: T.Target -> V) -> Pipe<T,V> {
+func pipe<T:Parser, V>(inner: T, fn: (T.Target, Position) -> V) -> Pipe<T,V> {
   return Pipe(inner:inner, fn:fn)
 }
 
 infix operator |> {associativity left precedence 130}
-public func |> <T: Parser, V>(inner: T, fn: T.Target -> V) -> Pipe<T,V> {
+public func |> <T: Parser, V>(inner: T, fn: (T.Target, Position) -> V) -> Pipe<T,V> {
   return pipe(inner, fn: fn)
 }
 

@@ -5,8 +5,8 @@ import Foundation
 //---------------------------------//
 public class CharStream {
   let str: String
-  var pos: String.Index
-    var lines = [Int]()
+    var pos: String.Index
+  var lines = [Int]()
 
   public init(str: String) {
     self.str = str
@@ -17,12 +17,16 @@ public class CharStream {
     }
   }
     
-    var currentLine: Int {
+    var currentPosition: Position {
         let intPos = str.startIndex.distanceTo(pos)
         for i in 0..<lines.count {
-            if intPos <= lines[i] { return i + 1 }
+            if intPos <= lines[i] {
+                let line = i + 1
+                let character = (i == 0 ? intPos : intPos - lines[i-1]) + 1
+                return Position(line: line, character: character)
+            }
         }
-        return -1
+        return Position(line: -1, character: -1)
     }
 
   var head:Character? {
@@ -66,8 +70,19 @@ public class CharStream {
 
   func advance(count: Int) -> Void {
     pos = pos.advancedBy(count)
-    print("Now on line \(currentLine)")
   }
 
-  func error(msg: String) -> Void {}
+    func error(msg: String) -> Void {}
+}
+
+public struct Position {
+    
+    public let line: Int
+    public let character: Int
+    
+    init(line: Int, character: Int) {
+        self.line = line
+        self.character = character
+    }
+    
 }

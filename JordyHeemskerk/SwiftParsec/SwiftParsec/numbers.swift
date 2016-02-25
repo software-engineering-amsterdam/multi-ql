@@ -3,7 +3,7 @@ public struct Integer : Parser {
 
   static let impl = pipe(
     regex("[+-]?[0-9]+"),
-    fn: {Int($0)!})
+    fn: {Int($0.0)!})
     
     public init() {}
 
@@ -25,7 +25,7 @@ public struct FloatParser : Parser {
 
   static let impl = pipe(
         regex("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"),
-        fn: FloatParser.stringToFloat)
+    fn: { FloatParser.stringToFloat($0.0) })
 
   public init(strict:Bool = true) {
     self.strict = strict

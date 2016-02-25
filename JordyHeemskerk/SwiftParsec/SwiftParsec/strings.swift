@@ -69,10 +69,10 @@ func satisfy(condition:Character->Bool) -> Satisfy {
       return Satisfy(condition:condition)
 }
 
-class EndOfFile : Parser {
-  typealias Target = Void
+public class EndOfFile : Parser {
+  public typealias Target = Void
 
-  func parse(stream:CharStream) -> Target? {
+  public func parse(stream:CharStream) -> Target? {
     if stream.eof {
       return Target()
     } else {
@@ -81,7 +81,7 @@ class EndOfFile : Parser {
   }
 }
 
-func eof() -> EndOfFile {
+public func eof() -> EndOfFile {
   return EndOfFile()
 }
 
@@ -89,7 +89,7 @@ func eof() -> EndOfFile {
 // Helpful versions which turn arrays of Characters into Strings
 func arrayToString<T:Parser where T.Target==Array<Character>>
   (parser: T) -> Pipe<T, String> {
-  return pipe(parser, fn: {return String($0)})
+  return pipe(parser, fn: {return String($0.0)})
 }
 
 func manychars<T:Parser where T.Target==Character>
