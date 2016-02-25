@@ -2,13 +2,13 @@ package org.uva.ql.ast.expr.math;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.expr.UnaryExpr;
 
-public class Div extends BinaryExpr {
+public class Negative extends UnaryExpr {
 
-	public Div(ParserRuleContext context, Expr lhs, Expr rhs) {
-		super(context, lhs, rhs);
+	public Negative(ParserRuleContext context, Expr expr) {
+		super(context, expr);
 	}
 
 	@Override

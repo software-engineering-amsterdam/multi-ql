@@ -5,9 +5,9 @@ import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
 
-public class Mul extends BinaryExpr {
+public class Multiply extends BinaryExpr {
 
-	public Mul(ParserRuleContext context, Expr lhs, Expr rhs) {
+	public Multiply(ParserRuleContext context, Expr lhs, Expr rhs) {
 		super(context, lhs, rhs);
 	}
 

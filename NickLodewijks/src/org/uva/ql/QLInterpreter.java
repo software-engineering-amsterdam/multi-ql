@@ -5,11 +5,11 @@ import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.expr.math.Div;
-import org.uva.ql.ast.expr.math.Mul;
-import org.uva.ql.ast.expr.math.Neg;
-import org.uva.ql.ast.expr.math.Pos;
-import org.uva.ql.ast.expr.math.Sub;
+import org.uva.ql.ast.expr.math.Divide;
+import org.uva.ql.ast.expr.math.Multiply;
+import org.uva.ql.ast.expr.math.Negative;
+import org.uva.ql.ast.expr.math.Positive;
+import org.uva.ql.ast.expr.math.Subtract;
 import org.uva.ql.ast.expr.rel.And;
 import org.uva.ql.ast.expr.rel.Equals;
 import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
@@ -42,7 +42,7 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterCo
 	}
 
 	@Override
-	public Object visit(Sub node, QLInterpreterContext context) {
+	public Object visit(Subtract node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) - (Integer) node.right().accept(this, context);
 	}
 
@@ -57,12 +57,12 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterCo
 	}
 
 	@Override
-	public Object visit(Div node, QLInterpreterContext context) {
+	public Object visit(Divide node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) / (Integer) node.right().accept(this, context);
 	}
 
 	@Override
-	public Object visit(Mul node, QLInterpreterContext context) {
+	public Object visit(Multiply node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) * (Integer) node.right().accept(this, context);
 	}
 
@@ -97,12 +97,12 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterCo
 	}
 
 	@Override
-	public Object visit(Pos node, QLInterpreterContext context) {
+	public Object visit(Positive node, QLInterpreterContext context) {
 		return Math.abs((Integer) node.expr().accept(this, context));
 	}
 
 	@Override
-	public Object visit(Neg node, QLInterpreterContext context) {
+	public Object visit(Negative node, QLInterpreterContext context) {
 		return -Math.abs((Integer) node.expr().accept(this, context));
 	}
 

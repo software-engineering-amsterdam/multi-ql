@@ -6,11 +6,11 @@ import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.UnaryExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.expr.math.Div;
-import org.uva.ql.ast.expr.math.Mul;
-import org.uva.ql.ast.expr.math.Neg;
-import org.uva.ql.ast.expr.math.Pos;
-import org.uva.ql.ast.expr.math.Sub;
+import org.uva.ql.ast.expr.math.Divide;
+import org.uva.ql.ast.expr.math.Multiply;
+import org.uva.ql.ast.expr.math.Negative;
+import org.uva.ql.ast.expr.math.Positive;
+import org.uva.ql.ast.expr.math.Subtract;
 import org.uva.ql.ast.expr.rel.And;
 import org.uva.ql.ast.expr.rel.Equals;
 import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
@@ -64,17 +64,17 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	}
 
 	@Override
-	public T visit(Sub node, U context) {
+	public T visit(Subtract node, U context) {
 		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
-	public T visit(Div node, U context) {
+	public T visit(Divide node, U context) {
 		return visit((BinaryExpr) node, context);
 	}
 
 	@Override
-	public T visit(Mul node, U context) {
+	public T visit(Multiply node, U context) {
 		return visit((BinaryExpr) node, context);
 	}
 
@@ -126,7 +126,7 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	}
 
 	@Override
-	public T visit(Neg node, U context) {
+	public T visit(Negative node, U context) {
 		return visit((UnaryExpr) node, context);
 	}
 
@@ -136,7 +136,7 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	}
 
 	@Override
-	public T visit(Pos node, U context) {
+	public T visit(Positive node, U context) {
 		return visit((UnaryExpr) node, context);
 	}
 

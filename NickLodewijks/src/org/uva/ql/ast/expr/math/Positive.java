@@ -5,9 +5,9 @@ import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.UnaryExpr;
 
-public class Neg extends UnaryExpr {
+public class Positive extends UnaryExpr {
 
-	public Neg(ParserRuleContext context, Expr expr) {
+	public Positive(ParserRuleContext context, Expr expr) {
 		super(context, expr);
 	}
 

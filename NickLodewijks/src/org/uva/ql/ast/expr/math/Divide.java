@@ -5,9 +5,9 @@ import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
 
-public class Sub extends BinaryExpr {
+public class Divide extends BinaryExpr {
 
-	public Sub(ParserRuleContext context, Expr lhs, Expr rhs) {
+	public Divide(ParserRuleContext context, Expr lhs, Expr rhs) {
 		super(context, lhs, rhs);
 	}
 

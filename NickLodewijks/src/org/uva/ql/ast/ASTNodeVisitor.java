@@ -6,11 +6,11 @@ import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.UnaryExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.expr.math.Div;
-import org.uva.ql.ast.expr.math.Mul;
-import org.uva.ql.ast.expr.math.Neg;
-import org.uva.ql.ast.expr.math.Pos;
-import org.uva.ql.ast.expr.math.Sub;
+import org.uva.ql.ast.expr.math.Divide;
+import org.uva.ql.ast.expr.math.Multiply;
+import org.uva.ql.ast.expr.math.Negative;
+import org.uva.ql.ast.expr.math.Positive;
+import org.uva.ql.ast.expr.math.Subtract;
 import org.uva.ql.ast.expr.rel.And;
 import org.uva.ql.ast.expr.rel.Equals;
 import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
@@ -43,11 +43,11 @@ public interface ASTNodeVisitor<T, U> {
 
 	public T visit(Add node, U context);
 
-	public T visit(Sub node, U context);
+	public T visit(Subtract node, U context);
 
-	public T visit(Div node, U context);
+	public T visit(Divide node, U context);
 
-	public T visit(Mul node, U context);
+	public T visit(Multiply node, U context);
 
 	public T visit(Equals node, U context);
 
@@ -67,11 +67,11 @@ public interface ASTNodeVisitor<T, U> {
 
 	public T visit(LiteralExpr node, U context);
 
-	public T visit(Neg node, U context);
+	public T visit(Negative node, U context);
 
 	public T visit(Not node, U context);
 
-	public T visit(Pos node, U context);
+	public T visit(Positive node, U context);
 
 	public T visit(VariableExpr node, U context);
 

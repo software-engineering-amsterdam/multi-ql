@@ -15,9 +15,9 @@ import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.expr.math.Div;
-import org.uva.ql.ast.expr.math.Mul;
-import org.uva.ql.ast.expr.math.Sub;
+import org.uva.ql.ast.expr.math.Divide;
+import org.uva.ql.ast.expr.math.Multiply;
+import org.uva.ql.ast.expr.math.Subtract;
 import org.uva.ql.ast.expr.rel.And;
 import org.uva.ql.ast.expr.rel.Equals;
 import org.uva.ql.ast.expr.rel.EqualsNot;
@@ -197,19 +197,19 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public QLType visit(Div node, SymbolTable st) {
+		public QLType visit(Divide node, SymbolTable st) {
 			checkOperands(node, st, QLType.INTEGER);
 			return QLType.INTEGER;
 		}
 
 		@Override
-		public QLType visit(Mul node, SymbolTable st) {
+		public QLType visit(Multiply node, SymbolTable st) {
 			checkOperands(node, st, QLType.INTEGER);
 			return QLType.INTEGER;
 		}
 
 		@Override
-		public QLType visit(Sub node, SymbolTable st) {
+		public QLType visit(Subtract node, SymbolTable st) {
 			checkOperands(node, st, QLType.INTEGER);
 			return QLType.INTEGER;
 		}
