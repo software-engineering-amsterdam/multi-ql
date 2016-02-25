@@ -9,7 +9,6 @@ public class TypeChecker {
     private final Form form;
     
     public TypeChecker(Form form) throws ContextBuildException {
-	
 	this.context = form.checkType();
 	this.form = form;
 	

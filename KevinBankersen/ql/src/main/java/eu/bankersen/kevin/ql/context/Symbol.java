@@ -18,11 +18,11 @@ public class Symbol {
 	this.active = true;
 	this.value = value;
     }
-    
+
     public String getName() {
 	return name;
     }
-    
+
     public String getQuestion() {
 	return question;
     }
@@ -50,8 +50,11 @@ public class Symbol {
 
     @Override
     public String toString() {
-	return type.toString() + "=" + value.toString();
-
+	if (active) {
+	    return name + "=" + value.toString();
+	} else {
+	    return "";
+	}
     }
 
 }

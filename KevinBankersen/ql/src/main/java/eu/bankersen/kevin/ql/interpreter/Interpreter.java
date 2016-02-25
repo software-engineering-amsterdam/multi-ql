@@ -6,7 +6,6 @@ import java.util.List;
 
 import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.context.SymbolTable;
-import eu.bankersen.kevin.ql.util.testing.DataListener;
 import eu.bankersen.kevin.ql.util.testing.ViewListener;
 
 public class Interpreter implements ViewListener {
@@ -32,6 +31,8 @@ public class Interpreter implements ViewListener {
     @Override
     public void viewUpdate(String name, Object value) {
 	symbolTable.updateSymbol(name, value);
+	symbolTable = form.evalForm(symbolTable);
+	// Evaluate a second time to remove from invisible questions.
 	symbolTable = form.evalForm(symbolTable);
 	dataUpdate();
     }

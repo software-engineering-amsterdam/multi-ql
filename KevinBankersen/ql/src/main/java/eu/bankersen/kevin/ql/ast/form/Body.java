@@ -41,7 +41,6 @@ public class Body {
 	for (Statement s : statements) {
 	    symbolTable = s.visible(symbolTable, visible);
 	}
-	System.out.println(visible);
 	return symbolTable;
     }
 

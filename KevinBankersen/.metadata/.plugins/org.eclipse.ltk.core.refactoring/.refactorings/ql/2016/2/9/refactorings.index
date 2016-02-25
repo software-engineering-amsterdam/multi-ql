@@ -26,3 +26,17 @@
 1456326905616	Change method 'eval'
 1456329384939	Rename type 'MainPanel'
 1456338635460	Delete element
+1456346339453	Rename local variable 'mainpanel'
+1456393812481	Rename type 'child'
+1456396219425	Delete element
+1456397355133	Move compilation unit
+1456397812149	Rename type 'BooleanWidget'
+1456398372885	Rename type 'IntegerWidget'
+1456398400750	Rename type 'StringWidget'
+1456403004755	Rename local variable 'object'
+1456403944627	Delete element
+1456404018458	Delete element
+1456404424029	Rename method 'viewUpdate'
+1456414020998	Delete element
+1456414026135	Delete element
+1456414047924	Rename package 'eu.bankersen.kevin.ql.util.testing.widget'

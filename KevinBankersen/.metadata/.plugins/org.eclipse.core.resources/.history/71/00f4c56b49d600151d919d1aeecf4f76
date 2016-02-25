@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.util.testing;
-
-public class tester {
-
-    mainClass y = new mainClass(5);
-   
-}

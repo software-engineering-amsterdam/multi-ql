@@ -100,9 +100,6 @@ public class QLgui extends JFrame {
 
 
 	// TRIAL WITH A BOOLEAN QUESTION
-	gbc = new GridBagConstraints();
-
-
 	JPanel center = new JPanel(new GridBagLayout());
 	gbc = new GridBagConstraints();
 
@@ -161,8 +158,8 @@ public class QLgui extends JFrame {
 	    }
 	});
 
-	gbc.gridy++;
-	center.add(txField, gbc);
+	//gbc.gridy++;
+	//center.add(txField, gbc);
 	
 	txField.setVisible(false);
 
@@ -178,8 +175,8 @@ public class QLgui extends JFrame {
 	    }
 	});
 
-	gbc.gridy++;
-	center.add(textField, gbc);
+	//gbc.gridy++;
+	//center.add(textField, gbc);
 
 	// An empty JLabel to push the text up.
 	gbc.gridy++;
@@ -200,7 +197,7 @@ public class QLgui extends JFrame {
 	pack();
 	setTitle("Simple example");
 	setSize(500, 700);
-	setResizable(false);
+	//setResizable(false);
 	setLocationRelativeTo(null);
 
 	setDefaultCloseOperation(EXIT_ON_CLOSE);

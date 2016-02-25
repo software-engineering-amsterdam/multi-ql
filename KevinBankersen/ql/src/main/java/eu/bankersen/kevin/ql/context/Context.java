@@ -3,8 +3,6 @@ package eu.bankersen.kevin.ql.context;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.esotericsoftware.minlog.Log;
-
 import eu.bankersen.kevin.ql.ast.Type;
 import eu.bankersen.kevin.ql.context.errors.TypeCheckingError;
 
@@ -46,7 +44,6 @@ public class Context {
     }
     
     public void addError(TypeCheckingError error) {
-	Log.debug(error.toString());
 	errorList.add(error);
     }
     

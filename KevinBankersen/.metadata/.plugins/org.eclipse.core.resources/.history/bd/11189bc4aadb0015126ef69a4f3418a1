@@ -1,0 +1,14 @@
+package eu.bankersen.kevin.ql.util.testing2;
+
+public class SmallChild extends Children implements BooleanQuestion {
+
+    public SmallChild(String name) {
+	super(name);
+    }
+
+    @Override
+    public boolean getValue() {
+	return false;
+    }
+
+}

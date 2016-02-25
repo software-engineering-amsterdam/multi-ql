@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<section name="net.sf.eclipsecs.core.projectconfig.LocalCheckConfigurationWorkingSet">
+	</section>
 	<section name="net.sf.eclipsecs.ui.config.ResolvablePropertiesDialog">
 		<item value="0" key="sortColumn"/>
 		<item value="1" key="sortDirection"/>

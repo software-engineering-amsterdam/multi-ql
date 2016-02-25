@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.ast.stat;
-
-public abstract class AbstractStatement {
-    
-    public abstract void visible(Boolean visible);
-
-}

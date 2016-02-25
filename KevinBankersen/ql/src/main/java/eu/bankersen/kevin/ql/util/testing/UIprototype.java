@@ -2,6 +2,8 @@ package eu.bankersen.kevin.ql.util.testing;
 
 import java.io.IOException;
 
+import javax.swing.UIManager;
+
 import com.esotericsoftware.minlog.Log;
 
 import eu.bankersen.kevin.ql.ast.form.Form;
@@ -17,7 +19,7 @@ public class UIprototype {
     
     public static void main(String[] args) {
 	// The example form.
-	String resource = "resources/Tax.form";
+	String resource = "resources/Tax2.form";
 	
 	// Read the file.
 	String file;
