@@ -214,10 +214,19 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		if (labelIsDuplicate(computedQuestion))
 			System.out.println("Duplicate label found!");
 		
+		if (isDeclaredWithDifferentType(computedQuestion)) {
+			System.out.println("Question is declared with different type");
+			System.exit(0);
+		}
+		
+		else {
+		
 		Identifier identifier = computedQuestion.getId();
 		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
 		
-		Expression expression = computedQuestion.getExpression();
+		}
+		
+		//Expression expression = computedQuestion.getExpression();
 	}
 
 	@Override
@@ -226,13 +235,16 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		if (labelIsDuplicate(question))
 			System.out.println("Duplicate label found!");
 		
-		if (isDeclaredWithDifferentType(question))
+		if (isDeclaredWithDifferentType(question)) {
 			System.out.println("Question is declared with different type");
+			System.exit(0);
+		}
 		
 		else {
 			
 			Identifier identifier = question.getId();
 			insertAtHashMap(identifier.getValue(),question.getLabel(),question.getType());
+			
 		}
 	}
 
@@ -240,12 +252,14 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		
 		Identifier identifier = question.getId();
 		
-		if (questionData.keySet().contains(identifier.getValue())) {
-			String identifierString = identifier.getValue();
-			IdentifierData identifierData = questionData.get(identifierString);
+		if (questionData.keySet().contains(identifier.getValue())) {	////
 			
-			if (!identifierString.equals(identifierData.getType().getTypeName()))	// fix-> demeter...
-				return true;
+			String identifierString = question.getType().getTypeName();	// fix -> demeter
+
+			IdentifierData identifierData = questionData.get(identifier.getValue());	////
+			
+			if (!identifierString.equals(identifierData.getType().getTypeName()))		// fix-> demeter...
+				return true;										//// else update label? ask...
 		}
 		
 		return false;
@@ -254,8 +268,9 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	private boolean labelIsDuplicate(Question question) {
 		
 		for(IdentifierData identifierData: questionData.values())
-		if (identifierData.getLabel().equals(question.getLabel()))
-			return true;
+			
+			if (identifierData.getLabel().equals(question.getLabel()))
+				return true;
 
 		return false;
 	}
@@ -266,16 +281,22 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public void visitIfStatement(IfStatement ifStatement) {
+		
 		if (isConditionBooleanType(ifStatement)) {
-			System.out.println("Condition is boolean");
+			//System.out.println("Condition is boolean");
 			ifStatement.getBlock().accept(this);
 		}
-		else
+		
+		else {
 			System.out.println("Condition is not boolean");
+			System.exit(0);
+		}
 	}
 	
 	private boolean isConditionBooleanType(IfStatement ifStatement) {
+		
 		Type type = ifStatement.getExpression().accept(this);
+		
 		if (type.getTypeName().equals("boolean"))
 			return true;
 		
