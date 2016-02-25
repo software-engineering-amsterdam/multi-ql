@@ -1,11 +1,6 @@
-{-# LANGUAGE DeriveDataTypeable #-}
-
 module Ast where
-import Text.ParserCombinators.Parsec.Pos
 
-import Data.Data
-
-type Money = Double --Datatype for money E.G. 10.50
+type Money = Double
 
 type Name = String
 
@@ -16,18 +11,13 @@ data Lit
   | MLit Money
   | SLit String
   | BLit Bool
-  deriving (Eq,Show, Typeable, Data)
+  deriving (Eq,Show)
 
 data FieldType
   = Money
   | Integer
   | String
   | Boolean
-  deriving (Eq,Enum,Show)
-
-data Region =
-  Region {start :: SourcePos
-         ,end :: SourcePos}
   deriving (Eq,Show)
 
 data Expr
@@ -53,11 +43,8 @@ data BinOp
   | Or
   | SConcat
   | EQ
-  | NEQ
   | GT
   | GTE
-  | LT
-  | LTE
   deriving (Eq,Show)
 
 data Stmnt
@@ -73,9 +60,10 @@ data Field
   deriving (Eq,Show)
 
 data FieldInfo =
-  FieldInfo {label :: String
-            ,id :: String
-            ,fieldType :: FieldType}
+  FieldInfo { label :: String
+            , id :: String
+            , fieldType :: FieldType
+            }
   deriving (Eq,Show)
 
 data Form =
