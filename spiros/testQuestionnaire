@@ -1,19 +1,12 @@
 form Box1HouseOwning {
-	hasSoldHouse: "Did you sell a house in 2010?" boolean
+	hasSoldHouse: "Did you sell a house in 2010?" int
 	hasBoughtHouse: "Did you buy a house in 2010?" boolean
-	hasMaintLoan: "Did you buy a house in 2010?"
+	hasMaintLoan: "Did you get a loan in 2010?"
 	boolean
-	valueResidue: "Did you sell a hjouse in 2010?" int(hasSoldHouse - hasBoughtHouse)
+	valueResidue: "Did you sell a house in 2010?" int(hasSoldHouse - hasBoughtHouse)
 	
 	if (hasSoldHouse) {
 		takeMaintLoan: "Did you buy a house in 2010?" boolean
 	}
-	takeMaintLoan: "Did you sell a hjousek in 2010?" boolean
-	}
 	
 }
-
-
-// 1. Should i eliminate the spaces from the labels?
-// 2. Is <T> ok? Ask . . .
-// 3. IfElseStatement needed? Ask . . .

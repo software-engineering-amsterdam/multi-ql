@@ -1,9 +1,9 @@
 package org.uva.sea.ql.ast.expr;
 
-import org.uva.sea.ql.ast.Visitable;
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.form.Value;
+import org.uva.sea.ql.ast.visit.Visitable;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public class Variable extends Expr implements Visitable {
 	String identifier;

@@ -21,7 +21,6 @@ import org.uva.sea.ql.ast.expression.Unary.Negative;
 import org.uva.sea.ql.ast.expression.Unary.Not;
 import org.uva.sea.ql.ast.expression.Unary.Positive;
 
-// generic coz i m gonna need it for evaluation as well
 
 public interface ExpressionVisitor<T> {
 	
@@ -45,6 +44,7 @@ public interface ExpressionVisitor<T> {
 	public T visit(Mul node);
 	public T visit(Div node);
 	
+	// aint gonna need this..?
 	public T visit(Parenthesis node);
 	
 	public T visit(Not node);

@@ -22,9 +22,9 @@ import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.NodeCollector;
 import org.uva.sea.ql.ast.QuestionPainter;
 import org.uva.sea.ql.ast.TypeCheckVisitor;
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Form;
+import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.errors.QLError;
 import org.uva.sea.ql.experiment.ASTVisualizer;
 

@@ -11,10 +11,10 @@ import java.util.Map.Entry;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
@@ -43,21 +43,14 @@ public class QL {
 		
 		parser = new QLParser(tokens);		
 		tree = parser.form();
-		
-		//System.out.println(tree.toStringTree(parser));
-		
+				
 		symbolTable = new SymbolTable();
         
-        // VISITOR PATTERN!
         CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
         
         QuestionVisitor questionVisitor = new QuestionVisitor();
-        
         ast.accept(questionVisitor);
-        
-        //ArrayList<Question> questions = questionVisitor.getQuestions();
-        //questionVisitor.checkNullPointers();
         
         displayMessages("QuestionVisitor Warnings", questionVisitor.getWarnings());
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
@@ -65,16 +58,13 @@ public class QL {
         //displaySymbolTable();
         
         CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor();
-        
         ast.accept(cyclicDependencyVisitor);
-        
         cyclicDependencyVisitor.detectCyclicDependencies();
         
         displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
         displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
         
         TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
-        
         ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());

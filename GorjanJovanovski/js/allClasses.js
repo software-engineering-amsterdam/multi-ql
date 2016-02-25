@@ -9,7 +9,7 @@ class NumberType {
 		return 0;
 	}
 
-	getTypeString() {
+	toString() {
 		return 'number';
 	}
 }
@@ -23,7 +23,7 @@ class DecimalType {
 		return 0.0;
 	}
 
-	getTypeString() {
+	toString() {
 		return 'number';
 	}
 }
@@ -39,7 +39,7 @@ class BooleanType {
 		return false;
 	}
 
-	getTypeString() {
+	toString() {
 		return 'boolean';
 	}
 }
@@ -53,7 +53,7 @@ class StringType {
 		return "";
 	}
 
-	getTypeString() {
+	toString() {
 		return 'string';
 	}
 }
@@ -93,7 +93,7 @@ class FormNode {
 		return answerList;
 	}
 
-	transverseAST(questionReturnFunction, conditionReturnFunction, evaluateConditions) {
+	transverseAST(questionFunction, conditionFunction, evaluateConditions) {
 		var queue = [];
 
 		for (var i = 0; i < this.block.length; i++) {
@@ -102,16 +102,18 @@ class FormNode {
 		while (queue.length > 0) {
 			var currentNode = queue.shift();
 			var result;
-			if (currentNode instanceof QuestionNode && questionReturnFunction !== undefined) {
-				result = questionReturnFunction(currentNode);
+			if (currentNode instanceof QuestionNode && questionFunction !== undefined) {
+				result = questionFunction(currentNode);
 				if (result !== undefined) {
 					return result;
 				}
 			}
 			else if (currentNode instanceof ConditionNode) {
-				if (conditionReturnFunction !== undefined) {
-					result = conditionReturnFunction(currentNode);
-					if (result !== undefined) return result;
+				if (conditionFunction !== undefined) {
+					result = conditionFunction(currentNode);
+					if (result !== undefined) {
+						return result;
+					}
 				}
 				if (evaluateConditions === undefined || (evaluateConditions === true && currentNode.condition.compute() === true)) {
 					for (i = 0; i < currentNode.ifBlock.length; i++) {

@@ -24,12 +24,6 @@ public class Parenthesis extends Expression{
 
 
 	@Override
-	public Type getTypeOfExpression() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		// TODO Auto-generated method stub
 		return visitor.visit(this);

@@ -15,10 +15,4 @@ public abstract class Expression extends ASTNode {
 	
 	public abstract <T> T accept(ExpressionVisitor<T> visitor);
 	
-	public Type getTypeOfExpression() { System.out.println("getTypeOfExpression"); return new BoolType();}
-
-	public Type getTypeOfExpression(Form form) {
-		// TODO Auto-generated method stub
-		return null;
-	};
 };

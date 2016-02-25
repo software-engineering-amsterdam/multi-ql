@@ -6,6 +6,21 @@ export class TypeInferer extends TypeReceiver {
 	}
 }
 
+export class NegationTypeInferer extends TypeInferer {
+	receiveInteger() {
+		return new IntegerType();
+	}
+	receiveFloat() {
+		return new FloatType();
+	}
+}
+
+export class NotTypeInferer extends TypeInferer {
+	receiveBoolean() {
+		return new BooleanType();
+	}
+}
+
 class AddSubtractTypeInferer extends TypeInferer {
 	receiveFloat(floatType, otherType) {
 		return otherType.dispatch(new FloatAddSubtractTypeInferer());

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.LeftDFSVisitor;
 import org.uva.sea.ql.ast.expr.Variable;
 
 /* Visitor that extends LeftDFSVisitor and collects all questions in a block */

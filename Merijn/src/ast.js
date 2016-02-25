@@ -1,15 +1,9 @@
-export var TYPE_BOOLEAN = "boolean";
-export var TYPE_STRING = "string";
-export var TYPE_INTEGER = "integer";
-export var TYPE_FLOAT = "float";
-export var TYPE_MONEY = "money";
-
 export class Node {
 	constructor (line) {
 		this.line = line;
 	}
 	accept() {
-		throw new Error("Override this in subclasses");
+		throw new Error("Override in subclasses");
 	}
 }
 
@@ -75,7 +69,13 @@ export class ExprQuestionNode extends QuestionNode {
 	}
 }
 
-export class UnaryPrefixNode extends Node {
+export class OperationNode extends Node {
+	toString() {
+		throw new Error("Override in subclasses");
+	}
+}
+
+export class UnaryPrefixNode extends OperationNode {
 	constructor(line, operand) {
 		super(line);
 		this.operand = operand;
@@ -86,15 +86,21 @@ export class NegationNode extends UnaryPrefixNode {
 	accept (visitor, ...args) {
 		return visitor.visitNegationNode(this, ...args);
 	}
+	toString() {
+		return '-';
+	}
 }
 
 export class NotNode extends UnaryPrefixNode {
 	accept (visitor, ...args) {
 		return visitor.visitNotNode(this, ...args);
 	}
+	toString() {
+		return '!';
+	}
 }
 
-export class InfixNode extends Node {
+export class InfixNode extends OperationNode {
 	constructor(line, leftOperand, rightOperand) {
 		super(line);
 		this.leftOperand = leftOperand;
@@ -106,11 +112,17 @@ export class AddNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitAddNode(this, ...args);
 	}
+	toString() {
+		return '+';
+	}
 }
 
 export class SubtractNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitSubtractNode(this, ...args);
+	}
+	toString() {
+		return '-';
 	}
 }
 
@@ -118,11 +130,17 @@ export class MultiplyNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitMultiplyNode(this, ...args);
 	}
+	toString() {
+		return '*';
+	}
 }
 
 export class DivideNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitDivideNode(this, ...args);
+	}
+	toString() {
+		return '/';
 	}
 }
 
@@ -130,11 +148,17 @@ export class GreaterNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitGreaterNode(this, ...args);
 	}
+	toString() {
+		return '>';
+	}
 }
 
 export class GreaterEqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitGreaterEqualNode(this, ...args);
+	}
+	toString() {
+		return '>=';
 	}
 }
 
@@ -142,11 +166,17 @@ export class LessNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitLessNode(this, ...args);
 	}
+	toString() {
+		return '<';
+	}
 }
 
 export class LessEqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitLessEqualNode(this, ...args);
+	}
+	toString() {
+		return '<=';
 	}
 }
 
@@ -154,11 +184,17 @@ export class EqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitEqualNode(this, ...args);
 	}
+	toString() {
+		return '==';
+	}
 }
 
 export class NotEqualNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitNotEqualNode(this, ...args);
+	}
+	toString() {
+		return '!=';
 	}
 }
 
@@ -166,48 +202,25 @@ export class AndNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitAndNode(this, ...args);
 	}
+	toString() {
+		return '&&';
+	}
 }
 
 export class OrNode extends InfixNode {
 	accept (visitor, ...args) {
 		return visitor.visitOrNode(this, ...args);
 	}
+	toString() {
+		return '||';
+	}
 }
 
 export class LiteralNode extends Node {
-	constructor(line, value) {
+	constructor(line, type, value) {
 		super(line);
+		this.type = type;
 		this.value = value;
-	}
-}
-
-export class BooleanLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitBooleanLiteralNode(this, ...args);
-	}
-}
-
-export class StringLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitStringLiteralNode(this, ...args);
-	}
-}
-
-export class IntegerLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitIntegerLiteralNode(this, ...args);
-	}
-}
-
-export class FloatLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitFloatLiteralNode(this, ...args);
-	}
-}
-
-export class MoneyLiteralNode extends LiteralNode {
-	accept (visitor, ...args) {
-		return visitor.visitMoneyLiteralNode(this, ...args);
 	}
 }
 
@@ -298,12 +311,6 @@ export class NodeVisitor {
 	visitOrNode (orNode, ...args) {
 		return this.visitInfixNode(orNode, ...args);
 	}
-
-	visitBooleanLiteralNode() {}
-	visitStringLiteralNode() {}
-	visitIntegerLiteralNode() {}
-	visitFloatLiteralNode() {}
-	visitMoneyLiteralNode() {}
-
+	visitLiteralNode() {}
 	visitIdentifierNode () {}
 }
