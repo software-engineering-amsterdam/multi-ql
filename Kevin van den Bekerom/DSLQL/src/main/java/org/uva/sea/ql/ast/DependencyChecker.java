@@ -2,93 +2,97 @@ package org.uva.sea.ql.ast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.uva.sea.ql.ast.stat.*;
+import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 import org.uva.sea.ql.ast.visit.QuestionCollector;
 import org.uva.sea.ql.ast.visit.VariableCollector;
+import org.uva.sea.ql.errors.QLError;
+import org.uva.sea.ql.graph.Graph;
+import org.uva.sea.ql.graph.Vertex;
 
-public class DependencyChecker extends LeftDFSVisitor<Map<String, Boolean>> {
+public class DependencyChecker extends LeftDFSVisitor<Graph> {
 	private List<ASTNode> violations;
+	private List<QLError> errors;
 	
 	private boolean noNewPaths;
 	
-	public DependencyChecker(Map<String, Boolean> context) {
+	public DependencyChecker() {
 		violations = new ArrayList<ASTNode>();
+		errors = new ArrayList<QLError>();
 	}
-	
-	@Override 
-	public void visit(Block block, Map<String, Boolean> visited) {
-		System.out.println("Block: " + block.toString());
-		for (String qID : QuestionCollector.getQuestionIDs(block, false)) {
-			System.out.println("Question: " + qID);
-			if (! visited.containsKey(qID)) {
-				visited.put(qID, true);
-			}
-		}
 		
-		super.visit(block, visited);
+	@Override
+	public void visit(Question question, Graph dependencyGraph) {
+		if (! dependencyGraph.containsVertex(question.getIdentifier())) {
+			dependencyGraph.addVertex(new Vertex(question.getIdentifier()));
+		}
 	}
 	
 	@Override
-	public void visit(Question question, Map<String, Boolean> visited) {
-		// explicitly ignore questions, visited variables already added to visited.
-	}
-	
-	@Override
-	public void visit(IfStatement ifStatement, Map<String, Boolean> visited) {
-		//Check if variables in ifStatement already visited.
-		boolean safe = true;
+	public void visit(IfStatement ifStatement, Graph dependencyGraph) {
+		Set<String> varIDs = new HashSet<String>();
+		varIDs.addAll(VariableCollector.geVariableIDs(ifStatement.getClause()));
 		
-		for (String varID : VariableCollector.geVariableIDs(ifStatement.getClause())) {
-			if (! visited.containsKey(varID) || ! visited.get(varID)) {
-				safe = false;
-				break;
-			}
-		}
-		
-		if (! safe) {
-			System.out.println("If statement that caused violation: " + ifStatement.getStartLine());
-			violations.add(ifStatement);
+		for (String varID : varIDs) {
+			Vertex start = dependencyGraph.getVertex(varID);
 			
-			for (String qID : QuestionCollector.getQuestionIDs(ifStatement.getBlock(), true)) {
-				if (! visited.containsKey(qID)) {
-				visited.put(qID, false); // all questions in AST with *ifStatement* as root are unreachable;
+			if (start == null) {
+				if (dependencyGraph.containsVertex(varID)) {
+					// ok
+				}
+				String errMessage = "There is a dependency on question " + varID + " which is not defined!";
+				errors.add(new QLError(ifStatement, errMessage));
+			} else {
+
+			for (String nextID : start.getNeighbors()) {
+				Vertex next = dependencyGraph.getVertex(nextID);
+				String errMessage = dependencyCheck(start, new ArrayList<String>(), next, dependencyGraph);
+				if (! errMessage.equals("")) {
+					errors.add(new QLError(ifStatement, errMessage));
 				}
 			}
 			
-		} else {
-			
-			for (String qID : QuestionCollector.getQuestionIDs(ifStatement.getBlock(), false)) {
-				if (! visited.containsKey(qID)) {
-				visited.put(qID, true); // all questions within one level of if statement are reachable;
-				}
 			}
 			
 		}
-		super.visit(ifStatement, visited);
-		//TODO: improve this check by looking at each variable seperately in the if-clause. This can pinpoint errors.
+		
 	}
-	
-	public List<ASTNode> getViolations() {
-		
-		
-		List<ASTNode> result = violations;
-		violations.removeAll(violations); // clear state of dependency checker.
+
+	public static List<QLError> getErrors(ASTNode root, Graph dependencyGraph) {
+		DependencyChecker depChecker = new DependencyChecker();
+		root.accept(depChecker, dependencyGraph);
+		List<QLError> result = depChecker.errors;
+		//depChecker.errors.removeAll(depChecker.errors);
 		return result;
 	}
 	
-	public static List<ASTNode> getViolations(ASTNode root, Map<String, Boolean> context) {
-		DependencyChecker depChecker = new DependencyChecker(new HashMap<String, Boolean>());
-		root.accept(depChecker,);
-		List<ASTNode> result = depChecker.violations;
-		int size = 0;
-		while (result.size() != size) {
-			// reset visitor
+	private String dependencyCheck(Vertex start, List<String> visited, Vertex next, Graph g) {
+		if (next == null) {
+			String errMessage = "There is a dependency on question " + next.getIdentifier() + " which is not defined!";
+			return errMessage;
+		} else if (next.isTerminal()) {
+			return "";
+		} else if (visited.contains(next.getIdentifier())) {
+			System.out.println("Cycle: ");
+			String errMessage = "Cyclic dependency detected : ";
+			for (String v: visited) {
+				errMessage += (v + " -> ");
+			}
+			errMessage += next.getIdentifier(); // vertex causing cycle.
+			return errMessage;
+		} else {
+			visited.add(next.getIdentifier());
 			
+			for (String neighborID : next.getNeighbors()) {
+				return dependencyCheck(start, visited, g.getVertex(neighborID), g);
+			}	
+	
+			return ""; 
 		}
-		root.accept(context);
-		return collector.questions;
 	}
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public class Question extends ASTNode {
 	protected String identifier;

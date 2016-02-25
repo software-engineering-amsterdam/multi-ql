@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.uva.sea.ql.ast.stat.*;
+import org.uva.sea.ql.graph.Graph;
+import org.uva.sea.ql.graph.Vertex;
 import org.uva.sea.ql.ast.expr.*;
 
 public class TypeChecker {
@@ -22,8 +24,8 @@ public class TypeChecker {
 			String key = q.getIdentifier();
 			if (questionTypeTable.containsKey(key)) {
 				// same question identifier -> check if types match. If so, duplicate question.
-				if (q.getType().equals(questionTypeTable.get(key))) {
-					return false;
+				if (! q.getType().equals(questionTypeTable.get(key))) {
+					return false; // error message here!
 				}
 			}
 			questionTypeTable.put(q.getIdentifier(), q.getType());
@@ -33,6 +35,7 @@ public class TypeChecker {
 	}
 	
 	public boolean duplicateQuestionLabel(List<Question> questions) {
+		// TODO: give linenumbers of dubious questions.
 		Set<String> identifiers = new HashSet<String>();
 		
 		for (Question q : questions) { //TODO: document note -> q to not confuse with the list 'questions'
@@ -40,16 +43,6 @@ public class TypeChecker {
 		}
 		
 		return (! (questions.size() == identifiers.size()) );
-	}
-	
-	public boolean cyclicDependancy() {
-		return false;
-		//TODO: implement skeleton method
-	}
-	
-	public boolean typeMismatch() {
-		return false;
-		//TODO: implement skeleton method
 	}
 	
 	public boolean referenceToUndefinedQuestion(List<Question> questions, List<Variable> variables) {
@@ -82,6 +75,12 @@ public class TypeChecker {
 		return true;
 		//TODO: implement skeleton method
 	}
+	
+	public void detectCyclicDependency(Graph dependencyGraph) {
+		
+	}
+	
+	
 	
 
 }

@@ -24,6 +24,17 @@ public class Graph {
 		
 	}
 	
+	public boolean containsVertex(String vertexID) {
+		
+		for (Vertex v : vertices) {
+			if (v.getIdentifier().equals(vertexID)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public void addVertex(Vertex v) {
 		vertices.add(v);
 	}
@@ -39,6 +50,22 @@ public class Graph {
 
 	public Set<Vertex> getVertices() {
 		return vertices;
+	}
+	
+	public void resetGraph() {
+		vertices.removeAll(vertices);
+	}
+	
+	public void printEdges() {
+		System.out.println("Printing edges: ");
+		if (vertices.size() == 0) {
+			System.out.println("Something went wrong!!!: ");
+		}
+		for (Vertex v : vertices) {
+			for (String edge : v.getNeighbors()) {
+				System.out.println("Edge: (" + v.getIdentifier() + " " + edge + ") \n");
+			}
+		}
 	}
 	
 	

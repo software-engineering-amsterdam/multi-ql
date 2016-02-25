@@ -1,5 +1,6 @@
-package org.uva.sea.ql.ast;
+package org.uva.sea.ql.ast.visit;
 
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;

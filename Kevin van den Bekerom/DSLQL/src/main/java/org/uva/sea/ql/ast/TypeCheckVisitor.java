@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 import org.uva.sea.ql.errors.QLError;
 
 //TODO: update for MONEY Types
@@ -165,7 +166,7 @@ public class TypeCheckVisitor extends LeftDFSVisitor<Void> {
 	
 	public static List<QLError> getErrorMessages(ASTNode startNode, Context context) {
 		TypeCheckVisitor v = new TypeCheckVisitor(context);
-		startNode.accept(v);
+		startNode.accept(v, context);
 		return v.errorMessages;
 	}
 	

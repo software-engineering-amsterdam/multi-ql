@@ -7,7 +7,7 @@ form taxOfficeExample {
     cQ2: money = (100)
     
   "cQ3"
-    cQ3: boolean = (false && true)
+    cQ3: boolean = (false)
     
   "cQ4"
     cQ4: string = ("a")

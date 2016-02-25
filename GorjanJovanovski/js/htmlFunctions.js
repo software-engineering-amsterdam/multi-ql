@@ -14,15 +14,15 @@ function refreshGUI() {
 
 }
 
-function generateQuestionHTML(question) {
-	var html = "<div class='questionDiv' qllabel='" + question.label + "'>";
-	html += "<label class='question'>" + question.text + " ";
-	html += "<input name='" + question.label + "' type='";
+function generateQuestionHTML(questionNode) {
+	var html = "<div class='questionDiv' qllabel='" + questionNode.label + "'>";
+	html += "<label class='question'>" + questionNode.text + " ";
+	html += "<input name='" + questionNode.label + "' type='";
 
-	if (question.type instanceof NumberType || question.type instanceof DecimalType) {
+	if (questionNode.type instanceof NumberType || questionNode.type instanceof DecimalType) {
 		html += "number";
 	}
-	else if (question.type instanceof BooleanType) {
+	else if (questionNode.type instanceof BooleanType) {
 		html += "checkbox";
 	}
 	else {
@@ -32,7 +32,7 @@ function generateQuestionHTML(question) {
 	html += "'";
 
 
-	if (question instanceof ComputedQuestionNode) {
+	if (questionNode instanceof ComputedQuestionNode) {
 		html += " disabled";
 	}
 
@@ -50,6 +50,8 @@ function renderQuestions() {
 }
 
 function resetErrorPanels() {
+
+	var editor = ace.edit("input");
 	editor.getSession().clearAnnotations();
 	$("#error").html("");
 	$("#warning").html("");
@@ -66,10 +68,9 @@ function saveAnswers() {
 	fileSaverSaveAs(blob, "answers.json");
 }
 
-
 function renderDebugMessage(type, line, message) {
 	var editor = ace.edit("input");
-	message = message.replace("<", "&lt;").replace(">", "&gt;")
+	message = message.replace("<", "&lt;").replace(">", "&gt;");
 	var html = "<li><a href='#' onClick='goToLine(" + line + ");'>[line " + line + "] " + message + "</a></li>";
 	
 	var debugAnnotationList = editor.getSession().getAnnotations();

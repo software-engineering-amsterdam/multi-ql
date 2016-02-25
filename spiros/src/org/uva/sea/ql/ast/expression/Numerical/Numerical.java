@@ -18,9 +18,9 @@ public abstract class Numerical extends Binary {
 
 
 	
-	@Override
-	public Type getTypeOfExpression() {
-		return new IntType();
-	}
+//	@Override
+//	public Type getTypeOfExpression() {
+//		return new IntType();
+//	}
 
 }

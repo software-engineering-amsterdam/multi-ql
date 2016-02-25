@@ -1,8 +1,8 @@
 package org.uva.sea.ql.ast.expr;
 
-import org.uva.sea.ql.ast.Visitable;
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.visit.Visitable;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public class Pos extends UnaryExpr implements Visitable {
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
+import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 
 /* Visitor that extends LeftDFSVisitor and collects all nodes of a specific type */
 public class NodeCollector extends LeftDFSVisitor {

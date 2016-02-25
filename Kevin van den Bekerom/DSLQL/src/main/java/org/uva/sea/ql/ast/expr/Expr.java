@@ -2,6 +2,7 @@ package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.visit.Visitable;
 
 public abstract class Expr extends ASTNode implements Visitable {
 	
