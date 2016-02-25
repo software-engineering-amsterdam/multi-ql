@@ -1,8 +1,11 @@
-module Simplify
+module Simplify (simplify)
        where
 
 import AnnotatedAst as A
 import Ast as S
+
+simplify :: A.Form a -> S.Form
+simplify = sForm
 
 sLit :: A.Literal a -> Lit
 sLit (A.IntegerLiteral _ x) = ILit x
@@ -37,11 +40,11 @@ sBinOp (A.And _) = S.And
 sBinOp (A.Or _) = S.Or
 sBinOp (StringConcatenation _) = SConcat
 sBinOp (Equals _) = S.EQ
-sBinOp (NotEquals _) = S.NEQ
+sBinOp (NotEquals _) = error "Not supported"
 sBinOp (GreaterThan _) = S.GT
 sBinOp (GreaterThanOrEquals _) = S.GTE
-sBinOp (LesserThan _) = S.LT
-sBinOp (LesserThanOrEquals _) = S.LTE
+sBinOp (LesserThan _) = error "Not supported"
+sBinOp (LesserThanOrEquals _) = error "Not supported"
 
 sBlock :: A.Block a -> S.Block
 sBlock [] = []
@@ -51,7 +54,7 @@ sBlock (x:xs) = sStmnt x: sBlock xs
 sStmnt :: Statement a -> Stmnt
 sStmnt (A.Field _ x) = S.Field $ sField x
 sStmnt (A.If _ expr block) = S.If ( sExpr expr) (sBlock block)
-sStmnt (A.IfElse{}) = undefined 
+sStmnt (A.IfElse{}) = error "Not supported"
 
 sField :: A.Field a -> S.Field
 sField (A.SimpleField _ info) = S.SimpField $ sFieldInfo info
