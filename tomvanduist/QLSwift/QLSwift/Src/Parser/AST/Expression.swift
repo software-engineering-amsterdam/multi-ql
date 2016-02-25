@@ -124,7 +124,7 @@ class BooleanLiteral: Expression {
 }
 
 class Unary {
-    private var _type: ExpressionType = BooleanType()
+    private var _type: ExpressionType = UnknownType()
     var type: ExpressionType { return _type }
     
     let rhs: Expression
