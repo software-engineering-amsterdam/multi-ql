@@ -1,18 +1,15 @@
 export class Type {
-	dispatch(receiver) {
-		throw new Error("Override in subclasses");
+	dispatch(receiver, ...args) {
+		return receiver.receiveType(this, ...args);
 	}
 	toString() {
-		throw new Error("Override in subclasses");
-	}
-	equals() {
-		throw new Error("Override in subclasses");
+		return "type";
 	}
 	is(otherType) {
 		return otherType.isSuperTypeOf(this);
 	}
 	isSuperTypeOf(otherType) {
-		throw new Error("Override in subclasses");
+		return otherType instanceof Type;
 	}
 }
 
@@ -60,7 +57,7 @@ export class IntegerType extends NumberType {
 		return "integer";
 	}
 	isSuperTypeOf(otherType) {
-		return otherType instanceof IntegerType;
+		return otherType instanceof NumberType;
 	}
 }
 
