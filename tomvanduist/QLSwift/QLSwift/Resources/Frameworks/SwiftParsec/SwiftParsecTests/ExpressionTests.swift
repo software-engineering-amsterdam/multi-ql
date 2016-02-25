@@ -20,7 +20,6 @@ class ExpressionTests: XCTestCase {
         }
         
         let opTable: OperatorTable<String, (), Int> = [
-            
             [
                 prefix("-", function: -),
                 prefix("+", function: { $0 })
@@ -43,7 +42,6 @@ class ExpressionTests: XCTestCase {
                 binary("+", function: +, assoc: .Left),
                 binary("-", function: -, assoc: .Left)
             ]
-        
         ]
         
         let openingParen = StringParser.character("(")
@@ -78,24 +76,18 @@ class ExpressionTests: XCTestCase {
     }
     
     func binary(name: String, function: (Int, Int) -> Int, assoc: Associativity) -> Operator<String, (), Int> {
-        
         let opParser = StringParser.string(name) *> GenericParser(result: function)
         return .Infix(opParser, assoc)
-        
     }
     
     func prefix(name: String, function: Int -> Int) -> Operator<String, (), Int> {
-        
         let opParser = StringParser.string(name) *> GenericParser(result: function)
         return .Prefix(opParser)
-        
     }
     
     func postfix(name: String, function: Int -> Int) -> Operator<String, (), Int> {
-        
         let opParser = StringParser.string(name) *> GenericParser(result: function)
         return .Postfix(opParser.attempt)
-        
     }
     
 }

@@ -10,7 +10,7 @@ import XCTest
 @testable import QLSwift
 
 /**
- * Unit tests for testing if the parse tree properly generates an AST
+ * Unit tests for testing if the parser properly generates an AST
  */
 class FormTests: XCTestCase {
 

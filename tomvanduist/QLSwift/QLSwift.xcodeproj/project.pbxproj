@@ -26,6 +26,12 @@
 		E2360B7C1C7DA50900DEA51A /* FormViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2360B7B1C7DA50900DEA51A /* FormViewBuilder.swift */; };
 		E2360B7F1C7DACD700DEA51A /* StaticWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */; };
 		E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D3B1C7DF1CA00AC42ED /* FormView.swift */; };
+		E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D401C7EFB8F00AC42ED /* EvalTests.swift */; };
+		E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
+		E2591D461C7EFD7900AC42ED /* EvalPow.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D451C7EFD7900AC42ED /* EvalPow.ql */; };
+		E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */; };
+		E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D491C7F024400AC42ED /* EvalBool.ql */; };
+		E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
 		E265696A1C766FDD000CB9E6 /* FormViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26569691C766FDD000CB9E6 /* FormViewFactory.swift */; };
 		E26CC92E1C6B8A260042B5FF /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92D1C6B8A260042B5FF /* Form.swift */; };
 		E26CC9341C6B8B030042B5FF /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* Statement.swift */; };
@@ -151,6 +157,11 @@
 		E2360B7B1C7DA50900DEA51A /* FormViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewBuilder.swift; path = Src/UI/Form/FormViewBuilder.swift; sourceTree = "<group>"; };
 		E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaticWidget.swift; path = Src/UI/Form/Widgets/StaticWidget.swift; sourceTree = "<group>"; };
 		E2591D3B1C7DF1CA00AC42ED /* FormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormView.swift; path = Src/UI/Form/FormView.swift; sourceTree = "<group>"; };
+		E2591D401C7EFB8F00AC42ED /* EvalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EvalTests.swift; path = Src/Parser/EvalTests.swift; sourceTree = "<group>"; };
+		E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalAdd.ql; path = Resources/QL/EvalTests/EvalAdd.ql; sourceTree = "<group>"; };
+		E2591D451C7EFD7900AC42ED /* EvalPow.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalPow.ql; path = Resources/QL/EvalTests/EvalPow.ql; sourceTree = "<group>"; };
+		E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalPrec.ql; path = Resources/QL/EvalTests/EvalPrec.ql; sourceTree = "<group>"; };
+		E2591D491C7F024400AC42ED /* EvalBool.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalBool.ql; path = Resources/QL/EvalTests/EvalBool.ql; sourceTree = "<group>"; };
 		E26569691C766FDD000CB9E6 /* FormViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewFactory.swift; path = Src/UI/Form/FormViewFactory.swift; sourceTree = "<group>"; };
 		E26CC92D1C6B8A260042B5FF /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Form.swift; path = Src/Parser/AST/Form.swift; sourceTree = "<group>"; };
 		E26CC92F1C6B8B030042B5FF /* Statement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statement.swift; path = Src/Parser/AST/Statement.swift; sourceTree = "<group>"; };
@@ -291,6 +302,17 @@
 				E2D518921C6E15B5008030C4 /* QuestionView.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		E2591D421C7EFBDB00AC42ED /* EvalTests */ = {
+			isa = PBXGroup;
+			children = (
+				E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */,
+				E2591D491C7F024400AC42ED /* EvalBool.ql */,
+				E2591D451C7EFD7900AC42ED /* EvalPow.ql */,
+				E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */,
+			);
+			name = EvalTests;
 			sourceTree = "<group>";
 		};
 		E264170A1C622BD3006F9056 /* Frameworks */ = {
@@ -466,9 +488,10 @@
 		E2D518951C6FF9ED008030C4 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
+				E2591D401C7EFB8F00AC42ED /* EvalTests.swift */,
+				E2270DB81C73C22800E5FC2A /* FormTests.swift */,
 				E2D518BC1C70115C008030C4 /* QLParserTests.swift */,
 				E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */,
-				E2270DB81C73C22800E5FC2A /* FormTests.swift */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -484,6 +507,7 @@
 		E2D5189A1C6FFBB0008030C4 /* QL */ = {
 			isa = PBXGroup;
 			children = (
+				E2591D421C7EFBDB00AC42ED /* EvalTests */,
 				E2270DBA1C73C27A00E5FC2A /* FormTests */,
 				E2D518BB1C70112A008030C4 /* QLParserTests */,
 				E21F69081C73CEEB00EB9E09 /* SemanticAnalyzerTests */,
@@ -662,6 +686,7 @@
 			files = (
 				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
 				E2C8DA0E1C762509005F1C41 /* TextView.xib in Resources */,
+				E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */,
 				E2DF31001C6240F800F5227B /* form.ql in Resources */,
 				E2C8DA0D1C762509005F1C41 /* IntegerView.xib in Resources */,
 				E29A237E1C6D6C6500281E49 /* Podfile in Resources */,
@@ -678,12 +703,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */,
 				E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */,
+				E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */,
 				E2D518C51C701177008030C4 /* Unary.ql in Resources */,
+				E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */,
 				E2D518C31C701177008030C4 /* Binary.ql in Resources */,
 				E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */,
 				E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */,
 				E2D518C41C701177008030C4 /* Literals.ql in Resources */,
+				E2591D461C7EFD7900AC42ED /* EvalPow.ql in Resources */,
 				E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */,
 				E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */,
 				E2D518C21C701177008030C4 /* IfStatement.ql in Resources */,
@@ -799,6 +828,7 @@
 				E2D5189D1C700215008030C4 /* QLParser.swift in Sources */,
 				E2F149A81C75DF88009BB7BC /* ExpressionType.swift in Sources */,
 				E2270DB91C73C22800E5FC2A /* FormTests.swift in Sources */,
+				E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */,
 				E2D518AE1C700270008030C4 /* Parser.swift in Sources */,
 				E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */,
 				E2D518AA1C700252008030C4 /* Statement.swift in Sources */,
