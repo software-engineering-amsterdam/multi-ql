@@ -14,8 +14,8 @@ public interface VisitableASTNode {
      * Accept an <code>ASTVisitor</code> and have it visit
      * <code>this VisitableASTNode</code> and its children.
      * 
-     * @param visitor the <code>ASTVisitor</code> visiting <code>this VisitableASTNode</code>
+     * @param v the <code>ASTVisitor</code> visiting <code>this VisitableASTNode</code>
      */
-    void accept(ASTVisitor visitor);
+    void accept(ASTVisitor v);
     
 }

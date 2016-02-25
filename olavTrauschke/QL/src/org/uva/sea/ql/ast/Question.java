@@ -1,12 +1,13 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
 public class Question extends ASTNode {
     
@@ -39,6 +40,45 @@ public class Question extends ASTNode {
         identifier = theIdentifier;
         label = theLabel;
         type = theType;
+    }
+    
+    /**
+     * Has the <code>identifier</code>, the <code>label</code> and the
+     * <code>type</code> of <code>this Question accept v</code> and then has
+     * <code>v visit this Question</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should visit
+     *          <code>this Question</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        identifier.accept(v);
+        label.accept(v);
+        type.accept(v);
+        
+        v.visit(this);
+    }
+    
+    /**
+     * @return an <code>Ident</code> identifying <code>this Question</code>
+     */
+    protected Ident getIdentifier() {
+        return identifier;
+    }
+    
+    /**
+     * @return the <code>Label</code> to be displayed with <code>this Question</code>
+     */
+    protected Label getLabel() {
+        return label;
+    }
+    
+    /**
+     * @return an <code>ASTNode</code> representing the returntype of
+     *          <code>this Question</code>
+     */
+    protected ASTNode getType() {
+        return type;
     }
     
     /**
