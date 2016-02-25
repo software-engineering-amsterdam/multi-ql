@@ -1,12 +1,10 @@
 package org.uva.sea.ql.ast.checker;
 
-import javafx.scene.Parent;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.*;
 import org.uva.sea.ql.checker.Checker;
 import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.gui.GuiVisitor;
 import org.uva.sea.ql.parser.QLRunner;
 
 

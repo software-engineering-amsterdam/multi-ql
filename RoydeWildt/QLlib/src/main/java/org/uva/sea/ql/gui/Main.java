@@ -4,6 +4,7 @@ package org.uva.sea.ql.gui;
  */
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -32,16 +33,11 @@ public class Main extends Application {
     public void initPreview() {
         Stage previewStage = new Stage();
 
-        Form f = parseFromPath("src/test/resources/gui3.ql");
-        Parent uiElements = (new GuiVisitor(f)).getFormUI();
+        Form f = parseFromPath("src/test/resources/example1.ql");
+        Parent uiElement = (new GuiVisitor(f)).getFormUI();
 
-        AnchorPane pane = new AnchorPane();
-        pane.getChildren().add(uiElements);
-
-        Scene scene = new Scene(pane);
+        Scene scene = new Scene(uiElement);
         previewStage.setScene(scene);
-        previewStage.setWidth(500);
-        previewStage.setHeight(600);
 
         previewStage.show();
     }
