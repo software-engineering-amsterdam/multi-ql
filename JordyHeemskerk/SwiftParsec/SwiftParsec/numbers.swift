@@ -27,7 +27,7 @@ public struct FloatParser : Parser {
         regex("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"),
         fn: FloatParser.stringToFloat)
 
-  public init(strict:Bool) {
+  public init(strict:Bool = true) {
     self.strict = strict
   }
 
