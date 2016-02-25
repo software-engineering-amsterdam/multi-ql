@@ -7,18 +7,21 @@
 //
 
 import Foundation
+import SwiftParsec
 
 struct IfStatement: Statement {
     
     let conditionClause: Expression
     let block: Block
     let elseClause: ElseIfStatement?
+    let position: Position
     
-    init(tupleInput: ((Expression, Block), [ElseIfStatement])) {
-        let ((conditionClause, block), elseClause) = tupleInput
+    init(tupleInput: (((Expression, Block), [ElseIfStatement]), Position)) {
+        let (((conditionClause, block), elseClause), currentPosition) = tupleInput
         self.conditionClause = conditionClause
         self.block = block
         self.elseClause = elseClause.first
+        self.position = currentPosition
     }
     
     func accept(visitor: ASTVisitor) {

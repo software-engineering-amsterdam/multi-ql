@@ -7,10 +7,12 @@
 //
 
 import Foundation
+import SwiftParsec
 
 struct NotExpression: Expression {
     
     let operand: Expression
+    let position: Position
     
     func accept(visitor: ASTVisitor) {
         visitor.visit(self)

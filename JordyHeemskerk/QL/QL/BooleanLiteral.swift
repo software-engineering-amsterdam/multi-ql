@@ -7,13 +7,17 @@
 //
 
 import Foundation
+import SwiftParsec
 
 struct BooleanLiteral: Literal {
     
     let value: Bool
+    let position: Position
     
-    init(booleanString: String) {
+    init(tupleInput: (String, Position)) {
+        let (booleanString, currentPosition) = tupleInput
         self.value = NSString(string: booleanString).boolValue
+        self.position = currentPosition
     }
     
     func accept(visitor: ASTVisitor) {

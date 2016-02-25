@@ -7,10 +7,18 @@
 //
 
 import Foundation
+import SwiftParsec
 
 struct FloatLiteral: Literal {
     
     let value: Double
+    let position: Position
+    
+    init(tupleInput: (Double, Position)) {
+        let (value, currentPosition) = tupleInput
+        self.value = value
+        self.position = currentPosition
+    }
     
     func accept(visitor: ASTVisitor) {
         visitor.visit(self)

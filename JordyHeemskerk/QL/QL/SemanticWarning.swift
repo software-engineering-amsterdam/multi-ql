@@ -7,16 +7,17 @@
 //
 
 import Foundation
+import SwiftParsec
 
 enum SemanticWarning: SemanticLoggable {
     
-    case DuplicateQuestion(question: String)
+    case DuplicateQuestion(question: String, position: Position)
     
     var description: String {
         let prefix = "Warning:"
         switch self {
-        case let .DuplicateQuestion(question):
-            return "\(prefix) Question with the phrase: '\(question)' is already defined."
+        case let .DuplicateQuestion(question, position):
+            return "\(prefix) Question with the phrase: '\(question)' is already defined. [\(position.line):\(position.character)]"
         }
     }
 }

@@ -7,23 +7,24 @@
 //
 
 import Foundation
+import SwiftParsec
 
 enum SemanticError: SemanticLoggable {
     
-    case VariableAlreadyDefined(identifier: String)
-    case ComputedTypeMismatch(identifier: String, expectedType: Type, inferedType: Type)
-    case ConditionTypeMismatch(inferedType: Type)
+    case VariableAlreadyDefined(identifier: String, position: Position)
+    case ComputedTypeMismatch(identifier: String, expectedType: Type, inferedType: Type, position: Position)
+    case ConditionTypeMismatch(inferedType: Type, position: Position)
     
     var description: String {
         let prefix = "Error:"
         switch self {
-        case let .VariableAlreadyDefined(identifier):
-            return "\(prefix) Variable \(identifier) already defined."
-        case let .ComputedTypeMismatch(identifier, expectedType, inferedType):
-            return "\(prefix) Computed type of variable '\(identifier)' does not match declaration, expected \(expectedType) but got \(inferedType)"
-        case  let .ConditionTypeMismatch(inferedType):
+        case let .VariableAlreadyDefined(identifier, position):
+            return "\(prefix) Variable \(identifier) already defined. [\(position.line):\(position.character)]"
+        case let .ComputedTypeMismatch(identifier, expectedType, inferedType, position):
+            return "\(prefix) Computed type of variable '\(identifier)' does not match declaration, expected \(expectedType) but got \(inferedType). [\(position.line):\(position.character)]"
+        case  let .ConditionTypeMismatch(inferedType, position):
             let expecedType = BooleanType()
-            return "\(prefix) Condition type is not of type \(expecedType), expected \(expecedType) but got \(inferedType)"
+            return "\(prefix) Condition type is not of type \(expecedType), expected \(expecedType) but got \(inferedType). [\(position.line):\(position.character)]"
         }
     }
 

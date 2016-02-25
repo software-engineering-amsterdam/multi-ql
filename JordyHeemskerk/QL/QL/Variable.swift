@@ -7,13 +7,17 @@
 //
 
 import Foundation
+import SwiftParsec
 
 struct Variable: Literal {
     
     let identifier: String
+    let position: Position
     
-    init(identifier: String) {
+    init(tupleInput: (String, Position)) {
+        let (identifier, currentPosition) = tupleInput
         self.identifier = identifier
+        self.position = currentPosition
     }
     
     func accept(visitor: ASTVisitor) {

@@ -7,23 +7,29 @@
 //
 
 import Foundation
+import SwiftParsec
 
 struct ElseIfStatement: Statement {
     
     let conditionClause: Expression?
     let block: Block
     let elseClause: Statement? // Because structs dont allow recursive values
+    let position: Position
     
-    init(block: Block) {
+    init(tupleInput: (Block, Position)) {
+        let (block, currentPosition) = tupleInput
         self.block = block
         self.conditionClause = nil
         self.elseClause = nil
+        self.position = currentPosition
     }
     
-    init(ifStatement: IfStatement) {
+    init(tupleInput: (IfStatement, Position)) {
+        let (ifStatement, currentPosition) = tupleInput
         self.conditionClause = ifStatement.conditionClause
         self.block = ifStatement.block
         self.elseClause = ifStatement.elseClause
+        self.position = currentPosition
     }
     
     func accept(visitor: ASTVisitor) {

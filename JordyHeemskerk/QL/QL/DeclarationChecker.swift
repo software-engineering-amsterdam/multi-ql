@@ -22,7 +22,7 @@ class DeclarationChecker: BaseASTVisitor {
     override func visit(questionDeclaration: QuestionDeclaration) {
         questionDeclaration.computation?.accept(self)
         guard !symbolTable.isVariableDefined(questionDeclaration.identifier) else {
-            semanticLog.logError(.VariableAlreadyDefined(identifier: questionDeclaration.identifier))
+            semanticLog.logError(.VariableAlreadyDefined(identifier: questionDeclaration.identifier, position: questionDeclaration.position))
             return;
         }
         symbolTable.defineVariable(questionDeclaration.identifier, type: questionDeclaration.type)

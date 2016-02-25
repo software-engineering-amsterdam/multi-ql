@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import SwiftParsec
 
 struct AndExpression: Expression {
     
     let lhs: Expression
     let rhs: Expression
+    let position: Position
     
     func accept(visitor: ASTVisitor) {
         visitor.visit(self)
