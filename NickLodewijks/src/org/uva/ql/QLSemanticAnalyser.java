@@ -13,7 +13,6 @@ import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.BooleanType;
 import org.uva.ql.ast.IntegerType;
 import org.uva.ql.ast.StringType;
-import org.uva.ql.ast.ValueType;
 import org.uva.ql.ast.VariableType;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
@@ -87,7 +86,7 @@ public class QLSemanticAnalyser {
 		return new CyclicReferenceVisitor().visit(questionnaire);
 	}
 
-	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<ValueType, SymbolTable> {
+	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<VariableType, SymbolTable> {
 
 		private Result result;
 
@@ -103,7 +102,7 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(Questionnaire node, SymbolTable st) {
+		public VariableType visit(Questionnaire node, SymbolTable st) {
 			for (Form form : node.getForms()) {
 				form.accept(this, st);
 			}
@@ -112,14 +111,14 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(Form node, SymbolTable st) {
+		public VariableType visit(Form node, SymbolTable st) {
 			// The body of every form has its own SymbolTable
 			node.getBody().accept(this, new SymbolTable());
 			return null;
 		}
 
 		@Override
-		public ValueType visit(Block node, SymbolTable st) {
+		public VariableType visit(Block node, SymbolTable st) {
 			// Copy the SymbolTable for scoping of variables
 			st = new SymbolTable(st);
 
@@ -137,27 +136,27 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(IFStat node, SymbolTable st) {
-			checkType(node.getExpr(), st, ValueType.BOOLEAN);
+		public VariableType visit(IFStat node, SymbolTable st) {
+			checkType(node.getExpr(), st, VariableType.BOOLEAN);
 			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public ValueType visit(Question node, SymbolTable st) {
+		public VariableType visit(Question node, SymbolTable st) {
 			String variableName;
-			ValueType type;
+			VariableType type;
 			VariableType questionType;
 
 			variableName = node.getId();
 			questionType = node.getType();
 
 			if (questionType instanceof BooleanType) {
-				type = ValueType.BOOLEAN;
+				type = VariableType.BOOLEAN;
 			} else if (questionType instanceof IntegerType) {
-				type = ValueType.INTEGER;
+				type = VariableType.INTEGER;
 			} else if (questionType instanceof StringType) {
-				type = ValueType.STRING;
+				type = VariableType.STRING;
 			} else {
 				throw new IllegalStateException("Undefined question type '" + questionType.getClass() + "'");
 			}
@@ -172,13 +171,13 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(LiteralExpr node, SymbolTable st) {
+		public VariableType visit(LiteralExpr node, SymbolTable st) {
 			return node.getLiteral().accept(this, st);
 		}
 
 		@Override
-		public ValueType visit(VariableExpr node, SymbolTable st) {
-			ValueType type;
+		public VariableType visit(VariableExpr node, SymbolTable st) {
+			VariableType type;
 
 			type = st.getType(node.getVariableId());
 			if (type == null) {
@@ -190,51 +189,51 @@ public class QLSemanticAnalyser {
 
 		// Literals
 		@Override
-		public ValueType visit(BooleanLiteral node, SymbolTable st) {
-			return ValueType.BOOLEAN;
+		public VariableType visit(BooleanLiteral node, SymbolTable st) {
+			return VariableType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(IntegerLiteral node, SymbolTable st) {
-			return ValueType.INTEGER;
+		public VariableType visit(IntegerLiteral node, SymbolTable st) {
+			return VariableType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(StringLiteral node, SymbolTable st) {
-			return ValueType.STRING;
+		public VariableType visit(StringLiteral node, SymbolTable st) {
+			return VariableType.STRING;
 		}
 
 		// Arithmetic operations
 		@Override
-		public ValueType visit(Add node, SymbolTable st) {
-			checkOperands(node, st, ValueType.INTEGER);
-			return ValueType.INTEGER;
+		public VariableType visit(Add node, SymbolTable st) {
+			checkOperands(node, st, VariableType.INTEGER);
+			return VariableType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Div node, SymbolTable st) {
-			checkOperands(node, st, ValueType.INTEGER);
-			return ValueType.INTEGER;
+		public VariableType visit(Div node, SymbolTable st) {
+			checkOperands(node, st, VariableType.INTEGER);
+			return VariableType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Mul node, SymbolTable st) {
-			checkOperands(node, st, ValueType.INTEGER);
-			return ValueType.INTEGER;
+		public VariableType visit(Mul node, SymbolTable st) {
+			checkOperands(node, st, VariableType.INTEGER);
+			return VariableType.INTEGER;
 		}
 
 		@Override
-		public ValueType visit(Sub node, SymbolTable st) {
-			checkOperands(node, st, ValueType.INTEGER);
-			return ValueType.INTEGER;
+		public VariableType visit(Sub node, SymbolTable st) {
+			checkOperands(node, st, VariableType.INTEGER);
+			return VariableType.INTEGER;
 		}
 
 		// Equality relations
 		@Override
-		public ValueType visit(Eq node, SymbolTable st) {
+		public VariableType visit(Eq node, SymbolTable st) {
 			Expr lhs;
-			ValueType lhsType;
-			ValueType rhsType;
+			VariableType lhsType;
+			VariableType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
@@ -246,14 +245,14 @@ public class QLSemanticAnalyser {
 						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
 			}
 
-			return ValueType.BOOLEAN;
+			return VariableType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(NEq node, SymbolTable st) {
+		public VariableType visit(NEq node, SymbolTable st) {
 			Expr lhs;
-			ValueType lhsType;
-			ValueType rhsType;
+			VariableType lhsType;
+			VariableType rhsType;
 			Expr rhs;
 
 			lhs = node.left();
@@ -265,54 +264,54 @@ public class QLSemanticAnalyser {
 						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
 			}
 
-			return ValueType.BOOLEAN;
+			return VariableType.BOOLEAN;
 		}
 
 		// Number relations
 		@Override
-		public ValueType visit(GEq node, SymbolTable st) {
-			checkOperands(node, st, ValueType.INTEGER);
-			return ValueType.BOOLEAN;
+		public VariableType visit(GEq node, SymbolTable st) {
+			checkOperands(node, st, VariableType.INTEGER);
+			return VariableType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(GT node, SymbolTable st) {
-			checkOperands(node, st, ValueType.INTEGER);
-			return ValueType.BOOLEAN;
+		public VariableType visit(GT node, SymbolTable st) {
+			checkOperands(node, st, VariableType.INTEGER);
+			return VariableType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(LEq node, SymbolTable st) {
-			checkOperands(node, st, ValueType.INTEGER);
-			return ValueType.BOOLEAN;
+		public VariableType visit(LEq node, SymbolTable st) {
+			checkOperands(node, st, VariableType.INTEGER);
+			return VariableType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(LT node, SymbolTable st) {
-			checkOperands(node, st, ValueType.INTEGER);
-			return ValueType.BOOLEAN;
+		public VariableType visit(LT node, SymbolTable st) {
+			checkOperands(node, st, VariableType.INTEGER);
+			return VariableType.BOOLEAN;
 		}
 
 		// Boolean relations
 		@Override
-		public ValueType visit(And node, SymbolTable st) {
-			checkOperands(node, st, ValueType.BOOLEAN);
-			return ValueType.BOOLEAN;
+		public VariableType visit(And node, SymbolTable st) {
+			checkOperands(node, st, VariableType.BOOLEAN);
+			return VariableType.BOOLEAN;
 		}
 
 		@Override
-		public ValueType visit(Or node, SymbolTable st) {
-			checkOperands(node, st, ValueType.BOOLEAN);
-			return ValueType.BOOLEAN;
+		public VariableType visit(Or node, SymbolTable st) {
+			checkOperands(node, st, VariableType.BOOLEAN);
+			return VariableType.BOOLEAN;
 		}
 
-		private void checkOperands(BinaryExpr expr, SymbolTable st, ValueType expectedType) {
+		private void checkOperands(BinaryExpr expr, SymbolTable st, VariableType expectedType) {
 			checkType(expr.left(), st, expectedType);
 			checkType(expr.right(), st, expectedType);
 		}
 
-		private void checkType(Expr expr, SymbolTable st, ValueType expectedType) {
-			ValueType actual;
+		private void checkType(Expr expr, SymbolTable st, VariableType expectedType) {
+			VariableType actual;
 
 			actual = expr.accept(this, st);
 
@@ -423,7 +422,7 @@ public class QLSemanticAnalyser {
 
 	private static class SymbolTable {
 
-		private Map<String, ValueType> nameToType = new HashMap<>();
+		private Map<String, VariableType> nameToType = new HashMap<>();
 
 		public SymbolTable() {
 			nameToType = new HashMap<>();
@@ -437,11 +436,11 @@ public class QLSemanticAnalyser {
 			return nameToType.containsKey(name);
 		}
 
-		public void add(String name, ValueType type) {
+		public void add(String name, VariableType type) {
 			nameToType.put(name, type);
 		}
 
-		public ValueType getType(String name) {
+		public VariableType getType(String name) {
 			return nameToType.get(name);
 		}
 	}

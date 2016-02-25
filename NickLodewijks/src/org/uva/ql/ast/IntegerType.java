@@ -4,6 +4,10 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 public final class IntegerType extends VariableType {
 
+	public IntegerType() {
+		super(null);
+	}
+
 	public IntegerType(ParserRuleContext context) {
 		super(context);
 	}

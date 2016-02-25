@@ -4,6 +4,10 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 public final class BooleanType extends VariableType {
 
+	public BooleanType() {
+		super(null);
+	}
+
 	public BooleanType(ParserRuleContext context) {
 		super(context);
 	}

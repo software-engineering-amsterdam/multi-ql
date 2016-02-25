@@ -4,6 +4,10 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 public final class StringType extends VariableType {
 
+	public StringType() {
+		super(null);
+	}
+
 	public StringType(ParserRuleContext context) {
 		super(context);
 	}
