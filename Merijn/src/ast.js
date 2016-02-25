@@ -41,27 +41,18 @@ export class IfNode extends Node {
 }
 
 export class QuestionNode extends Node {
-	constructor(line, description, name) {
+	constructor(line, description, name, type) {
 		super(line);
 		this.line = line;
 		this.description = description;
 		this.name = name;
-	}
-}
-
-export class InputQuestionNode extends QuestionNode {
-	constructor(line, description, name, type) {
-		super(line, description, name);
 		this.type = type;
-	}
-	accept (visitor, ...args) {
-		return visitor.visitInputQuestionNode(this, ...args);
 	}
 }
 
 export class ExprQuestionNode extends QuestionNode {
-	constructor(line, description, name, expr) {
-		super(line, description, name);
+	constructor(line, description, name, type, expr) {
+		super(line, description, name, type);
 		this.expr = expr;
 	}
 	accept (visitor, ...args) {
@@ -238,29 +229,24 @@ export class IdentifierNode extends Node {
  * Node Visitor which by default simply recurses over all nodes
  */
 export class NodeVisitor {
+	visitNode (node, ...args) {}
 	visitFormNode (formNode, ...args) {
-		return formNode.block.accept(this, ...args);
+		return this.visitNode(formNode, ...args);
 	}
 	visitBlockNode (blockNode, ...args) {
-		return blockNode.statements.map((statement) => {
-			return statement.accept(this, ...args);
-		});
+		return this.visitNode(blockNode, ...args);
 	}
 	visitIfNode (ifNode, ...args) {
-		return [
-			ifNode.condition.accept(this, ...args),
-			ifNode.thenBlock.accept(this, ...args),
-			ifNode.elseBlock !== null ? ifNode.elseBlock.accept(this, ...args) : null
-		];
+		return this.visitNode(ifNode, ...args);
 	}
-
-	visitInputQuestionNode () {}
+	visitQuestionNode(questionNode, ...args) {
+		return this.visitNode(questionNode, ...args);
+	}
 	visitExprQuestionNode(exprQuestionNode, ...args) {
-		return exprQuestionNode.expr.accept(this, ...args);
+		return this.visitQuestionNode(exprQuestionNode, ...args);
 	}
-
 	visitUnaryPrefixNode (unaryPrefixNode, ...args) {
-		return unaryPrefixNode.operand.accept(this, ...args);
+		return this.visitNode(unaryPrefixNode, ...args);
 	}
 	visitNegationNode (negationNode, ...args) {
 		return this.visitUnaryPrefixNode(negationNode, ...args);
@@ -268,12 +254,8 @@ export class NodeVisitor {
 	visitNotNode (notNode, ...args) {
 		return this.visitUnaryPrefixNode(notNode, ...args);
 	}
-
 	visitInfixNode (infixNode, ...args) {
-		return [
-			infixNode.leftOperand.accept(this, ...args),
-			infixNode.rightOperand.accept(this, ...args)
-		];
+		return this.visitNode(infixNode, ...args);
 	}
 	visitAddNode (addNode, ...args) {
 		return this.visitInfixNode(addNode, ...args);
@@ -311,6 +293,10 @@ export class NodeVisitor {
 	visitOrNode (orNode, ...args) {
 		return this.visitInfixNode(orNode, ...args);
 	}
-	visitLiteralNode() {}
-	visitIdentifierNode () {}
+	visitLiteralNode(literalNode, ...args) {
+		return this.visitNode(literalNode, ...args);
+	}
+	visitIdentifierNode (identifierNode, ...args) {
+		return this.visitNode(identifierNode, ...args);
+	}
 }

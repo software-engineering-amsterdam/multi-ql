@@ -5,63 +5,66 @@ grammar QL;
 import java.util.Map;
 import java.util.HashMap;
 import org.uva.ql.ast.*;
-import org.uva.ql.ast.literal.*;
 import org.uva.ql.ast.expr.*;
+import org.uva.ql.ast.expr.math.*;
+import org.uva.ql.ast.expr.rel.*;
 import org.uva.ql.ast.stat.*;
+import org.uva.ql.ast.type.*;
 import org.uva.ql.ast.form.*;
+import org.uva.ql.ast.literal.*;
 }
 
 file :  questionnaire EOF
      ;
      
-questionnaire returns [Questionnaire result]
+questionnaire returns [QLQuestionnaire result]
     locals [
-      List<Form> forms = new ArrayList<>();
+      List<QLForm> forms = new ArrayList<>();
     ]
     @after{
-        $result = new Questionnaire($ctx, $ctx.forms);
+        $result = new QLQuestionnaire($ctx, $ctx.forms);
     }
     :   (form{ $ctx.forms.add($form.result); })+
     ;  
 
-form returns [Form result]
-    :   'form' + ID + block { $result = new Form($ctx, $ID.text, $block.result); }
+form returns [QLForm result]
+    :   'form' + ID + block { $result = new QLForm($ctx, $ID.text, $block.result); }
     ;
     
-block returns [Block result]
+block returns [QLBlock result]
     locals [
-      List<Question> questions = new ArrayList<>();
-      List<IFStat> statements = new ArrayList<>();
+      List<QLQuestion> questions = new ArrayList<>();
+      List<QLIFStatement> statements = new ArrayList<>();
     ]
     @after{
-        $result = new Block($ctx, $ctx.questions, $ctx.statements);
+        $result = new QLBlock($ctx, $ctx.questions, $ctx.statements);
     }
     : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
     
     ;
     
-ifStat returns [IFStat result]
+ifStat returns [QLIFStatement result]
     : 'if' + '(' + orExpr + ')' + block 
     { 
-        $result = new IFStat($ctx, $orExpr.result, $block.result);
+        $result = new QLIFStatement($ctx, $orExpr.result, $block.result);
     }
     ;
 
-question returns [Question result]
+question returns [QLQuestion result]
     : variableType + ID + STR + orExpr
     {
-        $result = new ComputedQuestion($ctx, $variableType.result, $ID.text,  $STR.text, $orExpr.result);
+        $result = new QLQuestionComputed($ctx, $variableType.result, $ID.text,  $STR.text, $orExpr.result);
     }
     | variableType + ID + STR 
     { 
-        $result = new InputQuestion($ctx, $variableType.result, $ID.text, $STR.text);
+        $result = new QLQuestionInput($ctx, $variableType.result, $ID.text, $STR.text);
     }
     ;
     
-variableType returns [VariableType result]
-    : BOOLEAN   { $result = new BooleanType($ctx); }
-    | STRING    { $result = new StringType($ctx);  }
-    | INTEGER   { $result = new IntegerType($ctx); }
+variableType returns [QLType result]
+    : BOOLEAN   { $result = new QLBooleanType($ctx); }
+    | STRING    { $result = new QLStringType($ctx);  }
+    | INTEGER   { $result = new QLIntegerType($ctx); }
     ;
    
 addExpr returns [Expr result]
@@ -71,7 +74,7 @@ addExpr returns [Expr result]
         $result = new Add($ctx, $result, $rhs.result);
       }
       if ($op.text.equals("-")) {
-        $result = new Sub($ctx, $result, $rhs.result);      
+        $result = new Subtract($ctx, $result, $rhs.result);      
       }
     })*
     ;
@@ -80,18 +83,18 @@ mulExpr returns [Expr result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
     { 
       if ($op.text.equals("*")) {
-        $result = new Mul($ctx, $result, $rhs.result);
+        $result = new Multiply($ctx, $result, $rhs.result);
       }
       if ($op.text.equals("/")) {
-        $result = new Div($ctx, $result, $rhs.result);      
+        $result = new Divide($ctx, $result, $rhs.result);      
       }
     })*
     ;
 
 
 unExpr returns [Expr result]
-    :  '+' x=unExpr { $result = new Pos($ctx, $x.result); }
-    |  '-' x=unExpr { $result = new Neg($ctx, $x.result); }
+    :  '+' x=unExpr { $result = new Positive($ctx, $x.result); }
+    |  '-' x=unExpr { $result = new Negative($ctx, $x.result); }
     |  '!' x=unExpr { $result = new Not($ctx, $x.result); }
     |  z=primary    { $result = $z.result; }
     ;    
@@ -120,22 +123,22 @@ relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
     { 
       if ($op.text.equals("<")) {
-        $result = new LT($ctx, $result, $rhs.result);
+        $result = new LessThan($ctx, $result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LEq($ctx, $result, $rhs.result);      
+        $result = new LessThanOrEquals($ctx, $result, $rhs.result);      
       }
       if ($op.text.equals(">")) {
-        $result = new GT($ctx, $result, $rhs.result);
+        $result = new GreaterThan($ctx, $result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GEq($ctx, $result, $rhs.result);      
+        $result = new GreaterThanOrEquals($ctx, $result, $rhs.result);      
       }
       if ($op.text.equals("==")) {
-        $result = new Eq($ctx, $result, $rhs.result);
+        $result = new Equals($ctx, $result, $rhs.result);
       }
       if ($op.text.equals("!=")) {
-        $result = new NEq($ctx, $result, $rhs.result);
+        $result = new EqualsNot($ctx, $result, $rhs.result);
       }
     })*
     ;

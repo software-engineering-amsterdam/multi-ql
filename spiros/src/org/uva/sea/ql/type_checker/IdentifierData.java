@@ -6,11 +6,11 @@ import org.uva.sea.ql.ast.type.Type;
 public class IdentifierData {
 
 		private final Type type;
-		private final Identifier identifier;
+		private final String label;
 		
-		public IdentifierData(Type type, Identifier identifier) {
+		public IdentifierData(Type type, String label) {
 			this.type = type;
-			this.identifier = identifier;
+			this.label = label;
 		}
 		
 		
@@ -18,7 +18,7 @@ public class IdentifierData {
 			return this.type;
 		}
 		
-		public Identifier getId() {
-			return this.identifier;
+		public String getLabel() {
+			return this.label;
 		}
 }

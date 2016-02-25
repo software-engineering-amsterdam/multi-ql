@@ -18,8 +18,8 @@ if_
 	;
 
 question
-	: STRING_LITERAL IDENTIFIER type    # inputQuestionCase
-	| STRING_LITERAL IDENTIFIER expr    # exprQuestionCase
+	: STRING_LITERAL IDENTIFIER type            # questionCase
+	| STRING_LITERAL IDENTIFIER type ASSIGN expr   # exprQuestionCase
 	;
 
 expr
@@ -77,6 +77,8 @@ PLUS : '+';
 MINUS : '-';
 MUL : '*';
 DIV : '/';
+
+ASSIGN : '=';
 
 AND : '&&';
 OR : '||';
