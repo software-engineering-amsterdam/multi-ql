@@ -7,4 +7,5 @@ import (
 type Lit interface {
 	GetValue() interface{}
 	expr.Expr
+	String() string
 }

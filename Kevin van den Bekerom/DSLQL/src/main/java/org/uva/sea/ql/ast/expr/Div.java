@@ -16,8 +16,8 @@ public class Div extends BinaryExpr implements Visitable {
 		return (Integer) lhs.eval() / (Integer) rhs.eval();
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 
 	@Override

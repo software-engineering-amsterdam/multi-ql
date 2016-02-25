@@ -1,6 +1,6 @@
 package ast.visitor;
 
 //classes van maken??
-public enum Types {
+public enum Type {
 	BOOLEAN, INT, STRING;
 }

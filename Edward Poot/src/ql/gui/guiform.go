@@ -8,12 +8,17 @@ import (
 )
 
 type GUIForm struct {
-	Title     string
-	Questions []GUIQuestion
+	Title             string
+	InputQuestions    []GUIInputQuestion
+	ComputedQuestions []GUIComputedQuestion
 }
 
-func (g *GUIForm) AddQuestion(question GUIQuestion) {
-	g.Questions = append(g.Questions, question)
+func (g *GUIForm) AddInputQuestion(question GUIInputQuestion) {
+	g.InputQuestions = append(g.InputQuestions, question)
+}
+
+func (g *GUIForm) AddComputedQuestion(question GUIComputedQuestion) {
+	g.ComputedQuestions = append(g.ComputedQuestions, question)
 }
 
 func (g *GUIForm) Show() {
@@ -42,7 +47,7 @@ func (g *GUIForm) Show() {
 	frame.Add(framebox)
 	vpaned.Pack1(frame, false, false)
 
-	createQuestions(g.Questions, framebox)
+	createQuestions(extractEmbeddedGUIQuestions(g.InputQuestions, g.ComputedQuestions), framebox)
 
 	vsep := gtk.NewVSeparator()
 	vbox.PackStart(vsep, false, false, 1)
@@ -50,9 +55,23 @@ func (g *GUIForm) Show() {
 	vbox.PackStart(createSubmitButton(window), false, true, 1)
 
 	window.Add(vbox)
-	window.SetSizeRequest(400, 400)
+	//window.SetSizeRequest(400, 400)
 	window.ShowAll()
 	gtk.Main()
+}
+
+func extractEmbeddedGUIQuestions(inputQuestions []GUIInputQuestion, computedQuestions []GUIComputedQuestion) []GUIQuestion {
+	guiQuestions := make([]GUIQuestion, 0)
+
+	for _, question := range inputQuestions {
+		guiQuestions = append(guiQuestions, question.GUIQuestion)
+	}
+
+	for _, question := range computedQuestions {
+		guiQuestions = append(guiQuestions, question.GUIQuestion)
+	}
+
+	return guiQuestions
 }
 
 func createQuestions(questions []GUIQuestion, vbox *gtk.VBox) {
@@ -69,6 +88,7 @@ func createQuestions(questions []GUIQuestion, vbox *gtk.VBox) {
 func attachToTable(table *gtk.Table, question GUIQuestion, rowStart int) {
 	table.AttachDefaults(question.Label, 0, 1, uint(rowStart), uint(rowStart+1))
 	table.AttachDefaults(question.Element.(gtk.IWidget), 1, 2, uint(rowStart), uint(rowStart+1))
+	table.AttachDefaults(question.ErrorLabel, 2, 3, uint(rowStart), uint(rowStart+1))
 }
 
 func createSubmitButton(window *gtk.Window) *gtk.Button {
@@ -82,7 +102,7 @@ func createSubmitButton(window *gtk.Window) *gtk.Button {
 			gtk.BUTTONS_OK,
 			"Form saved")
 		messagedialog.Response(func() {
-			fmt.Println("Dialog OK!")
+			log.Info("Submit dialog displayed")
 
 			messagedialog.Destroy()
 		})

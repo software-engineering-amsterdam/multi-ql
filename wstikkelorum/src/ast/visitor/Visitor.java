@@ -24,8 +24,9 @@ import ast.literal.IntLiteral;
 import ast.literal.Literal;
 import ast.literal.StringLiteral;
 import ast.literal.Variable;
-import ast.statement.AssignmentQuestion;
+import ast.statement.ComputedQuestion;
 import ast.statement.IfStatement;
+import ast.statement.InputQuestion;
 import ast.statement.Question;
 import ast.statement.Statement;
 
@@ -34,7 +35,9 @@ public interface Visitor<T> {
 
 	public T visit(Body body);
 
-	public T visit(AssignmentQuestion assignementQuestion);
+	public T visit(ComputedQuestion computedQuestion);
+	
+	public T visit(InputQuestion inputQuestion);
 
 	public T visit(IfStatement ifStatement);
 
