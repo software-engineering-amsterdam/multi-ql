@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Vertex {
 	private final String identifier; 
+	// edges implemented as a linked list.
 	private List<String> neighbors;
 	
 	public Vertex(String identifier) {

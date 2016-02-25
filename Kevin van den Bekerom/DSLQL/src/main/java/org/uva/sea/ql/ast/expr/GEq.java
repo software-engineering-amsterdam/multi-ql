@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
 
-public class GEq extends BinaryExpr implements Visitable {
+public class GEq<U> extends BinaryExpr {
 	
 	public GEq(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
@@ -16,8 +16,8 @@ public class GEq extends BinaryExpr implements Visitable {
 		return (Integer) lhs.eval() >= (Integer) rhs.eval();
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 
 	@Override
