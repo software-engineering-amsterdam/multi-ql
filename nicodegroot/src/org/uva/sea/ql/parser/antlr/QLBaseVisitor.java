@@ -61,112 +61,63 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLessEqExpression(QLParser.LessEqExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEqualityExpressions(QLParser.EqualityExpressionsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLessExpression(QLParser.LessExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMultiplicativeExpressions(QLParser.MultiplicativeExpressionsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDivExpression(QLParser.DivExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAdditiveExpressions(QLParser.AdditiveExpressionsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParenExpression(QLParser.ParenExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRelationalExpressions(QLParser.RelationalExpressionsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNoteqExpression(QLParser.NoteqExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdentifierExpression(QLParser.IdentifierExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOrExpression(QLParser.OrExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParenthesisExpression(QLParser.ParenthesisExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEqExpression(QLParser.EqExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNotExpression(QLParser.NotExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAndExpression(QLParser.AndExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLiteralExpression(QLParser.LiteralExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNotExpr(QLParser.NotExprContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitAddExpression(QLParser.AddExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitGreatEqExpression(QLParser.GreatEqExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitLitExpression(QLParser.LitExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitSubExpression(QLParser.SubExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitGreatExpression(QLParser.GreatExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitMulExpression(QLParser.MulExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitIdentifierLiteral(QLParser.IdentifierLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditionalExpressions(QLParser.ConditionalExpressionsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

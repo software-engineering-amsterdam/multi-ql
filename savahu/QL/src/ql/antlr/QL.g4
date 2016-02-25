@@ -18,7 +18,7 @@ grammar QL;
 }
 
 form returns [Form result]
-  : 'form' Ident body = block EOF
+  : 'form' Ident body = block
   { $result = new Form(new Ident($Ident.text), $body.result); }
   ;
 
@@ -42,7 +42,7 @@ ifstatement returns [Statement result]
   ;
 
 ifelsestatement returns [Statement result]
-  : 'if' '(' condition=orExpr ')' thenstatement=block 'else' block { $result = new IfElseStatement($condition.result, $thenstatement.result); }
+  : 'if' '(' condition=orExpr ')' thenstatement=block 'else' elsestatement=block { $result = new IfElseStatement($condition.result, $thenstatement.result, $elsestatement.result); }
   ;
 
 question returns [Question result]
