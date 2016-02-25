@@ -240,18 +240,6 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterMulExpression(@NotNull QLParser.MulExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}

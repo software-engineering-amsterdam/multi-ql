@@ -1,11 +1,15 @@
 form Box1HouseOwning {
-	hasSoldHouse: "Did you sell a house in 2010?" int
+	hasSoldHouse: "Did you sell a house in 2010?" boolean
 	hasBoughtHouse: "Did you buy a house in 2010?" boolean
 	hasMaintLoan: "Did you get a loan in 2010?"
 	boolean
 	valueResidue: "Did you sell a house in 2010?" int(hasSoldHouse - hasBoughtHouse)
 	
 	if (hasSoldHouse) {
+		takeMaintLoan: "Did you buy a house in 2010?" boolean
+	}
+	
+	if (hasSoldHoluse) {
 		takeMaintLoan: "Did you buy a house in 2010?" boolean
 	}
 	
