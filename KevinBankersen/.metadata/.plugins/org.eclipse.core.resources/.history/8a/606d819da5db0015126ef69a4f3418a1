@@ -1,0 +1,22 @@
+package eu.bankersen.kevin.ql.util.testing2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Parent {
+    
+    private final List<Children> children;
+    
+    public Parent() {
+	children = new ArrayList<>();
+    }
+    
+    public void addChild(SmallChild child) {
+	children.add(child);
+    }
+    
+    public List<Children> getChildren() {
+	return children;
+    }
+
+}

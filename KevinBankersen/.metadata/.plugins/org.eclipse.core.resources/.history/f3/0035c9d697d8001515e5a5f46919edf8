@@ -1,0 +1,15 @@
+package eu.bankersen.kevin.ql.context;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+
+public class ContextBuilder {
+    
+    Context context;
+    Form from;
+    
+    public ContextBuilder(Form form) {
+	this.form = form;
+	context = new Context(form.getName());
+    }
+
+}

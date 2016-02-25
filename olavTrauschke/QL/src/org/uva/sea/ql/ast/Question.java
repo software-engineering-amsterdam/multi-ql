@@ -47,38 +47,46 @@ public class Question extends ASTNode {
      * <code>type</code> of <code>this Question accept v</code> and then has
      * <code>v visit this Question</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should visit
-     *          <code>this Question</code> and its children
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this Question</code> and its children
      */
     @Override
     public void accept(ASTVisitor v) {
-        identifier.accept(v);
-        label.accept(v);
-        type.accept(v);
+        identifierAccept(v);
+        labelAccept(v);
+        typeAccept(v);
         
         v.visit(this);
     }
     
     /**
-     * @return an <code>Ident</code> identifying <code>this Question</code>
+     * Has the <code>identifier</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that the <code>identifier</code> of
+     *          <code>this Question</code> should <code>accept</code>
      */
-    protected Ident getIdentifier() {
-        return identifier;
+    protected void identifierAccept(ASTVisitor v) {
+        identifier.accept(v);
     }
     
     /**
-     * @return the <code>Label</code> to be displayed with <code>this Question</code>
+     * Has the <code>label</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that the <code>label</code> of
+     *          <code>this Question</code> should <code>accept</code>
      */
-    protected Label getLabel() {
-        return label;
+    protected void labelAccept(ASTVisitor v) {
+        label.accept(v);
     }
     
     /**
-     * @return an <code>ASTNode</code> representing the returntype of
-     *          <code>this Question</code>
+     * Has the <code>type</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that the <code>type</code> of
+     *          <code>this Question</code> should <code>accept</code>
      */
-    protected ASTNode getType() {
-        return type;
+    protected void typeAccept(ASTVisitor v) {
+        type.accept(v);
     }
     
     /**

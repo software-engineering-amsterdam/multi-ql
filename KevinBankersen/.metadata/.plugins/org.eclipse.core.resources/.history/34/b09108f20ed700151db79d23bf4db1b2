@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.context;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class TypeError extends Errors {
+    
+    private String message;
+
+    public TypeError(int line, Type lhs, Type rhs, Type expr) {
+	message = "TYPE_ERROR @Line " + line 
+			+ ": expected " + lhs 
+			+ " got " + rhs + "!";
+    }
+    
+    public TypeError(int line, Type lhs, Type rhs) {
+	message = "TYPE_ERROR @Line " + line 
+			+ ": expected " + lhs 
+			+ " got " + rhs + "!";
+    }
+    
+    public TypeError(int line, String name) {
+	message = "TYPE_ERROR @Line " + line 
+			+ " question \"" + name + "\" already defined!"
+    }
+}

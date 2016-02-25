@@ -1,0 +1,36 @@
+package eu.bankersen.kevin.ql.interpreter;
+
+import java.util.HashMap;
+import java.util.List;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.util.testing.DataListener;
+import eu.bankersen.kevin.ql.util.testing.ViewListener;
+
+public class Interpreter implements ViewListener {
+
+    private final Form form;
+    private final String symbolTable;
+    private List<DataListener> dataListeners;
+
+    public Interpreter(Form form, String symbolTable) {
+	this.form = form;
+	this.symbolTable = symbolTable;
+	this.dataListeners = new HashMap<>();
+    }
+
+    public void addDataListener(DataListener listener) {
+	dataListeners.add(listener);
+    }
+
+    private void dataUpdate() {
+	dataListeners.forEach(listener -> listener.dataUpdate(symbolTable));
+    }
+
+    @Override
+    public void viewUpdate(String name, Object value) {
+	
+	
+	dataUpdate();
+    }
+}

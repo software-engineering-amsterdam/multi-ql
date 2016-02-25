@@ -17,11 +17,13 @@ library
   hs-source-dirs:      src
                        src/Language
                        src/Language/Annotated
+                       src/Language/Annotated/Location
   exposed-modules:     AnnotatedAst
                        Simplify
                        Ast
                        TypeChecker
                        Parsing
+                       Location
   build-depends:       base >= 4.7 && < 5
                      , parsec
                      , syb

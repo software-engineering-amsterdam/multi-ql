@@ -4,9 +4,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
-import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.expression.Expression;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
 import nl.nicasso.ql.ast.expression.additive.Subtraction;
@@ -22,9 +21,7 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -99,21 +96,11 @@ public class Gui implements Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(IdentifierLit value) {
+	public Void visit(Identifier value) {
 		if (debug) {
 			System.out.println("Void: " + value.getValue());
 		}
 		
-		return null;
-	}
-
-	@Override
-	public Void visit(ASTNode node) {
-		return null;
-	}
-
-	@Override
-	public Void visit(Statement value) {
 		return null;
 	}
 
@@ -124,11 +111,6 @@ public class Gui implements Visitor<Void> {
 
 	@Override
 	public Void visit(IfElseStatement value) {
-		return null;
-	}
-
-	@Override
-	public Void visit(Expression value) {
 		return null;
 	}
 
@@ -203,11 +185,6 @@ public class Gui implements Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(Literal value) {
-		return null;
-	}
-
-	@Override
 	public Void visit(BooleanLit value) {
 		return null;
 	}
@@ -223,8 +200,9 @@ public class Gui implements Visitor<Void> {
 	}
 	
 	private void addQuestionToGui(Question question){
-		IdentifierLit id = question.getId();
+		Identifier id = question.getId();
 		
 		
 	}
+
 }

@@ -1,14 +1,15 @@
 package org.uva.sea.ql.ast.expr;
 
 import java.util.Objects;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type money in an AST.
  * 
  * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
-public class Money extends Expr {
+public class Money extends NumericExpr {
     
     /**
      * Start value used to calculate hashes for objects of this class.
@@ -38,6 +39,16 @@ public class Money extends Expr {
         assert theCents == null || (theCents >= 0 && theCents < 100);
         units = theUnits;
         cents = theCents;
+    }
+    
+    /**
+     * Has <code>v visit this Money</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Money</code>
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
     /**

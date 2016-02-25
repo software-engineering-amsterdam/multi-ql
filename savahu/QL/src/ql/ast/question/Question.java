@@ -5,6 +5,7 @@
  */
 package ql.ast.question;
 
+import ql.ast.ASTNode;
 import ql.ast.expression.Ident;
 import ql.ast.form.Label;
 import ql.ast.type.QuestionType;
@@ -13,7 +14,7 @@ import ql.ast.type.QuestionType;
  *
  * @author sander
  */
-public class Question {
+public class Question implements ASTNode {
 
     private final Ident _QuestionId;
     private final Label _QuestionLabel;

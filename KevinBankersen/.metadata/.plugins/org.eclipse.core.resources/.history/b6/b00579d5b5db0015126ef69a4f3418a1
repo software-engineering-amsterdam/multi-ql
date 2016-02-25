@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.util.testing.widget;
+
+import javax.swing.JPanel;
+
+import eu.bankersen.kevin.ql.context.Symbol;
+
+public class DropdownWidgetimplements Widget {
+
+    DropdownWidget(Symbol data) {
+	// TODO Auto-generated constructor stub
+    }
+    
+    @Override
+    public JPanel build() {
+	return new JPanel();
+    }
+
+}

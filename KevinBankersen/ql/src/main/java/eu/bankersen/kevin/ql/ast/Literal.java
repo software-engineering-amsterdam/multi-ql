@@ -1,33 +1,30 @@
 package eu.bankersen.kevin.ql.ast;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.SymbolTable;
 
 public class Literal extends Expr {
 
     private final Object value;
-    private final Type type;
     
-    public Literal(final Object value, final Type type) {
+    public Literal(Object value, Type type) {
+	super(type);
 	this.value = value;
-	this.type = type;
     }
     
     @Override
-    public final Object eval() {
+    public Object eval(SymbolTable symbolTable) {
 	return value; 
     }
 
     @Override
-    public final void checkType() {
-    }
-
-    @Override
-    public final Type getType() {
-	return type;
+    public Context checkType(Context context) {
+	return context;
     }
     
     @Override
-    public final String toString() {
+    public String toString() {
 	return value.toString();
     }
     

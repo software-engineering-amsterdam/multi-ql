@@ -1,12 +1,9 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
-import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.expression.Expression;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
 import nl.nicasso.ql.ast.expression.additive.Subtraction;
@@ -22,9 +19,7 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -38,17 +33,22 @@ import nl.nicasso.ql.ast.type.IntegerType;
 import nl.nicasso.ql.ast.type.NumericType;
 import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
+import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 
 public class TypeCheckerVisitor implements Visitor<Type> {
 
-	private boolean debug = true;
+	private boolean debug = false;
 		
 	private ArrayList<String> errors;
 	private ArrayList<String> warnings;
 
-	TypeCheckerVisitor() {
+	private SymbolTable symbolTable;
+	
+	TypeCheckerVisitor(SymbolTable symbolTable) {
 		errors = new ArrayList<String>();
 		warnings = new ArrayList<String>();
+		this.symbolTable = symbolTable;
 	}
 		
 	@Override
@@ -203,7 +203,6 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	@Override
 	public Type visit(Multiplication value) {
 		Type leftType = value.getLeft().accept(this);
-
 		Type rightType = value.getRight().accept(this);
 		
 		if (debug) {
@@ -286,11 +285,6 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	}
 
 	@Override
-	public Type visit(ASTNode node) {
-		return null;
-	}
-
-	@Override
 	public Type visit(Form value) {
 		value.getBlock().accept(this);
 		
@@ -315,14 +309,6 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	}
 
 	@Override
-	public Type visit(Statement value) {
-		if (debug) {
-			System.out.println("Statement");
-		}
-		return null;
-	}
-
-	@Override
 	public Type visit(Question value) {
 		if (debug) {
 			System.out.println("Question");
@@ -343,8 +329,6 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 			System.out.println("ComputedQuestion");
 		}
 		
-		//addComputedQuestion(value);
-				
 		return null;
 	}
 
@@ -380,22 +364,6 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	}
 
 	@Override
-	public Type visit(Expression value) {
-		if (debug) {
-			System.out.println("Expression");
-		}
-		return new Type();
-	}
-
-	@Override
-	public Type visit(Literal value) {
-		if (debug) {
-			System.out.println("Literal");
-		}
-		return null;
-	}
-
-	@Override
 	public Type visit(BooleanLit value) {
 		if (debug) {
 			System.out.println("BooleanLit: "+value.getValue());
@@ -404,14 +372,14 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	}
 
 	@Override
-	public Type visit(IdentifierLit value) {
+	public Type visit(Identifier value) {
 		if (debug) {
 			System.out.println("IdentifierLit: "+value.getValue());
 		}
 		
-		Type relatedType = getIdentifierType(value.getValue());
+		SymbolTableEntry entry = symbolTable.getEntry(value);
 		
-		return relatedType;
+		return entry.getType();
 	}
 
 	@Override
@@ -441,18 +409,20 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		return false;
 	}
 	
+	/*
 	private Type getIdentifierType(String identifier) {
-		Iterator<Entry<Question, Literal>> it = QL.symbolTable.getSymbols().entrySet().iterator();
+		Iterator<Entry<Identifier, SymbolTableEntry>> it = symbolTable.getSymbols().entrySet().iterator();
 	    while (it.hasNext()) {
-	    	Entry<Question, Literal> pair = it.next();
-	        Question key = (Question) pair.getKey();
-	        if(key.getId().getValue().equals(identifier)) {
+	    	Entry<Identifier, SymbolTableEntry> pair = it.next();
+	    	Identifier key = (Identifier) pair.getKey();
+	        if(key.getValue().equals(identifier)) {
 	        	return key.getType();
 	        }
 	        //System.out.println(key.getId().getValue()+" ("+ key.getType().getType() +")"+ " = " + pair.getValue());
 	    }
 		return null;
 	}
+	*/
 	
 	public ArrayList<String> getErrors() {
 		return errors;
@@ -461,5 +431,6 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	public ArrayList<String> getWarnings() {
 		return warnings;
 	}
+
 	
 }

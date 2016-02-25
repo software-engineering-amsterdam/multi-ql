@@ -1,12 +1,13 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.Ident;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Form</code>s in an AST.
  * 
  * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
 public class Form extends ASTNode {
     
@@ -34,6 +35,21 @@ public class Form extends ASTNode {
         assert theIdentifier != null && theQuestions != null;
         identifier = theIdentifier;
         questions = theQuestions;
+    }
+    
+    /**
+     * Has the <code>identifier</code> and <code>questions</code> of
+     * <code>this Form accept v</code> and then has <code>v visit this Form</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this Form</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        identifier.accept(v);
+        questions.accept(v);
+        
+        v.visit(this);
     }
     
     /**

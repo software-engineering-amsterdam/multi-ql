@@ -1,0 +1,19 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Swing implements DataListener {
+
+    private List<DataListener> listeners = new ArrayList<DataListener>();
+    
+    public void addListener(DataListener toAdd) {
+        listeners.add(toAdd);
+    }
+    
+    @Override
+    public void dataUpdate(int data) {
+	System.out.println("Data changed! New value is " + data);
+    }
+
+}

@@ -27,17 +27,7 @@ public class StringLit extends Literal implements Traversable {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
-	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
-		return visitor.visit(this);
-	}
-	
-	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

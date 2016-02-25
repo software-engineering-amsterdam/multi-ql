@@ -1,0 +1,22 @@
+package eu.bankersen.kevin.ql.context;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class Errors {
+    
+   
+    
+    public class SemanticError extends Errors{
+	    
+	    private String message;
+
+	    public void Semantic(Type lhs, Type rhs, Type expr) {
+		// TODO Auto-generated constructor stub
+	    }
+	    
+	    public void Semantic(Type lhs, Type rhs) {
+		// TODO Auto-generated constructor stub
+	    }
+	}
+
+}

@@ -1,11 +1,13 @@
 package org.uva.sea.ql.ast.expr;
 
+import org.uva.sea.ql.checker.ASTVisitor;
+
 /**
  * Representation of <code>Expr</code>s which compare two other <code>Expr</code>s
  * in some way in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 25-feb-2016
  */
 public abstract class ComparisonExpr extends BooleanExpr {
     
@@ -32,6 +34,42 @@ public abstract class ComparisonExpr extends BooleanExpr {
         assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
+    }
+    
+    /**
+     * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
+     * <code>this ComparisonExpr accept v</code> and then has
+     * <code>v visit this ComparisonExpr</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this ComparisonExpr</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        firstExprAccept(v);
+        secondExprAccept(v);
+        
+        v.visit(this);
+    }
+    
+    /**
+     * Has the <code>firstExpr</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that the <code>firstExpr</code> of
+     *          <code>this Question</code> should <code>accept</code>
+     */
+    protected void firstExprAccept(ASTVisitor v) {
+        firstExpr.accept(v);
+    }
+    
+    /**
+     * Has the <code>secondExpr</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that the <code>secondExpr</code> of
+     *          <code>this Question</code> should <code>accept</code>
+     */
+    protected void secondExprAccept(ASTVisitor v) {
+        secondExpr.accept(v);
     }
     
     /**

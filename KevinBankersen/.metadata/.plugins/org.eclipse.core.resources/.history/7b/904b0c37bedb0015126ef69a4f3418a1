@@ -1,0 +1,21 @@
+package eu.bankersen.kevin.ql.util.testing.widget;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import eu.bankersen.kevin.ql.interpreter.DataListener;
+import eu.bankersen.kevin.ql.util.testing.ViewListener;
+
+public interface Widget extends DataListener {
+    
+    JPanel build();
+    
+    void widgetUpdate(Object value);
+    
+    void addUIListener(ViewListener listener);
+    
+    
+
+}
