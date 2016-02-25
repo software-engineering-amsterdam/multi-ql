@@ -1,12 +1,3 @@
 form form1 {
-    q1: "q1" money(1 + 1)
-
-    if (true == true) {
-    }
+    q1: "q1" (1 + 1)
 }
-
-
-
-//form form1 {
-//    q1: "q1" (1 + 1)
-//}

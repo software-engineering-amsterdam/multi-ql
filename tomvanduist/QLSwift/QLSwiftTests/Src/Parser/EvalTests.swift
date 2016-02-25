@@ -62,19 +62,19 @@ class EvalTests: XCTestCase {
         XCTAssertTrue(q3!.expression.eval() == 8)
     }
     
-//    func testBool() {
-//        let form = parseEval("EvalBool")
-//        
-//        guard form != nil
-//            else { return }
-//        
-//        let q1 = form!.block.block.first as? Question
-//        
-//        XCTAssertNotNil(q1)
-//        guard q1 != nil
-//            else { return }
-//        
-//        
-//        XCTAssertTrue(q1!.expression.eval() == true)
-//    }
+    func testBool() {
+        let form = parseFile("EvalBool", doEval: true)
+        
+        guard form != nil
+            else { return }
+        
+        let q1 = form!.block.block.first as? Question
+        
+        XCTAssertNotNil(q1)
+        guard q1 != nil
+            else { return }
+        
+        
+        XCTAssertTrue(q1!.expression.eval() == true)
+    }
 }
