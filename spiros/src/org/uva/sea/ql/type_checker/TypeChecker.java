@@ -45,26 +45,12 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	
 	private final Form form;
 	private HashMap<String, IdentifierData> questionData;
-//	private final QuestionsVisitor questionsVisitor;
-//	private final ComputedQuestionsVisitor computedQuestionsVisitor;
-//	private final IfStatementVisitor ifStatementVisitor;
-	
 	
 	public TypeChecker(Form form) {
 		this.form = form;
 		this.questionData = new HashMap<>();
-//		this.questionsVisitor = new QuestionsVisitor(form);
-//		this.computedQuestionsVisitor = new ComputedQuestionsVisitor(form);
-//		this.ifStatementVisitor = new IfStatementVisitor(form);
 	}
 	
-//	public List<Question> getAllQuestions() {
-//		
-//		List<Question> questions = this.questionsVisitor.getQuestions();
-//		List<ComputedQuestion> computedQuestions = this.computedQuestionsVisitor.getComputedQuestions();
-//		questions.addAll(computedQuestions);
-//		return questions;
-//	}
 
 	public Form getForm() {
 		return form;
@@ -93,6 +79,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		return false;
 	}
 	
+	
 	private boolean hasExpectedType(Unary node, Type expectedType) {
 
 		Expression expression = node.getExpression();
@@ -103,23 +90,25 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 				
 		return false;
 	}
+	
 
 	private boolean typeMatches(Type rightExpType, Type expectedType) {
-		//System.out.println(rightExpType.getTypeName());
 		return rightExpType.getTypeName().equals(expectedType.getTypeName());
 	}
+	
 	
 	private boolean isConditionBooleanType(IfStatement ifStatement) {
 		
 		Type type = ifStatement.getExpression().accept(this);
 		
-		if (type.getTypeName().equals("boolean"))
+		if (typeMatches(type, new BoolType()))
 			return true;
 		
 		return false;	// give info about the type
 	}
 	
-private boolean isDeclaredWithDifferentType(Question question) {
+	
+	private boolean isDeclaredWithDifferentType(Question question) {
 		
 		Identifier identifier = question.getId();
 		
@@ -135,6 +124,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		
 		return false;
 	}
+	
 
 	private boolean labelIsDuplicate(Question question) {
 		
@@ -145,6 +135,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 
 		return false;
 	}
+	
 	
 	private void insertAtHashMap(String id,String label,Type type) {
 		this.questionData.put(id, new IdentifierData(type,label));
@@ -196,6 +187,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		}
 	}
 	
+	
 	@Override
 	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
 		
@@ -212,14 +204,10 @@ private boolean isDeclaredWithDifferentType(Question question) {
 			System.exit(0);			
 		}
 		
-		//else {
 		
 		Identifier identifier = computedQuestion.getId();
 		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
 		
-		//}
-		
-		//Expression expression = computedQuestion.getExpression();
 	}
 
 	
@@ -227,10 +215,8 @@ private boolean isDeclaredWithDifferentType(Question question) {
 	@Override
 	public void visitIfStatement(IfStatement ifStatement) {
 		
-		if (isConditionBooleanType(ifStatement)) {
-			//System.out.println("Condition is boolean");
+		if (isConditionBooleanType(ifStatement))
 			ifStatement.getBlock().accept(this);
-		}
 		
 		else {
 			System.out.println("Condition is not boolean");
@@ -273,6 +259,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 			
 		return new BoolType();
 	}
+	
 
 	@Override
 	public Type visit(Greater node) {
@@ -309,6 +296,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		return new BoolType();
 	}
 
+	
 	@Override
 	public Type visit(LessOrEqual node) {
 		
@@ -319,12 +307,14 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		
 		return new BoolType();
 	}
+	
 
 	@Override
 	public Type visit(BooleanLiteral node) {
 		return new BoolType();
 	}
 
+	
 	@Override
 	public Type visit(Identifier node) {
 		
@@ -338,27 +328,23 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		return new UndefinedType();
 	}
 
+	
 	@Override
 	public Type visit(IntegerLiteral node) {
 		return new IntType();
 	}
 
+	
 	@Override
 	public Type visit(StringLiteral node) {
 		return new StrType();
 	}
 	
+	
 	// change below to call method typeMatches...
-	// first if not exit...
-
+	
 	@Override
-	public Type visit(And node) {
-//		Type typeOfLeftExpression = node.getLeftExpression().accept(this);
-//		Type typeOfRightExpression = node.getRightExpression().accept(this);
-//		if (typeOfLeftExpression.getTypeName().equals("boolean") && typeOfRightExpression.getTypeName().equals("boolean"))
-//			return new BoolType();
-//		else
-//			return new UndefinedType();		//  check...
+	public Type visit(And node) {	
 		
 		if (!hasExpectedType(node,new BoolType())) {
 			System.out.println("Logican 'and' expects booleans!");
@@ -367,6 +353,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		
 		return new BoolType();
 	}
+	
 
 	@Override
 	public Type visit(Or node) {
@@ -378,6 +365,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		return new BoolType();
 	}
 
+	
 	@Override
 	public Type visit(Add node) {
 		
@@ -389,6 +377,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		return new IntType();
 	}
 
+	
 	@Override
 	public Type visit(Sub node) {
 		
@@ -400,6 +389,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		return new IntType();
 	}
 
+	
 	@Override
 	public Type visit(Mul node) {
 		
@@ -411,6 +401,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		return new IntType();
 	}
 
+	
 	@Override
 	public Type visit(Div node) {
 		
@@ -421,6 +412,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		
 		return new IntType();
 	}
+	
 	
 	/** parenthsis to be removed! **/
 
@@ -440,6 +432,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		
 		return new BoolType();
 	}
+	
 
 	@Override
 	public Type visit(Positive node) {
@@ -452,6 +445,7 @@ private boolean isDeclaredWithDifferentType(Question question) {
 		return new IntType();
 	}
 
+	
 	@Override
 	public Type visit(Negative node) {
 		
