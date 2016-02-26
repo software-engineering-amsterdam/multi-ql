@@ -207,12 +207,17 @@ private boolean isDeclaredWithDifferentType(Question question) {
 			System.exit(0);
 		}
 		
-		else {
+		if (!typeMatches(computedQuestion.getType(), computedQuestion.getExpression().accept(this))) {
+			System.out.println("Wrong expression in the computed question");
+			System.exit(0);			
+		}
+		
+		//else {
 		
 		Identifier identifier = computedQuestion.getId();
 		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
 		
-		}
+		//}
 		
 		//Expression expression = computedQuestion.getExpression();
 	}
@@ -348,22 +353,29 @@ private boolean isDeclaredWithDifferentType(Question question) {
 
 	@Override
 	public Type visit(And node) {
-		Type typeOfLeftExpression = node.getLeftExpression().accept(this);
-		Type typeOfRightExpression = node.getRightExpression().accept(this);
-		if (typeOfLeftExpression.getTypeName().equals("boolean") && typeOfRightExpression.getTypeName().equals("boolean"))
-			return new BoolType();
-		else
-			return new UndefinedType();		//  check...
+//		Type typeOfLeftExpression = node.getLeftExpression().accept(this);
+//		Type typeOfRightExpression = node.getRightExpression().accept(this);
+//		if (typeOfLeftExpression.getTypeName().equals("boolean") && typeOfRightExpression.getTypeName().equals("boolean"))
+//			return new BoolType();
+//		else
+//			return new UndefinedType();		//  check...
+		
+		if (!hasExpectedType(node,new BoolType())) {
+			System.out.println("Logican 'and' expects booleans!");
+			System.exit(0);
+		}
+		
+		return new BoolType();
 	}
 
 	@Override
 	public Type visit(Or node) {
-		Type typeOfLeftExpression = node.getLeftExpression().accept(this);
-		Type typeOfRightExpression = node.getRightExpression().accept(this);
-		if (typeOfLeftExpression.getTypeName().equals("boolean") && typeOfRightExpression.getTypeName().equals("boolean"))
-			return new BoolType();
-		else
-			return new UndefinedType();		//  check...
+		if (!hasExpectedType(node,new BoolType())) {
+			System.out.println("Logican 'or' expects booleans!");
+			System.exit(0);
+		}
+		
+		return new BoolType();
 	}
 
 	@Override

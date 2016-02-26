@@ -1,6 +1,5 @@
 package org.uva.sea.ql.type_checker;
 
-import org.uva.sea.ql.ast.expression.Literal.Identifier;
 import org.uva.sea.ql.ast.type.Type;
 
 public class IdentifierData {
