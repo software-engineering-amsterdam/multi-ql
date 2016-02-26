@@ -3,6 +3,7 @@ package org.uva.sea.ql.type_checker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
@@ -17,6 +18,7 @@ import org.uva.sea.ql.ast.expression.Literal.Identifier;
 import org.uva.sea.ql.ast.expression.Literal.IntegerLiteral;
 import org.uva.sea.ql.ast.expression.Literal.StringLiteral;
 import org.uva.sea.ql.ast.expression.Logical.And;
+import org.uva.sea.ql.ast.expression.Logical.Binary;
 import org.uva.sea.ql.ast.expression.Logical.Or;
 import org.uva.sea.ql.ast.expression.Numerical.Add;
 import org.uva.sea.ql.ast.expression.Numerical.Div;
@@ -83,31 +85,86 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public Type visit(Equal node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("Equal comparison expects integers!");
+			System.exit(0);
+		}
+			
 		return new BoolType();
+	}
+
+	private boolean hasExpectedType(Binary node, Type expectedType) {
+		// TODO Auto-generated method stub
+		Expression rightExpression = node.getRightExpression();
+		Expression leftExpression = node.getLeftExpression();
+		Type leftExprType = leftExpression.accept(this);
+		Type rightExpType = rightExpression.accept(this);
+		
+		if (typeMatches(rightExpType,expectedType) && typeMatches(leftExprType,expectedType))
+			return true;
+				
+		return false;
+	}
+
+	private boolean typeMatches(Type rightExpType, Type expectedType) {
+		//System.out.println(rightExpType.getTypeName());
+		return rightExpType.getTypeName().equals(expectedType.getTypeName());
 	}
 
 	@Override
 	public Type visit(NotEqual node) {
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("NotEqual comparison expects integers!");
+			System.exit(0);
+		}
+			
 		return new BoolType();
 	}
 
 	@Override
 	public Type visit(Greater node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("Greater comparison expects integers!");
+			System.exit(0);
+		}
+			
 		return new BoolType();
 	}
+	
 
 	@Override
 	public Type visit(GreaterOrEqual node) {
-		return new BoolType();
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("GreaterOrEqualcomparison expects integers!");
+			System.exit(0);
+		}
+			
+		return new BoolType();	
 	}
+	
 
 	@Override
 	public Type visit(Less node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("Less comparison expects integers!");
+			System.exit(0);
+		}
+			
 		return new BoolType();
 	}
 
 	@Override
 	public Type visit(LessOrEqual node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("LessOrEqual comparison expects integers!");
+			System.exit(0);
+		}
+		
 		return new BoolType();
 	}
 
@@ -122,6 +179,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		String nodeString = node.getValue();
 		if (questionData.containsKey(nodeString)) {
 			IdentifierData identifierData = questionData.get(nodeString);
+			//System.out.println(identifierData.getType().getTypeName());
 			return identifierData.getType();
 		}
 //		for (IdentifierData identifierData: questionData.values())
@@ -140,6 +198,9 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	public Type visit(StringLiteral node) {
 		return new StrType();
 	}
+	
+	// change below to call method typeMatches...
+	// first if not exit...
 
 	@Override
 	public Type visit(And node) {
@@ -163,21 +224,45 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public Type visit(Add node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("Addition expects integers!");
+			System.exit(0);
+		}
+		
 		return new IntType();
 	}
 
 	@Override
 	public Type visit(Sub node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("Subtraction expects integers!");
+			System.exit(0);
+		}
+		
 		return new IntType();
 	}
 
 	@Override
 	public Type visit(Mul node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("Multiplication expects integers!");
+			System.exit(0);
+		}
+		
 		return new IntType();
 	}
 
 	@Override
 	public Type visit(Div node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("Division expects integers!");
+			System.exit(0);
+		}
+		
 		return new IntType();
 	}
 	
@@ -188,6 +273,8 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	// create another matchTypes for unary? probably . . .  goin to sleep . . .
 
 	@Override
 	public Type visit(Not node) {

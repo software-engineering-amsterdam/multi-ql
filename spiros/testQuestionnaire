@@ -4,7 +4,7 @@ form Box1HouseOwning {
 	hasSoldHouse: "Did you get a loan in 2010?"
 	int
 	
-	if (true) {
+	if (hasSoldHouse == 2) {
 		takeMaintLoan: "Did you buy a house in 2010?" boolean
 	}
 	
