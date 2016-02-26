@@ -1,9 +1,6 @@
 package org.uva.sea.ql.type_checker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
@@ -28,15 +25,13 @@ import org.uva.sea.ql.ast.expression.Parenthesis.Parenthesis;
 import org.uva.sea.ql.ast.expression.Unary.Negative;
 import org.uva.sea.ql.ast.expression.Unary.Not;
 import org.uva.sea.ql.ast.expression.Unary.Positive;
+import org.uva.sea.ql.ast.expression.Unary.Unary;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.form.FormVisitor;
 import org.uva.sea.ql.ast.statement.ComputedQuestion;
-import org.uva.sea.ql.ast.statement.ComputedQuestionsVisitor;
 import org.uva.sea.ql.ast.statement.IfElseStatement;
 import org.uva.sea.ql.ast.statement.IfStatement;
-import org.uva.sea.ql.ast.statement.IfStatementVisitor;
 import org.uva.sea.ql.ast.statement.Question;
-import org.uva.sea.ql.ast.statement.QuestionsVisitor;
 import org.uva.sea.ql.ast.statement.StatementVisitor;
 import org.uva.sea.ql.ast.type.BoolType;
 import org.uva.sea.ql.ast.type.IntType;
@@ -80,7 +75,175 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	}
 	
 	
+	/****************************
+	******* Check Methods *******
+	*****************************/
+	
+	
+	private boolean hasExpectedType(Binary node, Type expectedType) {
 
+		Expression rightExpression = node.getRightExpression();
+		Expression leftExpression = node.getLeftExpression();
+		Type leftExprType = leftExpression.accept(this);
+		Type rightExpType = rightExpression.accept(this);
+		
+		if (typeMatches(rightExpType,expectedType) && typeMatches(leftExprType,expectedType))
+			return true;
+				
+		return false;
+	}
+	
+	private boolean hasExpectedType(Unary node, Type expectedType) {
+
+		Expression expression = node.getExpression();
+		Type type = expression.accept(this);
+		
+		if (typeMatches(type,expectedType) )
+			return true;
+				
+		return false;
+	}
+
+	private boolean typeMatches(Type rightExpType, Type expectedType) {
+		//System.out.println(rightExpType.getTypeName());
+		return rightExpType.getTypeName().equals(expectedType.getTypeName());
+	}
+	
+	private boolean isConditionBooleanType(IfStatement ifStatement) {
+		
+		Type type = ifStatement.getExpression().accept(this);
+		
+		if (type.getTypeName().equals("boolean"))
+			return true;
+		
+		return false;	// give info about the type
+	}
+	
+private boolean isDeclaredWithDifferentType(Question question) {
+		
+		Identifier identifier = question.getId();
+		
+		if (questionData.keySet().contains(identifier.getValue())) {	////
+			
+			String identifierString = question.getType().getTypeName();	// fix -> demeter
+
+			IdentifierData identifierData = questionData.get(identifier.getValue());	////
+			
+			if (!identifierString.equals(identifierData.getType().getTypeName()))		// fix-> demeter...
+				return true;										//// else update label? ask...
+		}
+		
+		return false;
+	}
+
+	private boolean labelIsDuplicate(Question question) {
+		
+		for(IdentifierData identifierData: questionData.values())
+			
+			if (identifierData.getLabel().equals(question.getLabel()))
+				return true;
+
+		return false;
+	}
+	
+	private void insertAtHashMap(String id,String label,Type type) {
+		this.questionData.put(id, new IdentifierData(type,label));
+	}
+	
+	
+	
+	/****************************
+	*********Form Visitor********
+	*****************************/
+	
+	
+	@Override
+	public void visitForm(Form form) {
+		form.getBlock().accept(this);
+		
+	}
+
+	@Override
+	public void visitBlock(Block block) {
+		for (Statement statement: block.getStatements())
+			statement.accept(this);
+	}
+	
+
+	
+	/****************************
+	******Statement Visitor******
+	*****************************/
+
+
+
+	@Override
+	public void visitQuestion(Question question) {
+		
+		if (labelIsDuplicate(question))
+			System.out.println("Duplicate label found!");
+		
+		if (isDeclaredWithDifferentType(question)) {
+			System.out.println("Question is declared with different type");
+			System.exit(0);
+		}
+		
+		else {
+			
+			Identifier identifier = question.getId();
+			insertAtHashMap(identifier.getValue(),question.getLabel(),question.getType());
+			
+		}
+	}
+	
+	@Override
+	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
+		
+		if (labelIsDuplicate(computedQuestion))
+			System.out.println("Duplicate label found!");
+		
+		if (isDeclaredWithDifferentType(computedQuestion)) {
+			System.out.println("Question is declared with different type");
+			System.exit(0);
+		}
+		
+		else {
+		
+		Identifier identifier = computedQuestion.getId();
+		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
+		
+		}
+		
+		//Expression expression = computedQuestion.getExpression();
+	}
+
+	
+
+	@Override
+	public void visitIfStatement(IfStatement ifStatement) {
+		
+		if (isConditionBooleanType(ifStatement)) {
+			//System.out.println("Condition is boolean");
+			ifStatement.getBlock().accept(this);
+		}
+		
+		else {
+			System.out.println("Condition is not boolean");
+			System.exit(0);
+		}
+	}
+
+	
+	@Override
+	public void visitIfElseStatement(IfElseStatement ifElseStatement) {
+		ifElseStatement.getBlock().accept(this);
+		ifElseStatement.getElseBlock().accept(this);
+	}
+	
+	
+	/****************************
+	**** Expression Visitor *****
+	*****************************/	
 	
 
 	@Override
@@ -94,23 +257,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		return new BoolType();
 	}
 
-	private boolean hasExpectedType(Binary node, Type expectedType) {
-		// TODO Auto-generated method stub
-		Expression rightExpression = node.getRightExpression();
-		Expression leftExpression = node.getLeftExpression();
-		Type leftExprType = leftExpression.accept(this);
-		Type rightExpType = rightExpression.accept(this);
-		
-		if (typeMatches(rightExpType,expectedType) && typeMatches(leftExprType,expectedType))
-			return true;
-				
-		return false;
-	}
-
-	private boolean typeMatches(Type rightExpType, Type expectedType) {
-		//System.out.println(rightExpType.getTypeName());
-		return rightExpType.getTypeName().equals(expectedType.getTypeName());
-	}
+	
 
 	@Override
 	public Type visit(NotEqual node) {
@@ -182,10 +329,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 			//System.out.println(identifierData.getType().getTypeName());
 			return identifierData.getType();
 		}
-//		for (IdentifierData identifierData: questionData.values())
-//			if (identifierData.getLabel().equals(node.getValue()))
-//				return identifierData.getType();
-		
+	
 		return new UndefinedType();
 	}
 
@@ -270,148 +414,42 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public Type visit(Parenthesis node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	// create another matchTypes for unary? probably . . .  goin to sleep . . .
 
 	@Override
 	public Type visit(Not node) {
+		
+		if (!hasExpectedType(node,new BoolType())) {
+			System.out.println("Negation expects boolean!");
+			System.exit(0);
+		}
+		
 		return new BoolType();
 	}
 
 	@Override
 	public Type visit(Positive node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("'+' expects integer!");
+			System.exit(0);
+		}
+		
 		return new IntType();
 	}
 
 	@Override
 	public Type visit(Negative node) {
+		
+		if (!hasExpectedType(node,new IntType())) {
+			System.out.println("'-' expects integer!");
+			System.exit(0);
+		}
+		
 		return new IntType();
 	}
 	
-	/****************************
-	******Statement Visitor******
-	*****************************/
-
-	@Override
-	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
-		
-		if (labelIsDuplicate(computedQuestion))
-			System.out.println("Duplicate label found!");
-		
-		if (isDeclaredWithDifferentType(computedQuestion)) {
-			System.out.println("Question is declared with different type");
-			System.exit(0);
-		}
-		
-		else {
-		
-		Identifier identifier = computedQuestion.getId();
-		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
-		
-		}
-		
-		//Expression expression = computedQuestion.getExpression();
-	}
-
-	@Override
-	public void visitQuestion(Question question) {
-		
-		if (labelIsDuplicate(question))
-			System.out.println("Duplicate label found!");
-		
-		if (isDeclaredWithDifferentType(question)) {
-			System.out.println("Question is declared with different type");
-			System.exit(0);
-		}
-		
-		else {
-			
-			Identifier identifier = question.getId();
-			insertAtHashMap(identifier.getValue(),question.getLabel(),question.getType());
-			
-		}
-	}
-
-	private boolean isDeclaredWithDifferentType(Question question) {
-		
-		Identifier identifier = question.getId();
-		
-		if (questionData.keySet().contains(identifier.getValue())) {	////
-			
-			String identifierString = question.getType().getTypeName();	// fix -> demeter
-
-			IdentifierData identifierData = questionData.get(identifier.getValue());	////
-			
-			if (!identifierString.equals(identifierData.getType().getTypeName()))		// fix-> demeter...
-				return true;										//// else update label? ask...
-		}
-		
-		return false;
-	}
-
-	private boolean labelIsDuplicate(Question question) {
-		
-		for(IdentifierData identifierData: questionData.values())
-			
-			if (identifierData.getLabel().equals(question.getLabel()))
-				return true;
-
-		return false;
-	}
-	
-	private void insertAtHashMap(String id,String label,Type type) {
-		this.questionData.put(id, new IdentifierData(type,label));
-	}
-
-	@Override
-	public void visitIfStatement(IfStatement ifStatement) {
-		
-		if (isConditionBooleanType(ifStatement)) {
-			//System.out.println("Condition is boolean");
-			ifStatement.getBlock().accept(this);
-		}
-		
-		else {
-			System.out.println("Condition is not boolean");
-			System.exit(0);
-		}
-	}
-	
-	private boolean isConditionBooleanType(IfStatement ifStatement) {
-		
-		Type type = ifStatement.getExpression().accept(this);
-		
-		if (type.getTypeName().equals("boolean"))
-			return true;
-		
-		return false;	// give info about the type
-	}
-
-	
-	@Override
-	public void visitIfElseStatement(IfElseStatement ifElseStatement) {
-		ifElseStatement.getBlock().accept(this);
-		ifElseStatement.getElseBlock().accept(this);
-	}
-	
-	/****************************
-	*********Form Visitor********
-	*****************************/
-	
-	
-	@Override
-	public void visitForm(Form form) {
-		form.getBlock().accept(this);
-		
-	}
-
-	@Override
-	public void visitBlock(Block block) {
-		for (Statement statement: block.getStatements())
-			statement.accept(this);
-	}
 
 }
