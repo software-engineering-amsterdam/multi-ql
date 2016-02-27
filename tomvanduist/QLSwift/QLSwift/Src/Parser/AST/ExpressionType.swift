@@ -12,26 +12,6 @@ import Foundation
 protocol ExpressionType {
 }
 
-protocol TypeEval: ExpressionType {
-    typealias GenericParam
-    typealias GenericReturn
-    
-    func eval(param: GenericParam?) -> GenericReturn
-}
-
-
-class TypeThunk<P, R> : NSObject, TypeEval {
-    private let _eval : (param: P?) -> R?
-    
-    init<T : TypeEval where T.GenericParam == P, T.GenericReturn == R>(_ dep : T) {
-        _eval = dep.eval
-    }
-    
-    func eval(param: P?) -> R? {
-        return _eval(param: param)
-    }
-}
-
 class IdentifierType: ExpressionType {
 }
 
