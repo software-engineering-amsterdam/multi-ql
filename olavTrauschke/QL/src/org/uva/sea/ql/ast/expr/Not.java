@@ -1,5 +1,7 @@
 package org.uva.sea.ql.ast.expr;
 
+import org.uva.sea.ql.checker.ASTVisitor;
+
 /**
  * Representation of a (boolean) negation in an AST.
  * 
@@ -24,6 +26,20 @@ public class Not extends BooleanExpr {
     public Not(Expr theContent) {
         assert theContent != null;
         content = theContent;
+    }
+    
+    /**
+     * Has <code>theContent</code> of <code>this Not accept v</code> and then
+     * has <code>v visit this Not</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Not</code>
+     *          and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        content.accept(v);
+        
+        v.visit(this);
     }
     
     /**

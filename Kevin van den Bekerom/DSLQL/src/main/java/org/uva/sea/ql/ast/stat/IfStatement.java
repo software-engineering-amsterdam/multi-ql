@@ -1,9 +1,9 @@
 package org.uva.sea.ql.ast.stat;
 
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.Visitable;
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.Expr;
+import org.uva.sea.ql.ast.visit.Visitable;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public class IfStatement extends ASTNode implements Visitable {
 	private Block block;

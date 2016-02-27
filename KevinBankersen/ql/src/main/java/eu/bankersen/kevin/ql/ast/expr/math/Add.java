@@ -1,19 +1,19 @@
 package eu.bankersen.kevin.ql.ast.expr.math;
 
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
+import eu.bankersen.kevin.ql.context.SymbolTable;
 
 public class Add extends IntegerExpr {
 
-    public Add(final Expr lhs,  final Expr rhs,  final int line) {
-	super.lhs =  lhs;
-	super.rhs =  rhs;
-	super.line = line;
+    public Add(Expr lhs, Expr rhs, int line) {
+	super(lhs, rhs, line);
     }
 
     @Override
-    public final Integer eval() {
-	return (Integer) lhs.eval() + (Integer) rhs.eval();
+    public Integer eval(SymbolTable symbolTable) throws EvaluateExeption {
+	return (Integer) lhs().eval(symbolTable) + (Integer) rhs().eval(symbolTable);
     }
 
 }

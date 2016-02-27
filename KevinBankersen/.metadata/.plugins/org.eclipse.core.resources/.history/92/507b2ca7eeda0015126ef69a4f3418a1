@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+import java.util.List;
+
+public class ContextBuildException extends Exception {
+    
+    private final List<String[]> exceptions;
+    
+    public ContextBuildException(final List<String[]> exceptions) {
+	this.exceptions = exceptions;
+    }
+    
+    public final List<String[]> getErrors() {
+	return exceptions;
+    }
+
+}

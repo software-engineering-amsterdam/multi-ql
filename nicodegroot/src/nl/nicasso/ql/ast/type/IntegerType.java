@@ -1,9 +1,5 @@
 package nl.nicasso.ql.ast.type;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
-import nl.nicasso.ql.ast.literal.Literal;
-
 public class IntegerType extends NumericType {
 
 	private final String type;
@@ -17,13 +13,18 @@ public class IntegerType extends NumericType {
 		return type;
 	}
 	
-	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
-		return visitor.visit(this);
-	}
-	
-	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
-		return visitor.visit(this);
+	public boolean CompatibleWith(Type type) {
+		switch(type.getType()) {
+			case "Boolean":
+				return false;
+			case "Integer":
+				return true;
+			case "Money":
+				return true;
+			case "String":
+				return false;
+			default:
+				return false;
+		}
 	}
 }

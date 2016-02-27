@@ -13,10 +13,15 @@ public class Context {
 	}
 	
 	public void putQuestionType(String key, Type value) {
+		System.out.println("Sometin happend!");
 		questionTypes.put(key, value);
 	}
 	
 	public Type getTypeFromQuestion(String questionID) {
 		return questionTypes.get(questionID);
+	}
+	
+	public Map<String, Type> getTypeMap() {
+		return this.questionTypes;
 	}
 }

@@ -1,12 +1,14 @@
 package org.uva.sea.ql.ast.expr;
 
+import org.uva.sea.ql.checker.ASTVisitor;
+
 /**
  * Representation of a conjunction or disjunction of booleans in an AST.
  * 
- * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @author Olav Trauschke
+ * @version 25-feb-2016
  */
-public class BooleanConjunctiveExpr extends BooleanExpr {
+public abstract class BooleanConjunctiveExpr extends BooleanExpr {
     
     /**
      * Start value used to calculate hashes for objects of this class.
@@ -31,6 +33,22 @@ public class BooleanConjunctiveExpr extends BooleanExpr {
         assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
+    }
+    
+    /**
+     * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
+     * <code>this BooleanConjunctiveExpr accept v</code> and then has
+     * <code>v visit this BooleanConjunctiveExpr</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this BooleanConjunctiveExpr</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        firstExpr.accept(v);
+        secondExpr.accept(v);
+        
+        v.visit(this);
     }
     
     /**

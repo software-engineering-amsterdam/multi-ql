@@ -2,12 +2,13 @@ package org.uva.sea.ql.ast;
 
 import java.util.Objects;
 import org.uva.sea.ql.ast.expr.Expr;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>ConditionalStatement</code>s in an AST.
  * 
- * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @author Olav Trauschke
+ * @version 25-feb-2016
  */
 public class ConditionalStatement extends ASTNode {
     
@@ -40,6 +41,32 @@ public class ConditionalStatement extends ASTNode {
         condition = theCondition;
         toDoIf = toDoInCase;
         toDoElse = toDoInCaseNot;
+    }
+    
+    /**
+     * @return the <code>condition</code> determing whether to execute
+     *          <code>toDoInCase</code> or <code>toDoInCaseNot</code> for
+     *          <code>this ConditionalStatement</code>
+     */
+    public Expr getCondition() {
+        return condition;
+    }
+    
+    /**
+     * Has the <code>condition</code>, the <code>toDoIf</code> and the
+     * <code>toDoElse</code> of <code>this ConditionalStatement accept v</code>
+     * and then has <code>v visit this ConditionalStatement</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this ConditionalStatement</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        condition.accept(v);
+        toDoIf.accept(v);
+        toDoElse.accept(v);
+        
+        v.visit(this);
     }
     
     /**

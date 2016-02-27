@@ -18,9 +18,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
-import nl.nicasso.ql.ast.literal.Literal;
-import nl.nicasso.ql.ast.statement.Question;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.structure.Form;
+import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 
 public class QL {
 	
@@ -28,8 +29,6 @@ public class QL {
 	
 	private QLParser parser;		
 	private ParseTree tree;
-	
-	public static SymbolTable symbolTable;
 	
 	public QL() {
 		// Empty?
@@ -43,64 +42,65 @@ public class QL {
 		
 		parser = new QLParser(tokens);		
 		tree = parser.form();
-		
-		//System.out.println(tree.toStringTree(parser));
-		
-		symbolTable = new SymbolTable();
+				
+		SymbolTable symbolTable = new SymbolTable();
         
-        // VISITOR PATTERN!
         CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
-        
-        QuestionVisitor questionVisitor = new QuestionVisitor();
-        
+          
+        QuestionVisitor questionVisitor = new QuestionVisitor(symbolTable);
         ast.accept(questionVisitor);
         
-        //ArrayList<Question> questions = questionVisitor.getQuestions();
-        //questionVisitor.checkNullPointers();
+        //displaySymbolTable(symbolTable);
         
         displayMessages("QuestionVisitor Warnings", questionVisitor.getWarnings());
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
-	    
-        //displaySymbolTable();
+        
+        //displaySymbolTable(symbolTable);
         
         CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor();
-        
         ast.accept(cyclicDependencyVisitor);
-        
         cyclicDependencyVisitor.detectCyclicDependencies();
         
         displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
         displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
         
-        TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
+        //displaySymbolTable(symbolTable);
         
+        TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(symbolTable);
         ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
         
-        EvaluatorVisitor evaluator = new EvaluatorVisitor();
+        EvaluatorVisitor evaluator = new EvaluatorVisitor(symbolTable);
         // Get all initial values
         ast.accept(evaluator);
         
         // Use values to evaluate expressions
         ast.accept(evaluator);
         
-        //displaySymbolTable();
+        displaySymbolTable(symbolTable);
         
         //Gui ex = new Gui();
         //ex.setVisible(true);
-        
+
 	}
 	
-	private void displaySymbolTable() {
-		Iterator<Entry<Question, Literal>> it = QL.symbolTable.getSymbols().entrySet().iterator();
+	public void displaySymbolTable(SymbolTable symbolTable) {
+		Iterator<Entry<Identifier, SymbolTableEntry>> it = symbolTable.getSymbols().entrySet().iterator();
 	    while (it.hasNext()) {
-	    	Entry<Question, Literal> pair = it.next();
-	        Question key = (Question) pair.getKey();
-	        Literal value = (Literal) pair.getValue();
-	        System.out.println(key.getId().getValue()+" ("+ key.getType().getType() +")"+ " = " + value.getValue());
+	    	Entry<Identifier, SymbolTableEntry> pair = it.next();
+	    	Identifier key = (Identifier) pair.getKey();
+	        SymbolTableEntry value = (SymbolTableEntry) pair.getValue();
+	        
+	        String realValue;
+	        if (value.getValue() == null) {
+	        	realValue = "undefined";
+	        } else {
+	        	realValue = value.getValue().toString();
+	        }
+	        System.out.println(key.getValue()+" ("+ value.getType().getType() +")"+ " = " + realValue);
 	    }
 	}
 	

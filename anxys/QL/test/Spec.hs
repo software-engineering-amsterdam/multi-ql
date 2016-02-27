@@ -1,14 +1,21 @@
 import           Parsing
 import Ast as A
+import qualified AnnotatedAst as AA
 import           Simplify
 import           Test.Hspec
 import           Text.ParserCombinators.Parsec as P
 import           TypeChecker
+import  Location
 
 tParseF :: String -> String
 tParseF input =  case P.parse form "ql" input of
           Left err ->  "Error: " ++ show err
-          Right val -> show $ sForm val
+          Right val -> show $ simplify val
+
+ttParse :: String -> AA.Form Location
+ttParse input = case P.parse form "ql" input of
+        Right val -> val
+        Left e ->  error (show e)
 
 tParse' :: Parser a -> String -> Either ParseError a
 tParse' p = P.parse p "ql"
@@ -25,7 +32,6 @@ canParse :: Either ParseError a -> Bool
 canParse (Left _) = False
 canParse (Right _) = True
 
-
 main :: IO ()
 main = hspec $
   describe "Lib. parse" $ do
@@ -35,11 +41,11 @@ main = hspec $
       tParseF "form name { }" `shouldBe` show (Form "name" [])
 
     it "can parse a Form with two fields " $
-      tParseF "form taxOfficeExample { \"Display Text One\" idTest1: money \"DisplayText2\" \t idTest2: integer}" `shouldBe` show (Form "taxOfficeExample" [Field (SimpField (FieldInfo {A.label = "Display Text One", A.id = "idTest1", A.fieldType = A.Money})),Field (SimpField (FieldInfo {A.label = "DisplayText2",
- A.id = "idTest2", fieldType = A.Integer}))])
+      tParseF "form taxOfficeExample { \"Display Text One\" idTest1: money \"DisplayText2\" \t idTest2: integer}" `shouldBe` show (Form "taxOfficeExample" [Field (SimpField FieldInfo {A.label = "Display Text One", A.id = "idTest1", A.fieldType = A.Money}),Field (SimpField FieldInfo {A.label = "DisplayText2",
+ A.id = "idTest2", fieldType = A.Integer})])
 
     it "can parse a Form with an if statement" $
-       sForm (getRight (tParse' form "form name { if (false) {} }")) `shouldBe` (Form "name" [])
+       simplify (getRight (tParse' form "form name { if (false) {} }")) `shouldBe` Form "name" [If (Lit (BLit False)) []]
 
     it "can parse a Form with an if statement containing fields" $
       tParse' form "form name { if (false) {\"Display Text One\" idTest1: money} }" `shouldSatisfy` canParse
@@ -124,3 +130,18 @@ main = hspec $
      show  (getType [] (typeCheckHelper $ tParse' expr "22.00 + true")) `shouldBe` "Left [TypeMismatch Boolean Money (Location {start = \"ql\" (line 1, column 7), end = \"ql\" (line 1, column 9)})]"
     it "should not be able determine the type of this expression (Interger && Boolean)" $
      show  (getType [] (typeCheckHelper $ tParse' expr "1 and 1")) `shouldBe` "Left [TypeMismatch Integer Integer (Location {start = \"ql\" (line 1, column 3), end = \"ql\" (line 1, column 7)})]"
+
+    it "finds no type errors" $
+     analyze (ttParse "form taxOfficeExample { \"Display Text One\" idTest1: money \"DisplayText2\" \t idTest2: integer}")  `shouldSatisfy` null.typeErrors
+
+    it "finds redeclaration errors" $
+     analyze (ttParse "form taxOfficeExample { \"DisplayText1\" idTest1: money \"DisplayText1\" \t idTest1: integer}")  `shouldSatisfy` not.null.duplicationErrors
+
+    it "finds duplication identifier warnings" $
+     analyze (ttParse "form taxOfficeExample { \"DisplayText1\" idTest1: integer \"DisplayText1\" \t idTest1: integer}")  `shouldSatisfy` not.null.duplicationErrors
+
+    it "finds type errors" $
+     analyze (ttParse "form taxOfficeExample { \"DisplayText1\" idTest1: money = 1 + true}")  `shouldSatisfy` not.null.typeErrors
+
+    it "finds cycles errors" $
+     analyze (ttParse "form taxOfficeExample { \"DisplayText1\" idTest1: money = idTest2  \"DisplayText1\" \t idTest2: integer = idTest1  + 1}")  `shouldSatisfy` not.null.cycleErrors

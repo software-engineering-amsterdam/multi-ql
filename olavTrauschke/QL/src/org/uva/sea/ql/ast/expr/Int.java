@@ -1,11 +1,12 @@
 package org.uva.sea.ql.ast.expr;
 
 import java.util.Objects;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type int in an AST.
  * 
- * @author Olav Trauschke, 10329463
+ * @author Olav Trauschke
  * @version 24-feb-2016
  */
 public class Int extends NumericExpr {
@@ -27,6 +28,16 @@ public class Int extends NumericExpr {
      */
     public Int(Integer theValue) {
         value = theValue;
+    }
+    
+    /**
+     * Has <code>v visit this Int</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Int</code>
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
      /**

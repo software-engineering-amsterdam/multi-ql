@@ -22,9 +22,10 @@ import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.NodeCollector;
 import org.uva.sea.ql.ast.QuestionPainter;
 import org.uva.sea.ql.ast.TypeCheckVisitor;
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Form;
+import org.uva.sea.ql.ast.form.TypeChecker;
+import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.errors.QLError;
 import org.uva.sea.ql.experiment.ASTVisualizer;
 
@@ -41,6 +42,7 @@ public class App
 		String FB = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\DependancyCheckIfStatements.txt";
 		String FC = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\DependancyCheckSafe.txt";
 		String FD = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\TypeCheckTest.txt";
+		String FE = "D:\\Master\\Software Construction\\Github\\Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\DuplicateQuestionsAndLabels.ql";
 		
 		
 		BufferedReader br = new BufferedReader(new FileReader(FB));
@@ -55,13 +57,14 @@ public class App
 		    }
 		    String everything = sb.toString();
 		    
-		    testGrammar(getParser(everything));
+		  //  testGrammar(getParser(everything));
 		 //   getAST(getParser(everything));
-		    System.out.println("Now testing dependancy!");
+		 //   System.out.println("Now testing dependancy!");
+		   System.out.println("Now testing type checker");
+		    testTypeChecker(getParser(everything));
 		    
-		    
-		    System.out.println("Now testing type check");
-		    testTypeCheck(getParser(everything));
+		//   System.out.println("Now testing type check");
+		 //   testTypeCheck(getParser(everything));
 		    
 		//  System.out.println("Now testing question painter");
 		 // testDrawVisitor(getParser(everything));
@@ -82,6 +85,13 @@ public class App
         viewr.setScale(1.5);// scale a little
 
         viewr.open();
+	}
+	
+	public static void testTypeChecker(QLParser parser) {
+		FormContext fc = parser.form();
+		ASTNode startNode = fc.b.result;
+		TypeChecker tp = new TypeChecker();
+		tp.typeCheck(startNode);
 	}
 
 	

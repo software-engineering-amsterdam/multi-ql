@@ -2,12 +2,13 @@ package org.uva.sea.ql.ast;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of the contents of a block in an AST.
  * 
- * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @author Olav Trauschke
+ * @version 25-feb-2016
  */
 public class StatementSet extends ASTNode {
     
@@ -35,6 +36,21 @@ public class StatementSet extends ASTNode {
     public ASTNode add(ASTNode n) {
         set.add(n);
         return this;
+    }
+    
+    /**
+     * Has all the statements in <code>this StatementSet accept v</code> and
+     * then has <code>v visit this StatementSet</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this StatementSet</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        for (ASTNode n : set) {
+            n.accept(v);
+        }
+        v.visit(this);
     }
     
     /**

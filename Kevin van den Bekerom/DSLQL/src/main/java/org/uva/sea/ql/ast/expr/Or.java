@@ -1,8 +1,8 @@
 package org.uva.sea.ql.ast.expr;
 
-import org.uva.sea.ql.ast.Visitable;
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.visit.Visitable;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public class Or extends BinaryExpr implements Visitable {
 	
@@ -16,8 +16,8 @@ public class Or extends BinaryExpr implements Visitable {
 		return (Boolean) lhs.eval() || (Boolean) rhs.eval();
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 
 	@Override

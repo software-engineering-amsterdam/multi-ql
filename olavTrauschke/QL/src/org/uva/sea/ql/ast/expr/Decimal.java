@@ -1,12 +1,13 @@
 package org.uva.sea.ql.ast.expr;
 
 import java.util.Objects;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type decimal in an AST.
  * 
- * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @author Olav Trauschke
+ * @version 25-feb-2016
  */
 public class Decimal extends NumericExpr {
     
@@ -27,6 +28,17 @@ public class Decimal extends NumericExpr {
      */
     public Decimal(Double theValue) {
         value = theValue;
+    }
+    
+    /**
+     * Has <code>v visit this Decimal</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this Decimal</code>
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
     /**

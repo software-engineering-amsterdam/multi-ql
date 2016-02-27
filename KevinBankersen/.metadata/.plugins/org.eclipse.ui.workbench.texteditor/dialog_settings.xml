@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item value="729" key="DIALOG_X_ORIGIN"/>
+		<item value="408" key="DIALOG_Y_ORIGIN"/>
+	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Context" key="selection"/>
+		<item value="return" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="context"/>
-			<item value="getvis"/>
-			<item value="con"/>
-			<item value="getVisibility"/>
-			<item value="size"/>
-			<item value="time"/>
-			<item value="int"/>
-			<item value="type"/>
+			<item value="return"/>
+			<item value="sys"/>
+			<item value="get"/>
+			<item value="package eu.bankersen.kevin.ql.util.testing;"/>
+			<item value="setV"/>
+			<item value="set"/>
+			<item value="visi"/>
+			<item value="block"/>
 		</list>
 		<list key="replacehistory">
 		</list>

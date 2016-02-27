@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.ast.expr.logic;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.context.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
+
+public class Eq extends BooleanExpr {
+
+    public Eq(Expr lhs, Expr rhs, int line) {
+	super(lhs, rhs, line);
+    }
+
+    @Override
+    public Boolean eval() throws EvaluateExeption  {
+	return lhs().eval().equals(rhs().eval());
+    }
+
+}

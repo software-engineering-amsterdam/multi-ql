@@ -8,25 +8,33 @@ import eu.bankersen.kevin.ql.ast.expr.math.*;
 import eu.bankersen.kevin.ql.ast.stat.*;
 import eu.bankersen.kevin.ql.ast.form.*;
 import eu.bankersen.kevin.ql.ast.*;
+import java.util.ArrayList;
+import java.util.List;
+
 }
 
 form returns [Form result]
-	:	('Form'|'form') + ID + block + EOF { $result = new Form($ID.text, $block.result); }
+	:	('Form'|'form') + ID + body + EOF { $result = new Form($ID.text, new Body($body.result)); }
 	;
 
-block returns [Block result]
+body returns [List<Statement> result]
 	@init {
-		$result = new Block();
+		$result = new ArrayList<Statement>();
 	}
 	: '{' + (ifStat[$result] | question[$result] ) + '}'
 	;
 
-question[Block result]
+question[List<Statement> result]
 	
 	: STR + ID + type + '=' + '(' + orExpr + ')'
 	{
 		$result.add(new Question(new Variable($ID.text, $type.result, $orExpr.result, $ID.getLine()), $STR.text));
 	}
+
+        | STR + ID + type + '=' + literal 
+        {
+        	$result.add(new Question(new Variable($ID.text, $type.result, $literal.result, $ID.getLine()), $STR.text));
+        }
 		
 	| STR + ID + type
 	
@@ -35,8 +43,8 @@ question[Block result]
 	}
 	;
 
-ifStat[Block arg]
-	:	'if' + '(' + orExpr + ')' + block { $arg.add(new IFStat($orExpr.result, $block.result, $orExpr.start.getLine())); }
+ifStat[List<Statement> arg]
+	:	'if' + '(' + orExpr + ')' + body { $arg.add(new IFStat($orExpr.result, new Body($body.result), $orExpr.start.getLine())); }
 	;
 
 mulExpr returns [Expr result]
@@ -114,10 +122,10 @@ identifier returns [Expr result]
 	;
 	
 type returns [Type result]
-	: BOOLEAN	{ $result = Type.BOOLEAN; }
+	: BOOLEAN		{ $result = Type.BOOLEAN; }
 	| STRING	{ $result = Type.STRING; }
-	| INTEGER	{ $result = Type.INTEGER; }
-	| MONEY		{ $result = Type.MONEY; }
+	| INTEGER		{ $result = Type.INTEGER; }
+	| MONEY			{ $result = Type.MONEY; }
 	;
 
 orExpr returns [Expr result]
@@ -139,7 +147,7 @@ INTEGER :   'integer';
 STRING  :   'string';
 MONEY  	:   'money';
 
-BOOL	:	'true' | 'false';
-INT		:   ('0'..'9')+;
-STR 	:   '"' .*? '"';
-ID		:	('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+BOOL	:   'true' | 'false';
+INT	:   ('0'..'9')+;
+STR 	:   '"'.*?'"';
+ID	:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;

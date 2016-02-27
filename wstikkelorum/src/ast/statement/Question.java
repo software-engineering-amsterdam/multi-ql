@@ -6,8 +6,8 @@ import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
 public class Question extends TreeNode implements Visitable {
-	private Variable variable;
-	private String str;
+	private final Variable variable;
+	private final String str;
 
 	public Question(int lineNumber, Variable variable, String str) {
 		super(lineNumber);

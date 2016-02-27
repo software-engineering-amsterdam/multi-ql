@@ -1,8 +1,7 @@
 package nl.nicasso.ql;
 
-import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.expression.Expression;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
 import nl.nicasso.ql.ast.expression.additive.Subtraction;
@@ -18,9 +17,7 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -29,224 +26,220 @@ import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
+import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 
-public class EvaluatorVisitor implements Visitor<Literal> {
+public class EvaluatorVisitor implements Visitor<Object> {
 	
 	private boolean debug = false;
+	
+	private SymbolTable symbolTable;
+	
+	EvaluatorVisitor(SymbolTable symbolTable) {
+		this.symbolTable = symbolTable;
+	}
 
 	@Override
-	public Literal visit(And value) {	
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(And value) {	
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 				
 		if (debug) {
 			System.out.println("And");
 		}
 		
-		BooleanLit result = new BooleanLit((Boolean) leftLiteral.getValue() && (Boolean) rightLiteral.getValue());
+		Boolean result = new Boolean((Boolean) left && (Boolean) right);
 		
 		return result;
 	}
 	
 	@Override
-	public Literal visit(Addition value) {		
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(Addition value) {		
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Addition");
 		}
 		
-		IntegerLit result = new IntegerLit((Integer) leftLiteral.getValue() + (Integer) rightLiteral.getValue());
-		System.out.println("Addition: "+leftLiteral.getValue()+" + "+ rightLiteral.getValue());
+		Integer result = new Integer((Integer) left + (Integer) right);
 		return result;
 	}
 
 	@Override
-	public Literal visit(Subtraction value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(Subtraction value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Subtraction");
 		}
 		
-		IntegerLit result = new IntegerLit((Integer) leftLiteral.getValue() - (Integer) rightLiteral.getValue());
-		
+		Integer result = new Integer((Integer) left - (Integer) right);
 		return result;
 	}
 
 	@Override
-	public Literal visit(Or value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(Or value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Or");
 		}
 		
-		BooleanLit result = new BooleanLit((Boolean) leftLiteral.getValue() || (Boolean) rightLiteral.getValue());
+		Boolean result = new Boolean((Boolean) left || (Boolean) right);
 		
 		return result;
 	}
 
 	@Override
-	public Literal visit(Not value) {
-		Literal exprLiteral = value.getExpr().accept(this);
+	public Object visit(Not value) {
+		Object exprValue = value.getExpr().accept(this);
 		
 		if (debug) {
 			System.out.println("Not");
 		}
 		
-		if ((Boolean) exprLiteral.getValue() == true) {
-			return new BooleanLit(false);
+		if ((Boolean) exprValue == true) {
+			return new Boolean(false);
 		} else {
-			return new BooleanLit(true);
+			return new Boolean(true);
 		}
 	}
 
 	@Override
-	public Literal visit(Parenthesis value) {		
-		Literal exprLiteral = value.getExpr().accept(this);
+	public Object visit(Parenthesis value) {		
+		Object exprValue = value.getExpr().accept(this);
 		
 		if (debug) {
 			System.out.println("Parenthesis");
 		}
 		
-		return exprLiteral;
+		return exprValue;
 	}
 
 	@Override
-	public Literal visit(Equal value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(Equal value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Equal");
 		}
 		
-		BooleanLit result = new BooleanLit((Boolean) leftLiteral.getValue() == (Boolean) rightLiteral.getValue());
-		
+		Boolean result = new Boolean((Boolean) left == (Boolean) right);
 		return result;
 	}
 
 	@Override
-	public Literal visit(NotEqual value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(NotEqual value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);	
+		Object right = value.getRight().accept(this);	
 		
 		if (debug) {
 			System.out.println("NotEqual");
 		}
 		
-		BooleanLit result = new BooleanLit((Boolean) leftLiteral.getValue() != (Boolean) rightLiteral.getValue());
+		Boolean result = new Boolean((Boolean) left != (Boolean) right);
 		
 		return result;
 	}
 
 	@Override
-	public Literal visit(Division value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(Division value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Division");
 		}
 		
-		IntegerLit result = new IntegerLit((Integer) leftLiteral.getValue() / (Integer) rightLiteral.getValue());
+		Integer result = new Integer((Integer) left / (Integer) right);
 		
 		return result;
 	}
 
 	@Override
-	public Literal visit(Multiplication value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(Multiplication value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Multiplication");
 		}
 		
-		IntegerLit result = new IntegerLit((Integer) leftLiteral.getValue() * (Integer) rightLiteral.getValue());
+		Integer result = new Integer((Integer) left * (Integer) right);
 		
 		return result;
 	}
 
 	@Override
-	public Literal visit(Greater value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(Greater value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Greater");
 		}
 		
-		BooleanLit result = new BooleanLit((Integer) leftLiteral.getValue() > (Integer) rightLiteral.getValue());
-		
+		Boolean result = new Boolean((Integer) left > (Integer) right);
 		return result;
 	}
 
 	@Override
-	public Literal visit(GreaterEqual value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(GreaterEqual value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("GreaterEqual");
 		}
 		
-		BooleanLit result = new BooleanLit((Integer) leftLiteral.getValue() >= (Integer) rightLiteral.getValue());
-		
+		Boolean result = new Boolean((Integer) left >= (Integer) right);
 		return result;
 	}
 
 	@Override
-	public Literal visit(Less value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(Less value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 
 		if (debug) {
 			System.out.println("Less");
 		}
 		
-		BooleanLit result = new BooleanLit((Integer) leftLiteral.getValue() < (Integer) rightLiteral.getValue());
-		
+		Boolean result = new Boolean((Integer) left < (Integer) right);
 		return result;
 	}
 
 	@Override
-	public Literal visit(LessEqual value) {
-		Literal leftLiteral = value.getLeft().accept(this);
+	public Object visit(LessEqual value) {
+		Object left = value.getLeft().accept(this);
 
-		Literal rightLiteral = value.getRight().accept(this);
+		Object right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("LessEqual");
 		}
 		
-		BooleanLit result = new BooleanLit((Integer) leftLiteral.getValue() <= (Integer) rightLiteral.getValue());
-		
+		Boolean result = new Boolean((Integer) left <= (Integer) right);
 		return result;
 	}
 
 	@Override
-	public Literal visit(ASTNode node) {
-		return null;
-	}
-
-	@Override
-	public Literal visit(Form value) {
+	public Object visit(Form value) {
 		value.getBlock().accept(this);
 		
 		if (debug) {
@@ -257,7 +250,7 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 	}
 
 	@Override
-	public Literal visit(Block value) {
+	public Object visit(Block value) {
 		for (Statement cur : value.getStatements()) {
 			cur.accept(this);
 		}
@@ -270,111 +263,94 @@ public class EvaluatorVisitor implements Visitor<Literal> {
 	}
 
 	@Override
-	public Literal visit(Statement value) {
-		if (debug) {
-			System.out.println("Statement");
-		}
-		return null;
-	}
-
-	@Override
-	public Literal visit(Question value) {
+	public Object visit(Question value) {
 		if (debug) {
 			System.out.println("Question");
 		}
 		
-		QL.symbolTable.addSymbol(value, null);
+		// WATCH OUT!
+		//symbolTable.addSymbol(value.getId(), null);
+		
+		//SymbolTableEntry ste = symbolTable.getEntry(value.getId());
+		//ste.setValue(exprValue);
+		//symbolTable.addSymbol(value.getId(), ste);
 		
 		return null;
 	}
 
 	@Override
-	public Literal visit(ComputedQuestion value) {
-		Literal expr = value.getExpr().accept(this);
+	public Object visit(ComputedQuestion value) {
+		Object exprValue = value.getExpr().accept(this);
 		
 		if (debug) {
 			System.out.println("ComputedQuestion");
 		}
 		
-		QL.symbolTable.addSymbol(value, expr);
+		SymbolTableEntry ste = symbolTable.getEntry(value.getId());
+		ste.setValue(exprValue);
+		symbolTable.addSymbol(value.getId(), ste);
 
-		return expr;
+		return exprValue;
 	}
 
 	@Override
-	public Literal visit(IfStatement value) {
-		Literal expr = value.getExpr().accept(this);
+	public Object visit(IfStatement value) {
+		Object exprValue = value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		
 		if (debug) {
 			System.out.println("ifStatement");
 		}
 		
-		return new BooleanLit(true);
+		return (boolean) exprValue;
 	}
 
 	@Override
-	public Literal visit(IfElseStatement value) {
-		Literal expr = value.getExpr().accept(this);
+	public Object visit(IfElseStatement value) {
+		Object exprValue = value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		value.getBlock_else().accept(this);
 		
 		if (debug) {
 			System.out.println("IfElseStatement");
 		}
-		return null;
+		return (boolean) exprValue;
 	}
 
 	@Override
-	public Literal visit(Expression value) {
-		if (debug) {
-			System.out.println("Expression");
-		}
-		return null;
-	}
-
-	@Override
-	public Literal visit(Literal value) {
-		if (debug) {
-			System.out.println("Literal");
-		}
-		return null;
-	}
-
-	@Override
-	public Literal visit(BooleanLit value) {
+	public Object visit(BooleanLit value) {
 		if (debug) {
 			System.out.println("BooleanLit: "+value.getValue());
 		}
 		
-		return new BooleanLit(value.getValue());
+		return new Boolean(value.getValue());
 	}
 
 	@Override
-	public Literal visit(IdentifierLit value) {
+	public Object visit(Identifier value) {
 		if (debug) {
 			System.out.println("IdentifierLit: "+value.getValue());
 		}
 		
-		Literal relatedLiteral = QL.symbolTable.getSymbolValueFromIdentifier(value);
+		SymbolTableEntry entry = symbolTable.getEntry(value);
 				
-		return relatedLiteral;
+		return entry.getValue();
 	}
 
 	@Override
-	public Literal visit(IntegerLit value) {
+	public Object visit(IntegerLit value) {
 		if (debug) {
 			System.out.println("IntegerLit: "+value.getValue());
 		}
-		return new IntegerLit(value.getValue());
+		return new Integer((Integer) value.getValue());
 	}
 
 	@Override
-	public Literal visit(StringLit value) {
+	public Object visit(StringLit value) {
 		if (debug) {
 			System.out.println("StringLit: "+value.getValue());
 		}
-		return new StringLit(value.getValue());
+		return new String(value.getValue());
 	}
 
 }

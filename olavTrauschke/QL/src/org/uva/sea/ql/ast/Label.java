@@ -1,12 +1,13 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.Str;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Label</code>s for questions in an AST.
  * 
- * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @author Olav Trauschke
+ * @version 25-feb-2016
  */
 public class Label extends ASTNode {
     
@@ -26,6 +27,16 @@ public class Label extends ASTNode {
     public Label(String theText) {
         assert theText != null;
         text = theText;
+    }
+    
+    /**
+     * Has <code>v visit this Label</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Label</code>
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
     /**

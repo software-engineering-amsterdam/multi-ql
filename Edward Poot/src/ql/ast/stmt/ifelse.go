@@ -12,18 +12,12 @@ type IfElse struct {
 	ElseBody StmtList
 }
 
-func (i IfElse) Eval() {
-	i.Cond.Eval() // FIXME necessary?
-	i.IfBody.Eval()
-	i.ElseBody.Eval()
-}
-
 func (i IfElse) String() string {
 	return fmt.Sprintf("An if/else statement with condition %s", i.Cond)
 }
 
 func (i IfElse) EvalCondition() bool {
-	return i.Cond.Eval().(bool)
+	return i.Cond.Eval(nil).(bool)
 }
 
 func (i IfElse) Accept(v visit.Visitor, s interface{}) interface{} {

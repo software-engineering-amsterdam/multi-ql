@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public abstract Errors {
+    
+    String message;
+    String message();
+    
+}

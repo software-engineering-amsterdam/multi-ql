@@ -1,8 +1,8 @@
 package org.uva.sea.ql.ast.expr;
 
-import org.uva.sea.ql.ast.Visitable;
-import org.uva.sea.ql.ast.Visitor;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.visit.Visitable;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public class Not extends UnaryExpr implements Visitable {
 	
@@ -15,8 +15,8 @@ public class Not extends UnaryExpr implements Visitable {
 		return ! (Boolean) child.eval();
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 
 	@Override

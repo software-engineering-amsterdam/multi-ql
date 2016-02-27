@@ -1,0 +1,1447 @@
+// Generated from eu\bankersen\kevin\ql\parser\QL.g4 by ANTLR 4.3
+package eu.bankersen.kevin.ql.parser;
+
+import eu.bankersen.kevin.ql.ast.expr.*;
+import eu.bankersen.kevin.ql.ast.expr.logic.*;
+import eu.bankersen.kevin.ql.ast.expr.math.*;
+import eu.bankersen.kevin.ql.ast.stat.*;
+import eu.bankersen.kevin.ql.ast.form.*;
+import eu.bankersen.kevin.ql.ast.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
+import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
+import org.antlr.v4.runtime.tree.*;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
+
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
+public class QLParser extends Parser {
+	static { RuntimeMetaData.checkVersion("4.3", RuntimeMetaData.VERSION); }
+
+	protected static final DFA[] _decisionToDFA;
+	protected static final PredictionContextCache _sharedContextCache =
+		new PredictionContextCache();
+	public static final int
+		T__20=1, T__19=2, T__18=3, T__17=4, T__16=5, T__15=6, T__14=7, T__13=8, 
+		T__12=9, T__11=10, T__10=11, T__9=12, T__8=13, T__7=14, T__6=15, T__5=16, 
+		T__4=17, T__3=18, T__2=19, T__1=20, T__0=21, COMMENT=22, LINE_COMMENT=23, 
+		WS=24, BOOLEAN=25, INTEGER=26, STRING=27, MONEY=28, BOOL=29, INT=30, STR=31, 
+		ID=32;
+	public static final String[] tokenNames = {
+		"<INVALID>", "'/'", "'!='", "'||'", "'>='", "'{'", "'&&'", "'=='", "'<'", 
+		"'='", "'}'", "'>'", "'if'", "'!'", "'<='", "'Form'", "'('", "')'", "'*'", 
+		"'+'", "'form'", "'-'", "COMMENT", "LINE_COMMENT", "WS", "'boolean'", 
+		"'integer'", "'string'", "'money'", "BOOL", "INT", "STR", "ID"
+	};
+	public static final int
+		RULE_form = 0, RULE_body = 1, RULE_question = 2, RULE_ifStat = 3, RULE_mulExpr = 4, 
+		RULE_addExpr = 5, RULE_relExpr = 6, RULE_unExpr = 7, RULE_primary = 8, 
+		RULE_literal = 9, RULE_identifier = 10, RULE_type = 11, RULE_orExpr = 12, 
+		RULE_andExpr = 13;
+	public static final String[] ruleNames = {
+		"form", "body", "question", "ifStat", "mulExpr", "addExpr", "relExpr", 
+		"unExpr", "primary", "literal", "identifier", "type", "orExpr", "andExpr"
+	};
+
+	@Override
+	public String getGrammarFileName() { return "QL.g4"; }
+
+	@Override
+	public String[] getTokenNames() { return tokenNames; }
+
+	@Override
+	public String[] getRuleNames() { return ruleNames; }
+
+	@Override
+	public String getSerializedATN() { return _serializedATN; }
+
+	@Override
+	public ATN getATN() { return _ATN; }
+
+	public QLParser(TokenStream input) {
+		super(input);
+		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
+	}
+	public static class FormContext extends ParserRuleContext {
+		public Form result;
+		public Token ID;
+		public BodyContext body;
+		public List<TerminalNode> ID() { return getTokens(QLParser.ID); }
+		public BodyContext body(int i) {
+			return getRuleContext(BodyContext.class,i);
+		}
+		public TerminalNode EOF() { return getToken(QLParser.EOF, 0); }
+		public TerminalNode ID(int i) {
+			return getToken(QLParser.ID, i);
+		}
+		public List<BodyContext> body() {
+			return getRuleContexts(BodyContext.class);
+		}
+		public FormContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_form; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterForm(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitForm(this);
+		}
+	}
+
+	public final FormContext form() throws RecognitionException {
+		FormContext _localctx = new FormContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_form);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(29); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(28);
+				_la = _input.LA(1);
+				if ( !(_la==T__6 || _la==T__1) ) {
+				_errHandler.recoverInline(this);
+				}
+				consume();
+				}
+				}
+				setState(31); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==T__6 || _la==T__1 );
+			setState(34); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(33); ((FormContext)_localctx).ID = match(ID);
+				}
+				}
+				setState(36); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==ID );
+			setState(39); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(38); ((FormContext)_localctx).body = body();
+				}
+				}
+				setState(41); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==T__16 );
+			setState(43); match(EOF);
+			 ((FormContext)_localctx).result =  new Form((((FormContext)_localctx).ID!=null?((FormContext)_localctx).ID.getText():null), new Body(((FormContext)_localctx).body.result)); 
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BodyContext extends ParserRuleContext {
+		public List<AbstractStatement> result;
+		public List<IfStatContext> ifStat() {
+			return getRuleContexts(IfStatContext.class);
+		}
+		public QuestionContext question(int i) {
+			return getRuleContext(QuestionContext.class,i);
+		}
+		public List<QuestionContext> question() {
+			return getRuleContexts(QuestionContext.class);
+		}
+		public IfStatContext ifStat(int i) {
+			return getRuleContext(IfStatContext.class,i);
+		}
+		public BodyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_body; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterBody(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitBody(this);
+		}
+	}
+
+	public final BodyContext body() throws RecognitionException {
+		BodyContext _localctx = new BodyContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_body);
+
+				((BodyContext)_localctx).result =  new ArrayList<AbstractStatement>();
+			
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(47); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(46); match(T__16);
+				}
+				}
+				setState(49); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==T__16 );
+			setState(53); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				setState(53);
+				switch (_input.LA(1)) {
+				case T__9:
+					{
+					setState(51); ifStat(_localctx.result);
+					}
+					break;
+				case STR:
+					{
+					setState(52); question(_localctx.result);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+				setState(55); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==T__9 || _la==STR );
+			setState(57); match(T__11);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class QuestionContext extends ParserRuleContext {
+		public List<AbstractStatement> result;
+		public Token STR;
+		public Token ID;
+		public TypeContext type;
+		public OrExprContext orExpr;
+		public LiteralContext literal;
+		public TerminalNode STR(int i) {
+			return getToken(QLParser.STR, i);
+		}
+		public List<TerminalNode> ID() { return getTokens(QLParser.ID); }
+		public List<OrExprContext> orExpr() {
+			return getRuleContexts(OrExprContext.class);
+		}
+		public List<TerminalNode> STR() { return getTokens(QLParser.STR); }
+		public TypeContext type(int i) {
+			return getRuleContext(TypeContext.class,i);
+		}
+		public LiteralContext literal() {
+			return getRuleContext(LiteralContext.class,0);
+		}
+		public TerminalNode ID(int i) {
+			return getToken(QLParser.ID, i);
+		}
+		public List<TypeContext> type() {
+			return getRuleContexts(TypeContext.class);
+		}
+		public OrExprContext orExpr(int i) {
+			return getRuleContext(OrExprContext.class,i);
+		}
+		public QuestionContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public QuestionContext(ParserRuleContext parent, int invokingState, List<AbstractStatement> result) {
+			super(parent, invokingState);
+			this.result = result;
+		}
+		@Override public int getRuleIndex() { return RULE_question; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterQuestion(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion(this);
+		}
+	}
+
+	public final QuestionContext question(List<AbstractStatement> result) throws RecognitionException {
+		QuestionContext _localctx = new QuestionContext(_ctx, getState(), result);
+		enterRule(_localctx, 4, RULE_question);
+		int _la;
+		try {
+			int _alt;
+			setState(128);
+			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(60); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(59); ((QuestionContext)_localctx).STR = match(STR);
+					}
+					}
+					setState(62); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==STR );
+				setState(65); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(64); ((QuestionContext)_localctx).ID = match(ID);
+					}
+					}
+					setState(67); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==ID );
+				setState(70); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(69); ((QuestionContext)_localctx).type = type();
+					}
+					}
+					setState(72); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOLEAN) | (1L << INTEGER) | (1L << STRING) | (1L << MONEY))) != 0) );
+				setState(75); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(74); match(T__12);
+					}
+					}
+					setState(77); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==T__12 );
+				setState(80); 
+				_errHandler.sync(this);
+				_alt = 1;
+				do {
+					switch (_alt) {
+					case 1:
+						{
+						{
+						setState(79); match(T__5);
+						}
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					setState(82); 
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+				setState(85); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(84); ((QuestionContext)_localctx).orExpr = orExpr();
+					}
+					}
+					setState(87); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__5) | (1L << T__2) | (1L << T__0) | (1L << BOOL) | (1L << INT) | (1L << STR) | (1L << ID))) != 0) );
+				setState(89); match(T__4);
+
+						_localctx.result.add(new Question(new Variable((((QuestionContext)_localctx).ID!=null?((QuestionContext)_localctx).ID.getText():null), ((QuestionContext)_localctx).type.result, ((QuestionContext)_localctx).orExpr.result, ((QuestionContext)_localctx).ID.getLine()), (((QuestionContext)_localctx).STR!=null?((QuestionContext)_localctx).STR.getText():null)));
+					
+				}
+				break;
+
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(93); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(92); ((QuestionContext)_localctx).STR = match(STR);
+					}
+					}
+					setState(95); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==STR );
+				setState(98); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(97); ((QuestionContext)_localctx).ID = match(ID);
+					}
+					}
+					setState(100); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==ID );
+				setState(103); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(102); ((QuestionContext)_localctx).type = type();
+					}
+					}
+					setState(105); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOLEAN) | (1L << INTEGER) | (1L << STRING) | (1L << MONEY))) != 0) );
+				setState(108); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(107); match(T__12);
+					}
+					}
+					setState(110); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==T__12 );
+				setState(112); ((QuestionContext)_localctx).literal = literal();
+
+				        	_localctx.result.add(new Question(new Variable((((QuestionContext)_localctx).ID!=null?((QuestionContext)_localctx).ID.getText():null), ((QuestionContext)_localctx).type.result, ((QuestionContext)_localctx).literal.result, ((QuestionContext)_localctx).ID.getLine()), (((QuestionContext)_localctx).STR!=null?((QuestionContext)_localctx).STR.getText():null)));
+				        
+				}
+				break;
+
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(116); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(115); ((QuestionContext)_localctx).STR = match(STR);
+					}
+					}
+					setState(118); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==STR );
+				setState(121); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(120); ((QuestionContext)_localctx).ID = match(ID);
+					}
+					}
+					setState(123); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==ID );
+				setState(125); ((QuestionContext)_localctx).type = type();
+				  
+						_localctx.result.add(new Question(new Variable((((QuestionContext)_localctx).ID!=null?((QuestionContext)_localctx).ID.getText():null), ((QuestionContext)_localctx).type.result, new Identifier((((QuestionContext)_localctx).ID!=null?((QuestionContext)_localctx).ID.getText():null), ((QuestionContext)_localctx).ID.getLine()), ((QuestionContext)_localctx).ID.getLine()), (((QuestionContext)_localctx).STR!=null?((QuestionContext)_localctx).STR.getText():null)));
+					
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class IfStatContext extends ParserRuleContext {
+		public List<AbstractStatement> arg;
+		public OrExprContext orExpr;
+		public BodyContext body;
+		public List<OrExprContext> orExpr() {
+			return getRuleContexts(OrExprContext.class);
+		}
+		public BodyContext body() {
+			return getRuleContext(BodyContext.class,0);
+		}
+		public OrExprContext orExpr(int i) {
+			return getRuleContext(OrExprContext.class,i);
+		}
+		public IfStatContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public IfStatContext(ParserRuleContext parent, int invokingState, List<AbstractStatement> arg) {
+			super(parent, invokingState);
+			this.arg = arg;
+		}
+		@Override public int getRuleIndex() { return RULE_ifStat; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterIfStat(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitIfStat(this);
+		}
+	}
+
+	public final IfStatContext ifStat(List<AbstractStatement> arg) throws RecognitionException {
+		IfStatContext _localctx = new IfStatContext(_ctx, getState(), arg);
+		enterRule(_localctx, 6, RULE_ifStat);
+		int _la;
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(131); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(130); match(T__9);
+				}
+				}
+				setState(133); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==T__9 );
+			setState(136); 
+			_errHandler.sync(this);
+			_alt = 1;
+			do {
+				switch (_alt) {
+				case 1:
+					{
+					{
+					setState(135); match(T__5);
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				setState(138); 
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			setState(141); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(140); ((IfStatContext)_localctx).orExpr = orExpr();
+				}
+				}
+				setState(143); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__5) | (1L << T__2) | (1L << T__0) | (1L << BOOL) | (1L << INT) | (1L << STR) | (1L << ID))) != 0) );
+			setState(146); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(145); match(T__4);
+				}
+				}
+				setState(148); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==T__4 );
+			setState(150); ((IfStatContext)_localctx).body = body();
+			 _localctx.arg.add(new IFStat(((IfStatContext)_localctx).orExpr.result, new Body(((IfStatContext)_localctx).body.result), (((IfStatContext)_localctx).orExpr!=null?(((IfStatContext)_localctx).orExpr.start):null).getLine())); 
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class MulExprContext extends ParserRuleContext {
+		public Expr result;
+		public UnExprContext lhs;
+		public Token op;
+		public UnExprContext rhs;
+		public UnExprContext unExpr(int i) {
+			return getRuleContext(UnExprContext.class,i);
+		}
+		public List<UnExprContext> unExpr() {
+			return getRuleContexts(UnExprContext.class);
+		}
+		public MulExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_mulExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterMulExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitMulExpr(this);
+		}
+	}
+
+	public final MulExprContext mulExpr() throws RecognitionException {
+		MulExprContext _localctx = new MulExprContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_mulExpr);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(153); ((MulExprContext)_localctx).lhs = unExpr();
+			 ((MulExprContext)_localctx).result = ((MulExprContext)_localctx).lhs.result; 
+			setState(161);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__20 || _la==T__3) {
+				{
+				{
+				setState(155);
+				((MulExprContext)_localctx).op = _input.LT(1);
+				_la = _input.LA(1);
+				if ( !(_la==T__20 || _la==T__3) ) {
+					((MulExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+				}
+				consume();
+				setState(156); ((MulExprContext)_localctx).rhs = unExpr();
+				 
+						if ((((MulExprContext)_localctx).op!=null?((MulExprContext)_localctx).op.getText():null).equals("*")) {
+							((MulExprContext)_localctx).result =  new Mul(_localctx.result, ((MulExprContext)_localctx).rhs.result, (((MulExprContext)_localctx).rhs!=null?(((MulExprContext)_localctx).rhs.start):null).getLine());
+						}
+						if ((((MulExprContext)_localctx).op!=null?((MulExprContext)_localctx).op.getText():null).equals("/")) {
+							((MulExprContext)_localctx).result =  new Div(_localctx.result, ((MulExprContext)_localctx).rhs.result, (((MulExprContext)_localctx).rhs!=null?(((MulExprContext)_localctx).rhs.start):null).getLine());      
+						}
+					
+				}
+				}
+				setState(163);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AddExprContext extends ParserRuleContext {
+		public Expr result;
+		public MulExprContext lhs;
+		public Token op;
+		public MulExprContext rhs;
+		public List<MulExprContext> mulExpr() {
+			return getRuleContexts(MulExprContext.class);
+		}
+		public MulExprContext mulExpr(int i) {
+			return getRuleContext(MulExprContext.class,i);
+		}
+		public AddExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_addExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterAddExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitAddExpr(this);
+		}
+	}
+
+	public final AddExprContext addExpr() throws RecognitionException {
+		AddExprContext _localctx = new AddExprContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_addExpr);
+		int _la;
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(164); ((AddExprContext)_localctx).lhs = mulExpr();
+			 ((AddExprContext)_localctx).result = ((AddExprContext)_localctx).lhs.result; 
+			setState(172);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,24,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(166);
+					((AddExprContext)_localctx).op = _input.LT(1);
+					_la = _input.LA(1);
+					if ( !(_la==T__2 || _la==T__0) ) {
+						((AddExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					}
+					consume();
+					setState(167); ((AddExprContext)_localctx).rhs = mulExpr();
+					 
+							if ((((AddExprContext)_localctx).op!=null?((AddExprContext)_localctx).op.getText():null).equals("+")) {
+								((AddExprContext)_localctx).result =  new Add(_localctx.result, ((AddExprContext)_localctx).rhs.result, (((AddExprContext)_localctx).rhs!=null?(((AddExprContext)_localctx).rhs.start):null).getLine());
+							}
+							if ((((AddExprContext)_localctx).op!=null?((AddExprContext)_localctx).op.getText():null).equals("-")) {
+								((AddExprContext)_localctx).result =  new Sub(_localctx.result, ((AddExprContext)_localctx).rhs.result, (((AddExprContext)_localctx).rhs!=null?(((AddExprContext)_localctx).rhs.start):null).getLine());      
+							}
+						
+					}
+					} 
+				}
+				setState(174);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,24,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class RelExprContext extends ParserRuleContext {
+		public Expr result;
+		public AddExprContext lhs;
+		public Token op;
+		public AddExprContext rhs;
+		public List<AddExprContext> addExpr() {
+			return getRuleContexts(AddExprContext.class);
+		}
+		public AddExprContext addExpr(int i) {
+			return getRuleContext(AddExprContext.class,i);
+		}
+		public RelExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_relExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterRelExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitRelExpr(this);
+		}
+	}
+
+	public final RelExprContext relExpr() throws RecognitionException {
+		RelExprContext _localctx = new RelExprContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_relExpr);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(175); ((RelExprContext)_localctx).lhs = addExpr();
+			 ((RelExprContext)_localctx).result = ((RelExprContext)_localctx).lhs.result; 
+			setState(183);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__19) | (1L << T__17) | (1L << T__14) | (1L << T__13) | (1L << T__10) | (1L << T__7))) != 0)) {
+				{
+				{
+				setState(177);
+				((RelExprContext)_localctx).op = _input.LT(1);
+				_la = _input.LA(1);
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__19) | (1L << T__17) | (1L << T__14) | (1L << T__13) | (1L << T__10) | (1L << T__7))) != 0)) ) {
+					((RelExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+				}
+				consume();
+				setState(178); ((RelExprContext)_localctx).rhs = addExpr();
+				 
+						if ((((RelExprContext)_localctx).op!=null?((RelExprContext)_localctx).op.getText():null).equals("<")) {
+							((RelExprContext)_localctx).result =  new LT(_localctx.result, ((RelExprContext)_localctx).rhs.result, (((RelExprContext)_localctx).rhs!=null?(((RelExprContext)_localctx).rhs.start):null).getLine());
+						}
+						if ((((RelExprContext)_localctx).op!=null?((RelExprContext)_localctx).op.getText():null).equals("<=")) {
+							((RelExprContext)_localctx).result =  new LEq(_localctx.result, ((RelExprContext)_localctx).rhs.result, (((RelExprContext)_localctx).rhs!=null?(((RelExprContext)_localctx).rhs.start):null).getLine());      
+						}
+						if ((((RelExprContext)_localctx).op!=null?((RelExprContext)_localctx).op.getText():null).equals(">")) {
+							((RelExprContext)_localctx).result =  new GT(_localctx.result, ((RelExprContext)_localctx).rhs.result, (((RelExprContext)_localctx).rhs!=null?(((RelExprContext)_localctx).rhs.start):null).getLine());
+						}
+						if ((((RelExprContext)_localctx).op!=null?((RelExprContext)_localctx).op.getText():null).equals(">=")) {
+							((RelExprContext)_localctx).result =  new GEq(_localctx.result, ((RelExprContext)_localctx).rhs.result, (((RelExprContext)_localctx).rhs!=null?(((RelExprContext)_localctx).rhs.start):null).getLine());      
+						}
+						if ((((RelExprContext)_localctx).op!=null?((RelExprContext)_localctx).op.getText():null).equals("==")) {
+							((RelExprContext)_localctx).result =  new Eq(_localctx.result, ((RelExprContext)_localctx).rhs.result, (((RelExprContext)_localctx).rhs!=null?(((RelExprContext)_localctx).rhs.start):null).getLine());
+						}
+						if ((((RelExprContext)_localctx).op!=null?((RelExprContext)_localctx).op.getText():null).equals("!=")) {
+							((RelExprContext)_localctx).result =  new NEq(_localctx.result, ((RelExprContext)_localctx).rhs.result, (((RelExprContext)_localctx).rhs!=null?(((RelExprContext)_localctx).rhs.start):null).getLine());
+						}
+					
+				}
+				}
+				setState(185);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class UnExprContext extends ParserRuleContext {
+		public Expr result;
+		public UnExprContext x;
+		public PrimaryContext y;
+		public PrimaryContext primary() {
+			return getRuleContext(PrimaryContext.class,0);
+		}
+		public UnExprContext unExpr() {
+			return getRuleContext(UnExprContext.class,0);
+		}
+		public UnExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_unExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterUnExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitUnExpr(this);
+		}
+	}
+
+	public final UnExprContext unExpr() throws RecognitionException {
+		UnExprContext _localctx = new UnExprContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_unExpr);
+		try {
+			setState(201);
+			switch (_input.LA(1)) {
+			case T__2:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(186); match(T__2);
+				setState(187); ((UnExprContext)_localctx).x = unExpr();
+				 ((UnExprContext)_localctx).result =  new Pos(((UnExprContext)_localctx).x.result, (((UnExprContext)_localctx).x!=null?(((UnExprContext)_localctx).x.start):null).getLine()); 
+				}
+				break;
+			case T__0:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(190); match(T__0);
+				setState(191); ((UnExprContext)_localctx).x = unExpr();
+				 ((UnExprContext)_localctx).result =  new Neg(((UnExprContext)_localctx).x.result, (((UnExprContext)_localctx).x!=null?(((UnExprContext)_localctx).x.start):null).getLine()); 
+				}
+				break;
+			case T__8:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(194); match(T__8);
+				setState(195); ((UnExprContext)_localctx).x = unExpr();
+				 ((UnExprContext)_localctx).result =  new Not(((UnExprContext)_localctx).x.result, (((UnExprContext)_localctx).x!=null?(((UnExprContext)_localctx).x.start):null).getLine()); 
+				}
+				break;
+			case T__5:
+			case BOOL:
+			case INT:
+			case STR:
+			case ID:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(198); ((UnExprContext)_localctx).y = primary();
+				 ((UnExprContext)_localctx).result =  ((UnExprContext)_localctx).y.result; 
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PrimaryContext extends ParserRuleContext {
+		public Expr result;
+		public LiteralContext literal;
+		public IdentifierContext identifier;
+		public OrExprContext orExpr;
+		public List<OrExprContext> orExpr() {
+			return getRuleContexts(OrExprContext.class);
+		}
+		public LiteralContext literal() {
+			return getRuleContext(LiteralContext.class,0);
+		}
+		public IdentifierContext identifier() {
+			return getRuleContext(IdentifierContext.class,0);
+		}
+		public OrExprContext orExpr(int i) {
+			return getRuleContext(OrExprContext.class,i);
+		}
+		public PrimaryContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_primary; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterPrimary(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitPrimary(this);
+		}
+	}
+
+	public final PrimaryContext primary() throws RecognitionException {
+		PrimaryContext _localctx = new PrimaryContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_primary);
+		int _la;
+		try {
+			int _alt;
+			setState(222);
+			switch (_input.LA(1)) {
+			case BOOL:
+			case INT:
+			case STR:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(203); ((PrimaryContext)_localctx).literal = literal();
+				 ((PrimaryContext)_localctx).result =  ((PrimaryContext)_localctx).literal.result; 
+				}
+				break;
+			case ID:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(206); ((PrimaryContext)_localctx).identifier = identifier();
+				 ((PrimaryContext)_localctx).result =  ((PrimaryContext)_localctx).identifier.result; 
+				}
+				break;
+			case T__5:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(210); 
+				_errHandler.sync(this);
+				_alt = 1;
+				do {
+					switch (_alt) {
+					case 1:
+						{
+						{
+						setState(209); match(T__5);
+						}
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					setState(212); 
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,27,_ctx);
+				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+				setState(215); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(214); ((PrimaryContext)_localctx).orExpr = orExpr();
+					}
+					}
+					setState(217); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__5) | (1L << T__2) | (1L << T__0) | (1L << BOOL) | (1L << INT) | (1L << STR) | (1L << ID))) != 0) );
+				setState(219); match(T__4);
+				 ((PrimaryContext)_localctx).result =  ((PrimaryContext)_localctx).orExpr.result; 
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class LiteralContext extends ParserRuleContext {
+		public Expr result;
+		public Token INT;
+		public Token STR;
+		public Token BOOL;
+		public TerminalNode BOOL() { return getToken(QLParser.BOOL, 0); }
+		public TerminalNode STR() { return getToken(QLParser.STR, 0); }
+		public TerminalNode INT() { return getToken(QLParser.INT, 0); }
+		public LiteralContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_literal; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitLiteral(this);
+		}
+	}
+
+	public final LiteralContext literal() throws RecognitionException {
+		LiteralContext _localctx = new LiteralContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_literal);
+		try {
+			setState(230);
+			switch (_input.LA(1)) {
+			case INT:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(224); ((LiteralContext)_localctx).INT = match(INT);
+				 ((LiteralContext)_localctx).result =  new Literal(Integer.valueOf((((LiteralContext)_localctx).INT!=null?((LiteralContext)_localctx).INT.getText():null)), Type.INTEGER); 
+				}
+				break;
+			case STR:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(226); ((LiteralContext)_localctx).STR = match(STR);
+				 ((LiteralContext)_localctx).result =  new Literal((((LiteralContext)_localctx).STR!=null?((LiteralContext)_localctx).STR.getText():null), Type.STRING); 
+				}
+				break;
+			case BOOL:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(228); ((LiteralContext)_localctx).BOOL = match(BOOL);
+				 ((LiteralContext)_localctx).result =  new Literal(Boolean.valueOf((((LiteralContext)_localctx).BOOL!=null?((LiteralContext)_localctx).BOOL.getText():null)), Type.BOOLEAN); 
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class IdentifierContext extends ParserRuleContext {
+		public Expr result;
+		public Token ID;
+		public TerminalNode ID() { return getToken(QLParser.ID, 0); }
+		public IdentifierContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_identifier; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterIdentifier(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitIdentifier(this);
+		}
+	}
+
+	public final IdentifierContext identifier() throws RecognitionException {
+		IdentifierContext _localctx = new IdentifierContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_identifier);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(232); ((IdentifierContext)_localctx).ID = match(ID);
+			 ((IdentifierContext)_localctx).result =  new Identifier((((IdentifierContext)_localctx).ID!=null?((IdentifierContext)_localctx).ID.getText():null), ((IdentifierContext)_localctx).ID.getLine()); 
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class TypeContext extends ParserRuleContext {
+		public Type result;
+		public TerminalNode INTEGER() { return getToken(QLParser.INTEGER, 0); }
+		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
+		public TerminalNode BOOLEAN() { return getToken(QLParser.BOOLEAN, 0); }
+		public TerminalNode MONEY() { return getToken(QLParser.MONEY, 0); }
+		public TypeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_type; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitType(this);
+		}
+	}
+
+	public final TypeContext type() throws RecognitionException {
+		TypeContext _localctx = new TypeContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_type);
+		try {
+			setState(243);
+			switch (_input.LA(1)) {
+			case BOOLEAN:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(235); match(BOOLEAN);
+				 ((TypeContext)_localctx).result =  Type.BOOLEAN; 
+				}
+				break;
+			case STRING:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(237); match(STRING);
+				 ((TypeContext)_localctx).result =  Type.STRING; 
+				}
+				break;
+			case INTEGER:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(239); match(INTEGER);
+				 ((TypeContext)_localctx).result =  Type.INTEGER; 
+				}
+				break;
+			case MONEY:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(241); match(MONEY);
+				 ((TypeContext)_localctx).result =  Type.MONEY; 
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class OrExprContext extends ParserRuleContext {
+		public Expr result;
+		public AndExprContext lhs;
+		public AndExprContext rhs;
+		public List<AndExprContext> andExpr() {
+			return getRuleContexts(AndExprContext.class);
+		}
+		public AndExprContext andExpr(int i) {
+			return getRuleContext(AndExprContext.class,i);
+		}
+		public OrExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_orExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterOrExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitOrExpr(this);
+		}
+	}
+
+	public final OrExprContext orExpr() throws RecognitionException {
+		OrExprContext _localctx = new OrExprContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_orExpr);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(245); ((OrExprContext)_localctx).lhs = andExpr();
+			 ((OrExprContext)_localctx).result =  ((OrExprContext)_localctx).lhs.result; 
+			setState(253);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__18) {
+				{
+				{
+				setState(247); match(T__18);
+				setState(248); ((OrExprContext)_localctx).rhs = andExpr();
+				 ((OrExprContext)_localctx).result =  new Or(_localctx.result, ((OrExprContext)_localctx).rhs.result, (((OrExprContext)_localctx).rhs!=null?(((OrExprContext)_localctx).rhs.start):null).getLine()); 
+				}
+				}
+				setState(255);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AndExprContext extends ParserRuleContext {
+		public Expr result;
+		public RelExprContext lhs;
+		public RelExprContext rhs;
+		public List<RelExprContext> relExpr() {
+			return getRuleContexts(RelExprContext.class);
+		}
+		public RelExprContext relExpr(int i) {
+			return getRuleContext(RelExprContext.class,i);
+		}
+		public AndExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_andExpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterAndExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitAndExpr(this);
+		}
+	}
+
+	public final AndExprContext andExpr() throws RecognitionException {
+		AndExprContext _localctx = new AndExprContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_andExpr);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(256); ((AndExprContext)_localctx).lhs = relExpr();
+			 ((AndExprContext)_localctx).result = ((AndExprContext)_localctx).lhs.result; 
+			setState(264);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__15) {
+				{
+				{
+				setState(258); match(T__15);
+				setState(259); ((AndExprContext)_localctx).rhs = relExpr();
+				 ((AndExprContext)_localctx).result =  new And(_localctx.result, ((AndExprContext)_localctx).rhs.result, (((AndExprContext)_localctx).rhs!=null?(((AndExprContext)_localctx).rhs.start):null).getLine()); 
+				}
+				}
+				setState(266);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static final String _serializedATN =
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\"\u010e\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\6\2 \n\2\r\2\16\2!\3\2\6\2"+
+		"%\n\2\r\2\16\2&\3\2\6\2*\n\2\r\2\16\2+\3\2\3\2\3\2\3\3\6\3\62\n\3\r\3"+
+		"\16\3\63\3\3\3\3\6\38\n\3\r\3\16\39\3\3\3\3\3\4\6\4?\n\4\r\4\16\4@\3\4"+
+		"\6\4D\n\4\r\4\16\4E\3\4\6\4I\n\4\r\4\16\4J\3\4\6\4N\n\4\r\4\16\4O\3\4"+
+		"\6\4S\n\4\r\4\16\4T\3\4\6\4X\n\4\r\4\16\4Y\3\4\3\4\3\4\3\4\6\4`\n\4\r"+
+		"\4\16\4a\3\4\6\4e\n\4\r\4\16\4f\3\4\6\4j\n\4\r\4\16\4k\3\4\6\4o\n\4\r"+
+		"\4\16\4p\3\4\3\4\3\4\3\4\6\4w\n\4\r\4\16\4x\3\4\6\4|\n\4\r\4\16\4}\3\4"+
+		"\3\4\3\4\5\4\u0083\n\4\3\5\6\5\u0086\n\5\r\5\16\5\u0087\3\5\6\5\u008b"+
+		"\n\5\r\5\16\5\u008c\3\5\6\5\u0090\n\5\r\5\16\5\u0091\3\5\6\5\u0095\n\5"+
+		"\r\5\16\5\u0096\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\7\6\u00a2\n\6\f\6"+
+		"\16\6\u00a5\13\6\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u00ad\n\7\f\7\16\7\u00b0"+
+		"\13\7\3\b\3\b\3\b\3\b\3\b\3\b\7\b\u00b8\n\b\f\b\16\b\u00bb\13\b\3\t\3"+
+		"\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00cc\n\t\3"+
+		"\n\3\n\3\n\3\n\3\n\3\n\3\n\6\n\u00d5\n\n\r\n\16\n\u00d6\3\n\6\n\u00da"+
+		"\n\n\r\n\16\n\u00db\3\n\3\n\3\n\5\n\u00e1\n\n\3\13\3\13\3\13\3\13\3\13"+
+		"\3\13\5\13\u00e9\n\13\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r"+
+		"\u00f6\n\r\3\16\3\16\3\16\3\16\3\16\3\16\7\16\u00fe\n\16\f\16\16\16\u0101"+
+		"\13\16\3\17\3\17\3\17\3\17\3\17\3\17\7\17\u0109\n\17\f\17\16\17\u010c"+
+		"\13\17\3\17\2\2\20\2\4\6\b\n\f\16\20\22\24\26\30\32\34\2\6\4\2\21\21\26"+
+		"\26\4\2\3\3\24\24\4\2\25\25\27\27\7\2\4\4\6\6\t\n\r\r\20\20\u0128\2\37"+
+		"\3\2\2\2\4\61\3\2\2\2\6\u0082\3\2\2\2\b\u0085\3\2\2\2\n\u009b\3\2\2\2"+
+		"\f\u00a6\3\2\2\2\16\u00b1\3\2\2\2\20\u00cb\3\2\2\2\22\u00e0\3\2\2\2\24"+
+		"\u00e8\3\2\2\2\26\u00ea\3\2\2\2\30\u00f5\3\2\2\2\32\u00f7\3\2\2\2\34\u0102"+
+		"\3\2\2\2\36 \t\2\2\2\37\36\3\2\2\2 !\3\2\2\2!\37\3\2\2\2!\"\3\2\2\2\""+
+		"$\3\2\2\2#%\7\"\2\2$#\3\2\2\2%&\3\2\2\2&$\3\2\2\2&\'\3\2\2\2\')\3\2\2"+
+		"\2(*\5\4\3\2)(\3\2\2\2*+\3\2\2\2+)\3\2\2\2+,\3\2\2\2,-\3\2\2\2-.\7\2\2"+
+		"\3./\b\2\1\2/\3\3\2\2\2\60\62\7\7\2\2\61\60\3\2\2\2\62\63\3\2\2\2\63\61"+
+		"\3\2\2\2\63\64\3\2\2\2\64\67\3\2\2\2\658\5\b\5\2\668\5\6\4\2\67\65\3\2"+
+		"\2\2\67\66\3\2\2\289\3\2\2\29\67\3\2\2\29:\3\2\2\2:;\3\2\2\2;<\7\f\2\2"+
+		"<\5\3\2\2\2=?\7!\2\2>=\3\2\2\2?@\3\2\2\2@>\3\2\2\2@A\3\2\2\2AC\3\2\2\2"+
+		"BD\7\"\2\2CB\3\2\2\2DE\3\2\2\2EC\3\2\2\2EF\3\2\2\2FH\3\2\2\2GI\5\30\r"+
+		"\2HG\3\2\2\2IJ\3\2\2\2JH\3\2\2\2JK\3\2\2\2KM\3\2\2\2LN\7\13\2\2ML\3\2"+
+		"\2\2NO\3\2\2\2OM\3\2\2\2OP\3\2\2\2PR\3\2\2\2QS\7\22\2\2RQ\3\2\2\2ST\3"+
+		"\2\2\2TR\3\2\2\2TU\3\2\2\2UW\3\2\2\2VX\5\32\16\2WV\3\2\2\2XY\3\2\2\2Y"+
+		"W\3\2\2\2YZ\3\2\2\2Z[\3\2\2\2[\\\7\23\2\2\\]\b\4\1\2]\u0083\3\2\2\2^`"+
+		"\7!\2\2_^\3\2\2\2`a\3\2\2\2a_\3\2\2\2ab\3\2\2\2bd\3\2\2\2ce\7\"\2\2dc"+
+		"\3\2\2\2ef\3\2\2\2fd\3\2\2\2fg\3\2\2\2gi\3\2\2\2hj\5\30\r\2ih\3\2\2\2"+
+		"jk\3\2\2\2ki\3\2\2\2kl\3\2\2\2ln\3\2\2\2mo\7\13\2\2nm\3\2\2\2op\3\2\2"+
+		"\2pn\3\2\2\2pq\3\2\2\2qr\3\2\2\2rs\5\24\13\2st\b\4\1\2t\u0083\3\2\2\2"+
+		"uw\7!\2\2vu\3\2\2\2wx\3\2\2\2xv\3\2\2\2xy\3\2\2\2y{\3\2\2\2z|\7\"\2\2"+
+		"{z\3\2\2\2|}\3\2\2\2}{\3\2\2\2}~\3\2\2\2~\177\3\2\2\2\177\u0080\5\30\r"+
+		"\2\u0080\u0081\b\4\1\2\u0081\u0083\3\2\2\2\u0082>\3\2\2\2\u0082_\3\2\2"+
+		"\2\u0082v\3\2\2\2\u0083\7\3\2\2\2\u0084\u0086\7\16\2\2\u0085\u0084\3\2"+
+		"\2\2\u0086\u0087\3\2\2\2\u0087\u0085\3\2\2\2\u0087\u0088\3\2\2\2\u0088"+
+		"\u008a\3\2\2\2\u0089\u008b\7\22\2\2\u008a\u0089\3\2\2\2\u008b\u008c\3"+
+		"\2\2\2\u008c\u008a\3\2\2\2\u008c\u008d\3\2\2\2\u008d\u008f\3\2\2\2\u008e"+
+		"\u0090\5\32\16\2\u008f\u008e\3\2\2\2\u0090\u0091\3\2\2\2\u0091\u008f\3"+
+		"\2\2\2\u0091\u0092\3\2\2\2\u0092\u0094\3\2\2\2\u0093\u0095\7\23\2\2\u0094"+
+		"\u0093\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0094\3\2\2\2\u0096\u0097\3\2"+
+		"\2\2\u0097\u0098\3\2\2\2\u0098\u0099\5\4\3\2\u0099\u009a\b\5\1\2\u009a"+
+		"\t\3\2\2\2\u009b\u009c\5\20\t\2\u009c\u00a3\b\6\1\2\u009d\u009e\t\3\2"+
+		"\2\u009e\u009f\5\20\t\2\u009f\u00a0\b\6\1\2\u00a0\u00a2\3\2\2\2\u00a1"+
+		"\u009d\3\2\2\2\u00a2\u00a5\3\2\2\2\u00a3\u00a1\3\2\2\2\u00a3\u00a4\3\2"+
+		"\2\2\u00a4\13\3\2\2\2\u00a5\u00a3\3\2\2\2\u00a6\u00a7\5\n\6\2\u00a7\u00ae"+
+		"\b\7\1\2\u00a8\u00a9\t\4\2\2\u00a9\u00aa\5\n\6\2\u00aa\u00ab\b\7\1\2\u00ab"+
+		"\u00ad\3\2\2\2\u00ac\u00a8\3\2\2\2\u00ad\u00b0\3\2\2\2\u00ae\u00ac\3\2"+
+		"\2\2\u00ae\u00af\3\2\2\2\u00af\r\3\2\2\2\u00b0\u00ae\3\2\2\2\u00b1\u00b2"+
+		"\5\f\7\2\u00b2\u00b9\b\b\1\2\u00b3\u00b4\t\5\2\2\u00b4\u00b5\5\f\7\2\u00b5"+
+		"\u00b6\b\b\1\2\u00b6\u00b8\3\2\2\2\u00b7\u00b3\3\2\2\2\u00b8\u00bb\3\2"+
+		"\2\2\u00b9\u00b7\3\2\2\2\u00b9\u00ba\3\2\2\2\u00ba\17\3\2\2\2\u00bb\u00b9"+
+		"\3\2\2\2\u00bc\u00bd\7\25\2\2\u00bd\u00be\5\20\t\2\u00be\u00bf\b\t\1\2"+
+		"\u00bf\u00cc\3\2\2\2\u00c0\u00c1\7\27\2\2\u00c1\u00c2\5\20\t\2\u00c2\u00c3"+
+		"\b\t\1\2\u00c3\u00cc\3\2\2\2\u00c4\u00c5\7\17\2\2\u00c5\u00c6\5\20\t\2"+
+		"\u00c6\u00c7\b\t\1\2\u00c7\u00cc\3\2\2\2\u00c8\u00c9\5\22\n\2\u00c9\u00ca"+
+		"\b\t\1\2\u00ca\u00cc\3\2\2\2\u00cb\u00bc\3\2\2\2\u00cb\u00c0\3\2\2\2\u00cb"+
+		"\u00c4\3\2\2\2\u00cb\u00c8\3\2\2\2\u00cc\21\3\2\2\2\u00cd\u00ce\5\24\13"+
+		"\2\u00ce\u00cf\b\n\1\2\u00cf\u00e1\3\2\2\2\u00d0\u00d1\5\26\f\2\u00d1"+
+		"\u00d2\b\n\1\2\u00d2\u00e1\3\2\2\2\u00d3\u00d5\7\22\2\2\u00d4\u00d3\3"+
+		"\2\2\2\u00d5\u00d6\3\2\2\2\u00d6\u00d4\3\2\2\2\u00d6\u00d7\3\2\2\2\u00d7"+
+		"\u00d9\3\2\2\2\u00d8\u00da\5\32\16\2\u00d9\u00d8\3\2\2\2\u00da\u00db\3"+
+		"\2\2\2\u00db\u00d9\3\2\2\2\u00db\u00dc\3\2\2\2\u00dc\u00dd\3\2\2\2\u00dd"+
+		"\u00de\7\23\2\2\u00de\u00df\b\n\1\2\u00df\u00e1\3\2\2\2\u00e0\u00cd\3"+
+		"\2\2\2\u00e0\u00d0\3\2\2\2\u00e0\u00d4\3\2\2\2\u00e1\23\3\2\2\2\u00e2"+
+		"\u00e3\7 \2\2\u00e3\u00e9\b\13\1\2\u00e4\u00e5\7!\2\2\u00e5\u00e9\b\13"+
+		"\1\2\u00e6\u00e7\7\37\2\2\u00e7\u00e9\b\13\1\2\u00e8\u00e2\3\2\2\2\u00e8"+
+		"\u00e4\3\2\2\2\u00e8\u00e6\3\2\2\2\u00e9\25\3\2\2\2\u00ea\u00eb\7\"\2"+
+		"\2\u00eb\u00ec\b\f\1\2\u00ec\27\3\2\2\2\u00ed\u00ee\7\33\2\2\u00ee\u00f6"+
+		"\b\r\1\2\u00ef\u00f0\7\35\2\2\u00f0\u00f6\b\r\1\2\u00f1\u00f2\7\34\2\2"+
+		"\u00f2\u00f6\b\r\1\2\u00f3\u00f4\7\36\2\2\u00f4\u00f6\b\r\1\2\u00f5\u00ed"+
+		"\3\2\2\2\u00f5\u00ef\3\2\2\2\u00f5\u00f1\3\2\2\2\u00f5\u00f3\3\2\2\2\u00f6"+
+		"\31\3\2\2\2\u00f7\u00f8\5\34\17\2\u00f8\u00ff\b\16\1\2\u00f9\u00fa\7\5"+
+		"\2\2\u00fa\u00fb\5\34\17\2\u00fb\u00fc\b\16\1\2\u00fc\u00fe\3\2\2\2\u00fd"+
+		"\u00f9\3\2\2\2\u00fe\u0101\3\2\2\2\u00ff\u00fd\3\2\2\2\u00ff\u0100\3\2"+
+		"\2\2\u0100\33\3\2\2\2\u0101\u00ff\3\2\2\2\u0102\u0103\5\16\b\2\u0103\u010a"+
+		"\b\17\1\2\u0104\u0105\7\b\2\2\u0105\u0106\5\16\b\2\u0106\u0107\b\17\1"+
+		"\2\u0107\u0109\3\2\2\2\u0108\u0104\3\2\2\2\u0109\u010c\3\2\2\2\u010a\u0108"+
+		"\3\2\2\2\u010a\u010b\3\2\2\2\u010b\35\3\2\2\2\u010c\u010a\3\2\2\2$!&+"+
+		"\63\679@EJOTYafkpx}\u0082\u0087\u008c\u0091\u0096\u00a3\u00ae\u00b9\u00cb"+
+		"\u00d6\u00db\u00e0\u00e8\u00f5\u00ff\u010a";
+	public static final ATN _ATN =
+		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
+	static {
+		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
+		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {
+			_decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
+		}
+	}
+}

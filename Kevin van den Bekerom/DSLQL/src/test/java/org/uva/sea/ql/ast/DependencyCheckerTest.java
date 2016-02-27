@@ -6,6 +6,8 @@ import junit.framework.TestSuite;
 
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Form;
+import org.uva.sea.ql.errors.QLError;
+import org.uva.sea.ql.graph.Graph;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -50,12 +52,12 @@ public class DependencyCheckerTest
     	Form f = fb.buildAST("D:\\Master\\Software Construction\\Github\\"
     			+ "Kevin van den Bekerom\\DSLQL\\src\\main\\resources\\DependancyCheckIfStatements.txt");
     	System.out.println(f.getName());
+    	Graph g = new DependencyGraphBuilder(f.getMainBlock()).getDependencyGraph();
+    	g.printEdges();
     	DependencyChecker dp = new DependencyChecker();
-    	f.getMainBlock().accept(dp,  new HashMap<String, Boolean>());
-    	for (ASTNode node : dp.getViolations()) {
-    		System.out.println("If statement that caused violation: " + Integer.toString(node.getStartLine()));
-    		assertEquals(6, node.getStartLine());
-    		assertEquals(11, node.getStartLine());
+    	for (QLError error : dp.getErrors(f.getMainBlock(), g)) {
+    		System.out.println(error.getErrorMessage());
+    		assertTrue(true);
     	}
     	
     }

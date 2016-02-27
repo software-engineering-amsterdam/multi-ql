@@ -1,5 +1,7 @@
 package org.uva.sea.ql.parser;
 
+import org.uva.sea.ql.ast.question.ComputedQuestion;
+import org.uva.sea.ql.ast.question.Question;
 import java.io.FileNotFoundException;
 import static org.junit.Assert.*;
 import org.junit.Test;

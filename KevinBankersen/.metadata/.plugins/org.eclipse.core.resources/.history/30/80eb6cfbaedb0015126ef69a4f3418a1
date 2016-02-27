@@ -1,0 +1,13 @@
+package eu.bankersen.kevin.ql.util.testing.widget;
+
+import javax.swing.JPanel;
+
+public class StringWidget implements Widget {
+
+    @Override
+    public JPanel build() {
+	// TODO Auto-generated method stub
+	return new JPanel();
+    }
+
+}

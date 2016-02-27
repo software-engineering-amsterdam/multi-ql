@@ -1,0 +1,10 @@
+form schoolDuration { 
+  "Do you live in Europe?"
+  European boolean
+  
+  
+
+  "This is a trailing question..?"
+  Trailing integer = 1
+ 
+}
