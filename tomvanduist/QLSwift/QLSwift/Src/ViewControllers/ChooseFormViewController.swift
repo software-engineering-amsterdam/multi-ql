@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DTAlertView
 
 let kForm1 = "form"
 let kForm2 = "form2"
@@ -19,8 +20,13 @@ class ChooseFormViewController: BaseViewController {
             let parser = Parser()
             
             let (form, warnings) = try parser.parse(ql)
-            
-            displayForm(form)
+            if warnings.isEmpty {
+                self.displayForm(form)
+            } else {
+                showAlerts(arg: warnings, cancelBlock: nil, confirmBlock: { [unowned self] in
+                    self.displayForm(form)
+                })
+            }
         }
         catch let error {
             print(error)
@@ -53,5 +59,58 @@ extension ChooseFormViewController {
     
     @IBAction func form2Pressed(sender: UIButton) {
         self.showForm(kForm2)
+    }
+}
+
+
+// MARK: - Alerts
+
+extension ChooseFormViewController {
+    private func showAlerts(arg error: SemanticError, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
+        if case SemanticError.None = error {
+            return false
+        }
+        
+        // todo:
+        return true
+    }
+    
+    private func showAlerts(arg warnings: [SemanticWarning], cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
+        if warnings.isEmpty {
+            return false
+        }
+        
+        for warning in warnings {
+            if warning == warnings.last! {
+                showAlerts(arg: warning, cancelBlock: cancelBlock, confirmBlock: confirmBlock)
+            } else {
+                showAlerts(arg: warning, cancelBlock: nil, confirmBlock: nil)
+            }
+        }
+        
+        return true
+    }
+    
+    private func showAlerts(arg warning: SemanticWarning, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
+        DTAlertView(
+            block: { (alertView, index, n) -> Void in
+                if index == 0 {
+                    if cancelBlock != nil {
+                        cancelBlock!()
+                    }
+                }
+                else {
+                    if confirmBlock != nil {
+                        confirmBlock!()
+                    }
+                }
+            },
+            title: "Warning",
+            message: "\(confirmBlock)",
+            cancelButtonTitle: "Cancel",
+            positiveButtonTitle: "Confirm"
+        ).show()
+        
+        return true
     }
 }

@@ -31,15 +31,24 @@ extension SemanticError {
     
     var errors: [SemanticError] {
         switch self {
-        case .Collection(let errors): return errors
-        case .None: return []
-        default: return [self]
+            case .Collection(let errors): return errors
+            case .None: return []
+            default: return [self]
         }
     }
 }
 
-enum SemanticWarning: ErrorType {
-    case MultipleDeclarations(description: String)
+class SemanticWarning: NSObject, ErrorType {
+    private let _description: String
+    
+    init(description: String) {
+        self._description = description
+    }
+    
+    override var description: String {
+        return _description
+    }
 }
 
-
+class MultipleDeclarations: SemanticWarning {
+}

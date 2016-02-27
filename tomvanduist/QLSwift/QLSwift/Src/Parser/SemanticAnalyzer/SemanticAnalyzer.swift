@@ -16,7 +16,7 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
     
     private var context: Context
     private var error: SemanticError = SemanticError.None
-    private var warnings = [(SemanticWarning)]()
+    private var warnings: [SemanticWarning] = []
     
     init(context: Context) {
         self.context = context
@@ -44,8 +44,8 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
         node.expression.accept(self)
         
         do { try context.assign(node.identifier, object: (type(node.expression), node.expression)) }
-        catch let warning as SemanticWarning { print("warning"); warnings.append(warning) }
-        catch let e { print("error"); error.collect(e) }
+        catch let warning as SemanticWarning { self.warnings.append(warning) }
+        catch let e { error.collect(e) }
     }
     
     func visit(node: Conditional) {
