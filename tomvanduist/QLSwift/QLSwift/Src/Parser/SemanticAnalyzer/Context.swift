@@ -26,7 +26,7 @@ class Context {
             context[identifier.id] = object
         }
         else {
-            throw SemanticError.MultipleDeclarations(description: "Identifier is already declared: \(identifier)")
+            throw SemanticWarning.MultipleDeclarations(description: "Identifier is already declared: \(identifier)")
         }
     }
     

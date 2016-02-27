@@ -8,22 +8,27 @@
 
 import Foundation
 
-class SemanticAnalyser: ASTNodeVisitor {
+protocol SemanticAnalyzer: ASTNodeVisitor {
+    func analyze(form: Form) throws -> (Form, [SemanticWarning])
+}
+
+class DefaultSemanticAnalyzer: SemanticAnalyzer {
     
-    var context: Context
-    var error: SemanticError = SemanticError.None
+    private var context: Context
+    private var error: SemanticError = SemanticError.None
+    private var warnings = [(SemanticWarning)]()
     
     init(context: Context) {
         self.context = context
     }
     
-    func analyze(node: ASTNode) throws -> ASTNode {
+    func analyze(form: Form) throws -> (Form, [SemanticWarning]) {
         error = SemanticError.None
         
-        node.accept(self)
+        form.accept(self)
         
         if case SemanticError.None = error {
-            return node
+            return (form, warnings)
         } else {
             throw error
         }
@@ -39,7 +44,8 @@ class SemanticAnalyser: ASTNodeVisitor {
         node.expression.accept(self)
         
         do { try context.assign(node.identifier, object: (type(node.expression), node.expression)) }
-        catch let e { error.collect(e) }
+        catch let warning as SemanticWarning { print("warning"); warnings.append(warning) }
+        catch let e { print("error"); error.collect(e) }
     }
     
     func visit(node: Conditional) {

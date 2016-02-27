@@ -18,7 +18,8 @@ class ChooseFormViewController: BaseViewController {
             let ql = try QL(qlFromFileNamed: formName)
             let parser = Parser()
             
-            let form = try parser.parse(ql)
+            let (form, warnings) = try parser.parse(ql)
+            
             displayForm(form)
         }
         catch let error {
