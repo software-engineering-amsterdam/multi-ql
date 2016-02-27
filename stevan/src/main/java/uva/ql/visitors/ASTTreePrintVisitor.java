@@ -1,10 +1,6 @@
 package uva.ql.visitors;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import uva.ql.ast.AExpression;
-import uva.ql.ast.ANode;
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
@@ -20,8 +16,6 @@ import uva.ql.interfaces.INumber;
 
 public class ASTTreePrintVisitor implements INodeVisitor {
 
-	private final Map<String, Integer> store = new HashMap<String, Integer>(0);
-	
 	@Override
 	public void visitForm(Form form) {
 		
@@ -69,7 +63,9 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 	}
 
 	@Override
-	public void visitExp(AExpression exp) {
+	public <T> void visitExp(T expression) {
+		
+		AExpression exp = (AExpression) expression;
 		
 		System.out.println("exp: " + exp.getExprType());
 		if (exp.getExprType() != IExpression.NUMBER) {
@@ -98,8 +94,5 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 		
 		System.out.println(var.getName());
 	}
-
-	@Override
-	public void visitNode(ANode node) {}
 	
 }

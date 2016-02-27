@@ -2,217 +2,101 @@ package uva.ql.typechecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
-import uva.ql.deprecated.ASTExpression;
-import uva.ql.deprecated.ASTIfStatement;
-import uva.ql.deprecated.ASTNode;
-import uva.ql.deprecated.ASTNumber;
-import uva.ql.deprecated.ASTQuestion;
-import uva.ql.deprecated.ASTVariable;
-import uva.ql.deprecated.ShuntingYardAlgorithm;
-import uva.ql.visitors.VisitAST;
+import uva.ql.ast.ANode;
+import uva.ql.ast.AVariable;
+import uva.ql.ast.Form;
+import uva.ql.ast.Question;
+import uva.ql.interfaces.INode;
+import uva.ql.visitors.typechecker.CollectVariables;
+import uva.ql.visitors.typechecker.ConditionsNotOfTypeBoolean;
+import uva.ql.visitors.typechecker.CyclicDepenUndefQuestions;
+import uva.ql.visitors.typechecker.OperandsToOperators;
 
 public class TypeChecker {
 	
-	public static HashMap<String, Integer> checkAST(ASTNode node) {
+	public static HashMap<String, Integer> checkAST( Form form ) {
 		
 		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
 		
-		//checkForUndefinedQuestions(node);
-		msg.putAll(checkDuplicateQuestions(node));
-		msg.putAll(checkConditionsNotOfTypeBoolean(node));
-		msg.putAll(checkInvalidOperandToOperator(node));
-		msg.putAll(checkCyclicDependencies(node));
-		msg.putAll(checkDuplicateLabels(node));
+		final CollectVariables cv = new CollectVariables();
+		form.accept(cv);
+		
+		msg.putAll( checkForDupQuestionsOfDiffTypes(cv) );
+		msg.putAll( checkConditionsNotOfTypeBoolean(form) );
+		msg.putAll( checkInvalidOperandToOperators(form) );
+		msg.putAll( checkCyclicDepenUndefQuestions(form, cv) );
+		msg.putAll( checkDuplicateLabels(cv) );
 		
 		return msg;
 	}
 	
-	public static boolean checkForUndefinedQuestions(ASTNode node) {
+	public static HashMap<String, Integer> checkForDupQuestionsOfDiffTypes( CollectVariables cv ) {
 		
-		boolean undefined = false;
-		ArrayList<ASTNode> nodeList = VisitAST.getNodesByType(node, ASTNode.QUESTION);
-		
-		for (int i=0; i<nodeList.size(); i++) {
-			ASTQuestion question = (ASTQuestion) nodeList.get(i);
-			ASTVariable var = (ASTVariable) question.getExpression().getLeftNode();
-			
-			System.out.println(var.getType());
-			
-			/*if (var.getName().equals(var.getName())) {
-				undefined = true;
-				System.out.println(var.getName());
-			}*/
-		}
-		
-		return undefined;
-	}
-	
-	// Check for duplicate question declarations with different types
-	public static HashMap<String, Integer> checkDuplicateQuestions(ASTNode node) {
-		
-		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		ArrayList<ASTNode> nodeList = VisitAST.getNodesByType(node, ASTNode.QUESTION);
-		
-		for (int i=0; i<nodeList.size(); i++) {
-			ASTQuestion question = (ASTQuestion) nodeList.get(i);
-			ASTVariable var = (ASTVariable) question.get(0);
-			
-			for (int j=i+1; j<nodeList.size(); j++) {
-				ASTQuestion dupQuestion = (ASTQuestion) nodeList.get(j);
-				ASTVariable dupVar = (ASTVariable) dupQuestion.get(0);
-				
-				if (var.getName().equals(dupVar.getName())) {
-					msg.put("Error: Duplicate of variable '" + dupVar.getName() + "' already exisits in form", -1);
-					//System.out.println("Duplicate: " + dupVar.getName());
-				}
-			}
-		}
-		
-		return msg;
-	}
-	
-	// Check for conditions not of type boolean
-	public static HashMap<String, Integer> checkConditionsNotOfTypeBoolean(ASTNode node) {
-		
-		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		ArrayList<ASTNode> nodeList = VisitAST.getNodesByType(node, ASTNode.IF_STATEMENT);
-		
-		for (int i=0; i<nodeList.size(); i++) {
-			ASTIfStatement statement = (ASTIfStatement) nodeList.get(i);
-			ArrayList<ASTNode> postfixList = ShuntingYardAlgorithm.astToPostfix(statement.getExpression());
-			
-			for (int j=0; j<postfixList.size(); j++) {
+		final HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
+		final ArrayList<AVariable> varList = cv.getStore();
+		final Set<String> varNameSet = new HashSet<String>();
 
-				try {
-					ASTVariable var = (ASTVariable) postfixList.get(j);
-					/*System.out.println(var.getType());
-					System.out.println(condition);*/
-					
-					if (var.getType() != ASTVariable.BOOLEAN) {
-						msg.put("Error: Variable '" + var.getName() + "' is not of type BOOLEAN", -1);
-						break;
-					}
-				} 
-				catch (ClassCastException e) {
-					//System.out.println(e.getMessage());
-				}
-				
-				try {
-					ASTExpression exp = (ASTExpression) postfixList.get(j);
-					/*System.out.println(exp.getExpressionType());
-					System.out.println(condition);*/
-					
-					switch (exp.getExpressionType()) {
-						case ASTExpression.ADD_EXP: 
-							msg.put("Error: Operator of type '+' is not allowed in a conditional expression", -1);
-							//System.out.println(condition);
-							break;
-						case ASTExpression.ASSIGN_EXP:
-							msg.put("Error: Operator of type '=' is not allowed in a conditional expression", -1);
-							//System.out.println(condition);
-							break;
-						case ASTExpression.DIVIDE_EXP:
-							msg.put("Error: Operator of type '/' is not allowed in a conditional expression", -1);
-							//System.out.println(condition);
-							break;
-						case ASTExpression.MINUS_EXP:
-							msg.put("Error: Operator of type '-' is not allowed in a conditional expression", -1);
-							//System.out.println(condition);
-							break;
-						case ASTExpression.MULTIPLY_EXP:
-							msg.put("Error: Operator of type '*' is not allowed in a conditional expression", -1);
-							//System.out.println(condition);
-							break;
-					}
-				} 
-				catch (ClassCastException e) {
-					//System.out.println(e.getMessage());
-				}
-			}
-			//System.out.println(postfixList);
-		}
-		return msg;
-	}
-	
-	// Check for operands of invalid types to operator e.g. int = int * double
-	public static HashMap<String, Integer> checkInvalidOperandToOperator(ASTNode node) {
-		
-		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		ArrayList<ASTNode> nodeList = VisitAST.getNodesByType(node, ASTNode.EXPRESSION);
-		
-		for (int i=0; i<nodeList.size(); i++) {
-			ASTExpression expr = (ASTExpression) nodeList.get(i);
+		for( AVariable var : varList ) {
 			
-			if (expr.getExpressionType() == ASTExpression.ASSIGN_EXP) {
-				ASTExpression assExpr = (ASTExpression) expr.getRightNode();
-				ArrayList<ASTNode> postfixList = ShuntingYardAlgorithm.astToPostfix(assExpr);
-				ArrayList<Integer> operandTypes = getOperands(postfixList);
+			if( !varNameSet.add(var.getName()) ) {
 				
-				Integer operandType = operandTypes.get(0);
-				//System.out.println(operandTypes);
-				for (int j=1; j<operandTypes.size(); j++) {
-					if (operandTypes.get(j) != operandType) {
-						//System.out.println("Operands of invalid type to operator in " + ShuntingYardAlgorithm.astToPostfixString(assExpr));
-						msg.put("Error: Operands of invalid type to operator in " + ShuntingYardAlgorithm.astToPostfixString(assExpr), -1);
-						break;
-					}
-				}
-				
+				msg.put( "Error: Duplicate question declaration with variable '" + var.getName() + "' of different type, starting at line: " + var.getLine() + ", column: " + var.getColumn()
+						, -1 );
 			}
 		}
-		return msg;
-	}
-	
-	private static ArrayList<Integer> getOperands(ArrayList<ASTNode> postfixList) {
-		
-		ArrayList<Integer> operandTypes = new ArrayList<Integer>(0);
-		
-		for (int j=0; j<postfixList.size(); j++) {
-			try {
-				ASTVariable var = (ASTVariable) postfixList.get(j);
-				operandTypes.add(var.getType());
-			}
-			catch (ClassCastException e) {}
-			
-			try {
-				ASTNumber num = (ASTNumber) postfixList.get(j);
-				operandTypes.add(num.getType());
-			}
-			catch (ClassCastException e) {}
-		}
-		
-		return operandTypes;
-	}
-	
-	public static HashMap<String, Integer> checkCyclicDependencies(ASTNode node) {
-		
-		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		
-		
 		
 		return msg;
 	}
 	
-	public static HashMap<String, Integer> checkDuplicateLabels(ASTNode node) {
+	public static HashMap<String, Integer> checkConditionsNotOfTypeBoolean( Form form ) {
 		
-		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		ArrayList<ASTNode> nodeList = VisitAST.getNodesByType(node, ASTNode.QUESTION);
+		ConditionsNotOfTypeBoolean cndtnsNOTB = new ConditionsNotOfTypeBoolean();
+		form.accept( cndtnsNOTB );
 		
-		for (int i=0; i<nodeList.size(); i++) {
-			ASTQuestion question = (ASTQuestion) nodeList.get(i);
-			String label = question.getLabel();
+		return cndtnsNOTB.getResult();
+	}
+	
+	public static HashMap<String, Integer> checkInvalidOperandToOperators( Form form ) {
+		
+		OperandsToOperators oto = new OperandsToOperators();
+		form.accept( oto );
+
+		return oto.getResult();
+	}
+	
+	public static HashMap<String, Integer> checkCyclicDepenUndefQuestions( Form form, CollectVariables cv ) {
+		
+		CyclicDepenUndefQuestions cd = new CyclicDepenUndefQuestions(cv.getStore());
+		form.accept( cd );
+		
+		return cd.getResult();
+	}
+	
+	public static HashMap<String, Integer> checkDuplicateLabels( CollectVariables cv ) {
+		
+		final HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
+		final ArrayList<AVariable> varList = cv.getStore();
+		final Set<String> qLabelSet = new HashSet<String>();
+		
+		for( AVariable var : varList ) {
 			
-			for (int j=i+1; j<nodeList.size(); j++) {
-				ASTQuestion dupQuestion = (ASTQuestion) nodeList.get(j);
-				String dupLabel = dupQuestion.getLabel();
+			ANode node = var.getParent();
+			
+			if( node.getNodeType() == INode.QUESTION ) {
 				
-				if (label.equals(dupLabel)) {
-					msg.put("Warning: Duplicate label '" + dupLabel + "'", 0);
-					//System.out.println("Warning: Duplicate label '" + dupLabel + "'");
+				Question q = (Question) node;
+				
+				if( !qLabelSet.add(q.getLabel()) ) {
+					 
+					msg.put( "Warning: Duplicate label '" + q.getLabel() + "', starting at line: " + q.getLine() + ", column: " + q.getColumn()
+							, -2 );
 				}
 			}
 		}
+		
 		return msg;
 	}
 }
