@@ -47,7 +47,7 @@ class SemanticAnalyser: ASTNodeVisitor {
         node.ifBlock.accept(self)
         node.elseBlock?.accept(self)
         
-        if (type(node.condition) !== BooleanType()) {
+        if (type(node.condition) !== BooleanType.self) {
             error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
         }
     }
@@ -74,7 +74,7 @@ class SemanticAnalyser: ASTNodeVisitor {
         node.expression?.accept(self)
         
         if let expression = node.expression {
-            if type(expression) !== NumberType() {
+            if type(expression) !== NumberType.self {
                 error.collect(SemanticError.TypeMismatch(description: "Money expression must result in a numerical value: \(node.expression)"))
             }
 
@@ -109,7 +109,7 @@ class SemanticAnalyser: ASTNodeVisitor {
     func visitBinaryNumber(node: Binary) {
         visitBinary(node)
         
-        if (type(node.lhs) !== NumberType() || type(node.rhs) !== NumberType()) {
+        if (type(node.lhs) !== NumberType.self || type(node.rhs) !== NumberType.self) {
             collectBinaryTypeError(node)
         }
     }
@@ -169,7 +169,7 @@ class SemanticAnalyser: ASTNodeVisitor {
     func visitBinaryBool(node: Binary) {
         visitBinary(node)
         
-        if (type(node.lhs) !== BooleanType() || type(node.rhs) !== BooleanType()) {
+        if (type(node.lhs) !== BooleanType.self || type(node.rhs) !== BooleanType.self) {
             collectBinaryTypeError(node)
         }
     }
@@ -185,7 +185,7 @@ class SemanticAnalyser: ASTNodeVisitor {
     private func type(node: Expression) -> ExpressionType {
         let type = node.type
         
-        if node.type === UnknownType() {
+        if node.type === UnknownType.self {
             error.collect(SemanticError.NotDefined(description: "\(node) is not (yet) defined."))
         }
     
