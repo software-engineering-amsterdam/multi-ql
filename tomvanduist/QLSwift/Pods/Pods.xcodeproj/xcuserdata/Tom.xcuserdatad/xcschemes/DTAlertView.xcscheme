@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'BC7A0AD1BD29844416C256C6'
-               BlueprintName = 'Pods-QLSwift'
+               BlueprintIdentifier = '2FD39B4745E28BF3641B3729'
+               BlueprintName = 'DTAlertView'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods_QLSwift.framework'>
+               BuildableName = 'DTAlertView.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
