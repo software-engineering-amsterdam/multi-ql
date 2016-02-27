@@ -10,7 +10,7 @@ function initiate(inputString) {
 			refreshGUI();
 		}
 		else {
-			throwError(1, "Form checks failed");
+			throwError(0, "Form checks failed");
 		}
 	};
 	tree.accept(visitor);
