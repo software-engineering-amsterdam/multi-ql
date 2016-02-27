@@ -16,7 +16,7 @@ protocol TypeEval: ExpressionType {
     typealias GenericParam
     typealias GenericReturn
     
-    func eval(param: GenericParam?) -> GenericReturn?
+    func eval(param: GenericParam?) -> GenericReturn
 }
 
 
@@ -32,13 +32,7 @@ class TypeThunk<P, R> : NSObject, TypeEval {
     }
 }
 
-class IdentifierType: TypeEval {
-    typealias GenericParam = Identifier
-    typealias GenericReturn = NSValue
-    
-    func eval(param: Identifier?) -> NSValue? {
-        return param?.expression?.eval()
-    }
+class IdentifierType: ExpressionType {
 }
 
 class FormType: ExpressionType {

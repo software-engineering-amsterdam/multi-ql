@@ -10,7 +10,7 @@ import UIKit
 
 class FormView: UIView, WidgetDelegate {
     
-    func widgetChangedValue(widget: Widget, value: NSValue) {
+    func widgetChangedValue(widget: Widget, value: NSObject) {
         self.reloadView()
     }
 }

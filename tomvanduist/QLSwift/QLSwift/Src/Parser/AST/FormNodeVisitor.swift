@@ -18,7 +18,6 @@ protocol ASTNodeVisitor {
     func visit(node: MoneyField)
     func visit(node: StringLiteral)
     func visit(node: IntegerLiteral)
-    func visit(node: FloatLiteral)
     func visit(node: BooleanLiteral)
     func visit(node: Add)
     func visit(node: Sub)
@@ -75,9 +74,6 @@ extension ASTNodeVisitor {
     }
     
     func visit(node: IntegerLiteral) {
-    }
-    
-    func visit(node: FloatLiteral) {
     }
     
     func visit(node: BooleanLiteral) {
@@ -195,12 +191,6 @@ extension StringLiteral {
 }
 
 extension IntegerLiteral {
-    func accept(visitor: ASTNodeVisitor) {
-        visitor.visit(self)
-    }
-}
-
-extension FloatLiteral {
     func accept(visitor: ASTNodeVisitor) {
         visitor.visit(self)
     }

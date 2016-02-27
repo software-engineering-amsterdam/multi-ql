@@ -12,18 +12,17 @@ import Foundation
 protocol Expression: ASTNode {
     var type: ExpressionType { get }
     
-    func eval() -> NSValue?
+    func eval() -> NSObject
 }
 
 class Identifier: Expression {
-    private let _type: TypeThunk<Identifier, NSValue> = TypeThunk(IdentifierType())
     var type: ExpressionType {
         get {
-            if let expression = expression {
-                return expression.type
-            } else {
+            guard let type = expression?.type else {
                 return UnknownType()
             }
+            
+            return type
         }
     }
     
@@ -35,8 +34,12 @@ class Identifier: Expression {
         self.expression = expression
     }
     
-    func eval() -> NSValue? {
-        return self._type.eval(self)
+    func eval() -> NSObject {
+        guard let result = expression?.eval() else {
+            return NSNull()
+        }
+        
+        return result
     }
 }
 
@@ -44,30 +47,35 @@ class BooleanField: Expression {
     let type: ExpressionType = BooleanType()
     var value: Bool = false
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         return value
     }
 }
 
 class StringField: Expression {
     let type: ExpressionType = StringType()
-    var value: NSValue?
+    var string: NSString = ""
     
-    func eval() -> NSValue? {
-        return value
+    func eval() -> NSObject {
+        return string
     }
 }
 
 class MoneyField: Expression {
     let type: ExpressionType = NumberType()
     let expression: Expression?
+    let value: NSInteger = 0
     
     init(expression: Expression? = nil) {
         self.expression = expression
     }
     
-    func eval() -> NSValue? {
-        return expression?.eval()
+    func eval() -> NSObject {
+        guard let result = expression?.eval() else {
+            return value
+        }
+        
+        return result
     }
 }
 
@@ -79,8 +87,8 @@ class StringLiteral: Expression {
         self.string = string
     }
     
-    func eval() -> NSValue? {
-        return NSValue(pointer: string)
+    func eval() -> NSObject {
+        return string
     }
 }
 
@@ -92,21 +100,8 @@ class IntegerLiteral: Expression {
         self.integer = integer
     }
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         return integer
-    }
-}
-
-class FloatLiteral: Expression {
-    let type: ExpressionType = NumberType()
-    let float: Double
-    
-    init(float: Double) {
-        self.float = float
-    }
-    
-    func eval() -> NSValue? {
-        return float
     }
 }
 
@@ -118,7 +113,7 @@ class BooleanLiteral: Expression {
         self.bool = bool
     }
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         return bool
     }
 }
@@ -133,7 +128,7 @@ class Unary {
         self.rhs = rhs
     }
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         fatalError("Override")
     }
 }
@@ -145,7 +140,7 @@ class Not: Unary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return rhs.eval() == false
     }
 }
@@ -157,8 +152,8 @@ class Neg: Unary, Expression {
         _type = NumberType()
     }
     
-    override func eval() -> NSValue? {
-        return rhs.eval() as! Double * -1
+    override func eval() -> NSObject {
+        return rhs.eval() as! NSInteger * -1
     }
 }
 
@@ -173,7 +168,7 @@ class Binary {
         self.rhs = rhs
     }
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         fatalError("Override")
     }
 }
@@ -185,8 +180,8 @@ class Add: Binary, Expression {
         _type = NumberType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) + (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) + (rhs.eval() as! NSInteger)
     }
 }
 
@@ -197,8 +192,8 @@ class Sub: Binary, Expression {
         _type = NumberType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) - (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) - (rhs.eval() as! NSInteger)
     }
 }
 
@@ -209,8 +204,8 @@ class Mul: Binary, Expression {
         _type = NumberType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) * (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) * (rhs.eval() as! NSInteger)
     }
 }
 
@@ -221,8 +216,8 @@ class Div: Binary, Expression {
         _type = NumberType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) / (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) / (rhs.eval() as! NSInteger)
     }
 }
 
@@ -233,8 +228,8 @@ class Pow: Binary, Expression {
         _type = NumberType()
     }
     
-    override func eval() -> NSValue? {
-        return pow((lhs.eval() as! Double), (rhs.eval() as! Double))
+    override func eval() -> NSObject {
+        return NSInteger(pow((lhs.eval() as! Double), (rhs.eval() as! Double)))
     }
 }
 
@@ -245,7 +240,7 @@ class Eq: Binary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return lhs.eval() == rhs.eval()
     }
 }
@@ -257,7 +252,7 @@ class Ne: Binary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return lhs.eval() != rhs.eval()
     }
 }
@@ -269,8 +264,8 @@ class Ge: Binary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) >= (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) >= (rhs.eval() as! NSInteger)
     }
 }
 
@@ -281,8 +276,8 @@ class Gt: Binary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) > (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) > (rhs.eval() as! NSInteger)
     }
 }
 
@@ -293,8 +288,8 @@ class Le: Binary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) <= (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) <= (rhs.eval() as! NSInteger)
     }
 }
 
@@ -305,8 +300,8 @@ class Lt: Binary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) < (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) < (rhs.eval() as! NSInteger)
     }
 }
 
@@ -317,7 +312,7 @@ class And: Binary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return (lhs.eval() as! Bool) && (rhs.eval() as! Bool)
     }
 }
@@ -329,7 +324,7 @@ class Or: Binary, Expression {
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return (lhs.eval() as! Bool) || (rhs.eval() as! Bool)
     }
 }

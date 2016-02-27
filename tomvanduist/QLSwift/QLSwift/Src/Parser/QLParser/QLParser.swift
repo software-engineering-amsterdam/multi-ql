@@ -92,12 +92,8 @@ extension QLParser {
                 lexer.stringLiteral.map{ s in StringLiteral(string: s) }
             let intLit: GenericParser<String, (), Expression> =
                 lexer.integer.map { i in IntegerLiteral(integer: i) }
-            let floatLit: GenericParser<String, (), Expression> =
-                lexer.float.map { f in FloatLiteral(float: f) }
-            let number: GenericParser<String, (), Expression> =
-                floatLit.attempt <|> intLit
             let litExpr: GenericParser<String, (), Expression> =
-                boolLit <|> stringLit <|> number
+                boolLit <|> stringLit <|> intLit
             let boolExpr: GenericParser<String, (), Expression> =
                 lexer.symbol("boolean").map { _ in BooleanField() }
             let stringExpr: GenericParser<String, (), Expression> =

@@ -45,7 +45,7 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(sender: UITextField) {
-        stringField.value = NSValue(pointer: sender.text!)
-        delegate?.widgetChangedValue(self, value: NSValue(pointer: sender.text!))
+        stringField.string = (sender.text != nil) ? sender.text! : ""
+        delegate?.widgetChangedValue(self, value: stringField.string)
     }
 }
