@@ -3,7 +3,6 @@ package nl.nicasso.ql.ast.expression.additive;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.ast.expression.Polynomial;
 
 public class Subtraction extends Additive implements Traversable  {
 	

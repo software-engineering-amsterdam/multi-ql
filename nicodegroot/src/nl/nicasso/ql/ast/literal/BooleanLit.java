@@ -1,7 +1,5 @@
 package nl.nicasso.ql.ast.literal;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.type.BooleanType;

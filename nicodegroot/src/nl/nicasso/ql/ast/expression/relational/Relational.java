@@ -1,8 +1,6 @@
 package nl.nicasso.ql.ast.expression.relational;
 
 import nl.nicasso.ql.ast.expression.Polynomial;
-import nl.nicasso.ql.ast.type.IntegerType;
-import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.Type;
 
 public abstract class Relational extends Polynomial {

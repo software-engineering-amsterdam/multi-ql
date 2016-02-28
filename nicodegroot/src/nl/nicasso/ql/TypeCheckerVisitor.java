@@ -20,6 +20,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -30,6 +31,7 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.ast.type.BooleanType;
 import nl.nicasso.ql.ast.type.IntegerType;
+import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.NumericType;
 import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
@@ -38,7 +40,7 @@ import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 
 public class TypeCheckerVisitor implements Visitor<Type> {
 
-	private boolean debug = true;
+	private boolean debug = false;
 		
 	private ArrayList<String> errors;
 	private ArrayList<String> warnings;
@@ -84,15 +86,12 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		Type containerType = value.checkAllowedTypes(leftType, rightType);
 		
-		System.out.println("KAK: "+containerType.getType());
-		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Addition)");
+			return null;
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -369,9 +368,9 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 
 	@Override
 	public Type visit(ComputedQuestion value) {
-		Type expr = value.getExpr().accept(this);
+		Type expr = value.getExpr().accept(this);getClass();
 		
-		if (!expr.getType().equals(value.getType().getType())) {
+		if (!expr.getType().equals(value.getType().getType())) {			
 			errors.add("Error: Incompatible types detected (ComputedQuestion): "+value.getId().getValue());
 		}
 		
@@ -448,6 +447,14 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		return new StringType();
 	}
 	
+	@Override
+	public Type visit(MoneyLit value) {
+		if (debug) {
+			System.out.println("MoneyLit: "+value.getValue());
+		}
+		return new MoneyType();
+	}
+	
 	private boolean checkType(Type exprType, Type type) {
 		if (exprType instanceof NumericType) {
 			return true;	
@@ -466,6 +473,5 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	public ArrayList<String> getWarnings() {
 		return warnings;
 	}
-
 	
 }

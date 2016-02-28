@@ -22,6 +22,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -196,6 +197,11 @@ public class Gui implements Visitor<Void> {
 
 	@Override
 	public Void visit(StringLit value) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(MoneyLit value) {
 		return null;
 	}
 	

@@ -1,7 +1,8 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package org.uva.sea.ql.parser.antlr;
 
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -125,6 +126,13 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitMoneyLiteral(QLParser.MoneyLiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

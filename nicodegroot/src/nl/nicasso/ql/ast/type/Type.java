@@ -1,7 +1,6 @@
 package nl.nicasso.ql.ast.type;
 
 import nl.nicasso.ql.ast.ASTNode;
-import nl.nicasso.ql.ast.Traversable;
 
 public class Type extends ASTNode {
 	

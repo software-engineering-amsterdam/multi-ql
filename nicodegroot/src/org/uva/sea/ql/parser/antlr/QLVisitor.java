@@ -1,7 +1,8 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package org.uva.sea.ql.parser.antlr;
 
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -122,6 +123,13 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code moneyLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.

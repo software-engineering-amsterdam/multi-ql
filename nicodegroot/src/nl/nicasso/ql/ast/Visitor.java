@@ -17,6 +17,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -55,5 +56,6 @@ public interface Visitor<T> {
 	public T visit(BooleanLit value);
 	public T visit(IntegerLit value);
 	public T visit(StringLit value);
+	public T visit(MoneyLit value);
 	
 }

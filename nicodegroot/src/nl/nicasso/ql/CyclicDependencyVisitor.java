@@ -20,6 +20,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -315,6 +316,14 @@ public class CyclicDependencyVisitor implements Visitor<Identifier> {
 	public Identifier visit(StringLit value) {
 		if (debug) {
 			System.out.println("StringLit: "+value.getValue());
+		}
+		return null;
+	}
+	
+	@Override
+	public Identifier visit(MoneyLit value) {
+		if (debug) {
+			System.out.println("MoneyLit: "+value.getValue());
 		}
 		return null;
 	}

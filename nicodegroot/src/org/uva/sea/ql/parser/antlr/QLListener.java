@@ -1,7 +1,8 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package org.uva.sea.ql.parser.antlr;
 
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -197,6 +198,18 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code moneyLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code moneyLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.

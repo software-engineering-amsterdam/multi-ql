@@ -27,6 +27,7 @@ import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.Literal;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -267,6 +268,15 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 
 		return new IntegerLit(Integer.parseInt(ctx.getText()));
 	}
+	
+	@Override public ASTNode visitMoneyLiteral(QLParser.MoneyLiteralContext ctx) {
+		if (debug)
+			System.out.println("MoneyLit: "+ctx.getText());
+
+		String[] money = ctx.getText().split(",");
+		
+		return new MoneyLit(Integer.parseInt(money[0]), Integer.parseInt(money[1]));
+	}
 
 	@Override
 	public ASTNode visitBooleanliteral(QLParser.BooleanliteralContext ctx) {
@@ -283,7 +293,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 
 		return new StringLit(ctx.getText());
 	}
-
+	
 	@Override
 	public ASTNode visitIntegerType(QLParser.IntegerTypeContext ctx) {
 		if (debug)

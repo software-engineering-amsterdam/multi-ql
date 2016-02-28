@@ -18,6 +18,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -351,6 +352,14 @@ public class EvaluatorVisitor implements Visitor<Object> {
 			System.out.println("StringLit: "+value.getValue());
 		}
 		return new String(value.getValue());
+	}
+
+	@Override
+	public Object visit(MoneyLit value) {
+		if (debug) {
+			System.out.println("MoneyLit: "+value.getValue());
+		}
+		return new Integer((Integer) value.getValue());
 	}
 
 }

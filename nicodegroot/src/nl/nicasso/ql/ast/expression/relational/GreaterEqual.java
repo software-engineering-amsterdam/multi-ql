@@ -3,7 +3,6 @@ package nl.nicasso.ql.ast.expression.relational;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.ast.expression.Polynomial;
 
 public class GreaterEqual extends Relational implements Traversable  {
 	
