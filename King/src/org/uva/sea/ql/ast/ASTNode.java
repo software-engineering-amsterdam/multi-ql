@@ -1,8 +1,8 @@
 package org.uva.sea.ql.ast;
 
+import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
-import org.uva.sea.ql.semantic.SymbolTable;
 
 public abstract class ASTNode {
-	public abstract void accept(QLNodeVisitor visitor);
+	public abstract Type accept(QLNodeVisitor visitor);
 }

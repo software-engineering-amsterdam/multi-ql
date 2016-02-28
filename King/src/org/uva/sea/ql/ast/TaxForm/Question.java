@@ -2,8 +2,8 @@ package org.uva.sea.ql.ast.TaxForm;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.VarDeclaration;
+import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
-import org.uva.sea.ql.semantic.SymbolTable;
 
 public class Question extends ASTNode {
 	private final VarDeclaration varDeclaration;
@@ -23,8 +23,8 @@ public class Question extends ASTNode {
 	}
 
 	@Override
-	public void accept(QLNodeVisitor qlPartVisitor) {
-		qlPartVisitor.visit(this);
+	public Type accept(QLNodeVisitor qlPartVisitor) {
+		return qlPartVisitor.visit(this);
 		
 		
 		

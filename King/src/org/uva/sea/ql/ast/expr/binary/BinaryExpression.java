@@ -1,13 +1,14 @@
-package org.uva.sea.ql.ast.expr;
+package org.uva.sea.ql.ast.expr.binary;
 
+import org.uva.sea.ql.ast.expr.Expr;
+import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
-import org.uva.sea.ql.semantic.SymbolTable;
 
-public class TwoSidedExpression extends Expr {
+public class BinaryExpression extends Expr {
 	protected final Expr e1;
 	protected final Expr e2;
 
-	public TwoSidedExpression(Expr e1, Expr e2) {
+	public BinaryExpression(Expr e1, Expr e2) {
 		this.e1 = e1;
 		this.e2 = e2;
 	}
@@ -21,8 +22,11 @@ public class TwoSidedExpression extends Expr {
 	}
 
 	@Override
-	public void accept(QLNodeVisitor visitor) {
+	public Type accept(QLNodeVisitor visitor) {
 		// TODO Auto-generated method stub
+		return null;
 		
 	}
+
+	
 }

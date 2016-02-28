@@ -1,10 +1,8 @@
 package org.uva.sea.ql.ast.expr.literal;
 
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.ValueType;
 import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
-import org.uva.sea.ql.semantic.SymbolTable;
 
 public class Literal<T> extends ASTNode {
 
@@ -26,10 +24,12 @@ public class Literal<T> extends ASTNode {
 	}
 
 	@Override
-	public void accept(QLNodeVisitor visitor) {
+	public Type accept(QLNodeVisitor visitor) {
 		// TODO Auto-generated method stub
-
+		return visitor.visit(this);
 	}
+
+	
 	
 
 }

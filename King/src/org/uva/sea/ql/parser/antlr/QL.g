@@ -64,11 +64,10 @@ question returns [Question result]
 
     
 variable returns [VarDeclaration result]
-    :  identifier COLON question_response_type
+    :  ID COLON question_response_type
     { 
     	
-        $result = new VarDeclaration($question_response_type.result, $identifier.result);
-        $identifier.result.setType($result.getType());
+        $result = new VarDeclaration($question_response_type.result, new VarIdentifier($ID.text,$question_response_type.result));
     }
     ; 
 question_response_type returns [Type result]
@@ -113,18 +112,15 @@ unExpr returns [Expr result]
 
 primary returns [Expr result]
     : literal        { $result = new LiteralExpression($literal.result); }
-    | identifier     { $result = new VarExpr($identifier.result);}
+    | ID     		 { $result = new VarExpr(new VarIdentifier($ID.text));}
     | '(' orExpr ')' { $result = $orExpr.result; }
     
 
     ;    
-        
-identifier returns [VarIdentifier result]
-    : ID {  $result = new VarIdentifier($ID.text); }
-    ;
+
     
 literal returns [Literal result]
-    : INT   { $result = new IntegerLiteral(Integer.valueOf($INT.text)); }
+    : DIGIT   { $result = new IntegerLiteral(Integer.valueOf($DIGIT.text)); }
     | MON   { $result = new MoneyLiteral(Money.parse($MON.text)); }
     | STR   { $result = new StringLiteral($STR.text); }
     | BOOL  { $result = new BooleanLiteral(Boolean.valueOf($BOOL.text)); }
@@ -162,18 +158,19 @@ relExpr returns [Expr result]
     ;
 	
 	
-DIGIT		: [0-9] ;
+DIGIT		: ('0'..'9')+;
 FLOAT		: DIGIT+ '.' DIGIT DIGIT ;
 FORM		: 'form';
 BOOLEAN		: 'boolean';
 STRING		: 'string';
 INTEGER		: 'integer' ;
 MONEY		: 'money';
-STR			: '"' .*? '"';
+STR  		:   '"' .*? '"';
 BOOL		: 'true'|'false' ;
-INT			: DIGIT+;
+INT			: DIGIT;
 MON			: 'USD '+ FLOAT;
-ID			: [a-zA-Z]+;
+
+ID   		:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 COLON 		: ':';	
 COMMENT 	: '//' .+? ('\n'|EOF) -> skip ;
 WS			: [ \t\r\u000C\n]+ -> skip ;

@@ -11,5 +11,10 @@ public class Type {
 	public String getName(){
 		return name;
 	}
+	
+	public boolean equals(Type type) {
+		// TODO Auto-generated method stub
+		return name.equals(type.getName());
+	}
 
 }

@@ -20,8 +20,9 @@ public class VarType extends ASTNode{
 	}*/
 
 	@Override
-	public void accept(QLNodeVisitor visitor) {
+	public Type accept(QLNodeVisitor visitor) {
 		// TODO Auto-generated method stub
+		return null;
 		
 	}
 }

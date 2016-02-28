@@ -1,8 +1,8 @@
 package org.uva.sea.ql.ast.TaxForm;
 
 import org.uva.sea.ql.ast.ASTNode;
+import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
-import org.uva.sea.ql.semantic.SymbolTable;
 
 public class Form extends ASTNode {
 	private String id;
@@ -22,9 +22,9 @@ public class Form extends ASTNode {
 	}
 
 	@Override
-	public void accept(QLNodeVisitor qlPartVisitor) {
-		qlPartVisitor.visit(this);
+	public Type accept(QLNodeVisitor qlPartVisitor) {
 		body.accept(qlPartVisitor);
+		return qlPartVisitor.visit(this);
 		
 	}
 	

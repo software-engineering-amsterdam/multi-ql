@@ -1,30 +1,30 @@
 package org.uva.sea.ql.semantic;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Result {
 
-	private final Map<String,String> warnings = new HashMap<>();
-	private final Map<String,String> errors = new HashMap<>();
+	private final List<String> warnings = new ArrayList<>();
+	private final List<String> errors = new ArrayList<>();
 
 	public Result() {
 
 	}
 
-	public void addWarning(String var, String msg) {
-		warnings.put(var, msg);
+	public void addWarning(String msg) {
+		warnings.add( msg);
 	}
 
-	public void addError(String var, String msg) {
-		errors.put(var, msg);
+	public void addError(String msg) {
+		errors.add(msg);
 	}
 
 	public boolean hasErrors() {
 		return !errors.isEmpty();
 	}
 
-	public Map<String, String> getErrors() {
+	public List<String> getErrors() {
 		return errors;
 	}
 
@@ -32,7 +32,7 @@ public class Result {
 		return !warnings.isEmpty();
 	}
 
-	public Map<String, String> getWarnings() {
+	public List<String> getWarnings() {
 		return warnings;
 	}
 
@@ -44,18 +44,18 @@ public class Result {
 
 	public void print() {
 		if(hasErrors()){
-			for (Map.Entry<String, String> error : errors.entrySet())
+			for (String error : errors)
 			{
-			    System.err.println(error.getValue());
-			    System.out.println("\n");
+			    System.err.println(error);
+			    
 			}
 		}
-		
+		System.out.println("\n");
 		if(hasWarnings()){
-		for (Map.Entry<String, String> warning : warnings.entrySet())
+		for (String warning : warnings)
 			{
-			    System.out.println(warning.getValue());
-			    System.out.println("\n");
+			    System.out.println(warning);
+			    
 			}
 		}
 	}
