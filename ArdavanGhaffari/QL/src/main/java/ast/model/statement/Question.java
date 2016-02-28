@@ -10,7 +10,8 @@ public class Question extends Statement {
 	String label;
 	Type type;
 	
-	public Question(Identifier identifier, String label, Type type) {
+	public Question(Identifier identifier, String label, Type type, int line) {
+		super(line);
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;

@@ -7,7 +7,8 @@ public class Form extends AbstractNode {
 	private Identifier identifier;
 	private Box box;
 	
-	public Form(Identifier identifier, Box box) {
+	public Form(Identifier identifier, Box box, int line) {
+		super(line);
 		this.identifier = identifier;
 		this.box = box;
 	}

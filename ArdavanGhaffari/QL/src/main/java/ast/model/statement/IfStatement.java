@@ -9,7 +9,8 @@ public class IfStatement extends Statement {
 	private Expression expression;
 	private Box ifBox;
 	
-	public IfStatement(Expression expression, Box box) {
+	public IfStatement(Expression expression, Box box, int line) {
+		super(line);
 		this.expression = expression;
 		this.ifBox = box;
 	}
