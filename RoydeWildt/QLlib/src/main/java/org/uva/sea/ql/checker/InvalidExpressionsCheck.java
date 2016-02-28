@@ -22,151 +22,151 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     private final List<Expr> invalidExpressions = new ArrayList<>();
 
     public InvalidExpressionsCheck(Form f) {
-        f.accept(this);
+        f.accept(this, null);
     }
 
     @Override
-    public ValueType visit(Add expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Add expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(And expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(And expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Div expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Div expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Eq expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Eq expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(GEq expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(GEq expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(GT expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(GT expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(LEq expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(LEq expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(LT expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(LT expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Mul expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Mul expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(NEq expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(NEq expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Or expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Or expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Sub expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Sub expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Neg expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Neg expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Not expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Not expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Pos expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Pos expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     @Override
-    public ValueType visit(Primary expr) {
-        ValueType exprType = super.visit(expr);
+    public ValueType visit(Primary expr, Void context) {
+        ValueType exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
-        return super.visit(expr);
+        return super.visit(expr, context);
     }
 
     private boolean subExpressionExists(Node x){

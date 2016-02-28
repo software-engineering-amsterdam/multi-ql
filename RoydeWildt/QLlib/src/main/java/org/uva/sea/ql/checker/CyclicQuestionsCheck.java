@@ -11,22 +11,22 @@ import java.util.*;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void> {
+public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void> {
     private Var current;
     private final Map<Node,List<Node>> references = new HashMap<>();
 
     public CyclicQuestionsCheck(Form f) {
-        f.accept(this);
+        f.accept(this, null);
     }
 
     @Override
-    public Void visit(Question stat) {
+    public Void visit(Question stat, Void context) {
         // TODO do not use temp var (bad code smell here)
         current = stat.getVarname();
 
         if(!references.containsKey(stat.getVarname()))
             references.put(stat.getVarname(),new ArrayList<>());
-        stat.getExpr().accept(this);
+        stat.getExpr().accept(this, context);
 
         current = null;
 
@@ -34,7 +34,7 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void> 
     }
 
     @Override
-    public Void visit(Var var) {
+    public Void visit(Var var, Void context) {
 
         if(references.get(current) != null){
             List<Node> l  = references.get(current);

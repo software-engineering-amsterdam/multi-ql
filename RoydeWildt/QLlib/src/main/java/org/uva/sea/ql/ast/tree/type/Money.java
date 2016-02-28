@@ -23,7 +23,7 @@ public class Money extends Type {
 
 
     @Override
-    public <T> T accept(ITypeVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <S, C> S accept(ITypeVisitor<S, C> visitor, C context) {
+        return visitor.visit(this, context);
     }
 }

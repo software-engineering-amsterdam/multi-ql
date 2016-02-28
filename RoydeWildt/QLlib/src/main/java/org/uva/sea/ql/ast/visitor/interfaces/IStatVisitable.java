@@ -5,5 +5,5 @@ package org.uva.sea.ql.ast.visitor.interfaces;
  */
 public interface IStatVisitable {
 
-    <S> S accept(IStatVisitor<S> visitor);
+    <S,C> S accept(IStatVisitor<S,C> visitor, C context);
 }

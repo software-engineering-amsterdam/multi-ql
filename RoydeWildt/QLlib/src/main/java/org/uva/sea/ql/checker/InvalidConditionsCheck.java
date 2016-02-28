@@ -18,21 +18,21 @@ public class InvalidConditionsCheck extends TypeVisitor<Void,Void,Void> {
     private final List<Node> invalidConditions = new ArrayList<>();
 
     public InvalidConditionsCheck(Form f) {
-        f.accept(this);
+        f.accept(this, null);
     }
 
 
     @Override
-    public Void visit(IfElse stat) {
-        ValueType exprType = stat.getCond().accept(this);
+    public Void visit(IfElse stat, Void context) {
+        ValueType exprType = stat.getCond().accept(this, context);
         if(exprType == null || !exprType.equals(new BooleanType()))
             invalidConditions.add(stat.getCond());
         return null;
     }
 
     @Override
-    public Void visit(If stat) {
-        ValueType exprType = stat.getCond().accept(this);
+    public Void visit(If stat, Void context) {
+        ValueType exprType = stat.getCond().accept(this, context);
         if(exprType == null || !exprType.equals(new BooleanType()))
             invalidConditions.add(stat.getCond());
         return null;

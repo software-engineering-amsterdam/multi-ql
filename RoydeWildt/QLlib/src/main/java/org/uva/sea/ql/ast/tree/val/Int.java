@@ -27,7 +27,7 @@ public class Int extends Val {
     }
 
     @Override
-    public <V> V accept(IValVisitor<V> visitor) {
-        return visitor.visit(this);
+    public <S, C> S accept(IValVisitor<S, C> visitor, C context) {
+        return visitor.visit(this, context);
     }
 }

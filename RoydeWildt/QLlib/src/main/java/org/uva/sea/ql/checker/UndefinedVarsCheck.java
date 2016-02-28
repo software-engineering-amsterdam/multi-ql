@@ -15,22 +15,22 @@ import java.util.Map;
 /**
  * Created by roy on 5-2-16.
  */
-public class UndefinedVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void> {
+public class UndefinedVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void> {
 
     private final List<Node> undefined = new ArrayList<>();
     private final Map<Var,Expr> decls;
 
     public UndefinedVarsCheck(Form f) {
         DeclVisitor dv = new DeclVisitor();
-        f.accept(dv);
+        f.accept(dv, null);
         this.decls = dv.getDecls();
 
-        f.accept(this);
+        f.accept(this, null);
     }
 
 
     @Override
-    public Void visit(Var var) {
+    public Void visit(Var var, Void context) {
         if (!decls.containsKey(var)) {
             undefined.add(var);
         }

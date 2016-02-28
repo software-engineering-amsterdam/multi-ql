@@ -10,14 +10,14 @@ import java.util.Map;
 /**
  * Created by roy on 25-2-16.
  */
-public class DeclVisitor extends BaseVisitor <Void,Void,Void,Void,Void> {
+public class DeclVisitor extends BaseVisitor <Void,Void,Void,Void,Void,Void> {
 
     private final Map<Var,Expr> decls = new HashMap<>();
 
     @Override
-    public Void visit(Question stat) {
+    public Void visit(Question stat, Void context) {
         decls.put(stat.getVarname(), stat.getExpr());
-        return super.visit(stat);
+        return super.visit(stat,null);
     }
 
     public Map<Var,Expr> getDecls() {

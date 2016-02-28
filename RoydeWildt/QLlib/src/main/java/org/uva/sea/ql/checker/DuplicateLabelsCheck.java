@@ -14,18 +14,18 @@ import java.util.Map;
 /**
  * Created by roydewildt on 18/02/16.
  */
-public class DuplicateLabelsCheck extends BaseVisitor<Void,Void,Void,Void,Void>{
+public class DuplicateLabelsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void>{
 
     private final Map<String, Var> questions = new HashMap<>();
     private final List<Node> duplicatelabels = new ArrayList<>();
 
     public DuplicateLabelsCheck(Form f) {
-        f.accept(this);
+        f.accept(this, null);
     }
 
 
     @Override
-    public Void visit(Question stat) {
+    public Void visit(Question stat, Void context) {
 
         if(questions.containsKey(stat.getLabel())){
             Var v = questions.get(stat.getVarname());

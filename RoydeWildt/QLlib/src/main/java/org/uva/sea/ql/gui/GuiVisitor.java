@@ -36,13 +36,14 @@ public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
         formUI.setVgap(10);
         formUI.setPadding(new Insets(0, 0, 0, 0));
         formUI.setAlignment(Pos.TOP_CENTER);
-        f.accept(this);
+        f.accept(this, null);
     }
 
     @Override
-    public Parent visit(Form form) {
+    public Parent visit(Form form, Void context) {
         Label label = new Label(form.getId());
         label.setFont(new Font("Arial", 30));
+        label.setPadding(new Insets(10,0,5,20));
         formUI.add(label, 0, 0, 2, 1);
 
         VBox vbox = new VBox();
@@ -50,7 +51,7 @@ public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
 
         if (form.getStms() != null){
             for (Stat s: form.getStms()) {
-                vbox.getChildren().addAll(s.accept(this));
+                vbox.getChildren().addAll(s.accept(this, context));
             }
         }
 
@@ -60,37 +61,37 @@ public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
     }
 
     @Override
-    public List<Parent> visit(If stat) {
+    public List<Parent> visit(If stat, Void context) {
 
         List<Parent> uilist = new ArrayList<>();
 
-        if((boolean) stat.getCond().accept(this)){
+        if((boolean) stat.getCond().accept(this, context)){
             for(Stat s : stat.getStms())
-                uilist.addAll(s.accept(this));
+                uilist.addAll(s.accept(this, context));
         }
 
         return uilist;
     }
 
     @Override
-    public List<Parent> visit(IfElse stat) {
+    public List<Parent> visit(IfElse stat, Void context) {
 
         List<Parent> uilist = new ArrayList<>();
 
-        if((boolean) stat.getCond().accept(this)){
+        if((boolean) stat.getCond().accept(this, context)){
             for(Stat s : stat.getIfStms())
-                uilist.addAll(s.accept(this));
+                uilist.addAll(s.accept(this, context));
         }
         else {
             for(Stat s : stat.getElseStms())
-                uilist.addAll(s.accept(this));
+                uilist.addAll(s.accept(this, context));
         }
 
         return uilist;
     }
 
     @Override
-    public List<Parent> visit(Question stat) {
+    public List<Parent> visit(Question stat, Void context) {
 
         List<Parent> uilist = new ArrayList<>();
         GridPane  box   = new GridPane();
@@ -113,7 +114,7 @@ public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
         label.setWrapText(true);
         box.add(label, 0, 0);
 
-        Parent inputfield = stat.getType().accept(this);
+        Parent inputfield = stat.getType().accept(this, context);
         box.add(inputfield, 1, 0);
 
         uilist.add(box);
@@ -122,12 +123,12 @@ public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
     }
 
     @Override
-    public Parent visit(Money type) {
+    public Parent visit(Money type, Void context) {
         return new CheckBox();
     }
 
     @Override
-    public Parent visit(Boolean type) {
+    public Parent visit(Boolean type, Void context) {
         return new TextField();
     }
 

@@ -30,8 +30,8 @@ public class If extends Stat{
     }
 
     @Override
-    public <S> S accept(IStatVisitor<S> visitor) {
-        return visitor.visit(this);
+    public <S, C> S accept(IStatVisitor<S, C> visitor, C context) {
+        return visitor.visit(this, context);
     }
 
     public Expr getCond() {

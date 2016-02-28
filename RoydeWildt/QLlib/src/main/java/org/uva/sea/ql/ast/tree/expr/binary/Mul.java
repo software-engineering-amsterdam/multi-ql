@@ -18,7 +18,7 @@ public class Mul extends BinaryExpr {
     }
 
     @Override
-    public <E> E accept(IExprVisitor<E> visitor) {
-        return visitor.visit(this);
+    public <E, C> E accept(IExprVisitor<E, C> visitor, C context) {
+        return visitor.visit(this,context);
     }
 }
