@@ -1,6 +1,5 @@
 package uva.ql.visitors.typechecker;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,11 +17,19 @@ import uva.ql.interfaces.INodeVisitor;
 public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 
 	private final HashMap<String, Integer> store = new HashMap<String, Integer>(0);
-	private static final Set<Integer> CON_BOOL = new HashSet<Integer>(
-			Arrays.asList(
-					 IExpression.SML_THEN ,IExpression.GRT_THEN ,IExpression.SML_EQL
-					,IExpression.GRT_EQL ,IExpression.NOT_EQL ,IExpression.EQL
-					,IExpression.NOT_EXP ,IExpression.AND_EXP ,IExpression.OR_EXP) );
+	private static final Set<Integer> CON_BOOL = new HashSet<Integer>(0);
+	
+	static {
+		CON_BOOL.add(IExpression.SML_THEN);
+		CON_BOOL.add(IExpression.GRT_THEN);
+		CON_BOOL.add(IExpression.SML_EQL);
+		CON_BOOL.add(IExpression.GRT_EQL);
+		CON_BOOL.add(IExpression.NOT_EQL);
+		CON_BOOL.add(IExpression.EQL);
+		CON_BOOL.add(IExpression.NOT_EXP);
+		CON_BOOL.add(IExpression.AND_EXP);
+		CON_BOOL.add(IExpression.OR_EXP);
+	}
 	
 	public HashMap<String, Integer> getResult() {
 		

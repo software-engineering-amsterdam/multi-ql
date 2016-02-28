@@ -9,7 +9,6 @@ import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
 import uva.ql.ast.numbers.NumDouble;
 import uva.ql.ast.numbers.NumInt;
-import uva.ql.deprecated.ASTNode;
 import uva.ql.interfaces.IExpression;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.INumber;
@@ -41,7 +40,7 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 		
 		System.out.println("If: ");
 		
-		if (ASTNode.VARIABLE == ifStmnt.getExpression().getLeftNode().getNodeType()) {
+		if (IExpression.VARIABLE == ifStmnt.getExpression().getLeftNode().getNodeType()) {
 			AVariable var = (AVariable) ifStmnt.getExpression().getLeftNode();
 			System.out.println("ifStmnt: " + var.getName() + " - " + var.toString());
 		}

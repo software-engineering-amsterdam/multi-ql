@@ -21,6 +21,24 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 
 	private final Form form = AST.newForm();
 	private final Map<String, AVariable> varStore = new HashMap<String, AVariable>(0);
+	private final static Map<String, AVariable> VAR = new HashMap<String, AVariable>(0);
+	private final static Map<String, AExpression> EXP = new HashMap<String, AExpression>(0);
+	
+	static {
+		VAR.put("BOOLEAN", AST.newVarBool());
+		VAR.put("STRING", AST.newVarStr());
+		VAR.put("INTEGER", AST.newVarInt());
+		VAR.put("DATE", AST.newVarDate());
+		VAR.put("DOUBLE", AST.newVarDouble());
+		VAR.put("DECIMAL", AST.newVarDecimal());
+		VAR.put("MONEY", AST.newVarMoney());
+		
+		EXP.put("<", AST.newExpSmlThen());
+		EXP.put(">", AST.newExpGrtThen());
+		EXP.put("<=", AST.newExpSmlEql());
+		EXP.put(">=", AST.newExpGrtEql());
+		EXP.put("!=", AST.newExpNotEql());
+	}
 
 	@Override
 	public Form visitForm( @NotNull QLParser.FormContext ctx ) {
@@ -259,62 +277,16 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	
 	private AVariable createVariable(String type) {
 		
-		AVariable var = null;
-		
-		switch(type.toUpperCase()) {
-			case "BOOLEAN":
-				var = AST.newVarBool();
-				break;
-			case "STRING":
-				var = AST.newVarStr();
-				break;
-			case "INTEGER":
-				var = AST.newVarInt();
-				break;
-			case "DATE":
-				var = AST.newVarDate();
-				break;
-			case "DOUBLE":
-				var = AST.newVarDouble();
-				break;
-			case "DECIMAL":
-				var = AST.newVarDecimal();
-				break;
-			case "MONEY":
-				var = AST.newVarMoney();
-				break;
-			default:
-				var = AST.newVarGeneric();
-				break;
-		}
+		AVariable var = VAR.get(type.toUpperCase());
+		var = var != null ? var : AST.newVarGeneric();
 		
 		return var;
 	}
 	
 	private AExpression createExpEquality(String type) {
 
-		AExpression exp;
-		
-		switch(type) {
-			case "<":
-				exp = AST.newExpSmlThen();
-				break;
-			case ">":
-				exp = AST.newExpGrtThen();
-				break;
-			case "<=":
-				exp = AST.newExpSmlEql();
-				break;
-			case ">=":
-				exp = AST.newExpGrtEql();
-				break;
-			case "!=":
-				exp = AST.newExpNotEql();
-				break;
-			default:
-				exp = AST.newExpEql();
-				break;
-		}
+		AExpression exp = EXP.get(type);
+		exp = exp != null ? exp : AST.newExpEql();
 		
 		return exp;
 	}
