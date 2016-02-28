@@ -1,12 +1,10 @@
 package org.uva.sea.ql.checker;
 
-import org.uva.sea.ql.ast.question.ComputedQuestion;
 import java.util.ArrayList;
 import java.util.List;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.question.BooleanQuestion;
-import org.uva.sea.ql.ast.question.ComputedBooleanQuestion;
 
 /**
  * Class to check the types of objects in an AST.
@@ -64,20 +62,11 @@ public class TypeChecker implements ASTVisitor {
         //TODO check that expressions are both numeric
     }
     
-    @Override
-    public void visit(ComputedQuestion q) {
-        //TODO check type of question and type of computation are equal
-    }
-    
     private boolean isBoolean(BooleanExpr e) {
         return true;
     }
     
     private boolean isBoolean(BooleanQuestion q) {
-        return true;
-    }
-    
-    private boolean isBoolean(ComputedBooleanQuestion q) {
         return true;
     }
     

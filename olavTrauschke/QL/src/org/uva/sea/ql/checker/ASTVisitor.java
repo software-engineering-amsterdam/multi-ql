@@ -1,6 +1,5 @@
 package org.uva.sea.ql.checker;
 
-import org.uva.sea.ql.ast.question.ComputedQuestion;
 import org.uva.sea.ql.ast.question.Question;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
@@ -17,8 +16,6 @@ import org.uva.sea.ql.ast.expr.*;
  * @version 25-feb-2016
  */
 public interface ASTVisitor {
-    
-    default void visit(ComputedQuestion q) {}
     
     default void visit(ConditionalStatement s) {}
     

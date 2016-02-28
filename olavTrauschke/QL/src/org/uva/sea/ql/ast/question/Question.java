@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.question;
 
+import java.util.Objects;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.Label;
 import org.uva.sea.ql.ast.expr.*;
@@ -21,10 +22,11 @@ public abstract class Question extends ASTNode {
     /**
      * Factor partial hashes are multiplied by to generate a hash for objects of this class.
      */
-    public static final int HASH_FACTOR = 23;
+    public static final int HASH_FACTOR = 67;
     
     private final Ident identifier;
     private final Label label;
+    private final Expr calculation;
     
     /**
      * Constructor for <code>Questions</code>s.
@@ -33,17 +35,22 @@ public abstract class Question extends ASTNode {
      *                      <code>Question</code>
      * @param theLabel a <code>Label</code> to display with the constructed
      *                  <code>Question</code>
+     * @param theCalculation an <code>Expr</code> defining how to compute the value
+     *                          of the constructed <code>Question</code> or
+     *                          <code>null</code> if it should be answered by
+     *                          the user
      */
-    public Question(Ident theIdentifier, Label theLabel) {
+    public Question(Ident theIdentifier, Label theLabel, Expr theCalculation) {
         assert theIdentifier != null && theLabel != null;
         identifier = theIdentifier;
         label = theLabel;
+        calculation = theCalculation;
     }
     
     /**
      * Has the <code>identifier</code>, the <code>label</code> and the
-     * <code>type</code> of <code>this Question accept v</code> and then has
-     * <code>v visit this Question</code>.
+     * <code>calculation</code> of <code>this Question accept v</code> and then
+     * has <code>v visit this Question</code>.
      * 
      * @param v an <code>ASTVisitor</code> that should
      *          <code>visit this Question</code> and its children
@@ -52,6 +59,7 @@ public abstract class Question extends ASTNode {
     public void accept(ASTVisitor v) {
         identifierAccept(v);
         labelAccept(v);
+        calculation.accept(v);
         
         v.visit(this);
     }
@@ -79,8 +87,9 @@ public abstract class Question extends ASTNode {
     /**
      * Compares <code>this Question</code> to another <code>Object</code>. A
      * <code>Question</code> is considered equal only to other objects of the
-     * same class for which <code>theIdentifier</code> and <code>theLabel</code>
-     * are equal to its own values for these fields.
+     * same class for which <code>theIdentifier</code>, <code>theLabel</code>
+     * and <code>theCalculation</code> are equal to its own values for these
+     * fields.
      * 
      * @param o the <code>Object</code> to compare to <code>this Question</code>
      * @return <code>true</code> if and only if o is equal to <code>this Question</code> 
@@ -91,17 +100,16 @@ public abstract class Question extends ASTNode {
         
         Question other = (Question) o;
         return identifier.equals(other.identifier)
-               && label.equals(other.label);
+               && label.equals(other.label)
+               && (calculation == null ? other.calculation == null : calculation.equals(other.calculation));
     }
-    
-    /**
-     * @return an <code>int</code> containing a hash for <code>this Question</code>
-     */
+
     @Override
     public int hashCode() {
         int hash = HASH_ORIGIN;
         hash = HASH_FACTOR * hash + identifier.hashCode();
         hash = HASH_FACTOR * hash + label.hashCode();
+        hash = HASH_FACTOR * hash + Objects.hashCode(this.calculation);
         return hash;
     }
     
