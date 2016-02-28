@@ -3,9 +3,8 @@ package nl.nicasso.ql.ast.expression.conditional;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.ast.expression.Polynomial;
 
-public class Or extends Polynomial implements Traversable  {
+public class Or extends Conditional implements Traversable  {
 	
 	private final Expression left;
 	private final Expression right;

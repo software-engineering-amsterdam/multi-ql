@@ -13,7 +13,7 @@ public class MoneyType extends NumericType {
 		return type;
 	}
 	
-	public boolean CompatibleWith(Type type) {
+	public boolean compatibleWith(Type type) {
 		switch(type.getType()) {
 			case "Boolean":
 				return false;

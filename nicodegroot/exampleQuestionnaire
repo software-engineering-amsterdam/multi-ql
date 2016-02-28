@@ -1,16 +1,14 @@
 form taxOfficeExample {
 
   "cQ1"
-    cQ1: integer = (20-10)
+    cQ1: integer = (100)
 
   "cQ2"
-    cQ2: money = (100)
+    cQ2: integer = (100)
     
   "cQ3"
-    cQ3: money = (100)
-    
-  "cQ4"
-    cQ4: money = (cQ2*cQ3)
+    cQ3: money = (cQ1+cQ2)
+
     
     /*
     

@@ -5,7 +5,7 @@ import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.expression.Polynomial;
 
-public class GreaterEqual extends Polynomial implements Traversable  {
+public class GreaterEqual extends Relational implements Traversable  {
 	
 	private final Expression left;
 	private final Expression right;

@@ -15,4 +15,18 @@ public class Type extends ASTNode {
 		return type;
 	}
 	
+	public boolean compatibleWith(Type type) {
+		switch(type.getType()) {
+			case "Boolean":
+				return true;
+			case "Integer":
+				return true;
+			case "Money":
+				return true;
+			case "String":
+				return true;
+			default:
+				return false;
+		}
+	}
 }

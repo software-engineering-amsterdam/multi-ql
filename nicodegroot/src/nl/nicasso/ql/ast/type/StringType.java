@@ -16,7 +16,7 @@ public class StringType extends Type {
 		return type;
 	}
 	
-	public boolean CompatibleWith(Type type) {
+	public boolean compatibleWith(Type type) {
 		switch(type.getType()) {
 			case "Boolean":
 				return false;
