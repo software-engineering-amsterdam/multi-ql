@@ -1,23 +1,25 @@
 package org.uva.sea.ql.gui;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.If;
 import org.uva.sea.ql.ast.tree.stat.IfElse;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.stat.Stat;
-import org.uva.sea.ql.ast.tree.type.Boolean;
-import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.val.Bool;
+import org.uva.sea.ql.ast.tree.val.Int;
 import org.uva.sea.ql.ast.visitor.EvalVisitor;
+import org.uva.sea.ql.ast.visitor.UpdateVisitor;
+import org.uva.sea.ql.ast.visitor.context.NodeUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +30,15 @@ import java.util.List;
  */
 public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
     private final GridPane formUI;
+    private Form f;
+    private Main parent;
+    private Parent valUI;
 
-    public GuiVisitor(Form f) {
+    public GuiVisitor(Form f, Main m) {
         super(f);
+        this.parent = m;
+        this.f = f;
+
         formUI = new GridPane();
         formUI.setPrefSize(500,600);
         formUI.setVgap(10);
@@ -114,7 +122,9 @@ public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
         label.setWrapText(true);
         box.add(label, 0, 0);
 
-        Parent inputfield = stat.getType().accept(this, context);
+
+        stat.getExpr().accept(this,context);
+        Parent inputfield = valUI;
         box.add(inputfield, 1, 0);
 
         uilist.add(box);
@@ -123,13 +133,16 @@ public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
     }
 
     @Override
-    public Parent visit(Money type, Void context) {
-        return new CheckBox();
+    public Object visit(Int val, Void context) {
+        return super.visit(val, context);
     }
 
     @Override
-    public Parent visit(Boolean type, Void context) {
-        return new TextField();
+    public Object visit(Bool val, Void context) {
+        ASTCheckBox b = new ASTCheckBox(val);
+        b.setOnAction(this::handleCheckBoxAction);
+        valUI = b;
+        return super.visit(val, context);
     }
 
     private Border setBorder(Color c){
@@ -139,6 +152,17 @@ public class GuiVisitor extends EvalVisitor<Parent,List<Parent>,Parent> {
 
     public GridPane getFormUI() {
         return formUI;
+    }
+
+    private void handleCheckBoxAction(ActionEvent event) {
+        ASTCheckBox b = (ASTCheckBox) event.getSource();
+        Node oldNode = b.getSource();
+        Bool newNode = new Bool(b.isSelected());
+
+        NodeUpdate u = new NodeUpdate(oldNode,newNode);
+        UpdateVisitor uv = new UpdateVisitor();
+        this.f = f.accept(uv, u);
+
     }
 
 }

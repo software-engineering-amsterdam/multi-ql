@@ -4,6 +4,7 @@ package org.uva.sea.ql.gui;
  */
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +19,8 @@ import java.util.List;
 
 public class Main extends Application {
 
+    private Parent formUI;
+    private Stage stage;
 
     public static void main(String[] args) {
         launch(args);
@@ -25,21 +28,20 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
+        this.stage = primaryStage;
         initPreview();
 
     }
 
     public void initPreview() {
-        Stage previewStage = new Stage();
 
         Form f = parseFromPath("src/test/resources/example1.ql");
-        Parent uiElement = (new GuiVisitor(f)).getFormUI();
+        formUI = (new GuiVisitor(f,this)).getFormUI();
 
-        Scene scene = new Scene(uiElement);
-        previewStage.setScene(scene);
+        Scene scene = new Scene(formUI);
+        stage.setScene(scene);
 
-        previewStage.show();
+        stage.show();
     }
 
     private Form parseFromPath(String path){
