@@ -2,7 +2,6 @@ module Interpreter where
 
 import           Ast                 as A
 import           Control.Applicative
-import           Control.Arrow
 import           Control.Monad
 import           Prelude             hiding (EQ, GT)
 
@@ -36,12 +35,6 @@ instance Monad Interpreter where
     Left msg      -> Left msg
     Right (x, r') -> runInterp (k x) r'
   fail msg = Interpreter $ \_ -> Left msg
-
-initializeEnv :: Form -> Interpreter ()
-initializeEnv x = mapM_ (uncurry set . second defaultVal) (fields x)
-
-fields :: Form -> [(String, FieldType)]
-fields _ = []
 
 eval :: Expr -> Interpreter Value
 eval (Lit (ILit lit)) = return (IntValue lit)
@@ -84,39 +77,36 @@ neg :: Value -> Value
 neg (BoolValue v) = BoolValue $ not v
 neg _ = error "Not supported"
 
-set :: String -> Value -> Interpreter ()
-set x v = Interpreter $ \r -> case lookup x r of
-  Nothing -> Right ((), (x, v) : r)
-  Just a  -> Right ((), (x, v) : r) -- TODO
-
 defaultVal :: FieldType -> Value
 defaultVal Integer = IntValue 0
 defaultVal Boolean = BoolValue False
 defaultVal String = StringValue ""
 defaultVal Money = MoneyValue 0.0
 
-exec :: Stmnt -> Interpreter ()
-exec (If cond block) = do
-  c <- eval cond
-  when (c == BoolValue True) $ mapM_ exec block
-  return ()
-exec (Field (CalcField info expr)) = do
-  v <- eval expr
-  set (A.id info) v
-  return ()
-exec (Field (SimpField _)) = return ()
+set :: String -> Value -> Interpreter ()
+set x v = Interpreter $ \r -> case lookup x r of
+  Nothing -> Right ((), (x, v) : r)
+  Just _  -> Right ((), (x, v) : filter (\(z,_) -> z /= x) r)
 
-execForm :: Form -> Interpreter ()
-execForm (Form _ block) = mapM_ exec block
-
-runS :: Stmnt -> Environment -> Either String Environment
-runS p r =
-  case runInterp (exec p) r of
-    Left msg      -> Left msg
-    Right (_, r') -> Right r'
 
 run :: Form -> Environment -> Either String Environment
 run p r =
-  case runInterp (execForm p) r of
+  case runInterp (execForm p) [] of
     Left msg      -> Left msg
     Right (_, r') -> Right r'
+    where
+        execForm (Form _ block) = mapM_ ex' block
+        ex' (If cond block) = do
+            c <- eval cond
+            when (c == BoolValue True) $ mapM_ ex' block
+            return ()
+        ex' (Field (CalcField info expr)) = do
+            res <- eval expr
+            set (A.id info) res
+            return ()
+        ex' (Field (SimpField info)) =
+            let name = A.id info
+                t = A.fieldType info
+            in Interpreter $ \c -> case lookup name r of
+                Nothing -> Right ((), (name, defaultVal t) : c)
+                Just v  -> Right ((), (name,v):c)

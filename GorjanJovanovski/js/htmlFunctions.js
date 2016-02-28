@@ -71,8 +71,15 @@ function saveAnswers() {
 function renderDebugMessage(type, line, message) {
 	var editor = ace.edit("input");
 	message = message.replace("<", "&lt;").replace(">", "&gt;");
-	var html = "<li><a href='#' onClick='goToLine(" + line + ");'>[line " + line + "] " + message + "</a></li>";
-	
+	var html;
+	if (line > 0) {
+		html = "<li><a href='#' onClick='goToLine(" + line + ");'>[line " + line + "] " + message + "</a></li>";
+
+	}
+	else {
+		html = "<li><a href='#' >" + message + "</a></li>";
+	}
+
 	var debugAnnotationList = editor.getSession().getAnnotations();
 	if (debugAnnotationList === undefined || typeof debugAnnotationList !== "object") {
 		debugAnnotationList = [];

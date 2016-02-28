@@ -15,6 +15,7 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
+import uva.ql.ast.variables.Bool;
 
 public class VisitorToAST extends QLBaseVisitor<Object> {
 
@@ -25,6 +26,8 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public Form visitForm( @NotNull QLParser.FormContext ctx ) {
 		
 		form.setName(ctx.varName().getText());
+		form.setLine(ctx.getStart().getLine());
+		form.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		
 		for (int i=0; i<ctx.getChildCount(); i++) {
 			
@@ -66,6 +69,8 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public IfStatement visitIfCondition( @NotNull QLParser.IfConditionContext ctx ) {
 		
 		IfStatement ifStmnt = AST.newIfStatement();
+		ifStmnt.setLine(ctx.getStart().getLine());
+		ifStmnt.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		
 		for (int i=0; i<ctx.expression().size(); i++) {
 			
@@ -92,12 +97,16 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 
 		question.addChild(var);
 		question.setLabel(ctx.label().getText().substring(1, ctx.label().getText().length()-1));
+		question.setLine(ctx.getStart().getLine());
+		question.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		
 		var.setName(ctx.varName().getText());
+		var.setLine(ctx.varName().getStart().getLine());
+		var.setColumn(ctx.varName().getStart().getCharPositionInLine() + 1);
 		var.setParent(question);
 		varStore.put(var.getName(), var);
 		
-		for (int i=0; i<ctx.expression().size(); i++) {
+		for ( int i=0; i<ctx.expression().size(); i++ ) {
 		
 			AExpression exp = (AExpression) ctx.expression(i).accept(this);
 			exp.setParent(question);
@@ -116,20 +125,23 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	@Override
 	public AVariable visitExpVar( @NotNull QLParser.ExpVarContext ctx ) {
 		
-		AVariable var = null;
+		AVariable var = varStore.get(ctx.getText());
 		
-		if(varStore.get(ctx.getText()) == null) {
+		if( varStore.get(ctx.getText()) == null ) {
 			
 			if ( Boolean.parseBoolean(ctx.getText()) ) {
-				var = AST.newVarBool();
+				Bool bool = AST.newVarBool();
+				bool.setValue( Boolean.parseBoolean(ctx.getText()) );
+				bool.setLine( ctx.varName().getStart().getLine() );
+				bool.setColumn( ctx.varName().getStart().getCharPositionInLine() + 1 );
+				return bool;
 			} 
 			else {
 				var = AST.newVarGeneric();
+				var.setName( ctx.getText() );
+				var.setLine( ctx.varName().getStart().getLine() );
+				var.setColumn( ctx.varName().getStart().getCharPositionInLine() + 1 );
 			}			
-		}
-		else {
-			
-			var = varStore.get(ctx.getText());
 		}
 		
 		return var;
@@ -142,19 +154,16 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		if (ctx.getChild(1).getText().intern() == "*") {
 			exp = AST.newExprMult();
+			exp.setLine(ctx.getStart().getLine());
+			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
 		else {
 			exp = AST.newExprDiv();
+			exp.setLine(ctx.getStart().getLine());
+			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
 		
-		AExpression leftExp = (AExpression) ctx.getChild(0).accept(this);
-		AExpression rightExp = (AExpression) ctx.getChild(2).accept(this);
-		
-		exp.setLeftNode(leftExp);
-		exp.setRightNode(rightExp);
-		
-		leftExp.setParent(exp);
-		rightExp.setParent(exp);
+		visitExprChildren(ctx, exp);
 		
 		return exp;
 	}
@@ -166,19 +175,16 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		if (ctx.getChild(1).getText().intern() == "+") {
 			exp = AST.newExprAdd();
+			exp.setLine(ctx.getStart().getLine());
+			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
 		else {
 			exp = AST.newExprMinus();
+			exp.setLine(ctx.getStart().getLine());
+			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
 		
-		AExpression leftExp = (AExpression) ctx.getChild(0).accept(this);
-		AExpression rightExp = (AExpression) ctx.getChild(2).accept(this);
-		
-		exp.setLeftNode(leftExp);
-		exp.setRightNode(rightExp);
-		
-		leftExp.setParent(exp);
-		rightExp.setParent(exp);
+		visitExprChildren(ctx, exp);
 		
 		return exp;
 	}
@@ -187,15 +193,10 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public AExpression visitExpEquality( @NotNull QLParser.ExpEqualityContext ctx ) {
 		
 		AExpression exp = createExpEquality(ctx.getChild(1).getText().intern());
+		exp.setLine(ctx.getStart().getLine());
+		exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		
-		AExpression leftExp = (AExpression) ctx.getChild(0).accept(this);
-		AExpression rightExp = (AExpression) ctx.getChild(2).accept(this);
-		
-		exp.setLeftNode(leftExp);
-		exp.setRightNode(rightExp);
-		
-		leftExp.setParent(exp);
-		rightExp.setParent(exp);
+		visitExprChildren(ctx, exp);
 		
 		return exp;
 	}
@@ -206,19 +207,16 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		if (ctx.getChild(1).getText().intern() == "&&") {
 			exp = AST.newExprAnd();
+			exp.setLine(ctx.getStart().getLine());
+			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
 		else {
 			exp = AST.newExprOr();
+			exp.setLine(ctx.getStart().getLine());
+			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
 		
-		AExpression leftExp = (AExpression) ctx.getChild(0).accept(this);
-		AExpression rightExp = (AExpression) ctx.getChild(2).accept(this);
-		
-		exp.setLeftNode(leftExp);
-		exp.setRightNode(rightExp);
-		
-		leftExp.setParent(exp);
-		rightExp.setParent(exp);
+		visitExprChildren(ctx, exp);
 		
 		return exp;
 	}
@@ -231,10 +229,14 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		if(!ctx.DIGIT().isEmpty()) {
 			var = AST.newNumInt();
 			var.setValue(ctx.getText());
+			var.setLine(ctx.getStart().getLine());
+			var.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
 		else {
 			var = AST.newNumDouble();
 			var.setValue(ctx.getText());
+			var.setLine(ctx.getStart().getLine());
+			var.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
 		
 		return var;
@@ -245,6 +247,9 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		AExpression expPar = AST.newExprNot();
 		AExpression exp = (AExpression) ctx.getChild(1).accept(this);
+		
+		expPar.setLine(ctx.getStart().getLine());
+		expPar.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		
 		expPar.setLeftNode(exp);
 		exp.setParent(expPar);
@@ -314,4 +319,15 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		return exp;
 	}
 	
+	private void visitExprChildren(QLParser.ExpressionContext ctx, AExpression exp) {
+		
+		AExpression leftExp = (AExpression) ctx.getChild(0).accept(this);
+		AExpression rightExp = (AExpression) ctx.getChild(2).accept(this);
+		
+		exp.setLeftNode(leftExp);
+		exp.setRightNode(rightExp);
+		
+		leftExp.setParent(exp);
+		rightExp.setParent(exp);
+	}
 }

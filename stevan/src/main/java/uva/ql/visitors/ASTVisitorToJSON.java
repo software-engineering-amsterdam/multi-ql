@@ -15,6 +15,7 @@ import javax.json.stream.JsonGenerator;
 import uva.ql.deprecated.ASTNode;
 import uva.ql.deprecated.ASTQuestion;
 import uva.ql.deprecated.ASTVariable;
+import uva.ql.deprecated.VisitAST;
 
 public class ASTVisitorToJSON {
 

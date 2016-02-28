@@ -3,9 +3,6 @@ package uva.ql.visitors.typechecker;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import uva.ql.ast.AExpression;
@@ -20,94 +17,79 @@ import uva.ql.interfaces.INodeVisitor;
 
 public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 
-	private final Map<String, Integer> store = new HashMap<String, Integer>(0);
+	private final HashMap<String, Integer> store = new HashMap<String, Integer>(0);
 	private static final Set<Integer> CON_BOOL = new HashSet<Integer>(
 			Arrays.asList(
 					 IExpression.SML_THEN ,IExpression.GRT_THEN ,IExpression.SML_EQL
 					,IExpression.GRT_EQL ,IExpression.NOT_EQL ,IExpression.EQL
-					,IExpression.NOT_EXP ,IExpression.AND_EXP ,IExpression.OR_EXP));
+					,IExpression.NOT_EXP ,IExpression.AND_EXP ,IExpression.OR_EXP) );
 	
-	public Map<String, Integer> getResult() {
+	public HashMap<String, Integer> getResult() {
 		
-		Map<String, Integer> dups = new HashMap<String, Integer>(0);
-		Iterator<Entry<String, Integer>> it = store.entrySet().iterator();
-		
-		while (it.hasNext()) {
+		return store;
+	}
+
+	@Override
+	public void visitForm( Form form ) {
+
+		if( form.size() > 0 ) {
 			
-			Entry<String, Integer> record = it.next();
+			form.get(0).accept( this );
+		}
+	}
+
+	@Override
+	public void visitBlock( Block block ) {
+
+		for( int i=0; i<block.size(); i++ ) {
 			
-			if (record.getValue() > 0) {
-				
-				dups.put(record.getKey(), record.getValue());
-			}
-		}
-		
-		return dups;
-	}
-
-	@Override
-	public void visitForm(Form form) {
-
-		if (form.size() > 0) {
-			form.get(0).accept(this);
-		}
-	}
-
-	@Override
-	public void visitBlock(Block block) {
-
-		for(int i=0; i<block.size(); i++) {
-			block.get(i).accept(this);
+			block.get(i).accept( this );
 		}
 	}
 	
 	@Override
-	public void visitIfStmnt(IfStatement ifStatement) {
+	public void visitIfStmnt( IfStatement ifStatement ) {
 		
-		for(int i=0; i<ifStatement.size(); i++) {
-			ifStatement.getExpression().accept(this);
-			ifStatement.get(i).accept(this);
+		for( int i=0; i<ifStatement.size(); i++ ) {
+			
+			ifStatement.getExpression().accept( this );
+			ifStatement.get(i).accept( this );
 		}
 	}
 	
 	@Override
-	public void visitQuestion(Question question) {}
+	public void visitQuestion( Question question ) {}
 
 	@Override
-	public <T> void visitExp(T expression) {
+	public <T> void visitExp( T expression ) {
 		
-		checkExprType( ((AExpression) expression).getExprType() );
+		AExpression exp = (AExpression) expression;
+		checkExprType( exp );
 		
-		if (((AExpression) expression).getLeftNode() != null) {
-			((AExpression) expression).getLeftNode().accept(this);
+		if ( exp.getLeftNode() != null ) {
+			
+			exp.getLeftNode().accept( this );
 			
 		}
-		if (((AExpression) expression).getRightNode() != null) {
-			((AExpression) expression).getRightNode().accept(this);
+		
+		if ( exp.getRightNode() != null ) {
+			
+			exp.getRightNode().accept( this );
 		}
 	}
 	
 	@Override
-	public void visitVar(AVariable variable) {}
+	public void visitVar( AVariable variable ) {}
 	
 	@Override
-	public void visitNum(ANumber number) {}
+	public void visitNum( ANumber number ) {}
 
-	private void checkExprType(int type) {
+	private void checkExprType( AExpression exp ) {
 		
-		if (!CON_BOOL.contains(type)) {
+		if ( !CON_BOOL.contains(exp.getExprType()) ) {
 			
-			String msg = "Expression not of condition Boolean";
-
-			if ( store.containsKey(msg) ) {
-				
-				int counter = store.get(msg);
-				store.put(msg, counter+1);
-			}
-			else {
-				
-				store.put(msg, 1);
-			}
+			String msg = "Error: Condition not of type Boolean, starting at line: " + exp.getLine() + ", column: " + exp.getColumn();
+			store.put( msg, -1 );
 		}
 	}
 }
