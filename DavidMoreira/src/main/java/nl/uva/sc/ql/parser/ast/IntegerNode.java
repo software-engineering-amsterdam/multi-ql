@@ -2,13 +2,13 @@ package nl.uva.sc.ql.parser.ast;
 
 import nl.uva.sc.ql.parser.Visitor;
 
-public class BooleanNode extends Node {
+public class IntegerNode extends Node {
 
 	@Override
 	public String getType() {
-		return "boolean";
+		return "int";
 	}
-	
+
 	@Override
 	public void accept(Visitor visitor) {
 	}
@@ -19,5 +19,5 @@ public class BooleanNode extends Node {
 		if (getLeft() != null) { getLeft().dump(); }
 		if (getRight() != null) { getRight().dump(); }
 	}
-	
+
 }
