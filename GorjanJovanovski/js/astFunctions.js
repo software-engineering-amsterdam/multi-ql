@@ -1,12 +1,12 @@
 function initiate(inputString) {
-	resetErrorPanels();
+	resetGUI();
 	var tree = getAntrlParseTree(inputString);
 	var visitor = getAntlrVisitor();
 	visitor.visitForm = function (ctx) {
 		ast = ctx.FormNode;
 		if (performAstChecks()) {
 			renderQuestions();
-			setHTMLEventHandlers();
+			//setHTMLEventHandlers();
 			refreshGUI();
 		}
 		else {

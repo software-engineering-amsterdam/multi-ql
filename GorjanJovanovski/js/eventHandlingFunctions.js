@@ -1,15 +1,3 @@
-function setHTMLEventHandlers() {
-	$("input").change(function () {
-		var label = $(this).attr("name");
-		var value = $(this).val();
-		if ($(this).attr("type") === "checkbox") {
-			value = $(this).is(":checked");
-		}
-		ast.dataChanged(label, value);
-		refreshGUI();
-	});
-}
-
 function goToLine(line) {
 	var editor = ace.edit("input");
 	editor.gotoLine(line);

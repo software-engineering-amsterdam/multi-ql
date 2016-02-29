@@ -159,11 +159,6 @@ class FormNode {
 			}
 		}
 	}
-
-	dataChanged(label, value) {
-		var questionNode = this.getQuestion(label);
-		questionNode.setValue(value);
-	}
 }
 
 class QuestionNode {
@@ -179,6 +174,10 @@ class QuestionNode {
 
 	setValue(value) {
 		this.value = this.type.parseValue(value);
+	}
+
+	notify(value) {
+		this.setValue(value);
 	}
 }
 

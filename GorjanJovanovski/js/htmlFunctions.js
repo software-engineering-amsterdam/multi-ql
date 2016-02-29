@@ -42,19 +42,28 @@ function generateQuestionHTML(questionNode) {
 }
 
 function renderQuestions() {
-	var output = "";
 	ast.transverseAST((questionNode) => {
-		output += generateQuestionHTML(questionNode);
+		$("#output").append(generateQuestionHTML(questionNode));
+		$("input[name=" + questionNode.label + "]").change(function () {
+			var value = $(this).val();
+			if ($(this).attr("type") === "checkbox") {
+				value = $(this).is(":checked");
+			}
+			questionNode.notify(value);
+			refreshGUI();
+		});
 	});
-	$("#output").html(output);
+
 }
 
-function resetErrorPanels() {
+function resetGUI() {
 
 	var editor = ace.edit("input");
 	editor.getSession().clearAnnotations();
 	$("#error").html("");
 	$("#warning").html("");
+
+	$("#output").html("");
 
 	$("#errorPanel").hide();
 	$("#warningPanel").hide();
