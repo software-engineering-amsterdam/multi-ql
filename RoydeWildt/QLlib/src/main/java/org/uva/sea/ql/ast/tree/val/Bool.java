@@ -22,6 +22,10 @@ public class Bool extends Val {
         return value;
     }
 
+    public void setValue(Boolean value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         return value.toString();

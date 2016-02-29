@@ -18,8 +18,6 @@ import org.uva.sea.ql.parser.QLRunner;
 import java.util.List;
 
 public class Main extends Application {
-
-    private Parent formUI;
     private Stage stage;
 
     public static void main(String[] args) {
@@ -36,11 +34,10 @@ public class Main extends Application {
     public void initPreview() {
 
         Form f = parseFromPath("src/test/resources/example1.ql");
-        formUI = (new GuiVisitor(f,this)).getFormUI();
+        GuiBuilder guiBuilder = new GuiBuilder(f);
 
-        Scene scene = new Scene(formUI);
+        Scene scene = new Scene(guiBuilder.getRootPane());
         stage.setScene(scene);
-
         stage.show();
     }
 

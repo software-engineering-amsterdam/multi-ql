@@ -13,7 +13,7 @@ public class  Var extends Val {
         this.value = value;
     }
 
-    public String getValue() {
+    public String getName() {
         return value;
     }
 

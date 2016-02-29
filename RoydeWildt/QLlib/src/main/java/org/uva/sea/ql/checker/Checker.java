@@ -26,7 +26,7 @@ public class Checker {
         for(Node n : undefined){
             StringBuilder sb = new StringBuilder();
             sb.append("Variable ");
-            sb.append(((Var) n).getValue());
+            sb.append(((Var) n).getName());
             sb.append(" is undefined");
             messages.add(new ErrorMessage(sb.toString(), n));
         }
@@ -43,9 +43,9 @@ public class Checker {
             for (int i = 1; i < dups.size(); i++) {
                 Question dup = (Question) dups.get(i);
                 sb.append("Variable ");
-                sb.append(dup.getVarname().getValue() + " : " + dup.getType().getClass().getSimpleName());
+                sb.append(dup.getVarname().getName() + " : " + dup.getType().getClass().getSimpleName());
                 sb.append(" is already defined as ");
-                sb.append(org.getVarname().getValue() + " : " + org.getType().getClass().getSimpleName());
+                sb.append(org.getVarname().getName() + " : " + org.getType().getClass().getSimpleName());
 
                 if(dup.getType().getClass().getSimpleName() == org.getType().getClass().getSimpleName())
                     messages.add(new WarningMessage(sb.toString(), dup.getVarname()));

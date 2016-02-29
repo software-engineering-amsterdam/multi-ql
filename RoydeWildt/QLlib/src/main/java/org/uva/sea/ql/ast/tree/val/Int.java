@@ -21,6 +21,10 @@ public class Int extends Val {
         return value;
     }
 
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         return value.toString();

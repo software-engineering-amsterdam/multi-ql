@@ -1,4 +1,4 @@
-package org.uva.sea.ql.gui;
+package org.uva.sea.ql.gui.widget;
 
 import javafx.scene.control.CheckBox;
 import org.uva.sea.ql.ast.tree.Node;
@@ -6,14 +6,14 @@ import org.uva.sea.ql.ast.tree.Node;
 /**
  * Created by roy on 28-2-16.
  */
-public class ASTCheckBox extends CheckBox {
+public class CheckboxWidget extends CheckBox {
     private Node source;
 
-    public ASTCheckBox(Node source) {
+    public CheckboxWidget(Node source) {
         this.source = source;
     }
 
-    public ASTCheckBox(String text, Node source) {
+    public CheckboxWidget(String text, Node source) {
         super(text);
         this.source = source;
     }

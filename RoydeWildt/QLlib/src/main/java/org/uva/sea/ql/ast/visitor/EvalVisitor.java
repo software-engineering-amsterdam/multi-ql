@@ -32,11 +32,6 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object,Void> {
     }
 
     @Override
-    public F visit(Form form, Void context) {
-        return null;
-    }
-
-    @Override
     public S visit(If stat, Void context) {
         if((Boolean) stat.getCond().accept(this, context)){
             for(Stat s : stat.getStms())
