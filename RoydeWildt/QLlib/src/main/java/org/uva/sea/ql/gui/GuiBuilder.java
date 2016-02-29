@@ -58,7 +58,8 @@ public class GuiBuilder implements Observer {
         List<Parent> UiElems = new ArrayList<>();
         for (Question question : questions){
             GuiVisitor gv = new GuiVisitor();
-            UiElems.add(gv.visit(question, null));
+            Parent UiElem = gv.visit(question, null);
+            UiElems.add(UiElem);
         }
         return UiElems;
     }

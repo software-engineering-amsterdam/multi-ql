@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.form;
 
+import javafx.beans.Observable;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.stat.Stat;
 import org.uva.sea.ql.ast.visitor.interfaces.IFormVisitable;

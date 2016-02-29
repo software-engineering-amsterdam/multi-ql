@@ -12,6 +12,7 @@ import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.IExprVisitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
