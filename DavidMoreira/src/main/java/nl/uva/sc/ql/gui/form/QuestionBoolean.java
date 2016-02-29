@@ -25,13 +25,9 @@ public class QuestionBoolean extends Question {
 	        public void actionPerformed(ActionEvent e) {
 				if (component.isSelected()){
 					setValue(true);
-					System.out.println("setting value to true");
 				} else {
 					setValue(false);
-					System.out.println("setting value to false");
-				}
-				
-				validate();
+				}				
 	        }
 	    });
 				
