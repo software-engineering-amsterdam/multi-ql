@@ -6,7 +6,8 @@ import ast.visitor.ExpressionVisitor;
 public class Identifier extends Expression {
 	private String identifier;
 	
-	public Identifier(String identifier) {
+	public Identifier(String identifier, int line) {
+		super(line);
 		this.identifier = identifier;
 	}
 	

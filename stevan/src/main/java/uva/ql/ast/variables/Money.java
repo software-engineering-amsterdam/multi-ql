@@ -4,9 +4,9 @@ import uva.ql.ast.AST;
 import uva.ql.ast.AVariable;
 import uva.ql.interfaces.IVariable;
 
-public class Money<T> extends AVariable {
+public class Money extends AVariable {
 
-	private T value;
+	private double value = 0.0;
 	
 	public Money(AST ast) {
 		super(ast);
@@ -17,9 +17,15 @@ public class Money<T> extends AVariable {
 		return IVariable.MONEY;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public T eval() {
-		return value;
+	public double getValue() {
+		return this.value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+	
+	public double evalDouble() {
+		return getValue();
 	}
 }

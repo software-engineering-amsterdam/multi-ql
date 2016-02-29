@@ -1,7 +1,6 @@
 package org.uva.sea.ql.ast.expression.Literal;
 
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
-import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
 
 public class BooleanLiteral extends Literal {
@@ -17,9 +16,9 @@ public class BooleanLiteral extends Literal {
 		return this.value;
 	}	
 	
-	
+
 	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }

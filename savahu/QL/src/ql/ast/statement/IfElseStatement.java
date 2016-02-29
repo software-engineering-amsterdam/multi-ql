@@ -5,10 +5,26 @@
  */
 package ql.ast.statement;
 
+import ql.ast.expression.Expr;
+import ql.ast.form.Block;
+
 /**
  *
  * @author sander
  */
-public class IfElseStatement {
+public class IfElseStatement extends Statement {
+    
+    private Block _ElseStatement;
+
+    public IfElseStatement(Expr ifCondition, Block thenStatement) {
+        super(ifCondition, thenStatement);
+    }
+    
+    public IfElseStatement(Expr ifCondition, Block thenStatement, Block elseStatement) {
+        super(ifCondition, thenStatement);
+        this._ElseStatement = elseStatement;
+    }
+
+
 
 }

@@ -21,33 +21,35 @@ import org.uva.sea.ql.ast.expression.Unary.Negative;
 import org.uva.sea.ql.ast.expression.Unary.Not;
 import org.uva.sea.ql.ast.expression.Unary.Positive;
 
-public interface ExpressionVisitor<ASTNode> {
+
+public interface ExpressionVisitor<T> {
 	
-	public ASTNode visit(Equal node);
-	public ASTNode visit(NotEqual node);
-	public ASTNode visit(Greater node);
-	public ASTNode visit(GreaterOrEqual node);
-	public ASTNode visit(Less node);
-	public ASTNode visit(LessOrEqual node);
+	public T visit(Equal node);
+	public T visit(NotEqual node);
+	public T visit(Greater node);
+	public T visit(GreaterOrEqual node);
+	public T visit(Less node);
+	public T visit(LessOrEqual node);
 	
-	public ASTNode visit(BooleanLiteral node);
-	public ASTNode visit(Identifier node);
-	public ASTNode visit(IntegerLiteral node);
-	public ASTNode visit(StringLiteral node);
+	public T visit(BooleanLiteral node);
+	public T visit(Identifier node);
+	public T visit(IntegerLiteral node);
+	public T visit(StringLiteral node);
 	
-	public ASTNode visit(And node);
-	public ASTNode visit(Or node);
+	public T visit(And node);
+	public T visit(Or node);
 	
-	public ASTNode visit(Add node);
-	public ASTNode visit(Sub node);
-	public ASTNode visit(Mul node);
-	public ASTNode visit(Div node);
+	public T visit(Add node);
+	public T visit(Sub node);
+	public T visit(Mul node);
+	public T visit(Div node);
 	
-	public ASTNode visit(Parenthesis node);
+	// aint gonna need this..?
+	public T visit(Parenthesis node);
 	
-	public ASTNode visit(Not node);
-	public ASTNode visit(Positive node);
-	public ASTNode visit(Negative node);
+	public T visit(Not node);
+	public T visit(Positive node);
+	public T visit(Negative node);
 	
 
 }

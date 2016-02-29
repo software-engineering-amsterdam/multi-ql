@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.context;
+
+public class SemanticError extends Errors {
+    
+    private String message;
+
+    public void Semantic(int line, String variable) {
+	message = "SYMANTIC_ERROR @Line " + line 
+	    + ": \"" + variable + "\" does not exist!";
+    }
+}

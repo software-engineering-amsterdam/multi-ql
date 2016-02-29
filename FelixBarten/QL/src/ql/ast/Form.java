@@ -5,6 +5,10 @@ import java.util.List;
 public class Form {
 	private List<Question> questions;
 
+	public Form(Object object, Block result) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public List<Question> getQuestions() {
 		return questions;
 	}

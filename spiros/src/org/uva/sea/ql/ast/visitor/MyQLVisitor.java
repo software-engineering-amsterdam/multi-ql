@@ -32,7 +32,6 @@ import org.uva.sea.ql.ast.statement.IfStatement;
 import org.uva.sea.ql.ast.statement.Question;
 import org.uva.sea.ql.ast.statement.Statement;
 import org.uva.sea.ql.ast.type.BoolType;
-import org.uva.sea.ql.ast.type.DoubleType;
 import org.uva.sea.ql.ast.type.IntType;
 import org.uva.sea.ql.ast.type.StrType;
 import org.uva.sea.ql.ast.type.Type;
@@ -87,6 +86,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 		return ifStatement; 
 	}
 	
+	// below to be modified/removed
 	
 	@Override 
 	public ASTNode visitIfElse(QLParser.IfElseContext ctx) {
@@ -167,12 +167,12 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 	}
 	
 	
-	@Override 
-	public ASTNode visitTypeDouble(QLParser.TypeDoubleContext ctx) {
-		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
-		DoubleType doubleType = new DoubleType(fragment);
-		return doubleType;	
-	}
+//	@Override 
+//	public ASTNode visitTypeDouble(QLParser.TypeDoubleContext ctx) {
+//		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
+//		DoubleType doubleType = new DoubleType(fragment);
+//		return doubleType;	
+//	}
 	
 		
 	@Override 

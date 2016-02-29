@@ -5,8 +5,8 @@ import ast.visitor.ExpressionVisitor;
 
 public class NotEqual extends BinaryExpression{
 
-	public NotEqual(Expression leftExpression, Expression rightExprssion) {
-		super(leftExpression, rightExprssion);
+	public NotEqual(Expression leftExpression, Expression rightExprssion, int line) {
+		super(leftExpression, rightExprssion, line);
 	}
 
 	@Override

@@ -1,16 +1,13 @@
 package nl.nicasso.ql.ast.expression.conditional;
 
-import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.ast.expression.Polynomial;
-import nl.nicasso.ql.ast.type.Type;
 
-public class Or extends Polynomial implements Traversable  {
+public class Or extends Conditional implements Traversable  {
 	
-	Expression left;
-	Expression right;
+	private final Expression left;
+	private final Expression right;
 
 	public Or(Expression left, Expression right) {
 		this.left = left;
@@ -26,13 +23,12 @@ public class Or extends Polynomial implements Traversable  {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
-	@Override
-	public Type accept(TypeChecker visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	
+	@Override
+	public String toString() {
+		return left + "||" + right;
+	}
 }

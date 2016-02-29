@@ -1,5 +1,6 @@
 package org.uva.sea.ql.parser;
 
+import org.uva.sea.ql.ast.question.*;
 import java.io.FileNotFoundException;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -17,28 +18,24 @@ public class ParserFormTest {
         
         Ident question1Identifier = new Ident("hasSoldHouse");
         Label question1Label = new Label("Did you sell a house in 2010?");
-        ASTNode question1Type = new Bool(null);
-        Question question1 = new Question(question1Identifier, question1Label, question1Type);
+        Question question1 = new BooleanQuestion(question1Identifier, question1Label, null);
         
         Ident question2Identifier = new Ident("hasBoughtHouse");
         Label question2Label = new Label("Did you by a house in 2010?");
-        ASTNode question2Type = new Bool(null);
-        Question question2 = new Question(question2Identifier, question2Label, question2Type);
+        Question question2 = new BooleanQuestion(question2Identifier, question2Label, null);
         
         Expr condition = question1Identifier;
         
         Ident question3Identifier = new Ident("sellingPrice");
         Label question3Label = new Label("Price the house was sold for:");
-        ASTNode question3Type = new Money(null, null);
-        Question question3 = new Question(question3Identifier, question3Label, question3Type);
+        Question question3 = new MoneyQuestion(question3Identifier, question3Label, null);
         
         Ident question4Identifier = new Ident("valueResidue");
         Label question4Label = new Label("Value residue:");
-        ASTNode question4Type = new Money(null, null);
         Ident nonExistentQuestionIdentifier = new Ident("privateDebt");
         Expr question4Calculation = new Sub(question3Identifier, nonExistentQuestionIdentifier);
-        Question question4 = new ComputedQuestion(question4Identifier,
-                question4Label, question4Type, question4Calculation);
+        Question question4 = new MoneyQuestion(question4Identifier, question4Label,
+                question4Calculation);
         
         StatementSet inCase = new StatementSet();
         inCase.add(question3);
@@ -46,8 +43,7 @@ public class ParserFormTest {
         
         Ident question5Identifier = new Ident("wantsToSellHouse");
         Label question5Label = new Label("Do you want to sell a house in 2011?");
-        ASTNode question5Type = new Bool(null);
-        Question question5 = new Question(question5Identifier, question5Label, question5Type);
+        Question question5 = new BooleanQuestion(question5Identifier, question5Label, null);
         
         StatementSet inCaseNot = new StatementSet();
         inCaseNot.add(question5);

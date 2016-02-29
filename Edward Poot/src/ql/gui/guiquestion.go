@@ -1,42 +1,36 @@
 package gui
 
 import (
-	"errors"
-	"fmt"
+	log "github.com/Sirupsen/logrus"
 	"github.com/mattn/go-gtk/gtk"
-	"ql/ast/vari"
+	"ql/ast/vari/vartype"
 )
 
 type GUIQuestion struct {
-	Label   *gtk.Label
-	Element gtk.IWidget
+	Label      *gtk.Label
+	Element    gtk.IWidget
+	ErrorLabel *gtk.Label
 }
 
-func CreateGUIQuestion(label string, questionType vari.VarType) GUIQuestion {
-	questionLabel := createQuestionLabel(label)
-	questionElement := createQuestionElement(questionType)
+func CreateGUIQuestion(label string, questionType vartype.VarType, callback func(interface{}, error)) GUIQuestion {
+	questionLabel := createLabel(label)
+	questionElement := createQuestionElement(questionType, callback)
+	errorLabel := createLabel("")
 
-	return GUIQuestion{questionLabel, questionElement}
+	return GUIQuestion{questionLabel, questionElement, errorLabel}
 }
 
-func createQuestionLabel(questionText string) *gtk.Label {
+func (g GUIQuestion) ChangeElementText(newText string) {
+	log.WithFields(log.Fields{"oldLabelText": g.Label.GetText(), "newLabelText": newText}).Debug("Changing text of element")
+	g.Element.(*gtk.Entry).SetText(newText)
+}
+
+func (g GUIQuestion) ChangeErrorLabelText(newText string) {
+	g.ErrorLabel.SetText(newText)
+}
+func createLabel(questionText string) *gtk.Label {
 	label := gtk.NewLabel(questionText)
 	label.ModifyFontEasy("DejaVu Serif 12")
 
 	return label
-}
-
-func createQuestionElement(questionType vari.VarType) gtk.IWidget {
-	var GTKEntity gtk.IWidget
-
-	switch questionType {
-	case vari.BOOLEAN:
-		GTKEntity = CreateRadioButtons()
-	case vari.STRING, vari.INT:
-		GTKEntity = CreateInputTextField(fmt.Sprintf("Type: %v", questionType))
-	default:
-		errors.New("Unknown question type, can not create correct GTK object")
-	}
-
-	return GTKEntity
 }

@@ -1,7 +1,18 @@
-reference to undefined questions DONE
-duplicate question declarations with different types DONE
-conditions that are not of the type boolean DONE
-operands of invalid type to operators DONE
-cyclic dependencies between questions DONE?
-duplicate labels (warning) DONE
-Hi
+- Use multiple generic types for the visitor interface, or multiple interfaces
+- Throw errors instead of adding them to a list
+- Traversable class has multiple accepts, change to a single one using a generic type
+- Create GUI
+- Create tests
+- Add line numbers
+- Don't use a list for errors, cause then everything will become a string
+- Make some kind of fancy issue class
+- Remove the public static SymbolTable before next week. Its bad!
+- Check all the variable names!
+- Rename AST less class to lesser, so it matches with greater
+- Use Identifiers as keys in the symboltable not the whole question object
+- Remove toString in traversable interface
+- Create equal methods for AST model classes, so I dont have to compare strings anymore. Mehh
+- Remove the tempvariable smell! Just pass it on?
+- Really use accept in the QuestionVisitor to fetch the identfiers, otherwise you get 10 gets behind each other. 
+	And it makes the visitor kinda lame.
+- Fix singe line and multi line comments in grammar 

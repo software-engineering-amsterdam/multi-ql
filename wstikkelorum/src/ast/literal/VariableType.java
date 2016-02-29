@@ -1,7 +1,7 @@
 package ast.literal;
 
 import ast.TreeNode;
-import ast.visitor.Types;
+import ast.visitor.Type;
 
 public class VariableType extends TreeNode {
 	private String type;
@@ -11,14 +11,14 @@ public class VariableType extends TreeNode {
 		this.type = type;
 	}
 
-	public Types getType() {
+	public Type getType() {
 		if (type.equals("boolean")) {
-			return Types.BOOLEAN;
+			return Type.BOOLEAN;
 		}
 		if (type.equals("int")) {
-			return Types.INT;
+			return Type.INT;
 		}
-		return Types.STRING;
+		return Type.STRING;
 	}
 
 	@Override

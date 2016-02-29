@@ -1,10 +1,8 @@
 package nl.nicasso.ql.ast.type;
 
 import nl.nicasso.ql.ast.ASTNode;
-import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
 
-public class Type extends ASTNode implements Traversable {
+public class Type extends ASTNode {
 	
 	String type;
 	
@@ -12,13 +10,22 @@ public class Type extends ASTNode implements Traversable {
 		this.type = "Type";
 	}
 	
-	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
 	public String getType() {
 		return type;
 	}
 	
+	public boolean compatibleWith(Type type) {
+		switch(type.getType()) {
+			case "Boolean":
+				return true;
+			case "Integer":
+				return true;
+			case "Money":
+				return true;
+			case "String":
+				return true;
+			default:
+				return false;
+		}
+	}
 }

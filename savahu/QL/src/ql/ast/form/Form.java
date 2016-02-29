@@ -5,21 +5,24 @@
  */
 package ql.ast.form;
 
+import ql.ast.ASTNode;
 import ql.ast.expression.Ident;
 
 /**
  *
  * @author sander
  */
-public class Form {
+public class Form implements ASTNode {
 
-    private final Ident Identifier;
+    private final Ident _Identifier;
+    private final Block _Block;
 
-    public Form(Ident identifier) {
-        this.Identifier = identifier;
+    public Form(Ident identifier, Block block) {
+        this._Identifier = identifier;
+        this._Block = block;
     }
 
     public Ident getIdentifier() {
-        return this.Identifier;
+        return this._Identifier;
     }
 }

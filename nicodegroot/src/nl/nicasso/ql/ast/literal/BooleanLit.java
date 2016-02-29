@@ -1,6 +1,5 @@
 package nl.nicasso.ql.ast.literal;
 
-import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.type.BooleanType;
@@ -8,30 +7,25 @@ import nl.nicasso.ql.ast.type.Type;
 
 public class BooleanLit extends Literal implements Traversable {
 
-	Type type;
-	boolean lit;
+	private final Type type;
+	private final Boolean lit;
 
-	public BooleanLit(boolean lit) {
+	public BooleanLit(Boolean lit) {
 		this.lit = lit;
 		this.type = new BooleanType();
 	}
 
-	public boolean getValue() {
+	@Override
+	public Boolean getValue() {
 		return lit;
 	}
 	
 	public Type getType() {
 		return type;
 	}
-	
+
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
-	@Override
-	public Type accept(TypeChecker visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
 }

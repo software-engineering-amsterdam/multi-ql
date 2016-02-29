@@ -106,12 +106,12 @@ public final class AST {
 		return new Generic(newAST());
 	}
 	
-	public static NumInt newNumInt() {
-		return new NumInt(newAST());
+	public static <T> NumInt<T> newNumInt() {
+		return new NumInt<T>(newAST());
 	}
 	
-	public static NumDouble newNumDouble() {
-		return new NumDouble(newAST());
+	public static <T> NumDouble<T> newNumDouble() {
+		return new NumDouble<T>(newAST());
 	}
 
 	public static SmlThen newExpSmlThen() {

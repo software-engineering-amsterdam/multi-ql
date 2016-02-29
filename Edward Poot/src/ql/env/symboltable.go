@@ -1,20 +1,21 @@
 package env
 
 import (
+	"encoding/json"
 	log "github.com/Sirupsen/logrus"
-	"ql/ast/expr"
+	"io/ioutil"
 	"ql/ast/vari"
 )
 
 /* Symbol Table */
 
-type SymbolTable map[vari.VarId]expr.Expr
+type SymbolTable map[vari.VarId]interface{}
 
-func (s SymbolTable) getNodeForIdentifier(v vari.VarId) expr.Expr {
+func (s SymbolTable) GetNodeForIdentifier(v vari.VarId) interface{} {
 	return s[v]
 }
 
-func (s SymbolTable) setNodeForIdentifier(e expr.Expr, v vari.VarId) SymbolTable {
+func (s SymbolTable) SetNodeForIdentifier(e interface{}, v vari.VarId) *SymbolTable {
 	if previousValue, keyExists := s[v]; keyExists {
 		s[v] = e
 		log.WithFields(log.Fields{"Identifier": v, "Current": s[v], "Previous": previousValue}).Debug("Set node for identifier")
@@ -23,16 +24,7 @@ func (s SymbolTable) setNodeForIdentifier(e expr.Expr, v vari.VarId) SymbolTable
 		log.WithFields(log.Fields{"Identifier": v, "Current": s[v]}).Debug("Set node for identifier")
 	}
 
-	return s
-}
-
-/* Symbol Table Stack */
-
-type SymbolTableStack []SymbolTable
-
-func NewSymbolTableStack() SymbolTableStack {
-	log.Info("Creating new symbol table stack")
-	return make(SymbolTableStack, 1)
+	return &s
 }
 
 func NewSymbolTable() SymbolTable {
@@ -40,49 +32,39 @@ func NewSymbolTable() SymbolTable {
 	return make(SymbolTable)
 }
 
-func (s SymbolTableStack) Push(v SymbolTable) SymbolTableStack {
-	s = append(s, v)
-	log.WithFields(log.Fields{"SymbolTableStack": s}).Info("Pushed new symbol table")
-	return s
-}
+func (s SymbolTable) SaveToDisk() (interface{}, error) {
+	formDataAsJSON, _ := convertSymbolTableToJSON(convertSymbolTableKeysToStrings(s))
 
-func (s SymbolTableStack) Pop() (SymbolTableStack, SymbolTable) {
-	if len(s) == 0 {
-		panic("Trying to pop from empty stack")
+	writeErr := ioutil.WriteFile("savedForm.json", formDataAsJSON, 0644)
+
+	if writeErr != nil {
+		log.WithFields(log.Fields{"error": writeErr}).Error("Encountered error during writing to disk of symbolTable data")
+		return nil, writeErr
 	}
 
-	l := len(s)
-	return s[:l-1], s[l-1]
+	log.Info("SymbolTable written to disk as JSON")
+
+	return formDataAsJSON, nil
 }
 
-func (s SymbolTableStack) Peek() SymbolTable {
-	if len(s) == 0 {
-		panic("Trying to peek from empty stack")
+func convertSymbolTableToJSON(symbolTableWithStringKeys map[string]interface{}) ([]byte, error) {
+	formDataAsJSON, jsonErr := json.MarshalIndent(symbolTableWithStringKeys, "", "  ")
+
+	if jsonErr != nil {
+		log.WithFields(log.Fields{"error": jsonErr}).Error("Encountered error during symbolTable to JSON conversion")
+		return nil, jsonErr
 	}
 
-	log.WithFields(log.Fields{"SymbolTableStack": s}).Debug("Peeking from symbol table stack")
-	return s[len(s)-1]
+	log.WithFields(log.Fields{"formDataAsJSON": string(formDataAsJSON[:])}).Debug("Successful conversion of symbolTable to JSON")
+
+	return formDataAsJSON, nil
 }
 
-func (s SymbolTableStack) NewSymbolTableWithParentScope() SymbolTableStack {
-	NewSymbolTable := NewSymbolTable()
-
-	// copy all symbols in parent scope table
-	for k, v := range s.Peek() {
-		NewSymbolTable[k] = v
+func convertSymbolTableKeysToStrings(s SymbolTable) map[string]interface{} {
+	var symbolTableWithStringKeys map[string]interface{} = make(map[string]interface{})
+	for k, v := range s {
+		symbolTableWithStringKeys[k.Ident] = v
 	}
 
-	s = s.Push(NewSymbolTable)
-
-	log.WithFields(log.Fields{"SymbolTable": s}).Info("Pushed new symbol table with parent scope on stack")
-
-	return s
-}
-
-func (s SymbolTableStack) SetValueForIdentifierInTopSymbolTable(e expr.Expr, v vari.VarId) {
-	s.Peek().setNodeForIdentifier(e, v)
-}
-
-func (s SymbolTableStack) GetValueForIdentifierInTopSymbolTable(v vari.VarId) expr.Expr {
-	return s.Peek().getNodeForIdentifier(v)
+	return symbolTableWithStringKeys
 }

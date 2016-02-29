@@ -25,5 +25,10 @@ public abstract class Binary extends Expression {
 		return leftExpression;
 	}
 	
+//	public Type getTypeOfExpression() {
+//		System.out.println("getTypeOfExpression");
+//		return new BoolType();
+//	}
+	
 
 }

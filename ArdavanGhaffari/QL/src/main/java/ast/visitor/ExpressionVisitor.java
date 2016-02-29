@@ -13,6 +13,7 @@ import ast.model.binaryexpression.Multiplication;
 import ast.model.binaryexpression.NotEqual;
 import ast.model.binaryexpression.Subtraction;
 import ast.model.literal.BooleanLiteral;
+import ast.model.literal.DecimalLiteral;
 import ast.model.literal.Identifier;
 import ast.model.literal.IntegerLiteral;
 import ast.model.literal.StringLiteral;
@@ -30,10 +31,11 @@ public interface ExpressionVisitor<T> {
 	public T visit(NotEqual notEqual);
 	public T visit(GreaterThan greaterThan);
 	public T visit(GreaterThanEqual greaterThanEqual);
-	public T visit(LessThan LessThan);
-	public T visit(LessThanEqual LessThanEqual);
+	public T visit(LessThan lessThan);
+	public T visit(LessThanEqual lessThanEqual);
 	public T visit(BooleanLiteral booleanLiteral);
 	public T visit(StringLiteral stringLiteral);
+	public T visit(DecimalLiteral decimalLiteral);
 	public T visit(IntegerLiteral integerLiteral);
 	public T visit(Identifier identifier);
 }

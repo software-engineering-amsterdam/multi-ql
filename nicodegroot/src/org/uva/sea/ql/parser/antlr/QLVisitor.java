@@ -1,7 +1,8 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package org.uva.sea.ql.parser.antlr;
 
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -53,117 +54,68 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfElseStatement(QLParser.IfElseStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code lessEqExpression}
+	 * Visit a parse tree produced by the {@code equalityExpressions}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLessEqExpression(QLParser.LessEqExpressionContext ctx);
+	T visitEqualityExpressions(QLParser.EqualityExpressionsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code lessExpression}
+	 * Visit a parse tree produced by the {@code multiplicativeExpressions}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLessExpression(QLParser.LessExpressionContext ctx);
+	T visitMultiplicativeExpressions(QLParser.MultiplicativeExpressionsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code divExpression}
+	 * Visit a parse tree produced by the {@code additiveExpressions}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDivExpression(QLParser.DivExpressionContext ctx);
+	T visitAdditiveExpressions(QLParser.AdditiveExpressionsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code parenExpression}
+	 * Visit a parse tree produced by the {@code relationalExpressions}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParenExpression(QLParser.ParenExpressionContext ctx);
+	T visitRelationalExpressions(QLParser.RelationalExpressionsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code noteqExpression}
+	 * Visit a parse tree produced by the {@code identifierExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNoteqExpression(QLParser.NoteqExpressionContext ctx);
+	T visitIdentifierExpression(QLParser.IdentifierExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code orExpression}
+	 * Visit a parse tree produced by the {@code parenthesisExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOrExpression(QLParser.OrExpressionContext ctx);
+	T visitParenthesisExpression(QLParser.ParenthesisExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code eqExpression}
+	 * Visit a parse tree produced by the {@code notExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEqExpression(QLParser.EqExpressionContext ctx);
+	T visitNotExpression(QLParser.NotExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code andExpression}
+	 * Visit a parse tree produced by the {@code literalExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAndExpression(QLParser.AndExpressionContext ctx);
+	T visitLiteralExpression(QLParser.LiteralExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code notExpr}
+	 * Visit a parse tree produced by the {@code conditionalExpressions}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNotExpr(QLParser.NotExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code addExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAddExpression(QLParser.AddExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code greatEqExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGreatEqExpression(QLParser.GreatEqExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code litExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLitExpression(QLParser.LitExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code subExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSubExpression(QLParser.SubExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code greatExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGreatExpression(QLParser.GreatExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code mulExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMulExpression(QLParser.MulExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code identifierLiteral}
-	 * labeled alternative in {@link QLParser#literal}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdentifierLiteral(QLParser.IdentifierLiteralContext ctx);
+	T visitConditionalExpressions(QLParser.ConditionalExpressionsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code integerLiteral}
 	 * labeled alternative in {@link QLParser#literal}.
@@ -171,6 +123,13 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code moneyLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.

@@ -25,7 +25,7 @@ public class IfStatement extends TreeNode implements Visitable {
 	}
 
 	@Override
-	public Object accept(Visitor visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }

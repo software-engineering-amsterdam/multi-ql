@@ -1,0 +1,8 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+public interface ListenerData {
+
+    void someDataChanged(int data);
+    
+    void someUIelementChanged();
+}

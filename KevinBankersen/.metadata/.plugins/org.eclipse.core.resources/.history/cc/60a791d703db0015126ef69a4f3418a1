@@ -1,0 +1,35 @@
+package eu.bankersen.kevin.ql.interpreter;
+
+import java.util.List;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.util.testing.DataListener;
+import eu.bankersen.kevin.ql.util.testing.ViewListener;
+
+public class Interpreter implements ViewListener {
+
+    private final Form form;
+    private SymbolTable symbolTable;
+    private List<DataListener> dataListeners;
+
+    public Interpreter(Form form, SymbolTable symbolTable) {
+	this.form = form;
+	this.symbolTable = symbolTable;
+    }
+
+    public void addDataListener(DataListener listener) {
+	dataListeners.add(listener);
+    }
+
+    private void dataUpdate() {
+	dataListeners.forEach(listener -> listener.dataUpdate(symbolTable));
+    }
+
+    @Override
+    public void viewUpdate(Object data) {
+	String[] object = (String[]) data;
+	updateSymbol(object[0], object[1]);
+	dataUpdate();
+    }
+}

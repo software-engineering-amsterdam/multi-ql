@@ -1,23 +1,19 @@
 package eu.bankersen.kevin.ql.ast.expr.math;
 
-import com.esotericsoftware.minlog.Log;
-
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.IntegerExpr;
+import eu.bankersen.kevin.ql.context.SymbolTable;
 
 public class Sub extends IntegerExpr {
 
-    public Sub(final Expr lhs, final Expr rhs, final int line) {
-	super.lhs = lhs;
-	super.rhs = rhs;
-	super.line = line;
+    public Sub(Expr lhs, Expr rhs, int line) {
+	super(lhs, rhs, line);
     }
 
     @Override
-    public final Integer eval() {
-	Log.debug(rhs.eval().toString());
-	Log.debug(lhs.eval().toString());
-	return (Integer) lhs.eval() - (Integer) rhs.eval();
+    public Integer eval(SymbolTable symbolTable) throws EvaluateExeption {
+	return (Integer) lhs().eval(symbolTable) - (Integer) rhs().eval(symbolTable);
     }
 
 }

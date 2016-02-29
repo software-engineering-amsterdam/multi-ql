@@ -18,7 +18,7 @@ import ast.typechecker.errorhandler.ErrorHandler;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		ANTLRFileStream input = new ANTLRFileStream("src/main/resources/quesionnaire2.ql");
+		ANTLRFileStream input = new ANTLRFileStream("src/main/resources/quesionnaire4.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
@@ -29,6 +29,7 @@ public class Main {
 		ErrorHandler errorHandler = new ErrorHandler();
 		TypeChecker typeChecker = new TypeChecker(errorHandler);
 		form.accept(typeChecker);
+		errorHandler.printWarnings();
 		if (errorHandler.hasError()) {
 			errorHandler.printErrors();
 		}

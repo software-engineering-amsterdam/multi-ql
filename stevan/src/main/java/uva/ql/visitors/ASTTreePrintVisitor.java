@@ -1,10 +1,6 @@
 package uva.ql.visitors;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import uva.ql.ast.AExpression;
-import uva.ql.ast.ANode;
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
@@ -13,14 +9,12 @@ import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
 import uva.ql.ast.numbers.NumDouble;
 import uva.ql.ast.numbers.NumInt;
-import uva.ql.deprecated.ASTNode;
+import uva.ql.interfaces.IExpression;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.INumber;
 
 public class ASTTreePrintVisitor implements INodeVisitor {
 
-	private final Map<String, Integer> store = new HashMap<String, Integer>(0);
-	
 	@Override
 	public void visitForm(Form form) {
 		
@@ -46,7 +40,7 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 		
 		System.out.println("If: ");
 		
-		if (ASTNode.VARIABLE == ifStmnt.getExpression().getLeftNode().getNodeType()) {
+		if (IExpression.VARIABLE == ifStmnt.getExpression().getLeftNode().getNodeType()) {
 			AVariable var = (AVariable) ifStmnt.getExpression().getLeftNode();
 			System.out.println("ifStmnt: " + var.getName() + " - " + var.toString());
 		}
@@ -68,12 +62,16 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 	}
 
 	@Override
-	public void visitExp(AExpression exp) {
+	public <T> void visitExp(T expression) {
+		
+		AExpression exp = (AExpression) expression;
 		
 		System.out.println("exp: " + exp.getExprType());
-		exp.getLeftNode().accept(this);
-		if (exp.getRightNode() != null) {
-			exp.getRightNode().accept(this);
+		if (exp.getExprType() != IExpression.NUMBER) {
+			exp.getLeftNode().accept(this);
+			if (exp.getRightNode() != null) {
+				exp.getRightNode().accept(this);
+			}
 		}
 	}
 
@@ -95,8 +93,5 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 		
 		System.out.println(var.getName());
 	}
-
-	@Override
-	public void visitNode(ANode node) {}
 	
 }

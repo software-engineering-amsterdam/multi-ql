@@ -1,16 +1,13 @@
 package nl.nicasso.ql.ast.expression.additive;
 
-import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.ast.expression.Polynomial;
-import nl.nicasso.ql.ast.type.Type;
 
-public class Addition extends Polynomial implements Traversable  {
+public class Addition extends Additive implements Traversable  {
 	
-	Expression left;
-	Expression right;
+	private final Expression left;
+	private final Expression right;
 
 	public Addition(Expression left, Expression right) {
 		this.left = left;
@@ -24,15 +21,15 @@ public class Addition extends Polynomial implements Traversable  {
 	public Expression getRight() {
 		return right;
 	}
-
+	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(Visitor<T> visitor) {
+		return visitor.visit(this);
 	}
 	
 	@Override
-	public Type accept(TypeChecker visitor) {
-		return visitor.visit(this);
+	public String toString() {
+		return left.toString() + "+" + right.toString();
 	}
 	
 }

@@ -6,17 +6,11 @@ import ast.visitor.Visitor;
 
 public class Statement extends TreeNode implements Visitable {
 	private Question question;
-	private AssignmentQuestion assignmentQuestion;
 	private IfStatement ifStatement;
 
 	public Statement(Question result) {
 		super(result.getLineNumber());
 		this.question = result;
-	}
-
-	public Statement(AssignmentQuestion result) {
-		super(result.getLineNumber());
-		this.assignmentQuestion = result;
 	}
 
 	public Statement(IfStatement result) {
@@ -28,16 +22,12 @@ public class Statement extends TreeNode implements Visitable {
 		return question;
 	}
 
-	public AssignmentQuestion getAssignmentQuestion() {
-		return assignmentQuestion;
-	}
-
 	public IfStatement getIfStatement() {
 		return ifStatement;
 	}
 
 	@Override
-	public Object accept(Visitor visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }

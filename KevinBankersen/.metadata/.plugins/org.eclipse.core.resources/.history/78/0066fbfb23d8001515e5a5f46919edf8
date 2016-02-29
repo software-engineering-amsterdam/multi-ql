@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+
+
+public class tester {
+
+    public static void main(String[] args) {
+
+	Data model = new Data();
+	Swing view = new Swing();
+	
+	model.addListener(view);
+	view.addListener(model);
+	
+    }
+
+}

@@ -1,6 +1,5 @@
 package nl.nicasso.ql.ast.literal;
 
-import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.type.IntegerType;
@@ -8,15 +7,16 @@ import nl.nicasso.ql.ast.type.Type;
 
 public class IntegerLit extends Literal implements Traversable {
 
-	Type type;
-	int lit;
+	private final Type type;
+	private final Integer lit;
 
-	public IntegerLit(int lit) {
+	public IntegerLit(Integer lit) {
 		this.lit = lit;
 		this.type = new IntegerType();
 	}
 
-	public int getValue() {
+	@Override
+	public Integer getValue() {
 		return lit;
 	}
 	
@@ -25,13 +25,7 @@ public class IntegerLit extends Literal implements Traversable {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
-	@Override
-	public Type accept(TypeChecker visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
 }

@@ -1,0 +1,13 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.context.Context2;
+
+public class tester {
+
+    public static void main(String[] args) {
+
+	
+    }
+
+}

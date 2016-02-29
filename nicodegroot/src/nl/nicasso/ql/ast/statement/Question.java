@@ -1,24 +1,23 @@
 package nl.nicasso.ql.ast.statement;
 
-import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.type.Type;
 
 public class Question extends Statement implements Traversable {
 
-	IdentifierLit id;
-	String label;
-	Type type;
+	private final Identifier id;
+	private final String label;
+	private final Type type;
 
-	public Question(IdentifierLit id, String label, Type type) {
+	public Question(Identifier id, String label, Type type) {
 		this.id = id;
 		this.label = label;
 		this.type = type;
 	}
 
-	public IdentifierLit getId() {
+	public Identifier getId() {
 		return id;
 	}
 
@@ -29,14 +28,9 @@ public class Question extends Statement implements Traversable {
 	public Type getType() {
 		return type;
 	}
-
-	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
 	
 	@Override
-	public Type accept(TypeChecker visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
 		

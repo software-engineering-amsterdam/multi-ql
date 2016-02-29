@@ -1,16 +1,13 @@
 package nl.nicasso.ql.ast.expression.equality;
 
-import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.ast.expression.Polynomial;
-import nl.nicasso.ql.ast.type.Type;
 
-public class NotEqual extends Polynomial implements Traversable  {
+public class NotEqual extends Equality implements Traversable  {
 	
-	Expression left;
-	Expression right;
+	private final Expression left;
+	private final Expression right;
 
 	public NotEqual(Expression left, Expression right) {
 		this.left = left;
@@ -26,13 +23,13 @@ public class NotEqual extends Polynomial implements Traversable  {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(Visitor<T> visitor) {
+		return visitor.visit(this);
 	}
 	
 	@Override
-	public Type accept(TypeChecker visitor) {
-		return visitor.visit(this);
+	public String toString() {
+		return left + "!=" + right;
 	}
 	
 }

@@ -1,0 +1,19 @@
+package eu.bankersen.kevin.ql.ast.expr.logic;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
+
+public class Or extends BooleanExpr {
+
+    public Or(Expr lhs, Expr rhs, int line) {
+	super(lhs, rhs, line);
+    }
+
+    @Override
+    public final Boolean eval(Context context) throws EvaluateExeption {
+	return (Boolean) lhs().eval(context) || (Boolean) rhs().eval(context);
+    }
+
+}

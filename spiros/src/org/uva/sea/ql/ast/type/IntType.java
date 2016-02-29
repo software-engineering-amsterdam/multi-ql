@@ -9,13 +9,17 @@ public class IntType extends Type {
 		super(fragment, "int");
 	}
 	
-	public boolean isIntType() {
-		return false;
+	public IntType() {
+		super(new CodeFragment(-1, -1), "int");
 	}
 	
-	@Override
-	public ASTNode accept(TypeVisitor<ASTNode> visitor) {
-		return visitor.visit(this);
-	}
+//	public boolean isIntType() {
+//		return false;
+//	}
+	
+//	@Override
+//	public ASTNode accept(TypeVisitor<ASTNode> visitor) {
+//		return visitor.visit(this);
+//	}
 	
 }

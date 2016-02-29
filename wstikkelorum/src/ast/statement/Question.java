@@ -6,8 +6,8 @@ import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
 public class Question extends TreeNode implements Visitable {
-	private Variable variable;
-	private String str;
+	private final Variable variable;
+	private final String str;
 
 	public Question(int lineNumber, Variable variable, String str) {
 		super(lineNumber);
@@ -24,7 +24,7 @@ public class Question extends TreeNode implements Visitable {
 	}
 
 	@Override
-	public Object accept(Visitor visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }

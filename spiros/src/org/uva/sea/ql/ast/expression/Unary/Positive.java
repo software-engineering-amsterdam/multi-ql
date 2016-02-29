@@ -2,17 +2,26 @@ package org.uva.sea.ql.ast.expression.Unary;
 
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
-import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
+
 
 public class Positive extends Unary {
 
 	public Positive(CodeFragment fragment, Expression expression) {
 		super(fragment, expression);
 	}
-	
+
+
+//	@Override
+//	public Type getTypeOfExpression() {
+//		// TODO Auto-generated method stub
+//		return new IntType();
+//	}
+
+
 	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 

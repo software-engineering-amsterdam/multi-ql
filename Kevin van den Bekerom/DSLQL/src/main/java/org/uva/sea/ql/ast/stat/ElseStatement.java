@@ -1,8 +1,8 @@
 package org.uva.sea.ql.ast.stat;
 
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.Visitable;
-import org.uva.sea.ql.ast.Visitor;
+import org.uva.sea.ql.ast.visit.Visitable;
+import org.uva.sea.ql.ast.visit.Visitor;
 
 public class ElseStatement extends ASTNode implements Visitable {
 	private Block block;
@@ -11,8 +11,8 @@ public class ElseStatement extends ASTNode implements Visitable {
 		this.block = block;
 	}
 	
-	public void accept(Visitor visitor) {
-		visitor.visit(this, null);
+	public void accept(Visitor visitor, Object context) {
+		visitor.visit(this, context);
 	}
 
 	public Block getBlock() {

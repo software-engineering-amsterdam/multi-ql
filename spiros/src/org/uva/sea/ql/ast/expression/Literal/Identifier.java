@@ -1,8 +1,17 @@
 package org.uva.sea.ql.ast.expression.Literal;
 
+import java.util.List;
+
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
-import org.uva.sea.ql.ast.node.ASTNode;
+import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.node.CodeFragment;
+import org.uva.sea.ql.ast.statement.ComputedQuestion;
+import org.uva.sea.ql.ast.statement.ComputedQuestionsVisitor;
+import org.uva.sea.ql.ast.statement.Question;
+import org.uva.sea.ql.ast.statement.QuestionsVisitor;
+import org.uva.sea.ql.ast.type.BoolType;
+import org.uva.sea.ql.ast.type.Type;
+import org.uva.sea.ql.ast.type.UndefinedType;
 
 public class Identifier extends Literal {
 	
@@ -18,7 +27,8 @@ public class Identifier extends Literal {
 	}
 	
 	@Override
-	public ASTNode accept(ExpressionVisitor<ASTNode> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 

@@ -1,10 +1,8 @@
 package nl.nicasso.ql.ast.type;
 
-import nl.nicasso.ql.TypeChecker;
-
 public class IntegerType extends NumericType {
 
-	String type;
+	private final String type;
 
 	public IntegerType() {
 		super();
@@ -15,8 +13,18 @@ public class IntegerType extends NumericType {
 		return type;
 	}
 	
-	@Override
-	public Type accept(TypeChecker visitor) {
-		return visitor.visit(this);
+	public boolean compatibleWith(Type type) {
+		switch(type.getType()) {
+			case "Boolean":
+				return false;
+			case "Integer":
+				return true;
+			case "Money":
+				return true;
+			case "String":
+				return false;
+			default:
+				return false;
+		}
 	}
 }

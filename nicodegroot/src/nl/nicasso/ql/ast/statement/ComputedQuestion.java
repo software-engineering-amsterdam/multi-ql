@@ -1,16 +1,15 @@
 package nl.nicasso.ql.ast.statement;
 
-import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.type.Type;
 
 public class ComputedQuestion extends Question {
 
-	Expression expr;
+	private final Expression expr;
 	
-	public ComputedQuestion(IdentifierLit id, String label, Type type, Expression expr) {
+	public ComputedQuestion(Identifier id, String label, Type type, Expression expr) {
 		super(id, label, type);
 		this.expr = expr;
 	}
@@ -20,13 +19,7 @@ public class ComputedQuestion extends Question {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
-	@Override
-	public Type accept(TypeChecker visitor) {
+	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
 }

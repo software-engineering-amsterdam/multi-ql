@@ -7,64 +7,64 @@ var QLVisitor = require('./QLVisitor').QLVisitor;
 var grammarFileName = "QL.g4";
 
 var serializedATN = ["\u0003\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd",
-    "\u0003%c\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t\u0004",
+    "\u0003%b\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t\u0004",
     "\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007\u0004\b",
-    "\t\b\u0004\t\t\t\u0004\n\t\n\u0003\u0002\u0003\u0002\u0003\u0002\u0003",
-    "\u0002\u0003\u0003\u0003\u0003\u0007\u0003\u001b\n\u0003\f\u0003\u000e",
-    "\u0003\u001e\u000b\u0003\u0003\u0003\u0003\u0003\u0003\u0004\u0003\u0004",
-    "\u0003\u0004\u0003\u0004\u0005\u0004&\n\u0004\u0003\u0005\u0003\u0005",
-    "\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0005\u0005",
-    "/\n\u0005\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006",
-    "\u0003\u0006\u0005\u00067\n\u0006\u0003\u0007\u0003\u0007\u0003\u0007",
+    "\t\b\u0004\t\t\t\u0003\u0002\u0003\u0002\u0003\u0002\u0003\u0002\u0003",
+    "\u0003\u0003\u0003\u0007\u0003\u0019\n\u0003\f\u0003\u000e\u0003\u001c",
+    "\u000b\u0003\u0003\u0003\u0003\u0003\u0003\u0004\u0003\u0004\u0003\u0004",
+    "\u0003\u0004\u0005\u0004$\n\u0004\u0003\u0005\u0003\u0005\u0003\u0005",
+    "\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0005\u0005-\n\u0005",
+    "\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006",
+    "\u0003\u0006\u0003\u0006\u0003\u0006\u0005\u00068\n\u0006\u0003\u0007",
     "\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007",
-    "\u0005\u0007B\n\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007",
+    "\u0003\u0007\u0003\u0007\u0005\u0007C\n\u0007\u0003\u0007\u0003\u0007",
     "\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007",
-    "\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0007\u0007",
-    "S\n\u0007\f\u0007\u000e\u0007V\u000b\u0007\u0003\b\u0003\b\u0003\b\u0003",
-    "\b\u0003\b\u0005\b]\n\b\u0003\t\u0003\t\u0003\n\u0003\n\u0003\n\u0002",
-    "\u0003\f\u000b\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0002\b\u0004",
-    "\u0002\u0017\u0017\u001e\u001e\u0003\u0002\u0018\u0019\u0003\u0002\u0016",
-    "\u0017\u0003\u0002\u0010\u0015\u0003\u0002\u001a\u001b\u0003\u0002\u0006",
-    "\ni\u0002\u0014\u0003\u0002\u0002\u0002\u0004\u0018\u0003\u0002\u0002",
-    "\u0002\u0006%\u0003\u0002\u0002\u0002\b\'\u0003\u0002\u0002\u0002\n",
-    "6\u0003\u0002\u0002\u0002\fA\u0003\u0002\u0002\u0002\u000e\\\u0003\u0002",
-    "\u0002\u0002\u0010^\u0003\u0002\u0002\u0002\u0012`\u0003\u0002\u0002",
-    "\u0002\u0014\u0015\u0007\u0003\u0002\u0002\u0015\u0016\u0007\u001f\u0002",
-    "\u0002\u0016\u0017\u0005\u0004\u0003\u0002\u0017\u0003\u0003\u0002\u0002",
-    "\u0002\u0018\u001c\u0007\u000b\u0002\u0002\u0019\u001b\u0005\u0006\u0004",
-    "\u0002\u001a\u0019\u0003\u0002\u0002\u0002\u001b\u001e\u0003\u0002\u0002",
-    "\u0002\u001c\u001a\u0003\u0002\u0002\u0002\u001c\u001d\u0003\u0002\u0002",
-    "\u0002\u001d\u001f\u0003\u0002\u0002\u0002\u001e\u001c\u0003\u0002\u0002",
-    "\u0002\u001f \u0007\f\u0002\u0002 \u0005\u0003\u0002\u0002\u0002!&\u0005",
-    "\b\u0005\u0002\"#\u0005\n\u0006\u0002#$\u0007\u000f\u0002\u0002$&\u0003",
-    "\u0002\u0002\u0002%!\u0003\u0002\u0002\u0002%\"\u0003\u0002\u0002\u0002",
-    "&\u0007\u0003\u0002\u0002\u0002\'(\u0007\u0004\u0002\u0002()\u0007\r",
-    "\u0002\u0002)*\u0005\f\u0007\u0002*+\u0007\u000e\u0002\u0002+.\u0005",
-    "\u0004\u0003\u0002,-\u0007\u0005\u0002\u0002-/\u0005\u0004\u0003\u0002",
-    ".,\u0003\u0002\u0002\u0002./\u0003\u0002\u0002\u0002/\t\u0003\u0002",
-    "\u0002\u000201\u0007\u001f\u0002\u000212\u0007$\u0002\u000227\u0005",
-    "\u0012\n\u000234\u0007\u001f\u0002\u000245\u0007$\u0002\u000257\u0005",
-    "\f\u0007\u000260\u0003\u0002\u0002\u000263\u0003\u0002\u0002\u00027",
-    "\u000b\u0003\u0002\u0002\u000289\b\u0007\u0001\u00029:\t\u0002\u0002",
-    "\u0002:B\u0005\f\u0007\b;<\u0007\r\u0002\u0002<=\u0005\f\u0007\u0002",
-    "=>\u0007\u000e\u0002\u0002>B\u0003\u0002\u0002\u0002?B\u0005\u000e\b",
-    "\u0002@B\u0007$\u0002\u0002A8\u0003\u0002\u0002\u0002A;\u0003\u0002",
-    "\u0002\u0002A?\u0003\u0002\u0002\u0002A@\u0003\u0002\u0002\u0002BT\u0003",
-    "\u0002\u0002\u0002CD\f\u0007\u0002\u0002DE\t\u0003\u0002\u0002ES\u0005",
-    "\f\u0007\bFG\f\u0006\u0002\u0002GH\t\u0004\u0002\u0002HS\u0005\f\u0007",
-    "\u0007IJ\f\u0005\u0002\u0002JK\t\u0005\u0002\u0002KS\u0005\f\u0007\u0006",
-    "LM\f\u0004\u0002\u0002MN\u0007\u001c\u0002\u0002NS\u0005\f\u0007\u0005",
-    "OP\f\u0003\u0002\u0002PQ\u0007\u001d\u0002\u0002QS\u0005\f\u0007\u0004",
-    "RC\u0003\u0002\u0002\u0002RF\u0003\u0002\u0002\u0002RI\u0003\u0002\u0002",
-    "\u0002RL\u0003\u0002\u0002\u0002RO\u0003\u0002\u0002\u0002SV\u0003\u0002",
-    "\u0002\u0002TR\u0003\u0002\u0002\u0002TU\u0003\u0002\u0002\u0002U\r",
-    "\u0003\u0002\u0002\u0002VT\u0003\u0002\u0002\u0002W]\u0005\u0010\t\u0002",
-    "X]\u0007\u001f\u0002\u0002Y]\u0007 \u0002\u0002Z]\u0007!\u0002\u0002",
-    "[]\u0007\"\u0002\u0002\\W\u0003\u0002\u0002\u0002\\X\u0003\u0002\u0002",
-    "\u0002\\Y\u0003\u0002\u0002\u0002\\Z\u0003\u0002\u0002\u0002\\[\u0003",
-    "\u0002\u0002\u0002]\u000f\u0003\u0002\u0002\u0002^_\t\u0006\u0002\u0002",
-    "_\u0011\u0003\u0002\u0002\u0002`a\t\u0007\u0002\u0002a\u0013\u0003\u0002",
-    "\u0002\u0002\n\u001c%.6ART\\"].join("");
+    "\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007",
+    "\u0003\u0007\u0007\u0007T\n\u0007\f\u0007\u000e\u0007W\u000b\u0007\u0003",
+    "\b\u0003\b\u0003\b\u0003\b\u0003\b\u0005\b^\n\b\u0003\t\u0003\t\u0003",
+    "\t\u0002\u0003\f\n\u0002\u0004\u0006\b\n\f\u000e\u0010\u0002\u0007\u0004",
+    "\u0002\u0017\u0017\u001d\u001d\u0003\u0002\u0018\u0019\u0003\u0002\u0016",
+    "\u0017\u0003\u0002\u0010\u0015\u0003\u0002\u0006\ni\u0002\u0012\u0003",
+    "\u0002\u0002\u0002\u0004\u0016\u0003\u0002\u0002\u0002\u0006#\u0003",
+    "\u0002\u0002\u0002\b%\u0003\u0002\u0002\u0002\n7\u0003\u0002\u0002\u0002",
+    "\fB\u0003\u0002\u0002\u0002\u000e]\u0003\u0002\u0002\u0002\u0010_\u0003",
+    "\u0002\u0002\u0002\u0012\u0013\u0007\u0003\u0002\u0002\u0013\u0014\u0007",
+    "\u001e\u0002\u0002\u0014\u0015\u0005\u0004\u0003\u0002\u0015\u0003\u0003",
+    "\u0002\u0002\u0002\u0016\u001a\u0007\u000b\u0002\u0002\u0017\u0019\u0005",
+    "\u0006\u0004\u0002\u0018\u0017\u0003\u0002\u0002\u0002\u0019\u001c\u0003",
+    "\u0002\u0002\u0002\u001a\u0018\u0003\u0002\u0002\u0002\u001a\u001b\u0003",
+    "\u0002\u0002\u0002\u001b\u001d\u0003\u0002\u0002\u0002\u001c\u001a\u0003",
+    "\u0002\u0002\u0002\u001d\u001e\u0007\f\u0002\u0002\u001e\u0005\u0003",
+    "\u0002\u0002\u0002\u001f$\u0005\b\u0005\u0002 !\u0005\n\u0006\u0002",
+    "!\"\u0007\u000f\u0002\u0002\"$\u0003\u0002\u0002\u0002#\u001f\u0003",
+    "\u0002\u0002\u0002# \u0003\u0002\u0002\u0002$\u0007\u0003\u0002\u0002",
+    "\u0002%&\u0007\u0004\u0002\u0002&\'\u0007\r\u0002\u0002\'(\u0005\f\u0007",
+    "\u0002()\u0007\u000e\u0002\u0002),\u0005\u0004\u0003\u0002*+\u0007\u0005",
+    "\u0002\u0002+-\u0005\u0004\u0003\u0002,*\u0003\u0002\u0002\u0002,-\u0003",
+    "\u0002\u0002\u0002-\t\u0003\u0002\u0002\u0002./\u0007\u001e\u0002\u0002",
+    "/0\u0007$\u0002\u000208\u0005\u0010\t\u000212\u0007\u001e\u0002\u0002",
+    "23\u0007$\u0002\u000234\u0005\u0010\t\u000245\u0007\u001a\u0002\u0002",
+    "56\u0005\f\u0007\u000268\u0003\u0002\u0002\u00027.\u0003\u0002\u0002",
+    "\u000271\u0003\u0002\u0002\u00028\u000b\u0003\u0002\u0002\u00029:\b",
+    "\u0007\u0001\u0002:;\t\u0002\u0002\u0002;C\u0005\f\u0007\b<=\u0007\r",
+    "\u0002\u0002=>\u0005\f\u0007\u0002>?\u0007\u000e\u0002\u0002?C\u0003",
+    "\u0002\u0002\u0002@C\u0005\u000e\b\u0002AC\u0007$\u0002\u0002B9\u0003",
+    "\u0002\u0002\u0002B<\u0003\u0002\u0002\u0002B@\u0003\u0002\u0002\u0002",
+    "BA\u0003\u0002\u0002\u0002CU\u0003\u0002\u0002\u0002DE\f\u0007\u0002",
+    "\u0002EF\t\u0003\u0002\u0002FT\u0005\f\u0007\bGH\f\u0006\u0002\u0002",
+    "HI\t\u0004\u0002\u0002IT\u0005\f\u0007\u0007JK\f\u0005\u0002\u0002K",
+    "L\t\u0005\u0002\u0002LT\u0005\f\u0007\u0006MN\f\u0004\u0002\u0002NO",
+    "\u0007\u001b\u0002\u0002OT\u0005\f\u0007\u0005PQ\f\u0003\u0002\u0002",
+    "QR\u0007\u001c\u0002\u0002RT\u0005\f\u0007\u0004SD\u0003\u0002\u0002",
+    "\u0002SG\u0003\u0002\u0002\u0002SJ\u0003\u0002\u0002\u0002SM\u0003\u0002",
+    "\u0002\u0002SP\u0003\u0002\u0002\u0002TW\u0003\u0002\u0002\u0002US\u0003",
+    "\u0002\u0002\u0002UV\u0003\u0002\u0002\u0002V\r\u0003\u0002\u0002\u0002",
+    "WU\u0003\u0002\u0002\u0002X^\u0007#\u0002\u0002Y^\u0007\u001e\u0002",
+    "\u0002Z^\u0007\u001f\u0002\u0002[^\u0007 \u0002\u0002\\^\u0007!\u0002",
+    "\u0002]X\u0003\u0002\u0002\u0002]Y\u0003\u0002\u0002\u0002]Z\u0003\u0002",
+    "\u0002\u0002][\u0003\u0002\u0002\u0002]\\\u0003\u0002\u0002\u0002^\u000f",
+    "\u0003\u0002\u0002\u0002_`\t\u0006\u0002\u0002`\u0011\u0003\u0002\u0002",
+    "\u0002\n\u001a#,7BSU]"].join("");
 
 
 var atn = new antlr4.atn.ATNDeserializer().deserialize(serializedATN);
@@ -76,20 +76,20 @@ var sharedContextCache = new antlr4.PredictionContextCache();
 var literalNames = [ 'null', "'Form'", "'if'", "'else'", "'boolean'", "'string'", 
                      "'integer'", "'float'", "'money'", "'{'", "'}'", "'('", 
                      "')'", "';'", "'=='", "'!='", "'>'", "'>='", "'<'", 
-                     "'<='", "'+'", "'-'", "'*'", "'/'", "'true'", "'false'", 
-                     "'&&'", "'||'", "'!'" ];
+                     "'<='", "'+'", "'-'", "'*'", "'/'", "'='", "'&&'", 
+                     "'||'", "'!'" ];
 
 var symbolicNames = [ 'null', "FORM", "IF", "ELSE", "TYPE_BOOLEAN", "TYPE_STRING", 
                       "TYPE_INTEGER", "TYPE_FLOAT", "TYPE_MONEY", "LEFT_BRACE", 
                       "RIGHT_BRACE", "LEFT_PAREN", "RIGHT_PAREN", "SEMICOL", 
                       "EQ", "NOT_EQ", "GT", "GT_EQ", "LT", "LT_EQ", "PLUS", 
-                      "MINUS", "MUL", "DIV", "BOOLEAN_TRUE", "BOOLEAN_FALSE", 
-                      "AND", "OR", "NOT", "STRING_LITERAL", "INTEGER_LITERAL", 
-                      "FLOAT_LITERAL", "MONEY_LITERAL", "MONEY_LITERAL_CENTS", 
+                      "MINUS", "MUL", "DIV", "ASSIGN", "AND", "OR", "NOT", 
+                      "STRING_LITERAL", "INTEGER_LITERAL", "FLOAT_LITERAL", 
+                      "MONEY_LITERAL", "MONEY_LITERAL_CENTS", "BOOLEAN_LITERAL", 
                       "IDENTIFIER", "WHITESPACE" ];
 
 var ruleNames =  [ "form", "block", "statement", "if_", "question", "expr", 
-                   "literal", "booleanLiteral", "type" ];
+                   "literal", "type" ];
 
 function QLParser (input) {
 	antlr4.Parser.call(this, input);
@@ -133,16 +133,16 @@ QLParser.PLUS = 20;
 QLParser.MINUS = 21;
 QLParser.MUL = 22;
 QLParser.DIV = 23;
-QLParser.BOOLEAN_TRUE = 24;
-QLParser.BOOLEAN_FALSE = 25;
-QLParser.AND = 26;
-QLParser.OR = 27;
-QLParser.NOT = 28;
-QLParser.STRING_LITERAL = 29;
-QLParser.INTEGER_LITERAL = 30;
-QLParser.FLOAT_LITERAL = 31;
-QLParser.MONEY_LITERAL = 32;
-QLParser.MONEY_LITERAL_CENTS = 33;
+QLParser.ASSIGN = 24;
+QLParser.AND = 25;
+QLParser.OR = 26;
+QLParser.NOT = 27;
+QLParser.STRING_LITERAL = 28;
+QLParser.INTEGER_LITERAL = 29;
+QLParser.FLOAT_LITERAL = 30;
+QLParser.MONEY_LITERAL = 31;
+QLParser.MONEY_LITERAL_CENTS = 32;
+QLParser.BOOLEAN_LITERAL = 33;
 QLParser.IDENTIFIER = 34;
 QLParser.WHITESPACE = 35;
 
@@ -153,8 +153,7 @@ QLParser.RULE_if_ = 3;
 QLParser.RULE_question = 4;
 QLParser.RULE_expr = 5;
 QLParser.RULE_literal = 6;
-QLParser.RULE_booleanLiteral = 7;
-QLParser.RULE_type = 8;
+QLParser.RULE_type = 7;
 
 function FormContext(parser, parent, invokingState) {
 	if(parent===undefined) {
@@ -215,11 +214,11 @@ QLParser.prototype.form = function() {
     this.enterRule(localctx, 0, QLParser.RULE_form);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 18;
+        this.state = 16;
         this.match(QLParser.FORM);
-        this.state = 19;
+        this.state = 17;
         this.match(QLParser.STRING_LITERAL);
-        this.state = 20;
+        this.state = 18;
         this.block();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -302,19 +301,19 @@ QLParser.prototype.block = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 22;
+        this.state = 20;
         this.match(QLParser.LEFT_BRACE);
-        this.state = 26;
+        this.state = 24;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===QLParser.IF || _la===QLParser.STRING_LITERAL) {
-            this.state = 23;
+            this.state = 21;
             this.statement();
-            this.state = 28;
+            this.state = 26;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
-        this.state = 29;
+        this.state = 27;
         this.match(QLParser.RIGHT_BRACE);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -435,20 +434,20 @@ QLParser.prototype.statement = function() {
     var localctx = new StatementContext(this, this._ctx, this.state);
     this.enterRule(localctx, 4, QLParser.RULE_statement);
     try {
-        this.state = 35;
+        this.state = 33;
         switch(this._input.LA(1)) {
         case QLParser.IF:
             localctx = new IfStatementCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 1);
-            this.state = 31;
+            this.state = 29;
             this.if_();
             break;
         case QLParser.STRING_LITERAL:
             localctx = new QuestionStatementCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
-            this.state = 32;
+            this.state = 30;
             this.question();
-            this.state = 33;
+            this.state = 31;
             this.match(QLParser.SEMICOL);
             break;
         default:
@@ -547,22 +546,22 @@ QLParser.prototype.if_ = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 37;
+        this.state = 35;
         this.match(QLParser.IF);
-        this.state = 38;
+        this.state = 36;
         this.match(QLParser.LEFT_PAREN);
-        this.state = 39;
+        this.state = 37;
         this.expr(0);
-        this.state = 40;
+        this.state = 38;
         this.match(QLParser.RIGHT_PAREN);
-        this.state = 41;
+        this.state = 39;
         this.block();
-        this.state = 44;
+        this.state = 42;
         _la = this._input.LA(1);
         if(_la===QLParser.ELSE) {
-            this.state = 42;
+            this.state = 40;
             this.match(QLParser.ELSE);
-            this.state = 43;
+            this.state = 41;
             this.block();
         }
 
@@ -603,6 +602,49 @@ QuestionContext.prototype.copyFrom = function(ctx) {
 };
 
 
+function QuestionCaseContext(parser, ctx) {
+	QuestionContext.call(this, parser);
+    QuestionContext.prototype.copyFrom.call(this, ctx);
+    return this;
+}
+
+QuestionCaseContext.prototype = Object.create(QuestionContext.prototype);
+QuestionCaseContext.prototype.constructor = QuestionCaseContext;
+
+QLParser.QuestionCaseContext = QuestionCaseContext;
+
+QuestionCaseContext.prototype.STRING_LITERAL = function() {
+    return this.getToken(QLParser.STRING_LITERAL, 0);
+};
+
+QuestionCaseContext.prototype.IDENTIFIER = function() {
+    return this.getToken(QLParser.IDENTIFIER, 0);
+};
+
+QuestionCaseContext.prototype.type = function() {
+    return this.getTypedRuleContext(TypeContext,0);
+};
+QuestionCaseContext.prototype.enterRule = function(listener) {
+    if(listener instanceof QLListener ) {
+        listener.enterQuestionCase(this);
+	}
+};
+
+QuestionCaseContext.prototype.exitRule = function(listener) {
+    if(listener instanceof QLListener ) {
+        listener.exitQuestionCase(this);
+	}
+};
+
+QuestionCaseContext.prototype.accept = function(visitor) {
+    if ( visitor instanceof QLVisitor ) {
+        return visitor.visitQuestionCase(this);
+    } else {
+        return visitor.visitChildren(this);
+    }
+};
+
+
 function ExprQuestionCaseContext(parser, ctx) {
 	QuestionContext.call(this, parser);
     QuestionContext.prototype.copyFrom.call(this, ctx);
@@ -620,6 +662,14 @@ ExprQuestionCaseContext.prototype.STRING_LITERAL = function() {
 
 ExprQuestionCaseContext.prototype.IDENTIFIER = function() {
     return this.getToken(QLParser.IDENTIFIER, 0);
+};
+
+ExprQuestionCaseContext.prototype.type = function() {
+    return this.getTypedRuleContext(TypeContext,0);
+};
+
+ExprQuestionCaseContext.prototype.ASSIGN = function() {
+    return this.getToken(QLParser.ASSIGN, 0);
 };
 
 ExprQuestionCaseContext.prototype.expr = function() {
@@ -646,49 +696,6 @@ ExprQuestionCaseContext.prototype.accept = function(visitor) {
 };
 
 
-function InputQuestionCaseContext(parser, ctx) {
-	QuestionContext.call(this, parser);
-    QuestionContext.prototype.copyFrom.call(this, ctx);
-    return this;
-}
-
-InputQuestionCaseContext.prototype = Object.create(QuestionContext.prototype);
-InputQuestionCaseContext.prototype.constructor = InputQuestionCaseContext;
-
-QLParser.InputQuestionCaseContext = InputQuestionCaseContext;
-
-InputQuestionCaseContext.prototype.STRING_LITERAL = function() {
-    return this.getToken(QLParser.STRING_LITERAL, 0);
-};
-
-InputQuestionCaseContext.prototype.IDENTIFIER = function() {
-    return this.getToken(QLParser.IDENTIFIER, 0);
-};
-
-InputQuestionCaseContext.prototype.type = function() {
-    return this.getTypedRuleContext(TypeContext,0);
-};
-InputQuestionCaseContext.prototype.enterRule = function(listener) {
-    if(listener instanceof QLListener ) {
-        listener.enterInputQuestionCase(this);
-	}
-};
-
-InputQuestionCaseContext.prototype.exitRule = function(listener) {
-    if(listener instanceof QLListener ) {
-        listener.exitInputQuestionCase(this);
-	}
-};
-
-InputQuestionCaseContext.prototype.accept = function(visitor) {
-    if ( visitor instanceof QLVisitor ) {
-        return visitor.visitInputQuestionCase(this);
-    } else {
-        return visitor.visitChildren(this);
-    }
-};
-
-
 
 QLParser.QuestionContext = QuestionContext;
 
@@ -697,27 +704,31 @@ QLParser.prototype.question = function() {
     var localctx = new QuestionContext(this, this._ctx, this.state);
     this.enterRule(localctx, 8, QLParser.RULE_question);
     try {
-        this.state = 52;
+        this.state = 53;
         var la_ = this._interp.adaptivePredict(this._input,3,this._ctx);
         switch(la_) {
         case 1:
-            localctx = new InputQuestionCaseContext(this, localctx);
+            localctx = new QuestionCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 1);
-            this.state = 46;
+            this.state = 44;
             this.match(QLParser.STRING_LITERAL);
-            this.state = 47;
+            this.state = 45;
             this.match(QLParser.IDENTIFIER);
-            this.state = 48;
+            this.state = 46;
             this.type();
             break;
 
         case 2:
             localctx = new ExprQuestionCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
-            this.state = 49;
+            this.state = 47;
             this.match(QLParser.STRING_LITERAL);
-            this.state = 50;
+            this.state = 48;
             this.match(QLParser.IDENTIFIER);
+            this.state = 49;
+            this.type();
+            this.state = 50;
+            this.match(QLParser.ASSIGN);
             this.state = 51;
             this.expr(0);
             break;
@@ -1019,7 +1030,7 @@ QLParser.prototype.expr = function(_p) {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 63;
+        this.state = 64;
         switch(this._input.LA(1)) {
         case QLParser.MINUS:
         case QLParser.NOT:
@@ -1027,7 +1038,7 @@ QLParser.prototype.expr = function(_p) {
             this._ctx = localctx;
             _prevctx = localctx;
 
-            this.state = 55;
+            this.state = 56;
             _la = this._input.LA(1);
             if(!(_la===QLParser.MINUS || _la===QLParser.NOT)) {
             this._errHandler.recoverInline(this);
@@ -1035,44 +1046,43 @@ QLParser.prototype.expr = function(_p) {
             else {
                 this.consume();
             }
-            this.state = 56;
+            this.state = 57;
             this.expr(6);
             break;
         case QLParser.LEFT_PAREN:
             localctx = new ParenExprCaseContext(this, localctx);
             this._ctx = localctx;
             _prevctx = localctx;
-            this.state = 57;
-            this.match(QLParser.LEFT_PAREN);
             this.state = 58;
-            this.expr(0);
+            this.match(QLParser.LEFT_PAREN);
             this.state = 59;
+            this.expr(0);
+            this.state = 60;
             this.match(QLParser.RIGHT_PAREN);
             break;
-        case QLParser.BOOLEAN_TRUE:
-        case QLParser.BOOLEAN_FALSE:
         case QLParser.STRING_LITERAL:
         case QLParser.INTEGER_LITERAL:
         case QLParser.FLOAT_LITERAL:
         case QLParser.MONEY_LITERAL:
+        case QLParser.BOOLEAN_LITERAL:
             localctx = new LiteralExprCaseContext(this, localctx);
             this._ctx = localctx;
             _prevctx = localctx;
-            this.state = 61;
+            this.state = 62;
             this.literal();
             break;
         case QLParser.IDENTIFIER:
             localctx = new IdentifierExprCaseContext(this, localctx);
             this._ctx = localctx;
             _prevctx = localctx;
-            this.state = 62;
+            this.state = 63;
             this.match(QLParser.IDENTIFIER);
             break;
         default:
             throw new antlr4.error.NoViableAltException(this);
         }
         this._ctx.stop = this._input.LT(-1);
-        this.state = 82;
+        this.state = 83;
         this._errHandler.sync(this);
         var _alt = this._interp.adaptivePredict(this._input,6,this._ctx)
         while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
@@ -1081,17 +1091,17 @@ QLParser.prototype.expr = function(_p) {
                     this.triggerExitRuleEvent();
                 }
                 _prevctx = localctx;
-                this.state = 80;
+                this.state = 81;
                 var la_ = this._interp.adaptivePredict(this._input,5,this._ctx);
                 switch(la_) {
                 case 1:
                     localctx = new InfixExprCaseContext(this, new ExprContext(this, _parentctx, _parentState));
                     this.pushNewRecursionContext(localctx, _startState, QLParser.RULE_expr);
-                    this.state = 65;
+                    this.state = 66;
                     if (!( this.precpred(this._ctx, 5))) {
                         throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 5)");
                     }
-                    this.state = 66;
+                    this.state = 67;
                     _la = this._input.LA(1);
                     if(!(_la===QLParser.MUL || _la===QLParser.DIV)) {
                     this._errHandler.recoverInline(this);
@@ -1099,18 +1109,18 @@ QLParser.prototype.expr = function(_p) {
                     else {
                         this.consume();
                     }
-                    this.state = 67;
+                    this.state = 68;
                     this.expr(6);
                     break;
 
                 case 2:
                     localctx = new InfixExprCaseContext(this, new ExprContext(this, _parentctx, _parentState));
                     this.pushNewRecursionContext(localctx, _startState, QLParser.RULE_expr);
-                    this.state = 68;
+                    this.state = 69;
                     if (!( this.precpred(this._ctx, 4))) {
                         throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 4)");
                     }
-                    this.state = 69;
+                    this.state = 70;
                     _la = this._input.LA(1);
                     if(!(_la===QLParser.PLUS || _la===QLParser.MINUS)) {
                     this._errHandler.recoverInline(this);
@@ -1118,18 +1128,18 @@ QLParser.prototype.expr = function(_p) {
                     else {
                         this.consume();
                     }
-                    this.state = 70;
+                    this.state = 71;
                     this.expr(5);
                     break;
 
                 case 3:
                     localctx = new InfixExprCaseContext(this, new ExprContext(this, _parentctx, _parentState));
                     this.pushNewRecursionContext(localctx, _startState, QLParser.RULE_expr);
-                    this.state = 71;
+                    this.state = 72;
                     if (!( this.precpred(this._ctx, 3))) {
                         throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 3)");
                     }
-                    this.state = 72;
+                    this.state = 73;
                     _la = this._input.LA(1);
                     if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << QLParser.EQ) | (1 << QLParser.NOT_EQ) | (1 << QLParser.GT) | (1 << QLParser.GT_EQ) | (1 << QLParser.LT) | (1 << QLParser.LT_EQ))) !== 0))) {
                     this._errHandler.recoverInline(this);
@@ -1137,39 +1147,39 @@ QLParser.prototype.expr = function(_p) {
                     else {
                         this.consume();
                     }
-                    this.state = 73;
+                    this.state = 74;
                     this.expr(4);
                     break;
 
                 case 4:
                     localctx = new InfixExprCaseContext(this, new ExprContext(this, _parentctx, _parentState));
                     this.pushNewRecursionContext(localctx, _startState, QLParser.RULE_expr);
-                    this.state = 74;
+                    this.state = 75;
                     if (!( this.precpred(this._ctx, 2))) {
                         throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 2)");
                     }
-                    this.state = 75;
-                    this.match(QLParser.AND);
                     this.state = 76;
+                    this.match(QLParser.AND);
+                    this.state = 77;
                     this.expr(3);
                     break;
 
                 case 5:
                     localctx = new InfixExprCaseContext(this, new ExprContext(this, _parentctx, _parentState));
                     this.pushNewRecursionContext(localctx, _startState, QLParser.RULE_expr);
-                    this.state = 77;
+                    this.state = 78;
                     if (!( this.precpred(this._ctx, 1))) {
                         throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 1)");
                     }
-                    this.state = 78;
-                    this.match(QLParser.OR);
                     this.state = 79;
+                    this.match(QLParser.OR);
+                    this.state = 80;
                     this.expr(2);
                     break;
 
                 } 
             }
-            this.state = 84;
+            this.state = 85;
             this._errHandler.sync(this);
             _alt = this._interp.adaptivePredict(this._input,6,this._ctx);
         }
@@ -1292,8 +1302,8 @@ BooleanLiteralCaseContext.prototype.constructor = BooleanLiteralCaseContext;
 
 QLParser.BooleanLiteralCaseContext = BooleanLiteralCaseContext;
 
-BooleanLiteralCaseContext.prototype.booleanLiteral = function() {
-    return this.getTypedRuleContext(BooleanLiteralContext,0);
+BooleanLiteralCaseContext.prototype.BOOLEAN_LITERAL = function() {
+    return this.getToken(QLParser.BOOLEAN_LITERAL, 0);
 };
 BooleanLiteralCaseContext.prototype.enterRule = function(listener) {
     if(listener instanceof QLListener ) {
@@ -1394,119 +1404,40 @@ QLParser.prototype.literal = function() {
     var localctx = new LiteralContext(this, this._ctx, this.state);
     this.enterRule(localctx, 12, QLParser.RULE_literal);
     try {
-        this.state = 90;
+        this.state = 91;
         switch(this._input.LA(1)) {
-        case QLParser.BOOLEAN_TRUE:
-        case QLParser.BOOLEAN_FALSE:
+        case QLParser.BOOLEAN_LITERAL:
             localctx = new BooleanLiteralCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 1);
-            this.state = 85;
-            this.booleanLiteral();
+            this.state = 86;
+            this.match(QLParser.BOOLEAN_LITERAL);
             break;
         case QLParser.STRING_LITERAL:
             localctx = new StringLiteralCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
-            this.state = 86;
+            this.state = 87;
             this.match(QLParser.STRING_LITERAL);
             break;
         case QLParser.INTEGER_LITERAL:
             localctx = new IntegerLiteralCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 3);
-            this.state = 87;
+            this.state = 88;
             this.match(QLParser.INTEGER_LITERAL);
             break;
         case QLParser.FLOAT_LITERAL:
             localctx = new FloatLiteralCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 4);
-            this.state = 88;
+            this.state = 89;
             this.match(QLParser.FLOAT_LITERAL);
             break;
         case QLParser.MONEY_LITERAL:
             localctx = new MoneyLiteralCaseContext(this, localctx);
             this.enterOuterAlt(localctx, 5);
-            this.state = 89;
+            this.state = 90;
             this.match(QLParser.MONEY_LITERAL);
             break;
         default:
             throw new antlr4.error.NoViableAltException(this);
-        }
-    } catch (re) {
-    	if(re instanceof antlr4.error.RecognitionException) {
-	        localctx.exception = re;
-	        this._errHandler.reportError(this, re);
-	        this._errHandler.recover(this, re);
-	    } else {
-	    	throw re;
-	    }
-    } finally {
-        this.exitRule();
-    }
-    return localctx;
-};
-
-function BooleanLiteralContext(parser, parent, invokingState) {
-	if(parent===undefined) {
-	    parent = null;
-	}
-	if(invokingState===undefined || invokingState===null) {
-		invokingState = -1;
-	}
-	antlr4.ParserRuleContext.call(this, parent, invokingState);
-    this.parser = parser;
-    this.ruleIndex = QLParser.RULE_booleanLiteral;
-    return this;
-}
-
-BooleanLiteralContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
-BooleanLiteralContext.prototype.constructor = BooleanLiteralContext;
-
-BooleanLiteralContext.prototype.BOOLEAN_TRUE = function() {
-    return this.getToken(QLParser.BOOLEAN_TRUE, 0);
-};
-
-BooleanLiteralContext.prototype.BOOLEAN_FALSE = function() {
-    return this.getToken(QLParser.BOOLEAN_FALSE, 0);
-};
-
-BooleanLiteralContext.prototype.enterRule = function(listener) {
-    if(listener instanceof QLListener ) {
-        listener.enterBooleanLiteral(this);
-	}
-};
-
-BooleanLiteralContext.prototype.exitRule = function(listener) {
-    if(listener instanceof QLListener ) {
-        listener.exitBooleanLiteral(this);
-	}
-};
-
-BooleanLiteralContext.prototype.accept = function(visitor) {
-    if ( visitor instanceof QLVisitor ) {
-        return visitor.visitBooleanLiteral(this);
-    } else {
-        return visitor.visitChildren(this);
-    }
-};
-
-
-
-
-QLParser.BooleanLiteralContext = BooleanLiteralContext;
-
-QLParser.prototype.booleanLiteral = function() {
-
-    var localctx = new BooleanLiteralContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 14, QLParser.RULE_booleanLiteral);
-    var _la = 0; // Token type
-    try {
-        this.enterOuterAlt(localctx, 1);
-        this.state = 92;
-        _la = this._input.LA(1);
-        if(!(_la===QLParser.BOOLEAN_TRUE || _la===QLParser.BOOLEAN_FALSE)) {
-        this._errHandler.recoverInline(this);
-        }
-        else {
-            this.consume();
         }
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1586,11 +1517,11 @@ QLParser.TypeContext = TypeContext;
 QLParser.prototype.type = function() {
 
     var localctx = new TypeContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 16, QLParser.RULE_type);
+    this.enterRule(localctx, 14, QLParser.RULE_type);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 94;
+        this.state = 93;
         _la = this._input.LA(1);
         if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << QLParser.TYPE_BOOLEAN) | (1 << QLParser.TYPE_STRING) | (1 << QLParser.TYPE_INTEGER) | (1 << QLParser.TYPE_FLOAT) | (1 << QLParser.TYPE_MONEY))) !== 0))) {
         this._errHandler.recoverInline(this);

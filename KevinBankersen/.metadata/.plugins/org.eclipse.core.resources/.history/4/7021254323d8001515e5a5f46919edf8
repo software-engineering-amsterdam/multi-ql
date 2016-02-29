@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+public class Data implements ListenerSwing, ListenerData{
+
+    @Override
+    public void someUIelementChanged() {
+	// TODO Auto-generated method stub
+	
+    }
+
+}

@@ -1,0 +1,16 @@
+form DependancyCheckIfStatements {
+	 if (q3) {
+	 	q5: "question 5" boolean
+	 }
+	 q1: "question 1" int
+	 q2: "question 2" money
+	 if (q4) {
+	 	q4: "question 1" boolean 
+	 	if (q5) { 
+	 		q6: "question 6" int
+	 	}
+	 }
+	 q3: "question 3" boolean (q5 + q3)
+	 q7: "question 7" boolean (q8)
+	 
+}

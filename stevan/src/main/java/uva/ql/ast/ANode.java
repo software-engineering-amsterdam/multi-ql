@@ -3,7 +3,6 @@ package uva.ql.ast;
 import java.util.ArrayList;
 
 import uva.ql.interfaces.INode;
-import uva.ql.interfaces.INodeVisitor;
 
 public abstract class ANode implements INode {
 
@@ -11,6 +10,8 @@ public abstract class ANode implements INode {
 	private int nodeType = 0;	
 	private ANode parent = null;
 	private ArrayList<Object> store = new ArrayList<Object>(0);
+	private int startLine = 0;
+	private int startColumn = 0;
 	
 	ANode(AST ast) {
 		if (ast == null) {
@@ -51,9 +52,20 @@ public abstract class ANode implements INode {
 		this.parent = parent;
 	}
 
-	@Override
-	public void accept(INodeVisitor visitor) {
-		visitor.visitNode(this);
+	public int getLine() {
+		return startLine;
+	}
+
+	public void setLine(int startLine) {
+		this.startLine = startLine;
+	}
+
+	public int getColumn() {
+		return startColumn;
+	}
+
+	public void setColumn(int startColumn) {
+		this.startColumn = startColumn;
 	}
 
 }

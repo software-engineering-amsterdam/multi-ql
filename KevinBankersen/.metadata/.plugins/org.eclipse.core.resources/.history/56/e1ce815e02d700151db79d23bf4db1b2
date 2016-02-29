@@ -1,0 +1,13 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import eu.bankersen.kevin.ql.context.Context;
+
+public abstract class AbstractStatement {
+    
+    public abstract Context visible(Context context, Boolean visible);
+
+    public abstract void evalStatement(Context context);
+
+    public abstract Context checkType(Context context);
+
+}

@@ -11,7 +11,7 @@ import ql.ast.expression.Expr;
  *
  * @author sander
  */
-public class IntegerLiteral extends Expr {
+public class IntegerLiteral extends Literal {
 
     private final Integer value;
 

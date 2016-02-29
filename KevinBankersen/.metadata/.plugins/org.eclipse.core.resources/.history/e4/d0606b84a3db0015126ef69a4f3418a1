@@ -1,0 +1,26 @@
+package eu.bankersen.kevin.ql.util.testing2;
+
+public class main {
+
+    public static void main(String[] args) {
+
+	Parent parent = new Parent();
+	
+	child a = new child();
+	parent.addChild(a);
+	
+	child b = new child();
+	parent.addChild(b);
+	
+	child c = new child();
+	parent.addChild(c);
+	
+	parent.getChildren().forEach(child -> test(child));
+
+    }
+    
+    private static void test(BooleanQuestion x){
+	System.out.println(x.getValue());
+    }
+
+}

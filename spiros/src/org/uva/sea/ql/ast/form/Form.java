@@ -24,9 +24,9 @@ public class Form extends ASTNode {
 		return this.block;
 	}
 	
-	public <T> T accept(FormVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
 	
+	public void accept(FormVisitor formVisitor) {
+		formVisitor.visitForm(this);
+	}
 	
 }

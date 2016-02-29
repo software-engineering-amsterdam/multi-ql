@@ -1,13 +1,23 @@
-form taxOfficeExample { 
-  "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
-  
-  "What was the selling price?"
-    hasSoldHouse3: money
+form taxOfficeExample {
+
+  "cQ1"
+    cQ1: money = (2,02)
+
+  "cQ2"
+    cQ2: money = (10,01)
     
-  "What was the selling price??"
-    hasSoldHouse3: integer
-  
-  "What was the selllasdlling price?"
-    sellingPrice123: money = (hasSoldHouse3)
+  "cQ3"
+    cQ3: money = (cQ1*cQ2)
+
+    /*
+    
+	    Money : int*money
+	    
+	    Nope : int/money?
+	    
+	    Money : money/int?
+	    
+	    int: money/int?
+    
+    */
 }

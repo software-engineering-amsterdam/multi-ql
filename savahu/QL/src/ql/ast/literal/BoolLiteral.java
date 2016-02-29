@@ -11,7 +11,7 @@ import ql.ast.expression.Expr;
  *
  * @author sander
  */
-public class BoolLiteral extends Expr {
+public class BoolLiteral extends Literal {
 
     private final Boolean value;
 

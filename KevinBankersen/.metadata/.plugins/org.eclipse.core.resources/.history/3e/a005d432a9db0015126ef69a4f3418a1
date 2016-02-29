@@ -1,0 +1,29 @@
+package eu.bankersen.kevin.ql.util.testing2;
+
+public class main {
+
+    public static void main(String[] args) {
+
+	Parent parent = new Parent();
+	
+	SmallChild a = new SmallChild("jan");
+	parent.addChild(a);
+	
+	BigChild b = new BigChild("pieter");
+	parent.addChild(b);
+	
+	for (Children x : parent.getChildren()) {
+	    if (x.getClass().equals(IntegerQuestion)){
+		
+	    }
+	}
+    }
+    
+    public <T extends Children> void exampleMethod(Class<T> child){
+	
+	if (child.equals(SmallChild.class)){
+	    System.out.println("Found a small child");
+	}
+	
+    }
+}

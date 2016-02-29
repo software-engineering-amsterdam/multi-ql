@@ -1,0 +1,19 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+public class tester {
+
+    public static void main(String[] args) {
+	TestUI ui = new TestUI();
+	Data data = new Data();
+	
+	// Register listeners for data- and ui-change
+	data.addDataListener(ui);
+	ui.addUIListener(data);
+	
+	// Show the application
+	ui.setVisible(true);
+	
+	// Update the data
+	data.updateDate(8);
+    }
+}

@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+public class OutOfScopeError extends Error {
+
+    public OutOfScopeError(int line, String message) {
+	super(line, message);
+    }
+    
+    
+
+}

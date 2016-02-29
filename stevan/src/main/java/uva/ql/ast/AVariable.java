@@ -2,6 +2,7 @@ package uva.ql.ast;
 
 import uva.ql.interfaces.IExpression;
 import uva.ql.interfaces.INode;
+import uva.ql.interfaces.INodeVisitor;
 
 public abstract class AVariable extends AExpression {
 
@@ -41,5 +42,10 @@ public abstract class AVariable extends AExpression {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public void accept(INodeVisitor visitor) {
+		visitor.visitVar(this);
 	}
 }
