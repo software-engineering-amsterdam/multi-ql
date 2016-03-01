@@ -67,6 +67,7 @@ public class CyclicDepenUndefQuestions implements INodeVisitor {
 		else {
 			
 			AVariable var = (AVariable) question.get(0);
+			//System.out.println(var.getName());
 			varList.add( var.getName() );
 		}
 	}
@@ -89,24 +90,30 @@ public class CyclicDepenUndefQuestions implements INodeVisitor {
 	@Override
 	public void visitVar( AVariable var ) {
 
-		if ( var.getVarType() != IVariable.BOOLEAN && 
-				!varList.contains( var.getName() ) ) {
+		//System.out.println(varList);
+		if ( var.getVarType() != IVariable.BOOLEAN && !varList.contains( var.getName() ) ) {
 			
 			boolean undefQuestion = false;
 			
 			for( AVariable v : exisitingVars ) {
 
-				if ( v.getName().equalsIgnoreCase( var.getName() ) ) {
-
-					undefQuestion = false;
-					break;
-				}
-				else {
+				if ( v.getName().equalsIgnoreCase(var.getName()) ) {
 					
-					undefQuestion = true;
+					if ( v.getVarType() == IVariable.GENERIC ) {
+						
+						//System.out.println(var.getName() + " - " + var.getVarType());
+						undefQuestion = true;
+						break;
+					}
+					else {
+						
+						//System.out.println(var.getName() + " - " + var.getVarType());
+						undefQuestion = false;
+					}
 				}
 			}
 			
+			//System.out.println(undefQuestion);
 			String msg = "";
 			
 			if ( undefQuestion ) {

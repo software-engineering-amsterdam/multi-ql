@@ -21,13 +21,13 @@ public class TypeChecker {
 		
 		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
 		
-		final CollectVariables cv = new CollectVariables();
+		CollectVariables cv = new CollectVariables();
 		form.accept(cv);
 		
+		//msg.putAll( checkCyclicDepenUndefQuestions(form, cv) );
 		msg.putAll( checkForDupQuestionsOfDiffTypes(cv) );
 		msg.putAll( checkConditionsNotOfTypeBoolean(form) );
 		msg.putAll( checkInvalidOperandToOperators(form) );
-		msg.putAll( checkCyclicDepenUndefQuestions(form, cv) );
 		msg.putAll( checkDuplicateLabels(cv) );
 		
 		return msg;
@@ -35,9 +35,9 @@ public class TypeChecker {
 	
 	public static HashMap<String, Integer> checkForDupQuestionsOfDiffTypes( CollectVariables cv ) {
 		
-		final HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		final ArrayList<AVariable> varList = cv.getStore();
-		final Set<String> varNameSet = new HashSet<String>();
+		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
+		ArrayList<AVariable> varList = cv.getStore();
+		Set<String> varNameSet = new HashSet<String>();
 
 		for( AVariable var : varList ) {
 			
@@ -77,14 +77,14 @@ public class TypeChecker {
 	
 	public static HashMap<String, Integer> checkDuplicateLabels( CollectVariables cv ) {
 		
-		final HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		final ArrayList<AVariable> varList = cv.getStore();
-		final Set<String> qLabelSet = new HashSet<String>();
+		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
+		ArrayList<AVariable> varList = cv.getStore();
+		Set<String> qLabelSet = new HashSet<String>();
 		
 		for( AVariable var : varList ) {
 			
 			ANode node = var.getParent();
-			
+			//System.out.println(var.getName() + " - " + var.getVarType());
 			if( node.getNodeType() == INode.QUESTION ) {
 				
 				Question q = (Question) node;

@@ -1,7 +1,6 @@
 package uva.ql.ast;
 
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INode;
 import uva.ql.interfaces.INodeVisitor;
 
 public abstract class AVariable extends AExpression {
@@ -24,11 +23,6 @@ public abstract class AVariable extends AExpression {
 	
 	private void setVarType(int varType) {
 		this.varType = varType;	
-	}
-
-	@Override
-	protected int getNodeType0() {
-		return INode.EXPRESSION;
 	}
 	
 	@Override

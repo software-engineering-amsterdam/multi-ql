@@ -122,6 +122,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		var.setLine(ctx.varName().getStart().getLine());
 		var.setColumn(ctx.varName().getStart().getCharPositionInLine() + 1);
 		var.setParent(question);
+		
 		varStore.put(var.getName(), var);
 		
 		for ( int i=0; i<ctx.expression().size(); i++ ) {

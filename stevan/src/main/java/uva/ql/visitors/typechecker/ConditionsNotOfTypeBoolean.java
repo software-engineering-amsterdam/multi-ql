@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import uva.ql.ast.AExpression;
+import uva.ql.ast.ANode;
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
@@ -86,17 +87,25 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 	}
 	
 	@Override
-	public void visitVar( AVariable variable ) {}
+	public void visitVar( AVariable var ) {}
 	
 	@Override
-	public void visitNum( ANumber number ) {}
+	public void visitNum( ANumber number ) {
+		
+		writeErrorMsg( number );
+	}
 
 	private void checkExprType( AExpression exp ) {
 		
 		if ( !CON_BOOL.contains(exp.getExprType()) ) {
-			
-			String msg = "Error: Condition not of type Boolean, starting at line: " + exp.getLine() + ", column: " + exp.getColumn();
-			store.put( msg, -1 );
+		
+			writeErrorMsg( exp );
 		}
+	}
+	
+	private void writeErrorMsg( ANode node ) {
+		
+		String msg = String.format("Error: Condition not of type Boolean, starting at line: %s, column: %s", node.getLine(), node.getColumn());
+		store.put( msg, -1 );
 	}
 }
