@@ -1,13 +1,12 @@
 package org.uva.sea.ql.ast.expr;
 
-import java.util.Objects;
 import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type int in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 1-mar-2016
  */
 public class Int extends NumericExpr {
     
@@ -16,17 +15,16 @@ public class Int extends NumericExpr {
      */
     public static final int HASH_ORIGIN = 259;
     
-    private Integer value;
+    private final Integer value;
     
     /**
      * Constructor for objects of class <code>Int</code>.
      * 
      * @param theValue an <code>Integer</code> representing the value of the
-     *                  constructed <code>Int</code>, or <code>null</code> if
-     *                  it represents the return value of a <code>Question</code>
-     *                  (which value is not yet known)
+     *                  constructed <code>Int</code>
      */
     public Int(Integer theValue) {
+        assert theValue != null;
         value = theValue;
     }
     
@@ -52,8 +50,7 @@ public class Int extends NumericExpr {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         
-        Int other = (Int) o;
-        return value == null ? other.value == null : value.equals(other.value);
+        return value.equals(((Int) o).value);
     }
     
     /**
@@ -61,6 +58,6 @@ public class Int extends NumericExpr {
      */
     @Override
     public int hashCode() {
-        return HASH_ORIGIN + Objects.hashCode(this.value);
+        return HASH_ORIGIN + value.hashCode();
     }
 }

@@ -61,12 +61,12 @@ conditionalStatement : IF '(' expr ')' block ELSE block { $$ = new ConditionalSt
                      | IF '(' expr ')' block            { $$ = new ConditionalStatement($3, $5, null); }
 ;
 
-question : IDENT ':' STRING_LITERAL BOOLEAN   { $$ = new BooleanQuestion($1, new Label($3), null); }
-         | IDENT ':' STRING_LITERAL DATE      { $$ = new DateQuestion($1, new Label($3), null); }
-         | IDENT ':' STRING_LITERAL DECIMAL   { $$ = new DecimalQuestion($1, new Label($3), null); }
-         | IDENT ':' STRING_LITERAL INT       { $$ = new IntQuestion($1, new Label($3), null); }
-         | IDENT ':' STRING_LITERAL MONEY     { $$ = new MoneyQuestion($1, new Label($3), null); }
-         | IDENT ':' STRING_LITERAL STRING    { $$ = new StringQuestion($1, new Label($3), null); }
+question : IDENT ':' STRING_LITERAL BOOLEAN   { $$ = new BooleanQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL DATE      { $$ = new DateQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL DECIMAL   { $$ = new DecimalQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL INT       { $$ = new IntQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL MONEY     { $$ = new MoneyQuestion($1, new Label($3)); }
+         | IDENT ':' STRING_LITERAL STRING    { $$ = new StringQuestion($1, new Label($3)); }
          | computedQuestion
 ;
 
