@@ -2,7 +2,6 @@ package nl.nicasso.ql;
 
 import java.util.ArrayList;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -20,7 +19,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.MoneyLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -31,6 +30,7 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.visitor.Visitor;
 
 public class QuestionVisitor implements Visitor<Identifier> {
 
@@ -49,6 +49,7 @@ public class QuestionVisitor implements Visitor<Identifier> {
 		identifiers = new ArrayList<Identifier>();
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
+		
 		this.symbolTable = symbolTable;
 	}
 
@@ -213,7 +214,7 @@ public class QuestionVisitor implements Visitor<Identifier> {
 	}
 	
 	@Override
-	public Identifier visit(MoneyLit value) {
+	public Identifier visit(DecimalLit value) {
 		return null;
 	}
 
@@ -228,7 +229,6 @@ public class QuestionVisitor implements Visitor<Identifier> {
 	public void checkNullPointers() {
 		for (Identifier id : identifiers) {
 			if (checkExistanceIdentifier(id) == null) {
-				System.out.println("DFRYUIOPOIUYTRF");
 				errors.add("The identifier " + id.getValue() + " does not exist.");
 			}
 		}

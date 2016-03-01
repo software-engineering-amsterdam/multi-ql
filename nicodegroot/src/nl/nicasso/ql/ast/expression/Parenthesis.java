@@ -1,13 +1,15 @@
 package nl.nicasso.ql.ast.expression;
 
+import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
+import nl.nicasso.ql.visitor.Visitor;
 
 public class Parenthesis extends Monomial implements Traversable {
 
 	private final Expression expr;
 
-	public Parenthesis(Expression expr) {
+	public Parenthesis(Expression expr, CodeLocation location) {
+		super(location);
 		this.expr = expr;
 	}
 

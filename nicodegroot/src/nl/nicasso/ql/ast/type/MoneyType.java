@@ -1,11 +1,17 @@
 package nl.nicasso.ql.ast.type;
 
+import nl.nicasso.ql.ast.CodeLocation;
+
 public class MoneyType extends NumericType {
 
 	private final String type;
 
 	public MoneyType() {
-		super();
+		this.type = "Money";
+	}
+	
+	public MoneyType(CodeLocation location) {
+		super(location);
 		this.type = "Money";
 	}
 
@@ -13,18 +19,14 @@ public class MoneyType extends NumericType {
 		return type;
 	}
 	
-	public boolean compatibleWith(Type type) {
-		switch(type.getType()) {
-			case "Boolean":
-				return false;
-			case "Integer":
-				return true;
-			case "Money":
-				return true;
-			case "String":
-				return false;
-			default:
-				return false;
-		}
+	@Override
+	public boolean equals(Object ob) {
+		MoneyType t2 = (MoneyType) ob;
+		return type.equals(t2.getType());
 	}
+	
+	@Override
+	public int hashCode(){
+	    return type.hashCode();
+    }
 }

@@ -1,13 +1,15 @@
 package nl.nicasso.ql.ast.expression;
 
+import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
+import nl.nicasso.ql.visitor.Visitor;
 
 public class Identifier extends Expression implements Traversable {
 
 	private final String lit;
 
-	public Identifier(String lit) {
+	public Identifier(String lit, CodeLocation location) {
+		super(location);
 		this.lit = lit;
 	}
 
@@ -29,6 +31,6 @@ public class Identifier extends Expression implements Traversable {
 	@Override
 	public int hashCode(){
 	    return lit.hashCode();
-	  }
+    }
 	
 }

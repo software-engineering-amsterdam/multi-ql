@@ -199,17 +199,17 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code moneyLiteral}
+	 * Enter a parse tree produced by the {@code decimalLiteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 */
-	void enterMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	void enterDecimalLiteral(QLParser.DecimalLiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code moneyLiteral}
+	 * Exit a parse tree produced by the {@code decimalLiteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 */
-	void exitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	void exitDecimalLiteral(QLParser.DecimalLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.
@@ -282,4 +282,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMoneyType(QLParser.MoneyTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code decimalType}
+	 * labeled alternative in {@link QLParser#questionType}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecimalType(QLParser.DecimalTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code decimalType}
+	 * labeled alternative in {@link QLParser#questionType}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecimalType(QLParser.DecimalTypeContext ctx);
 }

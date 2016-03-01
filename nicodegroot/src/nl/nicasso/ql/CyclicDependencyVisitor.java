@@ -2,7 +2,6 @@ package nl.nicasso.ql;
 
 import java.util.ArrayList;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -20,7 +19,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.MoneyLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -30,6 +29,7 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.utils.Pair;
+import nl.nicasso.ql.visitor.Visitor;
 
 public class CyclicDependencyVisitor implements Visitor<Identifier> {
 
@@ -253,6 +253,7 @@ public class CyclicDependencyVisitor implements Visitor<Identifier> {
 			System.out.println("ComputedQuestion: "+value.getId().getValue());
 		}
 		
+		// Temp Variable smell detected!
 		currentIdentifier = value.getId();
 		
 		value.getExpr().accept(this);
@@ -321,7 +322,7 @@ public class CyclicDependencyVisitor implements Visitor<Identifier> {
 	}
 	
 	@Override
-	public Identifier visit(MoneyLit value) {
+	public Identifier visit(DecimalLit value) {
 		if (debug) {
 			System.out.println("MoneyLit: "+value.getValue());
 		}

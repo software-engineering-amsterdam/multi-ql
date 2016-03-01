@@ -1,15 +1,17 @@
 package nl.nicasso.ql.ast.expression.equality;
 
+import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
+import nl.nicasso.ql.visitor.Visitor;
 
 public class NotEqual extends Equality implements Traversable  {
 	
 	private final Expression left;
 	private final Expression right;
 
-	public NotEqual(Expression left, Expression right) {
+	public NotEqual(Expression left, Expression right, CodeLocation location) {
+		super(location);
 		this.left = left;
 		this.right = right;
 	}

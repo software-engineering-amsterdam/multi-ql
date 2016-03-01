@@ -211,13 +211,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMoneyLiteral(QLParser.MoneyLiteralContext ctx) { }
+	@Override public void enterDecimalLiteral(QLParser.DecimalLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMoneyLiteral(QLParser.MoneyLiteralContext ctx) { }
+	@Override public void exitDecimalLiteral(QLParser.DecimalLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -290,6 +290,18 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMoneyType(QLParser.MoneyTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDecimalType(QLParser.DecimalTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDecimalType(QLParser.DecimalTypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
