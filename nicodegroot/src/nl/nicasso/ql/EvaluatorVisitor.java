@@ -28,9 +28,11 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class EvaluatorVisitor implements Visitor<Object> {
+public class EvaluatorVisitor implements StructureVisitor<Object>, StatementVisitor<Object>, ExpressionVisitor<Object> {
 	
 	private boolean debug = false;
 	

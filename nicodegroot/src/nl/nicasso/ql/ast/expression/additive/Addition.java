@@ -1,11 +1,10 @@
 package nl.nicasso.ql.ast.expression.additive;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class Addition extends Additive implements Traversable  {
+public class Addition extends Additive {
 	
 	private final Expression left;
 	private final Expression right;

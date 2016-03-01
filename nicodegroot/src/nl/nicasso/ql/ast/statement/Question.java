@@ -1,12 +1,11 @@
 package nl.nicasso.ql.ast.statement;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.type.Type;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
 
-public class Question extends Statement implements Traversable {
+public class Question extends Statement {
 
 	private final Identifier id;
 	private final String label;
@@ -32,7 +31,7 @@ public class Question extends Statement implements Traversable {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

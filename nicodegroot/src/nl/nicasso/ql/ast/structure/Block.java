@@ -4,11 +4,10 @@ import java.util.List;
 
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.statement.Statement;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class Block extends ASTNode implements Traversable {
+public class Block extends ASTNode {
 
 	private final List<Statement> statements;
 
@@ -21,8 +20,7 @@ public class Block extends ASTNode implements Traversable {
 		return statements;
 	}
 	
-	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(StructureVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

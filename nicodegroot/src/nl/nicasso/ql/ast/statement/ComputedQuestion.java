@@ -4,7 +4,7 @@ import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.type.Type;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
 
 public class ComputedQuestion extends Question {
 
@@ -20,7 +20,7 @@ public class ComputedQuestion extends Question {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

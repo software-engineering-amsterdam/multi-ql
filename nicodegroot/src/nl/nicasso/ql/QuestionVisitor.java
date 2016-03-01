@@ -18,8 +18,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.DecimalLit;
+import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -30,9 +30,11 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class QuestionVisitor implements Visitor<Identifier> {
+public class QuestionVisitor implements StructureVisitor<Identifier>, StatementVisitor<Identifier>, ExpressionVisitor<Identifier> {
 
 	private boolean debug = false;
 
@@ -128,96 +130,6 @@ public class QuestionVisitor implements Visitor<Identifier> {
 		return null;
 	}
 
-	@Override
-	public Identifier visit(Addition value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Subtraction value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(And value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Or value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Not value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Parenthesis value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Equal value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(NotEqual value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Division value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Multiplication value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Greater value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(GreaterEqual value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Less value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(LessEqual value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(BooleanLit value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(IntegerLit value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(StringLit value) {
-		return null;
-	}
-	
-	@Override
-	public Identifier visit(DecimalLit value) {
-		return null;
-	}
-
 	public ArrayList<Question> getQuestions() {
 		return questions;
 	}
@@ -286,6 +198,114 @@ public class QuestionVisitor implements Visitor<Identifier> {
 	
 	public ArrayList<String> getWarnings() {
 		return warnings;
+	}
+
+	@Override
+	public Identifier visit(Addition value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Subtraction value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(And value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Or value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Not value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Parenthesis value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Equal value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(NotEqual value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Division value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Multiplication value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Greater value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(GreaterEqual value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Less value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(LessEqual value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(BooleanLit value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(IntegerLit value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(StringLit value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(DecimalLit value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 		
 }

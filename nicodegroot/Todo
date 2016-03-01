@@ -1,14 +1,14 @@
 MUST
+- Fix the different visitor interfaces, so I don't have to include them all for every concreteVisitor
 - Remove the tempvariable smell! Just pass it on?
 - Check all the variable names!
 - Create GUI
-- Create tests
+- Create more tests
 - Throw errors instead of adding them to a list
 
 SHOULD
-- Add line numbers
+- Fix line numbers in error messages
 - Make some kind of fancy issue class
-- Use multiple generic types for the visitor interface, or multiple interfaces
 
 COULD
 - Really use accept in the QuestionVisitor to fetch the identfiers, otherwise you get 10 gets behind each other. 

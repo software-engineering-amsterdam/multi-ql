@@ -3,12 +3,11 @@ package nl.nicasso.ql.ast.literal;
 import java.math.BigDecimal;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.type.DecimalType;
 import nl.nicasso.ql.ast.type.Type;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class DecimalLit extends Literal implements Traversable {
+public class DecimalLit extends Literal {
 
 	private final Type type;
 	private final BigDecimal value;
@@ -54,7 +53,7 @@ public class DecimalLit extends Literal implements Traversable {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	
