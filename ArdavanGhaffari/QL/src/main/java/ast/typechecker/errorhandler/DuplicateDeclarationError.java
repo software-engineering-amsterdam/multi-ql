@@ -3,9 +3,9 @@ package ast.typechecker.errorhandler;
 import java.text.MessageFormat;
 
 public class DuplicateDeclarationError extends Error {
-	private static final String ERROR_MESSAGE = "Duplicate declaration error: Identifier ''{0}'' has already been declared, with type ''{1}''";
+	private static final String ERROR_MESSAGE = "Duplicate declaration error at line {0}: Identifier ''{1}'' has already been declared, with type ''{2}''";
 	
-	public DuplicateDeclarationError(String identifier, String type) {
-		super(MessageFormat.format(ERROR_MESSAGE, identifier, type));
+	public DuplicateDeclarationError(int line, String identifier, String type) {
+		super(MessageFormat.format(ERROR_MESSAGE, Integer.toString(line), identifier, type.equals("Decimal") ? "Money": type));
 	}
 }

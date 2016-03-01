@@ -1,14 +1,17 @@
 package nl.uva.sc.ql.parser;
 
-import nl.uva.sc.ql.exceptions.ErrorHandling;
+import nl.uva.sc.ql.exceptions.CreateASTTreeException;
+import nl.uva.sc.ql.exceptions.ExceptionHandling;
 import nl.uva.sc.ql.parser.QLParser.Condition_blockContext;
 import nl.uva.sc.ql.parser.QLParser.StatementContext;
 import nl.uva.sc.ql.parser.ast.AssignVariableNode;
 import nl.uva.sc.ql.parser.ast.BooleanNode;
 import nl.uva.sc.ql.parser.ast.ConditionBlockNode;
-import nl.uva.sc.ql.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.parser.ast.FormNode;
+import nl.uva.sc.ql.parser.ast.OperationExpressionNode;
 import nl.uva.sc.ql.parser.ast.IfElseNode;
 import nl.uva.sc.ql.parser.ast.IfNode;
+import nl.uva.sc.ql.parser.ast.IntegerNode;
 import nl.uva.sc.ql.parser.ast.LogicNode;
 import nl.uva.sc.ql.parser.ast.MathExpressionNode;
 import nl.uva.sc.ql.parser.ast.MoneyNode;
@@ -17,29 +20,29 @@ import nl.uva.sc.ql.parser.ast.RelationalExpressionNode;
 import nl.uva.sc.ql.parser.ast.StatementNode;
 import nl.uva.sc.ql.parser.ast.StringNode;
 import nl.uva.sc.ql.parser.ast.VariableNode;
-import nl.uva.sc.ql.parser.ast.StringVariableNode;
-import nl.uva.sc.ql.parser.ast.MoneyVariableNode;
-import nl.uva.sc.ql.parser.ast.BooleanVariableNode;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
-import java.util.function.Function;
 
-public class ASTTree extends QLBaseVisitor<Node> {
+
+public class CreateASTTree extends QLBaseVisitor<Node> {
  
     // store variables
 	private SymbolTable<Node> symbolTable;
     
-    public ASTTree(SymbolTable<Node> symbolTable) {
+    public CreateASTTree(SymbolTable<Node> symbolTable) {
     	this.symbolTable = symbolTable;
     }
     
     @Override
     public Node visitForm(@NotNull QLParser.FormContext context) {
-    	Node node = this.visit(context.block());
-    	// symbolTable.addId(context.IDENTIFIER().getText(), node);
+    	String name = context.IDENTIFIER().getText();
+    	FormNode node = new FormNode(name);
     	
+    	Node left = this.visit(context.block());
+    	
+    	node.init(left, null);
         node.setLine(context.stop.getLine());
     	return node;
     }
@@ -52,30 +55,15 @@ public class ASTTree extends QLBaseVisitor<Node> {
         String question = context.String().getText();
         
         if (symbolTable.probe(name) != null) {
-            ErrorHandling.getInstance().addError("Already defined variable: "+name+". Line "+context.IDENTIFIER().getSymbol().getLine());
+        	CreateASTTreeException exception = new CreateASTTreeException("Already defined variable: "+name+". Line "+context.IDENTIFIER().getSymbol().getLine());
+            ExceptionHandling.getInstance().addError(exception);
         }
         if (symbolTable.probe(question) != null) {
-            ErrorHandling.getInstance().addError("Already defined question: "+question+". Line "+context.String().getSymbol().getLine());
+        	CreateASTTreeException exception = new CreateASTTreeException("Already defined question: "+question+". Line "+context.String().getSymbol().getLine());
+			ExceptionHandling.getInstance().addError(exception);
         }
         
-        Function<String, VariableNode> chooseNode = s -> { 
-        	VariableNode vNode;
-        	switch(s) {
-				case "String":
-					vNode = new StringVariableNode();
-					return vNode;
-				case "boolean":
-					vNode = new BooleanVariableNode();
-					return vNode;
-				case "money":
-					vNode = new MoneyVariableNode();
-					return vNode;
-				default:
-					ErrorHandling.getInstance().addError(s+" cannot be solved to a type. Line "+context.type().getStart().getLine());
-					return null;
-			}};
-        
-		VariableNode node = chooseNode.apply(type); 
+		VariableNode node = new VariableNode(type); 
 		node.setName(name);
         node.setQuestion(question);
         node.setLine(context.stop.getLine());
@@ -92,7 +80,15 @@ public class ASTTree extends QLBaseVisitor<Node> {
         
         Node node = new AssignVariableNode();
         node.init(left, right);
-        node.setLine(context.stop.getLine());;
+        node.setLine(context.stop.getLine());
+        
+        // TODO: symbol table - unity identifier, etc
+        String name = left.getName();
+        String question = left.getQuestion();
+        
+        symbolTable.add(name, node);
+        symbolTable.add(question, node); 
+        
         return node;
     }
     
@@ -103,8 +99,10 @@ public class ASTTree extends QLBaseVisitor<Node> {
         Node node = symbolTable.lookup(identifier);
         
         if (node == null) {
-        	ErrorHandling.getInstance().addError("Assigning undefined variable "+identifier+". Line "+context.IDENTIFIER().getSymbol().getLine());
+        	CreateASTTreeException exception = new CreateASTTreeException("Assigning undefined variable "+identifier+". Line "+context.IDENTIFIER().getSymbol().getLine());
+        	ExceptionHandling.getInstance().addError(exception);
         }
+        
         node.setLine(context.start.getLine());
         return node;
     }
@@ -132,6 +130,14 @@ public class ASTTree extends QLBaseVisitor<Node> {
         node.setLine(context.start.getLine());
     	return node;
     }
+    
+    @Override 
+    public Node visitIntegerUnity(@NotNull QLParser.IntegerUnityContext context) { 
+    	Node node = new IntegerNode();
+    	node.setValue(Integer.parseInt(context.getText()));
+        node.setLine(context.start.getLine());
+    	return node;
+    }
 
     // expression overrides
     @Override
@@ -152,7 +158,7 @@ public class ASTTree extends QLBaseVisitor<Node> {
     public Node visitNotExpression(@NotNull QLParser.NotExpressionContext context) {
         Node expression = this.visit(context.expression());
         
-        ExpressionNode node = new RelationalExpressionNode();
+        OperationExpressionNode node = new RelationalExpressionNode();
         node.init(expression, null, "!");
         node.setLine(context.start.getLine());
         return node;
@@ -163,7 +169,7 @@ public class ASTTree extends QLBaseVisitor<Node> {
     	Node left = this.visit(context.expression(0));
         Node right = this.visit(context.expression(1));
         
-        ExpressionNode node = new MathExpressionNode();
+        OperationExpressionNode node = new MathExpressionNode();
         node.init(left, right, context.op.getText());
         node.setLine(context.start.getLine());
     	return node;
@@ -174,7 +180,7 @@ public class ASTTree extends QLBaseVisitor<Node> {
         Node left = this.visit(context.expression(0));
         Node right = this.visit(context.expression(1));
         
-        ExpressionNode node = new MathExpressionNode();
+        OperationExpressionNode node = new MathExpressionNode();
         node.init(left, right, context.op.getText());
         node.setLine(context.start.getLine());
     	return node;
@@ -185,7 +191,7 @@ public class ASTTree extends QLBaseVisitor<Node> {
         Node left = this.visit(context.expression(0));
         Node right = this.visit(context.expression(1));
 
-        ExpressionNode node = new RelationalExpressionNode();
+        OperationExpressionNode node = new RelationalExpressionNode();
         node.init(left, right, context.op.getText());
         node.setLine(context.start.getLine());
         return node;
@@ -196,7 +202,7 @@ public class ASTTree extends QLBaseVisitor<Node> {
         Node left = this.visit(context.expression(0));
         Node right = this.visit(context.expression(1));
         
-        ExpressionNode node = new RelationalExpressionNode();
+        OperationExpressionNode node = new RelationalExpressionNode();
         node.init(left, right, context.op.getText());
         node.setLine(context.start.getLine());
         return node;
@@ -207,7 +213,7 @@ public class ASTTree extends QLBaseVisitor<Node> {
         Node left = this.visit(context.expression(0));
         Node right = this.visit(context.expression(1));
         
-        ExpressionNode node = new LogicNode();
+        OperationExpressionNode node = new LogicNode();
         node.init(left, right, "&&");
         node.setLine(context.start.getLine());
         return node;  
@@ -218,7 +224,7 @@ public class ASTTree extends QLBaseVisitor<Node> {
         Node left = this.visit(context.expression(0));
         Node right = this.visit(context.expression(1));
         
-        ExpressionNode node = new LogicNode();
+        OperationExpressionNode node = new LogicNode();
         node.init(left, right, "||");
         node.setLine(context.start.getLine());
         return node;  

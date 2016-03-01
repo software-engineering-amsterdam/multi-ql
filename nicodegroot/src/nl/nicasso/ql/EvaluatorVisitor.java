@@ -1,6 +1,5 @@
 package nl.nicasso.ql;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -17,6 +16,7 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
@@ -28,6 +28,7 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.visitor.Visitor;
 
 public class EvaluatorVisitor implements Visitor<Object> {
 	
@@ -351,6 +352,14 @@ public class EvaluatorVisitor implements Visitor<Object> {
 			System.out.println("StringLit: "+value.getValue());
 		}
 		return new String(value.getValue());
+	}
+
+	@Override
+	public Object visit(DecimalLit value) {
+		if (debug) {
+			System.out.println("DecimalLit: "+value.getValue());
+		}
+		return value.getValue(); //new BigDecimal((BigDecimal) value.getValue());
 	}
 
 }

@@ -1,5 +1,6 @@
 package nl.nicasso.ql;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.uva.sea.ql.parser.antlr.QLBaseVisitor;
@@ -8,6 +9,7 @@ import org.uva.sea.ql.parser.antlr.QLParser.StatementContext;
 import org.uva.sea.ql.parser.antlr.QLVisitor;
 
 import nl.nicasso.ql.ast.ASTNode;
+import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
@@ -25,6 +27,7 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
@@ -36,6 +39,7 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.ast.type.BooleanType;
+import nl.nicasso.ql.ast.type.DecimalType;
 import nl.nicasso.ql.ast.type.IntegerType;
 import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.StringType;
@@ -54,10 +58,10 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		if (debug)
 			System.out.println("Form");
 
-		Identifier id = new Identifier(ctx.identifier.getText());
+		Identifier id = new Identifier(ctx.identifier.getText(), CodeLocation.getCodeLocation(ctx));
 		Block bl = (Block) ctx.block().accept(this);
 
-		return new Form(id, bl);
+		return new Form(id, bl, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -71,7 +75,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 			statements.add((Statement) st.accept(this));
 		}
 
-		return new Block(statements);
+		return new Block(statements, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -80,10 +84,10 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 			System.out.println("Question: "+ctx.identifier.getText());
 
 		Type type = (Type) ctx.type.accept(this);
-		Identifier id = new Identifier(ctx.identifier.getText());
+		Identifier id = new Identifier(ctx.identifier.getText(), CodeLocation.getCodeLocation(ctx));
 		String label = ctx.label.getText();
 
-		return new Question(id, label, type);
+		return new Question(id, label, type, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -92,11 +96,11 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 			System.out.println("ComputedQuestion: "+ctx.identifier.getText());
 
 		Type type = (Type) ctx.type.accept(this);
-		Identifier id = new Identifier(ctx.identifier.getText());
+		Identifier id = new Identifier(ctx.identifier.getText(), CodeLocation.getCodeLocation(ctx));
 		String label = ctx.label.getText();
 		Expression expr = (Expression) ctx.expr.accept(this);
 
-		return new ComputedQuestion(id, label, type, expr);
+		return new ComputedQuestion(id, label, type, expr, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -107,7 +111,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		Expression expr = (Expression) ctx.expr.accept(this);
 		Block bl = (Block) ctx.ifBody.accept(this);
 
-		return new IfStatement(expr, bl);
+		return new IfStatement(expr, bl, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -120,7 +124,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 
 		Block blockElse = (Block) ctx.elseBody.accept(this);
 
-		return new IfElseStatement(expr, blockIf, blockElse);
+		return new IfElseStatement(expr, blockIf, blockElse, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -133,9 +137,9 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		
 		switch(ctx.op.getText()) {
 			case "==":
-				return new Equal(left, right);
+				return new Equal(left, right, CodeLocation.getCodeLocation(ctx));
 			case "!=":
-				return new NotEqual(left, right);
+				return new NotEqual(left, right, CodeLocation.getCodeLocation(ctx));
 			default:
 				// Throw error or something
 				return null;
@@ -152,9 +156,9 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		
 		switch(ctx.op.getText()) {
 			case "*":
-				return new Multiplication(left, right);
+				return new Multiplication(left, right, CodeLocation.getCodeLocation(ctx));
 			case "/":
-				return new Division(left, right);
+				return new Division(left, right, CodeLocation.getCodeLocation(ctx));
 			default:
 				// Throw error or something
 				return null;
@@ -171,9 +175,9 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		
 		switch(ctx.op.getText()) {
 			case "+":
-				return new Addition(left, right);
+				return new Addition(left, right, CodeLocation.getCodeLocation(ctx));
 			case "-":
-				return new Subtraction(left, right);
+				return new Subtraction(left, right, CodeLocation.getCodeLocation(ctx));
 			default:
 				// Throw error or something
 				return null;
@@ -190,13 +194,13 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		
 		switch(ctx.op.getText()) {
 			case ">":
-				return new Greater(left, right);
+				return new Greater(left, right, CodeLocation.getCodeLocation(ctx));
 			case ">=":
-				return new GreaterEqual(left, right);
+				return new GreaterEqual(left, right, CodeLocation.getCodeLocation(ctx));
 			case "<":
-				return new Less(left, right);
+				return new Less(left, right, CodeLocation.getCodeLocation(ctx));
 			case "<=":
-				return new LessEqual(left, right);
+				return new LessEqual(left, right, CodeLocation.getCodeLocation(ctx));
 			default:
 				// Throw error or something
 				return null;
@@ -208,7 +212,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		if (debug)
 			System.out.println("Identifier: "+ctx.getText());
 		
-		return new Identifier(ctx.identifier.getText());
+		return new Identifier(ctx.identifier.getText(), CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -218,7 +222,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		
 		Expression expr = (Expression) ctx.expr.accept(this);
 		
-		return new Parenthesis(expr);
+		return new Parenthesis(expr, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -228,7 +232,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		
 		Expression expr = (Expression) ctx.expr.accept(this);
 		
-		return new Not(expr);
+		return new Not(expr, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -251,9 +255,9 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		
 		switch(ctx.op.getText()) {
 			case "&&":
-				return new And(left, right);
+				return new And(left, right, CodeLocation.getCodeLocation(ctx));
 			case "||":
-				return new Or(left, right);
+				return new Or(left, right, CodeLocation.getCodeLocation(ctx));
 			default:
 				// Throw error or something
 				return null;
@@ -265,7 +269,14 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		if (debug)
 			System.out.println("Integer: "+ctx.getText());
 
-		return new IntegerLit(Integer.parseInt(ctx.getText()));
+		return new IntegerLit(Integer.parseInt(ctx.getText()), CodeLocation.getCodeLocation(ctx));
+	}
+	
+	@Override public ASTNode visitDecimalLiteral(QLParser.DecimalLiteralContext ctx) {
+		if (debug)
+			System.out.println("DecimalLit: "+ctx.getText());
+
+		return new DecimalLit(BigDecimal.valueOf(Double.parseDouble(ctx.getText())), CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -273,7 +284,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		if (debug)
 			System.out.println("Boolean: "+ctx.getText());
 
-		return new BooleanLit(Boolean.parseBoolean(ctx.getText()));
+		return new BooleanLit(Boolean.parseBoolean(ctx.getText()), CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -281,15 +292,15 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		if (debug)
 			System.out.println("String: "+ctx.getText());
 
-		return new StringLit(ctx.getText());
+		return new StringLit(ctx.getText(), CodeLocation.getCodeLocation(ctx));
 	}
-
+	
 	@Override
 	public ASTNode visitIntegerType(QLParser.IntegerTypeContext ctx) {
 		if (debug)
 			System.out.println("IntegerType: "+ctx.getText());
 
-		return new IntegerType();
+		return new IntegerType(CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -297,7 +308,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		if (debug)
 			System.out.println("StringType: "+ctx.getText());
 
-		return new StringType();
+		return new StringType(CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -305,7 +316,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		if (debug)
 			System.out.println("BooleanType: "+ctx.getText());
 
-		return new BooleanType();
+		return new BooleanType(CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -313,7 +324,15 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		if (debug)
 			System.out.println("MoneyType: "+ctx.getText());
 
-		return new MoneyType();
+		return new MoneyType(CodeLocation.getCodeLocation(ctx));
+	}
+
+	@Override
+	public ASTNode visitDecimalType(QLParser.DecimalTypeContext ctx) {
+		if (debug)
+			System.out.println("DecimalType: "+ctx.getText());
+
+		return new DecimalType(CodeLocation.getCodeLocation(ctx));
 	}
 
 }

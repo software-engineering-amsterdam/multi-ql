@@ -1,13 +1,12 @@
 package org.uva.sea.ql.ast.expr;
 
-import java.util.Objects;
 import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type decimal in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 1-mar-2016
  */
 public class Decimal extends NumericExpr {
     
@@ -16,17 +15,16 @@ public class Decimal extends NumericExpr {
      */
     public static final int HASH_ORIGIN = 87;
     
-    private Double value;
+    private final Double value;
     
     /**
      * Constructor for objects of class <code>Decimal</code>.
      * 
      * @param theValue a <code>Double</code> representing the value of the
-     *                  constructed <code>Decimal</code>, or <code>null</code> if
-     *                  it represents the return value of a
-     *                  <code>Question</code> (which value is not yet known)
+     *                  constructed <code>Decimal</code>
      */
     public Decimal(Double theValue) {
+        assert theValue != null;
         value = theValue;
     }
     
@@ -53,8 +51,7 @@ public class Decimal extends NumericExpr {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         
-        Decimal other = (Decimal) o;
-        return value == null ? other.value == null : value.equals(other.value);
+        return value.equals(((Decimal) o).value);
     }
     
     /**
@@ -62,6 +59,6 @@ public class Decimal extends NumericExpr {
      */
     @Override
     public int hashCode() {
-        return HASH_ORIGIN + Objects.hashCode(this.value);
+        return HASH_ORIGIN + value.hashCode();
     }
 }

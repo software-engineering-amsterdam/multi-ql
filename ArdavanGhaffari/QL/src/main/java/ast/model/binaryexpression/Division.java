@@ -5,8 +5,8 @@ import ast.visitor.ExpressionVisitor;
 
 public class Division extends BinaryExpression{
 
-	public Division(Expression leftExpression, Expression rightExprssion) {
-		super(leftExpression, rightExprssion);
+	public Division(Expression leftExpression, Expression rightExprssion, int line) {
+		super(leftExpression, rightExprssion, line);
 	}
 	
 	@Override

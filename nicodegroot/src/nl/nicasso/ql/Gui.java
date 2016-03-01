@@ -4,7 +4,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -22,6 +21,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -30,6 +30,7 @@ import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
+import nl.nicasso.ql.visitor.Visitor;
 
 public class Gui implements Visitor<Void> {
 	
@@ -196,6 +197,11 @@ public class Gui implements Visitor<Void> {
 
 	@Override
 	public Void visit(StringLit value) {
+		return null;
+	}
+	
+	@Override
+	public Void visit(DecimalLit value) {
 		return null;
 	}
 	

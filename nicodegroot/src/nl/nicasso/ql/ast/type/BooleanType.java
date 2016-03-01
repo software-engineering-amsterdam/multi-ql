@@ -1,11 +1,17 @@
 package nl.nicasso.ql.ast.type;
 
+import nl.nicasso.ql.ast.CodeLocation;
+
 public class BooleanType extends Type {
 
 	private final String type;
-
+	
 	public BooleanType() {
-		super();
+		this.type = "Boolean";
+	}
+
+	public BooleanType(CodeLocation location) {
+		super(location);
 		this.type = "Boolean";
 	}
 
@@ -13,19 +19,15 @@ public class BooleanType extends Type {
 		return type;
 	}
 	
-	public boolean CompatibleWith(Type type) {
-		switch(type.getType()) {
-			case "Boolean":
-				return true;
-			case "Integer":
-				return false;
-			case "Money":
-				return false;
-			case "String":
-				return false;
-			default:
-				return false;
-		}
+	@Override
+	public boolean equals(Object ob) {
+		BooleanType t2 = (BooleanType) ob;
+		return type.equals(t2.getType());
 	}
+	
+	@Override
+	public int hashCode(){
+	    return type.hashCode();
+    }
 	
 }

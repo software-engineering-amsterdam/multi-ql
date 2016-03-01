@@ -2,12 +2,10 @@ package ast.typechecker.errorhandler;
 
 import java.text.MessageFormat;
 
-import ast.model.literal.Identifier;
-
 public class CyclicDependencyError extends Error {
-	private static final String ERROR_MESSAGE = "Cyclic dependency error: there is cyclic dependency between the two identifiers ''{0}'' and ''{1}''";
+	private static final String ERROR_MESSAGE = "Cyclic dependency error at line {0}: there is cyclic dependency between the two identifiers ''{1}'' and ''{2}''";
 	
-	public CyclicDependencyError(Identifier identifier1, Identifier identifier2) {
-		super(MessageFormat.format(ERROR_MESSAGE, identifier1, identifier2));
+	public CyclicDependencyError(int line, String identifier1, String identifier2) {
+		super(MessageFormat.format(ERROR_MESSAGE, Integer.toString(line), identifier1, identifier2));
 	}
 }

@@ -1,6 +1,10 @@
 package org.uva.sea.ql.type_checker;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
@@ -205,12 +209,32 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		}
 		
 		
+		CyclicDependenciesVisitor cyclicDependenciesVisitor = new CyclicDependenciesVisitor();
+		List<String> dependencies = computedQuestion.getExpression().accept(cyclicDependenciesVisitor);
+		
 		Identifier identifier = computedQuestion.getId();
 		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
+				
+		for (String dependency: dependencies)
+			this.setDependencies(identifier.getValue(),dependency);
 		
+		for(Map.Entry<String, IdentifierData> entry : questionData.entrySet()){
+			List<String> finalDependencies = entry.getValue().getDependencies();
+			Iterator iterator = finalDependencies.iterator();
+			while (iterator.hasNext())
+				System.out.printf("Identifier %s has %s as a dependency \n", entry.getKey(), iterator.next());
+		}
+
+	} 
+	
+
+	private void setDependencies(String id, String dependency) {
+		IdentifierData idData = questionData.get(id);
+		idData.setDependencies(dependency);
+		IdentifierData dependencyData = questionData.get(dependency);
+		dependencyData.setDependencies(id);
 	}
 
-	
 
 	@Override
 	public void visitIfStatement(IfStatement ifStatement) {

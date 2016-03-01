@@ -1,15 +1,17 @@
 package nl.uva.sc.ql.parser.ast;
 
-import javax.swing.JComponent;
-
 import nl.uva.sc.ql.parser.Visitor;
 
-public abstract class VariableNode extends Node {
+public class VariableNode extends Node {
 
 	private String name;
 	private String question;
-	private boolean hasDoneQuestion = false;
-
+	private String type;
+	
+	public VariableNode(String type){
+		this.type = type;
+	}
+	
 	public void setName(String name){
 		this.name = name;
 	}
@@ -25,20 +27,22 @@ public abstract class VariableNode extends Node {
 	public String getQuestion(){
 		return this.question;
 	}
-	
-	public void doneQuestion(){
-		this.hasDoneQuestion = true;
-	}
-	
-	public boolean hasDoneQuestion(){
-		return this.hasDoneQuestion;
-	}
-	
-	public abstract JComponent getComponent();
 
+	@Override
+	public String getType() {
+		return this.type;
+	}
+	
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public void dump() {
+		System.out.println(this.getClass());
+		if (getLeft() != null) { getLeft().dump(); }
+		if (getRight() != null) { getRight().dump(); }
 	}
 	
 }

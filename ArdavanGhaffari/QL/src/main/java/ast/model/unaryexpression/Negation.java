@@ -6,7 +6,8 @@ import ast.visitor.ExpressionVisitor;
 public class Negation extends Expression{
 	private Expression expression;
 	
-	public Negation(Expression expression) {
+	public Negation(Expression expression, int line) {
+		super(line);
 		this.expression = expression;
 	}
 	

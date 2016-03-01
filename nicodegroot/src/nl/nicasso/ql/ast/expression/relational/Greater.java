@@ -1,16 +1,17 @@
 package nl.nicasso.ql.ast.expression.relational;
 
+import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.ast.expression.Polynomial;
+import nl.nicasso.ql.visitor.Visitor;
 
-public class Greater extends Polynomial implements Traversable  {
+public class Greater extends Relational implements Traversable  {
 	
 	private final Expression left;
 	private final Expression right;
 
-	public Greater(Expression left, Expression right) {
+	public Greater(Expression left, Expression right, CodeLocation location) {
+		super(location);
 		this.left = left;
 		this.right = right;
 	}

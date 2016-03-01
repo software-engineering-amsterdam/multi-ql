@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import nl.uva.sc.ql.exceptions.CompilerException;
-import nl.uva.sc.ql.exceptions.ErrorHandling;
+import nl.uva.sc.ql.exceptions.ExceptionHandling;
 import nl.uva.sc.ql.parser.ast.Node;
 
 public class QLCompiler 
@@ -25,20 +25,20 @@ public class QLCompiler
         SymbolTable<Node> symbolTable = new SymbolTable<Node>();
         
         System.out.println("Starting AST construction...");
-        ASTTree astTree = new ASTTree(symbolTable);
+        CreateASTTree astTree = new CreateASTTree(symbolTable);
         Node ast = astTree.visit(tree);
-
-        ErrorHandling errors = ErrorHandling.getInstance();
-        if(errors.asError()){
-        	throw new CompilerException("AST Tree errors:\n"+errors.toString());
+        
+        ExceptionHandling exceptionHandling = ExceptionHandling.getInstance();
+        if(exceptionHandling.asError()){
+        	throw new CompilerException("AST Tree errors:\n"+exceptionHandling.toString());
         }
         
         System.out.println("Starting typechecker...");
         Typecheker typeChecker = new Typecheker();
         ast.accept(typeChecker);
         
-        if(errors.asError()){
-        	throw new CompilerException("Typechecker errors:\n"+errors.toString());
+        if(exceptionHandling.asError()){
+        	throw new CompilerException("Typechecker errors:\n"+exceptionHandling.toString());
         }
         
         return ast;
