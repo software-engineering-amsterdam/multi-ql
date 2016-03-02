@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ViewContainable {
-    var viewContainer: UIView { get }
+    var viewContainer: BaseView { get }
 }
 
 class BaseView: UIView {
@@ -32,5 +32,6 @@ class BaseView: UIView {
     }
     
     func initialize() {
+        self.clipsToBounds = true
     }
 }

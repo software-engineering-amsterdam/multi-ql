@@ -9,7 +9,7 @@
 import UIKit
 
 class QuestionView: BaseView, ViewContainable {
-    internal let viewContainer = UIView()
+    internal let viewContainer = BaseView()
     
     
     convenience init(layout: Layout, question: Question, widget: ViewWidget) {

@@ -31,6 +31,13 @@ class Conditional: Statement {
         self.condition = condition
         self.ifBlock = ifBlock
     }
+    
+    func isSatisfied() -> Bool {
+        if let isSatisfied = condition.eval() as? Bool {
+            return isSatisfied
+        }
+        return false
+    }
 }
 
 class Block: Statement {

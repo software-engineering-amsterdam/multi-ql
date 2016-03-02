@@ -1,12 +1,14 @@
 form Box1HouseOwning {
-    moneyResult     : "Enter money"     money
-    moneyResult1    : "Result:"         moneyResult
-
-    stringResult    : "Enter string"    string
-    stringResult1   : "Result:"         stringResult
-
     booleanResult   : "Enter boolean"   boolean
     booleanResult1  : "Result:"         booleanResult
+
+    if (booleanResult1) {
+        moneyResult     : "Enter money"     money
+        moneyResult1    : "Result:"         moneyResult
+
+        stringResult    : "Enter string"    string
+        stringResult1   : "Result:"         stringResult
+    }
 }
 
 /*

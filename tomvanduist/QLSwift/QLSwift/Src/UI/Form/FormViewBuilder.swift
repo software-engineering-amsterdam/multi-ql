@@ -87,18 +87,30 @@ class DefaultFormViewBuilder: ASTNodeVisitor<FormView, UIView>, FormViewBuilder 
     }
     
     private func createConditionalView(conditional: Conditional, formView: FormView) -> UIView {
-        return createBlockView(conditional.ifBlock, formView: formView)
+        let conditionalView = ConditionalView(conditional: conditional)
+        let blockView = createBlockView(conditional.ifBlock, formView: formView)
+        
+        conditionalView.viewContainer.addSubview(blockView)
+        blockView.snp_makeConstraints { [unowned conditionalView] (make) -> Void in
+            make.edges.equalTo(conditionalView)
+        }
+        
+        return conditionalView
+    }
+    
+    private func createQuestionView(question: Question, formView: FormView) -> UIView {
+        return self.viewFactory.createQuestionView(question, delegate: formView)
     }
     
     
     // MARK: - Visitor functions
     
     override func visit(node: Question, param delegate: GenericParam) -> GenericReturn {
-        return self.viewFactory.createQuestionView(node, delegate: delegate)
+        return self.createQuestionView(node, formView: delegate)
     }
     
     override func visit(node: Conditional, param delegate: GenericParam) -> GenericReturn {
-        return self.createBlockView(node.ifBlock, formView: delegate) // TODO: fix this
+        return self.createConditionalView(node, formView: delegate) // TODO: fix this
     }
     
     override func visit(node: Block, param delegate: GenericParam) -> GenericReturn {
