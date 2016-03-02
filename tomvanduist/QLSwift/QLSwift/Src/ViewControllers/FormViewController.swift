@@ -33,8 +33,8 @@ extension FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let formViewFactory = ConcreteFormViewFactory(formLayout: DefaultFormLayout())
-        let formViewBuilder = ConcreteFormViewBuilder(formViewFactory: formViewFactory)
+        let formViewFactory = DefaultFormViewFactory(formLayout: DefaultFormLayout())
+        let formViewBuilder = DefaultFormViewBuilder(formViewFactory: formViewFactory)
         
         let view = formViewBuilder.buildFormView(self.form)
         

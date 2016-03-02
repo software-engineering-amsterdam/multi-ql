@@ -13,7 +13,7 @@ protocol FormViewBuilder {
     func buildFormView(form: Form) -> UIView
 }
 
-class ConcreteFormViewBuilder: FormViewBuilder {
+class DefaultFormViewBuilder: FormViewBuilder {
     private let viewFactory: FormViewFactory
     
     init(formViewFactory: FormViewFactory) {
@@ -34,29 +34,29 @@ class ConcreteFormViewBuilder: FormViewBuilder {
 }
 
 
-extension ConcreteFormViewBuilder {
+extension DefaultFormViewBuilder {
     private func createBlockView(block: Block, formView: FormView) -> UIView {
-        let view = UIView()
+        let blockView = UIView()
         
         if let s = block.block.first {
-            var prevView = placeStatement(s, formView: formView, superView: view, prevView: nil, nextView: block.block.count == 1 ? view : nil)
+            var prevView = placeStatement(s, formView: formView, superView: blockView, prevView: nil, nextView: block.block.count == 1 ? blockView : nil)
             
             if block.block.count > 1 {
                 for i in 1...(block.block.count-1) {
-                    prevView = placeStatement(block.block[i], formView: formView, superView: view, prevView: prevView, nextView: block.block.count == i+1 ? view : nil)
+                    prevView = placeStatement(block.block[i], formView: formView, superView: blockView, prevView: prevView, nextView: block.block.count == i+1 ? blockView : nil)
                 }
             }
         }
         
-        return view
+        return blockView
     }
     
     private func placeStatement(statement: Statement, formView: FormView, superView: UIView, prevView: UIView?, nextView: UIView?) -> UIView {
-        let view = createStatementView(statement, formView: formView)
+        let statementView = createStatementView(statement, formView: formView)
         
-        superView.addSubview(view)
+        superView.addSubview(statementView)
         
-        view.snp_updateConstraints { [unowned superView, prevView] (make) -> Void in
+        statementView.snp_updateConstraints { [unowned superView, prevView] (make) -> Void in
             make.left.equalTo(superView.snp_left)
             make.right.equalTo(superView.snp_right)
             if let prevView = prevView {
@@ -69,7 +69,7 @@ extension ConcreteFormViewBuilder {
             }
         }
         
-        return view
+        return statementView
     }
     
     private func createStatementView(statement: Statement, formView: FormView) -> UIView {

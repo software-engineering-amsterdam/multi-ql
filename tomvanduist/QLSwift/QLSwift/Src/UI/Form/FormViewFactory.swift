@@ -21,8 +21,10 @@ protocol FormViewFactory {
     func createWidgetView(expression: Expression) -> ViewWidget
 }
 
-class ConcreteFormViewFactory: DefaultASTNodeVisitor, FormViewFactory {
-    typealias GenericReturn = UIView
+
+class DefaultFormViewFactory: ASTNodeVisitor<FormViewFactory, ViewWidget>, FormViewFactory {
+    typealias GenericParam = FormViewFactory
+    typealias GenericReturn = ViewWidget
     
     let formLayout: FormLayout
     
@@ -32,8 +34,7 @@ class ConcreteFormViewFactory: DefaultASTNodeVisitor, FormViewFactory {
     
     
     func createQuestionView(question: Question, delegate: WidgetDelegate) -> UIView {
-        let visitor = ViewFactoryNodeVisitor()
-        let viewWidget = question.expression.accept(visitor, param: self)
+        let viewWidget = question.expression.accept(self, param: self)
         viewWidget.delegate = delegate
         
         return QuestionView(layout: formLayout.questionLayout, question: question, widget: viewWidget)
@@ -54,14 +55,10 @@ class ConcreteFormViewFactory: DefaultASTNodeVisitor, FormViewFactory {
     func createWidgetView(expression: Expression) -> ViewWidget {
         return StaticWidget(layout: formLayout.widgetLayout, delegate: nil, expression: expression)
     }
-}
 
-class ViewFactoryNodeVisitor: ASTNodeVisitor<FormViewFactory, ViewWidget> {
     
-    typealias GenericParam = FormViewFactory
-    typealias GenericReturn = ViewWidget
-    
-    
+    // MARK: - Visitor functions
+
     override func visit(node: StringField, param: GenericParam) -> GenericReturn {
         return param.createWidgetView(node)
     }
