@@ -1,4 +1,3 @@
 form taxOfficeExample {
-    test
-    test2
+    "Did you sell a house in 2010?"
 }

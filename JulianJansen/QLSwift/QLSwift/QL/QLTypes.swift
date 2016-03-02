@@ -8,11 +8,6 @@
 
 import Foundation
 
-
-class QLType: NSObject {
-    
-}
-
 class QLForm: AnyObject {
     let formName: QLString
     let codeBlocks: QLCodeBlock
@@ -24,14 +19,33 @@ class QLForm: AnyObject {
 }
 
 class QLCodeBlock: AnyObject {
-    let codeBlock: [QLString]
+    let codeBlock: [QLStatement]
     
-    init(codeBlock: [QLString]) {
+    init(codeBlock: [QLStatement]) {
         self.codeBlock = codeBlock
     }
 }
 
+class QLStatement: AnyObject {
+
+}
+
+class QLQuestion: QLStatement {
+    let question: String
+    
+    init(question: String) {
+        self.question = question
+    }
+}
+
+class QLExpression: QLStatement {
+    
+}
+
 // MARK: Data Types
+class QLType: QLStatement {
+    
+}
 
 class QLBool: QLType {
     let boolean: Bool
