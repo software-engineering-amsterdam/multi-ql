@@ -27,9 +27,9 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.Literal;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -39,7 +39,6 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.ast.type.BooleanType;
-import nl.nicasso.ql.ast.type.DecimalType;
 import nl.nicasso.ql.ast.type.IntegerType;
 import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.StringType;
@@ -272,11 +271,11 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 		return new IntegerLit(Integer.parseInt(ctx.getText()), CodeLocation.getCodeLocation(ctx));
 	}
 	
-	@Override public ASTNode visitDecimalLiteral(QLParser.DecimalLiteralContext ctx) {
+	@Override public ASTNode visitMoneyLiteral(QLParser.MoneyLiteralContext ctx) {
 		if (debug)
-			System.out.println("DecimalLit: "+ctx.getText());
+			System.out.println("MoneyLit: "+ctx.getText());
 
-		return new DecimalLit(BigDecimal.valueOf(Double.parseDouble(ctx.getText())), CodeLocation.getCodeLocation(ctx));
+		return new MoneyLit(BigDecimal.valueOf(Double.parseDouble(ctx.getText())), CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -325,14 +324,6 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 			System.out.println("MoneyType: "+ctx.getText());
 
 		return new MoneyType(CodeLocation.getCodeLocation(ctx));
-	}
-
-	@Override
-	public ASTNode visitDecimalType(QLParser.DecimalTypeContext ctx) {
-		if (debug)
-			System.out.println("DecimalType: "+ctx.getText());
-
-		return new DecimalType(CodeLocation.getCodeLocation(ctx));
 	}
 
 }

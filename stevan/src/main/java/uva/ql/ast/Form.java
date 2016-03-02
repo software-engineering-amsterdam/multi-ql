@@ -6,23 +6,15 @@ public class Form extends Block {
 
 	private String name;
 	
-	Form(AST newAST) {
-		super(newAST);
+	public Form(String name, int startLine, int startColumn) {
+		super(null, startLine, startColumn);
+		this.name = name;
 	}
 	
-	@Override
-	protected int getNodeType0() {
-		return ANode.FORM;
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	@Override
 	public void accept(INodeVisitor visitor) {
 		visitor.visitForm(this);

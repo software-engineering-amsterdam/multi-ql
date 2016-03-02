@@ -1,6 +1,7 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
@@ -18,8 +19,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -37,10 +38,10 @@ public class CyclicDependencyVisitor implements StructureVisitor<Identifier>, St
 
 	private boolean debug = false;
 	
-	private ArrayList<String> warnings;
-	private ArrayList<String> errors;
+	private List<String> warnings;
+	private List<String> errors;
 	
-	private ArrayList<Pair> dependencies;
+	private List<Pair> dependencies;
 	private Identifier currentIdentifier;
 
 	CyclicDependencyVisitor() {
@@ -324,18 +325,18 @@ public class CyclicDependencyVisitor implements StructureVisitor<Identifier>, St
 	}
 	
 	@Override
-	public Identifier visit(DecimalLit value) {
+	public Identifier visit(MoneyLit value) {
 		if (debug) {
 			System.out.println("MoneyLit: "+value.getValue());
 		}
 		return null;
 	}
 
-	public ArrayList<String> getErrors() {
+	public List<String> getErrors() {
 		return errors;
 	}
 	
-	public ArrayList<String> getWarnings() {
+	public List<String> getWarnings() {
 		return warnings;
 	}
 	
@@ -358,7 +359,7 @@ public class CyclicDependencyVisitor implements StructureVisitor<Identifier>, St
 		return false;
 	}
 	
-	private ArrayList<Pair> makePairsTransitive(ArrayList<Pair> tmpDependencies) {	
+	private List<Pair> makePairsTransitive(List<Pair> tmpDependencies) {	
 		boolean keepRunning = true;
 		
 		while (keepRunning) {
@@ -394,7 +395,7 @@ public class CyclicDependencyVisitor implements StructureVisitor<Identifier>, St
 	
 	private boolean checkPairExistance(Pair p) {
 		for (Pair tmp : dependencies) {
-			if (tmp.getLeft().getValue().equals(p.getLeft().getValue()) && tmp.getRight().getValue().equals(p.getRight().getValue())) {
+			if (tmp.equals(p)) {
 				return true;
 			}
 		}

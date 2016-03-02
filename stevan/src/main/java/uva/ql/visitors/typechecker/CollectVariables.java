@@ -2,19 +2,19 @@ package uva.ql.visitors.typechecker;
 
 import java.util.ArrayList;
 
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
+import uva.ql.ast.conditionals.IfStatement;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.visitors.INodeVisitor;
 
 public class CollectVariables implements INodeVisitor {
 
-	private final ArrayList<AVariable> store = new ArrayList<AVariable>();
+	private final ArrayList<Variable> store = new ArrayList<Variable>();
 	
-	public ArrayList<AVariable> getStore() {
+	public ArrayList<Variable> getStore() {
 		
 		return store;
 	}
@@ -31,6 +31,7 @@ public class CollectVariables implements INodeVisitor {
 	@Override
 	public void visitBlock( Block block ) {
 
+		// For each is more readable
 		for( int i=0; i<block.size(); i++ ) {
 			
 			block.get(i).accept( this );
@@ -56,11 +57,11 @@ public class CollectVariables implements INodeVisitor {
 	public <T> void visitExp( T expression ) {}
 
 	@Override
-	public void visitVar( AVariable variable ) {
+	public void visitVar( Variable variable ) {
 		
 		store.add( variable );
 	}
 	
 	@Override
-	public void visitNum( ANumber number ) {}
+	public void visitNum( Number number ) {}
 }

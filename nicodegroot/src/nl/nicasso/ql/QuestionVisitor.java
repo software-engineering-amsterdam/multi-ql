@@ -1,6 +1,7 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
@@ -18,8 +19,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -38,11 +39,11 @@ public class QuestionVisitor implements StructureVisitor<Identifier>, StatementV
 
 	private boolean debug = false;
 
-	private ArrayList<Question> questions;
-	private ArrayList<Identifier> identifiers;
+	private List<Question> questions;
+	private List<Identifier> identifiers;
 	
-	private ArrayList<String> warnings;
-	private ArrayList<String> errors;
+	private List<String> warnings;
+	private List<String> errors;
 	
 	private SymbolTable symbolTable;
 
@@ -130,11 +131,11 @@ public class QuestionVisitor implements StructureVisitor<Identifier>, StatementV
 		return null;
 	}
 
-	public ArrayList<Question> getQuestions() {
+	public List<Question> getQuestions() {
 		return questions;
 	}
 	
-	public ArrayList<Identifier> getIdentifiers() {
+	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
 	
@@ -192,11 +193,11 @@ public class QuestionVisitor implements StructureVisitor<Identifier>, StatementV
 		return false;
 	}
 	
-	public ArrayList<String> getErrors() {
+	public List<String> getErrors() {
 		return errors;
 	}
 	
-	public ArrayList<String> getWarnings() {
+	public List<String> getWarnings() {
 		return warnings;
 	}
 
@@ -303,7 +304,7 @@ public class QuestionVisitor implements StructureVisitor<Identifier>, StatementV
 	}
 
 	@Override
-	public Identifier visit(DecimalLit value) {
+	public Identifier visit(MoneyLit value) {
 		// TODO Auto-generated method stub
 		return null;
 	}

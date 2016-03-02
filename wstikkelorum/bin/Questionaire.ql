@@ -9,15 +9,13 @@ form Box1HouseOwning {
 		valueResidue: int "Value residue:" (2 - 3)
 		test: boolean "example wrong expression:" (3+2*1<9)
 		booltest: boolean "This should be accepted" (true)
-		booltest: int "duplicate with different type"
 	}
 	
 	if(laterDeclared){
-		fault: boolean "this does not work" (true < 2)
+		fault: boolean "this does not work" (1 < 2)
+		identA: int "B plus 1" (B + 1)
+		B: int "What is B?"
 	}
 	
-	laterDeclared: boolean "This should be accepted"
-	
-	if(unknownVariable){
-	}
+	laterDeclared: boolean "This should be accepted" (true)
 }

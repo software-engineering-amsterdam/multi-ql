@@ -1,6 +1,7 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
@@ -18,8 +19,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -29,8 +30,8 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.ast.type.BooleanType;
-import nl.nicasso.ql.ast.type.DecimalType;
 import nl.nicasso.ql.ast.type.IntegerType;
+import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.NumericType;
 import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
@@ -42,10 +43,10 @@ import nl.nicasso.ql.visitor.StructureVisitor;
 
 public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisitor<Type>, ExpressionVisitor<Type> {
 
-	private boolean debug = true;
+	private boolean debug = false;
 		
-	private ArrayList<String> errors;
-	private ArrayList<String> warnings;
+	private List<String> errors;
+	private List<String> warnings;
 
 	private SymbolTable symbolTable;
 	
@@ -220,7 +221,7 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Division)");
-			return new DecimalType();
+			return new MoneyType();
 		} else {
 			return containerType;
 		}
@@ -239,7 +240,7 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Multiplication)");
-			return new DecimalType();
+			return new MoneyType();
 		} else {
 			return containerType;
 		}
@@ -362,7 +363,7 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 	public Type visit(ComputedQuestion value) {
 		Type expr = value.getExpr().accept(this);getClass();
 		
-		if (!expr.getType().equals(value.getType().getType())) {
+		if (!expr.equals(value.getType())) {
 			errors.add("Error: Incompatible types detected (ComputedQuestion): "+value.getId().getValue());
 		}
 		
@@ -440,11 +441,11 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 	}
 	
 	@Override
-	public Type visit(DecimalLit value) {
+	public Type visit(MoneyLit value) {
 		if (debug) {
-			System.out.println("DecimalLit: "+value.getValue());
+			System.out.println("MoneyLit: "+value.getValue());
 		}
-		return new DecimalType();
+		return new MoneyType();
 	}
 	
 	private boolean checkType(Type exprType, Type type) {
@@ -452,17 +453,17 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 			return true;	
 		} else if (exprType instanceof Type) {
 			return true;	
-		} else if (exprType.getType().equals(type.getType())) {
+		} else if (exprType.equals(type)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public ArrayList<String> getErrors() {
+	public List<String> getErrors() {
 		return errors;
 	}
 	
-	public ArrayList<String> getWarnings() {
+	public List<String> getWarnings() {
 		return warnings;
 	}
 	

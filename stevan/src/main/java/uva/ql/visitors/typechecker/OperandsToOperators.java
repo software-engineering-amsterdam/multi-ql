@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import uva.ql.ast.AExpression;
-import uva.ql.ast.ANode;
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
+import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.conditionals.IfStatement;
+import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IExpression;
 import uva.ql.interfaces.INode;
 import uva.ql.interfaces.IVariable;
@@ -78,7 +78,7 @@ public class OperandsToOperators implements INodeVisitor {
 	@Override
 	public <T> void visitExp( T expression ) {
 		
-		AExpression exp = (AExpression) expression;
+		Expression exp = (Expression) expression;
 		checkExprType( exp );
 
 		if ( exp.getLeftNode() != null ) {
@@ -94,7 +94,7 @@ public class OperandsToOperators implements INodeVisitor {
 	}
 
 	@Override
-	public void visitVar( AVariable var ) {
+	public void visitVar( Variable var ) {
 		
 		if ( !OPER_OPER.contains(var.getVarType()) ) {
 			
@@ -103,9 +103,9 @@ public class OperandsToOperators implements INodeVisitor {
 	}
 
 	@Override
-	public void visitNum( ANumber number ) {}
+	public void visitNum( Number number ) {}
 
-	private void checkExprType( AExpression exp ) {
+	private void checkExprType( Expression exp ) {
 		
 		if ( !OPER_OPER.contains(exp.getExprType()) ) {
 		
@@ -113,7 +113,7 @@ public class OperandsToOperators implements INodeVisitor {
 		}
 	}
 
-	private void writeErrorMsg( ANode node ) {
+	private void writeErrorMsg( Node node ) {
 		
 		String msg = "";
 				

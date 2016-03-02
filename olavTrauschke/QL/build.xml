@@ -16,6 +16,19 @@
             <arg value="jacc.bat" />
         </exec>
     </target>
+    
+    <target name="-javadoc-build">
+        <javadoc
+            sourcepath="src"
+            destdir="dist/javadoc"
+            author="true"
+            version="true"
+            windowtitle="QL"
+        >
+            <link href="http://docs.oracle.com/javase/8/docs/api/" />
+        </javadoc>
+    </target>
+    
     <!--
 
     There exist several targets which are by default empty and which can be 
