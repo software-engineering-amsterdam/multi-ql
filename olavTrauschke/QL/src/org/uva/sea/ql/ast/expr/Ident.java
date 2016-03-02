@@ -6,7 +6,7 @@ import org.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 2-mrt-2016
  */
 public class Ident extends Expr {
     
@@ -60,6 +60,14 @@ public class Ident extends Expr {
     @Override
     public int hashCode() {
         return HASH_ORIGIN + content.hashCode();
+    }
+    
+    /**
+     * @return <code>theContent</code>, representing <code>this Ident</code>
+     */
+    @Override
+    public String toString() {
+        return content;
     }
     
 }
