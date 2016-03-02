@@ -3,7 +3,6 @@ package org.uva.sea.ql.type_checker;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.sea.ql.ast.expression.ExpressionVisitor;
 import org.uva.sea.ql.ast.expression.Comparison.Equal;
 import org.uva.sea.ql.ast.expression.Comparison.Greater;
 import org.uva.sea.ql.ast.expression.Comparison.GreaterOrEqual;
@@ -24,6 +23,9 @@ import org.uva.sea.ql.ast.expression.Parenthesis.Parenthesis;
 import org.uva.sea.ql.ast.expression.Unary.Negative;
 import org.uva.sea.ql.ast.expression.Unary.Not;
 import org.uva.sea.ql.ast.expression.Unary.Positive;
+import org.uva.sea.ql.ast.expression.*;
+
+// change name
 
 public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>> {
 	
