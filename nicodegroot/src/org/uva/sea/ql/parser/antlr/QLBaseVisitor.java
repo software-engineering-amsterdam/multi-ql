@@ -132,7 +132,7 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMoneyLiteral(QLParser.MoneyLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDecimalLiteral(QLParser.DecimalLiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -175,4 +175,11 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitMoneyType(QLParser.MoneyTypeContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDecimalType(QLParser.DecimalTypeContext ctx) { return visitChildren(ctx); }
 }

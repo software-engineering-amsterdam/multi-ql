@@ -47,12 +47,21 @@ QLListener.prototype.exitQuestionStatementCase = function(ctx) {
 };
 
 
-// Enter a parse tree produced by QLParser#if_.
-QLListener.prototype.enterIf_ = function(ctx) {
+// Enter a parse tree produced by QLParser#ifCase.
+QLListener.prototype.enterIfCase = function(ctx) {
 };
 
-// Exit a parse tree produced by QLParser#if_.
-QLListener.prototype.exitIf_ = function(ctx) {
+// Exit a parse tree produced by QLParser#ifCase.
+QLListener.prototype.exitIfCase = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLParser#ifElseCase.
+QLListener.prototype.enterIfElseCase = function(ctx) {
+};
+
+// Exit a parse tree produced by QLParser#ifElseCase.
+QLListener.prototype.exitIfElseCase = function(ctx) {
 };
 
 

@@ -1,16 +1,15 @@
 package uva.ql.visitors;
 
-import uva.ql.ast.AExpression;
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
+import uva.ql.ast.conditionals.IfStatement;
+import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.numbers.NumDouble;
 import uva.ql.ast.numbers.NumInt;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.INumber;
 
 public class ASTTreePrintVisitor implements INodeVisitor {
@@ -41,7 +40,7 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 		System.out.println("If: ");
 		
 		if (IExpression.VARIABLE == ifStmnt.getExpression().getLeftNode().getNodeType()) {
-			AVariable var = (AVariable) ifStmnt.getExpression().getLeftNode();
+			Variable var = (Variable) ifStmnt.getExpression().getLeftNode();
 			System.out.println("ifStmnt: " + var.getName() + " - " + var.toString());
 		}
 		ifStmnt.getExpression().accept(this);
@@ -64,7 +63,7 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 	@Override
 	public <T> void visitExp(T expression) {
 		
-		AExpression exp = (AExpression) expression;
+		Expression exp = (Expression) expression;
 		
 		System.out.println("exp: " + exp.getExprType());
 		if (exp.getExprType() != IExpression.NUMBER) {
@@ -76,7 +75,7 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 	}
 
 	@Override
-	public void visitNum(ANumber number) {
+	public void visitNum(Number number) {
 		
 		if(number.getNumType() == INumber.DOUBLE) {
 			NumDouble num = (NumDouble) number;
@@ -89,7 +88,7 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 	}
 
 	@Override
-	public void visitVar(AVariable var) {
+	public void visitVar(Variable var) {
 		
 		System.out.println(var.getName());
 	}

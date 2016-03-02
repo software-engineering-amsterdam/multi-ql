@@ -11,7 +11,13 @@ public class BooleanNode extends Node {
 	
 	@Override
 	public void accept(Visitor visitor) {
-		visitor.visit(this);
 	}
-
+	
+	@Override
+	public void dump() {
+		System.out.println(this.getClass());
+		if (getLeft() != null) { getLeft().dump(); }
+		if (getRight() != null) { getRight().dump(); }
+	}
+	
 }

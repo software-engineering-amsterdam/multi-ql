@@ -4,15 +4,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import uva.ql.ast.AExpression;
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
+import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.conditionals.IfStatement;
+import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 
@@ -70,7 +71,7 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 	@Override
 	public <T> void visitExp( T expression ) {
 		
-		AExpression exp = (AExpression) expression;
+		Expression exp = (Expression) expression;
 		checkExprType( exp );
 		
 		if ( exp.getLeftNode() != null ) {
@@ -86,17 +87,25 @@ public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 	}
 	
 	@Override
-	public void visitVar( AVariable variable ) {}
+	public void visitVar( Variable var ) {}
 	
 	@Override
-	public void visitNum( ANumber number ) {}
+	public void visitNum( Number number ) {
+		
+		writeErrorMsg( number );
+	}
 
-	private void checkExprType( AExpression exp ) {
+	private void checkExprType( Expression exp ) {
 		
 		if ( !CON_BOOL.contains(exp.getExprType()) ) {
-			
-			String msg = "Error: Condition not of type Boolean, starting at line: " + exp.getLine() + ", column: " + exp.getColumn();
-			store.put( msg, -1 );
+		
+			writeErrorMsg( exp );
 		}
+	}
+	
+	private void writeErrorMsg( Node node ) {
+		
+		String msg = String.format("Error: Condition not of type Boolean, starting at line: %s, column: %s", node.getLine(), node.getColumn());
+		store.put( msg, -1 );
 	}
 }

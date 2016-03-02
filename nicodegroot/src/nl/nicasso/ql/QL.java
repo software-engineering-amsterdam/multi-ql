@@ -40,14 +40,14 @@ public class QL {
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		
-		parser = new QLParser(tokens);		
+		parser = new QLParser(tokens);
 		tree = parser.form();
 				
 		SymbolTable symbolTable = new SymbolTable();
         
         CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
-          
+
         QuestionVisitor questionVisitor = new QuestionVisitor(symbolTable);
         ast.accept(questionVisitor);
         
@@ -66,12 +66,13 @@ public class QL {
         displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
         
         //displaySymbolTable(symbolTable);
-        
-        TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(symbolTable);
-        ast.accept(typeChecker);
+    
+    	TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(symbolTable);
+    	ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
+
         
         EvaluatorVisitor evaluator = new EvaluatorVisitor(symbolTable);
         // Get all initial values

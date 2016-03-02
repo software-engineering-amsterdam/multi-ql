@@ -2,7 +2,6 @@ package nl.nicasso.ql;
 
 import java.util.ArrayList;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -19,8 +18,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -30,24 +29,27 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.ast.type.BooleanType;
+import nl.nicasso.ql.ast.type.DecimalType;
 import nl.nicasso.ql.ast.type.IntegerType;
-import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.NumericType;
 import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class TypeCheckerVisitor implements Visitor<Type> {
+public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisitor<Type>, ExpressionVisitor<Type> {
 
-	private boolean debug = false;
+	private boolean debug = true;
 		
 	private ArrayList<String> errors;
 	private ArrayList<String> warnings;
 
 	private SymbolTable symbolTable;
 	
-	TypeCheckerVisitor(SymbolTable symbolTable) {
+	public TypeCheckerVisitor(SymbolTable symbolTable) {
 		errors = new ArrayList<String>();
 		warnings = new ArrayList<String>();
 		this.symbolTable = symbolTable;
@@ -67,11 +69,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (And)");
+			return new BooleanType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 	
 	@Override
@@ -88,7 +89,8 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Addition)");
-			return null;
+			// Fake a return, BAH!
+			return new IntegerType();
 		} else {
 			return containerType;
 		}
@@ -108,11 +110,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Subtraction)");
+			return new IntegerType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -129,11 +130,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Or)");
+			return new BooleanType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -180,11 +180,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Equal)");
+			return new Type();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -201,11 +200,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (NotEqual)");
+			return new Type();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -222,11 +220,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Division)");
+			return new DecimalType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -242,11 +239,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Multiplication)");
+			return new DecimalType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -263,11 +259,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Greater)");
+			return new BooleanType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -284,11 +279,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (GreaterEqual)");
+			return new BooleanType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -305,11 +299,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Less)");
+			return new BooleanType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -326,11 +319,10 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (LessEqual)");
+			return new BooleanType();
 		} else {
 			return containerType;
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -370,7 +362,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	public Type visit(ComputedQuestion value) {
 		Type expr = value.getExpr().accept(this);getClass();
 		
-		if (!expr.getType().equals(value.getType().getType())) {			
+		if (!expr.getType().equals(value.getType().getType())) {
 			errors.add("Error: Incompatible types detected (ComputedQuestion): "+value.getId().getValue());
 		}
 		
@@ -423,7 +415,7 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	@Override
 	public Type visit(Identifier value) {
 		if (debug) {
-			System.out.println("IdentifierLit: "+value.getValue());
+			System.out.println("IdentifierLit: "+value.getValue()+" - "+symbolTable.getEntry(value).getType().getType());
 		}
 		
 		SymbolTableEntry entry = symbolTable.getEntry(value);
@@ -448,11 +440,11 @@ public class TypeCheckerVisitor implements Visitor<Type> {
 	}
 	
 	@Override
-	public Type visit(MoneyLit value) {
+	public Type visit(DecimalLit value) {
 		if (debug) {
-			System.out.println("MoneyLit: "+value.getValue());
+			System.out.println("DecimalLit: "+value.getValue());
 		}
-		return new MoneyType();
+		return new DecimalType();
 	}
 	
 	private boolean checkType(Type exprType, Type type) {

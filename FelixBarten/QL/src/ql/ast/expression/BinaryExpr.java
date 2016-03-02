@@ -1,5 +1,6 @@
 package ql.ast.expression;
 
+import ql.BaseVisitor;
 import ql.ast.Expr;
 
 public class BinaryExpr extends Expr {
@@ -25,6 +26,12 @@ public class BinaryExpr extends Expr {
 
 	public void setRight(Expr right) {
 		this.right = right;
+	}
+
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -13,4 +13,16 @@ public class AssignVariableNode extends Node {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+	
+	@Override
+	public Object getValue(){
+		return getRight().getValue();
+	}
+
+	@Override
+	public void dump() {
+		System.out.println(this.getClass());
+		if (getLeft() != null) { getLeft().dump(); }
+		if (getRight() != null) { getRight().dump(); }
+	}
 }

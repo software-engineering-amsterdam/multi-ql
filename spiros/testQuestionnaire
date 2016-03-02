@@ -5,11 +5,11 @@ form Box1HouseOwning {
 	boolean (true)
 	
 	if (!true) {
-		takeMaintLoan: "Did you buy a house in 2010?" boolean
+		takeMaintLoan: "Did you buy a house in 2010?" int (5 + hasRentHouse)
 	}
 	
 	if (false) {
-		takeMaintLoan: "Did you buy a house in 2010?" boolean
+		testVar: "Did you buy a house in 2010?" boolean (hasRentHouse == 6)
 	}
 	
 }

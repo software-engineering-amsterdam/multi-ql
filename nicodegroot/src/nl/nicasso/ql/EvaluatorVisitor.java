@@ -1,6 +1,5 @@
 package nl.nicasso.ql;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -17,8 +16,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -29,8 +28,11 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class EvaluatorVisitor implements Visitor<Object> {
+public class EvaluatorVisitor implements StructureVisitor<Object>, StatementVisitor<Object>, ExpressionVisitor<Object> {
 	
 	private boolean debug = false;
 	
@@ -355,11 +357,11 @@ public class EvaluatorVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(MoneyLit value) {
+	public Object visit(DecimalLit value) {
 		if (debug) {
-			System.out.println("MoneyLit: "+value.getValue());
+			System.out.println("DecimalLit: "+value.getValue());
 		}
-		return new Integer((Integer) value.getValue());
+		return value.getValue(); //new BigDecimal((BigDecimal) value.getValue());
 	}
 
 }

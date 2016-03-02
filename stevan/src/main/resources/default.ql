@@ -16,7 +16,7 @@ form taxOfficeExample {
                sellingPrice: money
           "Value residue:"
                valueResidue: money = 
-                    (sellingPrice - privateDebt) + true
+                    (sellingPrice - privateDebt) && birthDate
           "Private debts for the sold house:"
                privateDebt: money
           "Parents gift money:"
@@ -26,8 +26,8 @@ form taxOfficeExample {
      }
      
      if (age && 5.1) {
-          "Do you see yourself as being old?"
-               old: boolean
+          "Do you have children?"
+               children: boolean
      }
      
      "Did you steal in 2010?"

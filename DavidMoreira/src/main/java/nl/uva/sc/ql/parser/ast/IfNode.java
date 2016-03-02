@@ -8,4 +8,5 @@ public class IfNode extends IfElseNode {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+
 }

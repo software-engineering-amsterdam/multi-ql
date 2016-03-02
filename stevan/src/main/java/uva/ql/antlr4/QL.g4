@@ -47,7 +47,7 @@ label : STRING (DIGIT+)? ('?'|':')? ;
 varName : ID ;
 varType : ( BOOLEAN | MONEY | INT | STRING | DATE ) ;
 
-question : label varName ':' varType ('=' expression+ )? ;
+question : label varName ':' varType ('=' expression )? ;
 
 /*
  * Conditional structures associate an enabling condition to a question, in which

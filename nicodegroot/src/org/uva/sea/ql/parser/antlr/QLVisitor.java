@@ -124,12 +124,12 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code moneyLiteral}
+	 * Visit a parse tree produced by the {@code decimalLiteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	T visitDecimalLiteral(QLParser.DecimalLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.
@@ -172,4 +172,11 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMoneyType(QLParser.MoneyTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code decimalType}
+	 * labeled alternative in {@link QLParser#questionType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecimalType(QLParser.DecimalTypeContext ctx);
 }
