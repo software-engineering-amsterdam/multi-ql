@@ -13,7 +13,7 @@ public class CharStream {
     self.pos = str.startIndex
     str.enumerateLines { (line, stop) -> () in
         let lastLineEnd = self.lines.last ?? 0
-        self.lines.append(lastLineEnd + line.startIndex.distanceTo(line.endIndex) + 1)
+        self.lines.append(lastLineEnd + line.startIndex.distanceTo(line.endIndex) + 2)
     }
   }
     
@@ -22,11 +22,11 @@ public class CharStream {
         for i in 0..<lines.count {
             if intPos <= lines[i] {
                 let line = i + 1
-                let character = (i == 0 ? intPos : intPos - lines[i-1]) + 1
-                return Position(line: line, character: character)
+                let character = (i == 0 ? intPos : intPos - lines[i-1])
+                return Position(line: line, character: character, pos: pos)
             }
         }
-        return Position(line: -1, character: -1)
+        return Position(line: -1, character: -1, pos: str.startIndex)
     }
 
   var head:Character? {
@@ -79,10 +79,6 @@ public struct Position {
     
     public let line: Int
     public let character: Int
-    
-    init(line: Int, character: Int) {
-        self.line = line
-        self.character = character
-    }
+    public let pos: String.Index
     
 }
