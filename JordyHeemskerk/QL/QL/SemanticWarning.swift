@@ -14,10 +14,13 @@ enum SemanticWarning: SemanticLoggable {
     case DuplicateQuestion(question: String, position: Position)
     
     var description: String {
-        let prefix = "Warning:"
+        return "Warning: \(self.warningDescription)"
+    }
+    
+    private var warningDescription: String {
         switch self {
         case let .DuplicateQuestion(question, position):
-            return "\(prefix) Question with the phrase: '\(question)' is already defined. [\(position.line):\(position.character)]"
+            return "Question with the phrase: '\(question)' is already defined. [\(position.line):\(position.character)]"
         }
     }
 }

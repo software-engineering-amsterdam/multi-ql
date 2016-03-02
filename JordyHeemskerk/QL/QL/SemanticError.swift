@@ -16,15 +16,18 @@ enum SemanticError: SemanticLoggable {
     case ConditionTypeMismatch(inferedType: Type, position: Position)
     
     var description: String {
-        let prefix = "Error:"
+        return "Error: \(self.errorDescription)"
+    }
+    
+    private var errorDescription: String {
         switch self {
         case let .VariableAlreadyDefined(identifier, position):
-            return "\(prefix) Variable \(identifier) already defined. [\(position.line):\(position.character)]"
+            return "Variable \(identifier) already defined. [\(position.line):\(position.character)]"
         case let .ComputedTypeMismatch(identifier, expectedType, inferedType, position):
-            return "\(prefix) Computed type of variable '\(identifier)' does not match declaration, expected \(expectedType) but got \(inferedType). [\(position.line):\(position.character)]"
+            return "Computed type of variable '\(identifier)' does not match declaration, expected \(expectedType) but got \(inferedType). [\(position.line):\(position.character)]"
         case  let .ConditionTypeMismatch(inferedType, position):
             let expecedType = BooleanType()
-            return "\(prefix) Condition type is not of type \(expecedType), expected \(expecedType) but got \(inferedType). [\(position.line):\(position.character)]"
+            return "Condition type is not of type \(expecedType), expected \(expecedType) but got \(inferedType). [\(position.line):\(position.character)]"
         }
     }
 

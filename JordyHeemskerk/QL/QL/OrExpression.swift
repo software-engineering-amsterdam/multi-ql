@@ -20,7 +20,7 @@ struct OrExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return lhs.inferType(symbolTable).or(rhs, symbolTable: symbolTable)
     }
     
 }

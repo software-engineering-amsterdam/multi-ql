@@ -20,7 +20,7 @@ struct LtExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return lhs.inferType(symbolTable).lt(rhs, symbolTable: symbolTable)
     }
     
 }

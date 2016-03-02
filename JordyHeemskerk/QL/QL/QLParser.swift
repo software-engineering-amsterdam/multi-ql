@@ -27,7 +27,7 @@ struct QLParser : Parser {
     static let eq = const("=") ~> skip
     
     // Base elements
-    static let form = const("form") ~> skip >~ identifier ~>~ block ~> skip ~> eof() |> Form.init
+    static let form = skip ~> const("form") ~> skip >~ identifier ~>~ block ~> skip ~> eof() |> Form.init
     
     static let block = ocurly >~ (statement ~> skip)* ~> ccurly |> Block.init
     

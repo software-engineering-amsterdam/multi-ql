@@ -20,7 +20,7 @@ struct GetExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return lhs.inferType(symbolTable).get(rhs, symbolTable: symbolTable)
     }
     
 }

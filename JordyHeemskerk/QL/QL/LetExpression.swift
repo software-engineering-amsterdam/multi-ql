@@ -20,7 +20,7 @@ struct LetExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return lhs.inferType(symbolTable).le(rhs, symbolTable: symbolTable)
     }
     
 }

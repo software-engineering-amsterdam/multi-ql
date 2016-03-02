@@ -20,7 +20,7 @@ struct GtExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return lhs.inferType(symbolTable).gt(rhs, symbolTable: symbolTable)
     }
     
 }

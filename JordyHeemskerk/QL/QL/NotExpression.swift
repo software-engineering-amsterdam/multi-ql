@@ -19,7 +19,7 @@ struct NotExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return operand.inferType(symbolTable).not()
     }
     
 }

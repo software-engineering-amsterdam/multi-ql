@@ -20,7 +20,7 @@ struct EqExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return lhs.inferType(symbolTable).eq(rhs, symbolTable: symbolTable)
     }
     
 }

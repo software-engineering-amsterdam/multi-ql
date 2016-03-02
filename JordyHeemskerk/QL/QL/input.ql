@@ -1,6 +1,6 @@
 form someName {
     "Some question" money: float
-    "Some other question" newvar: bool
+    "Some other question" newvar: bool = 1 && 1 > 2
     "another question" cool: float = newvar
     if(false) {
         "third question!" coolio: int

@@ -20,7 +20,7 @@ struct AndExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return lhs.inferType(symbolTable).and(rhs, symbolTable: symbolTable)
     }
     
 }

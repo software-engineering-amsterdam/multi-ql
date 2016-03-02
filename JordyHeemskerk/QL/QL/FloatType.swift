@@ -10,130 +10,144 @@ import Foundation
 
 class FloatType: Type {
     
-    var description: String { return "Float" }
+    override var description: String { return "Float" }
     
-    func compatible(expression: Expression, symbolTable: SymbolTable) -> Bool {
+    override func compatible(expression: Expression, symbolTable: SymbolTable) -> Bool {
         return expression.inferType(symbolTable).compatibleWithFloat(self)
     }
     
-    func compatibleWithInteger(integer: IntegerType) -> Bool {
-        return false
-    }
-    
-    func compatibleWithFloat(float: FloatType) -> Bool {
+    override func compatibleWithFloat(float: FloatType) -> Bool {
         return true
     }
     
-    func compatibleWithBoolean(boolean: BooleanType) -> Bool {
-        return false
-    }
-    
-    func compatibleWithString(string: StringType) -> Bool{
-        return false
-    }
-    
-    func compatibleWithError(error: ErrorType) -> Bool {
-        return false
-    }
-    
-    // Addition type checking
-    func add(expression: Expression, symbolTable: SymbolTable) -> Type {
+    //MARK: Addition
+    override func add(expression: Expression, symbolTable: SymbolTable) -> Type {
         return expression.inferType(symbolTable).addFloat(self)
     }
     
-    func addInteger(integer: IntegerType) -> Type {
+    override func addInteger(integer: IntegerType) -> Type {
         return FloatType()
     }
     
-    func addFloat(float: FloatType) -> Type {
+    override func addFloat(float: FloatType) -> Type {
         return FloatType()
     }
     
-    func addBool(bool: BooleanType) -> Type {
-        return ErrorType()
-    }
-    
-    func addString(bool: StringType) -> Type {
-        return ErrorType()
-    }
-    
-    func addError(error: ErrorType) -> Type {
-        return ErrorType()
-    }
-    
-    // Subtraction type checking
-    func sub(expression: Expression, symbolTable: SymbolTable) -> Type {
+    //MARK: Subtraction
+    override func sub(expression: Expression, symbolTable: SymbolTable) -> Type {
         return expression.inferType(symbolTable).subFloat(self)
     }
     
-    func subInteger(integer: IntegerType) -> Type {
+    override func subInteger(integer: IntegerType) -> Type {
         return FloatType()
     }
     
-    func subFloat(float: FloatType) -> Type {
+    override func subFloat(float: FloatType) -> Type {
         return FloatType()
     }
     
-    func subBool(bool: BooleanType) -> Type {
-        return ErrorType()
-    }
-    
-    func subString(bool: StringType) -> Type {
-        return ErrorType()
-    }
-    
-    func subError(error: ErrorType) -> Type {
-        return ErrorType()
-    }
-    
-    // Multiplication type checking
-    func mul(expression: Expression, symbolTable: SymbolTable) -> Type {
+    //MARK: Multiplication
+    override func mul(expression: Expression, symbolTable: SymbolTable) -> Type {
         return expression.inferType(symbolTable).mulFloat(self)
     }
     
-    func mulInteger(integer: IntegerType) -> Type {
+    override func mulInteger(integer: IntegerType) -> Type {
         return FloatType()
     }
     
-    func mulFloat(float: FloatType) -> Type {
+    override func mulFloat(float: FloatType) -> Type {
         return FloatType()
     }
     
-    func mulBool(bool: BooleanType) -> Type {
-        return ErrorType()
-    }
-    
-    func mulString(bool: StringType) -> Type {
-        return ErrorType()
-    }
-    
-    func mulError(error: ErrorType) -> Type {
-        return ErrorType()
-    }
-    
-    // Multiplication type checking
-    func div(expression: Expression, symbolTable: SymbolTable) -> Type {
+    //MARK: Division
+    override func div(expression: Expression, symbolTable: SymbolTable) -> Type {
         return expression.inferType(symbolTable).divFloat(self)
     }
     
-    func divInteger(integer: IntegerType) -> Type {
+    override func divInteger(integer: IntegerType) -> Type {
         return FloatType()
     }
     
-    func divFloat(float: FloatType) -> Type {
+    override func divFloat(float: FloatType) -> Type {
         return FloatType()
     }
     
-    func divBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    //MARK: Less than
+    override func lt(expression: Expression, symbolTable: SymbolTable) -> Type {
+        return expression.inferType(symbolTable).ltFloat(self)
     }
     
-    func divString(bool: StringType) -> Type {
-        return ErrorType()
+    override func ltInteger(integer: IntegerType) -> Type {
+        return BooleanType()
     }
     
-    func divError(error: ErrorType) -> Type {
-        return ErrorType()
+    override func ltFloat(float: FloatType) -> Type {
+        return BooleanType()
+    }
+    
+    //MARK: Less or equal to
+    override func le(expression: Expression, symbolTable: SymbolTable) -> Type {
+        return expression.inferType(symbolTable).letFloat(self)
+    }
+    
+    override func letInteger(integer: IntegerType) -> Type {
+        return BooleanType()
+    }
+    
+    override func letFloat(float: FloatType) -> Type {
+        return BooleanType()
+    }
+    
+    //MARK: Greater than
+    override func gt(expression: Expression, symbolTable: SymbolTable) -> Type {
+        return expression.inferType(symbolTable).gtFloat(self)
+    }
+    
+    override func gtInteger(integer: IntegerType) -> Type {
+        return BooleanType()
+    }
+    
+    override func gtFloat(float: FloatType) -> Type {
+        return BooleanType()
+    }
+    
+    //MARK: Greater or equal to
+    override func get(expression: Expression, symbolTable: SymbolTable) -> Type {
+        return expression.inferType(symbolTable).getFloat(self)
+    }
+    
+    override func getInteger(integer: IntegerType) -> Type {
+        return BooleanType()
+    }
+    
+    override func getFloat(float: FloatType) -> Type {
+        return BooleanType()
+    }
+    
+    //MARK: Equal to
+    override func eq(expression: Expression, symbolTable: SymbolTable) -> Type {
+        return expression.inferType(symbolTable).eqFloat(self)
+    }
+    
+    override func eqInteger(integer: IntegerType) -> Type {
+        return BooleanType()
+    }
+    
+    override func eqFloat(float: FloatType) -> Type {
+        return BooleanType()
+    }
+    
+    //MARK: Not equal to
+    override func neq(expression: Expression, symbolTable: SymbolTable) -> Type {
+        return expression.inferType(symbolTable).neqFloat(self)
+    }
+    
+    override func neqInteger(integer: IntegerType) -> Type {
+        return BooleanType()
+    }
+    
+    override func neqFloat(float: FloatType) -> Type {
+        return BooleanType()
     }
     
 }

@@ -20,7 +20,7 @@ struct NeqExpression: Expression {
     }
     
     func inferType(symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+        return lhs.inferType(symbolTable).neq(rhs, symbolTable: symbolTable)
     }
     
 }
