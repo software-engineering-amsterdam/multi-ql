@@ -92,6 +92,19 @@ public abstract class Question extends ASTNode {
     }
     
     /**
+     * Determines whether <code>this Question</code> is of the same type as
+     * another <code>Question</code>.
+     * 
+     * @param other a <code>Question</code> to compare
+     *              <code>this Question</code> with
+     * @return <code>true</code> if and only if <code>this Question</code> and
+     *          <code>other</code> are objects of the same class
+     */
+    public boolean hasEqualType(Question other) {
+        return getClass() == other.getClass();
+    }
+    
+    /**
      * Compares <code>this Question</code> to another <code>Object</code>. A
      * <code>Question</code> is considered equal only to other objects of the
      * same class for which <code>theIdentifier</code>, <code>theLabel</code>

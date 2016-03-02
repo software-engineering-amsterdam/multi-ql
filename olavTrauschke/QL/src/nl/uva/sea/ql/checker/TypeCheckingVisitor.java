@@ -3,8 +3,8 @@ package nl.uva.sea.ql.checker;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import nl.uva.sea.ql.ast.question.Question;
 
 /**
  * Visitor to check the types of objects in an AST.
@@ -21,7 +21,13 @@ public class TypeCheckingVisitor implements ASTVisitor {
     public static final String NON_BOOLEAN_CONDITION_ERROR
             = "Non-boolean condition for conditional statement found";
     
-    private final List<String> errors = new ArrayList<>();
+    private final List<String> errors;
+    private final Map<Ident,Question> questionTypes;
+    
+    public TypeCheckingVisitor(Map<Ident,Question> theQuestionTypes) {
+        errors = new ArrayList();
+        questionTypes = theQuestionTypes;
+    }
     
     /**
      * @return a <code>List</code> of the errors generated during the
@@ -84,6 +90,9 @@ public class TypeCheckingVisitor implements ASTVisitor {
      *          refers to a <code>Question</code> for which this is the case
      */
     private boolean isBoolean(ASTNode n) {
-        return false; //TODO
+        if (n instanceof Ident) {
+            n = questionTypes.get((Ident) n);
+        }
+        return n.isBoolean();
     }
 }
