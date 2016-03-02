@@ -14,12 +14,13 @@ statement
 	;
 
 if_
-	: IF LEFT_PAREN expr RIGHT_PAREN block (ELSE block)?
+	: IF LEFT_PAREN expr RIGHT_PAREN block              # ifCase
+	| IF LEFT_PAREN expr RIGHT_PAREN block ELSE block   # ifElseCase
 	;
 
 question
-	: STRING_LITERAL IDENTIFIER type            # questionCase
-	| STRING_LITERAL IDENTIFIER type ASSIGN expr   # exprQuestionCase
+	: STRING_LITERAL IDENTIFIER type                # questionCase
+	| STRING_LITERAL IDENTIFIER type ASSIGN expr    # exprQuestionCase
 	;
 
 expr

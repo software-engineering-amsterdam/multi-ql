@@ -27,9 +27,11 @@ class AstConversionVisitor extends GeneratedVisitor {
 	visitQuestionStatementCase (ctx) {
 		return ctx.question().accept(this);
 	}
-	visitIf_ (ctx) {
-		let elseBlock = ctx.block(1);
-		return new ast.IfNode(ctx.start.line, ctx.expr().accept(this), ctx.block(0).accept(this), elseBlock === null ? null : elseBlock.accept(this));
+	visitIfCase (ctx) {
+		return new ast.IfNode(ctx.start.line, ctx.expr().accept(this), ctx.block(0).accept(this));
+	}
+	visitIfElseCase (ctx) {
+		return new ast.IfElseNode(ctx.start.line, ctx.expr().accept(this), ctx.block(0).accept(this), ctx.block(1).accept(this));
 	}
 	visitQuestionCase (ctx) {
 		return new ast.QuestionNode(ctx.start.line, ctx.STRING_LITERAL().getText().slice(1,-1), ctx.IDENTIFIER().getText(), ctx.type().accept(this));
