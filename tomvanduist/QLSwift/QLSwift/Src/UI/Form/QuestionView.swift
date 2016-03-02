@@ -8,14 +8,8 @@
 
 import UIKit
 
-
-protocol WidgetContainable {
-    var widgetContainer: UIView { get }
-}
-
-
-class QuestionView: BaseView, WidgetContainable {
-    internal let widgetContainer = UIView()
+class QuestionView: BaseView, ViewContainable {
+    internal let viewContainer = UIView()
     
     
     convenience init(layout: Layout, question: Question, widget: ViewWidget) {
@@ -25,13 +19,13 @@ class QuestionView: BaseView, WidgetContainable {
     }
     
     private func setupView(layout: Layout, question: String, widget: ViewWidget) {
-        self.widgetContainer.addSubview(widget)
-        widget.snp_makeConstraints { [unowned widgetContainer] (make) -> Void in
-            make.edges.equalTo(widgetContainer)
+        self.viewContainer.addSubview(widget)
+        widget.snp_makeConstraints { [unowned viewContainer] (make) -> Void in
+            make.edges.equalTo(viewContainer)
         }
         
-        self.addSubview(widgetContainer)
-        widgetContainer.snp_makeConstraints { [unowned self] (make) -> Void in
+        self.addSubview(viewContainer)
+        viewContainer.snp_makeConstraints { [unowned self] (make) -> Void in
             make.left.equalTo(self.snp_left)
             make.right.equalTo(self.snp_right)
             make.bottom.equalTo(self.snp_bottom)
@@ -43,11 +37,11 @@ class QuestionView: BaseView, WidgetContainable {
         
         self.addSubview(label)
         
-        label.snp_makeConstraints { [unowned self, widgetContainer] (make) -> Void in
+        label.snp_makeConstraints { [unowned self, viewContainer] (make) -> Void in
             make.top.equalTo(self.snp_top).offset(layout.margin.top)
             make.left.equalTo(self.snp_left).offset(layout.margin.left)
             make.right.equalTo(self.snp_right).offset(layout.margin.right)
-            make.bottom.equalTo(widgetContainer.snp_top).offset(-layout.margin.bottom)
+            make.bottom.equalTo(viewContainer.snp_top).offset(-layout.margin.bottom)
         }
     }
 }
