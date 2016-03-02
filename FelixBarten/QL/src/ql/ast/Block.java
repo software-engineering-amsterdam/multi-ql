@@ -2,7 +2,10 @@ package ql.ast;
 
 import java.util.List;
 
-public class Block {
+import ql.ASTNode;
+import ql.BaseVisitor;
+
+public class Block extends ASTNode {
 	private List<Statement> statements;
 	private List<Question> questions;
 	
@@ -26,5 +29,11 @@ public class Block {
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

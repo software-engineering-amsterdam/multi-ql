@@ -1,5 +1,7 @@
 package ql.ast;
 
+import ql.BaseVisitor;
+
 public class ComputedQuestion extends Question {
 
 	private Expr expression;
@@ -21,6 +23,12 @@ public class ComputedQuestion extends Question {
 
 	public void setExpression(Expr expression) {
 		this.expression = expression;
+	}
+
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
