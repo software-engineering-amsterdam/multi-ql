@@ -12,6 +12,7 @@
 		B91DEB2C1C86EC5900A07F12 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B91DEB2A1C86EC5900A07F12 /* MainMenu.xib */; };
 		B91DEB371C86EC5900A07F12 /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91DEB361C86EC5900A07F12 /* QLSwiftTests.swift */; };
 		B91DEB421C86EC5900A07F12 /* QLSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91DEB411C86EC5900A07F12 /* QLSwiftUITests.swift */; };
+		B91DEBB51C86F58600A07F12 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B91DEBB21C86F54900A07F12 /* SwiftParsec.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,20 @@
 			remoteGlobalIDString = B91DEB221C86EC5900A07F12;
 			remoteInfo = QLSwift;
 		};
+		B91DEBB11C86F54900A07F12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B91DEBAC1C86F54900A07F12 /* SwiftParsec.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57167F021B99E66800F35A29;
+			remoteInfo = SwiftParsec;
+		};
+		B91DEBB31C86F54900A07F12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B91DEBAC1C86F54900A07F12 /* SwiftParsec.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57167F0C1B99E66800F35A29;
+			remoteInfo = SwiftParsecTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +58,7 @@
 		B91DEB3D1C86EC5900A07F12 /* QLSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B91DEB411C86EC5900A07F12 /* QLSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftUITests.swift; sourceTree = "<group>"; };
 		B91DEB431C86EC5900A07F12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B91DEBAC1C86F54900A07F12 /* SwiftParsec.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftParsec.xcodeproj; path = QLSwift/External/SwiftParsec/SwiftParsec.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B91DEBB51C86F58600A07F12 /* SwiftParsec.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +90,7 @@
 		B91DEB1A1C86EC5900A07F12 = {
 			isa = PBXGroup;
 			children = (
+				B91DEBAC1C86F54900A07F12 /* SwiftParsec.xcodeproj */,
 				B91DEB251C86EC5900A07F12 /* QLSwift */,
 				B91DEB351C86EC5900A07F12 /* QLSwiftTests */,
 				B91DEB401C86EC5900A07F12 /* QLSwiftUITests */,
@@ -117,6 +135,15 @@
 				B91DEB431C86EC5900A07F12 /* Info.plist */,
 			);
 			path = QLSwiftUITests;
+			sourceTree = "<group>";
+		};
+		B91DEBAD1C86F54900A07F12 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B91DEBB21C86F54900A07F12 /* SwiftParsec.framework */,
+				B91DEBB41C86F54900A07F12 /* SwiftParsecTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +236,12 @@
 			mainGroup = B91DEB1A1C86EC5900A07F12;
 			productRefGroup = B91DEB241C86EC5900A07F12 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B91DEBAD1C86F54900A07F12 /* Products */;
+					ProjectRef = B91DEBAC1C86F54900A07F12 /* SwiftParsec.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				B91DEB221C86EC5900A07F12 /* QLSwift */,
@@ -217,6 +250,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		B91DEBB21C86F54900A07F12 /* SwiftParsec.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftParsec.framework;
+			remoteRef = B91DEBB11C86F54900A07F12 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B91DEBB41C86F54900A07F12 /* SwiftParsecTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwiftParsecTests.xctest;
+			remoteRef = B91DEBB31C86F54900A07F12 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B91DEB211C86EC5900A07F12 /* Resources */ = {
@@ -471,6 +521,7 @@
 				B91DEB481C86EC5900A07F12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B91DEB491C86EC5900A07F12 /* Build configuration list for PBXNativeTarget "QLSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +530,7 @@
 				B91DEB4B1C86EC5900A07F12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B91DEB4C1C86EC5900A07F12 /* Build configuration list for PBXNativeTarget "QLSwiftUITests" */ = {
 			isa = XCConfigurationList;
@@ -487,6 +539,7 @@
 				B91DEB4E1C86EC5900A07F12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
