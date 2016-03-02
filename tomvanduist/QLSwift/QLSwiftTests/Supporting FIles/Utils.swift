@@ -24,34 +24,40 @@ internal func getQL(owner: AnyObject, file: String) throws -> QL {
 // MARK: Convenience methods
 
 extension XCTestCase {
-    internal func parseFile(file: String) -> QLForm? {
+    internal func parseFile(file: String, doEval: Bool = false) -> Form? {
         do {
-            return try QLParser().parse(getQL(self, file: file))
+            return try parseQL(getQL(self, file: file), doEval: doEval)
+        } catch let e {
+            print (e)
+            return nil
+        }
+    }
+    
+    internal func parseQL(ql: QL, doEval: Bool = false) -> Form? {
+        do {
+            let form = try QLParser().parse(ql)
+            
+            if doEval {
+                let sa = DefaultSemanticAnalyzer(context: Context())
+                return try sa.analyze(form).0
+            }
+            
+            return form
         } catch let e {
             print(e)
             return nil
         }
     }
     
-    internal func parseFileMany(file: String) -> [QLForm?] {
-        let parser = QLParser()
-        var result: [QLForm?] = []
+    internal func parseFileMany(file: String, doEval: Bool = false) -> [Form?] {
+        var result: [Form?] = []
         
         if let ql = try? getQL(self, file: file) {
             for s in ql.componentsSeparatedByString("#->") {
-                result.append(try? parser.parse(s))
+                result.append(parseQL(s, doEval: doEval))
             }
         }
         
         return result
-    }
-    
-    internal func assertToForm(qlForm: QLForm?) -> Form? {
-        XCTAssertNotNil(qlForm)
-        
-        let form = qlForm?.implode()
-        XCTAssertNotNil(form)
-        
-        return form
     }
 }

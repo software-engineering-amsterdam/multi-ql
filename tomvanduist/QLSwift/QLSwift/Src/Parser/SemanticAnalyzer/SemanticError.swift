@@ -11,7 +11,6 @@ import Foundation
 enum SemanticError: ErrorType {
     case Collection(errors: [SemanticError])
     case TypeMismatch(description: String)
-    case MultipleDeclarations(description: String)
     case NotDefined(description: String)
     case Generic(description: String)
     case System(error: ErrorType)
@@ -32,9 +31,24 @@ extension SemanticError {
     
     var errors: [SemanticError] {
         switch self {
-        case .Collection(let errors): return errors
-        case .None: return []
-        default: return [self]
+            case .Collection(let errors): return errors
+            case .None: return []
+            default: return [self]
         }
     }
+}
+
+class SemanticWarning: NSObject, ErrorType {
+    private let _description: String
+    
+    init(description: String) {
+        self._description = description
+    }
+    
+    override var description: String {
+        return _description
+    }
+}
+
+class MultipleDeclarations: SemanticWarning {
 }

@@ -37,5 +37,5 @@ form form1 {
     if (qInt < (qInt + 1)) {}
     if (qInt + 1 * 6 < (qInt + 1)) {}
     if (true && true || false || qBool) {}
-    if (!true && true && (-qInt < qInt) && !(---qInt * 2.0)) {}
+    if (!true && true && (-qInt < qInt) && !(-qInt * 2)) {}
 }
