@@ -3,9 +3,9 @@ package nl.nicasso.ql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JFrame;
@@ -40,14 +40,14 @@ public class QL {
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		
-		parser = new QLParser(tokens);		
+		parser = new QLParser(tokens);
 		tree = parser.form();
 				
 		SymbolTable symbolTable = new SymbolTable();
         
         CreateASTVisitor astVisitor = new CreateASTVisitor();
         Form ast = (Form) tree.accept(astVisitor);
-          
+
         QuestionVisitor questionVisitor = new QuestionVisitor(symbolTable);
         ast.accept(questionVisitor);
         
@@ -66,12 +66,13 @@ public class QL {
         displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
         
         //displaySymbolTable(symbolTable);
-        
-        TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(symbolTable);
-        ast.accept(typeChecker);
+    
+    	TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(symbolTable);
+    	ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
+
         
         EvaluatorVisitor evaluator = new EvaluatorVisitor(symbolTable);
         // Get all initial values
@@ -98,13 +99,13 @@ public class QL {
 	        if (value.getValue() == null) {
 	        	realValue = "undefined";
 	        } else {
-	        	realValue = value.getValue().toString();
+	        	realValue = value.getValue().getValue().toString();
 	        }
 	        System.out.println(key.getValue()+" ("+ value.getType().getType() +")"+ " = " + realValue);
 	    }
 	}
 	
-	private void displayMessages(String title, ArrayList<String> messages) {
+	private void displayMessages(String title, List<String> messages) {
 		if (!messages.isEmpty()) {
         	System.out.println("-------------------------------"+title+"--------------------------------------------");
         	for (String message : messages) {

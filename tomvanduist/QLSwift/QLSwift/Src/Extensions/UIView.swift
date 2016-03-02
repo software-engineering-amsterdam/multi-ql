@@ -34,3 +34,12 @@ extension UIView {
         }
     }
 }
+
+extension UIView {
+    
+    func reloadView() {
+        for subview in subviews {
+            subview.reloadView()
+        }
+    }
+}

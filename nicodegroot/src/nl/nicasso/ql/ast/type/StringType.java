@@ -1,14 +1,17 @@
 package nl.nicasso.ql.ast.type;
 
-import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
+import nl.nicasso.ql.ast.CodeLocation;
 
 public class StringType extends Type {
 
 	private final String type;
 
 	public StringType() {
-		super();
+		this.type = "String";
+	}
+	
+	public StringType(CodeLocation location) {
+		super(location);
 		this.type = "String";
 	}
 
@@ -16,19 +19,14 @@ public class StringType extends Type {
 		return type;
 	}
 	
-	public boolean CompatibleWith(Type type) {
-		switch(type.getType()) {
-			case "Boolean":
-				return false;
-			case "Integer":
-				return false;
-			case "Money":
-				return false;
-			case "String":
-				return true;
-			default:
-				return false;
-		}
+	@Override
+	public boolean equals(Object ob) {
+		Type t2 = (Type) ob;
+		return type.equals(t2.getType());
 	}
 	
+	@Override
+	public int hashCode(){
+	    return type.hashCode();
+    }
 }

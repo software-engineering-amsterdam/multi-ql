@@ -1,8 +1,8 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -20,6 +20,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -29,15 +30,18 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.utils.Pair;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class CyclicDependencyVisitor implements Visitor<Identifier> {
+public class CyclicDependencyVisitor implements StructureVisitor<Identifier>, StatementVisitor<Identifier>, ExpressionVisitor<Identifier> {
 
 	private boolean debug = false;
 	
-	private ArrayList<String> warnings;
-	private ArrayList<String> errors;
+	private List<String> warnings;
+	private List<String> errors;
 	
-	private ArrayList<Pair> dependencies;
+	private List<Pair> dependencies;
 	private Identifier currentIdentifier;
 
 	CyclicDependencyVisitor() {
@@ -252,6 +256,7 @@ public class CyclicDependencyVisitor implements Visitor<Identifier> {
 			System.out.println("ComputedQuestion: "+value.getId().getValue());
 		}
 		
+		// Temp Variable smell detected!
 		currentIdentifier = value.getId();
 		
 		value.getExpr().accept(this);
@@ -318,12 +323,20 @@ public class CyclicDependencyVisitor implements Visitor<Identifier> {
 		}
 		return null;
 	}
+	
+	@Override
+	public Identifier visit(MoneyLit value) {
+		if (debug) {
+			System.out.println("MoneyLit: "+value.getValue());
+		}
+		return null;
+	}
 
-	public ArrayList<String> getErrors() {
+	public List<String> getErrors() {
 		return errors;
 	}
 	
-	public ArrayList<String> getWarnings() {
+	public List<String> getWarnings() {
 		return warnings;
 	}
 	
@@ -346,7 +359,7 @@ public class CyclicDependencyVisitor implements Visitor<Identifier> {
 		return false;
 	}
 	
-	private ArrayList<Pair> makePairsTransitive(ArrayList<Pair> tmpDependencies) {	
+	private List<Pair> makePairsTransitive(List<Pair> tmpDependencies) {	
 		boolean keepRunning = true;
 		
 		while (keepRunning) {
@@ -382,7 +395,7 @@ public class CyclicDependencyVisitor implements Visitor<Identifier> {
 	
 	private boolean checkPairExistance(Pair p) {
 		for (Pair tmp : dependencies) {
-			if (tmp.getLeft().getValue().equals(p.getLeft().getValue()) && tmp.getRight().getValue().equals(p.getRight().getValue())) {
+			if (tmp.equals(p)) {
 				return true;
 			}
 		}

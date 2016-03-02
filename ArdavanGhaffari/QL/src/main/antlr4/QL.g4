@@ -34,14 +34,16 @@ literal
  | INTEGER			#integerLiteral
  | IDENTIFIER		#identifierLiteral
  | STRINGLITERAL	#stringLiteral
+ | DECIMALLITERAL	#decimalLiteral
  ; 														
  
 type : 'integer'|'string'|'boolean'|'money' ; 
 
+BOOLEAN : ('true'|'false');
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]*;
 INTEGER: [0-9]+;
-BOOLEAN : ('true'|'false');
 STRINGLITERAL: '"' .*? '"';
+DECIMALLITERAL: [0-9]+'.'[0-9][0-9];
 COMMENT : '/*' .*? '*/' -> skip;
 LINE_COMMENT : '//' .*? '/n' -> skip;
 WHITESPACE : (' ' | '\t' | '\n' | '\r')+ -> skip;

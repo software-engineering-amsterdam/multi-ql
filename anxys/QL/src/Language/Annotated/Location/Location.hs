@@ -1,21 +1,17 @@
 module Location (
     Location(Location),
+    Position(Position),
     startLine,
     startColumn,
     endLine,
     endColumn,
     ) where
 
-import           Text.ParserCombinators.Parsec.Pos as P
-
-data Location = Location { start :: SourcePos, end :: SourcePos }
+data Position = Position { line :: Int, column :: Int }
   deriving (Eq, Show)
 
-line :: SourcePos -> Int
-line = P.sourceLine
-
-column :: SourcePos -> Int
-column = P.sourceColumn
+data Location = Location { start :: Position, end :: Position }
+  deriving (Eq, Show)
 
 startLine :: Location -> Int
 startLine loc = line $ start loc

@@ -7,7 +7,8 @@ public abstract class BinaryExpression extends Expression{
 	protected Expression leftExpression;
 	protected Expression rightExpression;
 	
-	public BinaryExpression(Expression leftExpression, Expression rightExprssion){
+	public BinaryExpression(Expression leftExpression, Expression rightExprssion, int line){
+		super(line);
 		this.leftExpression = leftExpression;
 		this.rightExpression = rightExprssion;
 	}

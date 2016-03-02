@@ -1,8 +1,8 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -20,6 +20,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -30,16 +31,19 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class QuestionVisitor implements Visitor<Identifier> {
+public class QuestionVisitor implements StructureVisitor<Identifier>, StatementVisitor<Identifier>, ExpressionVisitor<Identifier> {
 
 	private boolean debug = false;
 
-	private ArrayList<Question> questions;
-	private ArrayList<Identifier> identifiers;
+	private List<Question> questions;
+	private List<Identifier> identifiers;
 	
-	private ArrayList<String> warnings;
-	private ArrayList<String> errors;
+	private List<String> warnings;
+	private List<String> errors;
 	
 	private SymbolTable symbolTable;
 
@@ -48,6 +52,7 @@ public class QuestionVisitor implements Visitor<Identifier> {
 		identifiers = new ArrayList<Identifier>();
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
+		
 		this.symbolTable = symbolTable;
 	}
 
@@ -126,103 +131,17 @@ public class QuestionVisitor implements Visitor<Identifier> {
 		return null;
 	}
 
-	@Override
-	public Identifier visit(Addition value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Subtraction value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(And value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Or value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Not value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Parenthesis value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Equal value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(NotEqual value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Division value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Multiplication value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Greater value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(GreaterEqual value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(Less value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(LessEqual value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(BooleanLit value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(IntegerLit value) {
-		return null;
-	}
-
-	@Override
-	public Identifier visit(StringLit value) {
-		return null;
-	}
-
-	public ArrayList<Question> getQuestions() {
+	public List<Question> getQuestions() {
 		return questions;
 	}
 	
-	public ArrayList<Identifier> getIdentifiers() {
+	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
 	
 	public void checkNullPointers() {
 		for (Identifier id : identifiers) {
 			if (checkExistanceIdentifier(id) == null) {
-				System.out.println("DFRYUIOPOIUYTRF");
 				errors.add("The identifier " + id.getValue() + " does not exist.");
 			}
 		}
@@ -274,12 +193,120 @@ public class QuestionVisitor implements Visitor<Identifier> {
 		return false;
 	}
 	
-	public ArrayList<String> getErrors() {
+	public List<String> getErrors() {
 		return errors;
 	}
 	
-	public ArrayList<String> getWarnings() {
+	public List<String> getWarnings() {
 		return warnings;
+	}
+
+	@Override
+	public Identifier visit(Addition value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Subtraction value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(And value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Or value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Not value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Parenthesis value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Equal value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(NotEqual value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Division value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Multiplication value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Greater value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(GreaterEqual value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(Less value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(LessEqual value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(BooleanLit value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(IntegerLit value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(StringLit value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Identifier visit(MoneyLit value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 		
 }

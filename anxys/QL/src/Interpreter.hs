@@ -1,22 +1,15 @@
-module Interpreter where
+module Interpreter
+       where
 
 import           Ast                 as A
 import           Control.Applicative
-import           Control.Arrow
 import           Control.Monad
-import           Prelude             hiding (EQ, GT)
+import           Environment
+import           Prelude             hiding (EQ, GT, lookup)
+import           Value
 
-newtype Interpreter a = Interpreter { runInterp :: Environment -> Either String (a, Environment) }
-
-data Value = IntValue Integer
-           | BoolValue Bool
-           | StringValue String
-           | MoneyValue Double
-  deriving (Eq, Show)
-
-type EnvironmentValue = (String, Value) -- Todo
-
-type Environment = [EnvironmentValue]
+--TODO: Get rid of the either. Typechecking catches almost everything
+newtype Interpreter a = Interpreter { runInterp :: Environment Value -> Either String (a, Environment Value) }
 
 instance Functor Interpreter where
   fmap f p = Interpreter $ \s -> case runInterp p s of
@@ -36,12 +29,6 @@ instance Monad Interpreter where
     Left msg      -> Left msg
     Right (x, r') -> runInterp (k x) r'
   fail msg = Interpreter $ \_ -> Left msg
-
-initializeEnv :: Form -> Interpreter ()
-initializeEnv x = mapM_ (uncurry set . second defaultVal) (fields x)
-
-fields :: Form -> [(String, FieldType)]
-fields _ = []
 
 eval :: Expr -> Interpreter Value
 eval (Lit (ILit lit)) = return (IntValue lit)
@@ -85,38 +72,26 @@ neg (BoolValue v) = BoolValue $ not v
 neg _ = error "Not supported"
 
 set :: String -> Value -> Interpreter ()
-set x v = Interpreter $ \r -> case lookup x r of
-  Nothing -> Right ((), (x, v) : r)
-  Just a  -> Right ((), (x, v) : r) -- TODO
+set x v = Interpreter $ \r -> Right ((), declare r x v)
 
-defaultVal :: FieldType -> Value
-defaultVal Integer = IntValue 0
-defaultVal Boolean = BoolValue False
-defaultVal String = StringValue ""
-defaultVal Money = MoneyValue 0.0
-
-exec :: Stmnt -> Interpreter ()
-exec (If cond block) = do
-  c <- eval cond
-  when (c == BoolValue True) $ mapM_ exec block
-  return ()
-exec (Field (CalcField info expr)) = do
-  v <- eval expr
-  set (A.id info) v
-  return ()
-exec (Field (SimpField _)) = return ()
-
-execForm :: Form -> Interpreter ()
-execForm (Form _ block) = mapM_ exec block
-
-runS :: Stmnt -> Environment -> Either String Environment
-runS p r =
-  case runInterp (exec p) r of
+exec :: Form -> Environment Value -> Either String (Environment Value)
+exec p r =
+  case runInterp (execForm p) emptyEnv of
     Left msg      -> Left msg
     Right (_, r') -> Right r'
-
-run :: Form -> Environment -> Either String Environment
-run p r =
-  case runInterp (execForm p) r of
-    Left msg      -> Left msg
-    Right (_, r') -> Right r'
+    where
+        execForm (Form _ block) = mapM_ ex' block
+        ex' (If cond block) = do
+            c <- eval cond
+            when (c == BoolValue True) $ mapM_ ex' block
+            return ()
+        ex' (Field (CalcField info expr)) = do
+            res <- eval expr
+            set (A.id info) res
+            return ()
+        ex' (Field (SimpField info)) =
+            let name = A.id info
+                t = A.fieldType info
+            in Interpreter $ \c -> case lookup name r of
+                Nothing -> Right ((), declare c name (defaultVal t))
+                Just v  -> Right ((), declare c name v)

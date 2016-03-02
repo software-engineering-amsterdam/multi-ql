@@ -1,6 +1,5 @@
 package nl.nicasso.ql;
 
-import nl.nicasso.ql.ast.Visitor;
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
@@ -18,6 +17,7 @@ import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -28,8 +28,16 @@ import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.values.BooleanValue;
+import nl.nicasso.ql.values.IntegerValue;
+import nl.nicasso.ql.values.MoneyValue;
+import nl.nicasso.ql.values.StringValue;
+import nl.nicasso.ql.values.Value;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class EvaluatorVisitor implements Visitor<Object> {
+public class EvaluatorVisitor implements StructureVisitor<Value>, StatementVisitor<Value>, ExpressionVisitor<Value> {
 	
 	private boolean debug = false;
 	
@@ -40,81 +48,67 @@ public class EvaluatorVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(And value) {	
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(And value) {	
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 				
 		if (debug) {
 			System.out.println("And");
 		}
 		
-		Boolean result = new Boolean((Boolean) left && (Boolean) right);
-		
-		return result;
+		return left.equal(right);
 	}
 	
 	@Override
-	public Object visit(Addition value) {		
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(Addition value) {		
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Addition");
 		}
 		
-		Integer result = new Integer((Integer) left + (Integer) right);
-		return result;
+		return left.addition(right);
 	}
 
 	@Override
-	public Object visit(Subtraction value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(Subtraction value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Subtraction");
 		}
 		
-		Integer result = new Integer((Integer) left - (Integer) right);
-		return result;
+		return left.subtraction(right);
 	}
 
 	@Override
-	public Object visit(Or value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(Or value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Or");
 		}
 		
-		Boolean result = new Boolean((Boolean) left || (Boolean) right);
-		
-		return result;
+		return left.or(right);
 	}
 
 	@Override
-	public Object visit(Not value) {
-		Object exprValue = value.getExpr().accept(this);
+	public Value visit(Not value) {
+		Value exprValue = value.getExpr().accept(this);
 		
 		if (debug) {
 			System.out.println("Not");
 		}
 		
-		if ((Boolean) exprValue == true) {
-			return new Boolean(false);
-		} else {
-			return new Boolean(true);
-		}
+		return exprValue.not();
 	}
 
 	@Override
-	public Object visit(Parenthesis value) {		
-		Object exprValue = value.getExpr().accept(this);
+	public Value visit(Parenthesis value) {		
+		Value exprValue = value.getExpr().accept(this);
 		
 		if (debug) {
 			System.out.println("Parenthesis");
@@ -124,122 +118,103 @@ public class EvaluatorVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(Equal value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(Equal value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Equal");
 		}
 		
-		Boolean result = new Boolean((Boolean) left == (Boolean) right);
-		return result;
+		return left.equal(right);
 	}
 
 	@Override
-	public Object visit(NotEqual value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);	
+	public Value visit(NotEqual value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);	
 		
 		if (debug) {
 			System.out.println("NotEqual");
 		}
 		
-		Boolean result = new Boolean((Boolean) left != (Boolean) right);
-		
-		return result;
+		return left.notEqual(right);
 	}
 
 	@Override
-	public Object visit(Division value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(Division value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Division");
 		}
 		
-		Integer result = new Integer((Integer) left / (Integer) right);
-		
-		return result;
+		return left.division(right);
 	}
 
 	@Override
-	public Object visit(Multiplication value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(Multiplication value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
-			System.out.println("Multiplication");
+			System.out.println("Multiplication: "+left.getValue()+"*"+right.getValue());
 		}
 		
-		Integer result = new Integer((Integer) left * (Integer) right);
-		
-		return result;
+		return left.multiplication(right);
 	}
 
 	@Override
-	public Object visit(Greater value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(Greater value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("Greater");
 		}
 		
-		Boolean result = new Boolean((Integer) left > (Integer) right);
-		return result;
+		return left.greater(right);
 	}
 
 	@Override
-	public Object visit(GreaterEqual value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(GreaterEqual value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("GreaterEqual");
 		}
 		
-		Boolean result = new Boolean((Integer) left >= (Integer) right);
-		return result;
+		return left.greaterEqual(right);
 	}
 
 	@Override
-	public Object visit(Less value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(Less value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 
 		if (debug) {
 			System.out.println("Less");
 		}
 		
-		Boolean result = new Boolean((Integer) left < (Integer) right);
-		return result;
+		return left.less(right);
 	}
 
 	@Override
-	public Object visit(LessEqual value) {
-		Object left = value.getLeft().accept(this);
-
-		Object right = value.getRight().accept(this);
+	public Value visit(LessEqual value) {
+		Value left = value.getLeft().accept(this);
+		Value right = value.getRight().accept(this);
 		
 		if (debug) {
 			System.out.println("LessEqual");
 		}
 		
-		Boolean result = new Boolean((Integer) left <= (Integer) right);
-		return result;
+		return left.lessEqual(right);
 	}
 
 	@Override
-	public Object visit(Form value) {
+	public Value visit(Form value) {
 		value.getBlock().accept(this);
 		
 		if (debug) {
@@ -250,7 +225,7 @@ public class EvaluatorVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(Block value) {
+	public Value visit(Block value) {
 		for (Statement cur : value.getStatements()) {
 			cur.accept(this);
 		}
@@ -263,7 +238,7 @@ public class EvaluatorVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(Question value) {
+	public Value visit(Question value) {
 		if (debug) {
 			System.out.println("Question");
 		}
@@ -279,8 +254,8 @@ public class EvaluatorVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(ComputedQuestion value) {
-		Object exprValue = value.getExpr().accept(this);
+	public Value visit(ComputedQuestion value) {
+		Value exprValue = value.getExpr().accept(this);
 		
 		if (debug) {
 			System.out.println("ComputedQuestion");
@@ -290,67 +265,75 @@ public class EvaluatorVisitor implements Visitor<Object> {
 		ste.setValue(exprValue);
 		symbolTable.addSymbol(value.getId(), ste);
 
-		return exprValue;
+		return null;
 	}
 
 	@Override
-	public Object visit(IfStatement value) {
-		Object exprValue = value.getExpr().accept(this);
+	public Value visit(IfStatement value) {
+		Value exprValue = value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		
 		if (debug) {
 			System.out.println("ifStatement");
 		}
 		
-		return (boolean) exprValue;
+		return null;
 	}
 
 	@Override
-	public Object visit(IfElseStatement value) {
-		Object exprValue = value.getExpr().accept(this);
+	public Value visit(IfElseStatement value) {
+		Value exprValue = value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		value.getBlock_else().accept(this);
 		
 		if (debug) {
 			System.out.println("IfElseStatement");
 		}
-		return (boolean) exprValue;
+		return null;
 	}
 
 	@Override
-	public Object visit(BooleanLit value) {
+	public Value visit(BooleanLit value) {
 		if (debug) {
 			System.out.println("BooleanLit: "+value.getValue());
 		}
 		
-		return new Boolean(value.getValue());
+		return new BooleanValue(value.getValue());
 	}
 
 	@Override
-	public Object visit(Identifier value) {
+	public Value visit(Identifier value) {
 		if (debug) {
 			System.out.println("IdentifierLit: "+value.getValue());
 		}
 		
 		SymbolTableEntry entry = symbolTable.getEntry(value);
-				
+						
 		return entry.getValue();
 	}
 
 	@Override
-	public Object visit(IntegerLit value) {
+	public Value visit(IntegerLit value) {
 		if (debug) {
 			System.out.println("IntegerLit: "+value.getValue());
 		}
-		return new Integer((Integer) value.getValue());
+		return new IntegerValue((Integer) value.getValue());
 	}
 
 	@Override
-	public Object visit(StringLit value) {
+	public Value visit(StringLit value) {
 		if (debug) {
 			System.out.println("StringLit: "+value.getValue());
 		}
-		return new String(value.getValue());
+		return new StringValue(value.getValue());
+	}
+
+	@Override
+	public Value visit(MoneyLit value) {
+		if (debug) {
+			System.out.println("MoneyLit: "+value.getValue());
+		}
+		return new MoneyValue(value.getValue());
 	}
 
 }

@@ -123,6 +123,13 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code moneyLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree

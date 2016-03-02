@@ -1,113 +1,111 @@
 package uva.ql.visitors.typechecker;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import uva.ql.ast.AExpression;
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
+import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.conditionals.IfStatement;
+import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 
-	private final Map<String, Integer> store = new HashMap<String, Integer>(0);
-	private static final Set<Integer> CON_BOOL = new HashSet<Integer>(
-			Arrays.asList(
-					 IExpression.SML_THEN ,IExpression.GRT_THEN ,IExpression.SML_EQL
-					,IExpression.GRT_EQL ,IExpression.NOT_EQL ,IExpression.EQL
-					,IExpression.NOT_EXP ,IExpression.AND_EXP ,IExpression.OR_EXP));
+	private final HashMap<String, Integer> store = new HashMap<String, Integer>(0);
+	private static final Set<Integer> CON_BOOL = new HashSet<Integer>(0);
 	
-	public Map<String, Integer> getResult() {
+	static {
+		CON_BOOL.add(IExpression.SML_THEN);
+		CON_BOOL.add(IExpression.GRT_THEN);
+		CON_BOOL.add(IExpression.SML_EQL);
+		CON_BOOL.add(IExpression.GRT_EQL);
+		CON_BOOL.add(IExpression.NOT_EQL);
+		CON_BOOL.add(IExpression.EQL);
+		CON_BOOL.add(IExpression.NOT_EXP);
+		CON_BOOL.add(IExpression.AND_EXP);
+		CON_BOOL.add(IExpression.OR_EXP);
+	}
+	
+	public HashMap<String, Integer> getResult() {
 		
-		Map<String, Integer> dups = new HashMap<String, Integer>(0);
-		Iterator<Entry<String, Integer>> it = store.entrySet().iterator();
-		
-		while (it.hasNext()) {
+		return store;
+	}
+
+	@Override
+	public void visitForm( Form form ) {
+
+		if( form.size() > 0 ) {
 			
-			Entry<String, Integer> record = it.next();
+			form.get(0).accept( this );
+		}
+	}
+
+	@Override
+	public void visitBlock( Block block ) {
+
+		for( int i=0; i<block.size(); i++ ) {
 			
-			if (record.getValue() > 0) {
-				
-				dups.put(record.getKey(), record.getValue());
-			}
-		}
-		
-		return dups;
-	}
-
-	@Override
-	public void visitForm(Form form) {
-
-		if (form.size() > 0) {
-			form.get(0).accept(this);
-		}
-	}
-
-	@Override
-	public void visitBlock(Block block) {
-
-		for(int i=0; i<block.size(); i++) {
-			block.get(i).accept(this);
+			block.get(i).accept( this );
 		}
 	}
 	
 	@Override
-	public void visitIfStmnt(IfStatement ifStatement) {
+	public void visitIfStmnt( IfStatement ifStatement ) {
 		
-		for(int i=0; i<ifStatement.size(); i++) {
-			ifStatement.getExpression().accept(this);
-			ifStatement.get(i).accept(this);
+		for( int i=0; i<ifStatement.size(); i++ ) {
+			
+			ifStatement.getExpression().accept( this );
+			ifStatement.get(i).accept( this );
 		}
 	}
 	
 	@Override
-	public void visitQuestion(Question question) {}
+	public void visitQuestion( Question question ) {}
 
 	@Override
-	public <T> void visitExp(T expression) {
+	public <T> void visitExp( T expression ) {
 		
-		checkExprType( ((AExpression) expression).getExprType() );
+		Expression exp = (Expression) expression;
+		checkExprType( exp );
 		
-		if (((AExpression) expression).getLeftNode() != null) {
-			((AExpression) expression).getLeftNode().accept(this);
+		if ( exp.getLeftNode() != null ) {
+			
+			exp.getLeftNode().accept( this );
 			
 		}
-		if (((AExpression) expression).getRightNode() != null) {
-			((AExpression) expression).getRightNode().accept(this);
+		
+		if ( exp.getRightNode() != null ) {
+			
+			exp.getRightNode().accept( this );
 		}
 	}
 	
 	@Override
-	public void visitVar(AVariable variable) {}
+	public void visitVar( Variable var ) {}
 	
 	@Override
-	public void visitNum(ANumber number) {}
-
-	private void checkExprType(int type) {
+	public void visitNum( Number number ) {
 		
-		if (!CON_BOOL.contains(type)) {
-			
-			String msg = "Expression not of condition Boolean";
+		writeErrorMsg( number );
+	}
 
-			if ( store.containsKey(msg) ) {
-				
-				int counter = store.get(msg);
-				store.put(msg, counter+1);
-			}
-			else {
-				
-				store.put(msg, 1);
-			}
+	private void checkExprType( Expression exp ) {
+		
+		if ( !CON_BOOL.contains(exp.getExprType()) ) {
+		
+			writeErrorMsg( exp );
 		}
+	}
+	
+	private void writeErrorMsg( Node node ) {
+		
+		String msg = String.format("Error: Condition not of type Boolean, starting at line: %s, column: %s", node.getLine(), node.getColumn());
+		store.put( msg, -1 );
 	}
 }

@@ -6,7 +6,8 @@ import ast.visitor.ExpressionVisitor;
 public class IntegerLiteral extends Expression {
 	private int value;
 	
-	public IntegerLiteral(int value) {
+	public IntegerLiteral(int value, int line) {
+		super(line);
 		this.value = value;
 	}
 	

@@ -6,12 +6,18 @@ public class StatementNode extends Node {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public void dump() {
+		System.out.println(this.getClass());
+		if (getLeft() != null) { getLeft().dump(); }
+		if (getRight() != null) { getRight().dump(); }
 	}
 }

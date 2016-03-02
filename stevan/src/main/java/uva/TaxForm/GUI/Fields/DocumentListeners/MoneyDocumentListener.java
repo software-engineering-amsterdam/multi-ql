@@ -10,7 +10,7 @@ import uva.TaxForm.GUI.Fields.MoneyTextField;
 import uva.ql.deprecated.ASTExpression;
 import uva.ql.deprecated.ASTNode;
 import uva.ql.deprecated.ASTVariable;
-import uva.ql.visitors.ASTVisitorToGUIUtils;
+import uva.ql.deprecated.ASTVisitorToGUIUtils;
 
 public class MoneyDocumentListener  extends AbstractDocumentListener {
 	

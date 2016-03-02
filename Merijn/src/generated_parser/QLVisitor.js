@@ -32,8 +32,13 @@ QLVisitor.prototype.visitQuestionStatementCase = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLParser#if_.
-QLVisitor.prototype.visitIf_ = function(ctx) {
+// Visit a parse tree produced by QLParser#ifCase.
+QLVisitor.prototype.visitIfCase = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLParser#ifElseCase.
+QLVisitor.prototype.visitIfElseCase = function(ctx) {
 };
 
 

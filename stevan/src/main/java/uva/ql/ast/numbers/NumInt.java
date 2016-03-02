@@ -1,33 +1,25 @@
 package uva.ql.ast.numbers;
 
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AST;
-import uva.ql.interfaces.INumber;
+import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.numbers.types.Int;
 
-public class NumInt<T> extends ANumber {
+public class NumInt extends Number {
 
-	private T value;
+	private Type type = new Int();
+	private int value;
 	
-	public NumInt(AST ast) {
-		super(ast);
-	}
-
-	@Override
-	protected int getNumType0() {
-		return INumber.INT;
-	}
-
-	@Override
-	public <T> T getValue() {
-		return (T) value;
-	}
-	
-	@Override
-	public void setValue(String value) {
-		setValue((T) Integer.valueOf(value));
-	}
-
-	public void setValue(T value) {
+	public NumInt(Node parent, int value, int startLine, int startColumn) {
+		super(parent, startLine, startColumn);
 		this.value = value;
+	}
+	
+	public Type getType() {
+		return this.type;
+	}
+	
+	public int getValue() {
+		return this.value;
 	}
 }
