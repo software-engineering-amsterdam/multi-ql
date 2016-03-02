@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import DTAlertView
+
 
 let kForm1 = "form"
 let kForm2 = "form2"
@@ -93,62 +93,5 @@ extension ChooseFormViewController {
     
     private func showAlerts(arg warning: SemanticWarning, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
         return showAlerts(arg: [warning], cancelBlock: cancelBlock, confirmBlock: confirmBlock)
-    }
-    
-    private func showAlerts(title: String, message messages: [String], cancelButton: String?, confirmButton: String, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
-        var _confirmBlock: (() -> Void)?
-        
-        guard let message = messages.first
-            else { return false }
-        
-        // Until the last message, show the next one upon confirm
-        if message != messages.last {
-            let remainingMessages = messages.filter { message != $0 }
-            
-            _confirmBlock = { [unowned self] in
-                self.showAlerts(title,
-                    message: remainingMessages,
-                    cancelButton: cancelButton,
-                    confirmButton: confirmButton,
-                    cancelBlock: cancelBlock,
-                    confirmBlock: confirmBlock
-                )
-            }
-        } else {
-            _confirmBlock = confirmBlock
-        }
-        
-        showAlert(title,
-            message: message,
-            cancelButton: cancelButton,
-            confirmButton: confirmButton,
-            cancelBlock: cancelBlock,
-            confirmBlock: _confirmBlock
-        )
-        
-        return true
-    }
-    
-    private func showAlert(title: String, message: String, cancelButton: String?, confirmButton: String, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
-        DTAlertView(
-            block: { (alertView, index, n) -> Void in
-                if index == n {
-                    if cancelBlock != nil {
-                        cancelBlock!()
-                    }
-                }
-                else {
-                    if confirmBlock != nil {
-                        confirmBlock!()
-                    }
-                }
-            },
-            title: title,
-            message: message,
-            cancelButtonTitle: confirmBlock != nil ? cancelButton : nil,
-            positiveButtonTitle: confirmBlock != nil ? confirmButton : "Ok"
-        ).show()
-        
-        return true
     }
 }
