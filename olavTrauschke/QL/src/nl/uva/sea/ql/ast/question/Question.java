@@ -48,6 +48,13 @@ public abstract class Question extends ASTNode {
     }
     
     /**
+     * @return the <code>Ident</code> used to identify <code>this Question</code>
+     */
+    public Ident getIdentifier() {
+        return identifier;
+    }
+    
+    /**
      * Has the <code>identifier</code>, the <code>label</code> and the
      * <code>calculation</code> of <code>this Question accept v</code> and then
      * has <code>v visit this Question</code>.
