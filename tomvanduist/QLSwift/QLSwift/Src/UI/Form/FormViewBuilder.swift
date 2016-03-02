@@ -13,12 +13,22 @@ protocol FormViewBuilder {
     func buildFormView(form: Form) -> UIView
 }
 
-class DefaultFormViewBuilder: FormViewBuilder {
+class DefaultFormViewBuilder: ASTNodeVisitor<FormView, UIView>, FormViewBuilder {
+    typealias GenericParam = FormView // TODO: refactor this !!
+    typealias GenericReturn = UIView
+    
+    
     private let viewFactory: FormViewFactory
+    
+    
+    // MARK: - Initialization
     
     init(formViewFactory: FormViewFactory) {
         self.viewFactory = formViewFactory
     }
+    
+    
+    // MARK: - FormViewBuilder conformance
     
     func buildFormView(form: Form) -> UIView {
         let formView = FormView()
@@ -31,10 +41,10 @@ class DefaultFormViewBuilder: FormViewBuilder {
         
         return formView
     }
-}
 
-
-extension DefaultFormViewBuilder {
+    
+    // MARK: - Private 
+    
     private func createBlockView(block: Block, formView: FormView) -> UIView {
         let blockView = UIView()
         
@@ -73,21 +83,25 @@ extension DefaultFormViewBuilder {
     }
     
     private func createStatementView(statement: Statement, formView: FormView) -> UIView {
-        if let question = statement as? Question {
-            return createQuestionView(question, formView: formView)
-        } else if let conditional = statement as? Conditional {
-            return createConditionalView(conditional, formView: formView)
-        } else if let block = statement as? Block {
-            return createBlockView(block, formView: formView)
-        }
-        fatalError("Implement for remaining statements")
-    }
-    
-    private func createQuestionView(question: Question, formView: FormView) -> UIView {
-        return self.viewFactory.createQuestionView(question, delegate: formView)
+        return statement.accept(self, param: formView)
     }
     
     private func createConditionalView(conditional: Conditional, formView: FormView) -> UIView {
         return createBlockView(conditional.ifBlock, formView: formView)
+    }
+    
+    
+    // MARK: - Visitor functions
+    
+    override func visit(node: Question, param delegate: GenericParam) -> GenericReturn {
+        return self.viewFactory.createQuestionView(node, delegate: delegate)
+    }
+    
+    override func visit(node: Conditional, param delegate: GenericParam) -> GenericReturn {
+        return self.createBlockView(node.ifBlock, formView: delegate) // TODO: fix this
+    }
+    
+    override func visit(node: Block, param delegate: GenericParam) -> GenericReturn {
+        return self.createBlockView(node, formView: delegate)
     }
 }

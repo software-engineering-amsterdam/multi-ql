@@ -24,7 +24,7 @@ class FormViewController: BaseViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("NSCoding not supported!")
+        fatalError("StoryBoards not supported!")
     }
 }
 
