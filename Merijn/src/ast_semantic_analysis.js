@@ -66,9 +66,9 @@ class FormAndBlockRecursingVisitor extends NodeVisitor {
 		formNode.block.accept(this, ...args);
 	}
 	visitBlockNode(blockNode, ...args) {
-		blockNode.statements.forEach((statement) => {
+		for (let statement of blockNode.statements){
 			statement.accept(this, ...args);
-		});
+		}
 	}
 }
 
@@ -104,21 +104,21 @@ class EqualsSet {
 
 class QuestionDuplicationChecker {
 	analyse(questionStore, analysisLog) {
-		questionStore.getNames().forEach((name) => {
+		for (let name of questionStore.getNames()) {
 			let questionNodes = questionStore.getQuestionsByName(name),
 				types = new EqualsSet();
 
-			questionNodes.forEach((questionNode) => {
+			for (let questionNode of questionNodes) {
 				types.add(questionNode.type);
-			});
+			}
 
 			if (types.size() > 1) {
 				let strTypes = types.getArray().map((type) => "" + type);
 				strTypes.sort();
 				analysisLog.logError(questionNodes, "Question `" + name + "` found with conflicting types [" + strTypes.join(', ') + "]");
 			}
-		});
-		questionStore.getDescriptions().forEach((description) => {
+		}
+		for (let description of questionStore.getDescriptions()) {
 			let questionNodes = questionStore.getQuestionsByDescription(description),
 				names = questionNodes.reduce((seed, questionNode) => seed.add(questionNode.name), new Set());
 
@@ -127,7 +127,7 @@ class QuestionDuplicationChecker {
 				strNames.sort();
 				analysisLog.logWarning(questionNodes, "Duplicate description `" + description + "` for questions [" + strNames.join(', ') + "]");
 			}
-		});
+		}
 	}
 }
 
@@ -262,7 +262,9 @@ class DependencyStore {
 		if (!(name in this._byName)) {
 			this._byName[name] = new Set();
 		}
-		dependencyNames.forEach((dependencyName) => this._byName[name].add(dependencyName));
+		for (let dependencyName of dependencyNames) {
+			this._byName[name].add(dependencyName);
+		}
 	}
 }
 
@@ -290,9 +292,9 @@ class DependencyCollector extends NodeVisitor {
 		this.exprDependecyCollector = exprDependecyCollector;
 	}
 	collect(questionStore, dependencyStore) {
-		questionStore.getQuestions().forEach((questionNode) => {
+		for (let questionNode of questionStore.getQuestions()) {
 			questionNode.accept(this, dependencyStore);
-		});
+		}
 	}
 	visitExprQuestionNode(exprQuestionNode, dependencyStore) {
 		dependencyStore.add(exprQuestionNode.name, this.exprDependecyCollector.collect(exprQuestionNode.expr));
@@ -300,6 +302,9 @@ class DependencyCollector extends NodeVisitor {
 }
 
 class CyclicDependencyChecker {
+	constructor(dependencyCollector) {
+		this.dependencyCollector = dependencyCollector;
+	}
 	findCyclePaths(dependencyStore, analysisLog, path, name) {
 		let newPath = path.concat([name]),
 			cyclePaths = [];
@@ -311,13 +316,16 @@ class CyclicDependencyChecker {
 			return cyclePaths;
 		}
 		if (dependencyStore.hasName(name)) {
-			dependencyStore.getDependencySet(name).forEach((dependencyName) => {
+			for (let dependencyName of dependencyStore.getDependencySet(name)) {
 				cyclePaths = cyclePaths.concat(this.findCyclePaths(dependencyStore, analysisLog, newPath, dependencyName));
-			});
+			}
 		}
 		return cyclePaths;
 	}
-	analyse(questionStore, dependencyStore, analysisLog) {
+	analyse(questionStore, analysisLog) {
+		let dependencyStore = new DependencyStore();
+
+		this.dependencyCollector.collect(questionStore, dependencyStore);
 		for (let name of dependencyStore.getNames()) {
 			let cyclePaths = this.findCyclePaths(dependencyStore, analysisLog, [], name);
 
@@ -333,18 +341,15 @@ export class SemanticAnalyser {
 		this.questionCollector = new QuestionCollector();
 		this.questionDuplicationChecker = new QuestionDuplicationChecker();
 		this.typeChecker = new TypeChecker(new ExprTypeChecker());
-		this.dependencyCollector = new DependencyCollector(new ExprDependencyCollector());
-		this.cyclicDependencyChecker = new CyclicDependencyChecker();
+		this.cyclicDependencyChecker = new CyclicDependencyChecker(new DependencyCollector(new ExprDependencyCollector()));
 	}
 	analyse(node, log) {
 		let analysisLog = new AnalysisLogHelper(log),
-			questionStore = new QuestionStore(),
-			dependencyStore = new DependencyStore();
+			questionStore = new QuestionStore();
 
 		this.questionCollector.collect(node, questionStore);
 		this.questionDuplicationChecker.analyse(questionStore, analysisLog);
 		this.typeChecker.analyse(node, questionStore, analysisLog);
-		this.dependencyCollector.collect(questionStore, dependencyStore);
-		this.cyclicDependencyChecker.analyse(questionStore, dependencyStore, analysisLog);
+		this.cyclicDependencyChecker.analyse(questionStore, analysisLog);
 	}
 }
