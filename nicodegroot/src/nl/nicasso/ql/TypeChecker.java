@@ -41,7 +41,7 @@ import nl.nicasso.ql.visitor.ExpressionVisitor;
 import nl.nicasso.ql.visitor.StatementVisitor;
 import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisitor<Type>, ExpressionVisitor<Type> {
+public class TypeChecker implements StructureVisitor<Type>, StatementVisitor<Type>, ExpressionVisitor<Type> {
 
 	private boolean debug = false;
 		
@@ -50,7 +50,7 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 
 	private SymbolTable symbolTable;
 	
-	public TypeCheckerVisitor(SymbolTable symbolTable) {
+	public TypeChecker(SymbolTable symbolTable) {
 		errors = new ArrayList<String>();
 		warnings = new ArrayList<String>();
 		this.symbolTable = symbolTable;
@@ -145,11 +145,14 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 			System.out.println("Not");
 		}
 		
-		if (!checkType(exprType, new BooleanType())) {
-			errors.add("Error: Incompatible type detected (Not)");
-		}
+		Type containerType = value.checkAllowedTypes(exprType);
 		
-		return new BooleanType();
+		if (containerType == null) {
+			errors.add("Error: Incompatible types detected (Or)");
+			return new BooleanType();
+		} else {
+			return containerType;
+		}
 	}
 
 	@Override
@@ -159,10 +162,6 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 		if (debug) {
 			System.out.println("Parenthesis");
 		}
-		
-		//if (!checkType(exprType, new Type())) {
-		//	errors.add("Error: Incompatible type detected");
-		//}
 		
 		return exprType;
 	}
@@ -379,14 +378,18 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 		Type expr = value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		
-		if (!checkType(expr, new BooleanType())) {
-			errors.add("Error: Incompatible types detected (IfStatement)");
-		}
-		
 		if (debug) {
 			System.out.println("ifStatement");
 		}
-		return null;
+		
+		Type containerType = value.checkAllowedTypes(expr);
+		
+		if (containerType == null) {
+			errors.add("Error: Incompatible types detected (IfStatement)");
+			return new BooleanType();
+		} else {
+			return containerType;
+		}
 	}
 
 	@Override
@@ -395,14 +398,18 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 		value.getBlock_if().accept(this);
 		value.getBlock_else().accept(this);
 		
-		if (!checkType(expr, new BooleanType())) {
-			errors.add("Error: Incompatible types detected (IfElseStatement)");
-		}
-		
 		if (debug) {
 			System.out.println("IfElseStatement");
 		}
-		return null;
+		
+		Type containerType = value.checkAllowedTypes(expr);
+		
+		if (containerType == null) {
+			errors.add("Error: Incompatible types detected (IfElseStatement)");
+			return new BooleanType();
+		} else {
+			return containerType;
+		}
 	}
 
 	@Override
@@ -446,17 +453,6 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 			System.out.println("MoneyLit: "+value.getValue());
 		}
 		return new MoneyType();
-	}
-	
-	private boolean checkType(Type exprType, Type type) {
-		if (exprType instanceof NumericType) {
-			return true;	
-		} else if (exprType instanceof Type) {
-			return true;	
-		} else if (exprType.equals(type)) {
-			return true;
-		}
-		return false;
 	}
 	
 	public List<String> getErrors() {

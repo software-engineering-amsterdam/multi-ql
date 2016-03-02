@@ -52,13 +52,15 @@ public class IntegerValue extends Value {
 	}
 	
 	@Override
-	public Value multiplication(Value arg) {
-		return new IntegerValue(value * (Integer) arg.getValue());
+	public Value multiplication(MoneyValue arg) {
+		System.out.println("MULTI 2");
+		return new MoneyValue(BigDecimal.valueOf(value).multiply(arg.getValue()));
 	}
 	
 	@Override
-	public Value multiplication(MoneyValue arg) {
-		return new MoneyValue(BigDecimal.valueOf(value).multiply(arg.getValue()));
+	public Value multiplication(Value arg) {
+		System.out.println("MULTI 1");
+		return new IntegerValue(value * (Integer) arg.getValue());
 	}
 	
 	@Override

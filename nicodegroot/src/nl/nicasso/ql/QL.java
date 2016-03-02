@@ -11,10 +11,10 @@ import java.util.Map.Entry;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 
@@ -45,10 +45,10 @@ public class QL {
 				
 		SymbolTable symbolTable = new SymbolTable();
         
-        CreateASTVisitor astVisitor = new CreateASTVisitor();
+        CreateAST astVisitor = new CreateAST();
         Form ast = (Form) tree.accept(astVisitor);
 
-        QuestionVisitor questionVisitor = new QuestionVisitor(symbolTable);
+        QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable);
         ast.accept(questionVisitor);
         
         //displaySymbolTable(symbolTable);
@@ -58,7 +58,7 @@ public class QL {
         
         //displaySymbolTable(symbolTable);
         
-        CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor();
+        DetectCyclicDependencies cyclicDependencyVisitor = new DetectCyclicDependencies();
         ast.accept(cyclicDependencyVisitor);
         cyclicDependencyVisitor.detectCyclicDependencies();
         
@@ -67,14 +67,14 @@ public class QL {
         
         //displaySymbolTable(symbolTable);
     
-    	TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(symbolTable);
+    	TypeChecker typeChecker = new TypeChecker(symbolTable);
     	ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
 
         
-        EvaluatorVisitor evaluator = new EvaluatorVisitor(symbolTable);
+        Evaluator evaluator = new Evaluator(symbolTable);
         // Get all initial values
         ast.accept(evaluator);
         

@@ -35,7 +35,7 @@ import nl.nicasso.ql.visitor.ExpressionVisitor;
 import nl.nicasso.ql.visitor.StatementVisitor;
 import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class QuestionVisitor implements StructureVisitor<Identifier>, StatementVisitor<Identifier>, ExpressionVisitor<Identifier> {
+public class QuestionIndexer implements StructureVisitor<Identifier>, StatementVisitor<Identifier>, ExpressionVisitor<Identifier> {
 
 	private boolean debug = false;
 
@@ -47,9 +47,10 @@ public class QuestionVisitor implements StructureVisitor<Identifier>, StatementV
 	
 	private SymbolTable symbolTable;
 
-	QuestionVisitor(SymbolTable symbolTable) {
+	QuestionIndexer(SymbolTable symbolTable) {
 		questions = new ArrayList<Question>();
 		identifiers = new ArrayList<Identifier>();
+		
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
 		

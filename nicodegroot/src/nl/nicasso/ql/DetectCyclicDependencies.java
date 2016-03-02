@@ -34,7 +34,7 @@ import nl.nicasso.ql.visitor.ExpressionVisitor;
 import nl.nicasso.ql.visitor.StatementVisitor;
 import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class CyclicDependencyVisitor implements StructureVisitor<Identifier>, StatementVisitor<Identifier>, ExpressionVisitor<Identifier> {
+public class DetectCyclicDependencies implements StructureVisitor<Identifier>, StatementVisitor<Identifier>, ExpressionVisitor<Identifier> {
 
 	private boolean debug = false;
 	
@@ -44,7 +44,7 @@ public class CyclicDependencyVisitor implements StructureVisitor<Identifier>, St
 	private List<Pair> dependencies;
 	private Identifier currentIdentifier;
 
-	CyclicDependencyVisitor() {
+	DetectCyclicDependencies() {
 		warnings = new ArrayList<String>();
 		errors = new ArrayList<String>();
 		

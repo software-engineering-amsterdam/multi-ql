@@ -44,11 +44,11 @@ import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
 
-public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNode> {
+public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNode> {
 
 	private boolean debug = false;
 	
-	CreateASTVisitor() {
+	CreateAST() {
 
 	}
 
@@ -108,9 +108,9 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisito
 			System.out.println("ifStatement");
 
 		Expression expr = (Expression) ctx.expr.accept(this);
-		Block bl = (Block) ctx.ifBody.accept(this);
+		Block block = (Block) ctx.ifBody.accept(this);
 
-		return new IfStatement(expr, bl, CodeLocation.getCodeLocation(ctx));
+		return new IfStatement(expr, block, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override

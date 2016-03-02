@@ -37,13 +37,13 @@ import nl.nicasso.ql.visitor.ExpressionVisitor;
 import nl.nicasso.ql.visitor.StatementVisitor;
 import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class EvaluatorVisitor implements StructureVisitor<Value>, StatementVisitor<Value>, ExpressionVisitor<Value> {
+public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Value>, ExpressionVisitor<Value> {
 	
-	private boolean debug = false;
+	private boolean debug = true;
 	
 	private SymbolTable symbolTable;
 	
-	EvaluatorVisitor(SymbolTable symbolTable) {
+	Evaluator(SymbolTable symbolTable) {
 		this.symbolTable = symbolTable;
 	}
 
@@ -157,6 +157,9 @@ public class EvaluatorVisitor implements StructureVisitor<Value>, StatementVisit
 	public Value visit(Multiplication value) {
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
+		
+		System.out.println("Left: "+left.getClass());
+		System.out.println("Right: "+right.getClass());
 		
 		if (debug) {
 			System.out.println("Multiplication: "+left.getValue()+"*"+right.getValue());
