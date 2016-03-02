@@ -41,7 +41,29 @@ class QuestionView: BaseView, ViewContainable {
             make.top.equalTo(self.snp_top).offset(layout.margin.top)
             make.left.equalTo(self.snp_left).offset(layout.margin.left)
             make.right.equalTo(self.snp_right).offset(layout.margin.right)
-            make.bottom.equalTo(viewContainer.snp_top).offset(-layout.margin.bottom)
+            make.bottom.equalTo(viewContainer.snp_top).offset(layout.margin.bottom)
+        }
+        
+        
+        let middleSeperator = UIView()
+        middleSeperator.backgroundColor = UIColor.lightGrayColor()
+        middleSeperator.alpha = 0.3
+        self.addSubview(middleSeperator)
+        middleSeperator.snp_makeConstraints { [unowned self] make in
+            make.left.equalTo(self.snp_left)
+            make.right.equalTo(self.snp_right)
+            make.bottom.equalTo(self.viewContainer.snp_top)
+            make.height.equalTo(1)
+        }
+        
+        let bottomSeperator = UIView()
+        bottomSeperator.backgroundColor = UIColor.lightGrayColor()
+        self.addSubview(bottomSeperator)
+        bottomSeperator.snp_makeConstraints { [unowned self] make in
+            make.left.equalTo(self.snp_left)
+            make.right.equalTo(self.snp_right)
+            make.bottom.equalTo(self.snp_bottom)
+            make.height.equalTo(1)
         }
     }
 }

@@ -29,7 +29,6 @@ class StaticWidget: ViewWidget {
     }
     
     override func setupView(layout: Layout) {
-        self.backgroundColor = UIColor.greenColor()
         
         if textField.superview == nil {
             
@@ -39,8 +38,8 @@ class StaticWidget: ViewWidget {
             textField.snp_makeConstraints { [unowned self] (make) -> Void in
                 make.top.equalTo(self.snp_top).offset(layout.margin.top)
                 make.left.equalTo(self.snp_left).offset(layout.margin.left)
-                make.right.equalTo(self.snp_right).offset(-layout.margin.right)
-                make.bottom.equalTo(self.snp_bottom).offset(-layout.margin.bottom)
+                make.right.equalTo(self.snp_right).offset(layout.margin.right)
+                make.bottom.equalTo(self.snp_bottom).offset(layout.margin.bottom)
                 make.height.equalTo(50)
             }
         }

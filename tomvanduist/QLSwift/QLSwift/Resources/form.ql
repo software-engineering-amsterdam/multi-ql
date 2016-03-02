@@ -1,4 +1,4 @@
-form Box1HouseOwning {
+form testForm1 {
     booleanResult   : "Enter boolean"   boolean
     booleanResult1  : "Result:"         booleanResult
 

@@ -49,10 +49,6 @@
 		E2C8DA021C761D8C005F1C41 /* IntegerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */; };
 		E2C8DA031C761D8C005F1C41 /* TextWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */; };
 		E2C8DA051C761DB4005F1C41 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8DA041C761DB4005F1C41 /* Widget.swift */; };
-		E2C8DA081C7624EA005F1C41 /* BooleanView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA071C7624EA005F1C41 /* BooleanView.xib */; };
-		E2C8DA0C1C762509005F1C41 /* DecimalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA091C762509005F1C41 /* DecimalView.xib */; };
-		E2C8DA0D1C762509005F1C41 /* IntegerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA0A1C762509005F1C41 /* IntegerView.xib */; };
-		E2C8DA0E1C762509005F1C41 /* TextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8DA0B1C762509005F1C41 /* TextView.xib */; };
 		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
 		E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CE05FF1C621A1600F2B43B /* Assets.xcassets */; };
 		E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06011C621A1D00F2B43B /* AppDelegate.swift */; };
@@ -177,10 +173,6 @@
 		E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntegerWidget.swift; path = Src/UI/Form/Widgets/IntegerWidget.swift; sourceTree = "<group>"; };
 		E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextWidget.swift; path = Src/UI/Form/Widgets/TextWidget.swift; sourceTree = "<group>"; };
 		E2C8DA041C761DB4005F1C41 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Widget.swift; path = Src/UI/Form/Widgets/Widget.swift; sourceTree = "<group>"; };
-		E2C8DA071C7624EA005F1C41 /* BooleanView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BooleanView.xib; path = Views/Form/Widgets/BooleanView.xib; sourceTree = "<group>"; };
-		E2C8DA091C762509005F1C41 /* DecimalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DecimalView.xib; path = Views/Form/Widgets/DecimalView.xib; sourceTree = "<group>"; };
-		E2C8DA0A1C762509005F1C41 /* IntegerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = IntegerView.xib; path = Views/Form/Widgets/IntegerView.xib; sourceTree = "<group>"; };
-		E2C8DA0B1C762509005F1C41 /* TextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TextView.xib; path = Views/Form/Widgets/TextView.xib; sourceTree = "<group>"; };
 		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
@@ -246,14 +238,6 @@
 				1D015104EEC687B30D114585 /* Pods-QLSwift.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		E21DC3FA1C6D6A10005564FE /* Form */ = {
-			isa = PBXGroup;
-			children = (
-				E2C8DA061C7624CE005F1C41 /* Widgets */,
-			);
-			name = Form;
 			sourceTree = "<group>";
 		};
 		E21F69081C73CEEB00EB9E09 /* SemanticAnalyzerTests */ = {
@@ -371,17 +355,6 @@
 			name = Widgets;
 			sourceTree = "<group>";
 		};
-		E2C8DA061C7624CE005F1C41 /* Widgets */ = {
-			isa = PBXGroup;
-			children = (
-				E2C8DA071C7624EA005F1C41 /* BooleanView.xib */,
-				E2C8DA091C762509005F1C41 /* DecimalView.xib */,
-				E2C8DA0A1C762509005F1C41 /* IntegerView.xib */,
-				E2C8DA0B1C762509005F1C41 /* TextView.xib */,
-			);
-			name = Widgets;
-			sourceTree = "<group>";
-		};
 		E2CE05CD1C62191F00F2B43B = {
 			isa = PBXGroup;
 			children = (
@@ -460,7 +433,6 @@
 		E2CE05FC1C62199200F2B43B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E21DC3FA1C6D6A10005564FE /* Form */,
 				E21DC3EE1C6CE095005564FE /* ChooseFormView.xib */,
 				E2CE06091C621A6400F2B43B /* LaunchScreen.xib */,
 				E2CE060C1C621C4800F2B43B /* RootView.xib */,
@@ -685,15 +657,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
-				E2C8DA0E1C762509005F1C41 /* TextView.xib in Resources */,
 				E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */,
 				E2DF31001C6240F800F5227B /* form.ql in Resources */,
-				E2C8DA0D1C762509005F1C41 /* IntegerView.xib in Resources */,
 				E29A237E1C6D6C6500281E49 /* Podfile in Resources */,
 				E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */,
 				E21DC3EF1C6CE095005564FE /* ChooseFormView.xib in Resources */,
-				E2C8DA0C1C762509005F1C41 /* DecimalView.xib in Resources */,
-				E2C8DA081C7624EA005F1C41 /* BooleanView.xib in Resources */,
 				E21DC3F91C6CE6E8005564FE /* FormView.xib in Resources */,
 				E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */,
 			);

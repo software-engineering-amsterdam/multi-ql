@@ -19,7 +19,6 @@ class BooleanWidget: ViewWidget {
         
         super.init(layout: layout, delegate: delegate)
         
-        toggle.backgroundColor = UIColor.blackColor()
         toggle.on = booleanField.value
         toggle.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
     }
@@ -29,15 +28,14 @@ class BooleanWidget: ViewWidget {
     }
     
     override func setupView(layout: Layout) {
-        self.backgroundColor = UIColor.greenColor()
         
         if toggle.superview == nil {
             self.addSubview(toggle)
             
             toggle.snp_makeConstraints { [unowned self] (make) -> Void in
                 make.top.equalTo(self.snp_top).offset(layout.margin.top)
-                make.right.equalTo(self.snp_right).offset(-layout.margin.right)
-                make.bottom.equalTo(self.snp_bottom).offset(-layout.margin.bottom)
+                make.right.equalTo(self.snp_right).offset(layout.margin.right)
+                make.bottom.equalTo(self.snp_bottom).offset(layout.margin.bottom)
             }
         }
     }
