@@ -25,7 +25,7 @@ public class QLInterpreterContext {
 		return valueMap.get(key);
 	}
 
-	private void notifyContextListeners() {
+	public void notifyContextListeners() {
 		for (ContextListener cl : contextListeners) {
 			cl.contextChanged(this);
 		}

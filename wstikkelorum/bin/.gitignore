@@ -1,7 +1,6 @@
 /ast/
-/gui/
-/warning/
-/issues/
-/issue/
-/antlr/
-/SmallQuestionaire.ql
+/CyclicExample.ql
+/CyclicExampleA.ql
+/CyclicExampleB.ql
+/CyclicExampleC.ql
+/CyclicExampleD.ql

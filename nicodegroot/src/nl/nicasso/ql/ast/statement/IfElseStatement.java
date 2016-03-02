@@ -3,6 +3,8 @@ package nl.nicasso.ql.ast.statement;
 import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.structure.Block;
+import nl.nicasso.ql.ast.type.BooleanType;
+import nl.nicasso.ql.ast.type.Type;
 import nl.nicasso.ql.visitor.StatementVisitor;
 
 public class IfElseStatement extends IfStatement {
@@ -21,6 +23,13 @@ public class IfElseStatement extends IfStatement {
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+	
+	public Type checkAllowedTypes(Type expr) {	
+		if (expr.equals(new BooleanType())) {
+			return expr;
+		}
+		return null;
 	}
 
 }

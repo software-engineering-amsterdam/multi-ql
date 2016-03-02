@@ -21,7 +21,7 @@ public class IntegerType extends NumericType {
 	
 	@Override
 	public boolean equals(Object ob) {
-		IntegerType t2 = (IntegerType) ob;
+		Type t2 = (Type) ob;
 		return type.equals(t2.getType());
 	}
 	

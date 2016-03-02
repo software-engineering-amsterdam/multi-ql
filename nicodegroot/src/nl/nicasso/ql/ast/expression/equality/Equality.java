@@ -11,8 +11,8 @@ public abstract class Equality extends Polynomial {
 	}
 
 	public Type checkAllowedTypes(Type left, Type right) {		
-		if (left.getType().equals(right.getType())) {
-				return left;
+		if (left.equals(right)) {
+			return left;
 		}
 		
 		return null;		

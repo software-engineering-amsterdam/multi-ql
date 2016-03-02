@@ -1,8 +1,7 @@
-// Generated from QL.g4 by ANTLR 4.5
+// Generated from QL.g4 by ANTLR 4.5.2
 
 	package org.uva.sea.ql.parser.antlr;
 
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -199,17 +198,17 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code decimalLiteral}
+	 * Enter a parse tree produced by the {@code moneyLiteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 */
-	void enterDecimalLiteral(QLParser.DecimalLiteralContext ctx);
+	void enterMoneyLiteral(QLParser.MoneyLiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code decimalLiteral}
+	 * Exit a parse tree produced by the {@code moneyLiteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 */
-	void exitDecimalLiteral(QLParser.DecimalLiteralContext ctx);
+	void exitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.
@@ -282,16 +281,4 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMoneyType(QLParser.MoneyTypeContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code decimalType}
-	 * labeled alternative in {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void enterDecimalType(QLParser.DecimalTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code decimalType}
-	 * labeled alternative in {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void exitDecimalType(QLParser.DecimalTypeContext ctx);
 }

@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.5
+// Generated from QL.g4 by ANTLR 4.5.2
 
 	package org.uva.sea.ql.parser.antlr;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -22,8 +22,8 @@ public class QLParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, WHITESPACE=28, COMMENT=29, LINE_COMMENT=30, 
-		BOOLEAN=31, IDENTIFIER=32, INTEGER=33, DECIMAL=34, STRING=35;
+		T__24=25, T__25=26, WHITESPACE=27, COMMENT=28, LINE_COMMENT=29, BOOLEAN=30, 
+		IDENTIFIER=31, INTEGER=32, MONEY=33, STRING=34;
 	public static final int
 		RULE_form = 0, RULE_block = 1, RULE_statement = 2, RULE_expression = 3, 
 		RULE_literal = 4, RULE_questionType = 5;
@@ -34,14 +34,13 @@ public class QLParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "'{'", "'}'", "':'", "'='", "'('", "')'", "'if'", "'else'", 
 		"'!'", "'*'", "'/'", "'+'", "'-'", "'>'", "'>='", "'<'", "'<='", "'=='", 
-		"'!='", "'&&'", "'||'", "'integer'", "'string'", "'boolean'", "'money'", 
-		"'decimal'"
+		"'!='", "'&&'", "'||'", "'integer'", "'string'", "'boolean'", "'money'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, "WHITESPACE", "COMMENT", "LINE_COMMENT", "BOOLEAN", 
-		"IDENTIFIER", "INTEGER", "DECIMAL", "STRING"
+		null, null, null, "WHITESPACE", "COMMENT", "LINE_COMMENT", "BOOLEAN", 
+		"IDENTIFIER", "INTEGER", "MONEY", "STRING"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -327,6 +326,7 @@ public class QLParser extends Parser {
 		enterRule(_localctx, 4, RULE_statement);
 		try {
 			setState(52);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				_localctx = new QuestionStatementContext(_localctx);
@@ -673,7 +673,7 @@ public class QLParser extends Parser {
 				break;
 			case BOOLEAN:
 			case INTEGER:
-			case DECIMAL:
+			case MONEY:
 			case STRING:
 				{
 				_localctx = new LiteralExpressionContext(_localctx);
@@ -705,6 +705,7 @@ public class QLParser extends Parser {
 					_prevctx = _localctx;
 					{
 					setState(80);
+					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
@@ -832,23 +833,6 @@ public class QLParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class DecimalLiteralContext extends LiteralContext {
-		public TerminalNode DECIMAL() { return getToken(QLParser.DECIMAL, 0); }
-		public DecimalLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterDecimalLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitDecimalLiteral(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitDecimalLiteral(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class BooleanliteralContext extends LiteralContext {
 		public TerminalNode BOOLEAN() { return getToken(QLParser.BOOLEAN, 0); }
 		public BooleanliteralContext(LiteralContext ctx) { copyFrom(ctx); }
@@ -900,6 +884,23 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class MoneyLiteralContext extends LiteralContext {
+		public TerminalNode MONEY() { return getToken(QLParser.MONEY, 0); }
+		public MoneyLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterMoneyLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitMoneyLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitMoneyLiteral(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final LiteralContext literal() throws RecognitionException {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
@@ -915,12 +916,12 @@ public class QLParser extends Parser {
 				match(INTEGER);
 				}
 				break;
-			case DECIMAL:
-				_localctx = new DecimalLiteralContext(_localctx);
+			case MONEY:
+				_localctx = new MoneyLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(86);
-				match(DECIMAL);
+				match(MONEY);
 				}
 				break;
 			case BOOLEAN:
@@ -963,22 +964,6 @@ public class QLParser extends Parser {
 		public QuestionTypeContext() { }
 		public void copyFrom(QuestionTypeContext ctx) {
 			super.copyFrom(ctx);
-		}
-	}
-	public static class DecimalTypeContext extends QuestionTypeContext {
-		public DecimalTypeContext(QuestionTypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterDecimalType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitDecimalType(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitDecimalType(this);
-			else return visitor.visitChildren(this);
 		}
 	}
 	public static class BooleanTypeContext extends QuestionTypeContext {
@@ -1050,7 +1035,7 @@ public class QLParser extends Parser {
 		QuestionTypeContext _localctx = new QuestionTypeContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_questionType);
 		try {
-			setState(96);
+			setState(95);
 			switch (_input.LA(1)) {
 			case T__22:
 				_localctx = new IntegerTypeContext(_localctx);
@@ -1082,14 +1067,6 @@ public class QLParser extends Parser {
 				{
 				setState(94);
 				match(T__25);
-				}
-				break;
-			case T__26:
-				_localctx = new DecimalTypeContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(95);
-				match(T__26);
 				}
 				break;
 			default:
@@ -1131,33 +1108,32 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3%e\4\2\t\2\4\3\t\3"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3$d\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\2\3\2\3\3\3\3\7\3\25\n\3\f"+
 		"\3\16\3\30\13\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
 		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\67"+
 		"\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5B\n\5\3\5\3\5\3\5\3\5\3\5"+
 		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5S\n\5\f\5\16\5V\13\5\3\6\3"+
-		"\6\3\6\3\6\5\6\\\n\6\3\7\3\7\3\7\3\7\3\7\5\7c\n\7\3\7\2\3\b\b\2\4\6\b"+
-		"\n\f\2\7\3\2\r\16\3\2\17\20\3\2\21\24\3\2\25\26\3\2\27\30q\2\16\3\2\2"+
-		"\2\4\22\3\2\2\2\6\66\3\2\2\2\bA\3\2\2\2\n[\3\2\2\2\fb\3\2\2\2\16\17\7"+
-		"\3\2\2\17\20\7\"\2\2\20\21\5\4\3\2\21\3\3\2\2\2\22\26\7\4\2\2\23\25\5"+
-		"\6\4\2\24\23\3\2\2\2\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\31\3"+
-		"\2\2\2\30\26\3\2\2\2\31\32\7\5\2\2\32\5\3\2\2\2\33\34\7%\2\2\34\35\7\""+
-		"\2\2\35\36\7\6\2\2\36\67\5\f\7\2\37 \7%\2\2 !\7\"\2\2!\"\7\6\2\2\"#\5"+
-		"\f\7\2#$\7\7\2\2$%\7\b\2\2%&\5\b\5\2&\'\7\t\2\2\'\67\3\2\2\2()\7\n\2\2"+
-		")*\7\b\2\2*+\5\b\5\2+,\7\t\2\2,-\5\4\3\2-\67\3\2\2\2./\7\n\2\2/\60\7\b"+
-		"\2\2\60\61\5\b\5\2\61\62\7\t\2\2\62\63\5\4\3\2\63\64\7\13\2\2\64\65\5"+
-		"\4\3\2\65\67\3\2\2\2\66\33\3\2\2\2\66\37\3\2\2\2\66(\3\2\2\2\66.\3\2\2"+
-		"\2\67\7\3\2\2\289\b\5\1\29:\7\f\2\2:B\5\b\5\13;<\7\b\2\2<=\5\b\5\2=>\7"+
-		"\t\2\2>B\3\2\2\2?B\5\n\6\2@B\7\"\2\2A8\3\2\2\2A;\3\2\2\2A?\3\2\2\2A@\3"+
-		"\2\2\2BT\3\2\2\2CD\f\t\2\2DE\t\2\2\2ES\5\b\5\nFG\f\b\2\2GH\t\3\2\2HS\5"+
-		"\b\5\tIJ\f\7\2\2JK\t\4\2\2KS\5\b\5\bLM\f\6\2\2MN\t\5\2\2NS\5\b\5\7OP\f"+
-		"\5\2\2PQ\t\6\2\2QS\5\b\5\6RC\3\2\2\2RF\3\2\2\2RI\3\2\2\2RL\3\2\2\2RO\3"+
-		"\2\2\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\t\3\2\2\2VT\3\2\2\2W\\\7#\2\2X\\"+
-		"\7$\2\2Y\\\7!\2\2Z\\\7%\2\2[W\3\2\2\2[X\3\2\2\2[Y\3\2\2\2[Z\3\2\2\2\\"+
-		"\13\3\2\2\2]c\7\31\2\2^c\7\32\2\2_c\7\33\2\2`c\7\34\2\2ac\7\35\2\2b]\3"+
-		"\2\2\2b^\3\2\2\2b_\3\2\2\2b`\3\2\2\2ba\3\2\2\2c\r\3\2\2\2\t\26\66ART["+
-		"b";
+		"\6\3\6\3\6\5\6\\\n\6\3\7\3\7\3\7\3\7\5\7b\n\7\3\7\2\3\b\b\2\4\6\b\n\f"+
+		"\2\7\3\2\r\16\3\2\17\20\3\2\21\24\3\2\25\26\3\2\27\30o\2\16\3\2\2\2\4"+
+		"\22\3\2\2\2\6\66\3\2\2\2\bA\3\2\2\2\n[\3\2\2\2\fa\3\2\2\2\16\17\7\3\2"+
+		"\2\17\20\7!\2\2\20\21\5\4\3\2\21\3\3\2\2\2\22\26\7\4\2\2\23\25\5\6\4\2"+
+		"\24\23\3\2\2\2\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\31\3\2\2\2"+
+		"\30\26\3\2\2\2\31\32\7\5\2\2\32\5\3\2\2\2\33\34\7$\2\2\34\35\7!\2\2\35"+
+		"\36\7\6\2\2\36\67\5\f\7\2\37 \7$\2\2 !\7!\2\2!\"\7\6\2\2\"#\5\f\7\2#$"+
+		"\7\7\2\2$%\7\b\2\2%&\5\b\5\2&\'\7\t\2\2\'\67\3\2\2\2()\7\n\2\2)*\7\b\2"+
+		"\2*+\5\b\5\2+,\7\t\2\2,-\5\4\3\2-\67\3\2\2\2./\7\n\2\2/\60\7\b\2\2\60"+
+		"\61\5\b\5\2\61\62\7\t\2\2\62\63\5\4\3\2\63\64\7\13\2\2\64\65\5\4\3\2\65"+
+		"\67\3\2\2\2\66\33\3\2\2\2\66\37\3\2\2\2\66(\3\2\2\2\66.\3\2\2\2\67\7\3"+
+		"\2\2\289\b\5\1\29:\7\f\2\2:B\5\b\5\13;<\7\b\2\2<=\5\b\5\2=>\7\t\2\2>B"+
+		"\3\2\2\2?B\5\n\6\2@B\7!\2\2A8\3\2\2\2A;\3\2\2\2A?\3\2\2\2A@\3\2\2\2BT"+
+		"\3\2\2\2CD\f\t\2\2DE\t\2\2\2ES\5\b\5\nFG\f\b\2\2GH\t\3\2\2HS\5\b\5\tI"+
+		"J\f\7\2\2JK\t\4\2\2KS\5\b\5\bLM\f\6\2\2MN\t\5\2\2NS\5\b\5\7OP\f\5\2\2"+
+		"PQ\t\6\2\2QS\5\b\5\6RC\3\2\2\2RF\3\2\2\2RI\3\2\2\2RL\3\2\2\2RO\3\2\2\2"+
+		"SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\t\3\2\2\2VT\3\2\2\2W\\\7\"\2\2X\\\7#\2"+
+		"\2Y\\\7 \2\2Z\\\7$\2\2[W\3\2\2\2[X\3\2\2\2[Y\3\2\2\2[Z\3\2\2\2\\\13\3"+
+		"\2\2\2]b\7\31\2\2^b\7\32\2\2_b\7\33\2\2`b\7\34\2\2a]\3\2\2\2a^\3\2\2\2"+
+		"a_\3\2\2\2a`\3\2\2\2b\r\3\2\2\2\t\26\66ART[a";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

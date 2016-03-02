@@ -7,7 +7,6 @@ import { SemanticAnalyser } from 'src/ast_semantic_analysis';
 import * as ast from 'src/ast';
 import * as types from 'src/types';
 import * as values from 'src/values';
-import { LineError } from 'src/error';
 
 // Use a visitor to convert the parse context into an ast
 class AstConversionVisitor extends GeneratedVisitor {
@@ -97,19 +96,19 @@ class AstConversionVisitor extends GeneratedVisitor {
 		}
 	}
 	visitBooleanLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.BooleanType(), values.BooleanValue.fromString(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new types.BooleanType(), values.BooleanValue.fromString(ctx.getText()));
 	}
 	visitStringLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.StringType(), values.StringValue.fromString(ctx.getText().slice(1,-1)));
+		return new ast.LiteralNode(ctx.start.line, new types.StringType(), values.StringValue.fromString(ctx.getText().slice(1,-1)));
 	}
 	visitIntegerLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.IntegerType(), values.IntegerValue.fromString(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new types.IntegerType(), values.IntegerValue.fromString(ctx.getText()));
 	}
 	visitFloatLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.FloatType(), values.FloatValue.fromString(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new types.FloatType(), values.FloatValue.fromString(ctx.getText()));
 	}
 	visitMoneyLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.MoneyType(), values.MoneyValue.fromString(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new types.MoneyType(), values.MoneyValue.fromString(ctx.getText()));
 	}
 	visitType(ctx) {
 		switch (ctx.start.type) {
@@ -129,13 +128,13 @@ class AstConversionVisitor extends GeneratedVisitor {
 	}
 }
 
-class AggregatingErrorListener extends ErrorListener {
-	constructor () {
+class LoggingErrorListener extends ErrorListener {
+	constructor (log) {
 		super();
-		this.errors = [];
+		this.log = log;
 	}
 	syntaxError(recognizer, offendingSymbol, line, column, msg, e) {
-		this.errors.push(new LineError(line, "Syntax error: " + msg));
+		this.log.logError([line], "Syntax error (" + msg + ")");
 	}
 
 	// the rest of these listeners should no be called, so crash
@@ -150,24 +149,16 @@ class AggregatingErrorListener extends ErrorListener {
 	}
 }
 
-export class ParseResult {
-	constructor (ast, errors) {
-		this.ast = ast;
-		this.errors = errors;
-	}
-}
-
 export class AnalyzingQlParser {
 	constructor(semanticAnalyser) {
 		this.semanticAnalyser = semanticAnalyser;
 	}
-	parse (input) {
-		let errors,
-			chars = new antlr4.InputStream(input),
+	parse (input, log) {
+		let chars = new antlr4.InputStream(input),
 			lexer = new GeneratedLexer(chars),
 			tokens  = new antlr4.CommonTokenStream(lexer),
 			parser = new GeneratedParser(tokens),
-			errorListener = new AggregatingErrorListener(),
+			errorListener = new LoggingErrorListener(log),
 			visitor = new AstConversionVisitor(),
 			tree,
 			ast;
@@ -179,15 +170,14 @@ export class AnalyzingQlParser {
 		parser.addErrorListener(errorListener);
 		tree = parser.form();
 
-		errors = errorListener.errors;
-		if (errors.length > 0) {
-			return new ParseResult(null, errors);
+		if (log.hasErrors()) {
+			return null;
 		}
 
 		visitor = new AstConversionVisitor();
 		ast = tree.accept(visitor);
-		errors = this.semanticAnalyser.analyse(ast);
+		this.semanticAnalyser.analyse(ast, log);
 
-		return new ParseResult(ast, errors);
+		return ast;
 	}
 }

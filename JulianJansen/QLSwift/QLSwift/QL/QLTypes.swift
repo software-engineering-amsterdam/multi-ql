@@ -8,30 +8,40 @@
 
 import Foundation
 
-
-class QLType: NSObject {
-    
-}
-
 class QLForm: AnyObject {
     let formName: QLString
-    let codeBlocks: QLCodeBlock
+    let codeBlock: [QLStatement]
     
-    init(formName: QLString, codeBlocks: QLCodeBlock) {
+    init(formName: QLString, codeBlock: [QLStatement]) {
         self.formName = formName
-        self.codeBlocks = codeBlocks
-    }
-}
-
-class QLCodeBlock: AnyObject {
-    let codeBlock: [QLString]
-    
-    init(codeBlock: [QLString]) {
         self.codeBlock = codeBlock
     }
 }
 
+class QLStatement: AnyObject {
+
+}
+
+class QLQuestion: QLStatement {
+    let name: String
+    let variable: String
+    let type: String
+    
+    init(name: String, variable: String, type: String) {
+        self.name = name
+        self.variable = variable
+        self.type = type
+    }
+}
+
+class QLExpression: QLStatement {
+    
+}
+
 // MARK: Data Types
+class QLType: QLStatement {
+    
+}
 
 class QLBool: QLType {
     let boolean: Bool

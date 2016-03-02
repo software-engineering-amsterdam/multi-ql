@@ -1,17 +1,9 @@
-function refreshGUI() {
+function refreshGUI(ast) {
 	$(".questionDiv").hide();
-
-	ast.resetQuestionVisibility();
-
 	ast.transverseAST((questionNode) => {
-		if (questionNode instanceof ComputedQuestionNode) {
-			questionNode.setValue(questionNode.computedExpr.compute());
-		}
-		questionNode.visible = true;
 		$(".questionDiv[qllabel='" + questionNode.label + "']").show();
 		$("input[name='" + questionNode.label + "']").val(questionNode.value);
 	}, undefined, true);
-
 }
 
 function generateQuestionHTML(questionNode) {
@@ -41,20 +33,21 @@ function generateQuestionHTML(questionNode) {
 	return html;
 }
 
-function renderQuestions() {
-	var output = "";
+function renderQuestions(ast) {
 	ast.transverseAST((questionNode) => {
-		output += generateQuestionHTML(questionNode);
+		$("#output").append(generateQuestionHTML(questionNode));
 	});
-	$("#output").html(output);
+	registerQuestionChangeListeners(ast);
+
 }
 
-function resetErrorPanels() {
-
+function resetGUI() {
 	var editor = ace.edit("input");
 	editor.getSession().clearAnnotations();
 	$("#error").html("");
 	$("#warning").html("");
+
+	$("#output").html("");
 
 	$("#errorPanel").hide();
 	$("#warningPanel").hide();
@@ -62,7 +55,7 @@ function resetErrorPanels() {
 	$("#formWrapper").show();
 }
 
-function saveAnswers() {
+function saveAnswers(ast) {
 	var answerList = ast.getAnswerList();
 	var blob = new Blob([answerList.toString()], {type: "text/plain;charset=utf-8"});
 	fileSaverSaveAs(blob, "answers.json");

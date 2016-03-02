@@ -1,7 +1,5 @@
 package ast.visitor;
 
-import java.util.HashMap;
-
 import ast.expression.Add;
 import ast.expression.AndExpression;
 import ast.expression.Div;
@@ -22,34 +20,23 @@ import ast.literal.BoolLiteral;
 import ast.literal.IntLiteral;
 import ast.literal.StringLiteral;
 import ast.statement.ComputedQuestion;
-import ast.statement.IfStatement;
-import ast.statement.Question;
+import ast.statement.InputQuestion;
 
-//TODO: BROKEN NEED TO FIX FOR THE NEW VISITORS>>>>
-public class EvalVisitor extends BasicVisitor {
+public class EvalVisitor extends BasicVisitor<Object> {
 	private Context context;
 	
-	public EvalVisitor(){
-		context = new Context();
+	public EvalVisitor(Context context){
+		this.context = context;
+	}
+	
+	public Context getContext(){
+		return context;
 	}
 	
 	@Override
 	public Object visit(ComputedQuestion computedQuestion){
 		Object value = computedQuestion.getExpression().accept(this);
-		//context.addVariable(computedQuestion.getVariable());
-		return null;
-	}
-
-	@Override
-	public Object visit(IfStatement ifStatement){
-		Object value = ifStatement.getExpression().accept(this);//TODO:store value
-		ifStatement.getBody().accept(this);
-		return null;
-	}
-	
-	@Override
-	public Object visit(Question question){
-		//context.addVariable(question.getVariable());
+		context.putValueQuestion(computedQuestion, value);
 		return null;
 	}
 	
@@ -145,6 +132,6 @@ public class EvalVisitor extends BasicVisitor {
 	
 	@Override
 	public Object visit(VariableExpression variableExpression){
-		return null;//TODO:getvaribale value from map or something!!!!!
+		return context.getValueForVariable(variableExpression.getName());
 	}
 }

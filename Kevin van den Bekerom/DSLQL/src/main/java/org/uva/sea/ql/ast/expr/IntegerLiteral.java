@@ -1,10 +1,11 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.form.Context;
-import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.IntType;
+import org.uva.sea.ql.type.Type;
 
-public class IntegerLiteral extends Expr implements Visitable {
+public class IntegerLiteral extends Expr {
 	final int value;
 	
 	public IntegerLiteral(int value) {
@@ -28,6 +29,6 @@ public class IntegerLiteral extends Expr implements Visitable {
 	
 	@Override
 	public Type getType(Context context) {
-		return Type.INT;
+		return new IntType();
 	}
 }

@@ -2,29 +2,31 @@ package uva.ql.visitors.typechecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import uva.ql.ast.AExpression;
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
+import uva.ql.ast.conditionals.IfStatement;
+import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IVariable;
 import uva.ql.visitors.INodeVisitor;
 
 public class CyclicDepenUndefQuestions implements INodeVisitor {
 
-	private final HashMap<String, Integer> store = new HashMap<String, Integer>(0);
-	private final ArrayList<String> varList = new ArrayList<String>(0);
-	private ArrayList<AVariable> exisitingVars = new ArrayList<AVariable>(0);
+	private final Map<String, Integer> store = new HashMap<String, Integer>(0);
+	private final List<String> varList = new ArrayList<String>(0);
+	private List<Variable> exisitingVars = new ArrayList<Variable>(0);
 	
-	public CyclicDepenUndefQuestions( ArrayList<AVariable> store ) {
+	public CyclicDepenUndefQuestions( List<Variable> store ) {
 		
 		exisitingVars = store;
 	}
 	
-	public HashMap<String, Integer> getResult() {
+	public Map<String, Integer> getResult() {
 		
 		return store;
 	}
@@ -67,15 +69,18 @@ public class CyclicDepenUndefQuestions implements INodeVisitor {
 		}
 		else {
 			
-			AVariable var = (AVariable) question.get(0);
+			Variable var = (Variable) question.get(0);
 			//System.out.println(var.getName());
 			varList.add( var.getName() );
 		}
+		
+		/*AVariable var = (AVariable) question.get(0);
+		var.accept( this );*/
 	}
 	
 	@Override
 	public <T> void visitExp( T expression ) {
-		AExpression exp = (AExpression) expression;
+		Expression exp = (Expression) expression;
 
 		if ( exp.getLeftNode() != null ) {
 			
@@ -89,14 +94,16 @@ public class CyclicDepenUndefQuestions implements INodeVisitor {
 	}
 
 	@Override
-	public void visitVar( AVariable var ) {
-
+	public void visitVar( Variable var ) {
+		
+		//varList.add( var.getName() );
+		
 		//System.out.println(varList);
 		if ( var.getVarType() != IVariable.BOOLEAN && !varList.contains( var.getName() ) ) {
 			
 			boolean undefQuestion = false;
 			
-			for( AVariable v : exisitingVars ) {
+			for( Variable v : exisitingVars ) {
 
 				if ( v.getName().equalsIgnoreCase(var.getName()) ) {
 					
@@ -131,5 +138,5 @@ public class CyclicDepenUndefQuestions implements INodeVisitor {
 	}
 	
 	@Override
-	public void visitNum( ANumber number ) {}
+	public void visitNum( Number number ) {}
 }

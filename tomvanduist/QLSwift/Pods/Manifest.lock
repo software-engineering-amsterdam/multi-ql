@@ -1,10 +1,13 @@
 PODS:
+  - DTAlertView (1.4.2)
   - SnapKit (0.19.1)
 
 DEPENDENCIES:
+  - DTAlertView
   - SnapKit (~> 0.19)
 
 SPEC CHECKSUMS:
+  DTAlertView: 5c415c75fb6be2e1093be652dfc469a428b30cf4
   SnapKit: eff58d6e3451bf2f482db2eccf86aecf371dc62d
 
 COCOAPODS: 0.39.0

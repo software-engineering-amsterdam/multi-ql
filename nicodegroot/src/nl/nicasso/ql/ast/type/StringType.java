@@ -21,7 +21,7 @@ public class StringType extends Type {
 	
 	@Override
 	public boolean equals(Object ob) {
-		StringType t2 = (StringType) ob;
+		Type t2 = (Type) ob;
 		return type.equals(t2.getType());
 	}
 	

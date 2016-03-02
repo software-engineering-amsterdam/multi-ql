@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import uva.ql.ast.ANode;
-import uva.ql.ast.AVariable;
 import uva.ql.ast.Form;
 import uva.ql.ast.Question;
+import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.INode;
 import uva.ql.visitors.typechecker.CollectVariables;
 import uva.ql.visitors.typechecker.ConditionsNotOfTypeBoolean;
@@ -33,13 +33,18 @@ public class TypeChecker {
 		return msg;
 	}
 	
+	/* 
+	 * Abstract message, sub class error,...
+	 * Simplify!
+	 * */
+	
 	public static HashMap<String, Integer> checkForDupQuestionsOfDiffTypes( CollectVariables cv ) {
 		
 		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		ArrayList<AVariable> varList = cv.getStore();
+		ArrayList<Variable> varList = cv.getStore();
 		Set<String> varNameSet = new HashSet<String>();
 
-		for( AVariable var : varList ) {
+		for( Variable var : varList ) {
 			
 			if( !varNameSet.add(var.getName()) ) {
 				
@@ -78,12 +83,12 @@ public class TypeChecker {
 	public static HashMap<String, Integer> checkDuplicateLabels( CollectVariables cv ) {
 		
 		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		ArrayList<AVariable> varList = cv.getStore();
+		ArrayList<Variable> varList = cv.getStore();
 		Set<String> qLabelSet = new HashSet<String>();
 		
-		for( AVariable var : varList ) {
+		for( Variable var : varList ) {
 			
-			ANode node = var.getParent();
+			Node node = var.getParent();
 			//System.out.println(var.getName() + " - " + var.getVarType());
 			if( node.getNodeType() == INode.QUESTION ) {
 				

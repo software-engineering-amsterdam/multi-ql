@@ -9,6 +9,7 @@ export class Value {
 
 export class PrimitiveValue extends Value {
 	constructor(value) {
+		super();
 		this.value = value;
 	}
 }
@@ -88,6 +89,7 @@ export class FloatValue extends NumberValue {
 
 export class MoneyValue extends Value {
 	constructor(euros, cents) {
+		super();
 		this.euros = euros;
 		this.cents = cents;
 	}

@@ -1,19 +1,20 @@
 package nl.nicasso.ql.symbolTable;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import nl.nicasso.ql.ast.expression.Identifier;
 
 public class SymbolTable {
 
-	private HashMap<Identifier, SymbolTableEntry> symbols;
+	private Map<Identifier, SymbolTableEntry> symbols;
 
 	public SymbolTable() {
 		super();
 		this.symbols = new HashMap<Identifier, SymbolTableEntry>();
 	}
 
-	public HashMap<Identifier, SymbolTableEntry> getSymbols() {
+	public Map<Identifier, SymbolTableEntry> getSymbols() {
 		return symbols;
 	}
 	
