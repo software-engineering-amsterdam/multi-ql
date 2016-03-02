@@ -33,6 +33,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print(test.formName.string)
             print(test.codeBlock)
             
+            var temp = test.codeBlock[0] as! QLQuestion
+            print(temp.name)
+            print(temp.variable)
+            print(temp.type)
+
+
+            
         } catch {
             print("Error in do-catch in AppDelegate: \(error)")
         }

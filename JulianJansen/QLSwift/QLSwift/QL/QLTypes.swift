@@ -23,10 +23,14 @@ class QLStatement: AnyObject {
 }
 
 class QLQuestion: QLStatement {
-    let question: String
+    let name: String
+    let variable: String
+    let type: String
     
-    init(question: String) {
-        self.question = question
+    init(name: String, variable: String, type: String) {
+        self.name = name
+        self.variable = variable
+        self.type = type
     }
 }
 

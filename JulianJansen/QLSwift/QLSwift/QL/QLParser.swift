@@ -13,7 +13,6 @@ import SwiftParsec
 // <^> .map
 // >>- .flatMap
 
-
 class QLParser: NSObject {
     
     func parseStream(data: String) throws -> QLForm {
@@ -31,10 +30,11 @@ class QLParser: NSObject {
         let character = StringParser.character
         let stringLiteral = lexer.stringLiteral
         let eof = StringParser.eof
+        
         let endOfLine = StringParser.crlf.attempt <|>
             (character("\n") *> character("\r")).attempt <|>
             character("\n") <|>
-            character("\r") <?> "end of line"
+            character("\r") <?> "End of line."
         
         // Strings.
         let qlstring = lexer.identifier.map{ (str) -> QLString in
@@ -47,78 +47,56 @@ class QLParser: NSObject {
             return accumulated
         }
         
-        // From the CSV example.
-//        let quotedChars = noneOf("\"") <|>
-//            StringParser.string("\"\"").attempt *>
-//            GenericParser(result: "\"")
-        
-//        let quote = character("\"")
-//        let quotedField = quote *> stringLiteral <* (quote <?> "quote at end of field")
-//        let quotedField = quote *> quotedChars.many.stringValue.map{ question in QLQuestion(question: question) } <*
-//            (quote <?> "quote at end of field")
-        
-        
-//        let quotedField = quote *> quotedChars.many.stringValue <* (quote <?> "quote at end of field")
-//        let quotedField = quote *> quotedChars.many.stringValue <|> noneOf("\r\n,\n\r").many.stringValue <* (quote  <?> "quote at end of field")
-//        
-//        let field = quotedField <|> noneOf("\r\n,\n\r").many.stringValue
-
-        
-//        let qlquestion = (quotedField <|> noneOf("\r\n,\n\r").many.stringValue).map{ question in QLQuestion(question: question) }
-        
-        
-        
+        // MARK: Questions. From CSV example code. Added end of line.
         let quotedChars = noneOf("\"") <|> StringParser.string("\"\"").attempt *> GenericParser(result: "\"")
-        
-        
         let quote = character("\"")
-//        let quotedField = quote *> quotedChars.many.stringValue <* (quote <?> "quote at end of field")
-        
-        let qlquestion = quote *> quotedChars.many.stringValue.map{ question in QLQuestion(question: question) } <* quote <* endOfLine <?> "quote at end of field"
         
         
-        //  <|> noneOf("\r\n,\n\r").many.stringValue.map{ question in QLQuestion(question: question) }
-//        let field = quotedField <|> noneOf("\r\n,\n\r").many.stringValue
+//        "Did you sell a house in 2010?"
+    //        hasSoldHouse: boolean
         
+        let qlquestionName = quote *> quotedChars.many.stringValue <* quote <* endOfLine <?> "Quote/endOfLine at end of question name."
+        let qlquestionVariable = lexer.whiteSpace *> lexer.identifier.map{ String($0) } <* lexer.colon <* symbol("boolean")
         
-        
-        
-//        let qlquestion = quotedField.map{ (question) -> QLQuestion in
-//            print("QLQuestion: \(question)")
-//            return QLQuestion(question: question)
-//        }
-        
-        
-        
-//        let quote = character("\"")
-//        let quotedChars = noneOf("\"") <|> StringParser.string("\"\"").attempt *> GenericParser(result: "\"")
-//        let qlquestion = quotedField <|> noneOf("\r\n,\n\r").many.stringValue
-//        let qlquestion: GenericParser<String, (), QLStatement> = quotedChars.map{ question in QLQuestion(question: question) }
-        
-        
-//        let qlquestion = quote *> qlstring <* (quote <?> "Quote at end of field")
+        let qlquestion: GenericParser<String, (), QLQuestion> = qlquestionName.flatMap{ questionName in
+            
+            qlquestionVariable.map{ questionVariable -> QLQuestion in
+                
+                QLQuestion(name: questionName, variable: questionVariable, type: "boolean")
 
-//        let qlquestion = quote *> quotedChars.many.stringValue <* (quote <?> "Quote at end of field")
+            }
+            
+            
+        }
+        
+        
+//        qlstring.flatMap{ (variableName) in
+//            print("Variable name: \(variableName)")
+//            
+//            let temp = (lexer.colon *> symbol("boolean")).map{ (variableType) in
+//                print("Question type: \(variableType)")
+//                return QLQuestion(name: qlquestionName, variable: variableName, type: variableType)
+//            }
+//            
+//            print("Temp: \(temp)")
+//            
+//            return temp
+//        }
+//            <*> lexer.colon <*> symbol("boolean")
+//        let qlquestion = qlquestionName <*> qlQuestionVariable
+        
+//       let qlquestionName = quote *> quotedChars.many.stringValue.map{ name in QLQuestion(name: question) } <* quote <* endOfLine <?> "quote at end of field"
     
+        // MARK: Statements.
         let qlstatement = qlquestion
         
         let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
-            print("Statement: \(statement.question)")
+            print("Statement: \(statement)")
             accumulated.append(statement)
             return accumulated
         }
-
+        
         let codeBlock: GenericParser<String, (), [QLStatement]> = lexer.braces(qlstatements) <?> "Error parsing in the braces of code block."
-        
-//        let codeBlock = lexer.braces(qlstatements).map{ (let statements: [QLStatement]) -> QLCodeBlock in
-//            print("In codeBlock \(statements)")
-//            return QLCodeBlock(codeBlock: statements)
-//        }
-        
-//        let codeBlock = lexer.braces(qlstatements).map{ (statements) -> QLCodeBlock in
-//            print("In codeBlock \(statements)")
-//            return QLCodeBlock(codeBlock: statements)
-//        }
         
         let form = symbol("form") *> qlstring.flatMap{ (formName) -> GenericParser<String, (), QLForm> in
             
