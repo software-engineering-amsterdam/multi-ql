@@ -1,9 +1,9 @@
 package nl.uva.sea.ql.checker;
 
+import java.util.*;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
-import java.util.*;
 import nl.uva.sea.ql.ast.question.Question;
 
 /**

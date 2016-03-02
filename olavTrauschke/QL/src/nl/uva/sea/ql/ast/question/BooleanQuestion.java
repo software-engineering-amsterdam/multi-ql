@@ -1,8 +1,8 @@
 package nl.uva.sea.ql.ast.question;
 
-import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
+import nl.uva.sea.ql.ast.Label;
 
 /**
  * Representation of <code>Question</code>s that return booleans in an AST.

@@ -40,7 +40,6 @@
 
 %{
 import java.io.FileNotFoundException;
-import java.util.Set;
 import nl.uva.sea.ql.ast.*;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;

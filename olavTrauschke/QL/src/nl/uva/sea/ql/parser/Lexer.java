@@ -1,10 +1,10 @@
 package nl.uva.sea.ql.parser;
 
-import nl.uva.sea.ql.ast.ASTNode;
-import nl.uva.sea.ql.ast.expr.*;
 import java.io.*;
 import java.util.*;
 import java.util.function.Predicate;
+import nl.uva.sea.ql.ast.ASTNode;
+import nl.uva.sea.ql.ast.expr.*;
 
 /**
  * Class for inerpretation of the syntax of ql-files.
