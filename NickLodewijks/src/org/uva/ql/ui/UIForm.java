@@ -1,5 +1,10 @@
 package org.uva.ql.ui;
 
-public interface UIForm<T> extends UIComponent<T> {
+import javax.swing.JComponent;
 
+public interface UIForm extends UIComponent {
+
+	public void addQuestion(UIQuestion question);
+
+	public JComponent getComponent();
 }

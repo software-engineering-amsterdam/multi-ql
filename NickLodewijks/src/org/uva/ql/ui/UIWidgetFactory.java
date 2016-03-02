@@ -3,7 +3,7 @@ package org.uva.ql.ui;
 import org.uva.ql.domain.Question;
 
 @FunctionalInterface
-public interface UIWidgetFactory<T extends UIWidget<?>> {
+public interface UIWidgetFactory {
 
-	public T create(Question question);
+	public UIWidget create(Question q);
 }

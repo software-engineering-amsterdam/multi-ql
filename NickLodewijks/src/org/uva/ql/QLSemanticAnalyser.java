@@ -271,7 +271,7 @@ public class QLSemanticAnalyser {
 			rhsType = rhs.accept(this, st);
 			if (!lhsType.equals(rhsType)) {
 				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
+						node.getSourceLocation(), lhsType.toString(), rhsType.toString());
 			}
 
 			return QLType.BOOLEAN;
@@ -290,7 +290,7 @@ public class QLSemanticAnalyser {
 			rhsType = rhs.accept(this, st);
 			if (!lhsType.equals(rhsType)) {
 				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-						node.getSourceLocation(), lhsType.getName(), rhsType.getName());
+						node.getSourceLocation(), lhsType.toString(), rhsType.toString());
 			}
 
 			return QLType.BOOLEAN;
@@ -340,15 +340,15 @@ public class QLSemanticAnalyser {
 		}
 
 		private void checkType(Expr expr, SymbolTable st, QLType expectedType) {
-			QLType actual;
+			QLType actualType;
 
-			actual = expr.accept(this, st);
+			actualType = expr.accept(this, st);
 
-			if (actual == null) {
+			if (actualType == null) {
 				result.addError("Unknown type for %s", expr);
-			} else if (!actual.equals(expectedType)) {
+			} else if (!actualType.equals(expectedType)) {
 				result.addError("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
-						expr.getSourceLocation(), expr.getSourceText(), expectedType.getName(), actual.getName());
+						expr.getSourceLocation(), expr.getSourceText(), expectedType.toString(), actualType.toString());
 			}
 		}
 	}
@@ -741,7 +741,7 @@ public class QLSemanticAnalyser {
 		QLSemanticAnalyser sa;
 		File inputFile;
 
-		inputFile = new File("resources/Questionaire.ql");
+		inputFile = new File("resources/Questionnaire.ql");
 		// inputFile = new
 		// File("test/resources/org/uva/ql/CyclicReferences.ql");
 		questionnaire = QLQuestionnaire.create(inputFile);
