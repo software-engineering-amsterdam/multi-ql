@@ -37,6 +37,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print(temp.name)
             print(temp.variable)
             print(temp.type)
+            
+            temp = test.codeBlock[1] as! QLQuestion
+            print(temp.name)
+            print(temp.variable)
+            print(temp.type)
+            
+            
+            temp = test.codeBlock[2] as! QLQuestion
+            print(temp.name)
+            print(temp.variable)
+            print(temp.type)
 
 
             

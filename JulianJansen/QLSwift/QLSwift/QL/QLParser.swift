@@ -55,37 +55,17 @@ class QLParser: NSObject {
 //        "Did you sell a house in 2010?"
     //        hasSoldHouse: boolean
         
-        let qlquestionName = quote *> quotedChars.many.stringValue <* quote <* endOfLine <?> "Quote/endOfLine at end of question name."
-        let qlquestionVariable = lexer.whiteSpace *> lexer.identifier.map{ String($0) } <* lexer.colon <* symbol("boolean")
+        let qlquestionName = quote *> quotedChars.many.stringValue <* quote <?> "Quote/endOfLine at end of question name."
+        let qlquestionVariable = lexer.whiteSpace *> lexer.identifier.map{ String($0) } <* lexer.colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
         
         let qlquestion: GenericParser<String, (), QLQuestion> = qlquestionName.flatMap{ questionName in
             
             qlquestionVariable.map{ questionVariable -> QLQuestion in
                 
                 QLQuestion(name: questionName, variable: questionVariable, type: "boolean")
-
+                
             }
-            
-            
         }
-        
-        
-//        qlstring.flatMap{ (variableName) in
-//            print("Variable name: \(variableName)")
-//            
-//            let temp = (lexer.colon *> symbol("boolean")).map{ (variableType) in
-//                print("Question type: \(variableType)")
-//                return QLQuestion(name: qlquestionName, variable: variableName, type: variableType)
-//            }
-//            
-//            print("Temp: \(temp)")
-//            
-//            return temp
-//        }
-//            <*> lexer.colon <*> symbol("boolean")
-//        let qlquestion = qlquestionName <*> qlQuestionVariable
-        
-//       let qlquestionName = quote *> quotedChars.many.stringValue.map{ name in QLQuestion(name: question) } <* quote <* endOfLine <?> "quote at end of field"
     
         // MARK: Statements.
         let qlstatement = qlquestion
