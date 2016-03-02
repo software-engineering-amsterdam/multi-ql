@@ -55,5 +55,9 @@ public abstract class Value {
 	public Value lessEqual(Value arg) {
 		return null;
 	}
+
+	public Value multiplication(MoneyValue arg) {
+		return null;
+	}
 	
 }

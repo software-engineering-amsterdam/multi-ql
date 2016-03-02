@@ -1,5 +1,7 @@
 package nl.nicasso.ql.values;
 
+import java.math.BigDecimal;
+
 public class IntegerValue extends Value {
 	
 	private final Integer value;
@@ -52,6 +54,11 @@ public class IntegerValue extends Value {
 	@Override
 	public Value multiplication(Value arg) {
 		return new IntegerValue(value * (Integer) arg.getValue());
+	}
+	
+	@Override
+	public Value multiplication(MoneyValue arg) {
+		return new MoneyValue(BigDecimal.valueOf(value).multiply(arg.getValue()));
 	}
 	
 	@Override
