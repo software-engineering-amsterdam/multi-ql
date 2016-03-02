@@ -18,7 +18,7 @@
 		E2270DB51C73C1B400E5FC2A /* SemanticAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */; };
 		E2270DB91C73C22800E5FC2A /* FormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2270DB81C73C22800E5FC2A /* FormTests.swift */; };
 		E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */; };
-		E23493091C6CB42900B40020 /* FormNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493081C6CB42900B40020 /* FormNodeVisitor.swift */; };
+		E23493091C6CB42900B40020 /* ASTNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493081C6CB42900B40020 /* ASTNodeVisitor.swift */; };
 		E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
 		E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
 		E23493101C6CD55000B40020 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930F1C6CD55000B40020 /* Context.swift */; };
@@ -63,7 +63,7 @@
 		E2D5189D1C700215008030C4 /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF30FD1C62380600F5227B /* QLParser.swift */; };
 		E2D518A71C700252008030C4 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9391C6B8C8C0042B5FF /* Expression.swift */; };
 		E2D518A81C700252008030C4 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92D1C6B8A260042B5FF /* Form.swift */; };
-		E2D518A91C700252008030C4 /* FormNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493081C6CB42900B40020 /* FormNodeVisitor.swift */; };
+		E2D518A91C700252008030C4 /* ASTNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493081C6CB42900B40020 /* ASTNodeVisitor.swift */; };
 		E2D518AA1C700252008030C4 /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* Statement.swift */; };
 		E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
 		E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
@@ -149,7 +149,7 @@
 		E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalyzerTests.swift; path = Src/Parser/SemanticAnalyzerTests.swift; sourceTree = "<group>"; };
 		E2270DB81C73C22800E5FC2A /* FormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormTests.swift; path = Src/Parser/FormTests.swift; sourceTree = "<group>"; };
 		E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleForms.ql; path = Resources/QL/FormTests/SimpleForms.ql; sourceTree = "<group>"; };
-		E23493081C6CB42900B40020 /* FormNodeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormNodeVisitor.swift; path = Src/Parser/AST/FormNodeVisitor.swift; sourceTree = "<group>"; };
+		E23493081C6CB42900B40020 /* ASTNodeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ASTNodeVisitor.swift; path = Src/Parser/AST/ASTNodeVisitor.swift; sourceTree = "<group>"; };
 		E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalyzer.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift; sourceTree = "<group>"; };
 		E234930D1C6CCE6700B40020 /* SemanticError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticError.swift; path = Src/Parser/SemanticAnalyzer/SemanticError.swift; sourceTree = "<group>"; };
 		E234930F1C6CD55000B40020 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Context.swift; path = Src/Parser/SemanticAnalyzer/Context.swift; sourceTree = "<group>"; };
@@ -327,10 +327,10 @@
 		E26CC92A1C6B7CF40042B5FF /* AST */ = {
 			isa = PBXGroup;
 			children = (
+				E23493081C6CB42900B40020 /* ASTNodeVisitor.swift */,
 				E26CC9391C6B8C8C0042B5FF /* Expression.swift */,
 				E2F0A2F91C75CE5900D0C1AB /* ExpressionType.swift */,
 				E26CC92D1C6B8A260042B5FF /* Form.swift */,
-				E23493081C6CB42900B40020 /* FormNodeVisitor.swift */,
 				E26CC92F1C6B8B030042B5FF /* Statement.swift */,
 			);
 			name = AST;
@@ -785,7 +785,7 @@
 				E2C8DA021C761D8C005F1C41 /* IntegerWidget.swift in Sources */,
 				E2C8DA031C761D8C005F1C41 /* TextWidget.swift in Sources */,
 				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
-				E23493091C6CB42900B40020 /* FormNodeVisitor.swift in Sources */,
+				E23493091C6CB42900B40020 /* ASTNodeVisitor.swift in Sources */,
 				E2F0A2FA1C75CE5900D0C1AB /* ExpressionType.swift in Sources */,
 				E2FA492F1C79ECD200FC5BE0 /* BaseView.swift in Sources */,
 				E2360B7F1C7DACD700DEA51A /* StaticWidget.swift in Sources */,
@@ -819,7 +819,7 @@
 				E2D518B01C700292008030C4 /* Constants.swift in Sources */,
 				E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */,
 				E2D518AD1C70025E008030C4 /* Context.swift in Sources */,
-				E2D518A91C700252008030C4 /* FormNodeVisitor.swift in Sources */,
+				E2D518A91C700252008030C4 /* ASTNodeVisitor.swift in Sources */,
 				E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */,
 				E2D518AF1C700287008030C4 /* StringExtension.swift in Sources */,
 				E2270DB51C73C1B400E5FC2A /* SemanticAnalyzerTests.swift in Sources */,
@@ -945,7 +945,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/QLSwift/Resources/Libraries",
+					"$(PROJECT_DIR)/QLSwift/Resources/Frameworks",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/QLSwift/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -964,7 +964,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/QLSwift/Resources/Libraries",
+					"$(PROJECT_DIR)/QLSwift/Resources/Frameworks",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/QLSwift/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

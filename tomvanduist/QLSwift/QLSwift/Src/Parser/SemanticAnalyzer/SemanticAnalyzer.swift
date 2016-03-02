@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol SemanticAnalyzer: ASTNodeVisitor {
+protocol SemanticAnalyzer {
     func analyze(form: Form) throws -> (Form, [SemanticWarning])
 }
 
-class DefaultSemanticAnalyzer: SemanticAnalyzer {
+class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
     
     private var context: Context
     private var error: SemanticError = SemanticError.None
@@ -25,7 +25,7 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
     func analyze(form: Form) throws -> (Form, [SemanticWarning]) {
         error = SemanticError.None
         
-        form.accept(self)
+        form.accept(self, param: nil)
         
         if case SemanticError.None = error {
             return (form, warnings)
@@ -34,50 +34,40 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
         }
     }
     
-    func visit(node: Form) {
-        node.identifier.accept(self)
-        node.block.accept(self)
-    }
-    
-    func visit(node: Question) {
-        node.identifier.accept(self)
-        node.expression.accept(self)
+    override func visit(node: Question, param: GenericParam) {
+        super.visit(node, param: param)
         
         do { try context.assign(node.identifier, object: (type(node.expression), node.expression)) }
         catch let warning as SemanticWarning { self.warnings.append(warning) }
         catch let e { error.collect(e) }
     }
     
-    func visit(node: Conditional) {
-        node.condition.accept(self)
-        node.ifBlock.accept(self)
-        node.elseBlock?.accept(self)
+    override func visit(node: Conditional, param: GenericParam) {
+        super.visit(node, param: param)
         
         if (type(node.condition) !== BooleanType.self) {
             error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
         }
     }
     
-    func visit(node: Block) {
+    override func visit(node: Block, param: GenericParam) {
         context = Context(parent: context)
         
-        for statement in node.block {
-            statement.accept(self)
-        }
+        super.visit(node, param: param)
         
         if let parent = context.parent {
             context = parent
         }
     }
     
-    func visit(node: Identifier) {
+    override func visit(node: Identifier, param: GenericParam) {
         if let o: Object = context.retrieve(node) {
             node.expression = o.expression
         }
     }
     
-    func visit(node: MoneyField) {
-        node.expression?.accept(self)
+    override func visit(node: MoneyField, param: GenericParam) {
+        super.visit(node, param: param)
         
         if let expression = node.expression {
             if type(expression) !== NumberType.self {
@@ -87,16 +77,16 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
         }
     }
     
-    func visit(node: Neg) {
-        node.rhs.accept(self)
+    override func visit(node: Neg, param: GenericParam) {
+        super.visit(node, param: param)
         
         if (type(node) !== type(node.rhs)) {
             error.collect(SemanticError.TypeMismatch(description: "Unary type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
         }
     }
     
-    func visit(node: Not) {
-        node.rhs.accept(self)
+    override func visit(node: Not, param: GenericParam) {
+        super.visit(node, param: param)
         
         if (type(node) !== type(node.rhs)) {
             error.collect(SemanticError.TypeMismatch(description: "Unary type does not match expression type. \(node.type) does not match \(node.rhs.type)."))
@@ -108,8 +98,8 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
     }
     
     func visitBinary(node: Binary) {
-        node.lhs.accept(self)
-        node.rhs.accept(self)
+        node.lhs.accept(self, param: nil)
+        node.rhs.accept(self, param: nil)
     }
 
     func visitBinaryNumber(node: Binary) {
@@ -120,39 +110,39 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
         }
     }
     
-    func visit(node: Add) {
+    override func visit(node: Add, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visit(node: Sub) {
+    override func visit(node: Sub, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visit(node: Mul) {
+    override func visit(node: Mul, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visit(node: Div) {
+    override func visit(node: Div, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visit(node: Pow) {
+    override func visit(node: Pow, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visit(node: Ge) {
+    override func visit(node: Ge, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visit(node: Gt) {
+    override func visit(node: Gt, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visit(node: Le) {
+    override func visit(node: Le, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visit(node: Lt) {
+    override func visit(node: Lt, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
@@ -164,11 +154,11 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
         }
     }
     
-    func visit(node: Eq) {
+    override func visit(node: Eq, param: GenericParam) {
         visitBinaryEq(node)
     }
     
-    func visit(node: Ne) {
+    override func visit(node: Ne, param: GenericParam) {
         visitBinaryEq(node)
     }
     
@@ -180,11 +170,11 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer {
         }
     }
     
-    func visit(node: And) {
+    override func visit(node: And, param: GenericParam) {
         visitBinaryBool(node)
     }
     
-    func visit(node: Or) {
+    override func visit(node: Or, param: GenericParam) {
         visitBinaryBool(node)
     }
     
