@@ -9,6 +9,11 @@
 import Foundation
 import SwiftParsec
 
+// Parsec to Swift
+// <^> .map
+// >>- .flatMap
+
+
 class QLParser: NSObject {
     
     func parseStream(data: String) throws -> QLForm {
@@ -21,50 +26,73 @@ class QLParser: NSObject {
         let lexer = GenericTokenParser(languageDefinition: ql)
         
         let symbol = lexer.symbol
-        //        let stringLiteral = lexer.stringLiteral
-        //
-        //        let noneOf = StringParser.noneOf
+        let noneOf = StringParser.noneOf
+        let character = StringParser.character
+        let stringLiteral = lexer.stringLiteral
         
-        // String.
-        
-        //        let temp1 = lexer.identifier.map{ (id) -> QLForm in
-        //            print(id)
-        //            return QLForm(form: id)
-        //        }
-        
-        let string = lexer.identifier.map{ (str) -> QLString in
+        // Strings.
+        let qlstring = lexer.identifier.map{ (str) -> QLString in
             print("String: \(str)")
             return QLString(string: str)
         }
         
-        let strings: GenericParser<String, (), [QLString]> = string.manyAccumulator{ (let current: QLString, var accumulated: [QLString]) in
+        let qlstrings = qlstring.manyAccumulator{ (let current: QLString, var accumulated: [QLString]) in
             accumulated.append(current) // Doesn't return an instance of itself.
             return accumulated
         }
         
+        // From the CSV example.
+        let quotedChars = noneOf("\"") <|>
+            StringParser.string("\"\"").attempt *>
+            GenericParser(result: "\"")
         
-        let codeBlock = lexer.braces(strings).map{ (strs) -> QLCodeBlock in
-            print("In codeBlock \(strs)")
-            return QLCodeBlock(codeBlock: strs)
+        let quote = character("\"")
+//        let quotedField = quote *> stringLiteral <* (quote <?> "quote at end of field")
+//        let quotedField = quote *> quotedChars.many.stringValue.map{ question in QLQuestion(question: question) } <*
+//            (quote <?> "quote at end of field")
+        
+        
+        let quotedField = quote *> quotedChars.many.stringValue <* (quote <?> "quote at end of field")
+        
+//        let qlquestion = (quotedField <|> noneOf("\r\n,\n\r").many.stringValue).map{ question in QLQuestion(question: question) }
+        let qlquestion = quotedField.map{ (question) -> QLQuestion in
+            print("QLQuestion: \(question)")
+            return QLQuestion(question: question)
         }
         
         
-        //        let formName = lexer.identifier.map{ (formName) -> String in
-        ////            print(formName)
-        //            return formName
-        //        }
         
-        //        let temp2 = lexer.identifier.map{ (formName) -> QLForm in
-        //            print(formName)
-        //            return QLForm(formName: formName)
-        //        }
+//        let quote = character("\"")
+//        let quotedChars = noneOf("\"") <|> StringParser.string("\"\"").attempt *> GenericParser(result: "\"")
+//        let qlquestion = quotedField <|> noneOf("\r\n,\n\r").many.stringValue
+//        let qlquestion: GenericParser<String, (), QLStatement> = quotedChars.map{ question in QLQuestion(question: question) }
         
-        // Form.
-        let form = symbol("form") *> string.flatMap{ formName in
-            
-            return codeBlock.map { block in
-                QLForm(formName: formName, codeBlocks: block)
-            }
+        
+//        let qlquestion = quote *> qlstring <* (quote <?> "Quote at end of field")
+
+//        let qlquestion = quote *> quotedChars.many.stringValue <* (quote <?> "Quote at end of field")
+    
+        let qlstatement = qlquestion
+        
+        let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
+            print("Statement: \(statement.question)")
+            accumulated.append(statement)
+            return accumulated
+        }
+
+        
+        let codeBlock = lexer.braces(qlstatements).map{ (let statements: [QLStatement]) -> QLCodeBlock in
+            print("In codeBlock \(statements)")
+            return QLCodeBlock(codeBlock: statements)
+        }
+        
+//        let codeBlock = lexer.braces(qlstatements).map{ (statements) -> QLCodeBlock in
+//            print("In codeBlock \(statements)")
+//            return QLCodeBlock(codeBlock: statements)
+//        }
+        
+        let form = symbol("form") *> qlstring.flatMap{ formName in
+            return codeBlock.map{ (blocks) in QLForm(formName: formName, codeBlocks: blocks) }
         }
         
         return lexer.whiteSpace *> form
