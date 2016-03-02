@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.expr;
 
+import java.math.BigDecimal;
 import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
@@ -13,29 +14,21 @@ public class Money extends NumericExpr {
     /**
      * Start value used to calculate hashes for objects of this class.
      */
-    public static final int HASH_ORIGIN = 3;
+    public static final int HASH_ORIGIN = 371;
     
-    /**
-     * Factor partial hashes are multiplied by to generate a hash for objects of this class.
-     */
-    public static final int HASH_FACTOR = 83;
-    
-    private final Long units;
-    private final Byte cents;
+    private final BigDecimal value;
     
     /**
      * Constructor for objects of class <code>Money</code>.
      * 
-     * @param theUnits a <code>Long</code> representing the whole units of the
-     *                  value of the constructed <code>Money</code>
-     * @param theCents a <code>Byte</code> representing the whole units of the
-     *                  value of the constructed <code>Money</code> (that should
-     *                  be &gt;=0 and &lt;100.
+     * @param theValue a <code>String</code> in the format specified for
+     *                  {@link java.math.BigDecimal#BigDecimal(java.lang.String) BigDecimal(String)}
+     *                  representing the value for the <code>Money</code> to
+     *                  construct
      */
-    public Money(Long theUnits, Byte theCents) {
-        assert theUnits!= null && theCents != null;
-        units = theUnits;
-        cents = theCents;
+    public Money(String theValue) {
+        assert theValue != null;
+        value = new BigDecimal(theValue);
     }
     
     /**
@@ -51,8 +44,7 @@ public class Money extends NumericExpr {
     /**
      * Compares <code>this Money</code> to another <code>Object</code>. A
      * <code>Money</code> is considered equal only to other objects of this class,
-     * for which <code>theUnits</code> and <code>theCents</code> are equal to
-     * its own value for this field.
+     * for which <code>theValue</code> is equal to its own value for this field.
      * 
      * @param o the <code>Object</code> to compare to <code>this Money</code>
      * @return <code>true</code> if and only if o is equal to <code>this Money</code> 
@@ -62,7 +54,7 @@ public class Money extends NumericExpr {
         if (o == null || getClass() != o.getClass()) return false;
         
         Money other = (Money) o;
-        return units.equals(other.units) && cents.equals(other.cents);
+        return value.equals(other.value);
     }
     
     /**
@@ -70,10 +62,7 @@ public class Money extends NumericExpr {
      */
     @Override
     public int hashCode() {
-        int hash = HASH_ORIGIN;
-        hash = HASH_FACTOR * hash + units.hashCode();
-        hash = HASH_FACTOR * hash + cents.hashCode();
-        return hash;
+        return HASH_ORIGIN + value.hashCode();
     }
     
 }
