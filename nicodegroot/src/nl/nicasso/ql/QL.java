@@ -57,14 +57,14 @@ public class QL {
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
         
         //displaySymbolTable(symbolTable);
-        
+        /*
         DetectCyclicDependencies cyclicDependencyVisitor = new DetectCyclicDependencies();
         ast.accept(cyclicDependencyVisitor);
         cyclicDependencyVisitor.detectCyclicDependencies();
         
         displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
         displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
-        
+        */
         //displaySymbolTable(symbolTable);
     
     	TypeChecker typeChecker = new TypeChecker(symbolTable);

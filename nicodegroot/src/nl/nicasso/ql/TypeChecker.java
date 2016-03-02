@@ -37,6 +37,7 @@ import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.utils.Pair;
 import nl.nicasso.ql.visitor.ExpressionVisitor;
 import nl.nicasso.ql.visitor.StatementVisitor;
 import nl.nicasso.ql.visitor.StructureVisitor;
@@ -47,13 +48,18 @@ public class TypeChecker implements StructureVisitor<Type>, StatementVisitor<Typ
 		
 	private List<String> errors;
 	private List<String> warnings;
+	
+	private List<Pair> dependencies;
+	private Identifier currentIdentifier;
 
 	private SymbolTable symbolTable;
 	
 	public TypeChecker(SymbolTable symbolTable) {
 		errors = new ArrayList<String>();
 		warnings = new ArrayList<String>();
+		
 		this.symbolTable = symbolTable;
+		this.dependencies = new ArrayList<Pair>();
 	}
 		
 	@Override
@@ -333,6 +339,8 @@ public class TypeChecker implements StructureVisitor<Type>, StatementVisitor<Typ
 			System.out.println("Form");
 		}
 		
+		detectCyclicDependencies();
+		
 		return null;
 	}
 
@@ -365,6 +373,8 @@ public class TypeChecker implements StructureVisitor<Type>, StatementVisitor<Typ
 		if (!expr.equals(value.getType())) {
 			errors.add("Error: Incompatible types detected (ComputedQuestion): "+value.getId().getValue());
 		}
+		
+		currentIdentifier = value.getId();
 		
 		if (debug) {
 			System.out.println("ComputedQuestion: "+value.getId().getValue()+" - Expected value: "+value.getType().getType()+" - Recieved value: "+expr.getType());
@@ -428,6 +438,8 @@ public class TypeChecker implements StructureVisitor<Type>, StatementVisitor<Typ
 		
 		SymbolTableEntry entry = symbolTable.getEntry(value);
 		
+		addQuestionDependency(value);
+		
 		return entry.getType();
 	}
 
@@ -461,6 +473,68 @@ public class TypeChecker implements StructureVisitor<Type>, StatementVisitor<Typ
 	
 	public List<String> getWarnings() {
 		return warnings;
+	}
+	
+	private void addQuestionDependency(Identifier currentId) {
+		dependencies.add(new Pair(currentIdentifier, currentId));
+	}
+	
+	public boolean detectCyclicDependencies() {
+		
+		makePairsTransitive(dependencies);
+		
+		int a = dependencies.size();
+		for (int i = 0; i < a; i++) {
+			Pair tmp = new Pair(dependencies.get(i).getRight(), dependencies.get(i).getLeft());
+			if (checkPairExistance(tmp)) {
+				errors.add("A cyclic dependency has been detected!");
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private List<Pair> makePairsTransitive(List<Pair> tmpDependencies) {	
+		boolean keepRunning = true;
+		
+		while (keepRunning) {
+			int size = dependencies.size();
+			
+			for (int i = 0; i < size; i++) {
+				Pair transitivePair = checkPairDependencyExistance(dependencies.get(i));
+				if (transitivePair != null) {
+					if (!checkPairExistance(transitivePair)) {
+						dependencies.add(transitivePair);
+					}
+				}
+			}
+
+			if (tmpDependencies.size() == dependencies.size()) {
+				keepRunning = false;
+			} else {
+				tmpDependencies = dependencies;
+			}
+		}
+		
+		return tmpDependencies;
+	}
+	
+	private Pair checkPairDependencyExistance(Pair p) {
+		for (Pair tmp : dependencies) {
+			if (tmp.getLeft().getValue().equals(p.getRight().getValue())) {
+				return new Pair(p.getLeft(), tmp.getRight());
+			}
+		}
+		return null;
+	}
+	
+	private boolean checkPairExistance(Pair p) {
+		for (Pair tmp : dependencies) {
+			if (tmp.equals(p)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }
