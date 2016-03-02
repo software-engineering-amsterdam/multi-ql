@@ -27,9 +27,14 @@ class QLParser: NSObject {
         
         let symbol = lexer.symbol
         let noneOf = StringParser.noneOf
+        let oneOf = StringParser.oneOf
         let character = StringParser.character
         let stringLiteral = lexer.stringLiteral
         let eof = StringParser.eof
+        let endOfLine = StringParser.crlf.attempt <|>
+            (character("\n") *> character("\r")).attempt <|>
+            character("\n") <|>
+            character("\r") <?> "end of line"
         
         // Strings.
         let qlstring = lexer.identifier.map{ (str) -> QLString in
@@ -43,23 +48,45 @@ class QLParser: NSObject {
         }
         
         // From the CSV example.
-        let quotedChars = noneOf("\"") <|>
-            StringParser.string("\"\"").attempt *>
-            GenericParser(result: "\"")
+//        let quotedChars = noneOf("\"") <|>
+//            StringParser.string("\"\"").attempt *>
+//            GenericParser(result: "\"")
         
-        let quote = character("\"")
+//        let quote = character("\"")
 //        let quotedField = quote *> stringLiteral <* (quote <?> "quote at end of field")
 //        let quotedField = quote *> quotedChars.many.stringValue.map{ question in QLQuestion(question: question) } <*
 //            (quote <?> "quote at end of field")
         
         
-        let quotedField = quote *> quotedChars.many.stringValue <* (quote <?> "quote at end of field")
+//        let quotedField = quote *> quotedChars.many.stringValue <* (quote <?> "quote at end of field")
+//        let quotedField = quote *> quotedChars.many.stringValue <|> noneOf("\r\n,\n\r").many.stringValue <* (quote  <?> "quote at end of field")
+//        
+//        let field = quotedField <|> noneOf("\r\n,\n\r").many.stringValue
+
         
 //        let qlquestion = (quotedField <|> noneOf("\r\n,\n\r").many.stringValue).map{ question in QLQuestion(question: question) }
-        let qlquestion = quotedField.map{ (question) -> QLQuestion in
-            print("QLQuestion: \(question)")
-            return QLQuestion(question: question)
-        }
+        
+        
+        
+        let quotedChars = noneOf("\"") <|> StringParser.string("\"\"").attempt *> GenericParser(result: "\"")
+        
+        
+        let quote = character("\"")
+//        let quotedField = quote *> quotedChars.many.stringValue <* (quote <?> "quote at end of field")
+        
+        let qlquestion = quote *> quotedChars.many.stringValue.map{ question in QLQuestion(question: question) } <* quote <* endOfLine <?> "quote at end of field"
+        
+        
+        //  <|> noneOf("\r\n,\n\r").many.stringValue.map{ question in QLQuestion(question: question) }
+//        let field = quotedField <|> noneOf("\r\n,\n\r").many.stringValue
+        
+        
+        
+        
+//        let qlquestion = quotedField.map{ (question) -> QLQuestion in
+//            print("QLQuestion: \(question)")
+//            return QLQuestion(question: question)
+//        }
         
         
         
