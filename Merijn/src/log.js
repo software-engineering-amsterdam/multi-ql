@@ -3,6 +3,12 @@ export class Log {
 		this.errors = [];
 		this.warnings = [];
 	}
+	hasErrors() {
+		return this.errors.length > 0;
+	}
+	hasWarnings() {
+		return this.warnings.length > 0;
+	}
 	logError(lines, message) {
 		this.errors.push(new LinesMessage(lines, message));
 	}
