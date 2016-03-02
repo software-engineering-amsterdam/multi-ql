@@ -33,4 +33,8 @@ public final class QLBooleanType extends QLType {
 		return 42;
 	}
 
+	@Override
+	public String toString() {
+		return "Boolean";
+	}
 }

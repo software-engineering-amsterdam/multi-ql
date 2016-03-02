@@ -8,11 +8,7 @@ public interface UIFactory {
 
 	public UIQuestionnaire create(Questionnaire questionnaire);
 
-	public UIComponent create(Form form);
+	public UIForm create(Form form);
 
-	public UIComponent create(Question question);
-
-	public UIWidget createLabelWidget(Question question);
-
-	public UIWidget createValueWidget(Question question);
+	public UIQuestion create(Question question);
 }

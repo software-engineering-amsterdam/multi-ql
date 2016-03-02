@@ -32,4 +32,9 @@ public final class QLStringType extends QLType {
 	public int hashCode() {
 		return 42;
 	}
+
+	@Override
+	public String toString() {
+		return "String";
+	}
 }

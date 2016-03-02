@@ -1,5 +1,7 @@
 package org.uva.ql.ui;
 
+import javax.swing.JComponent;
+
 /**
  * A QLWidget represents the GUI component for an input field, or computed value
  * in the questionnaire.
@@ -21,4 +23,8 @@ public interface UIWidget extends UIComponent {
 	 * @return {@code true} if the value has changed, {@code false} otherwise.
 	 */
 	public boolean setValue(Object value);
+
+	public void setVisible(boolean visible);
+
+	public JComponent getComponent();
 }
