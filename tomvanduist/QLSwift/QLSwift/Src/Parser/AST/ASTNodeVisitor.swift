@@ -57,7 +57,6 @@ class DefaultASTNodeVisitor: ASTNodeVisitor<Void?, Void> {
     override func visit(node: Conditional, param: GenericParam) -> GenericReturn {
         node.condition.accept(self, param: param)
         node.ifBlock.accept(self, param: param)
-        node.elseBlock?.accept(self, param: param)
     }
     
     override func visit(node: Block, param: GenericParam) -> GenericReturn {

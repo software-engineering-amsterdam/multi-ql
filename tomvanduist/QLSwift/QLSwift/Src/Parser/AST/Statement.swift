@@ -26,12 +26,10 @@ class Question: Statement {
 class Conditional: Statement {
     let condition: Expression
     let ifBlock: Block
-    let elseBlock: Block?
     
-    init(condition: Expression, ifBlock: Block, elseBlock: Block? = nil) {
+    init(condition: Expression, ifBlock: Block) {
         self.condition = condition
         self.ifBlock = ifBlock
-        self.elseBlock = elseBlock
     }
 }
 
