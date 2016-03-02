@@ -10,18 +10,10 @@ import Foundation
 
 class QLForm: AnyObject {
     let formName: QLString
-    let codeBlocks: QLCodeBlock
-    
-    init(formName: QLString, codeBlocks: QLCodeBlock) {
-        self.formName = formName
-        self.codeBlocks = codeBlocks
-    }
-}
-
-class QLCodeBlock: AnyObject {
     let codeBlock: [QLStatement]
     
-    init(codeBlock: [QLStatement]) {
+    init(formName: QLString, codeBlock: [QLStatement]) {
+        self.formName = formName
         self.codeBlock = codeBlock
     }
 }

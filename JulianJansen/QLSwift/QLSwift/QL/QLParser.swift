@@ -29,6 +29,7 @@ class QLParser: NSObject {
         let noneOf = StringParser.noneOf
         let character = StringParser.character
         let stringLiteral = lexer.stringLiteral
+        let eof = StringParser.eof
         
         // Strings.
         let qlstring = lexer.identifier.map{ (str) -> QLString in
@@ -80,20 +81,31 @@ class QLParser: NSObject {
             return accumulated
         }
 
+        let codeBlock: GenericParser<String, (), [QLStatement]> = lexer.braces(qlstatements) <?> "Error parsing in the braces of code block."
         
-        let codeBlock = lexer.braces(qlstatements).map{ (let statements: [QLStatement]) -> QLCodeBlock in
-            print("In codeBlock \(statements)")
-            return QLCodeBlock(codeBlock: statements)
-        }
+//        let codeBlock = lexer.braces(qlstatements).map{ (let statements: [QLStatement]) -> QLCodeBlock in
+//            print("In codeBlock \(statements)")
+//            return QLCodeBlock(codeBlock: statements)
+//        }
         
 //        let codeBlock = lexer.braces(qlstatements).map{ (statements) -> QLCodeBlock in
 //            print("In codeBlock \(statements)")
 //            return QLCodeBlock(codeBlock: statements)
 //        }
         
-        let form = symbol("form") *> qlstring.flatMap{ formName in
-            return codeBlock.map{ (blocks) in QLForm(formName: formName, codeBlocks: blocks) }
-        }
+        let form = symbol("form") *> qlstring.flatMap{ (formName) -> GenericParser<String, (), QLForm> in
+            
+            print("Form name: \(formName)")
+            
+            let temp = codeBlock.map{ (let block: [QLStatement]) -> QLForm in
+                print("Block: \(block)")
+                return QLForm(formName: formName, codeBlock: block)
+            }
+            
+            print("Temp: \(temp)")
+            
+            return temp
+        }  <?> "Error at the end of the form."
         
         return lexer.whiteSpace *> form
         
