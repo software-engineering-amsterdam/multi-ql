@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import nl.uva.sc.ql.exceptions.NoValueException;
 import nl.uva.sc.ql.parser.ast.Node;
 
-public class IfCondition extends JPanel implements QLGuiForm, Observer, Subject {
+public class IfCondition extends JPanel implements GuiInterface, Observer, Subject {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -28,7 +28,7 @@ public class IfCondition extends JPanel implements QLGuiForm, Observer, Subject 
 	}
 	
 	@Override
-	public boolean createGui() {	
+	public boolean runGui() {	
 		// condition wasn't evaluated
 		if(!condition.eval()) {
 			resetPanel();
@@ -48,7 +48,7 @@ public class IfCondition extends JPanel implements QLGuiForm, Observer, Subject 
 		}
 		
 		for(Question q : questions){
-			q.createGui();
+			q.runGui();
 			this.add(q);
 		}	
 		
@@ -57,7 +57,7 @@ public class IfCondition extends JPanel implements QLGuiForm, Observer, Subject 
 	
 	@Override
 	public void update() {
-		createGui();
+		runGui();
 		notifyObservers();
 		this.validate();
 	}
@@ -70,10 +70,12 @@ public class IfCondition extends JPanel implements QLGuiForm, Observer, Subject 
 
 	// methods related with observer pattern
 	
+	@Override
     public void registerObserver(Observer o){
         this.observers.add(o);
     }
     
+	@Override
     public void removeObserver(Observer o){
         int i = this.observers.indexOf(o);
         if (i >= 0){
@@ -81,6 +83,7 @@ public class IfCondition extends JPanel implements QLGuiForm, Observer, Subject 
         }
     }
 
+	@Override
     public void notifyObservers(){
         for(int i = 0; i < this.observers.size(); i++){
             Observer o = (Observer) this.observers.get(i);

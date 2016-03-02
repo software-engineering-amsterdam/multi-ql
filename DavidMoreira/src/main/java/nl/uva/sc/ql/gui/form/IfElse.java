@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-public class IfElse extends JPanel implements QLGuiForm, Observer {
+public class IfElse extends JPanel implements GuiInterface, Observer {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -27,9 +27,9 @@ public class IfElse extends JPanel implements QLGuiForm, Observer {
 	}
 	
 	@Override
-	public boolean createGui() {
+	public boolean runGui() {
 		for(IfCondition i : ifConditions){
-			if(i.createGui()){
+			if(i.runGui()){
 				resetPanel();
 				this.add(i);
 				return true;
@@ -37,7 +37,7 @@ public class IfElse extends JPanel implements QLGuiForm, Observer {
 		}
 		
 		for(Question q : questions){
-			q.createGui();
+			q.runGui();
 			this.add(q);
 		}
 				
@@ -46,7 +46,7 @@ public class IfElse extends JPanel implements QLGuiForm, Observer {
 	
 	@Override
 	public void update() {
-		createGui();
+		runGui();
 		this.validate();
 	}
 	
