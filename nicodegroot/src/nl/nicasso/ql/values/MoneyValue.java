@@ -11,47 +11,68 @@ public class MoneyValue extends Value {
 	}
 	
 	@Override
+	public boolean equals(Object ob) {
+		MoneyValue value = (MoneyValue) ob;
+		return value.equals(value.getValue());
+	}
+	
+	@Override
+	public int hashCode(){
+	    return value.hashCode();
+    }
+	
+	@Override
 	public BigDecimal getValue() {
 		return value;
 	}
 	
-	public Value addition(MoneyValue arg) {
+	@Override
+	public Value addition(Value arg) {
 		return new MoneyValue(value.add((BigDecimal) arg.getValue()));
 	}
 	
-	public Value subtraction(MoneyValue arg) {
+	@Override
+	public Value subtraction(Value arg) {
 		return new MoneyValue(value.subtract((BigDecimal) arg.getValue()));
 	}
 	
-	public Value equal(MoneyValue arg) {
+	@Override
+	public Value equal(Value arg) {
 		return new BooleanValue(value.equals((BigDecimal) arg.getValue()));
 	}
 	
-	public Value notEqual(MoneyValue arg) {
+	@Override
+	public Value notEqual(Value arg) {
 		return new BooleanValue(!value.equals((BigDecimal) arg.getValue()));
 	}
 	
-	public Value division(MoneyValue arg) {
+	@Override
+	public Value division(Value arg) {
 		return new MoneyValue(value.divide((BigDecimal) arg.getValue()));
 	}
 	
-	public Value multiplication(MoneyValue arg) {
+	@Override
+	public Value multiplication(Value arg) {
 		return new MoneyValue(value.multiply((BigDecimal) arg.getValue()));
 	}
 	
-	public Value greater(MoneyValue arg) {
+	@Override
+	public Value greater(Value arg) {
 		return new BooleanValue(value.compareTo((BigDecimal) arg.getValue()) > 0);
 	}
 	
-	public Value greaterEqual(MoneyValue arg) {
+	@Override
+	public Value greaterEqual(Value arg) {
 		return new BooleanValue(value.compareTo((BigDecimal) arg.getValue()) >= 0);
 	}
 	
-	public Value less(MoneyValue arg) {
+	@Override
+	public Value less(Value arg) {
 		return new BooleanValue(value.compareTo((BigDecimal) arg.getValue()) < 0);
 	}
 	
-	public Value lessEqual(MoneyValue arg) {
+	@Override
+	public Value lessEqual(Value arg) {
 		return new BooleanValue(value.compareTo((BigDecimal) arg.getValue()) <= 0);
 	}
 }

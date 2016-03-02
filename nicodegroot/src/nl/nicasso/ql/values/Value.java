@@ -20,7 +20,7 @@ public abstract class Value {
 		return null;
 	}
 	
-	public Value not(Value arg) {
+	public Value not() {
 		return null;
 	}
 	

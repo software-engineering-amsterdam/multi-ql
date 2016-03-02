@@ -9,47 +9,68 @@ public class IntegerValue extends Value {
 	}
 	
 	@Override
+	public boolean equals(Object ob) {
+		IntegerValue value = (IntegerValue) ob;
+		return value.equals(value.getValue());
+	}
+	
+	@Override
+	public int hashCode(){
+	    return value.hashCode();
+    }
+	
+	@Override
 	public Integer getValue() {
 		return value;
 	}
 
-	public Value addition(IntegerValue arg) {
+	@Override
+	public Value addition(Value arg) {
 		return new IntegerValue(value + (Integer) arg.getValue());
 	}
 	
-	public Value subtraction(IntegerValue arg) {
+	@Override
+	public Value subtraction(Value arg) {
 		return new IntegerValue(value - (Integer) arg.getValue());
 	}
 	
-	public Value equal(IntegerValue arg) {
-		return new BooleanValue(value == (Integer) arg.getValue());
+	@Override
+	public Value equal(Value arg) {
+		return new BooleanValue(value.equals((Integer) arg.getValue()));
 	}
 	
-	public Value notEqual(IntegerValue arg) {
-		return new BooleanValue(value != (Integer) arg.getValue());
+	@Override
+	public Value notEqual(Value arg) {
+		return new BooleanValue(value.equals((Integer) arg.getValue()));
 	}
 	
-	public Value division(IntegerValue arg) {
+	@Override
+	public Value division(Value arg) {
 		return new IntegerValue(value / (Integer) arg.getValue());
 	}
 	
-	public Value multiplication(IntegerValue arg) {
+	@Override
+	public Value multiplication(Value arg) {
 		return new IntegerValue(value * (Integer) arg.getValue());
 	}
 	
-	public Value greater(IntegerValue arg) {
+	@Override
+	public Value greater(Value arg) {
 		return new BooleanValue(value > (Integer) arg.getValue());
 	}
 	
-	public Value greaterEqual(IntegerValue arg) {
+	@Override
+	public Value greaterEqual(Value arg) {
 		return new BooleanValue(value >= (Integer) arg.getValue());
 	}
 	
-	public Value less(IntegerValue arg) {
+	@Override
+	public Value less(Value arg) {
 		return new BooleanValue(value < (Integer) arg.getValue());
 	}
 	
-	public Value lessEqual(IntegerValue arg) {
+	@Override
+	public Value lessEqual(Value arg) {
 		return new BooleanValue(value <= (Integer) arg.getValue());
 	}
 	

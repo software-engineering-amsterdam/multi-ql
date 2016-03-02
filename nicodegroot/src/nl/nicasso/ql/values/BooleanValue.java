@@ -9,30 +9,44 @@ public class BooleanValue extends Value {
 	}
 	
 	@Override
+	public boolean equals(Object ob) {
+		BooleanValue value = (BooleanValue) ob;
+		return value.equals(value.getValue());
+	}
+	
+	@Override
+	public int hashCode(){
+	    return value.hashCode();
+    }
+	
+	@Override
 	public Boolean getValue() {
 		return value;
 	}
 	
-	public Value equal(BooleanValue arg) {
+	@Override
+	public Value equal(Value arg) {
 		return new BooleanValue(value == (Boolean) arg.getValue());
 	}
 	
-	public Value notEqual(BooleanValue arg) {
+	@Override
+	public Value notEqual(Value arg) {
 		return new BooleanValue(value != (Boolean) arg.getValue());
 	}
 	
-	public Value and(BooleanValue arg) {
+	@Override
+	public Value and(Value arg) {
 		return new BooleanValue(value && (Boolean) arg.getValue());
 	}
 	
-	public Value or(BooleanValue arg) {
+	@Override
+	public Value or(Value arg) {
 		return new BooleanValue(value || (Boolean) arg.getValue());
 	}
 	
+	@Override
 	public Value not() {
 		return new BooleanValue(!value);
-	}
-	
-	
+	} 	
 	
 }
