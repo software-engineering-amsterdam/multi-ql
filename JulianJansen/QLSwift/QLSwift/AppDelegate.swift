@@ -29,11 +29,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         do {
             let test = try QLParser().parseStream(stream!)
+            print("After parsing")
             print(test.formName.string)
-            print(test.codeBlocks.codeBlock.count)
+            print(test.codeBlock)
             
         } catch {
-            print("error")
+            print("Error in do-catch in AppDelegate: \(error)")
         }
     }
     
