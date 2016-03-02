@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.visitor;
 
+import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
@@ -32,7 +33,8 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Void> {
 
     @Override
     public S visit(If stat, Void context) {
-        if(stat.getCond().accept(this, context).getValue()){
+        Bool value = stat.getCond().accept(this, context).getValue();
+        if(value.getValue()){
             for(Stat s : stat.getStms())
                 s.accept(this, context);
         }
@@ -41,7 +43,8 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Void> {
 
     @Override
     public S visit(IfElse stat, Void context) {
-        if(stat.getCond().accept(this, context).getValue()){
+        Bool value = stat.getCond().accept(this, context).getValue();
+        if(value.getValue()){
             for(Stat s : stat.getIfStms())
                 s.accept(this, context);
         }
@@ -160,9 +163,10 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Void> {
     }
 
     @Override
-    public Var visit(Var val, Void context) {
-        UnaryExpr expr = (UnaryExpr) decls.get(val);
-        return expr.getValue();
+    public Val visit(Var val, Void context) {
+        Expr expr = decls.get(val);
+        Primary value = (Primary) expr.accept(this,context);
+        return value.getValue();
     }
 
     @Override

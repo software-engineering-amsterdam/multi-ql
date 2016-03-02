@@ -2,6 +2,7 @@ package org.uva.sea.ql.gui;
 
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
+import org.uva.sea.ql.ast.tree.expr.unary.UnaryExpr;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Bool;
@@ -26,14 +27,9 @@ public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
     @Override
     public Void visit(Question stat, Void context) {
         Expr expr = stat.getExpr();
-        Object computedValue = expr.accept(this,null);
+        Expr computedValue = expr.accept(this,null);
         Question computedQuestion = stat;
-
-        //TODO: ask if how to get rid of the instanceof
-        if(computedValue instanceof Boolean)
-            computedQuestion = new Question(stat.getLine(), stat.getLabel(), stat.getVarname(), stat.getType(), new Primary(stat.getLine(), new Bool(stat.getLine(), computedValue.toString())));
-        else if (computedValue instanceof Integer)
-            computedQuestion = new Question(stat.getLine(), stat.getLabel(), stat.getVarname(), stat.getType(), new Primary(stat.getLine(), new Int(stat.getLine(), computedValue.toString())));
+        computedQuestion = new Question(stat.getLine(), stat.getLabel(), stat.getVarname(), stat.getType(), computedValue);
 
         questions.add(computedQuestion);
         return null;
