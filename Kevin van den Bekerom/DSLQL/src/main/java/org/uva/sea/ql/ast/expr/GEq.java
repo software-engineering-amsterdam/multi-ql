@@ -1,8 +1,9 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.form.Context;
-import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.NumericalType;
+import org.uva.sea.ql.type.Type;
 
 public class GEq<U> extends BinaryExpr {
 	
@@ -27,6 +28,6 @@ public class GEq<U> extends BinaryExpr {
 	
 	@Override
 	public Type getType(Context context) {
-		return Type.BOOLEAN;
+		return new NumericalType();
 	}
 }

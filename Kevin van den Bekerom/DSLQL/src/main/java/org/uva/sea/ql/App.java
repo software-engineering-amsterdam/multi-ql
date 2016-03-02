@@ -19,15 +19,18 @@ import org.uva.sea.ql.parser.QLParser;
 import org.uva.sea.ql.parser.QLParser.FormContext;
 import org.uva.sea.utils.Utils;
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.NodeCollector;
+import org.uva.sea.ql.ast.DependencyGraphBuilder;
 import org.uva.sea.ql.ast.QuestionPainter;
-import org.uva.sea.ql.ast.TypeCheckVisitor;
+import org.uva.sea.ql.ast.TestDependencyAlgo;
+import org.uva.sea.ql.ast.TypesChecker;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.form.TypeChecker;
+import org.uva.sea.ql.ast.stat.Block;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.errors.QLError;
 import org.uva.sea.ql.experiment.ASTVisualizer;
+import org.uva.sea.ql.graph.Graph;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 
@@ -69,7 +72,6 @@ public class App
 		//  System.out.println("Now testing question painter");
 		 // testDrawVisitor(getParser(everything));
 		    
-		    
 		} finally {
 		    br.close();
 		    
@@ -99,11 +101,12 @@ public class App
 		FormContext fc = parser.form();
 		ASTNode startNode = fc.b.result;
 		
-		for (QLError error : TypeCheckVisitor.getErrorMessages(startNode, null)) {
+		for (QLError error : TypesChecker.getErrorMessages(startNode, null)) {
 			System.out.println(error.getErrorMessage());
 		}
 		
 	}
+
 	
 	/*public static void getAST(QLParser parser){
 		FormContext fc = parser.form(); // begin parsing at init rule

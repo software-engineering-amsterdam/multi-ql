@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.type.BoolType;
+import org.uva.sea.ql.type.Type;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 import org.uva.sea.ql.errors.QLError;
@@ -12,12 +14,12 @@ import org.uva.sea.ql.errors.QLError;
 // MONEY + | - MONEY OK
 // MONEY * | / MONEY NOT OK
 // MONEY (+ | - | * | /) INT OK
-public class TypeCheckVisitor extends LeftDFSVisitor<Context> {
+public class TypesChecker extends LeftDFSVisitor<Context> {
 	
 	private List<QLError> errorMessages;
 	private Context context;
 	
-	private TypeCheckVisitor(Context context) {
+	private TypesChecker(Context context) {
 		this.context = context;
 		errorMessages = new ArrayList<QLError>();
 	}
@@ -26,19 +28,19 @@ public class TypeCheckVisitor extends LeftDFSVisitor<Context> {
 	
 	@Override
 	public void visit(And and, Context context) {
-		childrenOfType(and, Type.BOOLEAN);
+		childrenOfType(and);
 		super.visit(and, null);
 	}
 
 	@Override
 	public void visit(Or or, Context context) {
-		childrenOfType(or, Type.BOOLEAN);
+		childrenOfType(or);
 		super.visit(or, null);
 	}
 
 	@Override
 	public void visit(Not not, Context context) {
-		childrenOfType(not, Type.BOOLEAN);
+		childrenOfType(not);
 		super.visit(not, null);
 	}
 
@@ -50,25 +52,25 @@ public class TypeCheckVisitor extends LeftDFSVisitor<Context> {
 
 	@Override
 	public void visit(GEq geq, Context context) {
-		childrenOfType(geq, Type.INT);
+		childrenOfType(geq);
 		super.visit(geq, null);
 	}
 
 	@Override
 	public void visit(GT gt, Context context) {
-		childrenOfType(gt, Type.INT);
+		childrenOfType(gt);
 		super.visit(gt, null);
 	}
 
 	@Override
 	public void visit(LEq leq, Context context) {
-		childrenOfType(leq, Type.INT);
+		childrenOfType(leq);
 		super.visit(leq, null);
 	}
 
 	@Override
 	public void visit(LT lt, Context context) {
-		childrenOfType(lt, Type.INT);
+		childrenOfType(lt);
 		super.visit(lt, null);
 	}
 
@@ -80,69 +82,69 @@ public class TypeCheckVisitor extends LeftDFSVisitor<Context> {
 
 	@Override
 	public void visit(Add add, Context context) {
-		childrenOfType(add, Type.INT);
+		childrenOfType(add);
 		super.visit(add, null);
 	}
 
 	@Override
 	public void visit(Sub sub, Context context) {
 		childrenEqualityWrapper(sub);
-		childrenOfType(sub, Type.INT);
+		childrenOfType(sub);
 		super.visit(sub, null);
 	}
 
 	@Override
 	public void visit(Div div, Context context) {
-		childrenOfType(div, Type.INT);
+		childrenOfType(div);
 		super.visit(div, null);
 	}
 
 	@Override
 	public void visit(Mul mul, Context context) {
-		childrenOfType(mul, Type.INT);
+		childrenOfType(mul);
 		super.visit(mul, null);
 	}
 
 	@Override
 	public void visit(Neg neg, Context context) {
-		childrenOfType(neg, Type.INT);
+		childrenOfType(neg);
 		super.visit(neg, null);
 	}
 
 	@Override
 	public void visit(Pos pos, Context context) {
-		childrenOfType(pos, Type.INT);
+		childrenOfType(pos);
 		super.visit(pos, null);
 	}
 
 	private void childrenEqualityWrapper(BinaryExpr expr) {
 		if (! childrenEqualType(expr)) {
 			String errorMessage = "has children of unequal type: (" 
-					+ expr.getLhs().getType(context).name() 
+					+ expr.getLhs().getType(context).toString() 
 					+ " | "
-					+ expr.getRhs().getType(context).name()
+					+ expr.getRhs().getType(context).toString()
 					+ ")";
 			errorMessages.add(new QLError(expr, errorMessage));
 		}
 	}
 	
-	private void childrenOfType(BinaryExpr expr, Type type) {
-		if (! exprTypeCheck(expr, type)) {
-			String errorMessage = "of type " + type.name()
+	private void childrenOfType(BinaryExpr expr) {
+		if (! exprTypeCheck(expr)) {
+			String errorMessage = "of type " + expr.getType(context).toString()
 					+ " has children of the wrong type: ("
-					+ expr.getLhs().getType(context).name() 
+					+ expr.getLhs().getType(context).toString() 
 					+ " | "
-					+ expr.getRhs().getType(context).name()
+					+ expr.getRhs().getType(context).toString()
 					+ ")";
 			errorMessages.add(new QLError(expr, errorMessage));
 		}
 	}
 	
-	private void childrenOfType(UnaryExpr expr, Type type) {
-		if (! exprTypeCheck(expr, type)) {
-			String errorMessage = "of type " + type.name()
+	private void childrenOfType(UnaryExpr expr) {
+		if (! exprTypeCheck(expr)) {
+			String errorMessage = "of type " + expr.getType(context).toString()
 					+ " has children of the wrong type: ("
-					+ expr.getChild().getType(context).name() 
+					+ expr.getChild().getType(context).toString() 
 					+ ")";
 			errorMessages.add(new QLError(expr, errorMessage));
 		}
@@ -154,19 +156,20 @@ public class TypeCheckVisitor extends LeftDFSVisitor<Context> {
 		return lhs.getType(context).equals(rhs.getType(context));
 	}
 
-	private boolean exprTypeCheck(BinaryExpr expr, Type type) {
+	private boolean exprTypeCheck(BinaryExpr expr) {
 		Expr lhs = expr.getLhs();
 		Expr rhs = expr.getRhs();
-		return lhs.getType(context).equals(type) && rhs.getType(context).equals(type);
+		Type type = expr.getType(context);
+		return type.equals(lhs.getType(context)) && type.equals(rhs.getType(context));
 	}
 	
-	private boolean exprTypeCheck(UnaryExpr expr, Type type) {
+	private boolean exprTypeCheck(UnaryExpr expr) {
 		Expr lhs = expr.getChild();
-		return lhs.getType(context).equals(type);
+		return lhs.getType(context).equals(expr.getType(context));
 	}
 	
 	public static List<QLError> getErrorMessages(ASTNode startNode, Context context) {
-		TypeCheckVisitor v = new TypeCheckVisitor(context);
+		TypesChecker v = new TypesChecker(context);
 		startNode.accept(v, context);
 		return v.errorMessages;
 	}
