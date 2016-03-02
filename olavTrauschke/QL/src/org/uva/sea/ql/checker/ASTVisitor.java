@@ -13,7 +13,7 @@ import org.uva.sea.ql.ast.expr.*;
  * actually need to handle (in addition to just passing them in an AST).
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 2-mrt-2016
  */
 public interface ASTVisitor {
     
@@ -39,13 +39,9 @@ public interface ASTVisitor {
     
     default void visit(ComparisonExpr e) {}
     
-    default void visit(Decimal d) {}
-    
     default void visit(Ident i) {}
     
     default void visit(Int i) {}
-    
-    default void visit(Money m) {}
     
     default void visit(Neg n) {}
     
