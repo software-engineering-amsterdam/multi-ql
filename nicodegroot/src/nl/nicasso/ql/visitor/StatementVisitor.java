@@ -5,7 +5,7 @@ import nl.nicasso.ql.ast.statement.IfElseStatement;
 import nl.nicasso.ql.ast.statement.IfStatement;
 import nl.nicasso.ql.ast.statement.Question;
 
-public interface StatementVisitor<T> extends Visitor<T> {
+public interface StatementVisitor<T> {
 
 	public T visit(Question value);
 	public T visit(ComputedQuestion value);	

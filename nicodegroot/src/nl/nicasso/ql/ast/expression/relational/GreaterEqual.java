@@ -1,11 +1,10 @@
 package nl.nicasso.ql.ast.expression.relational;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class GreaterEqual extends Relational implements Traversable  {
+public class GreaterEqual extends Relational {
 	
 	private final Expression left;
 	private final Expression right;
@@ -25,7 +24,7 @@ public class GreaterEqual extends Relational implements Traversable  {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

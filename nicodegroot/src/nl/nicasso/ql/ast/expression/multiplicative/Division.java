@@ -1,14 +1,13 @@
 package nl.nicasso.ql.ast.expression.multiplicative;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.expression.Expression;
 import nl.nicasso.ql.ast.type.IntegerType;
 import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.Type;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class Division extends Multiplicative implements Traversable  {
+public class Division extends Multiplicative {
 	
 	private final Expression left;
 	private final Expression right;
@@ -28,7 +27,7 @@ public class Division extends Multiplicative implements Traversable  {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

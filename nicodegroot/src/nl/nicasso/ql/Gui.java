@@ -20,8 +20,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.DecimalLit;
+import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -30,9 +30,11 @@ import nl.nicasso.ql.ast.statement.Question;
 import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class Gui implements Visitor<Void> {
+public class Gui implements StructureVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Void> {
 	
 	private boolean debug = false;
 	

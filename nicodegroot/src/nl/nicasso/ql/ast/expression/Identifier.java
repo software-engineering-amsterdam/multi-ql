@@ -1,10 +1,9 @@
 package nl.nicasso.ql.ast.expression;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class Identifier extends Expression implements Traversable {
+public class Identifier extends Expression {
 
 	private final String lit;
 
@@ -18,7 +17,7 @@ public class Identifier extends Expression implements Traversable {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

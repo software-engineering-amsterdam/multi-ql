@@ -1,11 +1,10 @@
 package nl.nicasso.ql.ast.expression.additive;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.expression.Expression;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class Subtraction extends Additive implements Traversable  {
+public class Subtraction extends Additive {
 	
 	private final Expression left;
 	private final Expression right;
@@ -25,7 +24,7 @@ public class Subtraction extends Additive implements Traversable  {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

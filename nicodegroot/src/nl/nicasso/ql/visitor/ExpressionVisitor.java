@@ -20,7 +20,7 @@ import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 
-public interface ExpressionVisitor<T> extends Visitor<T> {
+public interface ExpressionVisitor<T> {
 	
 	public T visit(Addition value);
 	public T visit(Subtraction value);

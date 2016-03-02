@@ -1,12 +1,11 @@
 package nl.nicasso.ql.ast.literal;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.Traversable;
 import nl.nicasso.ql.ast.type.IntegerType;
 import nl.nicasso.ql.ast.type.Type;
-import nl.nicasso.ql.visitor.Visitor;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class IntegerLit extends Literal implements Traversable {
+public class IntegerLit extends Literal {
 
 	private final Type type;
 	private final Integer lit;
@@ -33,7 +32,7 @@ public class IntegerLit extends Literal implements Traversable {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	
