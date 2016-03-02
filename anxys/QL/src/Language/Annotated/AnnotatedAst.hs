@@ -1,8 +1,9 @@
 module AnnotatedAst where
 
+import Identifier
+--Todo use special datatype for this. Or at the very least don't do arithmethic with it
 type Money = Double
 
-type Name = String
 
 type Block a = [Statement a]
 
@@ -18,7 +19,7 @@ data Literal a = IntegerLiteral a Integer
                | BooleanLiteral a Bool
   deriving (Eq, Show)
 
-data Expression a = Variable a Name
+data Expression a = Variable a Identifier
                   | Literal a (Literal a)
                   | BinaryOperation a (BinaryOperation a) (Expression a) (Expression a)
                   | UnaryOperation a (UnaryOperation a) (Expression a)
@@ -54,7 +55,7 @@ data Field a = SimpleField a (FieldInformation a)
 data FieldInformation a =
        FieldInformation
          { label :: String
-         , id :: Name
+         , id :: Identifier
          , fieldType :: FieldType a
          }
   deriving (Eq, Show)

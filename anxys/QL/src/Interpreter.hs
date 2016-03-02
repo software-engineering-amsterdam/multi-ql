@@ -1,21 +1,15 @@
-module Interpreter where
+module Interpreter
+       where
 
 import           Ast                 as A
 import           Control.Applicative
 import           Control.Monad
-import           Prelude             hiding (EQ, GT)
+import           Environment
+import           Prelude             hiding (EQ, GT, lookup)
+import           Value
 
-newtype Interpreter a = Interpreter { runInterp :: Environment -> Either String (a, Environment) }
-
-data Value = IntValue Integer
-           | BoolValue Bool
-           | StringValue String
-           | MoneyValue Double
-  deriving (Eq, Show)
-
-type EnvironmentValue = (String, Value) -- Todo
-
-type Environment = [EnvironmentValue]
+--TODO: Get rid of the either. Typechecking catches almost everything
+newtype Interpreter a = Interpreter { runInterp :: Environment Value -> Either String (a, Environment Value) }
 
 instance Functor Interpreter where
   fmap f p = Interpreter $ \s -> case runInterp p s of
@@ -77,21 +71,12 @@ neg :: Value -> Value
 neg (BoolValue v) = BoolValue $ not v
 neg _ = error "Not supported"
 
-defaultVal :: FieldType -> Value
-defaultVal Integer = IntValue 0
-defaultVal Boolean = BoolValue False
-defaultVal String = StringValue ""
-defaultVal Money = MoneyValue 0.0
-
 set :: String -> Value -> Interpreter ()
-set x v = Interpreter $ \r -> case lookup x r of
-  Nothing -> Right ((), (x, v) : r)
-  Just _  -> Right ((), (x, v) : filter (\(z,_) -> z /= x) r)
+set x v = Interpreter $ \r -> Right ((), declare r x v)
 
-
-run :: Form -> Environment -> Either String Environment
-run p r =
-  case runInterp (execForm p) [] of
+exec :: Form -> Environment Value -> Either String (Environment Value)
+exec p r =
+  case runInterp (execForm p) emptyEnv of
     Left msg      -> Left msg
     Right (_, r') -> Right r'
     where
@@ -108,5 +93,5 @@ run p r =
             let name = A.id info
                 t = A.fieldType info
             in Interpreter $ \c -> case lookup name r of
-                Nothing -> Right ((), (name, defaultVal t) : c)
-                Just v  -> Right ((), (name,v):c)
+                Nothing -> Right ((), declare c name (defaultVal t))
+                Just v  -> Right ((), declare c name v)

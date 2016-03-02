@@ -10,14 +10,13 @@ module Parsing (
     ParseError
     ) where
 
-import           AnnotatedAst as A
+import           AnnotatedAst                           as A
 import           Location
-import           Text.Parsec.Prim as S
-import           Text.ParserCombinators.Parsec as P
+import           Text.Parsec.Prim                       as S
+import           Text.ParserCombinators.Parsec          as P
 import           Text.ParserCombinators.Parsec.Expr
 import           Text.ParserCombinators.Parsec.Language
-import qualified Text.ParserCombinators.Parsec.Token as Token
-import Data.Functor.Identity
+import qualified Text.ParserCombinators.Parsec.Token    as Token
 
 languageDef =
   emptyDef
@@ -122,13 +121,8 @@ addLoc2 f p1 p2 = do
 field :: Parser (Statement Location)
 field = addLoc Field (P.try calculatedField <|> simpleField)
 
---field =   do
---  start <- getPosition
---  a <- P.try calculatedField <|> simpleField
---  end <- getPosition
---  return  (Field  (newLoc start end) a)
-field_ :: Parser (FieldInformation Location)
-field_ = do
+fieldInfo :: Parser (FieldInformation Location)
+fieldInfo = do
   text <- stringLiteral
   name <- identifier
   reserved ":"
@@ -136,16 +130,16 @@ field_ = do
   return (FieldInformation text name t)
 
 simpleField :: Parser (Field Location)
-simpleField = addLoc SimpleField field_ <?> " simple field"
+simpleField = addLoc SimpleField fieldInfo <?> "simple field"
 
 calculatedField :: Parser (Field Location)
-calculatedField = addLoc2 CalculatedField  (field_ <* reserved "=") expr <?> "calculated field"
+calculatedField = addLoc2 CalculatedField  (fieldInfo <* reserved "=") expr <?> "calculated field"
 
 block :: Parser (Block Location)
 block = braces (many stmnt) <?> "block"
 
 expr :: Parser (Expression Location)
-expr = buildExpressionParser table term <?> "expression"
+expr = buildExpressionParser opTable term <?> "expression"
 
 binop_ :: Location -> (Location -> BinaryOperation Location) -> Expression Location -> Expression Location -> Expression Location
 binop_ l op = BinaryOperation l (op l)
@@ -153,8 +147,8 @@ binop_ l op = BinaryOperation l (op l)
 uop_ :: Location -> (Location -> UnaryOperation Location) -> Expression Location -> Expression Location
 uop_ l op = UnaryOperation l (op l)
 
-table :: [[Operator Char a (Expression Location)]]
-table = [
+opTable :: [[Operator Char a (Expression Location)]]
+opTable = [
           [ unary "not" A.Not ]
         , [ binary ">=" A.GreaterThanOrEquals AssocLeft
           , binary "<=" A.LesserThanOrEquals AssocLeft
@@ -256,7 +250,10 @@ ifElseStmnt = do
   return (IfElse (newLoc s e) cond firstBody secondBody) <?> "if else statement"
 
 newLoc :: SourcePos -> SourcePos -> Location
-newLoc = Location
+newLoc s e = Location (newPos s) (newPos e)
+
+newPos :: SourcePos -> Position
+newPos s = Position (sourceLine s)  (sourceColumn s)
 
 form :: Parser (Form Location)
 form = addLoc2 Form (reserved "form" *> identifier) block <?> "form"
