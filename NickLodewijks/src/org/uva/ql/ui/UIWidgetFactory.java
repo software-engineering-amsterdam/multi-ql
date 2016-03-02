@@ -1,9 +1,9 @@
 package org.uva.ql.ui;
 
-import org.uva.ql.domain.Question;
+import org.uva.ql.ast.expr.Expr;
 
 @FunctionalInterface
-public interface UIWidgetFactory<T extends UIWidget<?>> {
+public interface UIWidgetFactory {
 
-	public T create(Question question);
+	public UIWidget create(String id, Expr expr);
 }

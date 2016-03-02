@@ -8,9 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -28,7 +27,11 @@ import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.QLInterpreterContext.ContextListener;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.type.QLBooleanType;
+import org.uva.ql.ast.type.QLIntegerType;
+import org.uva.ql.ast.type.QLStringType;
 import org.uva.ql.ast.type.QLType;
+import org.uva.ql.ast.type.QLTypeVisitor;
 import org.uva.ql.domain.Form;
 import org.uva.ql.domain.Question;
 import org.uva.ql.domain.Questionnaire;
@@ -39,16 +42,7 @@ import org.uva.ql.ui.UIQuestionnaire;
 import org.uva.ql.ui.UIWidget;
 import org.uva.ql.ui.UIWidgetFactory;
 
-public class DefaultUISwingFactory implements UIFactory<JComponent> {
-
-	private static final Map<QLType, UIWidgetFactory<UIWidget<JComponent>>> TYPE_TO_WIDGET_FACTORY;
-
-	static {
-		TYPE_TO_WIDGET_FACTORY = new HashMap<>();
-		TYPE_TO_WIDGET_FACTORY.put(QLType.BOOLEAN, q -> new DefaultBooleanWidget(q.getId()));
-		TYPE_TO_WIDGET_FACTORY.put(QLType.STRING, q -> new DefaultStringWidget(q.getId()));
-		TYPE_TO_WIDGET_FACTORY.put(QLType.INTEGER, q -> new DefaultIntegerWidget(q.getId()));
-	}
+public class DefaultUISwingFactory implements UIFactory {
 
 	@Override
 	public UIQuestionnaire create(Questionnaire questionnaire) {
@@ -63,7 +57,7 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 	}
 
 	@Override
-	public UIComponent<JComponent> create(Form form) {
+	public UIComponent create(Form form) {
 		DefaultQLForm qlForm;
 
 		qlForm = new DefaultQLForm(form);
@@ -75,9 +69,9 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 	}
 
 	@Override
-	public UIComponent<JComponent> create(Question question) {
-		UIWidget<JComponent> label;
-		UIWidget<JComponent> value;
+	public UIComponent create(Question question) {
+		UIWidget label;
+		UIWidget value;
 
 		label = createLabelWidget(question);
 		value = createValueWidget(question);
@@ -86,27 +80,22 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 	}
 
 	@Override
-	public UIWidget<JComponent> createLabelWidget(Question q) {
+	public UIWidget createLabelWidget(Question q) {
 		return new DefaultLabelWidget(q.getLabel());
 	}
 
 	@Override
-	public UIWidget<JComponent> createValueWidget(Question q) {
-		UIWidget<JComponent> widget;
-		QLType type;
+	public UIWidget createValueWidget(Question q) {
+		UIWidgetFactory factory;
 
-		type = q.getType();
-		widget = TYPE_TO_WIDGET_FACTORY.get(type).create(q);
-		if (q.isComputed()) {
-			widget = new ComputedWidget(widget, q.getExpr());
-		}
+		factory = QLWidgetFactory.create(q.getType());
 
-		return widget;
+		return factory.create(q.getId(), q.getExpr());
 	}
 
 	private static class DefaultQLQuestionnaire implements UIQuestionnaire {
 
-		private final List<UIComponent<JComponent>> forms = new ArrayList<>();
+		private final List<UIComponent> forms = new ArrayList<>();
 
 		private final JFrame jframe;
 		private final JScrollPane scrollPanel;
@@ -136,7 +125,7 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 			jframe.setLocationRelativeTo(null);
 		}
 
-		public void addForm(UIComponent<JComponent> form) {
+		public void addForm(UIComponent form) {
 			forms.add(form);
 			scrollPanel.setViewportView(form.getComponent());
 		}
@@ -146,7 +135,7 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 			QLInterpreterContext context;
 
 			context = new QLInterpreterContext();
-			for (UIComponent<?> form : forms) {
+			for (UIComponent form : forms) {
 				form.setContext(context);
 			}
 
@@ -154,9 +143,9 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 		}
 	}
 
-	private static class DefaultQLForm implements UIForm<JComponent> {
+	private static class DefaultQLForm implements UIForm {
 
-		private final List<UIComponent<JComponent>> questions = new ArrayList<>();
+		private final List<UIComponent> questions = new ArrayList<>();
 		private final JPanel panel;
 
 		public DefaultQLForm(Form form) {
@@ -164,7 +153,7 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		}
 
-		public void add(UIComponent<JComponent> question) {
+		public void add(UIComponent question) {
 			questions.add(question);
 			panel.add(question.getComponent());
 			panel.add(Box.createRigidArea(new Dimension(0, 2)));
@@ -181,15 +170,15 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 		}
 	}
 
-	private static class DefaultQLQuestion implements UIComponent<JComponent>, ContextListener {
+	private static class DefaultQLQuestion implements UIComponent, ContextListener {
 
 		private final Question question;
 
-		private final UIWidget<JComponent> labelWidget;
-		private final UIWidget<JComponent> valueWidget;
+		private final UIWidget labelWidget;
+		private final UIWidget valueWidget;
 		private final JPanel panel;
 
-		public DefaultQLQuestion(Question q, UIWidget<JComponent> labelWidget, UIWidget<JComponent> valueWidget) {
+		public DefaultQLQuestion(Question q, UIWidget labelWidget, UIWidget valueWidget) {
 			this.question = q;
 
 			this.labelWidget = labelWidget;
@@ -231,7 +220,7 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 		}
 	}
 
-	private static class DefaultLabelWidget implements UIWidget<JComponent> {
+	private static class DefaultLabelWidget implements UIWidget {
 
 		private final JLabel label;
 
@@ -265,81 +254,81 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 
 			return true;
 		}
-
-		@Override
-		public void setEditable(boolean editable) {
-			// NOOP
-		}
 	}
 
-	/**
-	 * This class wraps a {@link UIWidget<JComponent>} and uses an expression to
-	 * compute its value.
-	 *
-	 */
-	private static class ComputedWidget implements UIWidget<JComponent>, ContextListener {
+	private static abstract class AbstractBaseWidget implements UIWidget, ContextListener {
 
-		private final UIWidget<JComponent> widget;
+		private final String variableName;
 		private final Expr expr;
 
-		public ComputedWidget(UIWidget<JComponent> widget, Expr expr) {
-			this.widget = widget;
+		private QLInterpreterContext context;
 
-			widget.setEditable(false);
-
+		public AbstractBaseWidget(String variableName, Expr expr) {
+			this.variableName = variableName;
 			this.expr = expr;
 		}
 
+		public boolean isComputed() {
+			return expr != null;
+		}
+
 		@Override
-		public void setContext(QLInterpreterContext context) {
-			widget.setContext(context);
+		public final boolean setValue(Object value) {
+			if (!Objects.equals(context.getValue(variableName), value)) {
+				context.setValue(variableName, value);
+			}
+
+			return setViewValue(value);
+		}
+
+		@Override
+		public final Object getValue() {
+			return getViewValue();
+		}
+
+		protected abstract Object getDefaultValue();
+
+		protected abstract Object getViewValue();
+
+		protected abstract boolean setViewValue(Object value);
+
+		@Override
+		public final void setContext(QLInterpreterContext context) {
+			this.context = context;
 
 			context.addContextListener(this);
+			context.setValue(variableName, getDefaultValue());
 		}
 
 		@Override
 		public void contextChanged(QLInterpreterContext context) {
-			setValue(QLInterpreter.interpret(expr, context));
-		}
-
-		@Override
-		public JComponent getComponent() {
-			return widget.getComponent();
-		}
-
-		@Override
-		public Object getValue() {
-			return widget.getValue();
-		}
-
-		@Override
-		public boolean setValue(Object value) {
-			return widget.setValue(value);
-		}
-
-		@Override
-		public void setEditable(boolean readOnly) {
-			assert false : "ComputedWidgets should always be read-only, why was this method called?";
+			if (expr != null) {
+				setValue(QLInterpreter.interpret(expr, context));
+			}
 		}
 	}
 
-	private static class DefaultBooleanWidget implements UIWidget<JComponent>, ActionListener {
+	private static class DefaultBooleanWidget extends AbstractBaseWidget implements ActionListener {
 
-		private final String variableName;
 		private final JRadioButton rbYes;
 		private final JRadioButton rbNo;
 		private final JPanel panel;
 
-		private QLInterpreterContext context;
-
-		public DefaultBooleanWidget(String variableName) {
+		public DefaultBooleanWidget(String variableName, Expr expr) {
+			super(variableName, expr);
 			ButtonGroup bg;
-
-			this.variableName = variableName;
 
 			panel = new JPanel(new BorderLayout());
 			rbYes = new JRadioButton("Yes");
 			rbNo = new JRadioButton("No");
+
+			if (isComputed()) {
+				rbYes.setEnabled(false);
+				rbNo.setEnabled(false);
+			}
+
+			rbYes.addActionListener(this);
+			rbNo.addActionListener(this);
 
 			bg = new ButtonGroup();
 			bg.add(rbYes);
@@ -357,23 +346,23 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 		}
 
 		@Override
-		public void setContext(QLInterpreterContext context) {
-			this.context = context;
-
-			context.setValue(variableName, Boolean.FALSE);
-
-			rbYes.addActionListener(this);
-			rbNo.addActionListener(this);
+		public void actionPerformed(ActionEvent e) {
+			setValue(rbYes.isSelected());
 		}
 
 		@Override
-		public Boolean getValue() {
+		protected Object getDefaultValue() {
+			return Boolean.FALSE;
+		}
+
+		@Override
+		protected Object getViewValue() {
 			return rbYes.isSelected();
 		}
 
 		@Override
-		public boolean setValue(Object value) {
-			if (getValue().equals(value)) {
+		protected boolean setViewValue(Object value) {
+			if (getViewValue().equals(value)) {
 				return false;
 			}
 
@@ -386,44 +375,27 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 
 			return true;
 		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			context.setValue(variableName, rbYes.isSelected());
-		}
-
-		@Override
-		public void setEditable(boolean editable) {
-			rbYes.setEnabled(editable);
-			rbNo.setEnabled(editable);
-		}
 	}
 
-	private static class DefaultIntegerWidget implements UIWidget<JComponent> {
+	private static class DefaultIntegerWidget extends AbstractBaseWidget {
 
-		private final String variableName;
 		private final JTextField textField;
-		private JPanel panel;
+		private final JPanel panel;
 
-		private QLInterpreterContext context;
-
-		public DefaultIntegerWidget(String variableName) {
-			this.variableName = variableName;
+		public DefaultIntegerWidget(String variableName, Expr expr) {
+			super(variableName, expr);
 
 			panel = new JPanel();
 
 			textField = new JTextField();
+			textField.setEditable(!isComputed());
 			textField.setPreferredSize(new Dimension(100, 20));
 			textField.addKeyListener(new KeyAdapter() {
 
 				@Override
 				public void keyReleased(KeyEvent e) {
-					textField.postActionEvent();
+					setValue(getViewValue());
 				}
-			});
-
-			textField.addActionListener(e -> {
-				context.setValue(variableName, getValue());
 			});
 
 			panel.add(textField);
@@ -435,13 +407,7 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 		}
 
 		@Override
-		public void setContext(QLInterpreterContext context) {
-			this.context = context;
-			context.setValue(variableName, 0);
-		}
-
-		@Override
-		public Object getValue() {
+		protected Object getViewValue() {
 			try {
 				return Integer.parseInt(textField.getText());
 			} catch (NumberFormatException ex) {
@@ -450,47 +416,41 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 		}
 
 		@Override
-		public boolean setValue(Object value) {
-			if (getValue().equals(value)) {
+		protected boolean setViewValue(Object value) {
+			if (getViewValue().equals(value)) {
 				return false;
 			}
 
 			textField.setText(value == null ? "" : value.toString());
-			textField.postActionEvent();
 			return true;
 		}
 
 		@Override
-		public void setEditable(boolean editable) {
-			textField.setEditable(editable);
+		protected Object getDefaultValue() {
+			return 0;
 		}
 	}
 
-	private static class DefaultStringWidget implements UIWidget<JComponent> {
+	private static class DefaultStringWidget extends AbstractBaseWidget {
 
-		private final String variableName;
 		private final JTextField textField;
 		private final JPanel panel;
 
-		private QLInterpreterContext context;
-
-		public DefaultStringWidget(String variableName) {
-			this.variableName = variableName;
+		public DefaultStringWidget(String variableName, Expr expr) {
+			super(variableName, expr);
 
 			panel = new JPanel();
 
 			textField = new JTextField();
+			textField.setEditable(!isComputed());
+
 			textField.setPreferredSize(new Dimension(100, 20));
 			textField.addKeyListener(new KeyAdapter() {
 
 				@Override
 				public void keyReleased(KeyEvent e) {
-					textField.postActionEvent();
+					setValue(getViewValue());
 				}
-			});
-
-			textField.addActionListener(e -> {
-				context.setValue(variableName, getValue());
 			});
 
 			panel.add(textField);
@@ -502,19 +462,18 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 		}
 
 		@Override
-		public void setContext(QLInterpreterContext context) {
-			this.context = context;
-			context.setValue(variableName, "");
+		protected Object getDefaultValue() {
+			return "";
 		}
 
 		@Override
-		public Object getValue() {
+		public Object getViewValue() {
 			return textField.getText();
 		}
 
 		@Override
-		public boolean setValue(Object value) {
-			if (getValue().equals(value)) {
+		public boolean setViewValue(Object value) {
+			if (getViewValue().equals(value)) {
 				return false;
 			}
 
@@ -522,10 +481,31 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 
 			return true;
 		}
+	}
+
+	private static class QLWidgetFactory implements QLTypeVisitor<UIWidgetFactory> {
+
+		public static UIWidgetFactory create(QLType type) {
+			return type.accept(new QLWidgetFactory());
+		}
+
+		private QLWidgetFactory() {
+
+		}
 
 		@Override
-		public void setEditable(boolean editable) {
-			textField.setEditable(editable);
+		public UIWidgetFactory visit(QLBooleanType type) {
+			return (id, expr) -> new DefaultBooleanWidget(id, expr);
+		}
+
+		@Override
+		public UIWidgetFactory visit(QLStringType type) {
+			return (id, expr) -> new DefaultStringWidget(id, expr);
+		}
+
+		@Override
+		public UIWidgetFactory visit(QLIntegerType type) {
+			return (id, expr) -> new DefaultIntegerWidget(id, expr);
 		}
 	}
 }

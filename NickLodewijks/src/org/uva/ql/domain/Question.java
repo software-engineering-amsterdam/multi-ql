@@ -6,41 +6,35 @@ import java.util.List;
 
 import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.ast.stat.QLQuestionComputed;
 import org.uva.ql.ast.stat.QLQuestionInput;
 import org.uva.ql.ast.type.QLType;
 
 public class Question {
 
-	private final String name;
-	private final String label;
-	private final QLType type;
+	private final QLQuestion qlQuestion;
 
 	private final Expr valueComputation;
 
 	private final List<QuestionCondition> conditions = new ArrayList<>();
 
 	public Question(QLQuestionComputed question) {
-		this(question.getId(), question.getLabel(), question.expr(), question.getType());
+		qlQuestion = question;
+		valueComputation = question.expr();
 	}
 
 	public Question(QLQuestionInput question) {
-		this(question.getId(), question.getLabel(), null, question.getType());
-	}
-
-	private Question(String id, String label, Expr expr, QLType type) {
-		this.name = id;
-		this.label = label;
-		this.valueComputation = expr;
-		this.type = type;
+		qlQuestion = question;
+		valueComputation = null;
 	}
 
 	public String getId() {
-		return name;
+		return qlQuestion.getId();
 	}
 
 	public String getLabel() {
-		return label;
+		return qlQuestion.getLabel();
 	}
 
 	public boolean isComputed() {
@@ -52,7 +46,7 @@ public class Question {
 	}
 
 	public QLType getType() {
-		return type;
+		return qlQuestion.getType();
 	}
 
 	public boolean isEnabled(QLInterpreterContext context) {

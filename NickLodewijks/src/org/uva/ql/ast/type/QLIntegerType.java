@@ -19,6 +19,11 @@ public final class QLIntegerType extends QLType {
 	}
 
 	@Override
+	public <T> T accept(QLTypeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof QLIntegerType;
 	}

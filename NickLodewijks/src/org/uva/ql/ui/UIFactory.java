@@ -4,15 +4,15 @@ import org.uva.ql.domain.Form;
 import org.uva.ql.domain.Question;
 import org.uva.ql.domain.Questionnaire;
 
-public interface UIFactory<T> {
+public interface UIFactory {
 
 	public UIQuestionnaire create(Questionnaire questionnaire);
 
-	public UIComponent<T> create(Form form);
+	public UIComponent create(Form form);
 
-	public UIComponent<T> create(Question question);
+	public UIComponent create(Question question);
 
-	public UIWidget<T> createLabelWidget(Question question);
+	public UIWidget createLabelWidget(Question question);
 
-	public UIWidget<T> createValueWidget(Question question);
+	public UIWidget createValueWidget(Question question);
 }

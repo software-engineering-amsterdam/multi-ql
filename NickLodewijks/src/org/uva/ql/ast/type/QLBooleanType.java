@@ -19,6 +19,11 @@ public final class QLBooleanType extends QLType {
 	}
 
 	@Override
+	public <T> T accept(QLTypeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof QLBooleanType;
 	}
@@ -27,4 +32,5 @@ public final class QLBooleanType extends QLType {
 	public int hashCode() {
 		return 42;
 	}
+
 }

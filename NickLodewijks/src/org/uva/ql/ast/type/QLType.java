@@ -16,4 +16,6 @@ public abstract class QLType extends ASTNode {
 	public String getName() {
 		return getClass().getSimpleName();
 	}
+
+	public abstract <T> T accept(QLTypeVisitor<T> visitor);
 }
