@@ -16,8 +16,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 
 public interface ExpressionVisitor<T> {
@@ -38,7 +38,7 @@ public interface ExpressionVisitor<T> {
 	public T visit(LessEqual value);
 	
 	public T visit(Identifier value);
-
+	
 	public T visit(BooleanLit value);
 	public T visit(IntegerLit value);
 	public T visit(StringLit value);

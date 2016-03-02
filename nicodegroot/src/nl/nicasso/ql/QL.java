@@ -3,9 +3,9 @@ package nl.nicasso.ql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JFrame;
@@ -99,13 +99,13 @@ public class QL {
 	        if (value.getValue() == null) {
 	        	realValue = "undefined";
 	        } else {
-	        	realValue = value.getValue().toString();
+	        	realValue = value.getValue().getValue().toString();
 	        }
 	        System.out.println(key.getValue()+" ("+ value.getType().getType() +")"+ " = " + realValue);
 	    }
 	}
 	
-	private void displayMessages(String title, ArrayList<String> messages) {
+	private void displayMessages(String title, List<String> messages) {
 		if (!messages.isEmpty()) {
         	System.out.println("-------------------------------"+title+"--------------------------------------------");
         	for (String message : messages) {

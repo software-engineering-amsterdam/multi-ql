@@ -46,7 +46,7 @@ import nl.nicasso.ql.ast.type.Type;
 
 public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNode> {
 
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	CreateASTVisitor() {
 

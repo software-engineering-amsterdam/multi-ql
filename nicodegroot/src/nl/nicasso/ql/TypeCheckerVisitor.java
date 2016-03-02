@@ -1,6 +1,7 @@
 package nl.nicasso.ql;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
@@ -42,10 +43,10 @@ import nl.nicasso.ql.visitor.StructureVisitor;
 
 public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisitor<Type>, ExpressionVisitor<Type> {
 
-	private boolean debug = true;
+	private boolean debug = false;
 		
-	private ArrayList<String> errors;
-	private ArrayList<String> warnings;
+	private List<String> errors;
+	private List<String> warnings;
 
 	private SymbolTable symbolTable;
 	
@@ -362,7 +363,7 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 	public Type visit(ComputedQuestion value) {
 		Type expr = value.getExpr().accept(this);getClass();
 		
-		if (!expr.getType().equals(value.getType().getType())) {
+		if (!expr.equals(value.getType())) {
 			errors.add("Error: Incompatible types detected (ComputedQuestion): "+value.getId().getValue());
 		}
 		
@@ -452,17 +453,17 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 			return true;	
 		} else if (exprType instanceof Type) {
 			return true;	
-		} else if (exprType.getType().equals(type.getType())) {
+		} else if (exprType.equals(type)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public ArrayList<String> getErrors() {
+	public List<String> getErrors() {
 		return errors;
 	}
 	
-	public ArrayList<String> getWarnings() {
+	public List<String> getWarnings() {
 		return warnings;
 	}
 	

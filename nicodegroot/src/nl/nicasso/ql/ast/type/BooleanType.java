@@ -21,7 +21,7 @@ public class BooleanType extends Type {
 	
 	@Override
 	public boolean equals(Object ob) {
-		BooleanType t2 = (BooleanType) ob;
+		Type t2 = (Type) ob;
 		return type.equals(t2.getType());
 	}
 	

@@ -21,7 +21,7 @@ public class MoneyType extends NumericType {
 	
 	@Override
 	public boolean equals(Object ob) {
-		MoneyType t2 = (MoneyType) ob;
+		Type t2 = (Type) ob;
 		return type.equals(t2.getType());
 	}
 	

@@ -1,11 +1,12 @@
 package nl.nicasso.ql.symbolTable;
 
 import nl.nicasso.ql.ast.type.Type;
+import nl.nicasso.ql.values.Value;
 
 public class SymbolTableEntry {
 
 	private Type type;
-	private Object value;
+	private Value value;
 	
 	public SymbolTableEntry() {
 		
@@ -16,7 +17,7 @@ public class SymbolTableEntry {
 		this.type = type;
 	}
 	
-	public SymbolTableEntry(Type type, Object value) {
+	public SymbolTableEntry(Type type, Value value) {
 		super();
 		this.type = type;
 		this.value = value;
@@ -26,11 +27,11 @@ public class SymbolTableEntry {
 		return type;
 	}
 
-	public Object getValue() {
+	public Value getValue() {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(Value value) {
 		this.value = value;
 	}
 	
