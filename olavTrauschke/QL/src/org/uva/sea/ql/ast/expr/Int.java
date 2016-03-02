@@ -6,7 +6,7 @@ import org.uva.sea.ql.checker.ASTVisitor;
  * Representation of (literals of) the type int in an AST.
  * 
  * @author Olav Trauschke
- * @version 1-mar-2016
+ * @version 1-mrt-2016
  */
 public class Int extends NumericExpr {
     

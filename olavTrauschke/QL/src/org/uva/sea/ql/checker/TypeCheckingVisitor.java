@@ -10,9 +10,9 @@ import org.uva.sea.ql.ast.question.BooleanQuestion;
  * Class to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 2-mrt-2016
  */
-public class TypeChecker implements ASTVisitor {
+public class TypeCheckingVisitor implements ASTVisitor {
     
     public static final String NON_BOOLEAN_CONDITION_ERROR
             = "The condition in a conditional statement must be boolean";
