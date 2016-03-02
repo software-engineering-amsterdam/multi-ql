@@ -13,7 +13,7 @@ import uva.ql.ast.Form;
 import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class ConditionsNotOfTypeBoolean implements INodeVisitor {
 

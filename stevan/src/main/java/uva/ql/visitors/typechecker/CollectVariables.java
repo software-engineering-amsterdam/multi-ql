@@ -1,13 +1,14 @@
 package uva.ql.visitors.typechecker;
 
 import java.util.ArrayList;
+
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class CollectVariables implements INodeVisitor {
 

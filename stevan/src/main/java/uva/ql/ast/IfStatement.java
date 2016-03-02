@@ -1,7 +1,7 @@
 package uva.ql.ast;
 
 import uva.ql.interfaces.INode;
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class IfStatement extends ANode implements INode {
 

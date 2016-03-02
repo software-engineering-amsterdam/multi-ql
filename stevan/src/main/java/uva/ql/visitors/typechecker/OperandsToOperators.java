@@ -14,8 +14,8 @@ import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
 import uva.ql.interfaces.IExpression;
 import uva.ql.interfaces.INode;
-import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.IVariable;
+import uva.ql.visitors.INodeVisitor;
 
 public class OperandsToOperators implements INodeVisitor {
 

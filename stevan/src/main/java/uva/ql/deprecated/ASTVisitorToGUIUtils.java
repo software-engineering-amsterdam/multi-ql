@@ -1,4 +1,4 @@
-package uva.ql.visitors;
+package uva.ql.deprecated;
 
 import java.awt.Component;
 import java.awt.Container;

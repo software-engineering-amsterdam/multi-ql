@@ -1,4 +1,4 @@
-package uva.ql.visitors;
+package uva.ql.deprecated;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import uva.ql.deprecated.ASTIfStatement;
 import uva.ql.deprecated.ASTNode;
 import uva.ql.deprecated.ASTQuestion;
 import uva.ql.deprecated.ASTVariable;
-import uva.ql.deprecated.ShuntingYardAlgorithm;
 
 public class ASTVisitorToGUIListeners {
 	

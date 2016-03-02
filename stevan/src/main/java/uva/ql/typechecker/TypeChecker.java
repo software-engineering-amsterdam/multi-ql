@@ -24,7 +24,7 @@ public class TypeChecker {
 		CollectVariables cv = new CollectVariables();
 		form.accept(cv);
 		
-		//msg.putAll( checkCyclicDepenUndefQuestions(form, cv) );
+		msg.putAll( checkCyclicDepenUndefQuestions(form, cv) );
 		msg.putAll( checkForDupQuestionsOfDiffTypes(cv) );
 		msg.putAll( checkConditionsNotOfTypeBoolean(form) );
 		msg.putAll( checkInvalidOperandToOperators(form) );

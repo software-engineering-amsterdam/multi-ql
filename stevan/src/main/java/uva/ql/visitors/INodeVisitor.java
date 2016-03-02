@@ -1,4 +1,4 @@
-package uva.ql.interfaces;
+package uva.ql.visitors;
 
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AVariable;

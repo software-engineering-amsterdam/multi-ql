@@ -10,7 +10,6 @@ import uva.ql.ast.Question;
 import uva.ql.ast.numbers.NumDouble;
 import uva.ql.ast.numbers.NumInt;
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.INumber;
 
 public class ASTTreePrintVisitor implements INodeVisitor {

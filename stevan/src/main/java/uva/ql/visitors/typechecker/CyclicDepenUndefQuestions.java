@@ -2,6 +2,7 @@ package uva.ql.visitors.typechecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import uva.ql.ast.AExpression;
 import uva.ql.ast.ANumber;
 import uva.ql.ast.AVariable;
@@ -9,8 +10,8 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
-import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.IVariable;
+import uva.ql.visitors.INodeVisitor;
 
 public class CyclicDepenUndefQuestions implements INodeVisitor {
 
