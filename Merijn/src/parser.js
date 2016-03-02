@@ -7,7 +7,7 @@ import { SemanticAnalyser } from 'src/ast_semantic_analysis';
 import * as ast from 'src/ast';
 import * as types from 'src/types';
 import * as values from 'src/values';
-import { LineError } from 'src/error';
+import { LinesMessage } from 'src/log';
 
 // Use a visitor to convert the parse context into an ast
 class AstConversionVisitor extends GeneratedVisitor {
@@ -97,19 +97,19 @@ class AstConversionVisitor extends GeneratedVisitor {
 		}
 	}
 	visitBooleanLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.BooleanType(), values.BooleanValue.fromString(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new types.BooleanType(), values.BooleanValue.fromString(ctx.getText()));
 	}
 	visitStringLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.StringType(), values.StringValue.fromString(ctx.getText().slice(1,-1)));
+		return new ast.LiteralNode(ctx.start.line, new types.StringType(), values.StringValue.fromString(ctx.getText().slice(1,-1)));
 	}
 	visitIntegerLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.IntegerType(), values.IntegerValue.fromString(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new types.IntegerType(), values.IntegerValue.fromString(ctx.getText()));
 	}
 	visitFloatLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.FloatType(), values.FloatValue.fromString(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new types.FloatType(), values.FloatValue.fromString(ctx.getText()));
 	}
 	visitMoneyLiteralCase (ctx) {
-		return new ast.LiteralNode(ctx.start.line, new ast.MoneyType(), values.MoneyValue.fromString(ctx.getText()));
+		return new ast.LiteralNode(ctx.start.line, new types.MoneyType(), values.MoneyValue.fromString(ctx.getText()));
 	}
 	visitType(ctx) {
 		switch (ctx.start.type) {
@@ -135,7 +135,7 @@ class AggregatingErrorListener extends ErrorListener {
 		this.errors = [];
 	}
 	syntaxError(recognizer, offendingSymbol, line, column, msg, e) {
-		this.errors.push(new LineError(line, "Syntax error: " + msg));
+		this.errors.push(new LinesMessage([line], "Syntax error: " + msg));
 	}
 
 	// the rest of these listeners should no be called, so crash
@@ -151,9 +151,10 @@ class AggregatingErrorListener extends ErrorListener {
 }
 
 export class ParseResult {
-	constructor (ast, errors) {
+	constructor (ast, errors, warnings) {
 		this.ast = ast;
 		this.errors = errors;
+		this.warnings = warnings;
 	}
 }
 
@@ -170,7 +171,8 @@ export class AnalyzingQlParser {
 			errorListener = new AggregatingErrorListener(),
 			visitor = new AstConversionVisitor(),
 			tree,
-			ast;
+			ast,
+			log;
 
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(errorListener);
@@ -181,13 +183,13 @@ export class AnalyzingQlParser {
 
 		errors = errorListener.errors;
 		if (errors.length > 0) {
-			return new ParseResult(null, errors);
+			return new ParseResult(null, errors, []);
 		}
 
 		visitor = new AstConversionVisitor();
 		ast = tree.accept(visitor);
-		errors = this.semanticAnalyser.analyse(ast);
+		log = this.semanticAnalyser.analyse(ast);
 
-		return new ParseResult(ast, errors);
+		return new ParseResult(ast, log.errors, log.warnings);
 	}
 }
