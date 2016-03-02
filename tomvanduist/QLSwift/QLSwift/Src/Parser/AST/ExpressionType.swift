@@ -21,7 +21,7 @@ class FormType: ExpressionType {
 class BooleanType: ExpressionType {
 }
 
-class NumberType: ExpressionType {
+class MoneyType: ExpressionType {
 }
 
 class StringType: ExpressionType {

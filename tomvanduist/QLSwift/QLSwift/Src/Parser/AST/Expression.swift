@@ -62,9 +62,9 @@ class StringField: Expression {
 }
 
 class MoneyField: Expression {
-    let type: ExpressionType = NumberType()
+    let type: ExpressionType = MoneyType()
     let expression: Expression?
-    let value: NSInteger = 0
+    var value: NSInteger = 0
     
     init(expression: Expression? = nil) {
         self.expression = expression
@@ -93,7 +93,7 @@ class StringLiteral: Expression {
 }
 
 class IntegerLiteral: Expression {
-    let type: ExpressionType = NumberType()
+    let type: ExpressionType = MoneyType()
     let integer: NSInteger
     
     init(integer: NSInteger) {
@@ -149,7 +149,7 @@ class Neg: Unary, Expression {
     required init (rhs: Expression) {
         super.init(rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
     override func eval() -> NSObject {
@@ -177,7 +177,7 @@ class Add: Binary, Expression {
     required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
     override func eval() -> NSObject {
@@ -189,7 +189,7 @@ class Sub: Binary, Expression {
     required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
     override func eval() -> NSObject {
@@ -201,7 +201,7 @@ class Mul: Binary, Expression {
     required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
     override func eval() -> NSObject {
@@ -213,7 +213,7 @@ class Div: Binary, Expression {
     required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
     override func eval() -> NSObject {
@@ -225,7 +225,7 @@ class Pow: Binary, Expression {
     required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
     override func eval() -> NSObject {

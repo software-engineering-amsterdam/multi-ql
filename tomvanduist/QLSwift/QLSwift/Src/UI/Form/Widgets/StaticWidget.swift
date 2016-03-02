@@ -10,12 +10,18 @@ import UIKit
 
 class StaticWidget: ViewWidget {
     let expression: Expression
-    var textField: UITextField?
+    let textField: UITextField
     
     init(layout: Layout, delegate: WidgetDelegate?, expression: Expression) {
         self.expression = expression
         
+        textField = UITextField()
+        
         super.init(layout: layout, delegate: delegate)
+        
+        textField.borderStyle = .Line
+        textField.textColor = UIColor.lightGrayColor()
+        textField.userInteractionEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,16 +31,12 @@ class StaticWidget: ViewWidget {
     override func setupView(layout: Layout) {
         self.backgroundColor = UIColor.greenColor()
         
-        if textField == nil {
-            textField = UITextField()
-            textField!.borderStyle = .Line
-            textField!.textColor = UIColor.lightGrayColor()
-            textField!.userInteractionEnabled = false
+        if textField.superview == nil {
             
             updateValue()
             
-            self.addSubview(textField!)
-            textField!.snp_makeConstraints { [unowned self] (make) -> Void in
+            self.addSubview(textField)
+            textField.snp_makeConstraints { [unowned self] (make) -> Void in
                 make.top.equalTo(self.snp_top).offset(layout.margin.top)
                 make.left.equalTo(self.snp_left).offset(layout.margin.left)
                 make.right.equalTo(self.snp_right).offset(-layout.margin.right)
@@ -51,10 +53,12 @@ class StaticWidget: ViewWidget {
     }
     
     private func updateValue() {
-        if expression.type === BooleanType() {
-            textField!.text = (expression.eval() as! Bool) ? "Yes" : "No"
+        if expression.type === BooleanType.self {
+            textField.text = (expression.eval() as! Bool) ? "Yes" : "No"
+        } else if expression.type === MoneyType.self {
+            textField.text = "€ \((expression.eval() as! Double) / 100)"
         } else {
-            textField!.text = "\(expression.eval())"
+            textField.text = "\(expression.eval())"
         }
     }
 }

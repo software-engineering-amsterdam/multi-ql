@@ -45,7 +45,7 @@
 		E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
 		E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E2C8DA001C761D8C005F1C41 /* BooleanWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */; };
-		E2C8DA011C761D8C005F1C41 /* DecimalWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FD1C761D8C005F1C41 /* DecimalWidget.swift */; };
+		E2C8DA011C761D8C005F1C41 /* MoneyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FD1C761D8C005F1C41 /* MoneyWidget.swift */; };
 		E2C8DA021C761D8C005F1C41 /* IntegerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */; };
 		E2C8DA031C761D8C005F1C41 /* TextWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */; };
 		E2C8DA051C761DB4005F1C41 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8DA041C761DB4005F1C41 /* Widget.swift */; };
@@ -173,7 +173,7 @@
 		E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Src/ViewControllers/RootViewController.swift; sourceTree = "<group>"; };
 		E2A5AAB01C6CDF350009E869 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Src/Extensions/StringExtension.swift; sourceTree = "<group>"; };
 		E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BooleanWidget.swift; path = Src/UI/Form/Widgets/BooleanWidget.swift; sourceTree = "<group>"; };
-		E2C8D9FD1C761D8C005F1C41 /* DecimalWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecimalWidget.swift; path = Src/UI/Form/Widgets/DecimalWidget.swift; sourceTree = "<group>"; };
+		E2C8D9FD1C761D8C005F1C41 /* MoneyWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoneyWidget.swift; path = Src/UI/Form/Widgets/MoneyWidget.swift; sourceTree = "<group>"; };
 		E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntegerWidget.swift; path = Src/UI/Form/Widgets/IntegerWidget.swift; sourceTree = "<group>"; };
 		E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextWidget.swift; path = Src/UI/Form/Widgets/TextWidget.swift; sourceTree = "<group>"; };
 		E2C8DA041C761DB4005F1C41 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Widget.swift; path = Src/UI/Form/Widgets/Widget.swift; sourceTree = "<group>"; };
@@ -362,7 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */,
-				E2C8D9FD1C761D8C005F1C41 /* DecimalWidget.swift */,
+				E2C8D9FD1C761D8C005F1C41 /* MoneyWidget.swift */,
 				E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */,
 				E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */,
 				E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */,
@@ -795,7 +795,7 @@
 				E23493101C6CD55000B40020 /* Context.swift in Sources */,
 				E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */,
 				E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */,
-				E2C8DA011C761D8C005F1C41 /* DecimalWidget.swift in Sources */,
+				E2C8DA011C761D8C005F1C41 /* MoneyWidget.swift in Sources */,
 				E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */,
 				E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */,
 				E265696A1C766FDD000CB9E6 /* FormViewFactory.swift in Sources */,

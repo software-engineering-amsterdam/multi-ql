@@ -10,12 +10,18 @@ import UIKit
 
 class BooleanWidget: ViewWidget {
     let booleanField: BooleanField
-    var toggle: UISwitch?
+    let toggle: UISwitch
     
     init(layout: Layout, delegate: WidgetDelegate?, booleanField: BooleanField) {
         self.booleanField = booleanField
         
+        toggle = UISwitch()
+        
         super.init(layout: layout, delegate: delegate)
+        
+        toggle.backgroundColor = UIColor.blackColor()
+        toggle.on = booleanField.value
+        toggle.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -25,16 +31,10 @@ class BooleanWidget: ViewWidget {
     override func setupView(layout: Layout) {
         self.backgroundColor = UIColor.greenColor()
         
-        if toggle == nil {
-            toggle = UISwitch()
-            toggle!.backgroundColor = UIColor.blackColor()
-            toggle!.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
-            toggle!.on = booleanField.value
+        if toggle.superview == nil {
+            self.addSubview(toggle)
             
-            self.addSubview(toggle!)
-            
-            
-            toggle!.snp_makeConstraints { [unowned self] (make) -> Void in
+            toggle.snp_makeConstraints { [unowned self] (make) -> Void in
                 make.top.equalTo(self.snp_top).offset(layout.margin.top)
                 make.right.equalTo(self.snp_right).offset(-layout.margin.right)
                 make.bottom.equalTo(self.snp_bottom).offset(-layout.margin.bottom)

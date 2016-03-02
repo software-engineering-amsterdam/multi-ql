@@ -84,19 +84,7 @@ extension ConcreteFormViewBuilder {
     }
     
     private func createQuestionView(question: Question, formView: FormView) -> UIView {
-        var viewWidget: ViewWidget!
-        
-        if let booleanField = question.expression as? BooleanField {
-            viewWidget = self.viewFactory.createWidgetView(booleanField)
-        } else if let stringField = question.expression as? StringField {
-            viewWidget = self.viewFactory.createWidgetView(stringField)
-        } else {
-            viewWidget = self.viewFactory.createWidgetView(question.expression)
-        }
-        
-        viewWidget.delegate = formView
-        
-        return self.viewFactory.createQuestionView(question, viewWidget: viewWidget)
+        return self.viewFactory.createQuestionView(question, delegate: formView)
     }
     
     private func createConditionalView(conditional: Conditional, formView: FormView) -> UIView {

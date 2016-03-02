@@ -70,7 +70,7 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         super.visit(node, param: param)
         
         if let expression = node.expression {
-            if type(expression) !== NumberType.self {
+            if type(expression) !== MoneyType.self {
                 error.collect(SemanticError.TypeMismatch(description: "Money expression must result in a numerical value: \(node.expression)"))
             }
 
@@ -105,7 +105,7 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
     func visitBinaryNumber(node: Binary) {
         visitBinary(node)
         
-        if (type(node.lhs) !== NumberType.self || type(node.rhs) !== NumberType.self) {
+        if (type(node.lhs) !== MoneyType.self || type(node.rhs) !== MoneyType.self) {
             collectBinaryTypeError(node)
         }
     }

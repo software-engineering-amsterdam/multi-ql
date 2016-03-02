@@ -19,6 +19,8 @@ class FormViewController: BaseViewController {
         self.form = form
         
         super.init(nibName: "FormView", bundle: nil)
+        
+        self.title = "\(form.identifier.id)"
     }
     
     required init?(coder aDecoder: NSCoder) {

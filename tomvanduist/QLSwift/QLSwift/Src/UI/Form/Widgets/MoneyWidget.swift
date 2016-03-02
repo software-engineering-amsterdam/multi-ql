@@ -1,5 +1,5 @@
 //
-//  TextView.swift
+//  DecimalView.swift
 //  QLSwift
 //
 //  Created by Tom van Duist on 18/02/16.
@@ -8,20 +8,22 @@
 
 import UIKit
 
-class TextWidget: ViewWidget, UITextFieldDelegate {
-    let stringField: StringField
+class MoneyWidget: ViewWidget, UITextFieldDelegate {
+    let moneyField: MoneyField
     let textField: UITextField
     
-    init(layout: Layout, delegate: WidgetDelegate?, stringField: StringField) {
-        self.stringField = stringField
+    init(layout: Layout, delegate: WidgetDelegate?, moneyField: MoneyField) {
+        self.moneyField = moneyField
         
         textField = UITextField()
         
         super.init(layout: layout, delegate: delegate)
         
+        textField.keyboardType = .DecimalPad
         textField.borderStyle = .Line
+        textField.textAlignment = .Right
         textField.delegate = self
-        textField.text = ""
+        textField.placeholder = "0.00"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,7 +34,6 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
         self.backgroundColor = UIColor.greenColor()
         
         if textField.superview == nil {
-            
             self.addSubview(textField)
             
             textField.snp_makeConstraints { [unowned self] (make) -> Void in
@@ -46,7 +47,12 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(sender: UITextField) {
-        stringField.string = (sender.text != nil) ? sender.text! : ""
-        delegate?.widgetChangedValue(self, value: stringField.string)
+        if let text = sender.text, let value = Double(text) {
+            moneyField.value = NSInteger(round(value * 100.0)) // Money represented as integer
+        } else {
+            moneyField.value = 0
+        }
+        
+        delegate?.widgetChangedValue(self, value: moneyField.value)
     }
 }
