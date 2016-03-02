@@ -2,10 +2,12 @@ package org.uva.sea.ql.ast.visitor.interfaces;
 
 import org.uva.sea.ql.ast.VarDeclaration;
 import org.uva.sea.ql.ast.VarIdentifier;
-import org.uva.sea.ql.ast.TaxForm.Block;
-import org.uva.sea.ql.ast.TaxForm.Form;
-import org.uva.sea.ql.ast.TaxForm.IFblock;
-import org.uva.sea.ql.ast.TaxForm.Question;
+import org.uva.sea.ql.ast.domain.Block;
+import org.uva.sea.ql.ast.domain.Form;
+import org.uva.sea.ql.ast.domain.IFblock;
+import org.uva.sea.ql.ast.domain.NormalQuestion;
+import org.uva.sea.ql.ast.domain.Question;
+import org.uva.sea.ql.ast.domain.ReadOnlyQuestion;
 import org.uva.sea.ql.ast.expr.VarExpr;
 import org.uva.sea.ql.ast.expr.binary.AND;
 import org.uva.sea.ql.ast.expr.binary.Equal;
@@ -45,6 +47,10 @@ public interface QLNodeVisitor {
 	public Type visit(IFblock statement);
 	
 	public Type visit(Question question);
+	
+	public Type visit(NormalQuestion normalQuestion);
+	
+	public Type visit(ReadOnlyQuestion readOnlyQuestion);
 	
 	public Type visit(AND and);
 

@@ -10,10 +10,12 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.sea.ql.ast.VarDeclaration;
 import org.uva.sea.ql.ast.VarIdentifier;
-import org.uva.sea.ql.ast.TaxForm.Block;
-import org.uva.sea.ql.ast.TaxForm.Form;
-import org.uva.sea.ql.ast.TaxForm.IFblock;
-import org.uva.sea.ql.ast.TaxForm.Question;
+import org.uva.sea.ql.ast.domain.Block;
+import org.uva.sea.ql.ast.domain.Form;
+import org.uva.sea.ql.ast.domain.IFblock;
+import org.uva.sea.ql.ast.domain.NormalQuestion;
+import org.uva.sea.ql.ast.domain.Question;
+import org.uva.sea.ql.ast.domain.ReadOnlyQuestion;
 import org.uva.sea.ql.ast.expr.VarExpr;
 import org.uva.sea.ql.ast.expr.binary.AND;
 import org.uva.sea.ql.ast.expr.binary.BinaryExpression;
@@ -35,6 +37,8 @@ import org.uva.sea.ql.ast.expr.math.Div;
 import org.uva.sea.ql.ast.expr.math.Mul;
 import org.uva.sea.ql.ast.expr.math.Sub;
 import org.uva.sea.ql.ast.expr.type.BooleanType;
+import org.uva.sea.ql.ast.expr.type.IntegerType;
+import org.uva.sea.ql.ast.expr.type.MoneyType;
 import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.expr.type.UnknownType;
 import org.uva.sea.ql.ast.expr.unary.NOT;
@@ -49,6 +53,7 @@ import org.uva.sea.ql.parser.antlr.QLParser.FileContext;
 public class TypeChecker implements QLNodeVisitor{
 	SymbolTable symTable;
 	Result result;
+	Boolean isComputedQuestion = false;
 	List<String> lableNames = new ArrayList<>();
 	public TypeChecker(Form form) {
 		result = new Result();
@@ -90,13 +95,39 @@ public class TypeChecker implements QLNodeVisitor{
 		for (Question ibq : statement.getBody().getQuestions()) {
 			ibq.accept(this);
 		}
-		
-		
 		return statement.getCondition().accept(this);
 		
 	}
 	@Override
 	public Type visit(Question question) {
+		
+		return new UnknownType();
+		
+	}
+	
+	@Override
+	public Type visit(NormalQuestion normalQuestion) {
+		questionErrors(normalQuestion);
+		return new UnknownType();
+	}
+	
+	@Override
+	public Type visit(ReadOnlyQuestion readOnlyQuestion) {
+		Type expectedTypeInt = new IntegerType();
+		Type expectedTypeMoney = new MoneyType();
+		Type readOnlyQuestionType = readOnlyQuestion.getVariableId().getType();
+		isComputedQuestion = true;
+		questionErrors(readOnlyQuestion);
+		if(!checkExprEquality(readOnlyQuestionType, expectedTypeInt) && !checkExprEquality(readOnlyQuestionType, expectedTypeMoney)){
+			String msg = "The return variable '"+readOnlyQuestion.getVariableId().getIdentifier().getName()+"' in the computed question references to a type that is not Integer or Money";
+			result.addError(msg);
+		}
+		readOnlyQuestion.getExpression().accept(this);
+		isComputedQuestion = false;
+		return new UnknownType();
+	}
+	
+	private void questionErrors(Question question) {
 		String lableName = question.getText();
 		String variableName = question.getVariableId().getIdentifier().getName();
 		Type type = question.getVariableId().getType();
@@ -114,9 +145,6 @@ public class TypeChecker implements QLNodeVisitor{
 		}else{
 			lableNames.add(lableName);
 		}
-		
-		return new UnknownType();
-		
 	}
 	
 	private Boolean checkDuplicateDeclaration(String variableName,Type type) {
@@ -197,12 +225,12 @@ public class TypeChecker implements QLNodeVisitor{
 		return checkUnaryExpression(pos);
 	}
 
-	private Boolean checkConditionExpr(String e, Type type) {
-		boolean isConditionBoolean = false;
-		if(!symTable.lookupType(e).equals(type)){
-			isConditionBoolean = true;
+	private Boolean checkExpressionType(String e, Type type) {
+		boolean isExpectedType = false;
+		if(symTable.lookupType(e).equals(type)){
+			isExpectedType = true;
 		}
-		return isConditionBoolean;
+		return isExpectedType;
 	}
 	
 	private Boolean checkExprEquality(Type e1, Type e2) {
@@ -217,7 +245,6 @@ public class TypeChecker implements QLNodeVisitor{
 		Type e1 = e.getFirstExpression().accept(this);
 		Type e2 = e.getSecondExpression().accept(this);
 		Type expectedtype = e1;
-		
 		if(!checkExprEquality(e1, e2)){
 			expectedtype = new UnknownType();
 			String msg ="condition must be of the same type";
@@ -290,14 +317,26 @@ public class TypeChecker implements QLNodeVisitor{
 	
 	@Override
 	public Type visit(VarExpr varExpr) {
-		Type expectedType = new BooleanType();
+		Type toReturn = new UnknownType();
+		Type expectedTypeBool = new BooleanType();
+		Type expectedTypeInt = new IntegerType();
+		Type expectedTypeMoney = new MoneyType();
 		String idName = varExpr.getIdentifier().getName();
-		if(checkConditionExpr(idName, expectedType)){
-			expectedType = new UnknownType();
+		if(isComputedQuestion &&!checkExpressionType(idName, expectedTypeInt) && !checkExpressionType(idName, expectedTypeMoney)){
+			String msg = "The variable '"+idName+"' in the computed question references to a type that is not Integer or Money";
+			result.addError(msg);
+		}else{
+			toReturn = expectedTypeBool;
+		}
+		
+		if(!isComputedQuestion && !checkExpressionType(idName, expectedTypeBool)){
 			String msg = idName+" condition is not of the type boolean";
 			result.addError(msg);
+		}else{
+			toReturn = expectedTypeBool;
 		}
-		return expectedType;
+		
+		return toReturn;
 		
 	}
 	
@@ -315,12 +354,10 @@ public class TypeChecker implements QLNodeVisitor{
 	   
 	    FileContext fileContext = parser.file();
 	    Form ast = fileContext.form(0).result;
-	    //System.out.println(ast);
 	    TypeChecker typeChecker = new TypeChecker(ast);
 	    typeChecker.result.print();
 		
 	}
-	
 	
 
 }

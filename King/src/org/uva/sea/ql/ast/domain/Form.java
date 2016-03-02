@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast.TaxForm;
+package org.uva.sea.ql.ast.domain;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.type.Type;
