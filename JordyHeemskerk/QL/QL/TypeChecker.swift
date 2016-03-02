@@ -165,34 +165,4 @@ class TypeChecker: FormVisitor, BlockVisitor, StatementVisitor, ExpressionVisito
         return true
     }
     
-    
-    
-    /*
-    override func visit(questionDeclaration: QuestionDeclaration) {
-        guard let computation = questionDeclaration.computation else {
-            return
-        }
-        if !questionDeclaration.type.compatible(computation, symbolTable: symbolTable) {
-            semanticLog.logError(.ComputedTypeMismatch(identifier: questionDeclaration.identifier, expectedType: questionDeclaration.type, inferedType: computation.inferType(symbolTable), position: questionDeclaration.position))
-        }
-    }
-    
-    override func visit(ifStatement: IfStatement) {
-        if !BooleanType().compatible(ifStatement.conditionClause, symbolTable: symbolTable) {
-            semanticLog.logError(.ConditionTypeMismatch(inferedType: ifStatement.conditionClause.inferType(symbolTable), position: ifStatement.position))
-        }
-        ifStatement.block.accept(self)
-        ifStatement.elseClause?.accept(self)
-    }
-    
-    override func visit(elseIfStatement: ElseIfStatement) {
-        if let conditionClause = elseIfStatement.conditionClause {
-            if !BooleanType().compatible(conditionClause, symbolTable: symbolTable) {
-                semanticLog.logError(.ConditionTypeMismatch(inferedType: conditionClause.inferType(symbolTable), position: elseIfStatement.position))
-            }
-        }
-        elseIfStatement.block.accept(self)
-        elseIfStatement.elseClause?.accept(self)
-    }*/
-    
 }
