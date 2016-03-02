@@ -100,7 +100,7 @@ extension QLParser {
             let moneyExpr: GenericParser<String, (), Expression> =
                 lexer.symbol("money").map { _ in MoneyField() }
             
-            return moneyExpr <|> boolExpr <|> stringExpr <|> litExpr <|> identifierExpr()
+            return identifierExpr() <|> moneyExpr <|> boolExpr <|> stringExpr <|> litExpr
         }
         
         // Expression between ( )
