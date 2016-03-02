@@ -27,26 +27,26 @@ session.on('change', function (e) {
 	window.localStorage.setItem(LOCALSTORAGE_KEY, val); // store before parse, as otherwise errors will block storing
 
 	ast = parser.parse(val, log);
-	log.errors.forEach((error) => {
+	for (let error of log.errors) {
 		messages.push("[ERROR] line(s): " + error.lines.join(',') + " - " + error.message);
-		error.lines.forEach((line) => {
+		for (let line of error.lines) {
 			annotations.push({
 				'row': line-1,
 				'text': error.message,
 				'type': 'error'
 			});
-		});
-	});
-	log.warnings.forEach((warning) => {
+		}
+	}
+	for (let warning of log.warnings) {
 		messages.push("[WARNING] line(s): " + warning.lines.join(',') + " - " + warning.message);
-		warning.lines.forEach((line) => {
+		for (let line of warning.lines) {
 			annotations.push({
 				'row': line-1,
 				'text': warning.message,
 				'type': 'warning'
 			});
-		});
-	});
+		}
+	}
 	logElement.value = messages.join("\n");
 	session.setAnnotations(annotations);
 	if (!log.hasErrors()) {
