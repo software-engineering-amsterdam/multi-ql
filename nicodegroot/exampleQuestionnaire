@@ -1,13 +1,13 @@
 form taxOfficeExample {
 
   "cQ1"
-    cQ1: decimal = (2.02)
+    cQ1: money = (2.02)
 
   "cQ2"
-    cQ2: decimal = (10.01)
+    cQ2: money = (10.01)
     
   "cQ3"
-    cQ3: decimal = (cQ1+cQ2)
+    cQ3: money = (cQ1+cQ2)
 
     /*
     

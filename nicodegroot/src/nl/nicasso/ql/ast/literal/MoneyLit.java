@@ -3,24 +3,24 @@ package nl.nicasso.ql.ast.literal;
 import java.math.BigDecimal;
 
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.ast.type.DecimalType;
+import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.Type;
 import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class DecimalLit extends Literal {
+public class MoneyLit extends Literal {
 
 	private final Type type;
 	private final BigDecimal value;
 	
-	public DecimalLit(BigDecimal value) {
+	public MoneyLit(BigDecimal value) {
 		super(null);
-		this.type = new DecimalType();
+		this.type = new MoneyType();
 		this.value = value;
 	}
 	
-	public DecimalLit(BigDecimal value, CodeLocation location) {
+	public MoneyLit(BigDecimal value, CodeLocation location) {
 		super(location);
-		this.type = new DecimalType(location);
+		this.type = new MoneyType(location);
 		this.value = value;
 	}
 	
@@ -59,7 +59,7 @@ public class DecimalLit extends Literal {
 	
 	@Override
 	public boolean equals(Object ob) {
-		DecimalLit lit = (DecimalLit) ob;
+		MoneyLit lit = (MoneyLit) ob;
 		return value.equals(lit.getValue());
 	}
 	

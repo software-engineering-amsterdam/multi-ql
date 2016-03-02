@@ -18,8 +18,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -29,8 +29,8 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.ast.type.BooleanType;
-import nl.nicasso.ql.ast.type.DecimalType;
 import nl.nicasso.ql.ast.type.IntegerType;
+import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.NumericType;
 import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
@@ -220,7 +220,7 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Division)");
-			return new DecimalType();
+			return new MoneyType();
 		} else {
 			return containerType;
 		}
@@ -239,7 +239,7 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 		
 		if (containerType == null) {
 			errors.add("Error: Incompatible types detected (Multiplication)");
-			return new DecimalType();
+			return new MoneyType();
 		} else {
 			return containerType;
 		}
@@ -440,11 +440,11 @@ public class TypeCheckerVisitor implements StructureVisitor<Type>, StatementVisi
 	}
 	
 	@Override
-	public Type visit(DecimalLit value) {
+	public Type visit(MoneyLit value) {
 		if (debug) {
-			System.out.println("DecimalLit: "+value.getValue());
+			System.out.println("MoneyLit: "+value.getValue());
 		}
-		return new DecimalType();
+		return new MoneyType();
 	}
 	
 	private boolean checkType(Type exprType, Type type) {

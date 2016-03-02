@@ -16,7 +16,7 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.DecimalLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
@@ -357,7 +357,7 @@ public class EvaluatorVisitor implements StructureVisitor<Object>, StatementVisi
 	}
 
 	@Override
-	public Object visit(DecimalLit value) {
+	public Object visit(MoneyLit value) {
 		if (debug) {
 			System.out.println("DecimalLit: "+value.getValue());
 		}

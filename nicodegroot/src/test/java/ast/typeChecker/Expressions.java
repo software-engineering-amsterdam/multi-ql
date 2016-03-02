@@ -14,7 +14,7 @@ import nl.nicasso.ql.ast.expression.conditional.Or;
 import nl.nicasso.ql.ast.expression.equality.Equal;
 import nl.nicasso.ql.ast.expression.equality.NotEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.DecimalLit;
+import nl.nicasso.ql.ast.literal.MoneyLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.type.Type;
 
@@ -33,7 +33,7 @@ public class Expressions {
 	
 	@Test
 	public void testAdditionDecimal() {
-		Addition addition = new Addition(new DecimalLit(BigDecimal.valueOf(1.00)), new DecimalLit(BigDecimal.valueOf(1.00)), null);
+		Addition addition = new Addition(new MoneyLit(BigDecimal.valueOf(1.00)), new MoneyLit(BigDecimal.valueOf(1.00)), null);
 
 		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
 		
@@ -44,7 +44,7 @@ public class Expressions {
 	
 	@Test
 	public void testAdditionCombined() {
-		Addition addition = new Addition(new IntegerLit(1), new DecimalLit(BigDecimal.valueOf(1.00)), null);
+		Addition addition = new Addition(new IntegerLit(1), new MoneyLit(BigDecimal.valueOf(1.00)), null);
 
 		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
 		
