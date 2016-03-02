@@ -1,51 +1,39 @@
 package uva.ql.visitors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import uva.ql.antlr4.QLBaseVisitor;
 import uva.ql.antlr4.QLParser;
-import uva.ql.ast.AExpression;
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AST;
-import uva.ql.ast.AVariable;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.IfStatement;
 import uva.ql.ast.Question;
-import uva.ql.ast.variables.Bool;
+import uva.ql.ast.conditionals.CondIfStatement;
+import uva.ql.ast.conditionals.abstracts.Condition;
+import uva.ql.ast.conditionals.types.IfStatement;
+import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.types.Bool;
 
 public class VisitorToAST extends QLBaseVisitor<Object> {
 
-	private final Form form = AST.newForm();
-	private final Map<String, AVariable> varStore = new HashMap<String, AVariable>(0);
-	private final static Map<String, AVariable> VAR = new HashMap<String, AVariable>(0);
-	private final static Map<String, AExpression> EXP = new HashMap<String, AExpression>(0);
-	
-	static {
-		VAR.put("BOOLEAN", AST.newVarBool());
-		VAR.put("STRING", AST.newVarStr());
-		VAR.put("INTEGER", AST.newVarInt());
-		VAR.put("DATE", AST.newVarDate());
-		VAR.put("DOUBLE", AST.newVarDouble());
-		VAR.put("DECIMAL", AST.newVarDecimal());
-		VAR.put("MONEY", AST.newVarMoney());
-		
-		EXP.put("<", AST.newExpSmlThen());
-		EXP.put(">", AST.newExpGrtThen());
-		EXP.put("<=", AST.newExpSmlEql());
-		EXP.put(">=", AST.newExpGrtEql());
-		EXP.put("!=", AST.newExpNotEql());
-	}
+	private final Map<String, Variable> varStore = new HashMap<String, Variable>(0);
 
 	@Override
 	public Form visitForm( @NotNull QLParser.FormContext ctx ) {
 		
-		form.setName(ctx.varName().getText());
-		form.setLine(ctx.getStart().getLine());
-		form.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+		String name = ctx.varName().getText();
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		
+		Form form = new Form(name, line, column);
 		
 		for (int i=0; i<ctx.getChildCount(); i++) {
 			
@@ -53,7 +41,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 				
 				Block block = (Block) ctx.getChild(i).accept(this);
 				block.setParent(form);
-				form.addChild(block);
+				form.add(block);
 			}
 		}
 		
@@ -63,36 +51,41 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	@Override
 	public Block visitBlock( @NotNull QLParser.BlockContext ctx ) {
 		
-		Block block = AST.newBlock();
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		
+		Block block = new Block(null, line, column);
 		
 		for (int i=0; i<ctx.question().size(); i++) {
 			
 			Question question = (Question) ctx.question(i).accept(this);
 			question.setParent(block);
-			block.addChild(question);
+			block.add(question);
 		}
 
 		for (int i=0; i<ctx.condition().size(); i++) {
 			
-			// Assuming that its an IfStatment... make an ASTCondition node?!
-			IfStatement ifStmnt = (IfStatement) ctx.condition(i).accept(this);
+			Condition ifStmnt = (Condition) ctx.condition(i).accept(this);
 			ifStmnt.setParent(block);
-			block.addChild(ifStmnt);
+			block.add(ifStmnt);
 		}
 		
 		return block;
 	}
 	
 	@Override
-	public IfStatement visitIfCondition( @NotNull QLParser.IfConditionContext ctx ) {
+	public CondIfStatement visitIfCondition( @NotNull QLParser.IfConditionContext ctx ) {
 		
-		IfStatement ifStmnt = AST.newIfStatement();
-		ifStmnt.setLine(ctx.getStart().getLine());
-		ifStmnt.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		
+		CondIfStatement ifStmnt = new CondIfStatement(null, line, column);
 		
 		for (int i=0; i<ctx.expression().size(); i++) {
 			
-			AExpression exp = (AExpression) ctx.expression(i).accept(this);
+			Expression exp = (Expression) ctx.expression(i).accept(this);
 			exp.setParent(ifStmnt);
 			ifStmnt.setExpression(exp);
 		}
@@ -101,7 +94,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 			
 			Block block = (Block) ctx.block(i).accept(this);
 			block.setParent(ifStmnt);
-			ifStmnt.addChild(block);
+			ifStmnt.add(block);
 		}
 
 		return ifStmnt;
@@ -111,7 +104,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public Question visitQuestion( @NotNull QLParser.QuestionContext ctx) {
 		
 		Question question = AST.newQuestion();
-		AVariable var = createVariable(ctx.varType().getText());
+		Variable var = createVariable(ctx.varType().getText());
 
 		question.addChild(var);
 		question.setLabel(ctx.label().getText().substring(1, ctx.label().getText().length()-1));
@@ -127,7 +120,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		for ( int i=0; i<ctx.expression().size(); i++ ) {
 		
-			AExpression exp = (AExpression) ctx.expression(i).accept(this);
+			Expression exp = (Expression) ctx.expression(i).accept(this);
 			exp.setParent(question);
 			question.setExpression(exp);
 		}
@@ -136,15 +129,15 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public AExpression visitExpParentheses( @NotNull QLParser.ExpParenthesesContext ctx ) {
+	public Expression visitExpParentheses( @NotNull QLParser.ExpParenthesesContext ctx ) {
 		
-		return (AExpression) ctx.expression().accept(this);
+		return (Expression) ctx.expression().accept(this);
 	}
 	
 	@Override
-	public AVariable visitExpVar( @NotNull QLParser.ExpVarContext ctx ) {
+	public Variable visitExpVar( @NotNull QLParser.ExpVarContext ctx ) {
 		
-		AVariable var = varStore.get(ctx.getText());
+		Variable var = varStore.get(ctx.getText());
 		
 		if( varStore.get(ctx.getText()) == null ) {
 			
@@ -167,9 +160,9 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public AExpression visitExpMultDivide( @NotNull QLParser.ExpMultDivideContext ctx ) {
+	public Expression visitExpMultDivide( @NotNull QLParser.ExpMultDivideContext ctx ) {
 		
-		AExpression exp = null;
+		Expression exp = null;
 		
 		if (ctx.getChild(1).getText().intern() == "*") {
 			exp = AST.newExprMult();
@@ -188,12 +181,18 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public AExpression visitExpPlusMinus( @NotNull QLParser.ExpPlusMinusContext ctx ) {
+	public Expression visitExpPlusMinus( @NotNull QLParser.ExpPlusMinusContext ctx ) {
 		
-		AExpression exp = null;
+		Expression exp = null;
 		
-		if (ctx.getChild(1).getText().intern() == "+") {
+		if (ctx.getChild(1).getText().equals("+")) {
 			exp = AST.newExprAdd();
+			/*AExpression lhs = (AExpression)ctx.getChild(0).accept(this);
+			AExpression rhs = (AExpression)ctx.getChild(2).accept(this);
+			return new Add(lhs, rhs);*/
+			
+			// AST should be immutable, no setters
+			// The best is to add the parameters to the constructor...
 			exp.setLine(ctx.getStart().getLine());
 			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		}
@@ -209,9 +208,9 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public AExpression visitExpEquality( @NotNull QLParser.ExpEqualityContext ctx ) {
+	public Expression visitExpEquality( @NotNull QLParser.ExpEqualityContext ctx ) {
 		
-		AExpression exp = createExpEquality(ctx.getChild(1).getText().intern());
+		Expression exp = createExpEquality(ctx.getChild(1).getText().intern());
 		exp.setLine(ctx.getStart().getLine());
 		exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
 		
@@ -221,8 +220,8 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public AExpression visitExpAndOr( @NotNull QLParser.ExpAndOrContext ctx ) {
-		AExpression exp = null;
+	public Expression visitExpAndOr( @NotNull QLParser.ExpAndOrContext ctx ) {
+		Expression exp = null;
 		
 		if (ctx.getChild(1).getText().intern() == "&&") {
 			exp = AST.newExprAnd();
@@ -241,9 +240,9 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public ANumber visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
+	public Number visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
 		
-		ANumber var = null;
+		Number var = null;
 		
 		if(!ctx.DIGIT().isEmpty()) {
 			var = AST.newNumInt();
@@ -262,10 +261,10 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public AExpression visitExpNot( @NotNull QLParser.ExpNotContext ctx ) {
+	public Expression visitExpNot( @NotNull QLParser.ExpNotContext ctx ) {
 		
-		AExpression expPar = AST.newExprNot();
-		AExpression exp = (AExpression) ctx.getChild(1).accept(this);
+		Expression expPar = AST.newExprNot();
+		Expression exp = (Expression) ctx.getChild(1).accept(this);
 		
 		expPar.setLine(ctx.getStart().getLine());
 		expPar.setColumn(ctx.getStart().getCharPositionInLine() + 1);
@@ -276,31 +275,40 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		return expPar;
 	}
 	
-	private AVariable createVariable(String type) {
+	private Variable createVariable(String type) {
 		
-		AVariable var = VAR.get(type.toUpperCase());
+		Variable var = VAR.get(type.toUpperCase());
 		var = var != null ? var : AST.newVarGeneric();
 		
 		return var;
 	}
 	
-	private AExpression createExpEquality(String type) {
+	private Expression createExpEquality(String type) {
 
-		AExpression exp = EXP.get(type);
+		Expression exp = EXP.get(type);
 		exp = exp != null ? exp : AST.newExpEql();
 		
 		return exp;
 	}
 	
-	private void visitExprChildren(QLParser.ExpressionContext ctx, AExpression exp) {
+	private void visitExprChildren(QLParser.ExpressionContext ctx, Expression exp) {
 		
-		AExpression leftExp = (AExpression) ctx.getChild(0).accept(this);
-		AExpression rightExp = (AExpression) ctx.getChild(2).accept(this);
+		Expression leftExp = (Expression) ctx.getChild(0).accept(this);
+		Expression rightExp = (Expression) ctx.getChild(2).accept(this);
 		
 		exp.setLeftNode(leftExp);
 		exp.setRightNode(rightExp);
 		
 		leftExp.setParent(exp);
 		rightExp.setParent(exp);
+	}
+	
+	private List<Integer> getLineColumn(Token token) {
+		
+		List<Integer> list = new ArrayList<Integer>(0);
+		list.add(token.getLine());
+		list.add(token.getCharPositionInLine() + 1);
+		
+		return list;
 	}
 }
