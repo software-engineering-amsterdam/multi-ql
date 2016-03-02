@@ -22,7 +22,7 @@ class ConditionalView: BaseView, ViewContainable {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("StoryBoards not supported!")
+        fatalError("StoryBoards are not supported!")
     }
     
     override func initialize() {

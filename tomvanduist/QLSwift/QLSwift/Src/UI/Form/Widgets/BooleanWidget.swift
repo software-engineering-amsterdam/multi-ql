@@ -24,7 +24,7 @@ class BooleanWidget: ViewWidget {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("Not supported")
+        fatalError("StoryBoards are not supported!")
     }
     
     override func setupView(layout: Layout) {
