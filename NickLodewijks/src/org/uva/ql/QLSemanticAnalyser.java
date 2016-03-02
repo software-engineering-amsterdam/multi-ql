@@ -741,7 +741,7 @@ public class QLSemanticAnalyser {
 		QLSemanticAnalyser sa;
 		File inputFile;
 
-		inputFile = new File("resources/Questionaire.ql");
+		inputFile = new File("resources/Questionnaire.ql");
 		// inputFile = new
 		// File("test/resources/org/uva/ql/CyclicReferences.ql");
 		questionnaire = QLQuestionnaire.create(inputFile);

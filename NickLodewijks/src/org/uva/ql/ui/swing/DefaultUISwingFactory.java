@@ -52,10 +52,9 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 
 	@Override
 	public UIQuestionnaire create(Questionnaire questionnaire) {
-		DefaultQLQuestionaire q;
+		DefaultQLQuestionnaire q;
 
-		q = new DefaultQLQuestionaire(questionnaire);
-
+		q = new DefaultQLQuestionnaire(questionnaire);
 		for (Form form : questionnaire.getForms()) {
 			q.addForm(create(form));
 		}
@@ -105,14 +104,14 @@ public class DefaultUISwingFactory implements UIFactory<JComponent> {
 		return widget;
 	}
 
-	private static class DefaultQLQuestionaire implements UIQuestionnaire {
+	private static class DefaultQLQuestionnaire implements UIQuestionnaire {
 
 		private final List<UIComponent<JComponent>> forms = new ArrayList<>();
 
 		private final JFrame jframe;
 		private final JScrollPane scrollPanel;
 
-		public DefaultQLQuestionaire(Questionnaire q) {
+		public DefaultQLQuestionnaire(Questionnaire q) {
 			JPanel panel;
 			JPanel root;
 

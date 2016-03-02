@@ -15,7 +15,7 @@ public class QLMain {
 		QLQuestionnaire questionnaire;
 		File inputFile;
 
-		// resources/Questionaire.ql
+		// resources/Questionnaire.ql
 		inputFile = new File(args[0]);
 		questionnaire = QLQuestionnaire.create(inputFile);
 
