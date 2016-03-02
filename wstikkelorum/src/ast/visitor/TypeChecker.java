@@ -26,11 +26,15 @@ import ast.literal.IntLiteral;
 import ast.literal.StringLiteral;
 import ast.statement.IfStatement;
 
-public class OperandsAndConditionsChecker<T> extends BasicVisitor<Type>{
+public class TypeChecker<T> extends BasicVisitor<Type>{
 	private Context context;
 	
-	public OperandsAndConditionsChecker(Context context){
+	public TypeChecker(Context context){
 		this.context = context;
+	}
+	
+	public Context getContext(){
+		return context;
 	}
 	
 	@Override
