@@ -4,20 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.question.BooleanQuestion;
 
 /**
- * Class to check the types of objects in an AST.
+ * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
  * @version 2-mrt-2016
  */
 public class TypeCheckingVisitor implements ASTVisitor {
     
+    /**
+     * Error presented to the user when a conditional statement has a
+     * non-boolean condition.
+     */
     public static final String NON_BOOLEAN_CONDITION_ERROR
-            = "The condition in a conditional statement must be boolean";
+            = "Non-boolean condition for conditional statement found";
     
-    private List<String> errors = new ArrayList<>();
+    private final List<String> errors = new ArrayList<>();
+    
+    /**
+     * @return a <code>List</code> of the errors generated during the
+     *          <code>visit</code>s <code>this TypeCheckingVisitor</code> has
+     *          performed
+     */
+    public List<String> getErrors() {
+        return errors;
+    }
     
     @Override
     public void visit(ConditionalStatement s) {
@@ -62,19 +74,15 @@ public class TypeCheckingVisitor implements ASTVisitor {
         //TODO check that expressions are both numeric
     }
     
-    private boolean isBoolean(BooleanExpr e) {
-        return true;
-    }
-    
-    private boolean isBoolean(BooleanQuestion q) {
-        return true;
-    }
-    
-    private boolean isBoolean(Ident id) {
-        return false; //TODO look up Question and call isBoolean on it
-    }
-    
+    /**
+     * Checks whether an <code>ASTNode</code> has a boolean value.
+     * 
+     * @param n the <code>ASTNode</code> to check
+     * @return <code>true</code> if and only if <code>n.isBoolean()</code>
+     *          returns <code>true</code> or n is an <code>Ident</code> that
+     *          refers to a <code>Question</code> for which this is the case
+     */
     private boolean isBoolean(ASTNode n) {
-        return false;
+        return false; //TODO
     }
 }
