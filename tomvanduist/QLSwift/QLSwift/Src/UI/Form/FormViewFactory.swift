@@ -28,10 +28,15 @@ class DefaultFormViewFactory: ASTNodeVisitor<FormViewFactory, ViewWidget>, FormV
     
     let formLayout: FormLayout
     
+    
+    // MARK: - Initialization
+    
     init(formLayout: FormLayout) {
         self.formLayout = formLayout
     }
     
+    
+    // MARK: - FormViewFactory conformance
     
     func createQuestionView(question: Question, delegate: WidgetDelegate) -> UIView {
         let viewWidget = question.expression.accept(self, param: self)
