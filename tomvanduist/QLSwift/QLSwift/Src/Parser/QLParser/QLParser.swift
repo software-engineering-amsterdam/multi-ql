@@ -47,10 +47,9 @@ extension QLParser {
     
     private func block() -> GenericParser<String, (), Block> {
         return lexer.braces(
-            statement().manyAccumulator { acc, stmts in
-                var tmp = stmts
-                tmp.append(acc)
-                return tmp
+            statement().manyAccumulator { (acc, var stmts) in
+                stmts.append(acc)
+                return stmts
             }
             ).map { stmts in Block(block: stmts) }
     }
