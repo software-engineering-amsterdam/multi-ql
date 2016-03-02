@@ -2,14 +2,12 @@ package org.uva.sea.ql.ast.visitor;
 
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
-import org.uva.sea.ql.ast.tree.expr.unary.Neg;
-import org.uva.sea.ql.ast.tree.expr.unary.Not;
-import org.uva.sea.ql.ast.tree.expr.unary.Pos;
-import org.uva.sea.ql.ast.tree.expr.unary.Primary;
+import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
+import org.uva.sea.ql.ast.tree.val.Val;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.ast.visitor.interfaces.IExprVisitor;
@@ -22,7 +20,7 @@ import java.util.Map;
 /**
  * Created by roydewildt on 22/02/16.
  */
-public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object,Void> {
+public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Void> {
 
     private final Map<Var,Expr>  decls;
 
@@ -34,7 +32,7 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object,Void> {
 
     @Override
     public S visit(If stat, Void context) {
-        if((Boolean) stat.getCond().accept(this, context)){
+        if(stat.getCond().accept(this, context).getValue()){
             for(Stat s : stat.getStms())
                 s.accept(this, context);
         }
@@ -43,7 +41,7 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object,Void> {
 
     @Override
     public S visit(IfElse stat, Void context) {
-        if((Boolean)stat.getCond().accept(this, context)){
+        if(stat.getCond().accept(this, context).getValue()){
             for(Stat s : stat.getIfStms())
                 s.accept(this, context);
         }
@@ -55,126 +53,126 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,Object,T,Object,Void> {
     }
 
     @Override
-    public Object visit(Primary expr, Void context) {
-        return expr.getValue().accept(this, context);
+    public Primary visit(Primary expr, Void context) {
+        return new Primary(expr.getValue().accept(this, context));
     }
 
     @Override
-    public Object visit(Pos expr, Void context) {
-        Integer value = (Integer) expr.getValue().accept(this, context);
-        return value;
+    public Primary visit(Pos expr, Void context) {
+        Int value = expr.getValue().accept(this, context).getValue();
+        return new Primary(new Int(value.getValue()));
     }
 
     @Override
-    public Object visit(Not expr, Void context) {
-        Boolean value = (Boolean) expr.getValue().accept(this, context);
-        return !value;
+    public Primary visit(Not expr, Void context) {
+        Bool value = expr.getValue().accept(this, context).getValue();
+        return new Primary(new Bool(!value.getValue()));
     }
 
     @Override
-    public Object visit(Neg expr, Void context) {
-        Integer value = (Integer) expr.getValue().accept(this, context);
-        return -value;
+    public Primary visit(Neg expr, Void context) {
+        Int value = expr.getValue().accept(this, context).getValue();
+        return new Primary(new Int(-value.getValue()));
     }
 
     @Override
-    public Object visit(Sub expr, Void context) {
-        Integer lhs = (Integer) expr.getLhs().accept(this, context);
-        Integer rhs = (Integer) expr.getRhs().accept(this, context);
-        return lhs - rhs;
+    public Primary visit(Sub expr, Void context) {
+        Int lhs = expr.getLhs().accept(this, context).getValue();
+        Int rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Int(lhs.getValue() - rhs.getValue()));
     }
 
     @Override
-    public Object visit(Or expr, Void context) {
-        Boolean lhs = (Boolean) expr.getLhs().accept(this, context);
-        Boolean rhs = (Boolean) expr.getRhs().accept(this, context);
-        return lhs || rhs;
+    public Primary visit(Or expr, Void context) {
+        Bool lhs = expr.getLhs().accept(this, context).getValue();
+        Bool rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Bool(lhs.getValue() || rhs.getValue()));
     }
 
     @Override
-    public Object visit(NEq expr, Void context) {
-        Object lhs = expr.getLhs().accept(this, context);
-        Object rhs = expr.getRhs().accept(this, context);
-        return lhs != rhs;
+    public Primary visit(NEq expr, Void context) {
+        Val lhs = expr.getLhs().accept(this, context).getValue();
+        Val rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Bool(lhs.getValue() != rhs.getValue()));
     }
 
     @Override
-    public Object visit(Mul expr, Void context) {
-        Integer lhs = (Integer) expr.getLhs().accept(this, context);
-        Integer rhs = (Integer) expr.getRhs().accept(this, context);
-        return lhs * rhs;
+    public Primary visit(Mul expr, Void context) {
+        Int lhs = expr.getLhs().accept(this, context).getValue();
+        Int rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Int(lhs.getValue() * rhs.getValue()));
     }
 
     @Override
-    public Object visit(LT expr, Void context) {
-        Integer lhs = (Integer) expr.getLhs().accept(this, context);
-        Integer rhs = (Integer) expr.getRhs().accept(this, context);
-        return lhs < rhs;
+    public Primary visit(LT expr, Void context) {
+        Int lhs = expr.getLhs().accept(this, context).getValue();
+        Int rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Bool(lhs.getValue() < rhs.getValue()));
     }
 
     @Override
-    public Object visit(LEq expr, Void context) {
-        Integer lhs = (Integer) expr.getLhs().accept(this, context);
-        Integer rhs = (Integer) expr.getRhs().accept(this, context);
-        return lhs <= rhs;
+    public Primary visit(LEq expr, Void context) {
+        Int lhs = expr.getLhs().accept(this, context).getValue();
+        Int rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Bool(lhs.getValue() <= rhs.getValue()));
     }
 
     @Override
-    public Object visit(GT expr, Void context) {
-        Integer lhs = (Integer) expr.getLhs().accept(this, context);
-        Integer rhs = (Integer) expr.getRhs().accept(this, context);
-        return lhs > rhs;
+    public Primary visit(GT expr, Void context) {
+        Int lhs = expr.getLhs().accept(this, context).getValue();
+        Int rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Bool(lhs.getValue() > rhs.getValue()));
     }
 
     @Override
-    public Object visit(GEq expr, Void context) {
-        Integer lhs = (Integer) expr.getLhs().accept(this, context);
-        Integer rhs = (Integer) expr.getRhs().accept(this, context);
-        return lhs >= rhs;
+    public Primary visit(GEq expr, Void context) {
+        Int lhs = expr.getLhs().accept(this, context).getValue();
+        Int rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Bool(lhs.getValue() >= rhs.getValue()));
     }
 
     @Override
-    public Object visit(Eq expr, Void context) {
-        Object lhs = expr.getLhs().accept(this, context);
-        Object rhs = expr.getRhs().accept(this, context);
-        return lhs == rhs;
+    public Primary visit(Eq expr, Void context) {
+        Val lhs = expr.getLhs().accept(this, context).getValue();
+        Val rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Bool(lhs.getValue() == rhs.getValue()));
     }
 
     @Override
-    public Object visit(Div expr, Void context) {
-        Integer lhs = (Integer) expr.getLhs().accept(this, context);
-        Integer rhs = (Integer) expr.getRhs().accept(this, context);
-        return lhs / rhs;
+    public Primary visit(Div expr, Void context) {
+        Int lhs = expr.getLhs().accept(this, context).getValue();
+        Int rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Int(lhs.getValue() / rhs.getValue()));
     }
 
     @Override
-    public Object visit(And expr, Void context) {
-        Boolean lhs = (Boolean) expr.getLhs().accept(this, context);
-        Boolean rhs = (Boolean) expr.getRhs().accept(this, context);
-        return lhs && rhs;
+    public Primary visit(And expr, Void context) {
+        Bool lhs = expr.getLhs().accept(this, context).getValue();
+        Bool rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Bool(lhs.getValue() && rhs.getValue()));
     }
 
     @Override
-    public Object visit(Add expr, Void context) {
-        Integer lhs = (Integer) expr.getLhs().accept(this, context);
-        Integer rhs = (Integer) expr.getRhs().accept(this, context);
-        return lhs + rhs;
+    public Primary visit(Add expr, Void context) {
+        Int lhs = expr.getLhs().accept(this, context).getValue();
+        Int rhs = expr.getRhs().accept(this, context).getValue();
+        return new Primary(new Int(lhs.getValue() + rhs.getValue()));
     }
 
     @Override
-    public Object visit(Var val, Void context) {
-        Expr expr = decls.get(val);
-        return expr.accept(this, context);
+    public Var visit(Var val, Void context) {
+        UnaryExpr expr = (UnaryExpr) decls.get(val);
+        return expr.getValue();
     }
 
     @Override
-    public Object visit(Bool val, Void context) {
-        return val.getValue();
+    public Bool visit(Bool val, Void context) {
+        return val;
     }
 
     @Override
-    public Object visit(Int val, Void context) {
-        return val.getValue();
+    public Int visit(Int val, Void context) {
+        return val;
     }
 
 }

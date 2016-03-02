@@ -40,4 +40,9 @@ public class  Var extends Val {
     public <S, C> S accept(IValVisitor<S, C> visitor, C context) {
         return visitor.visit(this, context);
     }
+
+    @Override
+    public Object getValue() {
+        return null;
+    }
 }

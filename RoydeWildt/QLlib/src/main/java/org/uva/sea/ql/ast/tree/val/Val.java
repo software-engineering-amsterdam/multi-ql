@@ -11,4 +11,5 @@ abstract public class Val extends Node implements IValVisitable {
     public Val(int line){
         super(line);
     }
+    public abstract Object getValue();
 }

@@ -7,15 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.ast.visitor.UpdateVisitor;
-import org.uva.sea.ql.ast.visitor.context.NodeUpdate;
 import org.uva.sea.ql.gui.widget.CheckboxWidget;
 
 
@@ -23,7 +19,6 @@ import org.uva.sea.ql.gui.widget.CheckboxWidget;
  * Created by roy on 25-2-16.
  */
 public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Void> {
-
     private GridPane box;
 
     @Override
@@ -69,8 +64,6 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Vo
 
     private void handleCheckBoxAction(ActionEvent event) {
         CheckboxWidget b = (CheckboxWidget) event.getSource();
-        Node source = b.getSource();
-        source = new Bool(b.isSelected());
-
+        //form.updateVal(b.getSource(), b.isSelected());
     }
 }
