@@ -29,14 +29,25 @@ export class BlockNode extends Node {
 }
 
 export class IfNode extends Node {
+	constructor(line, condition, thenBlock) {
+		super(line);
+		this.condition = condition;
+		this.thenBlock = thenBlock;
+	}
+	accept (visitor, ...args) {
+		return visitor.visitIfNode(this, ...args);
+	}
+}
+
+export class IfElseNode extends Node {
 	constructor(line, condition, thenBlock, elseBlock) {
 		super(line);
 		this.condition = condition;
 		this.thenBlock = thenBlock;
-		this.elseBlock = elseBlock; // block | null
+		this.elseBlock = elseBlock;
 	}
 	accept (visitor, ...args) {
-		return visitor.visitIfNode(this, ...args);
+		return visitor.visitIfElseNode(this, ...args);
 	}
 }
 
@@ -238,6 +249,9 @@ export class NodeVisitor {
 	}
 	visitIfNode (ifNode, ...args) {
 		return this.visitNode(ifNode, ...args);
+	}
+	visitIfElseNode (ifElseNode, ...args) {
+		return this.visitNode(ifElseNode, ...args);
 	}
 	visitQuestionNode(questionNode, ...args) {
 		return this.visitNode(questionNode, ...args);

@@ -1,24 +1,29 @@
 {-# LANGUAGE PatternSynonyms #-}
 
+--TODO:
+-- If statements must be booleans
+-- a calculated field cannot depend on something below it
+-- From a client point of view, duplication warnings should not be the same as Errors
+
 module TypeChecker where
 
 import           AnnotatedAst as A
-import           Ast as S (FieldType(Integer, Money, String, Boolean))
-import qualified Data.List as L
-import           Location (Location) 
+import           Ast          as S (FieldType (Integer, Money, String, Boolean))
+import qualified Data.List    as L
+import           Identifier
+import           Location     (Location)
 
 type LeftType = S.FieldType
 
 type RightType = S.FieldType
 
-type Identifier = String
 
 type TypeMap = (Identifier, S.FieldType)
 
 data SemanticResult =
        SemanticResult
-         { typeErrors :: [TypeError]
-         , cycleErrors :: [DependencyError]
+         { typeErrors        :: [TypeError]
+         , cycleErrors       :: [DependencyError]
          , duplicationErrors :: [DuplicationIssue]
          }
   deriving (Eq, Show)
@@ -36,6 +41,7 @@ data TypeError = UndeclaredVariable Location
   deriving (Eq, Show) -- Maybe use an instance declaration for show
 
 data DependencyError = CyclicDependencyError Identifier Location
+                     | PostDependencyError Identifier Location
   deriving (Eq, Show)
 
 hasNoErrors :: SemanticResult -> Bool
@@ -218,31 +224,27 @@ getBinType _ (Right _) (Right rhs) =
   Right rhs -- TODO: Maybe not do this.
 
 isValidBinOp :: BinaryOperation Location -> S.FieldType -> S.FieldType -> Bool
-isValidBinOp (A.Equals _) lhs rhs =
-  lhs == rhs
-isValidBinOp (A.NotEquals _) lhs rhs =
-  lhs == rhs
 isValidBinOp op lhs rhs =
-  lhs `elem` ops && rhs `elem` ops
+  (lhs,rhs) `elem` ops
   where
     ops =
       allowedOps op
 
 -- Simpler to just do this
-allowedOps :: BinaryOperation a -> [S.FieldType]
-allowedOps (A.Addition _) = [S.Integer, S.Money]
-allowedOps (A.Subtraction _) = [S.Integer, S.Money]
-allowedOps (A.Multiplication _) = [S.Integer, S.Money]
-allowedOps (A.Division _) = [S.Integer, S.Money]
-allowedOps (A.And _) = [S.Boolean]
-allowedOps (A.Or _) = [S.Boolean]
-allowedOps (A.GreaterThanOrEquals _) = [S.Integer, S.Money]
-allowedOps (A.GreaterThan _) = [S.Integer, S.Money]
-allowedOps (A.LesserThanOrEquals _) = [S.Integer, S.Money]
-allowedOps (A.LesserThan _) = [S.Integer, S.Money]
-allowedOps (A.StringConcatenation _) = [S.String]
-allowedOps (A.NotEquals _) = [S.Integer, S.Money, S.Boolean, S.String]
-allowedOps (A.Equals _) = [S.Integer, S.Money, S.Boolean, S.String]
+allowedOps :: BinaryOperation a -> [(S.FieldType,S.FieldType)]
+allowedOps (A.Addition _) = [(S.Integer, S.Money), (S.Integer, S.Integer), (S.Money, S.Integer) ,(S.Money, S.Money)]
+allowedOps (A.Subtraction _) = [(S.Integer, S.Money), (S.Integer, S.Integer), (S.Money, S.Integer), (S.Money, S.Money)]
+allowedOps (A.Multiplication _) = [(S.Integer, S.Money), (S.Integer, S.Integer), (S.Money, S.Integer) ]
+allowedOps (A.Division _) = [(S.Integer, S.Money), (S.Integer, S.Integer), (S.Money, S.Integer) ]
+allowedOps (A.And _) = [(S.Boolean, S.Boolean)]
+allowedOps (A.Or _) = [(S.Boolean, S.Boolean)]
+allowedOps (A.GreaterThanOrEquals _) = [(S.Integer, S.Money), (S.Integer, S.Integer), (S.Money, S.Integer) ,(S.Money, S.Money)]
+allowedOps (A.GreaterThan _) = [(S.Integer, S.Money), (S.Integer, S.Integer), (S.Money, S.Integer) ,(S.Money, S.Money)]
+allowedOps (A.LesserThanOrEquals _) = [(S.Integer, S.Money), (S.Integer, S.Integer), (S.Money, S.Integer) ,(S.Money, S.Money)]
+allowedOps (A.LesserThan _) = [(S.Integer, S.Money), (S.Integer, S.Integer), (S.Money, S.Integer) ,(S.Money, S.Money)]
+allowedOps (A.StringConcatenation _) = [(S.String, S.String)]
+allowedOps (A.NotEquals _) = [(S.Integer,S.Integer), (S.Money,S.Money), (S.Boolean,S.Boolean), (S.String,S.String)]
+allowedOps (A.Equals _) = [(S.Integer,S.Integer), (S.Money,S.Money), (S.Boolean,S.Boolean), (S.String,S.String)]
 
 collectFormTypeMap :: Form Location -> [TypeMap]
 collectFormTypeMap =
@@ -251,7 +253,6 @@ collectFormTypeMap =
 collectTypeMap :: [FieldInformation a] -> [TypeMap]
 collectTypeMap =
   map (\y -> (A.id y, getSimpleType $ A.fieldType y))
-
 
 collectFieldInfo :: A.Form a -> [FieldInformation a]
 collectFieldInfo (A.Form _ _ stmts) =
