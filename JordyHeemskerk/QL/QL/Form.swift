@@ -22,8 +22,8 @@ struct Form: ASTNode {
         self.position = currentPosition
     }
     
-    func accept(visitor: ASTVisitor) {
-        visitor.visit(self)
+    func accept<T: FormVisitor>(visitor: T) -> T.FormReturnType {
+        return visitor.visit(self)
     }
     
 }

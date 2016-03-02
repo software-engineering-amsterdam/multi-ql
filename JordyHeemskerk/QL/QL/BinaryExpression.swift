@@ -8,10 +8,10 @@
 
 import Foundation
 
-protocol Expression: ASTNode {
+protocol BinaryExpression: Expression {
     
-    func accept<T: ExpressionVisitor>(visitor: T) -> T.ExpressionReturnType
-
-    func inferType(symbolTable: SymbolTable) -> Type?
+    var lhs: Expression { get }
+    var rhs: Expression { get }
+    var op: String { get }
     
 }

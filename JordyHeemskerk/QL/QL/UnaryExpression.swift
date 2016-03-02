@@ -1,5 +1,5 @@
 //
-//  Literal.swift
+//  Expression.swift
 //  QL
 //
 //  Created by Jordy Heemskerk on 24/02/16.
@@ -8,6 +8,9 @@
 
 import Foundation
 
-protocol Literal: Expression {
-
+protocol UnaryExpression: Expression {
+    
+    var operand: Expression { get }
+    var op: String { get }
+    
 }

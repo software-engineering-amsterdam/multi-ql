@@ -20,11 +20,11 @@ struct Variable: Literal {
         self.position = currentPosition
     }
     
-    func accept(visitor: ASTVisitor) {
-        visitor.visit(self)
+    func accept<T: ExpressionVisitor>(visitor: T) -> T.ExpressionReturnType {
+        return visitor.visit(self)
     }
     
-    func inferType(symbolTable: SymbolTable) -> Type {
-        return symbolTable.getVariableType(identifier) ?? ErrorType()
+    func inferType(symbolTable: SymbolTable) -> Type? {
+        return symbolTable.getVariableType(identifier)
     }
 }

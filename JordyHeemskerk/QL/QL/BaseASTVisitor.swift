@@ -8,7 +8,13 @@
 
 import Foundation
 
-class BaseASTVisitor: ASTVisitor {
+class BaseASTVisitor: FormVisitor, BlockVisitor, StatementVisitor, ExpressionVisitor {
+    
+    typealias FormReturnType = ()
+    typealias BlockReturnType = ()
+    typealias StatementReturnType = ()
+    typealias ExpressionReturnType = ()
+    
     
     func visit(form: Form) {
         form.block.accept(self)

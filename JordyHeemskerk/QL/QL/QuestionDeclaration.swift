@@ -26,7 +26,7 @@ struct QuestionDeclaration: Statement {
         self.position = currentPosition
     }
     
-    func accept(visitor: ASTVisitor) {
-        visitor.visit(self)
+    func accept<T: StatementVisitor>(visitor: T) -> T.StatementReturnType {
+        return visitor.visit(self)
     }
 }

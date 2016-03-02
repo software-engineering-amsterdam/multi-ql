@@ -9,17 +9,18 @@
 import Foundation
 import SwiftParsec
 
-struct NotExpression: Expression {
+struct NotExpression: UnaryExpression {
     
     let operand: Expression
     let position: Position
+    let op = "!"
     
-    func accept(visitor: ASTVisitor) {
-        visitor.visit(self)
+    func accept<T: ExpressionVisitor>(visitor: T) -> T.ExpressionReturnType {
+        return visitor.visit(self)
     }
     
-    func inferType(symbolTable: SymbolTable) -> Type {
-        return operand.inferType(symbolTable).not()
+    func inferType(symbolTable: SymbolTable) -> Type? {
+        return operand.inferType(symbolTable)?.not()
     }
     
 }

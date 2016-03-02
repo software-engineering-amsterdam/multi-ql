@@ -9,18 +9,19 @@
 import Foundation
 import SwiftParsec
 
-struct LetExpression: Expression {
+struct LetExpression: BinaryExpression {
     
     let lhs: Expression
     let rhs: Expression
     let position: Position
+    let op = "<="
     
-    func accept(visitor: ASTVisitor) {
-        visitor.visit(self)
+    func accept<T: ExpressionVisitor>(visitor: T) -> T.ExpressionReturnType {
+        return visitor.visit(self)
     }
     
-    func inferType(symbolTable: SymbolTable) -> Type {
-        return lhs.inferType(symbolTable).le(rhs, symbolTable: symbolTable)
+    func inferType(symbolTable: SymbolTable) -> Type? {
+        return lhs.inferType(symbolTable)?.le(rhs, symbolTable: symbolTable)
     }
     
 }

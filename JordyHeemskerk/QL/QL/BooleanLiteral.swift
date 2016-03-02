@@ -20,11 +20,11 @@ struct BooleanLiteral: Literal {
         self.position = currentPosition
     }
     
-    func accept(visitor: ASTVisitor) {
-        visitor.visit(self)
+    func accept<T: ExpressionVisitor>(visitor: T) -> T.ExpressionReturnType {
+        return visitor.visit(self)
     }
     
-    func inferType(symbolTable: SymbolTable) -> Type {
+    func inferType(symbolTable: SymbolTable) -> Type? {
         return BooleanType()
     }
 }

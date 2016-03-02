@@ -14,7 +14,10 @@ class StringType: Type {
     
     //MARK: Compatible with
     override func compatible(expression: Expression, symbolTable: SymbolTable) -> Bool {
-        return expression.inferType(symbolTable).compatibleWithString(self)
+        guard let isCompatible = expression.inferType(symbolTable)?.compatibleWithString(self) else {
+            return false
+        }
+        return isCompatible
     }
     
     override func compatibleWithString(string: StringType) -> Bool{
@@ -22,20 +25,20 @@ class StringType: Type {
     }
     
     //MARK:  Equal to
-    override func eq(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return expression.inferType(symbolTable).eqString(self)
+    override func eq(expression: Expression, symbolTable: SymbolTable)-> Type? {
+        return expression.inferType(symbolTable)?.eqString(self)
     }
     
-    override func eqString(string: StringType) -> Type {
+    override func eqString(string: StringType)-> Type? {
         return BooleanType()
     }
     
     //MARK: Not equal
-    override func neq(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return expression.inferType(symbolTable).neqString(self)
+    override func neq(expression: Expression, symbolTable: SymbolTable)-> Type? {
+        return expression.inferType(symbolTable)?.neqString(self)
     }
     
-    override func neqString(string: StringType) -> Type {
+    override func neqString(string: StringType)-> Type? {
         return BooleanType()
     }
 

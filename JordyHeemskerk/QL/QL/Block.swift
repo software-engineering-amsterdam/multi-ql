@@ -20,8 +20,8 @@ struct Block: ASTNode {
         self.position = currentPosition
     }
     
-    func accept(visitor: ASTVisitor) {
-        visitor.visit(self)
+    func accept<T: BlockVisitor>(visitor: T) -> T.BlockReturnType {
+        return visitor.visit(self)
     }
     
 }

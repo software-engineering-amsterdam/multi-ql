@@ -20,8 +20,8 @@ struct SymbolTable {
         return symbolTable[identifier] != nil
     }
     
-    func getVariableType(identifier: String) -> Type {
-        return symbolTable[identifier] ?? ErrorType()
+    func getVariableType(identifier: String) -> Type? {
+        return symbolTable[identifier]
     }
     
 }

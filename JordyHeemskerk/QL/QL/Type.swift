@@ -36,309 +36,309 @@ class Type: CustomStringConvertible {
         return false
     }
     
-    // Addition type checking
-    func add(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Addition Type? checking
+    func add(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func addInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func addInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func addFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func addFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func addBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func addBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func addString(string: StringType) -> Type {
-        return ErrorType()
+    func addString(string: StringType) -> Type? {
+        return nil
     }
     
-    func addError(error: ErrorType) -> Type {
-        return ErrorType()
+    func addError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Subtraction type checking
-    func sub(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Subtraction Type? checking
+    func sub(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func subInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func subInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func subFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func subFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func subBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func subBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func subString(string: StringType) -> Type {
-        return ErrorType()
+    func subString(string: StringType) -> Type? {
+        return nil
     }
     
-    func subError(error: ErrorType) -> Type {
-        return ErrorType()
+    func subError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Multiplication type checking
-    func mul(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Multiplication Type? checking
+    func mul(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func mulInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func mulInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func mulFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func mulFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func mulBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func mulBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func mulString(string: StringType) -> Type {
-        return ErrorType()
+    func mulString(string: StringType) -> Type? {
+        return nil
     }
     
-    func mulError(error: ErrorType) -> Type {
-        return ErrorType()
+    func mulError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Division type checking
-    func div(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Division Type? checking
+    func div(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func divInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func divInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func divFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func divFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func divBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func divBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func divString(string: StringType) -> Type {
-        return ErrorType()
+    func divString(string: StringType) -> Type? {
+        return nil
     }
     
-    func divError(error: ErrorType) -> Type {
-        return ErrorType()
+    func divError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Less than type checking
-    func lt(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Less than Type? checking
+    func lt(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func ltInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func ltInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func ltFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func ltFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func ltBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func ltBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func ltString(string: StringType) -> Type {
-        return ErrorType()
+    func ltString(string: StringType) -> Type? {
+        return nil
     }
     
-    func ltError(error: ErrorType) -> Type {
-        return ErrorType()
+    func ltError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Less or equal than type checking
-    func le(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Less or equal than Type? checking
+    func le(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func letInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func letInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func letFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func letFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func letBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func letBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func letString(string: StringType) -> Type {
-        return ErrorType()
+    func letString(string: StringType) -> Type? {
+        return nil
     }
     
-    func letError(error: ErrorType) -> Type {
-        return ErrorType()
+    func letError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Greater than type checking
-    func gt(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Greater than Type? checking
+    func gt(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func gtInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func gtInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func gtFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func gtFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func gtBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func gtBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func gtString(string: StringType) -> Type {
-        return ErrorType()
+    func gtString(string: StringType) -> Type? {
+        return nil
     }
     
-    func gtError(error: ErrorType) -> Type {
-        return ErrorType()
+    func gtError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Greater or equal than type checking
-    func get(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Greater or equal than Type? checking
+    func get(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func getInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func getInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func getFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func getFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func getBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func getBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func getString(string: StringType) -> Type {
-        return ErrorType()
+    func getString(string: StringType) -> Type? {
+        return nil
     }
     
-    func getError(error: ErrorType) -> Type {
-        return ErrorType()
+    func getError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Equal to type checking
-    func eq(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Equal to Type? checking
+    func eq(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func eqInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func eqInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func eqFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func eqFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func eqBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func eqBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func eqString(string: StringType) -> Type {
-        return ErrorType()
+    func eqString(string: StringType) -> Type? {
+        return nil
     }
     
-    func eqError(error: ErrorType) -> Type {
-        return ErrorType()
+    func eqError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Not equal to type checking
-    func neq(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Not equal to Type? checking
+    func neq(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func neqInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func neqInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func neqFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func neqFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func neqBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func neqBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func neqString(string: StringType) -> Type {
-        return ErrorType()
+    func neqString(string: StringType) -> Type? {
+        return nil
     }
     
-    func neqError(error: ErrorType) -> Type {
-        return ErrorType()
+    func neqError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // And type checking
-    func and(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // And Type? checking
+    func and(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func andInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func andInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func andFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func andFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func andBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func andBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func andString(string: StringType) -> Type {
-        return ErrorType()
+    func andString(string: StringType) -> Type? {
+        return nil
     }
     
-    func andError(error: ErrorType) -> Type {
-        return ErrorType()
+    func andError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Or type checking
-    func or(expression: Expression, symbolTable: SymbolTable) -> Type {
-        return ErrorType()
+    // Or Type? checking
+    func or(expression: Expression, symbolTable: SymbolTable) -> Type? {
+        return nil
     }
     
-    func orInteger(integer: IntegerType) -> Type {
-        return ErrorType()
+    func orInteger(integer: IntegerType) -> Type? {
+        return nil
     }
     
-    func orFloat(float: FloatType) -> Type {
-        return ErrorType()
+    func orFloat(float: FloatType) -> Type? {
+        return nil
     }
     
-    func orBool(bool: BooleanType) -> Type {
-        return ErrorType()
+    func orBool(bool: BooleanType) -> Type? {
+        return nil
     }
     
-    func orString(string: StringType) -> Type {
-        return ErrorType()
+    func orString(string: StringType) -> Type? {
+        return nil
     }
     
-    func orError(error: ErrorType) -> Type {
-        return ErrorType()
+    func orError(error: ErrorType) -> Type? {
+        return nil
     }
     
-    // Not type checking
-    func not() -> Type {
-        return ErrorType()
+    // Not Type? checking
+    func not() -> Type? {
+        return nil
     }
     
 }

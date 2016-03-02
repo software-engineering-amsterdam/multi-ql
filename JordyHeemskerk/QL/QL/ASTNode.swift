@@ -10,6 +10,5 @@ import Foundation
 import SwiftParsec
 
 protocol ASTNode {
-    func accept(visitor: ASTVisitor)
     var position: Position { get }
 }

@@ -8,4 +8,8 @@
 
 import Foundation
 
-protocol Statement: ASTNode {}
+protocol Statement: ASTNode {
+    
+    func accept<T: StatementVisitor>(visitor: T) -> T.StatementReturnType
+    
+}

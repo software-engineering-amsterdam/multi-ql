@@ -12,13 +12,18 @@
 		8C3477971C621E85003E099E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477961C621E85003E099E /* Assets.xcassets */; };
 		8C34779A1C621E85003E099E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477981C621E85003E099E /* MainMenu.xib */; };
 		8C3477DF1C623884003E099E /* input.ql in Resources */ = {isa = PBXBuildFile; fileRef = 8C3477DE1C623884003E099E /* input.ql */; };
+		8C69433E1C8730A900E82A5D /* BinaryExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C69433D1C8730A900E82A5D /* BinaryExpression.swift */; };
+		8C6943401C8730FE00E82A5D /* UnaryExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C69433F1C8730FE00E82A5D /* UnaryExpression.swift */; };
 		8C8C80181C7F05160096D1BC /* SemanticWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C80171C7F05160096D1BC /* SemanticWarning.swift */; };
 		8C8C801A1C7F05910096D1BC /* SemanticLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C80191C7F05910096D1BC /* SemanticLog.swift */; };
 		8C8C801C1C7F0AE40096D1BC /* SemanticLoggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C801B1C7F0AE40096D1BC /* SemanticLoggable.swift */; };
+		8CB804941C870BB500F4C45A /* FormVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB804931C870BB500F4C45A /* FormVisitor.swift */; };
+		8CB804961C870BD600F4C45A /* BlockVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB804951C870BD600F4C45A /* BlockVisitor.swift */; };
+		8CB8049A1C870D6200F4C45A /* StatementVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB804991C870D6200F4C45A /* StatementVisitor.swift */; };
+		8CB8049C1C870DBA00F4C45A /* ExpressionVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB8049B1C870DBA00F4C45A /* ExpressionVisitor.swift */; };
 		8CD6D28E1C638677005FC3D6 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CD6D28D1C638677005FC3D6 /* SwiftParsec.framework */; };
 		8CD6D2901C638A39005FC3D6 /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD6D28F1C638A39005FC3D6 /* QLParser.swift */; };
 		8CF4EAFF1C7DBE200029F88D /* ASTNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EAFE1C7DBE200029F88D /* ASTNode.swift */; };
-		8CF4EB011C7DBE6B0029F88D /* ASTVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB001C7DBE6B0029F88D /* ASTVisitor.swift */; };
 		8CF4EB051C7DBF240029F88D /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB041C7DBF240029F88D /* Form.swift */; };
 		8CF4EB071C7DC83A0029F88D /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB061C7DC83A0029F88D /* Block.swift */; };
 		8CF4EB091C7DC8B70029F88D /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB081C7DC8B70029F88D /* Statement.swift */; };
@@ -49,7 +54,7 @@
 		8CF4EB411C7E061A0029F88D /* BooleanType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB401C7E061A0029F88D /* BooleanType.swift */; };
 		8CF4EB431C7E06540029F88D /* IntegerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB421C7E06540029F88D /* IntegerType.swift */; };
 		8CF4EB451C7E066C0029F88D /* FloatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB441C7E066C0029F88D /* FloatType.swift */; };
-		8CF4EB471C7E07270029F88D /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB461C7E07270029F88D /* ErrorType.swift */; };
+		8CF4EB471C7E07270029F88D /* ErrorType.swift.off in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB461C7E07270029F88D /* ErrorType.swift.off */; };
 		8CF4EB4A1C7E17670029F88D /* StringType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB491C7E17670029F88D /* StringType.swift */; };
 		8CF4EB4C1C7E1AC60029F88D /* BaseASTVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB4B1C7E1AC60029F88D /* BaseASTVisitor.swift */; };
 		8CF4EB4E1C7E1E3B0029F88D /* TypeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF4EB4D1C7E1E3B0029F88D /* TypeChecker.swift */; };
@@ -64,13 +69,18 @@
 		8C3477991C621E85003E099E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8C34779B1C621E85003E099E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C3477DE1C623884003E099E /* input.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.ql; path = QL/input.ql; sourceTree = "<group>"; };
+		8C69433D1C8730A900E82A5D /* BinaryExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryExpression.swift; sourceTree = "<group>"; };
+		8C69433F1C8730FE00E82A5D /* UnaryExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnaryExpression.swift; sourceTree = "<group>"; };
 		8C8C80171C7F05160096D1BC /* SemanticWarning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticWarning.swift; sourceTree = "<group>"; };
 		8C8C80191C7F05910096D1BC /* SemanticLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticLog.swift; sourceTree = "<group>"; };
 		8C8C801B1C7F0AE40096D1BC /* SemanticLoggable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticLoggable.swift; sourceTree = "<group>"; };
+		8CB804931C870BB500F4C45A /* FormVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormVisitor.swift; sourceTree = "<group>"; };
+		8CB804951C870BD600F4C45A /* BlockVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockVisitor.swift; sourceTree = "<group>"; };
+		8CB804991C870D6200F4C45A /* StatementVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatementVisitor.swift; sourceTree = "<group>"; };
+		8CB8049B1C870DBA00F4C45A /* ExpressionVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionVisitor.swift; sourceTree = "<group>"; };
 		8CD6D28D1C638677005FC3D6 /* SwiftParsec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftParsec.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Software_Construction-dobzpcusviawmqcqyqhtrryfnzgi/Build/Products/Release/SwiftParsec.framework"; sourceTree = "<group>"; };
 		8CD6D28F1C638A39005FC3D6 /* QLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QLParser.swift; sourceTree = "<group>"; };
 		8CF4EAFE1C7DBE200029F88D /* ASTNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTNode.swift; sourceTree = "<group>"; };
-		8CF4EB001C7DBE6B0029F88D /* ASTVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTVisitor.swift; sourceTree = "<group>"; };
 		8CF4EB041C7DBF240029F88D /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		8CF4EB061C7DC83A0029F88D /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		8CF4EB081C7DC8B70029F88D /* Statement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statement.swift; sourceTree = "<group>"; };
@@ -100,9 +110,9 @@
 		8CF4EB3E1C7E05650029F88D /* Type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };
 		8CF4EB401C7E061A0029F88D /* BooleanType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanType.swift; sourceTree = "<group>"; };
 		8CF4EB421C7E06540029F88D /* IntegerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerType.swift; sourceTree = "<group>"; };
-		8CF4EB441C7E066C0029F88D /* FloatType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatType.swift; sourceTree = "<group>"; };
-		8CF4EB461C7E07270029F88D /* ErrorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
-		8CF4EB491C7E17670029F88D /* StringType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringType.swift; sourceTree = "<group>"; };
+		8CF4EB441C7E066C0029F88D /* FloatType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FloatType.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		8CF4EB461C7E07270029F88D /* ErrorType.swift.off */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ErrorType.swift.off; sourceTree = "<group>"; };
+		8CF4EB491C7E17670029F88D /* StringType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StringType.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8CF4EB4B1C7E1AC60029F88D /* BaseASTVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseASTVisitor.swift; sourceTree = "<group>"; };
 		8CF4EB4D1C7E1E3B0029F88D /* TypeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeChecker.swift; sourceTree = "<group>"; };
 		8CF4EB4F1C7E2D100029F88D /* SymbolTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolTable.swift; sourceTree = "<group>"; };
@@ -152,6 +162,17 @@
 			path = QL;
 			sourceTree = "<group>";
 		};
+		8CB8049D1C87153200F4C45A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				8CB804931C870BB500F4C45A /* FormVisitor.swift */,
+				8CB804951C870BD600F4C45A /* BlockVisitor.swift */,
+				8CB804991C870D6200F4C45A /* StatementVisitor.swift */,
+				8CB8049B1C870DBA00F4C45A /* ExpressionVisitor.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		8CF4EAFC1C7DAE380029F88D /* Parser */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,7 +185,6 @@
 			isa = PBXGroup;
 			children = (
 				8CF4EB161C7DD3820029F88D /* Protocols */,
-				8CF4EAFE1C7DBE200029F88D /* ASTNode.swift */,
 				8CF4EB041C7DBF240029F88D /* Form.swift */,
 				8CF4EB061C7DC83A0029F88D /* Block.swift */,
 				8CF4EB0A1C7DC8D40029F88D /* QuestionDeclaration.swift */,
@@ -191,7 +211,7 @@
 				8CF4EB421C7E06540029F88D /* IntegerType.swift */,
 				8CF4EB441C7E066C0029F88D /* FloatType.swift */,
 				8CF4EB491C7E17670029F88D /* StringType.swift */,
-				8CF4EB461C7E07270029F88D /* ErrorType.swift */,
+				8CF4EB461C7E07270029F88D /* ErrorType.swift.off */,
 			);
 			name = AST;
 			sourceTree = "<group>";
@@ -199,8 +219,11 @@
 		8CF4EB161C7DD3820029F88D /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				8CF4EAFE1C7DBE200029F88D /* ASTNode.swift */,
 				8CF4EB081C7DC8B70029F88D /* Statement.swift */,
 				8CF4EB121C7DD3450029F88D /* Expression.swift */,
+				8C69433D1C8730A900E82A5D /* BinaryExpression.swift */,
+				8C69433F1C8730FE00E82A5D /* UnaryExpression.swift */,
 				8CF4EB141C7DD37C0029F88D /* Literal.swift */,
 				8CF4EB3E1C7E05650029F88D /* Type.swift */,
 			);
@@ -210,7 +233,7 @@
 		8CF4EB231C7E00270029F88D /* Visitor */ = {
 			isa = PBXGroup;
 			children = (
-				8CF4EB001C7DBE6B0029F88D /* ASTVisitor.swift */,
+				8CB8049D1C87153200F4C45A /* Protocols */,
 				8CF4EB4B1C7E1AC60029F88D /* BaseASTVisitor.swift */,
 				8CF4EB241C7E003F0029F88D /* DeclarationChecker.swift */,
 				8CF4EB4D1C7E1E3B0029F88D /* TypeChecker.swift */,
@@ -303,9 +326,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C8C80181C7F05160096D1BC /* SemanticWarning.swift in Sources */,
+				8CB8049C1C870DBA00F4C45A /* ExpressionVisitor.swift in Sources */,
 				8C1663641C7F000F00E4B763 /* SemanticError.swift in Sources */,
 				8CF4EB1A1C7DD4DB0029F88D /* FloatLiteral.swift in Sources */,
 				8CF4EB1E1C7DD5BD0029F88D /* Variable.swift in Sources */,
+				8CB804941C870BB500F4C45A /* FormVisitor.swift in Sources */,
 				8CF4EB271C7E01A30029F88D /* SubExpression.swift in Sources */,
 				8CF4EB131C7DD3450029F88D /* Expression.swift in Sources */,
 				8CF4EB3F1C7E05650029F88D /* Type.swift in Sources */,
@@ -318,22 +343,25 @@
 				8CF4EB501C7E2D100029F88D /* SymbolTable.swift in Sources */,
 				8CF4EB291C7E01E10029F88D /* MulExpression.swift in Sources */,
 				8CF4EB2F1C7E02EB0029F88D /* LetExpression.swift in Sources */,
-				8CF4EB471C7E07270029F88D /* ErrorType.swift in Sources */,
+				8CF4EB471C7E07270029F88D /* ErrorType.swift.off in Sources */,
 				8CF4EB071C7DC83A0029F88D /* Block.swift in Sources */,
 				8CF4EB2B1C7E02160029F88D /* DivExpression.swift in Sources */,
 				8CF4EB0F1C7DCEFE0029F88D /* ElseIfStatement.swift in Sources */,
 				8CF4EB411C7E061A0029F88D /* BooleanType.swift in Sources */,
 				8CF4EB3D1C7E03E30029F88D /* NotExpression.swift in Sources */,
 				8CF4EB0D1C7DCC8E0029F88D /* IfStatement.swift in Sources */,
+				8C6943401C8730FE00E82A5D /* UnaryExpression.swift in Sources */,
 				8CF4EB1C1C7DD5320029F88D /* BooleanLiteral.swift in Sources */,
+				8C69433E1C8730A900E82A5D /* BinaryExpression.swift in Sources */,
 				8C8C801C1C7F0AE40096D1BC /* SemanticLoggable.swift in Sources */,
 				8CF4EB0B1C7DC8D40029F88D /* QuestionDeclaration.swift in Sources */,
 				8CF4EB451C7E066C0029F88D /* FloatType.swift in Sources */,
+				8CB8049A1C870D6200F4C45A /* StatementVisitor.swift in Sources */,
 				8CF4EB181C7DD3B20029F88D /* IntegerLiteral.swift in Sources */,
+				8CB804961C870BD600F4C45A /* BlockVisitor.swift in Sources */,
 				8CF4EB3B1C7E03AE0029F88D /* OrExpression.swift in Sources */,
 				8CF4EB4A1C7E17670029F88D /* StringType.swift in Sources */,
 				8CF4EAFF1C7DBE200029F88D /* ASTNode.swift in Sources */,
-				8CF4EB011C7DBE6B0029F88D /* ASTVisitor.swift in Sources */,
 				8CF4EB251C7E003F0029F88D /* DeclarationChecker.swift in Sources */,
 				8CF4EB051C7DBF240029F88D /* Form.swift in Sources */,
 				8CF4EB151C7DD37C0029F88D /* Literal.swift in Sources */,
