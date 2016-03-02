@@ -1,15 +1,17 @@
 package nl.nicasso.ql.ast.type;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
-import nl.nicasso.ql.ast.literal.Literal;
+import nl.nicasso.ql.ast.CodeLocation;
 
 public class IntegerType extends NumericType {
 
 	private final String type;
 
 	public IntegerType() {
-		super();
+		this.type = "Integer";
+	}
+	
+	public IntegerType(CodeLocation location) {
+		super(location);
 		this.type = "Integer";
 	}
 
@@ -18,12 +20,13 @@ public class IntegerType extends NumericType {
 	}
 	
 	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
-		return visitor.visit(this);
+	public boolean equals(Object ob) {
+		IntegerType t2 = (IntegerType) ob;
+		return type.equals(t2.getType());
 	}
 	
 	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
-		return visitor.visit(this);
-	}
+	public int hashCode(){
+	    return type.hashCode();
+    }
 }

@@ -1,15 +1,17 @@
 package nl.nicasso.ql.ast.type;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
-import nl.nicasso.ql.ast.literal.Literal;
+import nl.nicasso.ql.ast.CodeLocation;
 
 public class BooleanType extends Type {
 
 	private final String type;
-
+	
 	public BooleanType() {
-		super();
+		this.type = "Boolean";
+	}
+
+	public BooleanType(CodeLocation location) {
+		super(location);
 		this.type = "Boolean";
 	}
 
@@ -18,13 +20,14 @@ public class BooleanType extends Type {
 	}
 	
 	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
-		return visitor.visit(this);
+	public boolean equals(Object ob) {
+		BooleanType t2 = (BooleanType) ob;
+		return type.equals(t2.getType());
 	}
 	
 	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
-		return visitor.visit(this);
-	}
+	public int hashCode(){
+	    return type.hashCode();
+    }
 	
 }

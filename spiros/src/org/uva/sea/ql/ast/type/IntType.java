@@ -10,7 +10,7 @@ public class IntType extends Type {
 	}
 	
 	public IntType() {
-		super(new CodeFragment(-1, -1), "Int");
+		super(new CodeFragment(-1, -1), "int");
 	}
 	
 //	public boolean isIntType() {

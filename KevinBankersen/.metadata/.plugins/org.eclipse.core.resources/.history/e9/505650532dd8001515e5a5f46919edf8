@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class tester extends JFrame {
+
+    public static void main(String[] args) {
+	TestUI ui = new TestUI();
+	Data test = new Data();
+	test.addListener(ui);
+	ui.addListener(test);
+	ui.setVisible(true);
+	test.updateDate(8);
+    }
+}

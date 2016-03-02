@@ -36,6 +36,7 @@ type
 	: 'boolean'
 	| 'String'
 	| 'money'
+	| 'int'
 	;
 
 if_stat
@@ -73,12 +74,12 @@ unity
     | IDENTIFIER        	#identifierUnity
     | String				#stringUnity
     | money					#moneyUnity
+    | INT					#integerUnity
     ;
 
 
 money
 	: INT+ '.' INT+
-	| INT+
 	;
 
 

@@ -1,15 +1,17 @@
 package nl.nicasso.ql.ast.type;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
-import nl.nicasso.ql.ast.literal.Literal;
+import nl.nicasso.ql.ast.CodeLocation;
 
 public class MoneyType extends NumericType {
 
 	private final String type;
 
 	public MoneyType() {
-		super();
+		this.type = "Money";
+	}
+	
+	public MoneyType(CodeLocation location) {
+		super(location);
 		this.type = "Money";
 	}
 
@@ -18,12 +20,13 @@ public class MoneyType extends NumericType {
 	}
 	
 	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
-		return visitor.visit(this);
+	public boolean equals(Object ob) {
+		MoneyType t2 = (MoneyType) ob;
+		return type.equals(t2.getType());
 	}
 	
 	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
-		return visitor.visit(this);
-	}
+	public int hashCode(){
+	    return type.hashCode();
+    }
 }

@@ -1,7 +1,7 @@
 package uva.ql.ast;
 
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public abstract class ANumber extends AExpression {
 

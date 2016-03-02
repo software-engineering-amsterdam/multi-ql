@@ -1,0 +1,64 @@
+package eu.bankersen.kevin.ql.context;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.context.errors.Error;
+
+public class Context {
+    
+    private final String formName;
+    private final Map<String, Symbol> symbolTable;
+    private final Set<Error> errorList;
+    
+
+    public Context(String formName) {
+	this.formName = formName;
+	symbolTable = new HashMap<>();
+	errorList = new HashSet<>();
+    }
+    
+    public String getFormName() {
+	return formName;
+    }
+    
+    public Symbol getSymbol(String symbol) {
+	return symbolTable.get(symbol);
+    }
+    
+    public Boolean checkID(String name) {
+	return symbolTable.containsKey(name);
+    }
+    
+    public void addSymbol(String symbol, Type type, Object value) {
+	symbolTable.put(symbol, new Symbol(type, value));
+    }
+    
+    public void updateSymbol(String name, Object value) {
+	Symbol symbol = symbolTable.get(name);
+	symbol.setValue(value);
+	symbolTable.put(name, symbol);
+    }
+    
+    public void setVisibility(String name, Boolean active) {
+	Symbol symbol = symbolTable.get(name);
+	symbol.setActive(active);
+	symbolTable.put(name, symbol);
+    }
+    
+    public void addError(Error error) {
+	Log.debug(error.toString());
+	errorList.add(error);
+    }
+    
+    public Set<Error> getErrors() {
+	return errorList;
+	
+    }
+
+}

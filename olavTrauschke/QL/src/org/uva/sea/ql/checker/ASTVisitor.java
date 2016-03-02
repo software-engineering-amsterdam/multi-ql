@@ -1,5 +1,6 @@
 package org.uva.sea.ql.checker;
 
+import org.uva.sea.ql.ast.question.Question;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
 
@@ -16,8 +17,6 @@ import org.uva.sea.ql.ast.expr.*;
  */
 public interface ASTVisitor {
     
-    default void visit(ComputedQuestion q) {}
-    
     default void visit(ConditionalStatement s) {}
     
     default void visit(Date d) {}
@@ -32,42 +31,28 @@ public interface ASTVisitor {
     
     default void visit(Add a) {}
     
-    default void visit(And a) {}
+    default void visit(BinaryNumericOperatorExpr e) {}
+    
+    default void visit(BooleanConjunctiveExpr e) {}
     
     default void visit(Bool b) {}
     
+    default void visit(ComparisonExpr e) {}
+    
     default void visit(Decimal d) {}
-    
-    default void visit(Div d) {}
-    
-    default void visit(Eq e) {}
-    
-    default void visit(GEq g) {}
-    
-    default void visit(GT g) {}
     
     default void visit(Ident i) {}
     
     default void visit(Int i) {}
     
-    default void visit(LEq l) {}
-    
-    default void visit(LT l) {}
-    
     default void visit(Money m) {}
-    
-    default void visit(Mul m) {}
-    
-    default void visit(NEq n) {}
     
     default void visit(Neg n) {}
     
     default void visit(Not n) {}
     
-    default void visit(Or o) {}
+    default void visit(OrderedComparisonExpr e) {}
     
     default void visit(Str s) {}
-    
-    default void visit(Sub s) {}
     
 }

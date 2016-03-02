@@ -3,7 +3,7 @@ package uva.ql.ast.expressions;
 import uva.ql.ast.AExpression;
 import uva.ql.ast.AST;
 import uva.ql.interfaces.IExpression;
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class SmlEql extends AExpression implements IExpression {
 

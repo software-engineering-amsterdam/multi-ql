@@ -1,6 +1,6 @@
 package uva.ql.ast;
 
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class Block extends ANode {
 

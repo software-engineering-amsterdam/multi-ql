@@ -3,7 +3,7 @@ package org.uva.sea.ql.ast.expr;
 /**
  * Representation of division in an AST.
  * 
- * @author Olav Trauschke, 10329463
+ * @author Olav Trauschke
  * @version 24-feb-2016
  */
 public class Div extends BinaryNumericOperatorExpr {

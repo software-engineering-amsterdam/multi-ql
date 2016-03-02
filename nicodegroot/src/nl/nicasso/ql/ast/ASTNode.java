@@ -1,25 +1,19 @@
 package nl.nicasso.ql.ast;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
-import nl.nicasso.ql.ast.literal.Literal;
-import nl.nicasso.ql.ast.type.Type;
+public abstract class ASTNode {
 
-public class ASTNode implements Traversable {
-
-	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
-		return visitor.visit(this);
+	private final CodeLocation location;
+	
+	public ASTNode() {
+		this.location = null;
 	}
 	
-	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public ASTNode(CodeLocation location) {
+		this.location = location;
 	}
-	
-	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
-		return visitor.visit(this);
-	}	
+
+	public CodeLocation getLocation() {
+		return location;
+	}
 	
 }

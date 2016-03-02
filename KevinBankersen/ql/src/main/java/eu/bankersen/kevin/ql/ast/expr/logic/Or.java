@@ -1,19 +1,19 @@
 package eu.bankersen.kevin.ql.ast.expr.logic;
 
 import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.context.SymbolTable;
 import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
 
 public class Or extends BooleanExpr {
 
-    public Or(final Expr lhs, final Expr rhs, final int line) {
-	super.lhs = lhs;
-	super.rhs = rhs;
-	super.line = line;
+    public Or(Expr lhs, Expr rhs, int line) {
+	super(lhs, rhs, line);
     }
 
     @Override
-    public final Boolean eval() {
-	return (Boolean) lhs.eval() || (Boolean) rhs.eval();
+    public final Boolean eval(SymbolTable symbolTable) throws EvaluateExeption {
+	return (Boolean) lhs().eval(symbolTable) || (Boolean) rhs().eval(symbolTable);
     }
 
 }

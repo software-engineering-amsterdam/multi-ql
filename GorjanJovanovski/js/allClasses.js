@@ -159,6 +159,11 @@ class FormNode {
 			}
 		}
 	}
+
+	dataChanged(label, value) {
+		var questionNode = this.getQuestion(label);
+		questionNode.setValue(value);
+	}
 }
 
 class QuestionNode {
@@ -214,6 +219,10 @@ class LabelNode {
 	compute() {
 		return this.question.value;
 	}
+
+	getLabels() {
+		return [this.label];
+	}
 }
 
 class NotExpression {
@@ -228,6 +237,10 @@ class NotExpression {
 
 	toString() {
 		return "!" + this.expr.toString();
+	}
+
+	getLabels() {
+		return this.expr.getLabels();
 	}
 
 }
@@ -246,6 +259,10 @@ class OperatorExpressionNode {
 
 	toString() {
 		return this.left.toString() + this.opNode.toString() + this.right.toString();
+	}
+
+	getLabels() {
+		return this.left.getLabels().concat(this.right.getLabels());
 	}
 }
 
@@ -356,6 +373,10 @@ class LiteralNode {
 
 	toString() {
 		return this.value;
+	}
+
+	getLabels() {
+		return [];
 	}
 }
 

@@ -1,0 +1,36 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import eu.bankersen.kevin.ql.context.Context2;
+
+public class Form {
+
+    private final String name;
+    private final Block body;
+
+    public Form(String name, Block body) {
+	this.name = name;
+	this.body = body;
+    }
+
+    public Context2 checkType() {
+	body.checkType();
+    }
+
+    public void eval(Context2 context) {
+	body.eval();
+    }
+    
+    @Override
+    public String toString() {
+
+	StringBuilder sb;
+
+	sb = new StringBuilder();
+	sb.append("Results\nForm: " + name + "\n");
+	sb.append(body);
+	sb.append("\n");
+
+	return sb.toString();
+    }
+}
+

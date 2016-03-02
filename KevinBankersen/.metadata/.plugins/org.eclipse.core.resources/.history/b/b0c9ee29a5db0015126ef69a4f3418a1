@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.util.testing2;
+
+public class child extends Children implements BooleanQuestion {
+
+    @Override
+    public boolean getValue() {
+	return false;
+    }
+
+}

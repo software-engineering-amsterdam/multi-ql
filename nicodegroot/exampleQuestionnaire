@@ -1,15 +1,23 @@
 form taxOfficeExample {
 
   "cQ1"
-    cQ1: integer = (1)
-    
+    cQ1: decimal = (2.02)
+
   "cQ2"
-    cQ2: money = (100)
+    cQ2: decimal = (10.01)
     
   "cQ3"
-    cQ3: boolean = (false)
+    cQ3: decimal = (cQ1+cQ2)
+
+    /*
     
-  "cQ4"
-    cQ4: string = ("a")
+	    Money : int*money
+	    
+	    Nope : int/money?
+	    
+	    Money : money/int?
+	    
+	    int: money/int?
     
+    */
 }

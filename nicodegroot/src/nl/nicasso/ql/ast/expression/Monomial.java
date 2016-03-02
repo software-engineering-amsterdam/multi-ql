@@ -1,11 +1,16 @@
 package nl.nicasso.ql.ast.expression;
 
-public class Monomial extends Expression {
+import nl.nicasso.ql.ast.CodeLocation;
+
+public abstract class Monomial extends Expression {
+
+	public Monomial(CodeLocation location) {
+		super(location);
+	}
 
 	Expression expr;
 
 	public Expression getExpr() {
 		return expr;
 	}
-	
 }

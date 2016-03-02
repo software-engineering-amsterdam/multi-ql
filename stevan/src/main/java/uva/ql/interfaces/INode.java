@@ -1,5 +1,7 @@
 package uva.ql.interfaces;
 
+import uva.ql.visitors.INodeVisitor;
+
 public interface INode {
 	
 	public final static int FORM = 1;

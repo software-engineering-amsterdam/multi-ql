@@ -1,13 +1,17 @@
 package nl.nicasso.ql;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.uva.sea.ql.parser.antlr.QLBaseVisitor;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.antlr.QLParser.StatementContext;
+import org.uva.sea.ql.parser.antlr.QLVisitor;
 
 import nl.nicasso.ql.ast.ASTNode;
+import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.expression.Expression;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
 import nl.nicasso.ql.ast.expression.additive.Subtraction;
@@ -23,7 +27,7 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
 import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
@@ -35,18 +39,18 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.ast.type.BooleanType;
+import nl.nicasso.ql.ast.type.DecimalType;
 import nl.nicasso.ql.ast.type.IntegerType;
 import nl.nicasso.ql.ast.type.MoneyType;
 import nl.nicasso.ql.ast.type.StringType;
 import nl.nicasso.ql.ast.type.Type;
 
-public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
+public class CreateASTVisitor extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNode> {
 
 	private boolean debug = false;
-	private ArrayList<IdentifierLit> types;
 	
 	CreateASTVisitor() {
-		types = new ArrayList<IdentifierLit>();
+
 	}
 
 	@Override
@@ -54,10 +58,10 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 		if (debug)
 			System.out.println("Form");
 
-		IdentifierLit id = new IdentifierLit(ctx.identifier.getText());
+		Identifier id = new Identifier(ctx.identifier.getText(), CodeLocation.getCodeLocation(ctx));
 		Block bl = (Block) ctx.block().accept(this);
 
-		return new Form(id, bl);
+		return new Form(id, bl, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -71,32 +75,32 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 			statements.add((Statement) st.accept(this));
 		}
 
-		return new Block(statements);
+		return new Block(statements, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
 	public ASTNode visitQuestionStatement(QLParser.QuestionStatementContext ctx) {
 		if (debug)
-			System.out.println("Question");
+			System.out.println("Question: "+ctx.identifier.getText());
 
 		Type type = (Type) ctx.type.accept(this);
-		IdentifierLit id = new IdentifierLit(ctx.identifier.getText());
+		Identifier id = new Identifier(ctx.identifier.getText(), CodeLocation.getCodeLocation(ctx));
 		String label = ctx.label.getText();
-		
-		return new Question(id, label, type);
+
+		return new Question(id, label, type, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
 	public ASTNode visitComputedQuestionStatement(QLParser.ComputedQuestionStatementContext ctx) {
 		if (debug)
-			System.out.println("ComputedQuestion");
+			System.out.println("ComputedQuestion: "+ctx.identifier.getText());
 
 		Type type = (Type) ctx.type.accept(this);
-		IdentifierLit id = new IdentifierLit(ctx.identifier.getText());
+		Identifier id = new Identifier(ctx.identifier.getText(), CodeLocation.getCodeLocation(ctx));
 		String label = ctx.label.getText();
 		Expression expr = (Expression) ctx.expr.accept(this);
 
-		return new ComputedQuestion(id, label, type, expr);
+		return new ComputedQuestion(id, label, type, expr, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -107,7 +111,7 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 		Expression expr = (Expression) ctx.expr.accept(this);
 		Block bl = (Block) ctx.ifBody.accept(this);
 
-		return new IfStatement(expr, bl);
+		return new IfStatement(expr, bl, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
@@ -120,233 +124,215 @@ public class CreateASTVisitor extends QLBaseVisitor<ASTNode> {
 
 		Block blockElse = (Block) ctx.elseBody.accept(this);
 
-		return new IfElseStatement(expr, blockIf, blockElse);
+		return new IfElseStatement(expr, blockIf, blockElse, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
-	public ASTNode visitLessEqExpression(QLParser.LessEqExpressionContext ctx) {
+	public ASTNode visitEqualityExpressions(QLParser.EqualityExpressionsContext ctx) {
 		if (debug)
-			System.out.println("LessOrEqual");
+			System.out.println("Equality: "+ctx.getText());
 		
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		
-		return new LessEqual(left, right);
+		switch(ctx.op.getText()) {
+			case "==":
+				return new Equal(left, right, CodeLocation.getCodeLocation(ctx));
+			case "!=":
+				return new NotEqual(left, right, CodeLocation.getCodeLocation(ctx));
+			default:
+				// Throw error or something
+				return null;
+		}
 	}
 
 	@Override
-	public ASTNode visitLessExpression(QLParser.LessExpressionContext ctx) {
+	public ASTNode visitMultiplicativeExpressions(QLParser.MultiplicativeExpressionsContext ctx) {
 		if (debug)
-			System.out.println("Less");
+			System.out.println("Multiplicative: "+ctx.getText());
 		
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		
-		return new Less(left, right);
+		switch(ctx.op.getText()) {
+			case "*":
+				return new Multiplication(left, right, CodeLocation.getCodeLocation(ctx));
+			case "/":
+				return new Division(left, right, CodeLocation.getCodeLocation(ctx));
+			default:
+				// Throw error or something
+				return null;
+		}
 	}
 
 	@Override
-	public ASTNode visitDivExpression(QLParser.DivExpressionContext ctx) {
+	public ASTNode visitAdditiveExpressions(QLParser.AdditiveExpressionsContext ctx) {
 		if (debug)
-			System.out.println("Divison");
+			System.out.println("Additive: "+ctx.getText());
 		
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		
-		return new Division(left, right);
+		switch(ctx.op.getText()) {
+			case "+":
+				return new Addition(left, right, CodeLocation.getCodeLocation(ctx));
+			case "-":
+				return new Subtraction(left, right, CodeLocation.getCodeLocation(ctx));
+			default:
+				// Throw error or something
+				return null;
+		}
 	}
 
 	@Override
-	public ASTNode visitParenExpression(QLParser.ParenExpressionContext ctx) {
+	public ASTNode visitRelationalExpressions(QLParser.RelationalExpressionsContext ctx) {
 		if (debug)
-			System.out.println("Parenthesis");
+			System.out.println("Relational: "+ctx.getText());
+		
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
+		
+		switch(ctx.op.getText()) {
+			case ">":
+				return new Greater(left, right, CodeLocation.getCodeLocation(ctx));
+			case ">=":
+				return new GreaterEqual(left, right, CodeLocation.getCodeLocation(ctx));
+			case "<":
+				return new Less(left, right, CodeLocation.getCodeLocation(ctx));
+			case "<=":
+				return new LessEqual(left, right, CodeLocation.getCodeLocation(ctx));
+			default:
+				// Throw error or something
+				return null;
+		}
+	}
+
+	@Override
+	public ASTNode visitIdentifierExpression(QLParser.IdentifierExpressionContext ctx) {
+		if (debug)
+			System.out.println("Identifier: "+ctx.getText());
+		
+		return new Identifier(ctx.identifier.getText(), CodeLocation.getCodeLocation(ctx));
+	}
+
+	@Override
+	public ASTNode visitParenthesisExpression(QLParser.ParenthesisExpressionContext ctx) {
+		if (debug)
+			System.out.println("Parenthesis: "+ctx.getText());
 		
 		Expression expr = (Expression) ctx.expr.accept(this);
 		
-		return new Parenthesis(expr);
+		return new Parenthesis(expr, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
-	public ASTNode visitNoteqExpression(QLParser.NoteqExpressionContext ctx) {
-		if (debug)
-			System.out.println("NotEqual");
-		
-		Expression left = (Expression) ctx.left.accept(this);
-		Expression right = (Expression) ctx.right.accept(this);
-		
-		return new NotEqual(left, right);
-	}
-
-	@Override
-	public ASTNode visitOrExpression(QLParser.OrExpressionContext ctx) {
-		if (debug)
-			System.out.println("Or");
-		
-		Expression left = (Expression) ctx.left.accept(this);
-		Expression right = (Expression) ctx.right.accept(this);
-		
-		return new Or(left, right);
-	}
-
-	@Override
-	public ASTNode visitEqExpression(QLParser.EqExpressionContext ctx) {
-		if (debug)
-			System.out.println("Equal");
-		
-		Expression left = (Expression) ctx.left.accept(this);
-		Expression right = (Expression) ctx.right.accept(this);
-		
-		return new Equal(left, right);
-	}
-
-	@Override
-	public ASTNode visitAndExpression(QLParser.AndExpressionContext ctx) {
-		if (debug)
-			System.out.println("And");
-		
-		Expression left = (Expression) ctx.left.accept(this);
-		Expression right = (Expression) ctx.right.accept(this);
-		
-		return new And(left, right);
-	}
-
-	@Override
-	public ASTNode visitNotExpr(QLParser.NotExprContext ctx) {
+	public ASTNode visitNotExpression(QLParser.NotExpressionContext ctx) {
 		if (debug)
 			System.out.println("Not");
 		
 		Expression expr = (Expression) ctx.expr.accept(this);
 		
-		return new Not(expr);
+		return new Not(expr, CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
-	public ASTNode visitAddExpression(QLParser.AddExpressionContext ctx) {
-		if (debug)
-			System.out.println("Add");
-		
-		Expression left = (Expression) ctx.left.accept(this);
-		Expression right = (Expression) ctx.right.accept(this);
-		
-		return new Addition(left, right);
-	}
-
-	@Override
-	public ASTNode visitGreatEqExpression(QLParser.GreatEqExpressionContext ctx) {
-		if (debug)
-			System.out.println("GreaterEqual");
-		
-		Expression left = (Expression) ctx.left.accept(this);
-		Expression right = (Expression) ctx.right.accept(this);
-		
-		return new GreaterEqual(left, right);
-	}
-
-	@Override
-	public ASTNode visitLitExpression(QLParser.LitExpressionContext ctx) {
+	public ASTNode visitLiteralExpression(QLParser.LiteralExpressionContext ctx) {
 		if (debug)
 			System.out.println("Literal: "+ctx.getText());
 		
-		Literal literal = (Literal) ctx.lit.accept(this);
+		Literal lit = (Literal) ctx.literalValue.accept(this);
 		
-		return literal;
+		return lit;
 	}
-	
+
 	@Override
-	public ASTNode visitSubExpression(QLParser.SubExpressionContext ctx) {
+	public ASTNode visitConditionalExpressions(QLParser.ConditionalExpressionsContext ctx) {
 		if (debug)
-			System.out.println("Subtract");
+			System.out.println("Conditional: "+ctx.getText());
 		
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
 		
-		return new Subtraction(left, right);
-	}
-
-	@Override
-	public ASTNode visitGreatExpression(QLParser.GreatExpressionContext ctx) {
-		if (debug)
-			System.out.println("Greater");
-		
-		Expression left = (Expression) ctx.left.accept(this);
-		Expression right = (Expression) ctx.right.accept(this);
-		
-		return new Greater(left, right);
-	}
-
-	@Override
-	public ASTNode visitMulExpression(QLParser.MulExpressionContext ctx) {
-		if (debug)
-			System.out.println("Multiplication");
-		
-		Expression left = (Expression) ctx.left.accept(this);
-		Expression right = (Expression) ctx.right.accept(this);
-		
-		return new Multiplication(left, right);
-	}
-
-	@Override
-	public ASTNode visitIdentifierLiteral(QLParser.IdentifierLiteralContext ctx) {
-		if (debug)
-			System.out.println("Identifier");
-						
-		return new IdentifierLit(ctx.getText());
+		switch(ctx.op.getText()) {
+			case "&&":
+				return new And(left, right, CodeLocation.getCodeLocation(ctx));
+			case "||":
+				return new Or(left, right, CodeLocation.getCodeLocation(ctx));
+			default:
+				// Throw error or something
+				return null;
+		}
 	}
 
 	@Override
 	public ASTNode visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) {
 		if (debug)
-			System.out.println("Integer");
-		
-		return new IntegerLit(Integer.parseInt(ctx.getText()));
+			System.out.println("Integer: "+ctx.getText());
+
+		return new IntegerLit(Integer.parseInt(ctx.getText()), CodeLocation.getCodeLocation(ctx));
+	}
+	
+	@Override public ASTNode visitDecimalLiteral(QLParser.DecimalLiteralContext ctx) {
+		if (debug)
+			System.out.println("DecimalLit: "+ctx.getText());
+
+		return new DecimalLit(BigDecimal.valueOf(Double.parseDouble(ctx.getText())), CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
 	public ASTNode visitBooleanliteral(QLParser.BooleanliteralContext ctx) {
 		if (debug)
-			System.out.println("Boolean");
-		
-		return new BooleanLit(Boolean.parseBoolean(ctx.getText()));
+			System.out.println("Boolean: "+ctx.getText());
+
+		return new BooleanLit(Boolean.parseBoolean(ctx.getText()), CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
 	public ASTNode visitStringLiteral(QLParser.StringLiteralContext ctx) {
 		if (debug)
-			System.out.println("String");
-		
-		return new StringLit(ctx.getText());
-	}
+			System.out.println("String: "+ctx.getText());
 
+		return new StringLit(ctx.getText(), CodeLocation.getCodeLocation(ctx));
+	}
+	
 	@Override
 	public ASTNode visitIntegerType(QLParser.IntegerTypeContext ctx) {
 		if (debug)
-			System.out.println("IntegerType");
-		
-		return new IntegerType();
+			System.out.println("IntegerType: "+ctx.getText());
+
+		return new IntegerType(CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
 	public ASTNode visitStringType(QLParser.StringTypeContext ctx) {
 		if (debug)
-			System.out.println("StringType");
-		
-		return new StringType();
+			System.out.println("StringType: "+ctx.getText());
+
+		return new StringType(CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
 	public ASTNode visitBooleanType(QLParser.BooleanTypeContext ctx) {
 		if (debug)
-			System.out.println("BooleanType");
-		
-		return new BooleanType();
+			System.out.println("BooleanType: "+ctx.getText());
+
+		return new BooleanType(CodeLocation.getCodeLocation(ctx));
 	}
 
 	@Override
 	public ASTNode visitMoneyType(QLParser.MoneyTypeContext ctx) {
 		if (debug)
-			System.out.println("MoneyType");
-		
-		return new MoneyType();
+			System.out.println("MoneyType: "+ctx.getText());
+
+		return new MoneyType(CodeLocation.getCodeLocation(ctx));
+	}
+
+	@Override
+	public ASTNode visitDecimalType(QLParser.DecimalTypeContext ctx) {
+		if (debug)
+			System.out.println("DecimalType: "+ctx.getText());
+
+		return new DecimalType(CodeLocation.getCodeLocation(ctx));
 	}
 
 }

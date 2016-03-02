@@ -2,9 +2,7 @@ package nl.nicasso.ql;
 
 import java.util.ArrayList;
 
-import nl.nicasso.ql.ast.ASTNode;
-import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.expression.Expression;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.expression.Parenthesis;
 import nl.nicasso.ql.ast.expression.additive.Addition;
 import nl.nicasso.ql.ast.expression.additive.Subtraction;
@@ -20,9 +18,8 @@ import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
 import nl.nicasso.ql.ast.expression.relational.Less;
 import nl.nicasso.ql.ast.expression.relational.LessEqual;
 import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
+import nl.nicasso.ql.ast.literal.DecimalLit;
 import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.Literal;
 import nl.nicasso.ql.ast.literal.StringLit;
 import nl.nicasso.ql.ast.statement.ComputedQuestion;
 import nl.nicasso.ql.ast.statement.IfElseStatement;
@@ -32,8 +29,11 @@ import nl.nicasso.ql.ast.statement.Statement;
 import nl.nicasso.ql.ast.structure.Block;
 import nl.nicasso.ql.ast.structure.Form;
 import nl.nicasso.ql.utils.Pair;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
+import nl.nicasso.ql.visitor.StatementVisitor;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
+public class CyclicDependencyVisitor implements StructureVisitor<Identifier>, StatementVisitor<Identifier>, ExpressionVisitor<Identifier> {
 
 	private boolean debug = false;
 	
@@ -41,7 +41,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	private ArrayList<String> errors;
 	
 	private ArrayList<Pair> dependencies;
-	private IdentifierLit currentIdentifier;
+	private Identifier currentIdentifier;
 
 	CyclicDependencyVisitor() {
 		warnings = new ArrayList<String>();
@@ -51,7 +51,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(And value) {
+	public Identifier visit(And value) {
 		if (debug) {
 			System.out.println("And");
 		}
@@ -63,7 +63,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 	
 	@Override
-	public IdentifierLit visit(Addition value) {
+	public Identifier visit(Addition value) {
 		if (debug) {
 			System.out.println("Addition");
 		}
@@ -75,7 +75,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Subtraction value) {
+	public Identifier visit(Subtraction value) {
 		if (debug) {
 			System.out.println("Subtraction");
 		}
@@ -87,7 +87,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Or value) {
+	public Identifier visit(Or value) {
 		if (debug) {
 			System.out.println("Or");
 		}
@@ -99,7 +99,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Not value) {
+	public Identifier visit(Not value) {
 		if (debug) {
 			System.out.println("Not");
 		}
@@ -110,7 +110,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Parenthesis value) {
+	public Identifier visit(Parenthesis value) {
 		if (debug) {
 			System.out.println("Parenthesis");
 		}
@@ -121,7 +121,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Equal value) {
+	public Identifier visit(Equal value) {
 		if (debug) {
 			System.out.println("Equal");
 		}
@@ -133,7 +133,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(NotEqual value) {
+	public Identifier visit(NotEqual value) {
 		if (debug) {
 			System.out.println("NotEqual");
 		}
@@ -145,7 +145,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Division value) {
+	public Identifier visit(Division value) {
 		if (debug) {
 			System.out.println("Division");
 		}
@@ -157,7 +157,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Multiplication value) {
+	public Identifier visit(Multiplication value) {
 		if (debug) {
 			System.out.println("Multiplication");
 		}
@@ -169,7 +169,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Greater value) {
+	public Identifier visit(Greater value) {
 		if (debug) {
 			System.out.println("Greater");
 		}
@@ -181,7 +181,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(GreaterEqual value) {
+	public Identifier visit(GreaterEqual value) {
 		if (debug) {
 			System.out.println("GreaterEqual");
 		}
@@ -193,7 +193,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Less value) {
+	public Identifier visit(Less value) {
 		if (debug) {
 			System.out.println("Less");
 		}
@@ -205,7 +205,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(LessEqual value) {
+	public Identifier visit(LessEqual value) {
 		if (debug) {
 			System.out.println("LessEqual");
 		}
@@ -217,12 +217,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(ASTNode node) {
-		return null;
-	}
-
-	@Override
-	public IdentifierLit visit(Form value) {
+	public Identifier visit(Form value) {
 		if (debug) {
 			System.out.println("Form");
 		}
@@ -233,7 +228,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Block value) {
+	public Identifier visit(Block value) {
 		if (debug) {
 			System.out.println("Block");
 		}
@@ -246,15 +241,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Statement value) {
-		if (debug) {
-			System.out.println("Statement");
-		}
-		return null;
-	}
-
-	@Override
-	public IdentifierLit visit(Question value) {
+	public Identifier visit(Question value) {
 		if (debug) {
 			System.out.println("Question");
 		}
@@ -263,11 +250,12 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(ComputedQuestion value) {
+	public Identifier visit(ComputedQuestion value) {
 		if (debug) {
 			System.out.println("ComputedQuestion: "+value.getId().getValue());
 		}
 		
+		// Temp Variable smell detected!
 		currentIdentifier = value.getId();
 		
 		value.getExpr().accept(this);
@@ -276,7 +264,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(IfStatement value) {
+	public Identifier visit(IfStatement value) {
 		if (debug) {
 			System.out.println("ifStatement");
 		}
@@ -288,7 +276,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(IfElseStatement value) {
+	public Identifier visit(IfElseStatement value) {
 		if (debug) {
 			System.out.println("IfElseStatement");
 		}
@@ -301,23 +289,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(Expression value) {
-		if (debug) {
-			System.out.println("Expression");
-		}
-		return null;
-	}
-
-	@Override
-	public IdentifierLit visit(Literal value) {
-		if (debug) {
-			System.out.println("Literal");
-		}
-		return null;
-	}
-
-	@Override
-	public IdentifierLit visit(BooleanLit value) {
+	public Identifier visit(BooleanLit value) {
 		if (debug) {
 			System.out.println("BooleanLit: "+value.getValue());
 		}
@@ -325,7 +297,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(IdentifierLit value) {
+	public Identifier visit(Identifier value) {
 		if (debug) {
 			System.out.println("IdentifierLit: "+value.getValue());
 		}
@@ -336,7 +308,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(IntegerLit value) {
+	public Identifier visit(IntegerLit value) {
 		if (debug) {
 			System.out.println("IntegerLit: "+value.getValue());
 		}
@@ -344,9 +316,17 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 	}
 
 	@Override
-	public IdentifierLit visit(StringLit value) {
+	public Identifier visit(StringLit value) {
 		if (debug) {
 			System.out.println("StringLit: "+value.getValue());
+		}
+		return null;
+	}
+	
+	@Override
+	public Identifier visit(DecimalLit value) {
+		if (debug) {
+			System.out.println("MoneyLit: "+value.getValue());
 		}
 		return null;
 	}
@@ -359,7 +339,7 @@ public class CyclicDependencyVisitor implements Visitor<IdentifierLit> {
 		return warnings;
 	}
 	
-	private void addComputedQuestion(IdentifierLit currentId) {
+	private void addComputedQuestion(Identifier currentId) {
 		dependencies.add(new Pair(currentIdentifier, currentId));
 	}
 	

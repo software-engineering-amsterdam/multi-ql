@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.util.testing2;
+
+public class BigChild extends Children implements IntegerQuestion{
+    
+    public BigChild(String name) {
+	super(name);
+    }
+    IntegerQuestion
+}

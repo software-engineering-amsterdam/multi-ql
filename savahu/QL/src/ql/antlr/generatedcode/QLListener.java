@@ -1,12 +1,13 @@
 // Generated from A:\Users\sander\Documents\NetBeansProjects\multi-ql\savahu\QL\src\ql\antlr\QL.g4 by ANTLR 4.5.2
 
-    package ql.antlr;
+    package ql.antlr.generatedcode;
     import ql.ast.*;
     import ql.ast.expression.*;
     import ql.ast.type.*;
     import ql.ast.form.*;
     import ql.ast.literal.*;
     import ql.ast.statement.*;
+    import ql.ast.question.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -75,6 +76,46 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestion(QLParser.QuestionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#simplequestion}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimplequestion(QLParser.SimplequestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#simplequestion}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimplequestion(QLParser.SimplequestionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#computedquestion}.
+	 * @param ctx the parse tree
+	 */
+	void enterComputedquestion(QLParser.ComputedquestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#computedquestion}.
+	 * @param ctx the parse tree
+	 */
+	void exitComputedquestion(QLParser.ComputedquestionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#questiontype}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestiontype(QLParser.QuestiontypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#questiontype}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestiontype(QLParser.QuestiontypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#label}.
+	 * @param ctx the parse tree
+	 */
+	void enterLabel(QLParser.LabelContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#label}.
+	 * @param ctx the parse tree
+	 */
+	void exitLabel(QLParser.LabelContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#primary}.
 	 * @param ctx the parse tree

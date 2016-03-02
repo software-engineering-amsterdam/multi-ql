@@ -1,12 +1,12 @@
 package org.uva.sea.ql.ast.expr;
 
-import java.util.Objects;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type string in an AST.
  * 
- * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @author Olav Trauschke
+ * @version 1-mar-2016
  */
 public class Str extends Expr {
     
@@ -21,12 +21,21 @@ public class Str extends Expr {
      * Constructor for objects of class <code>Str</code>.
      * 
      * @param theValue a <code>String</code> representing the value of the
-     *                  constructed <code>Str</code>, or <code>null</code> if
-     *                  it represents the return value of a <code>Question</code>
-     *                  (which value is not yet known)
+     *                  constructed <code>Str</code>
      */
     public Str(String theValue) {
+        assert theValue != null;
         value = theValue;
+    }
+    
+    /**
+     * Has <code>v visit this Str</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Str</code>
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
     /**
@@ -41,8 +50,7 @@ public class Str extends Expr {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         
-        Str other = (Str) o;
-        return value == null ? other.value == null : value.equals(other.value);
+        return value.equals(((Str) o).value);
     }
     
     /**
@@ -50,7 +58,7 @@ public class Str extends Expr {
      */
     @Override
     public int hashCode() {
-        return HASH_ORIGIN + Objects.hashCode(this.value);
+        return HASH_ORIGIN + value.hashCode();
     }
     
     /**

@@ -1,26 +1,24 @@
 package nl.nicasso.ql.ast.statement;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
-import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
-import nl.nicasso.ql.ast.literal.Literal;
+import nl.nicasso.ql.ast.CodeLocation;
+import nl.nicasso.ql.ast.expression.Identifier;
 import nl.nicasso.ql.ast.type.Type;
+import nl.nicasso.ql.visitor.StatementVisitor;
 
-public class Question extends Statement implements Traversable {
+public class Question extends Statement {
 
-	private final IdentifierLit id;
+	private final Identifier id;
 	private final String label;
 	private final Type type;
 
-	public Question(IdentifierLit id, String label, Type type) {
+	public Question(Identifier id, String label, Type type, CodeLocation location) {
+		super(location);
 		this.id = id;
 		this.label = label;
 		this.type = type;
 	}
 
-	public IdentifierLit getId() {
+	public Identifier getId() {
 		return id;
 	}
 
@@ -31,20 +29,21 @@ public class Question extends Statement implements Traversable {
 	public Type getType() {
 		return type;
 	}
-
-	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
 	
 	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	
 	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
-		return visitor.visit(this);
+	public boolean equals(Object ob) {
+		ComputedQuestion q2 = (ComputedQuestion) ob;
+		return id.equals(q2.getId());
 	}
+	
+	@Override
+	public int hashCode(){
+	    return id.hashCode();
+    }
 		
 }

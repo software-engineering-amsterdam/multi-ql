@@ -1,16 +1,11 @@
 function setHTMLEventHandlers() {
 	$("input").change(function () {
 		var label = $(this).attr("name");
-
-		var questionNode = ast.getQuestion(label);
-		if (questionNode === undefined) return;
-
+		var value = $(this).val();
 		if ($(this).attr("type") === "checkbox") {
-			questionNode.setValue($(this).is(":checked"));
+			value = $(this).is(":checked");
 		}
-		else {
-			questionNode.setValue($(this).val());
-		}
+		ast.dataChanged(label, value);
 		refreshGUI();
 	});
 }

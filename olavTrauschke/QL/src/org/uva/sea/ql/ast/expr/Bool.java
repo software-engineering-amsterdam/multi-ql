@@ -1,12 +1,12 @@
 package org.uva.sea.ql.ast.expr;
 
-import java.util.Objects;
+import org.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type boolean in an AST.
  * 
- * @author Olav Trauschke, 10329463
- * @version 24-feb-2016
+ * @author Olav Trauschke
+ * @version 1-mar-2016
  */
 public class Bool extends BooleanExpr {
     
@@ -15,18 +15,27 @@ public class Bool extends BooleanExpr {
      */
     public static final int HASH_ORIGIN = 623;
     
-    private Boolean value;
+    private final Boolean value;
     
     /**
      * Constructor for objects of class <code>Bool</code>.
      * 
      * @param theValue a <code>Boolean</code> representing the value of the
-     *                  constructed <code>Bool</code>, or <code>null</code> if
-     *                  it represents the return value of a
-     *                  <code>Question</code> (which value is not yet known)
+     *                  constructed <code>Bool</code>
      */
     public Bool(Boolean theValue) {
+        assert theValue != null;
         value = theValue;
+    }
+    
+    /**
+     * Has <code>v visit this Bool</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Bool</code>
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
     /**
@@ -42,8 +51,7 @@ public class Bool extends BooleanExpr {
         if (o == null || getClass() != o.getClass()) return false;
         
         Bool other = (Bool) o;
-        if (value == null) return other.value == null;
-        else return value.equals(other.value);
+        return value.equals(other.value);
     }
     
     /**
@@ -51,7 +59,7 @@ public class Bool extends BooleanExpr {
      */
     @Override
     public int hashCode() {
-        return HASH_ORIGIN + Objects.hashCode(this.value);
+        return HASH_ORIGIN + value.hashCode();
     }
     
 }

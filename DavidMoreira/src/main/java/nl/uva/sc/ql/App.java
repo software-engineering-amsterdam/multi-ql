@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import nl.uva.sc.ql.exceptions.CompilerException;
+import nl.uva.sc.ql.exceptions.ExceptionHandling;
 import nl.uva.sc.ql.gui.QLGui;
 import nl.uva.sc.ql.parser.QLCompiler;
 import nl.uva.sc.ql.parser.ast.Node;
@@ -23,7 +24,7 @@ public class App {
     
 	
 	public static void main(String[] args) throws IOException {
-        System.out.println( "Start..." );
+        System.out.println("Start...");
 
 		QLCompiler compiler = new QLCompiler();
 		
@@ -32,9 +33,14 @@ public class App {
         	
             QLGui gui = new QLGui(ast);
             gui.start();
-        	
+
         } catch (CompilerException ce) {
         	System.err.println(ce.getMessage());
+        }
+        
+        ExceptionHandling exceptionHandling = ExceptionHandling.getInstance();
+        if(exceptionHandling.asWarning()){
+        	System.err.println(exceptionHandling.toString());
         }
         
 		System.out.println("Finished");

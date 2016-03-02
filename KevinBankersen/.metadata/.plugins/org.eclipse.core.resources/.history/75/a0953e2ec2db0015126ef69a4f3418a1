@@ -1,0 +1,38 @@
+package eu.bankersen.kevin.ql.util.testing.widget;
+
+import javax.swing.JPanel;
+
+import eu.bankersen.kevin.ql.context.Symbol;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.util.testing.ViewListener;
+
+public class BoxWidget implements Widget {
+
+    BoxWidget(Symbol data){
+	
+    }
+    
+    @Override
+    public JPanel build() {
+	return new JPanel();
+    }
+
+    @Override
+    public void dataUpdate(SymbolTable symbolTable) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void widgetUpdate(Object value) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void addUIListener(ViewListener listener) {
+	// TODO Auto-generated method stub
+	
+    }
+
+}

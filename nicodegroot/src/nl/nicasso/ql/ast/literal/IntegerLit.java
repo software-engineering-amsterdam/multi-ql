@@ -1,20 +1,25 @@
 package nl.nicasso.ql.ast.literal;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
-import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
+import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.type.IntegerType;
 import nl.nicasso.ql.ast.type.Type;
+import nl.nicasso.ql.visitor.ExpressionVisitor;
 
-public class IntegerLit extends Literal implements Traversable {
+public class IntegerLit extends Literal {
 
 	private final Type type;
 	private final Integer lit;
 
 	public IntegerLit(Integer lit) {
+		super(null);
 		this.lit = lit;
 		this.type = new IntegerType();
+	}
+	
+	public IntegerLit(Integer lit, CodeLocation location) {
+		super(location);
+		this.lit = lit;
+		this.type = new IntegerType(location);
 	}
 
 	@Override
@@ -27,18 +32,19 @@ public class IntegerLit extends Literal implements Traversable {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
-	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	
 	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
-		return visitor.visit(this);
+	public boolean equals(Object ob) {
+		IntegerLit lit2 = (IntegerLit) ob;
+		return lit.equals(lit2.getValue());
 	}
 	
+	@Override
+	public int hashCode(){
+	    return lit.hashCode();
+    }
+
 }

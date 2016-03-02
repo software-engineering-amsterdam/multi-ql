@@ -1,0 +1,6 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+public interface ViewListener {
+
+    void viewUpdate(Object data);
+}

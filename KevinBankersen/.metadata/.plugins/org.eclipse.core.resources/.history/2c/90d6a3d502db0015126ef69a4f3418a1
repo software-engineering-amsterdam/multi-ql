@@ -1,0 +1,71 @@
+package eu.bankersen.kevin.ql.context;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.context.errors.TypeCheckingError;
+import eu.bankersen.kevin.ql.util.testing.DataListener;
+import eu.bankersen.kevin.ql.util.testing.ViewListener;
+
+public class Context {
+    
+    private final String formName;
+    private final SymbolTable symbolTable;
+    private final Set<TypeCheckingError> errorList;
+    
+
+    public Context(Form form, String formName) {
+	this.form = form;
+	this.formName = formName;
+	this.symbolTable = new SymbolTable(formName);
+	this.errorList = new HashSet<>();
+	this.dataListeners = new ArrayList<DataListener>();
+    }
+    
+    public String getFormName() {
+	return formName;
+    }
+    
+    public Symbol getSymbol(String symbol) {
+	return symbolTable.get(symbol);
+    }
+    
+    public Boolean checkID(String name) {
+	return symbolTable.containsKey(name);
+    }
+    
+    public void addSymbol(String symbol, Type type, Object value) {
+	symbolTable.put(symbol, new Symbol(type, value));
+    }
+    
+    public void updateSymbol(String name, Object value) {
+	Symbol symbol = symbolTable.get(name);
+	symbol.setValue(value);
+	symbolTable.put(name, symbol);
+    }
+    
+    public void setVisibility(String name, Boolean active) {
+	Symbol symbol = symbolTable.get(name);
+	symbol.setActive(active);
+	symbolTable.put(name, symbol);
+    }
+    
+    public void addError(TypeCheckingError error) {
+	Log.debug(error.toString());
+	errorList.add(error);
+    }
+    
+    public Set<TypeCheckingError> getErrors() {
+	return errorList;
+	
+    }
+
+}

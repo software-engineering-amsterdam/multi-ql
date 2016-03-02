@@ -1,0 +1,75 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.Context2;
+import eu.bankersen.kevin.ql.context.EvaluateExeption;
+
+public class IFStat extends Statement  {
+
+    private final Expr expr;
+    private final Body body;
+    private final int line;
+    private boolean exprValue;
+
+    public IFStat(Expr expression, Body body, int line) {
+	this.expr = expression;
+	this.body = body;
+	this.line = line;
+	this.exprValue = false;
+    }
+
+    public Context checkType(Context context) {
+
+	context = expr.checkType(context);
+	context = body.checkType(context);
+
+	Boolean check = expr.getType(context).equals(Type.BOOLEAN);
+
+	if (!check) {
+	    context.addError("TYPE_ERROR @Line " + line 
+		    + ": If must resolve to " + Type.BOOLEAN 
+		    + " got " + expr.getType(context));
+	}
+	return context;
+    }
+
+    public Context evalStatement(Context context) {	
+
+	try {
+	    exprValue = (Boolean) expr.eval(context);
+	} catch (EvaluateExeption e) {
+	    Log.debug("If-statement cannot be evaluated");
+	    exprValue = false;
+	}
+
+	Log.debug("If-statement is: " + exprValue);
+
+	if (exprValue) {
+	    context = visible(context, true);
+	    return body.evalBody(context);
+	} else {
+	    return visible(context, false);
+	} 
+    }
+
+
+    @Override
+    public String toString() {
+
+	if (exprValue) {
+	    return body.toString();
+	} else {
+	    return "";
+	}
+    }
+
+    @Override
+    public Context visible(Context context, Boolean visible) {
+	return body.visible(context, visible);
+    }
+}

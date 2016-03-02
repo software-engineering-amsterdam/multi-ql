@@ -1,7 +1,7 @@
 package uva.ql.ast;
 
 import uva.ql.interfaces.INode;
-import uva.ql.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class Question extends ANode implements INode {
 

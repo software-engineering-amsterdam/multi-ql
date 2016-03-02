@@ -1,6 +1,15 @@
-- Use multiple generic types for the visitor interface, or multiple interfaces
-- Throw errors instead of adding them to a list
-- Traversable class has multiple accepts, change to a single one using a generic type
+MUST
+- Fix the different visitor interfaces, so I don't have to include them all for every concreteVisitor
+- Remove the tempvariable smell! Just pass it on?
+- Check all the variable names!
 - Create GUI
-- Create tests
-- Add line numbers
+- Create more tests
+- Throw errors instead of adding them to a list
+
+SHOULD
+- Fix line numbers in error messages
+- Make some kind of fancy issue class
+
+COULD
+- Really use accept in the QuestionVisitor to fetch the identfiers, otherwise you get 10 gets behind each other. 
+	And it makes the visitor kinda lame.

@@ -2,6 +2,7 @@ package uva.ql.interfaces;
 
 public interface IVariable {
 
+	public final static int GENERIC		= 0;
 	public final static int BOOLEAN 	= 10;
 	public final static int STRING 		= 11;
 	public final static int INT 		= 12;

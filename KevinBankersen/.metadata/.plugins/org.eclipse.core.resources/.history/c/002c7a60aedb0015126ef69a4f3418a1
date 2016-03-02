@@ -1,0 +1,26 @@
+package eu.bankersen.kevin.ql.util.testing.widget;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class BooleanWidget implements Widget {
+    
+    private JPanel panel;
+    private String name;
+    private JRadioButton trueToggle;
+    private JRadioButton falseToggle;
+
+    public BooleanWidget() {
+	panel = new JPanel();
+	name = new String();
+    }
+    @Override
+    public JPanel build() {
+	// TODO Auto-generated method stub
+	return new JPanel();
+    }
+
+}

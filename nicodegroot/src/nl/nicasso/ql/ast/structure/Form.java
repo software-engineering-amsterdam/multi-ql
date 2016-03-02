@@ -1,25 +1,22 @@
 package nl.nicasso.ql.ast.structure;
 
-import nl.nicasso.ql.EvaluatorVisitor;
-import nl.nicasso.ql.TypeCheckerVisitor;
 import nl.nicasso.ql.ast.ASTNode;
-import nl.nicasso.ql.ast.Traversable;
-import nl.nicasso.ql.ast.Visitor;
-import nl.nicasso.ql.ast.literal.IdentifierLit;
-import nl.nicasso.ql.ast.literal.Literal;
-import nl.nicasso.ql.ast.type.Type;
+import nl.nicasso.ql.ast.CodeLocation;
+import nl.nicasso.ql.ast.expression.Identifier;
+import nl.nicasso.ql.visitor.StructureVisitor;
 
-public class Form extends ASTNode implements Traversable {
+public class Form extends ASTNode {
 
-	private final IdentifierLit id;
+	private final Identifier id;
 	private final Block block;
 	
-	public Form(IdentifierLit id, Block block2) {
+	public Form(Identifier id, Block block2, CodeLocation location) {
+		super(location);
 		this.id = id;
 		this.block = block2;
 	}
 
-	public IdentifierLit getId() {
+	public Identifier getId() {
 		return id;
 	}
 
@@ -27,18 +24,7 @@ public class Form extends ASTNode implements Traversable {
 		return block;
 	}
 	
-	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-	
-	@Override
-	public Type accept(TypeCheckerVisitor visitor) {
-		return visitor.visit(this);
-	}
-	
-	@Override
-	public Literal accept(EvaluatorVisitor visitor) {
+	public <T> T accept(StructureVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }
