@@ -1,5 +1,4 @@
 // Generated from QL.g4 by ANTLR 4.4
-package antlr;
 
 	package antlr;
 
