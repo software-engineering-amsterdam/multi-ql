@@ -17,7 +17,7 @@ import org.uva.ql.ast.stat.QLQuestionComputed;
 
 public class CyclicReferences implements Iterable<CyclicReference> {
 
-	private Set<CyclicReference> cyclicReferences;
+	private final Set<CyclicReference> cyclicReferences;
 
 	private CyclicReferences() {
 		cyclicReferences = new HashSet<>();
@@ -31,37 +31,34 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 	 * @return the cyclic references in the questionnaire.
 	 */
 	public static CyclicReferences collect(QLQuestionnaire q) {
-		ComputedQuestions computedQuestions;
 		CyclicReferences cyclicReferences;
 		ReferenceTable rt;
 
 		rt = new ReferenceTable();
 
-		computedQuestions = ComputedQuestions.collect(q);
-
-		computedQuestions.forEach(question -> {
-			FreeVariables variables;
-
-			variables = FreeVariables.collect(question.expr());
-
-			rt.add(question, variables);
+		ComputedQuestions.collect(q).forEach(question -> {
+			rt.add(question, FreeVariables.collect(question.expr()));
 		});
 
 		cyclicReferences = new CyclicReferences();
 
-		for (Reference r : rt.getReferences()) {
-			for (ReferencePath path : r.getPaths()) {
-				if (path.hasCycle()) {
-					cyclicReferences.add(new CyclicReference(r, path));
-				}
+		rt.getReferences().forEach(reference -> {
+			for (ReferencePath path : reference.getCyclicPaths()) {
+				cyclicReferences.add(new CyclicReference(reference, path));
 			}
-		}
+		});
 
 		return cyclicReferences;
 	}
 
 	private void add(CyclicReference cyclicReference) {
+		assert cyclicReference.getPath().hasCycle() : "Specified CyclicReference does not have a cycle!";
 		cyclicReferences.add(cyclicReference);
+	}
+
+	@Override
+	public Iterator<CyclicReference> iterator() {
+		return Collections.unmodifiableSet(cyclicReferences).iterator();
 	}
 
 	public static class CyclicReference {
@@ -96,7 +93,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 			reference = getReference(question.getId());
 
-			variables.forEach(variable -> reference.addReferent(variable));
+			variables.forEach(variable -> reference.addDependency(variable));
 		}
 
 		private List<Reference> getReferences() {
@@ -238,7 +235,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 		public class Reference {
 
 			private final String id;
-			private final List<Reference> referents = new ArrayList<>();
+			private final List<Reference> dependencies = new ArrayList<>();
 
 			private Reference(String id) {
 				this.id = id;
@@ -248,12 +245,31 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 				return id;
 			}
 
-			private void addReferent(String id) {
-				referents.add(getReference(id));
+			private void addDependency(String id) {
+				dependencies.add(getReference(id));
 			}
 
-			public List<Reference> getReferents() {
-				return Collections.unmodifiableList(referents);
+			public List<Reference> getDependencies() {
+				return Collections.unmodifiableList(dependencies);
+			}
+
+			/**
+			 * Returns the reference paths that contain a cycle.
+			 * 
+			 * @return the reference paths that contain a cycle.
+			 */
+			public List<ReferencePath> getCyclicPaths() {
+				List<ReferencePath> cyclicPaths;
+
+				cyclicPaths = new ArrayList<>();
+
+				getPaths().forEach(path -> {
+					if (path.hasCycle()) {
+						cyclicPaths.add(path);
+					}
+				});
+
+				return Collections.unmodifiableList(cyclicPaths);
 			}
 
 			/**
@@ -292,8 +308,8 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 				}
 
 				paths = new ArrayList<>();
-				for (Reference referent : referents) {
-					paths.addAll(referent.getPaths(myPath));
+				for (Reference reference : dependencies) {
+					paths.addAll(reference.getPaths(myPath));
 				}
 
 				return Collections.unmodifiableList(paths);
@@ -307,7 +323,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 			 *         otherwise.
 			 */
 			private boolean isLeaf() {
-				return hasReferents();
+				return hasDependencies();
 			}
 
 			/**
@@ -316,8 +332,8 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 			 * @return {@code true} if this reference has referents,
 			 *         {@code false} otherwise.
 			 */
-			private boolean hasReferents() {
-				return referents.isEmpty();
+			private boolean hasDependencies() {
+				return dependencies.isEmpty();
 			}
 
 			@Override
@@ -330,7 +346,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 				other = (Reference) obj;
 
-				return id.equals(other.id) && referents.equals(other.referents);
+				return id.equals(other.id) && dependencies.equals(other.dependencies);
 			}
 
 			@Override
@@ -343,10 +359,5 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 				return id;
 			}
 		}
-	}
-
-	@Override
-	public Iterator<CyclicReference> iterator() {
-		return Collections.unmodifiableSet(cyclicReferences).iterator();
 	}
 }

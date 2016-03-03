@@ -5,14 +5,14 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.uva.ql.QLSemanticAnalyser.Result;
+import org.uva.ql.QLSemanticAnalyser.SemanticErrors;
 import org.uva.ql.ast.form.QLQuestionnaire;
 
 public class SemanticAnalyserTest {
 
 	@Test
 	public void testDuplicateQuestions() throws IOException {
-		Result result;
+		SemanticErrors result;
 
 		result = new QLSemanticAnalyser().validate(createQuestionnaire("DuplicateQuestions.ql"));
 
@@ -23,7 +23,7 @@ public class SemanticAnalyserTest {
 
 	@Test
 	public void testDuplicateQuestionsNested() throws IOException {
-		Result result;
+		SemanticErrors result;
 
 		result = new QLSemanticAnalyser().validate(createQuestionnaire("DuplicateQuestionsNested.ql"));
 
@@ -34,7 +34,7 @@ public class SemanticAnalyserTest {
 
 	@Test
 	public void testCyclicReferences() throws IOException {
-		Result result;
+		SemanticErrors result;
 
 		result = new QLSemanticAnalyser().validateCyclicReferences(createQuestionnaire("CyclicReferences.ql"));
 
@@ -45,7 +45,7 @@ public class SemanticAnalyserTest {
 
 	@Test
 	public void testValidQuestions() throws IOException {
-		Result result;
+		SemanticErrors result;
 
 		result = new QLSemanticAnalyser().validate(createQuestionnaire("ValidQuestions.ql"));
 
@@ -58,12 +58,12 @@ public class SemanticAnalyserTest {
 		return QLQuestionnaire.create(SemanticAnalyserTest.class.getResourceAsStream(fileName));
 	}
 
-	private void assertNumberOfWarnings(Result result, int warnings) {
+	private void assertNumberOfWarnings(SemanticErrors result, int warnings) {
 		Assert.assertEquals("Invalid number of warnings:\n" + Arrays.toString(result.getWarnings().toArray()) + "\n",
 				warnings, result.getWarnings().size());
 	}
 
-	private void assertNumberOfErrors(Result result, int errors) {
+	private void assertNumberOfErrors(SemanticErrors result, int errors) {
 		Assert.assertEquals("Invalid number of errors:\n" + Arrays.toString(result.getErrors().toArray()) + "\n",
 				errors, result.getErrors().size());
 	}

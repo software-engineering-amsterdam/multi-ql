@@ -45,8 +45,8 @@ public class FreeVariables implements Iterable<String> {
 	private static class FreeVariableCollector extends ASTNodeVisitorAdapter<Void, FreeVariables> {
 
 		@Override
-		public Void visit(VariableExpr node, FreeVariables fv) {
-			fv.add(node.getVariableId());
+		public Void visit(VariableExpr node, FreeVariables variables) {
+			variables.add(node.getVariableId());
 
 			return null;
 		}

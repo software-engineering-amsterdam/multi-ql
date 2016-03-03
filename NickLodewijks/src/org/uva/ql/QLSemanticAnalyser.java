@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.uva.ql.CyclicReferences.CyclicReference;
+import org.uva.ql.QLSemanticAnalyser.SemanticMessage.Level;
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
@@ -43,10 +44,10 @@ public class QLSemanticAnalyser {
 
 	}
 
-	public Result validate(QLQuestionnaire questionnaire) {
-		Result result;
+	public SemanticErrors validate(QLQuestionnaire questionnaire) {
+		SemanticErrors result;
 
-		result = new Result();
+		result = new SemanticErrors();
 
 		result.addAll(validateQuestions(questionnaire));
 		result.addAll(validateTypes(questionnaire));
@@ -66,93 +67,86 @@ public class QLSemanticAnalyser {
 	 * <li>Operands of invalid type to operators</br>
 	 * 
 	 * @param questionnaire
-	 * @return a {@link Result} containing errors and warnings.
+	 * @return a {@link SemanticErrors} containing errors and warnings.
 	 */
-	public Result validateTypes(QLQuestionnaire questionnaire) {
+	public SemanticErrors validateTypes(QLQuestionnaire questionnaire) {
 		return new TypeCheckVisitor().visit(questionnaire);
 	}
 
-	public Result validateQuestions(QLQuestionnaire questionnaire) {
-		List<QLQuestion> allQuestions;
-		Map<String, List<QLQuestion>> nameToQuestion = new HashMap<>();
-		Map<String, List<QLQuestion>> labelToQuestion = new HashMap<>();
-		ComputedQuestions computedQuestions;
-		InputQuestions inputQuestions;
+	public SemanticErrors validateQuestions(QLQuestionnaire questionnaire) {
+		SemanticErrors result;
+		QuestionTable qt;
 
-		computedQuestions = ComputedQuestions.collect(questionnaire);
-		inputQuestions = InputQuestions.collect(questionnaire);
+		qt = new QuestionTable();
 
-		allQuestions = new ArrayList<>();
+		ComputedQuestions.collect(questionnaire).forEach(q -> qt.add(q));
+		InputQuestions.collect(questionnaire).forEach(q -> qt.add(q));
 
-		computedQuestions.forEach(q -> allQuestions.add(q));
-		inputQuestions.forEach(q -> allQuestions.add(q));
+		result = new SemanticErrors();
 
-		Result result;
+		for (String label : qt.getLabels()) {
+			if (qt.getByLabel(label).size() > 1) {
+				result.add(new DuplicateQuestionLabels(label, qt.getByLabel(label)));
+			}
+		}
 
-		result = new Result();
+		for (String name : qt.getNames()) {
+			QLQuestion question;
 
-		allQuestions.forEach(c -> {
+			if (qt.getByName(name).size() == 1) {
+				continue;
+			}
+
+			question = qt.getByName(name).get(0);
+			for (QLQuestion other : qt.getByName(name)) {
+
+				if (other.getType().equals(question.getType())) {
+					continue;
+				}
+
+				result.add(new DuplicateQuestionName(name, qt.getByName(name)));
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	private static class QuestionTable {
+
+		private final Map<String, List<QLQuestion>> nameToQuestion = new HashMap<>();
+		private final Map<String, List<QLQuestion>> labelToQuestion = new HashMap<>();
+
+		public QuestionTable() {
+			// TODO Auto-generated constructor stub
+		}
+
+		public void add(QLQuestion q) {
 			List<QLQuestion> nameToQuestionsList;
 			List<QLQuestion> labelToQuestionList;
 
-			labelToQuestionList = labelToQuestion.computeIfAbsent(c.getLabel(), f -> new ArrayList<>());
-			if (labelToQuestionList.add(c) && labelToQuestionList.size() > 1) {
-				result.addDuplicateQuestionLabel(c);
-			}
+			labelToQuestionList = labelToQuestion.computeIfAbsent(q.getLabel(), f -> new ArrayList<>());
+			nameToQuestionsList = nameToQuestion.computeIfAbsent(q.getId(), f -> new ArrayList<>());
 
-			nameToQuestionsList = nameToQuestion.computeIfAbsent(c.getId(), f -> new ArrayList<>());
-			if (nameToQuestionsList.add(c) && nameToQuestionsList.size() > 1) {
-				for (QLQuestion other : nameToQuestionsList) {
-					if (!other.getType().equals(c.getType())) {
-						result.addDuplicateQuestionName(c);
-						break;
-					}
-				}
-			}
-		});
+			labelToQuestionList.add(q);
+			nameToQuestionsList.add(q);
+		}
 
-		result.duplicateNameQuestions.forEach(name -> {
+		public Set<String> getNames() {
+			return Collections.unmodifiableSet(nameToQuestion.keySet());
+		}
 
-			StringBuilder sb;
-			String msg;
+		public List<QLQuestion> getByName(String name) {
+			return Collections.unmodifiableList(nameToQuestion.get(name));
+		}
 
-			msg = String.format("Question '%s' has been declared multiple times, but with different types:", name);
+		public Set<String> getLabels() {
+			return Collections.unmodifiableSet(labelToQuestion.keySet());
+		}
 
-			sb = new StringBuilder();
-			sb.append(msg);
-			sb.append(System.lineSeparator());
-			nameToQuestion.get(name).stream().forEach(c -> {
-				sb.append("  ");
-				sb.append(c.getSourceLocation());
-				sb.append("  ");
-				sb.append(c.getSourceText());
-				sb.append(System.lineSeparator());
-			});
-
-			result.addError(sb.toString());
-		});
-
-		result.duplicateLabelQuestions.forEach(label -> {
-			StringBuilder sb;
-			String msg;
-
-			msg = String.format("Duplicate labels: %s", label);
-
-			sb = new StringBuilder();
-			sb.append(msg);
-			sb.append(System.lineSeparator());
-			labelToQuestion.get(label).stream().forEach(c -> {
-				sb.append("  ");
-				sb.append(c.getSourceLocation());
-				sb.append("  ");
-				sb.append(c.getSourceText());
-				sb.append(System.lineSeparator());
-			});
-
-			result.addWarning(sb.toString());
-		});
-
-		return result;
+		public List<QLQuestion> getByLabel(String label) {
+			return Collections.unmodifiableList(labelToQuestion.get(label));
+		}
 	}
 
 	/**
@@ -160,18 +154,15 @@ public class QLSemanticAnalyser {
 	 * the supplied {@code questionnaire}.
 	 * 
 	 * @param questionnaire
-	 * @return a {@link Result} containing errors and warnings.
+	 * @return a {@link SemanticErrors} containing errors and warnings.
 	 */
-	public Result validateCyclicReferences(QLQuestionnaire questionnaire) {
-		CyclicReferences cyclicReferences;
-		Result result;
+	public SemanticErrors validateCyclicReferences(QLQuestionnaire questionnaire) {
+		SemanticErrors result;
 
-		result = new Result();
+		result = new SemanticErrors();
 
-		cyclicReferences = CyclicReferences.collect(questionnaire);
-
-		cyclicReferences.forEach(c -> {
-			result.addError("Cyclic dependency for question %s: (%s)", c.getReference(), c.getPath());
+		CyclicReferences.collect(questionnaire).forEach(cr -> {
+			result.add(new CyclicDependency(cr));
 		});
 
 		return result;
@@ -179,15 +170,15 @@ public class QLSemanticAnalyser {
 
 	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<QLType, SymbolTable> {
 
-		private Result result;
+		private SemanticErrors result;
 
 		private TypeCheckVisitor() {
 		}
 
-		public Result visit(QLQuestionnaire q) {
+		public SemanticErrors visit(QLQuestionnaire q) {
 			SymbolTable table;
 
-			result = new Result();
+			result = new SemanticErrors();
 
 			table = new SymbolTable();
 			q.accept(this, table);
@@ -234,7 +225,6 @@ public class QLSemanticAnalyser {
 
 		@Override
 		public QLType visit(QLQuestion node, SymbolTable st) {
-
 			st.setType(node.getId(), node.getType());
 			return node.getType();
 		}
@@ -250,7 +240,8 @@ public class QLSemanticAnalyser {
 
 			type = st.getType(node.getVariableId());
 			if (type == null) {
-				result.addError("Undeclared variable %s, %s", node, node.getVariableId());
+				result.add(new UndeclaredVariable(node));
+				return null;
 			}
 
 			return type;
@@ -310,8 +301,7 @@ public class QLSemanticAnalyser {
 			rhs = node.right();
 			rhsType = rhs.accept(this, st);
 			if (!lhsType.equals(rhsType)) {
-				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-						node.getSourceLocation(), lhsType.toString(), rhsType.toString());
+				result.add(new OperandTypeMismatch(node, lhsType, rhsType));
 			}
 
 			return QLType.BOOLEAN;
@@ -329,8 +319,7 @@ public class QLSemanticAnalyser {
 			rhs = node.right();
 			rhsType = rhs.accept(this, st);
 			if (!lhsType.equals(rhsType)) {
-				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-						node.getSourceLocation(), lhsType.toString(), rhsType.toString());
+				result.add(new OperandTypeMismatch(node, lhsType, rhsType));
 			}
 
 			return QLType.BOOLEAN;
@@ -385,87 +374,12 @@ public class QLSemanticAnalyser {
 			actualType = expr.accept(this, st);
 
 			if (actualType == null) {
-				result.addError("Unknown type for %s", expr);
-			} else if (!actualType.equals(expectedType)) {
-				result.addError("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
-						expr.getSourceLocation(), expr.getSourceText(), expectedType.toString(), actualType.toString());
-			}
-		}
-	}
-
-	public static class Result {
-
-		private final List<String> warnings = new ArrayList<>();
-		private final List<String> errors = new ArrayList<>();
-
-		private Set<String> duplicateNameQuestions = new HashSet<>();
-		private Set<String> duplicateLabelQuestions = new HashSet<>();
-
-		private Result() {
-
-		}
-
-		void addAll(Result result) {
-			warnings.addAll(result.warnings);
-			errors.addAll(result.errors);
-
-			duplicateNameQuestions.addAll(result.duplicateNameQuestions);
-			duplicateLabelQuestions.addAll(result.duplicateLabelQuestions);
-		}
-
-		void addDuplicateQuestionLabel(QLQuestion q) {
-			duplicateLabelQuestions.add(q.getLabel());
-		}
-
-		void addDuplicateQuestionName(QLQuestion q) {
-			duplicateNameQuestions.add(q.getId());
-		}
-
-		void addWarning(String msg, Object... args) {
-			warnings.add(String.format("WARNING: %s", String.format(msg, args)));
-		}
-
-		void addError(String msg, Object... args) {
-			errors.add(String.format("ERROR  : %s", String.format(msg, args)));
-		}
-
-		public boolean hasErrors() {
-			return !errors.isEmpty();
-		}
-
-		public List<String> getErrors() {
-			return Collections.unmodifiableList(errors);
-		}
-
-		public boolean hasWarnings() {
-			return !warnings.isEmpty();
-		}
-
-		public List<String> getWarnings() {
-			return Collections.unmodifiableList(warnings);
-		}
-
-		public boolean hasMessages() {
-			return hasErrors() || hasWarnings();
-		}
-
-		public List<String> getAllMessages() {
-			List<String> allMessages;
-
-			allMessages = new ArrayList<>();
-			allMessages.addAll(getErrors());
-			allMessages.addAll(getWarnings());
-
-			return Collections.unmodifiableList(allMessages);
-		}
-
-		public void print() {
-			for (String msg : getErrors()) {
-				System.err.println(msg);
+				result.add(new UnknownType(expr));
+				return;
 			}
 
-			for (String msg : getWarnings()) {
-				System.out.println(msg);
+			if (!actualType.equals(expectedType)) {
+				result.add(new TypeMismatch(expr, expectedType, actualType));
 			}
 		}
 	}
@@ -484,6 +398,305 @@ public class QLSemanticAnalyser {
 
 		public QLType getType(String name) {
 			return nameToType.get(name);
+		}
+	}
+
+	public static abstract class SemanticMessage {
+
+		public static enum Level {
+			ERROR("ERROR  "), WARNING("WARNING");
+
+			private final String text;
+
+			private Level(String text) {
+				this.text = text;
+			}
+
+			public String getText() {
+				return text;
+			}
+		}
+
+		private SemanticMessage() {
+
+		}
+
+		public abstract String getSourceLocation();
+
+		public abstract String getMessage();
+
+		public abstract Level getLevel();
+
+		@Override
+		public String toString() {
+			return getLevel().getText() + " " + getSourceLocation() + " " + getMessage();
+		}
+	}
+
+	private static class OperandTypeMismatch extends SemanticMessage {
+
+		private final String MESSAGE = "Type mismatch: operands of %s should be of same type. (lhs='%s', rhs='%s'";
+
+		private final String msg;
+		private final Expr expr;
+
+		public OperandTypeMismatch(BinaryExpr expr, QLType lhsType, QLType rhsType) {
+			msg = String.format(MESSAGE, expr.getSourceText(), lhsType, rhsType);
+			this.expr = expr;
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return expr.getSourceLocation();
+		}
+	}
+
+	private static class TypeMismatch extends SemanticMessage {
+
+		private final String MESSAGE = "Type mismatch: '%s' should be of type '%s' but is of type '%s'. ";
+
+		private final String msg;
+		private final Expr expr;
+
+		public TypeMismatch(Expr expr, QLType expected, QLType actual) {
+			msg = String.format(MESSAGE, expr.getSourceText(), expected, actual);
+			this.expr = expr;
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return expr.getSourceLocation();
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+	}
+
+	private static class UnknownType extends SemanticMessage {
+
+		private final String MESSAGE = "Unknown type for %s";
+
+		private final String msg;
+		private final Expr expr;
+
+		public UnknownType(Expr expr) {
+			msg = String.format(MESSAGE, expr);
+			this.expr = expr;
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return expr.getSourceLocation();
+		}
+	}
+
+	private static class CyclicDependency extends SemanticMessage {
+
+		private final String MESSAGE = "Cyclic dependency for question %s: (%s)";
+
+		private final String msg;
+
+		public CyclicDependency(CyclicReference cr) {
+			msg = String.format(MESSAGE, cr.getReference(), cr.getPath());
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return "";
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+	}
+
+	private static class UndeclaredVariable extends SemanticMessage {
+
+		private static final String MESSAGE = "Undeclared variable %s, %s";
+		private final String msg;
+		private final VariableExpr node;
+
+		public UndeclaredVariable(VariableExpr node) {
+			msg = String.format(MESSAGE, node, node.getVariableId());
+			this.node = node;
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return node.getSourceLocation();
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+
+		@Override
+		public String toString() {
+			return msg;
+		}
+	}
+
+	private static class DuplicateQuestionLabels extends SemanticQuestionMessage {
+
+		private static final String MESSAGE = "Duplicate labels: %s";
+
+		public DuplicateQuestionLabels(String label, List<QLQuestion> questions) {
+			super(String.format(MESSAGE, label), questions);
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.WARNING;
+		}
+	}
+
+	private static class DuplicateQuestionName extends SemanticQuestionMessage {
+
+		private static final String MESSAGE = "Question '%s' has been declared multiple times, but with different types:";
+
+		public DuplicateQuestionName(String name, List<QLQuestion> questions) {
+			super(String.format(MESSAGE, name), questions);
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+	}
+
+	private static abstract class SemanticQuestionMessage extends SemanticMessage {
+
+		private final String message;
+
+		public SemanticQuestionMessage(String msg, List<QLQuestion> questions) {
+			StringBuilder sb;
+
+			assert !questions.isEmpty() : "Question list should not be empty";
+
+			sb = new StringBuilder();
+			sb.append(msg);
+			sb.append(System.lineSeparator());
+			questions.stream().forEach(c -> {
+				sb.append("  ");
+				sb.append(c.toString());
+				sb.append(System.lineSeparator());
+			});
+
+			message = sb.toString();
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return "";
+		}
+
+		@Override
+		public String getMessage() {
+			return message;
+		}
+	}
+
+	public static class SemanticErrors {
+
+		private final Map<Level, List<SemanticMessage>> levelToMessages = new HashMap<>();
+
+		private SemanticErrors() {
+
+		}
+
+		void add(SemanticMessage error) {
+			levelToMessages.computeIfAbsent(error.getLevel(), f -> new ArrayList<>()).add(error);
+		}
+
+		void addAll(SemanticErrors result) {
+			result.getAllMessages().forEach(m -> add(m));
+		}
+
+		private boolean hasMessages(Level level) {
+			return !getByLevel(level).isEmpty();
+		}
+
+		public boolean hasErrors() {
+			return hasMessages(Level.ERROR);
+		}
+
+		private List<SemanticMessage> getByLevel(Level level) {
+			return Collections.unmodifiableList(levelToMessages.getOrDefault(level, Collections.emptyList()));
+		}
+
+		public List<SemanticMessage> getErrors() {
+			return Collections.unmodifiableList(getByLevel(Level.ERROR));
+		}
+
+		public boolean hasWarnings() {
+			return hasMessages(Level.WARNING);
+		}
+
+		public List<SemanticMessage> getWarnings() {
+			return Collections.unmodifiableList(getByLevel(Level.WARNING));
+		}
+
+		public boolean hasMessages() {
+			return hasErrors() || hasWarnings();
+		}
+
+		public List<SemanticMessage> getAllMessages() {
+			List<SemanticMessage> allMessages;
+
+			allMessages = new ArrayList<>();
+			allMessages.addAll(getErrors());
+			allMessages.addAll(getWarnings());
+
+			return Collections.unmodifiableList(allMessages);
+		}
+
+		public void print() {
+			for (SemanticMessage msg : getErrors()) {
+				System.err.println(msg.toString());
+			}
+
+			for (SemanticMessage msg : getWarnings()) {
+				System.out.println(msg.toString());
+			}
 		}
 	}
 

@@ -1,7 +1,6 @@
 package org.uva.ql.ast;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
 
 public abstract class ASTNode {
 
@@ -23,7 +22,7 @@ public abstract class ASTNode {
 
 	@Override
 	public String toString() {
-		return getSourceLocation();
+		return getSourceLocation() + " " + getSourceText();
 	}
 
 	private static class SourceCodeInfo {
@@ -31,38 +30,29 @@ public abstract class ASTNode {
 		private static final SourceCodeInfo NULL_OBJECT = new SourceCodeInfo(null);
 
 		private final int line;
-		private final int charPositionInLine;
+		private final int column;
 		private final String text;
 
 		public SourceCodeInfo(ParserRuleContext context) {
-			Token start;
-
-			start = (context == null ? null : context.getStart());
-
-			line = start == null ? -1 : start.getLine();
-			charPositionInLine = start == null ? -1 : start.getCharPositionInLine() + 1;
+			StringBuilder textBuilder;
 
 			if (context == null) {
 				text = "";
-			} else {
-				StringBuilder builder;
+				line = -1;
+				column = -1;
 
-				builder = new StringBuilder();
-				for (int i = 0; i < context.getChildCount(); i++) {
-					builder.append(context.getChild(i).getText());
-					builder.append(" ");
-				}
-
-				text = builder.toString();
+				return;
 			}
-		}
 
-		public int getLine() {
-			return line;
-		}
+			textBuilder = new StringBuilder();
+			for (int i = 0; i < context.getChildCount(); i++) {
+				textBuilder.append(context.getChild(i).getText());
+				textBuilder.append(" ");
+			}
 
-		public int getCharPos() {
-			return charPositionInLine;
+			text = textBuilder.toString();
+			line = context.getStart().getLine();
+			column = context.getStart().getCharPositionInLine() + 1;
 		}
 
 		public String getText() {
@@ -71,7 +61,7 @@ public abstract class ASTNode {
 
 		@Override
 		public String toString() {
-			return "[" + getLine() + ": " + getCharPos() + "]";
+			return "[" + line + ": " + column + "]";
 		}
 	}
 }

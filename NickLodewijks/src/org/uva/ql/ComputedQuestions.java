@@ -46,8 +46,8 @@ public class ComputedQuestions implements Iterable<QLQuestionComputed> {
 	private static class ComputedQuestionCollector extends ASTNodeVisitorAdapter<Void, ComputedQuestions> {
 
 		@Override
-		public Void visit(QLQuestionComputed node, ComputedQuestions fv) {
-			fv.add(node);
+		public Void visit(QLQuestionComputed node, ComputedQuestions computedQuestions) {
+			computedQuestions.add(node);
 
 			return null;
 		}
