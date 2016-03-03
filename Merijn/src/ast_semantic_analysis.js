@@ -137,7 +137,7 @@ class ExprTypeChecker extends NodeVisitor {
 	}
 	handleUnaryPrefixOperation(unaryPrefixNode, questionStore, analysisLog, typeInferer) {
 		let operandType = unaryPrefixNode.operand.accept(this, questionStore, analysisLog),
-			resultType = operandType.dispatch(typeInferer);
+			resultType = typeInferer.inferResultType(operandType);
 
 		if (!operandType.is(new types.UndefinedType()) && resultType.is(new types.UndefinedType())) {
 			analysisLog.logError([unaryPrefixNode], "Cannot apply unary prefix operation `" + unaryPrefixNode + "` to operand of type `" + operandType + "`");
@@ -155,7 +155,7 @@ class ExprTypeChecker extends NodeVisitor {
 	handleInfixOperation(infixNode, questionStore, analysisLog, typeInferer) {
 		let leftOperandType = infixNode.leftOperand.accept(this, questionStore, analysisLog),
 			rightOperandType = infixNode.rightOperand.accept(this, questionStore, analysisLog),
-			resultType = leftOperandType.dispatch(typeInferer, rightOperandType);
+			resultType = typeInferer.inferResultType(leftOperandType, rightOperandType);
 
 		if (!leftOperandType.is(new types.UndefinedType()) && !rightOperandType.is(new types.UndefinedType()) && resultType.is(new types.UndefinedType())) {
 			analysisLog.logError([infixNode], "Cannot apply infix operation `" + infixNode + "` to operands of type `" + leftOperandType + "` and `" + rightOperandType + "`");
