@@ -102,7 +102,7 @@ extension DefaultSemanticAnalyzer {
     }
     
     func visit(node: QLIntegerLiteral, param: Void?) -> QLType {
-        return QLMoneyType() // TODO: fix integer/money
+        return QLIntegerType()
     }
     
     func visit(node: QLStringLiteral, param: Void?) -> QLType {
@@ -118,11 +118,11 @@ extension DefaultSemanticAnalyzer {
     }
     
     func visit(node: QLNeg, param: Void?) -> QLType {
-        if (node.rhs.accept(self, param: nil) !== QLMoneyType.self) {
+        if (node.rhs.accept(self, param: nil) !== QLIntegerType.self) {
             collectUnaryTypeError(node)
         }
         
-        return QLMoneyType()
+        return QLIntegerType()
     }
     
     func visit(node: QLNot, param: Void?) -> QLType {
@@ -138,11 +138,11 @@ extension DefaultSemanticAnalyzer {
     }
 
     func visitBinaryNumber(node: QLBinary) -> QLType {
-        if (node.lhs.accept(self, param: nil) !== QLMoneyType.self || node.rhs.accept(self, param: nil) !== QLMoneyType.self) {
+        if (node.lhs.accept(self, param: nil) !== QLIntegerType.self || node.rhs.accept(self, param: nil) !== QLIntegerType.self) {
             collectBinaryTypeError(node)
         }
         
-        return QLMoneyType()
+        return QLIntegerType()
     }
     
     func visit(node: QLAdd, param: Void?) -> QLType {
@@ -166,7 +166,7 @@ extension DefaultSemanticAnalyzer {
     }
     
     func visitBinaryOrder(node: QLBinary) -> QLType {
-        if (node.lhs.accept(self, param: nil) !== QLMoneyType.self || node.rhs.accept(self, param: nil) !== QLMoneyType.self) {
+        if (node.lhs.accept(self, param: nil) !== QLIntegerType.self || node.rhs.accept(self, param: nil) !== QLIntegerType.self) {
             collectBinaryTypeError(node)
         }
         
@@ -227,7 +227,7 @@ extension DefaultSemanticAnalyzer {
 
 extension DefaultSemanticAnalyzer {
     
-    func visit(node: QLMoneyType, param: Void?) -> QLType {
+    func visit(node: QLIntegerType, param: Void?) -> QLType {
         return node
     }
     

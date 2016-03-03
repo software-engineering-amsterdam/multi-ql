@@ -21,7 +21,7 @@ class QLVariable: QLExpression {
     }
     
     func eval(context: QLContext) -> NSObject {
-        return context.retrieve(id) // TODO: not needed?
+        return context.retrieve(id)
     }
 }
 

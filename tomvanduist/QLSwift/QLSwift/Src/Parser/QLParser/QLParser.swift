@@ -19,16 +19,12 @@ import SwiftParsec
  * question         ::= computedQuestion | variableQuestion
  * computedQuestion ::= var ':' stringLit expr
  * variableQuestion ::= var ':' stringLit type
- * type             ::= money | boolean | string
+ * type             ::= integer | boolean | string
  * expr             ::= unaryOp expr | expr binary expr | ( expr ) | literal | var
  * literal          ::= true | false | stringLit | numberLit
  * unaryOp          ::= - | !
  * binary           ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
  * var              ::= identifier
- 
- 
- 
- * money            ::= 'money' || 'money' ( expr )
  */
 class QLParser: NSObject {
     
@@ -133,7 +129,7 @@ extension QLParser {
             }
         
         
-        // Attempt to find calculated money and 'normal' operator table first, '<=' operator table last
+        // Attempt to find normal' operator table first, '<=' operator table last
         // Using .attempt will ignore errors when '<' is exptected but '<=' is found, last expr will pick that up
         return lexer.whiteSpace *> (_expr.attempt <|> _expr0)
     }
@@ -143,10 +139,10 @@ extension QLParser {
             lexer.symbol("boolean").map { _ in QLBooleanType() }
         let stringType: GenericParser<String, (), QLType> =
             lexer.symbol("string").map { _ in QLStringType() }
-        let moneyType: GenericParser<String, (), QLType> =
-            lexer.symbol("money").map { _ in QLMoneyType() }
+        let integerType: GenericParser<String, (), QLType> =
+            lexer.symbol("integer").map { _ in QLIntegerType() }
         
-        return boolType <|> stringType <|> moneyType
+        return boolType <|> stringType <|> integerType
     }
     
     private func identifier() -> GenericParser<String, (), QLIdentifier> {

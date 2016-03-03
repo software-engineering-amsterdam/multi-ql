@@ -20,7 +20,7 @@ class QLBooleanType: QLType {
     let defaultValue: NSObject = true
 }
 
-class QLMoneyType: QLType {
+class QLIntegerType: QLType {
     let defaultValue: NSObject = 0
 }
 
