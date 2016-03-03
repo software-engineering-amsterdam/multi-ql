@@ -1,12 +1,14 @@
 package nl.uva.sea.ql.ast.expr;
 
+import java.util.Map;
+import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 2-mrt-2016
+ * @version 3-mrt-2016
  */
 public class Ident extends Expr {
     
@@ -39,12 +41,22 @@ public class Ident extends Expr {
     }
     
     /**
-     * @throws <code>UnsupportedOperationException</code> because the type of an
-     *          <code>Ident</code> can not be determined
+     * Returns whether <code>this Ident</code> represents a boolean value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
+     *                      <code>this Ident</code> might be to a
+     *                      <code>Question</code> with that <code>Ident</code>
+     * @return <code>true</code> if and only if <code>questionTypes</code>
+     *          maps <code>this Ident</code> to a <code>Question</code> for which
+     *          {@link nl.uva.sea.ql.ast.question.Question#isBoolean() isBoolean()}
+     *          returns <code>true</code>
      */
     @Override
-    public boolean isBoolean() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+    public boolean isBoolean(Map<Ident,Question> questionTypes) {
+        if (!questionTypes.containsKey(this)) return false;
+        
+        Question q = questionTypes.get(this);
+        return q.isBoolean();
     }
     
     /**

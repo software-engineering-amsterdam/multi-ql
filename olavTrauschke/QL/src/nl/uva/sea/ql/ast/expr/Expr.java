@@ -1,22 +1,27 @@
 package nl.uva.sea.ql.ast.expr;
 
+import java.util.Map;
 import nl.uva.sea.ql.ast.ASTNode;
+import nl.uva.sea.ql.ast.question.Question;
 
 /**
  * Representation of expression in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 3-mrt-2016
  */
 public abstract class Expr extends ASTNode {
     
     /**
      * Returns whether <code>this Expr</code> represents a boolean value.
      * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
+     *                      <code>this Expr</code> might contain to a
+     *                      <code>Question</code> with that <code>Ident</code>
      * @return <code>false</code> by default, should be overwritten apropriatly
      *          in subclasses representing booleans
      */
-    public boolean isBoolean(){
+    public boolean isBoolean(Map<Ident,Question> questionTypes){
         return false;
     }
     
