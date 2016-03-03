@@ -524,52 +524,60 @@ public class QLSemanticAnalyser {
 
 		public static class ReferencePath {
 
-			private final List<Reference> readOnlyReferenceList;
+			private final List<Reference> referenceList;
 
 			public ReferencePath() {
-				readOnlyReferenceList = Collections.emptyList();
+				referenceList = new ArrayList<>();
 			}
 
-			public ReferencePath(List<Reference> references) {
-				List<Reference> copyOfReferences;
-
-				copyOfReferences = new ArrayList<>(references);
-				readOnlyReferenceList = Collections.unmodifiableList(copyOfReferences);
+			public ReferencePath(ReferencePath referencePath) {
+				referenceList = new ArrayList<>(referencePath.referenceList);
 			}
 
 			/**
-			 * Make a copy of this {@code ReferencePath}, and add the supplied
-			 * Reference {@code r} to the path.
+			 * Return a copy of this {@code ReferencePath} that is extended with
+			 * the specified reference. Extending means that the reference is
+			 * appended to the path.
 			 * 
 			 * @param r
 			 *            the {@code Reference} to add.
 			 * @return a copy of this {@code ReferencePath} with the the
 			 *         supplied reference appended.
 			 */
-			public ReferencePath copyAndAdd(Reference r) {
-				List<Reference> refs;
+			public ReferencePath extend(Reference r) {
+				ReferencePath copy;
 
-				refs = new ArrayList<>(readOnlyReferenceList);
-				refs.add(r);
+				copy = new ReferencePath(this);
+				copy.referenceList.add(r);
 
-				return new ReferencePath(refs);
-			}
-
-			/**
-			 * Find the root of this reference path.
-			 * 
-			 * @return the first {@code Reference} of this path, or {@code null}
-			 *         if the path does not contain any references.
-			 */
-			public Reference getRoot() {
-				if (readOnlyReferenceList.isEmpty()) {
-					return null;
-				}
-				return readOnlyReferenceList.get(0);
+				return copy;
 			}
 
 			public List<Reference> getPath() {
-				return readOnlyReferenceList;
+				return Collections.unmodifiableList(referenceList);
+			}
+
+			/**
+			 * Returns the path as a string in the form of 'a -> b -> c', where
+			 * the letters are the id's of the references, and a refers to b,
+			 * and b refers to c.
+			 * 
+			 * @return the path as a string.
+			 */
+			public String getPathString() {
+				StringBuilder sb;
+
+				sb = new StringBuilder();
+
+				// Make a String in the form of 'a -> b -> c'
+				referenceList.stream().forEachOrdered(ref -> {
+					if (sb.length() > 0) {
+						sb.append(" -> ");
+					}
+					sb.append(ref.id);
+				});
+
+				return sb.toString();
 			}
 
 			/**
@@ -581,17 +589,18 @@ public class QLSemanticAnalyser {
 			 *         reference
 			 */
 			public boolean contains(Reference r) {
-				return readOnlyReferenceList.contains(r);
+				return referenceList.contains(r);
 			}
 
 			/**
 			 * Returns true if this path contains a cycle.
 			 * 
-			 * @return {@code true} if this path contains a cycle.
+			 * @return {@code true} if this path contains a cycle, {@code false}
+			 *         otherwise.
 			 */
 			public boolean hasCycle() {
-				for (Reference r : readOnlyReferenceList) {
-					if (Collections.frequency(readOnlyReferenceList, r) > 1) {
+				for (Reference r : referenceList) {
+					if (hasCycle(r)) {
 						return true;
 					}
 				}
@@ -599,21 +608,45 @@ public class QLSemanticAnalyser {
 				return false;
 			}
 
+			/**
+			 * Returns true if this path contains a cycle with specified
+			 * reference.
+			 * 
+			 * @param r
+			 *            the reference to check.
+			 * @return {@code true} if this path contains a cycle with reference
+			 *         {@code r}, {@code false} otherwise.
+			 * 
+			 * @throws NullPointerException
+			 *             if {@code r} is {@code null}.
+			 */
+			public boolean hasCycle(Reference r) {
+				return frequency(r) > 1;
+			}
+
+			/**
+			 * Returns how many times the specified reference occurs in this
+			 * ReferencePath.
+			 *
+			 * @param r
+			 *            the reference whose frequency is to be determined
+			 * @return the number of elements in this path equal to {@code r}
+			 * @throws NullPointerException
+			 *             if {@code r} is null
+			 */
+			private int frequency(Reference r) {
+				return Collections.frequency(referenceList, r);
+			}
+
+			/**
+			 * Calling toString on {@code ReferencePath} will return the same
+			 * String that is returned by {@link #getPathString()}.
+			 * 
+			 * @see #getPathString()
+			 */
 			@Override
 			public String toString() {
-				StringBuilder sb;
-
-				sb = new StringBuilder();
-
-				// Make a String in the form of 'a -> b -> c'
-				readOnlyReferenceList.stream().forEachOrdered(ref -> {
-					if (sb.length() > 0) {
-						sb.append(" -> ");
-					}
-					sb.append(ref.id);
-				});
-
-				return sb.toString();
+				return getPathString();
 			}
 		}
 
@@ -638,37 +671,68 @@ public class QLSemanticAnalyser {
 				return Collections.unmodifiableList(referents);
 			}
 
+			/**
+			 * Returns all the {@code ReferencePath}'s for this
+			 * {@code References}.
+			 * 
+			 * @return the {@code ReferencesPath}'s. for this {@code Reference}.
+			 */
 			public List<ReferencePath> getPaths() {
 				return getPaths(new ReferencePath());
 			}
 
+			/**
+			 * Returns all the {@code ReferencePath}'s for this
+			 * {@code References}, appended to the specified {@code parentPath}.
+			 * 
+			 * @param parentPath
+			 *            the path to use as a root.
+			 * 
+			 * @return the {@code ReferencesPath}'s. for this {@code Reference}.
+			 */
 			public List<ReferencePath> getPaths(ReferencePath parentPath) {
 				List<ReferencePath> paths;
 				ReferencePath myPath;
 
-				myPath = parentPath.copyAndAdd(this);
+				myPath = parentPath.extend(this);
 
-				// If this reference does not have any referents, this is the
-				// end of the reference path.
-				if (referents.isEmpty()) {
+				// We've arrived at the end of a path.
+				if (isLeaf()) {
+					return Collections.singletonList(myPath);
+				}
+
+				// Found a cycle. Continuing will cause endless recursion.
+				if (myPath.hasCycle(this)) {
 					return Collections.singletonList(myPath);
 				}
 
 				paths = new ArrayList<>();
 				for (Reference referent : referents) {
-
-					// Found a cycle.
-					if (myPath.contains(referent)) {
-						// Add the referent to the path, so the cycle
-						// is actually present in the path.
-						paths.add(myPath.copyAndAdd(referent));
-						continue;
-					}
-
 					paths.addAll(referent.getPaths(myPath));
 				}
 
 				return Collections.unmodifiableList(paths);
+			}
+
+			/**
+			 * Returns whether this reference is a leaf. A reference is a leaf
+			 * iff the reference has no referents.
+			 * 
+			 * @return {@code true} if this reference is a leaf, {@code false}
+			 *         otherwise.
+			 */
+			private boolean isLeaf() {
+				return hasReferents();
+			}
+
+			/**
+			 * Returns whether this reference has any referents.
+			 * 
+			 * @return {@code true} if this reference has referents,
+			 *         {@code false} otherwise.
+			 */
+			private boolean hasReferents() {
+				return referents.isEmpty();
 			}
 
 			@Override

@@ -34,7 +34,6 @@ import org.uva.ql.ast.type.QLTypeVisitor;
 import org.uva.ql.domain.Form;
 import org.uva.ql.domain.Question;
 import org.uva.ql.domain.Questionnaire;
-import org.uva.ql.ui.UIComponent;
 import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIForm;
 import org.uva.ql.ui.UIQuestion;
@@ -83,7 +82,7 @@ public class DefaultUISwingFactory implements UIFactory {
 		labelWidget = createLabelWidget(question);
 		valueWidget = createValueWidget(question);
 
-		return new DefaultQLQuestion(question, labelWidget, valueWidget);
+		return new DefaultUIQuestion(question, labelWidget, valueWidget);
 	}
 
 	public UIWidget createLabelWidget(Question q) {
@@ -141,7 +140,7 @@ public class DefaultUISwingFactory implements UIFactory {
 			QLInterpreterContext context;
 
 			context = new QLInterpreterContext();
-			for (UIComponent form : forms) {
+			for (UIForm form : forms) {
 				form.setContext(context);
 			}
 
@@ -186,14 +185,14 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultQLQuestion implements UIQuestion, ContextListener {
+	private static class DefaultUIQuestion implements UIQuestion, ContextListener {
 
 		private final Question question;
 
 		private final UIWidget labelWidget;
 		private final UIWidget valueWidget;
 
-		public DefaultQLQuestion(Question q, UIWidget labelWidget, UIWidget valueWidget) {
+		public DefaultUIQuestion(Question q, UIWidget labelWidget, UIWidget valueWidget) {
 			this.question = q;
 
 			this.labelWidget = labelWidget;
