@@ -3,8 +3,8 @@ package org.uva.ql.ast;
 import org.junit.Assert;
 import org.junit.Test;
 import org.uva.ql.QLInterpreter;
-import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.literal.IntegerLiteral;
+import org.uva.ql.ast.expr.Add;
+import org.uva.ql.ast.expr.IntegerLiteral;
 
 public class QLExpressionInterpreterTest {
 

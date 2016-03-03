@@ -1,8 +1,6 @@
-package org.uva.ql.ast.literal;
+package org.uva.ql.ast.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.expr.ExprVisitor;
 
 public final class BooleanLiteral extends Expr {
 

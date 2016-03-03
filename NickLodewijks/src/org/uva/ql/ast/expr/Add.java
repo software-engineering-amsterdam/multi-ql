@@ -1,9 +1,6 @@
-package org.uva.ql.ast.expr.math;
+package org.uva.ql.ast.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.uva.ql.ast.expr.BinaryExpr;
-import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.expr.ExprVisitor;
 
 public class Add extends BinaryExpr {
 

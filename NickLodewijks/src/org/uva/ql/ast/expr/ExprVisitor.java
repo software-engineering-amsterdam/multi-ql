@@ -1,24 +1,5 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.expr.math.Divide;
-import org.uva.ql.ast.expr.math.Multiply;
-import org.uva.ql.ast.expr.math.Negative;
-import org.uva.ql.ast.expr.math.Positive;
-import org.uva.ql.ast.expr.math.Subtract;
-import org.uva.ql.ast.expr.rel.And;
-import org.uva.ql.ast.expr.rel.Equals;
-import org.uva.ql.ast.expr.rel.EqualsNot;
-import org.uva.ql.ast.expr.rel.GreaterThan;
-import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
-import org.uva.ql.ast.expr.rel.LessThan;
-import org.uva.ql.ast.expr.rel.LessThanOrEquals;
-import org.uva.ql.ast.expr.rel.Not;
-import org.uva.ql.ast.expr.rel.Or;
-import org.uva.ql.ast.literal.BooleanLiteral;
-import org.uva.ql.ast.literal.IntegerLiteral;
-import org.uva.ql.ast.literal.StringLiteral;
-
 public interface ExprVisitor<T, U> {
 
 	public T visit(Add node, U context);

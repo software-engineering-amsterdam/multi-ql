@@ -3,8 +3,8 @@ package org.uva.ql.ast.stat;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLInterpreterContext;
+import org.uva.ql.ast.expr.BooleanLiteral;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.type.QLType;
 
 public abstract class QLQuestion extends QLStatement {
