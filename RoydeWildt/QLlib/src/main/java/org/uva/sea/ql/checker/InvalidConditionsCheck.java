@@ -1,12 +1,15 @@
 package org.uva.sea.ql.checker;
 
 import org.uva.sea.ql.ast.tree.Node;
+import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.If;
 import org.uva.sea.ql.ast.tree.stat.IfElse;
 import org.uva.sea.ql.ast.type.BooleanType;
 import org.uva.sea.ql.ast.type.ValueType;
 import org.uva.sea.ql.ast.visitor.TypeVisitor;
+import org.uva.sea.ql.checker.message.ErrorMessage;
+import org.uva.sea.ql.checker.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,23 @@ public class InvalidConditionsCheck extends TypeVisitor<Void,Void,Void> {
         if(exprType == null || !exprType.equals(new BooleanType()))
             invalidConditions.add(stat.getCond());
         return null;
+    }
+
+    public List<Message> invalidConditionChecker(){
+        List<Message> messages = new ArrayList<>();
+        List<Node> invalidConditions = getInvalidConditions();
+
+        for(Node n : invalidConditions){
+            Expr e = (Expr) n;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Condition ");
+            sb.append(e.toString());
+            sb.append(" is not of type BooleanType");
+
+            messages.add(new ErrorMessage(sb.toString(),e));
+        }
+        return messages;
+
     }
 
     public List<Node> getInvalidConditions() {

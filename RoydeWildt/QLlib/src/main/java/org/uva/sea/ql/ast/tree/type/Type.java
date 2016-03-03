@@ -15,7 +15,8 @@ public abstract class Type extends Node implements ITypeVisitable {
     }
 
     public abstract ValueType getType();
-    public abstract Val defaultValue();
+
+    public abstract Val getDefaultValue();
 
     @Override
     public String toString() {

@@ -6,19 +6,29 @@ import org.uva.sea.ql.ast.visitor.interfaces.IValVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class Int extends Val {
-    private final Integer value;
+    private Integer value;
 
-    public Int(int i){
-        super(0);
+    public Int(int line, int i){
+        super(line);
         this.value = i;}
 
     public Int(int line, String x){
         super(line);
-        this.value = Integer.valueOf(x);
+
+        try{
+            this.value = Integer.valueOf(x);
+        }
+        catch (Exception e){
+            this.value = 0;
+        }
     }
 
     public Integer getValue() {
         return value;
+    }
+
+    public static Int defaultValue(int line){
+        return new Int(line,0);
     }
 
     @Override

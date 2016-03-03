@@ -9,10 +9,10 @@ import org.uva.sea.ql.parser.*;
  */
 public class Test {
     public static void main(String[] args) throws Throwable {
-        Form f1 = QLRunner.ParseFromPath("src/test/resources/cycles1.ql");
+        //Form f1 = QLRunner.ParseFromPath("src/test/resources/cycles1.ql");
 
-        Checker chk = new Checker();
-        chk.cyclicQuestionChecker(f1);
+        //Checker chk = new Checker();
+        //chk.cyclicQuestionChecker(f1);
 
     }
 }

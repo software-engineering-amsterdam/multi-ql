@@ -75,103 +75,103 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Observab
     @Override
     public Primary visit(Pos expr, ObservableMap<Var, Question> symbolTable) {
         Int value = expr.getValue().accept(this, symbolTable).getValue();
-        return new Primary(new Int(value.getValue()));
+        return new Primary(new Int(value.getLine(), value.getValue()));
     }
 
     @Override
     public Primary visit(Not expr, ObservableMap<Var, Question> symbolTable) {
         Bool value = expr.getValue().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(!value.getValue()));
+        return new Primary(new Bool(value.getLine(), !value.getValue()));
     }
 
     @Override
     public Primary visit(Neg expr, ObservableMap<Var, Question> symbolTable) {
         Int value = expr.getValue().accept(this, symbolTable).getValue();
-        return new Primary(new Int(-value.getValue()));
+        return new Primary(new Int(value.getLine(), -value.getValue()));
     }
 
     @Override
     public Primary visit(Sub expr, ObservableMap<Var, Question> symbolTable) {
         Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Int(lhs.getValue() - rhs.getValue()));
+        return new Primary(new Int(lhs.getLine(), lhs.getValue() - rhs.getValue()));
     }
 
     @Override
     public Primary visit(Or expr, ObservableMap<Var, Question> symbolTable) {
         Bool lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Bool rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getValue() || rhs.getValue()));
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() || rhs.getValue()));
     }
 
     @Override
     public Primary visit(NEq expr, ObservableMap<Var, Question> symbolTable) {
         Val lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Val rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getValue() != rhs.getValue()));
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() != rhs.getValue()));
     }
 
     @Override
     public Primary visit(Mul expr, ObservableMap<Var, Question> symbolTable) {
         Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Int(lhs.getValue() * rhs.getValue()));
+        return new Primary(new Int(lhs.getLine(), lhs.getValue() * rhs.getValue()));
     }
 
     @Override
     public Primary visit(LT expr, ObservableMap<Var, Question> symbolTable) {
         Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getValue() < rhs.getValue()));
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() < rhs.getValue()));
     }
 
     @Override
     public Primary visit(LEq expr, ObservableMap<Var, Question> symbolTable) {
         Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getValue() <= rhs.getValue()));
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() <= rhs.getValue()));
     }
 
     @Override
     public Primary visit(GT expr, ObservableMap<Var, Question> symbolTable) {
         Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getValue() > rhs.getValue()));
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() > rhs.getValue()));
     }
 
     @Override
     public Primary visit(GEq expr, ObservableMap<Var, Question> symbolTable) {
         Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getValue() >= rhs.getValue()));
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() >= rhs.getValue()));
     }
 
     @Override
     public Primary visit(Eq expr, ObservableMap<Var, Question> symbolTable) {
         Val lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Val rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getValue() == rhs.getValue()));
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() == rhs.getValue()));
     }
 
     @Override
     public Primary visit(Div expr, ObservableMap<Var, Question> symbolTable) {
         Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Int(lhs.getValue() / rhs.getValue()));
+        return new Primary(new Int(lhs.getLine(), lhs.getValue() / rhs.getValue()));
     }
 
     @Override
     public Primary visit(And expr, ObservableMap<Var, Question> symbolTable) {
         Bool lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Bool rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getValue() && rhs.getValue()));
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() && rhs.getValue()));
     }
 
     @Override
     public Primary visit(Add expr, ObservableMap<Var, Question> symbolTable) {
         Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Int(lhs.getValue() + rhs.getValue()));
+        return new Primary(new Int(lhs.getLine(), lhs.getValue() + rhs.getValue()));
     }
 
     @Override

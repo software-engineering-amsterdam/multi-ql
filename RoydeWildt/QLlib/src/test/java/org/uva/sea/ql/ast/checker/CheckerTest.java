@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.checker;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.*;
-import org.uva.sea.ql.checker.Checker;
+import org.uva.sea.ql.checker.*;
 import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.parser.QLRunner;
@@ -22,7 +22,7 @@ public class CheckerTest {
         checkList.add("Q4_Undefined");
 
         Form f = parseFromPath("src/test/resources/undefined1.ql");
-        List<Message> messages = (new Checker()).undefinedChecker(f);
+        List<Message> messages = new UndefinedVarsCheck(f).undefinedChecker();
 
         compareMessages(messages, checkList);
     }
@@ -34,7 +34,7 @@ public class CheckerTest {
         checkList.add("Q2_duplicate_warning");
 
         Form f = parseFromPath("src/test/resources/duplicates1.ql");
-        List<Message> messages = (new Checker()).duplicateChecker(f);
+        List<Message> messages = new DuplicateVarsCheck(f).duplicateChecker();
 
         compareMessages(messages, checkList);
     }
@@ -52,7 +52,7 @@ public class CheckerTest {
         checkList.add("Q2_money == Q4_boolean");
 
         Form f = parseFromPath("src/test/resources/expressions1.ql");
-        List<Message> messages = (new Checker()).invalidExpressionChecker(f);
+        List<Message> messages = new InvalidExpressionsCheck(f).invalidExpressionChecker();
 
         compareMessages(messages, checkList);
     }
@@ -67,7 +67,7 @@ public class CheckerTest {
         checkList.add("Q3_boolean != 1");
 
         Form f = parseFromPath("src/test/resources/expressions2.ql");
-        List<Message> messages = (new Checker()).invalidExpressionChecker(f);
+        List<Message> messages = new InvalidExpressionsCheck(f).invalidExpressionChecker();
 
         compareMessages(messages, checkList);
     }
@@ -80,7 +80,7 @@ public class CheckerTest {
         checkList.add("Q3_null");
 
         Form f = parseFromPath("src/test/resources/conditions1.ql");
-        List<Message> messages = (new Checker()).invalidConditionChecker(f);
+        List<Message> messages = new InvalidConditionsCheck(f).invalidConditionChecker();
 
         compareMessages(messages,checkList);
     }
@@ -94,7 +94,7 @@ public class CheckerTest {
         checkList.add("Q4");
 
         Form f = parseFromPath("src/test/resources/cycles1.ql");
-        List<Message> messages = (new Checker()).cyclicQuestionChecker(f);
+        List<Message> messages = new CyclicQuestionsCheck(f).cyclicQuestionChecker();
 
         compareMessages(messages,checkList);
     }
@@ -105,7 +105,7 @@ public class CheckerTest {
         checkList.add("Q2");
 
         Form f = parseFromPath("src/test/resources/labels1.ql");
-        List<Message> messages = (new Checker()).duplicateQuestionLabelChecker(f);
+        List<Message> messages = new DuplicateLabelsCheck(f).duplicateQuestionLabelChecker();
 
         compareMessages(messages,checkList);
     }

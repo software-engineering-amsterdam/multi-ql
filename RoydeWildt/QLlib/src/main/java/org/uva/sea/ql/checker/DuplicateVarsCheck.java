@@ -5,6 +5,9 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
+import org.uva.sea.ql.checker.message.ErrorMessage;
+import org.uva.sea.ql.checker.message.Message;
+import org.uva.sea.ql.checker.message.WarningMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +39,29 @@ public class DuplicateVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Voi
         }
 
         return null;
+    }
+
+    public List<Message> duplicateChecker(){
+        List<Message> messages = new ArrayList<>();
+        List<List<Node>> duplicates = getDuplicates();
+
+        for(List<Node> dups : duplicates){
+            StringBuilder sb = new StringBuilder("");
+            Question org = (Question) dups.get(0);
+            for (int i = 1; i < dups.size(); i++) {
+                Question dup = (Question) dups.get(i);
+                sb.append("Variable ");
+                sb.append(dup.getVarname().getName() + " : " + dup.getType().getClass().getSimpleName());
+                sb.append(" is already defined as ");
+                sb.append(org.getVarname().getName() + " : " + org.getType().getClass().getSimpleName());
+
+                if(dup.getType().getClass().getSimpleName() == org.getType().getClass().getSimpleName())
+                    messages.add(new WarningMessage(sb.toString(), dup.getVarname()));
+                else
+                    messages.add(new ErrorMessage(sb.toString(), dup.getVarname()));
+            }
+        }
+        return messages;
     }
 
     public List<List<Node>> getDuplicates() {

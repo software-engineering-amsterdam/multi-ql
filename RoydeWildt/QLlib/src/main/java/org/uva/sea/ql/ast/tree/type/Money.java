@@ -10,17 +10,18 @@ import org.uva.sea.ql.ast.visitor.interfaces.ITypeVisitor;
  * Created by roydewildt on 11/02/16.
  */
 public class Money extends Type {
-    public ValueType getType(){return new MoneyType();}
-
-    @Override
-    public Val defaultValue() {
-        return new Int(0);
-    }
+    private Int defaultValue;
 
     public Money(int line) {
         super(line);
+        this.defaultValue = Int.defaultValue(line);
     }
 
+    public ValueType getType(){return new MoneyType();}
+
+    public Int getDefaultValue() {
+        return defaultValue;
+    }
 
     @Override
     public <S, C> S accept(ITypeVisitor<S, C> visitor, C context) {

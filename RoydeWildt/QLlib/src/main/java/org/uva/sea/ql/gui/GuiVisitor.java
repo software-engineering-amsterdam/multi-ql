@@ -109,6 +109,7 @@ public class GuiVisitor extends BaseVisitor<Void, QuestionWidget, Void, Void, Co
         CheckBoxWidget b = (CheckBoxWidget) actionEvent.getSource();
         Question parent = b.getParentQuestion();
         Expr newExpr = new Primary(new Bool(
+                        parent.getLine(),
                         b.isSelected()));
         Question update = updateQuestionExpr(parent, newExpr);
         this.symbolTable.put(parent.getVarname(), update);

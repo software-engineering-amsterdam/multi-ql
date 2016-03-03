@@ -10,15 +10,17 @@ import org.uva.sea.ql.ast.visitor.interfaces.ITypeVisitor;
  * Created by roydewildt on 11/02/16.
  */
 public class Boolean extends Type {
-    public ValueType getType(){return new BooleanType();}
-
-    @Override
-    public Val defaultValue() {
-        return new Bool(false);
-    }
+    public Bool defaultValue;
 
     public Boolean(int line) {
         super(line);
+        this.defaultValue = Bool.defaultValue(line);
+    }
+
+    public ValueType getType(){return new BooleanType();}
+
+    public Bool getDefaultValue() {
+        return defaultValue;
     }
 
     @Override

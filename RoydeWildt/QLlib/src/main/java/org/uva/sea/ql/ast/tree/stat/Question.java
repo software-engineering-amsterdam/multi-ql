@@ -21,7 +21,7 @@ public class Question extends Stat {
         this.label = label.replace("\"", "");
         this.varname = varname;
         this.type = type;
-        this.expr = new Primary(type.defaultValue());
+        this.expr = new Primary(type.getDefaultValue());
         this.computed = false;
     }
 

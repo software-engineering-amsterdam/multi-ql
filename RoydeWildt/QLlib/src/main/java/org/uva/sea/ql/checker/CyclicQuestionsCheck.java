@@ -5,6 +5,8 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
+import org.uva.sea.ql.checker.message.ErrorMessage;
+import org.uva.sea.ql.checker.message.Message;
 
 import java.util.*;
 
@@ -45,7 +47,7 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,V
         return null;
     }
 
-    public List<Node> getCyclics() {
+    private List<Node> getCyclics() {
         Set<Node> questions = references.keySet();
         List<Node> cycles = new ArrayList<>();
 
@@ -57,7 +59,7 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,V
         return cycles;
     }
 
-    public Node getCyclePathBFS(Node n){
+    private Node getCyclePathBFS(Node n){
 
         Queue<Node> queue = new LinkedList<>();
         queue.add(n);
@@ -74,8 +76,23 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,V
                 queue.addAll(references.get(x));
             }
         }
-
         return null;
+    }
+
+    public List<Message> cyclicQuestionChecker(){
+        List<Message> messages = new ArrayList<>();
+        List<Node> cyclics = getCyclics();
+
+        for(Node n : cyclics){
+            Var v = (Var) n;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Question ");
+            sb.append(v.toString());
+            sb.append(" contains cyclic dependencies");
+
+            messages.add(new ErrorMessage(sb.toString(),v));
+        }
+        return messages;
     }
 
 }

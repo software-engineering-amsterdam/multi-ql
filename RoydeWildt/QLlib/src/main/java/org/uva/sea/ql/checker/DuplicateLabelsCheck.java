@@ -5,6 +5,8 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
+import org.uva.sea.ql.checker.message.Message;
+import org.uva.sea.ql.checker.message.WarningMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +43,22 @@ public class DuplicateLabelsCheck extends BaseVisitor<Void,Void,Void,Void,Void,V
 
     public List<Node> getDuplicatelabels() {
         return duplicatelabels;
+    }
+
+    public List<Message> duplicateQuestionLabelChecker(){
+        List<Message> messages = new ArrayList<>();
+        List<Node> duplicates = getDuplicatelabels();
+
+        for(Node n : duplicates){
+            Var v = ((Question) n).getVarname();
+            StringBuilder sb = new StringBuilder();
+            sb.append("Question ");
+            sb.append(v.toString());
+            sb.append(" uses a label that has already been used");
+
+            messages.add(new WarningMessage(sb.toString(),v));
+        }
+        return messages;
     }
 
 }

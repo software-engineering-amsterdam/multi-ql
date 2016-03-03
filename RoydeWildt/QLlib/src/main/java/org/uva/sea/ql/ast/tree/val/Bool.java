@@ -6,21 +6,32 @@ import org.uva.sea.ql.ast.visitor.interfaces.IValVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class Bool extends Val {
-    private final Boolean value;
+    private Boolean value;
 
-    public Bool(boolean b){
-        super(0);
+    public Bool(int line, boolean b){
+        super(line);
         this.value = b;
     }
 
     public Bool(int line, String x){
         super(line);
-        this.value = Boolean.valueOf(x);
+        try{
+            this.value = Boolean.valueOf(x);
+        }
+
+        catch (Exception e){
+            this.value = false;
+        }
     }
 
     public Boolean getValue() {
         return value;
     }
+
+    public static Bool defaultValue(int line){
+        return new Bool(line,false);
+    }
+
 
     @Override
     public String toString() {

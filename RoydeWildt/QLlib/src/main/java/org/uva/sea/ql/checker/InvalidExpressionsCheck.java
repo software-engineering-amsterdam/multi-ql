@@ -10,6 +10,8 @@ import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.type.ValueType;
 import org.uva.sea.ql.ast.visitor.TypeVisitor;
+import org.uva.sea.ql.checker.message.ErrorMessage;
+import org.uva.sea.ql.checker.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,6 +179,22 @@ public class InvalidExpressionsCheck extends TypeVisitor {
                 return true;
         }
         return false;
+    }
+
+    public List<Message> invalidExpressionChecker(){
+        List<Message> messages = new ArrayList<>();
+        List<Expr> invalidExpressions = getInvalidExpressions();
+
+        for(Node n : invalidExpressions){
+            Expr e = (Expr) n;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Expression ");
+            sb.append(e.toString());
+            sb.append(" has incompatible argument types");
+
+            messages.add(new ErrorMessage(sb.toString(),e));
+        }
+        return messages;
     }
 
     public List<Expr> getInvalidExpressions() {

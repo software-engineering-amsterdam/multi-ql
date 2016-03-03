@@ -12,7 +12,11 @@ import java.util.Map;
  */
 public class DeclVisitor extends BaseVisitor <Void,Void,Void,Void,Void,Map<Var, Question>> {
 
-    private final Map<Var,Expr> decls = new HashMap<>();
+    private final Map<Var,Expr> decls;
+
+    public DeclVisitor() {
+        decls = new HashMap<>();
+    }
 
     @Override
     public Void visit(Question stat, Map<Var, Question> symbolTable) {
