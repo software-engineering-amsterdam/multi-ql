@@ -1,10 +1,11 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.form.Context;
-import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.NumericalType;
+import org.uva.sea.ql.type.Type;
 
-public class Neg extends UnaryExpr implements Visitable {
+public class Neg extends UnaryExpr {
 	
 	public Neg(Expr expr) {
 		super.child = expr;
@@ -27,6 +28,6 @@ public class Neg extends UnaryExpr implements Visitable {
 	
 	@Override
 	public Type getType(Context context) {
-		return Type.INT;
+		return new NumericalType(); 
 	}
 }

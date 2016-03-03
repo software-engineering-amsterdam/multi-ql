@@ -4,29 +4,35 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>DTAlertView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-QLSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>SnapKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0320FCD7594A6FC5FB1DFBDA411D6AAE</key>
+		<key>24E264AB7A9685FDFEC15EC25685247B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>26265D83FB1A357111DDE88B317B6A4D</key>
+		<key>D2C03375DF65BFA5B198FC2AD246CCEF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FD9F8CDA0387F80A0F934955C86571DE</key>
 		<dict>
 			<key>primary</key>
 			<true/>

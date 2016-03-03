@@ -12,62 +12,70 @@ import Foundation
 protocol Expression: ASTNode {
     var type: ExpressionType { get }
     
-    func eval() -> NSValue?
+    func eval() -> NSObject
 }
 
 class Identifier: Expression {
-    private let _type: TypeThunk<Identifier, NSValue> = TypeThunk(IdentifierType())
     var type: ExpressionType {
         get {
-            if let expression = expression {
-                return expression.type
-            } else {
+            guard let type = expression?.type else {
                 return UnknownType()
             }
+            
+            return type
         }
     }
     
     let id: String
     var expression: Expression?
     
-    init(id: String, expression: Expression?) {
+    init(id: String, expression: Expression? = nil) {
         self.id = id
         self.expression = expression
     }
     
-    func eval() -> NSValue? {
-        return self._type.eval(self)
+    func eval() -> NSObject {
+        guard let result = expression?.eval() else {
+            return NSNull()
+        }
+        
+        return result
     }
 }
 
 class BooleanField: Expression {
     let type: ExpressionType = BooleanType()
-    var value: NSValue?
+    var value: Bool = false
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         return value
     }
 }
 
 class StringField: Expression {
     let type: ExpressionType = StringType()
-    var value: NSValue?
+    var string: NSString = ""
     
-    func eval() -> NSValue? {
-        return value
+    func eval() -> NSObject {
+        return string
     }
 }
 
 class MoneyField: Expression {
-    let type: ExpressionType = NumberType()
+    let type: ExpressionType = MoneyType()
     let expression: Expression?
+    var value: NSInteger = 0
     
-    init(expression: Expression?) {
+    init(expression: Expression? = nil) {
         self.expression = expression
     }
     
-    func eval() -> NSValue? {
-        return expression?.eval()
+    func eval() -> NSObject {
+        guard let result = expression?.eval() else {
+            return value
+        }
+        
+        return result
     }
 }
 
@@ -79,34 +87,21 @@ class StringLiteral: Expression {
         self.string = string
     }
     
-    func eval() -> NSValue? {
-        return NSValue(pointer: string)
+    func eval() -> NSObject {
+        return string
     }
 }
 
 class IntegerLiteral: Expression {
-    let type: ExpressionType = NumberType()
+    let type: ExpressionType = MoneyType()
     let integer: NSInteger
     
     init(integer: NSInteger) {
         self.integer = integer
     }
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         return integer
-    }
-}
-
-class FloatLiteral: Expression {
-    let type: ExpressionType = NumberType()
-    let float: Double
-    
-    init(float: Double) {
-        self.float = float
-    }
-    
-    func eval() -> NSValue? {
-        return float
     }
 }
 
@@ -118,38 +113,47 @@ class BooleanLiteral: Expression {
         self.bool = bool
     }
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         return bool
     }
 }
 
-class Neg: Expression {
-    private var _type: ExpressionType = BooleanType()
+class Unary {
+    private var _type: ExpressionType = UnknownType()
     var type: ExpressionType { return _type }
     
     let rhs: Expression
     
-    init (rhs: Expression) {
+    required init(rhs: Expression) {
         self.rhs = rhs
     }
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
+        fatalError("Override")
+    }
+}
+
+class Not: Unary, Expression {
+    required init (rhs: Expression) {
+        super.init(rhs: rhs)
+        
+        _type = BooleanType()
+    }
+    
+    override func eval() -> NSObject {
         return rhs.eval() == false
     }
 }
 
-class Not: Expression {
-    private var _type: ExpressionType = BooleanType()
-    var type: ExpressionType { return _type }
-    
-    let rhs: Expression
-    
-    init (rhs: Expression) {
-        self.rhs = rhs
+class Neg: Unary, Expression {
+    required init (rhs: Expression) {
+        super.init(rhs: rhs)
+        
+        _type = MoneyType()
     }
     
-    func eval() -> NSValue? {
-        return rhs.eval() as! Double * -1
+    override func eval() -> NSObject {
+        return rhs.eval() as! NSInteger * -1
     }
 }
 
@@ -159,168 +163,168 @@ class Binary {
     
     let lhs, rhs: Expression
     
-    init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         self.lhs = lhs
         self.rhs = rhs
     }
     
-    func eval() -> NSValue? {
+    func eval() -> NSObject {
         fatalError("Override")
     }
 }
 
 class Add: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) + (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) + (rhs.eval() as! NSInteger)
     }
 }
 
 class Sub: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) - (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) - (rhs.eval() as! NSInteger)
     }
 }
 
 class Mul: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) * (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) * (rhs.eval() as! NSInteger)
     }
 }
 
 class Div: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) / (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) / (rhs.eval() as! NSInteger)
     }
 }
 
 class Pow: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = NumberType()
+        _type = MoneyType()
     }
     
-    override func eval() -> NSValue? {
-        return pow((lhs.eval() as! Double), (rhs.eval() as! Double))
+    override func eval() -> NSObject {
+        return NSInteger(pow((lhs.eval() as! Double), (rhs.eval() as! Double)))
     }
 }
 
 class Eq: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return lhs.eval() == rhs.eval()
     }
 }
 
 class Ne: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return lhs.eval() != rhs.eval()
     }
 }
 
 class Ge: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) >= (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) >= (rhs.eval() as! NSInteger)
     }
 }
 
 class Gt: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) > (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) > (rhs.eval() as! NSInteger)
     }
 }
 
 class Le: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) <= (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) <= (rhs.eval() as! NSInteger)
     }
 }
 
 class Lt: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
-        return (lhs.eval() as! Double) < (rhs.eval() as! Double)
+    override func eval() -> NSObject {
+        return (lhs.eval() as! NSInteger) < (rhs.eval() as! NSInteger)
     }
 }
 
 class And: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return (lhs.eval() as! Bool) && (rhs.eval() as! Bool)
     }
 }
 
 class Or: Binary, Expression {
-    override init(lhs: Expression, rhs: Expression) {
+    required init(lhs: Expression, rhs: Expression) {
         super.init(lhs: lhs, rhs: rhs)
         
         _type = BooleanType()
     }
     
-    override func eval() -> NSValue? {
+    override func eval() -> NSObject {
         return (lhs.eval() as! Bool) || (rhs.eval() as! Bool)
     }
 }

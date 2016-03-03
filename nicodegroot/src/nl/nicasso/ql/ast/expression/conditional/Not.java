@@ -31,7 +31,7 @@ public class Not extends Monomial {
 	}
 	
 	public Type checkAllowedTypes(Type expr) {
-		if (expr.getType().equals(new BooleanType().getType())) {
+		if (expr.equals(new BooleanType())) {
 			return expr;
 		}
 

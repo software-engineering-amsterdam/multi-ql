@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.nicasso.ql.TypeCheckerVisitor;
+import nl.nicasso.ql.TypeChecker;
 import nl.nicasso.ql.ast.expression.additive.Addition;
 import nl.nicasso.ql.ast.expression.additive.Subtraction;
 import nl.nicasso.ql.ast.expression.conditional.And;
@@ -28,7 +28,7 @@ public class Expressions {
 	public void testAddition() {
 		Addition addition = new Addition(new IntegerLit(1), new IntegerLit(1), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(addition);
 		
@@ -39,7 +39,7 @@ public class Expressions {
 	public void testAdditionMoney() {
 		Addition addition = new Addition(new MoneyLit(BigDecimal.valueOf(1.00)), new MoneyLit(BigDecimal.valueOf(1.00)), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(addition);
 		
@@ -50,7 +50,7 @@ public class Expressions {
 	public void testSubtraction() {
 		Subtraction subtraction = new Subtraction(new IntegerLit(1), new IntegerLit(1), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(subtraction);
 		
@@ -61,7 +61,7 @@ public class Expressions {
 	public void testNot() {
 		Not negation = new Not(new BooleanLit(true), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(negation);
 		
@@ -72,7 +72,7 @@ public class Expressions {
 	public void testAnd() {
 		And and = new And(new BooleanLit(true), new BooleanLit(true), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(and);
 		
@@ -83,7 +83,7 @@ public class Expressions {
 	public void testOr() {
 		Or or = new Or(new BooleanLit(true), new BooleanLit(true), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(or);
 		
@@ -94,7 +94,7 @@ public class Expressions {
 	public void testEqual() {
 		Equal equal = new Equal(new BooleanLit(true), new BooleanLit(true), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(equal);
 		
@@ -105,7 +105,7 @@ public class Expressions {
 	public void testNotEqual() {
 		NotEqual notEqual = new NotEqual(new BooleanLit(true), new BooleanLit(true), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(notEqual);
 		
@@ -116,7 +116,7 @@ public class Expressions {
 	public void testDivision() {
 		Division division = new Division(new IntegerLit(10), new IntegerLit(2), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(division);
 		
@@ -127,7 +127,7 @@ public class Expressions {
 	public void testMultiplication() {
 		Multiplication multiplication = new Multiplication(new IntegerLit(10), new IntegerLit(2), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(multiplication);
 				
@@ -138,7 +138,7 @@ public class Expressions {
 	public void testMultiplicationMoney() {
 		Multiplication multiplication = new Multiplication(new MoneyLit(BigDecimal.valueOf(15.00)), new MoneyLit(BigDecimal.valueOf(3.00)), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(multiplication);
 				
@@ -149,7 +149,7 @@ public class Expressions {
 	public void testMultiplicationCombined() {
 		Multiplication multiplication = new Multiplication(new IntegerLit(2), new MoneyLit(BigDecimal.valueOf(3.00)), null);
 
-		TypeCheckerVisitor visitor = new TypeCheckerVisitor(null);
+		TypeChecker visitor = new TypeChecker(null);
 		
 		Type type = visitor.visit(multiplication);
 				

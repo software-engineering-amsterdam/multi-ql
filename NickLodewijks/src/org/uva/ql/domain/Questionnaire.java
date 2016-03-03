@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Questionnaire {
 
-	private List<Form> forms = new ArrayList<Form>();
+	private List<Form> forms = new ArrayList<>();
 
 	public Questionnaire() {
 

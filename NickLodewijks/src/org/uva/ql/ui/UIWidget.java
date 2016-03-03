@@ -1,10 +1,12 @@
 package org.uva.ql.ui;
 
+import javax.swing.JComponent;
+
 /**
  * A QLWidget represents the GUI component for an input field, or computed value
  * in the questionnaire.
  */
-public interface UIWidget<T> extends UIComponent<T> {
+public interface UIWidget extends UIComponent {
 
 	/**
 	 * Return the current value of the widget
@@ -22,11 +24,7 @@ public interface UIWidget<T> extends UIComponent<T> {
 	 */
 	public boolean setValue(Object value);
 
-	/**
-	 * Set whether this QLWidget is editable.
-	 * 
-	 * @param editable
-	 *            the boolean to set.
-	 */
-	public void setEditable(boolean editable);
+	public void setVisible(boolean visible);
+
+	public JComponent getComponent();
 }

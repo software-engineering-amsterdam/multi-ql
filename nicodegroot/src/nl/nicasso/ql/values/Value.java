@@ -4,6 +4,10 @@ public abstract class Value {
 
 	public abstract Object getValue();
 	
+	public Value multiplication(MoneyValue arg) {
+		return null;
+	}
+	
 	public Value addition(Value arg) {
 		return null;
 	}

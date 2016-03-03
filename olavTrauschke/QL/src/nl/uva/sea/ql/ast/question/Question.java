@@ -10,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 2-mrt-2016
+ * @version 3-mrt-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -52,6 +52,13 @@ public abstract class Question extends ASTNode {
      */
     public Ident getIdentifier() {
         return identifier;
+    }
+    
+    /**
+     * @return the <code>Label</code> to be displayed with <code>this Question</code>
+     */
+    public Label getLabel() {
+        return label;
     }
     
     /**
@@ -102,6 +109,16 @@ public abstract class Question extends ASTNode {
      */
     public boolean hasEqualType(Question other) {
         return getClass() == other.getClass();
+    }
+    
+    /**
+     * Returns whether <code>this Question</code> returns a boolean value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning booleans
+     */
+    public boolean isBoolean(){
+        return false;
     }
     
     /**

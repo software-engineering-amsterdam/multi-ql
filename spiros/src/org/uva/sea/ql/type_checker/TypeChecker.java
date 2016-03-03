@@ -48,7 +48,8 @@ import org.uva.sea.ql.ast.statement.Statement;
 public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVisitor<Type> {
 	
 	private final Form form;
-	private HashMap<String, IdentifierData> questionData;
+	private Map<String, IdentifierData> questionData;		// change names!
+	
 	
 	public TypeChecker(Form form) {
 		this.form = form;
@@ -77,8 +78,9 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		Type leftExprType = leftExpression.accept(this);
 		Type rightExpType = rightExpression.accept(this);
 		
-		if (typeMatches(rightExpType,expectedType) && typeMatches(leftExprType,expectedType))
+		if (typeMatches(rightExpType,expectedType) && typeMatches(leftExprType,expectedType)) {
 			return true;
+		}
 				
 		return false;
 	}
@@ -89,9 +91,10 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		Expression expression = node.getExpression();
 		Type type = expression.accept(this);
 		
-		if (typeMatches(type,expectedType) )
+		if (typeMatches(type,expectedType) ) {
 			return true;
-				
+		}
+		
 		return false;
 	}
 	
@@ -105,10 +108,11 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		
 		Type type = ifStatement.getExpression().accept(this);
 		
-		if (typeMatches(type, new BoolType()))
+		if (typeMatches(type, new BoolType())) {
 			return true;
+		}
 		
-		return false;	// give info about the type
+		return false;	// give info about the type ---> yes, that would be good!
 	}
 	
 	
@@ -116,14 +120,16 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		
 		Identifier identifier = question.getId();
 		
-		if (questionData.keySet().contains(identifier.getValue())) {	////
+		if (questionData.keySet().contains(identifier.getValue())) {
 			
 			String identifierString = question.getType().getTypeName();	// fix -> demeter
 
-			IdentifierData identifierData = questionData.get(identifier.getValue());	////
+			IdentifierData identifierData = questionData.get(identifier.getValue());
 			
-			if (!identifierString.equals(identifierData.getType().getTypeName()))		// fix-> demeter...
-				return true;										//// else update label? ask...
+			if (!identifierString.equals(identifierData.getType().getTypeName())) {		// fix-> demeter...
+				return true;										
+			}
+			
 		}
 		
 		return false;
@@ -132,11 +138,14 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	private boolean labelIsDuplicate(Question question) {
 		
-		for(IdentifierData identifierData: questionData.values())
+		for(IdentifierData identifierData: questionData.values()) {
 			
-			if (identifierData.getLabel().equals(question.getLabel()))
+			if (identifierData.getLabel().equals(question.getLabel())) {
 				return true;
+			}
 
+		}
+		
 		return false;
 	}
 	
@@ -160,8 +169,9 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public void visitBlock(Block block) {
-		for (Statement statement: block.getStatements())
+		for (Statement statement: block.getStatements()) {
 			statement.accept(this);
+		}
 	}
 	
 
@@ -175,8 +185,9 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	@Override
 	public void visitQuestion(Question question) {
 		
-		if (labelIsDuplicate(question))
+		if (labelIsDuplicate(question))	{
 			System.out.println("Duplicate label found!");
+		}
 		
 		if (isDeclaredWithDifferentType(question)) {
 			System.out.println("Question is declared with different type");
@@ -195,8 +206,9 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	@Override
 	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
 		
-		if (labelIsDuplicate(computedQuestion))
+		if (labelIsDuplicate(computedQuestion)) {
 			System.out.println("Duplicate label found!");
+		}
 		
 		if (isDeclaredWithDifferentType(computedQuestion)) {
 			System.out.println("Question is declared with different type");
@@ -215,12 +227,13 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		Identifier identifier = computedQuestion.getId();
 		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
 				
-		for (String dependency: dependencies)
+		for (String dependency: dependencies) {
 			this.setDependencies(identifier.getValue(),dependency);
+		}
 		
 		for(Map.Entry<String, IdentifierData> entry : questionData.entrySet()){
 			List<String> finalDependencies = entry.getValue().getDependencies();
-			Iterator iterator = finalDependencies.iterator();
+			Iterator<String> iterator = finalDependencies.iterator();		// just changed this...
 			while (iterator.hasNext())
 				System.out.printf("Identifier %s has %s as a dependency \n", entry.getKey(), iterator.next());
 		}
@@ -239,8 +252,9 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	@Override
 	public void visitIfStatement(IfStatement ifStatement) {
 		
-		if (isConditionBooleanType(ifStatement))
+		if (isConditionBooleanType(ifStatement)) {
 			ifStatement.getBlock().accept(this);
+		}
 		
 		else {
 			System.out.println("Condition is not boolean");
@@ -365,7 +379,6 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 	}
 	
 	
-	// change below to call method typeMatches...
 	
 	@Override
 	public Type visit(And node) {	
@@ -481,5 +494,5 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		return new IntType();
 	}
 	
-
+	
 }

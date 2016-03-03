@@ -4,20 +4,9 @@ form taxOfficeExample {
     cQ1: integer = (2)
 
   "cQ2"
-    cQ2: integer = (10)
+    cQ2: money = (10.00)
     
   "cQ3"
-    cQ3: integer = (cQ1 * cQ2)
+    cQ3: money = (cQ1 * cQ2)
 
-    /*
-    
-	    Money : int*money
-	    
-	    Nope : int/money?
-	    
-	    Money : money/int?
-	    
-	    int: money/int?
-    
-    */
 }

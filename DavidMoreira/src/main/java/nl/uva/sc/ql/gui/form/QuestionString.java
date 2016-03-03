@@ -17,7 +17,7 @@ public class QuestionString extends Question {
 	}
 
 	@Override
-	public JComponent getComponent(boolean editable, String valueText) {
+	public JComponent createComponentWithValue() {
 		JTextField component = new JTextField(10);
 		
 		component.addActionListener(new ActionListener() {
@@ -29,10 +29,18 @@ public class QuestionString extends Question {
 	        }
 	    });
 		
-		component.setEditable(editable);
+		component.setEditable(isEditable());
+		String valueText = getValuetoString();
 		valueText = (valueText == null) ? "" : valueText;
 		component.setText(valueText);
 		
 		return component;
+	}
+	
+	@Override
+	public void update() {
+		String valueText = getValuetoString();
+		valueText = (valueText == null) ? "" : valueText;
+		((JTextField) getComponent()).setText(valueText);
 	}
 }
