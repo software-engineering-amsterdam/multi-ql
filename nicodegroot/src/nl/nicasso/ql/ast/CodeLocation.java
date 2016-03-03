@@ -1,23 +1,14 @@
 package nl.nicasso.ql.ast;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public class CodeLocation {
 
 	private final int startLine;
-	private final int endLine;
 	private final int startColumn;
-	private final int endColumn;
 	
-	public CodeLocation(int startLine, int endLine, int startColumn, int endColumn) {
-		this.startLine = startLine;
-		this.endLine = endLine;
+	public CodeLocation(int startLine, int startColumn) {
+		// @TODO Not sure if correct, but seems like the startline is one off. 
+		this.startLine = startLine+1;
 		this.startColumn = startColumn;
-		this.endColumn = endColumn;
-	}
-	
-	public int getEndLine() {
-		return endLine;
 	}
 	
 	public int getStartLine() {
@@ -28,16 +19,9 @@ public class CodeLocation {
 		return startColumn;
 	}
 
-	public int getEndColumn() {
-		return endColumn;
-	}
-	
-	public String getLocation() {
-		return "LOCATIE KOMT HIER";
-	}
-	
-	public static CodeLocation getCodeLocation(ParserRuleContext ctx) {
-		return new CodeLocation(ctx.getStart().getLine(), ctx.getStop().getLine(), ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex());
+	@Override
+	public String toString() {
+		return "Line: " + startLine +" Column: " + startColumn;
 	}
 	
 }

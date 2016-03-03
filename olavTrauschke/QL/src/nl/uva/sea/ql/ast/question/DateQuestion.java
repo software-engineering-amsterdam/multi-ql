@@ -1,8 +1,9 @@
 package nl.uva.sea.ql.ast.question;
 
-import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
+import nl.uva.sea.ql.ast.Label;
+import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s that return dates in an AST.
@@ -39,6 +40,19 @@ public class DateQuestion extends Question {
      */
     public DateQuestion(Ident identifier, Label label, Expr calculation) {
         super(identifier, label, calculation);
+    }
+    
+    /**
+     * Has the children of <code>this Question accept v</code> and then
+     * has <code>v visit this Question</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this Question</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        childrenAccept(v);
+        v.visit(this);
     }
     
 }

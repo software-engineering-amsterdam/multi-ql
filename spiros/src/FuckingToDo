@@ -1,0 +1,17 @@
+--> List<Str>  ----->  Set<Str>
+
+--> Set<Str> ---> Set <Identifier>
+
+--> CyclicDependenciesVisitor--> rename
+
+--> *** TESTS  ***
+
+--> ***************** EVALUATOR *******************
+
+--> ******************** GUI ***********************
+
+--> Organize packages
+
+--> Give info about the type of the condition (if it is not boolean . . . )
+
+--> Give info about the type of an expression (if it doesn't match)

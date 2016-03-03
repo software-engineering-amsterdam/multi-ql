@@ -45,6 +45,12 @@ public abstract class Node implements Subject {
 	}
 	
 	public void setValue(Object value) {
+		Object oldValue = this.value; 
+		
+		if (oldValue != null && oldValue.equals(value)){
+			return;
+		}
+		
 		this.value = value;
 		notifyObservers();
 	}
@@ -75,21 +81,31 @@ public abstract class Node implements Subject {
 	
 	// methods related with observer pattern
 	
+	@Override
     public void registerObserver(Observer o){
         this.observers.add(o);
+        
+        if (left != null) { left.registerObserver(o); }
+        if (right != null) { right.registerObserver(o); }
     }
     
+	@Override
     public void removeObserver(Observer o){
         int i = this.observers.indexOf(o);
         if (i >= 0){
         	this.observers.remove(i);
+        	
+            if (left != null) { left.removeObserver(o); }
+            if (right != null) { right.removeObserver(o); }
         }
     }
 
+	@Override
     public void notifyObservers(){
         for(int i = 0; i < this.observers.size(); i++){
             Observer o = (Observer) this.observers.get(i);
             o.update();
         }
     }
+
 }

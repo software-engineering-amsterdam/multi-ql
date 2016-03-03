@@ -17,7 +17,7 @@ public class QuestionBoolean extends Question {
 	}
 
 	@Override
-	public JComponent getComponent(boolean editable, String valueText) {
+	public JComponent createComponentWithValue() {
 		JCheckBox component = new JCheckBox();
 		
 		component.addActionListener(new ActionListener() {
@@ -31,10 +31,18 @@ public class QuestionBoolean extends Question {
 	        }
 	    });
 				
-		component.setEnabled(editable);
+		component.setEnabled(isEditable());
+		String valueText = getValuetoString();
 		boolean value = (valueText == null) ? false : Boolean.parseBoolean(valueText);
 		component.setSelected(value);
 		
 		return component;
+	}
+	
+	@Override
+	public void update() {
+		String valueText = getValuetoString();
+		boolean value = (valueText == null) ? false : Boolean.parseBoolean(valueText);
+		((JCheckBox) getComponent()).setSelected(value);
 	}
 }

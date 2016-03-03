@@ -1,6 +1,9 @@
 import * as types from 'src/types';
 
 export class TypeInferer extends types.TypeReceiver {
+	inferResultType(type, ...args) {
+		return type.dispatch(this, ...args);
+	}
 	receiveType() {
 		return new types.UndefinedType();
 	}

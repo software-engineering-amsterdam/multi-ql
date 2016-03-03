@@ -7,6 +7,7 @@ import ql.ast.InputQuestion;
 import ql.ast.Question;
 import ql.ast.QuestionType;
 import ql.ast.Questionnaire;
+import ql.ast.Statement;
 import ql.ast.expression.Add;
 import ql.ast.expression.And;
 import ql.ast.expression.BinaryExpr;
@@ -57,7 +58,9 @@ public class BaseVisitor<T> implements QLVisitorInterface<T> {
 	@Override
 	public T visit(Form node) {
 		Block bloc = node.getContent();
-		
+		for (Statement state: bloc.getStatements()) {
+			state.accept(this);
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -77,12 +80,17 @@ public class BaseVisitor<T> implements QLVisitorInterface<T> {
 	@Override
 	public T visit(ComputedQuestion node) {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public T visit(Questionnaire node) {
 		// TODO Auto-generated method stub
+		for (Form form: node.getForms()) {
+			form.getContent().accept(this);
+		}
+		
 		return null;
 	}
 

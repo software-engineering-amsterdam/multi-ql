@@ -1,5 +1,0 @@
-package eu.bankersen.kevin.ql.context.errors;
-
-public class NotDeclaredError extends Error {
-
-}

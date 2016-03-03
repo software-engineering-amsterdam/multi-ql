@@ -51,14 +51,14 @@ public class Typecheker implements Visitor {
 			case ">":
 			case "<=":
 			case ">=":
-				if(left.getType() != right.getType() || (!left.getType().equals("money") && !left.getType().equals("int"))){
+				if(!left.getType().equals(right.getType()) || (!left.getType().equals("money") && !left.getType().equals("int"))){
 					TypechecherException exception = new TypechecherException("Line "+node.getLine()+": bad operand types for binary operator '"+symbol+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
 		        	ExceptionHandling.getInstance().addError(exception);
 				}
 				break;
 			case "==":
 			case "!=":
-				if(left.getType() != right.getType()){
+				if(!left.getType().equals(right.getType())){
 					TypechecherException exception = new TypechecherException("Line "+node.getLine()+": bad operand types for binary operator '"+symbol+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
 		        	ExceptionHandling.getInstance().addError(exception);
 				}
@@ -76,12 +76,12 @@ public class Typecheker implements Visitor {
 		String symbol = node.getSymbol();
 		switch(symbol){
 			case "+":
-				if(left.getType() != right.getType() || (!left.getType().equals("money") && !left.getType().equals("int") && !left.getType().equals("String"))){
+				if(!left.getType().equals(right.getType()) || (!left.getType().equals("money") && !left.getType().equals("int") && !left.getType().equals("String"))){
 					TypechecherException exception = new TypechecherException("Line "+node.getLine()+": bad operand types for binary operator '"+symbol+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
 		        	ExceptionHandling.getInstance().addError(exception);
 				}
 			case "-":
-				if(left.getType() != right.getType() || (!left.getType().equals("money") && !left.getType().equals("int"))){
+				if(!left.getType().equals(right.getType()) || (!left.getType().equals("money") && !left.getType().equals("int"))){
 					TypechecherException exception = new TypechecherException("Line "+node.getLine()+": bad operand types for binary operator '"+symbol+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
 		        	ExceptionHandling.getInstance().addError(exception);
 				}
@@ -108,7 +108,7 @@ public class Typecheker implements Visitor {
 		switch(symbol){
 			case "&&":
 			case "||":
-				if(left.getType() != right.getType() || !left.getType().equals("boolean")){
+				if(!left.getType().equals(right.getType()) || !left.getType().equals("boolean")){
 					TypechecherException exception = new TypechecherException("Line "+node.getLine()+": bad operand types for binary operator '"+symbol+"' \nfirst type: "+left.getType()+"\nsecond type: "+right.getType());
 		        	ExceptionHandling.getInstance().addError(exception);
 				}
@@ -151,8 +151,9 @@ public class Typecheker implements Visitor {
 		node.getLeft().accept(this);
 		node.getRight().accept(this);
 	}
-
-	@Override
-	public void visit(VariableNode node) {}
 	
+	@Override
+	public void visit(VariableNode node) {		
+	}
+
 }

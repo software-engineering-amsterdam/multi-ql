@@ -1,5 +1,7 @@
 package nl.uva.sea.ql.ast.expr;
 
+import java.util.Map;
+import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
@@ -7,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * and have two arguments in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 3-mrt-2016
  */
 public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
@@ -23,6 +25,7 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
     private final Expr firstExpr;
     private final Expr secondExpr;
+    private boolean isDecimal;
     
     /**
      * Constructor for objects of class <code>BinaryNumericOperatorExpr</code>.
@@ -50,6 +53,30 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
         secondExpr.accept(v);
         
         v.visit(this);
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
+     *                      <code>this BinaryNumericOperatorExpr</code> might
+     *                      contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this BinaryNumericOperatorExpr</code> was set to
+     *          represent a decimal value
+     */
+    @Override
+    public boolean isDecimal(Map<Ident,Question> questionTypes) {
+        return isDecimal;
+    }
+    
+    /**
+     * Set whether <code>this BinaryNumericOperatorExpr</code> represents a
+     * decimal value.
+     * 
+     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
+     *                  represents a decimal value
+     */
+    public void setIsDecimal(boolean newValue) {
+        isDecimal = newValue;
     }
     
     /**

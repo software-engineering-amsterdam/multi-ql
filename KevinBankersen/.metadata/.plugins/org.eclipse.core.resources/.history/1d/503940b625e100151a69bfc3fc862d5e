@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.util.testing.new2;
+
+public class StringType extends TypeObject {
+
+    @Override
+    public StringType getType() {
+	return this;
+    }
+
+}

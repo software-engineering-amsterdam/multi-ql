@@ -7,7 +7,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Label</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 3-mrt-2016
  */
 public class Label extends ASTNode {
     
@@ -48,6 +48,14 @@ public class Label extends ASTNode {
     public Label(Str theText) {
         assert theText != null;
         text = theText.getValue();
+    }
+    
+    /**
+     * @return <code>theText</code>, representing <code>this Label</code>
+     */
+    @Override
+    public String toString() {
+        return text;
     }
     
     /**

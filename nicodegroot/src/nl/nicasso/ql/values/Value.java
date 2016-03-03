@@ -1,11 +1,20 @@
 package nl.nicasso.ql.values;
 
 public abstract class Value {
-
+	
+	// THIS HAS TO GO, BUT CONFLICTS WITH THE DISPLAY SYMBOLTABLE
 	public abstract Object getValue();
+	
+	public Value multiplication(MoneyValue arg) {
+		return null;
+	}
 	
 	public Value addition(Value arg) {
 		return null;
+	}
+	
+	public Value addToInt(IntegerValue v) {
+		throw new AssertionError("KAPOT!");
 	}
 	
 	public Value subtraction(Value arg) {
@@ -53,10 +62,6 @@ public abstract class Value {
 	}
 	
 	public Value lessEqual(Value arg) {
-		return null;
-	}
-
-	public Value multiplication(MoneyValue arg) {
 		return null;
 	}
 	

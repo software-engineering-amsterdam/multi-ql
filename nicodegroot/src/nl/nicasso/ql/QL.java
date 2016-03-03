@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,13 +13,12 @@ import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.uva.sea.ql.parser.antlr.QLLexer;
-import org.uva.sea.ql.parser.antlr.QLParser;
 
-import nl.nicasso.ql.ast.expression.Identifier;
-import nl.nicasso.ql.ast.structure.Form;
+import nl.nicasso.ql.antlr.QLLexer;
+import nl.nicasso.ql.antlr.QLParser;
+import nl.nicasso.ql.ast.structures.Form;
+import nl.nicasso.ql.gui.Gui;
 import nl.nicasso.ql.symbolTable.SymbolTable;
-import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 
 public class QL {
 	
@@ -45,64 +42,38 @@ public class QL {
 				
 		SymbolTable symbolTable = new SymbolTable();
         
-        CreateASTVisitor astVisitor = new CreateASTVisitor();
+        CreateAST astVisitor = new CreateAST();
         Form ast = (Form) tree.accept(astVisitor);
 
-        QuestionVisitor questionVisitor = new QuestionVisitor(symbolTable);
+        CollectIdentifiers collectIdentifiers = new CollectIdentifiers();
+        
+        QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, collectIdentifiers);
         ast.accept(questionVisitor);
         
-        //displaySymbolTable(symbolTable);
+        //symbolTable.displaySymbolTable(symbolTable);
         
         displayMessages("QuestionVisitor Warnings", questionVisitor.getWarnings());
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
-        
-        //displaySymbolTable(symbolTable);
-        
-        CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor();
-        ast.accept(cyclicDependencyVisitor);
-        cyclicDependencyVisitor.detectCyclicDependencies();
-        
-        displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
-        displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
-        
-        //displaySymbolTable(symbolTable);
     
-    	TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(symbolTable);
+    	TypeChecker typeChecker = new TypeChecker(symbolTable);
     	ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
-
         
-        EvaluatorVisitor evaluator = new EvaluatorVisitor(symbolTable);
+        //symbolTable.displaySymbolTable(symbolTable);
+        
+        Evaluator evaluator = new Evaluator(symbolTable);
         // Get all initial values
         ast.accept(evaluator);
-        
+
         // Use values to evaluate expressions
         ast.accept(evaluator);
         
-        displaySymbolTable(symbolTable);
-        
-        //Gui ex = new Gui();
-        //ex.setVisible(true);
+        symbolTable.displaySymbolTable(symbolTable);
 
-	}
-	
-	public void displaySymbolTable(SymbolTable symbolTable) {
-		Iterator<Entry<Identifier, SymbolTableEntry>> it = symbolTable.getSymbols().entrySet().iterator();
-	    while (it.hasNext()) {
-	    	Entry<Identifier, SymbolTableEntry> pair = it.next();
-	    	Identifier key = (Identifier) pair.getKey();
-	        SymbolTableEntry value = (SymbolTableEntry) pair.getValue();
-	        
-	        String realValue;
-	        if (value.getValue() == null) {
-	        	realValue = "undefined";
-	        } else {
-	        	realValue = value.getValue().getValue().toString();
-	        }
-	        System.out.println(key.getValue()+" ("+ value.getType().getType() +")"+ " = " + realValue);
-	    }
+        Gui ex = new Gui();
+        //ex.setVisible(true);
 	}
 	
 	private void displayMessages(String title, List<String> messages) {
