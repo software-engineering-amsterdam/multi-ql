@@ -48,8 +48,6 @@ public class Context {
 	public void addQuestion(Question question) {
 		String identifier = question.getVariable().getIdentifier();
 		Type type = question.getVariable().getType().getType();
-		addLabel(question);
-
 		
 		if(nameToType.containsKey(identifier) && nameToType.get(identifier) != type){
 			issues.add(new DuplicateQuestionWithDifferentType(question));
@@ -58,6 +56,7 @@ public class Context {
 		declaredQuestions.add(question);
 		nameToType.put(identifier, type);
 		nameToValue.put(identifier, null);
+		addLabel(question);
 	}
 
 	private void addLabel(Question question) {
@@ -85,11 +84,11 @@ public class Context {
 		return declaredQuestions;
 	}
 	
-	public HashMap<String, Type> getSymbolTable(){
+	public HashMap<String, Type> getIdentifierToTypeMap(){
 		return nameToType;
 	}
 	
-	public HashMap<String, Object> getVartoValueTable(){
+	public HashMap<String, Object> getIdentifierToValueMap(){
 		return nameToValue;
 	}
 	
