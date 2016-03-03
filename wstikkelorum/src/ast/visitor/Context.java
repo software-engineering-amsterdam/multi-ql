@@ -25,12 +25,11 @@ public class Context {
 	}
 	
 	public void putValueQuestion(Question question, Object value){
-		nameToValue.put(question.getVariable().getName(), value);
+		nameToValue.put(question.getVariable().getIdentifier(), value);
 	}
 	
 	public Object getValueForVariable(String identifier){
 		if(!nameToValue.containsKey(identifier)){
-			//should this be always declared and found by previous steps of the typechecker....
 			System.err.println(String.format("unknown variable: %s", identifier));
 			return null;
 		}
@@ -44,7 +43,7 @@ public class Context {
 	}
 
 	public void addQuestion(Question question) {
-		String identifier = question.getVariable().getName();
+		String identifier = question.getVariable().getIdentifier();
 		Type type = question.getVariable().getType().getType();
 		addLabel(question);
 

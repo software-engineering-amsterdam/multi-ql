@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class BooleanType extends TypeObject {
+
+    public BooleanType() {
+	super(Type.BOOLEAN);
+    }
+}

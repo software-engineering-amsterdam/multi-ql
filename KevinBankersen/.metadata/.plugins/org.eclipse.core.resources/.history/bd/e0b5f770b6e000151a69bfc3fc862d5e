@@ -1,0 +1,26 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+public class TestClass {
+
+    public static void main(String[] args) {
+	TypeTest boolA = new BooleanType();
+	TypeTest boolB = new BooleanType();
+	
+	TypeTest intA = new IntegerType();
+	
+	System.out.println("boolA vs boolB");
+	System.out.println(boolA.equalType(boolB) + "\n");
+	
+	System.out.println("boolA vs intA");
+	System.out.println(boolA.equalType(intA) + "\n");
+	
+	System.out.println("boolA, true");
+	boolA.setValue("rue");
+	System.out.println(boolA.getValue() + "\n");
+	
+	
+	
+
+    }
+
+}

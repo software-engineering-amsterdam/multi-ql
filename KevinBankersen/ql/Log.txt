@@ -1,141 +1,2363 @@
 00:00  INFO: Reading resources/Tax2.form
 00:00  INFO: Parsing File
 00:00  INFO: File Parsed
-00:00  INFO: Trying to build context
-00:00  INFO: 
+00:00  INFO: Build Context
+00:23  INFO: european=EMPTY
+Trailing=EMPTY
 
-***********************
-* Doing random  stuff *
-***********************
+00:23  INFO: european=true
+name=EMPTY
+age=EMPTY
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-00:00  INFO: Starting State
-00:00  INFO: Results
-Form: schoolDuration
-"Do you live in Europe?"
-European: BOOLEAN=EMPTY
+00:23  INFO: european=true
+name=EMPTY
+age=EMPTY
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"This is a trailing question..?"
-Trailing: INTEGER=1
+00:29  INFO: european=true
+name=EMPTY
+age=EMPTY
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-00:00  INFO: Answer european: yes
-00:00  INFO: Results
-Form: schoolDuration
-"Do you live in Europe?"
-European: BOOLEAN=true
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"What is your name?"
-name: STRING=EMPTY
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"How old are you now?"
-age: INTEGER=EMPTY
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
-"How old were you when you started school?"
-startSchool: INTEGER=EMPTY
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"You have studied this many years: "
-startAge: INTEGER=EMPTY
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"This is a trailing question..?"
-Trailing: INTEGER=1
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:29  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
-00:00  INFO: Answer name: Kevin
-00:00  INFO: Results
-Form: schoolDuration
-"Do you live in Europe?"
-European: BOOLEAN=true
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"What is your name?"
-name: STRING=Kevin
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"How old are you now?"
-age: INTEGER=EMPTY
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"How old were you when you started school?"
-startSchool: INTEGER=EMPTY
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"You have studied this many years: "
-startAge: INTEGER=EMPTY
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
-"This is a trailing question..?"
-Trailing: INTEGER=1
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-00:00  INFO: Answer age: 26
-00:00  INFO: Results
-Form: schoolDuration
-"Do you live in Europe?"
-European: BOOLEAN=true
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"What is your name?"
-name: STRING=Kevin
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
-"How old are you now?"
-age: INTEGER=26
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"How old were you when you started school?"
-startSchool: INTEGER=EMPTY
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"You have studied this many years: "
-startAge: INTEGER=EMPTY
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"This is a trailing question..?"
-Trailing: INTEGER=1
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-00:00  INFO: Answer startSchool: 4
-00:00  INFO: Results
-Form: schoolDuration
-"Do you live in Europe?"
-European: BOOLEAN=true
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"What is your name?"
-name: STRING=Kevin
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"How old are you now?"
-age: INTEGER=26
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"How old were you when you started school?"
-startSchool: INTEGER=4
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
-"You have studied this many years: "
-startAge: INTEGER=22
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"You studied longer than most other students"
-longest: BOOLEAN=true
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"This is a trailing question..?"
-Trailing: INTEGER=1
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
-00:00  INFO: Results
-Form: schoolDuration
-"Do you live in Europe?"
-European: BOOLEAN=true
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"What is your name?"
-name: STRING=Kevin
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"How old are you now?"
-age: INTEGER=26
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"How old were you when you started school?"
-startSchool: INTEGER=4
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"You have studied this many years: "
-startAge: INTEGER=22
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
 
-"You studied longer than most other students"
-longest: BOOLEAN=true
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
-"This is a trailing question..?"
-Trailing: INTEGER=1
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:30  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:32  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:33  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:34  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=56
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=5
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
+
+00:38  INFO: european=true
+name=EMPTY
+age=0
+startSchool=EMPTY
+startAge=EMPTY
+longest=EMPTY
+Trailing=EMPTY
 

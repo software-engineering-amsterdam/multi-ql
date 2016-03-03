@@ -1,0 +1,37 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+abstract class TypeTest {
+    
+    private final Type type;
+    private Object value;
+    
+    TypeTest(Type type) {
+	this.type = type;
+    }
+    
+    public Object getValue() {
+	return value;
+    }
+    
+    public void setValue(String value) {
+	switch(type){
+	case INTEGER : setIntValue(value);
+	default : 
+	}
+    }
+    
+    public boolean equalType(TypeTest type) {
+	return false;
+    } 
+    
+    public boolean sameType(TypeTest type) {
+	return false;
+    }
+    
+    private void setIntValue(String value) {
+	
+    }
+
+}

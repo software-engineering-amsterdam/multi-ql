@@ -20,7 +20,6 @@ import ast.literal.BoolLiteral;
 import ast.literal.IntLiteral;
 import ast.literal.StringLiteral;
 import ast.statement.ComputedQuestion;
-import ast.statement.InputQuestion;
 
 public class EvalVisitor extends BasicVisitor<Object> {
 	private Context context;
@@ -132,6 +131,6 @@ public class EvalVisitor extends BasicVisitor<Object> {
 	
 	@Override
 	public Object visit(VariableExpression variableExpression){
-		return context.getValueForVariable(variableExpression.getName());
+		return context.getValueForVariable(variableExpression.getIdentifier());
 	}
 }

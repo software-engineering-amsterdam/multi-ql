@@ -4,8 +4,8 @@ import ast.visitor.Visitor;
 import ast.expression.Expression;
 
 public class BinaryExpression extends Expression {
-	private Expression lhs;
-	private Expression rhs;
+	private final Expression lhs;
+	private final Expression rhs;
 
 	public BinaryExpression(int lineNumber, Expression lhs, Expression rhs) {
 		super(lineNumber);

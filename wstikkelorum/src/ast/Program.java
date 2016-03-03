@@ -13,10 +13,9 @@ import antlr.QLLexer;
 import antlr.QLParser;
 import antlr.QLParser.FileContext;
 import ast.visitor.CyclicDependencyChecker;
-import ast.visitor.EvalVisitor;
 import ast.visitor.FindAllDeclaredQuestions;
-import ast.visitor.TypeChecker;
 import ast.visitor.Type;
+import ast.visitor.TypeChecker;
 
 public class Program {
 
@@ -62,10 +61,11 @@ public class Program {
 		
 		CyclicDependencyChecker<Object> cdc = new CyclicDependencyChecker<>();
 		cdc.visit(fileContext.form().result);
+		cdc.findCyclicDependencies();
 		
 
-		TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-		viewer.open();
+		//TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
+		//viewer.open();
 
 		//new QLFrame(fileContext.form().result);
 	}

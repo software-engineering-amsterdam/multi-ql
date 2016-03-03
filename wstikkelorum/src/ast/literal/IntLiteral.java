@@ -4,7 +4,7 @@ import ast.expression.Expression;
 import ast.visitor.Visitor;
 
 public class IntLiteral extends Expression {
-	private int value;
+	private final int value;
 
 	public IntLiteral(int lineNumber, Integer valueOf) {
 		super(lineNumber);

@@ -1,0 +1,22 @@
+package eu.bankersen.kevin.ql.util.testing.new1;
+
+public class IntType extends TypeObject {
+
+    public boolean sameType(IntType type) {
+	return true;
+    }
+    
+    public boolean compatible(IntType type) {
+	return true;
+    }
+    
+    public boolean compatible(MoneyType type) {
+	rerreturnturn true;
+    }
+    
+    @Override
+    public IntType getType() {
+	return this;
+    }
+
+}
