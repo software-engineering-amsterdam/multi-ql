@@ -26,14 +26,16 @@ import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.QLInterpreterContext.ContextListener;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.form.QLBlock;
+import org.uva.ql.ast.form.QLForm;
+import org.uva.ql.ast.form.QLQuestionnaire;
+import org.uva.ql.ast.stat.QLIFStatement;
+import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.ast.type.QLBooleanType;
 import org.uva.ql.ast.type.QLIntegerType;
 import org.uva.ql.ast.type.QLStringType;
 import org.uva.ql.ast.type.QLType;
 import org.uva.ql.ast.type.QLTypeVisitor;
-import org.uva.ql.domain.Form;
-import org.uva.ql.domain.Question;
-import org.uva.ql.domain.Questionnaire;
 import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIForm;
 import org.uva.ql.ui.UIQuestion;
@@ -44,12 +46,14 @@ import org.uva.ql.ui.UIWidgetFactory;
 public class DefaultUISwingFactory implements UIFactory {
 
 	@Override
-	public UIQuestionnaire create(Questionnaire questionnaire) {
+	public UIQuestionnaire create(QLQuestionnaire questionnaire) {
 		DefaultUIQuestionnaire uiQuestionnaire;
+
+		questionnaire = normalize(questionnaire);
 
 		uiQuestionnaire = new DefaultUIQuestionnaire(questionnaire);
 
-		for (Form form : questionnaire.getForms()) {
+		for (QLForm form : questionnaire.getForms()) {
 			UIForm uiForm;
 
 			uiForm = create(form);
@@ -59,12 +63,43 @@ public class DefaultUISwingFactory implements UIFactory {
 		return uiQuestionnaire;
 	}
 
+	private QLQuestionnaire normalize(QLQuestionnaire questionnaire) {
+		QLQuestionnaire normalized;
+		QLForm normalizedForm;
+		QLForm oldForm;
+		QLBlock normalizedBlock;
+
+		oldForm = questionnaire.getForms().get(0);
+
+		normalizedBlock = new QLBlock(null, getAllQuestions(oldForm.getBody()), null);
+
+		normalizedForm = new QLForm(null, oldForm.getName(), normalizedBlock);
+
+		normalized = new QLQuestionnaire(null, normalizedForm);
+
+		return normalized;
+	}
+
+	private List<QLQuestion> getAllQuestions(QLBlock block) {
+		List<QLQuestion> questions;
+
+		questions = new ArrayList<>();
+
+		block.getQuestions().forEach(q -> questions.add(q));
+
+		for (QLIFStatement ifStat : block.getIfStatements()) {
+			questions.addAll(getAllQuestions(ifStat.getBody()));
+		}
+
+		return questions;
+	}
+
 	@Override
-	public UIForm create(Form form) {
+	public UIForm create(QLForm form) {
 		DefaultUIForm uiForm;
 
 		uiForm = new DefaultUIForm(form);
-		for (Question question : form.getQuestions()) {
+		for (QLQuestion question : form.getQuestions()) {
 			UIQuestion uiQuestion;
 
 			uiQuestion = create(question);
@@ -75,7 +110,7 @@ public class DefaultUISwingFactory implements UIFactory {
 	}
 
 	@Override
-	public UIQuestion create(Question question) {
+	public UIQuestion create(QLQuestion question) {
 		UIWidget labelWidget;
 		UIWidget valueWidget;
 
@@ -85,11 +120,11 @@ public class DefaultUISwingFactory implements UIFactory {
 		return new DefaultUIQuestion(question, labelWidget, valueWidget);
 	}
 
-	public UIWidget createLabelWidget(Question q) {
+	public UIWidget createLabelWidget(QLQuestion q) {
 		return new DefaultLabelWidget(q.getLabel());
 	}
 
-	public UIWidget createValueWidget(Question q) {
+	public UIWidget createValueWidget(QLQuestion q) {
 		UIWidgetFactory factory;
 
 		factory = DefaultUIWidgetFactory.get(q.getType());
@@ -104,7 +139,7 @@ public class DefaultUISwingFactory implements UIFactory {
 		private final JFrame jframe;
 		private final JScrollPane scrollPanel;
 
-		public DefaultUIQuestionnaire(Questionnaire q) {
+		public DefaultUIQuestionnaire(QLQuestionnaire q) {
 			JPanel panel;
 			JPanel root;
 
@@ -153,7 +188,7 @@ public class DefaultUISwingFactory implements UIFactory {
 		private final List<UIQuestion> questions = new ArrayList<>();
 		private final JPanel panel;
 
-		public DefaultUIForm(Form form) {
+		public DefaultUIForm(QLForm form) {
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		}
@@ -187,12 +222,12 @@ public class DefaultUISwingFactory implements UIFactory {
 
 	private static class DefaultUIQuestion implements UIQuestion, ContextListener {
 
-		private final Question question;
+		private final QLQuestion question;
 
 		private final UIWidget labelWidget;
 		private final UIWidget valueWidget;
 
-		public DefaultUIQuestion(Question q, UIWidget labelWidget, UIWidget valueWidget) {
+		public DefaultUIQuestion(QLQuestion q, UIWidget labelWidget, UIWidget valueWidget) {
 			this.question = q;
 
 			this.labelWidget = labelWidget;
@@ -205,9 +240,7 @@ public class DefaultUISwingFactory implements UIFactory {
 			labelWidget.setContext(context);
 			valueWidget.setContext(context);
 
-			if (question.isConditional()) {
-				context.addContextListener(this);
-			}
+			context.addContextListener(this);
 
 			setVisible(question.isEnabled(context));
 		}
@@ -332,8 +365,8 @@ public class DefaultUISwingFactory implements UIFactory {
 		private final JRadioButton rbNo;
 		private final JPanel panel;
 
-		public DefaultBooleanWidget(Question q) {
-			super(q.getId(), q.getExpr());
+		public DefaultBooleanWidget(QLQuestion q) {
+			super(q.getId(), q.expr());
 			ButtonGroup bg;
 
 			panel = new JPanel(new BorderLayout());
@@ -405,8 +438,8 @@ public class DefaultUISwingFactory implements UIFactory {
 		private final JTextField textField;
 		private final JPanel panel;
 
-		public DefaultIntegerWidget(Question q) {
-			super(q.getId(), q.getExpr());
+		public DefaultIntegerWidget(QLQuestion q) {
+			super(q.getId(), q.expr());
 
 			panel = new JPanel();
 
@@ -464,8 +497,8 @@ public class DefaultUISwingFactory implements UIFactory {
 		private final JTextField textField;
 		private final JPanel panel;
 
-		public DefaultStringWidget(Question q) {
-			super(q.getId(), q.getExpr());
+		public DefaultStringWidget(QLQuestion q) {
+			super(q.getId(), q.expr());
 
 			panel = new JPanel();
 

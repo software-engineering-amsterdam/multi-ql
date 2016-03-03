@@ -20,6 +20,11 @@ public final class QLQuestionnaire extends ASTNode {
 
 	private final List<QLForm> forms;
 
+	public QLQuestionnaire(ParserRuleContext context, QLForm form) {
+		super(context);
+		this.forms = Collections.singletonList(form);
+	}
+
 	public QLQuestionnaire(ParserRuleContext context, List<QLForm> forms) {
 		super(context);
 		this.forms = forms;

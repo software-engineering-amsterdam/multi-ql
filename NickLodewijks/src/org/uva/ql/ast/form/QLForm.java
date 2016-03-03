@@ -1,7 +1,10 @@
 package org.uva.ql.ast.form;
 
+import java.util.List;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
+import org.uva.ql.ast.stat.QLQuestion;
 
 public class QLForm extends ASTNode {
 
@@ -12,6 +15,10 @@ public class QLForm extends ASTNode {
 		super(context);
 		this.name = id;
 		this.body = body;
+	}
+
+	public List<QLQuestion> getQuestions() {
+		return body.getQuestions();
 	}
 
 	public QLBlock getBody() {

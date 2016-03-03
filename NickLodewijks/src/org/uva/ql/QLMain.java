@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.uva.ql.ast.form.QLQuestionnaire;
-import org.uva.ql.domain.Questionnaire;
-import org.uva.ql.domain.QuestionnaireFactory;
 import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIQuestionnaire;
 import org.uva.ql.ui.swing.DefaultUISwingFactory;
@@ -13,7 +11,6 @@ import org.uva.ql.ui.swing.DefaultUISwingFactory;
 public class QLMain {
 
 	public static void main(String[] args) throws IOException {
-		Questionnaire qlQuestionnaire;
 		QLQuestionnaire questionnaire;
 		File inputFile;
 
@@ -23,12 +20,10 @@ public class QLMain {
 
 		new QLSemanticAnalyser().validateTypes(questionnaire);
 
-		qlQuestionnaire = QuestionnaireFactory.create(questionnaire);
-
-		createUI(qlQuestionnaire);
+		createUI(questionnaire);
 	}
 
-	private static void createUI(Questionnaire questionnaire) {
+	private static void createUI(QLQuestionnaire questionnaire) {
 		UIQuestionnaire uiQuestionnaire;
 		UIFactory factory;
 

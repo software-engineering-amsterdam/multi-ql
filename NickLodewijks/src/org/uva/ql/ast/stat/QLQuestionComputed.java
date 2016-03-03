@@ -6,15 +6,10 @@ import org.uva.ql.ast.type.QLType;
 
 public final class QLQuestionComputed extends QLQuestion {
 
-	private final Expr expr;
+	public QLQuestionComputed(ParserRuleContext context, QLType type, String id, String label, Expr condition,
+			Expr calculation) {
+		super(context, type, id, label, condition, calculation);
 
-	public QLQuestionComputed(ParserRuleContext context, QLType type, String id, String label, Expr expression) {
-		super(context, type, id, label);
-		this.expr = expression;
-	}
-
-	public Expr expr() {
-		return expr;
 	}
 
 	@Override

@@ -28,10 +28,10 @@ questionnaire returns [QLQuestionnaire result]
     ;  
 
 form returns [QLForm result]
-    :   'form' + ID + block { $result = new QLForm($ctx, $ID.text, $block.result); }
+    :   'form' + ID + block[new BooleanLiteral(null, true)] { $result = new QLForm($ctx, $ID.text, $block.result); }
     ;
     
-block returns [QLBlock result]
+block[Expr condition] returns [QLBlock result]
     locals [
       List<QLQuestion> questions = new ArrayList<>();
       List<QLIFStatement> statements = new ArrayList<>();
@@ -39,25 +39,25 @@ block returns [QLBlock result]
     @after{
         $result = new QLBlock($ctx, $ctx.questions, $ctx.statements);
     }
-    : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
+    : '{' + (ifStat[$condition] { $ctx.statements.add($ifStat.result); } | question[$condition] { $ctx.questions.add($question.result); } )+ '}'
     
     ;
     
-ifStat returns [QLIFStatement result]
-    : 'if' + '(' + orExpr + ')' + block 
+ifStat[Expr condition] returns [QLIFStatement result]
+    : 'if' + '(' + orExpr + ')' + block[new And(null, condition, $orExpr.result)] 
     { 
         $result = new QLIFStatement($ctx, $orExpr.result, $block.result);
     }
     ;
 
-question returns [QLQuestion result]
+question[Expr condition] returns [QLQuestion result]
     : variableType + ID + STR + orExpr
     {
-        $result = new QLQuestionComputed($ctx, $variableType.result, $ID.text,  $STR.text, $orExpr.result);
+        $result = new QLQuestionComputed($ctx, $variableType.result, $ID.text,  $STR.text, $condition, $orExpr.result);
     }
     | variableType + ID + STR 
     { 
-        $result = new QLQuestionInput($ctx, $variableType.result, $ID.text, $STR.text);
+        $result = new QLQuestionInput($ctx, $variableType.result, $ID.text, $STR.text, $condition);
     }
     ;
     
