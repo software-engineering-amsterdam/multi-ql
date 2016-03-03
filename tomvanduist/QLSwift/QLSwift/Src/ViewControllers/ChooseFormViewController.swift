@@ -38,7 +38,7 @@ class ChooseFormViewController: BaseViewController {
         }
     }
     
-    private func displayForm(form: Form) {
+    private func displayForm(form: QLForm) {
         self.navigationController?.pushViewController(FormViewController(form: form), animated: true)
     }
     

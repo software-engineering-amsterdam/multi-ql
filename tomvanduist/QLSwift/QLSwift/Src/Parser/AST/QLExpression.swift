@@ -1,5 +1,5 @@
 //
-//  Expression.swift
+//  QLExpression.swift
 //  QLSwift
 //
 //  Created by Tom van Duist on 10/02/16.
@@ -9,17 +9,17 @@
 import Foundation
 
 
-protocol Expression: ASTNode {
-    var type: ExpressionType { get }
+protocol QLExpression: QLNode {
+    var type: QLType { get }
     
     func eval() -> NSObject
 }
 
-class Identifier: Expression {
-    var type: ExpressionType {
+class QLIdentifier: QLExpression {
+    var type: QLType {
         get {
             guard let type = expression?.type else {
-                return UnknownType()
+                return QLUnknownType()
             }
             
             return type
@@ -27,9 +27,9 @@ class Identifier: Expression {
     }
     
     let id: String
-    var expression: Expression?
+    var expression: QLExpression?
     
-    init(id: String, expression: Expression? = nil) {
+    init(id: String, expression: QLExpression? = nil) {
         self.id = id
         self.expression = expression
     }
@@ -43,8 +43,8 @@ class Identifier: Expression {
     }
 }
 
-class BooleanField: Expression {
-    let type: ExpressionType = BooleanType()
+class BooleanField: QLExpression {
+    let type: QLType = QLBooleanType()
     var value: Bool = false
     
     func eval() -> NSObject {
@@ -52,8 +52,8 @@ class BooleanField: Expression {
     }
 }
 
-class StringField: Expression {
-    let type: ExpressionType = StringType()
+class StringField: QLExpression {
+    let type: QLType = QLStringType()
     var string: NSString = ""
     
     func eval() -> NSObject {
@@ -61,12 +61,12 @@ class StringField: Expression {
     }
 }
 
-class MoneyField: Expression {
-    let type: ExpressionType = MoneyType()
-    let expression: Expression?
+class MoneyField: QLExpression {
+    let type: QLType = QLMoneyType()
+    let expression: QLExpression?
     var value: NSInteger = 0
     
-    init(expression: Expression? = nil) {
+    init(expression: QLExpression? = nil) {
         self.expression = expression
     }
     
@@ -79,8 +79,8 @@ class MoneyField: Expression {
     }
 }
 
-class StringLiteral: Expression {
-    let type: ExpressionType = StringType()
+class QLStringLiteral: QLExpression {
+    let type: QLType = QLStringType()
     let string: String
     
     init(string: String) {
@@ -92,8 +92,8 @@ class StringLiteral: Expression {
     }
 }
 
-class IntegerLiteral: Expression {
-    let type: ExpressionType = MoneyType()
+class QLIntegerLiteral: QLExpression {
+    let type: QLType = QLMoneyType()
     let integer: NSInteger
     
     init(integer: NSInteger) {
@@ -105,8 +105,8 @@ class IntegerLiteral: Expression {
     }
 }
 
-class BooleanLiteral: Expression {
-    let type: ExpressionType = BooleanType()
+class QLBooleanLiteral: QLExpression {
+    let type: QLType = QLBooleanType()
     let bool: Bool
     
     init (bool: Bool) {
@@ -118,13 +118,13 @@ class BooleanLiteral: Expression {
     }
 }
 
-class Unary {
-    private var _type: ExpressionType = UnknownType()
-    var type: ExpressionType { return _type }
+class QLUnary {
+    private var _type: QLType = QLUnknownType()
+    var type: QLType { return _type }
     
-    let rhs: Expression
+    let rhs: QLExpression
     
-    required init(rhs: Expression) {
+    required init(rhs: QLExpression) {
         self.rhs = rhs
     }
     
@@ -133,11 +133,11 @@ class Unary {
     }
 }
 
-class Not: Unary, Expression {
-    required init (rhs: Expression) {
+class QLNot: QLUnary, QLExpression {
+    required init (rhs: QLExpression) {
         super.init(rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {
@@ -145,11 +145,11 @@ class Not: Unary, Expression {
     }
 }
 
-class Neg: Unary, Expression {
-    required init (rhs: Expression) {
+class QLNeg: QLUnary, QLExpression {
+    required init (rhs: QLExpression) {
         super.init(rhs: rhs)
         
-        _type = MoneyType()
+        _type = QLMoneyType()
     }
     
     override func eval() -> NSObject {
@@ -157,13 +157,13 @@ class Neg: Unary, Expression {
     }
 }
 
-class Binary {
-    private var _type: ExpressionType = UnknownType()
-    var type: ExpressionType { return _type }
+class QLBinary {
+    private var _type: QLType = QLUnknownType()
+    var type: QLType { return _type }
     
-    let lhs, rhs: Expression
+    let lhs, rhs: QLExpression
     
-    required init(lhs: Expression, rhs: Expression) {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -173,11 +173,11 @@ class Binary {
     }
 }
 
-class Add: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLAdd: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = MoneyType()
+        _type = QLMoneyType()
     }
     
     override func eval() -> NSObject {
@@ -185,11 +185,11 @@ class Add: Binary, Expression {
     }
 }
 
-class Sub: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLSub: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = MoneyType()
+        _type = QLMoneyType()
     }
     
     override func eval() -> NSObject {
@@ -197,11 +197,11 @@ class Sub: Binary, Expression {
     }
 }
 
-class Mul: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLMul: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = MoneyType()
+        _type = QLMoneyType()
     }
     
     override func eval() -> NSObject {
@@ -209,11 +209,11 @@ class Mul: Binary, Expression {
     }
 }
 
-class Div: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLDiv: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = MoneyType()
+        _type = QLMoneyType()
     }
     
     override func eval() -> NSObject {
@@ -221,11 +221,11 @@ class Div: Binary, Expression {
     }
 }
 
-class Pow: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLPow: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = MoneyType()
+        _type = QLMoneyType()
     }
     
     override func eval() -> NSObject {
@@ -233,11 +233,11 @@ class Pow: Binary, Expression {
     }
 }
 
-class Eq: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLEq: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {
@@ -245,11 +245,11 @@ class Eq: Binary, Expression {
     }
 }
 
-class Ne: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLNe: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {
@@ -257,11 +257,11 @@ class Ne: Binary, Expression {
     }
 }
 
-class Ge: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLGe: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {
@@ -269,11 +269,11 @@ class Ge: Binary, Expression {
     }
 }
 
-class Gt: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLGt: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {
@@ -281,11 +281,11 @@ class Gt: Binary, Expression {
     }
 }
 
-class Le: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLLe: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {
@@ -293,11 +293,11 @@ class Le: Binary, Expression {
     }
 }
 
-class Lt: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLLt: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {
@@ -305,11 +305,11 @@ class Lt: Binary, Expression {
     }
 }
 
-class And: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLAnd: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {
@@ -317,11 +317,11 @@ class And: Binary, Expression {
     }
 }
 
-class Or: Binary, Expression {
-    required init(lhs: Expression, rhs: Expression) {
+class QLOr: QLBinary, QLExpression {
+    required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
         
-        _type = BooleanType()
+        _type = QLBooleanType()
     }
     
     override func eval() -> NSObject {

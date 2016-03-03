@@ -9,10 +9,10 @@
 import Foundation
 
 protocol SemanticAnalyzer {
-    func analyze(form: Form) throws -> (Form, [SemanticWarning])
+    func analyze(form: QLForm) throws -> (QLForm, [SemanticWarning])
 }
 
-class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
+class DefaultSemanticAnalyzer: DefaultQLNodeVisitor, SemanticAnalyzer {
     
     private var context: Context
     private var error: SemanticError = SemanticError.None
@@ -22,7 +22,7 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         self.context = context
     }
     
-    func analyze(form: Form) throws -> (Form, [SemanticWarning]) {
+    func analyze(form: QLForm) throws -> (QLForm, [SemanticWarning]) {
         error = SemanticError.None
         
         form.accept(self, param: nil)
@@ -34,7 +34,7 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         }
     }
     
-    override func visit(node: Question, param: GenericParam) {
+    override func visit(node: QLQuestion, param: GenericParam) {
         super.visit(node, param: param)
         
         do { try context.assign(node.identifier, object: (type(node.expression), node.expression)) }
@@ -42,15 +42,15 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         catch let e { error.collect(e) }
     }
     
-    override func visit(node: Conditional, param: GenericParam) {
+    override func visit(node: QLConditional, param: GenericParam) {
         super.visit(node, param: param)
         
-        if (type(node.condition) !== BooleanType.self) {
+        if (type(node.condition) !== QLBooleanType.self) {
             error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
         }
     }
     
-    override func visit(node: Block, param: GenericParam) {
+    override func visit(node: QLBlock, param: GenericParam) {
         context = Context(parent: context)
         
         super.visit(node, param: param)
@@ -60,7 +60,7 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         }
     }
     
-    override func visit(node: Identifier, param: GenericParam) {
+    override func visit(node: QLIdentifier, param: GenericParam) {
         if let o: Object = context.retrieve(node) {
             node.expression = o.expression
         }
@@ -70,14 +70,14 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         super.visit(node, param: param)
         
         if let expression = node.expression {
-            if type(expression) !== MoneyType.self {
+            if type(expression) !== QLMoneyType.self {
                 error.collect(SemanticError.TypeMismatch(description: "Money expression must result in a numerical value: \(node.expression)"))
             }
 
         }
     }
     
-    override func visit(node: Neg, param: GenericParam) {
+    override func visit(node: QLNeg, param: GenericParam) {
         super.visit(node, param: param)
         
         if (type(node) !== type(node.rhs)) {
@@ -85,7 +85,7 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         }
     }
     
-    override func visit(node: Not, param: GenericParam) {
+    override func visit(node: QLNot, param: GenericParam) {
         super.visit(node, param: param)
         
         if (type(node) !== type(node.rhs)) {
@@ -93,60 +93,60 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         }
     }
     
-    func collectBinaryTypeError(node: Binary) {
+    func collectBinaryTypeError(node: QLBinary) {
         self.error.collect(SemanticError.TypeMismatch(description: "Binary type does not match expression type(s). \(node.type) does not match \(node.lhs.type) and \(node.rhs.type)."))
     }
     
-    func visitBinary(node: Binary) {
+    func visitBinary(node: QLBinary) {
         node.lhs.accept(self, param: nil)
         node.rhs.accept(self, param: nil)
     }
 
-    func visitBinaryNumber(node: Binary) {
+    func visitBinaryNumber(node: QLBinary) {
         visitBinary(node)
         
-        if (type(node.lhs) !== MoneyType.self || type(node.rhs) !== MoneyType.self) {
+        if (type(node.lhs) !== QLMoneyType.self || type(node.rhs) !== QLMoneyType.self) {
             collectBinaryTypeError(node)
         }
     }
     
-    override func visit(node: Add, param: GenericParam) {
+    override func visit(node: QLAdd, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    override func visit(node: Sub, param: GenericParam) {
+    override func visit(node: QLSub, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    override func visit(node: Mul, param: GenericParam) {
+    override func visit(node: QLMul, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    override func visit(node: Div, param: GenericParam) {
+    override func visit(node: QLDiv, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    override func visit(node: Pow, param: GenericParam) {
+    override func visit(node: QLPow, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    override func visit(node: Ge, param: GenericParam) {
+    override func visit(node: QLGe, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    override func visit(node: Gt, param: GenericParam) {
+    override func visit(node: QLGt, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    override func visit(node: Le, param: GenericParam) {
+    override func visit(node: QLLe, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    override func visit(node: Lt, param: GenericParam) {
+    override func visit(node: QLLt, param: GenericParam) {
         visitBinaryNumber(node)
     }
     
-    func visitBinaryEq(node: Binary) {
+    func visitBinaryEq(node: QLBinary) {
         visitBinary(node)
         
         if (type(node.lhs) !== type(node.rhs)) {
@@ -154,34 +154,34 @@ class DefaultSemanticAnalyzer: DefaultASTNodeVisitor, SemanticAnalyzer {
         }
     }
     
-    override func visit(node: Eq, param: GenericParam) {
+    override func visit(node: QLEq, param: GenericParam) {
         visitBinaryEq(node)
     }
     
-    override func visit(node: Ne, param: GenericParam) {
+    override func visit(node: QLNe, param: GenericParam) {
         visitBinaryEq(node)
     }
     
-    func visitBinaryBool(node: Binary) {
+    func visitBinaryBool(node: QLBinary) {
         visitBinary(node)
         
-        if (type(node.lhs) !== BooleanType.self || type(node.rhs) !== BooleanType.self) {
+        if (type(node.lhs) !== QLBooleanType.self || type(node.rhs) !== QLBooleanType.self) {
             collectBinaryTypeError(node)
         }
     }
     
-    override func visit(node: And, param: GenericParam) {
+    override func visit(node: QLAnd, param: GenericParam) {
         visitBinaryBool(node)
     }
     
-    override func visit(node: Or, param: GenericParam) {
+    override func visit(node: QLOr, param: GenericParam) {
         visitBinaryBool(node)
     }
     
-    private func type(node: Expression) -> ExpressionType {
+    private func type(node: QLExpression) -> QLType {
         let type = node.type
         
-        if node.type === UnknownType.self {
+        if node.type === QLUnknownType.self {
             error.collect(SemanticError.NotDefined(description: "\(node) is not (yet) defined."))
         }
     

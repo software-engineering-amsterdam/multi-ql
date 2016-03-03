@@ -13,16 +13,16 @@ import Foundation
 protocol FormViewFactory {
     var formLayout: FormLayout { get }
     
-    func createQuestionView(expression: Question, delegate: WidgetDelegate) -> UIView
+    func createQuestionView(expression: QLQuestion, delegate: WidgetDelegate) -> UIView
     
     func createWidgetView(expression: BooleanField) -> ViewWidget
     func createWidgetView(expression: StringField) -> ViewWidget
     func createWidgetView(expression: MoneyField) -> ViewWidget
-    func createWidgetView(expression: Expression) -> ViewWidget
+    func createWidgetView(expression: QLExpression) -> ViewWidget
 }
 
 
-class DefaultFormViewFactory: ASTNodeVisitor<FormViewFactory, ViewWidget>, FormViewFactory {
+class DefaultFormViewFactory: QLNodeVisitor<FormViewFactory, ViewWidget>, FormViewFactory {
     typealias GenericParam = FormViewFactory
     typealias GenericReturn = ViewWidget
     
@@ -38,7 +38,7 @@ class DefaultFormViewFactory: ASTNodeVisitor<FormViewFactory, ViewWidget>, FormV
     
     // MARK: - FormViewFactory conformance
     
-    func createQuestionView(question: Question, delegate: WidgetDelegate) -> UIView {
+    func createQuestionView(question: QLQuestion, delegate: WidgetDelegate) -> UIView {
         let viewWidget = question.expression.accept(self, param: self)
         viewWidget.delegate = delegate
         
@@ -57,7 +57,7 @@ class DefaultFormViewFactory: ASTNodeVisitor<FormViewFactory, ViewWidget>, FormV
         return MoneyWidget(layout: formLayout.widgetLayout, delegate: nil, moneyField: expression)
     }
     
-    func createWidgetView(expression: Expression) -> ViewWidget {
+    func createWidgetView(expression: QLExpression) -> ViewWidget {
         return StaticWidget(layout: formLayout.widgetLayout, delegate: nil, expression: expression)
     }
 
@@ -76,7 +76,7 @@ class DefaultFormViewFactory: ASTNodeVisitor<FormViewFactory, ViewWidget>, FormV
         return param.createWidgetView(node)
     }
     
-    override func visit(node: Identifier, param: GenericParam) -> GenericReturn {
+    override func visit(node: QLIdentifier, param: GenericParam) -> GenericReturn {
         return param.createWidgetView(node)
     }
 }

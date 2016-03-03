@@ -1,5 +1,5 @@
 //
-//  Statement.swift
+//  QLStatement.swift
 //  QLSwift
 //
 //  Created by Tom van Duist on 10/02/16.
@@ -8,26 +8,26 @@
 
 import Foundation
 
-protocol Statement: ASTNode {
+protocol QLStatement: QLNode {
 }
 
-class Question: Statement {
-    let identifier: Identifier
+class QLQuestion: QLStatement {
+    let identifier: QLIdentifier
     let label: String
-    let expression: Expression
+    let expression: QLExpression
     
-    init(identifier: Identifier, label: String, expression: Expression) {
+    init(identifier: QLIdentifier, label: String, expression: QLExpression) {
         self.identifier = identifier
         self.label = label
         self.expression = expression
     }
 }
 
-class Conditional: Statement {
-    let condition: Expression
-    let ifBlock: Block
+class QLConditional: QLStatement {
+    let condition: QLExpression
+    let ifBlock: QLBlock
     
-    init(condition: Expression, ifBlock: Block) {
+    init(condition: QLExpression, ifBlock: QLBlock) {
         self.condition = condition
         self.ifBlock = ifBlock
     }
@@ -40,10 +40,10 @@ class Conditional: Statement {
     }
 }
 
-class Block: Statement {
-    let block: [Statement]
+class QLBlock: QLStatement {
+    let block: [QLStatement]
     
-    init (block: [Statement]) {
+    init (block: [QLStatement]) {
         self.block = block
     }
 }

@@ -10,10 +10,10 @@ import UIKit
 
 
 protocol FormViewBuilder {
-    func buildFormView(form: Form) -> UIView
+    func buildFormView(form: QLForm) -> UIView
 }
 
-class DefaultFormViewBuilder: ASTNodeVisitor<FormView, UIView>, FormViewBuilder {
+class DefaultFormViewBuilder: QLNodeVisitor<FormView, UIView>, FormViewBuilder {
     typealias GenericParam = FormView // TODO: refactor this !!
     typealias GenericReturn = UIView
     
@@ -30,7 +30,7 @@ class DefaultFormViewBuilder: ASTNodeVisitor<FormView, UIView>, FormViewBuilder 
     
     // MARK: - FormViewBuilder conformance
     
-    func buildFormView(form: Form) -> UIView {
+    func buildFormView(form: QLForm) -> UIView {
         let formView = FormView()
         let blockView = createBlockView(form.block, formView: formView)
         
@@ -45,7 +45,7 @@ class DefaultFormViewBuilder: ASTNodeVisitor<FormView, UIView>, FormViewBuilder 
     
     // MARK: - Private 
     
-    private func createBlockView(block: Block, formView: FormView) -> UIView {
+    private func createBlockView(block: QLBlock, formView: FormView) -> UIView {
         let blockView = UIView()
         
         if let s = block.block.first {
@@ -61,7 +61,7 @@ class DefaultFormViewBuilder: ASTNodeVisitor<FormView, UIView>, FormViewBuilder 
         return blockView
     }
     
-    private func placeStatement(statement: Statement, formView: FormView, superView: UIView, prevView: UIView?, nextView: UIView?) -> UIView {
+    private func placeStatement(statement: QLStatement, formView: FormView, superView: UIView, prevView: UIView?, nextView: UIView?) -> UIView {
         let statementView = createStatementView(statement, formView: formView)
         
         superView.addSubview(statementView)
@@ -82,11 +82,11 @@ class DefaultFormViewBuilder: ASTNodeVisitor<FormView, UIView>, FormViewBuilder 
         return statementView
     }
     
-    private func createStatementView(statement: Statement, formView: FormView) -> UIView {
+    private func createStatementView(statement: QLStatement, formView: FormView) -> UIView {
         return statement.accept(self, param: formView)
     }
     
-    private func createConditionalView(conditional: Conditional, formView: FormView) -> UIView {
+    private func createConditionalView(conditional: QLConditional, formView: FormView) -> UIView {
         let conditionalView = ConditionalView(conditional: conditional)
         let blockView = createBlockView(conditional.ifBlock, formView: formView)
         
@@ -98,22 +98,22 @@ class DefaultFormViewBuilder: ASTNodeVisitor<FormView, UIView>, FormViewBuilder 
         return conditionalView
     }
     
-    private func createQuestionView(question: Question, formView: FormView) -> UIView {
+    private func createQuestionView(question: QLQuestion, formView: FormView) -> UIView {
         return self.viewFactory.createQuestionView(question, delegate: formView)
     }
     
     
     // MARK: - Visitor functions
     
-    override func visit(node: Question, param delegate: GenericParam) -> GenericReturn {
+    override func visit(node: QLQuestion, param delegate: GenericParam) -> GenericReturn {
         return self.createQuestionView(node, formView: delegate)
     }
     
-    override func visit(node: Conditional, param delegate: GenericParam) -> GenericReturn {
+    override func visit(node: QLConditional, param delegate: GenericParam) -> GenericReturn {
         return self.createConditionalView(node, formView: delegate) // TODO: fix this
     }
     
-    override func visit(node: Block, param delegate: GenericParam) -> GenericReturn {
+    override func visit(node: QLBlock, param delegate: GenericParam) -> GenericReturn {
         return self.createBlockView(node, formView: delegate)
     }
 }

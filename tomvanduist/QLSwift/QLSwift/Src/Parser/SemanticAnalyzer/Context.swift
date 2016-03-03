@@ -9,7 +9,7 @@
 import Foundation
 
 
-typealias Object = (type: ExpressionType, expression: Expression?)
+typealias Object = (type: QLType, expression: QLExpression?)
 
 class Context {
     static let sharedInstance = Context()
@@ -21,7 +21,7 @@ class Context {
         self.parent = parent
     }
     
-    func assign(identifier: Identifier, object: Object) throws {
+    func assign(identifier: QLIdentifier, object: Object) throws {
         if context[identifier.id] == nil {
             context[identifier.id] = object
         }
@@ -30,7 +30,7 @@ class Context {
         }
     }
     
-    func retrieve(identifier: Identifier) -> Object? {
+    func retrieve(identifier: QLIdentifier) -> Object? {
         if let o = context[identifier.id] {
             return o
         }

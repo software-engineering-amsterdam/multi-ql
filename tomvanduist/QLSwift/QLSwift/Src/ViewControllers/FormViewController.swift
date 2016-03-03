@@ -12,10 +12,10 @@ import SnapKit
 class FormViewController: BaseViewController {
     @IBOutlet weak var contentView: UIView!
     
-    let form: Form
+    let form: QLForm
     
     
-    init(form: Form) {
+    init(form: QLForm) {
         self.form = form
         
         super.init(nibName: "FormView", bundle: nil)

@@ -12,9 +12,9 @@ class ConditionalView: BaseView, ViewContainable {
     let viewContainer = BaseView()
     let heightConstraint: NSLayoutConstraint
     
-    private let conditional: Conditional
+    private let conditional: QLConditional
     
-    init(conditional: Conditional) {
+    init(conditional: QLConditional) {
         self.conditional = conditional
         heightConstraint = NSLayoutConstraint(item: viewContainer, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 0)
         

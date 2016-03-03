@@ -9,10 +9,10 @@
 import UIKit
 
 class StaticWidget: ViewWidget {
-    let expression: Expression
+    let expression: QLExpression
     let textField: UITextField
     
-    init(layout: Layout, delegate: WidgetDelegate?, expression: Expression) {
+    init(layout: Layout, delegate: WidgetDelegate?, expression: QLExpression) {
         self.expression = expression
         
         textField = UITextField()
@@ -52,9 +52,9 @@ class StaticWidget: ViewWidget {
     }
     
     private func updateValue() {
-        if expression.type === BooleanType.self {
+        if expression.type === QLBooleanType.self {
             textField.text = (expression.eval() as! Bool) ? "Yes" : "No"
-        } else if expression.type === MoneyType.self {
+        } else if expression.type === QLMoneyType.self {
             textField.text = "€ \((expression.eval() as! Double) / 100)"
         } else {
             textField.text = "\(expression.eval())"

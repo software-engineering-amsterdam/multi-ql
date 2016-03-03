@@ -20,7 +20,7 @@ class EvalTests: XCTestCase {
         guard form != nil
             else { return }
         
-        let q1 = form!.block.block.first as? Question
+        let q1 = form!.block.block.first as? QLQuestion
         
         XCTAssertNotNil(q1)
         guard q1 != nil
@@ -36,7 +36,7 @@ class EvalTests: XCTestCase {
         guard form != nil
             else { return }
         
-        let q2 = form!.block.block.last as? Question
+        let q2 = form!.block.block.last as? QLQuestion
         
         XCTAssertNotNil(q2)
         guard q2 != nil
@@ -52,7 +52,7 @@ class EvalTests: XCTestCase {
         guard form != nil
             else { return }
         
-        let q3 = form!.block.block.last as? Question
+        let q3 = form!.block.block.last as? QLQuestion
         
         XCTAssertNotNil(q3)
         guard q3 != nil
@@ -68,7 +68,7 @@ class EvalTests: XCTestCase {
         guard form != nil
             else { return }
         
-        let q1 = form!.block.block.first as? Question
+        let q1 = form!.block.block.first as? QLQuestion
         
         XCTAssertNotNil(q1)
         guard q1 != nil

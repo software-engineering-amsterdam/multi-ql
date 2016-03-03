@@ -44,9 +44,9 @@ class FormTests: XCTestCase {
             else { return }
         
         
-        let q1 = block2.block[0] as? Question
-        let q2 = block2.block[1] as? Question
-        let _if = block2.block[2] as? Conditional
+        let q1 = block2.block[0] as? QLQuestion
+        let q2 = block2.block[1] as? QLQuestion
+        let _if = block2.block[2] as? QLConditional
         
         XCTAssertNotNil(q1)
         XCTAssertNotNil(q2)
@@ -59,11 +59,11 @@ class FormTests: XCTestCase {
         XCTAssertTrue(q1!.label == "question")
         XCTAssertTrue(q2!.label == "question")
        
-        XCTAssertNotNil(q1!.expression as? BooleanLiteral)
+        XCTAssertNotNil(q1!.expression as? QLBooleanLiteral)
         XCTAssertNotNil(q2!.expression as? BooleanField)
         
         
-        let cond = _if!.condition as? Binary
+        let cond = _if!.condition as? QLBinary
         let ifBlock = _if!.ifBlock
         
         XCTAssertNotNil(cond)
@@ -72,11 +72,11 @@ class FormTests: XCTestCase {
         guard cond != nil
             else { return }
         
-        XCTAssertTrue(cond!.dynamicType == And.self)
+        XCTAssertTrue(cond!.dynamicType == QLAnd.self)
         
         
-        let lhs = cond!.lhs as? Identifier
-        let rhs = cond!.rhs as? Identifier
+        let lhs = cond!.lhs as? QLIdentifier
+        let rhs = cond!.rhs as? QLIdentifier
         
         XCTAssertNotNil(rhs)
         XCTAssertNotNil(lhs)

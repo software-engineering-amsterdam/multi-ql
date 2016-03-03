@@ -12,7 +12,7 @@ class QuestionView: BaseView, ViewContainable {
     internal let viewContainer = BaseView()
     
     
-    convenience init(layout: Layout, question: Question, widget: ViewWidget) {
+    convenience init(layout: Layout, question: QLQuestion, widget: ViewWidget) {
         self.init(frame: CGRectZero)
         
         setupView(layout, question: question.label, widget: widget)
