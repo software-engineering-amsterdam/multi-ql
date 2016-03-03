@@ -9,17 +9,21 @@ import nl.uva.sea.ql.ast.question.Question;
  * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 2-mrt-2016
+ * @version 3-mrt-2016
  */
 public class TypeChecker implements ASTVisitor {
     
     /**
-     * Error presented to the user when a conditional statement has a
-     * non-boolean condition.
+     * Error presented to the user when a <code>ConditionalStatement</code> has
+     * a non-boolean condition.
      */
     public static final String NON_BOOLEAN_CONDITION_ERROR
             = "Non-boolean condition for conditional statement found";
     
+    /**
+     * Error presented to the user when a <code>Question</code> was found to be
+     * referenced without being declared.
+     */
     public static final String REFERENCE_TO_UNDECLARED_QUESTION_ERROR
             = "Reference found to undeclared question: ";
     

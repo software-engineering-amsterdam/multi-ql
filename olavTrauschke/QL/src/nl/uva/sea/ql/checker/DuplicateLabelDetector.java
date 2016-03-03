@@ -12,11 +12,17 @@ import nl.uva.sea.ql.ast.question.Question;
  */
 public class DuplicateLabelDetector implements ASTVisitor {
     
+    /**
+     * Error presented to the user when a <code>Question</code> was found to be
+     * defined with a <code>Label</code> that was used before for a
+     * <code>Question</code> with another <code>type</code>.
+     */
     public static final String DUPLICATE_LABEL_ERROR = "Label detected that was"
             + " used for different questions: ";
     
     private final List<String> warnings;
     private final Map<Label,Question> firstQuestionsForLabels;
+    
     /**
      * Constructor for objects of this class.
      */
@@ -25,6 +31,13 @@ public class DuplicateLabelDetector implements ASTVisitor {
         firstQuestionsForLabels = new HashMap<>();
     }
     
+    /**
+     * Checks whether a <code>Question</code> has a <code>Label</code> that was
+     * used for another <code>Question</code> with a different <code>type</code>
+     * before.
+     * 
+     * @param q the <code>Question</code> to check
+     */
     @Override
     public void visit(Question q) {
         Label label = q.getLabel();
