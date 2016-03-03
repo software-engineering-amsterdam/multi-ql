@@ -9,14 +9,17 @@
 //  
 //  ->      "can consist of"
 //  |       Alternative grammar productions
+//  *       Kleene star (zero or more)
 //
-//  form -> stmnt*
-//  stmnt -> question | expr
-//  expr -> 
-//
+//  form        -> form codeBlock
+//  codeBlock   -> { statement* }
+//  statement   -> question | expression
+//  question    -> stringLiteral identifier: boolLiteral
+//  expression  ->
+//  literal     -> integerLiteral | floatLiteral | stringLiteral | boolLiteral
 //
 //  Swift Reference: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/
-//  Swift_Programming_Language/AboutTheLanguageReference.html#//apple_ref/doc/uid/TP40014097-CH29-ID345
+//  Swift_Programming_Language/AboutTheLanguageReference.html
 
 import Foundation
 import SwiftParsec
@@ -41,7 +44,7 @@ class QLParser: NSObject {
         let identifier = lexer.identifier
         let colon = lexer.colon
 
-        // MARK: Questions.
+        // MARK: Question.
         
         // "Did you sell a house in 2010?"
         //     hasSoldHouse: boolean
@@ -57,7 +60,7 @@ class QLParser: NSObject {
             }
         }
     
-        // MARK: Statements.
+        // MARK: Statement.
         let qlstatement = qlquestion
         
         let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in

@@ -8,17 +8,16 @@
 
 import Foundation
 
-protocol QLNode {}
+protocol ASTNode {}
+protocol ASTTerminal: ASTNode {}
+protocol ASTNonTerminal: ASTNode {}
 
-protocol QLTerminal: QLNode {}
-protocol QLNonTerminal: QLNode {}
-
-protocol QLStatement: QLNonTerminal {}
+protocol QLStatement: ASTNonTerminal {}
 protocol QLExpression: QLStatement {}
 
 // MARK: Non-terminals.
 
-class QLForm: QLNonTerminal {
+class QLForm: ASTNonTerminal {
     let formName: String
     let codeBlock: [QLStatement]
     
@@ -42,7 +41,7 @@ class QLQuestion: QLStatement {
 
 // MARK: Terminals.
 
-class QLBool: QLTerminal {
+class QLBool: ASTTerminal {
     let boolean: Bool
     
     init(boolean: Bool) {
@@ -50,7 +49,7 @@ class QLBool: QLTerminal {
     }
 }
 
-class QLString: QLTerminal {
+class QLString: ASTTerminal {
     let string: String
     
     init(string: String) {
@@ -58,7 +57,7 @@ class QLString: QLTerminal {
     }
 }
 
-class QLInteger: QLTerminal {
+class QLInteger: ASTTerminal {
     let integer: Int
     
     init(integer: Int) {
@@ -66,7 +65,7 @@ class QLInteger: QLTerminal {
     }
 }
 
-class QLDate: QLTerminal {
+class QLDate: ASTTerminal {
     let date: NSDate
     
     init(date: NSDate) {
@@ -74,7 +73,7 @@ class QLDate: QLTerminal {
     }
 }
 
-class QLDecimal: QLTerminal {
+class QLDecimal: ASTTerminal {
     let decimal: Double
     
     init(decimal: Double) {
@@ -82,7 +81,7 @@ class QLDecimal: QLTerminal {
     }
 }
 
-class QLMoney: QLTerminal {
+class QLMoney: ASTTerminal {
     let money: Float
     
     init(money: Float) {
