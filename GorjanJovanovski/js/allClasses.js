@@ -17,7 +17,9 @@ class Listener {
 	notify(label) {
 		if (this.listenerMap[label] !== undefined) {
 			for (var i = 0; i < this.listenerMap[label].length; i++) {
-				this.listenerMap[label][i].notify();
+				var dependant = this.listenerMap[label][i];
+				dependant.notify();
+				this.notify(dependant.label);
 			}
 		}
 	}

@@ -20,7 +20,6 @@ function notifyListeners(element, ast) {
 
 function setOnClickListeners(ast) {
 
-
 	$("#save").click(function () {
 		saveAnswers(ast);
 	});
