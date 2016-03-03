@@ -96,8 +96,6 @@ extension QLParser {
         let openingParen = StringParser.character("(")
         let closingParen = StringParser.character(")")
         
-        
-        // Recursive definition of simple expression
         let expr: GenericParser<String, (), QLExpression> =
             variable() <|> literalExpr()
         

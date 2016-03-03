@@ -10,4 +10,5 @@ import Foundation
 
 
 protocol QLNode {
+    func toString() -> String
 }

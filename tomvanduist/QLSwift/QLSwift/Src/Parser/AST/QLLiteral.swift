@@ -19,6 +19,10 @@ class QLStringLiteral: QLLiteral {
         self.string = string
     }
     
+    func toString() -> String {
+        return "\"\(string)\""
+    }
+    
     func eval(context: QLContext) -> NSObject {
         return string
     }
@@ -35,6 +39,10 @@ class QLIntegerLiteral: QLLiteral {
         self.integer = integer
     }
     
+    func toString() -> String {
+        return "\(integer)"
+    }
+    
     func eval(context: QLContext) -> NSObject {
         return integer
     }
@@ -49,6 +57,10 @@ class QLBooleanLiteral: QLLiteral {
     
     init (bool: Bool) {
         self.bool = bool
+    }
+    
+    func toString() -> String {
+        return bool ? "true" : "false"
     }
     
     func eval(context: QLContext) -> NSObject {

@@ -20,6 +20,10 @@ class QLVariable: QLExpression {
         self.id = id
     }
     
+    func toString() -> String {
+        return id
+    }
+    
     func eval(context: QLContext) -> NSObject {
         return context.retrieve(id)
     }
@@ -34,6 +38,10 @@ class QLLiteralExpression: QLExpression {
     
     init(literal: QLLiteral) {
         self.literal = literal
+    }
+    
+    func toString() -> String {
+        return literal.toString()
     }
     
     func eval(context: QLContext) -> NSObject {
@@ -52,6 +60,10 @@ class QLUnary {
         self.rhs = rhs
     }
     
+    func toString() -> String {
+        fatalError("Override")
+    }
+    
     func eval(context: QLContext) -> NSObject {
         fatalError("Override")
     }
@@ -60,6 +72,10 @@ class QLUnary {
 class QLNot: QLUnary, QLExpression {
     required init (rhs: QLExpression) {
         super.init(rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return "!"
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -74,6 +90,10 @@ class QLNot: QLUnary, QLExpression {
 class QLNeg: QLUnary, QLExpression {
     required init (rhs: QLExpression) {
         super.init(rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return "-"
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -93,6 +113,10 @@ class QLBinary: QLExpression {
         self.rhs = rhs
     }
     
+    func toString() -> String {
+        fatalError("Override")
+    }
+    
     func eval(context: QLContext) -> NSObject {
         fatalError("Override")
     }
@@ -105,6 +129,10 @@ class QLBinary: QLExpression {
 class QLAdd: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return "+"
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -121,6 +149,10 @@ class QLSub: QLBinary {
         super.init(lhs: lhs, rhs: rhs)
     }
     
+    override func toString() -> String {
+        return "-"
+    }
+    
     override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) - (rhs.eval(context) as! NSInteger)
     }
@@ -133,6 +165,10 @@ class QLSub: QLBinary {
 class QLMul: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return "*"
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -149,6 +185,10 @@ class QLDiv: QLBinary {
         super.init(lhs: lhs, rhs: rhs)
     }
     
+    override func toString() -> String {
+        return "/"
+    }
+    
     override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) / (rhs.eval(context) as! NSInteger)
     }
@@ -161,6 +201,10 @@ class QLDiv: QLBinary {
 class QLPow: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return "^"
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -177,6 +221,10 @@ class QLEq: QLBinary {
         super.init(lhs: lhs, rhs: rhs)
     }
     
+    override func toString() -> String {
+        return "=="
+    }
+    
     override func eval(context: QLContext) -> NSObject {
         return lhs.eval(context) == rhs.eval(context)
     }
@@ -189,6 +237,10 @@ class QLEq: QLBinary {
 class QLNe: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return "!="
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -205,6 +257,10 @@ class QLGe: QLBinary {
         super.init(lhs: lhs, rhs: rhs)
     }
     
+    override func toString() -> String {
+        return ">="
+    }
+    
     override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) >= (rhs.eval(context) as! NSInteger)
     }
@@ -217,6 +273,10 @@ class QLGe: QLBinary {
 class QLGt: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return ">"
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -233,6 +293,10 @@ class QLLe: QLBinary {
         super.init(lhs: lhs, rhs: rhs)
     }
     
+    override func toString() -> String {
+        return "<="
+    }
+    
     override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) <= (rhs.eval(context) as! NSInteger)
     }
@@ -245,6 +309,10 @@ class QLLe: QLBinary {
 class QLLt: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return "<"
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -261,6 +329,10 @@ class QLAnd: QLBinary {
         super.init(lhs: lhs, rhs: rhs)
     }
     
+    override func toString() -> String {
+        return "&&"
+    }
+    
     override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! Bool) && (rhs.eval(context) as! Bool)
     }
@@ -273,6 +345,10 @@ class QLAnd: QLBinary {
 class QLOr: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
+    }
+    
+    override func toString() -> String {
+        return "||"
     }
     
     override func eval(context: QLContext) -> NSObject {

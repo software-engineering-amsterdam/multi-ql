@@ -14,4 +14,8 @@ class QLIdentifier: QLNode {
     init(id: String) {
         self.id = id
     }
+    
+    func toString() -> String {
+        return id
+    }
 }

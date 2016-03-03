@@ -16,6 +16,10 @@ protocol QLType: QLTypeVisitable {
 class QLBooleanType: QLType {
     let defaultValue: NSObject = true
     
+    func toString() -> String {
+        return "boolean"
+    }
+    
     func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -24,6 +28,10 @@ class QLBooleanType: QLType {
 class QLIntegerType: QLType {
     let defaultValue: NSObject = 0
     
+    func toString() -> String {
+        return "integer"
+    }
+    
     func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -31,6 +39,10 @@ class QLIntegerType: QLType {
 
 class QLStringType: QLType {
     let defaultValue: NSObject = ""
+    
+    func toString() -> String {
+        return "string"
+    }
     
     func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
         return visitor.visit(self, param: param)

@@ -17,4 +17,8 @@ class QLForm: QLNode {
         self.identifier = identifier
         self.block = block
     }
+    
+    func toString() -> String {
+        return "\(identifier.toString()) \(block.toString())"
+    }
 }

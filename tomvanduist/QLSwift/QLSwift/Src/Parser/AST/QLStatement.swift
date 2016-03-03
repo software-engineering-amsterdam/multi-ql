@@ -20,6 +20,10 @@ class QLQuestion {
         self.label = label
     }
     
+    func toString() -> String {
+        fatalError("Override")
+    }
+    
     func eval(context: QLContext) -> NSObject {
         fatalError("Override")
     }
@@ -32,6 +36,10 @@ class QLVariableQuestion: QLQuestion, QLStatement {
         self.type = type
         
         super.init(identifier: identifier, label: label)
+    }
+    
+    override func toString() -> String {
+        return "\(identifier.toString())"
     }
     
     override func eval(context: QLContext) -> NSObject {
@@ -52,6 +60,10 @@ class QLComputedQuestion: QLQuestion, QLStatement {
         super.init(identifier: identifier, label: label)
     }
     
+    override func toString() -> String {
+        return "\(identifier.toString())"
+    }
+    
     override func eval(context: QLContext) -> NSObject {
         return expression.eval(context)
     }
@@ -68,6 +80,10 @@ class QLConditional: QLStatement {
     init(condition: QLExpression, ifBlock: QLBlock) {
         self.condition = condition
         self.ifBlock = ifBlock
+    }
+    
+    func toString() -> String {
+        return "\(condition.toString())"
     }
     
     func isSatisfied(context: QLContext) -> Bool {
@@ -87,6 +103,10 @@ class QLBlock: QLStatement {
     
     init (block: [QLStatement]) {
         self.block = block
+    }
+    
+    func toString() -> String {
+        return "\(block)"
     }
     
     func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {

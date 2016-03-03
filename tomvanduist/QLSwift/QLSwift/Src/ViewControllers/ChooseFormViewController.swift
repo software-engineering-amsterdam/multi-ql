@@ -23,6 +23,7 @@ class ChooseFormViewController: BaseViewController {
             if warnings.isEmpty {
                 self.displayForm(form)
             } else {
+                print(warnings)
                 showAlerts(arg: warnings, cancelBlock: nil, confirmBlock: { [unowned self] in
                     self.displayForm(form)
                 })

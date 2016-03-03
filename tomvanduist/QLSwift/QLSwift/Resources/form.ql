@@ -1,5 +1,5 @@
 form testForm1 {
-    booleanResult   : "Enter boolean"   boolean
+    booleanResult   : "Enter boolean"   (true + "")
     /*booleanResult1  : "Result:"         booleanResult
 
     if (booleanResult1) {

@@ -55,8 +55,6 @@ extension SemanticAnalyzer {
     }
     
     func visit(node: QLComputedQuestion, param: Void?) -> Void {
-        node.expression.accept(self, param: param)
-        
         do {
             try symbolTable.assign(node.identifier.id, object: (node.expression.accept(self, param: nil), node))
         } catch let warning as SemanticWarning {
@@ -71,7 +69,7 @@ extension SemanticAnalyzer {
         node.ifBlock.accept(self, param: param)
         
         if (node.condition.accept(self, param: nil) !== QLBooleanType.self) {
-            error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition)"))
+            error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition.toString())"))
         }
     }
     
@@ -105,7 +103,7 @@ extension SemanticAnalyzer {
     }
     
     func collectUnaryTypeError(node: QLUnary) {
-        error.collect(SemanticError.TypeMismatch(description: "Unary type does not match expression type. \(node) does not match \(node.rhs)."))
+        error.collect(SemanticError.TypeMismatch(description: "Unary operator '\(node.toString())' cannot be applied to operand of type '\(node.rhs.toString())'!"))
     }
     
     func visit(node: QLNeg, param: Void?) -> QLType {
@@ -125,7 +123,7 @@ extension SemanticAnalyzer {
     }
     
     func collectBinaryTypeError(node: QLBinary) {
-        self.error.collect(SemanticError.TypeMismatch(description: "Binary type does not match expression type(s). \(node) does not match \(node.lhs) and \(node.rhs)."))
+        self.error.collect(SemanticError.TypeMismatch(description: "Binary operator '\(node.toString())' cannot be applied to operands of type '\(node.lhs.toString())' and '\(node.rhs.toString())'!"))
     }
 
     func visitBinaryNumber(node: QLBinary) -> QLType {
