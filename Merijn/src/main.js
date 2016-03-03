@@ -21,39 +21,33 @@ session.on('change', function (e) {
 	let val = session.getValue(),
 		log = new Log(),
 		ast,
-		messages = [],
+		outputMessages = [],
 		annotations = [];
+
+	function addLogMessages(logMessages, type) {
+		for (let logMessage of logMessages) {
+			outputMessages.push("[" + type + "] line(s): " + logMessage.lines.join(',') + " - " + logMessage.message);
+			for (let line of logMessage.lines) {
+				annotations.push({
+					'row': line-1,
+					'text': logMessage.message,
+					'type': type
+				});
+			}
+		}
+	}
 
 	window.localStorage.setItem(LOCALSTORAGE_KEY, val); // store before parse, as otherwise errors will block storing
 
 	ast = parser.parse(val, log);
-	for (let error of log.errors) {
-		messages.push("[ERROR] line(s): " + error.lines.join(',') + " - " + error.message);
-		for (let line of error.lines) {
-			annotations.push({
-				'row': line-1,
-				'text': error.message,
-				'type': 'error'
-			});
-		}
-	}
-	for (let warning of log.warnings) {
-		messages.push("[WARNING] line(s): " + warning.lines.join(',') + " - " + warning.message);
-		for (let line of warning.lines) {
-			annotations.push({
-				'row': line-1,
-				'text': warning.message,
-				'type': 'warning'
-			});
-		}
-	}
-	logElement.value = messages.join("\n");
+	addLogMessages(log.errors, 'error');
+	addLogMessages(log.warnings, 'warnings');
+	logElement.value = outputMessages.join("\n");
 	session.setAnnotations(annotations);
 	if (!log.hasErrors()) {
-		// TODO
-		//while (renderElement.firstChild !== null) {     // TODO make this reusable
-		//	renderElement.removeChild(renderElement.firstChild);
-		//}
+		while (renderElement.firstChild !== null) {
+			renderElement.removeChild(renderElement.firstChild);
+		}
 		//renderer.render(ast, renderElement);
 	}
 });
