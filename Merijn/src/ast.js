@@ -39,11 +39,9 @@ export class IfNode extends Node {
 	}
 }
 
-export class IfElseNode extends Node {
+export class IfElseNode extends IfNode {
 	constructor(line, condition, thenBlock, elseBlock) {
-		super(line);
-		this.condition = condition;
-		this.thenBlock = thenBlock;
+		super(line, condition, thenBlock);
 		this.elseBlock = elseBlock;
 	}
 	accept (visitor, ...args) {
@@ -58,6 +56,9 @@ export class QuestionNode extends Node {
 		this.description = description;
 		this.name = name;
 		this.type = type;
+	}
+	accept (visitor, ...args) {
+		return visitor.visitQuestionNode(this, ...args);
 	}
 }
 
@@ -224,6 +225,9 @@ export class LiteralNode extends Node {
 		this.type = type;
 		this.value = value;
 	}
+	accept(visitor, ...args) {
+		return visitor.visitLiteralNode(this, ...args);
+	}
 }
 
 export class IdentifierNode extends Node {
@@ -251,7 +255,7 @@ export class NodeVisitor {
 		return this.visitNode(ifNode, ...args);
 	}
 	visitIfElseNode (ifElseNode, ...args) {
-		return this.visitNode(ifElseNode, ...args);
+		return this.visitIfNode(ifElseNode, ...args);
 	}
 	visitQuestionNode(questionNode, ...args) {
 		return this.visitNode(questionNode, ...args);

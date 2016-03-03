@@ -25,13 +25,18 @@ class Question: Statement {
 
 class Conditional: Statement {
     let condition: Expression
-    let ifBlock: Statement
-    let elseBlock: Statement?
+    let ifBlock: Block
     
-    init(condition: Expression, ifBlock: Statement, elseBlock: Statement?) {
+    init(condition: Expression, ifBlock: Block) {
         self.condition = condition
         self.ifBlock = ifBlock
-        self.elseBlock = elseBlock
+    }
+    
+    func isSatisfied() -> Bool {
+        if let isSatisfied = condition.eval() as? Bool {
+            return isSatisfied
+        }
+        return false
     }
 }
 

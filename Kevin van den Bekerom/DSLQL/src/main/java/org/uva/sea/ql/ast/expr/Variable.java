@@ -2,10 +2,10 @@ package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.form.Value;
-import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.Type;
 
-public class Variable extends Expr implements Visitable {
+public class Variable extends Expr {
 	String identifier;
 	Object value;
 
@@ -33,7 +33,11 @@ public class Variable extends Expr implements Visitable {
 
 	@Override
 	public String toString() {
-		return value.toString();
+		if (value == null) {
+			return "";
+		} else {
+			return value.toString();
+		}
 	}
 	
 	@Override

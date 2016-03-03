@@ -82,13 +82,6 @@ public class CreateASTTree extends QLBaseVisitor<Node> {
         node.init(left, right);
         node.setLine(context.stop.getLine());
         
-        // TODO: symbol table - unity identifier, etc
-        String name = left.getName();
-        String question = left.getQuestion();
-        
-        symbolTable.add(name, node);
-        symbolTable.add(question, node); 
-        
         return node;
     }
     

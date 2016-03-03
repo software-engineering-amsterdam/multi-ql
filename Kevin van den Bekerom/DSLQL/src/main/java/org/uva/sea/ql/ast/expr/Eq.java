@@ -3,6 +3,9 @@ package org.uva.sea.ql.ast.expr;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.NumericalType;
+import org.uva.sea.ql.type.Type;
+import org.uva.sea.ql.type.WildType;
 
 public class Eq extends BinaryExpr implements Visitable {	
 	
@@ -28,6 +31,6 @@ public class Eq extends BinaryExpr implements Visitable {
 	
 	@Override
 	public Type getType(Context context) {
-		return Type.BOOLEAN;
+		return new WildType(); //TODO: find better name!
 	}
 }

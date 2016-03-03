@@ -1,9 +1,10 @@
 package org.uva.sea.ql.ast.form;
 
+import org.uva.sea.ql.type.Type;
+import org.uva.sea.ql.type.Undefined;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.uva.sea.ql.ast.expr.Type;
 
 public class Context {
 	private Map<String, Type> questionTypes;
@@ -18,7 +19,12 @@ public class Context {
 	}
 	
 	public Type getTypeFromQuestion(String questionID) {
-		return questionTypes.get(questionID);
+		if (questionTypes.containsKey(questionID)) {
+			return questionTypes.get(questionID);
+		} else {
+			return new Undefined();
+		}
+		
 	}
 	
 	public Map<String, Type> getTypeMap() {

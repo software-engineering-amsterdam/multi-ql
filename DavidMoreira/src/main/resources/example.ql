@@ -7,7 +7,7 @@ form taxOfficeExample {
     hasMaintLoan: money = -2.2
     
 
-  if (hasSoldHouse) {
+  if (hasSoldHouse == true) {
     "What was the selling price2?"
       sellingPrice: money
     "Private debts for the sold house2:"

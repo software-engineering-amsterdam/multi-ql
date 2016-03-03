@@ -38,18 +38,14 @@ public class Division extends Multiplicative {
 	
 	public Type checkAllowedTypes(Type left, Type right) {
 		
-		if (left.getType().equals(right.getType())) {
-			if (left.getType().equals(new IntegerType().getType()) || left.getType().equals(new MoneyType().getType())) {
-				return new MoneyType();
+		if (left.equals(right)) {
+			if (left.equals(new IntegerType())) {
+				return new IntegerType();
 			}
-		} else {
-			if (left.getType().equals(new IntegerType().getType()) && right.getType().equals(new MoneyType().getType())) {
-				return null;
-			} else {
-				return new MoneyType();
-			}
+		} else if (left.equals(new MoneyType()) && right.equals(new IntegerType())) {
+			return new MoneyType();
 		}
 		
-		return null;		
+		return null;
 	}
 }

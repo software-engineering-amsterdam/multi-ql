@@ -1,33 +1,25 @@
 package uva.ql.ast.numbers;
 
-import uva.ql.ast.ANumber;
-import uva.ql.ast.AST;
-import uva.ql.interfaces.INumber;
+import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.numbers.types.Dble;
 
-public class NumDouble<T> extends ANumber {
+public class NumDouble extends Number {
 
-	private T value;
+	private Type type = new Dble();
+	private Double value;
 	
-	public NumDouble(AST ast) {
-		super(ast);
-	}
-
-	@Override
-	protected int getNumType0() {
-		return INumber.DOUBLE;
-	}
-
-	@Override
-	public <T> T getValue() {
-		return (T) value;
-	}
-
-	@Override
-	public void setValue(String value) {
-		setValue((T) Double.valueOf(value));
-	}
-	
-	public void setValue(T value) {
+	public NumDouble(Node parent, Double value, int startLine, int startColumn) {
+		super(parent, startLine, startColumn);
 		this.value = value;
+	}
+	
+	public Type getType() {
+		return this.type;
+	}
+	
+	public Double getValue() {
+		return this.value;
 	}
 }

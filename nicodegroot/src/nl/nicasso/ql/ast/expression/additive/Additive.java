@@ -14,8 +14,8 @@ public abstract class Additive extends Polynomial {
 
 	public Type checkAllowedTypes(Type left, Type right) {
 		
-		if (left.getType().equals(right.getType())) {
-			if (left.getType().equals(new IntegerType().getType()) || left.getType().equals(new MoneyType().getType())) {
+		if (left.equals(right)) {
+			if (left.equals(new IntegerType()) || left.equals(new MoneyType())) {
 				return left;
 			}
 		}

@@ -45,7 +45,7 @@ expression
 
 literal
   : INTEGER #integerLiteral
-  | DECIMAL #decimalLiteral
+  | MONEY #moneyLiteral
   | BOOLEAN #booleanliteral
   | STRING #stringLiteral
   ;
@@ -55,7 +55,6 @@ questionType
   | 'string' #stringType
   | 'boolean' #booleanType
   | 'money' #moneyType
-  | 'decimal' #decimalType
   ;
 
 /************************************
@@ -69,5 +68,5 @@ LINE_COMMENT : '//' ~[\r\n]+ -> channel(HIDDEN);
 BOOLEAN : ('true'|'false');
 IDENTIFIER: [a-z][a-zA-Z0-9]+;
 INTEGER: [0-9]+;
-DECIMAL: [0-9]+ '.' [0-9][0-9];
+MONEY: [0-9]+ '.' [0-9][0-9];
 STRING: '"' .*? '"';

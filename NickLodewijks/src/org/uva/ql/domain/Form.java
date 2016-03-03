@@ -21,6 +21,10 @@ public class Form {
 		questions.add(question);
 	}
 
+	public void addAll(List<Question> questions) {
+		this.questions.addAll(questions);
+	}
+
 	public List<Question> getQuestions() {
 		return Collections.unmodifiableList(questions);
 	}

@@ -27,7 +27,7 @@ public class QLGui {
 	    
         System.out.println("Starting gui...");
         
-    	form.createGui();
+    	form.runGui();
     	
     	System.out.println(form.toString());
         

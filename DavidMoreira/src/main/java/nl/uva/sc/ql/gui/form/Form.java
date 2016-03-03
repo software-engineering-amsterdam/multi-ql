@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-public class Form extends JFrame implements QLGuiForm {
+public class Form extends JFrame implements GuiInterface {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -33,14 +33,14 @@ public class Form extends JFrame implements QLGuiForm {
 	}
 
 	@Override
-	public boolean createGui() {		
+	public boolean runGui() {		
 		for(Question q : questions){
-			q.createGui();
+			q.runGui();
 			this.add(q);
 		}
 		
 		for(IfElse i : ifElses){
-			i.createGui();
+			i.runGui();
 			this.add(i);
 		}
 		

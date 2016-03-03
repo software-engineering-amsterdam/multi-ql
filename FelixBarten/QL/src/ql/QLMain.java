@@ -59,6 +59,9 @@ public class QLMain {
     
         parseExamples();
         
+        //  BaseVisitor<T> basevisit = new BaseVisitor<T>();
+        //   basevisit.visit(lexer);
+        
         System.out.println("Finished parsing");
     }
 

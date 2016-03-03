@@ -13,8 +13,8 @@ public abstract class Conditional extends Polynomial {
 
 	public Type checkAllowedTypes(Type left, Type right) {
 		
-		if (left.getType().equals(right.getType())) {
-			if (left.getType().equals(new BooleanType().getType())) {
+		if (left.equals(right)) {
+			if (left.equals(new BooleanType())) {
 				return left;
 			}
 		}

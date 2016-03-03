@@ -9,7 +9,7 @@ public class UnaryExpr extends Expr {
 	
 	public UnaryExpr (Expr exp){
 
-		this.expression = exp;
+		this.setExpression(exp);
 
 	}
 
@@ -18,5 +18,15 @@ public class UnaryExpr extends Expr {
 	public <T> T accept(BaseVisitor<T> visitor) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	public Expr getExpression() {
+		return expression;
+	}
+
+
+	public void setExpression(Expr expression) {
+		this.expression = expression;
 	}
 }

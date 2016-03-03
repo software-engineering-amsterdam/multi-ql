@@ -1,13 +1,15 @@
 function initiate(inputString) {
-	resetErrorPanels();
+	resetGUI();
 	var tree = getAntrlParseTree(inputString);
 	var visitor = getAntlrVisitor();
 	visitor.visitForm = function (ctx) {
-		ast = ctx.FormNode;
-		if (performAstChecks()) {
-			renderQuestions();
-			setHTMLEventHandlers();
-			refreshGUI();
+		var ast = ctx.FormNode;
+		var environment = new Environment();
+		ast.setEnvironment(environment);
+		if (performAstChecks(ast, environment)) {
+			renderQuestions(ast);
+			refreshGUI(ast);
+			setOnClickListeners(ast);
 		}
 		else {
 			throwError(0, "Form checks failed");
@@ -56,7 +58,7 @@ function getAntlrVisitor() {
 	return new Visitor();
 }
 
-function performAstChecks() {
+function performAstChecks(ast, environment) {
 	var texts = new Set();
 	var labels = new Set();
 
@@ -72,11 +74,11 @@ function performAstChecks() {
 				throwWarning(questionNode.line, "Question warning: Text '" + questionNode.text + "' for question '" + questionNode.label + "' is already defined");
 			}
 			if (questionNode instanceof ComputedQuestionNode) {
-				if (questionNode.computedExpr.compute() === undefined) {
+				if (questionNode.computedExpr.compute(environment) === undefined) {
 					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
 					noErrors = false;
 				}
-				else if (questionNode.type.toString() !== typeof questionNode.computedExpr.compute()) {
+				else if (questionNode.type.toString(environment) !== typeof questionNode.computedExpr.compute(environment)) {
 					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' must evaluate to " + questionNode.type.getTypeString());
 					noErrors = false;
 				}
@@ -85,7 +87,7 @@ function performAstChecks() {
 			texts.add(questionNode.text);
 		},
 		(conditionNode) => {
-			if ("boolean" !== typeof conditionNode.condition.compute()) {
+			if (typeof conditionNode.condition.compute(environment) !== "boolean") {
 				throwError(conditionNode.line, "Type error: Condition '" + conditionNode.condition.toString() + "' is not boolean");
 				noErrors = false;
 			}
@@ -93,13 +95,13 @@ function performAstChecks() {
 	);
 
 	if (noErrors) {
-		noErrors = checkDependencies();
+		noErrors = checkDependencies(ast);
 	}
 
 	return noErrors;
 }
 
-function checkDependencies() {
+function checkDependencies(ast) {
 	var map = [];
 
 	ast.transverseAST(

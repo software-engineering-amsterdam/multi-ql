@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import nl.uva.sc.ql.exceptions.NoValueException;
 import nl.uva.sc.ql.parser.ast.Node;
 
-public abstract class Question extends JPanel implements QLGuiForm {
+public abstract class Question extends JPanel implements GuiInterface, Observer {
 
 	private static final long serialVersionUID = 1L;
 		
@@ -15,12 +15,14 @@ public abstract class Question extends JPanel implements QLGuiForm {
 	private boolean questionDone;
 	private Node node;
 	private boolean editable;
+	private JComponent component = null;
 	
 	public Question(String question, Node node, boolean editable){
 		this.question = question;
 		this.node = node;
 		this.questionDone = false;
 		this.editable = editable;
+		node.registerObserver(this);
 	}
 
 	public String getQuestion() {
@@ -55,19 +57,27 @@ public abstract class Question extends JPanel implements QLGuiForm {
 		return this.editable;
 	}
 	
-	public abstract JComponent getComponent(boolean editable, String valueText);
+	public JComponent getComponent(){
+		return this.component;
+	}
 	
-	public boolean createGui(){
+	public abstract JComponent createComponentWithValue();
+	
+	@Override
+	public abstract void update();
+	
+	@Override
+	public boolean runGui(){
 		if(!isQuestionDone()){
-			JComponent component;
 			add(new JLabel(this.question));
-			component = getComponent(editable, getValuetoString());
+			component = createComponentWithValue();
 			add(component);
 			setQuestionDone(true);
 		}
+		
 		return true;
 	}
-	
+		
 	@Override
 	public String toString(){
 		return getClass().getSimpleName()+": "+getQuestion();

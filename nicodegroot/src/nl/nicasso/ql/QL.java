@@ -3,9 +3,9 @@ package nl.nicasso.ql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JFrame;
@@ -45,10 +45,10 @@ public class QL {
 				
 		SymbolTable symbolTable = new SymbolTable();
         
-        CreateASTVisitor astVisitor = new CreateASTVisitor();
+        CreateAST astVisitor = new CreateAST();
         Form ast = (Form) tree.accept(astVisitor);
 
-        QuestionVisitor questionVisitor = new QuestionVisitor(symbolTable);
+        QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable);
         ast.accept(questionVisitor);
         
         //displaySymbolTable(symbolTable);
@@ -57,24 +57,24 @@ public class QL {
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
         
         //displaySymbolTable(symbolTable);
-        
-        CyclicDependencyVisitor cyclicDependencyVisitor = new CyclicDependencyVisitor();
+        /*
+        DetectCyclicDependencies cyclicDependencyVisitor = new DetectCyclicDependencies();
         ast.accept(cyclicDependencyVisitor);
         cyclicDependencyVisitor.detectCyclicDependencies();
         
         displayMessages("CyclicDependencyVisitor Warnings", cyclicDependencyVisitor.getWarnings());
         displayMessages("CyclicDependencyVisitor Errors", cyclicDependencyVisitor.getErrors());
-        
+        */
         //displaySymbolTable(symbolTable);
     
-    	TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(symbolTable);
+    	TypeChecker typeChecker = new TypeChecker(symbolTable);
     	ast.accept(typeChecker);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
 
         
-        EvaluatorVisitor evaluator = new EvaluatorVisitor(symbolTable);
+        Evaluator evaluator = new Evaluator(symbolTable);
         // Get all initial values
         ast.accept(evaluator);
         
@@ -99,13 +99,13 @@ public class QL {
 	        if (value.getValue() == null) {
 	        	realValue = "undefined";
 	        } else {
-	        	realValue = value.getValue().toString();
+	        	realValue = value.getValue().getValue().toString();
 	        }
 	        System.out.println(key.getValue()+" ("+ value.getType().getType() +")"+ " = " + realValue);
 	    }
 	}
 	
-	private void displayMessages(String title, ArrayList<String> messages) {
+	private void displayMessages(String title, List<String> messages) {
 		if (!messages.isEmpty()) {
         	System.out.println("-------------------------------"+title+"--------------------------------------------");
         	for (String message : messages) {

@@ -11,8 +11,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
-import uva.ql.ast.ANode;
 import uva.ql.ast.Form;
+import uva.ql.ast.abstracts.Node;
 import uva.ql.typechecker.TypeChecker;
 import uva.ql.visitors.VisitorToAST;
 
@@ -23,7 +23,7 @@ public class QL {
     	this.filePath = filePath;
     }
     
-    public ANode start() throws Exception {
+    public Node start() throws Exception {
     	
     	InputStream in = getClass().getClassLoader().getResourceAsStream(filePath);
     	QLLexer lexer;
