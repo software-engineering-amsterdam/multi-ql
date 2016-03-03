@@ -11,35 +11,37 @@ import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.EvalVisitor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by roy on 29-2-16.
  */
 public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
     private List<Question> questions;
-    private ObservableMap<Var, Question> symbolTable;
 
     public FormEvaluator(Form f) {
-        super(f, FXCollections.observableHashMap());
-        symbolTable = FXCollections.observableHashMap();
+        super(f);
         this.questions = new ArrayList<>();
-        f.accept(this, null);
+        f.accept(this, this.getSymbolTable());
     }
 
     public FormEvaluator(Form f, ObservableMap<Var, Question> symbolTable) {
         super(f, symbolTable);
-        this.symbolTable = symbolTable;
         this.questions = new ArrayList<>();
-        f.accept(this, symbolTable);
+        f.accept(this, this.getSymbolTable());
     }
 
     @Override
-    public Void visit(Question stat, Map<Var,Question> symbolTable) {
-        Expr expr = stat.getExpr();
+    public Void visit(Question stat, ObservableMap<Var,Question> symbolTable) {
+        Expr expr;
 
+        if(symbolTable.containsKey(stat.getVarname())){
+            expr = symbolTable.get(stat.getVarname()).getExpr();
+        }
+        else {
+            expr = stat.getExpr();
+        }
+        
         Expr computedValue = expr.accept(this,symbolTable);
 
         Question computedQuestion = new Question(stat.getLine(),
@@ -56,7 +58,4 @@ public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
         return questions;
     }
 
-    public ObservableMap<Var, Question> getSymbolTable() {
-        return symbolTable;
-    }
 }
