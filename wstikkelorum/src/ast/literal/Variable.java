@@ -1,21 +1,20 @@
 package ast.literal;
 
 import ast.expression.Expression;
-import ast.visitor.Type;
 import ast.visitor.Visitor;
 
 public class Variable extends Expression {
-	private String name;
-	private VariableType type;
+	private final String identifier;
+	private final VariableType type;
 
-	public Variable(int lineNumber, String name, VariableType type) {
+	public Variable(int lineNumber, String identifier, VariableType type) {
 		super(lineNumber);
-		this.name = name;
+		this.identifier = identifier;
 		this.type = type;
 	}
 
-	public String getName() {
-		return name;
+	public String getIdentifier() {
+		return identifier;
 	}
 
 	public VariableType getType() {

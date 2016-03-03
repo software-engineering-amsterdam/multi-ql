@@ -4,7 +4,7 @@ import ast.expression.Expression;
 import ast.visitor.Visitor;
 
 public class BoolLiteral extends Expression {
-	private boolean value;
+	private final boolean value;
 
 	public BoolLiteral(int lineNumber, Boolean value) {
 		super(lineNumber);

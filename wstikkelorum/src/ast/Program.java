@@ -13,10 +13,9 @@ import antlr.QLLexer;
 import antlr.QLParser;
 import antlr.QLParser.FileContext;
 import ast.visitor.CyclicDependencyChecker;
-import ast.visitor.EvalVisitor;
 import ast.visitor.FindAllDeclaredQuestions;
-import ast.visitor.TypeChecker;
 import ast.visitor.Type;
+import ast.visitor.TypeChecker;
 
 public class Program {
 
@@ -28,7 +27,7 @@ public class Program {
 //				"resources/SmallQuestionaire.ql").getPath());
 		
 		ANTLRFileStream input = new ANTLRFileStream(new File(
-				"resources/CyclicExampleD.ql").getPath());
+				"resources/CyclicExampleC.ql").getPath());
 		
 		CommonTokenStream tokens = new CommonTokenStream(new QLLexer(input));
 		QLParser parser = new QLParser(tokens);
@@ -62,10 +61,11 @@ public class Program {
 		
 		CyclicDependencyChecker<Object> cdc = new CyclicDependencyChecker<>();
 		cdc.visit(fileContext.form().result);
+		cdc.findCyclicDependencies();
 		
 
-		TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
-		viewer.open();
+		//TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
+		//viewer.open();
 
 		//new QLFrame(fileContext.form().result);
 	}

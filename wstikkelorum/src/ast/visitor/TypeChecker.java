@@ -151,7 +151,7 @@ public class TypeChecker<T> extends BasicVisitor<Type>{
 	
 	@Override
 	public Type visit(VariableExpression variableExpression) {
-		return context.getType(variableExpression.getName(), variableExpression.getLineNumber());
+		return context.getType(variableExpression.getIdentifier(), variableExpression.getLineNumber());
 	}
 	
 	private void checkTypesBinaryExpression(BinaryExpression binaryExpression, Type expectedType){

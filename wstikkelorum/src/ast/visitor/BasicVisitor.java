@@ -86,7 +86,7 @@ public class BasicVisitor<T> implements Visitor<T> {
 	public T visit(BinaryExpression binaryExpression) {
 		binaryExpression.getLhs().accept(this);
 		binaryExpression.getRhs().accept(this);
-		return null;//TODO: Dit is misschien niet goed???
+		return null;
 	}
 
 	@Override

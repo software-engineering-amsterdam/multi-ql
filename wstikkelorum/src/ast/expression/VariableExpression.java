@@ -3,15 +3,15 @@ package ast.expression;
 import ast.visitor.Visitor;
 
 public class VariableExpression extends Expression {
-	private String name;
+	private final String identifier;
 
-	public VariableExpression(int lineNumber, String name) {
+	public VariableExpression(int lineNumber, String identifier) {
 		super(lineNumber);
-		this.name = name;
+		this.identifier = identifier;
 	}
 
-	public String getName() {
-		return name;
+	public String getIdentifier() {
+		return identifier;
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package ast.expression;
 import ast.visitor.Visitor;
 
 public class Pos extends Expression {
-	private Expression expression;
+	private final Expression expression;
 
 	public Pos(Expression result) {
 		super(result.getLineNumber());
