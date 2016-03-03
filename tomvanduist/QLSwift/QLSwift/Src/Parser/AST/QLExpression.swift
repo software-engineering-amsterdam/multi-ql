@@ -10,21 +10,18 @@ import Foundation
 
 
 protocol QLExpression: QLNode, QLExpressionVisitable {
-    func eval(context: Context) -> NSObject
+    func eval(context: QLContext) -> NSObject
 }
 
-class QLIdentifier: QLExpression {
+class QLVariable: QLExpression {
     let id: String
     
     init(id: String) {
         self.id = id
     }
     
-    func eval(context: Context) -> NSObject {
-        guard let expression = context.retrieveExpression(self)
-            else { return NSNull() }
-        
-        return expression.eval(context)
+    func eval(context: QLContext) -> NSObject {
+        return context.retrieve(id) // TODO: not needed?
     }
 }
 
@@ -35,7 +32,7 @@ class QLStringLiteral: QLExpression {
         self.string = string
     }
     
-    func eval(context: Context) -> NSObject {
+    func eval(context: QLContext) -> NSObject {
         return string
     }
 }
@@ -47,7 +44,7 @@ class QLIntegerLiteral: QLExpression {
         self.integer = integer
     }
     
-    func eval(context: Context) -> NSObject {
+    func eval(context: QLContext) -> NSObject {
         return integer
     }
 }
@@ -59,7 +56,7 @@ class QLBooleanLiteral: QLExpression {
         self.bool = bool
     }
     
-    func eval(context: Context) -> NSObject {
+    func eval(context: QLContext) -> NSObject {
         return bool
     }
 }
@@ -71,7 +68,7 @@ class QLUnary {
         self.rhs = rhs
     }
     
-    func eval(context: Context) -> NSObject {
+    func eval(context: QLContext) -> NSObject {
         fatalError("Override")
     }
 }
@@ -81,7 +78,7 @@ class QLNot: QLUnary, QLExpression {
         super.init(rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return rhs.eval(context) == false
     }
 }
@@ -91,12 +88,12 @@ class QLNeg: QLUnary, QLExpression {
         super.init(rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return rhs.eval(context) as! NSInteger * -1
     }
 }
 
-class QLBinary {
+class QLBinary: QLExpression {
     let lhs, rhs: QLExpression
     
     required init(lhs: QLExpression, rhs: QLExpression) {
@@ -104,137 +101,193 @@ class QLBinary {
         self.rhs = rhs
     }
     
-    func eval(context: Context) -> NSObject {
+    func eval(context: QLContext) -> NSObject {
         fatalError("Override")
     }
+    
+    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        fatalError("Simulated abstract")
+    }
 }
 
-class QLAdd: QLBinary, QLExpression {
+class QLAdd: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) + (rhs.eval(context) as! NSInteger)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLSub: QLBinary, QLExpression {
+class QLSub: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) - (rhs.eval(context) as! NSInteger)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLMul: QLBinary, QLExpression {
+class QLMul: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) * (rhs.eval(context) as! NSInteger)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLDiv: QLBinary, QLExpression {
+class QLDiv: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) / (rhs.eval(context) as! NSInteger)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLPow: QLBinary, QLExpression {
+class QLPow: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return NSInteger(pow((lhs.eval(context) as! Double), (rhs.eval(context) as! Double)))
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLEq: QLBinary, QLExpression {
+class QLEq: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return lhs.eval(context) == rhs.eval(context)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLNe: QLBinary, QLExpression {
+class QLNe: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return lhs.eval(context) != rhs.eval(context)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLGe: QLBinary, QLExpression {
+class QLGe: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) >= (rhs.eval(context) as! NSInteger)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLGt: QLBinary, QLExpression {
+class QLGt: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) > (rhs.eval(context) as! NSInteger)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLLe: QLBinary, QLExpression {
+class QLLe: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) <= (rhs.eval(context) as! NSInteger)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLLt: QLBinary, QLExpression {
+class QLLt: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! NSInteger) < (rhs.eval(context) as! NSInteger)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLAnd: QLBinary, QLExpression {
+class QLAnd: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! Bool) && (rhs.eval(context) as! Bool)
     }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
-class QLOr: QLBinary, QLExpression {
+class QLOr: QLBinary {
     required init(lhs: QLExpression, rhs: QLExpression) {
         super.init(lhs: lhs, rhs: rhs)
     }
     
-    override func eval(context: Context) -> NSObject {
+    override func eval(context: QLContext) -> NSObject {
         return (lhs.eval(context) as! Bool) || (rhs.eval(context) as! Bool)
+    }
+    
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
     }
 }

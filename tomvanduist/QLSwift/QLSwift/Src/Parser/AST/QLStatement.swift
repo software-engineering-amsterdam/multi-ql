@@ -19,6 +19,10 @@ class QLQuestion {
         self.identifier = identifier
         self.label = label
     }
+    
+    func eval(context: QLContext) -> NSObject {
+        fatalError("Override")
+    }
 }
 
 class QLVariableQuestion: QLQuestion, QLStatement {
@@ -29,6 +33,10 @@ class QLVariableQuestion: QLQuestion, QLStatement {
         
         super.init(identifier: identifier, label: label)
     }
+    
+    override func eval(context: QLContext) -> NSObject {
+        return context.retrieve(self.identifier.id)
+    }
 }
 
 class QLComputedQuestion: QLQuestion, QLStatement {
@@ -38,6 +46,10 @@ class QLComputedQuestion: QLQuestion, QLStatement {
         self.expression = expression
         
         super.init(identifier: identifier, label: label)
+    }
+    
+    override func eval(context: QLContext) -> NSObject {
+        return expression.eval(context)
     }
 }
 
@@ -50,7 +62,7 @@ class QLConditional: QLStatement {
         self.ifBlock = ifBlock
     }
     
-    func isSatisfied(context: Context) -> Bool {
+    func isSatisfied(context: QLContext) -> Bool {
         if let isSatisfied = condition.eval(context) as? Bool {
             return isSatisfied
         }

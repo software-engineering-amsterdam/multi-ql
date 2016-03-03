@@ -111,10 +111,10 @@ extension QLParser {
                 lexer.stringLiteral.map{ s in QLStringLiteral(string: s) }
             let intLit: GenericParser<String, (), QLExpression> =
                 lexer.integer.map { i in QLIntegerLiteral(integer: i) }
-            let litExpr: GenericParser<String, (), QLExpression> =
+            let literal: GenericParser<String, (), QLExpression> =
                 boolLit <|> stringLit <|> intLit
             
-            return identifierExpr() <|> litExpr
+            return variable() <|> literal
         }
         
         // Expression between ( )
@@ -153,8 +153,8 @@ extension QLParser {
         return lexer.identifier.map { id in QLIdentifier(id: id) }
     }
     
-    private func identifierExpr() -> GenericParser<String, (), QLExpression> {
-        return lexer.identifier.map { id in QLIdentifier(id: id) }
+    private func variable() -> GenericParser<String, (), QLExpression> {
+        return lexer.identifier.map { id in QLVariable(id: id) }
     }
     
     private func binary(name: String, function: (QLExpression, QLExpression) -> QLExpression, assoc: Associativity) -> Operator<String, (), QLExpression> {

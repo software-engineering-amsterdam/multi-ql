@@ -15,6 +15,7 @@ protocol QLTypeVisitor {
     func visit(node: QLMoneyType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
     func visit(node: QLStringType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
     func visit(node: QLBooleanType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
+    func visit(node: QLUnknownType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
 }
 
 protocol QLTypeVisitable {
@@ -34,6 +35,12 @@ extension QLStringType {
 }
 
 extension QLBooleanType {
+    func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
+}
+
+extension QLUnknownType {
     func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
         return visitor.visit(self, param: param)
     }

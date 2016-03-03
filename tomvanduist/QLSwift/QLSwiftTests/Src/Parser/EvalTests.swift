@@ -27,7 +27,7 @@ class EvalTests: XCTestCase {
             else { return }
         
         
-        XCTAssertTrue(q1!.expression.eval() == 2)
+        XCTAssertTrue(q1!.expression.eval(QLContext(form: form!)) == 2)
     }
     
     func testPow() {
@@ -43,7 +43,7 @@ class EvalTests: XCTestCase {
             else { return }
         
         
-        XCTAssertTrue(q2!.expression.eval() == 4)
+        XCTAssertTrue(q2!.eval(QLContext(form: form!)) == 4)
     }
     
     func testPrec() {
@@ -59,7 +59,7 @@ class EvalTests: XCTestCase {
             else { return }
         
         
-        XCTAssertTrue(q3!.expression.eval() == 8)
+        XCTAssertTrue(q3!.expression.eval(QLContext(form: form!)) == 8)
     }
     
     func testBool() {
@@ -75,6 +75,6 @@ class EvalTests: XCTestCase {
             else { return }
         
         
-        XCTAssertTrue(q1!.expression.eval() == true)
+        XCTAssertTrue(q1!.expression.eval(QLContext(form: form!)) == true)
     }
 }

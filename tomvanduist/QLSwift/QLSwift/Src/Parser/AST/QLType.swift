@@ -10,22 +10,27 @@ import Foundation
 
 
 protocol QLType: QLTypeVisitable {
+    var defaultValue: NSObject { get }
 }
 
 //class QLIdentifierType: QLType {
 //}
 
 class QLBooleanType: QLType {
+    let defaultValue: NSObject = true
 }
 
 class QLMoneyType: QLType {
+    let defaultValue: NSObject = 0
 }
 
 class QLStringType: QLType {
+    let defaultValue: NSObject = ""
 }
 
-//class QLUnknownType: QLType {
-//}
+class QLUnknownType: QLType {
+    let defaultValue: NSObject = NSNull()
+}
 
 
 infix operator === { associativity left precedence 140 }
