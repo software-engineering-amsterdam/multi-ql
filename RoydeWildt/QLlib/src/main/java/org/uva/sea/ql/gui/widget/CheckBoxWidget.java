@@ -10,16 +10,20 @@ import org.uva.sea.ql.ast.tree.val.Bool;
 public class CheckBoxWidget extends CheckBox {
     private Question parentQuestion;
 
-    public CheckBoxWidget(Question parent) {
+    public CheckBoxWidget(Question parent, boolean readOnly) {
         this.parentQuestion = parent;
+        this.setDisable(readOnly);
+
     }
 
-    public CheckBoxWidget(String text, Question parent) {
+    public CheckBoxWidget(String text, Question parent, boolean readOnly) {
         super(text);
         this.parentQuestion = parent;
+        this.setDisable(readOnly);
     }
 
     public Question getParentQuestion() {
         return parentQuestion;
     }
+
 }

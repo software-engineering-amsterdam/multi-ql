@@ -6,7 +6,7 @@ import org.uva.sea.ql.ast.visitor.interfaces.IValVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class Int extends Val {
-    private Integer value;
+    private final Integer value;
 
     public Int(int i){
         super(0);
@@ -19,10 +19,6 @@ public class Int extends Val {
 
     public Integer getValue() {
         return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
     }
 
     @Override

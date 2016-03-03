@@ -6,7 +6,7 @@ import org.uva.sea.ql.ast.visitor.interfaces.IValVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class Bool extends Val {
-    private Boolean value;
+    private final Boolean value;
 
     public Bool(boolean b){
         super(0);
@@ -20,10 +20,6 @@ public class Bool extends Val {
 
     public Boolean getValue() {
         return value;
-    }
-
-    public void setValue(Boolean value) {
-        this.value = value;
     }
 
     @Override

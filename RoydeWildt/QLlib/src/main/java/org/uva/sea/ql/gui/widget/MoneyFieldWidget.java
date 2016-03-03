@@ -9,13 +9,15 @@ import org.uva.sea.ql.ast.tree.stat.Question;
 public class MoneyFieldWidget extends TextField {
     private Question parentQuestion;
 
-    public MoneyFieldWidget(Question question) {
+    public MoneyFieldWidget(Question question, boolean readOnly) {
         this.parentQuestion = question;
+        this.setDisable(readOnly);
     }
 
-    public MoneyFieldWidget(String text, Question question) {
+    public MoneyFieldWidget(String text, Question question, boolean readOnly) {
         super(text);
         this.parentQuestion = question;
+        this.setDisable(readOnly);
     }
 
     public Question getParentQuestion() {

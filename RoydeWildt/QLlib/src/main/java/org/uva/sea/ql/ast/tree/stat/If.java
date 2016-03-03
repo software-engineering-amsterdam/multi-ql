@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class If extends Stat{
 
-    Expr cond;
-    List<Stat> stms;
+    private final Expr cond;
+    private final List<Stat> stms;
 
     public If (int line, Expr cond, List<Stat> stms){
         super(line);

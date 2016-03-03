@@ -48,7 +48,8 @@ public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
                                         stat.getLabel(),
                                         stat.getVarname(),
                                         stat.getType(),
-                                        computedValue);
+                                        computedValue,
+                                        stat.isComputed());
 
         questions.add(computedQuestion);
         return null;

@@ -10,10 +10,11 @@ import org.uva.sea.ql.ast.visitor.interfaces.IStatVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class Question extends Stat {
-    private String label;
-    private Var varname;
-    private Type type;
-    private Expr expr;
+    private final String label;
+    private final Var varname;
+    private final Type type;
+    private final Expr expr;
+    private final boolean computed;
 
     public Question(int line, String label, Var varname, Type type){
         super(line);
@@ -21,6 +22,7 @@ public class Question extends Stat {
         this.varname = varname;
         this.type = type;
         this.expr = new Primary(type.defaultValue());
+        this.computed = false;
     }
 
     public Question(int line, String label, Var varname, Type type, Expr expr){
@@ -29,6 +31,16 @@ public class Question extends Stat {
         this.varname = varname;
         this.type = type;
         this.expr = expr;
+        this.computed = true;
+    }
+
+    public Question(int line, String label, Var varname, Type type, Expr expr, boolean computed){
+        super(line);
+        this.label = label.replace("\"", "");
+        this.varname = varname;
+        this.type = type;
+        this.expr = expr;
+        this.computed = computed;
     }
 
     public String getLabel() {
@@ -45,6 +57,10 @@ public class Question extends Stat {
 
     public Expr getExpr() {
         return expr;
+    }
+
+    public boolean isComputed() {
+        return computed;
     }
 
     @Override

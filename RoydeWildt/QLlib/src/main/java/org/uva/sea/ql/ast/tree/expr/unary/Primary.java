@@ -8,7 +8,7 @@ import org.uva.sea.ql.ast.visitor.interfaces.IExprVisitor;
  */
 public class Primary extends UnaryExpr {
 
-    private Val value;
+    private final Val value;
 
     public Primary (Val value){
         super(0);

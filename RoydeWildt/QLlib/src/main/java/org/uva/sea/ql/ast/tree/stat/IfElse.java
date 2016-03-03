@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class IfElse extends Stat{
 
-    Expr cond;
-    List<Stat> ifStms;
-    List<Stat> elseStms;
+    private final Expr cond;
+    private final List<Stat> ifStms;
+    private final List<Stat> elseStms;
 
     public IfElse (int line, Expr cond, List<Stat> ifStms, List<Stat> elseStms){
         super(line);

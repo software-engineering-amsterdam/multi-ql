@@ -12,8 +12,8 @@ import java.util.List;
  * Created by roydewildt on 04/02/16.
  */
 public class Form extends Node implements IFormVisitable {
-    private String id;
-    private List<Stat> stms;
+    private final String id;
+    private final List<Stat> stms;
 
     public Form(int line, String id, List<Stat> stms){
         super(line);

@@ -7,7 +7,7 @@ import org.uva.sea.ql.ast.visitor.interfaces.IExprVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class Pos extends UnaryExpr {
-    Expr value;
+    private final Expr value;
 
     public Pos(int line, Expr lhs){
         super(line);

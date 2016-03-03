@@ -6,7 +6,7 @@ import org.uva.sea.ql.ast.visitor.interfaces.IValVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class  Var extends Val {
-    private String value;
+    private final String value;
 
     public Var(int line, String value) {
         super(line);

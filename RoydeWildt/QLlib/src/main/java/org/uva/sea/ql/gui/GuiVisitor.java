@@ -79,20 +79,17 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
 
     @Override
     public Parent visit(Int val, Question parent) {
-        MoneyFieldWidget f = new MoneyFieldWidget(parent);
+        MoneyFieldWidget f = new MoneyFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
         f.setText(val.getValue().toString());
-        f.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.booleanValue()){
-                handleMoneyFieldAction(f);
-            }
-        });
+        f.textProperty().addListener((observable, oldValue, newValue) ->
+                handleMoneyFieldAction(f));
         return f;
     }
 
     @Override
     public Parent visit(Bool val, Question parent) {
-        CheckBoxWidget b = new CheckBoxWidget(parent);
+        CheckBoxWidget b = new CheckBoxWidget(parent, parent.isComputed());
         b.setSelected(val.getValue());
         b.setOnAction(this::handleCheckBoxAction);
         return b;
@@ -105,7 +102,6 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
                 f.getText()));
         Question update = updateQuestionExpr(parent, newExpr);
         this.symbolTable.put(parent.getVarname(), update);
-
     }
 
     private void handleCheckBoxAction(ActionEvent actionEvent) {
@@ -122,7 +118,8 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
                 q.getLabel(),
                 q.getVarname(),
                 q.getType(),
-                e);
+                e,
+                false);
         return update;
     }
 
