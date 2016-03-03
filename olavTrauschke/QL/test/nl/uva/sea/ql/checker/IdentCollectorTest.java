@@ -76,8 +76,7 @@ public class IdentCollectorTest {
         
         List<String> errors = collector.getErrors();
         List<String> expectedErrors = new ArrayList<>();
-        Ident hasBoughtHouseIdent = new Ident("hasBoughtHouse");
-        String error = IdentCollector.REDEFINED_QUESTION_ERROR + hasBoughtHouseIdent;
+        String error = IdentCollector.REDEFINED_QUESTION_ERROR + "hasBoughtHouse";
         expectedErrors.add(error);
         assertEquals(expectedErrors, errors);
         
