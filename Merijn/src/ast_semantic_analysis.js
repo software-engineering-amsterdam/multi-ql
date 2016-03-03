@@ -146,10 +146,10 @@ class ExprTypeChecker extends NodeVisitor {
 		return resultType;
 	}
 	visitNegationNode(negationNode, questionStore, analysisLog) {
-		return this.handleUnaryPrefixOperation(negationNode, new type_interence.NegationTypeInferer());
+		return this.handleUnaryPrefixOperation(negationNode, questionStore, analysisLog, new type_interence.NegationTypeInferer());
 	}
 	visitNotNode(notNode, questionStore, analysisLog) {
-		return this.handleUnaryPrefixOperation(notNode, new type_interence.NotTypeInferer());
+		return this.handleUnaryPrefixOperation(notNode, questionStore, analysisLog, new type_interence.NotTypeInferer());
 	}
 
 	handleInfixOperation(infixNode, questionStore, analysisLog, typeInferer) {
