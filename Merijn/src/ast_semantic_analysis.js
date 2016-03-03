@@ -1,4 +1,4 @@
-import { NodeVisitor } from 'src/ast';
+import { NodeVisitor, RecursingVisitor } from 'src/ast';
 import { Log, LineError } from 'src/log';
 import * as types from 'src/types';
 import * as type_inference from 'src/type_inference';
@@ -61,18 +61,7 @@ export class QuestionStore {
 	}
 }
 
-class FormAndBlockRecursingVisitor extends NodeVisitor {
-	visitFormNode(formNode, ...args) {
-		formNode.block.accept(this, ...args);
-	}
-	visitBlockNode(blockNode, ...args) {
-		for (let statement of blockNode.statements){
-			statement.accept(this, ...args);
-		}
-	}
-}
-
-class QuestionCollector extends FormAndBlockRecursingVisitor {
+class QuestionCollector extends RecursingVisitor {
 	collect(node, questionStore) {
 		node.accept(this, questionStore);
 	}
@@ -216,7 +205,7 @@ class ExprTypeChecker extends NodeVisitor {
 	}
 }
 
-class TypeChecker extends FormAndBlockRecursingVisitor {
+class TypeChecker extends RecursingVisitor {
 	constructor(exprTypeChecker) {
 		super();
 		this.exprTypeChecker = exprTypeChecker;

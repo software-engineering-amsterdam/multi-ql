@@ -240,9 +240,6 @@ export class IdentifierNode extends Node {
 	}
 }
 
-/**
- * Node Visitor which by default simply recurses over all nodes
- */
 export class NodeVisitor {
 	visitNode (node, ...args) {}
 	visitFormNode (formNode, ...args) {
@@ -316,5 +313,24 @@ export class NodeVisitor {
 	}
 	visitIdentifierNode (identifierNode, ...args) {
 		return this.visitNode(identifierNode, ...args);
+	}
+}
+
+export class RecursingVisitor extends NodeVisitor {
+	visitFormNode(formNode, ...args) {
+		formNode.block.accept(this, ...args);
+	}
+	visitBlockNode(blockNode, ...args) {
+		for (let statement of blockNode.statements){
+			statement.accept(this, ...args);
+		}
+	}
+	visitIfNode(ifNode, ...args) {
+		ifNode.condition.accept(this, ...args);
+		ifNode.thenBlock.accept(this, ...args);
+	}
+	visitIfElseNode(ifElseNode, ...args) {
+		this.visitIfNode(ifElseNode, ...args);
+		ifElseNode.elseBlock.accept(this, ...args);
 	}
 }
