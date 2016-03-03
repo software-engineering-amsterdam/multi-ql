@@ -73,7 +73,9 @@ public abstract class Question extends ASTNode {
     public void accept(ASTVisitor v) {
         identifierAccept(v);
         labelAccept(v);
-        calculation.accept(v);
+        if (calculation != null) {
+            calculation.accept(v);
+        }
         
         v.visit(this);
     }
@@ -133,9 +135,14 @@ public abstract class Question extends ASTNode {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;//test
+        }
         
         Question other = (Question) o;
+        boolean identifiersEqual = identifier.equals(other.identifier);//test
+        boolean labelsEqual = label.equals(other.label);//test
+        boolean calculationsEqual = calculation == null ? other.calculation == null : calculation.equals(other.calculation);//test
         return identifier.equals(other.identifier)
                && label.equals(other.label)
                && (calculation == null ? other.calculation == null : calculation.equals(other.calculation));

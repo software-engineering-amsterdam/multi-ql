@@ -1,6 +1,6 @@
 package nl.uva.sea.ql.ast;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of the contents of a block in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 3-mrt-2016
  */
 public class StatementSet extends ASTNode {
     
@@ -23,7 +23,7 @@ public class StatementSet extends ASTNode {
      * Constructor for (empty) <code>StatementSet</code>s.
      */
     public StatementSet() {
-        set = new HashSet<>();
+        set = new LinkedHashSet<>();
     }
     
     /**
@@ -39,16 +39,20 @@ public class StatementSet extends ASTNode {
     }
     
     /**
-     * Has all the statements in <code>this StatementSet accept v</code> and
-     * then has <code>v visit this StatementSet</code>.
+     * Has all the <code>Statement</ode>s in
+     * <code>this StatementSet accept v</code> and then has
+     * <code>v visit this StatementSet</code>. The <code>Statement</code>s are
+     * visited in reverse order, to process them in the same order as they were
+     * in a ql-file that was analyzed by {@link nl.uva.sea.ql.ast.parser.Parser a Parser}.
      * 
      * @param v an <code>ASTVisitor</code> that should
      *          <code>visit this StatementSet</code> and its children
      */
     @Override
     public void accept(ASTVisitor v) {
-        for (ASTNode n : set) {
-            n.accept(v);
+        ASTNode[] nodes = set.toArray(new ASTNode[0]);
+        for (int i = nodes.length - 1; i >= 0; i--) {
+            nodes[i].accept(v);
         }
         v.visit(this);
     }
