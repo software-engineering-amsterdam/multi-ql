@@ -30,6 +30,11 @@ public class TypeChecker implements ASTVisitor {
     public static final String DATE = "date";
     
     /**
+     * Description of the type decimal.
+     */
+    public static final String DECIMAL = "decimal";
+    
+    /**
      * Error presented to the user when a <code>ConditionalStatement</code> has
      * a non-boolean condition.
      */
@@ -91,7 +96,8 @@ public class TypeChecker implements ASTVisitor {
     }
     
     /**
-     * Add an error if a <code>DateQuestion</code> with a calculation was found.
+     * Add an error if a <code>DateQuestion</code> with a
+     * <code>calculation</code> was found.
      * 
      * @param q the <code>DateQuestion</code> to check
      */
@@ -103,9 +109,20 @@ public class TypeChecker implements ASTVisitor {
         }
     }
     
+    /**
+     * Add an error if a <code>DecimalQuestion</code> with a non-decimal
+     * <code>calculation</code> was found.
+     * 
+     * @param q the <code>DecimalQuestion</code> to check
+     */
     @Override
     public void visit(DecimalQuestion q) {
-        //TODO check calculation is null, decimal or int
+        Expr calculation = q.getCalculation();
+        if (calculation != null && !isDecimal(calculation)) {
+            addQuestionTypeError(DECIMAL);
+            //TODO overwrite isDecimal in Add, BinaryNumericOperator, Ident and Neg
+            //TODO implement setDecimal in Add, BinaryNumericOperator and Neg
+        }
     }
     
     @Override
@@ -126,11 +143,13 @@ public class TypeChecker implements ASTVisitor {
     @Override
     public void visit(Add a) {
         //TODO check that expressions are either both numeric or both strings
+        //TODO call setDecimal, setMoney, setInt and setString appropriatly
     }
     
     @Override
     public void visit(BinaryNumericOperatorExpr e) {
         //TODO check that expressions are both numeric
+        //TODO call setDeicmal, setMoney and setInt appropriatly
     }
     
     @Override
@@ -146,6 +165,7 @@ public class TypeChecker implements ASTVisitor {
     @Override
     public void visit(Neg n) {
         //TODO check that expression is numeric
+        //TODO call setDeicmal, setMoney and setInt appropriatly
     }
     
     @Override
@@ -166,8 +186,12 @@ public class TypeChecker implements ASTVisitor {
      *          returns <code>true</code> or n is an <code>Ident</code> that
      *          refers to a <code>Question</code> for which this is the case
      */
-    private boolean isBoolean(Expr n) {
-        return n.isBoolean(questionTypes);
+    private boolean isBoolean(Expr e) {
+        return e.isBoolean(questionTypes);
+    }
+    
+    private boolean isDecimal(Expr e) {
+        return e.isDecimal(questionTypes);
     }
     
     /**
