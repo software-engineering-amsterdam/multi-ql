@@ -1,18 +1,15 @@
-- Use multiple generic types for the visitor interface, or multiple interfaces
-- Throw errors instead of adding them to a list
-- Traversable class has multiple accepts, change to a single one using a generic type
-- Create GUI
-- Create tests
-- Add line numbers
-- Don't use a list for errors, cause then everything will become a string
-- Make some kind of fancy issue class
-- Remove the public static SymbolTable before next week. Its bad!
-- Check all the variable names!
-- Rename AST less class to lesser, so it matches with greater
-- Use Identifiers as keys in the symboltable not the whole question object
-- Remove toString in traversable interface
-- Create equal methods for AST model classes, so I dont have to compare strings anymore. Mehh
+MUST
+- Fix the different visitor interfaces, so I don't have to include them all for every concreteVisitor
 - Remove the tempvariable smell! Just pass it on?
+- Check all the variable names!
+- Create GUI
+- Create more tests
+- Throw errors instead of adding them to a list
+
+SHOULD
+- Fix line numbers in error messages
+- Make some kind of fancy issue class
+
+COULD
 - Really use accept in the QuestionVisitor to fetch the identfiers, otherwise you get 10 gets behind each other. 
 	And it makes the visitor kinda lame.
-- Fix singe line and multi line comments in grammar 

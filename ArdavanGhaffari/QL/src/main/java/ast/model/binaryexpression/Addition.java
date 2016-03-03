@@ -5,8 +5,8 @@ import ast.visitor.ExpressionVisitor;
 
 public class Addition extends BinaryExpression{
 
-	public Addition(Expression leftExpression, Expression rightExprssion) {
-		super(leftExpression, rightExprssion);
+	public Addition(Expression leftExpression, Expression rightExprssion, int line) {
+		super(leftExpression, rightExprssion, line);
 	}
 
 	@Override

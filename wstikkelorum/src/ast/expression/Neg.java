@@ -3,7 +3,7 @@ package ast.expression;
 import ast.visitor.Visitor;
 
 public class Neg extends Expression {
-	private Expression expression;
+	private final Expression expression;
 
 	public Neg(Expression result) {
 		super(result.getLineNumber());

@@ -1,10 +1,11 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.form.Context;
-import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.StrType;
+import org.uva.sea.ql.type.Type;
 
-public class StringLiteral extends Expr implements Visitable {
+public class StringLiteral extends Expr {
 	final String value;
 	
 	public StringLiteral(String value) {
@@ -28,6 +29,6 @@ public class StringLiteral extends Expr implements Visitable {
 	
 	@Override
 	public Type getType(Context context) {
-		return Type.STRING;
+		return new StrType();
 	}
 }

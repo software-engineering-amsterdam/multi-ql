@@ -7,8 +7,8 @@ import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
 public class IfStatement extends TreeNode implements Visitable {
-	private Expression expression;
-	private Body body;
+	private final Expression expression;
+	private final Body body;
 
 	public IfStatement(int lineNumber, Expression result, Body result2) {
 		super(lineNumber);

@@ -1,10 +1,11 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.form.Context;
-import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.NumericalType;
+import org.uva.sea.ql.type.Type;
 
-public class Pos extends UnaryExpr implements Visitable {
+public class Pos extends UnaryExpr {
 	
 	public Pos(Expr expr) {
 		super.child = expr;
@@ -26,6 +27,6 @@ public class Pos extends UnaryExpr implements Visitable {
 	
 	@Override
 	public Type getType(Context context) {
-		return Type.INT;
+		return new NumericalType();
 	}
 }

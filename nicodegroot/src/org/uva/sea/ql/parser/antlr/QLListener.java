@@ -198,6 +198,18 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code moneyLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code moneyLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree

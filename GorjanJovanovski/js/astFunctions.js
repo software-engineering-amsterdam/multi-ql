@@ -1,16 +1,18 @@
 function initiate(inputString) {
-	resetErrorPanels();
+	resetGUI();
 	var tree = getAntrlParseTree(inputString);
 	var visitor = getAntlrVisitor();
 	visitor.visitForm = function (ctx) {
-		ast = ctx.FormNode;
-		if (performAstChecks()) {
-			renderQuestions();
-			setHTMLEventHandlers();
-			refreshGUI();
+		var ast = ctx.FormNode;
+		var environment = new Environment();
+		ast.setEnvironment(environment);
+		if (performAstChecks(ast, environment)) {
+			renderQuestions(ast);
+			refreshGUI(ast);
+			setOnClickListeners(ast);
 		}
 		else {
-			throwError(1, "Form checks failed");
+			throwError(0, "Form checks failed");
 		}
 	};
 	tree.accept(visitor);
@@ -56,7 +58,7 @@ function getAntlrVisitor() {
 	return new Visitor();
 }
 
-function performAstChecks() {
+function performAstChecks(ast, environment) {
 	var texts = new Set();
 	var labels = new Set();
 
@@ -72,11 +74,11 @@ function performAstChecks() {
 				throwWarning(questionNode.line, "Question warning: Text '" + questionNode.text + "' for question '" + questionNode.label + "' is already defined");
 			}
 			if (questionNode instanceof ComputedQuestionNode) {
-				if (questionNode.computedExpr.compute() === undefined) {
+				if (questionNode.computedExpr.compute(environment) === undefined) {
 					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
 					noErrors = false;
 				}
-				else if (questionNode.type.toString() !== typeof questionNode.computedExpr.compute()) {
+				else if (questionNode.type.toString(environment) !== typeof questionNode.computedExpr.compute(environment)) {
 					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' must evaluate to " + questionNode.type.getTypeString());
 					noErrors = false;
 				}
@@ -85,14 +87,57 @@ function performAstChecks() {
 			texts.add(questionNode.text);
 		},
 		(conditionNode) => {
-			if ("boolean" !== typeof conditionNode.condition.compute()) {
+			if (typeof conditionNode.condition.compute(environment) !== "boolean") {
 				throwError(conditionNode.line, "Type error: Condition '" + conditionNode.condition.toString() + "' is not boolean");
 				noErrors = false;
 			}
 		}
 	);
 
+	if (noErrors) {
+		noErrors = checkDependencies(ast);
+	}
+
 	return noErrors;
+}
+
+function checkDependencies(ast) {
+	var map = [];
+
+	ast.transverseAST(
+		(questionNode) => {
+			if (questionNode instanceof ComputedQuestionNode) {
+				map[questionNode.label] = questionNode.computedExpr.getLabels();
+			}
+		});
+
+	var madeChange = false;
+
+	do {
+		madeChange = false;
+		for (var elementA in map) {
+			if (map.hasOwnProperty(elementA)) {
+				for (let elementB of map[elementA]) {
+					if (map[elementB] !== undefined) {
+						if (map[elementB].indexOf(elementA) !== -1) {
+							throwError(ast.getQuestion(elementA).line, "Cyclic dependencies detected between question '" + elementA + "' and question '" + elementB + "'");
+							return false;
+						}
+						for (let elementC of map[elementB]) {
+							if (map[elementA].indexOf(elementC) === -1) {
+								map[elementA].push(elementC);
+								madeChange = true;
+							}
+						}
+
+					}
+				}
+			}
+		}
+	}
+	while (madeChange);
+
+	return true;
 }
 
 function throwError(line, errorMsg) {

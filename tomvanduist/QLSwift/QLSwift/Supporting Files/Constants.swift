@@ -10,3 +10,5 @@ import Foundation
 
 
 let kDomain = "nl.tomvanduist.QLSwift"
+
+let kAnimationDuration = 0.3

@@ -5,8 +5,8 @@ import ast.visitor.ExpressionVisitor;
 
 public class LessThanEqual extends BinaryExpression{
 
-	public LessThanEqual(Expression leftExpression, Expression rightExprssion) {
-		super(leftExpression, rightExprssion);
+	public LessThanEqual(Expression leftExpression, Expression rightExprssion, int line) {
+		super(leftExpression, rightExprssion, line);
 	}
 
 	@Override

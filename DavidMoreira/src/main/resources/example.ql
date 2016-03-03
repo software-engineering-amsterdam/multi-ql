@@ -7,13 +7,13 @@ form taxOfficeExample {
     hasMaintLoan: money = -2.2
     
 
-  if (hasSoldHouse) {
+  if (hasSoldHouse == true) {
     "What was the selling price2?"
       sellingPrice: money
     "Private debts for the sold house2:"
       privateDebt: money
     "Value residue2:"
-      valueResidue: money = 2 +
+      valueResidue: money = 2.0 +
         (sellingPrice - privateDebt)
   } else if (hasBoughtHouse) {
       "What was the selling price3?"
@@ -21,6 +21,11 @@ form taxOfficeExample {
   } else {
       "What was the selling price4?"
       	sellingPrice: money   
+  }
+  
+  if (true){
+    "What was the selling price5?"
+      sellingPrice: money
   }
   
 }

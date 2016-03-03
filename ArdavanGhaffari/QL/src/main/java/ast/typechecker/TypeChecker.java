@@ -1,7 +1,10 @@
 package ast.typechecker;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import ast.model.Box;
 import ast.model.Expression;
@@ -21,6 +24,7 @@ import ast.model.binaryexpression.Multiplication;
 import ast.model.binaryexpression.NotEqual;
 import ast.model.binaryexpression.Subtraction;
 import ast.model.literal.BooleanLiteral;
+import ast.model.literal.DecimalLiteral;
 import ast.model.literal.Identifier;
 import ast.model.literal.IntegerLiteral;
 import ast.model.literal.StringLiteral;
@@ -37,8 +41,10 @@ import ast.model.type.UnknownType;
 import ast.model.unaryexpression.Negation;
 import ast.typechecker.errorhandler.CyclicDependencyError;
 import ast.typechecker.errorhandler.DuplicateDeclarationError;
+import ast.typechecker.errorhandler.DuplicateLabelWarning;
 import ast.typechecker.errorhandler.ErrorHandler;
 import ast.typechecker.errorhandler.NoDeclarationError;
+import ast.typechecker.errorhandler.OperationTypeMissmatchError;
 import ast.typechecker.errorhandler.TypeMissmatchError;
 import ast.visitor.ExpressionVisitor;
 import ast.visitor.FormVisitor;
@@ -46,12 +52,14 @@ import ast.visitor.StatementVisitor;
 
 public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, FormVisitor{
 	private HashMap<String, IdentifierInfo> identifierInfoMap;
+	private List<String> labels;
 	
 	private ErrorHandler errorHandler;
 
 	public TypeChecker(ErrorHandler errorHandler) {
 		this.errorHandler = errorHandler;
 		this.identifierInfoMap = new HashMap<>();
+		this.labels = new LinkedList<>();
 	}
 	
 	@Override
@@ -68,30 +76,45 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 
 	@Override
 	public void visit(Question question) {
+		// check if question identifier is not declared before, with a different type
 		checkDeclaration(question);
+		
+		// check if label is duplicate, add to warnings
+		checkDuplicateLabel(question);
 	}
 
 	@Override
 	public void visit(ComputedQuestion computedQuestion) {
-		// check if question identifier is not declared before
-		checkDeclaration(computedQuestion);
-		
-		// check if expression type matches question type
+		// check if expression type matches computed question type
 		Expression expression = computedQuestion.getExpression();
 		Type type = expression.accept(this);
-		Boolean isMatched = matchTypes(type, computedQuestion.getType());
-		if(!isMatched){
-			errorHandler.addError(new TypeMissmatchError(computedQuestion.getType().getName(), "question's expression"));
+		// if question type is decimal (money), then integer type would be acceptable as well for the expression type
+		Boolean isMatched;
+		if (computedQuestion.getType() instanceof DecimalType) {
+			isMatched = matchTypes(type, computedQuestion.getType(), new IntegerType());
+		} else {
+			isMatched = matchTypes(type, computedQuestion.getType());
 		}
+		if(!isMatched){
+			errorHandler.addError(new TypeMissmatchError(computedQuestion.getLine(),
+					computedQuestion.getType().getName(), "question's expression"));
+		}
+		
+		// check if question identifier is not declared before, with a different type
+		checkDeclaration(computedQuestion);
+		
+		// check if label is duplicate, add to warnings
+		checkDuplicateLabel(computedQuestion);
 		
 		// adds dependencies if any + check for cyclic dependencies
 		Identifier identifier = computedQuestion.getIdentifier();
 		IdentifierVisitor identifierVisitor = new IdentifierVisitor();
-		List<Identifier> dependencies = expression.accept(identifierVisitor);
-		for (Identifier dependency: dependencies) {
-			identifierInfoMap.get(identifier.getIdentifier()).addDependency(dependency.getIdentifier());
-			checkCyclicDependency(identifier, dependency);
+		Set<String> directDependencies = expression.accept(identifierVisitor);
+		Set<String> dependencySet = new HashSet<>(directDependencies);
+		for (String dependency: directDependencies) {
+			addDependencies(identifier, dependencySet, dependency);
 		}
+		identifierInfoMap.get(identifier.getIdentifier()).setDependencies(dependencySet);
 	}
 
 	@Override
@@ -120,7 +143,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 		Type type = negation.getExpression().accept(this);
 		Boolean isMatched = matchTypes(type, new BooleanType());
 		if(!isMatched){
-			errorHandler.addError(new TypeMissmatchError("Boolean", "Negation operation"));
+			errorHandler.addError(new TypeMissmatchError(negation.getLine(), "Boolean", "Negation operation"));
 			return new UnknownType();
 		}
 		return type;
@@ -128,9 +151,19 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 
 	@Override
 	public Type visit(Addition addition) {
+		// check if addition operation is to concatenate two Strings
+		Type leftType = addition.getLeftExpression().accept(this);
+		Type rightType = addition.getRightExpression().accept(this);
+		Type expectedString = new StringType();
+		
+		if (matchTypes(leftType, expectedString) && matchTypes(rightType, expectedString)) {
+			return expectedString;
+		}
+		
+		// if addition is not a String-concatenation, check for Math addition
 		Type expressionType = getTypeForMathExpression(addition);
 		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Integer or Money", "Add operation"));
+			errorHandler.addError(new OperationTypeMissmatchError(addition.getLine(), "Add"));
 		}
 		return expressionType;
 	}
@@ -139,7 +172,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 	public Type visit(Subtraction subtraction) {
 		Type expressionType = getTypeForMathExpression(subtraction);
 		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Integer or Money", "Substraction operation"));
+			errorHandler.addError(new OperationTypeMissmatchError(subtraction.getLine(), "Substraction"));
 		}
 		return expressionType;
 	}
@@ -148,7 +181,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 	public Type visit(Multiplication multiplication) {
 		Type expressionType = getTypeForMathExpression(multiplication);
 		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Integer or Money", "Multiply operation"));
+			errorHandler.addError(new OperationTypeMissmatchError(multiplication.getLine(), "Multiply"));
 		}
 		return expressionType;
 	}
@@ -157,81 +190,107 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 	public Type visit(Division division) {
 		Type expressionType = getTypeForMathExpression(division);
 		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Integer or Money", "Divide operation"));
+			errorHandler.addError(new OperationTypeMissmatchError(division.getLine(), "Divide"));
 		}
 		return expressionType;
 	}
 
 	@Override
 	public Type visit(Conjunction conjunction) {
-		Type expressionType = getTypeForBooleanExpression(conjunction);
-		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "And operation"));
+		Type leftType = conjunction.getLeftExpression().accept(this);
+		Type rightType = conjunction.getRightExpression().accept(this);
+		Type expectedBoolean = new BooleanType();
+		
+		if (matchTypes(leftType, expectedBoolean) && matchTypes(rightType, expectedBoolean)) {
+			return expectedBoolean;
 		}
-		return expressionType;
+		errorHandler.addError(new OperationTypeMissmatchError(conjunction.getLine(), "And"));
+		return new UnknownType();
 	}
 
 	@Override
 	public Type visit(Disjunction disjunction) {
-		Type expressionType = getTypeForBooleanExpression(disjunction);
-		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "OR operation"));
+		Type leftType = disjunction.getLeftExpression().accept(this);
+		Type rightType = disjunction.getRightExpression().accept(this);
+		Type expectedBoolean = new BooleanType();
+		
+		if (matchTypes(leftType, expectedBoolean) && matchTypes(rightType, expectedBoolean)) {
+			return expectedBoolean;
 		}
-		return expressionType;
+		errorHandler.addError(new OperationTypeMissmatchError(disjunction.getLine(), "Or"));
+		return new UnknownType();
 	}
 
 	@Override
 	public Type visit(Equal equal) {
-		Type expressionType = getTypeForBooleanExpression(equal);
-		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "Equal operation"));
+		Type leftType = equal.getLeftExpression().accept(this);
+		Type rightType = equal.getRightExpression().accept(this);
+		if(matchNumericType(leftType, rightType)){
+			return new BooleanType();
 		}
-		return expressionType;
+		if(matchStringORBooleanType(leftType, rightType)){
+			return new BooleanType();
+		}
+		errorHandler.addError(new OperationTypeMissmatchError(equal.getLine(), "Equal"));
+		return new UnknownType();
 	}
 
 	@Override
 	public Type visit(NotEqual notEqual) {
-		Type expressionType = getTypeForBooleanExpression(notEqual);
-		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "Not-Equal operation"));
+		Type leftType = notEqual.getLeftExpression().accept(this);
+		Type rightType = notEqual.getRightExpression().accept(this);
+		if(matchNumericType(leftType, rightType)){
+			return new BooleanType();
 		}
-		return expressionType;
+		if(matchStringORBooleanType(leftType, rightType)){
+			return new BooleanType();
+		}
+		errorHandler.addError(new OperationTypeMissmatchError(notEqual.getLine(), "Not equal"));
+		return new UnknownType();
 	}
 
 	@Override
 	public Type visit(GreaterThan greaterThan) {
-		Type expressionType = getTypeForBooleanExpression(greaterThan);
-		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "Greater-than operation"));
+		Type leftType = greaterThan.getLeftExpression().accept(this);
+		Type rightType = greaterThan.getRightExpression().accept(this);
+		if(matchNumericType(leftType, rightType)){
+			return new BooleanType();
 		}
-		return expressionType;
+		errorHandler.addError(new OperationTypeMissmatchError(greaterThan.getLine(), "Greater than"));
+		return new UnknownType();
 	}
 
 	@Override
 	public Type visit(GreaterThanEqual greaterThanEqual) {
-		Type expressionType = getTypeForBooleanExpression(greaterThanEqual);
-		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "Greater-Equal operation"));
+		Type leftType = greaterThanEqual.getLeftExpression().accept(this);
+		Type rightType = greaterThanEqual.getRightExpression().accept(this);
+		if(matchNumericType(leftType, rightType)){
+			return new BooleanType();
 		}
-		return expressionType;
+		errorHandler.addError(new OperationTypeMissmatchError(greaterThanEqual.getLine(), "Greater than equal"));
+		return new UnknownType();
 	}
 
 	@Override
-	public Type visit(LessThan LessThan) {
-		Type expressionType = getTypeForBooleanExpression(LessThan);
-		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "Less-than operation"));
+	public Type visit(LessThan lessThan) {
+		Type leftType = lessThan.getLeftExpression().accept(this);
+		Type rightType = lessThan.getRightExpression().accept(this);
+		if(matchNumericType(leftType, rightType)){
+			return new BooleanType();
 		}
-		return expressionType;
+		errorHandler.addError(new OperationTypeMissmatchError(lessThan.getLine(), "Less than"));
+		return new UnknownType();
 	}
 
 	@Override
-	public Type visit(LessThanEqual LessThanEqual) {
-		Type expressionType = getTypeForBooleanExpression(LessThanEqual);
-		if (expressionType instanceof UnknownType) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "Less-Equal operation"));
+	public Type visit(LessThanEqual lessThanEqual) {
+		Type leftType = lessThanEqual.getLeftExpression().accept(this);
+		Type rightType = lessThanEqual.getRightExpression().accept(this);
+		if(matchNumericType(leftType, rightType)){
+			return new BooleanType();
 		}
-		return expressionType;
+		errorHandler.addError(new OperationTypeMissmatchError(lessThanEqual.getLine(), "Less than equal"));
+		return new UnknownType();
 	}
 
 	@Override
@@ -251,13 +310,18 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 
 	@Override
 	public Type visit(Identifier identifier) {
-		// check if declared, return the type which was set at declare time
+		// check if declared, return the type which was set at declaration time
 		if (identifierInfoMap.keySet().contains(identifier.getIdentifier())) {
 			return identifierInfoMap.get(identifier.getIdentifier()).getType();
 		} else {
-			errorHandler.addError(new NoDeclarationError(identifier.getIdentifier()));
+			errorHandler.addError(new NoDeclarationError(identifier.getLine(), identifier.getIdentifier()));
 			return new UnknownType();
 		}
+	}
+	
+	@Override
+	public Type visit(DecimalLiteral decimalLiteral) {
+		return new DecimalType();
 	}
 	
 
@@ -270,21 +334,46 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 		return false;
 	}
 	
+	private Boolean matchNumericType(Type leftType, Type rightType) {
+		Type expectedInteger = new IntegerType();
+		Type expectedDecimal = new DecimalType();
+		if(matchTypes(leftType, expectedInteger, expectedDecimal)
+				&& matchTypes(rightType, expectedInteger, expectedDecimal)){
+			return true;
+		}
+		return false;
+	}
+	
+	private Boolean matchStringORBooleanType(Type leftType,Type rightType){
+		Type expectedString = new StringType();
+		Type expectedBoolean = new BooleanType();
+		if(leftType.getName().equals(rightType.getName())){
+			if(matchTypes(leftType, expectedString, expectedBoolean)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void checkDeclaration(Question question) {
 		Identifier identifier = question.getIdentifier();
+		String identifierString = identifier.getIdentifier();
 		Type type = question.getType();
 		if (isDeclared(identifier, type)) {
-			errorHandler.addError(new DuplicateDeclarationError(identifier.getIdentifier(), type.getName()));
+			errorHandler.addError(new DuplicateDeclarationError(question.getLine(),
+					identifierString, identifierInfoMap.get(identifierString).getType().getName()));
 		} else {
+			//either the identifier has already been declared with the same type or it is it's first declaration
 			IdentifierInfo identifierInfo = new IdentifierInfo();
 			identifierInfo.setType(type);
-			identifierInfoMap.put(identifier.getIdentifier(), identifierInfo);
+			identifierInfoMap.put(identifierString, identifierInfo);
 		}
 	}
 	
 	private boolean isDeclared(Identifier identifier, Type type) {
-		if (identifierInfoMap.containsKey(identifier.getIdentifier())) {
-			IdentifierInfo identifierInfo = identifierInfoMap.get(identifier.getIdentifier());
+		String identifierString = identifier.getIdentifier();
+		if (identifierInfoMap.containsKey(identifierString)) {
+			IdentifierInfo identifierInfo = identifierInfoMap.get(identifierString);
 			if (!identifierInfo.getType().getName().equals(type.getName())) {
 				return true;
 			}
@@ -292,22 +381,12 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 		return false;
 	}
 	
-	// checks if the dependency has the identifier as a dependency. hence cyclic dependency
-	private void checkCyclicDependency(Identifier identifier, Identifier dependency) {
-		if (identifierInfoMap.containsKey(dependency.getIdentifier())) {
-			List<String> dependencies = identifierInfoMap.get(dependency.getIdentifier()).getDependencies();
-			if (dependencies != null && dependencies.contains(identifier.getIdentifier())) {
-				errorHandler.addError(new CyclicDependencyError(identifier, dependency));
-			}
-		}
-	}
-	
 	private void checkIfCondition(IfStatement ifStatement) {
 		Expression expression = ifStatement.getExpression();
 		Type type = expression.accept(this);
 		boolean isMatched = matchTypes(type, new BooleanType());
 		if (!isMatched) {
-			errorHandler.addError(new TypeMissmatchError("Boolean", "If condition"));
+			errorHandler.addError(new TypeMissmatchError(ifStatement.getLine(), "Boolean", "If condition"));
 		}
 	}
 	
@@ -321,7 +400,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 		Type rightType = expression.getRightExpression().accept(this);
 		
 		if (matchTypes(leftType, priorityType, baseType) && matchTypes(rightType, priorityType, baseType)) {
-			if (leftType.getName().equals(priorityType.getName()) || rightType.getName().equals(baseType.getName())) {
+			if (leftType.getName().equals(priorityType.getName()) || rightType.getName().equals(priorityType.getName())) {
 				return priorityType;
 			} else {
 				return baseType;
@@ -330,15 +409,30 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor, F
 		return new UnknownType();
 	}
 	
-	private Type getTypeForBooleanExpression(BinaryExpression expression) {
-		Type expectedType = new BooleanType();
-		Type leftType = expression.getLeftExpression().accept(this);
-		Type rightType = expression.getRightExpression().accept(this);
-		
-		if (matchTypes(leftType, expectedType) && matchTypes(rightType, expectedType)) {
-			return expectedType;
+	private void addDependencies(Identifier identifier, Set<String> dependencySet, String dependency) {
+		if (identifierInfoMap.containsKey(dependency)) {
+			Set<String> dependencies = identifierInfoMap.get(dependency).getDependencies();
+			
+			if (dependencies != null && dependencies.size() > 0) {
+				dependencySet.addAll(dependencies);
+				
+				for (String newDependency: dependencies) {
+					if (newDependency.equals(identifier.getIdentifier())) {
+						errorHandler.addError(new CyclicDependencyError(identifier.getLine(), identifier.getIdentifier(), dependency));
+					}
+					addDependencies(identifier, dependencySet, newDependency);
+				}
+			}
 		}
-		return new UnknownType();
+	}
+	
+	private void checkDuplicateLabel(Question question) {
+		String label = question.getLabel();
+		if (labels.contains(label.toLowerCase())) {
+			errorHandler.addWarning(new DuplicateLabelWarning(label, question.getLine()));
+		} else {
+			labels.add(label.toLowerCase());
+		}
 	}
 
 }

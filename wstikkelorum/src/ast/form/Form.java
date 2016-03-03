@@ -5,17 +5,17 @@ import ast.visitor.Visitable;
 import ast.visitor.Visitor;
 
 public class Form extends TreeNode implements Visitable {
-	private String id;
-	private Body body;
+	private final String identifier;
+	private final Body body;
 
-	public Form(int lineNumber, String id, Body result) {
+	public Form(int lineNumber, String identifier, Body result) {
 		super(lineNumber);
-		this.id = id;
+		this.identifier = identifier;
 		this.body = result;
 	}
 
-	public String getId() {
-		return id;
+	public String getIdentifier() {
+		return identifier;
 	}
 
 	public Body getBody() {

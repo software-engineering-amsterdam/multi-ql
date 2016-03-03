@@ -2,7 +2,10 @@ package ql.ast;
 
 import java.util.List;
 
-public class Questionnaire {
+import ql.ASTNode;
+import ql.BaseVisitor;
+
+public class Questionnaire extends ASTNode {
 	private List<Form> forms;
 
 	public Questionnaire(List<Form> result) {
@@ -16,6 +19,12 @@ public class Questionnaire {
 
 	public void setForms(List<Form> forms) {
 		this.forms = forms;
+	}
+
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

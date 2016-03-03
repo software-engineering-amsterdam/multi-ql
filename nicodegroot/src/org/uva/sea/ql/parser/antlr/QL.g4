@@ -45,10 +45,11 @@ expression
 
 literal
   : INTEGER #integerLiteral
+  | MONEY #moneyLiteral
   | BOOLEAN #booleanliteral
   | STRING #stringLiteral
   ;
-    
+  
 questionType 
   : 'integer' #integerType
   | 'string' #stringType
@@ -60,10 +61,12 @@ questionType
 			LEXER RULES
 ************************************/
 
+
 WHITESPACE : (' '|'\t'|'\n'|'\r')+ -> channel(HIDDEN);
 COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
-LINE_COMMENT : '//' .*? '/n' -> channel(HIDDEN);
+LINE_COMMENT : '//' ~[\r\n]+ -> channel(HIDDEN);
 BOOLEAN : ('true'|'false');
 IDENTIFIER: [a-z][a-zA-Z0-9]+;
 INTEGER: [0-9]+;
+MONEY: [0-9]+ '.' [0-9][0-9];
 STRING: '"' .*? '"';

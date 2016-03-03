@@ -7,8 +7,8 @@ import ast.visitor.StatementVisitor;
 public class IfElseStatement extends IfStatement {
 	private Box elseBox;
 	
-	public IfElseStatement(Expression expression, Box ifBox, Box elseBox) {
-		super(expression, ifBox);
+	public IfElseStatement(Expression expression, Box ifBox, Box elseBox, int line) {
+		super(expression, ifBox, line);
 		this.elseBox = elseBox;
 	}
 	

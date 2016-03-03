@@ -1,23 +1,26 @@
-import { BooleanType, StringType, IntegerType, FloatType, MoneyType, UndefinedType, TypeReceiver } from 'src/types';
+import * as types from 'src/types';
 
-export class TypeInferer extends TypeReceiver {
+export class TypeInferer extends types.TypeReceiver {
+	inferResultType(type, ...args) {
+		return type.dispatch(this, ...args);
+	}
 	receiveType() {
-		return new UndefinedType();
+		return new types.UndefinedType();
 	}
 }
 
 export class NegationTypeInferer extends TypeInferer {
 	receiveInteger() {
-		return new IntegerType();
+		return new types.IntegerType();
 	}
 	receiveFloat() {
-		return new FloatType();
+		return new types.FloatType();
 	}
 }
 
 export class NotTypeInferer extends TypeInferer {
 	receiveBoolean() {
-		return new BooleanType();
+		return new types.BooleanType();
 	}
 }
 
@@ -32,22 +35,22 @@ class AddSubtractTypeInferer extends TypeInferer {
 
 class IntegerAddSubtractTypeInferer extends TypeInferer {
 	receiveInteger() {
-		return new IntegerType();
+		return new types.IntegerType();
 	}
 	receiveFloat() {
-		return new FloatType();
+		return new types.FloatType();
 	}
 }
 
 class FloatAddSubtractTypeInferer extends TypeInferer {
 	receiveNumber() {
-		return new FloatType();
+		return new types.FloatType();
 	}
 }
 
 class MoneyAddSubtractTypeInferer extends TypeInferer {
 	receiveMoney() {
-		return new MoneyType();
+		return new types.MoneyType();
 	}
 }
 
@@ -65,28 +68,28 @@ export class AddTypeInferer extends AddSubtractTypeInferer {
 
 class BooleanAddTypeInferer extends TypeInferer {
 	receiveString() {
-		return new StringType();
+		return new types.StringType();
 	}
 }
 
 class StringAddTypeInferer extends TypeInferer {
 	receiveBoolean() {
-		return new StringType();
+		return new types.StringType();
 	}
 	receiveString() {
-		return new StringType();
+		return new types.StringType();
 	}
 	receiveNumber() {
-		return new StringType();
+		return new types.StringType();
 	}
 	receiveMoney() {
-		return new StringType();
+		return new types.StringType();
 	}
 }
 
 class IntegerAddTypeInferer extends IntegerAddSubtractTypeInferer  {
 	receiveString() {
-		return new StringType();
+		return new types.StringType();
 	}
 }
 
@@ -100,13 +103,13 @@ class MultiplyDivideTypeInferer extends TypeInferer {
 
 class IntegerMultiplyDivideTypeInferer extends MultiplyDivideTypeInferer {
 	receiveFloat() {
-		return new FloatType();
+		return new types.FloatType();
 	}
 }
 
 class FloatMultiplyDivideTypeInferer extends MultiplyDivideTypeInferer {
 	receiveNumber() {
-		return new FloatType();
+		return new types.FloatType();
 	}
 }
 
@@ -118,7 +121,7 @@ export class MultiplyTypeInferer extends MultiplyDivideTypeInferer {
 
 class IntegerMultiplyTypeInferer extends IntegerMultiplyDivideTypeInferer {
 	receiveInteger() {
-		return new IntegerType();
+		return new types.IntegerType();
 	}
 }
 
@@ -130,7 +133,7 @@ export class DivideTypeInferer extends MultiplyDivideTypeInferer {
 
 class IntegerDivideTypeInferer extends IntegerMultiplyDivideTypeInferer {
 	receiveInteger() {
-		return new FloatType();
+		return new types.FloatType();
 	}
 }
 
@@ -142,7 +145,7 @@ class OrderingTypeInferer extends TypeInferer {
 
 class NumberOrderingTypeInferer extends TypeInferer {
 	receiveNumber() {
-		return new BooleanType();
+		return new types.BooleanType();
 	}
 }
 
@@ -168,25 +171,25 @@ class EqualNotEqualTypeInferer extends TypeInferer {
 
 class BooleanEqualNotEqualTypeInferer extends TypeInferer {
 	receiveBoolean() {
-		return new BooleanType();
+		return new types.BooleanType();
 	}
 }
 
 class StringEqualNotEqualTypeInferer extends TypeInferer {
 	receiveString() {
-		return new BooleanType();
+		return new types.BooleanType();
 	}
 }
 
 class NumberEqualNotEqualTypeInferer extends TypeInferer {
 	receiveNumber() {
-		return new BooleanType();
+		return new types.BooleanType();
 	}
 }
 
 class MoneyEqualNotEqualTypeInferer extends TypeInferer {
 	receiveMoney() {
-		return new BooleanType();
+		return new types.BooleanType();
 	}
 }
 
@@ -201,7 +204,7 @@ class LogicalTypeInferer extends TypeInferer {
 
 class BooleanLogicalTypeInferer extends TypeInferer {
 	receiveBoolean() {
-		return new BooleanType();
+		return new types.BooleanType();
 	}
 }
 

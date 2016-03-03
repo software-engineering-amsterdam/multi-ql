@@ -6,6 +6,7 @@ grammar QL;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
+import org.uva.sea.ql.type.*;
 }
 
 /* Form Grammar Rules = Entry Point */
@@ -48,10 +49,10 @@ variable returns [Expr result]
 label : Str;
 
 type returns [Type result]
-	: INT {$result = Type.INT;}
-	| STR {$result = Type.STRING;}
-	| BOOL {$result = Type.BOOLEAN;}
-	| MONEY {$result = Type.MONEY;}
+	: INT {$result = new IntType();}
+	| STR {$result = new StrType();}
+	| BOOL {$result = new BoolType();}
+	| MONEY {$result = new MoneyType();}
 	;
 
 

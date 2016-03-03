@@ -1,13 +1,7 @@
 // Generated from QL.g4 by ANTLR 4.5.2
 
 	package antlr;
-	import ast.expression.*;
-	import ast.form.*;
-	import ast.literal.*;
-	import ast.statement.*;
-
-
-import org.antlr.v4.runtime.ParserRuleContext;
+	import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 

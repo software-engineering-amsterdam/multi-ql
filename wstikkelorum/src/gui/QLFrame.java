@@ -7,6 +7,11 @@ import ast.form.Form;
 
 public class QLFrame extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public QLFrame(Form result){
 		JLabel test = new JLabel(String.format("%d", result.getBody().getStatements().size()));
 		add(test);

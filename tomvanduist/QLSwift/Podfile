@@ -4,6 +4,7 @@ use_frameworks!
 target 'QLSwift' do
 
 pod 'SnapKit', '~> 0.19'
+pod 'DTAlertView'
 
 end
 

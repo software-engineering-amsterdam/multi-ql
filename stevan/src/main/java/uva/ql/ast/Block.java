@@ -1,16 +1,27 @@
 package uva.ql.ast;
 
-import uva.ql.interfaces.INodeVisitor;
+import java.util.List;
+import uva.ql.ast.abstracts.Node;
+import uva.ql.visitors.INodeVisitor;
 
-public class Block extends ANode {
+public class Block extends Node {
 
-	Block(AST ast) {
-		super(ast);
+	private List<Node> children;
+	
+	public Block(Node parent, int startLine, int startColumn) {
+		super(parent, startLine, startColumn);
 	}
-
-	@Override
-	protected int getNodeType0() {
-		return ANode.BLOCK;
+	
+	public void add(Node n) {
+		this.children.add(n);
+	}
+	
+	public Node get(int i) {
+		return this.children.get(i);
+	}
+	
+	public int size() {
+		return this.children.size();
 	}
 
 	@Override

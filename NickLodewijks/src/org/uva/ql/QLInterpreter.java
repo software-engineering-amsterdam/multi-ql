@@ -12,10 +12,10 @@ import org.uva.ql.ast.expr.math.Positive;
 import org.uva.ql.ast.expr.math.Subtract;
 import org.uva.ql.ast.expr.rel.And;
 import org.uva.ql.ast.expr.rel.Equals;
-import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
 import org.uva.ql.ast.expr.rel.GreaterThan;
-import org.uva.ql.ast.expr.rel.LessThanOrEquals;
+import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
 import org.uva.ql.ast.expr.rel.LessThan;
+import org.uva.ql.ast.expr.rel.LessThanOrEquals;
 import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
 
@@ -23,7 +23,11 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterCo
 
 	@SuppressWarnings("unchecked")
 	public static <T> T interpret(Expr expr, QLInterpreterContext context) {
-		return (T) expr.accept(new QLInterpreter(), context);
+		try {
+			return (T) expr.accept(new QLInterpreter(), context);
+		} catch (RuntimeException ex) {
+			throw new RuntimeException(String.format("Failed to interpret expression '%s'", expr.getSourceText()), ex);
+		}
 	}
 
 	private QLInterpreter() {

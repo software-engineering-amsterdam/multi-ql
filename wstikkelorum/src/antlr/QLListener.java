@@ -1,12 +1,7 @@
 // Generated from QL.g4 by ANTLR 4.5.2
 
 	package antlr;
-	import ast.expression.*;
-	import ast.form.*;
-	import ast.literal.*;
-	import ast.statement.*;
-
-import org.antlr.v4.runtime.tree.ParseTreeListener;
+	import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
  * This interface defines a complete listener for a parse tree produced by
