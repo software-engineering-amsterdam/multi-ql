@@ -1,4 +1,4 @@
-package org.uva.sea.ql.gui;
+package org.uva.sea.ql.evaluator;
 
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;

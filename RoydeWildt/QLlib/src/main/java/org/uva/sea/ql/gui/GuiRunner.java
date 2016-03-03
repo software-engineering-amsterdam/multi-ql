@@ -4,20 +4,12 @@ package org.uva.sea.ql.gui;
  */
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.visitor.EvalVisitor;
 import org.uva.sea.ql.parser.QLRunner;
 
-import java.util.List;
-
-public class Main extends Application {
+public class GuiRunner extends Application {
     private Stage stage;
 
     public static void main(String[] args) {
@@ -34,7 +26,7 @@ public class Main extends Application {
     public void initPreview() {
 
         Form f = parseFromPath("src/test/resources/example1.ql");
-        GuiBuilder guiBuilder = new GuiBuilder(f);
+        FormUIBuilder guiBuilder = new FormUIBuilder(f);
 
         Scene scene = new Scene(guiBuilder.getRootPane());
         stage.setScene(scene);

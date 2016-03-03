@@ -28,7 +28,7 @@ javafx {
     appName 'QLlib'
 
     // Main class of application
-    mainClass 'org.uva.sea.ql.gui.Main'
+    mainClass 'org.uva.sea.ql.gui.GuiRunner'
 
     // JVM arguments, system properties, application command line arguments
     jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']

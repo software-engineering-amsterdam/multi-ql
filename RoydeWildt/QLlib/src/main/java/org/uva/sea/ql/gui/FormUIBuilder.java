@@ -1,16 +1,10 @@
 package org.uva.sea.ql.gui;
 
-import com.sun.javafx.collections.ObservableMapWrapper;
-import javafx.beans.binding.MapExpression;
-import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.*;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -18,6 +12,7 @@ import javafx.scene.text.Font;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.evaluator.FormEvaluator;
 import org.uva.sea.ql.gui.widget.QuestionWidget;
 
 import java.util.*;
@@ -25,17 +20,17 @@ import java.util.*;
 /**
  * Created by roy on 29-2-16.
  */
-public class GuiBuilder{
+public class FormUIBuilder {
     private Form form;
     private GridPane rootPane;
     private VBox vbox;
 
-    public GuiBuilder(Form form) {
+    public FormUIBuilder(Form form) {
         this.form = form;
 
         FormEvaluator evaluator = new FormEvaluator(this.form);
         List<Question> questions = evaluator.getQuestions();
-        GuiVisitor visitor = new GuiVisitor(questions, evaluator.getSymbolTable());
+        QuestionUIBuilder visitor = new QuestionUIBuilder(questions, evaluator.getSymbolTable());
 
         addFormListener(evaluator);
 
@@ -71,7 +66,7 @@ public class GuiBuilder{
             FormEvaluator fe = new FormEvaluator(this.form, (ObservableMap<Var, Question>) c.getMap());
             List<Question> questions = fe.getQuestions();
 
-            GuiVisitor visitor = new GuiVisitor(questions, fe.getSymbolTable());
+            QuestionUIBuilder visitor = new QuestionUIBuilder(questions, fe.getSymbolTable());
             List<QuestionWidget> UIElements = visitor.getUiElements();
             updateFormUI(changedQuestion, UIElements);
         });

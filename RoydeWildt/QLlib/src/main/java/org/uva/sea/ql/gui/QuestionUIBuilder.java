@@ -1,18 +1,13 @@
 package org.uva.sea.ql.gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
@@ -32,13 +27,13 @@ import java.util.List;
 /**
  * Created by roy on 25-2-16.
  */
-public class GuiVisitor extends BaseVisitor<Void, QuestionWidget, Void, Void, Control, Question> {
+public class QuestionUIBuilder extends BaseVisitor<Void, QuestionWidget, Void, Void, Control, Question> {
     private GridPane box;
     private List<QuestionWidget> uiElements;
     private List<Question> questions;
     private ObservableMap<Var, Question> symbolTable;
 
-    public GuiVisitor(List<Question> questions, ObservableMap<Var, Question> symbolTable) {
+    public QuestionUIBuilder(List<Question> questions, ObservableMap<Var, Question> symbolTable) {
         this.box = new GridPane();
         this.uiElements = new ArrayList<>();
         this.questions = questions;
