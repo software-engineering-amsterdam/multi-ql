@@ -9,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Question</code>s that return decimals in an AST.
  * 
  * @author Olav Trauschke
- * @version 1-mrt-2016
+ * @version 3-mrt-2016
  */
 public class DecimalQuestion extends Question {
     
@@ -39,6 +39,17 @@ public class DecimalQuestion extends Question {
      */
     public DecimalQuestion(Ident identifier, Label label, Expr calculation) {
         super(identifier, label, calculation);
+    }
+    
+    /**
+     * Returns whether <code>this DecimalQuestion</code> represents a decimal value.
+     * 
+     * @return <code>true</code> because objects of this class represent decimal
+     *          values by definition
+     */
+    @Override
+    public boolean isDecimal() {
+        return true;
     }
     
     /**

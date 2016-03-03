@@ -120,8 +120,6 @@ public class TypeChecker implements ASTVisitor {
         Expr calculation = q.getCalculation();
         if (calculation != null && !isDecimal(calculation)) {
             addQuestionTypeError(DECIMAL);
-            //TODO overwrite isDecimal in Add, BinaryNumericOperator, Ident and Neg
-            //TODO implement setDecimal in Add, BinaryNumericOperator and Neg
         }
     }
     

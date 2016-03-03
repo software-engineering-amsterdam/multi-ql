@@ -57,7 +57,7 @@ public class BooleanQuestion extends Question {
     /**
      * Returns whether <code>this BooleanQuestion</code> represents a boolean value.
      * 
-     * @return <code>true</code> becasue objects of this class represent boolean
+     * @return <code>true</code> because objects of this class represent boolean
      *          values by definition
      */
     @Override
