@@ -48,6 +48,7 @@ public class QLSemanticAnalyser {
 
 		result = new Result();
 
+		result.addAll(validateQuestions(questionnaire));
 		result.addAll(validateTypes(questionnaire));
 		result.addAll(validateCyclicReferences(questionnaire));
 
@@ -69,6 +70,89 @@ public class QLSemanticAnalyser {
 	 */
 	public Result validateTypes(QLQuestionnaire questionnaire) {
 		return new TypeCheckVisitor().visit(questionnaire);
+	}
+
+	public Result validateQuestions(QLQuestionnaire questionnaire) {
+		List<QLQuestion> allQuestions;
+		Map<String, List<QLQuestion>> nameToQuestion = new HashMap<>();
+		Map<String, List<QLQuestion>> labelToQuestion = new HashMap<>();
+		ComputedQuestions computedQuestions;
+		InputQuestions inputQuestions;
+
+		computedQuestions = ComputedQuestions.collect(questionnaire);
+		inputQuestions = InputQuestions.collect(questionnaire);
+
+		allQuestions = new ArrayList<>();
+
+		computedQuestions.forEach(q -> allQuestions.add(q));
+		inputQuestions.forEach(q -> allQuestions.add(q));
+
+		Result result;
+
+		result = new Result();
+
+		allQuestions.forEach(c -> {
+			List<QLQuestion> nameToQuestionsList;
+			List<QLQuestion> labelToQuestionList;
+
+			labelToQuestionList = labelToQuestion.computeIfAbsent(c.getLabel(), f -> new ArrayList<>());
+			if (labelToQuestionList.add(c) && labelToQuestionList.size() > 1) {
+				result.addDuplicateQuestionLabel(c);
+			}
+
+			nameToQuestionsList = nameToQuestion.computeIfAbsent(c.getId(), f -> new ArrayList<>());
+			if (nameToQuestionsList.add(c) && nameToQuestionsList.size() > 1) {
+				for (QLQuestion other : nameToQuestionsList) {
+					if (!other.getType().equals(c.getType())) {
+						result.addDuplicateQuestionName(c);
+						break;
+					}
+				}
+			}
+		});
+
+		result.duplicateNameQuestions.forEach(name -> {
+
+			StringBuilder sb;
+			String msg;
+
+			msg = String.format("Question '%s' has been declared multiple times, but with different types:", name);
+
+			sb = new StringBuilder();
+			sb.append(msg);
+			sb.append(System.lineSeparator());
+			nameToQuestion.get(name).stream().forEach(c -> {
+				sb.append("  ");
+				sb.append(c.getSourceLocation());
+				sb.append("  ");
+				sb.append(c.getSourceText());
+				sb.append(System.lineSeparator());
+			});
+
+			result.addError(sb.toString());
+		});
+
+		result.duplicateLabelQuestions.forEach(label -> {
+			StringBuilder sb;
+			String msg;
+
+			msg = String.format("Duplicate labels: %s", label);
+
+			sb = new StringBuilder();
+			sb.append(msg);
+			sb.append(System.lineSeparator());
+			labelToQuestion.get(label).stream().forEach(c -> {
+				sb.append("  ");
+				sb.append(c.getSourceLocation());
+				sb.append("  ");
+				sb.append(c.getSourceText());
+				sb.append(System.lineSeparator());
+			});
+
+			result.addWarning(sb.toString());
+		});
+
+		return result;
 	}
 
 	/**
@@ -108,47 +192,6 @@ public class QLSemanticAnalyser {
 			table = new SymbolTable();
 			q.accept(this, table);
 
-			result.duplicateNameQuestions.forEach(name -> {
-
-				StringBuilder sb;
-				String msg;
-
-				msg = String.format("Question '%s' has been declared multiple times, but with different types:", name);
-
-				sb = new StringBuilder();
-				sb.append(msg);
-				sb.append(System.lineSeparator());
-				table.getByName(name).stream().forEach(c -> {
-					sb.append("  ");
-					sb.append(c.getSourceLocation());
-					sb.append("  ");
-					sb.append(c.getSourceText());
-					sb.append(System.lineSeparator());
-				});
-
-				result.addError(sb.toString());
-			});
-
-			result.duplicateLabelQuestions.forEach(label -> {
-				StringBuilder sb;
-				String msg;
-
-				msg = String.format("Duplicate labels: %s", label);
-
-				sb = new StringBuilder();
-				sb.append(msg);
-				sb.append(System.lineSeparator());
-				table.getByLabel(label).stream().forEach(c -> {
-					sb.append("  ");
-					sb.append(c.getSourceLocation());
-					sb.append("  ");
-					sb.append(c.getSourceText());
-					sb.append(System.lineSeparator());
-				});
-
-				result.addWarning(sb.toString());
-			});
-
 			return result;
 		}
 
@@ -163,7 +206,6 @@ public class QLSemanticAnalyser {
 
 		@Override
 		public QLType visit(QLForm node, SymbolTable st) {
-			// The body of every form has its own SymbolTable
 			node.getBody().accept(this, st);
 			return null;
 		}
@@ -193,19 +235,7 @@ public class QLSemanticAnalyser {
 		@Override
 		public QLType visit(QLQuestion node, SymbolTable st) {
 
-			if (!st.getByLabel(node.getLabel()).isEmpty()) {
-				result.addDuplicateQuestionLabel(node);
-			}
-
-			for (QLQuestion other : st.getByName(node.getId())) {
-				if (!other.getType().equals(node.getType())) {
-					result.addDuplicateQuestionName(node);
-					break;
-				}
-			}
-
-			st.add(node);
-
+			st.setType(node.getId(), node.getType());
 			return node.getType();
 		}
 
@@ -442,48 +472,18 @@ public class QLSemanticAnalyser {
 
 	private static class SymbolTable {
 
-		private Map<String, List<QLQuestion>> nameToQuestion = new HashMap<>();
-		private Map<String, List<QLQuestion>> labelToQuestion = new HashMap<>();
+		private Map<String, QLType> nameToType = new HashMap<>();
 
 		public SymbolTable() {
 
 		}
 
-		public List<QLQuestion> getByName(String name) {
-			return nameToQuestion.getOrDefault(name, Collections.emptyList());
-		}
-
-		public List<QLQuestion> getByLabel(String label) {
-			return labelToQuestion.getOrDefault(label, Collections.emptyList());
-		}
-
-		public void add(QLQuestion node) {
-			List<QLQuestion> questionListByName;
-			List<QLQuestion> questionListByLabel;
-			String name;
-			String label;
-
-			name = node.getId();
-			label = node.getLabel();
-
-			questionListByName = nameToQuestion.getOrDefault(name, new ArrayList<>());
-			questionListByName.add(node);
-			nameToQuestion.putIfAbsent(name, questionListByName);
-
-			questionListByLabel = labelToQuestion.getOrDefault(label, new ArrayList<>());
-			questionListByLabel.add(node);
-			labelToQuestion.putIfAbsent(label, questionListByLabel);
+		public void setType(String name, QLType type) {
+			nameToType.put(name, type);
 		}
 
 		public QLType getType(String name) {
-			List<QLQuestion> questionList;
-
-			questionList = getByName(name);
-			if (questionList.isEmpty()) {
-				return null;
-			}
-
-			return questionList.get(0).getType();
+			return nameToType.get(name);
 		}
 	}
 
