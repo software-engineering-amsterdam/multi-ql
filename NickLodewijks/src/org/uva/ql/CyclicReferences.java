@@ -15,7 +15,7 @@ import org.uva.ql.CyclicReferences.ReferenceTable.ReferencePath;
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.VariableExpr;
-import org.uva.ql.ast.form.QLQuestionnaire;
+import org.uva.ql.ast.form.QLForm;
 import org.uva.ql.ast.stat.QLQuestionComputed;
 
 public class CyclicReferences implements Iterable<CyclicReference> {
@@ -33,13 +33,13 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 	 *            the questionnaire to collect all cyclic references from.
 	 * @return the cyclic references in the questionnaire.
 	 */
-	public static CyclicReferences collect(QLQuestionnaire q) {
+	public static CyclicReferences collect(QLForm form) {
 		CyclicReferences cyclicReferences;
 		ReferenceTable rt;
 
 		rt = new ReferenceTable();
 
-		q.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+		form.accept(new ASTNodeVisitorAdapter<Void, Void>() {
 
 			@Override
 			public Void visit(QLQuestionComputed node, Void context) {

@@ -22,7 +22,6 @@ import org.uva.ql.ast.expr.rel.Or;
 import org.uva.ql.ast.form.QLBlock;
 import org.uva.ql.ast.form.QLForm;
 import org.uva.ql.ast.form.QLFormVisitor;
-import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
@@ -185,15 +184,6 @@ public class ASTNodeVisitorAdapter<T, U>
 	@Override
 	public T visit(QLQuestionComputed node, U context) {
 		node.getType().accept(this, context);
-
-		return null;
-	}
-
-	@Override
-	public T visit(QLQuestionnaire node, U context) {
-		for (QLForm form : node.getForms()) {
-			form.accept(this, context);
-		}
 
 		return null;
 	}

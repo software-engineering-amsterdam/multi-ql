@@ -28,7 +28,6 @@ import org.uva.ql.QLInterpreterContext.ContextListener;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.QLBlock;
 import org.uva.ql.ast.form.QLForm;
-import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.stat.QLIFStatement;
 import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.ast.type.QLBooleanType;
@@ -46,38 +45,35 @@ import org.uva.ql.ui.UIWidgetFactory;
 public class DefaultUISwingFactory implements UIFactory {
 
 	@Override
-	public UIQuestionnaire create(QLQuestionnaire questionnaire) {
+	public UIQuestionnaire create(QLForm form) {
 		DefaultUIQuestionnaire uiQuestionnaire;
+		UIForm uiForm;
 
-		questionnaire = normalize(questionnaire);
+		form = normalize(form);
 
-		uiQuestionnaire = new DefaultUIQuestionnaire(questionnaire);
+		uiQuestionnaire = new DefaultUIQuestionnaire(form);
 
-		for (QLForm form : questionnaire.getForms()) {
-			UIForm uiForm;
+		uiForm = new DefaultUIForm(form);
+		for (QLQuestion question : form.getQuestions()) {
+			UIQuestion uiQuestion;
 
-			uiForm = create(form);
-			uiQuestionnaire.addForm(uiForm);
+			uiQuestion = create(question);
+			uiForm.addQuestion(uiQuestion);
 		}
+
+		uiQuestionnaire.addForm(uiForm);
 
 		return uiQuestionnaire;
 	}
 
-	private QLQuestionnaire normalize(QLQuestionnaire questionnaire) {
-		QLQuestionnaire normalized;
+	private QLForm normalize(QLForm form) {
 		QLForm normalizedForm;
-		QLForm oldForm;
 		QLBlock normalizedBlock;
 
-		oldForm = questionnaire.getForms().get(0);
+		normalizedBlock = new QLBlock(null, getAllQuestions(form.getBody()), null);
+		normalizedForm = new QLForm(null, form.getName(), normalizedBlock);
 
-		normalizedBlock = new QLBlock(null, getAllQuestions(oldForm.getBody()), null);
-
-		normalizedForm = new QLForm(null, oldForm.getName(), normalizedBlock);
-
-		normalized = new QLQuestionnaire(null, normalizedForm);
-
-		return normalized;
+		return normalizedForm;
 	}
 
 	private List<QLQuestion> getAllQuestions(QLBlock block) {
@@ -92,21 +88,6 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		return questions;
-	}
-
-	@Override
-	public UIForm create(QLForm form) {
-		DefaultUIForm uiForm;
-
-		uiForm = new DefaultUIForm(form);
-		for (QLQuestion question : form.getQuestions()) {
-			UIQuestion uiQuestion;
-
-			uiQuestion = create(question);
-			uiForm.addQuestion(uiQuestion);
-		}
-
-		return uiForm;
 	}
 
 	@Override
@@ -139,7 +120,7 @@ public class DefaultUISwingFactory implements UIFactory {
 		private final JFrame jframe;
 		private final JScrollPane scrollPanel;
 
-		public DefaultUIQuestionnaire(QLQuestionnaire q) {
+		public DefaultUIQuestionnaire(QLForm q) {
 			JPanel panel;
 			JPanel root;
 

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 import org.uva.ql.QLSemanticAnalyser.SemanticErrors;
-import org.uva.ql.ast.form.QLQuestionnaire;
+import org.uva.ql.ast.form.QLForm;
 
 public class SemanticAnalyserTest {
 
@@ -54,8 +54,8 @@ public class SemanticAnalyserTest {
 		assertNumberOfWarnings(result, 0);
 	}
 
-	private QLQuestionnaire createQuestionnaire(String fileName) throws IOException {
-		return QLQuestionnaire.create(SemanticAnalyserTest.class.getResourceAsStream(fileName));
+	private QLForm createQuestionnaire(String fileName) throws IOException {
+		return QLForm.create(SemanticAnalyserTest.class.getResourceAsStream(fileName));
 	}
 
 	private void assertNumberOfWarnings(SemanticErrors result, int warnings) {

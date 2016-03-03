@@ -1,7 +1,5 @@
 package org.uva.ql;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,7 +32,6 @@ import org.uva.ql.ast.expr.rel.Or;
 import org.uva.ql.ast.form.QLBlock;
 import org.uva.ql.ast.form.QLForm;
 import org.uva.ql.ast.form.QLFormVisitor;
-import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
@@ -51,20 +48,20 @@ public class QLSemanticAnalyser {
 
 	}
 
-	public SemanticErrors validate(QLQuestionnaire questionnaire) {
+	public SemanticErrors validate(QLForm form) {
 		SemanticErrors result;
 
 		result = new SemanticErrors();
 
-		result.addAll(validateQuestions(questionnaire));
-		result.addAll(validateTypes(questionnaire));
-		result.addAll(validateCyclicReferences(questionnaire));
+		result.addAll(validateQuestions(form));
+		result.addAll(validateTypes(form));
+		result.addAll(validateCyclicReferences(form));
 
 		return result;
 	}
 
 	/**
-	 * Validate the types in the {@code questionnaire}.
+	 * Validate the types in the {@code form}.
 	 * <p>
 	 * This will check for:
 	 * <li>Reference to undefined questions
@@ -73,20 +70,20 @@ public class QLSemanticAnalyser {
 	 * <li>Conditions that are not of the type boolean
 	 * <li>Operands of invalid type to operators</br>
 	 * 
-	 * @param questionnaire
+	 * @param form
 	 * @return a {@link SemanticErrors} containing errors and warnings.
 	 */
-	public SemanticErrors validateTypes(QLQuestionnaire questionnaire) {
-		return new TypeCheckVisitor().visit(questionnaire);
+	public SemanticErrors validateTypes(QLForm form) {
+		return new TypeCheckVisitor().visit(form);
 	}
 
-	public SemanticErrors validateQuestions(QLQuestionnaire questionnaire) {
+	public SemanticErrors validateQuestions(QLForm form) {
 		SemanticErrors result;
 		QuestionTable qt;
 
 		qt = new QuestionTable();
 
-		questionnaire.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+		form.accept(new ASTNodeVisitorAdapter<Void, Void>() {
 
 			@Override
 			public Void visit(QLQuestionComputed node, Void context) {
@@ -175,12 +172,12 @@ public class QLSemanticAnalyser {
 	 * @param questionnaire
 	 * @return a {@link SemanticErrors} containing errors and warnings.
 	 */
-	public SemanticErrors validateCyclicReferences(QLQuestionnaire questionnaire) {
+	public SemanticErrors validateCyclicReferences(QLForm form) {
 		SemanticErrors result;
 
 		result = new SemanticErrors();
 
-		CyclicReferences.collect(questionnaire).forEach(cr -> {
+		CyclicReferences.collect(form).forEach(cr -> {
 			result.add(new CyclicDependency(cr));
 		});
 
@@ -195,24 +192,15 @@ public class QLSemanticAnalyser {
 		private TypeCheckVisitor() {
 		}
 
-		public SemanticErrors visit(QLQuestionnaire q) {
+		public SemanticErrors visit(QLForm form) {
 			SymbolTable table;
 
 			result = new SemanticErrors();
 
 			table = new SymbolTable();
-			q.accept(this, table);
+			form.accept(this, table);
 
 			return result;
-		}
-
-		@Override
-		public Void visit(QLQuestionnaire node, SymbolTable st) {
-			for (QLForm form : node.getForms()) {
-				form.accept(this, st);
-			}
-
-			return null;
 		}
 
 		@Override
@@ -731,19 +719,4 @@ public class QLSemanticAnalyser {
 			}
 		}
 	}
-
-	public static void main(String[] args) throws IOException {
-		QLQuestionnaire questionnaire;
-		QLSemanticAnalyser sa;
-		File inputFile;
-
-		inputFile = new File("resources/Questionnaire.ql");
-		questionnaire = QLQuestionnaire.create(inputFile);
-
-		sa = new QLSemanticAnalyser();
-
-		sa.validateTypes(questionnaire).print();
-		sa.validateCyclicReferences(questionnaire).print();
-	}
-
 }

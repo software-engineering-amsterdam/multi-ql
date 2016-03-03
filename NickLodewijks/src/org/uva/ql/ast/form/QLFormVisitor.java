@@ -4,7 +4,5 @@ public interface QLFormVisitor<T, U> {
 
 	public T visit(QLForm form, U Context);
 
-	public T visit(QLQuestionnaire node, U Context);
-
 	public T visit(QLBlock node, U context);
 }

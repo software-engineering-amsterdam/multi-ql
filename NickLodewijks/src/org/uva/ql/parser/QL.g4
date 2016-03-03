@@ -14,18 +14,8 @@ import org.uva.ql.ast.form.*;
 import org.uva.ql.ast.literal.*;
 }
 
-file :  questionnaire EOF
+file :  form EOF
      ;
-     
-questionnaire returns [QLQuestionnaire result]
-    locals [
-      List<QLForm> forms = new ArrayList<>();
-    ]
-    @after{
-        $result = new QLQuestionnaire($ctx, $ctx.forms);
-    }
-    :   (form{ $ctx.forms.add($form.result); })+
-    ;  
 
 form returns [QLForm result]
     :   'form' + ID + block[new BooleanLiteral(null, true)] { $result = new QLForm($ctx, $ID.text, $block.result); }
