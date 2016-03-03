@@ -21,7 +21,7 @@ import SwiftParsec
  * variableQuestion ::= var ':' stringLit type
  * type             ::= integer | boolean | string
  * expr             ::= unaryOp expr | expr binary expr | ( expr ) | literal | var
- * literal          ::= true | false | stringLit | numberLit
+ * literal          ::= true | false | stringLit | integerLit
  * unaryOp          ::= - | !
  * binary           ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
  * var              ::= identifier
