@@ -41,7 +41,7 @@ class ConditionalView: BaseView, ViewContainable {
     override func reloadView() {
         super.reloadView()
 
-        self.heightConstraint.active = !self.conditional.isSatisfied()
+//        self.heightConstraint.active = !self.conditional.isSatisfied()
         
         UIView.animateWithDuration(kAnimationDuration) {
             self.layoutIfNeeded()

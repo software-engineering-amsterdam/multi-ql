@@ -12,13 +12,13 @@ class QuestionView: BaseView, ViewContainable {
     internal let viewContainer = BaseView()
     
     
-    convenience init(layout: Layout, question: QLQuestion, widget: ViewWidget) {
+    convenience init(layout: Layout, question: QLComputedQuestion, widget: ViewWidget) {
         self.init(frame: CGRectZero)
         
-        setupView(layout, question: question.label, widget: widget)
+        setupView(layout, question: question, widget: widget)
     }
     
-    private func setupView(layout: Layout, question: String, widget: ViewWidget) {
+    private func setupView(layout: Layout, question: QLQuestion, widget: ViewWidget) {
         self.viewContainer.addSubview(widget)
         widget.snp_makeConstraints { [unowned viewContainer] (make) -> Void in
             make.edges.equalTo(viewContainer)
@@ -33,7 +33,7 @@ class QuestionView: BaseView, ViewContainable {
         
         
         let label = UILabel()
-        label.text = question
+        label.text = question.label
         
         self.addSubview(label)
         

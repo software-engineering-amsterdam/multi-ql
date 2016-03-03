@@ -44,8 +44,8 @@ class FormTests: XCTestCase {
             else { return }
         
         
-        let q1 = block2.block[0] as? QLQuestion
-        let q2 = block2.block[1] as? QLQuestion
+        let q1 = block2.block[0] as? QLComputedQuestion
+        let q2 = block2.block[1] as? QLVariableQuestion
         let _if = block2.block[2] as? QLConditional
         
         XCTAssertNotNil(q1)
@@ -60,7 +60,7 @@ class FormTests: XCTestCase {
         XCTAssertTrue(q2!.label == "question")
        
         XCTAssertNotNil(q1!.expression as? QLBooleanLiteral)
-        XCTAssertNotNil(q2!.expression as? BooleanField)
+        XCTAssertNotNil(q2!.type as? QLBooleanType)
         
         
         let cond = _if!.condition as? QLBinary

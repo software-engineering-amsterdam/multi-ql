@@ -9,11 +9,11 @@
 import Foundation
 
 
-protocol QLType {
+protocol QLType: QLTypeVisitable {
 }
 
-class QLIdentifierType: QLType {
-}
+//class QLIdentifierType: QLType {
+//}
 
 class QLBooleanType: QLType {
 }
@@ -24,8 +24,8 @@ class QLMoneyType: QLType {
 class QLStringType: QLType {
 }
 
-class QLUnknownType: QLType {
-}
+//class QLUnknownType: QLType {
+//}
 
 
 infix operator === { associativity left precedence 140 }

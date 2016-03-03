@@ -1,6 +1,6 @@
 form testForm1 {
     booleanResult   : "Enter boolean"   boolean
-    booleanResult1  : "Result:"         booleanResult
+    /*booleanResult1  : "Result:"         booleanResult
 
     if (booleanResult1) {
         moneyResult     : "Enter money"     money
@@ -8,7 +8,7 @@ form testForm1 {
 
         stringResult    : "Enter string"    string
         stringResult1   : "Result:"         stringResult
-    }
+    }*/
 }
 
 /*

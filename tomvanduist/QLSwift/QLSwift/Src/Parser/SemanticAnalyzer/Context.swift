@@ -30,6 +30,14 @@ class Context {
         }
     }
     
+    func retrieveType(identifier: QLIdentifier) -> QLType? {
+        return retrieve(identifier)?.type
+    }
+    
+    func retrieveExpression(identifier: QLIdentifier) -> QLExpression? {
+        return retrieve(identifier)?.expression
+    }
+    
     func retrieve(identifier: QLIdentifier) -> Object? {
         if let o = context[identifier.id] {
             return o

@@ -8,18 +8,36 @@
 
 import Foundation
 
-protocol QLStatement: QLNode {
+protocol QLStatement: QLNode, QLStatementVisitable {
 }
 
-class QLQuestion: QLStatement {
+class QLQuestion {
     let identifier: QLIdentifier
     let label: String
+    
+    init(identifier: QLIdentifier, label: String) {
+        self.identifier = identifier
+        self.label = label
+    }
+}
+
+class QLVariableQuestion: QLQuestion, QLStatement {
+    let type: QLType
+    
+    init(identifier: QLIdentifier, label: String, type: QLType) {
+        self.type = type
+        
+        super.init(identifier: identifier, label: label)
+    }
+}
+
+class QLComputedQuestion: QLQuestion, QLStatement {
     let expression: QLExpression
     
     init(identifier: QLIdentifier, label: String, expression: QLExpression) {
-        self.identifier = identifier
-        self.label = label
         self.expression = expression
+        
+        super.init(identifier: identifier, label: label)
     }
 }
 
@@ -32,8 +50,8 @@ class QLConditional: QLStatement {
         self.ifBlock = ifBlock
     }
     
-    func isSatisfied() -> Bool {
-        if let isSatisfied = condition.eval() as? Bool {
+    func isSatisfied(context: Context) -> Bool {
+        if let isSatisfied = condition.eval(context) as? Bool {
             return isSatisfied
         }
         return false

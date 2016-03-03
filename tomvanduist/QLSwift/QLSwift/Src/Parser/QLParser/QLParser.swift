@@ -13,16 +13,22 @@ import SwiftParsec
 /**
  * Grammer:
  *
- * form         ::= 'form' block
- * block        ::= { stmt* }
- * stmt         ::= 'if' ( expr) { block } | question
- * question     ::= var ':' stringLit expr
- * expr         ::= money | unaryOp expr | expr binary expr | ( expr ) | boolean | literal | var
- * literal      ::= true | false | stringLit | numberLit
- * unaryOp      ::= - | !
- * binary       ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
- * var          ::= identifier
- * money        ::= 'money' || 'money' ( expr )
+ * form             ::= 'form' block
+ * block            ::= { stmt* }
+ * stmt             ::= 'if' ( expr) { block } | question
+ * question         ::= computedQuestion | variableQuestion
+ * computedQuestion ::= var ':' stringLit expr
+ * variableQuestion ::= var ':' stringLit type
+ * type             ::= money | boolean | string
+ * expr             ::= unaryOp expr | expr binary expr | ( expr ) | literal | var
+ * literal          ::= true | false | stringLit | numberLit
+ * unaryOp          ::= - | !
+ * binary           ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
+ * var              ::= identifier
+ 
+ 
+ 
+ * money            ::= 'money' || 'money' ( expr )
  */
 class QLParser: NSObject {
     
@@ -59,10 +65,24 @@ extension QLParser {
     }
     
     private func question() -> GenericParser<String, (), QLStatement> {
+        return computedQuestion().attempt <|> variableQuestion()
+    }
+    
+    private func computedQuestion() -> GenericParser<String, (), QLStatement> {
         return identifier().flatMap { [unowned self] qId in
             self.lexer.colon *> self.lexer.stringLiteral.flatMap { [unowned self] qLit in
                 self.expr().map { qExpr in
-                    QLQuestion(identifier: qId, label: qLit, expression: qExpr)
+                    QLComputedQuestion(identifier: qId, label: qLit, expression: qExpr)
+                }
+            }
+        }
+    }
+    
+    private func variableQuestion() -> GenericParser<String, (), QLStatement> {
+        return identifier().flatMap { [unowned self] qId in
+            self.lexer.colon *> self.lexer.stringLiteral.flatMap { [unowned self] qLit in
+                self.type().map { qType in
+                    QLVariableQuestion(identifier: qId, label: qLit, type: qType)
                 }
             }
         }
@@ -93,14 +113,8 @@ extension QLParser {
                 lexer.integer.map { i in QLIntegerLiteral(integer: i) }
             let litExpr: GenericParser<String, (), QLExpression> =
                 boolLit <|> stringLit <|> intLit
-            let boolExpr: GenericParser<String, (), QLExpression> =
-                lexer.symbol("boolean").map { _ in BooleanField() }
-            let stringExpr: GenericParser<String, (), QLExpression> =
-                lexer.symbol("string").map { _ in StringField() }
-            let moneyExpr: GenericParser<String, (), QLExpression> =
-                lexer.symbol("money").map { _ in MoneyField() }
             
-            return identifierExpr() <|> moneyExpr <|> boolExpr <|> stringExpr <|> litExpr
+            return identifierExpr() <|> litExpr
         }
         
         // Expression between ( )
@@ -119,14 +133,20 @@ extension QLParser {
             }
         
         
-        // Calculated money expression
-        let calcMoneyExpr: GenericParser<String, (), QLExpression> =
-            lexer.symbol("money") *> lexer.parentheses(_expr).map { e in MoneyField(expression: e) }
-        
-        
         // Attempt to find calculated money and 'normal' operator table first, '<=' operator table last
         // Using .attempt will ignore errors when '<' is exptected but '<=' is found, last expr will pick that up
-        return lexer.whiteSpace *> (calcMoneyExpr.attempt <|> _expr.attempt <|> _expr0)
+        return lexer.whiteSpace *> (_expr.attempt <|> _expr0)
+    }
+    
+    private func type() -> GenericParser<String, (), QLType> {
+        let boolType: GenericParser<String, (), QLType> =
+            lexer.symbol("boolean").map { _ in QLBooleanType() }
+        let stringType: GenericParser<String, (), QLType> =
+            lexer.symbol("string").map { _ in QLStringType() }
+        let moneyType: GenericParser<String, (), QLType> =
+            lexer.symbol("money").map { _ in QLMoneyType() }
+        
+        return boolType <|> stringType <|> moneyType
     }
     
     private func identifier() -> GenericParser<String, (), QLIdentifier> {
