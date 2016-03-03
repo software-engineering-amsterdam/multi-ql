@@ -1,7 +1,7 @@
 import { NodeVisitor } from 'src/ast';
 import { Log, LineError } from 'src/log';
 import * as types from 'src/types';
-import * as type_interence from 'src/type_inference';
+import * as type_inference from 'src/type_inference';
 
 class AnalysisLogHelper {
 	constructor(log) {
@@ -146,10 +146,10 @@ class ExprTypeChecker extends NodeVisitor {
 		return resultType;
 	}
 	visitNegationNode(negationNode, questionStore, analysisLog) {
-		return this.handleUnaryPrefixOperation(negationNode, questionStore, analysisLog, new type_interence.NegationTypeInferer());
+		return this.handleUnaryPrefixOperation(negationNode, questionStore, analysisLog, new type_inference.NegationTypeInferer());
 	}
 	visitNotNode(notNode, questionStore, analysisLog) {
-		return this.handleUnaryPrefixOperation(notNode, questionStore, analysisLog, new type_interence.NotTypeInferer());
+		return this.handleUnaryPrefixOperation(notNode, questionStore, analysisLog, new type_inference.NotTypeInferer());
 	}
 
 	handleInfixOperation(infixNode, questionStore, analysisLog, typeInferer) {
@@ -164,40 +164,40 @@ class ExprTypeChecker extends NodeVisitor {
 		return resultType;
 	}
 	visitAddNode(addNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(addNode, questionStore, analysisLog, new type_interence.AddTypeInferer());
+		return this.handleInfixOperation(addNode, questionStore, analysisLog, new type_inference.AddTypeInferer());
 	}
 	visitSubtractNode(subtractNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(subtractNode, questionStore, analysisLog, new type_interence.SubtractTypeInferer());
+		return this.handleInfixOperation(subtractNode, questionStore, analysisLog, new type_inference.SubtractTypeInferer());
 	}
 	visitMultiplyNode(multiplyNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(multiplyNode, questionStore, analysisLog, new type_interence.MultiplyTypeInferer());
+		return this.handleInfixOperation(multiplyNode, questionStore, analysisLog, new type_inference.MultiplyTypeInferer());
 	}
 	visitDivideNode(divideNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(divideNode, questionStore, analysisLog, new type_interence.DivideTypeInferer());
+		return this.handleInfixOperation(divideNode, questionStore, analysisLog, new type_inference.DivideTypeInferer());
 	}
 	visitGreaterNode(greaterNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(greaterNode, questionStore, analysisLog, new type_interence.GreaterTypeInferer());
+		return this.handleInfixOperation(greaterNode, questionStore, analysisLog, new type_inference.GreaterTypeInferer());
 	}
 	visitGreaterEqualNode(greaterEqualNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(greaterEqualNode, questionStore, analysisLog, new type_interence.GreaterEqualTypeInferer());
+		return this.handleInfixOperation(greaterEqualNode, questionStore, analysisLog, new type_inference.GreaterEqualTypeInferer());
 	}
 	visitLessNode(lessNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(lessNode, questionStore, analysisLog, new type_interence.LessTypeInferer());
+		return this.handleInfixOperation(lessNode, questionStore, analysisLog, new type_inference.LessTypeInferer());
 	}
 	visitLessEqualNode(lessEqualNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(lessEqualNode, questionStore, analysisLog, new type_interence.LessEqualTypeInferer());
+		return this.handleInfixOperation(lessEqualNode, questionStore, analysisLog, new type_inference.LessEqualTypeInferer());
 	}
 	visitEqualNode(equalNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(equalNode, questionStore, analysisLog, new type_interence.EqualTypeInferer());
+		return this.handleInfixOperation(equalNode, questionStore, analysisLog, new type_inference.EqualTypeInferer());
 	}
 	visitNotEqualNode(notEqualNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(notEqualNode, questionStore, analysisLog, new type_interence.NotEqualTypeInferer());
+		return this.handleInfixOperation(notEqualNode, questionStore, analysisLog, new type_inference.NotEqualTypeInferer());
 	}
 	visitAndNode(andNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(andNode, questionStore, analysisLog, new type_interence.AndTypeInferer());
+		return this.handleInfixOperation(andNode, questionStore, analysisLog, new type_inference.AndTypeInferer());
 	}
 	visitOrNode(orNode, questionStore, analysisLog) {
-		return this.handleInfixOperation(orNode, questionStore, analysisLog, new type_interence.OrTypeInferer());
+		return this.handleInfixOperation(orNode, questionStore, analysisLog, new type_inference.OrTypeInferer());
 	}
 	visitLiteralNode(literalNode, questionStore, analysisLog) {
 		return literalNode.type;
