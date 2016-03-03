@@ -19,8 +19,6 @@ public interface ASTVisitor {
     
     default void visit(ConditionalStatement s) {}
     
-    default void visit(Date d) {}
-    
     default void visit(Form f) {}
     
     default void visit(Label l) {}

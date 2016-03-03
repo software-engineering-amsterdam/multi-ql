@@ -39,6 +39,15 @@ public class Ident extends Expr {
     }
     
     /**
+     * @throws <code>UnsupportedOperationException</code> because the type of an
+     *          <code>Ident</code> can not be determined
+     */
+    @Override
+    public boolean isBoolean() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+    
+    /**
      * Compares <code>this Ident</code> to another <code>Object</code>. An
      * <code>Ident</code> is considered equal only to other objects of this
      * class for which <code>theContent</code> is equal to its own value for

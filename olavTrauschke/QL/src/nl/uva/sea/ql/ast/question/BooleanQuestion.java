@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.Label;
  * Representation of <code>Question</code>s that return booleans in an AST.
  * 
  * @author Olav Trauschke
- * @version 1-mrt-2016
+ * @version 2-mrt-2016
  */
 public class BooleanQuestion extends Question {
     
@@ -40,4 +40,14 @@ public class BooleanQuestion extends Question {
         super(identifier, label, calculation);
     }
     
+    /**
+     * Returns whether <code>this BooleanQuestion</code> represents a boolean value.
+     * 
+     * @return <code>true</code> becasue objects of this class represent boolean
+     *          values by definition
+     */
+    @Override
+    public boolean isBoolean() {
+        return true;
+    }
 }

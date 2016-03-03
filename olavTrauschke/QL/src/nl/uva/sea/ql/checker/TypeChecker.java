@@ -1,7 +1,6 @@
 package nl.uva.sea.ql.checker;
 
 import java.util.*;
-import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.Question;
@@ -12,7 +11,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * @author Olav Trauschke
  * @version 2-mrt-2016
  */
-public class TypeCheckingVisitor implements ASTVisitor {
+public class TypeChecker implements ASTVisitor {
     
     /**
      * Error presented to the user when a conditional statement has a
@@ -21,17 +20,20 @@ public class TypeCheckingVisitor implements ASTVisitor {
     public static final String NON_BOOLEAN_CONDITION_ERROR
             = "Non-boolean condition for conditional statement found";
     
+    public static final String REFERENCE_TO_UNDECLARED_QUESTION_ERROR
+            = "Reference found to undeclared question: ";
+    
     private final List<String> errors;
     private final Map<Ident,Question> questionTypes;
     
-    public TypeCheckingVisitor(Map<Ident,Question> theQuestionTypes) {
+    public TypeChecker(Map<Ident,Question> theQuestionTypes) {
         errors = new ArrayList();
         questionTypes = theQuestionTypes;
     }
     
     /**
      * @return a <code>List</code> of the errors generated during the
-     *          <code>visit</code>s <code>this TypeCheckingVisitor</code> has
+     *          <code>visit</code>s <code>this TypeChecker</code> has
      *          performed
      */
     public List<String> getErrors() {
@@ -89,10 +91,21 @@ public class TypeCheckingVisitor implements ASTVisitor {
      *          returns <code>true</code> or n is an <code>Ident</code> that
      *          refers to a <code>Question</code> for which this is the case
      */
-    private boolean isBoolean(ASTNode n) {
+    private boolean isBoolean(Expr n) {
         if (n instanceof Ident) {
-            n = questionTypes.get((Ident) n);
+            Ident identifier = (Ident) n;
+            if (questionTypes.containsKey(identifier)) {
+                Question q = questionTypes.get((Ident) n);
+                return q.isBoolean();
+            }
+            else {
+                errors.add(REFERENCE_TO_UNDECLARED_QUESTION_ERROR + identifier);
+                //value not actually existing, true to avoid unnecessary error messages
+                return true;
+            }
         }
-        return n.isBoolean();
+        else {
+            return n.isBoolean();
+        }
     }
 }

@@ -11,16 +11,16 @@ import nl.uva.sea.ql.ast.question.Question;
  * the same <code>Ident</code>) with a different type.
  * 
  * @author Olav Trauschke
- * @version 2-mrt-2016
+ * @version 3-mrt-2016
  */
-public class QuestionCollectingVisitor implements ASTVisitor {
+public class IdentCollector implements ASTVisitor {
     
     /**
      * Error presented to the user when a question was found to be redefined
      * with another type.
      */
     public static final String REDEFINED_QUESTION_ERROR = "Question defined"
-            + "with different return types found: ";
+            + " with different return types found: ";
     
     private final List<String> errors;
     private final Map<Ident,Question> firstQuestionsForIdentifiers;
@@ -28,13 +28,13 @@ public class QuestionCollectingVisitor implements ASTVisitor {
     /**
      * Constructor for objects of this class.
      */
-    public QuestionCollectingVisitor() {
+    public IdentCollector() {
         errors = new ArrayList<>();
         firstQuestionsForIdentifiers = new HashMap<>();
     }
     
     /**
-     * When a <code>QuestionCollectingVisitor visit</code>s a <code>Question</code>
+     * When a <code>IdentCollector visit</code>s a <code>Question</code>
      * it checks whether a <code>Question</code> with the same <code>identifier</code>
      * was <code>visit</code>ed before and checks whether the <code>Question</code>
      * was defined with the same type before if this is the case and safes the
@@ -68,7 +68,7 @@ public class QuestionCollectingVisitor implements ASTVisitor {
     
     /**
      * @return a <code>List</code> of all errors produced by
-     *          <code>this QuestionCollectingVisitor</code>
+     *          <code>this IdentCollector</code>
      */
     public List<String> getErrors() {
         return errors;

@@ -11,6 +11,16 @@ import nl.uva.sea.ql.ast.ASTNode;
 public abstract class Expr extends ASTNode {
     
     /**
+     * Returns whether <code>this Expr</code> represents a boolean value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses representing booleans
+     */
+    public boolean isBoolean(){
+        return false;
+    }
+    
+    /**
      * Compares <code>this Expr</code> to another <code>Object</code>.
      * Implemented to force subclasses to overwrite
      * {@link java.lang.Object#equals(java.lang.Object) Object.equals(Object)},
