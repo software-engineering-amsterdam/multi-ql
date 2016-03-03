@@ -43,13 +43,21 @@ public class DuplicateLabelDetector implements ASTVisitor {
         Label label = q.getLabel();
         if (firstQuestionsForLabels.containsKey(label)) {
             Question firstQuestionWithLabel = firstQuestionsForLabels.get(label);
-            if (!q.hasEqualType(firstQuestionWithLabel)) {
+            if (!q.equals(firstQuestionWithLabel)) {
                warnings.add(DUPLICATE_LABEL_ERROR + label);
             }
         }
         else {
             firstQuestionsForLabels.put(label, q);
         }
+    }
+    
+    /**
+     * @return a <code>List</code> of all warnings produced by
+     *          <code>this DuplicateLabelDetector</code>
+     */
+    public List<String> getWarnings() {
+        return warnings;
     }
     
 }

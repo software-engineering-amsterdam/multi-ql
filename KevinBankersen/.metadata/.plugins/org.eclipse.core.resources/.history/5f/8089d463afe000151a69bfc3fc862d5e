@@ -1,0 +1,24 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class IntegerType extends TypeTest {
+
+    public IntegerType() {
+	super(Type.INTEGER);
+    }
+    
+    public void setValue(String value) {
+	    
+	try {
+	    super.setValue(Integer.parseInt(value));
+	    } catch (NumberFormatException e) {
+		super.setValue(0);
+	    
+	
+    }
+    
+    public boolean equalType(IntegerType type) {
+	return true;
+    }
+}

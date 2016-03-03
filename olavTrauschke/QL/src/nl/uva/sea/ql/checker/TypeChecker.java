@@ -20,16 +20,18 @@ public class TypeChecker implements ASTVisitor {
     public static final String NON_BOOLEAN_CONDITION_ERROR
             = "Non-boolean condition for conditional statement found";
     
-    /**
-     * Error presented to the user when a <code>Question</code> was found to be
-     * referenced without being declared.
-     */
-    public static final String REFERENCE_TO_UNDECLARED_QUESTION_ERROR
-            = "Reference found to undeclared question: ";
-    
     private final List<String> errors;
     private final Map<Ident,Question> questionTypes;
     
+    /**
+     * Constructor for objects of this class.
+     * 
+     * @param theQuestionTypes a <code>Map</code> from each <code>Ident</code>
+     *                          <code>this TypeChecker</code> might
+     *                          need the <code>type</code> of (that is: each
+     *                          identifier it will visit in an <code>Expr</code>)
+     *                          to a <code>Question</code> with that <code>Ident</code>
+     */
     public TypeChecker(Map<Ident,Question> theQuestionTypes) {
         errors = new ArrayList();
         questionTypes = theQuestionTypes;
@@ -44,12 +46,23 @@ public class TypeChecker implements ASTVisitor {
         return errors;
     }
     
+    /**
+     * Add an error if a <code>ConditionalStatement</code> with a <code>condition</code>
+     * that is not a boolean was found.
+     * 
+     * @param s the <code>ConditionalStatement</code> to check
+     */
     @Override
     public void visit(ConditionalStatement s) {
         Expr condition = s.getCondition();
         if (isBoolean(condition)) {
             errors.add(NON_BOOLEAN_CONDITION_ERROR);
         }
+    }
+    
+    @Override
+    public void visit(Question q) {
+        //TODO check that calculation is either null or boolean
     }
     
     @Override
@@ -96,20 +109,6 @@ public class TypeChecker implements ASTVisitor {
      *          refers to a <code>Question</code> for which this is the case
      */
     private boolean isBoolean(Expr n) {
-        if (n instanceof Ident) {
-            Ident identifier = (Ident) n;
-            if (questionTypes.containsKey(identifier)) {
-                Question q = questionTypes.get((Ident) n);
-                return q.isBoolean();
-            }
-            else {
-                errors.add(REFERENCE_TO_UNDECLARED_QUESTION_ERROR + identifier);
-                //value not actually existing, true to avoid unnecessary error messages
-                return true;
-            }
-        }
-        else {
-            return n.isBoolean();
-        }
+        return n.isBoolean(questionTypes);
     }
 }

@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.util.testing.new2;
+
+public class MoneyType extends TypeObject {
+
+    @Override
+    public MoneyType getType() {
+	return this;
+    }
+
+}

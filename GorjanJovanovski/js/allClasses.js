@@ -14,15 +14,16 @@ class Listener {
 		}
 	}
 
-	notify(label, value) {
+	notify(label) {
 		if (this.listenerMap[label] !== undefined) {
 			for (var i = 0; i < this.listenerMap[label].length; i++) {
-				this.listenerMap[label][i].notify(label, value);
+				var dependant = this.listenerMap[label][i];
+				dependant.notify();
+				this.notify(dependant.label);
 			}
 		}
 	}
 }
-
 
 /* ---- ENVIRONMENT ---- */
 
@@ -45,7 +46,6 @@ class Environment {
 
 class NumberType {
 	parseValue(value) {
-
 		return parseInt(value);
 	}
 
@@ -115,24 +115,29 @@ class FormNode {
 
 	setEnvironment(environment) {
 		this.environment = environment;
-		this.setQuestionEnvironment();
+		this.transverseAST((questionNode) => {
+				questionNode.setEnvironment(environment);
+			},
+			(conditionNode) => {
+				conditionNode.setEnvironment(environment);
+			}
+		);
 	}
 
-	getQuestion(label) {
-		return this.transverseAST((questionNode) => {
-			if (questionNode.label === label) {
-				return questionNode;
+	setQuestionListeners() {
+		this.transverseAST((questionNode) => {
+			var dependencies = questionNode.getDependencies();
+			for (var i = 0; i < dependencies.length; i++) {
+				this.listener.register(dependencies[i], questionNode);
 			}
 		});
 	}
 
 	getAnswerList() {
 		var answerList = new AnswerList();
-
 		this.transverseAST((questionNode) => {
-			answerList.addQuestion(questionNode);
+			answerList.addQuestion(questionNode, this.environment);
 		}, undefined, true);
-
 		return answerList;
 	}
 
@@ -161,12 +166,12 @@ class FormNode {
 						return result;
 					}
 				}
-				if (evaluateConditions === true && currentNode.condition.compute(this.environment) === true) {
+				if (evaluateConditions === false || (evaluateConditions === true && currentNode.condition.compute(this.environment) === true)) {
 					for (i = 0; i < currentNode.ifBlock.length; i++) {
 						queue.push(currentNode.ifBlock[i]);
 					}
 				}
-				if (currentNode.elseBlock !== undefined && evaluateConditions === true && currentNode.condition.compute(this.environment) === false) {
+				if (currentNode.elseBlock !== undefined && (evaluateConditions === false || (evaluateConditions === true && currentNode.condition.compute(this.environment) === false))) {
 					for (i = 0; i < currentNode.elseBlock.length; i++) {
 						queue.push(currentNode.elseBlock[i]);
 					}
@@ -175,57 +180,15 @@ class FormNode {
 		}
 	}
 
-	setQuestionEnvironment() {
+	notify(label, value) {
 		this.transverseAST((questionNode) => {
-				questionNode.setEnvironment(this.environment);
-
-			},
-			(conditionNode) => {
-				conditionNode.setEnvironment(this.environment);
+			if (questionNode.label === label) {
+				questionNode.notify(value);
 			}
-		);
-	}
-
-	setQuestionListeners() {
-		this.transverseAST((questionNode) => {
-			var dependencies = questionNode.getDependencies();
-			for (var i = 0; i < dependencies.length; i++) {
-				this.listener.register(dependencies[i], questionNode);
-			}
-
 		});
+		this.listener.notify(label);
 	}
 
-	//
-	//setQuestionReferences() {
-	//	this.transverseAST((questionNode) => {
-	//		if (questionNode instanceof ComputedQuestionNode) {
-	//			this.addQuestionReferenceToExpr(questionNode.computedExpr);
-	//		}
-	//	}, (conditionNode) => {
-	//		this.addQuestionReferenceToExpr(conditionNode.condition);
-	//	});
-	//}
-	//
-	//addQuestionReferenceToExpr(expression) {
-	//	if (expression instanceof NotExpression) {
-	//		this.addQuestionReferenceToExpr(expression.expr);
-	//	}
-	//	else if (expression instanceof OperatorExpressionNode) {
-	//		this.addQuestionReferenceToExpr(expression.left);
-	//		this.addQuestionReferenceToExpr(expression.right);
-	//	}
-	//	else if (expression instanceof LabelNode) {
-	//		var question = this.getQuestion(expression.label);
-	//		if (question !== undefined) {
-	//			expression.setQuestionReference(this.getQuestion(expression.label));
-	//		}
-	//		else {
-	//			//TODO don't throw here?
-	//			throwError(expression.line, "Question label " + expression.label + " is undefined");
-	//		}
-	//	}
-	//}
 }
 
 class QuestionNode {
@@ -234,25 +197,19 @@ class QuestionNode {
 		this.label = label;
 		this.type = type;
 		this.line = line;
-		//this.value = this.type.parseValue(this.type.defaultValue());
 	}
 
-	notify(label, value) {
-		if (this.label === label) {
-			//this.value = this.type.parseValue(value);
-			this.environment.setValue(this.label, this.type.parseValue(value));
-		}
+	notify(value) {
+		this.environment.setValue(this.label, this.type.parseValue(value));
 	}
 
 	getDependencies() {
-		return [this.label];
+		return [];
 	}
 
 	setEnvironment(environment) {
 		this.environment = environment;
 		this.environment.setValue(this.label, this.type.parseValue(this.type.defaultValue()));
-		console.log(this.label + " " + this.type.parseValue(this.type.defaultValue()));
-		console.log(this.environment);
 	}
 
 }
@@ -271,10 +228,14 @@ class ComputedQuestionNode extends QuestionNode {
 		return this.computedExpr.getLabelsInExpression();
 	}
 
-	notify(label, value) {
-		super.notify(this.label, this.computedExpr.compute(this.environment));
+	notify() {
+		super.notify(this.computedExpr.compute(this.environment));
 	}
 
+	setEnvironment(environment) {
+		super.setEnvironment(environment);
+		this.computedExpr.setEnvironment(environment);
+	}
 }
 
 class ConditionNode {
@@ -305,6 +266,9 @@ class NotExpression {
 	}
 
 	compute(environment) {
+		if (environment === undefined) {
+			environment = this.environment;
+		}
 		return !this.expr.compute(environment);
 	}
 
@@ -331,6 +295,9 @@ class OperatorExpressionNode {
 	}
 
 	compute(environment) {
+		if (environment === undefined) {
+			environment = this.environment;
+		}
 		return this.opNode.compute(this.left, this.right, environment);
 	}
 
@@ -470,7 +437,7 @@ class LiteralNode {
 		return this.value;
 	}
 
-	getLabels() {
+	getLabelsInExpression() {
 		return [];
 	}
 }
@@ -482,8 +449,8 @@ class AnswerList {
 		this.answerList = [];
 	}
 
-	addQuestion(questionNode) {
-		this.answerList.push(new AnswerListQuestion(questionNode));
+	addQuestion(questionNode, environment) {
+		this.answerList.push(new AnswerListQuestion(questionNode, environment));
 	}
 
 	toString() {
@@ -492,9 +459,9 @@ class AnswerList {
 }
 
 class AnswerListQuestion {
-	constructor(questionNode) {
+	constructor(questionNode, environment) {
 		this.label = questionNode.label;
 		this.text = questionNode.text;
-		this.value = questionNode.value;
+		this.value = environment.getValue(questionNode.label);
 	}
 }

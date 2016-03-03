@@ -1,0 +1,28 @@
+package eu.bankersen.kevin.ql.util.testing.new1;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class IntType extends TypeObject {
+
+
+    @Override
+    public Type getType() {
+	return Type.INTEGER;
+    }
+
+    @Override
+    public boolean compatible(TypeObject typeObject) {
+	switch(typeObject.getType()) {
+	case MONEY: return true;
+	case INTEGER: return true;
+	default : return false;
+	}
+    }
+    
+    @Override
+    public boolean sameType(TypeObject type) {
+	// TODO Auto-generated method stub
+	return false;
+    }
+
+}

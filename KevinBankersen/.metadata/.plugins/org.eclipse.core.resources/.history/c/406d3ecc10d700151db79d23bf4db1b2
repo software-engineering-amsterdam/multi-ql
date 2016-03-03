@@ -1,9 +1,0 @@
-package eu.bankersen.kevin.ql.context;
-
-import eu.bankersen.kevin.ql.ast.Type;
-
-public interface Errors {
-    
-    @Override String toString;
-    
-}
