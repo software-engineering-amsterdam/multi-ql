@@ -1,7 +1,6 @@
 package org.uva.ql.ast.type;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.uva.ql.ast.ASTNodeVisitor;
 
 public final class QLBooleanType extends QLType {
 
@@ -14,13 +13,8 @@ public final class QLBooleanType extends QLType {
 	}
 
 	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(QLTypeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
-	}
-
-	@Override
-	public <T> T accept(QLTypeVisitor<T> visitor) {
-		return visitor.visit(this);
 	}
 
 	@Override

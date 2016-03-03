@@ -14,27 +14,38 @@ public class SemanticAnalyser {
 	}
 	
 	public void analyseForm(Form form){
-		findVariables();
-		typeCheck();
-		cyclicDependenciesCheck();
+		findVariables(form);
+		typeCheck(form);
+		cyclicDependenciesCheck(form);
 	}
 	
 	public boolean noIssues(){
 		return context.getIssues().isEmpty();
 	}
 	
-	private void findVariables(){
+	//Only for debugging
+	public void printData(){
+		System.out.println("Identifier - Type:");
+		context.getIdentifierToTypeMap().forEach((k, t) -> System.out.println(String.format("%s: %s", k, t)));
+		System.out.println();
+	}
+	
+	private void findVariables(Form form){
 		FindAllDeclaredQuestions<Object> fadq = new FindAllDeclaredQuestions<>(context);
+		fadq.visit(form);
 		context = fadq.getContext();
 	}
 	
-	private void typeCheck(){
+	private void typeCheck(Form form){
 		TypeChecker<Object> typeChecker = new TypeChecker<>(context);
+		typeChecker.visit(form);
 		context = typeChecker.getContext();
 	}
 	
-	private void cyclicDependenciesCheck(){
+	private void cyclicDependenciesCheck(Form form){
 		CyclicDependencyChecker<Object> cdc = new CyclicDependencyChecker<>(context);
+		cdc.visit(form);
+		cdc.findCyclicDependencies();
 		context = cdc.getContext();
 	}
 	

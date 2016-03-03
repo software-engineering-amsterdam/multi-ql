@@ -8,17 +8,19 @@ public class Program {
 	
 	//TODO: exception handling
 	public static void main(String[] args) throws IOException{
-		FormParser fp = new FormParser();
-		Form form = fp.parseForm("resources/CyclicExampleD.ql", false);
-//		Form form = fp.parseForm("resources/SmallQuestionaire.ql", false);
-//		Form form = fp.parseForm("resources/Questionaire.ql", false);
+		FormParser formParser = new FormParser();
+//		Form form = formParser.parseForm("resources/CyclicExampleD.ql", false);
+//		Form form = formParser.parseForm("resources/SmallQuestionaire.ql", false);
+		Form form = formParser.parseForm("resources/Questionaire.ql", false);
 		
-		SemanticAnalyser sa = new SemanticAnalyser();
-		sa.analyseForm(form);
+		SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
+		semanticAnalyser.analyseForm(form);
+//		semanticAnalyser.printData();
 		
-		if(sa.noIssues()){
-			FormEvaluation formEval = new FormEvaluation();
-			formEval.evaluateForm(form, sa.getContext());
+		if(semanticAnalyser.noIssues()){
+			FormEvaluation formEval = new FormEvaluation(semanticAnalyser.getContext());
+			formEval.evaluateForm(form);
+			formEval.printData();
 			
 			//TODO: draw form
 		}else{
@@ -26,5 +28,6 @@ public class Program {
 		}
 		
 		//new QLFrame(fileContext.form().result);
+		System.out.println("Done");
 	}
 }

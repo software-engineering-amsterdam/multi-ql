@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
-import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.QLBlockVisitor;
 import org.uva.ql.ast.stat.QLIFStatement;
 import org.uva.ql.ast.stat.QLQuestion;
 
@@ -29,12 +27,7 @@ public class QLBlock extends ASTNode {
 		return Collections.unmodifiableList(statements);
 	}
 
-	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
-		return visitor.visit(this, context);
-	}
-
-	public <T, U> T accept(QLBlockVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(QLFormVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 }

@@ -2,8 +2,6 @@ import { AnalyzingQlParser } from 'src/parser';
 import { NodeNormalizer } from 'src/ast_normalization';
 import { SemanticAnalyser } from 'src/ast_semantic_analysis';
 import { Log } from 'src/log';
-import { WidgetFactory } from 'src/widgets';
-import { ExprObservableFactory } from 'src/expr_observable';
 import { Renderer } from 'src/rendering';
 import * as ace from 'ace';
 
@@ -12,8 +10,8 @@ let LOCALSTORAGE_KEY = 'uva-software-process-ql-merijn-last-input',
 	session = editor.getSession(),
 	logElement = document.getElementById('log'),
 	renderElement = document.getElementById('render'),
-	parser = new AnalyzingQlParser(new SemanticAnalyser());
-	//renderer = new Renderer(document, new WidgetFactory(document), new ExprObservableFactory());
+	parser = new AnalyzingQlParser(new SemanticAnalyser()),
+	renderer = new Renderer(document);
 
 session.on('change', function (e) {
 	"use strict";
@@ -48,7 +46,7 @@ session.on('change', function (e) {
 		while (renderElement.firstChild !== null) {
 			renderElement.removeChild(renderElement.firstChild);
 		}
-		//renderer.render(ast, renderElement);
+		renderer.render(ast, renderElement);
 	}
 });
 session.setValue(window.localStorage.getItem(LOCALSTORAGE_KEY));

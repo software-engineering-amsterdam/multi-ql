@@ -25,6 +25,18 @@ public abstract class Expr extends ASTNode {
         return false;
     }
     
+    /* Returns whether <code>this Expr</code> represents a decimal value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
+     *                      <code>this Expr</code> might contain to a
+     *                      <code>Question</code> with that <code>Ident</code>
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses representing decimals
+     */
+    public boolean isDecimal(Map<Ident,Question> questionTypes) {
+        return false;
+    }
+    
     /**
      * Compares <code>this Expr</code> to another <code>Object</code>.
      * Implemented to force subclasses to overwrite

@@ -13,7 +13,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * @author Olav Trauschke
  * @version 3-mrt-2016
  */
-public class IdentCollector implements ASTVisitor {
+public class IdentCollector extends GeneralizedASTVisitor {
     
     /**
      * Error presented to the user when a question was found to be redefined

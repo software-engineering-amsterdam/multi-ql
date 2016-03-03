@@ -55,29 +55,44 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * @return the <code>Label</code> to be displayed with <code>this Question</code>
+     * @return <code>theLabel</code> to be displayed with <code>this Question</code>
      */
     public Label getLabel() {
         return label;
     }
     
     /**
-     * Has the <code>identifier</code>, the <code>label</code> and the
-     * <code>calculation</code> of <code>this Question accept v</code> and then
-     * has <code>v visit this Question</code>.
+     * @return the <code>Expr</code> defining how to compute the value of
+     *          <code>this Question</code>, or <code>null</code> if it should be
+     *          answered by the user
+     */
+    public Expr getCalculation() {
+        return calculation;
+    }
+    
+    /**
+     * Has the children of <code>this Question accept v</code> and then has
+     * <code>v visit this Question</code>.
      * 
      * @param v an <code>ASTVisitor</code> that should
      *          <code>visit this Question</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
+    public abstract void accept(ASTVisitor v);
+    
+    /**
+     * Has the <code>identifier</code>, the <code>label</code> and the
+     * <code>calculation</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit</code> the
+     *          children of <code>this Question</code>
+     */
+    protected void childrenAccept(ASTVisitor v) {
         identifierAccept(v);
         labelAccept(v);
         if (calculation != null) {
             calculation.accept(v);
         }
-        
-        v.visit(this);
     }
     
     /**
@@ -124,6 +139,16 @@ public abstract class Question extends ASTNode {
     }
     
     /**
+     * Returns whether <code>this Question</code> returns a decimal value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning decimals
+     */
+    public boolean isDecimal() {
+        return false;
+    }
+    
+    /**
      * Compares <code>this Question</code> to another <code>Object</code>. A
      * <code>Question</code> is considered equal only to other objects of the
      * same class for which <code>theIdentifier</code>, <code>theLabel</code>
@@ -135,14 +160,9 @@ public abstract class Question extends ASTNode {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;//test
-        }
+        if (o == null || getClass() != o.getClass()) return false;
         
         Question other = (Question) o;
-        boolean identifiersEqual = identifier.equals(other.identifier);//test
-        boolean labelsEqual = label.equals(other.label);//test
-        boolean calculationsEqual = calculation == null ? other.calculation == null : calculation.equals(other.calculation);//test
         return identifier.equals(other.identifier)
                && label.equals(other.label)
                && (calculation == null ? other.calculation == null : calculation.equals(other.calculation));
