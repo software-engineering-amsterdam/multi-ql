@@ -4,7 +4,19 @@
 //
 //  Created by Julian Jansen on 24-02-16.
 //  Copyright © 2016 Julian Jansen. All rights reserved.
+// 
+//  Grammar:
+//  
+//  ->      "can consist of"
+//  |       Alternative grammar productions
 //
+//  form -> stmnt*
+//  stmnt -> question | expr
+//  expr -> 
+//
+//
+//  Swift Reference: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/
+//  Swift_Programming_Language/AboutTheLanguageReference.html#//apple_ref/doc/uid/TP40014097-CH29-ID345
 
 import Foundation
 import SwiftParsec
@@ -55,7 +67,8 @@ class QLParser: NSObject {
 //        "Did you sell a house in 2010?"
     //        hasSoldHouse: boolean
         
-        let qlquestionName = quote *> quotedChars.many.stringValue <* quote <?> "Quote/endOfLine at end of question name."
+//        let qlquestionName = quote *> quotedChars.many.stringValue <* quote <?> "Quote/endOfLine at end of question name."
+        let qlquestionName = stringLiteral <?> "String literal as question name."
         let qlquestionVariable = lexer.whiteSpace *> lexer.identifier.map{ String($0) } <* lexer.colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
         
         let qlquestion: GenericParser<String, (), QLQuestion> = qlquestionName.flatMap{ questionName in
