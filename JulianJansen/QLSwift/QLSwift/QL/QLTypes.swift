@@ -9,10 +9,10 @@
 import Foundation
 
 class QLForm: AnyObject {
-    let formName: QLString
+    let formName: String
     let codeBlock: [QLStatement]
     
-    init(formName: QLString, codeBlock: [QLStatement]) {
+    init(formName: String, codeBlock: [QLStatement]) {
         self.formName = formName
         self.codeBlock = codeBlock
     }

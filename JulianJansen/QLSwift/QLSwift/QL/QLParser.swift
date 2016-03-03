@@ -37,41 +37,18 @@ class QLParser: NSObject {
         let lexer = GenericTokenParser(languageDefinition: ql)
         
         let symbol = lexer.symbol
-        let noneOf = StringParser.noneOf
-        let oneOf = StringParser.oneOf
-        let character = StringParser.character
-        let stringLiteral = lexer.stringLiteral
-        let eof = StringParser.eof
+        let stringLiteral = lexer.stringLiteral // Includes the quotes.
+        let identifier = lexer.identifier
+        let colon = lexer.colon
+
+        // MARK: Questions.
         
-        let endOfLine = StringParser.crlf.attempt <|>
-            (character("\n") *> character("\r")).attempt <|>
-            character("\n") <|>
-            character("\r") <?> "End of line."
+        // "Did you sell a house in 2010?"
+        //     hasSoldHouse: boolean
         
-        // Strings.
-        let qlstring = lexer.identifier.map{ (str) -> QLString in
-            print("String: \(str)")
-            return QLString(string: str)
-        }
+        let qlquestionVariable = identifier <* colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
         
-        let qlstrings = qlstring.manyAccumulator{ (let current: QLString, var accumulated: [QLString]) in
-            accumulated.append(current) // Doesn't return an instance of itself.
-            return accumulated
-        }
-        
-        // MARK: Questions. From CSV example code. Added end of line.
-        let quotedChars = noneOf("\"") <|> StringParser.string("\"\"").attempt *> GenericParser(result: "\"")
-        let quote = character("\"")
-        
-        
-//        "Did you sell a house in 2010?"
-    //        hasSoldHouse: boolean
-        
-//        let qlquestionName = quote *> quotedChars.many.stringValue <* quote <?> "Quote/endOfLine at end of question name."
-        let qlquestionName = stringLiteral <?> "String literal as question name."
-        let qlquestionVariable = lexer.whiteSpace *> lexer.identifier.map{ String($0) } <* lexer.colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
-        
-        let qlquestion: GenericParser<String, (), QLQuestion> = qlquestionName.flatMap{ questionName in
+        let qlquestion: GenericParser<String, (), QLQuestion> = stringLiteral.flatMap{ questionName in
             
             qlquestionVariable.map{ questionVariable -> QLQuestion in
                 
@@ -91,7 +68,7 @@ class QLParser: NSObject {
         
         let codeBlock: GenericParser<String, (), [QLStatement]> = lexer.braces(qlstatements) <?> "Error parsing in the braces of code block."
         
-        let form = symbol("form") *> qlstring.flatMap{ (formName) -> GenericParser<String, (), QLForm> in
+        let form = symbol("form") *> identifier.flatMap{ (formName) -> GenericParser<String, (), QLForm> in
             
             print("Form name: \(formName)")
             
