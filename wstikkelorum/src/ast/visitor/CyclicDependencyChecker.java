@@ -63,10 +63,15 @@ public class CyclicDependencyChecker<T> extends BasicVisitor<T>{
 	
 	private void f(String identifier, String original){
 		List<String> dependencies = getAllDependencies(identifier);
+		if(dependencies == null){
+			return;
+		}
+		
 		if(dependencies.contains(original)){
 			System.out.println(String.format("Cyclic between: %s and %s", original, identifier));
 			return;
 		}
+		
 		for(String d : dependencies){
 			f(d, original);
 		}

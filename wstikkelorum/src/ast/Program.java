@@ -27,7 +27,7 @@ public class Program {
 //				"resources/SmallQuestionaire.ql").getPath());
 		
 		ANTLRFileStream input = new ANTLRFileStream(new File(
-				"resources/CyclicExampleC.ql").getPath());
+				"resources/CyclicExampleD.ql").getPath());
 		
 		CommonTokenStream tokens = new CommonTokenStream(new QLLexer(input));
 		QLParser parser = new QLParser(tokens);
