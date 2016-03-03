@@ -3,6 +3,7 @@ package nl.uva.sea.ql.ast.question;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.Label;
+import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s that return decimals in an AST.
@@ -38,6 +39,19 @@ public class DecimalQuestion extends Question {
      */
     public DecimalQuestion(Ident identifier, Label label, Expr calculation) {
         super(identifier, label, calculation);
+    }
+    
+    /**
+     * Has the children of <code>this Question accept v</code> and then
+     * has <code>v visit this Question</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this Question</code> and its children
+     */
+    @Override
+    public void accept(ASTVisitor v) {
+        childrenAccept(v);
+        v.visit(this);
     }
     
 }

@@ -20,6 +20,16 @@ import nl.uva.sea.ql.ast.question.StringQuestion;
 public class TypeChecker implements ASTVisitor {
     
     /**
+     * Description of the type boolean.
+     */
+    public static final String BOOLEAN = "boolean";
+    
+    /**
+     * Description of the type date.
+     */
+    public static final String DATE = "date";
+    
+    /**
      * Error presented to the user when a <code>ConditionalStatement</code> has
      * a non-boolean condition.
      */
@@ -66,14 +76,31 @@ public class TypeChecker implements ASTVisitor {
         }
     }
     
+    /**
+     * Add an error if a <code>BooleanQuestion</code> with a non-boolean
+     * <code>calculation</code> was found.
+     * 
+     * @param q the <code>BooleanQuestion</code> to check
+     */
     @Override
     public void visit(BooleanQuestion q) {
-        //TODO check calculation is null or boolean
+        Expr calculation = q.getCalculation();
+        if (calculation != null && !calculation.isBoolean(questionTypes)) {
+            addQuestionTypeError(BOOLEAN);
+        }
     }
     
+    /**
+     * Add an error if a <code>DateQuestion</code> with a calculation was found.
+     * 
+     * @param q the <code>DateQuestion</code> to check
+     */
     @Override
     public void visit(DateQuestion q) {
-        //TODO check calculation is null or date
+        Expr calculation = q.getCalculation();
+        if (calculation != null) {
+            addQuestionTypeError(DATE);
+        }
     }
     
     @Override
@@ -141,5 +168,15 @@ public class TypeChecker implements ASTVisitor {
      */
     private boolean isBoolean(Expr n) {
         return n.isBoolean(questionTypes);
+    }
+    
+    /**
+     * Add an error stating that a <code>Question</code> with a given type was
+     * found to be calculated by an <code>Expr</code> of another type.
+     * 
+     * @param type a <code>String</code> describing the type of the <code>Question</code>
+     */
+    private void addQuestionTypeError(String type) {
+        errors.add("Question of type " + type + " found with calculation of another type.");
     }
 }

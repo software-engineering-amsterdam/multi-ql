@@ -69,23 +69,30 @@ public abstract class Question extends ASTNode {
     public Expr getCalculation() {
         return calculation;
     }
+    
     /**
-     * Has the <code>identifier</code>, the <code>label</code> and the
-     * <code>calculation</code> of <code>this Question accept v</code> and then
-     * has <code>v visit this Question</code>.
+     * Has the children of <code>this Question accept v</code> and then has
+     * <code>v visit this Question</code>.
      * 
      * @param v an <code>ASTVisitor</code> that should
      *          <code>visit this Question</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
+    public abstract void accept(ASTVisitor v);
+    
+    /**
+     * Has the <code>identifier</code>, the <code>label</code> and the
+     * <code>calculation</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit</code> the
+     *          children of <code>this Question</code>
+     */
+    protected void childrenAccept(ASTVisitor v) {
         identifierAccept(v);
         labelAccept(v);
         if (calculation != null) {
             calculation.accept(v);
         }
-        
-        v.visit(this);
     }
     
     /**
