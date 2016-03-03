@@ -1,7 +1,4 @@
-package org.uva.ql.ast;
-
-import org.uva.ql.ast.stat.QLQuestionComputed;
-import org.uva.ql.ast.stat.QLQuestionInput;
+package org.uva.ql.ast.stat;
 
 public interface QLQuestionVisitor<T, U> {
 

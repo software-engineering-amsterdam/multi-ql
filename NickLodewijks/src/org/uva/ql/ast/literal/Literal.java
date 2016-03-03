@@ -12,7 +12,7 @@ public abstract class Literal<T> extends ASTNode {
 		this.value = value;
 	}
 
-	public T getValue() {
+	public final T getValue() {
 		return value;
 	}
 }

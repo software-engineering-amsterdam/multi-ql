@@ -3,7 +3,6 @@ package org.uva.ql.ast.form;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.QLFormVisitor;
 
 public class QLForm extends ASTNode {
 

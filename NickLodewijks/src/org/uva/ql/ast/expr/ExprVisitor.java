@@ -1,10 +1,5 @@
-package org.uva.ql.ast;
+package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.expr.BinaryExpr;
-import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.expr.LiteralExpr;
-import org.uva.ql.ast.expr.UnaryExpr;
-import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
 import org.uva.ql.ast.expr.math.Divide;
 import org.uva.ql.ast.expr.math.Multiply;
@@ -20,26 +15,8 @@ import org.uva.ql.ast.expr.rel.LessThan;
 import org.uva.ql.ast.expr.rel.LessThanOrEquals;
 import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
-import org.uva.ql.ast.form.QLBlock;
-import org.uva.ql.ast.form.QLForm;
-import org.uva.ql.ast.form.QLQuestionnaire;
-import org.uva.ql.ast.literal.BooleanLiteral;
-import org.uva.ql.ast.literal.IntegerLiteral;
-import org.uva.ql.ast.literal.StringLiteral;
-import org.uva.ql.ast.stat.QLIFStatement;
-import org.uva.ql.ast.stat.QLQuestion;
-import org.uva.ql.ast.stat.QLQuestionComputed;
-import org.uva.ql.ast.stat.QLQuestionInput;
 
-public interface ASTNodeVisitor<T, U> {
-
-	public T visit(ASTNode node, U context);
-
-	public T visit(Expr node, U context);
-
-	public T visit(BinaryExpr node, U context);
-
-	public T visit(UnaryExpr node, U context);
+public interface ExprVisitor<T, U> {
 
 	public T visit(Add node, U context);
 
@@ -75,23 +52,4 @@ public interface ASTNodeVisitor<T, U> {
 
 	public T visit(VariableExpr node, U context);
 
-	public T visit(QLQuestionnaire node, U context);
-
-	public T visit(QLForm node, U context);
-
-	public T visit(QLBlock node, U context);
-
-	public T visit(QLIFStatement node, U context);
-
-	public T visit(BooleanLiteral node, U context);
-
-	public T visit(IntegerLiteral node, U context);
-
-	public T visit(StringLiteral node, U context);
-
-	public T visit(QLQuestion node, U context);
-
-	public T visit(QLQuestionInput node, U context);
-
-	public T visit(QLQuestionComputed node, U context);
 }

@@ -4,7 +4,7 @@ import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.ast.expr.Expr;
 
-public class QuestionCondition {
+public final class QuestionCondition {
 
 	private final Expr condition;
 

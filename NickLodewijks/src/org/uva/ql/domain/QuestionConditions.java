@@ -28,4 +28,18 @@ public class QuestionConditions {
 	public Set<QuestionCondition> getConditions() {
 		return Collections.unmodifiableSet(conditions);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof QuestionConditions)) {
+			return false;
+		}
+
+		return conditions.equals(((QuestionConditions) obj).conditions);
+	}
+
+	@Override
+	public int hashCode() {
+		return 46;
+	}
 }

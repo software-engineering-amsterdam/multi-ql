@@ -1,6 +1,4 @@
-package org.uva.ql.ast;
-
-import org.uva.ql.ast.stat.QLIFStatement;
+package org.uva.ql.ast.stat;
 
 public interface QLIFStatementVisitor<T, U> {
 

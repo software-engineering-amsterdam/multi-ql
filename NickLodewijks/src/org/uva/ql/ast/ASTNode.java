@@ -5,20 +5,20 @@ import org.antlr.v4.runtime.Token;
 
 public abstract class ASTNode {
 
-	private final SourceCodeInfo token;
+	private final SourceCodeInfo sourceInfo;
 
 	public ASTNode(ParserRuleContext context) {
-		token = context == null ? SourceCodeInfo.NULL_OBJECT : new SourceCodeInfo(context);
+		sourceInfo = context == null ? SourceCodeInfo.NULL_OBJECT : new SourceCodeInfo(context);
 	}
 
 	public abstract <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context);
 
-	public String getSourceLocation() {
-		return token.toString();
+	public final String getSourceLocation() {
+		return sourceInfo.toString();
 	}
 
-	public String getSourceText() {
-		return token.getText();
+	public final String getSourceText() {
+		return sourceInfo.getText();
 	}
 
 	@Override
@@ -73,6 +73,5 @@ public abstract class ASTNode {
 		public String toString() {
 			return "[" + getLine() + ": " + getCharPos() + "]";
 		}
-
 	}
 }

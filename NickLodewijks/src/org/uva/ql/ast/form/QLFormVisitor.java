@@ -1,6 +1,4 @@
-package org.uva.ql.ast;
-
-import org.uva.ql.ast.form.QLForm;
+package org.uva.ql.ast.form;
 
 public interface QLFormVisitor<T, U> {
 

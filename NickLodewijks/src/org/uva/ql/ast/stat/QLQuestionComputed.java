@@ -2,11 +2,10 @@ package org.uva.ql.ast.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.QLQuestionVisitor;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.type.QLType;
 
-public class QLQuestionComputed extends QLQuestion {
+public final class QLQuestionComputed extends QLQuestion {
 
 	private final Expr expr;
 

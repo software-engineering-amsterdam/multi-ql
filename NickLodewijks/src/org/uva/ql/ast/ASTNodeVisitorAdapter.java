@@ -13,11 +13,11 @@ import org.uva.ql.ast.expr.math.Positive;
 import org.uva.ql.ast.expr.math.Subtract;
 import org.uva.ql.ast.expr.rel.And;
 import org.uva.ql.ast.expr.rel.Equals;
-import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
-import org.uva.ql.ast.expr.rel.GreaterThan;
-import org.uva.ql.ast.expr.rel.LessThanOrEquals;
-import org.uva.ql.ast.expr.rel.LessThan;
 import org.uva.ql.ast.expr.rel.EqualsNot;
+import org.uva.ql.ast.expr.rel.GreaterThan;
+import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
+import org.uva.ql.ast.expr.rel.LessThan;
+import org.uva.ql.ast.expr.rel.LessThanOrEquals;
 import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
 import org.uva.ql.ast.form.QLBlock;
@@ -26,10 +26,10 @@ import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.StringLiteral;
-import org.uva.ql.ast.stat.QLQuestionComputed;
 import org.uva.ql.ast.stat.QLIFStatement;
-import org.uva.ql.ast.stat.QLQuestionInput;
 import org.uva.ql.ast.stat.QLQuestion;
+import org.uva.ql.ast.stat.QLQuestionComputed;
+import org.uva.ql.ast.stat.QLQuestionInput;
 
 public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 

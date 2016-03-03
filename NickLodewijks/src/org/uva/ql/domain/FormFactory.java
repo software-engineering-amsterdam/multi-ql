@@ -3,12 +3,12 @@ package org.uva.ql.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uva.ql.ast.QLBlockVisitor;
-import org.uva.ql.ast.QLFormVisitor;
-import org.uva.ql.ast.QLIFStatementVisitor;
 import org.uva.ql.ast.form.QLBlock;
+import org.uva.ql.ast.form.QLBlockVisitor;
 import org.uva.ql.ast.form.QLForm;
+import org.uva.ql.ast.form.QLFormVisitor;
 import org.uva.ql.ast.stat.QLIFStatement;
+import org.uva.ql.ast.stat.QLIFStatementVisitor;
 import org.uva.ql.ast.stat.QLQuestion;
 
 public class FormFactory implements QLFormVisitor<Form, Void>, QLIFStatementVisitor<List<Question>, QuestionConditions>,

@@ -1,7 +1,7 @@
 package org.uva.ql;
 
-import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.expr.ExprVisitor;
 import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
@@ -12,6 +12,7 @@ import org.uva.ql.ast.expr.math.Positive;
 import org.uva.ql.ast.expr.math.Subtract;
 import org.uva.ql.ast.expr.rel.And;
 import org.uva.ql.ast.expr.rel.Equals;
+import org.uva.ql.ast.expr.rel.EqualsNot;
 import org.uva.ql.ast.expr.rel.GreaterThan;
 import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
 import org.uva.ql.ast.expr.rel.LessThan;
@@ -19,7 +20,7 @@ import org.uva.ql.ast.expr.rel.LessThanOrEquals;
 import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
 
-public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterContext> {
+public class QLInterpreter implements ExprVisitor<Object, QLInterpreterContext> {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T interpret(Expr expr, QLInterpreterContext context) {
@@ -32,12 +33,6 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterCo
 
 	private QLInterpreter() {
 
-	}
-
-	@Override
-	public Object visit(Expr node, QLInterpreterContext context) {
-		assert false : "No interpreter implementation for expression type " + node.getClass();
-		return null;
 	}
 
 	@Override
@@ -73,6 +68,11 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterCo
 	@Override
 	public Object visit(Equals node, QLInterpreterContext context) {
 		return node.left().accept(this, context).equals(node.right().accept(this, context));
+	}
+
+	@Override
+	public Object visit(EqualsNot node, QLInterpreterContext context) {
+		return !node.left().accept(this, context).equals(node.right().accept(this, context));
 	}
 
 	@Override

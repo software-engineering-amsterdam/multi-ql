@@ -3,7 +3,7 @@ package org.uva.ql.ast.literal;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNodeVisitor;
 
-public class StringLiteral extends Literal<String> {
+public final class StringLiteral extends Literal<String> {
 
 	public StringLiteral(ParserRuleContext context, String value) {
 		super(context, value);
