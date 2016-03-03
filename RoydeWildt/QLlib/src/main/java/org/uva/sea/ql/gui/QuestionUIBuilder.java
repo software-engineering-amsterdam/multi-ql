@@ -67,7 +67,15 @@ public class QuestionUIBuilder extends BaseVisitor<Void, QuestionWidget, Void, V
         box.add(label, 0, 0);
 
         Primary primary = (Primary) stat.getExpr();
-        Parent valueUI = primary.getValue().accept(this, stat);
+
+        //primary can be null when input is invalid
+        Parent valueUI;
+        if(primary != null) {
+            valueUI = primary.getValue().accept(this, stat);
+        }
+        else {
+            valueUI = new Primary(new Int(-1, "")).getValue().accept(this,stat);
+        }
         box.add(valueUI, 1, 0);
 
         return box;
@@ -77,7 +85,14 @@ public class QuestionUIBuilder extends BaseVisitor<Void, QuestionWidget, Void, V
     public Control visit(Int val, Question parent) {
         MoneyFieldWidget f = new MoneyFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
-        f.setText(val.getValue().toString());
+
+        if(val.getValue() != null) {
+            f.setText(val.getValue().toString());
+        }
+        else {
+            f.setText("-");
+        }
+
         f.textProperty().addListener((observable, oldValue, newValue) ->
                 handleMoneyFieldAction(f));
         return f;

@@ -20,7 +20,7 @@ public class Bool extends Val {
         }
 
         catch (Exception e){
-            this.value = false;
+            System.out.println("Log: invalid value, expected a boolean");
         }
     }
 

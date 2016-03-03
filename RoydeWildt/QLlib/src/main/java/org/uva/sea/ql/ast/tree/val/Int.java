@@ -19,7 +19,7 @@ public class Int extends Val {
             this.value = Integer.valueOf(x);
         }
         catch (Exception e){
-            this.value = 0;
+            System.out.println("Log: invalid value, expected an integer");
         }
     }
 
