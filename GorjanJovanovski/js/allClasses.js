@@ -56,6 +56,10 @@ class NumberType {
 	toString() {
 		return 'number';
 	}
+
+	getTypeString() {
+		return "integer";
+	}
 }
 
 class DecimalType {
@@ -69,6 +73,28 @@ class DecimalType {
 
 	toString() {
 		return 'number';
+	}
+
+	getTypeString() {
+		return "decimal";
+	}
+}
+
+class MoneyType extends DecimalType {
+	getTypeString() {
+		return "money";
+	}
+}
+
+class CurrencyType extends DecimalType {
+	getTypeString() {
+		return "currency";
+	}
+}
+
+class FloatType {
+	getTypeString() {
+		return "float";
 	}
 }
 
@@ -86,6 +112,10 @@ class BooleanType {
 	toString() {
 		return 'boolean';
 	}
+
+	getTypeString() {
+		return "boolean";
+	}
 }
 
 class StringType {
@@ -99,6 +129,17 @@ class StringType {
 
 	toString() {
 		return 'string';
+	}
+
+	getTypeString() {
+		return "string";
+	}
+}
+
+class DateType extends StringType {
+
+	getTypeString() {
+		return "date";
 	}
 }
 
@@ -212,6 +253,10 @@ class QuestionNode {
 		this.environment.setValue(this.label, this.type.parseValue(this.type.defaultValue()));
 	}
 
+	getTypeString() {
+		return this.type.getTypeString();
+	}
+
 }
 
 class ComputedQuestionNode extends QuestionNode {
@@ -235,6 +280,7 @@ class ComputedQuestionNode extends QuestionNode {
 	setEnvironment(environment) {
 		super.setEnvironment(environment);
 		this.computedExpr.setEnvironment(environment);
+		this.notify();
 	}
 }
 
@@ -266,10 +312,9 @@ class NotExpression {
 	}
 
 	compute(environment) {
-		if (environment === undefined) {
-			environment = this.environment;
+		if (this.validateArguments()) {
+			return !this.expr.compute(environment);
 		}
-		return !this.expr.compute(environment);
 	}
 
 	toString() {
@@ -280,6 +325,12 @@ class NotExpression {
 		return this.expr.getLabelsInExpression();
 	}
 
+	validateArguments() {
+		if (typeof this.expr.compute(this.environment) !== "boolean") {
+			return false;
+		}
+		return true;
+	}
 }
 
 class OperatorExpressionNode {
@@ -419,6 +470,10 @@ class LabelNode {
 		return environment.getValue(this.label);
 	}
 
+	setEnvironment(environment) {
+
+	}
+
 	getLabelsInExpression() {
 		return [this.label];
 	}
@@ -435,6 +490,10 @@ class LiteralNode {
 
 	toString() {
 		return this.value;
+	}
+
+	setEnvironment(environment) {
+
 	}
 
 	getLabelsInExpression() {

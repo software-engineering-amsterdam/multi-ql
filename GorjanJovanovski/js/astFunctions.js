@@ -60,7 +60,7 @@ function getAntlrVisitor() {
 
 function performAstChecks(ast, environment) {
 	var textSet = new Set();
-	var labelSet = new Set();
+	var identifierMap = [];
 
 	var noErrors = true;
 
@@ -69,27 +69,29 @@ function performAstChecks(ast, environment) {
 
 			isQuestionTextDuplicate(questionNode, textSet);
 
-			if (isQuestionLabelDuplicate(questionNode, labelSet)) {
+			if (isQuestionIdentifierDuplicate(questionNode, identifierMap)) {
 				noErrors = false;
+			}
+			else {
+				identifierMap[questionNode.label] = questionNode.getTypeString();
 			}
 
 			if (questionNode instanceof ComputedQuestionNode) {
 				if (isExpressionUndefined(questionNode.line, questionNode.computedExpr, environment)) {
 					noErrors = false;
 				}
-				if (isExpressionTypeMismatch(questionNode.line, questionNode.type.toString(), questionNode.computedExpr, environment)) {
+				else if (isExpressionTypeMismatch(questionNode.line, questionNode.type.toString(), questionNode.computedExpr, environment)) {
 					noErrors = false;
 				}
 			}
 
 			textSet.add(questionNode.text);
-			labelSet.add(questionNode.label);
 		},
 		(conditionNode) => {
 			if (isExpressionUndefined(conditionNode.line, conditionNode.condition, environment)) {
 				noErrors = false;
 			}
-			if (isExpressionTypeMismatch(conditionNode.line, "boolean", conditionNode.condition, environment)) {
+			else if (isExpressionTypeMismatch(conditionNode.line, "boolean", conditionNode.condition, environment)) {
 				noErrors = false;
 			}
 		}
@@ -102,9 +104,9 @@ function performAstChecks(ast, environment) {
 	return noErrors;
 }
 
-function isQuestionLabelDuplicate(questionNode, labelSet) {
-	if (labelSet.has(questionNode.label)) {
-		throwWarning(questionNode.line, "Question warning: Text '" + questionNode.text + "' for question '" + questionNode.label + "' is already defined");
+function isQuestionIdentifierDuplicate(questionNode, identifierMap) {
+	if (identifierMap[questionNode.label] !== undefined && identifierMap[questionNode.label] !== questionNode.getTypeString()) {
+		throwError(questionNode.line, "Question error: Question identifier '" + questionNode.label + "' of type '" + questionNode.getTypeString() + "' is already defined as of another type");
 		return true;
 	}
 	return false;
@@ -112,7 +114,7 @@ function isQuestionLabelDuplicate(questionNode, labelSet) {
 
 function isQuestionTextDuplicate(questionNode, textSet) {
 	if (textSet.has(questionNode.text)) {
-		throwError(questionNode.line, "Question error: Question label '" + questionNode.label + "' is already defined");
+		throwWarning(questionNode.line, "Question warning: Text '" + questionNode.text + "' for question '" + questionNode.label + "' is already defined");
 		return true;
 	}
 	return false;
@@ -126,7 +128,6 @@ function isExpressionUndefined(line, expression, environment) {
 	return false;
 }
 
-//FIX THIS
 function isExpressionTypeMismatch(line, type, expression, environment) {
 	if (type !== typeof expression.compute(environment)) {
 		throwError(line, "Type error: Computed expression '" + expression.toString() + "' must evaluate to " + type);
