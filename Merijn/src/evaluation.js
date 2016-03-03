@@ -11,42 +11,49 @@ class Evaluator extends ValueReceiver {
 
 class PrimitiveEvaluator extends Evaluator {
 	constructor(primitiveValue) {
+		super();
 		this.primitiveValue = primitiveValue;
 	}
 }
 
 class BooleanEvaluator extends Evaluator {
 	constructor(booleanValue) {
+		super();
 		this.booleanValue = booleanValue;
 	}
 }
 
 class StringEvaluator extends Evaluator {
 	constructor(stringValue) {
+		super();
 		this.stringValue = stringValue;
 	}
 }
 
 class NumberEvaluator extends Evaluator {
 	constructor(numberValue) {
+		super();
 		this.numberValue = numberValue;
 	}
 }
 
 class IntegerEvaluator extends Evaluator {
 	constructor(integerValue) {
+		super();
 		this.integerValue = integerValue;
 	}
 }
 
 class FloatEvaluator extends Evaluator {
 	constructor(floatValue) {
+		super();
 		this.floatValue = floatValue;
 	}
 }
 
 class MoneyEvaluator extends Evaluator {
 	constructor(moneyValue) {
+		super();
 		this.moneyValue = moneyValue;
 	}
 }
