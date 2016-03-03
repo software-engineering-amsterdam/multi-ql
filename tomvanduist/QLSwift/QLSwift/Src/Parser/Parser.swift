@@ -22,7 +22,7 @@ class Parser {
         
         let form = try qlParser.parse(ql)
         
-        let sa = DefaultSemanticAnalyzer()
+        let sa = SemanticAnalyzer()
         
         return try sa.analyze(form)
     }

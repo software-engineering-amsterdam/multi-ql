@@ -38,7 +38,7 @@ extension XCTestCase {
             let form = try QLParser().parse(ql)
             
             if doEval {
-                let sa = DefaultSemanticAnalyzer()
+                let sa = SemanticAnalyzer()
                 return try sa.analyze(form).0
             }
             

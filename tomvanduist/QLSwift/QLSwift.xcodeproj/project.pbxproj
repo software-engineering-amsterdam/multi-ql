@@ -282,9 +282,9 @@
 		E234930A1C6CB70F00B40020 /* SemanticAnalyzer */ = {
 			isa = PBXGroup;
 			children = (
-				E234930F1C6CD55000B40020 /* SymbolTable.swift */,
 				E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */,
 				E234930D1C6CCE6700B40020 /* SemanticError.swift */,
+				E234930F1C6CD55000B40020 /* SymbolTable.swift */,
 			);
 			name = SemanticAnalyzer;
 			sourceTree = "<group>";

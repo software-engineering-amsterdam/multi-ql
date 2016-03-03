@@ -8,11 +8,8 @@
 
 import Foundation
 
-protocol SemanticAnalyzer {
-    func analyze(form: QLForm) throws -> (QLForm, [SemanticWarning])
-}
 
-class DefaultSemanticAnalyzer: SemanticAnalyzer, QLStatementVisitor, QLExpressionVisitor, QLLiteralVisitor, QLTypeVisitor {
+class SemanticAnalyzer: QLStatementVisitor, QLExpressionVisitor, QLLiteralVisitor, QLTypeVisitor {
     
     typealias QLStatementVisitorParam   = Void?
     typealias QLExpressionVisitorParam  = Void?
@@ -45,7 +42,7 @@ class DefaultSemanticAnalyzer: SemanticAnalyzer, QLStatementVisitor, QLExpressio
 
 // MARK: - QLStatementVisitor conformance
 
-extension DefaultSemanticAnalyzer {
+extension SemanticAnalyzer {
 
     func visit(node: QLVariableQuestion, param: Void?) -> Void {
         do {
@@ -94,7 +91,7 @@ extension DefaultSemanticAnalyzer {
 
 // MARK: - QLExpressionVisitor conformance
 
-extension DefaultSemanticAnalyzer {
+extension SemanticAnalyzer {
 
     func visit(node: QLVariable, param: Void?) -> QLType {
         guard let type = symbolTable.retrieveType(node.id)
@@ -219,7 +216,7 @@ extension DefaultSemanticAnalyzer {
 
 // MARK: - QLLiteralVisitor conformance 
 
-extension DefaultSemanticAnalyzer {
+extension SemanticAnalyzer {
     
     func visit(node: QLIntegerLiteral, param: Void?) -> QLType {
         return QLIntegerType()
@@ -237,7 +234,7 @@ extension DefaultSemanticAnalyzer {
 
 // MARK: - QLTypeVisitor conformance
 
-extension DefaultSemanticAnalyzer {
+extension SemanticAnalyzer {
     
     func visit(node: QLIntegerType, param: Void?) -> QLType {
         return node

@@ -16,7 +16,7 @@ class SemanticAnalyzerTests: XCTestCase {
     
     func testValid() {
         if let form = parseFile("TypedValidForm") {
-            let sa = DefaultSemanticAnalyzer()
+            let sa = SemanticAnalyzer()
             
             do {
                 try sa.analyze(form)
@@ -54,7 +54,7 @@ class SemanticAnalyzerTests: XCTestCase {
                 else { continue }
             
             
-            let sa = DefaultSemanticAnalyzer()
+            let sa = SemanticAnalyzer()
             
             
             do {
