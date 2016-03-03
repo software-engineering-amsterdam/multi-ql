@@ -1,5 +1,10 @@
 package org.uva.sea.ql.gui;
 
+import com.sun.javafx.collections.ObservableMapWrapper;
+import javafx.beans.binding.MapExpression;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.*;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -11,23 +16,28 @@ import javafx.scene.text.Font;
 
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.ast.tree.val.Var;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * Created by roy on 29-2-16.
  */
-public class GuiBuilder implements Observer {
+public class GuiBuilder{
+    private Form form;
     private AnchorPane rootPane;
 
     public GuiBuilder(Form form) {
         this.rootPane = new AnchorPane();
+        this.form = form;
 
-        List<Parent> UIElements = getUIElements(evaluateForm(form));
+        FormEvaluator evaluator = new FormEvaluator(this.form);
+        List<Question> questions = evaluator.getQuestions();
+        GuiVisitor visitor = new GuiVisitor(questions, evaluator.getSymbolTable());
+
+        addFormListener(evaluator);
+
+        List<Parent> UIElements = visitor.getUiElements();
         GridPane formUI = buildFormUI(form.getId(), UIElements);
         this.rootPane.getChildren().add(formUI);
     }
@@ -51,27 +61,24 @@ public class GuiBuilder implements Observer {
         return formUI;
     }
 
-    private List<Question> evaluateForm(Form form) {
-        FormEvaluator evaluator = new FormEvaluator(form);
-        return evaluator.getQuestions();
-    }
+    private void addFormListener(FormEvaluator evaluator) {
 
-    private List<Parent> getUIElements(List<Question> questions) {
-        List<Parent> UiElems = new ArrayList<>();
-        for (Question question : questions){
-            GuiVisitor gv = new GuiVisitor();
-            Parent UiElem = gv.visit(question, null);
-            UiElems.add(UiElem);
-        }
-        return UiElems;
-    }
+        evaluator.getSymbolTable().addListener((MapChangeListener<Var,Question>) c -> {
+            System.out.println("Changed " + c.toString());
 
-    @Override
-    public void update(Observable o, Object arg) {
+            FormEvaluator fe = new FormEvaluator(this.form, (ObservableMap<Var, Question>) c.getMap());
+            List<Question> questions = fe.getQuestions();
 
+            GuiVisitor visitor = new GuiVisitor(questions, fe.getSymbolTable());
+            List<Parent> UIElements = visitor.getUiElements();
+            GridPane formUI = buildFormUI(this.form.getId(), UIElements);
+            this.rootPane.getChildren().clear();
+            this.rootPane.getChildren().add(formUI);
+        });
     }
 
     public AnchorPane getRootPane() {
         return rootPane;
     }
+
 }
