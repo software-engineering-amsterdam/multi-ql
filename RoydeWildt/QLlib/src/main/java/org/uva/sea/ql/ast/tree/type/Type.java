@@ -3,12 +3,12 @@ package org.uva.sea.ql.ast.tree.type;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.val.Val;
 import org.uva.sea.ql.ast.type.ValueType;
-import org.uva.sea.ql.ast.visitor.interfaces.ITypeVisitable;
+import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitable;
 
 /**
  * Created by roydewildt on 11/02/16.
  */
-public abstract class Type extends Node implements ITypeVisitable {
+public abstract class Type extends Node implements TypeVisitable {
 
     public Type(int line) {
         super(line);

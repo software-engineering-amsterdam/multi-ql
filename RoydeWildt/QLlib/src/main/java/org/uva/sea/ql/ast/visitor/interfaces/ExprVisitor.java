@@ -10,7 +10,7 @@ import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 /**
  * Created by roy on 5-2-16.
  */
-public interface IExprVisitor<T,C> {
+public interface ExprVisitor<T,C> {
     
     T visit(Add expr, C context);
     T visit(And expr, C context);

@@ -1,7 +1,7 @@
 package org.uva.sea.ql.ast.tree.stat;
 
 import org.uva.sea.ql.ast.tree.expr.Expr;
-import org.uva.sea.ql.ast.visitor.interfaces.IStatVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class IfElse extends Stat{
     }
 
     @Override
-    public <S, C> S accept(IStatVisitor<S, C> visitor, C context) {
+    public <S, C> S accept(StatVisitor<S, C> visitor, C context) {
         return visitor.visit(this, context);
     }
 }

@@ -9,11 +9,12 @@ import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.val.*;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.interfaces.*;
+import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
 /**
  * Created by roydewildt on 10/02/16.
  */
-public abstract class BaseVisitor<F,S,E,T,V,C> implements IFormVisitor<F,C>,IStatVisitor<S,C>,IExprVisitor<E,C>,ITypeVisitor<T,C>,IValVisitor<V,C> {
+public abstract class BaseVisitor<F,S,E,T,V,C> implements FormVisitor<F,C>,StatVisitor<S,C>,ExprVisitor<E,C>,TypeVisitor<T,C>,ValVisitor<V,C> {
 
     @Override
     public F visit(Form form, C context) {

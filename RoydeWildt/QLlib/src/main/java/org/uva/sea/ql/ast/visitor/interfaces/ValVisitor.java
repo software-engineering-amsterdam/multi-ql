@@ -8,7 +8,7 @@ import org.uva.sea.ql.ast.tree.val.Var;
 /**
  * Created by roy on 5-2-16.
  */
-public interface IValVisitor<T,C> {
+public interface ValVisitor<T,C> {
 
     T visit(Bool val, C context);
     T visit(Int val, C context);

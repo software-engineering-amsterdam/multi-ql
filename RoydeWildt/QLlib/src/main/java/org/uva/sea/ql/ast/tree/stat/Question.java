@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.tree.val.Var;
-import org.uva.sea.ql.ast.visitor.interfaces.IStatVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -76,7 +76,7 @@ public class Question extends Stat {
     }
 
     @Override
-    public <S, C> S accept(IStatVisitor<S, C> visitor, C context) {
+    public <S, C> S accept(StatVisitor<S, C> visitor, C context) {
         return visitor.visit(this, context);
     }
 }

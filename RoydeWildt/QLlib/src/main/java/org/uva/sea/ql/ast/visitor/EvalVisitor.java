@@ -2,7 +2,6 @@ package org.uva.sea.ql.ast.visitor;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
@@ -12,12 +11,7 @@ import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
 import org.uva.sea.ql.ast.tree.val.Val;
 import org.uva.sea.ql.ast.tree.val.Var;
-import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.ast.visitor.interfaces.IExprVisitor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

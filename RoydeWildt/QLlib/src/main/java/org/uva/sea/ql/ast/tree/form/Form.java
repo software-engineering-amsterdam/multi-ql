@@ -1,17 +1,16 @@
 package org.uva.sea.ql.ast.tree.form;
 
-import javafx.beans.Observable;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.stat.Stat;
-import org.uva.sea.ql.ast.visitor.interfaces.IFormVisitable;
-import org.uva.sea.ql.ast.visitor.interfaces.IFormVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.FormVisitable;
+import org.uva.sea.ql.ast.visitor.interfaces.FormVisitor;
 
 import java.util.List;
 
 /**
  * Created by roydewildt on 04/02/16.
  */
-public class Form extends Node implements IFormVisitable {
+public class Form extends Node implements FormVisitable {
     private final String id;
     private final List<Stat> stms;
 
@@ -41,7 +40,7 @@ public class Form extends Node implements IFormVisitable {
     }
 
     @Override
-    public <E, C> E accept(IFormVisitor<E, C> visitor, C context) {
+    public <E, C> E accept(FormVisitor<E, C> visitor, C context) {
         return visitor.visit(this,context);
     }
 }

@@ -17,7 +17,7 @@ public class And extends BinaryExpr {
     }
 
     @Override
-    public <E, C> E accept(IExprVisitor<E, C> visitor, C context) {
+    public <E, C> E accept(ExprVisitor<E, C> visitor, C context) {
         return visitor.visit(this,context);
     }
 }

@@ -1,6 +1,6 @@
 package org.uva.sea.ql.ast.tree.val;
 
-import org.uva.sea.ql.ast.visitor.interfaces.IValVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.ValVisitor;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -37,7 +37,7 @@ public class Int extends Val {
     }
 
     @Override
-    public <S, C> S accept(IValVisitor<S, C> visitor, C context) {
+    public <S, C> S accept(ValVisitor<S, C> visitor, C context) {
         return visitor.visit(this, context);
     }
 }
