@@ -1,5 +1,5 @@
 //
-//  QLTypes.swift
+//  QLNodes.swift
 //  ParserTest
 //
 //  Created by Julian Jansen on 24-02-16.
@@ -8,7 +8,17 @@
 
 import Foundation
 
-class QLForm: AnyObject {
+protocol QLNode {}
+
+protocol QLTerminal: QLNode {}
+protocol QLNonTerminal: QLNode {}
+
+protocol QLStatement: QLNonTerminal {}
+protocol QLExpression: QLStatement {}
+
+// MARK: Non-terminals.
+
+class QLForm: QLNonTerminal {
     let formName: String
     let codeBlock: [QLStatement]
     
@@ -16,10 +26,6 @@ class QLForm: AnyObject {
         self.formName = formName
         self.codeBlock = codeBlock
     }
-}
-
-class QLStatement: AnyObject {
-
 }
 
 class QLQuestion: QLStatement {
@@ -34,16 +40,9 @@ class QLQuestion: QLStatement {
     }
 }
 
-class QLExpression: QLStatement {
-    
-}
+// MARK: Terminals.
 
-// MARK: Data Types
-class QLType: QLStatement {
-    
-}
-
-class QLBool: QLType {
+class QLBool: QLTerminal {
     let boolean: Bool
     
     init(boolean: Bool) {
@@ -51,7 +50,7 @@ class QLBool: QLType {
     }
 }
 
-class QLString: QLType {
+class QLString: QLTerminal {
     let string: String
     
     init(string: String) {
@@ -59,7 +58,7 @@ class QLString: QLType {
     }
 }
 
-class QLInteger: QLType {
+class QLInteger: QLTerminal {
     let integer: Int
     
     init(integer: Int) {
@@ -67,7 +66,7 @@ class QLInteger: QLType {
     }
 }
 
-class QLDate: QLType {
+class QLDate: QLTerminal {
     let date: NSDate
     
     init(date: NSDate) {
@@ -75,7 +74,7 @@ class QLDate: QLType {
     }
 }
 
-class QLDecimal: QLType {
+class QLDecimal: QLTerminal {
     let decimal: Double
     
     init(decimal: Double) {
@@ -83,7 +82,7 @@ class QLDecimal: QLType {
     }
 }
 
-class QLMoney: QLType {
+class QLMoney: QLTerminal {
     let money: Float
     
     init(money: Float) {
