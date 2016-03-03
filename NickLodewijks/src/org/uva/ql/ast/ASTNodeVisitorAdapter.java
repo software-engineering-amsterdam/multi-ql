@@ -1,7 +1,7 @@
 package org.uva.ql.ast;
 
 import org.uva.ql.ast.expr.BinaryExpr;
-import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.expr.ExprVisitor;
 import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.UnaryExpr;
 import org.uva.ql.ast.expr.VariableExpr;
@@ -22,40 +22,36 @@ import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
 import org.uva.ql.ast.form.QLBlock;
 import org.uva.ql.ast.form.QLForm;
+import org.uva.ql.ast.form.QLFormVisitor;
 import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
+import org.uva.ql.ast.literal.LiteralVisitor;
 import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.QLIFStatement;
 import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.ast.stat.QLQuestionComputed;
 import org.uva.ql.ast.stat.QLQuestionInput;
+import org.uva.ql.ast.stat.QLStatementVisitor;
+import org.uva.ql.ast.type.QLBooleanType;
+import org.uva.ql.ast.type.QLIntegerType;
+import org.uva.ql.ast.type.QLStringType;
+import org.uva.ql.ast.type.QLTypeVisitor;
 
-public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
+public class ASTNodeVisitorAdapter<T, U> implements ExprVisitor<T, U>, QLFormVisitor<T, U>, QLStatementVisitor<T, U>,
+		QLTypeVisitor<T, U>, LiteralVisitor<T, U> {
 
-	@Override
-	public T visit(ASTNode node, U context) {
-		return null;
-	}
-
-	@Override
-	public T visit(Expr node, U context) {
-		return null;
-	}
-
-	@Override
 	public T visit(BinaryExpr node, U context) {
 		node.left().accept(this, context);
 		node.right().accept(this, context);
 
-		return visit((Expr) node, context);
+		return null;
 	}
 
-	@Override
 	public T visit(UnaryExpr node, U context) {
 		node.expr().accept(this, context);
 
-		return visit((Expr) node, context);
+		return null;
 	}
 
 	@Override
@@ -122,7 +118,7 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	public T visit(LiteralExpr node, U context) {
 		node.getLiteral().accept(this, context);
 
-		return visit((Expr) node, context);
+		return null;
 	}
 
 	@Override
@@ -142,7 +138,7 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 
 	@Override
 	public T visit(VariableExpr node, U context) {
-		return visit((Expr) node, context);
+		return null;
 	}
 
 	@Override
@@ -189,20 +185,17 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 	}
 
 	@Override
-	public T visit(QLQuestion node, U context) {
+	public T visit(QLQuestionInput node, U context) {
 		node.getType().accept(this, context);
 
 		return null;
 	}
 
 	@Override
-	public T visit(QLQuestionInput node, U context) {
-		return visit((QLQuestion) node, context);
-	}
-
-	@Override
 	public T visit(QLQuestionComputed node, U context) {
-		return visit((QLQuestion) node, context);
+		node.getType().accept(this, context);
+
+		return null;
 	}
 
 	@Override
@@ -211,6 +204,21 @@ public class ASTNodeVisitorAdapter<T, U> implements ASTNodeVisitor<T, U> {
 			form.accept(this, context);
 		}
 
+		return null;
+	}
+
+	@Override
+	public T visit(QLBooleanType type, U context) {
+		return null;
+	}
+
+	@Override
+	public T visit(QLStringType type, U context) {
+		return null;
+	}
+
+	@Override
+	public T visit(QLIntegerType type, U context) {
 		return null;
 	}
 }

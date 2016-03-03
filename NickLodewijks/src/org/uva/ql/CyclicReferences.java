@@ -12,6 +12,9 @@ import java.util.Set;
 import org.uva.ql.CyclicReferences.CyclicReference;
 import org.uva.ql.CyclicReferences.ReferenceTable.Reference;
 import org.uva.ql.CyclicReferences.ReferenceTable.ReferencePath;
+import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.stat.QLQuestionComputed;
 
@@ -36,9 +39,14 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 		rt = new ReferenceTable();
 
-		ComputedQuestions.collect(q).forEach(question -> {
-			rt.add(question, FreeVariables.collect(question.expr()));
-		});
+		q.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+
+			@Override
+			public Void visit(QLQuestionComputed node, Void context) {
+				rt.add(node, freeVariables(node.expr()));
+				return null;
+			}
+		}, null);
 
 		cyclicReferences = new CyclicReferences();
 
@@ -49,6 +57,31 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 		});
 
 		return cyclicReferences;
+	}
+
+	/**
+	 * Collect all free variables in specified expressions.
+	 * 
+	 * @param expr
+	 *            the expression to collect all free variables from.
+	 * @return the free variables used in the expression.
+	 */
+	public static Set<String> freeVariables(Expr expr) {
+		Set<String> variables;
+
+		variables = new HashSet<>();
+
+		expr.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+
+			@Override
+			public Void visit(VariableExpr node, Void v) {
+				variables.add(node.getVariableId());
+
+				return null;
+			}
+		}, null);
+
+		return variables;
 	}
 
 	private void add(CyclicReference cyclicReference) {
@@ -88,7 +121,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 			referenceMapById = new HashMap<>();
 		}
 
-		public void add(QLQuestionComputed question, FreeVariables variables) {
+		public void add(QLQuestionComputed question, Set<String> variables) {
 			Reference reference;
 
 			reference = getReference(question.getId());

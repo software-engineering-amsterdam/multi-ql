@@ -516,7 +516,7 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 	}
 
-	private static class DefaultUIWidgetFactory implements QLTypeVisitor<UIWidgetFactory> {
+	private static class DefaultUIWidgetFactory implements QLTypeVisitor<UIWidgetFactory, Void> {
 
 		/**
 		 * Returns the {@code UIWidgetFactory} for widgets of type {@code type}.
@@ -528,7 +528,7 @@ public class DefaultUISwingFactory implements UIFactory {
 		 *             if {@code type} is {@code null}.
 		 */
 		public static UIWidgetFactory get(QLType type) {
-			return type.accept(new DefaultUIWidgetFactory());
+			return type.accept(new DefaultUIWidgetFactory(), null);
 		}
 
 		private DefaultUIWidgetFactory() {
@@ -536,17 +536,17 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		public UIWidgetFactory visit(QLBooleanType type) {
+		public UIWidgetFactory visit(QLBooleanType type, Void context) {
 			return q -> new DefaultBooleanWidget(q);
 		}
 
 		@Override
-		public UIWidgetFactory visit(QLStringType type) {
+		public UIWidgetFactory visit(QLStringType type, Void context) {
 			return q -> new DefaultStringWidget(q);
 		}
 
 		@Override
-		public UIWidgetFactory visit(QLIntegerType type) {
+		public UIWidgetFactory visit(QLIntegerType type, Void context) {
 			return q -> new DefaultIntegerWidget(q);
 		}
 	}

@@ -10,8 +10,6 @@ public abstract class ASTNode {
 		sourceInfo = context == null ? SourceCodeInfo.NULL_OBJECT : new SourceCodeInfo(context);
 	}
 
-	public abstract <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context);
-
 	public final String getSourceLocation() {
 		return sourceInfo.toString();
 	}

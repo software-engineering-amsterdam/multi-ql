@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.uva.ql.CyclicReferences.CyclicReference;
 import org.uva.ql.QLSemanticAnalyser.SemanticMessage.Level;
+import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.ExprVisitor;
@@ -32,21 +33,18 @@ import org.uva.ql.ast.expr.rel.LessThanOrEquals;
 import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
 import org.uva.ql.ast.form.QLBlock;
-import org.uva.ql.ast.form.QLBlockVisitor;
 import org.uva.ql.ast.form.QLForm;
 import org.uva.ql.ast.form.QLFormVisitor;
 import org.uva.ql.ast.form.QLQuestionnaire;
-import org.uva.ql.ast.form.QLQuestionnaireVisitor;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
 import org.uva.ql.ast.literal.LiteralVisitor;
 import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.QLIFStatement;
-import org.uva.ql.ast.stat.QLIFStatementVisitor;
 import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.ast.stat.QLQuestionComputed;
 import org.uva.ql.ast.stat.QLQuestionInput;
-import org.uva.ql.ast.stat.QLQuestionVisitor;
+import org.uva.ql.ast.stat.QLStatementVisitor;
 import org.uva.ql.ast.type.QLType;
 
 public class QLSemanticAnalyser {
@@ -90,8 +88,20 @@ public class QLSemanticAnalyser {
 
 		qt = new QuestionTable();
 
-		ComputedQuestions.collect(questionnaire).forEach(q -> qt.add(q));
-		InputQuestions.collect(questionnaire).forEach(q -> qt.add(q));
+		questionnaire.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+
+			@Override
+			public Void visit(QLQuestionComputed node, Void context) {
+				qt.add(node);
+				return null;
+			}
+
+			@Override
+			public Void visit(QLQuestionInput node, Void context) {
+				qt.add(node);
+				return null;
+			}
+		}, null);
 
 		result = new SemanticErrors();
 
@@ -180,9 +190,7 @@ public class QLSemanticAnalyser {
 	}
 
 	private static class TypeCheckVisitor implements ExprVisitor<QLType, SymbolTable>, QLFormVisitor<Void, SymbolTable>,
-			QLIFStatementVisitor<Void, SymbolTable>, QLBlockVisitor<Void, SymbolTable>,
-			QLQuestionVisitor<QLType, SymbolTable>, LiteralVisitor<QLType, SymbolTable>,
-			QLQuestionnaireVisitor<SymbolTable> {
+			QLStatementVisitor<Void, SymbolTable>, LiteralVisitor<QLType, SymbolTable> {
 
 		private SemanticErrors result;
 
@@ -201,10 +209,12 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public void visit(QLQuestionnaire node, SymbolTable st) {
+		public Void visit(QLQuestionnaire node, SymbolTable st) {
 			for (QLForm form : node.getForms()) {
 				form.accept(this, st);
 			}
+
+			return null;
 		}
 
 		@Override
@@ -232,19 +242,20 @@ public class QLSemanticAnalyser {
 		public Void visit(QLIFStatement node, SymbolTable st) {
 			checkType(node.getExpr(), st, QLType.BOOLEAN);
 			node.getBody().accept(this, st);
+
 			return null;
 		}
 
 		@Override
-		public QLType visit(QLQuestionInput node, SymbolTable st) {
+		public Void visit(QLQuestionInput node, SymbolTable st) {
 			st.setType(node.getId(), node.getType());
-			return node.getType();
+			return null;
 		}
 
 		@Override
-		public QLType visit(QLQuestionComputed node, SymbolTable st) {
+		public Void visit(QLQuestionComputed node, SymbolTable st) {
 			st.setType(node.getId(), node.getType());
-			return node.getType();
+			return null;
 		}
 
 		@Override

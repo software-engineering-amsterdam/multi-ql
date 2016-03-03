@@ -4,36 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.ql.ast.form.QLBlock;
-import org.uva.ql.ast.form.QLBlockVisitor;
 import org.uva.ql.ast.form.QLForm;
 import org.uva.ql.ast.form.QLFormVisitor;
+import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.stat.QLIFStatement;
-import org.uva.ql.ast.stat.QLIFStatementVisitor;
 import org.uva.ql.ast.stat.QLQuestion;
 
-public class FormFactory implements QLFormVisitor<Form, Void>, QLIFStatementVisitor<List<Question>, QuestionConditions>,
-		QLBlockVisitor<List<Question>, QuestionConditions> {
+public class FormFactory implements QLFormVisitor<List<Question>, QuestionConditions> {
 
-	public static Form create(QLForm form) {
-		return form.accept(new FormFactory(), null);
-	}
-
-	private FormFactory() {
-
-	}
-
-	@Override
-	public Form visit(QLForm qlForm, Void context) {
+	public static Form create(QLForm qlForm) {
 		List<Question> questions;
 		Form form;
 
 		form = new Form(qlForm.getName());
 
-		questions = qlForm.getBody().accept(this, new QuestionConditions());
+		questions = qlForm.accept(new FormFactory(), null);
 
 		form.addAll(questions);
 
 		return form;
+	}
+
+	private FormFactory() {
+
 	}
 
 	@Override
@@ -53,19 +46,28 @@ public class FormFactory implements QLFormVisitor<Form, Void>, QLIFStatementVisi
 		}
 
 		for (QLIFStatement ifStat : node.getIfStatements()) {
-			questions.addAll(ifStat.accept(this, conditions));
+			QuestionConditions copy;
+
+			copy = conditions.copy();
+			copy.add(new QuestionCondition(ifStat.getExpr()));
+
+			questions.addAll(ifStat.getBody().accept(this, copy));
 		}
 
 		return questions;
 	}
 
 	@Override
-	public List<Question> visit(QLIFStatement ifStat, QuestionConditions conditions) {
-		QuestionConditions copy;
+	public List<Question> visit(QLForm form, QuestionConditions Context) {
+		List<Question> questions;
 
-		copy = conditions.copy();
-		copy.add(new QuestionCondition(ifStat.getExpr()));
+		questions = form.getBody().accept(new FormFactory(), new QuestionConditions());
 
-		return ifStat.getBody().accept(this, copy);
+		return questions;
+	}
+
+	@Override
+	public List<Question> visit(QLQuestionnaire node, QuestionConditions Context) {
+		return null;
 	}
 }

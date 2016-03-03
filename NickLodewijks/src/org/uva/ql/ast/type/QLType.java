@@ -13,5 +13,5 @@ public abstract class QLType extends ASTNode {
 		super(context);
 	}
 
-	public abstract <T> T accept(QLTypeVisitor<T> visitor);
+	public abstract <T, U> T accept(QLTypeVisitor<T, U> visitor, U context);
 }

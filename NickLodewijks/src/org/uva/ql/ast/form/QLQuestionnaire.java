@@ -13,7 +13,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.uva.ql.ast.ASTNode;
-import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.parser.QLLexer;
 import org.uva.ql.parser.QLParser;
 
@@ -30,13 +29,8 @@ public final class QLQuestionnaire extends ASTNode {
 		return Collections.unmodifiableList(forms);
 	}
 
-	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(QLFormVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
-	}
-
-	public <U> void accept(QLQuestionnaireVisitor<U> visitor, U context) {
-		visitor.visit(this, context);
 	}
 
 	public static QLQuestionnaire create(InputStream is) throws IOException {
