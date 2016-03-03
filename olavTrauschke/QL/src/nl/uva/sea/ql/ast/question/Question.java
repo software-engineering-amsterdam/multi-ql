@@ -55,12 +55,20 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * @return the <code>Label</code> to be displayed with <code>this Question</code>
+     * @return <code>theLabel</code> to be displayed with <code>this Question</code>
      */
     public Label getLabel() {
         return label;
     }
     
+    /**
+     * @return the <code>Expr</code> defining how to compute the value of
+     *          <code>this Question</code>, or <code>null</code> if it should be
+     *          answered by the user
+     */
+    public Expr getCalculation() {
+        return calculation;
+    }
     /**
      * Has the <code>identifier</code>, the <code>label</code> and the
      * <code>calculation</code> of <code>this Question accept v</code> and then
@@ -135,14 +143,9 @@ public abstract class Question extends ASTNode {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;//test
-        }
+        if (o == null || getClass() != o.getClass()) return false;
         
         Question other = (Question) o;
-        boolean identifiersEqual = identifier.equals(other.identifier);//test
-        boolean labelsEqual = label.equals(other.label);//test
-        boolean calculationsEqual = calculation == null ? other.calculation == null : calculation.equals(other.calculation);//test
         return identifier.equals(other.identifier)
                && label.equals(other.label)
                && (calculation == null ? other.calculation == null : calculation.equals(other.calculation));

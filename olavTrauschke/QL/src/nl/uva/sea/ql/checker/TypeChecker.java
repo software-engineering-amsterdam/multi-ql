@@ -3,7 +3,13 @@ package nl.uva.sea.ql.checker;
 import java.util.*;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
+import nl.uva.sea.ql.ast.question.BooleanQuestion;
+import nl.uva.sea.ql.ast.question.DateQuestion;
+import nl.uva.sea.ql.ast.question.DecimalQuestion;
+import nl.uva.sea.ql.ast.question.IntQuestion;
+import nl.uva.sea.ql.ast.question.MoneyQuestion;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.ast.question.StringQuestion;
 
 /**
  * Visitor to check the types of objects in an AST.
@@ -55,14 +61,39 @@ public class TypeChecker implements ASTVisitor {
     @Override
     public void visit(ConditionalStatement s) {
         Expr condition = s.getCondition();
-        if (isBoolean(condition)) {
+        if (!isBoolean(condition)) {
             errors.add(NON_BOOLEAN_CONDITION_ERROR);
         }
     }
     
     @Override
-    public void visit(Question q) {
-        //TODO check that calculation is either null or boolean
+    public void visit(BooleanQuestion q) {
+        //TODO check calculation is null or boolean
+    }
+    
+    @Override
+    public void visit(DateQuestion q) {
+        //TODO check calculation is null or date
+    }
+    
+    @Override
+    public void visit(DecimalQuestion q) {
+        //TODO check calculation is null, decimal or int
+    }
+    
+    @Override
+    public void visit(IntQuestion q) {
+        //TODO check calculation is null or int
+    }
+    
+    @Override
+    public void visit(MoneyQuestion q) {
+        //TODO check calculation is null or money
+    }
+    
+    @Override
+    public void visit(StringQuestion q) {
+        //TODO check calculation is null or string
     }
     
     @Override
