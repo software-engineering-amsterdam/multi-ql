@@ -37,6 +37,10 @@ class QLVariableQuestion: QLQuestion, QLStatement {
     override func eval(context: QLContext) -> NSObject {
         return context.retrieve(self.identifier.id)
     }
+    
+    func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLComputedQuestion: QLQuestion, QLStatement {
@@ -50,6 +54,10 @@ class QLComputedQuestion: QLQuestion, QLStatement {
     
     override func eval(context: QLContext) -> NSObject {
         return expression.eval(context)
+    }
+    
+    func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {
+        return visitor.visit(self, param: param)
     }
 }
 
@@ -68,6 +76,10 @@ class QLConditional: QLStatement {
         }
         return false
     }
+    
+    func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLBlock: QLStatement {
@@ -75,5 +87,9 @@ class QLBlock: QLStatement {
     
     init (block: [QLStatement]) {
         self.block = block
+    }
+    
+    func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {
+        return visitor.visit(self, param: param)
     }
 }

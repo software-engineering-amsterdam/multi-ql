@@ -8,6 +8,12 @@
 
 import Foundation
 
+
+protocol QLExpressionVisitable {
+    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn
+}
+
+
 protocol QLExpressionVisitor {
     typealias QLExpressionVisitorParam
     typealias QLExpressionVisitorReturn
@@ -29,32 +35,4 @@ protocol QLExpressionVisitor {
     func visit(node: QLOr, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLNot, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLLiteralExpression, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
-}
-
-protocol QLExpressionVisitable {
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn
-}
-
-extension QLVariable {
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
-        return visitor.visit(self, param: param)
-    }
-}
-
-extension QLLiteralExpression {
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
-        return visitor.visit(self, param: param)
-    }
-}
-
-extension QLNeg {
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
-        return visitor.visit(self, param: param)
-    }
-}
-
-extension QLNot {
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
-        return visitor.visit(self, param: param)
-    }
 }

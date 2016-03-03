@@ -22,6 +22,10 @@ class QLStringLiteral: QLLiteral {
     func eval(context: QLContext) -> NSObject {
         return string
     }
+    
+    func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLIntegerLiteral: QLLiteral {
@@ -34,6 +38,10 @@ class QLIntegerLiteral: QLLiteral {
     func eval(context: QLContext) -> NSObject {
         return integer
     }
+    
+    func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLBooleanLiteral: QLLiteral {
@@ -45,5 +53,9 @@ class QLBooleanLiteral: QLLiteral {
     
     func eval(context: QLContext) -> NSObject {
         return bool
+    }
+    
+    func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
+        return visitor.visit(self, param: param)
     }
 }

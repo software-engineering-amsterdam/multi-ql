@@ -13,25 +13,40 @@ protocol QLType: QLTypeVisitable {
     var defaultValue: NSObject { get }
 }
 
-//class QLIdentifierType: QLType {
-//}
-
 class QLBooleanType: QLType {
     let defaultValue: NSObject = true
+    
+    func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLIntegerType: QLType {
     let defaultValue: NSObject = 0
+    
+    func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLStringType: QLType {
     let defaultValue: NSObject = ""
+    
+    func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLUnknownType: QLType {
     let defaultValue: NSObject = NSNull()
+    
+    func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
+
+// MARK: - Equatable
 
 infix operator === { associativity left precedence 140 }
 func === (left: QLType, right: QLType) -> Bool {

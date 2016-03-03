@@ -23,6 +23,10 @@ class QLVariable: QLExpression {
     func eval(context: QLContext) -> NSObject {
         return context.retrieve(id)
     }
+    
+    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLLiteralExpression: QLExpression {
@@ -34,6 +38,10 @@ class QLLiteralExpression: QLExpression {
     
     func eval(context: QLContext) -> NSObject {
         return literal.eval(context)
+    }
+    
+    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
     }
 }
 
@@ -57,6 +65,10 @@ class QLNot: QLUnary, QLExpression {
     override func eval(context: QLContext) -> NSObject {
         return rhs.eval(context) == false
     }
+    
+    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
 }
 
 class QLNeg: QLUnary, QLExpression {
@@ -66,6 +78,10 @@ class QLNeg: QLUnary, QLExpression {
     
     override func eval(context: QLContext) -> NSObject {
         return rhs.eval(context) as! NSInteger * -1
+    }
+    
+    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        return visitor.visit(self, param: param)
     }
 }
 
