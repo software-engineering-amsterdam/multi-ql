@@ -18,6 +18,10 @@
 		E20B2B161C8874500096BA51 /* QLContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B141C8874500096BA51 /* QLContext.swift */; };
 		E20B2B181C8881C20096BA51 /* QLIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B171C8881C20096BA51 /* QLIdentifier.swift */; };
 		E20B2B191C8881C20096BA51 /* QLIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B171C8881C20096BA51 /* QLIdentifier.swift */; };
+		E20B2B211C888F660096BA51 /* QLLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B201C888F660096BA51 /* QLLiteral.swift */; };
+		E20B2B221C888F660096BA51 /* QLLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B201C888F660096BA51 /* QLLiteral.swift */; };
+		E20B2B241C8891080096BA51 /* QLLiteralVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */; };
+		E20B2B251C8891080096BA51 /* QLLiteralVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */; };
 		E21DC3EF1C6CE095005564FE /* ChooseFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3EE1C6CE095005564FE /* ChooseFormView.xib */; };
 		E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3F21C6CE127005564FE /* BaseViewController.swift */; };
 		E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3F61C6CE6C3005564FE /* FormViewController.swift */; };
@@ -150,6 +154,8 @@
 		E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpressionVisitor.swift; path = Src/Parser/AST/Visitors/QLExpressionVisitor.swift; sourceTree = "<group>"; };
 		E20B2B141C8874500096BA51 /* QLContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLContext.swift; path = Src/Parser/QLContext.swift; sourceTree = "<group>"; };
 		E20B2B171C8881C20096BA51 /* QLIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLIdentifier.swift; path = Src/Parser/AST/QLIdentifier.swift; sourceTree = "<group>"; };
+		E20B2B201C888F660096BA51 /* QLLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteral.swift; path = Src/Parser/AST/QLLiteral.swift; sourceTree = "<group>"; };
+		E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteralVisitor.swift; path = Src/Parser/AST/Visitors/QLLiteralVisitor.swift; sourceTree = "<group>"; };
 		E21DC3EE1C6CE095005564FE /* ChooseFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChooseFormView.xib; path = Views/ChooseFormView.xib; sourceTree = "<group>"; };
 		E21DC3F21C6CE127005564FE /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = Src/ViewControllers/BaseViewController.swift; sourceTree = "<group>"; };
 		E21DC3F61C6CE6C3005564FE /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewController.swift; path = Src/ViewControllers/FormViewController.swift; sourceTree = "<group>"; };
@@ -330,6 +336,7 @@
 				E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */,
 				E26CC92D1C6B8A260042B5FF /* QLForm.swift */,
 				E20B2B171C8881C20096BA51 /* QLIdentifier.swift */,
+				E20B2B201C888F660096BA51 /* QLLiteral.swift */,
 				E2FB4E031C8842DF00BDC988 /* QLNode.swift */,
 				E26CC92F1C6B8B030042B5FF /* QLStatement.swift */,
 				E2F0A2F91C75CE5900D0C1AB /* QLType.swift */,
@@ -569,6 +576,7 @@
 			isa = PBXGroup;
 			children = (
 				E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */,
+				E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */,
 				E20B2B071C884FD00096BA51 /* QLStatementVisitor.swift */,
 				E20B2B0B1C884FEF0096BA51 /* QLTypeVisitor.swift */,
 			);
@@ -774,11 +782,13 @@
 				E26CC9341C6B8B030042B5FF /* QLStatement.swift in Sources */,
 				E26CC93A1C6B8C8C0042B5FF /* QLExpression.swift in Sources */,
 				E2FB4E041C8842DF00BDC988 /* QLNode.swift in Sources */,
+				E20B2B241C8891080096BA51 /* QLLiteralVisitor.swift in Sources */,
 				E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */,
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
 				E2360B7C1C7DA50900DEA51A /* FormViewBuilder.swift in Sources */,
 				E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */,
 				E2C8DA001C761D8C005F1C41 /* BooleanWidget.swift in Sources */,
+				E20B2B211C888F660096BA51 /* QLLiteral.swift in Sources */,
 				E2C8DA021C761D8C005F1C41 /* IntegerWidget.swift in Sources */,
 				E2C8DA031C761D8C005F1C41 /* TextWidget.swift in Sources */,
 				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
@@ -834,8 +844,10 @@
 				E2270DB91C73C22800E5FC2A /* FormTests.swift in Sources */,
 				E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */,
 				E2D518AE1C700270008030C4 /* Parser.swift in Sources */,
+				E20B2B251C8891080096BA51 /* QLLiteralVisitor.swift in Sources */,
 				E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */,
 				E20B2B191C8881C20096BA51 /* QLIdentifier.swift in Sources */,
+				E20B2B221C888F660096BA51 /* QLLiteral.swift in Sources */,
 				E2D518AA1C700252008030C4 /* QLStatement.swift in Sources */,
 				E21F69111C747CBE00EB9E09 /* Utils.swift in Sources */,
 				E20B2B131C8851950096BA51 /* QLExpressionVisitor.swift in Sources */,

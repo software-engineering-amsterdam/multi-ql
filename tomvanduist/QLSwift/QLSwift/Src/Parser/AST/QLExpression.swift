@@ -25,39 +25,15 @@ class QLVariable: QLExpression {
     }
 }
 
-class QLStringLiteral: QLExpression {
-    let string: String
+class QLLiteralExpression: QLExpression {
+    let literal: QLLiteral
     
-    init(string: String) {
-        self.string = string
+    init(literal: QLLiteral) {
+        self.literal = literal
     }
     
     func eval(context: QLContext) -> NSObject {
-        return string
-    }
-}
-
-class QLIntegerLiteral: QLExpression {
-    let integer: NSInteger
-    
-    init(integer: NSInteger) {
-        self.integer = integer
-    }
-    
-    func eval(context: QLContext) -> NSObject {
-        return integer
-    }
-}
-
-class QLBooleanLiteral: QLExpression {
-    let bool: Bool
-    
-    init (bool: Bool) {
-        self.bool = bool
-    }
-    
-    func eval(context: QLContext) -> NSObject {
-        return bool
+        return literal.eval(context)
     }
 }
 

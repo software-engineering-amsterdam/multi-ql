@@ -12,13 +12,15 @@ protocol SemanticAnalyzer {
     func analyze(form: QLForm) throws -> (QLForm, [SemanticWarning])
 }
 
-class DefaultSemanticAnalyzer: SemanticAnalyzer, QLStatementVisitor, QLExpressionVisitor, QLTypeVisitor {
+class DefaultSemanticAnalyzer: SemanticAnalyzer, QLStatementVisitor, QLExpressionVisitor, QLLiteralVisitor, QLTypeVisitor {
     
     typealias QLStatementVisitorParam   = Void?
     typealias QLExpressionVisitorParam  = Void?
+    typealias QLLiteralVisitorParam     = Void?
     typealias QLTypeVisitorParam        = Void?
     typealias QLStatementVisitorReturn  = Void
     typealias QLExpressionVisitorReturn = QLType
+    typealias QLLiteralVisitorReturn    = QLType
     typealias QLTypeVisitorReturn       = QLType
     
     private var symbolTable: SymbolTable = SymbolTable()
@@ -101,16 +103,8 @@ extension DefaultSemanticAnalyzer {
         return type
     }
     
-    func visit(node: QLIntegerLiteral, param: Void?) -> QLType {
-        return QLIntegerType()
-    }
-    
-    func visit(node: QLStringLiteral, param: Void?) -> QLType {
-        return QLStringType()
-    }
-    
-    func visit(node: QLBooleanLiteral, param: Void?) -> QLType {
-        return QLBooleanType()
+    func visit(node: QLLiteralExpression, param: Void?) -> QLType {
+        return node.literal.accept(self, param: param)
     }
     
     func collectUnaryTypeError(node: QLUnary) {
@@ -118,7 +112,7 @@ extension DefaultSemanticAnalyzer {
     }
     
     func visit(node: QLNeg, param: Void?) -> QLType {
-        if (node.rhs.accept(self, param: nil) !== QLIntegerType.self) {
+        if (node.rhs.accept(self, param: param) !== QLIntegerType.self) {
             collectUnaryTypeError(node)
         }
         
@@ -126,7 +120,7 @@ extension DefaultSemanticAnalyzer {
     }
     
     func visit(node: QLNot, param: Void?) -> QLType {
-        if (node.rhs.accept(self, param: nil) !== QLBooleanType.self) {
+        if (node.rhs.accept(self, param: param) !== QLBooleanType.self) {
             collectUnaryTypeError(node)
         }
         
@@ -219,6 +213,24 @@ extension DefaultSemanticAnalyzer {
     
     func visit(node: QLOr, param: Void?) -> QLType {
         return visitBinaryBool(node)
+    }
+}
+
+
+// MARK: - QLLiteralVisitor conformance 
+
+extension DefaultSemanticAnalyzer {
+    
+    func visit(node: QLIntegerLiteral, param: Void?) -> QLType {
+        return QLIntegerType()
+    }
+    
+    func visit(node: QLStringLiteral, param: Void?) -> QLType {
+        return QLStringType()
+    }
+    
+    func visit(node: QLBooleanLiteral, param: Void?) -> QLType {
+        return QLBooleanType()
     }
 }
 

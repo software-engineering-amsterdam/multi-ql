@@ -13,9 +13,6 @@ protocol QLExpressionVisitor {
     typealias QLExpressionVisitorReturn
     
     func visit(node: QLVariable, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
-    func visit(node: QLStringLiteral, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
-    func visit(node: QLIntegerLiteral, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
-    func visit(node: QLBooleanLiteral, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLNeg, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLAdd, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLSub, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
@@ -31,6 +28,7 @@ protocol QLExpressionVisitor {
     func visit(node: QLAnd, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLOr, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLNot, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
+    func visit(node: QLLiteralExpression, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
 }
 
 protocol QLExpressionVisitable {
@@ -43,19 +41,7 @@ extension QLVariable {
     }
 }
 
-extension QLStringLiteral {
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
-        return visitor.visit(self, param: param)
-    }
-}
-
-extension QLIntegerLiteral {
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
-        return visitor.visit(self, param: param)
-    }
-}
-
-extension QLBooleanLiteral {
+extension QLLiteralExpression {
     func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }

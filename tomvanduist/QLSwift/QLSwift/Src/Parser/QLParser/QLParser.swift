@@ -96,22 +96,10 @@ extension QLParser {
         let openingParen = StringParser.character("(")
         let closingParen = StringParser.character(")")
         
+        
         // Recursive definition of simple expression
-        let expr: GenericParser<String, (), QLExpression> = GenericParser.recursive {
-            (expr: GenericParser<String, (), QLExpression>) in
-            
-            let boolLit: GenericParser<String, (), QLExpression> =
-                lexer.symbol("true") *> GenericParser(result: QLBooleanLiteral(bool: true)) <|>
-                lexer.symbol("false") *> GenericParser(result: QLBooleanLiteral(bool: false))
-            let stringLit: GenericParser<String, (), QLExpression> =
-                lexer.stringLiteral.map{ s in QLStringLiteral(string: s) }
-            let intLit: GenericParser<String, (), QLExpression> =
-                lexer.integer.map { i in QLIntegerLiteral(integer: i) }
-            let literal: GenericParser<String, (), QLExpression> =
-                boolLit <|> stringLit <|> intLit
-            
-            return variable() <|> literal
-        }
+        let expr: GenericParser<String, (), QLExpression> =
+            variable() <|> literalExpr()
         
         // Expression between ( )
         let precExpr: GenericParser<String, (), QLExpression> =
@@ -132,6 +120,24 @@ extension QLParser {
         // Attempt to find normal' operator table first, '<=' operator table last
         // Using .attempt will ignore errors when '<' is exptected but '<=' is found, last expr will pick that up
         return lexer.whiteSpace *> (_expr.attempt <|> _expr0)
+    }
+    
+    private func literalExpr() -> GenericParser<String, (), QLExpression> {
+        return literal().map { qLiteral in
+            QLLiteralExpression(literal: qLiteral)
+        }
+    }
+    
+    private func literal() -> GenericParser<String, (), QLLiteral> {
+        let boolLit: GenericParser<String, (), QLLiteral> =
+            lexer.symbol("true") *> GenericParser(result: QLBooleanLiteral(bool: true)) <|>
+            lexer.symbol("false") *> GenericParser(result: QLBooleanLiteral(bool: false))
+        let stringLit: GenericParser<String, (), QLLiteral> =
+            lexer.stringLiteral.map{ s in QLStringLiteral(string: s) }
+        let intLit: GenericParser<String, (), QLLiteral> =
+            lexer.integer.map { i in QLIntegerLiteral(integer: i) }
+        
+        return boolLit <|> stringLit <|> intLit
     }
     
     private func type() -> GenericParser<String, (), QLType> {
