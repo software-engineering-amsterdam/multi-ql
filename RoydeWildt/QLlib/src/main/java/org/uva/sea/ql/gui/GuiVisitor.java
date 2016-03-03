@@ -1,21 +1,28 @@
 package org.uva.sea.ql.gui;
 
-import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.gui.widget.CheckboxWidget;
+import org.uva.sea.ql.gui.widget.CheckBoxWidget;
+import org.uva.sea.ql.gui.widget.MoneyFieldWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +58,7 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setHgrow(Priority.ALWAYS);
         col1.setHalignment(HPos.LEFT);
-        col1.setMaxWidth(600);
+        col1.setPrefWidth(300);
 
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setHalignment(HPos.RIGHT);
@@ -72,28 +79,51 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
 
     @Override
     public Parent visit(Int val, Question parent) {
-        return new TextField();
+        MoneyFieldWidget f = new MoneyFieldWidget(parent);
+        f.setAlignment(Pos.BASELINE_RIGHT);
+        f.setText(val.getValue().toString());
+        f.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.booleanValue()){
+                handleMoneyFieldAction(f);
+            }
+        });
+        return f;
     }
 
     @Override
     public Parent visit(Bool val, Question parent) {
-        CheckboxWidget b = new CheckboxWidget(parent);
+        CheckBoxWidget b = new CheckBoxWidget(parent);
         b.setSelected(val.getValue());
         b.setOnAction(this::handleCheckBoxAction);
         return b;
     }
 
-    private void handleCheckBoxAction(ActionEvent event) {
-        CheckboxWidget b = (CheckboxWidget) event.getSource();
-        Question parent = b.getParentQuestion();
-
-        Question update = new Question(parent.getLine(),
-                parent.getLabel(),
-                parent.getVarname(),
-                parent.getType(),
-                new Primary(new Bool(b.isSelected())));
-
+    private void handleMoneyFieldAction(MoneyFieldWidget f) {
+        Question parent = f.getParentQuestion();
+        Expr newExpr = new Primary(new Int(
+                parent.getExpr().getLine(),
+                f.getText()));
+        Question update = updateQuestionExpr(parent, newExpr);
         this.symbolTable.put(parent.getVarname(), update);
+
+    }
+
+    private void handleCheckBoxAction(ActionEvent actionEvent) {
+        CheckBoxWidget b = (CheckBoxWidget) actionEvent.getSource();
+        Question parent = b.getParentQuestion();
+        Expr newExpr = new Primary(new Bool(
+                        b.isSelected()));
+        Question update = updateQuestionExpr(parent, newExpr);
+        this.symbolTable.put(parent.getVarname(), update);
+    }
+
+    private Question updateQuestionExpr(Question q, Expr e){
+        Question update = new Question(q.getLine(),
+                q.getLabel(),
+                q.getVarname(),
+                q.getType(),
+                e);
+        return update;
     }
 
     public List<Parent> getUiElements() {

@@ -41,7 +41,7 @@ public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
         else {
             expr = stat.getExpr();
         }
-        
+
         Expr computedValue = expr.accept(this,symbolTable);
 
         Question computedQuestion = new Question(stat.getLine(),
