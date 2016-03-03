@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.util.testing.new2;
+
+public class IntType2 extends TypeObject {
+
+    @Override
+    public IntType getType() {
+	return this;
+    }
+
+}

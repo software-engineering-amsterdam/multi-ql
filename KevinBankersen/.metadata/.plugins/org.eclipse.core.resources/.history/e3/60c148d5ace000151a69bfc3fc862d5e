@@ -1,0 +1,5 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+public class IntegerType {
+
+}

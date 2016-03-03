@@ -1,0 +1,12 @@
+package eu.bankersen.kevin.ql.util.testing.new2;
+
+public class Testting {
+
+    public static void main(String[] args) {
+	TypeObject stringA = new StringType();
+	
+	
+
+    }
+
+}

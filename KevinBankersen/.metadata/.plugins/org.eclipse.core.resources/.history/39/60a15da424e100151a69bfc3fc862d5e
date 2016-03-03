@@ -1,0 +1,7 @@
+package eu.bankersen.kevin.ql.util.testing.new2;
+
+public class TypeObject {
+    
+    abstract TypeObject getType()
+
+}

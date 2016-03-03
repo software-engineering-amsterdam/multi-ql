@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.util.testing.new1;
+
+public class Testing {
+
+    public static void main(String[] args) {
+	TypeObject intA = new IntType();
+	TypeObject moneyA = new MoneyType();
+	
+	System.out.println(testType(intA.getType()));
+
+    }
+    
+    private void testType(IntType a) {
+	System.out.println("Integer");
+    }
+
+    private void testType(MoneyType a) {
+	System.out.println("Money");
+    }
+    
+    private void testType(TypeObject a) {
+	System.out.println("Money");
+    }
+    
+}
