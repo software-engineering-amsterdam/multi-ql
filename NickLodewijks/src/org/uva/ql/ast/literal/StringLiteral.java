@@ -13,4 +13,9 @@ public final class StringLiteral extends Literal<String> {
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
+
+	@Override
+	public <T, U> T accept(LiteralVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
 }

@@ -11,14 +11,16 @@ import java.util.Set;
 
 import org.uva.ql.CyclicReferences.CyclicReference;
 import org.uva.ql.QLSemanticAnalyser.SemanticMessage.Level;
-import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.expr.ExprVisitor;
 import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
 import org.uva.ql.ast.expr.math.Divide;
 import org.uva.ql.ast.expr.math.Multiply;
+import org.uva.ql.ast.expr.math.Negative;
+import org.uva.ql.ast.expr.math.Positive;
 import org.uva.ql.ast.expr.math.Subtract;
 import org.uva.ql.ast.expr.rel.And;
 import org.uva.ql.ast.expr.rel.Equals;
@@ -27,15 +29,24 @@ import org.uva.ql.ast.expr.rel.GreaterThan;
 import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
 import org.uva.ql.ast.expr.rel.LessThan;
 import org.uva.ql.ast.expr.rel.LessThanOrEquals;
+import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
 import org.uva.ql.ast.form.QLBlock;
+import org.uva.ql.ast.form.QLBlockVisitor;
 import org.uva.ql.ast.form.QLForm;
+import org.uva.ql.ast.form.QLFormVisitor;
 import org.uva.ql.ast.form.QLQuestionnaire;
+import org.uva.ql.ast.form.QLQuestionnaireVisitor;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
+import org.uva.ql.ast.literal.LiteralVisitor;
 import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.QLIFStatement;
+import org.uva.ql.ast.stat.QLIFStatementVisitor;
 import org.uva.ql.ast.stat.QLQuestion;
+import org.uva.ql.ast.stat.QLQuestionComputed;
+import org.uva.ql.ast.stat.QLQuestionInput;
+import org.uva.ql.ast.stat.QLQuestionVisitor;
 import org.uva.ql.ast.type.QLType;
 
 public class QLSemanticAnalyser {
@@ -168,7 +179,10 @@ public class QLSemanticAnalyser {
 		return result;
 	}
 
-	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<QLType, SymbolTable> {
+	private static class TypeCheckVisitor implements ExprVisitor<QLType, SymbolTable>, QLFormVisitor<Void, SymbolTable>,
+			QLIFStatementVisitor<Void, SymbolTable>, QLBlockVisitor<Void, SymbolTable>,
+			QLQuestionVisitor<QLType, SymbolTable>, LiteralVisitor<QLType, SymbolTable>,
+			QLQuestionnaireVisitor<SymbolTable> {
 
 		private SemanticErrors result;
 
@@ -187,22 +201,20 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public QLType visit(QLQuestionnaire node, SymbolTable st) {
+		public void visit(QLQuestionnaire node, SymbolTable st) {
 			for (QLForm form : node.getForms()) {
 				form.accept(this, st);
 			}
-
-			return null;
 		}
 
 		@Override
-		public QLType visit(QLForm node, SymbolTable st) {
+		public Void visit(QLForm node, SymbolTable st) {
 			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public QLType visit(QLBlock node, SymbolTable st) {
+		public Void visit(QLBlock node, SymbolTable st) {
 			// First traverse the questions, because they
 			// declare variables that can be used in the if statements.
 			for (QLQuestion question : node.getQuestions()) {
@@ -217,14 +229,20 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public QLType visit(QLIFStatement node, SymbolTable st) {
+		public Void visit(QLIFStatement node, SymbolTable st) {
 			checkType(node.getExpr(), st, QLType.BOOLEAN);
 			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public QLType visit(QLQuestion node, SymbolTable st) {
+		public QLType visit(QLQuestionInput node, SymbolTable st) {
+			st.setType(node.getId(), node.getType());
+			return node.getType();
+		}
+
+		@Override
+		public QLType visit(QLQuestionComputed node, SymbolTable st) {
 			st.setType(node.getId(), node.getType());
 			return node.getType();
 		}
@@ -265,6 +283,18 @@ public class QLSemanticAnalyser {
 
 		// Arithmetic operations
 		@Override
+		public QLType visit(Negative node, SymbolTable st) {
+			checkType(node, st, QLType.INTEGER);
+			return QLType.INTEGER;
+		}
+
+		@Override
+		public QLType visit(Positive node, SymbolTable st) {
+			checkType(node, st, QLType.INTEGER);
+			return QLType.INTEGER;
+		}
+
+		@Override
 		public QLType visit(Add node, SymbolTable st) {
 			checkOperands(node, st, QLType.INTEGER);
 			return QLType.INTEGER;
@@ -291,15 +321,11 @@ public class QLSemanticAnalyser {
 		// Equality relations
 		@Override
 		public QLType visit(Equals node, SymbolTable st) {
-			Expr lhs;
 			QLType lhsType;
 			QLType rhsType;
-			Expr rhs;
 
-			lhs = node.left();
-			lhsType = lhs.accept(this, st);
-			rhs = node.right();
-			rhsType = rhs.accept(this, st);
+			lhsType = node.left().accept(this, st);
+			rhsType = node.right().accept(this, st);
 			if (!lhsType.equals(rhsType)) {
 				result.add(new OperandTypeMismatch(node, lhsType, rhsType));
 			}
@@ -309,15 +335,11 @@ public class QLSemanticAnalyser {
 
 		@Override
 		public QLType visit(EqualsNot node, SymbolTable st) {
-			Expr lhs;
 			QLType lhsType;
 			QLType rhsType;
-			Expr rhs;
 
-			lhs = node.left();
-			lhsType = lhs.accept(this, st);
-			rhs = node.right();
-			rhsType = rhs.accept(this, st);
+			lhsType = node.left().accept(this, st);
+			rhsType = node.right().accept(this, st);
 			if (!lhsType.equals(rhsType)) {
 				result.add(new OperandTypeMismatch(node, lhsType, rhsType));
 			}
@@ -360,6 +382,12 @@ public class QLSemanticAnalyser {
 		@Override
 		public QLType visit(Or node, SymbolTable st) {
 			checkOperands(node, st, QLType.BOOLEAN);
+			return QLType.BOOLEAN;
+		}
+
+		@Override
+		public QLType visit(Not node, SymbolTable st) {
+			checkType(node, st, QLType.BOOLEAN);
 			return QLType.BOOLEAN;
 		}
 

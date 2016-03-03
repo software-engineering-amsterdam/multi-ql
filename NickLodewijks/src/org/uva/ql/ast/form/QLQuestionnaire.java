@@ -17,7 +17,7 @@ import org.uva.ql.ast.ASTNodeVisitor;
 import org.uva.ql.parser.QLLexer;
 import org.uva.ql.parser.QLParser;
 
-public class QLQuestionnaire extends ASTNode {
+public final class QLQuestionnaire extends ASTNode {
 
 	private final List<QLForm> forms;
 
@@ -33,6 +33,10 @@ public class QLQuestionnaire extends ASTNode {
 	@Override
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
+	}
+
+	public <U> void accept(QLQuestionnaireVisitor<U> visitor, U context) {
+		visitor.visit(this, context);
 	}
 
 	public static QLQuestionnaire create(InputStream is) throws IOException {

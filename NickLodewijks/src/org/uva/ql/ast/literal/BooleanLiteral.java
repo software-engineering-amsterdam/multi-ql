@@ -13,4 +13,9 @@ public final class BooleanLiteral extends Literal<Boolean> {
 	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
+
+	@Override
+	public <T, U> T accept(LiteralVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
 }
