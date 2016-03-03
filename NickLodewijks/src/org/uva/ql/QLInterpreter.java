@@ -2,7 +2,6 @@ package org.uva.ql;
 
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.ExprVisitor;
-import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
 import org.uva.ql.ast.expr.math.Divide;
@@ -19,6 +18,9 @@ import org.uva.ql.ast.expr.rel.LessThan;
 import org.uva.ql.ast.expr.rel.LessThanOrEquals;
 import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
+import org.uva.ql.ast.literal.BooleanLiteral;
+import org.uva.ql.ast.literal.IntegerLiteral;
+import org.uva.ql.ast.literal.StringLiteral;
 
 public class QLInterpreter implements ExprVisitor<Object, QLInterpreterContext> {
 
@@ -111,12 +113,22 @@ public class QLInterpreter implements ExprVisitor<Object, QLInterpreterContext> 
 	}
 
 	@Override
-	public Object visit(LiteralExpr node, QLInterpreterContext context) {
-		return node.getLiteral().getValue();
+	public Object visit(VariableExpr node, QLInterpreterContext context) {
+		return context.getValue(node.getVariableId());
 	}
 
 	@Override
-	public Object visit(VariableExpr node, QLInterpreterContext context) {
-		return context.getValue(node.getVariableId());
+	public Object visit(BooleanLiteral node, QLInterpreterContext context) {
+		return node.getValue();
+	}
+
+	@Override
+	public Object visit(IntegerLiteral node, QLInterpreterContext context) {
+		return node.getValue();
+	}
+
+	@Override
+	public Object visit(StringLiteral node, QLInterpreterContext context) {
+		return node.getValue();
 	}
 }

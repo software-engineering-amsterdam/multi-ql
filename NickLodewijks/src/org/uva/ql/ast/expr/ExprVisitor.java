@@ -15,6 +15,9 @@ import org.uva.ql.ast.expr.rel.LessThan;
 import org.uva.ql.ast.expr.rel.LessThanOrEquals;
 import org.uva.ql.ast.expr.rel.Not;
 import org.uva.ql.ast.expr.rel.Or;
+import org.uva.ql.ast.literal.BooleanLiteral;
+import org.uva.ql.ast.literal.IntegerLiteral;
+import org.uva.ql.ast.literal.StringLiteral;
 
 public interface ExprVisitor<T, U> {
 
@@ -42,8 +45,6 @@ public interface ExprVisitor<T, U> {
 
 	public T visit(And node, U context);
 
-	public T visit(LiteralExpr node, U context);
-
 	public T visit(Negative node, U context);
 
 	public T visit(Not node, U context);
@@ -51,5 +52,11 @@ public interface ExprVisitor<T, U> {
 	public T visit(Positive node, U context);
 
 	public T visit(VariableExpr node, U context);
+
+	public T visit(BooleanLiteral node, U context);
+
+	public T visit(IntegerLiteral node, U context);
+
+	public T visit(StringLiteral node, U context);
 
 }

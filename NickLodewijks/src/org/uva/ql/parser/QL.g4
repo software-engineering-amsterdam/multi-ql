@@ -100,12 +100,12 @@ unExpr returns [Expr result]
     ;    
     
 primary returns [Expr result]
-    : literal        { $result = new LiteralExpr($ctx, $literal.result); }
+    : literal        { $result = $literal.result; }
     | ID             { $result = new VariableExpr($ctx, $ID.text); }
     | '(' orExpr ')' { $result = $orExpr.result; }
     ;
     
-literal returns [Literal result]
+literal returns [Expr result]
     : INT   { $result = new IntegerLiteral($ctx, Integer.valueOf($INT.text)); }
     | STR   { $result = new StringLiteral($ctx, $STR.text); }
     | BOOL  { $result = new BooleanLiteral($ctx, Boolean.valueOf($BOOL.text)); }

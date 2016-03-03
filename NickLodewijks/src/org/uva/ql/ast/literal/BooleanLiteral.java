@@ -1,8 +1,10 @@
 package org.uva.ql.ast.literal;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.expr.ExprVisitor;
 
-public final class BooleanLiteral extends Literal {
+public final class BooleanLiteral extends Expr {
 
 	private final boolean value;
 
@@ -12,13 +14,12 @@ public final class BooleanLiteral extends Literal {
 		this.value = value;
 	}
 
-	@Override
-	public Object getValue() {
+	public Boolean getValue() {
 		return value;
 	}
 
 	@Override
-	public <T, U> T accept(LiteralVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 }

@@ -15,7 +15,6 @@ import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.ExprVisitor;
-import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
 import org.uva.ql.ast.expr.math.Divide;
@@ -38,7 +37,6 @@ import org.uva.ql.ast.form.QLFormVisitor;
 import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
-import org.uva.ql.ast.literal.LiteralVisitor;
 import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.QLIFStatement;
 import org.uva.ql.ast.stat.QLQuestion;
@@ -190,7 +188,7 @@ public class QLSemanticAnalyser {
 	}
 
 	private static class TypeCheckVisitor implements ExprVisitor<QLType, SymbolTable>, QLFormVisitor<Void, SymbolTable>,
-			QLStatementVisitor<Void, SymbolTable>, LiteralVisitor<QLType, SymbolTable> {
+			QLStatementVisitor<Void, SymbolTable> {
 
 		private SemanticErrors result;
 
@@ -256,11 +254,6 @@ public class QLSemanticAnalyser {
 		public Void visit(QLQuestionComputed node, SymbolTable st) {
 			st.setType(node.getId(), node.getType());
 			return null;
-		}
-
-		@Override
-		public QLType visit(LiteralExpr node, SymbolTable st) {
-			return node.getLiteral().accept(this, st);
 		}
 
 		@Override

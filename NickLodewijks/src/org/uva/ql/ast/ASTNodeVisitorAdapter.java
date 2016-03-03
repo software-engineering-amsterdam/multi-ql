@@ -2,7 +2,6 @@ package org.uva.ql.ast;
 
 import org.uva.ql.ast.expr.BinaryExpr;
 import org.uva.ql.ast.expr.ExprVisitor;
-import org.uva.ql.ast.expr.LiteralExpr;
 import org.uva.ql.ast.expr.UnaryExpr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.expr.math.Add;
@@ -26,7 +25,6 @@ import org.uva.ql.ast.form.QLFormVisitor;
 import org.uva.ql.ast.form.QLQuestionnaire;
 import org.uva.ql.ast.literal.BooleanLiteral;
 import org.uva.ql.ast.literal.IntegerLiteral;
-import org.uva.ql.ast.literal.LiteralVisitor;
 import org.uva.ql.ast.literal.StringLiteral;
 import org.uva.ql.ast.stat.QLIFStatement;
 import org.uva.ql.ast.stat.QLQuestion;
@@ -38,8 +36,8 @@ import org.uva.ql.ast.type.QLIntegerType;
 import org.uva.ql.ast.type.QLStringType;
 import org.uva.ql.ast.type.QLTypeVisitor;
 
-public class ASTNodeVisitorAdapter<T, U> implements ExprVisitor<T, U>, QLFormVisitor<T, U>, QLStatementVisitor<T, U>,
-		QLTypeVisitor<T, U>, LiteralVisitor<T, U> {
+public class ASTNodeVisitorAdapter<T, U>
+		implements ExprVisitor<T, U>, QLFormVisitor<T, U>, QLStatementVisitor<T, U>, QLTypeVisitor<T, U> {
 
 	public T visit(BinaryExpr node, U context) {
 		node.left().accept(this, context);
@@ -112,13 +110,6 @@ public class ASTNodeVisitorAdapter<T, U> implements ExprVisitor<T, U>, QLFormVis
 	@Override
 	public T visit(Or node, U context) {
 		return visit((BinaryExpr) node, context);
-	}
-
-	@Override
-	public T visit(LiteralExpr node, U context) {
-		node.getLiteral().accept(this, context);
-
-		return null;
 	}
 
 	@Override
