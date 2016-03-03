@@ -96,23 +96,20 @@ class ValueUpdater extends NodeVisitor {
 	visitFormNode(formNode, variables) {
 		return formNode.block.accept(this, variables);
 	}
-	visitBlock(blockNode, variables) {
+	visitBlockNode(blockNode, variables) {
 		return blockNode.statements.reduce((seed, statement) => seed || statement.accept(this, variables), false);
 	}
-	isIfConditionTrue(ifNode) {
-		return this.exprEvaluator.evaluate(ifNode.condition).equals(new values.BooleanValue(true));
+	isIfConditionTrue(ifNode, variables) {
+		return this.exprEvaluator.evaluate(ifNode.condition, variables).equals(new values.BooleanValue(true));
 	}
 	visitIfNode(ifNode, variables) {
-		if (this.isIfConditionTrue(ifNode)) {
+		if (this.isIfConditionTrue(ifNode, variables)) {
 			return ifNode.thenBlock.accept(this, variables);
 		}
 		return false;
 	}
 	visitIfElseNode(ifElseNode, variables) {
-		if (this.isIfConditionTrue(ifElseNode)) {
-			return ifElseNode.thenBlock.accept(this, variables);
-		}
-		return ifElseNode.elseBlock.accept(this, variables);
+		return this.isIfConditionTrue(ifElseNode, variables) ? ifElseNode.thenBlock.accept(this, variables) : ifElseNode.elseBlock.accept(this, variables);
 	}
 	visitQuestionNode(questionNode, variables) {
 		return false;
