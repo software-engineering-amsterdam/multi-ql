@@ -7,6 +7,7 @@ import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -17,6 +18,7 @@ import javafx.scene.text.Font;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.gui.widget.QuestionWidget;
 
 import java.util.*;
 
@@ -25,10 +27,10 @@ import java.util.*;
  */
 public class GuiBuilder{
     private Form form;
-    private AnchorPane rootPane;
+    private GridPane rootPane;
+    private VBox vbox;
 
     public GuiBuilder(Form form) {
-        this.rootPane = new AnchorPane();
         this.form = form;
 
         FormEvaluator evaluator = new FormEvaluator(this.form);
@@ -37,12 +39,11 @@ public class GuiBuilder{
 
         addFormListener(evaluator);
 
-        List<Parent> UIElements = visitor.getUiElements();
-        GridPane formUI = buildFormUI(form.getId(), UIElements);
-        this.rootPane.getChildren().add(formUI);
+        List<QuestionWidget> UIElements = visitor.getUiElements();
+        this.rootPane = buildFormUI(form.getId(), UIElements);
     }
 
-    private GridPane buildFormUI(String name, List<Parent> questions){
+    private GridPane buildFormUI(String name, List<QuestionWidget> questions){
         GridPane formUI = new GridPane();
         formUI.setPrefSize(500,600);
         formUI.setVgap(10);
@@ -54,7 +55,7 @@ public class GuiBuilder{
         label.setPadding(new Insets(10,0,5,20));
         formUI.add(label, 0, 0, 2, 1);
 
-        VBox vbox = new VBox();
+        vbox = new VBox();
         vbox.getChildren().addAll(questions);
         formUI.add(vbox, 0, 1);
 
@@ -64,20 +65,51 @@ public class GuiBuilder{
     private void addFormListener(FormEvaluator evaluator) {
 
         evaluator.getSymbolTable().addListener((MapChangeListener<Var,Question>) c -> {
-            System.out.println("Changed " + c.toString());
+            //System.out.println("Changed " + c.toString());
+            Question changedQuestion = c.getValueAdded();
 
             FormEvaluator fe = new FormEvaluator(this.form, (ObservableMap<Var, Question>) c.getMap());
             List<Question> questions = fe.getQuestions();
 
             GuiVisitor visitor = new GuiVisitor(questions, fe.getSymbolTable());
-            List<Parent> UIElements = visitor.getUiElements();
-            GridPane formUI = buildFormUI(this.form.getId(), UIElements);
-            this.rootPane.getChildren().clear();
-            this.rootPane.getChildren().add(formUI);
+            List<QuestionWidget> UIElements = visitor.getUiElements();
+            updateFormUI(changedQuestion, UIElements);
         });
     }
 
-    public AnchorPane getRootPane() {
+    public void updateFormUI(Question changedQuestion, List<QuestionWidget> UIElements){
+        QuestionWidget currentQuestionWidget = null;
+
+        //get question ui-element of changed question
+        for(Node n: this.vbox.getChildren()){
+            if (n instanceof QuestionWidget){
+                if(isQuestion((QuestionWidget) n, changedQuestion)){
+                    currentQuestionWidget = (QuestionWidget) n;
+                }
+            }
+        }
+
+        this.vbox.getChildren().clear();
+
+        //add ui-elements except for the changed question (to keep it focused)
+        for(QuestionWidget qw : UIElements){
+            if(isQuestion(qw, changedQuestion)){
+                this.vbox.getChildren().add(currentQuestionWidget);
+            }
+            else {
+                this.vbox.getChildren().add(qw);
+            }
+        }
+    }
+
+    public boolean isQuestion(QuestionWidget p, Question q){
+        if(p.getQuestion().getVarname().equals(q.getVarname())){
+            return true;
+        }
+        return false;
+    }
+
+    public GridPane getRootPane() {
         return rootPane;
     }
 

@@ -9,10 +9,10 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
@@ -23,6 +23,7 @@ import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.gui.widget.CheckBoxWidget;
 import org.uva.sea.ql.gui.widget.MoneyFieldWidget;
+import org.uva.sea.ql.gui.widget.QuestionWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,9 @@ import java.util.List;
 /**
  * Created by roy on 25-2-16.
  */
-public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Question> {
+public class GuiVisitor extends BaseVisitor<Void, QuestionWidget, Void, Void, Control, Question> {
     private GridPane box;
-    private List<Parent> uiElements;
+    private List<QuestionWidget> uiElements;
     private List<Question> questions;
     private ObservableMap<Var, Question> symbolTable;
 
@@ -44,14 +45,14 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
         this.symbolTable = symbolTable;
 
         for (Question question : this.questions){
-            Parent UiElem = this.visit(question, null);
+            QuestionWidget UiElem = this.visit(question, null);
             uiElements.add(UiElem);
         }
     }
 
     @Override
-    public Parent visit(Question stat, Question parent) {
-        GridPane box = new GridPane();
+    public QuestionWidget visit(Question stat, Question parent) {
+        QuestionWidget box = new QuestionWidget(stat);
         box.setHgap(5);
         box.setPadding(new Insets(5,20,5,20));
 
@@ -78,7 +79,7 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
     }
 
     @Override
-    public Parent visit(Int val, Question parent) {
+    public Control visit(Int val, Question parent) {
         MoneyFieldWidget f = new MoneyFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
         f.setText(val.getValue().toString());
@@ -88,7 +89,7 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
     }
 
     @Override
-    public Parent visit(Bool val, Question parent) {
+    public Control visit(Bool val, Question parent) {
         CheckBoxWidget b = new CheckBoxWidget(parent, parent.isComputed());
         b.setSelected(val.getValue());
         b.setOnAction(this::handleCheckBoxAction);
@@ -119,11 +120,11 @@ public class GuiVisitor extends BaseVisitor<Void, Parent, Void, Void, Parent, Qu
                 q.getVarname(),
                 q.getType(),
                 e,
-                false);
+                q.isComputed());
         return update;
     }
 
-    public List<Parent> getUiElements() {
+    public List<QuestionWidget> getUiElements() {
         return uiElements;
     }
 }
