@@ -1,6 +1,9 @@
 import { BooleanValue, StringValue, IntegerValue, FloatValue, MoneyValue, UndefinedValue, ValueReceiver } from 'src/values';
 
 class Evaluator extends ValueReceiver {
+	evaluate(value, ...args) {
+		return value.dispatch(this, ...args);
+	}
 	receiveType() {
 		return new UndefinedValue();
 	}
@@ -276,7 +279,7 @@ export class EqualEvaluator extends Evaluator {
 
 class PrimitiveEqualEvaluator extends BooleanEvaluator {
 	receivePrimitive(primitiveValue) {
-		return new BooleanValue(this.primitiveValue.value === primitiveValue.value); // strict equality here is enough. Javascript makes no distinction between integers and floats, but we allow them to be equal
+		return new BooleanValue(this.primitiveValue.value === primitiveValue.value); // strict equality here is enough. Javascript makes no distinction between integers and floats and we allow them to be equal as well
 	}
 }
 
