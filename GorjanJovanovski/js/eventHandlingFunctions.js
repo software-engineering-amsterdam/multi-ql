@@ -3,10 +3,10 @@ function goToLine(line) {
 	editor.gotoLine(line);
 }
 
-function registerQuestionChangeListeners(ast) {
+function registerQuestionChangeListeners(ast, environment) {
 	$("input").change(function () {
 		notifyListeners($(this), ast);
-		refreshGUI(ast);
+		refreshGUI(ast, environment);
 	});
 }
 
@@ -15,7 +15,7 @@ function notifyListeners(element, ast) {
 	if (element.attr("type") === "checkbox") {
 		value = element.is(":checked");
 	}
-	ast.listener.notify(element.attr("name"), value);
+	ast.notify(element.attr("name"), value);
 }
 
 function setOnClickListeners(ast) {
