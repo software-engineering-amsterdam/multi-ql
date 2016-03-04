@@ -1,33 +1,31 @@
 package eu.bankersen.kevin.ql.ast.type;
 
-import eu.bankersen.kevin.ql.ast.Type;
-
-public class BooleanType extends TypeObject {
-
-    private final Type type = Type.BOOLEAN;
+public class BooleanType extends Type {
 
     @Override
-    public Type getType() {
-	return type;
-    }
-
-    @Override
-    public boolean compatible(TypeObject typeObject) {
-	return sameType(typeObject);
+    public boolean isSimilar(Type type) {
+	return type instanceof BooleanType;
     }
     
     @Override
-    public Object parseValue(String value) {
-	switch (value.toLowerCase()) {
-	case "true" : return true;
-	case "false" : return false;
-	default : return Type.EMPTY;
-	}
+    public boolean isBoolean() {
+	return true;
     }
     
     @Override
-    public Object parseValue(Boolean value) {
+    public String toString() {
+	return "Boolean";
+    }
+    
+    @Override
+    public Boolean parseValue(String value) {
+	return value.equalsIgnoreCase("true");
+    }
+    
+    @Override
+    public Boolean parseValue(Boolean value) {
 	return value;
     }
+    
 
 }

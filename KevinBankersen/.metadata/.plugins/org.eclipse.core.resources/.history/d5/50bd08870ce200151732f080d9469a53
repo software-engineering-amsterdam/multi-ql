@@ -1,0 +1,57 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import eu.bankersen.kevin.ql.ast.Variable;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.QLVisitor;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+
+public abstract class Question extends Statement {
+
+    private final Variable variable;
+    private final Boolean computed;
+    private final String text;
+    private Object value;
+
+    public Question(Boolean computed, Variable variable, String text) {
+	this.variable = variable;
+	this.text = text.substring(1, text.length() - 1);
+	this.computed = computed;
+    }
+
+    public String getText() {
+	return text;
+    }
+
+    public Context checkType(Context context) {
+	return variable.checkType(context, text, computed);
+    }
+
+    public Type getType() {
+	return variable.getType();
+    }
+    
+    public String getName() {
+	return variable.getName();
+    }
+    
+    public SymbolTable visible(SymbolTable symbolTable, Boolean visible) {
+	symbolTable.setVisibility(this.getName(), visible);
+	return symbolTable;
+    }
+    
+    @Override
+    public Context visible(Context context, Boolean visible) {
+	context.setVisibility(this.getName(), visible);
+	return context;
+    }
+    
+    public SymbolTable evalStatement(SymbolTable symbolTable) {
+	return variable.eval(symbolTable);
+    }
+    
+    @Override
+    public void accept(QLVisitor visitor) {
+	visitor.visit(this);
+    }
+}

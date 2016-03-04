@@ -10,7 +10,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.ast.type.Type;
 import eu.bankersen.kevin.ql.context.Symbol;
 import eu.bankersen.kevin.ql.context.SymbolTable;
 
@@ -30,8 +30,10 @@ public class RadioButtonWidget implements Widget {
 	widgetListeners = new ArrayList<>();
 
 	trueToggle = new JRadioButton("True");
+	trueToggle.setEnabled(!data.isComputed());
 	falseToggle = new JRadioButton("False");
-
+	falseToggle.setEnabled(!data.isComputed());
+	
 	ButtonGroup group = new ButtonGroup();
 	group.add(trueToggle);
 	group.add(falseToggle);
@@ -39,7 +41,7 @@ public class RadioButtonWidget implements Widget {
 	ActionListener toggleListerner =  new ActionListener() {	
 	    public void actionPerformed(ActionEvent actionEvent) {
 		AbstractButton aButton = (AbstractButton) actionEvent.getSource();
-		widgetUpdate(returnValue(aButton.getText()));
+		widgetUpdate(type.parseValue(aButton.getText()));
 	    }
 	};
 
@@ -48,15 +50,6 @@ public class RadioButtonWidget implements Widget {
 
 	panel.add(trueToggle);
 	panel.add(falseToggle);
-    }
-
-    private Object returnValue(String text) {
-
-	if (type.equals(Type.BOOLEAN)) {
-	    return Boolean.valueOf(text);
-	} else {
-	    return text;
-	}
     }
 
     @Override
@@ -68,15 +61,13 @@ public class RadioButtonWidget implements Widget {
     public void dataUpdate(SymbolTable symbolTable) {
 	Symbol data = symbolTable.getSymbol(name);
 
-	if (data.getValue().equals(true)) {
-	    trueToggle.setSelected(true);
-	} else if (data.getValue().equals(false)) {
-	    falseToggle.setSelected(true);
+	if (data.getValue() != null) {
+	    if (data.getValue().equals(true)) {
+		trueToggle.setSelected(true);
+	    } else if (data.getValue().equals(false)) {
+		falseToggle.setSelected(true);
+	    }
 	}
-
-	// Update the view.
-	RadioButtonWidget.this.panel.revalidate();
-	RadioButtonWidget.this.panel.repaint();
     }
     @Override
     public void widgetUpdate(Object value) {

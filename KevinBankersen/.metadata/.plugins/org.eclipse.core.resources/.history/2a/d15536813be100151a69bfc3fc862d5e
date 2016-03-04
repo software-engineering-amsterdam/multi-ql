@@ -1,0 +1,15 @@
+package eu.bankersen.kevin.ql.util.test;
+
+public class StringType extends Type {
+
+    @Override
+    public boolean sameType(Type type) {
+	return type instanceof StringType;
+    }
+
+    @Override
+    public boolean isCompatible(Type type) {
+	return sameType(type);
+    }
+
+}

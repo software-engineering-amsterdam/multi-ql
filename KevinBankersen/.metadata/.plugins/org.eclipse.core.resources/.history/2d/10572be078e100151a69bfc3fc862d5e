@@ -1,0 +1,32 @@
+form schoolDuration { 
+  "Do you live in Europe?"
+  european boolean 
+  
+  if(european == Trailing){
+  
+  	"What is your name?"
+  	name string
+  	
+  	"How old are you now?"
+  	age integer
+  	
+  	"How old were you when you started school?"
+  	startSchool integer
+  	
+  	"You have studied this many years: "
+  	startAge integer = (age - startSchool)
+  	
+	  	if(startAge >= 20){
+	  		"You studied longer than most other students"
+	  		longest boolean = true
+	  	}
+  	}
+  	
+
+  "This question is placed here to be used for testing, as you can see it's a really annoyingly long question, don't you agree? Or do you think this question is not so long?"
+  Trailing boolean
+  
+   "This question is much shorter"
+  Trailing2 boolean
+ 
+}

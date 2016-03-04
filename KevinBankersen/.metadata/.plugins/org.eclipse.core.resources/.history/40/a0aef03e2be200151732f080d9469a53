@@ -1,0 +1,33 @@
+package eu.bankersen.kevin.ql.context;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.context.errors.ContextBuildException;
+import eu.bankersen.kevin.ql.oldcode.BuildSymbolTableVisitor;
+import eu.bankersen.kevin.ql.symbol_table.SymbolTableBuilder;
+
+public class TypeChecker {
+    
+    private final Context context;
+    private final Form form;
+    
+    public TypeChecker(Form form) throws ContextBuildException {
+	
+	SymbolTableBuilder builder = new SymbolTableBuilder();
+	
+	form.buildSymbolTable(builder);
+	
+	this.context = form.checkType();
+	this.form = form;
+	
+	context.analyzeDependancies();
+	
+	if (context.getErrors().size() > 0) {
+	    throw new ContextBuildException(context.getErrors());
+	}
+    }
+    
+    public SymbolTable getSymbolTable() {
+	return form.evalForm(context.getSymbolTable());
+    }
+
+}

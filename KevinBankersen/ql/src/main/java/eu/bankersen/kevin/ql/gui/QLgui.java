@@ -77,7 +77,8 @@ public class QLgui extends JFrame implements DataListener, ViewListener {
 	bottomPanel.add(next, BorderLayout.EAST);
 	bottomPanel.add(back, BorderLayout.WEST);
 
-	mainpanel.add(bottomPanel, BorderLayout.SOUTH);
+	// Keep bottom panel out for now, needed for card-layout
+	//mainpanel.add(bottomPanel, BorderLayout.SOUTH);
 	
 	try {
 	    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");

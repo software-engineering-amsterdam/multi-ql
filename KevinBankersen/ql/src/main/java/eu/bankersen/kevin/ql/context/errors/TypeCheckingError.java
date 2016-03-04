@@ -11,7 +11,7 @@ public abstract class TypeCheckingError {
     }
     
     public String toString() {
-	return "Line " + line + "; " + message;
+	return line == 0 ? message : "Line " + line + "; " + message;
     }
     
 }

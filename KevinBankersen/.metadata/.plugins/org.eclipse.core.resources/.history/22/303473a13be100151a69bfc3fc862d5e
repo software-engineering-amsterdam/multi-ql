@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.util.test;
+
+public abstract class Type {
+    
+    @Override
+    public abstract boolean equals(Object type);
+    
+    public abstract boolean isCompatible(Type type);
+
+}

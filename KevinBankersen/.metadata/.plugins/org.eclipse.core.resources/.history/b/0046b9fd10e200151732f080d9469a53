@@ -1,0 +1,30 @@
+package eu.bankersen.kevin.ql.ast.expr.math;
+
+import java.math.BigDecimal;
+
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.NumberExpr;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.QLVisitor;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+
+public class Mul extends NumberExpr {
+
+    public Mul(final Expr lhs, final Expr rhs,  final int line) {
+	super(lhs, rhs, line);
+    }
+
+    @Override
+    public final BigDecimal eval(SymbolTable symbolTable) throws EvaluateExeption {
+	return ((BigDecimal) lhs().eval(symbolTable)).multiply((BigDecimal) rhs().eval(symbolTable));
+    }
+    
+    @Override
+    public Context checkType(Context context) {
+
+	return context.evaluate(this);
+    }
+
+
+}

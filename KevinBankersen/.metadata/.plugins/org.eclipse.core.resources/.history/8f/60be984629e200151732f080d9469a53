@@ -1,0 +1,47 @@
+package eu.bankersen.kevin.ql.symbol_table;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import eu.bankersen.kevin.ql.ast.Identifier;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.stat.Question;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.Symbol;
+
+public class SymbolTableBuilder {
+
+    private final Map<String, List<Symbol>> symbolTable;
+
+    public SymbolTableBuilder() {
+	symbolTable = new LinkedHashMap<>();
+    }
+
+    public Map<String, List<Symbol>> getSymbolTable() {
+	return symbolTable;
+    }
+
+    private void addSymbol(Boolean computed, String name, String question, Type type) {
+	Symbol symbol = new Symbol(computed, name, question, type, null);
+	List<Symbol> tempList;
+	if (symbolTable.containsKey(name)) {
+	    tempList = symbolTable.get(name);
+	    tempList.add(symbol);
+	} else {
+	    tempList = new ArrayList<>();
+	    tempList.add(symbol);
+	}
+	symbolTable.put(name, tempList);
+    }
+
+    public SymbolTableBuilder construct(Question data) {
+	addSymbol(data.isComputed(), data.getName(), data.getText(), data.getType());
+
+	System.out.println(symbolTable.get(data.getName()).get(0).getQuestion()); //For debugging.
+
+	return this;
+    }
+
+}
