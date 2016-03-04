@@ -9,7 +9,22 @@
 import Foundation
 
 
-class SemanticAnalyzer: QLStatementVisitor, QLExpressionVisitor, QLLiteralVisitor, QLTypeVisitor {
+class SemanticAnalyzer {
+    
+    func analyze(form: QLForm) throws -> [SemanticWarning] {
+        var warnings: [SemanticWarning] = []
+        
+        try warnings += TypeChecker().run(form)
+        
+        
+        return warnings
+    }
+}
+
+
+// MARK: - TypeChecker
+
+private class TypeChecker: QLStatementVisitor, QLExpressionVisitor, QLLiteralVisitor, QLTypeVisitor {
     
     typealias QLStatementVisitorParam   = Void?
     typealias QLExpressionVisitorParam  = Void?
@@ -25,25 +40,26 @@ class SemanticAnalyzer: QLStatementVisitor, QLExpressionVisitor, QLLiteralVisito
     private var warnings: [SemanticWarning] = []
     
     
-    func analyze(form: QLForm) throws -> (QLForm, [SemanticWarning]) {
+    func run(form: QLForm) throws -> [SemanticWarning] {
         defer {
             resetInternals()
         }
         
-        form.block.accept(self, param: nil)
+        self.visit(form.block, param: nil)
         
         if errors.isEmpty {
-            return (form, warnings)
+            return warnings
         } else {
             throw SemanticErrorCollection(errors: errors)
         }
     }
+    
 }
 
 
-// MARK: - QLStatementVisitor conformance
+// MARK: TypeChecker - QLStatementVisitor conformance
 
-extension SemanticAnalyzer {
+extension TypeChecker {
 
     func visit(node: QLVariableQuestion, param: Void?) -> Void {
         do {
@@ -88,9 +104,9 @@ extension SemanticAnalyzer {
 }
 
 
-// MARK: - QLExpressionVisitor conformance
+// MARK: TypeChecker - QLExpressionVisitor conformance
 
-extension SemanticAnalyzer {
+extension TypeChecker {
 
     func visit(node: QLVariable, param: Void?) -> QLType {
         guard let type = symbolTable.retrieveType(node.id)
@@ -213,9 +229,9 @@ extension SemanticAnalyzer {
 }
 
 
-// MARK: - QLLiteralVisitor conformance 
+// MARK: TypeChecker - QLLiteralVisitor conformance
 
-extension SemanticAnalyzer {
+extension TypeChecker {
     
     func visit(node: QLIntegerLiteral, param: Void?) -> QLType {
         return QLIntegerType()
@@ -231,9 +247,9 @@ extension SemanticAnalyzer {
 }
 
 
-// MARK: - QLTypeVisitor conformance
+// MARK: TypeChecker - QLTypeVisitor conformance
 
-extension SemanticAnalyzer {
+extension TypeChecker {
     
     func visit(node: QLIntegerType, param: Void?) -> QLType {
         return node
@@ -253,9 +269,9 @@ extension SemanticAnalyzer {
 }
 
 
-// MARK: - Private methods
+// MARK: TypeChecker - Private methods
 
-extension SemanticAnalyzer {
+extension TypeChecker {
     
     private func resetInternals() {
         symbolTable = SymbolTable()
@@ -275,3 +291,4 @@ extension SemanticAnalyzer {
         self.warnings.append(warning)
     }
 }
+

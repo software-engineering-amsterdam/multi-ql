@@ -88,7 +88,7 @@
                   moduleName = "QLSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/ViewControllers/ChooseFormViewController.swift"
-                  timestampString = "478793566.539305"
+                  timestampString = "478794744.499625"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "27"
@@ -103,7 +103,7 @@
                   moduleName = "QLSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/ViewControllers/ChooseFormViewController.swift"
-                  timestampString = "478793566.539429"
+                  timestampString = "478794744.499819"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
@@ -120,13 +120,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
-            timestampString = "478793075.667216"
+            timestampString = "478794743.479725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
             landmarkName = "collectError(_:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QLSwift.(TypeChecker in _2FAAF08FED4935EB1B0C7AEA8EB7924A).collectError (QLSwift.(TypeChecker in _2FAAF08FED4935EB1B0C7AEA8EB7924A))(Swift.ErrorType) -&gt; ()"
+                  moduleName = "QLSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
+                  timestampString = "478794744.500902"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "292"
+                  endingLineNumber = "292"
+                  offsetFromSymbolStart = "19">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QLSwiftTests.(TypeChecker in _7B7F0C7FB1AEB54784E871412B9505CA).collectError (QLSwiftTests.(TypeChecker in _7B7F0C7FB1AEB54784E871412B9505CA))(Swift.ErrorType) -&gt; ()"
+                  moduleName = "QLSwiftTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
+                  timestampString = "478794749.163968"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "292"
+                  endingLineNumber = "292"
+                  offsetFromSymbolStart = "19">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -136,13 +168,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
-            timestampString = "478793076.691671"
+            timestampString = "478794743.479725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "collectError(_:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QLSwift.(TypeChecker in _2FAAF08FED4935EB1B0C7AEA8EB7924A).collectError (QLSwift.(TypeChecker in _2FAAF08FED4935EB1B0C7AEA8EB7924A))(QLSwift.SemanticError) -&gt; ()"
+                  moduleName = "QLSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
+                  timestampString = "478794744.501558"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "288"
+                  endingLineNumber = "288"
+                  offsetFromSymbolStart = "19">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QLSwiftTests.(TypeChecker in _7B7F0C7FB1AEB54784E871412B9505CA).collectError (QLSwiftTests.(TypeChecker in _7B7F0C7FB1AEB54784E871412B9505CA))(QLSwiftTests.SemanticError) -&gt; ()"
+                  moduleName = "QLSwiftTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
+                  timestampString = "478794749.16416"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "288"
+                  endingLineNumber = "288"
+                  offsetFromSymbolStart = "19">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
