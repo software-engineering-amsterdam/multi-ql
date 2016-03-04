@@ -92,11 +92,32 @@ public class Ident extends Expr {
      *          <code>true</code> or does not map <code>this Ident</code> at all
      *          (to prevent unnecessary error messages)
      */
+    @Override
     public boolean isInt(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
         Question q = questionTypes.get(this);
         return q.isInt();
+    }
+    
+    /**
+     * Returns whether <code>this Ident</code> represents a money value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Ident</code>
+     *                      might be to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return <code>true</code> if and only if <code>questionTypes</code>
+     *          maps <code>this Ident</code> to a <code>Question</code> for which
+     *          {@link nl.uva.sea.ql.ast.question.Question#isMoney() isMoney()}
+     *          returns <code>true</code> or does not map <code>this Ident</code>
+     *          at all (to prevent unnecessary error messages)
+     */
+    @Override
+    public boolean isMoney(Map<Ident,Question> questionTypes) {
+        if (!questionTypes.containsKey(this)) return true;
+        
+        Question q = questionTypes.get(this);
+        return q.isMoney();
     }
     
     /**

@@ -26,6 +26,7 @@ public class Add extends Expr {
     private final Expr secondExpr;
     private boolean isDecimal;
     private boolean isInt;
+    private boolean isMoney;
     
     /**
      * Constructor for objects of class <code>Add</code>.
@@ -69,11 +70,22 @@ public class Add extends Expr {
      * @param questionTypes a <code>Map</code> from each <code>Ident this Add</code>
      *                      might contain to a <code>Question</code> with that
      *                      <code>Ident</code>
-     * @return whether <code>this add</code> was set to represent an integer value
+     * @return whether <code>this Add</code> was set to represent an integer value
      */
     @Override
     public boolean isInt(Map<Ident,Question> questionTypes) {
         return isInt;
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Add</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this Add</code> was set to represent a money value
+     */
+    @Override
+    public boolean isMoney(Map<Ident,Question> questionTypes) {
+        return isMoney;
     }
     
     /**
@@ -93,6 +105,15 @@ public class Add extends Expr {
      */
     public void setIsInt(boolean newValue) {
         isInt = newValue;
+    }
+    
+    /**
+     * Set whether <code>this Add</code> repersents a money value.
+     * 
+     * @param newValue whether or not <code>this Add</code> represents a money value
+     */
+    public void setIsMoney(boolean newValue) {
+        isMoney = newValue;
     }
     
     /**

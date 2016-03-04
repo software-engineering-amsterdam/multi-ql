@@ -52,6 +52,19 @@ public abstract class Expr extends ASTNode {
     }
     
     /**
+     * Returns whether <code>this Expr</code> represents a money value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Expr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses representing money
+     */
+    public boolean isMoney(Map<Ident,Question> questionTypes) {
+        return false;
+    }
+    
+    /**
      * Compares <code>this Expr</code> to another <code>Object</code>.
      * Implemented to force subclasses to overwrite
      * {@link java.lang.Object#equals(java.lang.Object) Object.equals(Object)},

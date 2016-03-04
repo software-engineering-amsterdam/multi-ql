@@ -27,6 +27,7 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     private final Expr secondExpr;
     private boolean isDecimal;
     private boolean isInt;
+    private boolean isMoney;
     
     /**
      * Constructor for objects of class <code>BinaryNumericOperatorExpr</code>.
@@ -84,6 +85,19 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     }
     
     /**
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this BinaryNumericOperatorExpr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this BinaryNumericOperatorExpr</code> was set to
+     *          represent a money value
+     */
+    @Override
+    public boolean isMoney(Map<Ident,Question> questionTypes) {
+        return isMoney;
+    }
+    
+    /**
      * Set whether <code>this BinaryNumericOperatorExpr</code> represents a
      * decimal value.
      * 
@@ -95,9 +109,9 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     }
     
     /**
-     * Set whether <code>this BinaryNumericOperatorExpr</code> represents an
-     * int value and set that <code>this BinaryNumericOperatorExpr</code>
-     * represents a decimal value when the <code>newValue</code> is <code>true</code>
+     * Set whether <code>this BinaryNumericOperatorExpr</code> represents an int
+     * value and set that <code>this BinaryNumericOperatorExpr</code> represents
+     * a decimal value when the <code>newValue</code> is <code>true</code>
      * (because an integer value is decimal by definition).
      * N.B. <code>isDecimal</code> is NOT set when <code>newValue</code> is
      * <code>false</code> because a non-integer value could still be decimal.
@@ -107,6 +121,17 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
      */
     public void setIsInt(boolean newValue) {
         isInt = newValue;
+    }
+    
+    /**
+     * Set whether <code>this BinaryNumericOperatorExpr</code> represents a money
+     * value.
+     * 
+     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
+     *                  reprsents a money value
+     */
+    public void setIsMoney(boolean newValue) {
+        isMoney = newValue;
     }
     
     /**

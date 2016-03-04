@@ -34,6 +34,11 @@ public class TypeChecker implements ASTVisitor {
     public static final String INT = "int";
     
     /**
+     * Description of the type money.
+     */
+    public static final String MONEY = "money";
+    
+    /**
      * Error presented to the user when a <code>ConditionalStatement</code> has
      * a non-boolean condition.
      */
@@ -136,9 +141,18 @@ public class TypeChecker implements ASTVisitor {
         }
     }
     
+    /**
+     * Add an error if a <code>MoneyQuestion</code> with a non-money
+     * <code>calculation</code> was found.
+     * 
+     * @param q the <code>MoneyQuestion</code> to check
+     */
     @Override
     public void visit(MoneyQuestion q) {
-        //TODO check calculation is null or money
+        Expr calculation = q.getCalculation();
+        if (calculation != null && !isMoney(calculation)) {
+            addQuestionTypeError(MONEY);
+        }
     }
     
     @Override
@@ -190,8 +204,6 @@ public class TypeChecker implements ASTVisitor {
      * @param e the <code>Expr</code> to check
      * @return <code>true</code> if and only if
      *          <code>e.isBoolean(questionTypes)</code> returns <code>true</code>
-     *          or <code>e</code> is an <code>Ident</code> that refers to a
-     *          <code>Question</code> for which this is the case
      */
     private boolean isBoolean(Expr e) {
         return e.isBoolean(questionTypes);
@@ -202,15 +214,32 @@ public class TypeChecker implements ASTVisitor {
      * 
      * @param e the <code>Expr</code> to check
      * @return <code>true</code> if and only if <code>e.isDecimal(questionTypes</code>
-     *          returns <code>true</code> or <code>e</code> is an <code>ident</code>
-     *          that refers to a <code>Question</code> for which this is the case
+     *          returns <code>true</code>
      */
     private boolean isDecimal(Expr e) {
         return e.isDecimal(questionTypes);
     }
     
+    /**
+     * Checks whether an <code>Expr</code> has an integer value.
+     * 
+     * @param e the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>e.isInt(questionTypes)</code>
+     *          returns <code>true</code>
+     */
     private boolean isInt(Expr e) {
         return e.isInt(questionTypes);
+    }
+    
+    /**
+     * Checks whether an <code>Expr</code> has a money value.
+     * 
+     * @param e the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>e.isMoney(questionTypes)</code>
+     *          returns <code>true</code>
+     */
+    private boolean isMoney(Expr e) {
+        return e.isMoney(questionTypes);
     }
     
     /**

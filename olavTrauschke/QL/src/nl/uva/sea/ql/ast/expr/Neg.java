@@ -66,6 +66,17 @@ public class Neg extends NumericExpr {
     }
     
     /**
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this Neg</code> might contain to a
+     *                      <code>Question</code> with that <code>Ident</code>
+     * @return whether <code>thisNeg</code> represents a money value
+     */
+    @Override
+    public boolean isMoney(Map<Ident,Question> questionTypes) {
+        return content.isMoney(questionTypes);
+    }
+    
+    /**
      * Compares <code>this Neg</code> to another <code>Object</code>. A
      * <code>Neg</code> is considered equal only to other objects of the same
      * class as <code>this Neg</code>, for which <code>theContent</code>
