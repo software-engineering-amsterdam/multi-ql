@@ -29,8 +29,11 @@ class ChooseFormViewController: BaseViewController {
                 })
             }
         }
+        catch let error as SemanticErrorCollection {
+            displayErrors(error)
+        }
         catch let error as SemanticError {
-            print(error)
+            print("\(error)")
             displayErrors(error)
         }
         catch let error {
@@ -41,6 +44,10 @@ class ChooseFormViewController: BaseViewController {
     
     private func displayForm(form: QLForm) {
         self.navigationController?.pushViewController(FormViewController(form: form), animated: true)
+    }
+    
+    private func displayErrors(error: SemanticErrorCollection) {
+        showAlerts(arg: error.errors, confirmBlock: nil)
     }
     
     private func displayErrors(error: SemanticError) {
@@ -75,21 +82,28 @@ extension ChooseFormViewController {
 // MARK: - Alerts
 
 extension ChooseFormViewController {
-    private func showAlerts(arg error: SemanticError, confirmBlock: (() -> Void)? = nil) -> Bool {
-        if case SemanticError.None = error {
-            return false
-        }
+    private func showAlerts(arg errors: [SemanticError], confirmBlock: (() -> Void)? = nil) -> Bool {
+        let errorMessages: [String] = errors.map { "\($0)" }
         
-        switch error {
-            case .Collection(let errors): return showAlerts("Error", message: errors.map { "\($0)" }, cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
-            default: return showAlert("Error", message: "\(error)", cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
-        }
+        return showAlerts("Error", message: errorMessages, cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
+    }
+    
+    private func showAlerts(arg error: SemanticError, confirmBlock: (() -> Void)? = nil) -> Bool {
+        return showAlerts(arg: [error], confirmBlock: confirmBlock)
+//        iXf case SemanticError.None = error {
+//            return false
+//        }
+//        
+//        switch error {
+//            case .Collection(let errors): return showAlerts("Error", message: errors.map { "\($0)" }, cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
+//            default: return showAlert("Error", message: "'\(error)'", cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
+//        }
     }
     
     private func showAlerts(arg warnings: [SemanticWarning], cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
         let warningMessages: [String] = warnings.map { "\($0)" }
         
-        return showAlerts("warning", message: warningMessages, cancelButton: "Cancel", confirmButton: "Continue", cancelBlock: cancelBlock, confirmBlock: confirmBlock)
+        return showAlerts("Warning", message: warningMessages, cancelButton: "Cancel", confirmButton: "Continue", cancelBlock: cancelBlock, confirmBlock: confirmBlock)
     }
     
     private func showAlerts(arg warning: SemanticWarning, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {

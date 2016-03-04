@@ -8,35 +8,43 @@
 
 import Foundation
 
-enum SemanticError: ErrorType {
-    case Collection(errors: [SemanticError])
-    case TypeMismatch(description: String)
-    case NotDefined(description: String)
-    case Generic(description: String)
-    case System(error: ErrorType)
-    case None
-}
 
-extension SemanticError {
-    mutating func collect(error: ErrorType) {
-        if let error = error as? SemanticError {
-            switch self {
-            case .None: self = error
-            default: self = SemanticError.Collection(errors: self.errors + error.errors)
-            }
-        } else {
-            self = SemanticError.System(error: error)
-        }
+// MARK: - Semantic Error
+
+class SemanticError: NSObject, ErrorType {
+    private let _description: String
+    
+    init(description: String) {
+        self._description = description
     }
     
-    var errors: [SemanticError] {
-        switch self {
-            case .Collection(let errors): return errors
-            case .None: return []
-            default: return [self]
-        }
+    override var description: String {
+        return _description
     }
 }
+
+class TypeMismatchError: SemanticError {
+}
+
+class UndefinedVariableError: SemanticError {
+}
+
+class SystemError: SemanticError {
+    init(error: ErrorType) {
+        super.init(description: "\(error)")
+    }
+}
+
+class SemanticErrorCollection: NSObject, ErrorType {
+    let errors: [SemanticError]
+    
+    init(errors: [SemanticError]) {
+        self.errors = errors
+    }
+}
+
+
+// MARK: - Semantic Warning
 
 class SemanticWarning: NSObject, ErrorType {
     private let _description: String

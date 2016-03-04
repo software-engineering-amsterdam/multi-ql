@@ -21,20 +21,21 @@ class SemanticAnalyzer: QLStatementVisitor, QLExpressionVisitor, QLLiteralVisito
     typealias QLTypeVisitorReturn       = QLType
     
     private var symbolTable: SymbolTable = SymbolTable()
-    private var error: SemanticError = SemanticError.None
+    private var errors: [SemanticError] = []
     private var warnings: [SemanticWarning] = []
     
     
     func analyze(form: QLForm) throws -> (QLForm, [SemanticWarning]) {
-        symbolTable = SymbolTable()
-        error = SemanticError.None
+        defer {
+            resetInternals()
+        }
         
         form.block.accept(self, param: nil)
         
-        if case SemanticError.None = error {
+        if errors.isEmpty {
             return (form, warnings)
         } else {
-            throw error
+            throw SemanticErrorCollection(errors: errors)
         }
     }
 }
@@ -50,7 +51,7 @@ extension SemanticAnalyzer {
         } catch let warning as SemanticWarning {
             self.warnings.append(warning)
         } catch let e {
-            error.collect(e)
+            collectError(e)
         }
     }
     
@@ -60,7 +61,7 @@ extension SemanticAnalyzer {
         } catch let warning as SemanticWarning {
             self.warnings.append(warning)
         } catch let e {
-            error.collect(e)
+            collectError(e)
         }
     }
     
@@ -69,7 +70,7 @@ extension SemanticAnalyzer {
         node.ifBlock.accept(self, param: param)
         
         if (node.condition.accept(self, param: nil) !== QLBooleanType.self) {
-            error.collect(SemanticError.TypeMismatch(description: "If statement condition must be of type Bool: \(node.condition.toString())"))
+            collectError(TypeMismatchError(description: "If statement condition must be of type Bool: \(node.condition.toString())"))
         }
     }
     
@@ -103,7 +104,7 @@ extension SemanticAnalyzer {
     }
     
     func collectUnaryTypeError(node: QLUnary) {
-        error.collect(SemanticError.TypeMismatch(description: "Unary operator '\(node.toString())' cannot be applied to operand of type '\(node.rhs.toString())'!"))
+        collectError(TypeMismatchError(description: "Unary operator '\(node.toString())' cannot be applied to operand of type '\(node.rhs.toString())'!"))
     }
     
     func visit(node: QLNeg, param: Void?) -> QLType {
@@ -123,7 +124,7 @@ extension SemanticAnalyzer {
     }
     
     func collectBinaryTypeError(node: QLBinary) {
-        self.error.collect(SemanticError.TypeMismatch(description: "Binary operator '\(node.toString())' cannot be applied to operands of type '\(node.lhs.toString())' and '\(node.rhs.toString())'!"))
+        collectError(TypeMismatchError(description: "Binary operator '\(node.toString())' cannot be applied to operands of type '\(node.lhs.toString())' and '\(node.rhs.toString())'!"))
     }
 
     func visitBinaryNumber(node: QLBinary) -> QLType {
@@ -248,5 +249,29 @@ extension SemanticAnalyzer {
     
     func visit(node: QLUnknownType, param: Void?) -> QLType {
         return node
+    }
+}
+
+
+// MARK: - Private methods
+
+extension SemanticAnalyzer {
+    
+    private func resetInternals() {
+        symbolTable = SymbolTable()
+        errors = []
+        warnings = []
+    }
+    
+    private func collectError(error: SemanticError) {
+        self.errors.append(error)
+    }
+    
+    private func collectError(error: ErrorType) {
+        self.errors.append(SystemError(error: error))
+    }
+    
+    private func collectWarning(warning: SemanticWarning) {
+        self.warnings.append(warning)
     }
 }

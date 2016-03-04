@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/ViewControllers/ChooseFormViewController.swift"
-            timestampString = "478713956.8465"
+            timestampString = "478793408.719833"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "showAlerts(arg:confirmBlock:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/ViewControllers/ChooseFormViewController.swift"
-            timestampString = "478713956.8465"
+            timestampString = "478793408.719833"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "showForm(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/ViewControllers/ChooseFormViewController.swift"
-            timestampString = "478713956.8465"
+            timestampString = "478793408.719833"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "showForm(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -88,7 +88,7 @@
                   moduleName = "QLSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/ViewControllers/ChooseFormViewController.swift"
-                  timestampString = "478715673.616668"
+                  timestampString = "478793566.539305"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "27"
@@ -103,7 +103,7 @@
                   moduleName = "QLSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/ViewControllers/ChooseFormViewController.swift"
-                  timestampString = "478715673.616776"
+                  timestampString = "478793566.539429"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
@@ -120,12 +120,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
-            timestampString = "478715673.5735"
+            timestampString = "478793075.667216"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "visit(_:param:)"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "collectError(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -136,12 +136,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift"
-            timestampString = "478715673.5735"
+            timestampString = "478793076.691671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "visit(_:param:)"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
+            landmarkName = "collectError(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

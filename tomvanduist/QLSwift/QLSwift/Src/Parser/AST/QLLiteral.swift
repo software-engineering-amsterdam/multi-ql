@@ -20,7 +20,7 @@ class QLStringLiteral: QLLiteral {
     }
     
     func toString() -> String {
-        return "\"\(string)\""
+        return "String"
     }
     
     func eval(context: QLContext) -> NSObject {
@@ -60,7 +60,7 @@ class QLBooleanLiteral: QLLiteral {
     }
     
     func toString() -> String {
-        return bool ? "true" : "false"
+        return "Bool"
     }
     
     func eval(context: QLContext) -> NSObject {
