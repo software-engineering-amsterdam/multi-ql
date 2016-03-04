@@ -23,6 +23,6 @@ protocol FormLayout {
 }
 
 class DefaultFormLayout: FormLayout {
-    let questionLayout: Layout = Layout(margin: UIEdgeInsetsMake(20.0, y: 20.0))
-    let widgetLayout: Layout = Layout(margin: UIEdgeInsetsMake(20.0, y: 20.0))
+    let questionLayout: Layout = Layout(margin: UIEdgeInsets(top: 20, left: 20, bottom: -10, right: -20))
+    let widgetLayout: Layout = Layout(margin: UIEdgeInsets(top: 10, left: 20, bottom: -20, right: -20))
 }

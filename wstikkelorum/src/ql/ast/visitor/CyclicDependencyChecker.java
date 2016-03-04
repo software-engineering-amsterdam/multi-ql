@@ -2,13 +2,11 @@ package ql.ast.visitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import ql.ast.expression.VariableExpression;
 import ql.ast.statement.ComputedQuestion;
+import ql.issue.CyclicDependency;
 
 public class CyclicDependencyChecker<T> extends BasicVisitor<T>{
 	private HashMap<String, List<String>> direcltyDependentOn;
@@ -42,40 +40,33 @@ public class CyclicDependencyChecker<T> extends BasicVisitor<T>{
 	
 	private void addDependencyToQuestion(VariableExpression variableExpression){
 		List<String> currentDependencies = direcltyDependentOn.get(currentQuestionIdentifier);
+		//No duplicate identifiers in the dependency list
 		if(!currentDependencies.contains(variableExpression.getIdentifier())){
 			currentDependencies.add(variableExpression.getIdentifier());
 			direcltyDependentOn.put(currentQuestionIdentifier, currentDependencies);
 		}
 	}
 	
-	public void findCyclicDependencies(){
-		Iterator iterator = direcltyDependentOn.entrySet().iterator();
-		while(iterator.hasNext()){
-			Map.Entry<String, List<String>> currentQuestion = (Entry<String, List<String>>) iterator.next();
-			recursiveDepencyCheck(currentQuestion.getKey(), currentQuestion.getKey());
-		}
+	public void findCyclicDependencies(){		
+		direcltyDependentOn.forEach((identifier, dependencies) -> recursiveDepencyCheck(identifier, identifier));
 	}
 	
-	private void recursiveDepencyCheck(String identifier, String original){
-		List<String> dependencies = getAllDependencies(identifier);
-		if(dependencies == null){
+	private void recursiveDepencyCheck(String currentIdentifier, String originalIdentifier){
+		List<String> dependenciesCurrentIdentifier = direcltyDependentOn.get(currentIdentifier);
+		
+		if(dependenciesCurrentIdentifier == null){
 			return;
 		}
 		
-		if(dependencies.contains(original)){
-			//TODO:add error to context
-			System.out.println(String.format("Cyclic between: %s and %s", original, identifier));
-			
+		if(dependenciesCurrentIdentifier.contains(originalIdentifier)){
+			context.addIssue(new CyclicDependency(originalIdentifier, currentIdentifier));
+//			System.out.println(String.format("Cyclic between: %s and %s!", originalIdentifier, currentIdentifier));
 			return;
 		}
 		
-		for(String d : dependencies){
-			recursiveDepencyCheck(d, original);
+		for(String dependency : dependenciesCurrentIdentifier){
+			recursiveDepencyCheck(dependency, originalIdentifier);
 		}
-	}
-	
-	private List<String> getAllDependencies(String identifier){
-		return direcltyDependentOn.get(identifier);
 	}
 	
 	public Context getContext(){

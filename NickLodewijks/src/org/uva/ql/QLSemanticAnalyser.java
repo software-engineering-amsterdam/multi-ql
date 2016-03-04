@@ -1,41 +1,45 @@
 package org.uva.ql;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.uva.ql.CyclicReferences.CyclicReference;
+import org.uva.ql.QLSemanticAnalyser.SemanticMessage.Level;
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.expr.Add;
+import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BinaryExpr;
+import org.uva.ql.ast.expr.BooleanLiteral;
+import org.uva.ql.ast.expr.Divide;
+import org.uva.ql.ast.expr.Equals;
+import org.uva.ql.ast.expr.EqualsNot;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.expr.LiteralExpr;
+import org.uva.ql.ast.expr.ExprVisitor;
+import org.uva.ql.ast.expr.GreaterThan;
+import org.uva.ql.ast.expr.GreaterThanOrEquals;
+import org.uva.ql.ast.expr.IntegerLiteral;
+import org.uva.ql.ast.expr.LessThan;
+import org.uva.ql.ast.expr.LessThanOrEquals;
+import org.uva.ql.ast.expr.Multiply;
+import org.uva.ql.ast.expr.Negative;
+import org.uva.ql.ast.expr.Not;
+import org.uva.ql.ast.expr.Or;
+import org.uva.ql.ast.expr.Positive;
+import org.uva.ql.ast.expr.StringLiteral;
+import org.uva.ql.ast.expr.Subtract;
 import org.uva.ql.ast.expr.VariableExpr;
-import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.expr.math.Divide;
-import org.uva.ql.ast.expr.math.Multiply;
-import org.uva.ql.ast.expr.math.Subtract;
-import org.uva.ql.ast.expr.rel.And;
-import org.uva.ql.ast.expr.rel.Equals;
-import org.uva.ql.ast.expr.rel.EqualsNot;
-import org.uva.ql.ast.expr.rel.GreaterThan;
-import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
-import org.uva.ql.ast.expr.rel.LessThan;
-import org.uva.ql.ast.expr.rel.LessThanOrEquals;
-import org.uva.ql.ast.expr.rel.Or;
 import org.uva.ql.ast.form.QLBlock;
 import org.uva.ql.ast.form.QLForm;
-import org.uva.ql.ast.form.QLQuestionnaire;
-import org.uva.ql.ast.literal.BooleanLiteral;
-import org.uva.ql.ast.literal.IntegerLiteral;
-import org.uva.ql.ast.literal.StringLiteral;
+import org.uva.ql.ast.form.QLFormVisitor;
 import org.uva.ql.ast.stat.QLIFStatement;
 import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.ast.stat.QLQuestionComputed;
+import org.uva.ql.ast.stat.QLQuestionInput;
+import org.uva.ql.ast.stat.QLStatementVisitor;
 import org.uva.ql.ast.type.QLType;
 
 public class QLSemanticAnalyser {
@@ -44,19 +48,20 @@ public class QLSemanticAnalyser {
 
 	}
 
-	public Result validate(QLQuestionnaire questionnaire) {
-		Result result;
+	public SemanticErrors validate(QLForm form) {
+		SemanticErrors result;
 
-		result = new Result();
+		result = new SemanticErrors();
 
-		result.addAll(validateTypes(questionnaire));
-		result.addAll(validateCyclicReferences(questionnaire));
+		result.addAll(validateQuestions(form));
+		result.addAll(validateTypes(form));
+		result.addAll(validateCyclicReferences(form));
 
 		return result;
 	}
 
 	/**
-	 * Validate the types in the {@code questionnaire}.
+	 * Validate the types in the {@code form}.
 	 * <p>
 	 * This will check for:
 	 * <li>Reference to undefined questions
@@ -65,11 +70,99 @@ public class QLSemanticAnalyser {
 	 * <li>Conditions that are not of the type boolean
 	 * <li>Operands of invalid type to operators</br>
 	 * 
-	 * @param questionnaire
-	 * @return a {@link Result} containing errors and warnings.
+	 * @param form
+	 * @return a {@link SemanticErrors} containing errors and warnings.
 	 */
-	public Result validateTypes(QLQuestionnaire questionnaire) {
-		return new TypeCheckVisitor().visit(questionnaire);
+	public SemanticErrors validateTypes(QLForm form) {
+		return new TypeCheckVisitor().visit(form);
+	}
+
+	public SemanticErrors validateQuestions(QLForm form) {
+		SemanticErrors result;
+		QuestionTable qt;
+
+		qt = new QuestionTable();
+
+		form.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+
+			@Override
+			public Void visit(QLQuestionComputed node, Void context) {
+				qt.add(node);
+				return null;
+			}
+
+			@Override
+			public Void visit(QLQuestionInput node, Void context) {
+				qt.add(node);
+				return null;
+			}
+		}, null);
+
+		result = new SemanticErrors();
+
+		for (String label : qt.getLabels()) {
+			if (qt.getByLabel(label).size() > 1) {
+				result.add(new DuplicateQuestionLabels(label, qt.getByLabel(label)));
+			}
+		}
+
+		for (String name : qt.getNames()) {
+			QLQuestion question;
+
+			if (qt.getByName(name).size() == 1) {
+				continue;
+			}
+
+			question = qt.getByName(name).get(0);
+			for (QLQuestion other : qt.getByName(name)) {
+
+				if (other.getType().equals(question.getType())) {
+					continue;
+				}
+
+				result.add(new DuplicateQuestionName(name, qt.getByName(name)));
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	private static class QuestionTable {
+
+		private final Map<String, List<QLQuestion>> nameToQuestion = new HashMap<>();
+		private final Map<String, List<QLQuestion>> labelToQuestion = new HashMap<>();
+
+		public QuestionTable() {
+			// TODO Auto-generated constructor stub
+		}
+
+		public void add(QLQuestion q) {
+			List<QLQuestion> nameToQuestionsList;
+			List<QLQuestion> labelToQuestionList;
+
+			labelToQuestionList = labelToQuestion.computeIfAbsent(q.getLabel(), f -> new ArrayList<>());
+			nameToQuestionsList = nameToQuestion.computeIfAbsent(q.getId(), f -> new ArrayList<>());
+
+			labelToQuestionList.add(q);
+			nameToQuestionsList.add(q);
+		}
+
+		public Set<String> getNames() {
+			return Collections.unmodifiableSet(nameToQuestion.keySet());
+		}
+
+		public List<QLQuestion> getByName(String name) {
+			return Collections.unmodifiableList(nameToQuestion.get(name));
+		}
+
+		public Set<String> getLabels() {
+			return Collections.unmodifiableSet(labelToQuestion.keySet());
+		}
+
+		public List<QLQuestion> getByLabel(String label) {
+			return Collections.unmodifiableList(labelToQuestion.get(label));
+		}
 	}
 
 	/**
@@ -77,89 +170,47 @@ public class QLSemanticAnalyser {
 	 * the supplied {@code questionnaire}.
 	 * 
 	 * @param questionnaire
-	 * @return a {@link Result} containing errors and warnings.
+	 * @return a {@link SemanticErrors} containing errors and warnings.
 	 */
-	public Result validateCyclicReferences(QLQuestionnaire questionnaire) {
-		return new CyclicReferenceVisitor().visit(questionnaire);
+	public SemanticErrors validateCyclicReferences(QLForm form) {
+		SemanticErrors result;
+
+		result = new SemanticErrors();
+
+		CyclicReferences.collect(form).forEach(cr -> {
+			result.add(new CyclicDependency(cr));
+		});
+
+		return result;
 	}
 
-	private static class TypeCheckVisitor extends ASTNodeVisitorAdapter<QLType, SymbolTable> {
+	private static class TypeCheckVisitor implements ExprVisitor<QLType, SymbolTable>, QLFormVisitor<Void, SymbolTable>,
+			QLStatementVisitor<Void, SymbolTable> {
 
-		private Result result;
+		private SemanticErrors result;
 
 		private TypeCheckVisitor() {
 		}
 
-		public Result visit(QLQuestionnaire q) {
+		public SemanticErrors visit(QLForm form) {
 			SymbolTable table;
 
-			result = new Result();
+			result = new SemanticErrors();
 
 			table = new SymbolTable();
-			q.accept(this, table);
-
-			result.duplicateNameQuestions.forEach(name -> {
-
-				StringBuilder sb;
-				String msg;
-
-				msg = String.format("Question '%s' has been declared multiple times, but with different types:", name);
-
-				sb = new StringBuilder();
-				sb.append(msg);
-				sb.append(System.lineSeparator());
-				table.getByName(name).stream().forEach(c -> {
-					sb.append("  ");
-					sb.append(c.getSourceLocation());
-					sb.append("  ");
-					sb.append(c.getSourceText());
-					sb.append(System.lineSeparator());
-				});
-
-				result.addError(sb.toString());
-			});
-
-			result.duplicateLabelQuestions.forEach(label -> {
-				StringBuilder sb;
-				String msg;
-
-				msg = String.format("Duplicate labels: %s", label);
-
-				sb = new StringBuilder();
-				sb.append(msg);
-				sb.append(System.lineSeparator());
-				table.getByLabel(label).stream().forEach(c -> {
-					sb.append("  ");
-					sb.append(c.getSourceLocation());
-					sb.append("  ");
-					sb.append(c.getSourceText());
-					sb.append(System.lineSeparator());
-				});
-
-				result.addWarning(sb.toString());
-			});
+			form.accept(this, table);
 
 			return result;
 		}
 
 		@Override
-		public QLType visit(QLQuestionnaire node, SymbolTable st) {
-			for (QLForm form : node.getForms()) {
-				form.accept(this, st);
-			}
-
-			return null;
-		}
-
-		@Override
-		public QLType visit(QLForm node, SymbolTable st) {
-			// The body of every form has its own SymbolTable
+		public Void visit(QLForm node, SymbolTable st) {
 			node.getBody().accept(this, st);
 			return null;
 		}
 
 		@Override
-		public QLType visit(QLBlock node, SymbolTable st) {
+		public Void visit(QLBlock node, SymbolTable st) {
 			// First traverse the questions, because they
 			// declare variables that can be used in the if statements.
 			for (QLQuestion question : node.getQuestions()) {
@@ -174,34 +225,23 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public QLType visit(QLIFStatement node, SymbolTable st) {
+		public Void visit(QLIFStatement node, SymbolTable st) {
 			checkType(node.getExpr(), st, QLType.BOOLEAN);
 			node.getBody().accept(this, st);
+
 			return null;
 		}
 
 		@Override
-		public QLType visit(QLQuestion node, SymbolTable st) {
-
-			if (!st.getByLabel(node.getLabel()).isEmpty()) {
-				result.addDuplicateQuestionLabel(node);
-			}
-
-			for (QLQuestion other : st.getByName(node.getId())) {
-				if (!other.getType().equals(node.getType())) {
-					result.addDuplicateQuestionName(node);
-					break;
-				}
-			}
-
-			st.add(node);
-
-			return node.getType();
+		public Void visit(QLQuestionInput node, SymbolTable st) {
+			st.setType(node.getId(), node.getType());
+			return null;
 		}
 
 		@Override
-		public QLType visit(LiteralExpr node, SymbolTable st) {
-			return node.getLiteral().accept(this, st);
+		public Void visit(QLQuestionComputed node, SymbolTable st) {
+			st.setType(node.getId(), node.getType());
+			return null;
 		}
 
 		@Override
@@ -210,7 +250,8 @@ public class QLSemanticAnalyser {
 
 			type = st.getType(node.getVariableId());
 			if (type == null) {
-				result.addError("Undeclared variable %s, %s", node, node.getVariableId());
+				result.add(new UndeclaredVariable(node));
+				return null;
 			}
 
 			return type;
@@ -233,6 +274,18 @@ public class QLSemanticAnalyser {
 		}
 
 		// Arithmetic operations
+		@Override
+		public QLType visit(Negative node, SymbolTable st) {
+			checkType(node, st, QLType.INTEGER);
+			return QLType.INTEGER;
+		}
+
+		@Override
+		public QLType visit(Positive node, SymbolTable st) {
+			checkType(node, st, QLType.INTEGER);
+			return QLType.INTEGER;
+		}
+
 		@Override
 		public QLType visit(Add node, SymbolTable st) {
 			checkOperands(node, st, QLType.INTEGER);
@@ -260,18 +313,13 @@ public class QLSemanticAnalyser {
 		// Equality relations
 		@Override
 		public QLType visit(Equals node, SymbolTable st) {
-			Expr lhs;
 			QLType lhsType;
 			QLType rhsType;
-			Expr rhs;
 
-			lhs = node.left();
-			lhsType = lhs.accept(this, st);
-			rhs = node.right();
-			rhsType = rhs.accept(this, st);
+			lhsType = node.left().accept(this, st);
+			rhsType = node.right().accept(this, st);
 			if (!lhsType.equals(rhsType)) {
-				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-						node.getSourceLocation(), lhsType.toString(), rhsType.toString());
+				result.add(new OperandTypeMismatch(node, lhsType, rhsType));
 			}
 
 			return QLType.BOOLEAN;
@@ -279,18 +327,13 @@ public class QLSemanticAnalyser {
 
 		@Override
 		public QLType visit(EqualsNot node, SymbolTable st) {
-			Expr lhs;
 			QLType lhsType;
 			QLType rhsType;
-			Expr rhs;
 
-			lhs = node.left();
-			lhsType = lhs.accept(this, st);
-			rhs = node.right();
-			rhsType = rhs.accept(this, st);
+			lhsType = node.left().accept(this, st);
+			rhsType = node.right().accept(this, st);
 			if (!lhsType.equals(rhsType)) {
-				result.addError("%s: Type mismatch: operands of == should be of same type. (lhs='%s', rhs='%s')",
-						node.getSourceLocation(), lhsType.toString(), rhsType.toString());
+				result.add(new OperandTypeMismatch(node, lhsType, rhsType));
 			}
 
 			return QLType.BOOLEAN;
@@ -334,6 +377,12 @@ public class QLSemanticAnalyser {
 			return QLType.BOOLEAN;
 		}
 
+		@Override
+		public QLType visit(Not node, SymbolTable st) {
+			checkType(node, st, QLType.BOOLEAN);
+			return QLType.BOOLEAN;
+		}
+
 		private void checkOperands(BinaryExpr expr, SymbolTable st, QLType expectedType) {
 			checkType(expr.left(), st, expectedType);
 			checkType(expr.right(), st, expectedType);
@@ -345,72 +394,313 @@ public class QLSemanticAnalyser {
 			actualType = expr.accept(this, st);
 
 			if (actualType == null) {
-				result.addError("Unknown type for %s", expr);
-			} else if (!actualType.equals(expectedType)) {
-				result.addError("%s: Type mismatch: '%s' should be of type '%s' but is of type '%s'. ",
-						expr.getSourceLocation(), expr.getSourceText(), expectedType.toString(), actualType.toString());
+				result.add(new UnknownType(expr));
+				return;
+			}
+
+			if (!actualType.equals(expectedType)) {
+				result.add(new TypeMismatch(expr, expectedType, actualType));
 			}
 		}
 	}
 
-	public static class Result {
+	private static class SymbolTable {
 
-		private final List<String> warnings = new ArrayList<>();
-		private final List<String> errors = new ArrayList<>();
+		private Map<String, QLType> nameToType = new HashMap<>();
 
-		private Set<String> duplicateNameQuestions = new HashSet<>();
-		private Set<String> duplicateLabelQuestions = new HashSet<>();
-
-		private Result() {
+		public SymbolTable() {
 
 		}
 
-		void addAll(Result result) {
-			warnings.addAll(result.warnings);
-			errors.addAll(result.errors);
-
-			duplicateNameQuestions.addAll(result.duplicateNameQuestions);
-			duplicateLabelQuestions.addAll(result.duplicateLabelQuestions);
+		public void setType(String name, QLType type) {
+			nameToType.put(name, type);
 		}
 
-		void addDuplicateQuestionLabel(QLQuestion q) {
-			duplicateLabelQuestions.add(q.getLabel());
+		public QLType getType(String name) {
+			return nameToType.get(name);
+		}
+	}
+
+	public static abstract class SemanticMessage {
+
+		public static enum Level {
+			ERROR("ERROR  "), WARNING("WARNING");
+
+			private final String text;
+
+			private Level(String text) {
+				this.text = text;
+			}
+
+			public String getText() {
+				return text;
+			}
 		}
 
-		void addDuplicateQuestionName(QLQuestion q) {
-			duplicateNameQuestions.add(q.getId());
+		private SemanticMessage() {
+
 		}
 
-		void addWarning(String msg, Object... args) {
-			warnings.add(String.format("WARNING: %s", String.format(msg, args)));
+		public abstract String getSourceLocation();
+
+		public abstract String getMessage();
+
+		public abstract Level getLevel();
+
+		@Override
+		public String toString() {
+			return getLevel().getText() + " " + getSourceLocation() + " " + getMessage();
+		}
+	}
+
+	private static class OperandTypeMismatch extends SemanticMessage {
+
+		private final String MESSAGE = "Type mismatch: operands of %s should be of same type. (lhs='%s', rhs='%s'";
+
+		private final String msg;
+		private final Expr expr;
+
+		public OperandTypeMismatch(BinaryExpr expr, QLType lhsType, QLType rhsType) {
+			msg = String.format(MESSAGE, expr.getSourceText(), lhsType, rhsType);
+			this.expr = expr;
 		}
 
-		void addError(String msg, Object... args) {
-			errors.add(String.format("ERROR  : %s", String.format(msg, args)));
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return expr.getSourceLocation();
+		}
+	}
+
+	private static class TypeMismatch extends SemanticMessage {
+
+		private final String MESSAGE = "Type mismatch: '%s' should be of type '%s' but is of type '%s'. ";
+
+		private final String msg;
+		private final Expr expr;
+
+		public TypeMismatch(Expr expr, QLType expected, QLType actual) {
+			msg = String.format(MESSAGE, expr.getSourceText(), expected, actual);
+			this.expr = expr;
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return expr.getSourceLocation();
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+	}
+
+	private static class UnknownType extends SemanticMessage {
+
+		private final String MESSAGE = "Unknown type for %s";
+
+		private final String msg;
+		private final Expr expr;
+
+		public UnknownType(Expr expr) {
+			msg = String.format(MESSAGE, expr);
+			this.expr = expr;
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return expr.getSourceLocation();
+		}
+	}
+
+	private static class CyclicDependency extends SemanticMessage {
+
+		private final String MESSAGE = "Cyclic dependency for question %s: (%s)";
+
+		private final String msg;
+
+		public CyclicDependency(CyclicReference cr) {
+			msg = String.format(MESSAGE, cr.getReference(), cr.getPath());
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return "";
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+	}
+
+	private static class UndeclaredVariable extends SemanticMessage {
+
+		private static final String MESSAGE = "Undeclared variable %s, %s";
+		private final String msg;
+		private final VariableExpr node;
+
+		public UndeclaredVariable(VariableExpr node) {
+			msg = String.format(MESSAGE, node, node.getVariableId());
+			this.node = node;
+		}
+
+		@Override
+		public String getMessage() {
+			return msg;
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return node.getSourceLocation();
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+
+		@Override
+		public String toString() {
+			return msg;
+		}
+	}
+
+	private static class DuplicateQuestionLabels extends SemanticQuestionMessage {
+
+		private static final String MESSAGE = "Duplicate labels: %s";
+
+		public DuplicateQuestionLabels(String label, List<QLQuestion> questions) {
+			super(String.format(MESSAGE, label), questions);
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.WARNING;
+		}
+	}
+
+	private static class DuplicateQuestionName extends SemanticQuestionMessage {
+
+		private static final String MESSAGE = "Question '%s' has been declared multiple times, but with different types:";
+
+		public DuplicateQuestionName(String name, List<QLQuestion> questions) {
+			super(String.format(MESSAGE, name), questions);
+		}
+
+		@Override
+		public Level getLevel() {
+			return Level.ERROR;
+		}
+	}
+
+	private static abstract class SemanticQuestionMessage extends SemanticMessage {
+
+		private final String message;
+
+		public SemanticQuestionMessage(String msg, List<QLQuestion> questions) {
+			StringBuilder sb;
+
+			assert !questions.isEmpty() : "Question list should not be empty";
+
+			sb = new StringBuilder();
+			sb.append(msg);
+			sb.append(System.lineSeparator());
+			questions.stream().forEach(c -> {
+				sb.append("  ");
+				sb.append(c.toString());
+				sb.append(System.lineSeparator());
+			});
+
+			message = sb.toString();
+		}
+
+		@Override
+		public String getSourceLocation() {
+			return "";
+		}
+
+		@Override
+		public String getMessage() {
+			return message;
+		}
+	}
+
+	public static class SemanticErrors {
+
+		private final Map<Level, List<SemanticMessage>> levelToMessages = new HashMap<>();
+
+		private SemanticErrors() {
+
+		}
+
+		void add(SemanticMessage error) {
+			levelToMessages.computeIfAbsent(error.getLevel(), f -> new ArrayList<>()).add(error);
+		}
+
+		void addAll(SemanticErrors result) {
+			result.getAllMessages().forEach(m -> add(m));
+		}
+
+		private boolean hasMessages(Level level) {
+			return !getByLevel(level).isEmpty();
 		}
 
 		public boolean hasErrors() {
-			return !errors.isEmpty();
+			return hasMessages(Level.ERROR);
 		}
 
-		public List<String> getErrors() {
-			return Collections.unmodifiableList(errors);
+		private List<SemanticMessage> getByLevel(Level level) {
+			return Collections.unmodifiableList(levelToMessages.getOrDefault(level, Collections.emptyList()));
+		}
+
+		public List<SemanticMessage> getErrors() {
+			return Collections.unmodifiableList(getByLevel(Level.ERROR));
 		}
 
 		public boolean hasWarnings() {
-			return !warnings.isEmpty();
+			return hasMessages(Level.WARNING);
 		}
 
-		public List<String> getWarnings() {
-			return Collections.unmodifiableList(warnings);
+		public List<SemanticMessage> getWarnings() {
+			return Collections.unmodifiableList(getByLevel(Level.WARNING));
 		}
 
 		public boolean hasMessages() {
 			return hasErrors() || hasWarnings();
 		}
 
-		public List<String> getAllMessages() {
-			List<String> allMessages;
+		public List<SemanticMessage> getAllMessages() {
+			List<SemanticMessage> allMessages;
 
 			allMessages = new ArrayList<>();
 			allMessages.addAll(getErrors());
@@ -420,336 +710,13 @@ public class QLSemanticAnalyser {
 		}
 
 		public void print() {
-			for (String msg : getErrors()) {
-				System.err.println(msg);
+			for (SemanticMessage msg : getErrors()) {
+				System.err.println(msg.toString());
 			}
 
-			for (String msg : getWarnings()) {
-				System.out.println(msg);
-			}
-		}
-	}
-
-	private static class SymbolTable {
-
-		private Map<String, List<QLQuestion>> nameToQuestion = new HashMap<>();
-		private Map<String, List<QLQuestion>> labelToQuestion = new HashMap<>();
-
-		public SymbolTable() {
-
-		}
-
-		public List<QLQuestion> getByName(String name) {
-			return nameToQuestion.getOrDefault(name, Collections.emptyList());
-		}
-
-		public List<QLQuestion> getByLabel(String label) {
-			return labelToQuestion.getOrDefault(label, Collections.emptyList());
-		}
-
-		public void add(QLQuestion node) {
-			List<QLQuestion> questionListByName;
-			List<QLQuestion> questionListByLabel;
-			String name;
-			String label;
-
-			name = node.getId();
-			label = node.getLabel();
-
-			questionListByName = nameToQuestion.getOrDefault(name, new ArrayList<>());
-			questionListByName.add(node);
-			nameToQuestion.putIfAbsent(name, questionListByName);
-
-			questionListByLabel = labelToQuestion.getOrDefault(label, new ArrayList<>());
-			questionListByLabel.add(node);
-			labelToQuestion.putIfAbsent(label, questionListByLabel);
-		}
-
-		public QLType getType(String name) {
-			List<QLQuestion> questionList;
-
-			questionList = getByName(name);
-			if (questionList.isEmpty()) {
-				return null;
-			}
-
-			return questionList.get(0).getType();
-		}
-	}
-
-	public static class ReferenceTable {
-
-		private final Map<String, Reference> referenceMapById;
-
-		private ReferenceTable() {
-			referenceMapById = new HashMap<>();
-		}
-
-		/**
-		 * Find all the cyclic references
-		 * 
-		 * @return
-		 */
-		public Result findCyclicReferences() {
-			Result result;
-
-			result = new Result();
-
-			for (Reference r : referenceMapById.values()) {
-				if (r.getReferents().isEmpty()) {
-					continue;
-				}
-
-				for (ReferencePath path : r.getPaths()) {
-					if (path.hasCycle()) {
-						result.addError("Cyclic dependency for question %s: (%s)", r.getId(), path.toString());
-					}
-				}
-			}
-
-			return result;
-		}
-
-		private Reference getReference(String id) {
-			Reference r;
-
-			r = referenceMapById.get(id);
-			if (r == null) {
-				r = new Reference(id);
-				referenceMapById.put(id, r);
-			}
-
-			return r;
-		}
-
-		public static class ReferencePath {
-
-			private final List<Reference> readOnlyReferenceList;
-
-			public ReferencePath() {
-				readOnlyReferenceList = Collections.emptyList();
-			}
-
-			public ReferencePath(List<Reference> references) {
-				List<Reference> copyOfReferences;
-
-				copyOfReferences = new ArrayList<>(references);
-				readOnlyReferenceList = Collections.unmodifiableList(copyOfReferences);
-			}
-
-			/**
-			 * Make a copy of this {@code ReferencePath}, and add the supplied
-			 * Reference {@code r} to the path.
-			 * 
-			 * @param r
-			 *            the {@code Reference} to add.
-			 * @return a copy of this {@code ReferencePath} with the the
-			 *         supplied reference appended.
-			 */
-			public ReferencePath copyAndAdd(Reference r) {
-				List<Reference> refs;
-
-				refs = new ArrayList<>(readOnlyReferenceList);
-				refs.add(r);
-
-				return new ReferencePath(refs);
-			}
-
-			/**
-			 * Find the root of this reference path.
-			 * 
-			 * @return the first {@code Reference} of this path, or {@code null}
-			 *         if the path does not contain any references.
-			 */
-			public Reference getRoot() {
-				if (readOnlyReferenceList.isEmpty()) {
-					return null;
-				}
-				return readOnlyReferenceList.get(0);
-			}
-
-			public List<Reference> getPath() {
-				return readOnlyReferenceList;
-			}
-
-			/**
-			 * Returns true if this path contains the specified reference.
-			 * 
-			 * @param r
-			 *            reference whose presence in this list is to be tested
-			 * @return {@code true} if this path contains the specified
-			 *         reference
-			 */
-			public boolean contains(Reference r) {
-				return readOnlyReferenceList.contains(r);
-			}
-
-			/**
-			 * Returns true if this path contains a cycle.
-			 * 
-			 * @return {@code true} if this path contains a cycle.
-			 */
-			public boolean hasCycle() {
-				for (Reference r : readOnlyReferenceList) {
-					if (Collections.frequency(readOnlyReferenceList, r) > 1) {
-						return true;
-					}
-				}
-
-				return false;
-			}
-
-			@Override
-			public String toString() {
-				StringBuilder sb;
-
-				sb = new StringBuilder();
-
-				// Make a String in the form of 'a -> b -> c'
-				readOnlyReferenceList.stream().forEachOrdered(ref -> {
-					if (sb.length() > 0) {
-						sb.append(" -> ");
-					}
-					sb.append(ref.id);
-				});
-
-				return sb.toString();
-			}
-		}
-
-		public class Reference {
-
-			private final String id;
-			private final List<Reference> referents = new ArrayList<>();
-
-			private Reference(String id) {
-				this.id = id;
-			}
-
-			public String getId() {
-				return id;
-			}
-
-			public void addReferent(String id) {
-				referents.add(getReference(id));
-			}
-
-			public List<Reference> getReferents() {
-				return Collections.unmodifiableList(referents);
-			}
-
-			public List<ReferencePath> getPaths() {
-				return getPaths(new ReferencePath());
-			}
-
-			public List<ReferencePath> getPaths(ReferencePath parentPath) {
-				List<ReferencePath> paths;
-				ReferencePath myPath;
-
-				myPath = parentPath.copyAndAdd(this);
-
-				// If this reference does not have any referents, this is the
-				// end of the reference path.
-				if (referents.isEmpty()) {
-					return Collections.singletonList(myPath);
-				}
-
-				paths = new ArrayList<>();
-				for (Reference referent : referents) {
-
-					// Found a cycle.
-					if (myPath.contains(referent)) {
-						// Add the referent to the path, so the cycle
-						// is actually present in the path.
-						paths.add(myPath.copyAndAdd(referent));
-						continue;
-					}
-
-					paths.addAll(referent.getPaths(myPath));
-				}
-
-				return Collections.unmodifiableList(paths);
-			}
-
-			@Override
-			public final boolean equals(Object obj) {
-				Reference other;
-
-				if (!(obj instanceof Reference)) {
-					return false;
-				}
-
-				other = (Reference) obj;
-
-				return id.equals(other.id) && referents.equals(other.referents);
-			}
-
-			@Override
-			public final int hashCode() {
-				return id.hashCode();
+			for (SemanticMessage msg : getWarnings()) {
+				System.out.println(msg.toString());
 			}
 		}
 	}
-
-	private static class CyclicReferenceVisitor extends ASTNodeVisitorAdapter<Void, ReferenceTable> {
-
-		private QLQuestionComputed currentQuestion;
-
-		public CyclicReferenceVisitor() {
-
-		}
-
-		public Result visit(QLQuestionnaire q) {
-			ReferenceTable rt;
-
-			rt = new ReferenceTable();
-
-			q.accept(this, rt);
-
-			return rt.findCyclicReferences();
-		}
-
-		@Override
-		public Void visit(QLQuestionComputed node, ReferenceTable rt) {
-			currentQuestion = node;
-
-			node.expr().accept(this, rt);
-
-			currentQuestion = null;
-
-			return null;
-		}
-
-		@Override
-		public Void visit(VariableExpr node, ReferenceTable rt) {
-
-			// This expression is not part of the computation of a question.
-			if (currentQuestion == null) {
-				return null;
-			}
-
-			// Add the variable id of the expression as a referent of the
-			rt.getReference(currentQuestion.getId()).addReferent(node.getVariableId());
-
-			return null;
-		}
-
-	}
-
-	public static void main(String[] args) throws IOException {
-		QLQuestionnaire questionnaire;
-		QLSemanticAnalyser sa;
-		File inputFile;
-
-		inputFile = new File("resources/Questionnaire.ql");
-		// inputFile = new
-		// File("test/resources/org/uva/ql/CyclicReferences.ql");
-		questionnaire = QLQuestionnaire.create(inputFile);
-
-		sa = new QLSemanticAnalyser();
-
-		sa.validateTypes(questionnaire).print();
-		sa.validateCyclicReferences(questionnaire).print();
-	}
-
 }

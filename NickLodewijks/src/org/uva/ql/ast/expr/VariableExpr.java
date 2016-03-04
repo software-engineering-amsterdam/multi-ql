@@ -1,7 +1,6 @@
 package org.uva.ql.ast.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.uva.ql.ast.ASTNodeVisitor;
 
 public final class VariableExpr extends Expr {
 
@@ -17,7 +16,7 @@ public final class VariableExpr extends Expr {
 	}
 
 	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 }

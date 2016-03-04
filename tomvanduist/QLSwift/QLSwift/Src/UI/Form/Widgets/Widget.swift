@@ -32,7 +32,7 @@ class ViewWidget: UIView, Widget {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("Not supported")
+        fatalError("StoryBoards are not supported!")
     }
     
     func setupView(layout: Layout) {

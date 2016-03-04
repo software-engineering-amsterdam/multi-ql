@@ -12,10 +12,10 @@ import SnapKit
 class FormViewController: BaseViewController {
     @IBOutlet weak var contentView: UIView!
     
-    let form: Form
+    let form: QLForm
     
     
-    init(form: Form) {
+    init(form: QLForm) {
         self.form = form
         
         super.init(nibName: "FormView", bundle: nil)
@@ -24,7 +24,7 @@ class FormViewController: BaseViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("StoryBoards not supported!")
+        fatalError("StoryBoards are not supported!")
     }
 }
 
@@ -33,15 +33,15 @@ extension FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let formViewFactory = DefaultFormViewFactory(formLayout: DefaultFormLayout())
-        let formViewBuilder = DefaultFormViewBuilder(formViewFactory: formViewFactory)
-        
-        let view = formViewBuilder.buildFormView(self.form)
-        
-        self.contentView.addSubview(view)
-        view.snp_makeConstraints { [unowned self] (make) -> Void in
-            make.edges.equalTo(self.contentView)
-        }
+//        let formViewFactory = DefaultFormViewFactory(formLayout: DefaultFormLayout())
+//        let formViewBuilder = DefaultFormViewBuilder(formViewFactory: formViewFactory)
+//        
+//        let view = formViewBuilder.buildFormView(self.form)
+//        
+//        self.contentView.addSubview(view)
+//        view.snp_makeConstraints { [unowned self] (make) -> Void in
+//            make.edges.equalTo(self.contentView)
+//        }
     }
 }
 

@@ -4,55 +4,50 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import nl.uva.sc.ql.exceptions.NoValueException;
-import nl.uva.sc.ql.parser.ast.Node;
+import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.parser.ast.ExpressionNode;
 
 public abstract class Question extends JPanel implements GuiInterface, Observer {
 
 	private static final long serialVersionUID = 1L;
 		
+	private State state;
 	private String question;
-	private boolean questionDone;
-	private Node node;
+	private String identifier;
+	private ExpressionNode expression;
 	private boolean editable;
+	
+	private boolean questionDone;
 	private JComponent component = null;
 	
-	public Question(String question, Node node, boolean editable){
+	public Question(State state, String question, String identifier, ExpressionNode expression, boolean editable){
+		this.state = state;
 		this.question = question;
-		this.node = node;
-		this.questionDone = false;
+		this.identifier = identifier;
+		this.expression = expression;
 		this.editable = editable;
-		node.registerObserver(this);
+		this.questionDone = false;
+		this.component = createComponentWithValue();
+		
+		state.registerObserver(this);
 	}
 
+	public State getState(){
+		return this.state;
+	}
+	
 	public String getQuestion() {
 		return this.question;
 	}
+	
+	public String getIdentifier() {
+		return this.identifier;
+	}
+	
+	public ExpressionNode getExpression(){
+		return this.expression;
+	}
 
-	public boolean isQuestionDone() {
-		return this.questionDone;
-	}
-
-	public void setQuestionDone(boolean doneQuestion) {
-		this.questionDone = doneQuestion;
-	}
-	
-	public String getValuetoString() {
-		// try if the node has a value
-		try {
-			// update value of the node and check if succeeded
-			if(this.node.eval()){
-				return this.node.getValue().toString();
-			}
-		} catch(NoValueException e){}
-		
-		return null;
-	}
-	
-	public void setValue(Object value){
-		this.node.setValue(value);
-	}
-	
 	public boolean isEditable(){
 		return this.editable;
 	}
@@ -61,16 +56,24 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 		return this.component;
 	}
 	
+	public boolean isQuestionDone() {
+		return this.questionDone;
+	}
+
+	public void setQuestionDone(boolean doneQuestion) {
+		this.questionDone = doneQuestion;
+	}
+	
 	public abstract JComponent createComponentWithValue();
 	
 	@Override
 	public abstract void update();
 	
+	// TODO: maybe i don't need this
 	@Override
 	public boolean runGui(){
 		if(!isQuestionDone()){
-			add(new JLabel(this.question));
-			component = createComponentWithValue();
+			add(new JLabel(question));
 			add(component);
 			setQuestionDone(true);
 		}
