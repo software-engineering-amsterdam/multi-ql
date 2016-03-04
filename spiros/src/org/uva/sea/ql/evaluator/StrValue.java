@@ -14,4 +14,5 @@ public class StrValue extends Value {
 	public String getValue() {
 		return value;
 	}
+	
 }

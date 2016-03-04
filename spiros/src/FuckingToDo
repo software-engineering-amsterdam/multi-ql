@@ -1,5 +1,3 @@
---> List<Str>  ----->  Set<Str>
-
 --> Set<Str> ---> Set <Identifier>
 
 --> CyclicDependenciesVisitor--> rename
