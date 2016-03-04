@@ -5,9 +5,19 @@ import nl.uva.sc.ql.parser.Visitor;
 public class FormNode extends Node {
 
 	private String name;
+	private BlockNode block;
 	
-	public FormNode(String name){
+	public FormNode(String name, BlockNode block){
 		this.name = name;
+		this.block = block;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public BlockNode getBlock(){
+		return this.block;
 	}
 	
 	@Override
@@ -23,12 +33,7 @@ public class FormNode extends Node {
 	@Override
 	public void dump() {
 		System.out.println(this.getClass());
-		if (getLeft() != null) { getLeft().dump(); }
-		if (getRight() != null) { getRight().dump(); }
-	}
-
-	public String getName() {
-		return name;
+		getBlock().dump();
 	}
 
 }

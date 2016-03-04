@@ -6,14 +6,18 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
-import nl.uva.sc.ql.parser.ast.Node;
+import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.parser.ast.IdentifierNode;
+import nl.uva.sc.ql.parser.value.IntegerVal;
+import nl.uva.sc.ql.parser.value.Value;
 
 public class QuestionInteger extends Question {
 
 	private static final long serialVersionUID = 1L;
 
-	public QuestionInteger(String question, Node node, boolean editable) {
-		super(question, node, editable);
+	public QuestionInteger(State state, String question, String identifier, ExpressionNode expression, boolean editable) {
+		super(state, question, identifier, expression, editable);
 	}
 
 	@Override
@@ -25,13 +29,15 @@ public class QuestionInteger extends Question {
 	        public void actionPerformed(ActionEvent e) {
 				// Get the String entered into the input TextField, convert to int
 	            int integer = Integer.parseInt(component.getText());
-	            setValue(integer);
-	        }
+				IdentifierNode in = new IdentifierNode(getIdentifier());
+				Value value = new IntegerVal(integer);
+				getState().add(in, value);	
+			}
 	    });
 		
 		component.setEditable(isEditable());
-		String valueText = getValuetoString();
-		valueText = (valueText == null) ? "" : valueText;
+		Value value = (getExpression() == null) ? null : getExpression().eval(getState());
+		String valueText = (value == null) ? "" : value.toString();
 		component.setText(valueText);
 		
 		return component;
@@ -39,8 +45,9 @@ public class QuestionInteger extends Question {
 	
 	@Override
 	public void update() {
-		String valueText = getValuetoString();
-		valueText = (valueText == null) ? "" : valueText;
+		IdentifierNode in = new IdentifierNode(getIdentifier());
+		Value value = getState().lookup(in);
+		String valueText = (value == null) ? "" : value.toString();		
 		((JTextField) getComponent()).setText(valueText);
 	}
 }

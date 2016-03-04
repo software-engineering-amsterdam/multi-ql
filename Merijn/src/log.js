@@ -19,7 +19,13 @@ export class Log {
 
 export class LinesMessage {
 	constructor(lines, message) {
-		this.lines = lines;
+		this.lines = lines.reduce((seed, line) => {
+			if (!seed.includes(line)) {
+				seed.push(line);
+			}
+			return seed;
+		}, []);
+		this.lines.sort();
 		this.message = message;
 	}
 }

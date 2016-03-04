@@ -6,14 +6,18 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
-import nl.uva.sc.ql.parser.ast.Node;
+import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.parser.ast.IdentifierNode;
+import nl.uva.sc.ql.parser.value.StringVal;
+import nl.uva.sc.ql.parser.value.Value;
 
 public class QuestionString extends Question {
 
 	private static final long serialVersionUID = 1L;
 	
-	public QuestionString(String question, Node node, boolean editable) {
-		super(question, node, editable);
+	public QuestionString(State state, String question, String identifier, ExpressionNode expression, boolean editable) {
+		super(state, question, identifier, expression, editable);
 	}
 
 	@Override
@@ -25,13 +29,15 @@ public class QuestionString extends Question {
 	        public void actionPerformed(ActionEvent e) {
 				// Get the String entered into the input TextField
 	            String string = component.getText();
-	            setValue(string);
-	        }
+				IdentifierNode in = new IdentifierNode(getIdentifier());
+				Value value = new StringVal(string);
+				getState().add(in, value);	
+			}
 	    });
 		
 		component.setEditable(isEditable());
-		String valueText = getValuetoString();
-		valueText = (valueText == null) ? "" : valueText;
+		Value value = (getExpression() == null) ? null : getExpression().eval(getState());
+		String valueText = (value == null) ? "" : value.toString();
 		component.setText(valueText);
 		
 		return component;
@@ -39,8 +45,9 @@ public class QuestionString extends Question {
 	
 	@Override
 	public void update() {
-		String valueText = getValuetoString();
-		valueText = (valueText == null) ? "" : valueText;
+		IdentifierNode in = new IdentifierNode(getIdentifier());
+		Value value = getState().lookup(in);	
+		String valueText = (value == null) ? "" : value.toString();
 		((JTextField) getComponent()).setText(valueText);
 	}
 }

@@ -1,13 +1,10 @@
 package org.uva.ql.ast.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.uva.ql.ast.ASTNode;
-import org.uva.ql.ast.ASTNodeVisitor;
-import org.uva.ql.ast.QLIFStatementVisitor;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.QLBlock;
 
-public class QLIFStatement extends ASTNode {
+public final class QLIFStatement extends QLStatement {
 
 	private final Expr expr;
 	private final QLBlock body;
@@ -27,11 +24,7 @@ public class QLIFStatement extends ASTNode {
 	}
 
 	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
-		return visitor.visit(this, context);
-	}
-
-	public <T, U> T accept(QLIFStatementVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(QLStatementVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 }

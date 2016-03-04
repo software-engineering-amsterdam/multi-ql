@@ -4,61 +4,58 @@
 //
 //  Created by Julian Jansen on 24-02-16.
 //  Copyright © 2016 Julian Jansen. All rights reserved.
+// 
+//  Grammar:
+//  
+//  ->      "can consist of"
+//  |       Alternative grammar productions
+//  *       Kleene star (zero or more)
 //
+//  form        -> form codeBlock
+//  codeBlock   -> { statement* }
+//  statement   -> question | if ( expression ) codeBlock
+//  question    -> stringLiteral identifier: literal
+//  expression  ->
+//  literal     -> integerLiteral | floatLiteral | stringLiteral | boolLiteral
+
+// &&, ||, !, <, >, >=, <=, !=, ==, +, -, *, /.
+
+
+//
+//  Swift Reference: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/
+//  Swift_Programming_Language/AboutTheLanguageReference.html
+//
+//  Parsec to Swift
+//  <^>  ->  .map
+//  >>-  ->  .flatMap
 
 import Foundation
 import SwiftParsec
 
-// Parsec to Swift
-// <^> .map
-// >>- .flatMap
-
-class QLParser: NSObject {
+class QLParser {
     
     func parseStream(data: String) throws -> QLForm {
         return try parser().run(sourceName: "", input: data)
     }
     
-    func parser() -> GenericParser<String, (), QLForm> {
+    private func parser() -> GenericParser<String, (), QLForm> {
         
         let ql = LanguageDefinition<()>.ql
         let lexer = GenericTokenParser(languageDefinition: ql)
         
         let symbol = lexer.symbol
-        let noneOf = StringParser.noneOf
-        let oneOf = StringParser.oneOf
-        let character = StringParser.character
-        let stringLiteral = lexer.stringLiteral
-        let eof = StringParser.eof
+        let stringLiteral = lexer.stringLiteral // Includes the quotes.
+        let identifier = lexer.identifier
+        let colon = lexer.colon
+
+        // MARK: Question.
         
-        let endOfLine = StringParser.crlf.attempt <|>
-            (character("\n") *> character("\r")).attempt <|>
-            character("\n") <|>
-            character("\r") <?> "End of line."
+        // "Did you sell a house in 2010?"
+        //     hasSoldHouse: boolean
         
-        // Strings.
-        let qlstring = lexer.identifier.map{ (str) -> QLString in
-            print("String: \(str)")
-            return QLString(string: str)
-        }
+        let qlquestionVariable = identifier <* colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
         
-        let qlstrings = qlstring.manyAccumulator{ (let current: QLString, var accumulated: [QLString]) in
-            accumulated.append(current) // Doesn't return an instance of itself.
-            return accumulated
-        }
-        
-        // MARK: Questions. From CSV example code. Added end of line.
-        let quotedChars = noneOf("\"") <|> StringParser.string("\"\"").attempt *> GenericParser(result: "\"")
-        let quote = character("\"")
-        
-        
-//        "Did you sell a house in 2010?"
-    //        hasSoldHouse: boolean
-        
-        let qlquestionName = quote *> quotedChars.many.stringValue <* quote <?> "Quote/endOfLine at end of question name."
-        let qlquestionVariable = lexer.whiteSpace *> lexer.identifier.map{ String($0) } <* lexer.colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
-        
-        let qlquestion: GenericParser<String, (), QLQuestion> = qlquestionName.flatMap{ questionName in
+        let qlquestion: GenericParser<String, (), QLQuestion> = stringLiteral.flatMap{ questionName in
             
             qlquestionVariable.map{ questionVariable -> QLQuestion in
                 
@@ -66,8 +63,52 @@ class QLParser: NSObject {
                 
             }
         }
+        
+        // MARK: Expression.
+        
+        // Based on opTable from ExpressionTests.swift of SwiftParsec.
+        
+        // &&, ||, !, <, >, >=, <=, !=, ==, +, -, *, /.
+        
+        let opTable: OperatorTable<String, (), Int> = [
+            
+            [
+                prefix("-", function: -),
+                prefix("+", function: { $0 })
+            ],
+            [
+                postfix("++", function: { (var num) in num++ })
+            ],
+            [
+                binary(">>", function: >>, assoc: .None),
+                binary("<<", function: <<, assoc: .None)
+            ],
+            [
+                binary("*", function: *, assoc: .Left),
+                binary("/", function: /, assoc: .Left)
+            ],
+            [
+                binary("+", function: +, assoc: .Left),
+                binary("-", function: -, assoc: .Left)
+            ]
+            
+        ]
+        
+        let openingParen = StringParser.character("(")
+        let closingParen = StringParser.character(")")
+        let decimal = GenericTokenParser<()>.decimal
+        
+        let qlexpression = opTable.expressionParser { expression in
+            
+            expression.between(openingParen, closingParen) <|>
+                decimal <?> "simple expression"
+            
+            } <?> "expression"
+        
+        let qlif = symbol("if") *> qlexpression
     
-        // MARK: Statements.
+        // MARK: Statement.
+        
         let qlstatement = qlquestion
         
         let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
@@ -78,7 +119,7 @@ class QLParser: NSObject {
         
         let codeBlock: GenericParser<String, (), [QLStatement]> = lexer.braces(qlstatements) <?> "Error parsing in the braces of code block."
         
-        let form = symbol("form") *> qlstring.flatMap{ (formName) -> GenericParser<String, (), QLForm> in
+        let form = symbol("form") *> identifier.flatMap{ (formName) -> GenericParser<String, (), QLForm> in
             
             print("Form name: \(formName)")
             
@@ -93,7 +134,27 @@ class QLParser: NSObject {
         }  <?> "Error at the end of the form."
         
         return lexer.whiteSpace *> form
+    }
+    
+    // Based on functions from ExpressionTests.swift of SwiftParsec.
+    private func binary(name: String, function: (Int, Int) -> Int, assoc: Associativity) -> Operator<String, (), Int> {
+        
+        let opParser = StringParser.string(name) *> GenericParser(result: function)
+        return .Infix(opParser, assoc)
         
     }
     
+    private func prefix(name: String, function: Int -> Int) -> Operator<String, (), Int> {
+        
+        let opParser = StringParser.string(name) *> GenericParser(result: function)
+        return .Prefix(opParser)
+        
+    }
+    
+    private func postfix(name: String, function: Int -> Int) -> Operator<String, (), Int> {
+        
+        let opParser = StringParser.string(name) *> GenericParser(result: function)
+        return .Postfix(opParser.attempt)
+        
+    }
 }

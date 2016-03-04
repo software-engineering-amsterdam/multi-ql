@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             let test = try QLParser().parseStream(stream!)
             print("After parsing")
-            print(test.formName.string)
+            print(test.formName)
             print(test.codeBlock)
             
             var temp = test.codeBlock[0] as! QLQuestion

@@ -1,6 +1,6 @@
-form Box1HouseOwning {
-    booleanResult   : "Enter boolean"   boolean
-    booleanResult1  : "Result:"         booleanResult
+form testForm1 {
+    booleanResult   : "Enter boolean"   (true + "")
+    /*booleanResult1  : "Result:"         booleanResult
 
     if (booleanResult1) {
         moneyResult     : "Enter money"     money
@@ -8,7 +8,7 @@ form Box1HouseOwning {
 
         stringResult    : "Enter string"    string
         stringResult1   : "Result:"         stringResult
-    }
+    }*/
 }
 
 /*

@@ -15,7 +15,7 @@
 		B91DEBB51C86F58600A07F12 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B91DEBB21C86F54900A07F12 /* SwiftParsec.framework */; };
 		B91DEBBB1C86F62500A07F12 /* QLLanguageDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91DEBBA1C86F62500A07F12 /* QLLanguageDefinition.swift */; };
 		B91DEBBD1C86F64700A07F12 /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91DEBBC1C86F64700A07F12 /* QLParser.swift */; };
-		B91DEBBF1C86F66600A07F12 /* QLTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91DEBBE1C86F66600A07F12 /* QLTypes.swift */; };
+		B91DEBBF1C86F66600A07F12 /* QLNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91DEBBE1C86F66600A07F12 /* QLNodes.swift */; };
 		B91DEBC71C86F7C600A07F12 /* basic.ql in Resources */ = {isa = PBXBuildFile; fileRef = B91DEBC61C86F7C600A07F12 /* basic.ql */; };
 /* End PBXBuildFile section */
 
@@ -65,7 +65,7 @@
 		B91DEBAC1C86F54900A07F12 /* SwiftParsec.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftParsec.xcodeproj; path = QLSwift/External/SwiftParsec/SwiftParsec.xcodeproj; sourceTree = "<group>"; };
 		B91DEBBA1C86F62500A07F12 /* QLLanguageDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLanguageDefinition.swift; path = QL/QLLanguageDefinition.swift; sourceTree = "<group>"; };
 		B91DEBBC1C86F64700A07F12 /* QLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLParser.swift; path = QL/QLParser.swift; sourceTree = "<group>"; };
-		B91DEBBE1C86F66600A07F12 /* QLTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLTypes.swift; path = QL/QLTypes.swift; sourceTree = "<group>"; };
+		B91DEBBE1C86F66600A07F12 /* QLNodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLNodes.swift; path = QL/QLNodes.swift; sourceTree = "<group>"; };
 		B91DEBC61C86F7C600A07F12 /* basic.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = basic.ql; path = Streams/basic.ql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,7 +161,7 @@
 			children = (
 				B91DEBBA1C86F62500A07F12 /* QLLanguageDefinition.swift */,
 				B91DEBBC1C86F64700A07F12 /* QLParser.swift */,
-				B91DEBBE1C86F66600A07F12 /* QLTypes.swift */,
+				B91DEBBE1C86F66600A07F12 /* QLNodes.swift */,
 			);
 			name = QL;
 			sourceTree = "<group>";
@@ -330,7 +330,7 @@
 			files = (
 				B91DEB271C86EC5900A07F12 /* AppDelegate.swift in Sources */,
 				B91DEBBD1C86F64700A07F12 /* QLParser.swift in Sources */,
-				B91DEBBF1C86F66600A07F12 /* QLTypes.swift in Sources */,
+				B91DEBBF1C86F66600A07F12 /* QLNodes.swift in Sources */,
 				B91DEBBB1C86F62500A07F12 /* QLLanguageDefinition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

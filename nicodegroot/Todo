@@ -1,15 +1,13 @@
 MUST
-- Fix the different visitor interfaces, so I don't have to include them all for every concreteVisitor
 - Remove the tempvariable smell! Just pass it on?
 - Check all the variable names!
 - Create GUI
 - Create more tests
-- Throw errors instead of adding them to a list
+- Good error handling
 
 SHOULD
 - Fix line numbers in error messages
-- Make some kind of fancy issue class
+- Acknowledge also 2 as money instead of only 2.00?
 
 COULD
-- Really use accept in the QuestionVisitor to fetch the identfiers, otherwise you get 10 gets behind each other. 
-	And it makes the visitor kinda lame.
+- QLS

@@ -7,8 +7,8 @@ function initiate(inputString) {
 		var environment = new Environment();
 		ast.setEnvironment(environment);
 		if (performAstChecks(ast, environment)) {
-			renderQuestions(ast);
-			refreshGUI(ast);
+			renderQuestions(ast, environment);
+			refreshGUI(ast, environment);
 			setOnClickListeners(ast);
 		}
 		else {
@@ -59,36 +59,39 @@ function getAntlrVisitor() {
 }
 
 function performAstChecks(ast, environment) {
-	var texts = new Set();
-	var labels = new Set();
+	var textSet = new Set();
+	var identifierMap = [];
 
 	var noErrors = true;
 
 	ast.transverseAST(
 		(questionNode) => {
-			if (labels.has(questionNode.label)) {
-				throwError(questionNode.line, "Question error: Question label '" + questionNode.label + "' is already defined");
+
+			isQuestionTextDuplicate(questionNode, textSet);
+
+			if (isQuestionIdentifierDuplicate(questionNode, identifierMap)) {
 				noErrors = false;
 			}
-			if (texts.has(questionNode.text)) {
-				throwWarning(questionNode.line, "Question warning: Text '" + questionNode.text + "' for question '" + questionNode.label + "' is already defined");
+			else {
+				identifierMap[questionNode.label] = questionNode.getTypeString();
 			}
+
 			if (questionNode instanceof ComputedQuestionNode) {
-				if (questionNode.computedExpr.compute(environment) === undefined) {
-					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' is undefined");
+				if (isExpressionUndefined(questionNode.line, questionNode.computedExpr, environment)) {
 					noErrors = false;
 				}
-				else if (questionNode.type.toString(environment) !== typeof questionNode.computedExpr.compute(environment)) {
-					throwError(questionNode.computedExpr.line, "Type error: Computed expression '" + questionNode.computedExpr.toString() + "' must evaluate to " + questionNode.type.getTypeString());
+				else if (isExpressionTypeMismatch(questionNode.line, questionNode.type.toString(), questionNode.computedExpr, environment)) {
 					noErrors = false;
 				}
 			}
-			labels.add(questionNode.label);
-			texts.add(questionNode.text);
+
+			textSet.add(questionNode.text);
 		},
 		(conditionNode) => {
-			if (typeof conditionNode.condition.compute(environment) !== "boolean") {
-				throwError(conditionNode.line, "Type error: Condition '" + conditionNode.condition.toString() + "' is not boolean");
+			if (isExpressionUndefined(conditionNode.line, conditionNode.condition, environment)) {
+				noErrors = false;
+			}
+			else if (isExpressionTypeMismatch(conditionNode.line, "boolean", conditionNode.condition, environment)) {
 				noErrors = false;
 			}
 		}
@@ -101,13 +104,45 @@ function performAstChecks(ast, environment) {
 	return noErrors;
 }
 
+function isQuestionIdentifierDuplicate(questionNode, identifierMap) {
+	if (identifierMap[questionNode.label] !== undefined && identifierMap[questionNode.label] !== questionNode.getTypeString()) {
+		throwError(questionNode.line, "Question error: Question identifier '" + questionNode.label + "' of type '" + questionNode.getTypeString() + "' is already defined as of another type");
+		return true;
+	}
+	return false;
+}
+
+function isQuestionTextDuplicate(questionNode, textSet) {
+	if (textSet.has(questionNode.text)) {
+		throwWarning(questionNode.line, "Question warning: Text '" + questionNode.text + "' for question '" + questionNode.label + "' is already defined");
+		return true;
+	}
+	return false;
+}
+
+function isExpressionUndefined(line, expression, environment) {
+	if (expression.compute(environment) === undefined) {
+		throwError(line, "Type error: Computed expression '" + expression.toString() + "' is undefined");
+		return true;
+	}
+	return false;
+}
+
+function isExpressionTypeMismatch(line, type, expression, environment) {
+	if (type !== typeof expression.compute(environment)) {
+		throwError(line, "Type error: Computed expression '" + expression.toString() + "' must evaluate to " + type);
+		return true;
+	}
+	return false;
+}
+
 function checkDependencies(ast) {
 	var map = [];
 
 	ast.transverseAST(
 		(questionNode) => {
 			if (questionNode instanceof ComputedQuestionNode) {
-				map[questionNode.label] = questionNode.computedExpr.getLabels();
+				map[questionNode.label] = questionNode.computedExpr.getLabelsInExpression();
 			}
 		});
 
@@ -120,7 +155,7 @@ function checkDependencies(ast) {
 				for (let elementB of map[elementA]) {
 					if (map[elementB] !== undefined) {
 						if (map[elementB].indexOf(elementA) !== -1) {
-							throwError(ast.getQuestion(elementA).line, "Cyclic dependencies detected between question '" + elementA + "' and question '" + elementB + "'");
+							throwError(0, "Cyclic dependencies detected between question '" + elementA + "' and question '" + elementB + "'");
 							return false;
 						}
 						for (let elementC of map[elementB]) {

@@ -2,7 +2,7 @@ package nl.uva.sea.ql.checker;
 
 import nl.uva.sea.ql.ast.*;
 import nl.uva.sea.ql.ast.expr.*;
-import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.ast.question.*;
 
 /**
  * Subclasses of this class can visit all all kinds of <code>ASTNode</code>s.
@@ -13,7 +13,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * actually need to handle (in addition to just passing them in an AST).
  * 
  * @author Olav Trauschke
- * @version 2-mrt-2016
+ * @version 3-mrt-2016
  */
 public interface ASTVisitor {
     
@@ -23,9 +23,19 @@ public interface ASTVisitor {
     
     default void visit(Label l) {}
     
-    default void visit(Question q) {}
-    
     default void visit(StatementSet s) {}
+    
+    default void visit(BooleanQuestion q) {}
+    
+    default void visit(DateQuestion q) {}
+    
+    default void visit(DecimalQuestion q) {}
+    
+    default void visit(IntQuestion q) {}
+    
+    default void visit(MoneyQuestion q) {}
+    
+    default void visit(StringQuestion q) {}
     
     default void visit(Add a) {}
     

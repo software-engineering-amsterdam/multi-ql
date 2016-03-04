@@ -2,7 +2,7 @@ package nl.uva.sea.ql.checker;
 
 import java.util.*;
 import nl.uva.sea.ql.ast.Label;
-import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.ast.question.*;
 
 /**
  * Visitor to detect identical labels that were used for different questions.
@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * @author Olav Trauschke
  * @version 3-mrt-2016
  */
-public class DuplicateLabelDetector implements ASTVisitor {
+public class DuplicateLabelDetector extends GeneralizedASTVisitor {
     
     /**
      * Error presented to the user when a <code>Question</code> was found to be
@@ -43,13 +43,21 @@ public class DuplicateLabelDetector implements ASTVisitor {
         Label label = q.getLabel();
         if (firstQuestionsForLabels.containsKey(label)) {
             Question firstQuestionWithLabel = firstQuestionsForLabels.get(label);
-            if (!q.hasEqualType(firstQuestionWithLabel)) {
+            if (!q.equals(firstQuestionWithLabel)) {
                warnings.add(DUPLICATE_LABEL_ERROR + label);
             }
         }
         else {
             firstQuestionsForLabels.put(label, q);
         }
+    }
+    
+    /**
+     * @return a <code>List</code> of all warnings produced by
+     *          <code>this DuplicateLabelDetector</code>
+     */
+    public List<String> getWarnings() {
+        return warnings;
     }
     
 }

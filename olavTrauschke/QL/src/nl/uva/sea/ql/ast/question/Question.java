@@ -10,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 4-mrt-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -55,27 +55,44 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * @return the <code>Label</code> to be displayed with <code>this Question</code>
+     * @return <code>theLabel</code> to be displayed with <code>this Question</code>
      */
     public Label getLabel() {
         return label;
     }
     
     /**
-     * Has the <code>identifier</code>, the <code>label</code> and the
-     * <code>calculation</code> of <code>this Question accept v</code> and then
-     * has <code>v visit this Question</code>.
+     * @return the <code>Expr</code> defining how to compute the value of
+     *          <code>this Question</code>, or <code>null</code> if it should be
+     *          answered by the user
+     */
+    public Expr getCalculation() {
+        return calculation;
+    }
+    
+    /**
+     * Has the children of <code>this Question accept v</code> and then has
+     * <code>v visit this Question</code>.
      * 
      * @param v an <code>ASTVisitor</code> that should
      *          <code>visit this Question</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
+    public abstract void accept(ASTVisitor v);
+    
+    /**
+     * Has the <code>identifier</code>, the <code>label</code> and the
+     * <code>calculation</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should <code>visit</code> the
+     *          children of <code>this Question</code>
+     */
+    protected void childrenAccept(ASTVisitor v) {
         identifierAccept(v);
         labelAccept(v);
-        calculation.accept(v);
-        
-        v.visit(this);
+        if (calculation != null) {
+            calculation.accept(v);
+        }
     }
     
     /**
@@ -118,6 +135,36 @@ public abstract class Question extends ASTNode {
      *          in subclasses returning booleans
      */
     public boolean isBoolean(){
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Question</code> returns a decimal value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning decimals
+     */
+    public boolean isDecimal() {
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Question</code> returns an integer value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning integers
+     */
+    public boolean isInt() {
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Question</code> returns a money value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning money
+     */
+    public boolean isMoney() {
         return false;
     }
     

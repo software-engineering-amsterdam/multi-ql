@@ -1,5 +1,7 @@
 package nl.uva.sea.ql.ast.expr;
 
+import java.util.Map;
+import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
@@ -7,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * and have two arguments in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 4-mrt-2016
  */
 public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
@@ -23,6 +25,9 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
     private final Expr firstExpr;
     private final Expr secondExpr;
+    private boolean isDecimal;
+    private boolean isInt;
+    private boolean isMoney;
     
     /**
      * Constructor for objects of class <code>BinaryNumericOperatorExpr</code>.
@@ -50,6 +55,83 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
         secondExpr.accept(v);
         
         v.visit(this);
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this BinaryNumericOperatorExpr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this BinaryNumericOperatorExpr</code> was set to
+     *          represent a decimal value
+     */
+    @Override
+    public boolean isDecimal(Map<Ident,Question> questionTypes) {
+        return isDecimal;
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this BinaryNumericOperatorExpr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this BinaryNumericOperatorExpr</code> was set to
+     *          represent an integer value
+     * 
+     */
+    @Override
+    public boolean isInt(Map<Ident,Question> questionTypes) {
+        return isInt;
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this BinaryNumericOperatorExpr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this BinaryNumericOperatorExpr</code> was set to
+     *          represent a money value
+     */
+    @Override
+    public boolean isMoney(Map<Ident,Question> questionTypes) {
+        return isMoney;
+    }
+    
+    /**
+     * Set whether <code>this BinaryNumericOperatorExpr</code> represents a
+     * decimal value.
+     * 
+     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
+     *                  represents a decimal value
+     */
+    public void setIsDecimal(boolean newValue) {
+        isDecimal = newValue;
+    }
+    
+    /**
+     * Set whether <code>this BinaryNumericOperatorExpr</code> represents an int
+     * value and set that <code>this BinaryNumericOperatorExpr</code> represents
+     * a decimal value when the <code>newValue</code> is <code>true</code>
+     * (because an integer value is decimal by definition).
+     * N.B. <code>isDecimal</code> is NOT set when <code>newValue</code> is
+     * <code>false</code> because a non-integer value could still be decimal.
+     * 
+     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
+     *                  represents an integer value
+     */
+    public void setIsInt(boolean newValue) {
+        isInt = newValue;
+    }
+    
+    /**
+     * Set whether <code>this BinaryNumericOperatorExpr</code> represents a money
+     * value.
+     * 
+     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
+     *                  reprsents a money value
+     */
+    public void setIsMoney(boolean newValue) {
+        isMoney = newValue;
     }
     
     /**
