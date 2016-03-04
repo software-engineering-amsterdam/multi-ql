@@ -1,0 +1,15 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+public class TestClass {
+
+    public static void main(String[] args) {
+	BooleanType boolA = new BooleanType();
+	BooleanType boolB = new BooleanType();
+	
+	IntegerType intA = new IntegerType();
+	
+	
+
+    }
+
+}

@@ -1,0 +1,28 @@
+package eu.bankersen.kevin.ql.util.testing.new1;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class BooleanType extends TypeObject {
+
+    private final Type type = Type.INTEGER;
+
+    @Override
+    public Type getType() {
+	return Type.INTEGER;
+    }
+
+    @Override
+    public boolean compatible(TypeObject typeObject) {
+	switch(typeObject.getType()) {
+	case MONEY: return true;
+	case INTEGER: return true;
+	default : return false;
+	}
+    }
+    
+    @Override
+    public boolean sameType(TypeObject typeObject) {
+	return typeObject.getType().equals(type);
+    }
+
+}

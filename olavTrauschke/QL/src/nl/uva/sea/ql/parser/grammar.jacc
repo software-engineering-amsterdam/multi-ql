@@ -40,7 +40,6 @@
 
 %{
 import java.io.FileNotFoundException;
-import java.util.Set;
 import nl.uva.sea.ql.ast.*;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;
@@ -111,6 +110,8 @@ private Form result;
  * 
  * @param filename a <code>String</code> containing the path to the file
  *                  the constructed <code>Parser</code> should parse
+ * @throws FileNotFoundException when the file specified by
+ *                                  <code>filename</code> could not be read
  */
 public Parser(String filename) throws FileNotFoundException {
     lexer = new Lexer(filename);

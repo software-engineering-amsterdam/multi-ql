@@ -1,8 +1,0 @@
-package eu.bankersen.kevin.ql.context.errors;
-
-public class SemanticError extends Error {
-
-    public SemanticError(int line, String variable) {
-	super(line, "Line " + line + ": \"" + variable + "\" does not exist!");	
-    }
-}

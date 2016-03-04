@@ -1,0 +1,10 @@
+package eu.bankersen.kevin.ql.util.testing.new2;
+
+public class Testting {
+
+    public static void main(String[] args) {
+	// TODO Auto-generated method stub
+
+    }
+
+}

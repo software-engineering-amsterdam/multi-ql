@@ -6,32 +6,20 @@ import java.util.Map;
 import java.util.HashMap;
 import org.uva.ql.ast.*;
 import org.uva.ql.ast.expr.*;
-import org.uva.ql.ast.expr.math.*;
-import org.uva.ql.ast.expr.rel.*;
 import org.uva.ql.ast.stat.*;
 import org.uva.ql.ast.type.*;
 import org.uva.ql.ast.form.*;
 import org.uva.ql.ast.literal.*;
 }
 
-file :  questionnaire EOF
+file :  form EOF
      ;
-     
-questionnaire returns [QLQuestionnaire result]
-    locals [
-      List<QLForm> forms = new ArrayList<>();
-    ]
-    @after{
-        $result = new QLQuestionnaire($ctx, $ctx.forms);
-    }
-    :   (form{ $ctx.forms.add($form.result); })+
-    ;  
 
 form returns [QLForm result]
-    :   'form' + ID + block { $result = new QLForm($ctx, $ID.text, $block.result); }
+    :   'form' + ID + block[new BooleanLiteral(null, true)] { $result = new QLForm($ctx, $ID.text, $block.result); }
     ;
     
-block returns [QLBlock result]
+block[Expr condition] returns [QLBlock result]
     locals [
       List<QLQuestion> questions = new ArrayList<>();
       List<QLIFStatement> statements = new ArrayList<>();
@@ -39,25 +27,25 @@ block returns [QLBlock result]
     @after{
         $result = new QLBlock($ctx, $ctx.questions, $ctx.statements);
     }
-    : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
+    : '{' + (ifStat[$condition] { $ctx.statements.add($ifStat.result); } | question[$condition] { $ctx.questions.add($question.result); } )+ '}'
     
     ;
     
-ifStat returns [QLIFStatement result]
-    : 'if' + '(' + orExpr + ')' + block 
+ifStat[Expr condition] returns [QLIFStatement result]
+    : 'if' + '(' + orExpr + ')' + block[new And(null, condition, $orExpr.result)] 
     { 
         $result = new QLIFStatement($ctx, $orExpr.result, $block.result);
     }
     ;
 
-question returns [QLQuestion result]
+question[Expr condition] returns [QLQuestion result]
     : variableType + ID + STR + orExpr
     {
-        $result = new QLQuestionComputed($ctx, $variableType.result, $ID.text,  $STR.text, $orExpr.result);
+        $result = new QLQuestionComputed($ctx, $variableType.result, $ID.text,  $STR.text, $condition, $orExpr.result);
     }
     | variableType + ID + STR 
     { 
-        $result = new QLQuestionInput($ctx, $variableType.result, $ID.text, $STR.text);
+        $result = new QLQuestionInput($ctx, $variableType.result, $ID.text, $STR.text, $condition);
     }
     ;
     
@@ -100,12 +88,12 @@ unExpr returns [Expr result]
     ;    
     
 primary returns [Expr result]
-    : literal        { $result = new LiteralExpr($ctx, $literal.result); }
+    : literal        { $result = $literal.result; }
     | ID             { $result = new VariableExpr($ctx, $ID.text); }
     | '(' orExpr ')' { $result = $orExpr.result; }
     ;
     
-literal returns [Literal result]
+literal returns [Expr result]
     : INT   { $result = new IntegerLiteral($ctx, Integer.valueOf($INT.text)); }
     | STR   { $result = new StringLiteral($ctx, $STR.text); }
     | BOOL  { $result = new BooleanLiteral($ctx, Boolean.valueOf($BOOL.text)); }

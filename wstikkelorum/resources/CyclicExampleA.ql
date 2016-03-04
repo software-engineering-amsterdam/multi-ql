@@ -1,3 +1,3 @@
 form CyclicExampleA{
-	identifierA: int "Cyclic dependent" (indentifierA)
+	A: int "Cyclic dependent" (A)
 }

@@ -1,9 +1,0 @@
-package eu.bankersen.kevin.ql.context.errors;
-
-public class AllreadyDeclaredError extends Error {
-
-    public AllreadyDeclaredError(int line, String name) {
-	super(line, "\"" + name + "\" already declared!");
-    }
-
-}

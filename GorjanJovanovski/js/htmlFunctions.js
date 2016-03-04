@@ -1,8 +1,8 @@
-function refreshGUI(ast) {
+function refreshGUI(ast, environment) {
 	$(".questionDiv").hide();
 	ast.transverseAST((questionNode) => {
 		$(".questionDiv[qllabel='" + questionNode.label + "']").show();
-		$("input[name='" + questionNode.label + "']").val(questionNode.value);
+		$("input[name='" + questionNode.label + "']").val(environment.getValue(questionNode.label));
 	}, undefined, true);
 }
 
@@ -33,11 +33,11 @@ function generateQuestionHTML(questionNode) {
 	return html;
 }
 
-function renderQuestions(ast) {
+function renderQuestions(ast, environment) {
 	ast.transverseAST((questionNode) => {
-		$("#output").append(generateQuestionHTML(questionNode));
+		$("#output").append(generateQuestionHTML(questionNode, environment));
 	});
-	registerQuestionChangeListeners(ast);
+	registerQuestionChangeListeners(ast, environment);
 
 }
 

@@ -8,4 +8,6 @@ public abstract class Expr extends ASTNode {
 	public Expr(ParserRuleContext context) {
 		super(context);
 	}
+
+	public abstract <T, U> T accept(ExprVisitor<T, U> visitor, U context);
 }

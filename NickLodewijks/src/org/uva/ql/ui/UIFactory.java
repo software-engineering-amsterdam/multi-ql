@@ -1,14 +1,11 @@
 package org.uva.ql.ui;
 
-import org.uva.ql.domain.Form;
-import org.uva.ql.domain.Question;
-import org.uva.ql.domain.Questionnaire;
+import org.uva.ql.ast.form.QLForm;
+import org.uva.ql.ast.stat.QLQuestion;
 
 public interface UIFactory {
 
-	public UIQuestionnaire create(Questionnaire questionnaire);
+	public UIQuestionnaire create(QLForm form);
 
-	public UIForm create(Form form);
-
-	public UIQuestion create(Question question);
+	public UIQuestion create(QLQuestion question);
 }

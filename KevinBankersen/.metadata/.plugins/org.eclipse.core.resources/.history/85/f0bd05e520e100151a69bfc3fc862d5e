@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.util.testing.new1;
+
+public abstract class TypeObject {
+    
+    public abstract TypeObject getType();
+    
+    public boolean sameType(TypeObject type) {
+	return false;
+    }
+
+}
