@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.symbol_table;
+
+import eu.bankersen.kevin.ql.ast.Identifier;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.stat.Question;
+
+public interface SymbolTableBuilderInterface {
+    
+    // Expressions
+    SymbolTableBuilder construct(Expr data);
+    
+    // Looking at Identifiers
+    SymbolTableBuilder construct(Identifier data);
+
+    // Looking at Questions
+    SymbolTableBuilder construct(Question data);
+
+}

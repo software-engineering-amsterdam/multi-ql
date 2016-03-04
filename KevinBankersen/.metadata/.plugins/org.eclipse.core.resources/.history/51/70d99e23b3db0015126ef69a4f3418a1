@@ -1,9 +1,0 @@
-package eu.bankersen.kevin.ql.util.testing.widget;
-
-import javax.swing.JPanel;
-
-abstract class Widget {
-    
-    public abstract JPanel build();
-
-}

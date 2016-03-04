@@ -4,6 +4,8 @@ package eu.bankersen.kevin.ql.interpreter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esotericsoftware.minlog.Log;
+
 import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.context.SymbolTable;
 import eu.bankersen.kevin.ql.gui.ViewListener;
@@ -34,6 +36,7 @@ public class Interpreter implements ViewListener {
 	symbolTable = form.evalForm(symbolTable);
 	// Evaluate a second time to remove from invisible questions.
 	symbolTable = form.evalForm(symbolTable);
+	Log.info("Symbol Table Contents\n" + symbolTable.toString());
 	dataUpdate();
     }
 }

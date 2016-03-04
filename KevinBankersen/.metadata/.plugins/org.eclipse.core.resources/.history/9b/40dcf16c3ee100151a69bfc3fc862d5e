@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.util.test;
+
+import eu.bankersen.kevin.ql.util.test.MoneyType;
+import eu.bankersen.kevin.ql.util.test.NumberType;
+
+public class MoneyType extends NumberType {
+
+    public boolean isSimilar(Type type) {
+	return type instanceof MoneyType;
+    }
+}

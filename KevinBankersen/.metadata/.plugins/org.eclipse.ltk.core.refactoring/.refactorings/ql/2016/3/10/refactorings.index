@@ -16,3 +16,34 @@
 1456998547844	Rename type 'IntType2'
 1456998712633	Delete element
 1457001315243	Move compilation units
+1457006348917	Rename type 'IntegerExpr'
+1457007558323	Delete elements
+1457008139212	Rename method 'sameType'
+1457008173429	Rename method 'equalType'
+1457009305433	Delete element
+1457009377334	Copy compilation unit
+1457009450932	Delete element
+1457009637412	Change method 'Expr'
+1457009761928	Change method 'addSymbol'
+1457010965829	Delete element
+1457010970577	Delete element
+1457035385935	Change method 'getType'
+1457094486516	Copy compilation unit
+1457096581203	Rename type 'VisitTest'
+1457099626321	Delete element
+1457100513462	Move compilation unit
+1457100521179	Copy package
+1457100526753	Delete element
+1457100530230	Move compilation unit
+1457100534021	Delete element
+1457100957701	Rename package 'eu.bankersen.kevin.ql.symboltable'
+1457101165197	Extract interface 'ContextInterface'
+1457101185300	Delete element
+1457101234198	Extract interface 'ContextInterface'
+1457103714654	Delete element
+1457110166164	Delete element
+1457110594176	Rename local variable 'allReferences'
+1457111109462	Move compilation unit
+1457111112677	Delete element
+1457111157437	Rename local variable 'tempList'
+1457111177139	Rename local variable 'symbol'

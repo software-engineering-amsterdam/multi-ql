@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.ast.type;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public abstract class TypeObject {
+    
+    public abstract Type getType();
+    
+    public abstract boolean compatible(TypeObject typeObject);
+    
+    public abstract boolean sameType(TypeObject typeObject);
+    
+    public Object parseValue(String value) {
+	return null;
+    }
+    
+    public Object parseValue(Integer value) {
+	return null;
+    }
+    
+    public Object parseValue(Boolean value) {
+	return null;
+    }
+
+}

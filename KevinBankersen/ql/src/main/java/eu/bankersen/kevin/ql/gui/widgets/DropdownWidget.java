@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.ast.type.Type;
 import eu.bankersen.kevin.ql.context.Symbol;
 import eu.bankersen.kevin.ql.context.SymbolTable;
 
@@ -32,6 +32,7 @@ public class DropdownWidget implements Widget {
 	inputField.setSelectedIndex(-1);
 	inputField.setPreferredSize(new Dimension(120, 20));
 	inputField.addActionListener(new ComboListener());
+	inputField.setEditable(!data.isComputed());
 
 	panel.add(inputField);
     }
@@ -44,14 +45,17 @@ public class DropdownWidget implements Widget {
     @Override
     public void dataUpdate(SymbolTable symbolTable) {
 	Symbol data = symbolTable.getSymbol(name);
-	if (data.getValue().toString().equalsIgnoreCase("true")) {
-	    inputField.setSelectedIndex(0);
-	} else if (data.getValue().toString().equalsIgnoreCase("false")) {
-	    inputField.setSelectedIndex(1);
+
+	if (data.getValue() != null) {
+	    if (data.getValue().toString().equalsIgnoreCase("true")) {
+		inputField.setSelectedIndex(0);
+	    } else if (data.getValue().toString().equalsIgnoreCase("false")) {
+		inputField.setSelectedIndex(1);
+	    }
+	    // Update the view.
+	    DropdownWidget.this.panel.revalidate();
+	    DropdownWidget.this.panel.repaint();
 	}
-	// Update the view.
-	DropdownWidget.this.panel.revalidate();
-	DropdownWidget.this.panel.repaint();
     }
 
     @Override
@@ -69,9 +73,7 @@ public class DropdownWidget implements Widget {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    JComboBox cb = (JComboBox) e.getSource();
-	    widgetUpdate(Boolean.valueOf(cb.getSelectedItem().toString()));
+	    widgetUpdate(type.parseValue(cb.getSelectedItem().toString()));
 	}
-
-
     }
 }

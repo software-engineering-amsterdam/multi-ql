@@ -1,0 +1,32 @@
+package eu.bankersen.kevin.ql.ast.expr;
+
+import eu.bankersen.kevin.ql.ast.type.BooleanType;
+import eu.bankersen.kevin.ql.context.SymbolTable;
+
+public abstract class BooleanExpr extends Expr {
+
+    private final Expr lhs;
+    private final Expr rhs;
+    private final int line;
+    
+    public BooleanExpr(Expr lhs, Expr rhs, int line) {
+	super(new BooleanType());
+	this.lhs = lhs;
+	this.rhs = rhs;
+	this.line = line;
+    }
+    
+    public Expr lhs() {
+	return lhs;
+    }
+    
+    public Expr rhs() {
+	return rhs;
+    }
+    
+    public int line() {
+	return line;
+    }
+    
+    public abstract Boolean eval(SymbolTable symbolTable) throws EvaluateExeption;
+}

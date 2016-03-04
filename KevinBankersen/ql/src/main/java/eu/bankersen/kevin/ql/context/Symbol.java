@@ -1,9 +1,10 @@
 package eu.bankersen.kevin.ql.context;
 
-import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.ast.type.Type;
 
 public class Symbol {
 
+    private final Boolean computed;
     private final String name;
     private final String question;
     private final Type type;
@@ -11,7 +12,8 @@ public class Symbol {
     private Boolean active;
 
 
-    public Symbol(String name, String question, Type type, Object value) {
+    public Symbol(Boolean computed, String name, String question, Type type, Object value) {
+	this.computed = computed;
 	this.name = name;
 	this.question = question;
 	this.type = type;
@@ -21,6 +23,10 @@ public class Symbol {
 
     public String getName() {
 	return name;
+    }
+    
+    public Boolean isComputed() {
+	return computed;
     }
 
     public String getQuestion() {
@@ -50,8 +56,8 @@ public class Symbol {
 
     @Override
     public String toString() {
-	if (active) {
-	    return name + "=" + value.toString();
+	if (active & value != null) {
+	    return name + "=" + value.toString() + "\n";
 	} else {
 	    return "";
 	}

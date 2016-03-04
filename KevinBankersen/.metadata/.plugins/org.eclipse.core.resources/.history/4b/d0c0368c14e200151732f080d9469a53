@@ -1,0 +1,5 @@
+package eu.bankersen.kevin.ql.symbol_table;
+
+public interface SymbolTableBuilderInterface {
+
+}

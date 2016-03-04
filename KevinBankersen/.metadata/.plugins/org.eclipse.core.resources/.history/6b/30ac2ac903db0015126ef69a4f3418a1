@@ -1,9 +1,0 @@
-package eu.bankersen.kevin.ql.interpreter;
-
-import eu.bankersen.kevin.ql.context.SymbolTable;
-
-public class Interpreter {
-
-    private final Form form;
-    private SymbolTable symbolTable;
-}

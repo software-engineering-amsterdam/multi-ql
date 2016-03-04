@@ -1,0 +1,19 @@
+package eu.bankersen.kevin.ql.ast.type;
+
+public class IntType extends NumberType {
+
+    @Override
+    public boolean isSimilar(Type type) {
+	return type instanceof IntType;
+    }
+    
+    @Override
+    public Integer parseValue(String value) {
+	return stringToDouble(value);
+    }
+
+    @Override
+    public String toString() {
+	return "Integer";
+    }
+}
