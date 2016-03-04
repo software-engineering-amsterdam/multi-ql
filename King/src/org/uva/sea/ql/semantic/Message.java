@@ -3,12 +3,12 @@ package org.uva.sea.ql.semantic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Result {
+public class Message {
 
 	private final List<String> warnings = new ArrayList<>();
 	private final List<String> errors = new ArrayList<>();
 
-	public Result() {
+	public Message() {
 
 	}
 

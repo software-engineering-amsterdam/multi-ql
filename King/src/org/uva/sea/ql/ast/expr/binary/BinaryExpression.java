@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr.binary;
 
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class BinaryExpression extends Expr {
 	protected final Expr e1;
@@ -20,7 +20,10 @@ public class BinaryExpression extends Expr {
 	public Expr getSecondExpression() {
 		return e2;
 	}
-
+	@Override
+	public String toString() {
+		return "[ "+e1.toString()+" and "+e2.toString()+" ]";
+	}
 	@Override
 	public Type accept(QLNodeVisitor visitor) {
 		// TODO Auto-generated method stub

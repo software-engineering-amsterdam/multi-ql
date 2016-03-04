@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr.math;
 
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class Div extends MathExpression {
 

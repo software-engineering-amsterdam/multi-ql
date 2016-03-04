@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast.visitor.interfaces;
+package org.uva.sea.ql.ast.visitors;
 
 import org.uva.sea.ql.ast.VarDeclaration;
 import org.uva.sea.ql.ast.VarIdentifier;
@@ -38,17 +38,11 @@ public interface QLNodeVisitor {
 	
 	public Type visit(Block block);
 	
-	public Type visit(VarDeclaration varDeclaration);
-	
-	public Type visit(VarIdentifier varId);
-	
 	public Type visit(Add add);
 	
 	public Type visit(IFblock statement);
 	
 	public Type visit(Question question);
-	
-	public Type visit(NormalQuestion normalQuestion);
 	
 	public Type visit(ReadOnlyQuestion readOnlyQuestion);
 	

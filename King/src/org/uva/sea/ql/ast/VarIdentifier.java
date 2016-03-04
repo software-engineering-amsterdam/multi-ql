@@ -1,9 +1,8 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
-
-public class VarIdentifier extends ASTNode{
+//Remove the get types
+public class VarIdentifier{
 	private final String name;
 	
 	private Type type;
@@ -28,10 +27,10 @@ public class VarIdentifier extends ASTNode{
 	public void setType(Type type) {
 		this.type = type;
 	}
-
+	
 	@Override
-	public Type accept(QLNodeVisitor visitor) {
-		return null;
-		
+	public String toString() {
+		return "[ name: "+name+" -> type: "+type+" ]";
 	}
+
 }

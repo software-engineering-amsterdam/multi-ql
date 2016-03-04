@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr.literal;
 
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class LiteralExpression extends Expr {
 	private Literal<?> literal;
@@ -18,6 +18,11 @@ public class LiteralExpression extends Expr {
 	
 	public Type getLiteralType() {
 		return literal.getType();
+	}
+	
+	@Override
+	public String toString() {
+		return "[ "+literal.toString()+" ]";
 	}
 	
 	public Literal<?> getLiteral() {

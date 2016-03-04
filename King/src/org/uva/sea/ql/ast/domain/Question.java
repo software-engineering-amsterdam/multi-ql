@@ -3,7 +3,7 @@ package org.uva.sea.ql.ast.domain;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.VarDeclaration;
 import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class Question extends ASTNode {
 	private final VarDeclaration varDeclaration;
@@ -21,12 +21,14 @@ public class Question extends ASTNode {
 	public String getText() {
 		return text;
 	}
+	
+	@Override
+	public String toString() {
+		return "[ "+varDeclaration.toString()+" -> Lable "+text+" ]";
+	}
 
 	@Override
 	public Type accept(QLNodeVisitor qlPartVisitor) {
 		return qlPartVisitor.visit(this);
-		
-		
-		
 	}
 }

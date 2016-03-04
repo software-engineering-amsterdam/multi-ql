@@ -16,5 +16,10 @@ public class Type {
 		// TODO Auto-generated method stub
 		return name.equals(type.getName());
 	}
+	
+	@Override
+	public String toString() {
+		return "[ "+name+" ]";
+	}
 
 }

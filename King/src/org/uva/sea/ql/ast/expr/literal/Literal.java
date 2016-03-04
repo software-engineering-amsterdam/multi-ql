@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.expr.literal;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class Literal<T> extends ASTNode {
 
@@ -23,6 +23,10 @@ public class Literal<T> extends ASTNode {
 		return type;
 	}
 
+	@Override
+	public String toString() {
+		return "[ "+type.getName()+": "+value+" ]";
+	}
 	@Override
 	public Type accept(QLNodeVisitor visitor) {
 		// TODO Auto-generated method stub

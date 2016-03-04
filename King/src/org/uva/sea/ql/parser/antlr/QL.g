@@ -57,7 +57,7 @@ question returns [Question result]
     | STR variable
     {
     	
-        $result = new NormalQuestion($variable.result, $STR.text);
+        $result = new Question($variable.result, $STR.text);
         $block::questions.add($result);
     }
 	;

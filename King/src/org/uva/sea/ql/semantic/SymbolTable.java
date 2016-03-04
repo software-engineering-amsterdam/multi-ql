@@ -2,8 +2,6 @@ package org.uva.sea.ql.semantic;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.uva.sea.ql.ast.ValueType;
 import org.uva.sea.ql.ast.expr.type.Type;
 
 public class SymbolTable {

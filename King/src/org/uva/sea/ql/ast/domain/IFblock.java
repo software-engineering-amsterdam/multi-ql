@@ -3,7 +3,7 @@ package org.uva.sea.ql.ast.domain;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
+import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class IFblock extends ASTNode {
 	private final Expr condition;
@@ -25,5 +25,10 @@ public class IFblock extends ASTNode {
 	}
 	public Expr getCondition() {
 		return condition;
+	}
+	
+	@Override
+	public String toString() {
+		return "[ "+condition.toString()+" ]";
 	}
 }

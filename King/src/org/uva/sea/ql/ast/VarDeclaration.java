@@ -1,10 +1,8 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitor.interfaces.QLNodeVisitor;
-import org.uva.sea.ql.semantic.SymbolTable;
 
-public class VarDeclaration extends ASTNode{
+public class VarDeclaration{
 	private final Type type;
 	private final VarIdentifier identifier;
 
@@ -22,11 +20,8 @@ public class VarDeclaration extends ASTNode{
 	}
 
 	@Override
-	public Type accept(QLNodeVisitor visitor) {
-		// TODO Auto-generated method stub
-		return null;
-		
+	public String toString() {
+		return "[ "+identifier.toString()+" ]";
 	}
-
 	
 }
