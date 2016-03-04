@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of the + operator in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 4-mrt-2016
  */
 public class Add extends Expr {
     
@@ -25,6 +25,7 @@ public class Add extends Expr {
     private final Expr firstExpr;
     private final Expr secondExpr;
     private boolean isDecimal;
+    private boolean isInt;
     
     /**
      * Constructor for objects of class <code>Add</code>.
@@ -54,14 +55,25 @@ public class Add extends Expr {
     }
     
     /**
-     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
-     *                      <code>this Add</code> might contain to a
-     *                      <code>Question</code> with that <code>Ident</code>
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Add</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
      * @return whether <code>this Add</code> was set to represent a decimal value
      */
     @Override
     public boolean isDecimal(Map<Ident,Question> questionTypes) {
         return isDecimal;
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Add</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this add</code> was set to represent an integer value
+     */
+    @Override
+    public boolean isInt(Map<Ident,Question> questionTypes) {
+        return isInt;
     }
     
     /**
@@ -72,6 +84,15 @@ public class Add extends Expr {
      */
     public void setIsDecimal(boolean newValue) {
         isDecimal = newValue;
+    }
+    
+    /**
+     * Set wheter <code>this Add</code> represents an integer value.
+     * 
+     * @param newValue whether or not <code>this Add</code> represents an int value
+     */
+    public void setIsInt(boolean newValue) {
+        isInt = newValue;
     }
     
     /**

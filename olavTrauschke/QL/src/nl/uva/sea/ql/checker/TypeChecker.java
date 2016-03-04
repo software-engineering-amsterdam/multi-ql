@@ -3,19 +3,13 @@ package nl.uva.sea.ql.checker;
 import java.util.*;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
-import nl.uva.sea.ql.ast.question.BooleanQuestion;
-import nl.uva.sea.ql.ast.question.DateQuestion;
-import nl.uva.sea.ql.ast.question.DecimalQuestion;
-import nl.uva.sea.ql.ast.question.IntQuestion;
-import nl.uva.sea.ql.ast.question.MoneyQuestion;
-import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.ast.question.StringQuestion;
+import nl.uva.sea.ql.ast.question.*;
 
 /**
  * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 4-mrt-2016
  */
 public class TypeChecker implements ASTVisitor {
     
@@ -33,6 +27,11 @@ public class TypeChecker implements ASTVisitor {
      * Description of the type decimal.
      */
     public static final String DECIMAL = "decimal";
+    
+    /**
+     * Description of the type int.
+     */
+    public static final String INT = "int";
     
     /**
      * Error presented to the user when a <code>ConditionalStatement</code> has
@@ -123,9 +122,18 @@ public class TypeChecker implements ASTVisitor {
         }
     }
     
+    /**
+     * Add an error if an <code>IntQuestion</code> with a non-integer
+     * <code>calculation</code> was found.
+     * 
+     * @param q the <code>IntQuestion</code> to check
+     */
     @Override
     public void visit(IntQuestion q) {
-        //TODO check calculation is null or int
+        Expr calculation = q.getCalculation();
+        if (calculation != null && !isInt(calculation)) {
+            addQuestionTypeError(INT);
+        }
     }
     
     @Override
@@ -177,19 +185,32 @@ public class TypeChecker implements ASTVisitor {
     }
     
     /**
-     * Checks whether an <code>ASTNode</code> has a boolean value.
+     * Checks whether an <code>Expr</code> has a boolean value.
      * 
-     * @param n the <code>ASTNode</code> to check
-     * @return <code>true</code> if and only if <code>n.isBoolean()</code>
-     *          returns <code>true</code> or n is an <code>Ident</code> that
-     *          refers to a <code>Question</code> for which this is the case
+     * @param e the <code>Expr</code> to check
+     * @return <code>true</code> if and only if
+     *          <code>e.isBoolean(questionTypes)</code> returns <code>true</code>
+     *          or <code>e</code> is an <code>Ident</code> that refers to a
+     *          <code>Question</code> for which this is the case
      */
     private boolean isBoolean(Expr e) {
         return e.isBoolean(questionTypes);
     }
     
+    /**
+     * Checks whether an <code>Expr</code> has a decimal value.
+     * 
+     * @param e the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>e.isDecimal(questionTypes</code>
+     *          returns <code>true</code> or <code>e</code> is an <code>ident</code>
+     *          that refers to a <code>Question</code> for which this is the case
+     */
     private boolean isDecimal(Expr e) {
         return e.isDecimal(questionTypes);
+    }
+    
+    private boolean isInt(Expr e) {
+        return e.isInt(questionTypes);
     }
     
     /**

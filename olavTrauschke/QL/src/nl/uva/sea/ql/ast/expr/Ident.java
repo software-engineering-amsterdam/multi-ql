@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 4-mrt-2016
  */
 public class Ident extends Expr {
     
@@ -63,9 +63,9 @@ public class Ident extends Expr {
     /**
      * Returns whether <code>this Ident</code> represents a decimal value.
      * 
-     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
-     *                      <code>this Ident</code> might be to a
-     *                      <code>Question</code> with that <code>Ident</code>
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Ident</code>
+     *                      might be to a <code>Question</code> with that
+     *                      <code>Ident</code>
      * @return <code>true</code> if and only if <code>questionTypes</code>
      *          maps <code>this Ident</code> to a <code>Question</code> for which
      *          {@link nl.uva.sea.ql.ast.question.Question#isDecimal() isDecimal()}
@@ -78,6 +78,25 @@ public class Ident extends Expr {
         
         Question q = questionTypes.get(this);
         return q.isDecimal();
+    }
+    
+    /**
+     * Returns whether <code>this Ident</code> represents an integer value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Ident</code>
+     *                      might be to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return <code>true</code> if and only if <code>questionTypes</code>
+     *          maps <code>this Ident</code> to a <code>Question</code> for which
+     *          {@link nl.uva.sea.ql.ast.question.Question#isInt() isInt()} returns
+     *          <code>true</code> or does not map <code>this Ident</code> at all
+     *          (to prevent unnecessary error messages)
+     */
+    public boolean isInt(Map<Ident,Question> questionTypes) {
+        if (!questionTypes.containsKey(this)) return true;
+        
+        Question q = questionTypes.get(this);
+        return q.isInt();
     }
     
     /**

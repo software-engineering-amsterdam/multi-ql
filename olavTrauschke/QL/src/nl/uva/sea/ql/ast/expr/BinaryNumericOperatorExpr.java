@@ -9,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * and have two arguments in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 4-mrt-2016
  */
 public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
@@ -26,6 +26,7 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     private final Expr firstExpr;
     private final Expr secondExpr;
     private boolean isDecimal;
+    private boolean isInt;
     
     /**
      * Constructor for objects of class <code>BinaryNumericOperatorExpr</code>.
@@ -56,9 +57,9 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     }
     
     /**
-     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
-     *                      <code>this BinaryNumericOperatorExpr</code> might
-     *                      contain to a <code>Question</code> with that
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this BinaryNumericOperatorExpr</code>
+     *                      might contain to a <code>Question</code> with that
      *                      <code>Ident</code>
      * @return whether <code>this BinaryNumericOperatorExpr</code> was set to
      *          represent a decimal value
@@ -66,6 +67,20 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     @Override
     public boolean isDecimal(Map<Ident,Question> questionTypes) {
         return isDecimal;
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this BinaryNumericOperatorExpr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this BinaryNumericOperatorExpr</code> was set to
+     *          represent an integer value
+     * 
+     */
+    @Override
+    public boolean isInt(Map<Ident,Question> questionTypes) {
+        return isInt;
     }
     
     /**
@@ -77,6 +92,21 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
      */
     public void setIsDecimal(boolean newValue) {
         isDecimal = newValue;
+    }
+    
+    /**
+     * Set whether <code>this BinaryNumericOperatorExpr</code> represents an
+     * int value and set that <code>this BinaryNumericOperatorExpr</code>
+     * represents a decimal value when the <code>newValue</code> is <code>true</code>
+     * (because an integer value is decimal by definition).
+     * N.B. <code>isDecimal</code> is NOT set when <code>newValue</code> is
+     * <code>false</code> because a non-integer value could still be decimal.
+     * 
+     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
+     *                  represents an integer value
+     */
+    public void setIsInt(boolean newValue) {
+        isInt = newValue;
     }
     
     /**
