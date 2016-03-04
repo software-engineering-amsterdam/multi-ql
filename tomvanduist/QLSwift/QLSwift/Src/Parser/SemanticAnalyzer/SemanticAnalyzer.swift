@@ -373,7 +373,7 @@ extension CyclicDependencyChecker {
     }
     
     func visit(node: QLConditional, param: [String]) -> [SemanticError] {
-        return []
+        return node.ifBlock.accept(self, param: param)
     }
     
     func visit(node: QLBlock, param: [String]) -> [SemanticError] {
