@@ -29,6 +29,9 @@ class TypeMismatchError: SemanticError {
 class UndefinedVariableError: SemanticError {
 }
 
+class CyclomaticDependencyError: SemanticError {
+}
+
 class SystemError: SemanticError {
     init(error: ErrorType) {
         super.init(description: "\(error)")
@@ -36,10 +39,33 @@ class SystemError: SemanticError {
 }
 
 class SemanticErrorCollection: NSObject, ErrorType {
-    let errors: [SemanticError]
+    private var _errors: [SemanticError]
+    var errors: [SemanticError] {
+        get {
+            return _errors
+        }
+    }
     
     init(errors: [SemanticError]) {
-        self.errors = errors
+        self._errors = errors
+    }
+    
+    func collectError(error: SemanticError) {
+        self.collectErrors([error])
+    }
+    
+    func collectErrors(errors: [SemanticError]) {
+        _errors += errors
+    }
+    
+    override var description: String {
+        var _description: String = ""
+        
+        errors.forEach { error in
+            _description += "\(error)\n"
+        }
+        
+        return _description
     }
 }
 

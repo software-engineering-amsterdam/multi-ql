@@ -33,9 +33,9 @@ class SemanticAnalyzerTests: XCTestCase {
     }
     
     // TODO: implement cyclic dependency
-//    func testCyclicDependency() {
-//        runInvalidForms("CyclicDependency")
-//    }
+    func testCyclicDependency() {
+        runInvalidForms("CyclicDependency")
+    }
     
     func runInvalidForms(file: String) {
         let forms = parseFileMany(file)

@@ -20,6 +20,10 @@ class QLQuestion {
         self.label = label
     }
     
+    func isComputed() -> Bool {
+        fatalError("Override")
+    }
+    
     func toString() -> String {
         fatalError("Override")
     }
@@ -36,6 +40,10 @@ class QLVariableQuestion: QLQuestion, QLStatement {
         self.type = type
         
         super.init(identifier: identifier, label: label)
+    }
+    
+    override func isComputed() -> Bool {
+        return false
     }
     
     override func toString() -> String {
@@ -58,6 +66,10 @@ class QLComputedQuestion: QLQuestion, QLStatement {
         self.expression = expression
         
         super.init(identifier: identifier, label: label)
+    }
+    
+    override func isComputed() -> Bool {
+        return true
     }
     
     override func toString() -> String {
