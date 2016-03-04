@@ -1,12 +1,12 @@
-package nl.uva.sc.ql.exceptions;
+package nl.uva.sc.ql.errorwarning;
 
-public class TypechecherException extends RuntimeException {
+public class CompilerException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String message;
 	
-	public TypechecherException(String message){
+	public CompilerException(String message){
 		this.message = message;
 	}
 	

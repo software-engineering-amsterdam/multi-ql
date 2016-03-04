@@ -5,22 +5,25 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import nl.uva.sc.ql.exceptions.NoValueException;
-import nl.uva.sc.ql.parser.ast.Node;
+import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.parser.value.Value;
 
-public class IfCondition extends JPanel implements GuiInterface, Observer, Subject {
+public class ConditionBlockForm extends JPanel implements GuiInterface, Observer, Subject {
 
 	private static final long serialVersionUID = 1L;
 	
     private List<Observer> observers = new ArrayList<Observer>();
 
-	private Node condition;
+	private ExpressionNode condition;
 	private List<Question> questions;
+	private State state;
 	
-	public IfCondition(Node condition){
+	public ConditionBlockForm(State state, ExpressionNode condition){
 		this.condition = condition;
-		condition.registerObserver(this);
 		this.questions = new ArrayList<Question>();
+		this.state = state;
+		state.registerObserver(this);
 	}
 
 	public void addQuestion(Question question){
@@ -29,20 +32,9 @@ public class IfCondition extends JPanel implements GuiInterface, Observer, Subje
 	
 	@Override
 	public boolean runGui() {	
-		// condition wasn't evaluated
-		if(!condition.eval()) {
-			resetPanel();
-			return false;
-		}
 		
-		// try if the condition has a value
-		try {
-			// the condition is false
-			if(! (boolean) condition.getValue()){
-				resetPanel();
-				return false;
-			}
-		} catch(NoValueException e){
+		Value value = condition.eval(state);
+		if(value == null || (boolean) value.getValue() == false) {
 			resetPanel();
 			return false;
 		}

@@ -7,19 +7,23 @@ import javax.swing.JFrame;
 //import javax.swing.JScrollPane;
 
 
+
+
 import nl.uva.sc.ql.gui.form.Form;
 import nl.uva.sc.ql.parser.ast.Node;
 
 public class QLGui {
 	
-	private Node ast;	
+	private Node ast;
+	private State state;
 	
 	public QLGui(Node ast) {
 		this.ast = ast;
+		this.state = new State();
 	}
 	
 	public void start(){
-    	CreateForm cf = new CreateForm();
+    	CreateForm cf = new CreateForm(state);
     	Form form = cf.getForm(ast);
 		
 	    Container cp = form.getContentPane();

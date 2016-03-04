@@ -2,29 +2,29 @@ package nl.uva.sc.ql.parser.ast;
 
 import nl.uva.sc.ql.parser.Visitor;
 
-public class ConditionBlockNode extends Node {
-	
+public class AssignedQuestionNode extends StatementNode {
+
+	private QuestionNode variableNode;
 	private ExpressionNode expression;
-	private BlockNode block;
 	
-	public ConditionBlockNode(ExpressionNode expression, BlockNode statement){
+	public AssignedQuestionNode(QuestionNode variableNode, ExpressionNode expression){
+		this.variableNode = variableNode;
 		this.expression = expression;
-		this.block = statement;
 	}
 	
-	@Override
-	public String getType() {
-		return "None";
+	public QuestionNode getVariableNode(){
+		return this.variableNode;
 	}
 	
 	public ExpressionNode getExpression(){
 		return this.expression;
 	}
 	
-	public BlockNode getBlock(){
-		return this.block;
+	@Override
+	public String getType() {
+		return getVariableNode().getType();
 	}
-	
+
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
@@ -33,7 +33,7 @@ public class ConditionBlockNode extends Node {
 	@Override
 	public void dump() {
 		System.out.println(this.getClass());
+		getVariableNode().dump();
 		getExpression().dump();
-		getBlock().dump();
 	}
 }

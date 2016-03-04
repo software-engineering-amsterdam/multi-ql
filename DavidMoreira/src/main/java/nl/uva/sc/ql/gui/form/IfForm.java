@@ -5,21 +5,25 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-public class IfElse extends JPanel implements GuiInterface, Observer {
+import nl.uva.sc.ql.gui.State;
+
+public class IfForm extends JPanel implements GuiInterface, Observer {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<IfCondition> ifConditions;
+	private State state;
+	private List<ConditionBlockForm> listConditionBlock;
 	private List<Question> questions;
 	
-	public IfElse(){
-		this.ifConditions = new ArrayList<IfCondition>();
+	public IfForm(State state){
+		this.state = state;
+		this.listConditionBlock = new ArrayList<ConditionBlockForm>();
 		this.questions = new ArrayList<Question>();
 	}
 	
-	public void addIfCondition(IfCondition ifCondition){
-		this.ifConditions.add(ifCondition);
-		ifCondition.registerObserver(this);
+	public void addConditionBlock(ConditionBlockForm conditionBlock){
+		this.listConditionBlock.add(conditionBlock);
+		conditionBlock.registerObserver(this);
 	}
 	
 	public void addQuestion(Question question){
@@ -28,7 +32,7 @@ public class IfElse extends JPanel implements GuiInterface, Observer {
 	
 	@Override
 	public boolean runGui() {
-		for(IfCondition i : ifConditions){
+		for(ConditionBlockForm i : listConditionBlock){
 			if(i.runGui()){
 				resetPanel();
 				this.add(i);
@@ -59,16 +63,16 @@ public class IfElse extends JPanel implements GuiInterface, Observer {
 	@Override
 	public String toString(){
 		String questionsText = "";
-		String ifConditionsText = "";
+		String listConditionBlockText = "";
 
 		for(Question q : questions){
 			questionsText += q+"\n";
 		}
 		
-		for(IfCondition q : ifConditions){
-			ifConditionsText += q+"\n";
+		for(ConditionBlockForm q : listConditionBlock){
+			listConditionBlockText += q+"\n";
 		}
 		
-		return "IfElse_ifcondition: "+ifConditionsText+"IfElse_questions: "+questionsText;
+		return "IfForm_ifcondition: "+listConditionBlockText+"IfForm_questions: "+questionsText;
 	}
 }

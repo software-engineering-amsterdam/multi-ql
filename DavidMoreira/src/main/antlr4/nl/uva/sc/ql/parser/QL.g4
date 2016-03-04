@@ -10,13 +10,8 @@ form
     ;
 
 block
-	: '{' list_statements '}'
+	: '{' statement* '}'
 	;
-
-list_statements
-    : statement*
-    ;
-
 
 statement
     : declaration
@@ -34,8 +29,7 @@ assignment
 
 type
 	: 'boolean'
-	| 'String'
-	| 'money'
+	| 'string'
 	| 'int'
 	;
 
@@ -50,22 +44,21 @@ condition_block
 
 
 stat_block
-    : block
-    | statement
+    : block					#blockStat_Block
+    | statement				#statStat_Block
     ;
 
 
 expression
-    : '(' expression ')'    								#parentisisExpression
-    | '!' expression                                  		#notExpression
-    | '-' money												#minusExpression
-    | expression op=(MULT | DIV | MOD) expression      		#multDivModExpression
- 	| expression op=(PLUS | MINUS) expression          		#additiveExpression
-    | expression op=(LTEQ | GTEQ | LT | GT) expression      #relationalExpression
-    | expression op=(EQ | NEQ) expression                   #equalityExpression
-    | expression '&&' expression                            #andExpression
-    | expression '||' expression                            #orExpression
-    | unity                                     			#unityExpression
+    : '(' expression ')'    										#parentisisExpression
+    | '!' expression                                  				#notExpression
+    | '-' INT														#minusExpression
+    | expression op=(MULT | DIV) expression      					#multDivExpression
+ 	| expression op=(PLUS | MINUS) expression          				#additiveExpression
+    | expression op=(LTEQ | GTEQ | LT | GT | EQ | NEQ) expression   #relationalExpression
+    | expression '&&' expression                            		#andExpression
+    | expression '||' expression                            		#orExpression
+    | unity                                     					#unityExpression
     ;
 
 
@@ -73,14 +66,8 @@ unity
     : ('true' | 'false')    #booleanUnity
     | IDENTIFIER        	#identifierUnity
     | String				#stringUnity
-    | money					#moneyUnity
     | INT					#integerUnity
     ;
-
-
-money
-	: INT+ '.' INT+
-	;
 
 
 EQ : '==';
@@ -93,7 +80,6 @@ PLUS : '+';
 MINUS : '-';
 MULT : '*';
 DIV : '/';
-MOD : '%';
 EQUAL : '=';
 
 IDENTIFIER: ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
