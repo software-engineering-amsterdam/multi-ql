@@ -110,11 +110,7 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
     /**
      * Set whether <code>this BinaryNumericOperatorExpr</code> represents an int
-     * value and set that <code>this BinaryNumericOperatorExpr</code> represents
-     * a decimal value when the <code>newValue</code> is <code>true</code>
-     * (because an integer value is decimal by definition).
-     * N.B. <code>isDecimal</code> is NOT set when <code>newValue</code> is
-     * <code>false</code> because a non-integer value could still be decimal.
+     * value.
      * 
      * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
      *                  represents an integer value

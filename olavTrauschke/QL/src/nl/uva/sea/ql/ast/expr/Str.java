@@ -1,12 +1,14 @@
 package nl.uva.sea.ql.ast.expr;
 
+import java.util.Map;
+import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type string in an AST.
  * 
  * @author Olav Trauschke
- * @version 1-mrt-2016
+ * @version 4-mrt-2016
  */
 public class Str extends Expr {
     
@@ -36,6 +38,20 @@ public class Str extends Expr {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+    
+    /**
+     * Returns whether <code>this Str</code> represents a string value.
+     * 
+     * @param questionTypes a <code>Map</code> from <code>Ident</code>s found in
+     *                      the ast <code>this Str</code> is part of to a
+     *                      <code>Question</code> with that <code>Ident</code>
+     * @return <code>true</code>, because a <code>Str</code> represents a string
+     *          value by definition
+     */
+    @Override
+    public boolean isString(Map<Ident,Question> questionTypes) {
+        return true;
     }
     
     /**

@@ -5,7 +5,8 @@ import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
- * Representation of the + operator in an AST.
+ * Representation of the + operator in an AST, that can either mean addition or
+ * (string) concatenation.
  * 
  * @author Olav Trauschke
  * @version 4-mrt-2016
@@ -27,6 +28,7 @@ public class Add extends Expr {
     private boolean isDecimal;
     private boolean isInt;
     private boolean isMoney;
+    private boolean isString;
     
     /**
      * Constructor for objects of class <code>Add</code>.
@@ -89,6 +91,17 @@ public class Add extends Expr {
     }
     
     /**
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Add</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return whether <code>this Add</code> was set to reprsent a string value
+     */
+    @Override
+    public boolean isString(Map<Ident,Question> questionTypes) {
+        return isString;
+    }
+    
+    /**
      * Set whether <code>this Add</code> represents a decimal value.
      * 
      * @param newValue whether or not <code>this Add</code> represents a decimal
@@ -114,6 +127,16 @@ public class Add extends Expr {
      */
     public void setIsMoney(boolean newValue) {
         isMoney = newValue;
+    }
+    
+    /**
+     * Set whether <code>this Add</code> represents a string value.
+     * 
+     * @param newValue whether or not <code>this Add</code> represents a string
+     *                  value
+     */
+    public void setIsString(boolean newValue) {
+        isString = newValue;
     }
     
     /**

@@ -155,9 +155,18 @@ public class TypeChecker implements ASTVisitor {
         }
     }
     
+    /**
+     * Add an error if a <code>StringQuestion</code> with a non-string
+     * <code>calculation</code> was found.
+     * 
+     * @param q the <code>StringQuestion</code> to check
+     */
     @Override
     public void visit(StringQuestion q) {
-        //TODO check calculation is null or string
+        Expr calculation = q.getCalculation();
+        if (calculation != null && !isString(calculation)) {
+            addQuestionTypeError(MONEY);
+        }
     }
     
     @Override
@@ -240,6 +249,17 @@ public class TypeChecker implements ASTVisitor {
      */
     private boolean isMoney(Expr e) {
         return e.isMoney(questionTypes);
+    }
+    
+    /**
+     * Checks whether an <code>Expr</code> has a string value.
+     * 
+     * @param e the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>e.isString(questionTypes)</code>
+     *          returns <code>true</code>
+     */
+    private boolean isString(Expr e) {
+        return e.isString(questionTypes);
     }
     
     /**

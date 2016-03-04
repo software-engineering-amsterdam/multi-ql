@@ -169,6 +169,16 @@ public abstract class Question extends ASTNode {
     }
     
     /**
+     * Returns whether <code>this Question</code> returns a string value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning strings
+     */
+    public boolean isString() {
+        return false;
+    }
+    
+    /**
      * Compares <code>this Question</code> to another <code>Object</code>. A
      * <code>Question</code> is considered equal only to other objects of the
      * same class for which <code>theIdentifier</code>, <code>theLabel</code>
