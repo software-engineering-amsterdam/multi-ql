@@ -42,6 +42,20 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     }
     
     /**
+     * @return the <code>Expr</code> on the left hand side of the operator
+     */
+    public Expr getFirstExpr() {
+        return firstExpr;
+    }
+    
+    /**
+     * @return the <code>Expr</code> on the right hand side of the operator
+     */
+    public Expr getSecondExpr() {
+        return secondExpr;
+    }
+    
+    /**
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
      * <code>this BinaryNumericOperatorExpr accept v</code> and then has
      * <code>v visit this BinaryNumericOperatorExpr</code>.

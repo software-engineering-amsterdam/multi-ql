@@ -30,6 +30,13 @@ public class Neg extends NumericExpr {
     }
     
     /**
+     * @return the <code>Expr</code> after the operator
+     */
+    public Expr getContent() {
+        return content;
+    }
+    
+    /**
      * Has <code>theContent</code> of <code>this ComparisonExpr accept v</code>
      * and then has <code>v visit this Neg</code>.
      * 

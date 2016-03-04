@@ -43,6 +43,20 @@ public class Add extends Expr {
     }
     
     /**
+     * @return the <code>Expr</code> on the left hand side of the operator
+     */
+    public Expr getFirstExpr() {
+        return firstExpr;
+    }
+    
+    /**
+     * @return the <code>Expr</code> on the right hand side of the operator
+     */
+    public Expr getSecondExpr() {
+        return secondExpr;
+    }
+    
+    /**
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
      * <code>this Add accept v</code> and then has <code>v visit this Add</code>.
      * 
