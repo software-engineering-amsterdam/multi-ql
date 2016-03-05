@@ -2,7 +2,7 @@ package nl.uva.sc.ql.parser;
 
 import java.io.IOException;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -20,7 +20,7 @@ public class QLCompiler {
 
 	public FormNode compile(String filePath) throws IOException {
                         
-        QLLexer lexer = new QLLexer(new ANTLRFileStream(filePath));
+        QLLexer lexer = new QLLexer(new ANTLRInputStream(getClass().getResourceAsStream(filePath)));
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
         ParseTree tree = parser.ql();
         

@@ -33,7 +33,7 @@ public class Form extends JFrame implements GuiInterface {
 	}
 
 	@Override
-	public boolean runGui() {		
+	public boolean runGui() {	
 		for(Question q : questions){
 			q.runGui();
 			this.add(q);
@@ -43,7 +43,7 @@ public class Form extends JFrame implements GuiInterface {
 			i.runGui();
 			this.add(i);
 		}	
-		
+
 		return true;
 	}
 	

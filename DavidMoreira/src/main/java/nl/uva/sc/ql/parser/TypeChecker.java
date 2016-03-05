@@ -203,9 +203,8 @@ public class TypeChecker implements Visitor {
 	    	handler.addError(variableError);
 	    } else {
 	    	identifierNode.setType(questionNode.getType());
+	    	cyclic.checkIdentifier(identifier);
 	    }
-		
-		cyclic.checkIdentifier(identifier);
 	}
 
 	@Override

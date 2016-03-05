@@ -1,5 +1,6 @@
 package nl.uva.sc.ql.gui.form;
 
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ public class IfForm extends JPanel implements GuiInterface, Observer {
 	private List<Question> questions;
 	
 	public IfForm(){
+		//super(new BorderLayout());
+		
 		this.listConditionBlock = new ArrayList<ConditionBlockForm>();
 		this.questions = new ArrayList<Question>();
 	}
@@ -40,7 +43,7 @@ public class IfForm extends JPanel implements GuiInterface, Observer {
 			q.runGui();
 			this.add(q);
 		}
-				
+		
 		return true;
 	}
 	

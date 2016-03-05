@@ -17,7 +17,7 @@ public class App {
 		QLCompiler compiler = new QLCompiler(messagesHandler);
 		
         try {
-        	Node ast = compiler.compile("src/main/resources/example.ql");
+        	Node ast = compiler.compile("/example.ql");
         	
             QLGui gui = new QLGui(ast);
             gui.start();
