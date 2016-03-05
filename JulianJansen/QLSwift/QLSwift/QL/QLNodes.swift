@@ -56,6 +56,14 @@ class QLQuestion: QLStatement {
     }
 }
 
+class QLLiteralExpression: QLExpression {
+    let expression: ASTTerminal
+    
+    init(expression: ASTTerminal) {
+        self.expression = expression
+    }
+}
+
 class QLAndExpression: QLBinaryExpression {
     let lhs: QLExpression
     let rhs: QLExpression

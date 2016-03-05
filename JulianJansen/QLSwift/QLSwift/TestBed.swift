@@ -22,21 +22,27 @@ class TestBed {
     
     private func testExpressions() -> GenericParser<String, (), QLExpression> {
         
+        
+        let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
+        let qlbooleanFalse: GenericParser<String, (), QLBool> = symbol("false") *> GenericParser(result: QLBool(boolean: false))
+        let qlboolean = qlbooleanTrue <|> qlbooleanFalse
+        
         let opTable: OperatorTable<String, (), QLExpression> = [
             
             [
-                binary("&&", function: andOperator, assoc: .Left)
+                binary("&&", function: andExpression, assoc: .Left)
             ]
             
         ]
         
         let openingParen = StringParser.character("(")
         let closingParen = StringParser.character(")")
-        let decimal = GenericTokenParser<()>.decimal
+        
+        let qlliteral: GenericParser<String, (), QLExpression> = qlboolean.map{ QLLiteralExpression(expression: $0) }
         
         let qlexpression: GenericParser<String, (), QLExpression> = opTable.expressionParser { expression in
             
-            expression.between(openingParen, closingParen) <|> qlexpression <|>  <?> "expression"
+            expression.between(openingParen, closingParen) <|> qlliteral <?> "expression"
         
         } <?> "expression"
         

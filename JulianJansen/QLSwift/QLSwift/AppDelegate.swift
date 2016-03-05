@@ -62,9 +62,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let stream = readFile("expression", fileType: "ql")
         
         do {
-            let test = try TestBed().parseStream(stream!)
+            let test = try TestBed().parseStream(stream!) as! QLAndExpression
             print("After parsing")
             print(test)
+            print(((test.lhs as! QLLiteralExpression).expression as! QLBool).boolean)
+            print(((test.rhs as! QLLiteralExpression).expression as! QLBool).boolean)
+
             
         } catch {
             print("Error in do-catch of runTestBed() in AppDelegate: \(error)")
