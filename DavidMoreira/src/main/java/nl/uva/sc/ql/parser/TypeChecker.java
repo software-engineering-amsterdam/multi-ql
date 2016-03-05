@@ -1,7 +1,7 @@
 package nl.uva.sc.ql.parser;
 
 import nl.uva.sc.ql.errorwarning.CyclicError;
-import nl.uva.sc.ql.errorwarning.ErrorHandler;
+import nl.uva.sc.ql.errorwarning.MessagesHandler;
 import nl.uva.sc.ql.errorwarning.QuestionWarning;
 import nl.uva.sc.ql.errorwarning.TypeError;
 import nl.uva.sc.ql.errorwarning.VariableError;
@@ -32,14 +32,13 @@ import nl.uva.sc.ql.parser.ast.StringNode;
 import nl.uva.sc.ql.parser.ast.SubtractionNode;
 import nl.uva.sc.ql.parser.ast.QuestionNode;
 
-
 public class TypeChecker implements Visitor {
 
 	private SymbolTable symbolTable;
-	private ErrorHandler handler;
+	private MessagesHandler handler;
 	private CyclicDependency cyclic;
 	
-	public TypeChecker(SymbolTable symbolTable, ErrorHandler handler) {
+	public TypeChecker(SymbolTable symbolTable, MessagesHandler handler) {
 		this.symbolTable = symbolTable;
 		this.handler = handler;
 		this.cyclic = new CyclicDependency();

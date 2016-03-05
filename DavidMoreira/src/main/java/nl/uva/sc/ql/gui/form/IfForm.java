@@ -5,18 +5,14 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import nl.uva.sc.ql.gui.State;
-
 public class IfForm extends JPanel implements GuiInterface, Observer {
 
 	private static final long serialVersionUID = 1L;
 	
-	private State state;
 	private List<ConditionBlockForm> listConditionBlock;
 	private List<Question> questions;
 	
-	public IfForm(State state){
-		this.state = state;
+	public IfForm(){
 		this.listConditionBlock = new ArrayList<ConditionBlockForm>();
 		this.questions = new ArrayList<Question>();
 	}

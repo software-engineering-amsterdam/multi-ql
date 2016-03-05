@@ -3,12 +3,12 @@ package nl.uva.sc.ql.errorwarning;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ErrorHandler {
+public class MessagesHandler {
 	
 	private List<MyError> errors;
 	private List<MyWarning> warnings;
 	
-	public ErrorHandler() {
+	public MessagesHandler() {
 		this.errors = new ArrayList<MyError>();
 		this.warnings = new ArrayList<MyWarning>();
 	}

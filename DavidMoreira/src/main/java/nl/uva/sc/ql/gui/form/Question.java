@@ -52,16 +52,16 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 		return this.editable;
 	}
 	
-	public JComponent getComponent(){
-		return this.component;
-	}
-	
 	public boolean isQuestionDone() {
 		return this.questionDone;
 	}
 
 	public void setQuestionDone(boolean doneQuestion) {
 		this.questionDone = doneQuestion;
+	}
+	
+	public JComponent getComponent(){
+		return this.component;
 	}
 	
 	public abstract JComponent createComponentWithValue();

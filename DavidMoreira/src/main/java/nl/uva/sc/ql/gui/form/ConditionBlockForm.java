@@ -30,6 +30,14 @@ public class ConditionBlockForm extends JPanel implements GuiInterface, Observer
 		this.questions.add(question);
 	}
 	
+	public boolean isConditionValid(){
+		Value value = condition.eval(state);
+		if (value == null){
+			return false;
+		}
+		return (boolean) value.getValue();
+	}
+	
 	@Override
 	public boolean runGui() {	
 		
@@ -59,7 +67,7 @@ public class ConditionBlockForm extends JPanel implements GuiInterface, Observer
 		
 		this.validate();
 	}
-
+	
 	// methods related with observer pattern
 	
 	@Override

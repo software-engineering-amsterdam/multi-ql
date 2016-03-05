@@ -7,15 +7,15 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import nl.uva.sc.ql.errorwarning.CompilerException;
-import nl.uva.sc.ql.errorwarning.ErrorHandler;
+import nl.uva.sc.ql.errorwarning.MessagesHandler;
 import nl.uva.sc.ql.parser.ast.FormNode;
 
 public class QLCompiler {
     
-	private ErrorHandler errorHandler;
+	private MessagesHandler messagesHandler;
 	
-	public QLCompiler(ErrorHandler errorHandler) {
-		this.errorHandler = errorHandler;
+	public QLCompiler(MessagesHandler errorHandler) {
+		this.messagesHandler = errorHandler;
 	}
 
 	public FormNode compile(String filePath) throws IOException {
@@ -33,11 +33,11 @@ public class QLCompiler {
                 
         SymbolTable symbolTable = new SymbolTable();
         
-        TypeChecker typeChecker = new TypeChecker(symbolTable, errorHandler);        
+        TypeChecker typeChecker = new TypeChecker(symbolTable, messagesHandler);        
         ast.accept(typeChecker);
         
-        if(errorHandler.asError()){
-        	throw new CompilerException("Typechecker errors:\n"+errorHandler.toString());
+        if(messagesHandler.asError()){
+        	throw new CompilerException("Typechecker errors:\n"+messagesHandler.toString());
         }
         
         return ast;
