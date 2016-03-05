@@ -1,7 +1,9 @@
 package org.uva.sea.ql.type_checker;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.uva.sea.ql.ast.expression.Comparison.Equal;
 import org.uva.sea.ql.ast.expression.Comparison.Greater;
@@ -27,16 +29,16 @@ import org.uva.sea.ql.ast.expression.*;
 
 // change name
 
-public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>> {
+public class CyclicDependenciesVisitor implements ExpressionVisitor<Set<String>> {
 	
-	private List<String> dependencies;
+	private Set<String> dependencies;
 	
 	public CyclicDependenciesVisitor() {
-		this.dependencies = new ArrayList<String>();
+		this.dependencies = new HashSet<String>();
 	}
 
 	@Override
-	public List<String> visit(Equal node) {
+	public Set<String> visit(Equal node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -44,7 +46,7 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 	
 
 	@Override
-	public List<String> visit(NotEqual node) {
+	public Set<String> visit(NotEqual node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -52,7 +54,7 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 	
 
 	@Override
-	public List<String> visit(Greater node) {
+	public Set<String> visit(Greater node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -60,7 +62,7 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 	
 
 	@Override
-	public List<String> visit(GreaterOrEqual node) {
+	public Set<String> visit(GreaterOrEqual node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -68,7 +70,7 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 	
 
 	@Override
-	public List<String> visit(Less node) {
+	public Set<String> visit(Less node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -76,7 +78,7 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 
 	
 	@Override
-	public List<String> visit(LessOrEqual node) {
+	public Set<String> visit(LessOrEqual node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -84,32 +86,32 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 	
 
 	@Override
-	public List<String> visit(BooleanLiteral node) {
+	public Set<String> visit(BooleanLiteral node) {
 		return this.dependencies;
 	}
 	
 
 	@Override
-	public List<String> visit(Identifier node) {
+	public Set<String> visit(Identifier node) {
 		this.dependencies.add(node.getValue());
 		return this.dependencies;
 	}
 
 	
 	@Override
-	public List<String> visit(IntegerLiteral node) {
+	public Set<String> visit(IntegerLiteral node) {
 		return this.dependencies;
 	}
 	
 
 	@Override
-	public List<String> visit(StringLiteral node) {
+	public Set<String> visit(StringLiteral node) {
 		return this.dependencies;
 	}
 
 	
 	@Override
-	public List<String> visit(And node) {
+	public Set<String> visit(And node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -117,7 +119,7 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 
 	
 	@Override
-	public List<String> visit(Or node) {
+	public Set<String> visit(Or node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -125,7 +127,7 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 	
 
 	@Override
-	public List<String> visit(Add node) {
+	public Set<String> visit(Add node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -133,21 +135,21 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 	
 
 	@Override
-	public List<String> visit(Sub node) {
+	public Set<String> visit(Sub node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
 	}
 
 	@Override
-	public List<String> visit(Mul node) {
+	public Set<String> visit(Mul node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
 	}
 
 	@Override
-	public List<String> visit(Div node) {
+	public Set<String> visit(Div node) {
 		node.getLeftExpression().accept(this);
 		node.getRightExpression().accept(this);
 		return this.dependencies;
@@ -157,25 +159,25 @@ public class CyclicDependenciesVisitor implements ExpressionVisitor<List<String>
 	// below to be removed . . .
 	
 	@Override
-	public List<String> visit(Parenthesis node) {
+	public Set<String> visit(Parenthesis node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<String> visit(Not node) {
+	public Set<String> visit(Not node) {
 		node.getExpression().accept(this);
 		return this.dependencies;
 	}
 
 	@Override
-	public List<String> visit(Positive node) {
+	public Set<String> visit(Positive node) {
 		node.getExpression().accept(this);
 		return this.dependencies;
 	}
 
 	@Override
-	public List<String> visit(Negative node) {
+	public Set<String> visit(Negative node) {
 		node.getExpression().accept(this);
 		return this.dependencies;
 	}

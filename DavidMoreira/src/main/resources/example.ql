@@ -4,28 +4,26 @@ form taxOfficeExample {
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean
   "Did you enter a loan?"
-    hasMaintLoan: money = -2.2
-    
+    hasMaintLoan: int = 2 + 2 * 4
 
   if (hasSoldHouse == true) {
     "What was the selling price2?"
-      sellingPrice: money
+      sellingPrice: int
     "Private debts for the sold house2:"
-      privateDebt: money
+      privateDebt: int
     "Value residue2:"
-      valueResidue: money = 2.0 +
+      valueResidue: int = 2 +
         (sellingPrice - privateDebt)
+    "Did you enter a loan2?"
+      hasMaintLoan2: int = 2 + 2 * 4
   } else if (hasBoughtHouse) {
       "What was the selling price3?"
-      	sellingPrice: money   
-  } else {
-      "What was the selling price4?"
-      	sellingPrice: money   
+      	sellingPrice3: int   
   }
   
   if (true){
     "What was the selling price5?"
-      sellingPrice: money
+      sellingPrice5: int
   }
   
 }

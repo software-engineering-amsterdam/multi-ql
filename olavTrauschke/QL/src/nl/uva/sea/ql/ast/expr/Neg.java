@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of a a minus in front of a number in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 4-mrt-2016
  */
 public class Neg extends NumericExpr {
     
@@ -30,6 +30,13 @@ public class Neg extends NumericExpr {
     }
     
     /**
+     * @return the <code>Expr</code> after the operator
+     */
+    public Expr getContent() {
+        return content;
+    }
+    
+    /**
      * Has <code>theContent</code> of <code>this ComparisonExpr accept v</code>
      * and then has <code>v visit this Neg</code>.
      * 
@@ -44,14 +51,36 @@ public class Neg extends NumericExpr {
     }
     
     /**
-     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
-     *                      <code>this Neg</code> might contain to a
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this Neg</code> might contain to a
      *                      <code>Question</code> with that <code>Ident</code>
      * @return whether <code>this Neg</code> represents a decimal value
      */
     @Override
     public boolean isDecimal(Map<Ident,Question> questionTypes) {
         return content.isDecimal(questionTypes);
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this Neg</code> might contain to a
+     *                      <code>Question</code> with that <code>Ident</code>
+     * @return whether <code>this Neg</code> represents an integer value
+     */
+    @Override
+    public boolean isInt(Map<Ident,Question> questionTypes) {
+        return content.isInt(questionTypes);
+    }
+    
+    /**
+     * @param questionTypes a <code>Map</code> from each
+     *                      <code>Ident this Neg</code> might contain to a
+     *                      <code>Question</code> with that <code>Ident</code>
+     * @return whether <code>thisNeg</code> represents a money value
+     */
+    @Override
+    public boolean isMoney(Map<Ident,Question> questionTypes) {
+        return content.isMoney(questionTypes);
     }
     
     /**

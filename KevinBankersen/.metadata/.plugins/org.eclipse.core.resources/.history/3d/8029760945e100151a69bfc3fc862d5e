@@ -1,0 +1,17 @@
+package eu.bankersen.kevin.ql;
+
+public class test {
+
+    public static void main(String[] args) {
+	// TODO Auto-generated method stub
+	Double x = new Double(5);
+	Double y = new Double(6);
+	
+	Double z = (y/x);
+	
+	System.out.println(z);
+	
+
+    }
+
+}

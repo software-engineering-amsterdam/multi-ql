@@ -1,12 +1,14 @@
 package nl.uva.sea.ql.ast.expr;
 
+import java.util.Map;
+import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type int in an AST.
  * 
  * @author Olav Trauschke
- * @version 1-mrt-2016
+ * @version 4-mrt-2016
  */
 public class Int extends NumericExpr {
     
@@ -36,6 +38,34 @@ public class Int extends NumericExpr {
     @Override
     public void accept(ASTVisitor v) {
         v.visit(this);
+    }
+    
+    /**
+     * Returns whether <code>this Int</code> represents a decimal value.
+     * 
+     * @param questionTypes a <code>Map</code> from <code>Ident</code>s found in
+     *                      code the ast <code>this Int</code> is part of to a
+     *                      <code>Question</code> with that <code>Ident</code>
+     * @return <code>true</code>, because an <code>Int</code> represents an int
+     *          value by definition and an int value is a decimal value by definition
+     */
+    @Override
+    public boolean isDecimal(Map<Ident,Question> questionTypes) {
+        return true;
+    }
+    
+    /**
+     * Returns whether <code>this Int</code> represents an integer value.
+     * 
+     * @param questionTypes a <code>Map</code> from <code>Ident</code>s found in
+     *                      cthe ast <code>this Int</code> is part of to a
+     *                      <code>Question</code> with that <code>Ident</code>
+     * @return <code>true</code>, because an <code>Int</code> represents an int
+     *          value by definition
+     */
+    @Override
+    public boolean isInt(Map<Ident,Question> questionTypes) {
+        return true;
     }
     
      /**

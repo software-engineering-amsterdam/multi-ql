@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql;
+
+import java.math.BigDecimal;
+
+public class test {
+
+    public static void main(String[] args) {
+	// TODO Auto-generated method stub
+	BigDecimal x = new BigDecimal(new Double(2.4)).setScale(1, BigDecimal.ROUND_HALF_DOWN);
+	
+	System.out.println(x);
+	
+
+    }
+
+}

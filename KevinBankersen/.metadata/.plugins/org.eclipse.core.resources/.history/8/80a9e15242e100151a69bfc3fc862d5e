@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.ast.type;
+
+public class BooleanType extends Type {
+
+    @Override
+    public boolean isSimilar(Type type) {
+	return type instanceof BooleanType;
+    }
+    
+    @Override
+    public String toString() {
+	return "Boolean";
+    }
+    
+
+}

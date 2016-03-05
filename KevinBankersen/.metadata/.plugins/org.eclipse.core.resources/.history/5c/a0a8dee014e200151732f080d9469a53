@@ -1,0 +1,48 @@
+package eu.bankersen.kevin.ql.context;
+
+import eu.bankersen.kevin.ql.ast.Identifier;
+import eu.bankersen.kevin.ql.ast.Variable;
+import eu.bankersen.kevin.ql.ast.expr.logic.And;
+import eu.bankersen.kevin.ql.ast.expr.logic.Eq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GT;
+import eu.bankersen.kevin.ql.ast.expr.logic.LEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.LT;
+import eu.bankersen.kevin.ql.ast.expr.logic.NEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.Not;
+import eu.bankersen.kevin.ql.ast.expr.logic.Or;
+import eu.bankersen.kevin.ql.ast.expr.math.Add;
+import eu.bankersen.kevin.ql.ast.expr.math.Div;
+import eu.bankersen.kevin.ql.ast.expr.math.Mul;
+import eu.bankersen.kevin.ql.ast.expr.math.Neg;
+import eu.bankersen.kevin.ql.ast.expr.math.Pos;
+import eu.bankersen.kevin.ql.ast.expr.math.Sub;
+
+public interface ContextInterface {
+
+    // Mathematical Expressions
+    ContextInterface evaluate(Add operation);
+    ContextInterface evaluate(Sub operation);
+    ContextInterface evaluate(Div operation);
+    ContextInterface evaluate(Mul operation);
+    ContextInterface evaluate(Neg operation);
+    ContextInterface evaluate(Pos operation);
+
+    // Boolean Expression that Require Boolean
+    ContextInterface evaluate(Not operation);
+    ContextInterface evaluate(Or operation);
+    ContextInterface evaluate(And operation);
+
+    //Boolean Expressions for Equality
+    ContextInterface evaluate(NEq operation);
+    ContextInterface evaluate(LT operation);
+    ContextInterface evaluate(LEq operation);
+    ContextInterface evaluate(GT operation);
+    ContextInterface evaluate(GEq operation);
+    ContextInterface evaluate(Eq operation);
+    // Looking at Identifiers
+    ContextInterface evaluate(Identifier id);
+
+    // Looking at Variables
+    ContextInterface evaluate(Variable variable);
+}

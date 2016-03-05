@@ -42,6 +42,17 @@ public class MoneyQuestion extends Question {
     }
     
     /**
+     * Returns whether <code>this IntQuestion</code> represents a money value.
+     * 
+     * @return <code>true</code> because objects of this class represent money
+     *          values by definition
+     */
+    @Override
+    public boolean isMoney() {
+        return true;
+    }
+    
+    /**
      * Has the children of <code>this Question accept v</code> and then
      * has <code>v visit this Question</code>.
      * 

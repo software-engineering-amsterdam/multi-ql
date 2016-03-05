@@ -1,0 +1,5 @@
+package eu.bankersen.kevin.ql.ast;
+
+public interface AcceptMethods {
+
+}

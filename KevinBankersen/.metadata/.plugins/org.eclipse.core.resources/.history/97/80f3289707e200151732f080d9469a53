@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.context;
+
+import eu.bankersen.kevin.ql.ast.Identifier;
+import eu.bankersen.kevin.ql.ast.Variable;
+
+public interface QLVisitor {
+    
+    public void visit(Variable data);
+    public void visit(Identifier data);
+
+}

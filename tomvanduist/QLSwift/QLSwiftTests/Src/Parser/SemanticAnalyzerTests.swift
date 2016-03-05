@@ -16,7 +16,7 @@ class SemanticAnalyzerTests: XCTestCase {
     
     func testValid() {
         if let form = parseFile("TypedValidForm") {
-            let sa = DefaultSemanticAnalyzer(context: Context())
+            let sa = SemanticAnalyzer()
             
             do {
                 try sa.analyze(form)
@@ -32,6 +32,7 @@ class SemanticAnalyzerTests: XCTestCase {
         runInvalidForms("TypedInvalidForms")
     }
     
+    // TODO: implement cyclic dependency
     func testCyclicDependency() {
         runInvalidForms("CyclicDependency")
     }
@@ -53,7 +54,7 @@ class SemanticAnalyzerTests: XCTestCase {
                 else { continue }
             
             
-            let sa = DefaultSemanticAnalyzer(context: Context())
+            let sa = SemanticAnalyzer()
             
             
             do {

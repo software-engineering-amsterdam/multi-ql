@@ -10,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 4-mrt-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -145,6 +145,36 @@ public abstract class Question extends ASTNode {
      *          in subclasses returning decimals
      */
     public boolean isDecimal() {
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Question</code> returns an integer value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning integers
+     */
+    public boolean isInt() {
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Question</code> returns a money value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning money
+     */
+    public boolean isMoney() {
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Question</code> returns a string value.
+     * 
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses returning strings
+     */
+    public boolean isString() {
         return false;
     }
     

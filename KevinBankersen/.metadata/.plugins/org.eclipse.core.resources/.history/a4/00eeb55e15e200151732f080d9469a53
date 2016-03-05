@@ -1,0 +1,13 @@
+package eu.bankersen.kevin.ql.symbol_table;
+
+import eu.bankersen.kevin.ql.context.SymbolTable;
+
+public class SymbolTableBuilder implements SymbolTableBuilderInterface {
+    
+    private final SymbolTable symboltable;
+    
+    public SymbolTableBuilder() {
+	symboltable = new SymbolTable();
+    }
+
+}

@@ -1,0 +1,8 @@
+package eu.bankersen.kevin.ql.ast.type;
+
+public class MoneyType extends NumberType {
+
+    public boolean isSimilar(Type type) {
+	return type instanceof MoneyType;
+    }
+}

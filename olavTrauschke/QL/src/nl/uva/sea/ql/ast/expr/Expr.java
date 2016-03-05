@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * Representation of expression in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 4-mrt-2016
  */
 public abstract class Expr extends ASTNode {
     
@@ -25,16 +25,70 @@ public abstract class Expr extends ASTNode {
         return false;
     }
     
-    /* Returns whether <code>this Expr</code> represents a decimal value.
+    /**
+     * Returns whether <code>this Expr</code> represents a decimal value.
      * 
-     * @param questionTypes a <code>Map</code> from each <code>Ident</code>
-     *                      <code>this Expr</code> might contain to a
-     *                      <code>Question</code> with that <code>Ident</code>
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Expr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
      * @return <code>false</code> by default, should be overwritten apropriatly
      *          in subclasses representing decimals
      */
     public boolean isDecimal(Map<Ident,Question> questionTypes) {
         return false;
+    }
+    
+    /**
+     * Returns whether <code>this Expr</code> represents an integer value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Expr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses representing integers
+     */
+    public boolean isInt(Map<Ident,Question> questionTypes) {
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Expr</code> represents a money value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Expr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses representing money
+     */
+    public boolean isMoney(Map<Ident,Question> questionTypes) {
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Expr</code> represents a string value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Expr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return <code>false</code> by default, should be overwritten apropriatly
+     *          in subclasses representing strings
+     */
+    public boolean isString(Map<Ident,Question> questionTypes) {
+        return false;
+    }
+    
+    /**
+     * Returns whether <code>this Expr</code> represents a numeric value. A
+     * numeric value is a value that is either decimal (that includes integer
+     * values) or money.
+     * 
+     * @param questionTypes 
+     * @return a <code>Map</code> from each <code>Ident this Expr</code>
+     *          might contain to a <code>Question</code> with that
+     *          <code>Ident</code>
+     */
+    public boolean isNumeric(Map<Ident,Question> questionTypes) {
+        return isDecimal(questionTypes) || isMoney(questionTypes);
     }
     
     /**

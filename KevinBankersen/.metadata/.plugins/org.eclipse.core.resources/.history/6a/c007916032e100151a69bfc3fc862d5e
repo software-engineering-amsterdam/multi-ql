@@ -1,0 +1,22 @@
+package eu.bankersen.kevin.ql.ast.type;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class EmptyType extends TypeObject {
+
+    @Override
+    public Type getType() {
+	return Type.EMPTY;
+    }
+
+    @Override
+    public boolean compatible(TypeObject typeObject) {
+	return false;
+    }
+
+    @Override
+    public boolean sameType(TypeObject typeObject) {
+	return typeObject.getType().equals(type);
+    }
+
+}

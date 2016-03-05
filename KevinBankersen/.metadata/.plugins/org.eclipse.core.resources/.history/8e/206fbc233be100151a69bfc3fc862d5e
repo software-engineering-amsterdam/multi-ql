@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.util.test;
+
+public class StringType extends Type {
+
+    @Override
+    public boolean sameType(Type type) {
+	// TODO Auto-generated method stub
+	return false;
+    }
+
+    @Override
+    public boolean isCompatible(Type type) {
+	return sameType(type);
+    }
+
+}

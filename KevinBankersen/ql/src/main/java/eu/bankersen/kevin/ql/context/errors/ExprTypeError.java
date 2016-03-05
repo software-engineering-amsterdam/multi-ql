@@ -1,6 +1,6 @@
 package eu.bankersen.kevin.ql.context.errors;
 
-import eu.bankersen.kevin.ql.ast.Type;
+import eu.bankersen.kevin.ql.ast.type.Type;
 
 public class ExprTypeError extends TypeCheckingError {
 
