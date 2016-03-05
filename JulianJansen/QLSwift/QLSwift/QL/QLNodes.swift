@@ -13,7 +13,24 @@ protocol ASTTerminal: ASTNode {}
 protocol ASTNonTerminal: ASTNode {}
 
 protocol QLStatement: ASTNonTerminal {}
+
 protocol QLExpression: QLStatement {}
+
+protocol QLUnaryExpression: QLExpression {
+    var expression: ASTTerminal { get }
+    var codeBlock: [QLStatement] { get }
+    
+    init(expression: ASTTerminal, codeBlock: [QLStatement])
+}
+
+protocol QLBinaryExpression: QLExpression {
+    var lhs: QLExpression { get }
+    var rhs: QLExpression { get }
+    
+    init(lhs: QLExpression, rhs: QLExpression)
+}
+
+protocol QLOperator {}
 
 // MARK: Non-terminals.
 
@@ -36,6 +53,16 @@ class QLQuestion: QLStatement {
         self.name = name
         self.variable = variable
         self.type = type
+    }
+}
+
+class QLAndExpression: QLBinaryExpression {
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    required init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
