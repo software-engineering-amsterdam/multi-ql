@@ -13,6 +13,7 @@ public class ExpNot extends SingleLogicalOperator {
 		super(parent, startLine, startColumn, lhs);
 	}
 
+	@Override
 	public Type getType() {
 		return type;
 	}

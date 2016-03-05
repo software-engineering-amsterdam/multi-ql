@@ -4,9 +4,8 @@ import java.util.ArrayList;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.Question;
-import uva.ql.ast.conditionals.IfStatement;
-import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.questions.QuestionVanilla;
+import uva.ql.ast.values.abstracts.Values;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.visitors.INodeVisitor;
 
@@ -48,7 +47,7 @@ public class CollectVariables implements INodeVisitor {
 	}
 
 	@Override
-	public void visitQuestion( Question question ) {
+	public void visitQuestion( QuestionVanilla question ) {
 		
 		question.get(0).accept( this );
 	}
@@ -63,5 +62,5 @@ public class CollectVariables implements INodeVisitor {
 	}
 	
 	@Override
-	public void visitNum( Number number ) {}
+	public void visitNum( Values number ) {}
 }

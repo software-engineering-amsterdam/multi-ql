@@ -1,4 +1,4 @@
-package uva.ql.ast.numbers.types;
+package uva.ql.ast.values.types;
 
 import uva.ql.ast.abstracts.Type;
 

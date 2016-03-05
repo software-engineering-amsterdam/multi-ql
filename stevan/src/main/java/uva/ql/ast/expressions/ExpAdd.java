@@ -12,6 +12,7 @@ public class ExpAdd extends ArithmeticOperator {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
 
+	@Override
 	public Add getType() {
 		return this.type;
 	}

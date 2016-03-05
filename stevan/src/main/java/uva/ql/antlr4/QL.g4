@@ -61,11 +61,11 @@ question : label varName ':' varType ('=' expression )? ;
  * questions at once.
  */
 condition 
-	: 'if' expression+ block	
+	: 'if' expression block	
 		(
 			('else' block)
 			|
-			('else' condition)+
+			('else' condition)
 		)? #ifCondition
 	;
 

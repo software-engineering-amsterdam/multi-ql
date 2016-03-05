@@ -44,14 +44,14 @@ public class QL {
 		VisitorToAST visitor = new VisitorToAST();
 		Form form = (Form) visitor.visit(tree);
 		
-		HashMap<String, Integer> errorMsg = TypeChecker.checkAST(form);
+		//HashMap<String, Integer> errorMsg = TypeChecker.checkAST(form);
 		
-		if( errorMsg.containsValue(-1) ) {
+		/*if( errorMsg.containsValue(-1) ) {
 			Iterator<String> it = errorMsg.keySet().iterator();
 			while( it.hasNext() ) {
 				System.out.println(it.next());
 			}
-		}
+		}*/
 		
 		return form;
     }

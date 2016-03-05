@@ -1,12 +1,14 @@
 package uva.ql.ast;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import uva.ql.ast.abstracts.Node;
 import uva.ql.visitors.INodeVisitor;
 
 public class Block extends Node {
 
-	private List<Node> children;
+	private List<Node> children = new ArrayList<Node>(0);
 	
 	public Block(Node parent, int startLine, int startColumn) {
 		super(parent, startLine, startColumn);

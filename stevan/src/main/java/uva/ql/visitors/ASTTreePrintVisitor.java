@@ -2,12 +2,12 @@ package uva.ql.visitors;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.Question;
 import uva.ql.ast.conditionals.IfStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.numbers.NumDouble;
-import uva.ql.ast.numbers.NumInt;
-import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.questions.QuestionVanilla;
+import uva.ql.ast.values.ValueDouble;
+import uva.ql.ast.values.ValueInt;
+import uva.ql.ast.values.abstracts.Values;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IExpression;
 import uva.ql.interfaces.INumber;
@@ -51,7 +51,7 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 	}
 
 	@Override
-	public void visitQuestion(Question question) {
+	public void visitQuestion(QuestionVanilla question) {
 		
 		System.out.println("question: " + question.getLabel());
 		
@@ -75,14 +75,14 @@ public class ASTTreePrintVisitor implements INodeVisitor {
 	}
 
 	@Override
-	public void visitNum(Number number) {
+	public void visitNum(Values number) {
 		
 		if(number.getNumType() == INumber.DOUBLE) {
-			NumDouble num = (NumDouble) number;
+			ValueDouble num = (ValueDouble) number;
 			System.out.println("number: " + num.getValue());
 		}
 		else {
-			NumInt num = (NumInt) number;
+			ValueInt num = (ValueInt) number;
 			System.out.println("number: " + num.getValue());
 		}
 	}

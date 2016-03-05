@@ -7,20 +7,24 @@ public abstract class ArithmeticOperator extends Expression {
 	private Node lhs, rhs;
 	
 	public ArithmeticOperator(Node parent, int startLine, int startColumn, Node lhs, Node rhs) {
-		
 		super(parent, startLine, startColumn);
-		
 		this.lhs = lhs;
 		this.rhs = rhs;
 	}
 
 	public Node getLhs() {
-		
 		return this.lhs;
 	}
 	
+	public void setLhs(Node lhs) {
+		this.lhs = lhs;
+	}
+	
 	public Node getRhs() {
-		
 		return this.rhs;
+	}
+	
+	public void setRhs(Node rhs) {
+		this.rhs = rhs;
 	}
 }

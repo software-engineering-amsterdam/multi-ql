@@ -13,6 +13,7 @@ public class ExpOr extends LogicalOperator {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
 
+	@Override
 	public Type getType() {
 		return type;
 	}

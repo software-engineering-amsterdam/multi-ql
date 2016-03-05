@@ -13,6 +13,7 @@ public class VarDate extends Variable {
 		super(parent, name, startLine, startColumn);
 	}
 	
+	@Override
 	public Type getType() {
 		return this.type;
 	}

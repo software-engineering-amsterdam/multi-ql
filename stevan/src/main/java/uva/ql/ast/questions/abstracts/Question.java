@@ -1,11 +1,11 @@
-package uva.ql.ast;
+package uva.ql.ast.questions.abstracts;
 
 import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.abstracts.Type;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.visitors.INodeVisitor;
 
-public class Question extends Node {
+public abstract class Question extends Node {
 
 	private String label;
 	private Variable variable;
@@ -24,9 +24,11 @@ public class Question extends Node {
 		return this.variable;
 	}
 	
-	public Type getType() {
-		return variable.getType();
+	public void setVariable(Variable var) {
+		this.variable = var;
 	}
+	
+	abstract public Type getType();
 
 	@Override
 	public void accept(INodeVisitor visitor) {

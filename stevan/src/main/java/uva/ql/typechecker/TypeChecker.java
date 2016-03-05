@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import uva.ql.ast.Form;
-import uva.ql.ast.Question;
 import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.INode;
 import uva.ql.visitors.typechecker.CollectVariables;
@@ -92,7 +92,7 @@ public class TypeChecker {
 			//System.out.println(var.getName() + " - " + var.getVarType());
 			if( node.getNodeType() == INode.QUESTION ) {
 				
-				Question q = (Question) node;
+				QuestionVanilla q = (QuestionVanilla) node;
 				
 				if( !qLabelSet.add(q.getLabel()) ) {
 					 

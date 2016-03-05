@@ -1,29 +1,66 @@
 package uva.ql.visitors;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.antlr4.QLBaseVisitor;
 import uva.ql.antlr4.QLParser;
+import uva.ql.antlr4.QLParser.ConditionContext;
+import uva.ql.antlr4.QLParser.QuestionContext;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.Question;
+import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.conditionals.abstracts.Condition;
-import uva.ql.ast.conditionals.types.IfStatement;
+import uva.ql.ast.expressions.ExpAdd;
+import uva.ql.ast.expressions.ExpAnd;
+import uva.ql.ast.expressions.ExpDivide;
+import uva.ql.ast.expressions.ExpEqualTo;
+import uva.ql.ast.expressions.ExpGreaterThen;
+import uva.ql.ast.expressions.ExpGreaterThenOrEqualTo;
+import uva.ql.ast.expressions.ExpLessThen;
+import uva.ql.ast.expressions.ExpLessThenOrEqualTo;
+import uva.ql.ast.expressions.ExpMinus;
+import uva.ql.ast.expressions.ExpMultiply;
+import uva.ql.ast.expressions.ExpNot;
+import uva.ql.ast.expressions.ExpNotEqualTo;
+import uva.ql.ast.expressions.ExpOr;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.numbers.abstracts.Number;
+import uva.ql.ast.questions.QuestionComputed;
+import uva.ql.ast.questions.QuestionVanilla;
+import uva.ql.ast.questions.abstracts.Question;
+import uva.ql.ast.values.ValueBool;
+import uva.ql.ast.values.ValueDouble;
+import uva.ql.ast.values.ValueInt;
+import uva.ql.ast.values.abstracts.Values;
+import uva.ql.ast.variables.VarBool;
+import uva.ql.ast.variables.VarDate;
+import uva.ql.ast.variables.VarDecimal;
+import uva.ql.ast.variables.VarDouble;
+import uva.ql.ast.variables.VarGeneric;
+import uva.ql.ast.variables.VarInt;
+import uva.ql.ast.variables.VarMoney;
+import uva.ql.ast.variables.VarStr;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.ast.variables.types.Bool;
 
 public class VisitorToAST extends QLBaseVisitor<Object> {
 
 	private final Map<String, Variable> varStore = new HashMap<String, Variable>(0);
+	private static final Map<String, Variable> VARTYPE = new HashMap<String, Variable>(0);
+	
+	static {
+		VARTYPE.put("BOOLEAN", new VarBool(null, null, 0, 0));
+		VARTYPE.put("DAATE", new VarDate(null, null, 0, 0));
+		VARTYPE.put("DECIMAL", new VarDecimal(null, null, 0, 0));
+		VARTYPE.put("DOUBLE", new VarDouble(null, null, 0, 0));
+		VARTYPE.put("INTEGER", new VarInt(null, null, 0, 0));
+		VARTYPE.put("MONEY", new VarMoney(null, null, 0, 0));
+		VARTYPE.put("STRING", new VarStr(null, null, 0, 0));
+	}
 
 	@Override
 	public Form visitForm( @NotNull QLParser.FormContext ctx ) {
@@ -35,11 +72,11 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		Form form = new Form(name, line, column);
 		
-		for (int i=0; i<ctx.getChildCount(); i++) {
+		for(ParseTree child : ctx.children) {
 			
-			if (ctx.getChild(i) == ctx.block()) {
+			if (child == ctx.block()) {
 				
-				Block block = (Block) ctx.getChild(i).accept(this);
+				Block block = (Block) child.accept(this);
 				block.setParent(form);
 				form.add(block);
 			}
@@ -57,16 +94,16 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		Block block = new Block(null, line, column);
 		
-		for (int i=0; i<ctx.question().size(); i++) {
+		for(QuestionContext q : ctx.question()) {
 			
-			Question question = (Question) ctx.question(i).accept(this);
+			Question question = (Question) q.accept(this);
 			question.setParent(block);
 			block.add(question);
 		}
 
-		for (int i=0; i<ctx.condition().size(); i++) {
+		for(ConditionContext c : ctx.condition()) {
 			
-			Condition ifStmnt = (Condition) ctx.condition(i).accept(this);
+			Condition ifStmnt = (Condition) c.accept(this);
 			ifStmnt.setParent(block);
 			block.add(ifStmnt);
 		}
@@ -75,56 +112,43 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public CondIfStatement visitIfCondition( @NotNull QLParser.IfConditionContext ctx ) {
+	public Condition visitIfCondition( @NotNull QLParser.IfConditionContext ctx ) {
 		
 		Token token = ctx.getStart();
 		int line = token.getLine();
 		int column = token.getCharPositionInLine() + 1;
 		
-		CondIfStatement ifStmnt = new CondIfStatement(null, line, column);
+		Expression exp = (Expression) ctx.expression().accept(this);
+		Condition cond = null;
 		
-		for (int i=0; i<ctx.expression().size(); i++) {
+		if (ctx.block().size() > 1) {
 			
-			Expression exp = (Expression) ctx.expression(i).accept(this);
-			exp.setParent(ifStmnt);
-			ifStmnt.setExpression(exp);
+			Block lhs = (Block) ctx.block(0).accept(this);
+			Block rhs = (Block) ctx.block(1).accept(this);
+			cond = new CondIfElseStatement(null, lhs, rhs, line, column);
+			lhs.setParent(cond);
+			rhs.setParent(cond);
+		}
+		else {
+			
+			Block lhs = (Block) ctx.block(0).accept(this);
+			cond = new CondIfStatement(null, lhs, line, column);
+			lhs.setParent(cond);
 		}
 		
-		for (int i=0; i<ctx.block().size(); i++) {
-			
-			Block block = (Block) ctx.block(i).accept(this);
-			block.setParent(ifStmnt);
-			ifStmnt.add(block);
-		}
-
-		return ifStmnt;
+		exp.setParent(cond);
+		cond.setExpression(exp);
+		
+		return cond;
 	}
 	
 	@Override 
 	public Question visitQuestion( @NotNull QLParser.QuestionContext ctx) {
 		
-		Question question = AST.newQuestion();
-		Variable var = createVariable(ctx.varType().getText());
-
-		question.addChild(var);
-		question.setLabel(ctx.label().getText().substring(1, ctx.label().getText().length()-1));
-		question.setLine(ctx.getStart().getLine());
-		question.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+		Question question = createQuestion(ctx);
 		
-		var.setName(ctx.varName().getText());
-		var.setLine(ctx.varName().getStart().getLine());
-		var.setColumn(ctx.varName().getStart().getCharPositionInLine() + 1);
-		var.setParent(question);
+		varStore.put(question.getVariable().getName(), question.getVariable());
 		
-		varStore.put(var.getName(), var);
-		
-		for ( int i=0; i<ctx.expression().size(); i++ ) {
-		
-			Expression exp = (Expression) ctx.expression(i).accept(this);
-			exp.setParent(question);
-			question.setExpression(exp);
-		}
-
 		return question;
 	}
 	
@@ -135,47 +159,26 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public Variable visitExpVar( @NotNull QLParser.ExpVarContext ctx ) {
-		
-		Variable var = varStore.get(ctx.getText());
-		
-		if( varStore.get(ctx.getText()) == null ) {
-			
-			if ( Boolean.parseBoolean(ctx.getText()) ) {
-				Bool bool = AST.newVarBool();
-				bool.setValue( Boolean.parseBoolean(ctx.getText()) );
-				bool.setLine( ctx.varName().getStart().getLine() );
-				bool.setColumn( ctx.varName().getStart().getCharPositionInLine() + 1 );
-				return bool;
-			} 
-			else {
-				var = AST.newVarGeneric();
-				var.setName( ctx.getText() );
-				var.setLine( ctx.varName().getStart().getLine() );
-				var.setColumn( ctx.varName().getStart().getCharPositionInLine() + 1 );
-			}			
-		}
-		
-		return var;
-	}
-	
-	@Override
 	public Expression visitExpMultDivide( @NotNull QLParser.ExpMultDivideContext ctx ) {
 		
 		Expression exp = null;
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		String operator = ctx.getChild(1).getText().intern();
+		Expression lhs = (Expression) ctx.getChild(0).accept(this);
+		Expression rhs = (Expression) ctx.getChild(2).accept(this);
+		lhs.setParent(exp);
+		rhs.setParent(exp);
 		
-		if (ctx.getChild(1).getText().intern() == "*") {
-			exp = AST.newExprMult();
-			exp.setLine(ctx.getStart().getLine());
-			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+		if (operator == "*") {
+			
+			exp = new ExpMultiply(null, lhs, rhs, line, column);
 		}
 		else {
-			exp = AST.newExprDiv();
-			exp.setLine(ctx.getStart().getLine());
-			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+			
+			exp = new ExpDivide(null, lhs, rhs, line, column);
 		}
-		
-		visitExprChildren(ctx, exp);
 		
 		return exp;
 	}
@@ -184,25 +187,23 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	public Expression visitExpPlusMinus( @NotNull QLParser.ExpPlusMinusContext ctx ) {
 		
 		Expression exp = null;
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		String operator = ctx.getChild(1).getText().intern();
+		Expression lhs = (Expression) ctx.getChild(0).accept(this);
+		Expression rhs = (Expression) ctx.getChild(2).accept(this);
+		lhs.setParent(exp);
+		rhs.setParent(exp);
 		
-		if (ctx.getChild(1).getText().equals("+")) {
-			exp = AST.newExprAdd();
-			/*AExpression lhs = (AExpression)ctx.getChild(0).accept(this);
-			AExpression rhs = (AExpression)ctx.getChild(2).accept(this);
-			return new Add(lhs, rhs);*/
+		if (operator == "+") {
 			
-			// AST should be immutable, no setters
-			// The best is to add the parameters to the constructor...
-			exp.setLine(ctx.getStart().getLine());
-			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+			exp = new ExpAdd(null, lhs, rhs, line, column);
 		}
 		else {
-			exp = AST.newExprMinus();
-			exp.setLine(ctx.getStart().getLine());
-			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+			
+			exp = new ExpMinus(null, lhs, rhs, line, column);
 		}
-		
-		visitExprChildren(ctx, exp);
 		
 		return exp;
 	}
@@ -210,105 +211,169 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	@Override
 	public Expression visitExpEquality( @NotNull QLParser.ExpEqualityContext ctx ) {
 		
-		Expression exp = createExpEquality(ctx.getChild(1).getText().intern());
-		exp.setLine(ctx.getStart().getLine());
-		exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+		Expression exp = null;
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		String operator = ctx.getChild(1).getText().intern();
+		Expression lhs = (Expression) ctx.getChild(0).accept(this);
+		Expression rhs = (Expression) ctx.getChild(2).accept(this);
+		lhs.setParent(exp);
+		rhs.setParent(exp);
 		
-		visitExprChildren(ctx, exp);
+		if (operator == "<") {
+			
+			exp = new ExpLessThen(null, lhs, rhs, line, column);
+		}
+		else if (operator == ">") {
+			
+			exp = new ExpGreaterThen(null, lhs, rhs, line, column);
+		}
+		else if (operator == "<=") {
+			
+			exp = new ExpLessThenOrEqualTo(null, lhs, rhs, line, column);
+		}
+		else if (operator == ">=") {
+			
+			exp = new ExpGreaterThenOrEqualTo(null, lhs, rhs, line, column);
+		}
+		else if (operator == "!=") {
+			
+			exp = new ExpNotEqualTo(null, lhs, rhs, line, column);
+		}
+		else {
+			
+			exp = new ExpEqualTo(null, lhs, rhs, line, column);
+		}
 		
 		return exp;
 	}
 	
 	@Override
 	public Expression visitExpAndOr( @NotNull QLParser.ExpAndOrContext ctx ) {
+
 		Expression exp = null;
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		String operator = ctx.getChild(1).getText().intern();
+		Expression lhs = (Expression) ctx.getChild(0).accept(this);
+		Expression rhs = (Expression) ctx.getChild(2).accept(this);
+		lhs.setParent(exp);
+		rhs.setParent(exp);
 		
-		if (ctx.getChild(1).getText().intern() == "&&") {
-			exp = AST.newExprAnd();
-			exp.setLine(ctx.getStart().getLine());
-			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+		if (operator == "&&") {
+			
+			exp = new ExpAnd(null, lhs, rhs, line, column);
 		}
 		else {
-			exp = AST.newExprOr();
-			exp.setLine(ctx.getStart().getLine());
-			exp.setColumn(ctx.getStart().getCharPositionInLine() + 1);
+			
+			exp = new ExpOr(null, lhs, rhs, line, column);
 		}
-		
-		visitExprChildren(ctx, exp);
 		
 		return exp;
-	}
-	
-	@Override
-	public Number visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
-		
-		Number var = null;
-		
-		if(!ctx.DIGIT().isEmpty()) {
-			var = AST.newNumInt();
-			var.setValue(ctx.getText());
-			var.setLine(ctx.getStart().getLine());
-			var.setColumn(ctx.getStart().getCharPositionInLine() + 1);
-		}
-		else {
-			var = AST.newNumDouble();
-			var.setValue(ctx.getText());
-			var.setLine(ctx.getStart().getLine());
-			var.setColumn(ctx.getStart().getCharPositionInLine() + 1);
-		}
-		
-		return var;
 	}
 	
 	@Override
 	public Expression visitExpNot( @NotNull QLParser.ExpNotContext ctx ) {
 		
-		Expression expPar = AST.newExprNot();
-		Expression exp = (Expression) ctx.getChild(1).accept(this);
+		Expression exp = null;
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		Expression lhs = (Expression) ctx.getChild(1).accept(this);
+		lhs.setParent(exp);
 		
-		expPar.setLine(ctx.getStart().getLine());
-		expPar.setColumn(ctx.getStart().getCharPositionInLine() + 1);
-		
-		expPar.setLeftNode(exp);
-		exp.setParent(expPar);
-		
-		return expPar;
-	}
-	
-	private Variable createVariable(String type) {
-		
-		Variable var = VAR.get(type.toUpperCase());
-		var = var != null ? var : AST.newVarGeneric();
-		
-		return var;
-	}
-	
-	private Expression createExpEquality(String type) {
-
-		Expression exp = EXP.get(type);
-		exp = exp != null ? exp : AST.newExpEql();
+		exp = new ExpNot(null, lhs, line, column);
 		
 		return exp;
 	}
 	
-	private void visitExprChildren(QLParser.ExpressionContext ctx, Expression exp) {
+	@Override
+	public Variable visitExpVar( @NotNull QLParser.ExpVarContext ctx ) {
 		
-		Expression leftExp = (Expression) ctx.getChild(0).accept(this);
-		Expression rightExp = (Expression) ctx.getChild(2).accept(this);
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
 		
-		exp.setLeftNode(leftExp);
-		exp.setRightNode(rightExp);
+		Variable var = varStore.get(ctx.getText());
 		
-		leftExp.setParent(exp);
-		rightExp.setParent(exp);
+		if( var == null ) {
+			
+			var =  new VarGeneric(null, ctx.getText(), line, column);
+		}
+		
+		return var;
 	}
 	
-	private List<Integer> getLineColumn(Token token) {
+	@Override
+	public Values visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
 		
-		List<Integer> list = new ArrayList<Integer>(0);
-		list.add(token.getLine());
-		list.add(token.getCharPositionInLine() + 1);
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
 		
-		return list;
+		if(!ctx.DIGIT().isEmpty()) {
+			
+			return new ValueInt(null, ctx.getText(), line, column);
+		}
+		else {
+			
+			return new ValueDouble(null, ctx.getText(), line, column);
+		}
 	}
+	
+	@Override
+	public Values visitExpBool( @NotNull QLParser.ExpBoolContext ctx ) {
+		
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		
+		return new ValueBool(null, ctx.getText().intern(), line, column);
+	}
+	
+	private Variable createVariable(QuestionContext ctx) {
+		
+		Token token = ctx.varName().getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		String varType = ctx.varType().getText();
+		
+		Variable var = VARTYPE.get(varType.toUpperCase());
+		
+		var = var != null ? var : new VarGeneric(null, null, 0, 0);
+
+		var.setName(ctx.varName().getText());
+		var.setLine(line);
+		var.setColumn(column);
+		
+		return var;
+	}
+	
+	private Question createQuestion(QuestionContext ctx) {
+		
+		Question question = null;
+		Variable var = createVariable(ctx);
+		var.setParent(question);
+		
+		String label = ctx.label().getText().substring(1, ctx.label().getText().length()-1);
+		Token token = ctx.getStart();
+		int line = token.getLine();
+		int column = token.getCharPositionInLine() + 1;
+		
+		if (ctx.expression() != null) {
+			
+			Expression exp = (Expression) ctx.expression().accept(this);
+			question = new QuestionComputed(null, label, var, exp, line, column);
+			exp.setParent(question);
+		} 
+		else {
+			
+			question = new QuestionVanilla(null, label, var, line, column);
+		}
+		
+		return question;
+	}
+	
 }

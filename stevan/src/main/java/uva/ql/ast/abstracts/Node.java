@@ -5,8 +5,8 @@ import uva.ql.interfaces.INode;
 public abstract class Node implements INode {
 
 	private Node parent;
-	private int startLine;
-	private int startColumn;
+	protected int startLine;
+	protected int startColumn;
 	
 	public Node(Node parent, int startLine, int startColumn) {
 		

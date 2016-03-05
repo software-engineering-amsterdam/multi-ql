@@ -13,6 +13,7 @@ public class ExpGreaterThenOrEqualTo extends RelationalOperator {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
 
+	@Override
 	public Type getType() {
 		return this.type;
 	}

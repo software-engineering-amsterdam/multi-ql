@@ -24,6 +24,10 @@ form taxOfficeExample {
           "Parents gift money:"
                giftMoney: money
      }
+     else {
+          "Did you buy a car?"
+               carPrice: money
+     }
      
      if (age && 5.1) {
           "Do you have children?"

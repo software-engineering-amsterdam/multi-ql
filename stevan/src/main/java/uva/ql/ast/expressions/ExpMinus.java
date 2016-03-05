@@ -12,6 +12,7 @@ public class ExpMinus extends ArithmeticOperator {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
 	
+	@Override
 	public Minus getType() {
 		return this.type;
 	}
