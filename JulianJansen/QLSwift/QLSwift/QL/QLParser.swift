@@ -47,19 +47,37 @@ class QLParser {
         let stringLiteral = lexer.stringLiteral // Includes the quotes.
         let identifier = lexer.identifier
         let colon = lexer.colon
+        
+        // Literal.
+        let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
+        let qlbooleanFalse: GenericParser<String, (), QLBool> = symbol("false") *> GenericParser(result: QLBool(boolean: false))
+        let qlboolean: GenericParser<String, (), QLExpression> = (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(expression: $0) }
+        
+        
+        
+        let qlliteral: GenericParser<String, (), QLExpression> = qlboolean
+        
+        // Variable.
+        let qlvariable: GenericParser<String, (), QLVariable> = identifier.flatMap{ id in
+            colon.flatMap{ _ in
+                identifier.map{ (id) in
+                    QLVariable(identifier: id)
+                }
+            }
+        }
 
         // MARK: Question.
         
         // "Did you sell a house in 2010?"
         //     hasSoldHouse: boolean
         
-        let qlquestionVariable = identifier <* colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
+//        let qlquestionVariable = identifier <* colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
         
         let qlquestion: GenericParser<String, (), QLQuestion> = stringLiteral.flatMap{ questionName in
             
-            qlquestionVariable.map{ questionVariable -> QLQuestion in
+            qlvariable.map{ variable -> QLQuestion in
                 
-                QLQuestion(name: questionName, variable: questionVariable, type: "boolean")
+                QLQuestion(name: questionName, variable: variable, type: type)
                 
             }
         }

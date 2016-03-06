@@ -17,9 +17,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
         
-//        testQLParser()
+        testQLParser()
         
-        runTestBed()
+//        runTestBed()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
@@ -38,19 +38,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             var temp = test.codeBlock[0] as! QLQuestion
             print(temp.name)
             print(temp.variable)
-            print(temp.type)
             
             temp = test.codeBlock[1] as! QLQuestion
             print(temp.name)
             print(temp.variable)
-            print(temp.type)
             
             
             temp = test.codeBlock[2] as! QLQuestion
             print(temp.name)
             print(temp.variable)
-            print(temp.type)
-
 
             
         } catch {
@@ -65,8 +61,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let test = try TestBed().parseStream(stream!) as! QLAndExpression
             print("After parsing")
             print(test)
-            print(((test.lhs as! QLLiteralExpression).expression as! QLBool).boolean)
-            print(((test.rhs as! QLLiteralExpression).expression as! QLBool).boolean)
+            print(((test.lhs as! QLUnaryExpression).expression as! QLBool).boolean)
+            print(((test.rhs as! QLUnaryExpression).expression as! QLBool).boolean)
 
             
         } catch {

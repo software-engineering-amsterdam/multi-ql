@@ -30,9 +30,8 @@ class TestBed {
         
         
         let qlliteral: GenericParser<String, (), QLExpression> = qlboolean
-
         
-        let qlvariable: GenericParser<String, (), QLExpression> = identifier.map{ QLVariable(identifier: $0) }
+        let qlvariableNil: GenericParser<String, (), QLExpression> = identifier.map{ QLVariable(identifier: $0) }
         
         let opTable: OperatorTable<String, (), QLExpression> = [
             
@@ -48,7 +47,7 @@ class TestBed {
         
         let qlexpression: GenericParser<String, (), QLExpression> = opTable.expressionParser { expression in
             
-            expression.between(openingParen, closingParen) <|> qlliteral <|> qlvariable <?> "expression"
+            expression.between(openingParen, closingParen) <|> qlliteral <|> qlvariableNil <?> "expression"
         
         } <?> "expression"
         

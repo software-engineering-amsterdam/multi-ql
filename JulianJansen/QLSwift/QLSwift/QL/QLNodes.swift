@@ -9,12 +9,10 @@
 import Foundation
 
 protocol ASTNode {}
-
 protocol QLLiteral: ASTNode {}
 protocol QLStatement: ASTNode {}
 protocol QLExpression: QLStatement {}
 protocol QLOperator {}
-
 
 class QLForm: ASTNode {
     let formName: String
@@ -30,10 +28,10 @@ class QLForm: ASTNode {
 
 class QLQuestion: QLStatement {
     let name: String
-    let variable: String
+    let variable: QLVariable
     let type: String
     
-    init(name: String, variable: String, type: String) {
+    init(name: String, variable: QLVariable, type: String) {
         self.name = name
         self.variable = variable
         self.type = type
@@ -68,7 +66,7 @@ protocol QLBinaryExpression: QLExpression {
 }
 
 class QLVariable: QLExpression {
-    var identifier: String
+    let identifier: String
     
     init(identifier: String) {
         self.identifier = identifier
