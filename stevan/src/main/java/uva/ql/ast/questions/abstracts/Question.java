@@ -1,9 +1,9 @@
 package uva.ql.ast.questions.abstracts;
 
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.visitors.INodeVisitor;
+import uva.ql.interfaces.IArithmeticOperatorVisitor;
+import uva.ql.interfaces.INodeVisitor;
 
 public abstract class Question extends Node {
 
@@ -28,10 +28,13 @@ public abstract class Question extends Node {
 		this.variable = var;
 	}
 	
-	abstract public Type getType();
-
 	@Override
 	public void accept(INodeVisitor visitor) {
+		visitor.visitQuestion(this);
+	}
+	
+	@Override
+	public void accept(IArithmeticOperatorVisitor visitor) {
 		visitor.visitQuestion(this);
 	}
 }

@@ -2,7 +2,7 @@ package uva.ql.ast.variables.abstracts;
 
 import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.visitors.INodeVisitor;
+import uva.ql.interfaces.INodeVisitor;
 
 public abstract class Variable extends Expression {
 

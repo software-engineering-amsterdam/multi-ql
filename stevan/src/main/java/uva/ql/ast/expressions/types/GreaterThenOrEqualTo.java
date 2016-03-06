@@ -5,4 +5,10 @@ import uva.ql.ast.abstracts.Type;
 
 public class GreaterThenOrEqualTo extends Type {
 
+	private String type = "greaterthenorequalto";
+
+	@Override
+	public String getType() {
+		return this.type;
+	}
 }

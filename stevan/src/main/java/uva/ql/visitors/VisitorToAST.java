@@ -50,17 +50,6 @@ import uva.ql.ast.variables.abstracts.Variable;
 public class VisitorToAST extends QLBaseVisitor<Object> {
 
 	private final Map<String, Variable> varStore = new HashMap<String, Variable>(0);
-	private static final Map<String, Variable> VARTYPE = new HashMap<String, Variable>(0);
-	
-	static {
-		VARTYPE.put("BOOLEAN", new VarBool(null, null, 0, 0));
-		VARTYPE.put("DAATE", new VarDate(null, null, 0, 0));
-		VARTYPE.put("DECIMAL", new VarDecimal(null, null, 0, 0));
-		VARTYPE.put("DOUBLE", new VarDouble(null, null, 0, 0));
-		VARTYPE.put("INTEGER", new VarInt(null, null, 0, 0));
-		VARTYPE.put("MONEY", new VarMoney(null, null, 0, 0));
-		VARTYPE.put("STRING", new VarStr(null, null, 0, 0));
-	}
 
 	@Override
 	public Form visitForm( @NotNull QLParser.FormContext ctx ) {
@@ -119,37 +108,29 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		int column = token.getCharPositionInLine() + 1;
 		
 		Expression exp = (Expression) ctx.expression().accept(this);
-		Condition cond = null;
 		
 		if (ctx.block().size() > 1) {
 			
-			Block lhs = (Block) ctx.block(0).accept(this);
-			Block rhs = (Block) ctx.block(1).accept(this);
-			cond = new CondIfElseStatement(null, lhs, rhs, line, column);
-			lhs.setParent(cond);
-			rhs.setParent(cond);
+			Block blhs = (Block) ctx.block(0).accept(this);
+			Block brhs = (Block) ctx.block(1).accept(this);
+			Condition cond = new CondIfElseStatement(exp, blhs, brhs, line, column);
+			blhs.setParent(cond);
+			brhs.setParent(cond);
+			return cond;
 		}
 		else {
 			
-			Block lhs = (Block) ctx.block(0).accept(this);
-			cond = new CondIfStatement(null, lhs, line, column);
-			lhs.setParent(cond);
+			Block blhs = (Block) ctx.block(0).accept(this);
+			Condition cond = new CondIfStatement(exp, blhs, line, column);
+			blhs.setParent(cond);
+			return cond;
 		}
-		
-		exp.setParent(cond);
-		cond.setExpression(exp);
-		
-		return cond;
 	}
 	
 	@Override 
 	public Question visitQuestion( @NotNull QLParser.QuestionContext ctx) {
 		
-		Question question = createQuestion(ctx);
-		
-		varStore.put(question.getVariable().getName(), question.getVariable());
-		
-		return question;
+		return createQuestion(ctx);
 	}
 	
 	@Override
@@ -221,32 +202,20 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		lhs.setParent(exp);
 		rhs.setParent(exp);
 		
-		if (operator == "<") {
-			
-			exp = new ExpLessThen(null, lhs, rhs, line, column);
+		switch (operator) {
+			case "<":
+				return new ExpLessThen(null, lhs, rhs, line, column);
+			case ">":
+				return new ExpGreaterThen(null, lhs, rhs, line, column);
+			case "<=":
+				return new ExpLessThenOrEqualTo(null, lhs, rhs, line, column);
+			case ">=":
+				return new ExpGreaterThenOrEqualTo(null, lhs, rhs, line, column);
+			case "!=":
+				return new ExpNotEqualTo(null, lhs, rhs, line, column);
+			default:
+				return new ExpEqualTo(null, lhs, rhs, line, column);
 		}
-		else if (operator == ">") {
-			
-			exp = new ExpGreaterThen(null, lhs, rhs, line, column);
-		}
-		else if (operator == "<=") {
-			
-			exp = new ExpLessThenOrEqualTo(null, lhs, rhs, line, column);
-		}
-		else if (operator == ">=") {
-			
-			exp = new ExpGreaterThenOrEqualTo(null, lhs, rhs, line, column);
-		}
-		else if (operator == "!=") {
-			
-			exp = new ExpNotEqualTo(null, lhs, rhs, line, column);
-		}
-		else {
-			
-			exp = new ExpEqualTo(null, lhs, rhs, line, column);
-		}
-		
-		return exp;
 	}
 	
 	@Override
@@ -298,7 +267,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		
 		Variable var = varStore.get(ctx.getText());
 		
-		if( var == null ) {
+		if( var == null) {
 			
 			var =  new VarGeneric(null, ctx.getText(), line, column);
 		}
@@ -339,23 +308,33 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		int line = token.getLine();
 		int column = token.getCharPositionInLine() + 1;
 		String varType = ctx.varType().getText();
+		String varName = ctx.varName().getText();
 		
-		Variable var = VARTYPE.get(varType.toUpperCase());
-		
-		var = var != null ? var : new VarGeneric(null, null, 0, 0);
-
-		var.setName(ctx.varName().getText());
-		var.setLine(line);
-		var.setColumn(column);
-		
-		return var;
+		switch (varType.toUpperCase()) {
+			case "BOOLEAN":
+				return new VarBool(null, varName, line, column);
+			case "DATE":
+				return new VarDate(null, varName, line, column);
+			case "DECIMAL":
+				return new VarDecimal(null, varName, line, column);
+			case "DOUBLE":
+				return new VarDouble(null, varName, line, column);
+			case "INTEGER":
+				return new VarInt(null, varName, line, column);
+			case "MONEY":
+				return new VarMoney(null, varName, line, column);
+			case "STRING":
+				return new VarStr(null, varName, line, column);
+			default:
+				return new VarGeneric(null, varName, line, column);
+		}
 	}
 	
 	private Question createQuestion(QuestionContext ctx) {
 		
 		Question question = null;
 		Variable var = createVariable(ctx);
-		var.setParent(question);
+		varStore.put(var.getName(), var);
 		
 		String label = ctx.label().getText().substring(1, ctx.label().getText().length()-1);
 		Token token = ctx.getStart();
@@ -372,6 +351,8 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 			
 			question = new QuestionVanilla(null, label, var, line, column);
 		}
+		
+		var.setParent(question);
 		
 		return question;
 	}

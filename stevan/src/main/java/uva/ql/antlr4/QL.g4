@@ -76,7 +76,7 @@ condition
  */
  
 expression 														
-	: BOOLEAN													#expBool
+	: ('true' | 'false' | 'TRUE' | 'FASLE')						#expBool
 	| (DIGIT+ | FLOAT) 											#expNum
 	| varName 													#expVar
 	| '(' expression ')' 										#expParentheses

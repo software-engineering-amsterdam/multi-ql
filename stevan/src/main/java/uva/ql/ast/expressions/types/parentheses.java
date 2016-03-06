@@ -2,9 +2,10 @@ package uva.ql.ast.expressions.types;
 
 import uva.ql.ast.abstracts.Type;
 
-public class Divide extends Type {
 
-	private String type = "divide";
+public class parentheses extends Type {
+
+	private String type = "add";
 
 	@Override
 	public String getType() {

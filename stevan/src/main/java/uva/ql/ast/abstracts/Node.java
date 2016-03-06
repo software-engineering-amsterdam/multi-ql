@@ -15,6 +15,9 @@ public abstract class Node implements INode {
 		this.startColumn = startColumn;
 	}
 	
+	abstract public Type getType();
+	abstract public String typeToString();
+	
 	public void setParent(Node n) {
 		this.parent = n;
 	}

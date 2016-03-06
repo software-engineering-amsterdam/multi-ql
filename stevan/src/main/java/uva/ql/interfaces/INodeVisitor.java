@@ -1,4 +1,4 @@
-package uva.ql.visitors;
+package uva.ql.interfaces;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
