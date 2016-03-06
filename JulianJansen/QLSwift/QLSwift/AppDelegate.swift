@@ -17,14 +17,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
         
-        testing()
+//        testQLParser()
+        
+        runTestBed()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
     }
 
-    func testing() {
+    func testQLParser() {
         let stream = readFile("basic", fileType: "ql")
         
         do {
@@ -52,10 +54,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             
         } catch {
-            print("Error in do-catch in AppDelegate: \(error)")
+            print("Error in do-catch of testQLParser in AppDelegate: \(error)")
         }
     }
     
+    func runTestBed() {
+        let stream = readFile("expression", fileType: "ql")
+        
+        do {
+            let test = try TestBed().parseStream(stream!) as! QLAndExpression
+            print("After parsing")
+            print(test)
+            print(((test.lhs as! QLLiteralExpression).expression as! QLBool).boolean)
+            print(((test.rhs as! QLLiteralExpression).expression as! QLBool).boolean)
+
+            
+        } catch {
+            print("Error in do-catch of runTestBed() in AppDelegate: \(error)")
+        }
+    }
     
     /// Returns an optional.
     private func readFile(fileName: String, fileType: String) -> String? {

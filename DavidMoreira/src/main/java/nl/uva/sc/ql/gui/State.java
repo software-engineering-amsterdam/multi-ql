@@ -58,5 +58,4 @@ public class State implements Subject {
             o.update();
         }
     }
-    
 }

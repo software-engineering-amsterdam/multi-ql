@@ -51,7 +51,7 @@ public class CreateASTTree extends QLBaseVisitor<Node> {
     
     // assignment/identifiers overrides
     @Override
-    public QuestionNode visitDeclarationVariable(@NotNull QLParser.DeclarationVariableContext context) {
+    public QuestionNode visitDeclaration(@NotNull QLParser.DeclarationContext context) {
         String identifier = context.IDENTIFIER().getText();
         String type = context.type().getText();
         String question = context.String().getText();
@@ -63,7 +63,7 @@ public class CreateASTTree extends QLBaseVisitor<Node> {
     }
     
     @Override
-    public AssignedQuestionNode visitDeclareAssignVariable(@NotNull QLParser.DeclareAssignVariableContext context) {        
+    public AssignedQuestionNode visitAssignment(@NotNull QLParser.AssignmentContext context) {        
     	QuestionNode variable = (QuestionNode) this.visit(context.declaration());
         ExpressionNode expression = (ExpressionNode) this.visit(context.expression());
         
@@ -266,15 +266,27 @@ public class CreateASTTree extends QLBaseVisitor<Node> {
     
     @Override
     public BlockNode visitBlockStat_Block(@NotNull QLParser.BlockStat_BlockContext context) { 
-    	return (BlockNode) this.visit(context.block());
+    	return (BlockNode) this.visit(context.if_block());
     }
     
     @Override
     public BlockNode visitStatStat_Block(@NotNull QLParser.StatStat_BlockContext context) { 
-    	StatementNode statement = (StatementNode) this.visit(context.statement());
+    	StatementNode statement = (StatementNode) this.visit(context.if_statement());
     	
     	ListStatementsNode lsn = new ListStatementsNode();
     	lsn.add(statement);
+    	
+    	return new BlockNode(lsn);
+    }
+    
+    @Override
+    public BlockNode visitIf_block(@NotNull QLParser.If_blockContext context) { 
+    	ListStatementsNode lsn = new ListStatementsNode();
+    	
+    	for (QLParser.If_statementContext sc : context.if_statement()){
+    		StatementNode s = (StatementNode) this.visit(sc);
+    		lsn.add(s);
+    	}
     	
     	return new BlockNode(lsn);
     }

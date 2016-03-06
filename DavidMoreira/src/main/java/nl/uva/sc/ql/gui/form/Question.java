@@ -1,5 +1,7 @@
 package nl.uva.sc.ql.gui.form;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +23,8 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 	private JComponent component = null;
 	
 	public Question(State state, String question, String identifier, ExpressionNode expression, boolean editable){
+		//super(new BorderLayout());
+
 		this.state = state;
 		this.question = question;
 		this.identifier = identifier;
@@ -52,16 +56,16 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 		return this.editable;
 	}
 	
-	public JComponent getComponent(){
-		return this.component;
-	}
-	
 	public boolean isQuestionDone() {
 		return this.questionDone;
 	}
 
 	public void setQuestionDone(boolean doneQuestion) {
 		this.questionDone = doneQuestion;
+	}
+	
+	public JComponent getComponent(){
+		return this.component;
 	}
 	
 	public abstract JComponent createComponentWithValue();

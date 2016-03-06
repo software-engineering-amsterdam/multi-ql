@@ -33,7 +33,7 @@ import Foundation
 import SwiftParsec
 
 class QLParser {
-    
+        
     func parseStream(data: String) throws -> QLForm {
         return try parser().run(sourceName: "", input: data)
     }

@@ -20,11 +20,11 @@ statement
     ;
 
 declaration
-    : String IDENTIFIER ':' type				#declarationVariable
+    : String IDENTIFIER ':' type
     ;
     
 assignment
-	: declaration EQUAL expression				#declareAssignVariable
+	: declaration EQUAL expression
 	;
 
 type
@@ -44,8 +44,17 @@ condition_block
 
 
 stat_block
-    : block					#blockStat_Block
-    | statement				#statStat_Block
+    : if_block					#blockStat_Block
+    | if_statement				#statStat_Block
+    ;
+
+if_block
+	: '{' if_statement* '}'
+	;
+
+if_statement
+    : declaration
+    | assignment
     ;
 
 
