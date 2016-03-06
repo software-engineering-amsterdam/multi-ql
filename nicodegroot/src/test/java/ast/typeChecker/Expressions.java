@@ -1,7 +1,6 @@
 package test.java.ast.typeChecker;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import org.junit.Assert;
 import org.junit.Test;
