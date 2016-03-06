@@ -54,21 +54,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func runTestBed() {
-        let stream = readFile("expression", fileType: "ql")
-        
-        do {
-            let test = try TestBed().parseStream(stream!) as! QLAndExpression
-            print("After parsing")
-            print(test)
-            print(((test.lhs as! QLUnaryExpression).expression as! QLBool).boolean)
-            print(((test.rhs as! QLUnaryExpression).expression as! QLBool).boolean)
-
-            
-        } catch {
-            print("Error in do-catch of runTestBed() in AppDelegate: \(error)")
-        }
-    }
+//    func runTestBed() {
+//        let stream = readFile("expression", fileType: "ql")
+//        
+//        do {
+//            let test = try TestBed().parseStream(stream!) as! QLAndExpression
+//            print("After parsing")
+//            print(test)
+//            print(((test.lhs as! QLUnaryExpression).expression as! QLBool).boolean)
+//            print(((test.rhs as! QLUnaryExpression).expression as! QLBool).boolean)
+//
+//            
+//        } catch {
+//            print("Error in do-catch of runTestBed() in AppDelegate: \(error)")
+//        }
+//    }
     
     /// Returns an optional.
     private func readFile(fileName: String, fileType: String) -> String? {

@@ -28,10 +28,10 @@ class QLForm: ASTNode {
 
 class QLQuestion: QLStatement {
     let name: String
-    let variable: QLVariable
+    let variable: QLExpression
     let type: String
     
-    init(name: String, variable: QLVariable, type: String) {
+    init(name: String, variable: QLExpression, type: String) {
         self.name = name
         self.variable = variable
         self.type = type
