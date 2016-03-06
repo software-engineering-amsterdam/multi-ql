@@ -4,6 +4,11 @@ import javax.swing.JTextField;
 
 public class TextField extends Widget {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2330752727699157381L;
+	
 	JTextField field;
 
 	public TextField() {

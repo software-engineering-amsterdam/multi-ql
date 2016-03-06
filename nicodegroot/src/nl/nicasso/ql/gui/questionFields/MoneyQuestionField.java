@@ -1,18 +1,42 @@
 package nl.nicasso.ql.gui.questionFields;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 import javax.swing.JFormattedTextField;
+import javax.swing.text.NumberFormatter;
 
 public class MoneyQuestionField extends QuestionField {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3047877727295787300L;
+	
 	JFormattedTextField field;
 
 	public MoneyQuestionField() {
-		field = new JFormattedTextField(java.text.NumberFormat.getCurrencyInstance());
+		field = new JFormattedTextField(getMoneyFormatter());
 		field.setSize(200,100);
 	}
 	
 	public JFormattedTextField getField() {
 		return this.field;
+	}
+	
+	private DecimalFormat getMoneyFormatter() {
+		DecimalFormatSymbols unusualSymbols = new DecimalFormatSymbols();
+		unusualSymbols.setDecimalSeparator('.');
+		unusualSymbols.setGroupingSeparator(',');
+
+		String strange = "###,###.##";
+		DecimalFormat weirdFormatter = new DecimalFormat(strange, unusualSymbols);
+		weirdFormatter.setGroupingSize(3);
+
+		String bizarre = weirdFormatter.format(12345.678);
+		System.out.println(bizarre);
+		    
+		return weirdFormatter;
 	}
 	
 }
