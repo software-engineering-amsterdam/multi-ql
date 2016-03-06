@@ -56,6 +56,16 @@ class QLQuestion: QLStatement {
     }
 }
 
+class QLIfStatement: QLStatement {
+    let condition: QLExpression
+    let codeBlock: [QLStatement]
+    
+    init(condition: QLExpression, codeBlock: [QLStatement]) {
+        self.condition = condition
+        self.codeBlock = codeBlock
+    }
+}
+
 class QLLiteralExpression: QLExpression {
     let expression: ASTTerminal
     
