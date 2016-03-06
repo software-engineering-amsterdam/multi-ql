@@ -3,7 +3,6 @@ package org.uva.sea.ql.evaluator;
 public abstract class Value {
 
 	
-	
 	public Value not() {
 		return new UndefinedValue();
 	}
@@ -104,11 +103,11 @@ public abstract class Value {
 		return new UndefinedValue();
 	}
 	
-	public Value greaterOrEual(Value value) {
+	public Value greaterOrEqual(Value value) {
 		return new UndefinedValue();
 	}
 	
-	public Value greaterOrEualInt(IntValue value) {
+	public Value greaterOrEqualInt(IntValue value) {
 		return new UndefinedValue();
 	}
 	

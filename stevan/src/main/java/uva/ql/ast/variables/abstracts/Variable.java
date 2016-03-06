@@ -1,9 +1,8 @@
 package uva.ql.ast.variables.abstracts;
 
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.visitors.INodeVisitor;
+import uva.ql.interfaces.INodeVisitor;
 
 public abstract class Variable extends Expression {
 
@@ -18,7 +17,17 @@ public abstract class Variable extends Expression {
 		return this.name;
 	}
 	
-	abstract public Type getType();
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setLine(int line) {
+		this.startLine = line;
+	}
+	
+	public void setColumn(int col) {
+		this.startColumn = col;
+	}
 
 	@Override
 	public void accept(INodeVisitor visitor) {
