@@ -69,29 +69,14 @@ class QLParser {
 
         // MARK: Question.
         
-        // "Did you sell a house in 2010?"
-        //     hasSoldHouse: boolean
-        
-//        let qlquestionVariable = identifier <* colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
-        
+        // "name" variable: type
         let qlquestion: GenericParser<String, (), QLQuestion> = (stringLiteral <?> "question name").flatMap{ name in
-
-            let temp = (qlvariable <* colon <?> "question variable").flatMap{ variable -> GenericParser<String, (), QLQuestion> in
-                
-                print(name)
-                print(variable.identifier)
-                
-                let temp2 = (noneOf("\r\n,\n\r").many.stringValue <* endOfLine <* whiteSpace <?> "type identifier").map{ type in
-                    
+            (qlvariable <* colon <?> "question variable").flatMap{ variable -> GenericParser<String, (), QLQuestion> in
+                (noneOf("\r\n,\n\r").many.stringValue <* endOfLine <* whiteSpace <?> "type identifier").map{ type in
                     QLQuestion(name: name, variable: variable, type: type)
-                
                 }
-                
-                return temp2
             }
-            
-            return temp
-        }
+        } <?> "qlquestion"
         
         // MARK: Expression.
         
