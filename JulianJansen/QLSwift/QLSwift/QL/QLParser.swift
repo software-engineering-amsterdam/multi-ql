@@ -43,10 +43,17 @@ class QLParser {
         let ql = LanguageDefinition<()>.ql
         let lexer = GenericTokenParser(languageDefinition: ql)
         
+        let noneOf = StringParser.noneOf
+        let character = StringParser.character
         let symbol = lexer.symbol
         let stringLiteral = lexer.stringLiteral // Includes the quotes.
         let identifier = lexer.identifier
         let colon = lexer.colon
+        let whiteSpace = lexer.whiteSpace
+        let endOfLine = StringParser.crlf.attempt <|>
+            (character("\n") *> character("\r")).attempt <|>
+            character("\n") <|>
+            character("\r") <?> "end of line"
         
         // Literal.
         let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
@@ -58,13 +65,7 @@ class QLParser {
         let qlliteral: GenericParser<String, (), QLExpression> = qlboolean
         
         // Variable.
-        let qlvariable: GenericParser<String, (), QLVariable> = identifier.flatMap{ id in
-            colon.flatMap{ _ in
-                identifier.map{ (id) in
-                    QLVariable(identifier: id)
-                }
-            }
-        }
+        let qlvariable: GenericParser<String, (), QLVariable> = identifier.map{ QLVariable(identifier: $0) }
 
         // MARK: Question.
         
@@ -73,13 +74,23 @@ class QLParser {
         
 //        let qlquestionVariable = identifier <* colon <* symbol("boolean") <?> "Quote/endOfLine at end of question variable."
         
-        let qlquestion: GenericParser<String, (), QLQuestion> = stringLiteral.flatMap{ questionName in
-            
-            qlvariable.map{ variable -> QLQuestion in
+        let qlquestion: GenericParser<String, (), QLQuestion> = (stringLiteral <?> "question name").flatMap{ name in
+
+            let temp = (qlvariable <* colon <?> "question variable").flatMap{ variable -> GenericParser<String, (), QLQuestion> in
                 
-                QLQuestion(name: questionName, variable: variable, type: type)
+                print(name)
+                print(variable.identifier)
                 
+                let temp2 = (noneOf("\r\n,\n\r").many.stringValue <* endOfLine <* whiteSpace <?> "type identifier").map{ type in
+                    
+                    QLQuestion(name: name, variable: variable, type: type)
+                
+                }
+                
+                return temp2
             }
+            
+            return temp
         }
         
         // MARK: Expression.
@@ -151,7 +162,7 @@ class QLParser {
             return temp
         }  <?> "Error at the end of the form."
         
-        return lexer.whiteSpace *> form
+        return whiteSpace *> form
     }
     
     // Based on functions from ExpressionTests.swift of SwiftParsec.
