@@ -1,12 +1,12 @@
 package nl.nicasso.ql.gui;
 
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import net.miginfocom.swing.MigLayout;
 import nl.nicasso.ql.gui.panels.Panel;
 
 public class MainFrame {
@@ -20,7 +20,7 @@ public class MainFrame {
 		mainFrame = new JFrame("Questionnaire");
 		mainFrame.setSize(1024, 768);
 		mainFrame.setLocationRelativeTo(null);
-		mainFrame.setLayout(new GridLayout(0, 1));
+		mainFrame.setLayout(new MigLayout());
 		mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	
@@ -35,7 +35,7 @@ public class MainFrame {
 	public void updateMainFrame() {
 		for (Panel p : panels) {
 			System.out.println("ADD PANEL TO MAINFRAME: "+p.getClass());
-			mainFrame.add(p.getPanel());
+			mainFrame.add(p.getPanel(), "wrap");
 		}
 		
 		setVisible(true);

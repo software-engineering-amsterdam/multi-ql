@@ -1,6 +1,8 @@
 package nl.nicasso.ql.ast.types;
 
 import nl.nicasso.ql.ast.CodeLocation;
+import nl.nicasso.ql.gui.questionFields.QuestionField;
+import nl.nicasso.ql.gui.questionFields.TextQuestionField;
 import nl.nicasso.ql.values.StringValue;
 
 public class StringType extends Type {
@@ -14,6 +16,11 @@ public class StringType extends Type {
 	@Override
 	public StringValue getDefaultValue() {
 		return new StringValue("");
+	}
+	
+	@Override
+	public QuestionField getRelatedField() {
+		return new TextQuestionField();
 	}
 	
 	public StringType(CodeLocation location) {

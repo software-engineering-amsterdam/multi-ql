@@ -1,6 +1,8 @@
 package nl.nicasso.ql.ast.types;
 
 import nl.nicasso.ql.ast.CodeLocation;
+import nl.nicasso.ql.gui.questionFields.IntegerQuestionField;
+import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.values.IntegerValue;
 
 public class IntegerType extends NumericType {
@@ -14,6 +16,11 @@ public class IntegerType extends NumericType {
 	@Override
 	public IntegerValue getDefaultValue() {
 		return new IntegerValue(0);
+	}
+	
+	@Override
+	public QuestionField getRelatedField() {
+		return new IntegerQuestionField();
 	}
 	
 	public IntegerType(CodeLocation location) {

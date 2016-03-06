@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import net.miginfocom.swing.MigLayout;
+
 public class BlockPanel extends Panel {
 	
 	/**
@@ -19,6 +21,7 @@ public class BlockPanel extends Panel {
 	public BlockPanel() {
 		panels = new ArrayList<Panel>();
 		panel = new JPanel();
+		panel.setLayout(new MigLayout());
 	}
 	
 	@Override
@@ -33,7 +36,7 @@ public class BlockPanel extends Panel {
 	public JPanel getPanel() {
 
 		for (Panel p : panels) {
-			panel.add(p.getPanel());
+			panel.add(p.getPanel(), "wrap");
 		}
 		
 		panel.setVisible(true);
