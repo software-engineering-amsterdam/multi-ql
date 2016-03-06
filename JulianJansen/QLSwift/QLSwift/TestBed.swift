@@ -22,13 +22,17 @@ class TestBed {
     
     private func testExpressions() -> GenericParser<String, (), QLExpression> {
         
-        // Boolean literals.
+        // Literal.
         let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
         let qlbooleanFalse: GenericParser<String, (), QLBool> = symbol("false") *> GenericParser(result: QLBool(boolean: false))
-        let qlboolean: GenericParser<String, (), QLExpression> = (qlbooleanTrue <|> qlbooleanFalse).map{ QLLiteralExpression(expression: $0) }
+        let qlboolean: GenericParser<String, (), QLExpression> = (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(expression: $0) }
         
-        // String literal.
-        let qlstring: GenericParser<String, (), QLExpression> = identifier.map{ QLString(string: $0) }.map{ QLLiteralExpression(expression: $0) }
+        
+        
+        let qlliteral: GenericParser<String, (), QLExpression> = qlboolean
+
+        
+        let qlvariable: GenericParser<String, (), QLExpression> = identifier.map{ QLVariable(identifier: $0) }
         
         let opTable: OperatorTable<String, (), QLExpression> = [
             
@@ -41,11 +45,10 @@ class TestBed {
         let openingParen = StringParser.character("(")
         let closingParen = StringParser.character(")")
         
-        let qlliteral: GenericParser<String, (), QLExpression> = qlboolean <|> qlstring
         
         let qlexpression: GenericParser<String, (), QLExpression> = opTable.expressionParser { expression in
             
-            expression.between(openingParen, closingParen) <|> qlliteral <?> "expression"
+            expression.between(openingParen, closingParen) <|> qlliteral <|> qlvariable <?> "expression"
         
         } <?> "expression"
         
