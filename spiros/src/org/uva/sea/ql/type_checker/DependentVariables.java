@@ -1,10 +1,7 @@
 package org.uva.sea.ql.type_checker;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import org.uva.sea.ql.ast.expression.Comparison.Equal;
 import org.uva.sea.ql.ast.expression.Comparison.Greater;
 import org.uva.sea.ql.ast.expression.Comparison.GreaterOrEqual;
@@ -27,13 +24,12 @@ import org.uva.sea.ql.ast.expression.Unary.Not;
 import org.uva.sea.ql.ast.expression.Unary.Positive;
 import org.uva.sea.ql.ast.expression.*;
 
-// change name
 
-public class CyclicDependenciesVisitor implements ExpressionVisitor<Set<String>> {
+public class DependentVariables implements ExpressionVisitor<Set<String>> {
 	
 	private Set<String> dependencies;
 	
-	public CyclicDependenciesVisitor() {
+	public DependentVariables() {
 		this.dependencies = new HashSet<String>();
 	}
 

@@ -222,8 +222,8 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		}
 		
 		
-		CyclicDependenciesVisitor cyclicDependenciesVisitor = new CyclicDependenciesVisitor();
-		Set<String> dependencies = computedQuestion.getExpression().accept(cyclicDependenciesVisitor);
+		DependentVariables dependentVariables = new DependentVariables();		// cyclicDependVisitor...
+		Set<String> dependencies = computedQuestion.getExpression().accept(dependentVariables);
 		
 		Identifier identifier = computedQuestion.getId();
 		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());
