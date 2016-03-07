@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<section name="net.sf.eclipsecs.ui.config.RuleConfigurationEditDialog#LineLength">
+		<item value="false" key="maximized"/>
+		<item value="false" key="minimized"/>
+	</section>
 	<section name="net.sf.eclipsecs.core.projectconfig.LocalCheckConfigurationWorkingSet">
 	</section>
 	<section name="net.sf.eclipsecs.ui.config.ResolvablePropertiesDialog">
@@ -21,7 +25,7 @@
 		<item value="163" key="colWidth3"/>
 		<item value="71" key="colWidth0"/>
 		<item value="false" key="minimized"/>
-		<item value="141" key="colWidth1"/>
+		<item value="204" key="colWidth1"/>
 		<item value="0" key="sortColumn"/>
 		<item value="1" key="sortDirection"/>
 		<item value="726" key="width"/>

@@ -1,0 +1,36 @@
+package eu.bankersen.kevin.ql.ast;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.context.typeanalyzer.Context;
+
+public class Literal extends Expr {
+
+    private final Object value;
+    
+    public Literal(Object value, Type type, int line) {
+	super(type, null, null, line);
+	this.value = value;
+    }
+    
+    @Override
+    public Object evalExpr(SymbolTable symbolTable) {
+	return value; 
+    }
+
+    @Override
+    public Context checkType(Context context) {
+	return context;
+    }
+    
+    @Override
+    public String toString() {
+	return value.toString();
+    }
+    
+    @Override
+    public void accept(Visitor v) {
+	v.visit(this);
+    }
+}

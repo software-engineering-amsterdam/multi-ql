@@ -10,8 +10,8 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import eu.bankersen.kevin.ql.ast.type.Type;
-import eu.bankersen.kevin.ql.context.Symbol;
-import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 public class DropdownWidget implements Widget {
 

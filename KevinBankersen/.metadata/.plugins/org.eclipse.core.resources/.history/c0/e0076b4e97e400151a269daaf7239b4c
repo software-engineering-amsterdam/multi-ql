@@ -1,0 +1,5 @@
+package eu.bankersen.kevin.ql.ast.type.value;
+
+public class MoneyObject {
+
+}

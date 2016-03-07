@@ -10,8 +10,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 
 import eu.bankersen.kevin.ql.ast.type.Type;
-import eu.bankersen.kevin.ql.context.Symbol;
-import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 public class BoxWidget implements Widget {
 

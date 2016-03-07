@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import eu.bankersen.kevin.ql.ast.type.Type;
-import eu.bankersen.kevin.ql.context.Symbol;
-import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 public class RadioButtonWidget implements Widget {
 
@@ -22,6 +22,7 @@ public class RadioButtonWidget implements Widget {
     private final JRadioButton trueToggle;
     private final JRadioButton falseToggle;
     private final List<Widget> widgetListeners;
+    private final ButtonGroup group;
 
     public RadioButtonWidget(Symbol data) {
 	this.name = data.getName();
@@ -34,7 +35,7 @@ public class RadioButtonWidget implements Widget {
 	falseToggle = new JRadioButton("False");
 	falseToggle.setEnabled(!data.isComputed());
 	
-	ButtonGroup group = new ButtonGroup();
+	group = new ButtonGroup();
 	group.add(trueToggle);
 	group.add(falseToggle);
 
@@ -67,6 +68,8 @@ public class RadioButtonWidget implements Widget {
 	    } else if (data.getValue().equals(false)) {
 		falseToggle.setSelected(true);
 	    }
+	} else {
+	    group.clearSelection();
 	}
     }
     @Override

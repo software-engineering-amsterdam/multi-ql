@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.ast.type.value;
+
+public class test {
+
+    public static void main(String[] args) {
+	QLObject object1 = new IntegerObject();
+	object1.valueOf(1);
+	
+	QLObject object2 = new MoneyObject();
+	object2.valueOf(8);
+	
+	object2.add(object1);
+	
+	System.out.println(object2.toString());
+
+    }
+
+}

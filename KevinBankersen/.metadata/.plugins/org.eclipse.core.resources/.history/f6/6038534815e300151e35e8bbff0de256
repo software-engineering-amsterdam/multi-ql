@@ -1,0 +1,47 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import eu.bankersen.kevin.ql.VisitAccept;
+import eu.bankersen.kevin.ql.ast.TypeCheckInterface;
+import eu.bankersen.kevin.ql.ast.Visitor;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableBuilder;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableInterface;
+import eu.bankersen.kevin.ql.context.typeanalyzer.Context;
+
+public class Form implements VisitAccept, TypeCheckInterface, SymbolTableInterface {
+
+    private final String name;
+    private final Body body;
+
+    public Form(String name, Body body) {
+	this.name = name;
+	this.body = body;
+    }
+    
+    public Body body() {
+	return body;
+    }
+
+    @Override
+    public SymbolTableBuilder process(SymbolTableBuilder builder) {
+	return body.process(builder);
+    }
+    
+    public SymbolTable evalForm(SymbolTable symbolTable) {
+	return body.evalBody(symbolTable);
+    }
+
+    @Override
+    public Context checkType(Context context) {
+	return body.checkType(context);
+    }
+    
+    //Testing
+    public void accept(Visitor v) {
+	v.visit(this);
+    }
+    
+    
+    
+}
+

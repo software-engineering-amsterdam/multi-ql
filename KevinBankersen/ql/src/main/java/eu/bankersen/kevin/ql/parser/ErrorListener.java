@@ -13,18 +13,18 @@ import org.antlr.v4.runtime.dfa.DFA;
 
 public class ErrorListener implements ANTLRErrorListener {
     
-    private List<String[]> errors;
+    private List<ANTLRParseError> parseErrors;
     
     public ErrorListener() {
-	errors = new ArrayList<>();
+	parseErrors = new ArrayList<>();
     }
     
-    public List<String[]> getErrors() {
-	return errors;
+    public List<ANTLRParseError> getErrors() {
+	return parseErrors;
     }
     
     public boolean errors() {
-	return errors.size() > 0;
+	return parseErrors.size() > 0;
     }
 
     @Override
@@ -41,11 +41,10 @@ public class ErrorListener implements ANTLRErrorListener {
     }
 
     @Override
-    public void syntaxError(Recognizer< ? , ? > arg0, Object arg1, int arg2, int arg3, String arg4,
+    public void syntaxError(Recognizer<?,?> arg0, Object arg1, int arg2, int arg3, String arg4,
 	    RecognitionException arg5) {
 	
-	String[] error = {String.valueOf(arg2), arg4};
-	errors.add(error);
+	parseErrors.add(new ANTLRParseError(arg2, arg4));
 	
     }
 

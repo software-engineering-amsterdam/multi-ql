@@ -1,7 +1,5 @@
 ###################### TO DO ##############################
 
---> ***************** EVALUATOR ***************************
-
 --> ******************** GUI ******************************
 
 --> *************** ERROR HANDLING ************************
@@ -25,8 +23,6 @@
 --> names of questionData kai identifierData
 
 --> set anti gia lista sto IdData?
-
---> money needed?
 
 -->  *** GRAMMAR_PRECEDENCE ***
 

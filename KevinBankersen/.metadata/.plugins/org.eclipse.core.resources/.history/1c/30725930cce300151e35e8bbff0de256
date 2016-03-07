@@ -1,0 +1,46 @@
+package eu.bankersen.kevin.ql.interpreter;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.esotericsoftware.minlog.Log;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.gui.ViewListener;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+
+public class Interpreter implements ViewListener {
+
+    private final Form form;
+    private SymbolTable symbolTable;
+    private List<DataListener> dataListeners;
+
+    public Interpreter(Form form, SymbolTable symbolTable) {
+	this.form = form;
+	this.symbolTable = form.evalForm(symbolTable);
+	this.dataListeners = new ArrayList<>();
+    }
+
+    public void addDataListener(DataListener listener) {
+	dataListeners.add(listener);
+    }
+
+    private void dataUpdate() {
+	dataListeners.forEach(listener -> listener.dataUpdate(symbolTable));
+    }
+
+    @Override
+    public void viewUpdate(String name, Object value) {
+	symbolTable.updateSymbol(name, value);
+	
+	// Iterate a few times to ensure all values are updated.
+	for (int i = 0; i < symbolTable.getEntries().size() /2; i++) {
+	symbolTable = form.evalForm(symbolTable);
+	}
+	Log.info("Symbol Table Contents\n" + symbolTable.toString());
+	dataUpdate();
+    }
+}
+
+

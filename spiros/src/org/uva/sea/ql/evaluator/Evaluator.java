@@ -1,5 +1,8 @@
 package org.uva.sea.ql.evaluator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
 import org.uva.sea.ql.ast.expression.Comparison.Equal;
 import org.uva.sea.ql.ast.expression.Comparison.Greater;
@@ -23,125 +26,139 @@ import org.uva.sea.ql.ast.expression.Unary.Not;
 import org.uva.sea.ql.ast.expression.Unary.Positive;
 
 public class Evaluator implements ExpressionVisitor<Value>  {
+	
+	private Map<Identifier, Value> values;
+	
+	public  Evaluator() {
+		this.values = new HashMap<Identifier, Value>();
+	}
 
 	@Override
 	public Value visit(Equal node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.equal(right);
 	}
 
 	@Override
 	public Value visit(NotEqual node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.notEqual(right);
 	}
 
 	@Override
 	public Value visit(Greater node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.greater(right);
 	}
 
 	@Override
 	public Value visit(GreaterOrEqual node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.greaterOrEqual(right);
 	}
 
 	@Override
 	public Value visit(Less node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.less(right);
 	}
 
 	@Override
 	public Value visit(LessOrEqual node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.lessOrEqual(right);
 	}
 
 	@Override
 	public Value visit(BooleanLiteral node) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BoolValue(node.getValue());
 	}
 
 	@Override
 	public Value visit(Identifier node) {
-		// TODO Auto-generated method stub
+		if (values.containsKey(node)) {
+			return values.get(node);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Value visit(IntegerLiteral node) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IntValue(node.getValue());
 	}
 
 	@Override
 	public Value visit(StringLiteral node) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StrValue(node.getValue());
 	}
 
 	@Override
 	public Value visit(And node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.and(right);
 	}
 
 	@Override
 	public Value visit(Or node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.or(right);
 	}
 
 	@Override
 	public Value visit(Add node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.add(right);
 	}
 
 	@Override
 	public Value visit(Sub node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.sub(right);
 	}
 
 	@Override
 	public Value visit(Mul node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.mul(right);
 	}
-
+	
 	@Override
 	public Value visit(Div node) {
-		// TODO Auto-generated method stub
-		return null;
+		Value left = node.getLeftExpression().accept(this);
+		Value right = node.getRightExpression().accept(this);
+		return left.div(right);
 	}
 
 	@Override
 	public Value visit(Parenthesis node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Value visit(Not node) {
-		// TODO Auto-generated method stub
-		return null;
+		return node.getExpression().accept(this).not();
 	}
 
 	@Override
 	public Value visit(Positive node) {
-		// TODO Auto-generated method stub
-		return null;
+		return node.getExpression().accept(this).positive();
 	}
 
 	@Override
 	public Value visit(Negative node) {
-		// TODO Auto-generated method stub
-		return null;
+		return node.getExpression().accept(this).negative();
 	}
 
 }

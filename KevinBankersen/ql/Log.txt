@@ -1,7 +1,35 @@
-00:00  INFO: Reading resources/Tax2.form
+00:00  INFO: Reading resources/Tax3.form
 00:00  INFO: Parsing File
 00:00  INFO: File Parsed
 00:00  INFO: Build Context
-00:01  INFO: Symbol Table Contents
-european=true
+00:09  INFO: Symbol Table Contents
+q1=true
+q2=true
+
+00:11  INFO: Symbol Table Contents
+q1=true
+q3=true
+q4=true
+q2=true
+
+00:12  INFO: Symbol Table Contents
+q1=true
+q3=true
+q5=true
+q4=true
+q14=true
+q2=true
+
+00:13  INFO: Symbol Table Contents
+q1=true
+q3=true
+q5=true
+q12=true
+q4=true
+q14=true
+q2=true
+
+00:15  INFO: Symbol Table Contents
+q1=false
+q2=false
 

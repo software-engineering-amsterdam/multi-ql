@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.gui.widgets;
+
+import javax.swing.JPanel;
+
+import eu.bankersen.kevin.ql.ast.AbstractVisitor;
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+
+public class QuestionBuilder extends AbstractVisitor {
+
+    public List<Widget> getWidgets() {
+	return new JPanel();
+    }
+    @Override
+    public void visit(NormalQuestion o) {
+	System.out.println("Yey, found question!");
+	
+    }
+
+    @Override
+    public void visit(ComputedQuestion o) {
+	System.out.println("Yey, found question!");
+	
+    }
+}

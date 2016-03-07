@@ -3,6 +3,8 @@ package eu.bankersen.kevin.ql.ast.type;
 import java.math.BigDecimal;
 
 public class MoneyType extends NumberType {
+    
+    private int round = BigDecimal.ROUND_HALF_DOWN;
 
     public boolean isSimilar(Type type) {
 	return type instanceof MoneyType;
@@ -16,7 +18,7 @@ public class MoneyType extends NumberType {
     @Override
     public BigDecimal parseValue(String value) {
 	try {
-	    return new BigDecimal(value).setScale(2, BigDecimal.ROUND_CEILING);
+	    return new BigDecimal(value).setScale(2, round);
 	} catch (NumberFormatException e) {
 	    return null;
 	}
@@ -24,7 +26,7 @@ public class MoneyType extends NumberType {
     
     @Override
     public BigDecimal parseValue(Double value) {
-	return new BigDecimal(value).setScale(2, BigDecimal.ROUND_CEILING);
+	return new BigDecimal(value).setScale(2, round);
     }
     
     @Override

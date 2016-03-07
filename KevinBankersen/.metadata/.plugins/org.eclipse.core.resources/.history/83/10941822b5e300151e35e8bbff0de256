@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.gui.dialog;
+
+public class WarningDialog {
+    
+    public WarningDialog() {
+	// TODO Auto-generated constructor stub
+    }
+
+}
