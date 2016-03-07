@@ -46,7 +46,7 @@ public class QuestionString extends Question {
 	@Override
 	public void update() {
 		IdentifierNode in = new IdentifierNode(getIdentifier());
-		Value value = getState().lookup(in);	
+		Value value = (getExpression() == null) ? getState().lookup(in) : getExpression().eval(getState());
 		String valueText = (value == null) ? "" : value.toString();
 		((JTextField) getComponent()).setText(valueText);
 	}

@@ -50,7 +50,7 @@ public class QuestionBoolean extends Question {
 	@Override
 	public void update() {
 		IdentifierNode in = new IdentifierNode(getIdentifier());
-		Value value = getState().lookup(in);		
+		Value value = (getExpression() == null) ? getState().lookup(in) : getExpression().eval(getState());
 		boolean bool = (value == null) ? false : (boolean) value.getValue();		
 		((JCheckBox) getComponent()).setSelected(bool);
 	}

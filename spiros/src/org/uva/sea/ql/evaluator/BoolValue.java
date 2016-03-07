@@ -16,5 +16,25 @@ public class BoolValue extends Value {
 	public Value not() {
 		return new BoolValue(!getValue());
 	}
+	
+	@Override
+	public Value and(Value value) {
+		return value.andBool(this);
+	}
+	
+	@Override
+	public Value andBool(BoolValue value) {
+		return new BoolValue(value.getValue() && this.getValue());
+	}
+	
+	@Override
+	public Value or(Value value) {
+		return value.orBool(this);
+	}
+	
+	@Override
+	public Value orBool(BoolValue value) {
+		return new BoolValue(value.getValue() || this.getValue());
+	}
 
 }

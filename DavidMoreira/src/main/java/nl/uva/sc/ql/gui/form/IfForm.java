@@ -1,22 +1,21 @@
 package nl.uva.sc.ql.gui.form;
 
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import nl.uva.sc.ql.gui.State;
-
 public class IfForm extends JPanel implements GuiInterface, Observer {
 
 	private static final long serialVersionUID = 1L;
 	
-	private State state;
 	private List<ConditionBlockForm> listConditionBlock;
 	private List<Question> questions;
 	
-	public IfForm(State state){
-		this.state = state;
+	public IfForm(){
+		//super(new BorderLayout());
+		
 		this.listConditionBlock = new ArrayList<ConditionBlockForm>();
 		this.questions = new ArrayList<Question>();
 	}
@@ -44,7 +43,7 @@ public class IfForm extends JPanel implements GuiInterface, Observer {
 			q.runGui();
 			this.add(q);
 		}
-				
+		
 		return true;
 	}
 	

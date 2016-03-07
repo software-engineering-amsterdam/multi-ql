@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import nl.uva.sc.ql.gui.State;
-
 public class Form extends JFrame implements GuiInterface {
 	
 	private static final long serialVersionUID = 1L;
@@ -14,10 +12,8 @@ public class Form extends JFrame implements GuiInterface {
 	private String name;
 	private List<Question> questions;
 	private List<IfForm> listIfForm;
-	private State state;
 
-	public Form(State state, String name){
-		this.state = state;
+	public Form(String name){
 		this.name = name;
 		this.questions = new ArrayList<Question>();
 		this.listIfForm = new ArrayList<IfForm>();
@@ -37,7 +33,7 @@ public class Form extends JFrame implements GuiInterface {
 	}
 
 	@Override
-	public boolean runGui() {		
+	public boolean runGui() {	
 		for(Question q : questions){
 			q.runGui();
 			this.add(q);
@@ -46,8 +42,8 @@ public class Form extends JFrame implements GuiInterface {
 		for(IfForm i : listIfForm){
 			i.runGui();
 			this.add(i);
-		}
-		
+		}	
+
 		return true;
 	}
 	
