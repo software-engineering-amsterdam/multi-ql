@@ -14,7 +14,7 @@
 //  form        -> form codeBlock
 //  codeBlock   -> { statement* }
 //  statement   -> question | if ( expression ) codeBlock
-//  question    -> stringLiteral identifier: literal
+//  question    -> stringLiteral variable: identifier
 //  expression  ->
 //  literal     -> integerLiteral | floatLiteral | stringLiteral | boolLiteral
 
@@ -100,29 +100,92 @@ class QLParser {
         let qlexpression: GenericParser<String, (), QLExpression> = opTable.expressionParser { expression in
             
             expression.between(openingParen, closingParen) <|> qlliteral <|> qlvariable <?> "expression"
-            
+        
             } <?> "opTable expression"
         
-        let codeBlock: GenericParser<String, (), [QLStatement]>!
         
-        let qlif: GenericParser<String, (), QLStatement> = (symbol("if") *> qlexpression).flatMap{ condition in
-            codeBlock.map { codeBlock in
-                QLIfStatement(condition: condition, codeBlock: codeBlock)
-            }
-        }
-    
+        
+        // From test 
+        
+//        let expression = GenericParser<String, (), Int>.recursive { expression in
+//            
+//            func opParser(left: Int) -> GenericParser<String, (), Int> {
+//                
+//                return operators >>- { f in
+//                    
+//                    expression >>- { right in
+//                        
+//                        opParser1(f(left, right))
+//                        
+//                    }
+//                    
+//                }
+//                
+//            }
+//            
+//            func opParser1(right: Int) -> GenericParser<String, (), Int> {
+//                
+//                return opParser(right) <|> GenericParser(result: right)
+//                
+//            }
+//            
+//            return expression.between(openingParen, closingParen) <|> decimal >>- { term in
+//                
+//                opParser(term) <|> GenericParser(result: term)
+//                
+//            }
+//            
+//        }
+        
+        
+        
         
         // MARK: Statement.
+//        
+//        let qlstatement = qlquestion
+//        
+//        let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
+//            print("Statement: \(statement)")
+//            accumulated.append(statement)
+//            return accumulated
+//        }
+//        
+//        let codeBlock: GenericParser<String, (), [QLStatement]>! = lexer.braces(qlstatements)
+//        
+//        // Recursive?
+//        let qlif: GenericParser<String, (), QLStatement> = (symbol("if") *> qlexpression).flatMap{ condition in
+//            codeBlock.map { codeBlock in
+//                QLIfStatement(condition: condition, codeBlock: codeBlock)
+//            }
+//        }
+//        
         
-        let qlstatement = qlquestion <|> qlif
+        // MARK: Code block.
         
-        let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
-            print("Statement: \(statement)")
-            accumulated.append(statement)
-            return accumulated
-        }
         
-        codeBlock = lexer.braces(qlstatements)
+        
+//        let codeBlock = GenericParser<String, (), [QLStatement]>.recursive{ codeBlock -> GenericParser<String, (), [QLStatement]> in
+//            
+//            func ifParser(stream: String) -> GenericParser(String, (), QLIfStatement> {
+//                condition in
+//                codeBlock.map { codeBlock in
+//                    QLIfStatement(condition: condition, codeBlock: codeBlock)
+//                }
+//            }
+//            
+//            let qlstatement = qlquestion
+//            
+//            let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
+//                print("Statement: \(statement)")
+//                accumulated.append(statement)
+//                return accumulated
+//            }
+//            
+//            return lexer.braces(qlstatements)
+//        }
+        
+        
+        
         
         let form = symbol("form") *> identifier.flatMap{ (formName) -> GenericParser<String, (), QLForm> in
             
@@ -139,6 +202,19 @@ class QLParser {
         }  <?> "Error at the end of the form."
         
         return whiteSpace *> form
+    }
+    
+    
+    private func codeBlockParser(stream: String) -> GenericParser<String, (), [QlStatement]> {
+        let qlstatement = qlquestion
+
+        let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
+            print("Statement: \(statement)")
+            accumulated.append(statement)
+            return accumulated
+        }
+
+        return lexer.braces(qlstatements)
     }
     
     // MARK: Expression operators.
