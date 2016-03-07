@@ -44,7 +44,7 @@ class QLParser {
     let colon = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).colon
     let whiteSpace = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).whiteSpace
 
-//    let noneOf = StringParser.noneOf
+    // MARK: Methods.
     
     private func endOfLineParser() -> GenericParser<String, (), Character> {
         let character = StringParser.character
@@ -57,56 +57,46 @@ class QLParser {
         return endOfLine
     }
 
-    
-    
-    // Literal.
+    // MARK: Literals.
     func booleanParser() -> GenericParser<String, (), QLExpression> {
         let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
         let qlbooleanFalse: GenericParser<String, (), QLBool> = symbol("false") *> GenericParser(result: QLBool(boolean: false))
         return (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(expression: $0) }
     }
     
-//    
-//    
-//    let qlliteral: GenericParser<String, (), QLExpression> = qlboolean
-//    
+    func literalParser() -> GenericParser<String, (), QLExpression> {
+        return booleanParser()
+    }
+    
     // Variable.
     private func variableParser() -> GenericParser<String, (), QLExpression> { return identifier.map{ QLVariable(identifier: $0) } }
-
-    
-
     
     
     // MARK: Expression.
     
-    // Based on opTable from ExpressionTests.swift of SwiftParsec.
-    // &&, ||, !, <, >, >=, <=, !=, ==, +, -, *, /.
-    
-//    let opTable: OperatorTable<String, (), QLExpression> = [
-//        
-//        [
-//            binary("&&", function: andExpression, assoc: .Left)
-//        ]
-//        
-//    ]
-    
-    
-    
-    
-    
-//    let openingParen = StringParser.character("(")
-//    let closingParen = StringParser.character(")")
-//    
-//    let qlexpression: GenericParser<String, (), QLExpression> = opTable.expressionParser { expression in
-//        
-//        expression.between(openingParen, closingParen) <|> qlliteral <|> qlvariable <?> "expression"
-//    
-//    } <?> "opTable expression"
-//
-//    
+    private func expressionParser() -> GenericParser<String, (), QLExpression> {
+        
+        // Based on opTable from ExpressionTests.swift of SwiftParsec.
+        // &&, ||, !, <, >, >=, <=, !=, ==, +, -, *, /.
+        let opTable: OperatorTable<String, (), QLExpression> = [
 
-
-    // MARK: Methods.
+            [
+                binary("&&", function: andExpression, assoc: .Left)
+            ]
+            
+        ]
+        
+        let openingParen = StringParser.character("(")
+        let closingParen = StringParser.character(")")
+    
+        let qlexpression: GenericParser<String, (), QLExpression> = opTable.expressionParser { expression in
+    
+            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
+    
+        } <?> "opTable expression"
+    
+        return qlexpression
+    }
     
     func parseStream(data: String) throws -> QLForm {
         return try parser().run(sourceName: "", input: data)
@@ -127,8 +117,16 @@ class QLParser {
         return question
     }
     
+    private func ifParser() -> GenericParser<String, (), QLStatement> {
+        return (symbol("if") *> expressionParser()).flatMap{ condition in
+            (self.whiteSpace *> self.codeBlockParser()).map { codeBlock in
+                QLIfStatement(condition: condition, codeBlock: codeBlock)
+            }
+        }
+    }
+    
     private func codeBlockParser() -> GenericParser<String, (), [QLStatement]> {
-        let qlstatement = questionParser()
+        let qlstatement = questionParser() <|> ifParser()
 
         let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
             print("Statement: \(statement)")

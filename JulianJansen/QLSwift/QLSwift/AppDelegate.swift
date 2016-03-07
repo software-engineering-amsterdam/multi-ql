@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func testQLParser() {
-        let stream = readFile("basic", fileType: "ql")
+        let stream = readFile("questionsAndIfStatement", fileType: "ql")
         
         do {
             let test = try QLParser().parseStream(stream!)
