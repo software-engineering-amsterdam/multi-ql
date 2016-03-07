@@ -25,6 +25,14 @@ public class TypeCheckerTest {
         assertEquals(expectedErrors, errors);
     }
     
+    @Test
+    public void testFormWithWrongQuestionType() throws FileNotFoundException {
+        List<String> errors = typeCheck("formWithWrongQuestionType.ql");
+        List<String> expectedErrors = new ArrayList<>();
+        expectedErrors.add("Question of type decimal found with calculation of another type.");
+        assertEquals(expectedErrors, errors);
+    }
+    
     private Map<Ident,Question> collectIdentifiers(ASTNode n) {
         IdentCollector collector = new IdentCollector();
         n.accept(collector);
