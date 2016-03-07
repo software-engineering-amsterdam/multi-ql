@@ -58,7 +58,7 @@ public class Int extends NumericExpr {
      * Returns whether <code>this Int</code> represents an integer value.
      * 
      * @param questionTypes a <code>Map</code> from <code>Ident</code>s found in
-     *                      code the ast <code>this Int</code> is part of to a
+     *                      cthe ast <code>this Int</code> is part of to a
      *                      <code>Question</code> with that <code>Ident</code>
      * @return <code>true</code>, because an <code>Int</code> represents an int
      *          value by definition

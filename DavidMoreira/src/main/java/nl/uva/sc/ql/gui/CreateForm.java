@@ -108,7 +108,7 @@ public class CreateForm implements Visitor {
 
 	@Override
 	public void visit(FormNode formNode) {
-		form = new Form(state, formNode.getName());
+		form = new Form(formNode.getName());
 		formNode.getBlock().accept(this);		
 	}
 
@@ -129,7 +129,7 @@ public class CreateForm implements Visitor {
 		List<ConditionBlockNode> conditions = ifNode.getConditions();
 		BlockNode elseBlock = ifNode.getElseBlock();
 		
-		ifForm = new IfForm(state);
+		ifForm = new IfForm();
 	
 		for(ConditionBlockNode cbn : conditions){
 			cbn.accept(this);

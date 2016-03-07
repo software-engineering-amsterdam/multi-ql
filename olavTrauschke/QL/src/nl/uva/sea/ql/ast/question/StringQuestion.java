@@ -9,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Question</code>s that return strings in an AST.
  * 
  * @author Olav Trauschke
- * @version 1-mrt-2016
+ * @version 4-mrt-2016
  */
 public class StringQuestion extends Question {
     
@@ -39,6 +39,17 @@ public class StringQuestion extends Question {
      */
     public StringQuestion(Ident identifier, Label label, Expr calculation) {
         super(identifier, label, calculation);
+    }
+    
+    /**
+     * Returns whether <code>this StringQuestion</code> represents a string value.
+     * 
+     * @return <code>true</code> because objects of this class represent string
+     *          values by definition
+     */
+    @Override
+    public boolean isString() {
+        return true;
     }
     
     /**

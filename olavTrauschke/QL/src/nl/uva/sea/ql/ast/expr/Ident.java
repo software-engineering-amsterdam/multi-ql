@@ -46,8 +46,8 @@ public class Ident extends Expr {
      * @param questionTypes a <code>Map</code> from each <code>Ident</code>
      *                      <code>this Ident</code> might be to a
      *                      <code>Question</code> with that <code>Ident</code>
-     * @return <code>true</code> if and only if <code>questionTypes</code>
-     *          maps <code>this Ident</code> to a <code>Question</code> for which
+     * @return <code>true</code> if and only if <code>questionTypes</code> maps
+     *          <code>this Ident</code> to a <code>Question</code> for which
      *          {@link nl.uva.sea.ql.ast.question.Question#isBoolean() isBoolean()}
      *          returns <code>true</code> or does not map <code>this Ident</code>
      *          at all (to prevent unnecessary error messages)
@@ -66,8 +66,8 @@ public class Ident extends Expr {
      * @param questionTypes a <code>Map</code> from each <code>Ident this Ident</code>
      *                      might be to a <code>Question</code> with that
      *                      <code>Ident</code>
-     * @return <code>true</code> if and only if <code>questionTypes</code>
-     *          maps <code>this Ident</code> to a <code>Question</code> for which
+     * @return <code>true</code> if and only if <code>questionTypes</code> maps
+     *          <code>this Ident</code> to a <code>Question</code> for which
      *          {@link nl.uva.sea.ql.ast.question.Question#isDecimal() isDecimal()}
      *          returns <code>true</code> or does not map <code>this Ident</code>
      *          at all (to prevent unnecessary error messages)
@@ -86,8 +86,8 @@ public class Ident extends Expr {
      * @param questionTypes a <code>Map</code> from each <code>Ident this Ident</code>
      *                      might be to a <code>Question</code> with that
      *                      <code>Ident</code>
-     * @return <code>true</code> if and only if <code>questionTypes</code>
-     *          maps <code>this Ident</code> to a <code>Question</code> for which
+     * @return <code>true</code> if and only if <code>questionTypes</code> maps
+     *          <code>this Ident</code> to a <code>Question</code> for which
      *          {@link nl.uva.sea.ql.ast.question.Question#isInt() isInt()} returns
      *          <code>true</code> or does not map <code>this Ident</code> at all
      *          (to prevent unnecessary error messages)
@@ -106,8 +106,8 @@ public class Ident extends Expr {
      * @param questionTypes a <code>Map</code> from each <code>Ident this Ident</code>
      *                      might be to a <code>Question</code> with that
      *                      <code>Ident</code>
-     * @return <code>true</code> if and only if <code>questionTypes</code>
-     *          maps <code>this Ident</code> to a <code>Question</code> for which
+     * @return <code>true</code> if and only if <code>questionTypes</code> maps
+     *          <code>this Ident</code> to a <code>Question</code> for which
      *          {@link nl.uva.sea.ql.ast.question.Question#isMoney() isMoney()}
      *          returns <code>true</code> or does not map <code>this Ident</code>
      *          at all (to prevent unnecessary error messages)
@@ -118,6 +118,26 @@ public class Ident extends Expr {
         
         Question q = questionTypes.get(this);
         return q.isMoney();
+    }
+    
+    /**
+     * Returns whether <code>this String</code> represents a string value.
+     * 
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Ident</code>
+     *                      might be to a <code>Question</code> with that
+     *                      <code>Ident</code>
+     * @return <code>true</code> if and only if <code>questionTypes</code> maps
+     *          <code>this Ident</code> to a <code>Question</code> for which
+     *          {@link nl.uva.sea.ql.ast.question.Question#isString() isString()}
+     *          returns <code>true</code> or does not map <code>this Ident</code>
+     *          at all (to prevent unnecessary error messages)
+     */
+    @Override
+    public boolean isString(Map<Ident,Question> questionTypes) {
+        if (!questionTypes.containsKey(this)) return true;
+        
+        Question q = questionTypes.get(this);
+        return q.isString();
     }
     
     /**

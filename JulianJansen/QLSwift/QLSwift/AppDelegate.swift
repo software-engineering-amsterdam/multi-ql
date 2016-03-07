@@ -17,15 +17,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
         
-        testing()
+        testQLParser()
+        
+//        runTestBed()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
     }
 
-    func testing() {
-        let stream = readFile("basic", fileType: "ql")
+    func testQLParser() {
+        let stream = readFile("questionsAndIfStatement", fileType: "ql")
         
         do {
             let test = try QLParser().parseStream(stream!)
@@ -36,26 +38,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             var temp = test.codeBlock[0] as! QLQuestion
             print(temp.name)
             print(temp.variable)
-            print(temp.type)
             
             temp = test.codeBlock[1] as! QLQuestion
             print(temp.name)
             print(temp.variable)
-            print(temp.type)
             
             
             temp = test.codeBlock[2] as! QLQuestion
             print(temp.name)
             print(temp.variable)
-            print(temp.type)
-
 
             
         } catch {
-            print("Error in do-catch in AppDelegate: \(error)")
+            print("Error in do-catch of testQLParser in AppDelegate: \(error)")
         }
     }
     
+//    func runTestBed() {
+//        let stream = readFile("expression", fileType: "ql")
+//        
+//        do {
+//            let test = try TestBed().parseStream(stream!) as! QLAndExpression
+//            print("After parsing")
+//            print(test)
+//            print(((test.lhs as! QLUnaryExpression).expression as! QLBool).boolean)
+//            print(((test.rhs as! QLUnaryExpression).expression as! QLBool).boolean)
+//
+//            
+//        } catch {
+//            print("Error in do-catch of runTestBed() in AppDelegate: \(error)")
+//        }
+//    }
     
     /// Returns an optional.
     private func readFile(fileName: String, fileType: String) -> String? {

@@ -6,7 +6,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of a conjunction or disjunction of booleans in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 4-mrt-2016
  */
 public abstract class BooleanConjunctiveExpr extends BooleanExpr {
     
@@ -33,6 +33,20 @@ public abstract class BooleanConjunctiveExpr extends BooleanExpr {
         assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
+    }
+    
+    /**
+     * @return the <code>Expr</code> on the left hand side of the operator
+     */
+    public Expr getFirstExpr() {
+        return firstExpr;
+    }
+    
+    /**
+     * @return the <code>Expr</code> on the right hand side of the operator
+     */
+    public Expr getSecondExpr() {
+        return secondExpr;
     }
     
     /**

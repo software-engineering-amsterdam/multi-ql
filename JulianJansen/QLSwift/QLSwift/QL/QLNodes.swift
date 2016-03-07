@@ -9,15 +9,12 @@
 import Foundation
 
 protocol ASTNode {}
-protocol ASTTerminal: ASTNode {}
-protocol ASTNonTerminal: ASTNode {}
-
-protocol QLStatement: ASTNonTerminal {}
+protocol QLLiteral: ASTNode {}
+protocol QLStatement: ASTNode {}
 protocol QLExpression: QLStatement {}
+protocol QLOperator {}
 
-// MARK: Non-terminals.
-
-class QLForm: ASTNonTerminal {
+class QLForm: ASTNode {
     let formName: String
     let codeBlock: [QLStatement]
     
@@ -27,21 +24,68 @@ class QLForm: ASTNonTerminal {
     }
 }
 
+// MARK: Statements.
+
 class QLQuestion: QLStatement {
     let name: String
-    let variable: String
+    let variable: QLExpression
     let type: String
     
-    init(name: String, variable: String, type: String) {
+    init(name: String, variable: QLExpression, type: String) {
         self.name = name
         self.variable = variable
         self.type = type
     }
 }
 
-// MARK: Terminals.
+class QLIfStatement: QLStatement {
+    let condition: QLExpression
+    let codeBlock: [QLStatement]
+    
+    init(condition: QLExpression, codeBlock: [QLStatement]) {
+        self.condition = condition
+        self.codeBlock = codeBlock
+    }
+}
 
-class QLBool: ASTTerminal {
+// MARK: Expressions.
+
+class QLUnaryExpression: QLExpression {
+    let expression: QLLiteral
+    
+    init(expression: QLLiteral) {
+        self.expression = expression
+    }
+}
+
+protocol QLBinaryExpression: QLExpression {
+    var lhs: QLExpression { get }
+    var rhs: QLExpression { get }
+    
+    init(lhs: QLExpression, rhs: QLExpression)
+}
+
+class QLVariable: QLExpression {
+    let identifier: String
+    
+    init(identifier: String) {
+        self.identifier = identifier
+    }
+}
+
+class QLAndExpression: QLBinaryExpression {
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    required init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+}
+
+// MARK: Literals.
+
+class QLBool: QLLiteral {
     let boolean: Bool
     
     init(boolean: Bool) {
@@ -49,7 +93,7 @@ class QLBool: ASTTerminal {
     }
 }
 
-class QLString: ASTTerminal {
+class QLString: QLLiteral {
     let string: String
     
     init(string: String) {
@@ -57,7 +101,7 @@ class QLString: ASTTerminal {
     }
 }
 
-class QLInteger: ASTTerminal {
+class QLInteger: QLLiteral {
     let integer: Int
     
     init(integer: Int) {
@@ -65,7 +109,7 @@ class QLInteger: ASTTerminal {
     }
 }
 
-class QLDate: ASTTerminal {
+class QLDate: QLLiteral {
     let date: NSDate
     
     init(date: NSDate) {
@@ -73,7 +117,7 @@ class QLDate: ASTTerminal {
     }
 }
 
-class QLDecimal: ASTTerminal {
+class QLDecimal: QLLiteral {
     let decimal: Double
     
     init(decimal: Double) {
@@ -81,7 +125,7 @@ class QLDecimal: ASTTerminal {
     }
 }
 
-class QLMoney: ASTTerminal {
+class QLMoney: QLLiteral {
     let money: Float
     
     init(money: Float) {

@@ -11,6 +11,7 @@ public class IdentifierNode extends ExpressionNode {
 	
 	public IdentifierNode(String name){
 		this.name = name;
+		this.type = "None";
 	}
 	
 	public String getName(){

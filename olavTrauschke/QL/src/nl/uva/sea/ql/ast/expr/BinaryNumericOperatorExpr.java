@@ -42,6 +42,20 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     }
     
     /**
+     * @return the <code>Expr</code> on the left hand side of the operator
+     */
+    public Expr getFirstExpr() {
+        return firstExpr;
+    }
+    
+    /**
+     * @return the <code>Expr</code> on the right hand side of the operator
+     */
+    public Expr getSecondExpr() {
+        return secondExpr;
+    }
+    
+    /**
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
      * <code>this BinaryNumericOperatorExpr accept v</code> and then has
      * <code>v visit this BinaryNumericOperatorExpr</code>.
@@ -110,11 +124,7 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
     /**
      * Set whether <code>this BinaryNumericOperatorExpr</code> represents an int
-     * value and set that <code>this BinaryNumericOperatorExpr</code> represents
-     * a decimal value when the <code>newValue</code> is <code>true</code>
-     * (because an integer value is decimal by definition).
-     * N.B. <code>isDecimal</code> is NOT set when <code>newValue</code> is
-     * <code>false</code> because a non-integer value could still be decimal.
+     * value.
      * 
      * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
      *                  represents an integer value

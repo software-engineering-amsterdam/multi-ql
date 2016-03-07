@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.expression.Expression;
@@ -221,8 +222,8 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		}
 		
 		
-		CyclicDependenciesVisitor cyclicDependenciesVisitor = new CyclicDependenciesVisitor();
-		List<String> dependencies = computedQuestion.getExpression().accept(cyclicDependenciesVisitor);
+		DependentVariables dependentVariables = new DependentVariables();		// cyclicDependVisitor...
+		Set<String> dependencies = computedQuestion.getExpression().accept(dependentVariables);
 		
 		Identifier identifier = computedQuestion.getId();
 		insertAtHashMap(identifier.getValue(),computedQuestion.getLabel(),computedQuestion.getType());

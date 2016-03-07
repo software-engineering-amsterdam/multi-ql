@@ -1,5 +1,6 @@
 package nl.uva.sc.ql.gui.form;
 
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class ConditionBlockForm extends JPanel implements GuiInterface, Observer
 	private State state;
 	
 	public ConditionBlockForm(State state, ExpressionNode condition){
+		//super(new BorderLayout());
+		
 		this.condition = condition;
 		this.questions = new ArrayList<Question>();
 		this.state = state;
@@ -30,9 +33,16 @@ public class ConditionBlockForm extends JPanel implements GuiInterface, Observer
 		this.questions.add(question);
 	}
 	
+	public boolean isConditionValid(){
+		Value value = condition.eval(state);
+		if (value == null){
+			return false;
+		}
+		return (boolean) value.getValue();
+	}
+	
 	@Override
-	public boolean runGui() {	
-		
+	public boolean runGui() {
 		Value value = condition.eval(state);
 		if(value == null || (boolean) value.getValue() == false) {
 			resetPanel();
@@ -59,7 +69,7 @@ public class ConditionBlockForm extends JPanel implements GuiInterface, Observer
 		
 		this.validate();
 	}
-
+	
 	// methods related with observer pattern
 	
 	@Override

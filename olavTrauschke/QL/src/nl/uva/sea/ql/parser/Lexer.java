@@ -278,12 +278,26 @@ public class Lexer implements Tokens {
         }
     }
     
+    /**
+     * Call <code>readNextCharacter</code> while <code>character</code> does not
+     * satisfy a specified <code>condition</code>.
+     * 
+     * @param condition a <code>Predicate</code> representing the condition
+     *                  <code>character</code> should satisfy after this call
+     */
     private void readWhile(Predicate<Integer> condition) {
         while (condition.test(character) && character >= MINIMUM_CHARACTER_VALUE) {
                     readNextCharacter();
         }
     }
     
+    /**
+     * Call <code>readNextCharacter</code> while the next <code>character</code>
+     * contributes to a number.
+     * 
+     * @return an <code>int</code> containing the number represented the by the
+     *          read characters
+     */
     private int readNumber() {
         int result = 0;
         do {
@@ -293,6 +307,13 @@ public class Lexer implements Tokens {
         return result;
     }
     
+    /**
+     * Call <code>readNextCharacter</code> while the next <code>character</code>
+     * contributes to a keyword or identifier. Also sets <code>token</code> and
+     * <code>semantic</code> to represent the value that was read.
+     * 
+     * @return the token representing the value that was read
+     */
     private int readText() {
         StringBuilder sb = new StringBuilder();
         do {
@@ -314,6 +335,12 @@ public class Lexer implements Tokens {
         return IDENT;
     }
     
+    /**
+     * Call <code>readNextCharacter</code> while the end of a string (quotes)
+     * was not found.
+     * 
+     * @return the <code>String</code> that was read
+     */
     private String readString() {
         StringBuilder sb = new StringBuilder();
         readNextCharacter();
