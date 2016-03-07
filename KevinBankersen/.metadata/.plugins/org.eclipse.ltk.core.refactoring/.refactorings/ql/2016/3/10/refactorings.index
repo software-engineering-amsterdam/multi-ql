@@ -47,3 +47,37 @@
 1457111112677	Delete element
 1457111157437	Rename local variable 'tempList'
 1457111177139	Rename local variable 'symbol'
+1457192193985	Rename local variable 'context'
+1457192200584	Rename local variable 'context'
+1457192206272	Rename local variable 'context'
+1457192215383	Rename local variable 'context'
+1457192226669	Rename local variable 'context'
+1457192238753	Rename local variable 'context'
+1457192866286	Rename method 'createSymboTable'
+1457194948129	Move compilation units
+1457194962831	Move compilation unit
+1457197413752	Delete element
+1457198953283	Delete element
+1457199263659	Rename type 'QuestionStatement'
+1457199969011	Rename method 'getText'
+1457199994699	Rename method 'getType'
+1457200018991	Rename method 'getName'
+1457200651825	Copy compilation unit
+1457200680223	Rename type 'IFStat2'
+1457200713609	Rename type 'IfElseStatement'
+1457200725098	Rename type 'IFStat'
+1457204651987	Rename type 'AcceptMethods'
+1457204864260	Delete element
+1457204939457	Move compilation units
+1457205173411	Rename method 'eval'
+1457205297536	Rename method 'buildSymbolTable'
+1457205317218	Rename type 'Question'
+1457205327786	Rename type 'Statement'
+1457209417874	Copy compilation unit
+1457209461728	Rename type 'SymbolTableBuilderOld'
+1457216980095	Move compilation unit
+1457217181675	Rename local variable 'symbolObject'
+1457217194248	Rename local variable 'symbolList'
+1457220801771	Rename method 'simpleBooleanCheck'
+1457220885904	Rename method 'simpleSingleBooleanCheck'
+1457220911894	Rename method 'simpleBooleanEqualityCheck'

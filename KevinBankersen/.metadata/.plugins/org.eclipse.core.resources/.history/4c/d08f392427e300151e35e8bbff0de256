@@ -1,0 +1,80 @@
+package eu.bankersen.kevin.ql.context.typeanalyzer;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.ast.AbstractVisitor;
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.ast.type.BooleanType;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.errors.ExprTypeError;
+import eu.bankersen.kevin.ql.context.errors.TypeCheckingError;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+
+public class TypeAnalyzer extends AbstractVisitor {
+
+    private final SymbolTable symbolTable;
+    private final Set<TypeCheckingError> errorList;
+
+    public TypeAnalyzer(SymbolTable symbolTable, Form form) {
+	this.symbolTable = symbolTable;
+	this.errorList = new HashSet<>();
+	System.out.println("Kicking off type analyzer");
+	form.accept(this);
+    }
+
+    @Override
+    public void visit(Form o) {
+	o.body().accept(this);
+    }
+
+    @Override
+    public void visit(Body o) {
+	o.statements().forEach(s -> s.accept(this));
+    }
+
+    @Override
+    public void visit(IFStatement o) {
+	o.expr().accept(this);
+	o.body().accept(this);
+	
+	Type expr = o.expr().getType(symbolTable);
+
+	if (!expr.isCompatible(new BooleanType())) {
+	   addError(new ExprTypeError(o.line(), new BooleanType(), expr));
+	}
+    }
+    
+    @Override
+    public void visit(ComputedQuestion o) {
+	//identifiers.clear() //Method to calculate dependencies.
+	
+	o.expr().accept(this);
+	//defineRelation(o.name());
+	
+	Type question = o.type();
+	Type expr = o.expr().getType(symbolTable);
+	
+	if (!question.isCompatible(expr)) {
+	    addError(new ExprTypeError(o.line(), question, expr));
+	}
+    }
+    
+    @Override
+    public void visit(NormalQuestion question) {
+	//identifiers.clear();
+    }
+    
+    private void addError(TypeCheckingError error) {
+	errorList.add(error);
+    }
+    
+    public Set<TypeCheckingError> getErrors() {
+	return errorList;
+    }
+
+}

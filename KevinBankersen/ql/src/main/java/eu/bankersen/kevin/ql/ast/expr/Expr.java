@@ -1,12 +1,12 @@
 package eu.bankersen.kevin.ql.ast.expr;
 
-import eu.bankersen.kevin.ql.ast.AcceptMethods;
+import eu.bankersen.kevin.ql.ast.AcceptVisitor;
+import eu.bankersen.kevin.ql.ast.BasicVisitor;
 import eu.bankersen.kevin.ql.ast.type.Type;
-import eu.bankersen.kevin.ql.context.Context;
-import eu.bankersen.kevin.ql.context.SymbolTable;
-import eu.bankersen.kevin.ql.context.SymbolTableBuilder;
+import eu.bankersen.kevin.ql.ast.type.value.QLObject;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
-public abstract class Expr implements AcceptMethods {
+public abstract class Expr implements AcceptVisitor {
     
     private final Type type;
     private final Expr lhs;
@@ -36,6 +36,11 @@ public abstract class Expr implements AcceptMethods {
 	return type;
     }
 
-    public abstract Object eval(SymbolTable symbolTable) throws EvaluateExeption;    
+    public abstract Object evalExpr(SymbolTable symbolTable) throws EvaluateExeption;  
+    
+    @Override
+    public <T> void accept(BasicVisitor v, T context) {
+	v.visit(this);
+    }
 
 }

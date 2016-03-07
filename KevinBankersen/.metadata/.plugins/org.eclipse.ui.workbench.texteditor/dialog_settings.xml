@@ -6,29 +6,36 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="return" key="selection"/>
+		<item value="" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="return"/>
-			<item value="sys"/>
-			<item value="get"/>
-			<item value="package eu.bankersen.kevin.ql.util.testing;"/>
-			<item value="setV"/>
-			<item value="set"/>
-			<item value="visi"/>
-			<item value="block"/>
+			<item value="system"/>
+			<item value="sysout"/>
+			<item value="add"/>
+			<item value="checkID"/>
+			<item value="check"/>
+			<item value="registerIdentifier"/>
+			<item value="symbolTable"/>
+			<item value="Context evaluate"/>
 		</list>
 		<list key="replacehistory">
+			<item value="void visit"/>
+			<item value="AbstractStatement"/>
+			<item value="updatedContext ="/>
+			<item value=".getType(updatedSymbolTable);"/>
+			<item value="updatedSymbolTable = updatedContext"/>
+			<item value="updatedSymbolTable"/>
+			<item value="updatedContext"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="381" key="DIALOG_HEIGHT"/>
-		<item value="1209" key="DIALOG_X_ORIGIN"/>
-		<item value="312" key="DIALOG_Y_ORIGIN"/>
+		<item value="1184" key="DIALOG_X_ORIGIN"/>
+		<item value="394" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

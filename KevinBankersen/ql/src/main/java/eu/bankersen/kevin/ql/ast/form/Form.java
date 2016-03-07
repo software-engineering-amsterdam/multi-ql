@@ -1,12 +1,10 @@
 package eu.bankersen.kevin.ql.ast.form;
 
-import eu.bankersen.kevin.ql.ast.AcceptMethods;
-import eu.bankersen.kevin.ql.context.Context;
-import eu.bankersen.kevin.ql.context.SymbolTable;
-import eu.bankersen.kevin.ql.context.SymbolTableBuilder;
-import eu.bankersen.kevin.ql.oldcode.QLVisitor;
+import eu.bankersen.kevin.ql.ast.BasicVisitor;
+import eu.bankersen.kevin.ql.ast.AcceptVisitor;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
-public class Form implements AcceptMethods {
+public class Form implements AcceptVisitor {
 
     private final String name;
     private final Body body;
@@ -19,18 +17,21 @@ public class Form implements AcceptMethods {
     public Body body() {
 	return body;
     }
-
+    
+    public String name() {
+	return name;
+    }
+    
     public SymbolTable evalForm(SymbolTable symbolTable) {
 	return body.evalBody(symbolTable);
     }
-
+    
     @Override
-    public Context checkType(Context context) {
-	return body.checkType(context);
+    public <T> void accept(BasicVisitor v, T context) {
+	v.visit(this, context);
     }
-
-    public SymbolTableBuilder buildSymbolTable(SymbolTableBuilder builder) {
-	return body.buildSymbolTable(builder);
-    }
+    
+    
+    
 }
 

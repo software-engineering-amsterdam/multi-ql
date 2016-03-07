@@ -1,0 +1,12 @@
+package eu.bankersen.kevin.ql.typechecker.warnings;
+
+import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
+
+public class TypeCheckWarning {
+    private final String message;
+    private final int line;
+
+    public String toString() {
+	return line == 0 ? message : String.format("Line %s: %s", line, message);
+    }
+}

@@ -1,0 +1,34 @@
+package eu.bankersen.kevin.ql.gui.dialog;
+
+import java.util.Set;
+
+import javax.swing.JOptionPane;
+
+import eu.bankersen.kevin.ql.typechecker.warnings.TypeCheckWarning;
+
+public class WarningDialog {
+    private final boolean accept;
+    
+    public WarningDialog(Set<TypeCheckWarning> warnings) {
+	StringBuilder sb = new StringBuilder();
+	warnings.forEach(warning -> sb.append(warning + "\n"));
+	accept = showWarning(sb.toString());
+    }
+    
+    private boolean showWarning(String message) {
+	String[] labels = {"Continue", "Abort"};
+	int input = JOptionPane.showConfirmDialog(
+		    null,
+		    message,
+		    "An Inane Question",
+		    JOptionPane.YES_NO_OPTION,
+		    labels);
+	
+	return input == 0 ? true : false;
+    }
+    
+    public boolean userAccept() {
+	return accept;
+    }
+
+}

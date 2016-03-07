@@ -1,0 +1,5 @@
+package eu.bankersen.kevin.ql.gui.dialog;
+
+public class ErrorDialog {
+
+}

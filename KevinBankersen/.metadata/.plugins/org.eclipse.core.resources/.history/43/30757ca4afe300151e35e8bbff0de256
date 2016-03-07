@@ -1,0 +1,16 @@
+package eu.bankersen.kevin.ql.typechecker.errors;
+
+import java.util.Map;
+import java.util.Set;
+
+public class CyclicDependencyError extends TypeCheckingError {
+
+    public CyclicDependencyError(String name) {
+	super(0, String.format("The variable \"%s\" has a cyclic dependency!", name));
+    }
+    
+    public CyclicDependencyError(String variable, Map<String, Set<String>> dependencyMap) {
+	super(0, String.format("The variable \"%s\" has a cyclic dependency with itself!", variable));
+    }
+
+}

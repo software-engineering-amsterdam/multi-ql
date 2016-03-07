@@ -4,15 +4,14 @@ import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.type.Type;
 import eu.bankersen.kevin.ql.ast.type.UndifinedType;
-import eu.bankersen.kevin.ql.context.Context;
-import eu.bankersen.kevin.ql.context.SymbolTable;
-import eu.bankersen.kevin.ql.context.SymbolTableBuilder;
-import eu.bankersen.kevin.ql.oldcode.QLVisitor;
+import eu.bankersen.kevin.ql.ast.type.value.QLObject;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 
 public class Identifier extends Expr {
 
     private final String name;
+    private QLObject value;
 
     public Identifier(String name, int line) {
 	super(new UndifinedType(), null, null, line);
@@ -24,25 +23,25 @@ public class Identifier extends Expr {
     }
 
     @Override
-    public Object eval(SymbolTable symbolTable) throws EvaluateExeption {
+    public Object evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
 
 	Object value = symbolTable.getSymbol(name).getValue();
-
+	
 	if (value != null) {
 	    return value;   
 	} else {
 	    throw new EvaluateExeption();
 	} 
     }
-
-    @Override
-    public Context checkType(Context context) {
-	return context.evaluate(this);
-    }
-
+    
     @Override
     public Type getType(SymbolTable symbolTable) {
 	return symbolTable.getSymbol(name).getType();
+    }
+    
+    @Override
+    public <T> void accept(BasicVisitor v, T context) {
+	v.visit(this);
     }
 
 }

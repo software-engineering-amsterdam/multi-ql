@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.ast.type.Type;
+
+public class ExprTypeError extends TypeCheckingError {
+
+
+    public ExprTypeError(int line, Type lhs, Type rhs, Type expr) {
+	super(line, String.format("Expected %s got %s and %s!", expr, lhs, rhs));
+    }
+    
+    public ExprTypeError(int line, Type lhs, Type rhs) {
+	super(line, String.format("Expected %s got %s!)", lhs, rhs));
+    }
+    
+    public ExprTypeError(IFStatement o, Type expr) {
+	super(o.line(), String.format("If expression must resolve to Boolean, got %s!", expr));
+    }
+    
+    public ExprTypeError(ComputedQuestion o, Type question, Type expr) {
+	super(o.line(), String.format("Computed Question not compatible, expected %s got %s!", question, expr));
+    }
+}

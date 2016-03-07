@@ -1,0 +1,70 @@
+package eu.bankersen.kevin.ql.ast;
+
+import eu.bankersen.kevin.ql.ast.expr.logic.And;
+import eu.bankersen.kevin.ql.ast.expr.logic.Eq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GT;
+import eu.bankersen.kevin.ql.ast.expr.logic.LEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.LT;
+import eu.bankersen.kevin.ql.ast.expr.logic.Or;
+import eu.bankersen.kevin.ql.ast.expr.math.Add;
+import eu.bankersen.kevin.ql.ast.expr.math.Div;
+import eu.bankersen.kevin.ql.ast.expr.math.Mul;
+import eu.bankersen.kevin.ql.ast.expr.math.Neg;
+import eu.bankersen.kevin.ql.ast.expr.math.Pos;
+import eu.bankersen.kevin.ql.ast.expr.math.Sub;
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+
+public interface Visitor {
+
+    void visit(Form form);
+
+    void visit(Body body);
+
+    void visit(IFStatement ifStatement);
+
+    void visit(NormalQuestion normalQuestion);
+
+    void visit(ComputedQuestion computedQuestion);
+
+    void visit(ElseStatement elseStatement);
+    
+    void visit(AbstractStatement abstractStatement);
+
+    void visit(Sub sub);
+
+    void visit(Add add);
+
+    void visit(Div div);
+
+    void visit(Mul mul);
+
+    void visit(Pos pos);
+
+    void visit(Neg neg);
+
+    void visit(Or or);
+
+    void visit(And and);
+
+    void visit(Eq eq);
+
+    void visit(GEq gEq);
+
+    void visit(GT gt);
+
+    void visit(LEq lEq);
+
+    void visit(LT lt);
+
+    void visit(NEq nEq);
+
+    void visit(Not not);
+
+}
