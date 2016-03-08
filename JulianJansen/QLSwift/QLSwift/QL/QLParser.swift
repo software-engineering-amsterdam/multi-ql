@@ -106,15 +106,13 @@ class QLParser {
 
     // "name" variable: type
     private func questionParser() -> GenericParser<String, (), QLStatement> {
-        let question = (stringLiteral <?> "question name").flatMap{ name in
-        (self.variableParser() <* self.colon <?> "question variable").flatMap{ variable -> GenericParser<String, (), QLStatement> in
-            (StringParser.noneOf("\r\n,\n\r").many.stringValue <* self.endOfLineParser() <* self.whiteSpace <?> "type identifier").map{ type in
-                return QLQuestion(name: name, variable: variable, type: type)
+        return (stringLiteral <?> "question name").flatMap{ name in
+            (self.variableParser() <* self.colon <?> "question variable").flatMap{ variable -> GenericParser<String, (), QLStatement> in
+                (StringParser.noneOf("\r\n,\n\r").many.stringValue <* self.endOfLineParser() <* self.whiteSpace <?> "type identifier").map{ type in
+                    return QLQuestion(name: name, variable: variable, type: type)
                 }
             }
         }
-        
-        return question
     }
     
     private func ifParser() -> GenericParser<String, (), QLStatement> {

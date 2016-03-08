@@ -30,23 +30,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let stream = readFile("questionsAndIfStatement", fileType: "ql")
         
         do {
-            let test = try QLParser().parseStream(stream!)
-            print("After parsing")
-            print(test.formName)
-            print(test.codeBlock)
+            let form = try QLParser().parseStream(stream!)
+
+            print(form.formName)
+
+            for statement in form.codeBlock {
+                print(statement)
+            }
             
-            var temp = test.codeBlock[0] as! QLQuestion
-            print(temp.name)
-            print(temp.variable)
+            let ifStatement = form.codeBlock[3] as! QLIfStatement
             
-            temp = test.codeBlock[1] as! QLQuestion
-            print(temp.name)
-            print(temp.variable)
-            
-            
-            temp = test.codeBlock[2] as! QLQuestion
-            print(temp.name)
-            print(temp.variable)
+            print(ifStatement.condition)
+            print(ifStatement.codeBlock)
 
             
         } catch {
