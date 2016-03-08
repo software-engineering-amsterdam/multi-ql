@@ -40,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             let ifStatement = form.codeBlock[3] as! QLIfStatement
             
-            let condition = ifStatement.condition as! QLGreaterOrIsExpression
+            let condition = ifStatement.condition as! QLGreaterThanExpression
             
             let rhs = (condition.rhs as! QLUnaryExpression).expression as! QLBool
             let lhs = (condition.lhs as! QLUnaryExpression).expression as! QLInteger
