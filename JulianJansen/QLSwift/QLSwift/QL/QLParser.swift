@@ -97,7 +97,7 @@ class QLParser {
     
     
     // MARK: Expression.
-    private func singleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
+    private func expressionParser() -> GenericParser<String, (), QLExpression> {
         
         // Based on opTable from ExpressionTests.swift of SwiftParsec.
         let singleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
@@ -123,7 +123,7 @@ class QLParser {
         
         return singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
             
-            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
+            expression.between(openingParen, closingParen) <|> doubleSymbolExpressionParser() <|> literalParser() <|> variableParser() <?> "single symbol expression"
             
         }
     }
@@ -149,21 +149,9 @@ class QLParser {
         
         return doubleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
             
-            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
+            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "double symbol expression"
             
         }
-    }
-    
-    private func expressionParser() -> GenericParser<String, (), QLExpression> {
-
-        // There is a problem with the order of < and <= (and > and >=). This is solved by two operator tables.
-//        do {
-//            return singleSymbolExpressionParser()
-//        } catch {
-//            return doubleSymbolExpressionParser()
-//        }
-        
-        return singleSymbolExpressionParser() <|> doubleSymbolExpressionParser()
     }
     
     /// "name" variable: type
