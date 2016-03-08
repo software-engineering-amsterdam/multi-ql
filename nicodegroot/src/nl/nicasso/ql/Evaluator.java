@@ -43,7 +43,7 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	
 	private SymbolTable symbolTable;
 	
-	Evaluator(SymbolTable symbolTable) {
+	public Evaluator(SymbolTable symbolTable) {
 		this.symbolTable = symbolTable;
 	}
 

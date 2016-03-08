@@ -2,6 +2,7 @@ package nl.nicasso.ql.ast.types;
 
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.CodeLocation;
+import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.values.Value;
 
 public class Type extends ASTNode {
@@ -13,7 +14,11 @@ public class Type extends ASTNode {
 	}
 	
 	public Value getDefaultValue() {
-		return null;
+		throw new AssertionError("Type getDefaultValue");
+	}
+	
+	public QuestionField getRelatedField() {
+		throw new AssertionError("Type getRelatedField");
 	}
 	
 	public Type(CodeLocation location) {

@@ -1,12 +1,28 @@
 form taxOfficeExample {
-
   "cQ1"
-    cQ1: money = (2.00)
+    cQ1: integer = (2)
+    
+  "cQ11"
+    cQ11: integer = (2)
     
   "cQ3"
     cQ3: money = (300.00)
     
   "cQ2"
-    cQ2: money = (24.95)
-
+    cQ2: money = (cQ3 * cQ1)
+    
+    // Maybe a true or false check is cool? So no expression, just when a boolean is used directly. Then do a warning.
+    if (true) {
+    	"cQ4"
+    	  cQ4: money
+    	  
+    	"cQ5"
+    	  cQ5: money
+    	  
+    	"cQ6"
+    	  cQ6: boolean = (true)
+    	  
+    	"cQ7"
+    	  cQ7: string = ("abc")
+    }
 }
