@@ -1,24 +1,36 @@
 package nl.nicasso.ql.utils;
 
-import nl.nicasso.ql.ast.expression.Identifier;
+public class Pair<T> {
 
-public class Pair {
-
-	Identifier left;
-	Identifier right;
+	T left;
+	T right;
 	
-	public Pair(Identifier left, Identifier right) {
+	public Pair(T left, T right) {
 		super();
 		this.left = left;
 		this.right = right;
 	}
 
-	public Identifier getLeft() {
+	public T getLeft() {
 		return left;
 	}
 
-	public Identifier getRight() {
+	public T getRight() {
 		return right;
 	}
+	
+	@Override
+	public boolean equals(Object ob) {
+		if (ob instanceof Pair<?>) {
+			Pair<?> pair = (Pair<?>) ob;
+			return pair.getLeft().equals(left) && pair.getRight().equals(right);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode(){
+	    return left.hashCode() + right.hashCode();
+    }
 	
 }

@@ -1,0 +1,21 @@
+package eu.bankersen.kevin.ql;
+
+import java.math.BigDecimal;
+
+public class test {
+
+    public static void main(String[] args) {
+	// TODO Auto-generated method stub
+	BigDecimal x = new BigDecimal(new Double(2.4));
+	Integer y = new Integer(6);
+	
+	Integer z = (int)(y/x);
+	
+	
+	
+	System.out.println(x);
+	
+
+    }
+
+}

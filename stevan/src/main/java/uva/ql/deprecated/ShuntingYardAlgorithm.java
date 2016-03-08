@@ -5,7 +5,6 @@ import java.util.Stack;
 import java.util.regex.Pattern;
 
 import uva.ql.ast.AST;
-import uva.ql.visitors.VisitAST;
 
 public class ShuntingYardAlgorithm {
 

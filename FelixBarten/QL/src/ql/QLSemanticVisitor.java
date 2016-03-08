@@ -41,7 +41,7 @@ import ql.ast.type.MoneyType;
 import ql.ast.type.StringType;
 import ql.parser.QLBaseVisitor;
 
-public class QLSemanticVisitor<T> implements QLVisitorInterface<T>{
+public class QLSemanticVisitor<T> extends BaseVisitor<T>{
 
 	@Override
 	public T visit(ASTNode node) {

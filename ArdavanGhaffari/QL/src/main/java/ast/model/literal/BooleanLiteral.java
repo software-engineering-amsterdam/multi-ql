@@ -6,7 +6,8 @@ import ast.visitor.ExpressionVisitor;
 public class BooleanLiteral extends Expression{
 	private boolean value;
 	
-	public BooleanLiteral(boolean value) {
+	public BooleanLiteral(boolean value, int line) {
+		super(line);
 		this.value = value;
 	}
 	

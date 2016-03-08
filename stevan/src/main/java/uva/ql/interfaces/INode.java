@@ -2,11 +2,9 @@ package uva.ql.interfaces;
 
 public interface INode {
 	
-	public final static int FORM = 1;
-	public final static int QUESTION = 2;
-	public final static int EXPRESSION = 3;
-	public final static int BLOCK = 4;
-	public final static int IF_STATEMENT = 7;
-	
 	public void accept(INodeVisitor visitor);
+	public void accept(IArithmeticOperatorVisitor visitor);
+	public void accept(IUndefinedQuestionVisitor visitor);
+	public void accept(ICyclicQuestionDependenciesVisitor visitor);
+	public void accept(IDupllicateLabelsVisitor visitor);
 }

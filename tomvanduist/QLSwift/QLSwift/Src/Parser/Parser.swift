@@ -17,15 +17,10 @@ extension QL {
 }
 
 class Parser {
-    func parse(ql: QL) throws -> Form {
-        let qlParser = QLParser()
+    func parse(ql: QL) throws -> (QLForm, [SemanticWarning]) {
+        let form = try QLParser().parse(ql)
+        let warnings = try SemanticAnalyzer().analyze(form)
         
-        let parseTree = try qlParser.parse(ql)
-        let form = parseTree.implode()
-        
-        let sa = SemanticAnalyser(context: Context.sharedInstance)
-        try sa.analyze(form)
-        
-        return form
+        return (form, warnings)
     }
 }

@@ -2,43 +2,42 @@ package nl.uva.sc.ql.parser;
 
 import java.io.IOException;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import nl.uva.sc.ql.exceptions.CompilerException;
-import nl.uva.sc.ql.exceptions.ErrorHandling;
-import nl.uva.sc.ql.parser.ast.Node;
+import nl.uva.sc.ql.errorwarning.CompilerException;
+import nl.uva.sc.ql.errorwarning.MessagesHandler;
+import nl.uva.sc.ql.parser.ast.FormNode;
 
-public class QLCompiler 
-{
-    public Node compile(String filePath) throws IOException {
+public class QLCompiler {
+    
+	private MessagesHandler messagesHandler;
+	
+	public QLCompiler(MessagesHandler errorHandler) {
+		this.messagesHandler = errorHandler;
+	}
+
+	public FormNode compile(String filePath) throws IOException {
                         
-        QLLexer lexer = new QLLexer(new ANTLRFileStream(filePath));
+        QLLexer lexer = new QLLexer(new ANTLRInputStream(getClass().getResourceAsStream(filePath)));
         QLParser parser = new QLParser(new CommonTokenStream(lexer));
-        ParseTree tree = parser.ql();   
+        ParseTree tree = parser.ql();
         
         if(parser.getNumberOfSyntaxErrors() > 0){
         	throw new CompilerException("There are some syntax errors in the input file");
         }
         
-        SymbolTable<Node> symbolTable = new SymbolTable<Node>();
+        CreateASTTree astTree = new CreateASTTree();
+        FormNode ast = (FormNode) astTree.visit(tree);
+                
+        SymbolTable symbolTable = new SymbolTable();
         
-        System.out.println("Starting AST construction...");
-        ASTTree astTree = new ASTTree(symbolTable);
-        Node ast = astTree.visit(tree);
-
-        ErrorHandling errors = ErrorHandling.getInstance();
-        if(errors.asError()){
-        	throw new CompilerException("AST Tree errors:\n"+errors.toString());
-        }
-        
-        System.out.println("Starting typechecker...");
-        Typecheker typeChecker = new Typecheker();
+        TypeChecker typeChecker = new TypeChecker(symbolTable, messagesHandler);        
         ast.accept(typeChecker);
         
-        if(errors.asError()){
-        	throw new CompilerException("Typechecker errors:\n"+errors.toString());
+        if(messagesHandler.asError()){
+        	throw new CompilerException("Typechecker errors:\n"+messagesHandler.toString());
         }
         
         return ast;

@@ -5,10 +5,38 @@ export class Value {
 	toString() {
 		throw new Error("Override in subclasses");
 	}
+	equals(otherValue) {
+		return otherValue.equalsValue(this);
+	}
+	equalsValue(value) {
+		return false;
+	}
+	equalsBoolean(booleanValue) {
+		return this.equalsValue(booleanValue);
+	}
+	equalsString(stringValue) {
+		return this.equalsValue(stringValue);
+	}
+	equalsNumber(numberValue) {
+		return this.equalsValue(numberValue);
+	}
+	equalsInteger(integerValue) {
+		return this.equalsNumber(integerValue);
+	}
+	equalsFloat(floatValue) {
+		return this.equalsNumber(floatValue);
+	}
+	equalsMoney(moneyValue) {
+		return this.equalsValue(moneyValue);
+	}
+	equalsUndefined(undefinedValue) {
+		return this.equalsValue(undefinedValue);
+	}
 }
 
 export class PrimitiveValue extends Value {
 	constructor(value) {
+		super();
 		this.value = value;
 	}
 }
@@ -22,6 +50,12 @@ export class BooleanValue extends PrimitiveValue {
 	}
 	toString() {
 		return this.value === true ? "true" : "false";
+	}
+	equals(otherValue) {
+		return otherValue.equalsBoolean(this);
+	}
+	equalsBoolean(booleanValue) {
+		return this.value == booleanValue.value;
 	}
 	static fromString(str) {
 		var value;
@@ -49,6 +83,12 @@ export class StringValue extends PrimitiveValue {
 	toString() {
 		return this.value;
 	}
+	equals(otherValue) {
+		return otherValue.equalsString(this);
+	}
+	equalsString(stringValue) {
+		return this.value === stringValue.value;
+	}
 	static fromString(str) {
 		return new StringValue(str);
 	}
@@ -66,6 +106,12 @@ export class IntegerValue extends NumberValue {
 	toString() {
 		return "" + this.value;
 	}
+	equals(otherValue) {
+		return otherValue.equalsInteger(this);
+	}
+	equalsInteger(integerValue) {
+		return this.value === integerValue.value;
+	}
 	static fromString(str) {
 		return new IntegerValue(parseInt(str, 10));
 	}
@@ -81,6 +127,12 @@ export class FloatValue extends NumberValue {
 	toString() {
 		return "" + this.value;
 	}
+	equals(otherValue) {
+		return otherValue.equalsFloat(this);
+	}
+	equalsFloat(floatValue) {
+		return this.value === floatValue.value;
+	}
 	static fromString(str) {
 		return new FloatValue(parseFloat(str));
 	}
@@ -88,6 +140,7 @@ export class FloatValue extends NumberValue {
 
 export class MoneyValue extends Value {
 	constructor(euros, cents) {
+		super();
 		this.euros = euros;
 		this.cents = cents;
 	}
@@ -97,6 +150,12 @@ export class MoneyValue extends Value {
 	toString() {
 		return "" + this.value;
 	}
+	equals(otherValue) {
+		otherValue.equalsMoney(this);
+	}
+	equalsMoney(moneyValue) {
+		return this.euros === moneyValue.euros && this.cents === moneyValue.cents;
+	}
 	static fromString(str) {
 		throw new Error("todo");
 	}
@@ -105,6 +164,12 @@ export class MoneyValue extends Value {
 export class UndefinedValue extends Value {
 	dispatch(receiver, ...args) {
 		return receiver.receiveUndefined(this, ...args);
+	}
+	equals(otherValue) {
+		return otherValue.equalsUndefined(this);
+	}
+	equalsUndefined(undefinedValue) {
+		return true;
 	}
 	toString() {
 		return "*undefined*";

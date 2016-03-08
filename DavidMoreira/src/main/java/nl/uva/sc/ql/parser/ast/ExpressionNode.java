@@ -1,16 +1,15 @@
 package nl.uva.sc.ql.parser.ast;
 
+import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.parser.value.Value;
+
 public abstract class ExpressionNode extends Node {
 
-	private String symbol;
+	public abstract Value eval(State state);
 	
-	public void init(Node left, Node right, String symbol){
-		super.init(left, right);
-		this.symbol = symbol;
-	}
-	
-	public String getSymbol(){
-		return this.symbol;
+	@Override
+	public void dump() {
+		System.out.println(getClass());
 	}
 
 }

@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.context.errors;
+
+public class CyclicDependencyError extends TypeCheckingError {
+
+    public CyclicDependencyError(int line, String name) {
+	super(line, "\"" + name + "\" has a cyclic dependency!");
+    }
+
+}

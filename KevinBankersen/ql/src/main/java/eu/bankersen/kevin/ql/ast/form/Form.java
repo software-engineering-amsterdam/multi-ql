@@ -1,9 +1,10 @@
 package eu.bankersen.kevin.ql.ast.form;
 
-import eu.bankersen.kevin.ql.context.Context;
-import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.ast.BasicVisitor;
+import eu.bankersen.kevin.ql.ast.AcceptVisitor;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
-public class Form {
+public class Form implements AcceptVisitor {
 
     private final String name;
     private final Body body;
@@ -12,26 +13,25 @@ public class Form {
 	this.name = name;
 	this.body = body;
     }
-
-    public Context checkType() {
-	return body.checkType(new Context(name));
+    
+    public Body body() {
+	return body;
     }
-
+    
+    public String name() {
+	return name;
+    }
+    
     public SymbolTable evalForm(SymbolTable symbolTable) {
 	return body.evalBody(symbolTable);
     }
     
     @Override
-    public String toString() {
-
-	StringBuilder sb;
-
-	sb = new StringBuilder();
-	sb.append("Results\nForm: " + name + "\n");
-	sb.append(body);
-	sb.append("\n");
-
-	return sb.toString();
+    public <T> void accept(BasicVisitor v, T context) {
+	v.visit(this, context);
     }
+    
+    
+    
 }
 

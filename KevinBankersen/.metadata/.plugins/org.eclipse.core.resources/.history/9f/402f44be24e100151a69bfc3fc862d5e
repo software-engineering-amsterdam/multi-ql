@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.util.testing.new2;
+
+public class StringType extends TypeObject{
+
+    @Override
+    public StringTYpe getType() {
+	// TODO Auto-generated method stub
+	return this;
+    }
+
+}

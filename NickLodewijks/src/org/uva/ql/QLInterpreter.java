@@ -1,39 +1,40 @@
 package org.uva.ql;
 
-import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.expr.Add;
+import org.uva.ql.ast.expr.And;
+import org.uva.ql.ast.expr.BooleanLiteral;
+import org.uva.ql.ast.expr.Divide;
+import org.uva.ql.ast.expr.Equals;
+import org.uva.ql.ast.expr.EqualsNot;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.expr.LiteralExpr;
+import org.uva.ql.ast.expr.ExprVisitor;
+import org.uva.ql.ast.expr.GreaterThan;
+import org.uva.ql.ast.expr.GreaterThanOrEquals;
+import org.uva.ql.ast.expr.IntegerLiteral;
+import org.uva.ql.ast.expr.LessThan;
+import org.uva.ql.ast.expr.LessThanOrEquals;
+import org.uva.ql.ast.expr.Multiply;
+import org.uva.ql.ast.expr.Negative;
+import org.uva.ql.ast.expr.Not;
+import org.uva.ql.ast.expr.Or;
+import org.uva.ql.ast.expr.Positive;
+import org.uva.ql.ast.expr.StringLiteral;
+import org.uva.ql.ast.expr.Subtract;
 import org.uva.ql.ast.expr.VariableExpr;
-import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.expr.math.Divide;
-import org.uva.ql.ast.expr.math.Multiply;
-import org.uva.ql.ast.expr.math.Negative;
-import org.uva.ql.ast.expr.math.Positive;
-import org.uva.ql.ast.expr.math.Subtract;
-import org.uva.ql.ast.expr.rel.And;
-import org.uva.ql.ast.expr.rel.Equals;
-import org.uva.ql.ast.expr.rel.GreaterThanOrEquals;
-import org.uva.ql.ast.expr.rel.GreaterThan;
-import org.uva.ql.ast.expr.rel.LessThanOrEquals;
-import org.uva.ql.ast.expr.rel.LessThan;
-import org.uva.ql.ast.expr.rel.Not;
-import org.uva.ql.ast.expr.rel.Or;
 
-public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterContext> {
+public class QLInterpreter implements ExprVisitor<Object, QLInterpreterContext> {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T interpret(Expr expr, QLInterpreterContext context) {
-		return (T) expr.accept(new QLInterpreter(), context);
+		try {
+			return (T) expr.accept(new QLInterpreter(), context);
+		} catch (RuntimeException ex) {
+			throw new RuntimeException(String.format("Failed to interpret expression '%s'", expr.getSourceText()), ex);
+		}
 	}
 
 	private QLInterpreter() {
 
-	}
-
-	@Override
-	public Object visit(Expr node, QLInterpreterContext context) {
-		assert false : "No interpreter implementation for expression type " + node.getClass();
-		return null;
 	}
 
 	@Override
@@ -72,6 +73,11 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterCo
 	}
 
 	@Override
+	public Object visit(EqualsNot node, QLInterpreterContext context) {
+		return !node.left().accept(this, context).equals(node.right().accept(this, context));
+	}
+
+	@Override
 	public Object visit(GreaterThanOrEquals node, QLInterpreterContext context) {
 		return (Integer) node.left().accept(this, context) >= (Integer) node.right().accept(this, context);
 	}
@@ -107,12 +113,22 @@ public class QLInterpreter extends ASTNodeVisitorAdapter<Object, QLInterpreterCo
 	}
 
 	@Override
-	public Object visit(LiteralExpr node, QLInterpreterContext context) {
-		return node.getLiteral().getValue();
+	public Object visit(VariableExpr node, QLInterpreterContext context) {
+		return context.getValue(node.getVariableId());
 	}
 
 	@Override
-	public Object visit(VariableExpr node, QLInterpreterContext context) {
-		return context.getValue(node.getVariableId());
+	public Object visit(BooleanLiteral node, QLInterpreterContext context) {
+		return node.getValue();
+	}
+
+	@Override
+	public Object visit(IntegerLiteral node, QLInterpreterContext context) {
+		return node.getValue();
+	}
+
+	@Override
+	public Object visit(StringLiteral node, QLInterpreterContext context) {
+		return node.getValue();
 	}
 }

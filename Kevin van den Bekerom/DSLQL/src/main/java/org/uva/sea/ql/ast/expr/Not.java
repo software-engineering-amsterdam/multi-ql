@@ -1,10 +1,11 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.form.Context;
-import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.BoolType;
+import org.uva.sea.ql.type.Type;
 
-public class Not extends UnaryExpr implements Visitable {
+public class Not extends UnaryExpr {
 	
 	public Not(Expr expr) {
 		super.child = expr;
@@ -26,6 +27,6 @@ public class Not extends UnaryExpr implements Visitable {
 	
 	@Override
 	public Type getType(Context context) {
-		return Type.BOOLEAN;
+		return new BoolType();
 	}
 }

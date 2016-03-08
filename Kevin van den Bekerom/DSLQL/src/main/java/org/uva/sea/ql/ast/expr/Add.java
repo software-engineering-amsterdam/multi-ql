@@ -1,10 +1,10 @@
 package org.uva.sea.ql.ast.expr;
 
 import org.uva.sea.ql.ast.form.Context;
-import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.*;
 
-public class Add extends BinaryExpr implements Visitable {
+public class Add extends BinaryExpr {
 	
 	public Add(Expr lhs, Expr rhs) {
 		super.lhs = lhs;
@@ -27,6 +27,6 @@ public class Add extends BinaryExpr implements Visitable {
 
 	@Override
 	public Type getType(Context context) {
-		return Type.INT;
+		return new NumericalType();
 	}
 }

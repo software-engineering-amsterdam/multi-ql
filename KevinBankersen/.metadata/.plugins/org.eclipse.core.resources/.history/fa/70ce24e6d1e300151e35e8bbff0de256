@@ -1,0 +1,33 @@
+form testForm { 
+	"q1"
+	q1: boolean = q5
+		
+	"q2"
+	q2: boolean 
+		
+	if (q1){
+
+			"q5"
+			q5: boolean = q6
+			
+			"q6"
+			q6: boolean = q7
+			
+			"q7"
+			q7: boolean = q8
+			
+			"q8"
+			q8: boolean = q10
+			
+			"q9"
+			q9: boolean
+			} else {
+				
+				"q11"
+				q11: boolean = q9
+			
+			}
+			
+	"q10"
+	q10: boolean
+}

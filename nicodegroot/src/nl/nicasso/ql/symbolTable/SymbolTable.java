@@ -1,19 +1,24 @@
 package nl.nicasso.ql.symbolTable;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import nl.nicasso.ql.ast.expression.Identifier;
+import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.types.Type;
+import nl.nicasso.ql.values.Value;
 
 public class SymbolTable {
 
-	private HashMap<Identifier, SymbolTableEntry> symbols;
+	private Map<Identifier, SymbolTableEntry> symbols;
 
 	public SymbolTable() {
 		super();
 		this.symbols = new HashMap<Identifier, SymbolTableEntry>();
 	}
 
-	public HashMap<Identifier, SymbolTableEntry> getSymbols() {
+	public Map<Identifier, SymbolTableEntry> getSymbols() {
 		return symbols;
 	}
 	
@@ -25,41 +30,32 @@ public class SymbolTable {
 		return symbols.get(key);
 	}
 	
-	/*
-	public Literal getSymbolValueFromIdentifier(Identifier key) {
-		Iterator<Entry<Question, Literal>> it = symbols.entrySet().iterator();
-	    while (it.hasNext()) {
-	    	Entry<Question, Literal> pair = it.next();
-	        Question qKey = (Question) pair.getKey();
-	        if (qKey.getId().getValue().equals(key.getValue())) {
-	        	return (Literal) pair.getValue();
-	        }
-	    }
-	    return null;
+	public Value getEntryValue(Identifier key) {
+		SymbolTableEntry entry = symbols.get(key);
+		return entry.getValue();
 	}
 	
-	private Literal createLiteralWithDefaultValue(Question question) {
-		Literal lit;
-		
-		switch(question.getType().getType()) {
-			case "Boolean":
-				lit = new BooleanLit(false);
-				break;
-			case "Integer":
-				lit = new IntegerLit(0);      			
-				break;
-			case "Money":
-				lit = new IntegerLit(0);
-				break;
-			case "String":
-				lit = new StringLit("");
-				break;
-			default:
-				lit = new BooleanLit(false);
-				// Throw exception here!
-				break;
-		}
-		return lit;
+	public Type getEntryType(Identifier key) {
+		SymbolTableEntry entry = symbols.get(key);
+		return entry.getType();
 	}
-	*/
+	
+	public void displaySymbolTable(SymbolTable symbolTable) {
+		Iterator<Entry<Identifier, SymbolTableEntry>> it = symbolTable.getSymbols().entrySet().iterator();
+	    while (it.hasNext()) {
+	    	Entry<Identifier, SymbolTableEntry> pair = it.next();
+	    	Identifier key = (Identifier) pair.getKey();
+	        SymbolTableEntry value = (SymbolTableEntry) pair.getValue();
+	        
+	        String realValue;
+	        if (value.getValue() == null) {
+	        	realValue = "undefined";
+	        } else {
+	        	realValue = value.getValue().getValue().toString();
+	        }
+	        
+	        System.out.println(key.getValue()+" ("+ value.getType().getType() +")"+ " = " + realValue);
+	    }
+	}
+	
 }

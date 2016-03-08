@@ -1,0 +1,51 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.ast.type.BooleanType;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableBuilder;
+import eu.bankersen.kevin.ql.context.typeanalyzer.Context;
+
+public class IFStatement extends Statement  {
+
+    private final Body body;
+
+    public IFStatement(Expr expr, Body body, int line) {
+	super(new BooleanType(), expr, line);
+	this.body = body;
+    }
+    
+    public Body body() {
+	return body;
+    }
+    
+    @Override
+    public SymbolTableBuilder process(SymbolTableBuilder builder) {
+	return body.process(builder);
+    }
+    
+    @Override
+    public Context checkType(Context context) {
+	return context.evaluate(this);
+    }
+    
+    @Override
+    public SymbolTable evalStatement(SymbolTable symbolTable) {	
+	boolean exprValue;
+	
+	try {
+	    exprValue = (Boolean) expr().evalExpr(symbolTable);
+	} catch (EvaluateExeption e) {
+	    exprValue = false;
+	}
+
+	return visible(body.evalBody(symbolTable), exprValue); 
+    }
+
+    @Override
+    public SymbolTable visible(SymbolTable symbolTable, Boolean visible) {
+	return body.visible(symbolTable, visible);
+    }
+}

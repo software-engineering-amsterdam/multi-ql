@@ -5,5 +5,5 @@ form form1 {
     q3: "Did you enter a loan for maintenance/reconstruction?" false
     q4: "Did you enter a loan for maintenance/reconstruction?" money
     q5: "Did you enter a loan for maintenance/reconstruction?" 1
-    q6: "Did you enter a loan for maintenance/reconstruction?" 2.0
+    q6: "Did you enter a loan for maintenance/reconstruction?" 2
 }

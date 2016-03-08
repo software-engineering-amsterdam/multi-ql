@@ -8,33 +8,81 @@
 
 import Foundation
 
-enum SemanticError: ErrorType {
-    case Collection(errors: [SemanticError])
-    case TypeMismatch(description: String)
-    case MultipleDeclarations(description: String)
-    case NotDefined(description: String)
-    case Generic(description: String)
-    case System(error: ErrorType)
-    case None
+
+// MARK: - Semantic Error
+
+class SemanticError: NSObject, ErrorType {
+    private let _description: String
+    
+    init(description: String) {
+        self._description = description
+    }
+    
+    override var description: String {
+        return _description
+    }
 }
 
-extension SemanticError {
-    mutating func collect(error: ErrorType) {
-        if let error = error as? SemanticError {
-            switch self {
-            case .None: self = error
-            default: self = SemanticError.Collection(errors: self.errors + error.errors)
-            }
-        } else {
-            self = SemanticError.System(error: error)
+class TypeMismatchError: SemanticError {
+}
+
+class UndefinedVariableError: SemanticError {
+}
+
+class CyclomaticDependencyError: SemanticError {
+}
+
+class SystemError: SemanticError {
+    init(error: ErrorType) {
+        super.init(description: "\(error)")
+    }
+}
+
+class SemanticErrorCollection: NSObject, ErrorType {
+    private var _errors: [SemanticError]
+    var errors: [SemanticError] {
+        get {
+            return _errors
         }
     }
     
-    var errors: [SemanticError] {
-        switch self {
-        case .Collection(let errors): return errors
-        case .None: return []
-        default: return [self]
-        }
+    init(errors: [SemanticError]) {
+        self._errors = errors
     }
+    
+    func collectError(error: SemanticError) {
+        self.collectErrors([error])
+    }
+    
+    func collectErrors(errors: [SemanticError]) {
+        _errors += errors
+    }
+    
+    override var description: String {
+        var _description: String = ""
+        
+        errors.forEach { error in
+            _description += "\(error)\n"
+        }
+        
+        return _description
+    }
+}
+
+
+// MARK: - Semantic Warning
+
+class SemanticWarning: NSObject, ErrorType {
+    private let _description: String
+    
+    init(description: String) {
+        self._description = description
+    }
+    
+    override var description: String {
+        return _description
+    }
+}
+
+class MultipleDeclarations: SemanticWarning {
 }

@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.util.testing2;
-
-public interface BooleanQuestion {
-    
-    public boolean getValue();
-
-}

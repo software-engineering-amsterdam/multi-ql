@@ -47,7 +47,7 @@ label : STRING (DIGIT+)? ('?'|':')? ;
 varName : ID ;
 varType : ( BOOLEAN | MONEY | INT | STRING | DATE ) ;
 
-question : label varName ':' varType ('=' expression+ )? ;
+question : label varName ':' varType ('=' expression )? ;
 
 /*
  * Conditional structures associate an enabling condition to a question, in which
@@ -61,11 +61,11 @@ question : label varName ':' varType ('=' expression+ )? ;
  * questions at once.
  */
 condition 
-	: 'if' expression+ block	
+	: 'if' expression block	
 		(
 			('else' block)
 			|
-			('else' condition)+
+			('else' condition)
 		)? #ifCondition
 	;
 
@@ -76,7 +76,7 @@ condition
  */
  
 expression 														
-	: BOOLEAN													#expBool
+	: ('true' | 'false' | 'TRUE' | 'FASLE')						#expBool
 	| (DIGIT+ | FLOAT) 											#expNum
 	| varName 													#expVar
 	| '(' expression ')' 										#expParentheses

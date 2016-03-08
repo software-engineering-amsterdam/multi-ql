@@ -1,7 +1,6 @@
 package org.uva.ql.ast.type;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.uva.ql.ast.ASTNodeVisitor;
 
 public final class QLIntegerType extends QLType {
 
@@ -14,7 +13,7 @@ public final class QLIntegerType extends QLType {
 	}
 
 	@Override
-	public <T, U> T accept(ASTNodeVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(QLTypeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 
@@ -27,4 +26,10 @@ public final class QLIntegerType extends QLType {
 	public int hashCode() {
 		return 42;
 	}
+
+	@Override
+	public String toString() {
+		return "Integer";
+	}
+
 }

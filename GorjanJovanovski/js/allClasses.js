@@ -1,3 +1,47 @@
+/* ---- VALUES ---- */
+
+class Listener {
+	constructor() {
+		this.listenerMap = [];
+	}
+
+	register(label, questionNode) {
+		if (this.listenerMap[label] !== undefined) {
+			this.listenerMap[label].push(questionNode);
+		}
+		else {
+			this.listenerMap[label] = [questionNode];
+		}
+	}
+
+	notify(label) {
+		if (this.listenerMap[label] !== undefined) {
+			for (var i = 0; i < this.listenerMap[label].length; i++) {
+				var dependant = this.listenerMap[label][i];
+				dependant.notify();
+				this.notify(dependant.label);
+			}
+		}
+	}
+}
+
+/* ---- ENVIRONMENT ---- */
+
+class Environment {
+	constructor() {
+		this.valueMap = [];
+	}
+
+	setValue(label, value) {
+		this.valueMap[label] = value;
+	}
+
+	getValue(label) {
+		return this.valueMap[label];
+	}
+
+}
+
 /* ---- TYPES ---- */
 
 class NumberType {
@@ -12,6 +56,10 @@ class NumberType {
 	toString() {
 		return 'number';
 	}
+
+	getTypeString() {
+		return "integer";
+	}
 }
 
 class DecimalType {
@@ -25,6 +73,28 @@ class DecimalType {
 
 	toString() {
 		return 'number';
+	}
+
+	getTypeString() {
+		return "decimal";
+	}
+}
+
+class MoneyType extends DecimalType {
+	getTypeString() {
+		return "money";
+	}
+}
+
+class CurrencyType extends DecimalType {
+	getTypeString() {
+		return "currency";
+	}
+}
+
+class FloatType {
+	getTypeString() {
+		return "float";
 	}
 }
 
@@ -42,6 +112,10 @@ class BooleanType {
 	toString() {
 		return 'boolean';
 	}
+
+	getTypeString() {
+		return "boolean";
+	}
 }
 
 class StringType {
@@ -56,6 +130,17 @@ class StringType {
 	toString() {
 		return 'string';
 	}
+
+	getTypeString() {
+		return "string";
+	}
+}
+
+class DateType extends StringType {
+
+	getTypeString() {
+		return "date";
+	}
 }
 
 /* ---- FORMS ---- */
@@ -65,35 +150,42 @@ class FormNode {
 	constructor(label, block) {
 		this.label = label;
 		this.block = block;
-
-		this.setQuestionReferences();
+		this.listener = new Listener();
+		this.setQuestionListeners();
 	}
 
-	getQuestion(label) {
-		return this.transverseAST((questionNode) => {
-			if (questionNode.label === label) {
-				return questionNode;
-			}
-		});
-	}
-
-	resetQuestionVisibility() {
+	setEnvironment(environment) {
+		this.environment = environment;
 		this.transverseAST((questionNode) => {
-			questionNode.visible = false;
+				questionNode.setEnvironment(environment);
+			},
+			(conditionNode) => {
+				conditionNode.setEnvironment(environment);
+			}
+		);
+	}
+
+	setQuestionListeners() {
+		this.transverseAST((questionNode) => {
+			var dependencies = questionNode.getDependencies();
+			for (var i = 0; i < dependencies.length; i++) {
+				this.listener.register(dependencies[i], questionNode);
+			}
 		});
 	}
 
 	getAnswerList() {
 		var answerList = new AnswerList();
-
 		this.transverseAST((questionNode) => {
-			answerList.addQuestion(questionNode);
+			answerList.addQuestion(questionNode, this.environment);
 		}, undefined, true);
-
 		return answerList;
 	}
 
 	transverseAST(questionFunction, conditionFunction, evaluateConditions) {
+		if (evaluateConditions === undefined) {
+			evaluateConditions = false;
+		}
 		var queue = [];
 
 		for (var i = 0; i < this.block.length; i++) {
@@ -115,13 +207,12 @@ class FormNode {
 						return result;
 					}
 				}
-				if (evaluateConditions === undefined || (evaluateConditions === true && currentNode.condition.compute() === true)) {
+				if (evaluateConditions === false || (evaluateConditions === true && currentNode.condition.compute(this.environment) === true)) {
 					for (i = 0; i < currentNode.ifBlock.length; i++) {
 						queue.push(currentNode.ifBlock[i]);
 					}
 				}
-				if (currentNode.elseBlock !== undefined && (evaluateConditions === undefined ||
-					(evaluateConditions === true && currentNode.condition.compute() === false))) {
+				if (currentNode.elseBlock !== undefined && (evaluateConditions === false || (evaluateConditions === true && currentNode.condition.compute(this.environment) === false))) {
 					for (i = 0; i < currentNode.elseBlock.length; i++) {
 						queue.push(currentNode.elseBlock[i]);
 					}
@@ -130,35 +221,15 @@ class FormNode {
 		}
 	}
 
-	setQuestionReferences() {
+	notify(label, value) {
 		this.transverseAST((questionNode) => {
-			if (questionNode instanceof ComputedQuestionNode) {
-				this.addQuestionReferenceToExpr(questionNode.computedExpr);
+			if (questionNode.label === label) {
+				questionNode.notify(value);
 			}
-		}, (conditionNode) => {
-			this.addQuestionReferenceToExpr(conditionNode.condition);
 		});
+		this.listener.notify(label);
 	}
 
-	addQuestionReferenceToExpr(expression) {
-		if (expression instanceof NotExpression) {
-			this.addQuestionReferenceToExpr(expression.expr);
-		}
-		else if (expression instanceof OperatorExpressionNode) {
-			this.addQuestionReferenceToExpr(expression.left);
-			this.addQuestionReferenceToExpr(expression.right);
-		}
-		else if (expression instanceof LabelNode) {
-			var question = this.getQuestion(expression.label);
-			if (question !== undefined) {
-				expression.setQuestionReference(this.getQuestion(expression.label));
-			}
-			else {
-				//TODO don't throw here?
-				throwError(expression.line, "Question label " + expression.label + " is undefined");
-			}
-		}
-	}
 }
 
 class QuestionNode {
@@ -166,21 +237,50 @@ class QuestionNode {
 		this.text = text;
 		this.label = label;
 		this.type = type;
-		this.visible = false;
 		this.line = line;
-
-		this.setValue(type.defaultValue());
 	}
 
-	setValue(value) {
-		this.value = this.type.parseValue(value);
+	notify(value) {
+		this.environment.setValue(this.label, this.type.parseValue(value));
 	}
+
+	getDependencies() {
+		return [];
+	}
+
+	setEnvironment(environment) {
+		this.environment = environment;
+		this.environment.setValue(this.label, this.type.parseValue(this.type.defaultValue()));
+	}
+
+	getTypeString() {
+		return this.type.getTypeString();
+	}
+
 }
 
 class ComputedQuestionNode extends QuestionNode {
 	constructor(text, label, type, line, computedExpr) {
 		super(text, label, type, line);
 		this.computedExpr = computedExpr;
+	}
+
+	getDependencies() {
+		return super.getDependencies().concat(this.getLabelsInExpression());
+	}
+
+	getLabelsInExpression() {
+		return this.computedExpr.getLabelsInExpression();
+	}
+
+	notify() {
+		super.notify(this.computedExpr.compute(this.environment));
+	}
+
+	setEnvironment(environment) {
+		super.setEnvironment(environment);
+		this.computedExpr.setEnvironment(environment);
+		this.notify();
 	}
 }
 
@@ -195,24 +295,9 @@ class ConditionNode {
 	toString() {
 		return this.condition.toString();
 	}
-}
 
-class LabelNode {
-	constructor(label, line) {
-		this.label = label;
-		this.line = line;
-	}
-
-	toString() {
-		return this.label;
-	}
-
-	setQuestionReference(question) {
-		this.question = question;
-	}
-
-	compute() {
-		return this.question.value;
+	setEnvironment(environment) {
+		this.condition.setEnvironment(environment);
 	}
 }
 
@@ -222,14 +307,30 @@ class NotExpression {
 		this.line = line;
 	}
 
-	compute() {
-		return !this.expr.compute();
+	setEnvironment(environment) {
+		this.environment = environment;
+	}
+
+	compute(environment) {
+		if (this.validateArguments()) {
+			return !this.expr.compute(environment);
+		}
 	}
 
 	toString() {
 		return "!" + this.expr.toString();
 	}
 
+	getLabelsInExpression() {
+		return this.expr.getLabelsInExpression();
+	}
+
+	validateArguments() {
+		if (typeof this.expr.compute(this.environment) !== "boolean") {
+			return false;
+		}
+		return true;
+	}
 }
 
 class OperatorExpressionNode {
@@ -240,12 +341,23 @@ class OperatorExpressionNode {
 		this.line = line;
 	}
 
-	compute() {
-		return this.opNode.compute(this.left, this.right);
+	setEnvironment(environment) {
+		this.environment = environment;
+	}
+
+	compute(environment) {
+		if (environment === undefined) {
+			environment = this.environment;
+		}
+		return this.opNode.compute(this.left, this.right, environment);
 	}
 
 	toString() {
 		return this.left.toString() + this.opNode.toString() + this.right.toString();
+	}
+
+	getLabelsInExpression() {
+		return this.left.getLabelsInExpression().concat(this.right.getLabelsInExpression());
 	}
 }
 
@@ -279,25 +391,25 @@ class NumOperatorNode extends OperatorNode {
 		super(op, ["number"], line);
 	}
 
-	compute(left, right) {
-		if (this.validateArguments(left.compute(), right.compute())) {
+	compute(left, right, environment) {
+		if (this.validateArguments(left.compute(environment), right.compute(environment))) {
 			switch (this.op) {
 				case "*":
-					return left.compute() * right.compute();
+					return left.compute(environment) * right.compute(environment);
 				case "/":
-					return left.compute() / right.compute();
+					return left.compute(environment) / right.compute(environment);
 				case "+":
-					return left.compute() + right.compute();
+					return left.compute(environment) + right.compute(environment);
 				case "-":
-					return left.compute() - right.compute();
+					return left.compute(environment) - right.compute(environment);
 				case "<":
-					return left.compute() < right.compute();
+					return left.compute(environment) < right.compute(environment);
 				case "<=":
-					return left.compute() <= right.compute();
+					return left.compute(environment) <= right.compute(environment);
 				case ">":
-					return left.compute() > right.compute();
+					return left.compute(environment) > right.compute(environment);
 				case ">=":
-					return left.compute() >= right.compute();
+					return left.compute(environment) >= right.compute(environment);
 				default:
 					return undefined;
 			}
@@ -310,14 +422,13 @@ class BoolOperatorNode extends OperatorNode {
 		super(op, ["boolean"], line);
 	}
 
-	compute(left, right) {
-
-		if (this.validateArguments(left.compute(), right.compute())) {
+	compute(left, right, environment) {
+		if (this.validateArguments(left.compute(environment), right.compute(environment))) {
 			switch (this.op) {
 				case "&&":
-					return left.compute() && right.compute();
+					return left.compute(environment) && right.compute(environment);
 				case "||":
-					return left.compute() || right.compute();
+					return left.compute(environment) || right.compute(environment);
 				default:
 					return undefined;
 			}
@@ -330,18 +441,41 @@ class NumOrBoolOperatorNode extends OperatorNode {
 		super(op, ["number", "boolean"], line);
 	}
 
-	compute(left, right) {
+	compute(left, right, environment) {
 
-		if (this.validateArguments(left.compute(), right.compute())) {
+		if (this.validateArguments(left.compute(environment), right.compute(environment))) {
 			switch (this.op) {
 				case "==":
-					return left.compute() === right.compute();
+					return left.compute(environment) === right.compute(environment);
 				case "!=":
-					return left.compute() !== right.compute();
+					return left.compute(environment) !== right.compute(environment);
 				default:
 					return undefined;
 			}
 		}
+	}
+}
+
+class LabelNode {
+	constructor(label, line) {
+		this.label = label;
+		this.line = line;
+	}
+
+	toString() {
+		return this.label;
+	}
+
+	compute(environment) {
+		return environment.getValue(this.label);
+	}
+
+	setEnvironment(environment) {
+
+	}
+
+	getLabelsInExpression() {
+		return [this.label];
 	}
 }
 
@@ -357,6 +491,14 @@ class LiteralNode {
 	toString() {
 		return this.value;
 	}
+
+	setEnvironment(environment) {
+
+	}
+
+	getLabelsInExpression() {
+		return [];
+	}
 }
 
 /* ---- ANSWERS ---- */
@@ -366,8 +508,8 @@ class AnswerList {
 		this.answerList = [];
 	}
 
-	addQuestion(questionNode) {
-		this.answerList.push(new AnswerListQuestion(questionNode));
+	addQuestion(questionNode, environment) {
+		this.answerList.push(new AnswerListQuestion(questionNode, environment));
 	}
 
 	toString() {
@@ -376,9 +518,9 @@ class AnswerList {
 }
 
 class AnswerListQuestion {
-	constructor(questionNode) {
+	constructor(questionNode, environment) {
 		this.label = questionNode.label;
 		this.text = questionNode.text;
-		this.value = questionNode.value;
+		this.value = environment.getValue(questionNode.label);
 	}
 }

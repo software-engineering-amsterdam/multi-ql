@@ -1,0 +1,33 @@
+package eu.bankersen.kevin.ql.symbol_table;
+
+import eu.bankersen.kevin.ql.ast.Identifier;
+import eu.bankersen.kevin.ql.ast.Variable;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.logic.And;
+import eu.bankersen.kevin.ql.ast.expr.logic.Eq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GT;
+import eu.bankersen.kevin.ql.ast.expr.logic.LEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.LT;
+import eu.bankersen.kevin.ql.ast.expr.logic.NEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.Not;
+import eu.bankersen.kevin.ql.ast.expr.logic.Or;
+import eu.bankersen.kevin.ql.ast.expr.math.Add;
+import eu.bankersen.kevin.ql.ast.expr.math.Div;
+import eu.bankersen.kevin.ql.ast.expr.math.Mul;
+import eu.bankersen.kevin.ql.ast.expr.math.Neg;
+import eu.bankersen.kevin.ql.ast.expr.math.Pos;
+import eu.bankersen.kevin.ql.ast.expr.math.Sub;
+
+public interface SymbolTableBuilderInterface {
+    
+    // Mathematical Expressions
+    SymbolTableBuilder evaluate(Expr data);
+    
+    // Looking at Identifiers
+    SymbolTableBuilder construct(Identifier data);
+
+    // Looking at Variables
+    SymbolTableBuilder construct(Variable data);
+
+}

@@ -5,8 +5,8 @@ import ast.visitor.ExpressionVisitor;
 
 public class Equal extends BinaryExpression{
 
-	public Equal(Expression leftExpression, Expression rightExprssion) {
-		super(leftExpression, rightExprssion);
+	public Equal(Expression leftExpression, Expression rightExprssion, int line) {
+		super(leftExpression, rightExprssion, line);
 	}
 	
 	@Override

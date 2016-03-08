@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.util.test;
+
+public abstract class NumberType extends Type {
+    
+    public boolean sameType(Type type) {
+	return type instanceof IntType || type instanceof MoneyType;
+    }
+
+}

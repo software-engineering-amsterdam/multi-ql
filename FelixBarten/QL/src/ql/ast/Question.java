@@ -2,7 +2,9 @@ package ql.ast;
 
 import org.antlr.v4.runtime.Token;
 
-public abstract class Question {
+import ql.ASTNode;
+
+public abstract class Question extends ASTNode {
 	private String question;
 	private String name;
 	private QuestionType type;

@@ -84,8 +84,10 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-QLSwift/DTAlertView.framework"
   install_framework "Pods-QLSwift/SnapKit.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-QLSwift/DTAlertView.framework"
   install_framework "Pods-QLSwift/SnapKit.framework"
 fi

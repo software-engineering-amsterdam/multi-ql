@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 let kForm1 = "form"
 let kForm2 = "form2"
 
@@ -18,8 +19,22 @@ class ChooseFormViewController: BaseViewController {
             let ql = try QL(qlFromFileNamed: formName)
             let parser = Parser()
             
-            let form = try parser.parse(ql)
-            displayForm(form)
+            let (form, warnings) = try parser.parse(ql)
+            if warnings.isEmpty {
+                self.displayForm(form)
+            } else {
+                print(warnings)
+                showAlerts(arg: warnings, cancelBlock: nil, confirmBlock: { [unowned self] in
+                    self.displayForm(form)
+                })
+            }
+        }
+        catch let error as SemanticErrorCollection {
+            displayErrors(error)
+        }
+        catch let error as SemanticError {
+            print("\(error)")
+            displayErrors(error)
         }
         catch let error {
             print(error)
@@ -27,18 +42,26 @@ class ChooseFormViewController: BaseViewController {
         }
     }
     
-    private func displayForm(form: Form) {
+    private func displayForm(form: QLForm) {
         self.navigationController?.pushViewController(FormViewController(form: form), animated: true)
     }
     
+    private func displayErrors(error: SemanticErrorCollection) {
+        showAlerts(arg: error.errors, confirmBlock: nil)
+    }
+    
+    private func displayErrors(error: SemanticError) {
+        showAlerts(arg: error, confirmBlock: nil)
+    }
+    
     private func displayErrors(error: ErrorType) {
-        // TODO: implement error view
+        showAlert("Error", message: "\(error)", cancelButton: nil, confirmButton: "Ok")
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-//        self.showForm(kForm1)
+        self.showForm(kForm1)
     }
 }
 
@@ -52,5 +75,38 @@ extension ChooseFormViewController {
     
     @IBAction func form2Pressed(sender: UIButton) {
         self.showForm(kForm2)
+    }
+}
+
+
+// MARK: - Alerts
+
+extension ChooseFormViewController {
+    private func showAlerts(arg errors: [SemanticError], confirmBlock: (() -> Void)? = nil) -> Bool {
+        let errorMessages: [String] = errors.map { "\($0)" }
+        
+        return showAlerts("Error", message: errorMessages, cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
+    }
+    
+    private func showAlerts(arg error: SemanticError, confirmBlock: (() -> Void)? = nil) -> Bool {
+        return showAlerts(arg: [error], confirmBlock: confirmBlock)
+//        iXf case SemanticError.None = error {
+//            return false
+//        }
+//        
+//        switch error {
+//            case .Collection(let errors): return showAlerts("Error", message: errors.map { "\($0)" }, cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
+//            default: return showAlert("Error", message: "'\(error)'", cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
+//        }
+    }
+    
+    private func showAlerts(arg warnings: [SemanticWarning], cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
+        let warningMessages: [String] = warnings.map { "\($0)" }
+        
+        return showAlerts("Warning", message: warningMessages, cancelButton: "Cancel", confirmButton: "Continue", cancelBlock: cancelBlock, confirmBlock: confirmBlock)
+    }
+    
+    private func showAlerts(arg warning: SemanticWarning, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
+        return showAlerts(arg: [warning], cancelBlock: cancelBlock, confirmBlock: confirmBlock)
     }
 }

@@ -24,9 +24,12 @@ library
                        TypeChecker
                        Parsing
                        Location
+                       Environment
+                       Value
   build-depends:       base >= 4.7 && < 5
                      , parsec
                      , syb
+                     , containers
   default-language:    Haskell2010
 
 executable ql-exe

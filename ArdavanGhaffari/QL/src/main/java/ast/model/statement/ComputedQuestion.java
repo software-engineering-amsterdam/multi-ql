@@ -8,8 +8,8 @@ import ast.visitor.StatementVisitor;
 public class ComputedQuestion extends Question {
 	private Expression expression;
 	
-	public ComputedQuestion(Identifier identifier, String label, Type type, Expression expression) {
-		super(identifier, label, type);
+	public ComputedQuestion(Identifier identifier, String label, Type type, Expression expression, int line) {
+		super(identifier, label, type, line);
 		this.expression = expression;
 	}
 	

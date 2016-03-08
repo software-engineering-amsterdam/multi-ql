@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.util.testing;
+
+import eu.bankersen.kevin.ql.ast.Type;
+
+public class IntegerType extends TypeTest {
+
+    public IntegerType(Type type) {
+	super(Type.INTEGER);
+    }
+    
+    public boolean equalType(IntegerType type) {
+	return true;
+    }
+    
+    public boolean equalType(TypeTest type) {
+	return false;
+    }
+}

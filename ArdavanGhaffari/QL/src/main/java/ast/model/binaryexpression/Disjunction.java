@@ -5,8 +5,8 @@ import ast.visitor.ExpressionVisitor;
 
 public class Disjunction extends BinaryExpression{
 
-	public Disjunction(Expression leftExpression, Expression rightExprssion) {
-		super(leftExpression, rightExprssion);
+	public Disjunction(Expression leftExpression, Expression rightExprssion, int line) {
+		super(leftExpression, rightExprssion, line);
 	}
 	@Override
 	public <T> T accept(ExpressionVisitor<T> expressionVisitor) {

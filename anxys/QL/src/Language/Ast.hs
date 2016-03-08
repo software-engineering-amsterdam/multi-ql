@@ -1,8 +1,8 @@
 module Ast where
 
-type Money = Double
+import Identifier
 
-type Name = String
+type Money = Double
 
 type Block = [Stmnt]
 
@@ -21,7 +21,7 @@ data FieldType
   deriving (Eq,Show)
 
 data Expr
-  = Var Name
+  = Var Identifier
   | Lit Lit
   | BinOp BinOp
           Expr
@@ -61,12 +61,12 @@ data Field
 
 data FieldInfo =
   FieldInfo { label :: String
-            , id :: String
+            , id :: Identifier
             , fieldType :: FieldType
             }
   deriving (Eq,Show)
 
 data Form =
-  Form String
+  Form Identifier
        Block
   deriving (Eq, Show)

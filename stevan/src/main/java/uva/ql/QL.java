@@ -1,6 +1,8 @@
 package uva.ql;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -9,12 +11,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
-import uva.ql.ast.ANode;
 import uva.ql.ast.Form;
-import uva.ql.visitors.ASTTreePrintVisitor;
+import uva.ql.ast.abstracts.Node;
+import uva.ql.visitors.TypeChecker;
 import uva.ql.visitors.VisitorToAST;
-import uva.ql.visitors.typechecker.ConditionsNotOfTypeBoolean;
-import uva.ql.visitors.typechecker.DuplicateQuestions;
 
 public class QL {
 	private String filePath;
@@ -23,12 +23,12 @@ public class QL {
     	this.filePath = filePath;
     }
     
-    public ANode start() throws Exception {
+    public Node start() throws Exception {
     	
     	InputStream in = getClass().getClassLoader().getResourceAsStream(filePath);
     	QLLexer lexer;
     	
-    	if (in == null) {
+    	if(in == null) {
     		ANTLRFileStream input = new ANTLRFileStream(filePath, "UTF-8");
     		lexer = new QLLexer(input);
     	}
@@ -44,22 +44,14 @@ public class QL {
 		VisitorToAST visitor = new VisitorToAST();
 		Form form = (Form) visitor.visit(tree);
 		
-		//form.accept(new ASTTreePrintVisitor());
+		HashMap<String, Integer> errorMsg = TypeChecker.checkAST(form);
 		
-		
-		DuplicateQuestions dupQuestions = new DuplicateQuestions();
-		form.accept(dupQuestions);
-		System.out.println(dupQuestions.getResult().entrySet());
-		
-		ConditionsNotOfTypeBoolean cndtnsNOTB = new ConditionsNotOfTypeBoolean();
-		form.accept(cndtnsNOTB);
-		System.out.println(cndtnsNOTB.getResult().entrySet());
-		
-		
-		
-		
-		//TypeChecker.checkAST(form);
-		
+		if( errorMsg.containsValue(-1) ) {
+			Iterator<String> it = errorMsg.keySet().iterator();
+			while( it.hasNext() ) {
+				System.out.println(it.next());
+			}
+		}
 		
 		return form;
     }

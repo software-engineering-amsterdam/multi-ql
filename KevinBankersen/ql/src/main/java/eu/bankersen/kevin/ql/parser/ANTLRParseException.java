@@ -4,13 +4,13 @@ import java.util.List;
 
 public class ANTLRParseException extends Exception {
     
-    private final List<String[]> exceptions;
+    private final List<ANTLRParseError> exceptions;
     
-    public ANTLRParseException(final List<String[]> exceptions) {
+    public ANTLRParseException(final List<ANTLRParseError> exceptions) {
 	this.exceptions = exceptions;
     }
     
-    public final List<String[]> getErrors() {
+    public final List<ANTLRParseError> getErrors() {
 	return exceptions;
     }
 }

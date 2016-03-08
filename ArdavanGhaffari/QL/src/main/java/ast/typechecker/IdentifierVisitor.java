@@ -1,7 +1,7 @@
 package ast.typechecker;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import ast.model.binaryexpression.Addition;
 import ast.model.binaryexpression.BinaryExpression;
@@ -17,107 +17,113 @@ import ast.model.binaryexpression.Multiplication;
 import ast.model.binaryexpression.NotEqual;
 import ast.model.binaryexpression.Subtraction;
 import ast.model.literal.BooleanLiteral;
+import ast.model.literal.DecimalLiteral;
 import ast.model.literal.Identifier;
 import ast.model.literal.IntegerLiteral;
 import ast.model.literal.StringLiteral;
 import ast.model.unaryexpression.Negation;
 import ast.visitor.ExpressionVisitor;
 
-public class IdentifierVisitor implements ExpressionVisitor<List<Identifier>> {
+public class IdentifierVisitor implements ExpressionVisitor<Set<String>> {
 
-	private List<Identifier> identifiers;
+	private Set<String> identifiers;
 	
 	public IdentifierVisitor() {
-		identifiers = new LinkedList<>();
+		identifiers = new HashSet<>();
 	}
 	
 	@Override
-	public List<Identifier> visit(Negation negation) {
+	public Set<String> visit(Negation negation) {
 		return negation.getExpression().accept(this);
 	}
 
 	@Override
-	public List<Identifier> visit(Addition addition) {
+	public Set<String> visit(Addition addition) {
 		return visitBinaryExpression(addition);
 	}
 
 	@Override
-	public List<Identifier> visit(Subtraction subtraction) {
+	public Set<String> visit(Subtraction subtraction) {
 		return visitBinaryExpression(subtraction);
 	}
 
 	@Override
-	public List<Identifier> visit(Multiplication multiplication) {
+	public Set<String> visit(Multiplication multiplication) {
 		return visitBinaryExpression(multiplication);
 	}
 
 	@Override
-	public List<Identifier> visit(Division division) {
+	public Set<String> visit(Division division) {
 		return visitBinaryExpression(division);
 	}
 
 	@Override
-	public List<Identifier> visit(Conjunction conjunction) {
+	public Set<String> visit(Conjunction conjunction) {
 		return visitBinaryExpression(conjunction);
 	}
 
 	@Override
-	public List<Identifier> visit(Disjunction disjunction) {
+	public Set<String> visit(Disjunction disjunction) {
 		return visitBinaryExpression(disjunction);
 	}
 
 	@Override
-	public List<Identifier> visit(Equal equal) {
+	public Set<String> visit(Equal equal) {
 		return visitBinaryExpression(equal);
 	}
 
 	@Override
-	public List<Identifier> visit(NotEqual notEqual) {
+	public Set<String> visit(NotEqual notEqual) {
 		return visitBinaryExpression(notEqual);
 	}
 
 	@Override
-	public List<Identifier> visit(GreaterThan greaterThan) {
+	public Set<String> visit(GreaterThan greaterThan) {
 		return visitBinaryExpression(greaterThan);
 	}
 
 	@Override
-	public List<Identifier> visit(GreaterThanEqual greaterThanEqual) {
+	public Set<String> visit(GreaterThanEqual greaterThanEqual) {
 		return visitBinaryExpression(greaterThanEqual);
 	}
 
 	@Override
-	public List<Identifier> visit(LessThan LessThan) {
+	public Set<String> visit(LessThan LessThan) {
 		return visitBinaryExpression(LessThan);
 	}
 
 	@Override
-	public List<Identifier> visit(LessThanEqual LessThanEqual) {
+	public Set<String> visit(LessThanEqual LessThanEqual) {
 		return visitBinaryExpression(LessThanEqual);
 	}
 
 	@Override
-	public List<Identifier> visit(BooleanLiteral booleanLiteral) {
+	public Set<String> visit(BooleanLiteral booleanLiteral) {
 		return identifiers;
 	}
 
 	@Override
-	public List<Identifier> visit(StringLiteral stringLiteral) {
+	public Set<String> visit(StringLiteral stringLiteral) {
 		return identifiers;
 	}
 
 	@Override
-	public List<Identifier> visit(IntegerLiteral integerLiteral) {
+	public Set<String> visit(IntegerLiteral integerLiteral) {
 		return identifiers;
 	}
 
 	@Override
-	public List<Identifier> visit(Identifier identifier) {
-		identifiers.add(identifier);
+	public Set<String> visit(Identifier identifier) {
+		identifiers.add(identifier.getIdentifier());
 		return identifiers;
 	}
 	
-	private List<Identifier> visitBinaryExpression(BinaryExpression expression) {
+	@Override 
+	public Set<String> visit(DecimalLiteral decimalLiteral) {
+		return identifiers;
+	}
+	
+	private Set<String> visitBinaryExpression(BinaryExpression expression) {
 		expression.getLeftExpression().accept(this);
 		expression.getRightExpression().accept(this);
 		return identifiers;

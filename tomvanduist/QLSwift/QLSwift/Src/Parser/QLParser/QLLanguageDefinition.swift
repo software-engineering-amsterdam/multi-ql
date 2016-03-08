@@ -18,7 +18,7 @@ public extension LanguageDefinition {
     public static var ql: LanguageDefinition {
         var qlDef = javaStyle
         
-        qlDef.reservedNames     = ["form", "if", "else", "true", "false", "boolean", "money", "string"]
+        qlDef.reservedNames     = ["form", "if", "else", "true", "false", "boolean", "integer", "string"]
         qlDef.reservedOperators = [":", "<", ">", "!"]
         
         return qlDef

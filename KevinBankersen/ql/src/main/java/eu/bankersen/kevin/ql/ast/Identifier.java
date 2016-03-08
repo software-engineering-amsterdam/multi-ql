@@ -2,49 +2,46 @@ package eu.bankersen.kevin.ql.ast;
 
 import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.context.Context;
-import eu.bankersen.kevin.ql.context.SymbolTable;
-import eu.bankersen.kevin.ql.context.errors.NotDeclaredError;
-import eu.bankersen.kevin.ql.context.errors.OutOfScopeError;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.ast.type.UndifinedType;
+import eu.bankersen.kevin.ql.ast.type.value.QLObject;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 
 public class Identifier extends Expr {
 
     private final String name;
-    private final int line;
+    private QLObject value;
 
     public Identifier(String name, int line) {
-	super(Type.UNDIFINED);
+	super(new UndifinedType(), null, null, line);
 	this.name = name;
-	this.line = line;
+    }
+    
+    public String name() {
+	return name;
     }
 
     @Override
-    public Object eval(SymbolTable symbolTable) throws EvaluateExeption {
+    public Object evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
 
 	Object value = symbolTable.getSymbol(name).getValue();
-
-	if (value != Type.EMPTY) {
+	
+	if (value != null) {
 	    return value;   
 	} else {
 	    throw new EvaluateExeption();
 	} 
     }
-
+    
     @Override
-    public Context checkType(Context context) {
-	if (context.checkID(name)) {
-	    if (!context.getSymbol(name).getActive()) {
-		context.addError(new OutOfScopeError(line, name));	 
-	    }
-	} else {
-	    context.addError(new NotDeclaredError(line, name));	    
-	}
-	return context;
+    public Type getType(SymbolTable symbolTable) {
+	return symbolTable.getSymbol(name).getType();
+    }
+    
+    @Override
+    public <T> void accept(BasicVisitor v, T context) {
+	v.visit(this);
     }
 
-    @Override
-    public Type getType(Context context) {
-	return context.getSymbol(name).getType();
-    }
 }

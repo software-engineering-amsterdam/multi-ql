@@ -2,69 +2,41 @@ package eu.bankersen.kevin.ql.ast.form;
 
 import java.util.List;
 
-import eu.bankersen.kevin.ql.ast.stat.Statement;
-import eu.bankersen.kevin.ql.context.Context;
-import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.ast.BasicVisitor;
+import eu.bankersen.kevin.ql.ast.AcceptVisitor;
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
-public class Body {
+public class Body implements AcceptVisitor {
 
-    private final List<Statement> statements;
+    private final List<AbstractStatement> statements;
 
-    public Body(List<Statement> statements) {
+    public Body(List<AbstractStatement> statements) {
 	this.statements = statements;
     }
 
+    public List<AbstractStatement> statements() {
+	return statements;
+    }
+
     public SymbolTable evalBody(SymbolTable symbolTable) {
-
-	// To evaluate a block its contents must be visible.
-	symbolTable = visible(symbolTable, true);
-
-	for (Statement s : statements) {
+	
+	for (AbstractStatement s : statements) {
 	    symbolTable = s.evalStatement(symbolTable);
 	}
 	return symbolTable;
     }
 
-    public Context checkType(Context context) {
-
-	for (Statement s : statements) {
-	    context = s.checkType(context);
-	}
-
-	// When a block is checked its contents must be hidden.	
-	return visible(context, false);
-
-    }
-
     public SymbolTable visible(SymbolTable symbolTable, Boolean visible) {
 
-	for (Statement s : statements) {
+	for (AbstractStatement s : statements) {
 	    symbolTable = s.visible(symbolTable, visible);
 	}
 	return symbolTable;
     }
-
-    // Make this a nice interface..
-    public Context visible(Context context, Boolean visible) {
-
-	for (Statement s : statements) {
-	    context = s.visible(context, visible);
-	}
-
-	return context;
-    }
-
+    
     @Override
-    public String toString() {
-
-	StringBuilder sb = new StringBuilder();
-
-	statements.forEach(statement -> sb.append(statement.toString()));
-
-	return sb.toString();
-    }
-
-    public List<Statement> getStatements() {
-	return statements;
+    public <T> void accept(BasicVisitor v, T context) {
+	v.visit(this);
     }
 }

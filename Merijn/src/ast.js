@@ -29,14 +29,23 @@ export class BlockNode extends Node {
 }
 
 export class IfNode extends Node {
-	constructor(line, condition, thenBlock, elseBlock) {
+	constructor(line, condition, thenBlock) {
 		super(line);
 		this.condition = condition;
 		this.thenBlock = thenBlock;
-		this.elseBlock = elseBlock; // block | null
 	}
 	accept (visitor, ...args) {
 		return visitor.visitIfNode(this, ...args);
+	}
+}
+
+export class IfElseNode extends IfNode {
+	constructor(line, condition, thenBlock, elseBlock) {
+		super(line, condition, thenBlock);
+		this.elseBlock = elseBlock;
+	}
+	accept (visitor, ...args) {
+		return visitor.visitIfElseNode(this, ...args);
 	}
 }
 
@@ -47,6 +56,9 @@ export class QuestionNode extends Node {
 		this.description = description;
 		this.name = name;
 		this.type = type;
+	}
+	accept (visitor, ...args) {
+		return visitor.visitQuestionNode(this, ...args);
 	}
 }
 
@@ -213,6 +225,9 @@ export class LiteralNode extends Node {
 		this.type = type;
 		this.value = value;
 	}
+	accept(visitor, ...args) {
+		return visitor.visitLiteralNode(this, ...args);
+	}
 }
 
 export class IdentifierNode extends Node {
@@ -225,9 +240,6 @@ export class IdentifierNode extends Node {
 	}
 }
 
-/**
- * Node Visitor which by default simply recurses over all nodes
- */
 export class NodeVisitor {
 	visitNode (node, ...args) {}
 	visitFormNode (formNode, ...args) {
@@ -238,6 +250,9 @@ export class NodeVisitor {
 	}
 	visitIfNode (ifNode, ...args) {
 		return this.visitNode(ifNode, ...args);
+	}
+	visitIfElseNode (ifElseNode, ...args) {
+		return this.visitIfNode(ifElseNode, ...args);
 	}
 	visitQuestionNode(questionNode, ...args) {
 		return this.visitNode(questionNode, ...args);
@@ -298,5 +313,24 @@ export class NodeVisitor {
 	}
 	visitIdentifierNode (identifierNode, ...args) {
 		return this.visitNode(identifierNode, ...args);
+	}
+}
+
+export class RecursingVisitor extends NodeVisitor {
+	visitFormNode(formNode, ...args) {
+		formNode.block.accept(this, ...args);
+	}
+	visitBlockNode(blockNode, ...args) {
+		for (let statement of blockNode.statements){
+			statement.accept(this, ...args);
+		}
+	}
+	visitIfNode(ifNode, ...args) {
+		ifNode.condition.accept(this, ...args);
+		ifNode.thenBlock.accept(this, ...args);
+	}
+	visitIfElseNode(ifElseNode, ...args) {
+		this.visitIfNode(ifElseNode, ...args);
+		ifElseNode.elseBlock.accept(this, ...args);
 	}
 }

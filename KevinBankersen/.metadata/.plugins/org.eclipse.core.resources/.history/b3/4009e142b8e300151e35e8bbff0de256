@@ -1,0 +1,19 @@
+package eu.bankersen.kevin.ql.typechecker;
+
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
+
+public class TypeCheckErrors extends Exception {
+    
+    private final Set<TypeCheckError> errors;
+    
+    public TypeCheckErrors(Set<TypeCheckError> errors) {
+	this.errors = errors;
+    }
+    
+    public final Set<TypeCheckError> getErrors() {
+	return errors;
+    }
+
+}

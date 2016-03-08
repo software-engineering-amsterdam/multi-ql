@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.util.testing.new2;
+
+public interface TypeDefinitions {
+    
+    boolean isCompatible(StringType object);
+    boolean isCompatible(IntType object);
+    boolean isCompatible(MoneyType object);
+
+}

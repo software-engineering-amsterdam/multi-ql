@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.ast.type.value;
+
+public abstract class QLObject implements QLOperations {
+
+    Object value;
+    
+    public QLObject() {
+	this.value
+    }
+    public abstract boolean isSimilar(QLObject type);
+
+    public boolean isCompatible(QLObject type) {
+	return isSimilar(type);
+    }
+    
+    public Object value() {
+	return value;
+    }
+
+    public abstract Object valueOf(String value);
+
+    public abstract Object valueOf(Double value);
+
+    public abstract Object valueOf(Boolean value);
+}

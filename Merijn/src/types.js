@@ -5,6 +5,9 @@ export class Type {
 	toString() {
 		return "type";
 	}
+	equals(otherType) {
+		return this.is(otherType) && otherType.is(this);
+	}
 	is(otherType) {
 		return otherType.isSuperTypeOf(this);
 	}

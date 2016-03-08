@@ -1,214 +1,344 @@
-import { NodeVisitor } from 'src/ast';
-import { LineError } from 'src/error';
-import { BooleanType, StringType, IntegerType, FloatType, MoneyType, UndefinedType } from 'src/types';
-import { NegationTypeInferer, NotTypeInferer, AddTypeInferer, SubtractTypeInferer, MultiplyTypeInferer, DivideTypeInferer, GreaterTypeInferer, GreaterEqualTypeInferer, LessTypeInferer, LessEqualTypeInferer, EqualTypeInferer, NotEqualTypeInferer, AndTypeInferer, OrTypeInferer } from 'src/type_inference';
+import { NodeVisitor, RecursingVisitor } from 'src/ast';
+import { Log, LineError } from 'src/log';
+import * as types from 'src/types';
+import * as type_inference from 'src/type_inference';
 
-class NodeErrorLog {
-	constructor() {
-		this.errors = [];
-		this.warnings = [];
+class AnalysisLogHelper {
+	constructor(log) {
+		this.log = log;
 	}
-	logError(node, message) {
-		this.errors.push(new LineError(node.line, "Semantic analysis error: " + message));
+	nodesToLines(nodes) {
+		return nodes.map((node) => node.line);
 	}
-	logWarning(node, message) {
-		this.warnings.push(new LineError(node.line, "Semantic analysis warning:" + message));
+	logError(nodes, message) {
+		this.log.logError(this.nodesToLines(nodes), message);
+	}
+	logWarning(nodes, message) {
+		this.log.logWarning(this.nodesToLines(nodes), message);
 	}
 }
 
-export class Scope {
+export class QuestionStore {
 	constructor() {
-		this.byName = {};
-		this.byDescription = {};
+		this._questions = [];
+		this._byName = {};
+		this._byDescription = {};
+	}
+	getQuestions() {
+		return this._questions;
 	}
 	hasName(name) {
-		return name in this.byName;
+		return name in this._byName;
+	}
+	getNames() {
+		return Object.keys(this._byName);
+	}
+	getQuestionsByName(name) {
+		return this._byName[name];
 	}
 	hasDescription(description) {
-		return description in this.byDescription;
+		return description in this._byDescription;
 	}
-	getByName(name) {
-		if (!(name in this.byName)) {
-			throw new Error("No name `" + name + "` in scope");
-		}
-		return this.byName[name];
+	getDescriptions() {
+		return Object.keys(this._byDescription);
 	}
-	getByDescription(description) {
-		if (!(description in this.byDescription)) {
-			throw new Error("No name `" + name + "` in scope");
-		}
-		return this.byDescription[description];
+	getQuestionsByDescription(description) {
+		return this._byDescription[description];
 	}
-	store(questionNode) {
+	addQuestion(questionNode) {
 		let name = questionNode.name,
 			description = questionNode.description;
 
-		if (!(name in this.byName)) {
-			this.byName[name] = questionNode;
+		this._questions.push(questionNode);
+		if (!(name in this._byName)) {
+			this._byName[name] = [];
 		}
-		if (!(description in this.byDescription)) {
-			this.byDescription[description] = questionNode;
+		this._byName[name].push(questionNode);
+		if (!(description in this._byDescription)) {
+			this._byDescription[description] = [];
 		}
+		this._byDescription[description].push(questionNode);
 	}
 }
 
-class FormAndBlockRecursingVisitor extends NodeVisitor {
-	visitForm(formNode) {
-		formNode.block.accept(this);
+class QuestionCollector extends RecursingVisitor {
+	collect(node, questionStore) {
+		node.accept(this, questionStore);
 	}
-	visitBlock(blockNode) {
-		blockNode.statements.forEach((statement) => {
-			statement.accept(this);
-		});
+	visitQuestionNode(questionNode, questionStore) {
+		questionStore.addQuestion(questionNode);
 	}
 }
 
-class QuestionStoringVisitor extends FormAndBlockRecursingVisitor {
-	constructor(log, scope) {
-		this.log = log;
-		this.scope = scope;
+/**
+ * Set container that uses equals() functions on values to check for value equality
+ */
+class EqualsSet {
+	constructor() {
+		this._store = [];
 	}
-	visitQuestionNode(questionNode) {
-		let name = questionNode.name,
-			description = questionNode.description,
-			type = questionNode.type;
+	add(type) {
+		let contains = this._store.reduce((seed, element) => seed || element.equals(type), false);
+		if (!contains) {
+			this._store.push(type);
+		}
+	}
+	size() {
+		return this._store.length;
+	}
+	getArray() {
+		return this._store.length;
+	}
+}
 
-		if (this.scope.hasName(name)) {
-			let storedType = this.scope.getByName(name).type;
+class QuestionDuplicationChecker {
+	analyse(questionStore, analysisLog) {
+		for (let name of questionStore.getNames()) {
+			let questionNodes = questionStore.getQuestionsByName(name),
+				types = new EqualsSet();
 
-			if (type !== storedType) {
-				this.log.logError(questionNode, "Duplicate question name `" + name + "`");
+			for (let questionNode of questionNodes) {
+				types.add(questionNode.type);
+			}
+
+			if (types.size() > 1) {
+				let strTypes = types.getArray().map((type) => "" + type);
+				strTypes.sort();
+				analysisLog.logError(questionNodes, "Question `" + name + "` found with conflicting types [" + strTypes.join(', ') + "]");
 			}
 		}
-		if (this.scope.hasDescription(description)) {
-			this.log.logWarning(questionNode, "Duplicate question description `" + description + "`");
+		for (let description of questionStore.getDescriptions()) {
+			let questionNodes = questionStore.getQuestionsByDescription(description),
+				names = questionNodes.reduce((seed, questionNode) => seed.add(questionNode.name), new Set());
+
+			if (names.size > 1) { // we accept duplicate descriptions if they also have the same identifier
+				let strNames = Array.from(names.values());
+				strNames.sort();
+				analysisLog.logWarning(questionNodes, "Duplicate description `" + description + "` for questions [" + strNames.join(', ') + "]");
+			}
 		}
-		this.scope.store(questionNode);
 	}
 }
 
-class ExprTypeCheckingVisitor extends NodeVisitor {
-	constructor(log, scope) {
-		this.log = log;
-		this.scope = scope;
+class ExprTypeChecker extends NodeVisitor {
+	analyse(node, questionStore, analysisLog) {
+		return node.accept(this, questionStore, analysisLog);
 	}
-	handleUnaryPrefixOperation(unaryPrefixNode, typeInferer) {
-		let operandType = unaryPrefixNode.operand.accept(this),
-			resultType = operandType.dispatch(typeInferer);
+	handleUnaryPrefixOperation(unaryPrefixNode, questionStore, analysisLog, typeInferer) {
+		let operandType = unaryPrefixNode.operand.accept(this, questionStore, analysisLog),
+			resultType = typeInferer.inferResultType(operandType);
 
-		if (!operandType.is(new UndefinedType()) && resultType.is(new UndefinedType())) {
-			this.log.logError(unaryPrefixNode, "Cannot apply unary prefix operation `" + unaryPrefixNode + "` to operand of type `" + operandType + "`");
+		if (!operandType.is(new types.UndefinedType()) && resultType.is(new types.UndefinedType())) {
+			analysisLog.logError([unaryPrefixNode], "Cannot apply unary prefix operation `" + unaryPrefixNode + "` to operand of type `" + operandType + "`");
 		}
 
 		return resultType;
 	}
-	visitNegationNode(negationNode) {
-		return this.handleUnaryPrefixOperation(negationNode, new NegationTypeInferer());
+	visitNegationNode(negationNode, questionStore, analysisLog) {
+		return this.handleUnaryPrefixOperation(negationNode, questionStore, analysisLog, new type_inference.NegationTypeInferer());
 	}
-	visitNotNode(notNode) {
-		return this.handleUnaryPrefixOperation(notNode, new NotTypeInferer());
+	visitNotNode(notNode, questionStore, analysisLog) {
+		return this.handleUnaryPrefixOperation(notNode, questionStore, analysisLog, new type_inference.NotTypeInferer());
 	}
 
-	handleInfixOperation(infixNode, typeInferer) {
-		let leftOperandType = infixNode.leftOperand.accept(this),
-			rightOperandType = infixNode.rightOperand.accept(this),
-			resultType = leftOperandType.dispatch(typeInferer, rightOperandType);
+	handleInfixOperation(infixNode, questionStore, analysisLog, typeInferer) {
+		let leftOperandType = infixNode.leftOperand.accept(this, questionStore, analysisLog),
+			rightOperandType = infixNode.rightOperand.accept(this, questionStore, analysisLog),
+			resultType = typeInferer.inferResultType(leftOperandType, rightOperandType);
 
-		if (!leftOperandType.is(new UndefinedType()) && !rightOperandType.is(new UndefinedType()) && resultType.is(new UndefinedType())) {
-			this.log.logError(infixNode, "Cannot apply infix operation `" + infixNode + "` to operands of type `" + leftOperandType + "` and `" + rightOperandType + "`");
+		if (!leftOperandType.is(new types.UndefinedType()) && !rightOperandType.is(new types.UndefinedType()) && resultType.is(new types.UndefinedType())) {
+			analysisLog.logError([infixNode], "Cannot apply infix operation `" + infixNode + "` to operands of type `" + leftOperandType + "` and `" + rightOperandType + "`");
 		}
 
-		return leftOperandType;
+		return resultType;
 	}
-	visitAddNode(addNode) {
-		return this.handleInfixOperation(addNode, new AddTypeInferer());
+	visitAddNode(addNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(addNode, questionStore, analysisLog, new type_inference.AddTypeInferer());
 	}
-	visitSubtractNode(subtractNode) {
-		return this.handleInfixOperation(subtractNode, new SubtractTypeInferer());
+	visitSubtractNode(subtractNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(subtractNode, questionStore, analysisLog, new type_inference.SubtractTypeInferer());
 	}
-	visitMultiplyNode(multiplyNode) {
-		return this.handleInfixOperation(multiplyNode, new MultiplyTypeInferer());
+	visitMultiplyNode(multiplyNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(multiplyNode, questionStore, analysisLog, new type_inference.MultiplyTypeInferer());
 	}
-	visitDivideNode(divideNode) {
-		return this.handleInfixOperation(divideNode, new DivideTypeInferer());
+	visitDivideNode(divideNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(divideNode, questionStore, analysisLog, new type_inference.DivideTypeInferer());
 	}
-	visitGreaterNode(greaterNode) {
-		return this.handleInfixOperation(greaterNode, new GreaterTypeInferer());
+	visitGreaterNode(greaterNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(greaterNode, questionStore, analysisLog, new type_inference.GreaterTypeInferer());
 	}
-	visitGreaterEqualNode(greaterEqualNode) {
-		return this.handleInfixOperation(greaterEqualNode, new GreaterEqualTypeInferer());
+	visitGreaterEqualNode(greaterEqualNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(greaterEqualNode, questionStore, analysisLog, new type_inference.GreaterEqualTypeInferer());
 	}
-	visitLessNode(lessNode) {
-		return this.handleInfixOperation(lessNode, new LessTypeInferer());
+	visitLessNode(lessNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(lessNode, questionStore, analysisLog, new type_inference.LessTypeInferer());
 	}
-	visitLessEqualNode(lessEqualNode) {
-		return this.handleInfixOperation(lessEqualNode, new LessEqualTypeInferer());
+	visitLessEqualNode(lessEqualNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(lessEqualNode, questionStore, analysisLog, new type_inference.LessEqualTypeInferer());
 	}
-	visitEqualNode(equalNode) {
-		return this.handleInfixOperation(equalNode, new LessEqualTypeInferer());
+	visitEqualNode(equalNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(equalNode, questionStore, analysisLog, new type_inference.EqualTypeInferer());
 	}
-	visitNotEqualNode(notEqualNode) {
-		return this.handleInfixOperation(notEqualNode, new NotEqualTypeInferer());
+	visitNotEqualNode(notEqualNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(notEqualNode, questionStore, analysisLog, new type_inference.NotEqualTypeInferer());
 	}
-	visitAndNode(andNode) {
-		return this.handleInfixOperation(andNode, new AndTypeInferer());
+	visitAndNode(andNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(andNode, questionStore, analysisLog, new type_inference.AndTypeInferer());
 	}
-	visitOrNode(orNode) {
-		return this.handleInfixOperation(orNode, new OrTypeInferer());
+	visitOrNode(orNode, questionStore, analysisLog) {
+		return this.handleInfixOperation(orNode, questionStore, analysisLog, new type_inference.OrTypeInferer());
 	}
-	visitLiteral(literalNode) {
+	visitLiteralNode(literalNode, questionStore, analysisLog) {
 		return literalNode.type;
 	}
 
-	visitIdentifierNode(identifierNode) {
+	visitIdentifierNode(identifierNode, questionStore, analysisLog) {
 		let name = identifierNode.name;
 
-		if (this.scope.has(name) === false) {
-			this.log.logError(identifierNode, "Undefined identifier `" + name + "`");
+		if (questionStore.hasName(name) === false) {
+			analysisLog.logError([identifierNode], "Undefined identifier `" + name + "`");
 
-			return new UndefinedType();
+			return new types.UndefinedType();
 		}
 
-		return this.scope.get(name);
+		return questionStore.getQuestionsByName(name)[0].type;   // assumes that any differences in types have already been reported
 	}
 }
 
-class TypeCheckingVisitor extends FormAndBlockRecursingVisitor {
-	constructor(log, exprTypeCheckingVisitor) {
-		this.log = log;
-		this.exprTypeCheckingVisitor = exprTypeCheckingVisitor;
+class TypeChecker extends RecursingVisitor {
+	constructor(exprTypeChecker) {
+		super();
+		this.exprTypeChecker = exprTypeChecker;
 	}
-	visitIfNode(ifNode) {
-		let conditionType = ifNode.condition.accept(this);
+	analyse(node, questionStore, analysisLog) {
+		node.accept(this, questionStore, analysisLog);
+	}
+	visitIfNode(ifNode, questionStore, analysisLog) {
+		let conditionType = this.exprTypeChecker.analyse(ifNode.condition, questionStore, analysisLog);
 
-		if (!conditionType.is(new BooleanType())) {
-			this.log.logError(ifNode, "Expected condition to be boolean, but was `" + conditionType + "`");
+		if (!conditionType.is(new types.UndefinedType()) && !conditionType.is(new types.BooleanType())) {
+			analysisLog.logError([ifNode], "Expected condition to be boolean, but was `" + conditionType + "`");
 		}
+		ifNode.thenBlock.accept(this, questionStore, analysisLog);
+	}
+	visitIfElseNode(ifNode, questionStore, analysisLog) {
+		this.visitIfNode(ifNode, questionStore, analysisLog);
+		ifNode.elseBlock.accept(this, questionStore, analysisLog);
+	}
+	visitExprQuestionNode(exprQuestionNode, questionStore, analysisLog) {
+		let exprType = this.exprTypeChecker.analyse(exprQuestionNode.expr, questionStore, analysisLog);
 
-		ifNode.thenBlock.accept(this);
-		if (ifNode.elseBlock !== null) {
-			ifNode.elseBlock.accept(this);
+		if (!exprType.is(new types.UndefinedType()) && !exprType.is(exprQuestionNode.type)) {
+			analysisLog.logError([exprQuestionNode], "Expected expression to be of type `" + exprQuestionNode.type + "`, but was `" + exprType + "`");
 		}
 	}
-	visitExprQuestion(exprQuestionNode) {
-		let exprType = exprQuestionNode.expr.accept(this.exprTypeCheckingVisitor);
+}
 
-		if (!exprType.is(exprQuestionNode.type)) {
-			this.log.logError(exprQuestionNode, "Expected expression to be of type `" + exprQuestionNode.type + "`, but was `" + exprType + "`");
+class DependencyStore {
+	constructor() {
+		this._byName = {};
+	}
+	getNames() {
+		return Object.keys(this._byName);
+	}
+	hasName(name) {
+		return name in this._byName;
+	}
+	getDependencySet(name) {
+		return this._byName[name];
+	}
+	add(name, dependencyNames) {
+		if (!(name in this._byName)) {
+			this._byName[name] = new Set();
+		}
+		for (let dependencyName of dependencyNames) {
+			this._byName[name].add(dependencyName);
+		}
+	}
+}
+
+class ExprDependencyCollector extends NodeVisitor {
+	collect(node) {
+		return node.accept(this);
+	}
+	visitUnaryPrefixNode(unaryPrefixNode) {
+		return unaryPrefixNode.operand.accept(this);
+	}
+	visitInfixNode(infixNode) {
+		return infixNode.leftOperand.accept(this).concat(infixNode.rightOperand.accept(this));
+	}
+	visitLiteralNode(literalNode) {
+		return [];
+	}
+	visitIdentifierNode(identifierNode) {
+		return [identifierNode.name];
+	}
+}
+
+class DependencyCollector extends NodeVisitor {
+	constructor(exprDependecyCollector) {
+		super();
+		this.exprDependecyCollector = exprDependecyCollector;
+	}
+	collect(questionStore, dependencyStore) {
+		for (let questionNode of questionStore.getQuestions()) {
+			questionNode.accept(this, dependencyStore);
+		}
+	}
+	visitExprQuestionNode(exprQuestionNode, dependencyStore) {
+		dependencyStore.add(exprQuestionNode.name, this.exprDependecyCollector.collect(exprQuestionNode.expr));
+	}
+}
+
+class CyclicDependencyChecker {
+	constructor(dependencyCollector) {
+		this.dependencyCollector = dependencyCollector;
+	}
+	findCyclePaths(dependencyStore, analysisLog, path, name) {
+		let newPath = path.concat([name]),
+			cyclePaths = [];
+
+		if (path.includes(name)) {
+			if (path[0] === name) { // if the recurring element is not the first element, then the cycle will already be reported elsewhere
+				cyclePaths.push(newPath);
+			}
+			return cyclePaths;
+		}
+		if (dependencyStore.hasName(name)) {
+			for (let dependencyName of dependencyStore.getDependencySet(name)) {
+				cyclePaths = cyclePaths.concat(this.findCyclePaths(dependencyStore, analysisLog, newPath, dependencyName));
+			}
+		}
+		return cyclePaths;
+	}
+	analyse(questionStore, analysisLog) {
+		let dependencyStore = new DependencyStore();
+
+		this.dependencyCollector.collect(questionStore, dependencyStore);
+		for (let name of dependencyStore.getNames()) {
+			let cyclePaths = this.findCyclePaths(dependencyStore, analysisLog, [], name);
+
+			for (let cyclePath of cyclePaths) {
+				analysisLog.logError(cyclePath.reduce((seed, name) => seed.concat(questionStore.getQuestionsByName(name)), []), "Found cyclic dependency for name `" + name + "`, through path [" + cyclePath.join(',') + "]");
+			}
 		}
 	}
 }
 
 export class SemanticAnalyser {
-	analyse(node) {
-		let log = new NodeErrorLog(),
-			scope = new Scope(),
-			questionStoringVisitor = new QuestionStoringVisitor(scope),
-			typeCheckingVisitor = new TypeCheckingVisitor(log, new ExprTypeCheckingVisitor(log, scope));
+	constructor() {
+		this.questionCollector = new QuestionCollector();
+		this.questionDuplicationChecker = new QuestionDuplicationChecker();
+		this.typeChecker = new TypeChecker(new ExprTypeChecker());
+		this.cyclicDependencyChecker = new CyclicDependencyChecker(new DependencyCollector(new ExprDependencyCollector()));
+	}
+	analyse(node, log) {
+		let analysisLog = new AnalysisLogHelper(log),
+			questionStore = new QuestionStore();
 
-		node.accept(questionStoringVisitor);
-		node.accept(typeCheckingVisitor);
-
-		return log.errors;
+		this.questionCollector.collect(node, questionStore);
+		this.questionDuplicationChecker.analyse(questionStore, analysisLog);
+		this.typeChecker.analyse(node, questionStore, analysisLog);
+		this.cyclicDependencyChecker.analyse(questionStore, analysisLog);
 	}
 }

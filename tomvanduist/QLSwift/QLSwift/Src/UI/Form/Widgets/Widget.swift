@@ -9,25 +9,33 @@
 import UIKit
 
 protocol Widget {
-    var delegate: WidgetDelegate { get }
-}
-
-class ViewWidget: UIView, Widget {
-    internal let delegate: WidgetDelegate
-    
-    init(delegate: WidgetDelegate, nibName: String) {
-        self.delegate = delegate
-        
-        super.init(frame: CGRectZero)
-        
-        self.setViewWithNib(nibName, owner: self)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("Not supported")
-    }
+    var delegate: WidgetDelegate? { get }
 }
 
 protocol WidgetDelegate {
-    func valueChanged(value: NSValue)
+    func widgetChangedValue(widget: Widget, value: NSObject)
+}
+
+class ViewWidget: UIView, Widget {
+    internal var delegate: WidgetDelegate?
+    
+    convenience init(layout: Layout) {
+        self.init(layout: layout, delegate: nil)
+    }
+    
+    init(layout: Layout, delegate: WidgetDelegate?) {
+        super.init(frame: CGRectZero)
+        
+        self.delegate = delegate
+        
+        setupView(layout)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("StoryBoards are not supported!")
+    }
+    
+    func setupView(layout: Layout) {
+        fatalError("Override")
+    }
 }

@@ -1,7 +1,7 @@
 package ql;
 
-public class ASTNode {
+public abstract class ASTNode {
 
-	
+	public abstract <T> T accept(BaseVisitor<T> visitor);
 	//TODO
 }

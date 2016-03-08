@@ -18,8 +18,9 @@ import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.ContextVisitor;
 import org.uva.sea.ql.ast.DependencyChecker;
 import org.uva.sea.ql.ast.DependencyGraphBuilder;
-import org.uva.sea.ql.ast.TypeCheckVisitor;
+import org.uva.sea.ql.ast.TypesChecker;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.type.Type;
 
 public class TypeChecker {
 	
@@ -137,7 +138,7 @@ public class TypeChecker {
 		
 		// 4. Type check
 		
-		for (QLError error : TypeCheckVisitor.getErrorMessages(root, context)) {
+		for (QLError error : TypesChecker.getErrorMessages(root, context)) {
 			System.out.println(error.getErrorMessage());
 		}
 		

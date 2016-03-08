@@ -6,6 +6,7 @@ import java.util.List;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.type.Type;
 
 public class Question extends ASTNode {
 	protected String identifier;
@@ -38,6 +39,6 @@ public class Question extends ASTNode {
 	
 	@Override
 	public String toString() {
-		return "Question " + identifier + " of type " + type.name();
+		return "Question " + identifier + " of type " + type.toString();
 	}
 }
