@@ -97,27 +97,16 @@ class QLParser {
     
     
     // MARK: Expression.
-    
-    private func expressionParser() -> GenericParser<String, (), QLExpression> {
+    private func singleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
         
         // Based on opTable from ExpressionTests.swift of SwiftParsec.
-        // &&, ||, !, <, >, >=, <=, !=, ==, +, -, *, /.
-        let operatorTable: OperatorTable<String, (), QLExpression> = [
+        let singleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
             [
                 prefix("!", function: { QLNotExpression(expression: $0) }),
             ],
             [
-                binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1) }, assoc: .None),
-                binary(">", function: { QLGreaterThanExpression(lhs: $0, rhs: $1) }, assoc: .None),
-
-                binary("<=", function: { QLSmallerOrISExpression(lhs: $0, rhs: $1) }, assoc: .None)
-            ],
-            [
-                binary("<", function: { QLSmallerThanExpression(lhs: $0, rhs: $1) }, assoc: .None)
-            ],
-            [
-                binary("!=", function: { QLIsNotExpression(lhs: $0, rhs: $1) }, assoc: .None),
-                binary("==", function: { QLIsExpression(lhs: $0, rhs: $1) }, assoc: .None)
+                binary("<", function: { QLSmallerThanExpression(lhs: $0, rhs: $1) }, assoc: .None),
+                binary(">", function: { QLGreaterThanExpression(lhs: $0, rhs: $1) }, assoc: .None)
             ],
             [
                 binary("*", function: { QLMultiplyExpression(lhs: $0, rhs: $1) }, assoc: .Left),
@@ -126,6 +115,28 @@ class QLParser {
             [
                 binary("+", function: { QLAddExpression(lhs: $0, rhs: $1) }, assoc: .Left),
                 binary("-", function: { QLSubtractExpression(lhs: $0, rhs: $1) }, assoc: .Left)
+            ]
+        ]
+        
+        let openingParen = StringParser.character("(")
+        let closingParen = StringParser.character(")")
+        
+        return singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
+            
+            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
+            
+        }
+    }
+    
+    private func doubleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
+        let doubleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
+            [
+                binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1) }, assoc: .None),
+                binary("<=", function: { QLSmallerOrISExpression(lhs: $0, rhs: $1) }, assoc: .None)
+            ],
+            [
+                binary("!=", function: { QLIsNotExpression(lhs: $0, rhs: $1) }, assoc: .None),
+                binary("==", function: { QLIsExpression(lhs: $0, rhs: $1) }, assoc: .None)
             ],
             [
                 binary("&&", function: { QLAndExpression(lhs: $0, rhs: $1) }, assoc: .Left),
@@ -136,25 +147,23 @@ class QLParser {
         let openingParen = StringParser.character("(")
         let closingParen = StringParser.character(")")
         
-        // There is a problem with the order of < and <= (and > and >=). This is solved by reversing the order of the op table.
-        
-        let qlexpression: GenericParser<String, (), QLExpression>?
-        
-        do {
-            qlexpression = operatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-        
-                expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
-        
-            }
-        } catch {
-            qlexpression = operatorTable.expressionParser { expression in
-                
-                expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
-                
-            }
+        return doubleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
+            
+            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
+            
         }
+    }
     
-        return qlexpression! <?> "operator table expression"
+    private func expressionParser() -> GenericParser<String, (), QLExpression> {
+
+        // There is a problem with the order of < and <= (and > and >=). This is solved by two operator tables.
+//        do {
+//            return singleSymbolExpressionParser()
+//        } catch {
+//            return doubleSymbolExpressionParser()
+//        }
+        
+        return singleSymbolExpressionParser() <|> doubleSymbolExpressionParser()
     }
     
     /// "name" variable: type
