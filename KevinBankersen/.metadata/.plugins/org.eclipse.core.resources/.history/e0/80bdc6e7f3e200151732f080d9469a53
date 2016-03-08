@@ -1,0 +1,77 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import eu.bankersen.kevin.ql.ast.Variable;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableBuilder;
+
+public abstract class Question extends Statement {
+
+    private final String name;
+    private final String text;
+    private final Type type;
+    private final Expr expr;
+    private final Boolean computed;
+    private final int line;
+
+    public Question(String name, String text, Type type, Expr expr, Boolean computed, int line) {
+	this.name = name;
+	this.text = text.substring(1, text.length() - 1);
+	this.type = type;
+	this.expr = expr;
+	this.computed = computed;
+	
+	
+	
+	this.line = variable.line();
+    }
+
+    public String getText() {
+	return text;
+    }
+    
+    // Refactor out
+    public Variable variable() {
+	return variable;
+    }
+    
+    public Expr expr() {
+	return expr;
+    }
+    
+    public boolean isComputed() {
+	return computed;
+    }
+
+    public int line() {
+	return line;
+    }
+    
+    public Context checkType(Context context) {
+	return context.evaluate(this);
+    }
+
+    public Type getType() {
+	return variable.getType();
+    }
+    
+    public String getName() {
+	return variable.getName();
+    }
+    
+    public SymbolTable visible(SymbolTable symbolTable, Boolean visible) {
+	symbolTable.setVisibility(this.getName(), visible);
+	return symbolTable;
+    }
+    
+    public SymbolTable evalStatement(SymbolTable symbolTable) {
+	return variable.eval(symbolTable);
+    }
+    
+    @Override
+    public SymbolTableBuilder buildSymbolTable(SymbolTableBuilder builder) {
+	return builder.construct(this);
+    }
+}

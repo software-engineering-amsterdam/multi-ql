@@ -1,0 +1,15 @@
+
+public class App {
+
+    public static void main(String[] args) {
+	Fruit[] fruits = new Fruit[]
+		    { new Orange(), new Apple(), new Banana(),
+		      new Banana(), new Banana(), new Orange() };
+
+	FruitPartitioner partitioner = new FruitPartitioner();
+	foreach (Fruit fruit : fruits)	{
+	    fruit.Accept(partitioner);
+	}
+    }
+
+}

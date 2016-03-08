@@ -1,0 +1,25 @@
+package eu.bankersen.kevin.ql.gui.dialog;
+
+import java.util.Set;
+
+import javax.swing.JOptionPane;
+
+import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
+
+public class ErrorDialog {
+    
+    public ErrorDialog(Set<TypeCheckError> errors) {
+	StringBuilder sb = new StringBuilder();
+	errors.forEach(error -> sb.append(error + "\n"));
+	sb.append("Terminating!")
+	showWarning(sb.toString());
+    }
+    
+    private void showWarning(String message) {
+	JOptionPane.showMessageDialog(
+		    null,
+		    message,
+		    "Type check Errors!",
+		    JOptionPane.ERROR_MESSAGE);
+    }
+}

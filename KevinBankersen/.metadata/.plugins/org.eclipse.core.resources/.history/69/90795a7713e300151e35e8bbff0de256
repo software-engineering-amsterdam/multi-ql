@@ -1,0 +1,15 @@
+package eu.bankersen.kevin.ql.ast;
+
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+
+public interface Visitor {
+
+    void visit(Form form);
+
+    void visit(Body body);
+
+    //void visit(AbstractStatement abstractStatement);
+
+}

@@ -33,10 +33,11 @@ public class TypeCheckerTest {
         assertEquals(expectedErrors, errors);
     }
     
-    private Map<Ident,Question> collectIdentifiers(ASTNode n) {
-        IdentCollector collector = new IdentCollector();
-        n.accept(collector);
-        return collector.getFirstQuestionsForIdentifiers();
+    @Test
+    public void testFormWithLiterals() throws FileNotFoundException {
+        List<String> errors = typeCheck("formWithLiterals.ql");
+        List<String> expectedErrors = new ArrayList<>();
+        assertEquals(expectedErrors, errors);
     }
     
     private List<String> typeCheck(String filename) throws FileNotFoundException {

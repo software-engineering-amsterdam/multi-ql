@@ -1,0 +1,28 @@
+package eu.bankersen.kevin.ql.ast.expr.math;
+
+import java.math.BigDecimal;
+
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.NumberExpr;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableBuilder;
+import eu.bankersen.kevin.ql.context.typeanalyzer.Context;
+
+public class Sub extends NumberExpr {
+
+    public Sub(Expr lhs, Expr rhs, int line) {
+	super(lhs, rhs, line);
+    }
+
+    @Override
+    public BigDecimal evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
+	return ((BigDecimal) lhs().evalExpr(symbolTable)).subtract((BigDecimal) rhs().evalExpr(symbolTable));
+    }
+    
+    @Override
+    public Context checkType(Context context) {
+	return context.evaluate(this);
+    }
+
+}

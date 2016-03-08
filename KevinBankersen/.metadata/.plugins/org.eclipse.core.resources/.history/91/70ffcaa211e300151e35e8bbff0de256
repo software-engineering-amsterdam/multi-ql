@@ -1,0 +1,9 @@
+package eu.bankersen.kevin.ql.ast;
+
+import eu.bankersen.kevin.ql.ast.form.Form;
+
+public interface Visitor {
+
+    void visit(Form form);
+
+}

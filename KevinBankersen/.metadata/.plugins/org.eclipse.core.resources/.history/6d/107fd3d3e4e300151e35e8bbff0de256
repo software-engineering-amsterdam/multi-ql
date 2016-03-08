@@ -1,0 +1,13 @@
+package eu.bankersen.kevin.ql.parser;
+
+public class ANTLRParseError {
+    
+    private final String message;
+    private final String line;
+
+    public ANTLRParseError(String line, String message) {
+	this.line = line;
+	this.message = message;
+    }
+
+}

@@ -19,29 +19,36 @@ form returns [Form result]
 	:	('Form'|'form') + ID + body + EOF { $result = new Form($ID.text, new Body($body.result)); }
 	;
 
-body returns [List<Statement> result]
+body returns [List<AbstractStatement> result]
 	@init {
-		$result = new ArrayList<Statement>();
+		$result = new ArrayList<AbstractStatement>();
 	}
 	: '{' + (ifStat[$result] | question[$result] ) + '}'
 	;
 
-question[List<Statement> result]
+question[List<AbstractStatement> result]
 	
-	: STR + ID + type + '=' + primary
+	: STR + ID + ':' + type + '=' + primary
 	{
-		$result.add(new ComputedQuestion(new Variable($ID.text, $type.result, $primary.result, $ID.getLine()), $STR.text));
+		$result.add(new ComputedQuestion($ID.text, $STR.text, $type.result, $primary.result, $ID.getLine()));
 	}
 		
-	| STR + ID + type
+	| STR + ID + ':' + type
 	
 	{  
-		$result.add(new QuestionStatement(new Variable($ID.text, $type.result, new Identifier($ID.text, $ID.getLine()), $ID.getLine()), $STR.text));
+		$result.add(new NormalQuestion($ID.text, $STR.text, $type.result, $ID.getLine()));
 	}
 	;
 
-ifStat[List<Statement> arg]
-	:	'if' + '(' + orExpr + ')' + body { $arg.add(new IFStat($orExpr.result, new Body($body.result), $orExpr.start.getLine())); }
+ifStat[List<AbstractStatement> arg]
+	:	'if' + '(' + orExpr + ')' + ifBody=body + 'else' + elseBody=body
+	{ 
+	    	$arg.add(new ElseStatement($orExpr.result, new Body($ifBody.result),new Body($elseBody.result), $orExpr.start.getLine())); 
+	}
+	|	'if' + '(' + orExpr + ')' + body 
+	{ 
+		$arg.add(new IFStatement($orExpr.result, new Body($body.result), $orExpr.start.getLine())); 
+	}
 	;
 
 mulExpr returns [Expr result]

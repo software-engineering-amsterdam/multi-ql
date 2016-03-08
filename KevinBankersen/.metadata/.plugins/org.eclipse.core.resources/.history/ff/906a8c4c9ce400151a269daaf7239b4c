@@ -1,0 +1,18 @@
+package eu.bankersen.kevin.ql.ast.type.value;
+
+public class test {
+
+    public static void main(String[] args) {
+	QLObject object1 = new IntegerObject();
+	object1.valueOf(4);
+	
+	QLObject object2 = new MoneyObject();
+	object2.valueOf(8);
+	
+	System.out.println(object2.divide(object1));
+	
+	
+
+    }
+
+}

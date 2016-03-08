@@ -3,14 +3,17 @@ package eu.bankersen.kevin.ql;
 import java.io.IOException;
 
 import com.esotericsoftware.minlog.Log;
+
 import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.context.SymbolTable;
-import eu.bankersen.kevin.ql.context.TypeChecker;
-import eu.bankersen.kevin.ql.context.errors.ContextBuildException;
 import eu.bankersen.kevin.ql.gui.QLgui;
+import eu.bankersen.kevin.ql.gui.dialog.ErrorDialog;
+import eu.bankersen.kevin.ql.gui.dialog.WarningDialog;
 import eu.bankersen.kevin.ql.interpreter.Interpreter;
 import eu.bankersen.kevin.ql.parser.ANTLRParseException;
 import eu.bankersen.kevin.ql.parser.FormParser;
+import eu.bankersen.kevin.ql.typechecker.TypeCheckException;
+import eu.bankersen.kevin.ql.typechecker.TypeChecker;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 import eu.bankersen.kevin.ql.util.CustomLogger;
 import eu.bankersen.kevin.ql.util.FileReader;
 
@@ -29,17 +32,16 @@ public final class App {
 	String resource;
 
 	//resource = "resources/Tax.form";
-	resource = "resources/Tax2.form";
-	//resource = "resources/Tax3.form";
+	//resource = "resources/Tax2.form";
+	resource = "resources/Tax3.form";
 
 	// Read the file.
 	String file;
 	try { // Currently the top level so here we catch exceptions.
 	    file = new FileReader().read(resource);
 	} catch (IOException e) {
-	    Log.error("Unable to read file, Terminating");
-	    System.exit(1);
 	    file = null;
+	    new ErrorDialog("File Reader Error", "Can't read the file " + resource);
 	}
 
 	// Parse the form to an AST
@@ -50,9 +52,7 @@ public final class App {
 	    Log.info("File Parsed");
 	} catch (ANTLRParseException e) {
 	    form = null;
-	    e.getErrors().forEach(error -> Log.error("Line " + error[0] + ": " + error[1]));
-	    Log.error("Parse Errors, Terminating!");
-	    System.exit(1);
+	    new ErrorDialog(e.getErrors());
 	}
 
 	// Build the context object (type-checking and symbol table)
@@ -60,16 +60,19 @@ public final class App {
 	try {
 	    symbolTable = new TypeChecker(form).getSymbolTable();
 	    Log.info("Build Context");
-	} catch (ContextBuildException e) {
-	    symbolTable = null;
-	    e.getErrors().forEach(error -> Log.error(error.toString()));
-	    Log.error("Context errors, Terminating!");
-	    System.exit(1);
+	} catch (TypeCheckException e) {
+	    symbolTable = e.getSymbolTable();
+	    if (!e.getWarnings().isEmpty()) {
+		new WarningDialog(e.getWarnings());
+	    }
+	    if (!e.getErrors().isEmpty()) {
+		new ErrorDialog(e.getErrors());
+	    }
 	}
 
 	// Create the GUI
-	QLgui ui = new QLgui(symbolTable);
 	Interpreter interp = new Interpreter(form, symbolTable);
+	QLgui ui = new QLgui(form, symbolTable);
 
 	// Link Listeners
 	ui.addViewListener(interp);

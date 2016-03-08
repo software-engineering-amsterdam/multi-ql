@@ -1,8 +1,8 @@
 package eu.bankersen.kevin.ql.ast.expr;
 
+import eu.bankersen.kevin.ql.ast.BasicVisitor;
 import eu.bankersen.kevin.ql.ast.type.BooleanType;
-import eu.bankersen.kevin.ql.context.SymbolTable;
-import eu.bankersen.kevin.ql.context.SymbolTableBuilder;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 public abstract class BooleanExpr extends Expr {
 
@@ -10,8 +10,11 @@ public abstract class BooleanExpr extends Expr {
 	super(new BooleanType(), lhs, rhs, line);
     }
     
-    public abstract Boolean eval(SymbolTable symbolTable) throws EvaluateExeption;
+    public abstract Boolean evalExpr(SymbolTable symbolTable) throws EvaluateExeption;
     
-
+    @Override
+    public <T> void accept(BasicVisitor v, T context) {
+	v.visit(this);
+    }
     
 }

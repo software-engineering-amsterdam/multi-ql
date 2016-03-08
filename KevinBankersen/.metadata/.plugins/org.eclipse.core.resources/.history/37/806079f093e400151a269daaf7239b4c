@@ -1,0 +1,55 @@
+package eu.bankersen.kevin.ql.ast.type.value;
+
+import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
+import eu.bankersen.kevin.ql.ast.expr.logic.And;
+import eu.bankersen.kevin.ql.ast.expr.logic.Eq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GT;
+import eu.bankersen.kevin.ql.ast.expr.logic.LEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.LT;
+import eu.bankersen.kevin.ql.ast.expr.logic.NEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.Not;
+import eu.bankersen.kevin.ql.ast.expr.logic.Or;
+import eu.bankersen.kevin.ql.ast.expr.math.Add;
+import eu.bankersen.kevin.ql.ast.expr.math.Div;
+import eu.bankersen.kevin.ql.ast.expr.math.Mul;
+import eu.bankersen.kevin.ql.ast.expr.math.Neg;
+import eu.bankersen.kevin.ql.ast.expr.math.Pos;
+import eu.bankersen.kevin.ql.ast.expr.math.Sub;
+
+public interface QLOperations {
+    
+    // Math operations
+    QLObject subtract(QLObject o);
+    
+    QLObject add(QLObject o);
+    
+    QLObject divide(QLObject o);
+    
+    QLObject multiply(QLObject o);
+    
+    QLObject positive();
+    
+    QLObject negative();
+    
+    // Boolean operations
+
+    QLObject or(QLObject o);
+    
+    QLObject and(QLObject o);
+    
+    QLObject equal(QLObject o);
+    
+    QLObject greaterOrEqual(QLObject o);
+    
+    QLObject greater(QLObject o);
+    
+    QLObject lowerOrEqual(QLObject o);
+    
+    QLObject lower(QLObject o);
+    
+    QLObject notEqual(QLObject o);
+
+    QLObject not(QLObject o);
+
+}

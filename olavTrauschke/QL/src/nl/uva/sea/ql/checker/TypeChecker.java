@@ -9,7 +9,7 @@ import nl.uva.sea.ql.ast.question.*;
  * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 7-mrt-2016
  */
 public class TypeChecker implements ASTVisitor {
     
@@ -268,11 +268,11 @@ public class TypeChecker implements ASTVisitor {
         else if (isMoney(firstExpr) || isMoney(secondExpr)) {
             e.setIsMoney(true);
         }
-        else if (isDecimal(firstExpr) || isDecimal(secondExpr)) {
-            e.setIsDecimal(true);
+        else if (isInt(firstExpr) && isInt(secondExpr)) {
+            e.setIsInt(true);
         }
         else {
-            e.setIsInt(true);
+            e.setIsDecimal(true);
         }
     }
     

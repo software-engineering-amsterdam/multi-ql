@@ -1,0 +1,12 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.type.Type;
+
+public class ComputedQuestion extends Question {
+
+    public ComputedQuestion(String name, String text, Type type, Expr expr, int line) {
+	super(name, text, type, expr, true, line);
+    }
+
+}
