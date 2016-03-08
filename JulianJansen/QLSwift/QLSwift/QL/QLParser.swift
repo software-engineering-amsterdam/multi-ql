@@ -97,7 +97,7 @@ class QLParser {
     
     
     // MARK: Expression.
-    private func expressionParser() -> GenericParser<String, (), QLExpression> {
+    private func singleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
         
         // Based on opTable from ExpressionTests.swift of SwiftParsec.
         let singleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
@@ -123,7 +123,7 @@ class QLParser {
         
         return singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
             
-            expression.between(openingParen, closingParen) <|> doubleSymbolExpressionParser() <|> literalParser() <|> variableParser() <?> "single symbol expression"
+            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "single symbol expression"
             
         }
     }
@@ -152,6 +152,12 @@ class QLParser {
             expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "double symbol expression"
             
         }
+    }
+    
+    private func expressionParser() -> GenericParser<String, (), QLExpression> {
+        print(singleSymbolExpressionParser())
+        print(doubleSymbolExpressionParser())
+        return singleSymbolExpressionParser().attempt <|> doubleSymbolExpressionParser()
     }
     
     /// "name" variable: type
