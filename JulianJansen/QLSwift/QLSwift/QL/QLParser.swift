@@ -35,14 +35,12 @@ import SwiftParsec
 class QLParser {
     
     // MARK: Properties.
-    let lexer = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
-    
-
-    let symbol = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).symbol
-    let stringLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).stringLiteral // Includes the quotes.
-    let identifier = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).identifier
-    let colon = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).colon
-    let whiteSpace = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).whiteSpace
+    private let lexer = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
+    private let symbol = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).symbol
+    private let stringLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).stringLiteral // Includes the quotes.
+    private let identifier = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).identifier
+    private let colon = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).colon
+    private let whiteSpace = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).whiteSpace
 
     // MARK: Methods.
     
@@ -58,13 +56,13 @@ class QLParser {
     }
 
     // MARK: Literals.
-    func booleanParser() -> GenericParser<String, (), QLExpression> {
+    private func booleanParser() -> GenericParser<String, (), QLExpression> {
         let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
         let qlbooleanFalse: GenericParser<String, (), QLBool> = symbol("false") *> GenericParser(result: QLBool(boolean: false))
         return (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(expression: $0) }
     }
     
-    func literalParser() -> GenericParser<String, (), QLExpression> {
+    private func literalParser() -> GenericParser<String, (), QLExpression> {
         return booleanParser()
     }
     
