@@ -18,5 +18,11 @@ form taxOfficeExample {
     	  
     	"cQ5"
     	  cQ5: money
+    	  
+    	"cQ6"
+    	  cQ6: boolean = (true)
+    	  
+    	"cQ7"
+    	  cQ7: string = ("abc")
     }
 }

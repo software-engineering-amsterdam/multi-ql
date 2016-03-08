@@ -16,6 +16,10 @@ public class TextQuestionField extends QuestionField {
 		field.setSize(200, 100);
 	}
 	
+	public void setValue(Object value) {
+		field.setText((String) value);
+	}
+	
 	public JTextField getField() {
 		return this.field;
 	}

@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import nl.nicasso.ql.ast.statements.Question;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.widgets.Label;
+import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.values.Value;
 
 public class QuestionPanel extends Panel {
 
@@ -18,11 +20,11 @@ public class QuestionPanel extends Panel {
 	
 	private JPanel panel;
 	
-	public QuestionPanel(Question q) {
+	public QuestionPanel(Question q, SymbolTable symbolTable) {
 		 panel = new JPanel(new GridLayout(1, 2));
 		 
 		 addQuestionLabel(q);
-		 addQuestionField(q);
+		 addQuestionField(q, symbolTable);
 	}
 	
 	public void addQuestionLabel(Question q) {
@@ -32,15 +34,20 @@ public class QuestionPanel extends Panel {
 		panel.add(questionLabel.getWidget());
 	}
 	
-	public void addQuestionField(Question q) {
+	public void addQuestionField(Question q, SymbolTable symbolTable) {
 		QuestionField field = q.getType().getRelatedField();
+		
+		Value v = symbolTable.getEntryValue(q.getId());
+		
+		System.out.println(q.getId().getValue() + " = " + v.getValue().toString());
+		
+		field.setValue(v.getValue());
 		
 		panel.add(field.getField());
 	}
 	
 	@Override
 	public JPanel getPanel() {
-		System.out.println("GETPANEL QUESTION");
 		panel.setVisible(true);
 		
 		return this.panel;

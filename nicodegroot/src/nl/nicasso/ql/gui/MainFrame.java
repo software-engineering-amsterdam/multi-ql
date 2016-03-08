@@ -34,7 +34,6 @@ public class MainFrame {
 	
 	public void updateMainFrame() {
 		for (Panel p : panels) {
-			System.out.println("ADD PANEL TO MAINFRAME: "+p.getClass());
 			mainFrame.add(p.getPanel(), "wrap");
 		}
 		

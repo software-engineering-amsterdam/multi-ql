@@ -19,7 +19,7 @@ public class IntegerType extends NumericType {
 	}
 	
 	@Override
-	public QuestionField getRelatedField() {
+	public IntegerQuestionField getRelatedField() {
 		return new IntegerQuestionField();
 	}
 	

@@ -20,6 +20,7 @@ public class BlockPanel extends Panel {
 	
 	public BlockPanel() {
 		panels = new ArrayList<Panel>();
+		
 		panel = new JPanel();
 		panel.setLayout(new MigLayout());
 	}

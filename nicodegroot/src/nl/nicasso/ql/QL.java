@@ -72,7 +72,7 @@ public class QL {
         
         //symbolTable.displaySymbolTable(symbolTable);
 
-        Gui guiVisitor = new Gui();
+        Gui guiVisitor = new Gui(symbolTable);
         ast.accept(guiVisitor);
         //ex.setVisible(true);
 	}

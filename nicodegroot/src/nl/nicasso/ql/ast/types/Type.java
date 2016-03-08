@@ -14,13 +14,11 @@ public class Type extends ASTNode {
 	}
 	
 	public Value getDefaultValue() {
-		// ASSERT ERROR
-		return null;
+		throw new AssertionError("Type getDefaultValue");
 	}
 	
 	public QuestionField getRelatedField() {
-		// ASSERT ERROR
-		return null;
+		throw new AssertionError("Type getRelatedField");
 	}
 	
 	public Type(CodeLocation location) {

@@ -13,6 +13,10 @@ public class IntegerQuestionField extends QuestionField {
 		field = new JFormattedTextField(getIntegerFormatter());
 	}
 	
+	public void setValue(Object value) {
+		field.setValue((Integer) value);
+	}
+	
 	public JFormattedTextField getField() {
 		return this.field;
 	}
@@ -25,9 +29,6 @@ public class IntegerQuestionField extends QuestionField {
 		String strange = "###,###";
 		DecimalFormat weirdFormatter = new DecimalFormat(strange, unusualSymbols);
 		weirdFormatter.setGroupingSize(3);
-
-		String bizarre = weirdFormatter.format(12345.678);
-		System.out.println(bizarre);
 		    
 		return weirdFormatter;
 	}

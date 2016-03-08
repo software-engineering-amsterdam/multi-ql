@@ -28,7 +28,6 @@ public abstract class Panel extends Component {
 	}
 	
 	public JPanel getPanel() {
-		System.out.println("VETTE PECH!");
 		return this.panel;
 	}
 	

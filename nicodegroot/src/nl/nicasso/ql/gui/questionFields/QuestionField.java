@@ -11,12 +11,15 @@ public abstract class QuestionField extends Component {
 	private static final long serialVersionUID = 2568908331809430726L;
 
 	public QuestionField() {
+		//throw new AssertionError("QuestionField");
+	}
 	
+	public void setValue(Object value) {
+		//throw new AssertionError("QuestionField setValue");
 	}
 	
 	public Component getField() {
-		// THROW ASSERTION
-		return null;
+		throw new AssertionError("QuestionField getField");
 	}
 	
 }

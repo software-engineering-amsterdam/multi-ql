@@ -15,6 +15,10 @@ public class BooleanQuestionField extends QuestionField {
 		field = new JCheckBox();
 	}
 	
+	public void setValue(Object value) {
+		field.setSelected((Boolean) value);
+	}
+	
 	public JCheckBox getField() {
 		return this.field;
 	}

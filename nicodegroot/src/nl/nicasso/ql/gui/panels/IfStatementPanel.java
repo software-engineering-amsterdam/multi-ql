@@ -21,7 +21,6 @@ public class IfStatementPanel extends Panel {
 	
 	@Override
 	public JPanel getPanel() {
-		System.out.println("GETPANEL IFSTATEMENT");
 		return ifPanel.getPanel();
 	}
 	

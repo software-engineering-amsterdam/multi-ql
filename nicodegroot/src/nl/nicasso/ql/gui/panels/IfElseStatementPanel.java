@@ -22,7 +22,6 @@ public class IfElseStatementPanel extends IfStatementPanel {
 	
 	@Override
 	public JPanel getPanel() {
-		System.out.println("GETPANEL IFELSESTATEMENT");
 		// @TODO Let this depend on the evaluation
 		return elsePanel.getPanel();
 	}
