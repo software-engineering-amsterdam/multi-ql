@@ -17,10 +17,6 @@
 //  question    -> stringLiteral variable: identifier
 //  expression  ->
 //  literal     -> integerLiteral | floatLiteral | stringLiteral | boolLiteral
-
-// &&, ||, !, <, >, >=, <=, !=, ==, +, -, *, /.
-
-
 //
 //  Swift Reference: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/
 //  Swift_Programming_Language/AboutTheLanguageReference.html
@@ -37,6 +33,8 @@ class QLParser {
     // MARK: Properties.
     private let lexer = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
     private let symbol = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).symbol
+    private let integerLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).integer
+    private let floatLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).float
     private let stringLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).stringLiteral // Includes the quotes.
     private let identifier = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).identifier
     private let colon = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).colon
@@ -44,6 +42,10 @@ class QLParser {
 
     // MARK: Methods.
     
+    func parseStream(data: String) throws -> QLForm { return try parser().run(sourceName: "", input: data) }
+    
+    private func parser() -> GenericParser<String, (), QLForm> { return whiteSpace *> formParser() }
+
     private func endOfLineParser() -> GenericParser<String, (), Character> {
         let character = StringParser.character
         
@@ -62,8 +64,32 @@ class QLParser {
         return (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(expression: $0) }
     }
     
+    private func stringParser() -> GenericParser<String, (), QLExpression> {
+        return stringLiteral.map{ QLString(string: $0) }.map{ QLUnaryExpression(expression: $0) }
+    }
+    
+    private func integerParser() -> GenericParser<String, (), QLExpression> {
+        return integerLiteral.map{ QLInteger(integer: $0) }.map{ QLUnaryExpression(expression: $0) }
+    }
+    
+    /// Parses a positive whole number in the decimal system. Returns the value of the number as a QLUnaryExpression.
+    private func decimalParser() -> GenericParser<String, (), QLExpression> {
+        return GenericTokenParser<()>.decimal.map{ QLDecimal(decimal: $0) }.map{ QLUnaryExpression(expression: $0) }
+    }
+    
+//    private func dateParser() -> GenericParser<String, (), QLExpression> {
+//        // DD-MM-YYYY
+//        return integerLiteral.flatMap{ day in
+//            (self.symbol("-") *> self.integerLiteral).flatMap{ month in
+//                (self.symbol("-") *> self.integerLiteral).map { year in
+//                    QLUnaryExpression(expression: QLDate(day: day, month: month, year: year))
+//                }
+//            }
+//        }
+//    }
+    
     private func literalParser() -> GenericParser<String, (), QLExpression> {
-        return booleanParser()
+        return booleanParser() <|> stringParser() <|> integerParser() /* <|> decimalParser() */
     }
     
     // Variable.
@@ -76,33 +102,62 @@ class QLParser {
         
         // Based on opTable from ExpressionTests.swift of SwiftParsec.
         // &&, ||, !, <, >, >=, <=, !=, ==, +, -, *, /.
-        let opTable: OperatorTable<String, (), QLExpression> = [
-
+        let operatorTable: OperatorTable<String, (), QLExpression> = [
             [
-                binary("&&", function: andExpression, assoc: .Left)
+                prefix("!", function: { QLNotExpression(expression: $0) }),
+            ],
+            [
+                binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1) }, assoc: .None),
+                binary(">", function: { QLGreaterThanExpression(lhs: $0, rhs: $1) }, assoc: .None),
+
+                binary("<=", function: { QLSmallerOrISExpression(lhs: $0, rhs: $1) }, assoc: .None)
+            ],
+            [
+                binary("<", function: { QLSmallerThanExpression(lhs: $0, rhs: $1) }, assoc: .None)
+            ],
+            [
+                binary("!=", function: { QLIsNotExpression(lhs: $0, rhs: $1) }, assoc: .None),
+                binary("==", function: { QLIsExpression(lhs: $0, rhs: $1) }, assoc: .None)
+            ],
+            [
+                binary("*", function: { QLMultiplyExpression(lhs: $0, rhs: $1) }, assoc: .Left),
+                binary("/", function: { QLDivideExpression(lhs: $0, rhs: $1) }, assoc: .Left)
+            ],
+            [
+                binary("+", function: { QLAddExpression(lhs: $0, rhs: $1) }, assoc: .Left),
+                binary("-", function: { QLSubtractExpression(lhs: $0, rhs: $1) }, assoc: .Left)
+            ],
+            [
+                binary("&&", function: { QLAndExpression(lhs: $0, rhs: $1) }, assoc: .Left),
+                binary("||", function: { QLOrExpression(lhs: $0, rhs: $1) }, assoc: .Left)
             ]
-            
         ]
         
         let openingParen = StringParser.character("(")
         let closingParen = StringParser.character(")")
+        
+        // There is a problem with the order of < and <= (and > and >=). This is solved by reversing the order of the op table.
+        
+        let qlexpression: GenericParser<String, (), QLExpression>?
+        
+        do {
+            qlexpression = operatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
+        
+                expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
+        
+            }
+        } catch {
+            qlexpression = operatorTable.expressionParser { expression in
+                
+                expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
+                
+            }
+        }
     
-        let qlexpression: GenericParser<String, (), QLExpression> = opTable.expressionParser { expression in
-    
-            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "expression"
-    
-        } <?> "opTable expression"
-    
-        return qlexpression
+        return qlexpression! <?> "operator table expression"
     }
     
-    func parseStream(data: String) throws -> QLForm {
-        return try parser().run(sourceName: "", input: data)
-    }
-    
-    private func parser() -> GenericParser<String, (), QLForm> { return whiteSpace *> formParser() }
-
-    // "name" variable: type
+    /// "name" variable: type
     private func questionParser() -> GenericParser<String, (), QLStatement> {
         return (stringLiteral <?> "question name").flatMap{ name in
             (self.variableParser() <* self.colon <?> "question variable").flatMap{ variable -> GenericParser<String, (), QLStatement> in
@@ -154,11 +209,6 @@ class QLParser {
     
     // MARK: Expression operators.
     // Partly based on functions from ExpressionTests.swift of SwiftParsec.
-    private func andExpression(lhs: QLExpression, rhs: QLExpression) -> QLExpression {
-        print("In andOperator method")
-        return QLAndExpression(lhs: lhs, rhs: rhs)
-    }
-    
     private func binary(name: String, function: (QLExpression, QLExpression) -> QLExpression, assoc: Associativity) -> Operator<String, (), QLExpression> {
         
         let opParser = StringParser.string(name) *> GenericParser(result: function)

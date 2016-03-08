@@ -50,21 +50,6 @@ class QLIfStatement: QLStatement {
 
 // MARK: Expressions.
 
-class QLUnaryExpression: QLExpression {
-    let expression: QLLiteral
-    
-    init(expression: QLLiteral) {
-        self.expression = expression
-    }
-}
-
-protocol QLBinaryExpression: QLExpression {
-    var lhs: QLExpression { get }
-    var rhs: QLExpression { get }
-    
-    init(lhs: QLExpression, rhs: QLExpression)
-}
-
 class QLVariable: QLExpression {
     let identifier: String
     
@@ -73,15 +58,59 @@ class QLVariable: QLExpression {
     }
 }
 
-class QLAndExpression: QLBinaryExpression {
-    let lhs: QLExpression
-    let rhs: QLExpression
+class QLUnaryExpression: QLExpression {
+    let expression: QLLiteral
     
-    required init(lhs: QLExpression, rhs: QLExpression) {
+    init(expression: QLLiteral) {
+        self.expression = expression
+    }
+}
+
+class QLNotExpression: QLExpression {
+    let expression: QLExpression
+    
+    init(expression: QLExpression) {
+        self.expression = expression
+    }
+}
+
+class QLBinaryExpression: QLExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
     }
 }
+
+class QLGreaterThanExpression: QLBinaryExpression { }
+
+class QLSmallerThanExpression: QLBinaryExpression { }
+
+class QLGreaterOrIsExpression: QLBinaryExpression { }
+
+class QLSmallerOrISExpression: QLBinaryExpression { }
+
+class QLIsNotExpression: QLBinaryExpression { }
+
+class QLIsExpression: QLBinaryExpression { }
+
+class QLMultiplyExpression: QLBinaryExpression { }
+
+class QLDivideExpression: QLBinaryExpression { }
+
+class QLAddExpression: QLBinaryExpression { }
+
+class QLSubtractExpression: QLBinaryExpression { }
+
+class QLAndExpression: QLBinaryExpression { }
+
+class QLOrExpression: QLBinaryExpression { }
+
+
+
+
 
 // MARK: Literals.
 
@@ -110,17 +139,21 @@ class QLInteger: QLLiteral {
 }
 
 class QLDate: QLLiteral {
-    let date: NSDate
+    let day: Int
+    let month: Int
+    let year: Int
     
-    init(date: NSDate) {
-        self.date = date
+    init(day: Int, month: Int, year: Int) {
+        self.day = day
+        self.month = month
+        self.year = year
     }
 }
 
 class QLDecimal: QLLiteral {
-    let decimal: Double
+    let decimal: Int
     
-    init(decimal: Double) {
+    init(decimal: Int) {
         self.decimal = decimal
     }
 }
