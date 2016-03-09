@@ -3,7 +3,8 @@ form Box1HouseOwning {
     hasBoughtHouse: "Did you by a house in 2010?" boolean;
     if (hasSoldHouse) {
         sellingPrice: "Price the house was sold for:" money;
-        valueResidue: "Value residue:" money(sellingPrice - privateDebt);
+        remainingMortgage: "Mortgage remaining after selling:" money;
+        valueResidue: "Value residue:" money(sellingPrice - remainingMortgage);
         duplicateLabel: "Is this label duplicate?" boolean;
     }
     else {
