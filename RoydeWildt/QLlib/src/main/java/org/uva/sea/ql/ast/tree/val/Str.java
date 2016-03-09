@@ -10,7 +10,7 @@ public class Str extends Val{
 
     public Str(int line, String value) {
         super(line);
-        this.value = value;
+        this.value = value.replace("\"", "");
     }
 
     @Override

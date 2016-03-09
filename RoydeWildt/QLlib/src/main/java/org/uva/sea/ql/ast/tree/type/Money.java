@@ -1,8 +1,6 @@
 package org.uva.sea.ql.ast.tree.type;
 
 import org.uva.sea.ql.ast.tree.val.Int;
-import org.uva.sea.ql.ast.type.MoneyType;
-import org.uva.sea.ql.ast.type.ValueType;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
 /**
@@ -11,12 +9,16 @@ import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 public class Money extends Type {
     private Int defaultValue;
 
+    public Money(){
+        super(0);
+    }
+
     public Money(int line) {
         super(line);
         this.defaultValue = Int.defaultValue(line);
     }
 
-    public ValueType getType(){return new MoneyType();}
+    public Type getType(){return new Money();}
 
     public Int getDefaultValue() {
         return defaultValue;

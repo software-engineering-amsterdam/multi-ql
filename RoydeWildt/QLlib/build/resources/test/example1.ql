@@ -1,4 +1,8 @@
 form taxOfficeExample {
+  "What is your name?"
+    name: text
+  "Your name is:"
+    nameis: text = (name)
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
   "Did you buy a house in 2010?"

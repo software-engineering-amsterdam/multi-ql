@@ -8,7 +8,7 @@ import org.uva.sea.ql.ast.tree.expr.unary.Not;
 import org.uva.sea.ql.ast.tree.expr.unary.Pos;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.type.ValueType;
+import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.visitor.TypeVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
@@ -28,8 +28,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Add expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Add expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -37,8 +37,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(And expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(And expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -46,8 +46,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Div expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Div expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -55,8 +55,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Eq expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Eq expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -64,8 +64,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(GEq expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(GEq expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -73,8 +73,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(GT expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(GT expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -82,8 +82,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(LEq expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(LEq expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -91,8 +91,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(LT expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(LT expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -100,8 +100,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Mul expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Mul expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -109,8 +109,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(NEq expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(NEq expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -118,8 +118,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Or expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Or expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -127,8 +127,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Sub expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Sub expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -136,8 +136,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Neg expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Neg expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -145,8 +145,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Not expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Not expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -154,8 +154,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Pos expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Pos expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }
@@ -163,8 +163,8 @@ public class InvalidExpressionsCheck extends TypeVisitor {
     }
 
     @Override
-    public ValueType visit(Primary expr, Void context) {
-        ValueType exprType = super.visit(expr, context);
+    public Type visit(Primary expr, Void context) {
+        Type exprType = super.visit(expr, context);
         if (exprType == null  && !subExpressionExists(expr)){
             invalidExpressions.add(expr);
         }

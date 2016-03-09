@@ -2,7 +2,6 @@ package org.uva.sea.ql.ast.tree.type;
 
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.val.Val;
-import org.uva.sea.ql.ast.type.ValueType;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitable;
 
 /**
@@ -14,7 +13,7 @@ public abstract class Type extends Node implements TypeVisitable {
         super(line);
     }
 
-    public abstract ValueType getType();
+    public abstract Type getType();
 
     public abstract Val getDefaultValue();
 

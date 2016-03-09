@@ -110,21 +110,6 @@ public class CheckerTest {
         compareMessages(messages,checkList);
     }
 
-    /*
-    @Test public void GuiTest1(){
-
-        List<String> checkList = new ArrayList<>();
-        checkList.add("Q1");
-        checkList.add("Q2");
-        checkList.add("Q3");
-
-        Form f = parseFromPath("src/test/resources/gui3.ql");
-        Parent uiElements = (new GuiVisitor(f)).getFormUI();
-
-        compareMessages(new ArrayList<>(),checkList);
-    }
-    */
-
     private void compareMessages(List<Message> messages, List<String> checkList){
 
         List<String> testList = new ArrayList<>();
