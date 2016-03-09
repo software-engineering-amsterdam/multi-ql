@@ -31,6 +31,7 @@ public class ASTBuilder {
 		        sb.append(System.lineSeparator());
 		        line = br.readLine();
 		    }
+		    
 		    return sb.toString();
 		} finally {
 			br.close(); 
@@ -39,14 +40,14 @@ public class ASTBuilder {
 	
 	private static QLParser getParser(String in){
 		// create a CharStream that reads from standard input
-			ANTLRInputStream input = new ANTLRInputStream(in);
-			// create a lexer that feeds off of input CharStream
-			QLLexer lexer = new QLLexer(input);
-			// create a buffer of tokens pulled from the lexer
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			// create a parser that feeds off the tokens buffer
-			QLParser parser = new QLParser(tokens);
+		ANTLRInputStream input = new ANTLRInputStream(in);
+		// create a lexer that feeds off of input CharStream
+		QLLexer lexer = new QLLexer(input);
+		// create a buffer of tokens pulled from the lexer
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		// create a parser that feeds off the tokens buffer
+		QLParser parser = new QLParser(tokens);
 			
-			return parser;
+		return parser;
 	}
 }

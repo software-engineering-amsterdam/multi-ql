@@ -7,4 +7,6 @@ public abstract class Type {
 	
 	@Override 
 	public abstract String toString();
+	
+	public abstract Object parse(String message);
 }

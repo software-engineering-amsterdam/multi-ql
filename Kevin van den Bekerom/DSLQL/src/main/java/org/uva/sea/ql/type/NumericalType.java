@@ -12,4 +12,10 @@ public class NumericalType extends Type {
 		return "Numerical";
 	}
 
+	@Override
+	public Object parse(String message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
