@@ -47,25 +47,32 @@ public class CyclicDependencyChecker<T> extends BasicVisitor<T>{
 		}
 	}
 	
-	public void findCyclicDependencies(){		
-		direcltyDependentOn.forEach((identifier, dependencies) -> recursiveDepencyCheck(identifier, identifier));
+	public void findCyclicDependencies(){
+		List<String> visitedVariables = new ArrayList<String>();
+		direcltyDependentOn.forEach((identifier, dependencies) -> recursiveDepencyCheck(identifier, identifier, visitedVariables));
 	}
 	
-	private void recursiveDepencyCheck(String currentIdentifier, String originalIdentifier){
+	private void recursiveDepencyCheck(String currentIdentifier, String originalIdentifier, List<String> visitedVariables){
 		List<String> dependenciesCurrentIdentifier = direcltyDependentOn.get(currentIdentifier);
+		
+		if(!visitedVariables.contains(originalIdentifier)){
+			visitedVariables.add(originalIdentifier);
+		}
 		
 		if(dependenciesCurrentIdentifier == null){
 			return;
 		}
 		
-		if(dependenciesCurrentIdentifier.contains(originalIdentifier)){
-			context.addIssue(new CyclicDependency(originalIdentifier, currentIdentifier));
-//			System.out.println(String.format("Cyclic between: %s and %s!", originalIdentifier, currentIdentifier));
-			return;
+		for(String dependency : dependenciesCurrentIdentifier){
+			if(visitedVariables.contains(dependency)){
+				context.addIssue(new CyclicDependency(originalIdentifier, dependency));
+				return;
+			}
+			visitedVariables.add(dependency);
 		}
 		
 		for(String dependency : dependenciesCurrentIdentifier){
-			recursiveDepencyCheck(dependency, originalIdentifier);
+			recursiveDepencyCheck(dependency, originalIdentifier, visitedVariables);
 		}
 	}
 	

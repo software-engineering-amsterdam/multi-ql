@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ql.ast.expression.VariableExpression;
 import ql.ast.statement.Question;
 import ql.issue.DuplicateLabel;
 import ql.issue.DuplicateQuestionWithDifferentType;
 import ql.issue.Issue;
-import ql.issue.ReferenceToUndifinedQuestion;
+import ql.issue.ReferenceToUndefinedQuestion;
 
 public class Context {
 	private List<Question> declaredQuestions;
@@ -29,16 +30,14 @@ public class Context {
 		nameToValue.put(question.getVariable().getIdentifier(), value);
 	}
 	
-	public Object getValueForVariable(String identifier){
+	public Object getValueForVariable(VariableExpression variableExpression){
+		String identifier = variableExpression.getIdentifier();
 		if(!nameToValue.containsKey(identifier)){
-			//TODO:make issue
-			System.err.println(String.format("unknown variable: %s", identifier));
+			issues.add(new ReferenceToUndefinedQuestion(identifier, variableExpression.getLineNumber()));
 			return null;
 		}
 		
 		if(nameToValue.get(identifier) == null){
-			//TODO:make issue
-			System.err.println(String.format("No value for variable: %s", identifier));
 			return null;
 		}
 		
@@ -72,7 +71,7 @@ public class Context {
 		if (nameToType.containsKey(identifier)) {
 			return nameToType.get(identifier);
 		}
-		issues.add(new ReferenceToUndifinedQuestion(identifier, lineNumber));
+		issues.add(new ReferenceToUndefinedQuestion(identifier, lineNumber));
 		return null;
 	}
 	
