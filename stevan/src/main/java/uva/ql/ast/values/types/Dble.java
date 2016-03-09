@@ -1,14 +1,13 @@
 package uva.ql.ast.values.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Dble extends Type {
+public class Dble {
 
-	private String type = "double";
+	private EnumType type = EnumType.DOUBLE;
 
-	@Override
-	public String getType() {
+	public EnumType getType() {
 		return this.type;
 	}
 }

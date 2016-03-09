@@ -26,9 +26,9 @@ import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.variables.VarGeneric;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.ICyclicQuestionDependenciesVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
 
-public class CyclicDependency implements ICyclicQuestionDependenciesVisitor {
+public class CyclicDependency implements ICyclicDependencyVisitor {
 
 	private final Map<String, Variable> questionVariables = new HashMap<String, Variable>(0);
 	private final Map<String, Variable> cyclicVariables = new HashMap<String, Variable>(0);

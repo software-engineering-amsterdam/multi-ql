@@ -1,19 +1,19 @@
 package uva.ql.ast.questions;
 
+import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.ast.questions.types.Computed;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicQuestionDependenciesVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class QuestionComputed extends Question {
 
-	private Type type = new Computed();
+	private Computed type = new Computed();
 	private Expression exp;
 	
 	public QuestionComputed(Node parent, String label, Variable variable, Expression exp, int startLine, int startColumn) {
@@ -26,12 +26,7 @@ public class QuestionComputed extends Question {
 	}
 	
 	@Override
-	public Type getType() {
-		return this.type;
-	}
-	
-	@Override
-	public String typeToString() {
+	public EnumType getType() {
 		return this.type.getType();
 	}
 	
@@ -46,7 +41,7 @@ public class QuestionComputed extends Question {
 	}
 
 	@Override
-	public void accept(ICyclicQuestionDependenciesVisitor visitor) {
+	public void accept(ICyclicDependencyVisitor visitor) {
 		visitor.visitQuestionComputed(this);
 	}
 	

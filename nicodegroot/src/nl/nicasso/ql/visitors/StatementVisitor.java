@@ -5,7 +5,7 @@ import nl.nicasso.ql.ast.statements.IfElseStatement;
 import nl.nicasso.ql.ast.statements.IfStatement;
 import nl.nicasso.ql.ast.statements.Question;
 
-public interface StatementVisitor<T,U> {
+public interface StatementVisitor<T, U> {
 
 	// @TODO FIX ALL THESE EXTRA PARAMS, BUT NOT EVERYWHERE! ONLY WHERE THEY ARE NEEDED FOR THE CYCLOMATIC DEPENDNCY
 	public T visit(Question value, U context);

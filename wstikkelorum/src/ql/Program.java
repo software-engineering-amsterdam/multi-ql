@@ -30,9 +30,9 @@ public class Program {
 
 	private static Form parseForm() throws IOException {
 		FormParser formParser = new FormParser();
-		Form form = formParser.parseForm("resources/CyclicExampleC.ql", false);
+//		Form form = formParser.parseForm("resources/CyclicExampleC.ql", false);
 //		Form form = formParser.parseForm("resources/SmallQuestionaire.ql", false);
-//		Form form = formParser.parseForm("resources/Questionaire.ql", false);
+		Form form = formParser.parseForm("resources/Questionaire.ql", false);
 		return form;
 	}
 

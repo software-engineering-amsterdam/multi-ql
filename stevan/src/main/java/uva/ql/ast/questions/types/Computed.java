@@ -1,13 +1,12 @@
 package uva.ql.ast.questions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
-public class Computed extends Type {
+public class Computed {
 
-	private String type = "computed";
-
-	@Override
-	public String getType() {
+	private EnumType type = EnumType.COMPUTED;
+	
+	public EnumType getType() {
 		return this.type;
 	}
 }

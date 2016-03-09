@@ -1,7 +1,6 @@
 package uva.ql.ast.conditionals.abstracts;
 
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.interfaces.INodeVisitor;
 
@@ -13,9 +12,6 @@ public abstract class Condition extends Node {
 		super(null, startLine, startColumn);
 		this.expression = expression;
 	}
-	
-	@Override
-	abstract public Type getType();
 
 	public void setExpression(Expression expression) {
 		this.expression = expression;

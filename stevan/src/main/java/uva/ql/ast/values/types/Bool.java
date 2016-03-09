@@ -1,13 +1,12 @@
 package uva.ql.ast.values.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
-public class Bool extends Type {
+public class Bool {
 
-	private String type = "boolean";
+	private EnumType type = EnumType.BOOLEAN;
 
-	@Override
-	public String getType() {
+	public EnumType getType() {
 		return this.type;
 	}
 }

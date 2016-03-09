@@ -1,17 +1,17 @@
 package uva.ql.ast.values;
 
+import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
 import uva.ql.ast.values.abstracts.Values;
 import uva.ql.ast.values.types.Int;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicQuestionDependenciesVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class ValueInt extends Values {
 
-	private Type type = new Int();
+	private Int type = new Int();
 	private int value;
 	
 	public ValueInt(Node parent, String value, int startLine, int startColumn) {
@@ -20,12 +20,7 @@ public class ValueInt extends Values {
 	}
 	
 	@Override
-	public Type getType() {
-		return this.type;
-	}
-	
-	@Override
-	public String typeToString() {
+	public EnumType getType() {
 		return this.type.getType();
 	}
 	
@@ -42,7 +37,7 @@ public class ValueInt extends Values {
 	public void accept(IUndefinedQuestionVisitor visitor) {}
 	
 	@Override
-	public void accept(ICyclicQuestionDependenciesVisitor visitor) {}
+	public void accept(ICyclicDependencyVisitor visitor) {}
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {}

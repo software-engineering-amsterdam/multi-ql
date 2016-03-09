@@ -1,6 +1,6 @@
 package nl.nicasso.ql.gui;
 
-import nl.nicasso.ql.Evaluator;
+import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.ast.statements.ComputedQuestion;
 import nl.nicasso.ql.ast.statements.IfElseStatement;
 import nl.nicasso.ql.ast.statements.IfStatement;
@@ -8,18 +8,27 @@ import nl.nicasso.ql.ast.statements.Question;
 import nl.nicasso.ql.ast.statements.Statement;
 import nl.nicasso.ql.ast.structures.Block;
 import nl.nicasso.ql.ast.structures.Form;
+import nl.nicasso.ql.ast.types.BooleanType;
+import nl.nicasso.ql.ast.types.IntegerType;
+import nl.nicasso.ql.ast.types.MoneyType;
+import nl.nicasso.ql.ast.types.StringType;
 import nl.nicasso.ql.gui.panels.BlockPanel;
 import nl.nicasso.ql.gui.panels.ControlPanel;
 import nl.nicasso.ql.gui.panels.IfElseStatementPanel;
 import nl.nicasso.ql.gui.panels.IfStatementPanel;
 import nl.nicasso.ql.gui.panels.Panel;
 import nl.nicasso.ql.gui.panels.QuestionPanel;
+import nl.nicasso.ql.gui.questionFields.BooleanQuestionField;
+import nl.nicasso.ql.gui.questionFields.IntegerQuestionField;
+import nl.nicasso.ql.gui.questionFields.MoneyQuestionField;
+import nl.nicasso.ql.gui.questionFields.QuestionField;
+import nl.nicasso.ql.gui.questionFields.TextQuestionField;
 import nl.nicasso.ql.symbolTable.SymbolTable;
-import nl.nicasso.ql.values.Value;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
+import nl.nicasso.ql.visitors.TypeVisitor;
 
-public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Void> {
+public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Void>, TypeVisitor<QuestionField, Identifier> {
 	
 	private boolean debug = true;
 	
@@ -42,9 +51,9 @@ public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Voi
 
 		value.getBlock().accept(this);
 		
-		ControlPanel cp = new ControlPanel();
+		//ControlPanel cp = new ControlPanel();
 		
-		main.addPanel(cp);
+		//main.addPanel(cp);
 		main.updateMainFrame();
 		
 		return null;
@@ -64,7 +73,6 @@ public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Voi
 		}
 		
 		main.addPanel(bp);
-		//main.updateMainFrame();
 
 		return bp;
 	}
@@ -72,10 +80,12 @@ public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Voi
 	@Override
 	public Panel visit(Question value, Void context) {
 		if (debug) {
-			System.out.println("Question");
+			System.out.println("Question: "+value.getId().getValue());
 		}
 		
-		QuestionPanel qp = new QuestionPanel(value, symbolTable);
+		QuestionField field = value.getType().accept(this, value.getId());
+		
+		QuestionPanel qp = new QuestionPanel(value, field, symbolTable);
 						
 		return qp;
 	}
@@ -83,10 +93,12 @@ public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Voi
 	@Override
 	public Panel visit(ComputedQuestion value, Void context) {
 		if (debug) {
-			System.out.println("ComputedQuestion");
+			System.out.println("ComputedQuestion: "+value.getId().getValue());
 		}
 		
-		QuestionPanel qp = new QuestionPanel(value, symbolTable);
+		QuestionField field = value.getType().accept(this, value.getId());
+		
+		QuestionPanel qp = new QuestionPanel(value, field, symbolTable);
 
 		return qp;
 	}
@@ -125,6 +137,26 @@ public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Voi
 		panel.addElsePanel(elseBlockPanel);
 		
 		return panel;
+	}
+
+	@Override
+	public QuestionField visit(BooleanType value, Identifier identifier) {
+		return new BooleanQuestionField(identifier);
+	}
+
+	@Override
+	public QuestionField visit(MoneyType value, Identifier identifier) {
+		return new MoneyQuestionField(identifier);
+	}
+
+	@Override
+	public QuestionField visit(StringType value, Identifier identifier) {
+		return new TextQuestionField(identifier);
+	}
+
+	@Override
+	public QuestionField visit(IntegerType value, Identifier identifier) {
+		return new IntegerQuestionField(identifier);
 	}
 
 }
