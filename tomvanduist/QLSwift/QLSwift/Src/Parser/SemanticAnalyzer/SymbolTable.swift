@@ -12,19 +12,21 @@ import Foundation
 typealias Object = (type: QLType, question: QLQuestion)
 
 internal class SymbolTable {
-    let parent: SymbolTable?
     private var symbolTable = [String: Object]()
     
-    init(parent: SymbolTable? = nil) {
-        self.parent = parent
-    }
     
     func assign(identifier: String, object: Object) throws {
         if symbolTable[identifier] == nil {
             symbolTable[identifier] = object
         }
         else {
-            throw MultipleDeclarations(description: "Identifier is already declared: \(identifier)")
+            let currentType = retrieveType(identifier)
+            
+            if currentType! === object.type || currentType! === QLUnknownType.self {
+                symbolTable[identifier] = object
+            } else {
+                throw MultipleDeclarations(description: "Identifier is already declared as a different type: \(identifier)")
+            }
         }
     }
     
@@ -40,6 +42,7 @@ internal class SymbolTable {
         if let o = symbolTable[identifier] {
             return o
         }
-        return parent?.retrieve(identifier)
+        
+        return nil
     }
 }
