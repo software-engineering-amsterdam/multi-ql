@@ -25,7 +25,6 @@ internal class TypeChecker: SemanticAnalysisRule, QLNodeVisitor {
     
     private var symbolTable: SymbolTable!
     private var errors: [SemanticError] = []
-    private var warnings: [SemanticWarning] = []
     
     
     func run(param: (form: QLForm, symbolTable: SymbolTable)) -> SemanticAnalysisResult<Bool> {
@@ -33,7 +32,7 @@ internal class TypeChecker: SemanticAnalysisRule, QLNodeVisitor {
         
         checkTypes(param.form)
         
-        return SemanticAnalysisResult(generic: errors.isEmpty, warnings: warnings, errors: errors)
+        return SemanticAnalysisResult(generic: errors.isEmpty, warnings: [], errors: errors)
     }
 }
 
@@ -247,7 +246,6 @@ extension TypeChecker {
     private func resetInternals(symbolTable: SymbolTable) {
         self.symbolTable = symbolTable
         errors = []
-        warnings = []
     }
     
     private func checkTypes(form: QLForm) {
@@ -267,9 +265,5 @@ extension TypeChecker {
     
     private func collectError(error: ErrorType) {
         self.errors.append(SystemError(error: error))
-    }
-    
-    private func collectWarning(warning: SemanticWarning) {
-        self.warnings.append(warning)
     }
 }
