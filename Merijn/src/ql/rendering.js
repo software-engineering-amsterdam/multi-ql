@@ -1,7 +1,7 @@
-import { NodeVisitor, RecursingVisitor } from 'src/ast';
-import { TypeReceiver } from 'src/types';
-import * as values from 'src/values';
-import * as evaluation from 'src/evaluation';
+import { NodeVisitor, RecursingVisitor } from 'src/ql/ast';
+import { TypeReceiver } from 'src/ql/types';
+import * as values from 'src/ql/values';
+import * as evaluation from 'src/ql/evaluation';
 
 class VariableMap {
 	constructor() {
@@ -144,7 +144,7 @@ class BooleanCheckBoxWidgetBuilder extends WidgetBuilder {
 				updateCallback(new values.BooleanValue(inputElement.checked));
 			};
 		} else {
-			inputElement.setAttribute('readonly', 'readonly');
+			inputElement.setAttribute('readonly', true);
 		}
 		containerElement.appendChild(inputElement);
 	}
@@ -161,7 +161,7 @@ class StringInputWidgetBuilder extends WidgetBuilder {
 				updateCallback(new values.StringValue(inputElement.value));
 			};
 		} else {
-			inputElement.setAttribute('readonly', 'readonly');
+			inputElement.setAttribute('readonly', true);
 		}
 		containerElement.appendChild(inputElement);
 	}

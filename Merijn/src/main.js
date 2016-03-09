@@ -1,8 +1,8 @@
-import { AnalyzingQlParser } from 'src/parser';
-import { NodeNormalizer } from 'src/ast_normalization';
-import { SemanticAnalyser } from 'src/ast_semantic_analysis';
+import { AnalyzingQlParser } from 'src/ql/parser';
+import { NodeNormalizer } from 'src/ql/ast_normalization';
+import { SemanticAnalyser } from 'src/ql/ast_semantic_analysis';
 import { Log } from 'src/log';
-import { Renderer } from 'src/rendering';
+import { Renderer } from 'src/ql/rendering';
 import * as ace from 'ace';
 
 let LOCALSTORAGE_KEY = 'uva-software-process-ql-merijn-last-input',
