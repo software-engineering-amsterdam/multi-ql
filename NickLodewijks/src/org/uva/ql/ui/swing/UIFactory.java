@@ -39,16 +39,14 @@ import org.uva.ql.ast.type.QLIntegerType;
 import org.uva.ql.ast.type.QLStringType;
 import org.uva.ql.ast.type.QLType;
 import org.uva.ql.ast.type.QLTypeVisitor;
-import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIForm;
 import org.uva.ql.ui.UIQuestion;
 import org.uva.ql.ui.UIQuestionnaire;
 import org.uva.ql.ui.UIWidget;
 import org.uva.ql.ui.UIWidgetFactory;
 
-public class DefaultUISwingFactory implements UIFactory {
+public class UIFactory {
 
-	@Override
 	public UIQuestionnaire create(QLForm form) {
 		DefaultUIQuestionnaire uiQuestionnaire;
 		UIForm uiForm;
@@ -94,7 +92,6 @@ public class DefaultUISwingFactory implements UIFactory {
 		return questions;
 	}
 
-	@Override
 	public UIQuestion create(QLQuestion question) {
 		UIWidget labelWidget;
 		UIWidget valueWidget;

@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.uva.ql.ast.form.QLForm;
-import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIQuestionnaire;
-import org.uva.ql.ui.swing.DefaultUISwingFactory;
+import org.uva.ql.ui.swing.UIFactory;
 
 public class QLMain {
 
@@ -27,7 +26,7 @@ public class QLMain {
 		UIQuestionnaire uiQuestionnaire;
 		UIFactory factory;
 
-		factory = new DefaultUISwingFactory();
+		factory = new UIFactory();
 		uiQuestionnaire = factory.create(form);
 
 		uiQuestionnaire.show();
