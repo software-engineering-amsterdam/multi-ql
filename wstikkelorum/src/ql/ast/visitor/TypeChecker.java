@@ -1,7 +1,5 @@
 package ql.ast.visitor;
 
-import java.util.List;
-
 import ql.ast.expression.Add;
 import ql.ast.expression.AndExpression;
 import ql.ast.expression.BinaryExpression;
@@ -26,7 +24,6 @@ import ql.ast.literal.StringLiteral;
 import ql.ast.statement.IfStatement;
 import ql.issue.ConditionNonBoolean;
 import ql.issue.InvalidTypeForOperant;
-import ql.issue.Issue;
 
 public class TypeChecker<T> extends BasicVisitor<Type>{
 	private Context context;

@@ -2,10 +2,10 @@ package nl.nicasso.ql.ast.types;
 
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.CodeLocation;
-import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.values.Value;
+import nl.nicasso.ql.visitors.TypeVisitor;
 
-public class Type extends ASTNode {
+public abstract class Type extends ASTNode {
 	
 	String type;
 	
@@ -15,10 +15,6 @@ public class Type extends ASTNode {
 	
 	public Value getDefaultValue() {
 		throw new AssertionError("Type getDefaultValue");
-	}
-	
-	public QuestionField getRelatedField() {
-		throw new AssertionError("Type getRelatedField");
 	}
 	
 	public Type(CodeLocation location) {
@@ -40,4 +36,6 @@ public class Type extends ASTNode {
 	public int hashCode(){
 	    return type.hashCode();
     }
+	
+	public abstract <T, U> T accept(TypeVisitor<T, U> visitor, U context);
 }

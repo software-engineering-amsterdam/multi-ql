@@ -1,6 +1,7 @@
 package nl.nicasso.ql.ast.types;
 
 import nl.nicasso.ql.ast.CodeLocation;
+import nl.nicasso.ql.visitors.TypeVisitor;
 
 public class NumericType extends Type {
 
@@ -29,4 +30,11 @@ public class NumericType extends Type {
 	public int hashCode(){
 	    return type.hashCode();
     }
+
+	@Override
+	public <T, U> T accept(TypeVisitor<T, U> visitor, U context) {
+		// Make better
+		assert false;
+		return null;
+	}
 }
