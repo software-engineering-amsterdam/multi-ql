@@ -15,7 +15,7 @@ public final class QLIFStatement extends QLStatement {
 		this.body = body;
 	}
 
-	public Expr condition() {
+	public Expr getCondition() {
 		return condition;
 	}
 

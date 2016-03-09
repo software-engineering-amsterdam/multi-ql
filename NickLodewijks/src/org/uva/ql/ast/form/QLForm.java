@@ -3,7 +3,6 @@ package org.uva.ql.ast.form;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -12,7 +11,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.uva.ql.ast.ASTNode;
 import org.uva.ql.ast.ASTSourceInfo;
-import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.parser.QLLexer;
 import org.uva.ql.parser.QLParser;
 
@@ -25,10 +23,6 @@ public class QLForm extends ASTNode {
 		super(context);
 		this.name = id;
 		this.body = body;
-	}
-
-	public List<QLQuestion> getQuestions() {
-		return body.getQuestions();
 	}
 
 	public QLBlock getBody() {

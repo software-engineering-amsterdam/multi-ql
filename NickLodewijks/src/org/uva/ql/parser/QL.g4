@@ -22,10 +22,10 @@ file :  form EOF
      ;
 
 form returns [QLForm result]
-    :   'form' + ID + block[new BooleanLiteral(null, true)] { $result = new QLForm(src($ctx), $ID.text, $block.result); }
+    :   'form' + ID + block { $result = new QLForm(src($ctx), $ID.text, $block.result); }
     ;
     
-block[Expr condition] returns [QLBlock result]
+block returns [QLBlock result]
     locals [
       List<QLQuestion> questions = new ArrayList<>();
       List<QLIFStatement> statements = new ArrayList<>();
@@ -33,25 +33,25 @@ block[Expr condition] returns [QLBlock result]
     @after{
         $result = new QLBlock(src($ctx), $ctx.questions, $ctx.statements);
     }
-    : '{' + (ifStat[$condition] { $ctx.statements.add($ifStat.result); } | question[$condition] { $ctx.questions.add($question.result); } )+ '}'
+    : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
     
     ;
     
-ifStat[Expr condition] returns [QLIFStatement result]
-    : 'if' + '(' + expr + ')' + block[new And(null, condition, $expr.result)] 
+ifStat returns [QLIFStatement result]
+    : 'if' + '(' + expr + ')' + block
     { 
         $result = new QLIFStatement(src($ctx), $expr.result, $block.result);
     }
     ;
 
-question[Expr condition] returns [QLQuestion result]
+question returns [QLQuestion result]
     : variableType + ID + STR + expr
     {
-        $result = new QLQuestionComputed(src($ctx), $variableType.result, $ID.text,  $STR.text, $condition, $expr.result);
+        $result = new QLQuestionComputed(src($ctx), $variableType.result, $ID.text,  $STR.text, $expr.result);
     }
     | variableType + ID + STR 
     { 
-        $result = new QLQuestionInput(src($ctx), $variableType.result, $ID.text, $STR.text, $condition);
+        $result = new QLQuestionInput(src($ctx), $variableType.result, $ID.text, $STR.text);
     }
     ;
     
@@ -60,7 +60,6 @@ variableType returns [QLType result]
     | STRING    { $result = new QLStringType(src($ctx));  }
     | INTEGER   { $result = new QLIntegerType(src($ctx)); }
     ;
-    
     
 expr returns [Expr result]
     : op=('+' | '-') exp=expr

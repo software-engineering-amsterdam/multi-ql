@@ -22,18 +22,22 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLContext;
 import org.uva.ql.QLContext.ContextListener;
+import org.uva.ql.QLInterpreter;
+import org.uva.ql.ast.ASTNodeVisitorAdapter;
 import org.uva.ql.ast.BooleanValue;
 import org.uva.ql.ast.NumberValue;
 import org.uva.ql.ast.StringValue;
 import org.uva.ql.ast.Value;
+import org.uva.ql.ast.expr.And;
+import org.uva.ql.ast.expr.BooleanLiteral;
 import org.uva.ql.ast.expr.Expr;
-import org.uva.ql.ast.form.QLBlock;
 import org.uva.ql.ast.form.QLForm;
 import org.uva.ql.ast.stat.QLIFStatement;
 import org.uva.ql.ast.stat.QLQuestion;
+import org.uva.ql.ast.stat.QLQuestionComputed;
+import org.uva.ql.ast.stat.QLQuestionInput;
 import org.uva.ql.ast.type.QLBooleanType;
 import org.uva.ql.ast.type.QLIntegerType;
 import org.uva.ql.ast.type.QLStringType;
@@ -45,48 +49,49 @@ public class UIFactory {
 		DefaultUIQuestionnaire uiQuestionnaire;
 		UIForm uiForm;
 
-		form = normalize(form);
-
 		uiQuestionnaire = new DefaultUIQuestionnaire(form);
 
 		uiForm = new DefaultUIForm(form);
-		for (QLQuestion question : form.getQuestions()) {
-			UIQuestion uiQuestion;
 
-			uiQuestion = create(question);
-			uiForm.addQuestion(uiQuestion);
-		}
+		form.accept(new ASTNodeVisitorAdapter<Void, Expr>() {
+
+			@Override
+			public Void visit(QLIFStatement node, Expr condition) {
+				Expr conjunction;
+
+				conjunction = new And(null, condition, node.getCondition());
+
+				node.getBody().accept(this, conjunction);
+
+				return null;
+			}
+
+			@Override
+			public Void visit(QLQuestionInput node, Expr condition) {
+				UIQuestion uiQuestion;
+
+				uiQuestion = create(node, condition);
+				uiForm.addQuestion(uiQuestion);
+				return null;
+			}
+
+			@Override
+			public Void visit(QLQuestionComputed node, Expr condition) {
+				UIQuestion uiQuestion;
+
+				uiQuestion = create(node, condition, node.getComputation());
+				uiForm.addQuestion(uiQuestion);
+				return null;
+			}
+
+		}, BooleanLiteral.TRUE);
 
 		uiQuestionnaire.addForm(uiForm);
 
 		return uiQuestionnaire;
 	}
 
-	private QLForm normalize(QLForm form) {
-		QLForm normalizedForm;
-		QLBlock normalizedBlock;
-
-		normalizedBlock = new QLBlock(null, getAllQuestions(form.getBody()), null);
-		normalizedForm = new QLForm(null, form.getName(), normalizedBlock);
-
-		return normalizedForm;
-	}
-
-	private List<QLQuestion> getAllQuestions(QLBlock block) {
-		List<QLQuestion> questions;
-
-		questions = new ArrayList<>();
-
-		block.getQuestions().forEach(q -> questions.add(q));
-
-		for (QLIFStatement ifStat : block.getIfStatements()) {
-			questions.addAll(getAllQuestions(ifStat.getBody()));
-		}
-
-		return questions;
-	}
-
-	public UIQuestion create(QLQuestion question) {
+	public UIQuestion create(QLQuestion question, Expr condition, Expr valueComputation) {
 		UIWidget<?> labelWidget;
 		UIWidget<?> valueWidget;
 
@@ -110,7 +115,34 @@ public class UIFactory {
 			}
 		}, null);
 
-		return new DefaultUIQuestion(question, labelWidget, valueWidget);
+		return new DefaultUIQuestion(labelWidget, valueWidget, condition, valueComputation);
+	}
+
+	public UIQuestion create(QLQuestion question, Expr condition) {
+		UIWidget<?> labelWidget;
+		UIWidget<?> valueWidget;
+
+		labelWidget = new DefaultLabelWidget(question.getLabel());
+
+		valueWidget = question.getType().accept(new QLTypeVisitor<UIWidget<?>, Void>() {
+
+			@Override
+			public UIWidget<?> visit(QLBooleanType type, Void context) {
+				return new DefaultBooleanWidget(question);
+			}
+
+			@Override
+			public UIWidget<?> visit(QLStringType type, Void context) {
+				return new DefaultStringWidget(question);
+			}
+
+			@Override
+			public UIWidget<?> visit(QLIntegerType type, Void context) {
+				return new DefaultIntegerWidget(question);
+			}
+		}, null);
+
+		return new DefaultUIQuestion(labelWidget, valueWidget, condition, null);
 	}
 
 	public UIWidget<StringValue> createLabelWidget(QLQuestion q) {
@@ -207,16 +239,23 @@ public class UIFactory {
 
 	private static class DefaultUIQuestion implements UIQuestion, ContextListener {
 
-		private final QLQuestion question;
+		private final Expr condition;
+		private final Expr valueComputation;
 
 		private final UIWidget<?> labelWidget;
 		private final UIWidget<?> valueWidget;
 
-		public DefaultUIQuestion(QLQuestion q, UIWidget<?> labelWidget, UIWidget<?> valueWidget) {
-			this.question = q;
+		public DefaultUIQuestion(UIWidget<?> labelWidget, UIWidget<?> valueWidget, Expr condition,
+				Expr valueComputation) {
+			this.condition = condition;
 
 			this.labelWidget = labelWidget;
 			this.valueWidget = valueWidget;
+			this.valueComputation = valueComputation;
+
+			if (valueComputation != null) {
+				this.valueWidget.setEditable(false);
+			}
 		}
 
 		@Override
@@ -227,12 +266,20 @@ public class UIFactory {
 
 			context.addContextListener(this);
 
-			setVisible(question.isEnabled(context));
+			setVisible(isEnabled(context));
+		}
+
+		public boolean isEnabled(QLContext context) {
+			return QLInterpreter.interpret(condition, context).equals(BooleanValue.TRUE);
 		}
 
 		@Override
 		public void contextChanged(QLContext context) {
-			setVisible(question.isEnabled(context));
+			setVisible(isEnabled(context));
+
+			if (valueComputation != null) {
+				valueWidget.setValue(QLInterpreter.interpret(valueComputation, context));
+			}
 		}
 
 		private void setVisible(boolean visible) {
@@ -290,22 +337,21 @@ public class UIFactory {
 		public void setVisible(boolean visible) {
 			label.setVisible(visible);
 		}
+
+		@Override
+		public void setEditable(boolean editable) {
+			// NOOP
+		}
 	}
 
-	private static abstract class AbstractBaseWidget<T extends Value> implements UIWidget<T>, ContextListener {
+	private static abstract class AbstractBaseWidget<T extends Value> implements UIWidget<T> {
 
 		private final String variableName;
-		private final Expr expr;
 
 		private QLContext context;
 
-		public AbstractBaseWidget(String variableName, Expr expr) {
+		public AbstractBaseWidget(String variableName) {
 			this.variableName = variableName;
-			this.expr = expr;
-		}
-
-		public boolean isComputed() {
-			return expr != null;
 		}
 
 		@Override
@@ -333,14 +379,6 @@ public class UIFactory {
 			this.context = context;
 
 			context.setValue(variableName, getDefaultValue());
-			context.addContextListener(this);
-		}
-
-		@Override
-		public void contextChanged(QLContext context) {
-			if (expr != null) {
-				setValue(QLInterpreter.interpret(expr, context));
-			}
 		}
 	}
 
@@ -351,17 +389,12 @@ public class UIFactory {
 		private final JPanel panel;
 
 		public DefaultBooleanWidget(QLQuestion q) {
-			super(q.getId(), q.expr());
+			super(q.getId());
 			ButtonGroup bg;
 
 			panel = new JPanel(new BorderLayout());
 			rbYes = new JRadioButton("Yes");
 			rbNo = new JRadioButton("No");
-
-			if (isComputed()) {
-				rbYes.setEnabled(false);
-				rbNo.setEnabled(false);
-			}
 
 			rbYes.addActionListener(this);
 			rbNo.addActionListener(this);
@@ -374,6 +407,12 @@ public class UIFactory {
 			panel.add(rbNo, BorderLayout.EAST);
 
 			panel.setPreferredSize(new Dimension(90, 30));
+		}
+
+		@Override
+		public void setEditable(boolean editable) {
+			rbYes.setEnabled(editable);
+			rbNo.setEnabled(editable);
 		}
 
 		@Override
@@ -424,12 +463,11 @@ public class UIFactory {
 		private final JPanel panel;
 
 		public DefaultIntegerWidget(QLQuestion q) {
-			super(q.getId(), q.expr());
+			super(q.getId());
 
 			panel = new JPanel();
 
 			textField = new JTextField();
-			textField.setEditable(!isComputed());
 			textField.setPreferredSize(new Dimension(100, 20));
 			textField.addKeyListener(new KeyAdapter() {
 
@@ -475,6 +513,11 @@ public class UIFactory {
 		public void setVisible(boolean visible) {
 			textField.setVisible(visible);
 		}
+
+		@Override
+		public void setEditable(boolean editable) {
+			textField.setEditable(editable);
+		}
 	}
 
 	private static class DefaultStringWidget extends AbstractBaseWidget<StringValue> {
@@ -483,12 +526,11 @@ public class UIFactory {
 		private final JPanel panel;
 
 		public DefaultStringWidget(QLQuestion q) {
-			super(q.getId(), q.expr());
+			super(q.getId());
 
 			panel = new JPanel();
 
 			textField = new JTextField();
-			textField.setEditable(!isComputed());
 
 			textField.setPreferredSize(new Dimension(100, 20));
 			textField.addKeyListener(new KeyAdapter() {
@@ -531,6 +573,11 @@ public class UIFactory {
 		@Override
 		public void setVisible(boolean visible) {
 			textField.setVisible(visible);
+		}
+
+		@Override
+		public void setEditable(boolean editable) {
+			textField.setEditable(editable);
 		}
 	}
 }

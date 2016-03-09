@@ -15,8 +15,8 @@ public class QLBlock extends ASTNode {
 
 	public QLBlock(ASTSourceInfo context, List<QLQuestion> questions, List<QLIFStatement> statements) {
 		super(context);
-		this.questions = questions;
-		this.statements = statements;
+		this.questions = questions == null ? Collections.emptyList() : questions;
+		this.statements = statements == null ? Collections.emptyList() : statements;
 	}
 
 	public List<QLQuestion> getQuestions() {

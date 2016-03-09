@@ -226,7 +226,7 @@ public class QLSemanticAnalyser {
 
 		@Override
 		public Void visit(QLIFStatement node, SymbolTable st) {
-			checkType(node.condition(), st, QLType.BOOLEAN);
+			checkType(node.getCondition(), st, QLType.BOOLEAN);
 			node.getBody().accept(this, st);
 
 			return null;

@@ -5,7 +5,14 @@ import org.uva.ql.ast.BooleanValue;
 
 public final class BooleanLiteral extends Expr {
 
+	public static final BooleanLiteral TRUE = new BooleanLiteral(true);
+	public static final BooleanLiteral FALSE = new BooleanLiteral(false);
+
 	private final BooleanValue value;
+
+	public BooleanLiteral(boolean value) {
+		this(null, value);
+	}
 
 	public BooleanLiteral(ASTSourceInfo context, boolean value) {
 		super(context);

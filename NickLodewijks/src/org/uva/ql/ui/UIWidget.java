@@ -31,5 +31,7 @@ public interface UIWidget<T extends Value> {
 
 	public void setVisible(boolean visible);
 
+	public void setEditable(boolean editable);
+
 	public JComponent getComponent();
 }

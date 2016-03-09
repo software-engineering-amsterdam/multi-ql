@@ -153,7 +153,7 @@ public class ASTNodeVisitorAdapter<T, U>
 
 	@Override
 	public T visit(QLIFStatement node, U context) {
-		node.condition().accept(this, context);
+		node.getCondition().accept(this, context);
 		node.getBody().accept(this, context);
 
 		return null;
