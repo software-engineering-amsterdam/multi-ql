@@ -153,7 +153,7 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Observab
         Val rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue() != rhs.getValue()));
+            return new Primary(new Bool(lhs.getLine(), !lhs.getValue().equals(rhs.getValue())));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x != y", getBadArgumentLetter(lhs, rhs)));
@@ -237,7 +237,7 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Observab
         Val rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue() == rhs.getValue()));
+            return new Primary(new Bool(lhs.getLine(), lhs.getValue().equals(rhs.getValue())));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x == y", getBadArgumentLetter(lhs, rhs)));
