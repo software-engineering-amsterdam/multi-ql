@@ -9,9 +9,11 @@ import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
+import org.uva.sea.ql.ast.tree.val.Str;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.type.BooleanType;
 import org.uva.sea.ql.ast.type.MoneyType;
+import org.uva.sea.ql.ast.type.TextType;
 import org.uva.sea.ql.ast.type.ValueType;
 
 import java.util.HashMap;
@@ -169,6 +171,11 @@ public class TypeVisitor<F,S,T> extends BaseVisitor<F,S,ValueType,T,ValueType,Vo
     @Override
     public ValueType visit(Bool val, Void context) {
         return new BooleanType();
+    }
+
+    @Override
+    public ValueType visit(Str val, Void context) {
+        return new TextType();
     }
 
     private boolean incompatibleTypes(BinaryExpr expr, ValueType type){

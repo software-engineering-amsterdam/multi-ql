@@ -12,6 +12,7 @@ import org.uva.sea.ql.ast.tree.val.*;
 import org.uva.sea.ql.ast.tree.form.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.tree.type.Type;
 }
 
@@ -59,9 +60,10 @@ stats returns [List<Stat> result]
 
 //Expression Grammar
 primary returns [Expr result]
-    :   x=num   {$result = new Primary($x.start.getLine(), $x.result);}
-    |   y=id    {$result = new Primary($y.start.getLine(), $y.result);}
-    |   z=bool  {$result = new Primary($z.start.getLine(), $z.result);}
+    :   x1=num   {$result = new Primary($x1.start.getLine(), $x1.result);}
+    |   x2=id    {$result = new Primary($x2.start.getLine(), $x2.result);}
+    |   x3=str   {$result = new Primary($x3.start.getLine(), $x3.result);}
+    |   x4=bool  {$result = new Primary($x4.start.getLine(), $x4.result);}
     ;
 
 unExpr returns [Expr result]
@@ -137,6 +139,7 @@ orExpr returns [Expr result]
 type returns [Type result]
     : x=Boolean  {$result = new Boolean($x.getLine());}
     | x=Money    {$result = new Money($x.getLine());}
+    | x=Text     {$result = new Text($x.getLine());}
     ;
 
 bool returns [Val result]
@@ -146,6 +149,10 @@ bool returns [Val result]
 
 num returns [Val result]
     : value=Int {$result = new Int($value.getLine(), $value.text); }
+    ;
+
+str returns [Val result]
+    : value=Str {$result = new Str($value.getLine(), $value.text); }
     ;
 
 id returns [Val result]
@@ -163,6 +170,7 @@ False       : 'false';
 
 Boolean     : 'boolean';
 Money       : 'money';
+Text        : 'text';
 
 Ident       :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 

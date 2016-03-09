@@ -11,6 +11,7 @@ import org.uva.sea.ql.ast.tree.val.*;
 import org.uva.sea.ql.ast.tree.form.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.tree.type.Type;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -180,6 +181,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNum(QLParser.NumContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#str}.
+	 * @param ctx the parse tree
+	 */
+	void enterStr(QLParser.StrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#str}.
+	 * @param ctx the parse tree
+	 */
+	void exitStr(QLParser.StrContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#id}.
 	 * @param ctx the parse tree

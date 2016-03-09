@@ -7,10 +7,7 @@ import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.*;
-import org.uva.sea.ql.ast.tree.val.Bool;
-import org.uva.sea.ql.ast.tree.val.Int;
-import org.uva.sea.ql.ast.tree.val.Val;
-import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.ast.tree.val.*;
 
 import java.util.Map;
 
@@ -306,12 +303,17 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Observab
     }
 
     @Override
-    public Bool visit(Bool val, ObservableMap<Var, Question> symbolTable) {
+    public Val visit(Bool val, ObservableMap<Var, Question> symbolTable) {
         return val;
     }
 
     @Override
-    public Int visit(Int val, ObservableMap<Var, Question> symbolTable) {
+    public Val visit(Int val, ObservableMap<Var, Question> symbolTable) {
+        return val;
+    }
+
+    @Override
+    public Val visit(Str val, ObservableMap<Var, Question> context) {
         return val;
     }
 

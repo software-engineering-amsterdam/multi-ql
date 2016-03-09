@@ -221,6 +221,11 @@ public abstract class BaseVisitor<F,S,E,T,V,C> implements FormVisitor<F,C>,StatV
     }
 
     @Override
+    public V visit(Str val, C context) {
+        return null;
+    }
+
+    @Override
     public V visit(Var val, C context) {
         return null;
     }

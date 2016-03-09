@@ -14,11 +14,13 @@ import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
+import org.uva.sea.ql.ast.tree.val.Str;
 import org.uva.sea.ql.ast.tree.val.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.gui.widget.CheckBoxWidget;
+import org.uva.sea.ql.gui.widget.BooleanFieldWidget;
 import org.uva.sea.ql.gui.widget.MoneyFieldWidget;
 import org.uva.sea.ql.gui.widget.QuestionWidget;
+import org.uva.sea.ql.gui.widget.TextFieldWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,10 +102,27 @@ public class QuestionUIBuilder extends BaseVisitor<Void, QuestionWidget, Void, V
 
     @Override
     public Control visit(Bool val, Question parent) {
-        CheckBoxWidget b = new CheckBoxWidget(parent, parent.isComputed());
+        BooleanFieldWidget b = new BooleanFieldWidget(parent, parent.isComputed());
         b.setSelected(val.getValue());
         b.setOnAction(this::handleCheckBoxAction);
         return b;
+    }
+
+    @Override
+    public Control visit(Str val, Question parent) {
+        TextFieldWidget f = new TextFieldWidget(parent, parent.isComputed());
+        f.setAlignment(Pos.BASELINE_RIGHT);
+
+        if(val.getValue() != null) {
+            f.setText(val.getValue().toString());
+        }
+        else {
+            f.setText("-");
+        }
+
+        f.textProperty().addListener((observable, oldValue, newValue) ->
+                handleTextFieldAction(f));
+        return f;
     }
 
     private void handleMoneyFieldAction(MoneyFieldWidget f) {
@@ -116,11 +135,20 @@ public class QuestionUIBuilder extends BaseVisitor<Void, QuestionWidget, Void, V
     }
 
     private void handleCheckBoxAction(ActionEvent actionEvent) {
-        CheckBoxWidget b = (CheckBoxWidget) actionEvent.getSource();
+        BooleanFieldWidget b = (BooleanFieldWidget) actionEvent.getSource();
         Question parent = b.getParentQuestion();
         Expr newExpr = new Primary(new Bool(
                         parent.getLine(),
                         b.isSelected()));
+        Question update = updateQuestionExpr(parent, newExpr);
+        this.symbolTable.put(parent.getVarname(), update);
+    }
+
+    private void handleTextFieldAction(TextFieldWidget f) {
+        Question parent = f.getParentQuestion();
+        Expr newExpr = new Primary(new Str(
+                parent.getExpr().getLine(),
+                f.getText()));
         Question update = updateQuestionExpr(parent, newExpr);
         this.symbolTable.put(parent.getVarname(), update);
     }
