@@ -145,7 +145,7 @@ public class TypesChecker extends LeftDFSVisitor<Context> {
 
 	@Override
 	public void visit(IfStatement ifStatement, Context context) {
-		Expr root = ifStatement.getClause();
+		Expr root = ifStatement.getCondition();
 		if (! root.getType(context).equals(new BoolType())) { 
 			String message = "evaluates to the wrong type! Type should be Boolean but is " 
 					+ root.getType(context).toString();

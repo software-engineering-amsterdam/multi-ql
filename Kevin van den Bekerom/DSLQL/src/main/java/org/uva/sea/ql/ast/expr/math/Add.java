@@ -3,18 +3,20 @@ package org.uva.sea.ql.ast.expr.math;
 import org.uva.sea.ql.ast.expr.BinaryExpr;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.form.ValueMap;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.*;
+import org.uva.sea.ql.value.Value;
 
 public class Add extends BinaryExpr {
 	
-	public Add(Expr lhs, Expr rhs) {
-		super(lhs, rhs);
+	public Add(Expr lhs, Expr rhs, int startLine) {
+		super(lhs, rhs, startLine);
 	}
 	
 	@Override
-	public Integer eval() {
-		return (Integer) lhs.eval() + (Integer) rhs.eval(); //lhs.eval().add(rhs.eval());
+	public Value eval(ValueMap valueMap) {
+		return lhs.eval(valueMap).add(rhs.eval(valueMap)); 
 	}
 	
 	public void accept(Visitor visitor, Object context) {

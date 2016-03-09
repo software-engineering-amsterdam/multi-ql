@@ -8,17 +8,18 @@ import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
 
 public class Block extends ASTNode implements Visitable {
-	List<ASTNode> stmts;
+	List<Statement> stmts;
 	
 	public Block() {
-		stmts = new ArrayList<ASTNode>();
+		super(-1);
+		stmts = new ArrayList<Statement>();
 	}
 	
-	public List<ASTNode> getStmts() {
+	public List<Statement> getStmts() {
 		return stmts;
 	}
 	
-	public void add(ASTNode stmt) {
+	public void add(Statement stmt) {
 		stmts.add(stmt);
 	}
 
