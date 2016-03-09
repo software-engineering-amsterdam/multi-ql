@@ -200,11 +200,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift"
-            timestampString = "479229484.285188"
+            timestampString = "479243177.001298"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "retrieveSymbolType(_:)"
             landmarkType = "5">
          </BreakpointContent>

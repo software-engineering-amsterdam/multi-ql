@@ -25,7 +25,7 @@ internal class SymbolTable {
             if currentType! === object.type || currentType! === QLUnknownType.self {
                 symbolTable[identifier] = object
             } else {
-                throw MultipleDeclarations(description: "Identifier is already declared as a different type: \(identifier)")
+                throw MultipleDeclarations(description: "Identifier is multiply declared as different types: \(identifier) as \'\(currentType!.toString())\' and \'\(object.type.toString())\'")
             }
         }
     }

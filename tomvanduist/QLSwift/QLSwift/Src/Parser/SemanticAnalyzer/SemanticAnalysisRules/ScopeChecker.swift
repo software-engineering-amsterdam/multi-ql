@@ -192,7 +192,13 @@ extension ScopeChecker {
     
     private func assignScope(question: QLQuestion) {
         if let symbol = symbolTable.retrieve(question.identifier.id) {
-            _ = try? scopedSymbolTable.assign(question.identifier.id, object: symbol) // TODO: override warning
+            do {
+                try scopedSymbolTable.assign(question.identifier.id, object: symbol)
+            } catch let warning as SemanticWarning {
+                collectWarning(warning)
+            } catch let error {
+                collectError(error)
+            }
         }
     }
     
@@ -202,8 +208,8 @@ extension ScopeChecker {
         }
     }
     
-    private func collectError(error: SemanticError) {
-        self.errors.append(error)
+    private func collectError(error: ErrorType) {
+        self.errors.append(SystemError(error: error))
     }
     
     private func collectWarning(warning: SemanticWarning) {
