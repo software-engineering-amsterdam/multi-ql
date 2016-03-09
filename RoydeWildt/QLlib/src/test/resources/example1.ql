@@ -1,6 +1,6 @@
 form taxOfficeExample {
   "What is your name?"
-    name: text = ("roy")
+    name: text
   "Your name is:"
     nameis: text = (name)
   "Did you sell a house in 2010?"

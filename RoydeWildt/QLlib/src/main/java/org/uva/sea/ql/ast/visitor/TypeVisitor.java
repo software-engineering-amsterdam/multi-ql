@@ -21,9 +21,6 @@ import java.util.Map;
  * Created by roydewildt on 17/02/16.
  */
 
-//TODO: Replace void with environment and remove global decls var
-
-
 public class TypeVisitor<F,S,T> extends BaseVisitor<F,S,Type,T,Type,Void> {
     private final Map<Node,Node> decls = new HashMap<>();
 
