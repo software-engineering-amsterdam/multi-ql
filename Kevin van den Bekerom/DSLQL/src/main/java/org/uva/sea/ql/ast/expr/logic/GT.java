@@ -1,19 +1,21 @@
-package org.uva.sea.ql.ast.expr;
+package org.uva.sea.ql.ast.expr.logic;
 
+import org.uva.sea.ql.ast.expr.BinaryExpr;
+import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.NumericalType;
 import org.uva.sea.ql.type.Type;
 
-public class Pos extends UnaryExpr {
+public class GT extends BinaryExpr {
 	
-	public Pos(Expr expr) {
-		super.child = expr;
+	public GT(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
 	}
 	
 	@Override
-	public Integer eval() {
-		return Math.abs( (Integer) child.eval());
+	public Boolean eval() {
+		return (Integer) lhs.eval() > (Integer) rhs.eval();
 	}
 	
 	public void accept(Visitor visitor, Object context) {
@@ -22,7 +24,7 @@ public class Pos extends UnaryExpr {
 
 	@Override
 	public String toString() {
-		return super.toString() + " (positive)";
+		return super.toString() + " (>)";
 	}
 	
 	@Override

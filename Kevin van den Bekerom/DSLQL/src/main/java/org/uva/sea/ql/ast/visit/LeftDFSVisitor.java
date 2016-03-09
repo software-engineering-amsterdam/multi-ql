@@ -2,6 +2,25 @@ package org.uva.sea.ql.ast.visit;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.expr.logic.And;
+import org.uva.sea.ql.ast.expr.logic.Eq;
+import org.uva.sea.ql.ast.expr.logic.GEq;
+import org.uva.sea.ql.ast.expr.logic.GT;
+import org.uva.sea.ql.ast.expr.logic.LEq;
+import org.uva.sea.ql.ast.expr.logic.LT;
+import org.uva.sea.ql.ast.expr.logic.NEq;
+import org.uva.sea.ql.ast.expr.logic.Not;
+import org.uva.sea.ql.ast.expr.logic.Or;
+import org.uva.sea.ql.ast.expr.math.Add;
+import org.uva.sea.ql.ast.expr.math.Div;
+import org.uva.sea.ql.ast.expr.math.Mul;
+import org.uva.sea.ql.ast.expr.math.Neg;
+import org.uva.sea.ql.ast.expr.math.Pos;
+import org.uva.sea.ql.ast.expr.math.Sub;
+import org.uva.sea.ql.ast.expr.terminals.BooleanLiteral;
+import org.uva.sea.ql.ast.expr.terminals.IntegerLiteral;
+import org.uva.sea.ql.ast.expr.terminals.StringLiteral;
+import org.uva.sea.ql.ast.expr.terminals.Variable;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
 
@@ -127,7 +146,7 @@ public class LeftDFSVisitor<U> implements Visitor<U> {
 		computedQuestion.getExpr().accept(this, context);
 	}
 
-	public <U> void dfs(BinaryExpr e, Visitor v, U context) {
+	private <U> void dfs(BinaryExpr e, Visitor v, U context) {
 		assert e.getLhs() != null;
 		assert e.getRhs() != null;
 		e.getLhs().accept(v, context);

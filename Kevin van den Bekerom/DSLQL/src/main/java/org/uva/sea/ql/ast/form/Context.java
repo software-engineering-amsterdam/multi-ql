@@ -1,7 +1,6 @@
 package org.uva.sea.ql.ast.form;
 
-import org.uva.sea.ql.type.Type;
-import org.uva.sea.ql.type.Undefined;
+import org.uva.sea.ql.type.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,6 @@ public class Context {
 	}
 	
 	public void putQuestionType(String key, Type value) {
-		System.out.println("Sometin happend!");
 		questionTypes.put(key, value);
 	}
 	
@@ -27,7 +25,4 @@ public class Context {
 		
 	}
 	
-	public Map<String, Type> getTypeMap() {
-		return this.questionTypes;
-	}
 }

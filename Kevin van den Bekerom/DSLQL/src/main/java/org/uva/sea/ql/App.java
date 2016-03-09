@@ -21,7 +21,6 @@ import org.uva.sea.utils.Utils;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.DependencyGraphBuilder;
 import org.uva.sea.ql.ast.QuestionPainter;
-import org.uva.sea.ql.ast.TestDependencyAlgo;
 import org.uva.sea.ql.ast.TypesChecker;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Form;
@@ -71,7 +70,8 @@ public class App
 		    
 		//  System.out.println("Now testing question painter");
 		 // testDrawVisitor(getParser(everything));
-		    
+		    System.out.println(Integer.toString(5/2));
+		    System.out.println(Double.toString(Math.round(5.0/2)));
 		} finally {
 		    br.close();
 		    
@@ -93,7 +93,7 @@ public class App
 		FormContext fc = parser.form();
 		ASTNode startNode = fc.b.result;
 		TypeChecker tp = new TypeChecker();
-		tp.typeCheck(startNode);
+		tp.printErrors(startNode);
 	}
 
 	

@@ -1,7 +1,11 @@
 package org.uva.sea.ql.ast.expr;
 
 public abstract class UnaryExpr extends Expr {
-	Expr child;
+	protected final Expr child;
+	
+	public UnaryExpr(Expr child) {
+		this.child = child;
+	}
 	
 	public Expr getChild() {
 		return child;

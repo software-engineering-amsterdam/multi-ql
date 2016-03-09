@@ -1,5 +1,7 @@
-package org.uva.sea.ql.ast.expr;
+package org.uva.sea.ql.ast.expr.math;
 
+import org.uva.sea.ql.ast.expr.Expr;
+import org.uva.sea.ql.ast.expr.UnaryExpr;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.NumericalType;
@@ -8,7 +10,7 @@ import org.uva.sea.ql.type.Type;
 public class Neg extends UnaryExpr {
 	
 	public Neg(Expr expr) {
-		super.child = expr;
+		super(expr);
 	}
 	
 	@Override

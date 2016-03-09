@@ -1,20 +1,21 @@
-package org.uva.sea.ql.ast.expr;
+package org.uva.sea.ql.ast.expr.terminals;
 
+import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.visit.Visitor;
-import org.uva.sea.ql.type.NumericalType;
+import org.uva.sea.ql.type.BoolType;
 import org.uva.sea.ql.type.Type;
 
-public class GT extends BinaryExpr {
+public class BooleanLiteral extends Expr {
+	final boolean value;
 	
-	public GT(Expr lhs, Expr rhs) {
-		super.lhs = lhs;
-		super.rhs = rhs;
+	public BooleanLiteral(boolean value) {
+		this.value = value;
 	}
 	
 	@Override
 	public Boolean eval() {
-		return (Integer) lhs.eval() > (Integer) rhs.eval();
+		return value;
 	}
 	
 	public void accept(Visitor visitor, Object context) {
@@ -23,11 +24,12 @@ public class GT extends BinaryExpr {
 
 	@Override
 	public String toString() {
-		return super.toString() + " (>)";
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override
 	public Type getType(Context context) {
-		return new NumericalType();
+		return new BoolType();
 	}
 }

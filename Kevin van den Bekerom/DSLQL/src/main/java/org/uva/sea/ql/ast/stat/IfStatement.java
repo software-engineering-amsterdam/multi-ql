@@ -7,12 +7,12 @@ import org.uva.sea.ql.ast.visit.Visitor;
 
 public class IfStatement extends ASTNode implements Visitable {
 	private Block block;
-	private Expr clause;
+	private Expr condition;
 	
 	public IfStatement(Block block, Expr clause, int startLine) {
 		super.startLine = startLine;
 		this.block = block;
-		this.clause = clause;
+		this.condition = clause;
 	}
 	
 	public void accept(Visitor visitor, Object context) {
@@ -23,8 +23,8 @@ public class IfStatement extends ASTNode implements Visitable {
 		return block;
 	}
 
-	public Expr getClause() {
-		return clause;
+	public Expr getCondition() {
+		return condition;
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public class IfStatement extends ASTNode implements Visitable {
 	
 	public boolean getClauseValue() {
 		try {
-			return (Boolean) clause.eval();
+			return (Boolean) condition.eval();
 		} catch (NullPointerException e) {
 			System.out.println(e.toString());
 			return false;

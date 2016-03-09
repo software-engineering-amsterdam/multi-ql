@@ -1,5 +1,7 @@
-package org.uva.sea.ql.ast.expr;
+package org.uva.sea.ql.ast.expr.math;
 
+import org.uva.sea.ql.ast.expr.BinaryExpr;
+import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.NumericalType;
@@ -8,8 +10,7 @@ import org.uva.sea.ql.type.Type;
 public class Div extends BinaryExpr {
 	
 	public Div(Expr lhs, Expr rhs) {
-		super.lhs = lhs;
-		super.rhs = rhs;
+		super(lhs, rhs);
 	}
 	
 	@Override
