@@ -1,4 +1,4 @@
-package org.uva.ql.ui.swing;
+package org.uva.ql.ui;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
@@ -38,10 +38,6 @@ import org.uva.ql.ast.type.QLBooleanType;
 import org.uva.ql.ast.type.QLIntegerType;
 import org.uva.ql.ast.type.QLStringType;
 import org.uva.ql.ast.type.QLTypeVisitor;
-import org.uva.ql.ui.UIForm;
-import org.uva.ql.ui.UIQuestion;
-import org.uva.ql.ui.UIQuestionnaire;
-import org.uva.ql.ui.UIWidget;
 
 public class UIFactory {
 

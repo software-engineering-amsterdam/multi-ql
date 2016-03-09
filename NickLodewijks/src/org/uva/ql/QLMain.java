@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.uva.ql.ast.form.QLForm;
+import org.uva.ql.ui.UIFactory;
 import org.uva.ql.ui.UIQuestionnaire;
-import org.uva.ql.ui.swing.UIFactory;
 
 public class QLMain {
 
