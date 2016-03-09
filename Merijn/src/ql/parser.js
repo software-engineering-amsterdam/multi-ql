@@ -1,12 +1,12 @@
 import * as antlr4 from 'antlr4';
 import { ErrorListener } from 'antlr4/error/ErrorListener';
-import { QLLexer as GeneratedLexer } from 'src/generated_parser/QLLexer';
-import { QLParser as GeneratedParser } from 'src/generated_parser/QLParser';
-import { QLVisitor as GeneratedVisitor } from 'src/generated_parser/QLVisitor';
-import { SemanticAnalyser } from 'src/ast_semantic_analysis';
-import * as ast from 'src/ast';
-import * as types from 'src/types';
-import * as values from 'src/values';
+import { QLLexer as GeneratedLexer } from 'src/ql/generated_parser/QLLexer';
+import { QLParser as GeneratedParser } from 'src/ql/generated_parser/QLParser';
+import { QLVisitor as GeneratedVisitor } from 'src/ql/generated_parser/QLVisitor';
+import { SemanticAnalyser } from 'src/ql/ast_semantic_analysis';
+import * as ast from 'src/ql/ast';
+import * as types from 'src/ql/types';
+import * as values from 'src/ql/values';
 
 // Use a visitor to convert the parse context into an ast
 class AstConversionVisitor extends GeneratedVisitor {
@@ -128,7 +128,7 @@ class AstConversionVisitor extends GeneratedVisitor {
 	}
 }
 
-class LoggingErrorListener extends ErrorListener {
+export class LoggingErrorListener extends ErrorListener {
 	constructor (log) {
 		super();
 		this.log = log;

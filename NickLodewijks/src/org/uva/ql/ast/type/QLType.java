@@ -1,7 +1,7 @@
 package org.uva.ql.ast.type;
 
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
+import org.uva.ql.ast.ASTSourceInfo;
 
 public abstract class QLType extends ASTNode {
 
@@ -9,7 +9,7 @@ public abstract class QLType extends ASTNode {
 	public static final QLType STRING = new QLStringType();
 	public static final QLType INTEGER = new QLIntegerType();
 
-	public QLType(ParserRuleContext context) {
+	public QLType(ASTSourceInfo context) {
 		super(context);
 	}
 

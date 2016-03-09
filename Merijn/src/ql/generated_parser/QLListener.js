@@ -1,4 +1,4 @@
-// Generated from C:/Users/mwijngaard/Documents/Projects/multi-ql/Merijn/src/generated_parser\QL.g4 by ANTLR 4.5.1
+// Generated from C:/Users/mwijngaard/Documents/Projects/multi-ql/Merijn/src/ql\QL.g4 by ANTLR 4.5.1
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 

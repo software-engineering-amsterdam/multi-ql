@@ -12,11 +12,11 @@ public interface ExprVisitor<T, U> {
 
 	public T visit(Equals node, U context);
 
-	public T visit(GreaterThanOrEquals node, U context);
+	public T visit(GreaterThanOrEqual node, U context);
 
 	public T visit(GreaterThan node, U context);
 
-	public T visit(LessThanOrEquals node, U context);
+	public T visit(LessThanOrEqual node, U context);
 
 	public T visit(LessThan node, U context);
 

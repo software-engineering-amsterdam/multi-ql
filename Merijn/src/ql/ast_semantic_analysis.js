@@ -1,7 +1,7 @@
-import { NodeVisitor, RecursingVisitor } from 'src/ast';
+import { NodeVisitor, RecursingVisitor } from 'src/ql/ast';
 import { Log, LineError } from 'src/log';
-import * as types from 'src/types';
-import * as type_inference from 'src/type_inference';
+import * as types from 'src/ql/types';
+import * as type_inference from 'src/ql/type_inference';
 
 class AnalysisLogHelper {
 	constructor(log) {

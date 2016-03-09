@@ -1,11 +1,11 @@
 package org.uva.ql.ast.stat;
 
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
+import org.uva.ql.ast.ASTSourceInfo;
 
 public abstract class QLStatement extends ASTNode {
 
-	public QLStatement(ParserRuleContext context) {
+	public QLStatement(ASTSourceInfo context) {
 		super(context);
 	}
 
