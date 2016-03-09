@@ -45,7 +45,7 @@ public class TypeCheckerTest {
         boolean parsed = parser.parse();
         assertTrue(parsed);
         ASTNode ast = parser.getResult();
-        IdentCollector collector = new IdentCollector();
+        QuestionIdentCollector collector = new QuestionIdentCollector();
         ast.accept(collector);
         Map<Ident,Question> firstQuestionsForIdentifiers = collector.getFirstQuestionsForIdentifiers();
         TypeChecker checker = new TypeChecker(firstQuestionsForIdentifiers);
