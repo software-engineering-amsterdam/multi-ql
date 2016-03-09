@@ -66,9 +66,11 @@ public class DependencyChecker extends GeneralizedASTVisitor {
         Ident startIdentifier = q.getIdentifier();
         assert dependencyGraph.containsVertex(startIdentifier);
         IdentCollector collector = new IdentCollector();
-        q.accept(collector);
-        Iterable<Ident> identifiersInCalculation = collector.getIdentifiers();
-        addEdges(startIdentifier, identifiersInCalculation);
+        if (q.isComputed()) {
+            q.calculationAccept(collector);
+            Iterable<Ident> identifiersInCalculation = collector.getIdentifiers();
+            addEdges(startIdentifier, identifiersInCalculation);
+        }
     }
     
     /**

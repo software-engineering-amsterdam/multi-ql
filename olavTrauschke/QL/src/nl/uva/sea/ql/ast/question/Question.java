@@ -91,7 +91,7 @@ public abstract class Question extends ASTNode {
         identifierAccept(v);
         labelAccept(v);
         if (calculation != null) {
-            calculation.accept(v);
+            calculationAccept(v);
         }
     }
     
@@ -113,6 +113,26 @@ public abstract class Question extends ASTNode {
      */
     protected void labelAccept(ASTVisitor v) {
         label.accept(v);
+    }
+    
+    /**
+     * Tells whether this <code>Question</code> is computed (or should be
+     * anwered by the user.
+     * 
+     * @return <code>true</code> if and only if <code>calculation != null</code>
+     */
+    public boolean isComputed() {
+        return calculation != null;
+    }
+    
+    /**
+     * Has the <code>calculation</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that the <code>calculation</code> of
+     *          <code>this Question</code> should <code>accept</code>
+     */
+    public void calculationAccept(ASTVisitor v) {
+        calculation.accept(v);
     }
     
     /**
