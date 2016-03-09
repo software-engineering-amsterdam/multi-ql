@@ -17,22 +17,13 @@ class SemanticAnalyzer {
         let typeChecker = TypeChecker()
         let error = SemanticErrorCollection(errors: [])
         
-        do {
+        
+        tryAndCollect({
             try warnings += typeChecker.run(form)
-        } catch let e as SemanticErrorCollection {
-            error.collectErrors(e.errors)
-        } catch let e as SemanticError {
-            error.collectError(e)
-        }
-        
-        
-        do {
+        }, error: error)
+        tryAndCollect({
             try CyclicDependencyChecker(symbolTable: typeChecker.symbolTable).run(form)
-        } catch let e as SemanticErrorCollection {
-            error.collectErrors(e.errors)
-        } catch let e as SemanticError {
-            error.collectError(e)
-        }
+        }, error: error)
         
         
         if !error.errors.isEmpty {
@@ -40,6 +31,18 @@ class SemanticAnalyzer {
         }
         
         return warnings
+    }
+    
+    private func tryAndCollect(f: (() throws -> Void), error: SemanticErrorCollection) {
+        do {
+            try f()
+        } catch let e as SemanticErrorCollection {
+            error.collectErrors(e.errors)
+        } catch let e as SemanticError {
+            error.collectError(e)
+        } catch let e {
+            error.collectError(SystemError(error: e))
+        }
     }
 }
 
