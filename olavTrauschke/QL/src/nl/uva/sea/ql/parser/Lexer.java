@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.expr.*;
  * Class for inerpretation of the syntax of ql-files.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 9-mrt-2016
  */
 public class Lexer implements Tokens {
     
@@ -83,9 +83,21 @@ public class Lexer implements Tokens {
     }
     
     private final Reader input;
-    private int character = ' '; //used only for checking no error has occured yet
+    private int character;
     private int token;
     private ASTNode semantic;
+    
+    /**
+     * Constructor for objects of this class.
+     * 
+     * @param file the <code>File</code> the constructed <code>Lexer</code>
+     *              should analyze
+     * @throws FileNotFoundException if <code>file</code> can not be read
+     */
+    public Lexer(File file) throws FileNotFoundException {
+        input = new FileReader(file);
+        readNextCharacter();
+    }
     
     /**
      * Constructor for objects of this class.
@@ -97,17 +109,6 @@ public class Lexer implements Tokens {
      */
     public Lexer(String filename) throws FileNotFoundException {
         input = new FileReader(filename);
-        readNextCharacter();
-    }
-    
-    /**
-     * Constructor for objects of this class.
-     * 
-     * @param theInput a <code>Reader</code> reading from the source the constructed
-     *                  <code>Lexer</code> should analyze
-     */
-    public Lexer(Reader theInput) {
-        input = theInput;
         readNextCharacter();
     }
     

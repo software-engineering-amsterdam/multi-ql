@@ -5,6 +5,11 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
+
+import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.gui.questionFields.listeners.MoneyFieldListener;
+import nl.nicasso.ql.gui.questionFields.listeners.TextFieldListener;
 
 public class MoneyQuestionField extends QuestionField {
 
@@ -13,43 +18,23 @@ public class MoneyQuestionField extends QuestionField {
 	 */
 	private static final long serialVersionUID = 3047877727295787300L;
 	
-	JFormattedTextField field;
+	private Identifier identifier;
+	
+	JTextField field;
 
-	public MoneyQuestionField() {
-		field = new JFormattedTextField(getMoneyFormatter());
-		field.setSize(200,100);
-		/*
-		field.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("JKDSLADKAKRAW");
-				
-			}
-		});
-		
-		field.addFocusListener(new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		*/
+	public MoneyQuestionField(Identifier identifier) {
+		this.identifier = identifier;
+		//field = new JFormattedTextField(getMoneyFormatter());
+		field = new JTextField();
+		field.getDocument().addDocumentListener(new MoneyFieldListener(identifier));
+		field.setColumns(20);
 	}
 	
 	public void setValue(Object value) {
-		field.setValue((BigDecimal) value);
+		field.setText(value.toString());
 	}
 	
-	public JFormattedTextField getField() {
+	public JTextField getField() {
 		return this.field;
 	}
 	

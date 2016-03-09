@@ -1,7 +1,6 @@
 package nl.uva.sea.ql.parser;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -32,8 +31,7 @@ public class LexerTest {
     
     @Test
     public void testSimpleExpressionAnalysis() throws FileNotFoundException {
-        FileReader reader = new FileReader("simpleExpression.ql");
-        Lexer lexer = new Lexer(reader);
+        Lexer lexer = new Lexer("simpleExpression.ql");
         ArrayList<Integer> tokens = obtainTokens(lexer);
         ArrayList<Integer> expected = new ArrayList<>();
         expected.add(Tokens.INT_LITERAL);

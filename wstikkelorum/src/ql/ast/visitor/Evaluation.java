@@ -127,7 +127,7 @@ public class Evaluation extends BasicVisitor<Object> {
 	
 	@Override
 	public Object visit(VariableExpression variableExpression){
-		return context.getValueForVariable(variableExpression.getIdentifier());
+		return context.getValueForVariable(variableExpression);
 	}
 	
 	public Context getContext(){

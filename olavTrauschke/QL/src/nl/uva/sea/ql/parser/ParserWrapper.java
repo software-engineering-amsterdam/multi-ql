@@ -1,5 +1,6 @@
 package nl.uva.sea.ql.parser;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
@@ -9,7 +10,7 @@ import java.io.FileNotFoundException;
  * package-access.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 9-mrt-2016
  */
 public class ParserWrapper extends Parser {
     
@@ -25,14 +26,8 @@ public class ParserWrapper extends Parser {
         super(filename);
     }
     
-   /**
-    * Constructor for objects of this class.
-    * 
-    * @param lexer a <code>Lexer</code> analyzing the source the constructed
-    *               <code>Parser</code> should parse
-    */
-    public ParserWrapper(Lexer lexer) {
-        super(lexer);
-    }
+   public ParserWrapper(File file) throws FileNotFoundException {
+       super(file);
+   }
     
 }

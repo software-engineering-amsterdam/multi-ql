@@ -7,20 +7,18 @@ import (
 	"ql/ast/expr/binaryoperatorexpr"
 	"ql/ast/expr/unaryoperatorexpr"
 	"ql/ast/stmt"
-	"ql/ast/visit"
 	"ql/symboltable"
 )
 
 type UndefinedQuestionReferenceTypeChecker struct {
-	visit.Visitor
-	ErrorsEncountered []error
+	TypeChecker
 }
 
 func CheckForReferencesToUndefinedQuestions(form stmt.Form, symbolTable symboltable.SymbolTable) []error {
 	log.Info("Start check for references to undefined questions")
 	undefinedQuestionReferenceTypeChecker := UndefinedQuestionReferenceTypeChecker{}
 
-	undefinedQuestionReferenceTypeChecker.Visit(form, symbolTable)
+	form.Accept(&undefinedQuestionReferenceTypeChecker, symbolTable)
 	log.WithFields(log.Fields{"Errors Encountered": undefinedQuestionReferenceTypeChecker.ErrorsEncountered}).Info("Ended check for references to undefined questions")
 
 	return undefinedQuestionReferenceTypeChecker.ErrorsEncountered
@@ -64,10 +62,10 @@ func (v *UndefinedQuestionReferenceTypeChecker) Visit(t interface{}, s interface
 	case unaryoperatorexpr.UnaryOperatorExpr:
 		log.Debug("Visit UnaryOperatorExpr")
 		t.(unaryoperatorexpr.UnaryOperatorExpr).GetValue().(expr.Expr).Accept(v, symbolTable)
-	case expr.VarExpr:
+	case unaryoperatorexpr.VarExpr:
 		log.Debug("Visit VarExpr")
 
-		identifier := t.(expr.VarExpr).GetIdentifier()
+		identifier := t.(unaryoperatorexpr.VarExpr).GetIdentifier()
 		if symbolTable.GetNodeForIdentifier(identifier) == nil {
 			v.ErrorsEncountered = append(v.ErrorsEncountered, fmt.Errorf("Reference to unknown question identifier: %s", identifier))
 		}

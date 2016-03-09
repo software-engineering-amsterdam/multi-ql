@@ -26,9 +26,9 @@ import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.variables.VarGeneric;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.ICyclicQuestionDependenciesVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
 
-public class DuplicateQuestionDifferentTypes implements ICyclicQuestionDependenciesVisitor {
+public class DuplicateQuestionDifferentTypes implements ICyclicDependencyVisitor {
 
 	private final Map<String, Variable> questionVariables = new HashMap<String, Variable>(0);
 	private final Map<String, Variable> duplicateVariables = new HashMap<String, Variable>(0);
@@ -77,7 +77,7 @@ public class DuplicateQuestionDifferentTypes implements ICyclicQuestionDependenc
 			Variable varPair = pair.getValue();
 			
 			if( varPair.getName().equalsIgnoreCase(var.getName()) &&
-					!varPair.getType().getType().equalsIgnoreCase(var.getType().getType())) {
+					!varPair.getType().equals(var.getType())) {
 				
 				duplicateVariables.put(var.getName(), var);
 			}

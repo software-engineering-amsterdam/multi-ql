@@ -4,11 +4,10 @@ import (
 	//"fmt"
 	"ql/ast/expr"
 	"ql/ast/expr/binaryoperatorexpr"
-	"ql/ast/expr/lit"
+	"ql/ast/expr/litexpr"
 	"ql/ast/expr/unaryoperatorexpr"
 	"ql/ast/stmt"
 	"ql/ast/vari"
-	"ql/ast/vari/vartype"
 	"ql/token"
 	"strconv"
 )
@@ -93,34 +92,34 @@ func NewOr(lhs interface{}, rhs interface{}) (expr.Expr, error) {
 
 /* Literals */
 func NewIntLit(value int64, e error) (expr.Expr, error) {
-	return lit.IntLit{int(value)}, nil
+	return litexpr.IntLit{int(value)}, nil
 }
 
 func NewBoolLit(value bool) (expr.Expr, error) {
-	return lit.BoolLit{value}, nil
+	return litexpr.BoolLit{value}, nil
 }
 
 func NewStrLit(value interface{}) (expr.Expr, error) {
 	literalString := stringLiteralTokensToString(value)
-	return lit.StrLit{literalString}, nil
+	return litexpr.StrLit{literalString}, nil
 }
 
 func NewVarExpr(identifier interface{}) (expr.Expr, error) {
-	return expr.VarExpr{identifier.(vari.VarId)}, nil
+	return unaryoperatorexpr.VarExpr{identifier.(vari.VarId)}, nil
 }
 
 /* vartypes */
 
-func NewIntType() (vartype.IntType, error) {
-	return vartype.IntType{}, nil
+func NewIntType() (vari.IntType, error) {
+	return vari.IntType{}, nil
 }
 
-func NewBoolType() (vartype.BoolType, error) {
-	return vartype.BoolType{}, nil
+func NewBoolType() (vari.BoolType, error) {
+	return vari.BoolType{}, nil
 }
 
-func NewStringType() (vartype.StringType, error) {
-	return vartype.StringType{}, nil
+func NewStringType() (vari.StringType, error) {
+	return vari.StringType{}, nil
 }
 
 /** statements **/
@@ -130,11 +129,11 @@ func NewForm(identifier interface{}, body interface{}) (stmt.Form, error) {
 }
 
 func NewInputQuestion(label interface{}, varDecl interface{}) (stmt.InputQuestion, error) {
-	return stmt.InputQuestion{label.(lit.StrLit), varDecl.(vari.VarDecl)}, nil
+	return stmt.InputQuestion{label.(litexpr.StrLit), varDecl.(vari.VarDecl)}, nil
 }
 
 func NewComputedQuestion(label interface{}, varDecl interface{}, computation interface{}) (stmt.ComputedQuestion, error) {
-	return stmt.ComputedQuestion{label.(lit.StrLit), varDecl.(vari.VarDecl), computation.(expr.Expr)}, nil
+	return stmt.ComputedQuestion{label.(litexpr.StrLit), varDecl.(vari.VarDecl), computation.(expr.Expr)}, nil
 }
 
 func NewStmtList(stmtElt interface{}) (stmt.StmtList, error) {
@@ -159,7 +158,7 @@ func NewIfElse(cond interface{}, ifBody interface{}, elseBody interface{}) (stmt
 }
 
 func NewVarDecl(ident interface{}, typeIdent interface{}) (vari.VarDecl, error) {
-	return vari.VarDecl{ident.(vari.VarId), typeIdent.(vartype.VarType)}, nil
+	return vari.VarDecl{ident.(vari.VarId), typeIdent.(vari.VarType)}, nil
 }
 
 func NewVarId(ident interface{}) (vari.VarId, error) {

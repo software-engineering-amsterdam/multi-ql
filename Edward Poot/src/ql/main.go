@@ -6,11 +6,10 @@ import (
 	"io/ioutil"
 	"ql/ast/expr"
 	"ql/ast/expr/binaryoperatorexpr"
-	"ql/ast/expr/lit"
+	"ql/ast/expr/litexpr"
 	"ql/ast/expr/unaryoperatorexpr"
 	"ql/ast/stmt"
 	"ql/ast/vari"
-	"ql/ast/vari/vartype"
 	"ql/ast/visit"
 	"ql/gui"
 	"ql/lexer"
@@ -49,14 +48,16 @@ func main() {
 		symbolTable := symboltable.NewSymbolTable()
 		symbolTable = parsedForm.Accept(visitor, symbolTable).(symboltable.SymbolTable)
 
-		errorsAndWarnings := make([]error, 0)
+		errors := make([]error, 0)
+		warnings := make([]error, 0)
 
-		errorsAndWarnings = append(errorsAndWarnings, typechecker.CheckForDuplicateLabels(parsedForm)...)
-		errorsAndWarnings = append(errorsAndWarnings, typechecker.CheckForDuplicateVarDeclWithDiffTypes(parsedForm)...)
-		errorsAndWarnings = append(errorsAndWarnings, typechecker.CheckForReferencesToUndefinedQuestions(parsedForm, symbolTable)...)
-		errorsAndWarnings = append(errorsAndWarnings, typechecker.CheckForNonBoolConditions(parsedForm, symbolTable)...)
+		warnings = append(warnings, typechecker.CheckForDuplicateLabels(parsedForm)...)
+		errors = append(errors, typechecker.CheckForDuplicateVarDeclWithDiffTypes(parsedForm)...)
+		errors = append(errors, typechecker.CheckForReferencesToUndefinedQuestions(parsedForm, symbolTable)...)
+		errors = append(errors, typechecker.CheckForNonBoolConditions(parsedForm, symbolTable)...)
+		errors = append(errors, typechecker.CheckForOperatorsWithInvalidOperands(parsedForm, symbolTable)...)
 
-		log.WithFields(log.Fields{"errors": errorsAndWarnings}).Error("Type checker results")
+		log.WithFields(log.Fields{"errors": errors, "warnings": warnings}).Error("Type checking finished")
 		gui.CreateGUI(parsedForm, symbolTable)
 	}
 }
@@ -81,7 +82,7 @@ func (v VisitorAdapter) Visit(t interface{}, s interface{}) interface{} {
 		return t.(stmt.Form).Content.Accept(v, symbolTable)
 	case vari.VarId:
 		log.Debug("Visit VarId")
-	case vartype.VarType:
+	case vari.VarType:
 		log.Debug("Visit VarType")
 	case vari.VarDecl:
 		log.Debug("Visit VarDecl")
@@ -116,11 +117,11 @@ func (v VisitorAdapter) Visit(t interface{}, s interface{}) interface{} {
 		t.(stmt.IfElse).Cond.Accept(v, symbolTable)
 		t.(stmt.IfElse).IfBody.Accept(v, symbolTable)
 		t.(stmt.IfElse).ElseBody.Accept(v, symbolTable)
-	case lit.StrLit:
+	case litexpr.StrLit:
 		log.Debug("Visit StrLit")
-	case lit.BoolLit:
+	case litexpr.BoolLit:
 		log.Debug("Visit BoolLit")
-	case lit.IntLit:
+	case litexpr.IntLit:
 		log.Debug("Visit IntLit")
 	case binaryoperatorexpr.BinaryOperatorExpr:
 		log.Debug("Visit BinaryOperatorExpr")
@@ -129,9 +130,9 @@ func (v VisitorAdapter) Visit(t interface{}, s interface{}) interface{} {
 	case unaryoperatorexpr.UnaryOperatorExpr:
 		log.Debug("Visit UnaryOperatorExpr")
 		t.(unaryoperatorexpr.UnaryOperatorExpr).GetValue().(expr.Expr).Accept(v, symbolTable)
-	case expr.VarExpr:
+	case unaryoperatorexpr.VarExpr:
 		log.Debug("Visit VarExpr")
-		t.(expr.VarExpr).GetIdentifier().Accept(v, symbolTable)
+		t.(unaryoperatorexpr.VarExpr).GetIdentifier().Accept(v, symbolTable)
 	}
 
 	return symbolTable

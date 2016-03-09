@@ -1,29 +1,30 @@
 package uva.ql.ast.expressions;
 
+import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.abstracts.RelationalOperator;
 import uva.ql.ast.expressions.types.GreaterThenOrEqualTo;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicQuestionDependenciesVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class ExpLessThenOrEqualTo extends RelationalOperator {
 
-	private Type type = new GreaterThenOrEqualTo();
+	private GreaterThenOrEqualTo type = new GreaterThenOrEqualTo();
 	
-	public ExpLessThenOrEqualTo(Node parent, Node lhs, Node rhs, int startLine, int startColumn) {
+	public ExpLessThenOrEqualTo(Node parent, Expression lhs, Expression rhs, int startLine, int startColumn) {
 		super(parent, startLine, startColumn, lhs, rhs);
+	}
+	
+	@Override
+	public boolean eval() {
+		return (this.getLhs().eval() && this.getRhs().eval());
 	}
 
 	@Override
-	public Type getType() {
-		return this.type;
-	}
-	
-	@Override
-	public String typeToString() {
+	public EnumType getType() {
 		return this.type.getType();
 	}
 	
@@ -38,7 +39,7 @@ public class ExpLessThenOrEqualTo extends RelationalOperator {
 	}
 	
 	@Override
-	public void accept(ICyclicQuestionDependenciesVisitor visitor) {
+	public void accept(ICyclicDependencyVisitor visitor) {
 		visitor.visitExpLessThenOrEqualTo(this);
 	}
 	
