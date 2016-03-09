@@ -1,14 +1,13 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class LessThen extends Type {
+public class LessThen {
 
-	private String type = "lessthen";
+	private EnumType type = EnumType.LESSTHEN;
 
-	@Override
-	public String getType() {
+	public EnumType getType() {
 		return this.type;
 	}
 }

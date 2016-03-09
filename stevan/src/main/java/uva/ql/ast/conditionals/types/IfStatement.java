@@ -1,13 +1,12 @@
 package uva.ql.ast.conditionals.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
-public class IfStatement extends Type {
+public class IfStatement {
 
-	private String type = "ifstatement";
-
-	@Override
-	public String getType() {
+	private EnumType type = EnumType.IFSTATEMENT;
+	
+	public EnumType getType() {
 		return this.type;
 	}
 }

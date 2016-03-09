@@ -1,5 +1,6 @@
 package uva.ql.ast.abstracts;
 
+import uva.ql.ast.EnumType;
 import uva.ql.interfaces.INode;
 
 public abstract class Node implements INode {
@@ -15,8 +16,7 @@ public abstract class Node implements INode {
 		this.startColumn = startColumn;
 	}
 	
-	abstract public Type getType();
-	abstract public String typeToString();
+	abstract public EnumType getType();
 	
 	public void setParent(Node n) {
 		this.parent = n;

@@ -1,13 +1,12 @@
 package uva.ql.ast.questions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
-public class Vanilla extends Type {
+public class Vanilla {
 
-	private String type = "vanilla";
-
-	@Override
-	public String getType() {
-		return this.type;
+private EnumType type = EnumType.VANILLA;
+	
+	public EnumType getType() {
+		return type;
 	}
 }
