@@ -9,10 +9,10 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.gui.TreeViewer;
 
 import nl.nicasso.ql.antlr.QLLexer;
 import nl.nicasso.ql.antlr.QLParser;
@@ -26,10 +26,6 @@ public class QL {
 	
 	private QLParser parser;		
 	private ParseTree tree;
-	
-	public QL() {
-		// Empty?
-	}
 	
 	public void start() {
 		ANTLRInputStream input = readInputDSL();
@@ -67,8 +63,8 @@ public class QL {
         // Get all initial values
         ast.accept(evaluator);
 
-        // Use values to evaluate expressions
-        ast.accept(evaluator);
+        // Use values to evaluate expressions (NOT NEEDED ANYMORE? HUH!)
+        //ast.accept(evaluator);
         
         //symbolTable.displaySymbolTable(symbolTable);
 

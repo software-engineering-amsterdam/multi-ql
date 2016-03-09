@@ -18,7 +18,7 @@ public class MainFrame {
 		panels = new ArrayList<Panel>();
 		
 		mainFrame = new JFrame("Questionnaire");
-		mainFrame.setSize(1024, 768);
+		mainFrame.setSize(800, 600);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setLayout(new MigLayout());
 		mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
