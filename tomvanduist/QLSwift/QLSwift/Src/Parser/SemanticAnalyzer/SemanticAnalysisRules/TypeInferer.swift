@@ -23,7 +23,6 @@ internal class TypeInferer: SemanticAnalysisRule, QLNodeVisitor {
     typealias GenericResult = SymbolTable
     
     private var symbolTable: SymbolTable = SymbolTable()
-    private var warnings: [SemanticWarning] = []
     private var errors: [SemanticError] = []
     
     
@@ -34,7 +33,7 @@ internal class TypeInferer: SemanticAnalysisRule, QLNodeVisitor {
         
         inferTypes(param)
         
-        return SemanticAnalysisResult(generic: symbolTable, warnings: warnings, errors: errors)
+        return SemanticAnalysisResult(generic: symbolTable, warnings: [], errors: errors)
     }
 }
 
@@ -82,10 +81,10 @@ extension TypeInferer {
             unassignedQuestions = newUnassigned
         }
         
-        for conditional in node.conditionals() {
-            conditional.accept(self, param: param)
-        }
         
+        for unassignedQuestion in unassignedQuestions {
+            collectError(TypeInferenceError(description: "The type of \'\(unassignedQuestion.identifier.toString())\' is ambigious and could not be resolved."))
+        }
         
         return QLVoidType()
     }
@@ -216,7 +215,6 @@ extension TypeInferer {
     
     private func resetInternals() {
         errors = []
-        warnings = []
     }
     
     private func inferTypes(form: QLForm) {
@@ -226,8 +224,8 @@ extension TypeInferer {
     private func assignSymbol(identifier: QLIdentifier, symbol: Object) {
         do {
             try symbolTable.assign(identifier.id, object: symbol)
-        } catch let warning as SemanticWarning {
-            self.warnings.append(warning)
+        } catch _ as SemanticWarning {
+            // no-op -> We do not care about warnings during type inference
         } catch let error {
             collectError(SystemError(error: error))
         }
@@ -246,9 +244,5 @@ extension TypeInferer {
     
     private func collectError(error: ErrorType) {
         self.errors.append(SystemError(error: error))
-    }
-    
-    private func collectWarning(warning: SemanticWarning) {
-        self.warnings.append(warning)
     }
 }

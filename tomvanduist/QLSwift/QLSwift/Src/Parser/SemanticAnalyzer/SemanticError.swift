@@ -29,6 +29,9 @@ class TypeMismatchError: SemanticError {
 class UndefinedVariableError: SemanticError {
 }
 
+class TypeInferenceError: SemanticError {
+}
+
 class CyclomaticDependencyError: SemanticError {
 }
 
