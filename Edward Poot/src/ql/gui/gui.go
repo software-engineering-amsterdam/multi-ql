@@ -5,12 +5,7 @@ import (
 	//"io/ioutil"
 	log "github.com/Sirupsen/logrus"
 	"ql/ast/expr"
-	"ql/ast/expr/binaryoperatorexpr"
-	"ql/ast/expr/lit"
-	"ql/ast/expr/unaryoperatorexpr"
 	"ql/ast/stmt"
-	"ql/ast/vari"
-	"ql/ast/vari/vartype"
 	"ql/ast/visit"
 	"ql/symboltable"
 	"strconv"
@@ -34,7 +29,7 @@ func (v GUI) Visit(t interface{}, s interface{}) interface{} {
 
 	switch t.(type) {
 	default:
-		panic(fmt.Sprintf("Unexpected node type %T", t))
+		log.WithFields(log.Fields{"Node": fmt.Sprintf("%T", t)}).Debug("Ignoring unhandled node type")
 	case stmt.Form:
 		log.Debug("Visit Form")
 
@@ -52,9 +47,9 @@ func (v GUI) Visit(t interface{}, s interface{}) interface{} {
 		for _, conditional := range t.(stmt.StmtList).Conditionals {
 			conditional.Accept(v, symbolTable)
 		}
-
 	case stmt.InputQuestion:
 		log.Debug("Visit InputQuestion")
+
 		question := t.(stmt.InputQuestion)
 		v.handleInputQuestion(question, symbolTable)
 
@@ -64,13 +59,11 @@ func (v GUI) Visit(t interface{}, s interface{}) interface{} {
 		log.Debug("Visit ComputedQuestion")
 
 		question := t.(stmt.ComputedQuestion)
-
 		v.handleComputedQuestion(question, symbolTable)
 
 		question.Label.Accept(v, symbolTable)
 		question.VarDecl.Accept(v, symbolTable)
 		question.Computation.Accept(v, symbolTable)
-
 	case stmt.If:
 		log.Debug("Visit If")
 		t.(stmt.If).Cond.Accept(v, symbolTable)
@@ -80,28 +73,6 @@ func (v GUI) Visit(t interface{}, s interface{}) interface{} {
 		t.(stmt.IfElse).Cond.Accept(v, symbolTable)
 		t.(stmt.IfElse).IfBody.Accept(v, symbolTable)
 		t.(stmt.IfElse).ElseBody.Accept(v, symbolTable)
-	case vari.VarId:
-		log.Debug("Visit VarId")
-	case vari.VarDecl:
-		log.Debug("Visit VarDecl")
-		t.(vari.VarDecl).Ident.Accept(v, symbolTable)
-	case vartype.VarType:
-		log.Debug("Visit VarType")
-	case lit.StrLit:
-		log.Debug("Visit StrLit")
-	case lit.BoolLit:
-		log.Debug("Visit BoolLit")
-	case lit.IntLit:
-		log.Debug("Visit IntLit")
-	case binaryoperatorexpr.BinaryOperatorExpr:
-		log.Debug("Visit BinaryOperatorExpr")
-		t.(binaryoperatorexpr.BinaryOperatorExpr).GetLhs().(expr.Expr).Accept(v, symbolTable)
-		t.(binaryoperatorexpr.BinaryOperatorExpr).GetRhs().(expr.Expr).Accept(v, symbolTable)
-	case unaryoperatorexpr.UnaryOperatorExpr:
-		log.Debug("Visit UnaryOperatorExpr")
-		t.(unaryoperatorexpr.UnaryOperatorExpr).GetValue().(expr.Expr).Accept(v, symbolTable)
-	case expr.VarExpr:
-		log.Debug("Visit VarExpr")
 	}
 
 	return nil

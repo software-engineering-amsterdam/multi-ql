@@ -5,20 +5,18 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"ql/ast/expr"
 	"ql/ast/stmt"
-	"ql/ast/visit"
 	"ql/symboltable"
 )
 
 type ConditionTypeChecker struct {
-	visit.Visitor
-	ErrorsEncountered []error
+	TypeChecker
 }
 
 func CheckForNonBoolConditions(form stmt.Form, symbolTable symboltable.SymbolTable) []error {
 	log.Info("Start check for non-boolean conditions")
 	ConditionTypeChecker := ConditionTypeChecker{}
 
-	ConditionTypeChecker.Visit(form, symbolTable)
+	form.Accept(&ConditionTypeChecker, symbolTable)
 	log.WithFields(log.Fields{"Errors Encountered": ConditionTypeChecker.ErrorsEncountered}).Info("Ended check for non-boolean conditions")
 
 	return ConditionTypeChecker.ErrorsEncountered
@@ -59,7 +57,7 @@ func (v *ConditionTypeChecker) Visit(t interface{}, s interface{}) interface{} {
 		evalCond := cond.Eval(s)
 
 		if _, CondIsBoolType := evalCond.(bool); !CondIsBoolType {
-			v.ErrorsEncountered = append(v.ErrorsEncountered, fmt.Errorf("Non-boolean condition used"))
+			v.ErrorsEncountered = append(v.ErrorsEncountered, fmt.Errorf("Non-boolean type used as condition: %T", evalCond))
 		}
 
 		cond.Accept(v, s)
