@@ -128,7 +128,7 @@ class AstConversionVisitor extends GeneratedVisitor {
 	}
 }
 
-class LoggingErrorListener extends ErrorListener {
+export class LoggingErrorListener extends ErrorListener {
 	constructor (log) {
 		super();
 		this.log = log;

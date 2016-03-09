@@ -7,12 +7,16 @@
 		#container {
 			width: 1024px;
 		}
-		#input {
+		#container-ql, #container-qls {
+			float: left;
+			width: 50%;
+		}
+		#input-ql, #input-qls {
 			border: 1px solid black;
 			width: 100%;
 			height: 200px;
 		}
-		#log {
+		#log-ql, #log-qls {
 			width: 100%;
 			height: 100px;
 		}
@@ -34,10 +38,18 @@
 <body>
 	<div id="container">
 		<h1>QL app</h1>
-		<h2>Input</h2>
-		<div id="input"></div>
-		<h2>Log</h2>
-		<textarea id="log"></textarea>
+		<div id="container-ql">
+			<h2>QL Input</h2>
+			<div id="input-ql"></div>
+			<h2>QL Log</h2>
+			<textarea id="log-ql"></textarea>
+		</div>
+		<div id="container-qls">
+			<h2>QLS Input</h2>
+			<div id="input-qls"></div>
+			<h2>QLS Log</h2>
+			<textarea id="log-qls"></textarea>
+		</div>
 		<h2>Render</h2>
 		<div id="render"></div>
 	</div>

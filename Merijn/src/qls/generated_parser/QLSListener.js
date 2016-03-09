@@ -29,12 +29,21 @@ QLSListener.prototype.exitStylesheetBlock = function(ctx) {
 };
 
 
-// Enter a parse tree produced by QLSParser#stylesheetStatement.
-QLSListener.prototype.enterStylesheetStatement = function(ctx) {
+// Enter a parse tree produced by QLSParser#pageStylesheetStatement.
+QLSListener.prototype.enterPageStylesheetStatement = function(ctx) {
 };
 
-// Exit a parse tree produced by QLSParser#stylesheetStatement.
-QLSListener.prototype.exitStylesheetStatement = function(ctx) {
+// Exit a parse tree produced by QLSParser#pageStylesheetStatement.
+QLSListener.prototype.exitPageStylesheetStatement = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#typeDefaultStylesheetStatement.
+QLSListener.prototype.enterTypeDefaultStylesheetStatement = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#typeDefaultStylesheetStatement.
+QLSListener.prototype.exitTypeDefaultStylesheetStatement = function(ctx) {
 };
 
 
@@ -47,39 +56,165 @@ QLSListener.prototype.exitPageBlock = function(ctx) {
 };
 
 
-// Enter a parse tree produced by QLSParser#pageStatement.
-QLSListener.prototype.enterPageStatement = function(ctx) {
+// Enter a parse tree produced by QLSParser#sectionPageStatement.
+QLSListener.prototype.enterSectionPageStatement = function(ctx) {
 };
 
-// Exit a parse tree produced by QLSParser#pageStatement.
-QLSListener.prototype.exitPageStatement = function(ctx) {
-};
-
-
-// Enter a parse tree produced by QLSParser#defaultWidgetStatement.
-QLSListener.prototype.enterDefaultWidgetStatement = function(ctx) {
-};
-
-// Exit a parse tree produced by QLSParser#defaultWidgetStatement.
-QLSListener.prototype.exitDefaultWidgetStatement = function(ctx) {
+// Exit a parse tree produced by QLSParser#sectionPageStatement.
+QLSListener.prototype.exitSectionPageStatement = function(ctx) {
 };
 
 
-// Enter a parse tree produced by QLSParser#widgetBlock.
-QLSListener.prototype.enterWidgetBlock = function(ctx) {
+// Enter a parse tree produced by QLSParser#questionPageStatement.
+QLSListener.prototype.enterQuestionPageStatement = function(ctx) {
 };
 
-// Exit a parse tree produced by QLSParser#widgetBlock.
-QLSListener.prototype.exitWidgetBlock = function(ctx) {
+// Exit a parse tree produced by QLSParser#questionPageStatement.
+QLSListener.prototype.exitQuestionPageStatement = function(ctx) {
 };
 
 
-// Enter a parse tree produced by QLSParser#widgetStatement.
-QLSListener.prototype.enterWidgetStatement = function(ctx) {
+// Enter a parse tree produced by QLSParser#typeDefaultPageStatement.
+QLSListener.prototype.enterTypeDefaultPageStatement = function(ctx) {
 };
 
-// Exit a parse tree produced by QLSParser#widgetStatement.
-QLSListener.prototype.exitWidgetStatement = function(ctx) {
+// Exit a parse tree produced by QLSParser#typeDefaultPageStatement.
+QLSListener.prototype.exitTypeDefaultPageStatement = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#typeDefaultStatement.
+QLSListener.prototype.enterTypeDefaultStatement = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#typeDefaultStatement.
+QLSListener.prototype.exitTypeDefaultStatement = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#styleBlock.
+QLSListener.prototype.enterStyleBlock = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#styleBlock.
+QLSListener.prototype.exitStyleBlock = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#widgetStyleStatement.
+QLSListener.prototype.enterWidgetStyleStatement = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#widgetStyleStatement.
+QLSListener.prototype.exitWidgetStyleStatement = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#argStyleStatement.
+QLSListener.prototype.enterArgStyleStatement = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#argStyleStatement.
+QLSListener.prototype.exitArgStyleStatement = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#sliderWidgetType.
+QLSListener.prototype.enterSliderWidgetType = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#sliderWidgetType.
+QLSListener.prototype.exitSliderWidgetType = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#textWidgetType.
+QLSListener.prototype.enterTextWidgetType = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#textWidgetType.
+QLSListener.prototype.exitTextWidgetType = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#radioWidgetType.
+QLSListener.prototype.enterRadioWidgetType = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#radioWidgetType.
+QLSListener.prototype.exitRadioWidgetType = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#valueOptionList.
+QLSListener.prototype.enterValueOptionList = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#valueOptionList.
+QLSListener.prototype.exitValueOptionList = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#moreValueOptions.
+QLSListener.prototype.enterMoreValueOptions = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#moreValueOptions.
+QLSListener.prototype.exitMoreValueOptions = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#lastValueOption.
+QLSListener.prototype.enterLastValueOption = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#lastValueOption.
+QLSListener.prototype.exitLastValueOption = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#booleanLiteral.
+QLSListener.prototype.enterBooleanLiteral = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#booleanLiteral.
+QLSListener.prototype.exitBooleanLiteral = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#stringLiteral.
+QLSListener.prototype.enterStringLiteral = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#stringLiteral.
+QLSListener.prototype.exitStringLiteral = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#integerLiteral.
+QLSListener.prototype.enterIntegerLiteral = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#integerLiteral.
+QLSListener.prototype.exitIntegerLiteral = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#floatLiteral.
+QLSListener.prototype.enterFloatLiteral = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#floatLiteral.
+QLSListener.prototype.exitFloatLiteral = function(ctx) {
+};
+
+
+// Enter a parse tree produced by QLSParser#moneyLiteral.
+QLSListener.prototype.enterMoneyLiteral = function(ctx) {
+};
+
+// Exit a parse tree produced by QLSParser#moneyLiteral.
+QLSListener.prototype.exitMoneyLiteral = function(ctx) {
 };
 
 
@@ -89,33 +224,6 @@ QLSListener.prototype.enterType = function(ctx) {
 
 // Exit a parse tree produced by QLSParser#type.
 QLSListener.prototype.exitType = function(ctx) {
-};
-
-
-// Enter a parse tree produced by QLSParser#widgetType.
-QLSListener.prototype.enterWidgetType = function(ctx) {
-};
-
-// Exit a parse tree produced by QLSParser#widgetType.
-QLSListener.prototype.exitWidgetType = function(ctx) {
-};
-
-
-// Enter a parse tree produced by QLSParser#valueOptions.
-QLSListener.prototype.enterValueOptions = function(ctx) {
-};
-
-// Exit a parse tree produced by QLSParser#valueOptions.
-QLSListener.prototype.exitValueOptions = function(ctx) {
-};
-
-
-// Enter a parse tree produced by QLSParser#valueOption.
-QLSListener.prototype.enterValueOption = function(ctx) {
-};
-
-// Exit a parse tree produced by QLSParser#valueOption.
-QLSListener.prototype.exitValueOption = function(ctx) {
 };
 
 

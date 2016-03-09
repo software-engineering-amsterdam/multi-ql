@@ -22,8 +22,13 @@ QLSVisitor.prototype.visitStylesheetBlock = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLSParser#stylesheetStatement.
-QLSVisitor.prototype.visitStylesheetStatement = function(ctx) {
+// Visit a parse tree produced by QLSParser#pageStylesheetStatement.
+QLSVisitor.prototype.visitPageStylesheetStatement = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#typeDefaultStylesheetStatement.
+QLSVisitor.prototype.visitTypeDefaultStylesheetStatement = function(ctx) {
 };
 
 
@@ -32,43 +37,98 @@ QLSVisitor.prototype.visitPageBlock = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLSParser#pageStatement.
-QLSVisitor.prototype.visitPageStatement = function(ctx) {
+// Visit a parse tree produced by QLSParser#sectionPageStatement.
+QLSVisitor.prototype.visitSectionPageStatement = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLSParser#defaultWidgetStatement.
-QLSVisitor.prototype.visitDefaultWidgetStatement = function(ctx) {
+// Visit a parse tree produced by QLSParser#questionPageStatement.
+QLSVisitor.prototype.visitQuestionPageStatement = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLSParser#widgetBlock.
-QLSVisitor.prototype.visitWidgetBlock = function(ctx) {
+// Visit a parse tree produced by QLSParser#typeDefaultPageStatement.
+QLSVisitor.prototype.visitTypeDefaultPageStatement = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLSParser#widgetStatement.
-QLSVisitor.prototype.visitWidgetStatement = function(ctx) {
+// Visit a parse tree produced by QLSParser#typeDefaultStatement.
+QLSVisitor.prototype.visitTypeDefaultStatement = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#styleBlock.
+QLSVisitor.prototype.visitStyleBlock = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#widgetStyleStatement.
+QLSVisitor.prototype.visitWidgetStyleStatement = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#argStyleStatement.
+QLSVisitor.prototype.visitArgStyleStatement = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#sliderWidgetType.
+QLSVisitor.prototype.visitSliderWidgetType = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#textWidgetType.
+QLSVisitor.prototype.visitTextWidgetType = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#radioWidgetType.
+QLSVisitor.prototype.visitRadioWidgetType = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#valueOptionList.
+QLSVisitor.prototype.visitValueOptionList = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#moreValueOptions.
+QLSVisitor.prototype.visitMoreValueOptions = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#lastValueOption.
+QLSVisitor.prototype.visitLastValueOption = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#booleanLiteral.
+QLSVisitor.prototype.visitBooleanLiteral = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#stringLiteral.
+QLSVisitor.prototype.visitStringLiteral = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#integerLiteral.
+QLSVisitor.prototype.visitIntegerLiteral = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#floatLiteral.
+QLSVisitor.prototype.visitFloatLiteral = function(ctx) {
+};
+
+
+// Visit a parse tree produced by QLSParser#moneyLiteral.
+QLSVisitor.prototype.visitMoneyLiteral = function(ctx) {
 };
 
 
 // Visit a parse tree produced by QLSParser#type.
 QLSVisitor.prototype.visitType = function(ctx) {
-};
-
-
-// Visit a parse tree produced by QLSParser#widgetType.
-QLSVisitor.prototype.visitWidgetType = function(ctx) {
-};
-
-
-// Visit a parse tree produced by QLSParser#valueOptions.
-QLSVisitor.prototype.visitValueOptions = function(ctx) {
-};
-
-
-// Visit a parse tree produced by QLSParser#valueOption.
-QLSVisitor.prototype.visitValueOption = function(ctx) {
 };
 
 
