@@ -118,7 +118,7 @@ extension ScopeChecker {
     
     func visitBinary(binary: QLBinary) {
         binary.lhs.accept(self, param: nil)
-        binary.lhs.accept(self, param: nil)
+        binary.rhs.accept(self, param: nil)
     }
     
     func visit(node: QLAdd, param: Void?) {

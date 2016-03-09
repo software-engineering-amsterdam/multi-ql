@@ -32,9 +32,12 @@ class SemanticAnalyzerTests: XCTestCase {
         runInvalidForms("TypedInvalidForms")
     }
     
-    // TODO: implement cyclic dependency
     func testCyclicDependency() {
         runInvalidForms("CyclicDependency")
+    }
+    
+    func testScoped() {
+        runInvalidForms("ScopedInvalid")
     }
     
     func runInvalidForms(file: String) {

@@ -50,6 +50,8 @@
 		E24CCEA11C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */; };
 		E24CCEA21C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */; };
 		E24CCEA31C906F7600ACA633 /* SemanticAnalysisRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */; };
+		E24CCEA51C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
+		E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
 		E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D3B1C7DF1CA00AC42ED /* FormView.swift */; };
 		E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D401C7EFB8F00AC42ED /* EvalTests.swift */; };
 		E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
@@ -190,6 +192,7 @@
 		E24CCE991C90633600ACA633 /* TypeInferer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeInferer.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/TypeInferer.swift; sourceTree = "<group>"; };
 		E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScopeChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift; sourceTree = "<group>"; };
 		E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CyclicDependencyChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift; sourceTree = "<group>"; };
+		E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ScopedInvalid.ql; path = Resources/QL/SemanticAnalyzerTests/ScopedInvalid.ql; sourceTree = "<group>"; };
 		E2591D3B1C7DF1CA00AC42ED /* FormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormView.swift; path = Src/UI/Form/FormView.swift; sourceTree = "<group>"; };
 		E2591D401C7EFB8F00AC42ED /* EvalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EvalTests.swift; path = Src/Parser/EvalTests.swift; sourceTree = "<group>"; };
 		E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalAdd.ql; path = Resources/QL/EvalTests/EvalAdd.ql; sourceTree = "<group>"; };
@@ -285,6 +288,7 @@
 				E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */,
 				E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */,
 				E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */,
+				E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */,
 			);
 			name = SemanticAnalyzerTests;
 			sourceTree = "<group>";
@@ -725,6 +729,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
+				E24CCEA51C90AD0100ACA633 /* ScopedInvalid.ql in Resources */,
 				E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */,
 				E2DF31001C6240F800F5227B /* form.ql in Resources */,
 				E29A237E1C6D6C6500281E49 /* Podfile in Resources */,
@@ -752,6 +757,7 @@
 				E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */,
 				E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */,
 				E2D518C21C701177008030C4 /* IfStatement.ql in Resources */,
+				E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */,
 				E29D0BE71C72766800AB3BCF /* FailQuestion.ql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
