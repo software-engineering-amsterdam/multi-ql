@@ -72,8 +72,7 @@ class SemanticAnalyzerTests: XCTestCase {
                 try sa.analyze(form!)
                 XCTAssertTrue(false)
             }
-            catch let e {
-                print(e)
+            catch {
                 // Expected behaviour, move along!
             }
         }
