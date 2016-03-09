@@ -3,6 +3,7 @@ package org.uva.ql.ast.stat;
 import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.ast.ASTSourceInfo;
+import org.uva.ql.ast.BooleanValue;
 import org.uva.ql.ast.expr.BooleanLiteral;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.type.QLType;
@@ -39,7 +40,7 @@ public abstract class QLQuestion extends QLStatement {
 	}
 
 	public boolean isEnabled(QLInterpreterContext context) {
-		return QLInterpreter.interpret(condition, context);
+		return QLInterpreter.interpret(condition, context).equals(new BooleanValue(true));
 	}
 
 	public Expr expr() {

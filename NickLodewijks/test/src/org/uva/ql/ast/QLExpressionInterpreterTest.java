@@ -12,126 +12,126 @@ public class QLExpressionInterpreterTest {
 	@Test
 	public void testExpressions() throws IOException {
 		// Integer literal
-		Assert.assertEquals(1, interpret("1"));
-		Assert.assertEquals(2, interpret("2"));
+		Assert.assertEquals(new NumberValue(1), interpret("1"));
+		Assert.assertEquals(new NumberValue(2), interpret("2"));
 
 		// Boolean literal
-		Assert.assertEquals(true, interpret("true"));
-		Assert.assertEquals(false, interpret("false"));
+		Assert.assertEquals(new BooleanValue(true), interpret("true"));
+		Assert.assertEquals(new BooleanValue(false), interpret("false"));
 
 		// String literal
-		Assert.assertEquals("test1", interpret("\"test1\""));
-		Assert.assertEquals("test2", interpret("\"test2\""));
+		Assert.assertEquals(new StringValue("test1"), interpret("\"test1\""));
+		Assert.assertEquals(new StringValue("test2"), interpret("\"test2\""));
 
 		// +
-		Assert.assertEquals(3, interpret("1+2"));
-		Assert.assertEquals(3, interpret("(1+2)"));
+		Assert.assertEquals(new NumberValue(3), interpret("1+2"));
+		Assert.assertEquals(new NumberValue(3), interpret("(1+2)"));
 
 		// -
-		Assert.assertEquals(-1, interpret("1-2"));
-		Assert.assertEquals(-1, interpret("(1-2)"));
+		Assert.assertEquals(new NumberValue(-1), interpret("1-2"));
+		Assert.assertEquals(new NumberValue(-1), interpret("(1-2)"));
 
 		// *
-		Assert.assertEquals(2, interpret("1*2"));
-		Assert.assertEquals(-2, interpret("-1*2"));
-		Assert.assertEquals(2, interpret("-1*-2"));
-		Assert.assertEquals(-2, interpret("1*-2"));
-		Assert.assertEquals(2, interpret("(1*2)"));
-		Assert.assertEquals(-2, interpret("-(1*2)"));
+		Assert.assertEquals(new NumberValue(2), interpret("1*2"));
+		Assert.assertEquals(new NumberValue(-2), interpret("-1*2"));
+		Assert.assertEquals(new NumberValue(2), interpret("-1*-2"));
+		Assert.assertEquals(new NumberValue(-2), interpret("1*-2"));
+		Assert.assertEquals(new NumberValue(2), interpret("(1*2)"));
+		Assert.assertEquals(new NumberValue(-2), interpret("-(1*2)"));
 
 		// /
-		Assert.assertEquals(2, interpret("4/2"));
-		Assert.assertEquals(2, interpret("(4/2)"));
+		Assert.assertEquals(new NumberValue(2), interpret("4/2"));
+		Assert.assertEquals(new NumberValue(2), interpret("(4/2)"));
 
 		// <
-		Assert.assertEquals(false, interpret("1<1"));
-		Assert.assertEquals(false, interpret("1<-1"));
-		Assert.assertEquals(true, interpret("-1<1"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("1<1"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("1<-1"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("-1<1"));
 
 		// >
-		Assert.assertEquals(false, interpret("1>1"));
-		Assert.assertEquals(true, interpret("1>-1"));
-		Assert.assertEquals(false, interpret("-1>1"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("1>1"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("1>-1"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("-1>1"));
 
 		// >=
-		Assert.assertEquals(false, interpret("1>=2"));
-		Assert.assertEquals(true, interpret("1>=1"));
-		Assert.assertEquals(true, interpret("1>=0"));
-		Assert.assertEquals(true, interpret("1>=-1"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("1>=2"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("1>=1"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("1>=0"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("1>=-1"));
 
 		// <=
-		Assert.assertEquals(true, interpret("1<=2"));
-		Assert.assertEquals(true, interpret("1<=1"));
-		Assert.assertEquals(false, interpret("1<=0"));
-		Assert.assertEquals(false, interpret("1<=-1"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("1<=2"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("1<=1"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("1<=0"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("1<=-1"));
 
 		// ==
-		Assert.assertEquals(true, interpret("1==1"));
-		Assert.assertEquals(true, interpret("\"test\"==\"test\""));
-		Assert.assertEquals(false, interpret("\"test\"!=\"test\""));
-		Assert.assertEquals(false, interpret("\"test\"==\"test2\""));
-		Assert.assertEquals(true, interpret("\"test\"!=\"test2\""));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("1==1"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("\"test\"==\"test\""));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("\"test\"!=\"test\""));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("\"test\"==\"test2\""));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("\"test\"!=\"test2\""));
 
 		// ||
-		Assert.assertEquals(true, interpret("true || false"));
-		Assert.assertEquals(true, interpret("true || true"));
-		Assert.assertEquals(true, interpret("false || true"));
-		Assert.assertEquals(false, interpret("false || false"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("true || false"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("true || true"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("false || true"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("false || false"));
 
 		// &&
-		Assert.assertEquals(false, interpret("true && false"));
-		Assert.assertEquals(true, interpret("true && true"));
-		Assert.assertEquals(false, interpret("false && true"));
-		Assert.assertEquals(false, interpret("false && false"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("true && false"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("true && true"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("false && true"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("false && false"));
 
 		// !
-		Assert.assertEquals(false, interpret("!true"));
-		Assert.assertEquals(true, interpret("!false"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("!true"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("!false"));
 	}
 
 	@Test
 	public void testOperatorPrecedence() throws IOException {
-		Assert.assertEquals(6, interpret("(1+2)*2"));
-		Assert.assertEquals(5, interpret("1+2*2"));
+		Assert.assertEquals(new NumberValue(6), interpret("(1+2)*2"));
+		Assert.assertEquals(new NumberValue(5), interpret("1+2*2"));
 
-		Assert.assertEquals(1, interpret("1"));
-		Assert.assertEquals(0, interpret("1-1"));
-		Assert.assertEquals(2, interpret("1--1"));
-		Assert.assertEquals(1, interpret("1--1-1"));
-		Assert.assertEquals(1, interpret("1--(1-1)"));
+		Assert.assertEquals(new NumberValue(1), interpret("1"));
+		Assert.assertEquals(new NumberValue(0), interpret("1-1"));
+		Assert.assertEquals(new NumberValue(2), interpret("1--1"));
+		Assert.assertEquals(new NumberValue(1), interpret("1--1-1"));
+		Assert.assertEquals(new NumberValue(1), interpret("1--(1-1)"));
 
-		Assert.assertEquals(-1, interpret("-1"));
-		Assert.assertEquals(0, interpret("-1+1"));
-		Assert.assertEquals(-2, interpret("-1-1"));
-		Assert.assertEquals(-2, interpret("-(1+1)"));
+		Assert.assertEquals(new NumberValue(-1), interpret("-1"));
+		Assert.assertEquals(new NumberValue(0), interpret("-1+1"));
+		Assert.assertEquals(new NumberValue(-2), interpret("-1-1"));
+		Assert.assertEquals(new NumberValue(-2), interpret("-(1+1)"));
 
-		Assert.assertEquals(-8, interpret("-1 * (4*2)"));
-		Assert.assertEquals(-2, interpret("-1 * (4/2)"));
-		Assert.assertEquals(-4, interpret("-1 * (4*2/2)"));
-		Assert.assertEquals(0, interpret("-1 * (4*2/2) + 4"));
+		Assert.assertEquals(new NumberValue(-8), interpret("-1 * (4*2)"));
+		Assert.assertEquals(new NumberValue(-2), interpret("-1 * (4/2)"));
+		Assert.assertEquals(new NumberValue(-4), interpret("-1 * (4*2/2)"));
+		Assert.assertEquals(new NumberValue(0), interpret("-1 * (4*2/2) + 4"));
 
-		Assert.assertEquals(true, interpret("(-1 * (4*2/2) + 4) == 0"));
-		Assert.assertEquals(false, interpret("(-1 * (4*2/2) + 4) != 0"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("(-1 * (4*2/2) + 4) == 0"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("(-1 * (4*2/2) + 4) != 0"));
 
-		Assert.assertEquals(true, interpret("(true || false) && (true || false)"));
-		Assert.assertEquals(true, interpret("true || false && true || false"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("(true || false) && (true || false)"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("true || false && true || false"));
 
-		Assert.assertEquals(false, interpret("false || true && false"));
-		Assert.assertEquals(false, interpret("false || (true && false)"));
-		Assert.assertEquals(false, interpret("(false || true) && false"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("false || true && false"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("false || (true && false)"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("(false || true) && false"));
 
-		Assert.assertEquals(false, interpret("false || (false && true) || false"));
-		Assert.assertEquals(false, interpret("false || false && true || false"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("false || (false && true) || false"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("false || false && true || false"));
 
-		Assert.assertEquals(true, interpret("0 > 1 || 1 > 0"));
-		Assert.assertEquals(false, interpret("0 > 1 && 1 > 0"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("0 > 1 || 1 > 0"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("0 > 1 && 1 > 0"));
 
-		Assert.assertEquals(false, interpret("0>1"));
-		Assert.assertEquals(false, interpret("0>(1*1)"));
-		Assert.assertEquals(false, interpret("(1-1)>(1*1)"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("0>1"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("0>(1*1)"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("(1-1)>(1*1)"));
 
-		Assert.assertEquals(true, interpret("(1-1)>(1*1) || true"));
-		Assert.assertEquals(true, interpret("true || (1-1)>(1*1)"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("(1-1)>(1*1) || true"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("true || (1-1)>(1*1)"));
 	}
 
 	private Object interpret(String input) throws IOException {

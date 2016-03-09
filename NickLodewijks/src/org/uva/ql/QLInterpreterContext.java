@@ -5,23 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.uva.ql.ast.Value;
+
 public class QLInterpreterContext {
 
-	private Map<String, Object> valueMap;
+	private Map<String, Value> valueMap;
 	private List<ContextListener> contextListeners;
 
 	public QLInterpreterContext() {
-		valueMap = new HashMap<String, Object>();
+		valueMap = new HashMap<String, Value>();
 		contextListeners = new ArrayList<ContextListener>();
 	}
 
-	public void setValue(String key, Object value) {
+	public void setValue(String key, Value value) {
 		valueMap.put(key, value);
 
 		notifyContextListeners();
 	}
 
-	public Object getValue(String key) {
+	public Value getValue(String key) {
 		return valueMap.get(key);
 	}
 

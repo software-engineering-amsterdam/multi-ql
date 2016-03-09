@@ -25,6 +25,10 @@ import javax.swing.JTextField;
 import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLInterpreterContext;
 import org.uva.ql.QLInterpreterContext.ContextListener;
+import org.uva.ql.ast.BooleanValue;
+import org.uva.ql.ast.NumberValue;
+import org.uva.ql.ast.StringValue;
+import org.uva.ql.ast.Value;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.QLBlock;
 import org.uva.ql.ast.form.QLForm;
@@ -267,17 +271,17 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		public Object getValue() {
-			return label.getText();
+		public Value getValue() {
+			return new StringValue(label.getText());
 		}
 
 		@Override
-		public boolean setValue(Object value) {
+		public boolean setValue(Value value) {
 			if (getValue().equals(value)) {
 				return false;
 			}
 
-			label.setText((String) value);
+			label.setText(value.toString());
 
 			return true;
 		}
@@ -305,7 +309,7 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		public final boolean setValue(Object value) {
+		public final boolean setValue(Value value) {
 			if (!Objects.equals(context.getValue(variableName), value)) {
 				context.setValue(variableName, value);
 			}
@@ -314,15 +318,15 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		public final Object getValue() {
+		public final Value getValue() {
 			return getViewValue();
 		}
 
-		protected abstract Object getDefaultValue();
+		protected abstract Value getDefaultValue();
 
-		protected abstract Object getViewValue();
+		protected abstract Value getViewValue();
 
-		protected abstract boolean setViewValue(Object value);
+		protected abstract boolean setViewValue(Value value);
 
 		@Override
 		public final void setContext(QLInterpreterContext context) {
@@ -379,22 +383,22 @@ public class DefaultUISwingFactory implements UIFactory {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			setValue(rbYes.isSelected());
+			setValue(new BooleanValue(rbYes.isSelected()));
 		}
 
 		@Override
-		protected Object getViewValue() {
-			return rbYes.isSelected();
+		protected Value getViewValue() {
+			return new BooleanValue(rbYes.isSelected());
 		}
 
 		@Override
-		protected boolean setViewValue(Object value) {
+		protected boolean setViewValue(Value value) {
 			if (getViewValue().equals(value)) {
 				return false;
 			}
 
 			// Calling doClick will trigger actionPerformed
-			if ((Boolean) value) {
+			if (value.equals(new BooleanValue(true))) {
 				rbYes.doClick();
 			} else {
 				rbNo.doClick();
@@ -404,8 +408,8 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		protected Object getDefaultValue() {
-			return Boolean.FALSE;
+		protected Value getDefaultValue() {
+			return new BooleanValue(false);
 		}
 
 		@Override
@@ -444,16 +448,16 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		protected Object getViewValue() {
+		protected Value getViewValue() {
 			try {
-				return Integer.parseInt(textField.getText());
+				return new NumberValue(Integer.parseInt(textField.getText()));
 			} catch (NumberFormatException ex) {
-				return 0;
+				return new NumberValue(0);
 			}
 		}
 
 		@Override
-		protected boolean setViewValue(Object value) {
+		protected boolean setViewValue(Value value) {
 			if (getViewValue().equals(value)) {
 				return false;
 			}
@@ -463,8 +467,8 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		protected Object getDefaultValue() {
-			return 0;
+		protected Value getDefaultValue() {
+			return new NumberValue(0);
 		}
 
 		@Override
@@ -504,12 +508,12 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		protected Object getViewValue() {
-			return textField.getText();
+		protected Value getViewValue() {
+			return new StringValue(textField.getText());
 		}
 
 		@Override
-		protected boolean setViewValue(Object value) {
+		protected boolean setViewValue(Value value) {
 			if (getViewValue().equals(value)) {
 				return false;
 			}
@@ -520,8 +524,8 @@ public class DefaultUISwingFactory implements UIFactory {
 		}
 
 		@Override
-		protected Object getDefaultValue() {
-			return "";
+		protected Value getDefaultValue() {
+			return new StringValue("");
 		}
 
 		@Override

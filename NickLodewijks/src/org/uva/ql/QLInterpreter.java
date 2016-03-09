@@ -1,5 +1,9 @@
 package org.uva.ql;
 
+import org.uva.ql.ast.BooleanValue;
+import org.uva.ql.ast.NumberValue;
+import org.uva.ql.ast.StringValue;
+import org.uva.ql.ast.Value;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BooleanLiteral;
@@ -22,7 +26,7 @@ import org.uva.ql.ast.expr.StringLiteral;
 import org.uva.ql.ast.expr.Subtract;
 import org.uva.ql.ast.expr.VariableExpr;
 
-public class QLInterpreter implements ExprVisitor<Object, QLInterpreterContext> {
+public class QLInterpreter implements ExprVisitor<Value, QLInterpreterContext> {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T interpret(Expr expr, QLInterpreterContext context) {
@@ -38,97 +42,97 @@ public class QLInterpreter implements ExprVisitor<Object, QLInterpreterContext> 
 	}
 
 	@Override
-	public Object visit(Add node, QLInterpreterContext context) {
-		return (Integer) node.left().accept(this, context) + (Integer) node.right().accept(this, context);
+	public Value visit(Add node, QLInterpreterContext context) {
+		return node.left().accept(this, context).add(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(Subtract node, QLInterpreterContext context) {
-		return (Integer) node.left().accept(this, context) - (Integer) node.right().accept(this, context);
+	public Value visit(Subtract node, QLInterpreterContext context) {
+		return node.left().accept(this, context).subtract(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(And node, QLInterpreterContext context) {
-		return (Boolean) node.left().accept(this, context) && (Boolean) node.right().accept(this, context);
+	public Value visit(And node, QLInterpreterContext context) {
+		return node.left().accept(this, context).and(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(Or node, QLInterpreterContext context) {
-		return (Boolean) node.left().accept(this, context) || (Boolean) node.right().accept(this, context);
+	public Value visit(Or node, QLInterpreterContext context) {
+		return node.left().accept(this, context).or(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(Divide node, QLInterpreterContext context) {
-		return (Integer) node.left().accept(this, context) / (Integer) node.right().accept(this, context);
+	public Value visit(Divide node, QLInterpreterContext context) {
+		return node.left().accept(this, context).div(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(Multiply node, QLInterpreterContext context) {
-		return (Integer) node.left().accept(this, context) * (Integer) node.right().accept(this, context);
+	public Value visit(Multiply node, QLInterpreterContext context) {
+		return node.left().accept(this, context).mul(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(Equals node, QLInterpreterContext context) {
-		return node.left().accept(this, context).equals(node.right().accept(this, context));
+	public Value visit(Equals node, QLInterpreterContext context) {
+		return node.left().accept(this, context).equal(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(EqualsNot node, QLInterpreterContext context) {
-		return !node.left().accept(this, context).equals(node.right().accept(this, context));
+	public Value visit(EqualsNot node, QLInterpreterContext context) {
+		return node.left().accept(this, context).equal(node.right().accept(this, context)).not();
 	}
 
 	@Override
-	public Object visit(GreaterThanOrEquals node, QLInterpreterContext context) {
-		return (Integer) node.left().accept(this, context) >= (Integer) node.right().accept(this, context);
+	public Value visit(GreaterThanOrEquals node, QLInterpreterContext context) {
+		return node.left().accept(this, context).greaterThanOrEqual(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(GreaterThan node, QLInterpreterContext context) {
-		return (Integer) node.left().accept(this, context) > (Integer) node.right().accept(this, context);
+	public Value visit(GreaterThan node, QLInterpreterContext context) {
+		return node.left().accept(this, context).greaterThan(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(LessThanOrEquals node, QLInterpreterContext context) {
-		return (Integer) node.left().accept(this, context) <= (Integer) node.right().accept(this, context);
+	public BooleanValue visit(LessThanOrEquals node, QLInterpreterContext context) {
+		return node.left().accept(this, context).lessThanOrEqual(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(LessThan node, QLInterpreterContext context) {
-		return (Integer) node.left().accept(this, context) < (Integer) node.right().accept(this, context);
+	public BooleanValue visit(LessThan node, QLInterpreterContext context) {
+		return node.left().accept(this, context).lessThan(node.right().accept(this, context));
 	}
 
 	@Override
-	public Object visit(Not node, QLInterpreterContext context) {
-		return !(Boolean) node.expr().accept(this, context);
+	public BooleanValue visit(Not node, QLInterpreterContext context) {
+		return node.expr().accept(this, context).not();
 	}
 
 	@Override
-	public Object visit(Positive node, QLInterpreterContext context) {
-		return Math.abs((Integer) node.expr().accept(this, context));
+	public Value visit(Positive node, QLInterpreterContext context) {
+		return node.expr().accept(this, context).positive();
 	}
 
 	@Override
-	public Object visit(Negative node, QLInterpreterContext context) {
-		return -Math.abs((Integer) node.expr().accept(this, context));
+	public Value visit(Negative node, QLInterpreterContext context) {
+		return node.expr().accept(this, context).negative();
 	}
 
 	@Override
-	public Object visit(VariableExpr node, QLInterpreterContext context) {
+	public Value visit(VariableExpr node, QLInterpreterContext context) {
 		return context.getValue(node.getVariableId());
 	}
 
 	@Override
-	public Object visit(BooleanLiteral node, QLInterpreterContext context) {
+	public BooleanValue visit(BooleanLiteral node, QLInterpreterContext context) {
 		return node.getValue();
 	}
 
 	@Override
-	public Object visit(IntegerLiteral node, QLInterpreterContext context) {
+	public NumberValue visit(IntegerLiteral node, QLInterpreterContext context) {
 		return node.getValue();
 	}
 
 	@Override
-	public Object visit(StringLiteral node, QLInterpreterContext context) {
+	public StringValue visit(StringLiteral node, QLInterpreterContext context) {
 		return node.getValue();
 	}
 }
