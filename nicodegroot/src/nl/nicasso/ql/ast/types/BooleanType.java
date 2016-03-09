@@ -1,6 +1,8 @@
 package nl.nicasso.ql.ast.types;
 
 import nl.nicasso.ql.ast.CodeLocation;
+import nl.nicasso.ql.gui.questionFields.BooleanQuestionField;
+import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.values.BooleanValue;
 
 public class BooleanType extends Type {
@@ -19,6 +21,11 @@ public class BooleanType extends Type {
 	@Override
 	public BooleanValue getDefaultValue() {
 		return new BooleanValue(false);
+	}
+	
+	@Override
+	public QuestionField getRelatedField() {
+		return new BooleanQuestionField();
 	}
 
 	public String getType() {

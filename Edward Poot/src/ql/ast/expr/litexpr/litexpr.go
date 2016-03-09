@@ -1,0 +1,11 @@
+package litexpr
+
+import (
+	"ql/ast/expr"
+)
+
+type Lit interface {
+	GetValue() interface{}
+	expr.Expr
+	String() string
+}

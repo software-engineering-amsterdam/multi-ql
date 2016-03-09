@@ -23,5 +23,9 @@ public class FormEvaluation {
 		context.getIdentifierToValueMap().forEach((i, v) -> System.out.println(String.format("%s: %s", i, v)));
 		System.out.println();
 	}
+	
+	public Context getContext(){
+		return context;
+	}
 
 }

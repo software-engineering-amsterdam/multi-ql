@@ -3,6 +3,8 @@ package nl.nicasso.ql.ast.types;
 import java.math.BigDecimal;
 
 import nl.nicasso.ql.ast.CodeLocation;
+import nl.nicasso.ql.gui.questionFields.MoneyQuestionField;
+import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.values.MoneyValue;
 
 public class MoneyType extends NumericType {
@@ -16,6 +18,11 @@ public class MoneyType extends NumericType {
 	@Override
 	public MoneyValue getDefaultValue() {
 		return new MoneyValue(new BigDecimal(0.00));
+	}
+	
+	@Override
+	public QuestionField getRelatedField() {
+		return new MoneyQuestionField();
 	}
 	
 	public MoneyType(CodeLocation location) {

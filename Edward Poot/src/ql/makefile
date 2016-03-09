@@ -20,10 +20,10 @@ GODEP=$(GOTEST) -i
 GOFMT=gofmt -w
 
 # Package lists
-TOPLEVEL_PKG := whatever
-INT_LIST := myinterface another/impl	#<-- Interface directories
-IMPL_LIST := myimplementation another/pkg/impl	#<-- Implementation directories
-CMD_LIST := mycmd1 another/pkg/mycmd1	#<-- Command directories
+TOPLEVEL_PKG := ql
+INT_LIST := 	#<-- Interface directories
+IMPL_LIST := symboltable ast	#<-- Implementation directories
+CMD_LIST := 	#<-- Command directories
 
 # List building
 ALL_LIST = $(INT_LIST) $(IMPL_LIST) $(CMD_LIST)
@@ -32,7 +32,7 @@ BUILD_LIST = $(foreach int, $(ALL_LIST), $(int)_build)
 CLEAN_LIST = $(foreach int, $(ALL_LIST), $(int)_clean)
 INSTALL_LIST = $(foreach int, $(ALL_LIST), $(int)_install)
 IREF_LIST = $(foreach int, $(ALL_LIST), $(int)_iref)
-TEST_LIST = $(foreach int, $(ALL_LIST), $(int)_test)
+TEST_LIST = symboltable_test ast/expr_test stmt_test
 FMT_TEST = $(foreach int, $(ALL_LIST), $(int)_fmt)
 
 # All are .PHONY for now because dependencyness is hard

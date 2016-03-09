@@ -24,10 +24,12 @@ import org.uva.sea.ql.type.Type;
 
 public class TypeChecker {
 	
+	private List<AbstractQLError> qlErrors;
+
 	/*
 		@returns: true if there exists a duplicate question identifier in the list <questions>
 	*/
-	public List<QLError> duplicateQuestionVariable(List<Question> questions) {
+	private List<QLError> duplicateQuestionVariable(List<Question> questions) {
 		List<QLError> errors = new ArrayList<QLError>();
 		Map<String, Type> questionTypeTable = new HashMap<String, Type>();
 		
@@ -42,14 +44,14 @@ public class TypeChecker {
 			}
 			questionTypeTable.put(q.getIdentifier(), q.getType());
 		}
-		
+
 		return errors;
 	}
-	
-	public List<QLWarning> duplicateQuestionLabel(List<Question> questions) {
+
+	private List<QLWarning> duplicateQuestionLabel(List<Question> questions) {
 		List<QLWarning> errors = new ArrayList<QLWarning>();
 		Set<String> labels = new HashSet<String>();
-		
+
 		for (Question q : questions) { //TODO: document note -> q to not confuse with the list 'questions'
 			if (labels.contains(q.getLabel())) {
 				String errMessage = "Duplicate labels. This might confuse users!";
@@ -57,96 +59,44 @@ public class TypeChecker {
 			}
 			labels.add(q.getLabel());
 		}
-		
+
 		return errors;
 	}
-	
-	public boolean referenceToUndefinedQuestion(List<Question> questions, List<Variable> variables) {
-		List<String> qIdentifiers = new ArrayList<String>();
-		
-		for (Question q : questions) {
-			qIdentifiers.add(q.getIdentifier());
-		}
-		
-		for (Variable v : variables) {
-			if (qIdentifiers.contains(v.getIdentifier())) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	public boolean typeMismatchBooleanExpressions() {
-		return true;
-		//TODO: implement skeleton method
-	}
-	
-	public boolean typeMismatchIntegerExpressions() {
-		return true;
-		//TODO: implement skeleton method
-	}
-	
-	public boolean typeMismatchUnaryExpression() {
-		return true;
-		//TODO: implement skeleton method
-	}
-	
-	public void detectCyclicDependency(Graph dependencyGraph) {
-		
-	}
-	
-	public void typeCheck(ASTNode root) {
+
+	public final List<AbstractQLError> collectErrors(ASTNode root) {
+		List<AbstractQLError> qlErrors = new ArrayList<AbstractQLError>();
 		// 0.1 Get list of all questions
 		List<Question> questions = QuestionCollector.getQuestions(root, true);
-		
+
 		// 0.2 Get dependency graph
 		Graph dependencyGraph = new DependencyGraphBuilder((Block) root).getDependencyGraph();
-		
+
 		Context context = new Context();
-		
+
 		ContextVisitor cv = new ContextVisitor();
 		root.accept(cv, context);
-		
-		Map<String, Type> typeMap = context.getTypeMap();
-		for (String key : typeMap.keySet()) {
-			System.out.println("key : " + key + " and value " + typeMap.get(key));
-		}
-		
-		// test dependencygraph 
-		for (Vertex v : dependencyGraph.getVertices()) {
-			System.out.println(v.getIdentifier());
-		}
-		
+
 		// 1. duplicate questions:
-		
-		for (QLError error : this.duplicateQuestionVariable(questions)) {
-			System.out.println(error.getErrorMessage());
-		}
-		
+		qlErrors.addAll(duplicateQuestionVariable(questions));
+
 		// 2. duplicate labels:
-		
-		for (QLWarning warning : this.duplicateQuestionLabel(questions)) {
-			System.out.println(warning.getErrorMessage());
-		}
-		
+		qlErrors.addAll(duplicateQuestionLabel(questions));
+
 		// 3. dependency check:
-		
-		for (QLError error : DependencyChecker.getErrors(root, dependencyGraph)) {
-			System.out.println(error.getErrorMessage());
-		}
-		
-		// 4. Type check
-		
-		for (QLError error : TypesChecker.getErrorMessages(root, context)) {
-			System.out.println(error.getErrorMessage());
-		}
-		
-		
-		
+		qlErrors.addAll(DependencyChecker.getErrors(root, dependencyGraph));
+
+		// 4. Type check expressions, computed questions and if statements.
+		qlErrors.addAll(TypesChecker.getErrorMessages(root, context));		
+
+		return qlErrors;
 	}
-	
-	
-	
+
+	public void printErrors(ASTNode root) {
+		
+		for (AbstractQLError error: collectErrors(root)) {
+			System.out.println(error.getErrorMessage());
+		}
+
+	}
 
 }

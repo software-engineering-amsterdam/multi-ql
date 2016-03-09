@@ -3,7 +3,7 @@ package gui
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/mattn/go-gtk/gtk"
-	"ql/ast/vari/vartype"
+	"ql/ast/vari"
 )
 
 type GUIQuestion struct {
@@ -12,7 +12,7 @@ type GUIQuestion struct {
 	ErrorLabel *gtk.Label
 }
 
-func CreateGUIQuestion(label string, questionType vartype.VarType, callback func(interface{}, error)) GUIQuestion {
+func CreateGUIQuestion(label string, questionType vari.VarType, callback func(interface{}, error)) GUIQuestion {
 	questionLabel := createLabel(label)
 	questionElement := createQuestionElement(questionType, callback)
 	errorLabel := createLabel("")
@@ -28,6 +28,7 @@ func (g GUIQuestion) ChangeElementText(newText string) {
 func (g GUIQuestion) ChangeErrorLabelText(newText string) {
 	g.ErrorLabel.SetText(newText)
 }
+
 func createLabel(questionText string) *gtk.Label {
 	label := gtk.NewLabel(questionText)
 	label.ModifyFontEasy("DejaVu Serif 12")

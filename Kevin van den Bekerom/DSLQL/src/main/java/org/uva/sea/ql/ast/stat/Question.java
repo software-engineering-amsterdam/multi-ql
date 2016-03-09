@@ -9,12 +9,12 @@ import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.Type;
 
 public class Question extends ASTNode {
-	protected String identifier;
-	protected String label;
-	protected Type type;
+	private String identifier;
+	private String label;
+	private Type type;
 
 	public Question(String identifier, String label, Type type, int startLine) {
-		super.startLine = startLine;
+		super(startLine);
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;

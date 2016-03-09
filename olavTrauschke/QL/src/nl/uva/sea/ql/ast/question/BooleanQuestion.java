@@ -1,15 +1,15 @@
 package nl.uva.sea.ql.ast.question;
 
+import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s that return booleans in an AST.
  * 
  * @author Olav Trauschke
- * @version 2-mrt-2016
+ * @version 9-mrt-2016
  */
 public class BooleanQuestion extends Question {
     
