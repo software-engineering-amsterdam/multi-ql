@@ -23,8 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.uva.ql.QLInterpreter;
-import org.uva.ql.UIContext;
-import org.uva.ql.UIContext.ContextListener;
+import org.uva.ql.QLContext;
+import org.uva.ql.QLContext.ContextListener;
 import org.uva.ql.ast.BooleanValue;
 import org.uva.ql.ast.NumberValue;
 import org.uva.ql.ast.StringValue;
@@ -157,9 +157,9 @@ public class UIFactory {
 
 		@Override
 		public void show() {
-			UIContext context;
+			QLContext context;
 
-			context = new UIContext();
+			context = new QLContext();
 			for (UIForm form : forms) {
 				form.setContext(context);
 			}
@@ -195,7 +195,7 @@ public class UIFactory {
 		}
 
 		@Override
-		public void setContext(UIContext context) {
+		public void setContext(QLContext context) {
 			questions.stream().forEach(q -> q.setContext(context));
 		}
 
@@ -220,7 +220,7 @@ public class UIFactory {
 		}
 
 		@Override
-		public void setContext(UIContext context) {
+		public void setContext(QLContext context) {
 
 			labelWidget.setContext(context);
 			valueWidget.setContext(context);
@@ -231,7 +231,7 @@ public class UIFactory {
 		}
 
 		@Override
-		public void contextChanged(UIContext context) {
+		public void contextChanged(QLContext context) {
 			setVisible(question.isEnabled(context));
 		}
 
@@ -261,7 +261,7 @@ public class UIFactory {
 		}
 
 		@Override
-		public void setContext(UIContext context) {
+		public void setContext(QLContext context) {
 			// DefaultLabelWidget does not use the context
 		}
 
@@ -297,7 +297,7 @@ public class UIFactory {
 		private final String variableName;
 		private final Expr expr;
 
-		private UIContext context;
+		private QLContext context;
 
 		public AbstractBaseWidget(String variableName, Expr expr) {
 			this.variableName = variableName;
@@ -329,7 +329,7 @@ public class UIFactory {
 		protected abstract boolean setViewValue(T value);
 
 		@Override
-		public final void setContext(UIContext context) {
+		public final void setContext(QLContext context) {
 			this.context = context;
 
 			context.setValue(variableName, getDefaultValue());
@@ -337,7 +337,7 @@ public class UIFactory {
 		}
 
 		@Override
-		public void contextChanged(UIContext context) {
+		public void contextChanged(QLContext context) {
 			if (expr != null) {
 				setValue(QLInterpreter.interpret(expr, context));
 			}

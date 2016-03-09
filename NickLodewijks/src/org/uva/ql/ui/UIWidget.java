@@ -2,7 +2,7 @@ package org.uva.ql.ui;
 
 import javax.swing.JComponent;
 
-import org.uva.ql.UIContext;
+import org.uva.ql.QLContext;
 import org.uva.ql.ast.Value;
 
 /**
@@ -11,7 +11,7 @@ import org.uva.ql.ast.Value;
  */
 public interface UIWidget<T extends Value> {
 
-	public void setContext(UIContext context);
+	public void setContext(QLContext context);
 
 	/**
 	 * Return the current value of the widget

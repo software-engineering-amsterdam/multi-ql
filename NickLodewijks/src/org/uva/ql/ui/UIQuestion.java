@@ -1,10 +1,10 @@
 package org.uva.ql.ui;
 
-import org.uva.ql.UIContext;
+import org.uva.ql.QLContext;
 
 public interface UIQuestion {
 
-	public void setContext(UIContext context);
+	public void setContext(QLContext context);
 
 	public UIWidget getLabelWidget();
 

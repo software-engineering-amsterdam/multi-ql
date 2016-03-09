@@ -2,11 +2,11 @@ package org.uva.ql.ui;
 
 import javax.swing.JComponent;
 
-import org.uva.ql.UIContext;
+import org.uva.ql.QLContext;
 
 public interface UIForm {
 
-	public void setContext(UIContext context);
+	public void setContext(QLContext context);
 
 	public void addQuestion(UIQuestion question);
 
