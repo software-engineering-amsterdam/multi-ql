@@ -265,7 +265,7 @@ public class Main {
         String warningsString = toMultiLineString(warnings);
         String message = WARNINGS_MESSAGE + "\n" + warningsString;
         int run = JOptionPane.showConfirmDialog(null, message, WARNING_TITLE,
-                JOptionPane.YES_NO_OPTION);
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         return run == JOptionPane.YES_OPTION;
     }
     
