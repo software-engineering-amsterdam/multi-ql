@@ -1,4 +1,4 @@
-import { BooleanValue, StringValue, IntegerValue, FloatValue, MoneyValue, UndefinedValue, ValueReceiver } from 'src/values';
+import { BooleanValue, StringValue, IntegerValue, FloatValue, MoneyValue, UndefinedValue, ValueReceiver } from 'src/ql/values';
 
 class Evaluator extends ValueReceiver {
 	evaluate(value, ...args) {

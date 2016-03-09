@@ -1,4 +1,4 @@
-import {NodeVisitor} from 'src/ast';
+import {NodeVisitor} from 'src/ql/ast';
 
 class NormalizingVisitor extends NodeVisitor {
 	visitFormNode (formNode) {

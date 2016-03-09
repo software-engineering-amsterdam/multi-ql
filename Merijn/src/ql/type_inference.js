@@ -1,4 +1,4 @@
-import * as types from 'src/types';
+import * as types from 'src/ql/types';
 
 export class TypeInferer extends types.TypeReceiver {
 	inferResultType(type, ...args) {

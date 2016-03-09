@@ -2,29 +2,26 @@ package org.uva.sea.ql.ast.expr.terminals;
 
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Context;
-import org.uva.sea.ql.ast.form.Value;
+import org.uva.sea.ql.ast.form.ValueMap;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.Type;
+import org.uva.sea.ql.value.Value;
 
 public class Variable extends Expr {
-	String identifier;
+	final String identifier;
 
-	public Variable(String identifier) {
+	public Variable(String identifier, int startLine) {
+		super(startLine);
 		this.identifier = identifier;
-		value = null;
 	}
-	
-	public void setValue(Value value) {
-		this.value = value;
-	}
-	
+
 	public String getIdentifier() {
 		return this.identifier;
 	}
 
 	@Override
-	public Object eval() {
-		return value;
+	public Value eval(ValueMap valueMap) {
+		return valueMap.getValueFromMap(identifier);
 	}
 	
 	public void accept(Visitor visitor, Object context) {
@@ -33,11 +30,7 @@ public class Variable extends Expr {
 
 	@Override
 	public String toString() {
-		if (value == null) {
-			return "";
-		} else {
-			return value.toString();
-		}
+		return "TODO!!!";
 	}
 	
 	@Override

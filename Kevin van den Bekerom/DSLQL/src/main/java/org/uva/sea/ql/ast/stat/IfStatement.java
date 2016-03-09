@@ -5,12 +5,12 @@ import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
 
-public class IfStatement extends ASTNode implements Visitable {
+public class IfStatement extends Statement implements Visitable {
 	private Block block;
 	private Expr condition;
 	
 	public IfStatement(Block block, Expr clause, int startLine) {
-		super.startLine = startLine;
+		super(startLine);
 		this.block = block;
 		this.condition = clause;
 	}

@@ -1,12 +1,12 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.ASTSourceInfo;
 
 public final class VariableExpr extends Expr {
 
 	private final String variableId;
 
-	public VariableExpr(ParserRuleContext context, String variableId) {
+	public VariableExpr(ASTSourceInfo context, String variableId) {
 		super(context);
 		this.variableId = variableId;
 	}

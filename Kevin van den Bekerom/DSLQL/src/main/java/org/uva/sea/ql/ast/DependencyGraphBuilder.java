@@ -27,7 +27,7 @@ public class DependencyGraphBuilder extends LeftDFSVisitor<Graph> {
 		Set<String> vertexIDs = new HashSet<String>();
 		Set<String> varIDs = new HashSet<String>();
 		vertexIDs.addAll(QuestionCollector.getQuestionIDs(ifStatement.getBlock(), false));
-		varIDs.addAll(VariableCollector.geVariableIDs(ifStatement.getClause()));
+		varIDs.addAll(VariableCollector.geVariableIDs(ifStatement.getCondition()));
 
 		for (String qID : vertexIDs) {
 			// Add all questions to the graph as vertices
