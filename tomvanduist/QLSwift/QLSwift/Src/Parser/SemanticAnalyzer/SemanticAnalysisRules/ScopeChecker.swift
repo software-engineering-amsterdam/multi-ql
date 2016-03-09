@@ -16,7 +16,7 @@ private class ScopedSymbolTable: SymbolTable {
         self.parent = parent
     }
     
-    override func retrieve(identifier: String) -> Object? {
+    override func retrieve(identifier: String) -> Symbol? {
         if let o = super.retrieve(identifier) {
             return o
         }
@@ -193,7 +193,7 @@ extension ScopeChecker {
     private func assignScope(question: QLQuestion) {
         if let symbol = symbolTable.retrieve(question.identifier.id) {
             do {
-                try scopedSymbolTable.assign(question.identifier.id, object: symbol)
+                try scopedSymbolTable.assign(question.identifier.id, symbol: symbol)
             } catch let warning as SemanticWarning {
                 collectWarning(warning)
             } catch let error {

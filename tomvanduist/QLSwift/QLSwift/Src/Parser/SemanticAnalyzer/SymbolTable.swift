@@ -9,23 +9,23 @@
 import Foundation
 
 
-typealias Object = (type: QLType, question: QLQuestion)
+typealias Symbol = (type: QLType, question: QLQuestion)
 
 internal class SymbolTable {
-    private var symbolTable = [String: Object]()
+    private var symbolTable = [String: Symbol]()
     
     
-    func assign(identifier: String, object: Object) throws {
+    func assign(identifier: String, symbol: Symbol) throws {
         if symbolTable[identifier] == nil {
-            symbolTable[identifier] = object
+            symbolTable[identifier] = symbol
         }
         else {
             let currentType = retrieveType(identifier)
             
-            if currentType! === object.type || currentType! === QLUnknownType.self {
-                symbolTable[identifier] = object
+            if currentType! === symbol.type || currentType! === QLUnknownType.self {
+                symbolTable[identifier] = symbol
             } else {
-                throw MultipleDeclarations(description: "Identifier is multiply declared as different types: \(identifier) as \'\(currentType!.toString())\' and \'\(object.type.toString())\'")
+                throw MultipleDeclarations(description: "Identifier is multiply declared as different types: \(identifier) as \'\(currentType!.toString())\' and \'\(symbol.type.toString())\'")
             }
         }
     }
@@ -38,7 +38,7 @@ internal class SymbolTable {
         return retrieve(identifier)?.question
     }
     
-    func retrieve(identifier: String) -> Object? {
+    func retrieve(identifier: String) -> Symbol? {
         if let o = symbolTable[identifier] {
             return o
         }

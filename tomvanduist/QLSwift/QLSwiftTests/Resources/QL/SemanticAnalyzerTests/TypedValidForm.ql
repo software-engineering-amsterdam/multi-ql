@@ -6,7 +6,11 @@ form form1 {
     q5: "q5" string
 
     if (q1 && q2 && true) {
+        q6: "q6" q4 > q3
+        q7: "q7" q6 != q2
     }
     if (q3 > q4 && q1 && q2 && "test" == q5) {
+        q6: "q6" q4 > q3
+        q7: "q7" q6 != q2
     }
 }

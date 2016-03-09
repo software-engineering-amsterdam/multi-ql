@@ -81,10 +81,15 @@ extension TypeInferer {
             unassignedQuestions = newUnassigned
         }
         
-        
         for unassignedQuestion in unassignedQuestions {
             collectError(TypeInferenceError(description: "The type of \'\(unassignedQuestion.identifier.toString())\' is ambigious and could not be resolved."))
         }
+        
+        
+        for conditional in node.conditionals() {
+            conditional.accept(self, param: param)
+        }
+        
         
         return QLVoidType()
     }
@@ -221,9 +226,9 @@ extension TypeInferer {
         form.block.accept(self, param: nil)
     }
     
-    private func assignSymbol(identifier: QLIdentifier, symbol: Object) {
+    private func assignSymbol(identifier: QLIdentifier, symbol: Symbol) {
         do {
-            try symbolTable.assign(identifier.id, object: symbol)
+            try symbolTable.assign(identifier.id, symbol: symbol)
         } catch _ as SemanticWarning {
             // no-op -> We do not care about warnings during type inference
         } catch let error {
