@@ -5,6 +5,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.expr.math.Add;
+import org.uva.sea.ql.ast.expr.terminals.IntegerLiteral;
+import org.uva.sea.ql.ast.expr.terminals.StringLiteral;
 /**
  * Unit test for simple App.
  */

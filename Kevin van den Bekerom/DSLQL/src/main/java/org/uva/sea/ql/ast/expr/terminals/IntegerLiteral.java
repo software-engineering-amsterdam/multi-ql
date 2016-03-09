@@ -1,5 +1,6 @@
-package org.uva.sea.ql.ast.expr;
+package org.uva.sea.ql.ast.expr.terminals;
 
+import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Context;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.IntType;

@@ -15,10 +15,8 @@ public class Graph {
 	public void addEdge(String from, String to) {
 		
 		for (Vertex v : vertices) {
-			
 			if (v.getIdentifier().equals(from)) {
 				v.addNeighbor(to);
-				System.out.println("adding vertex " + from + " dependency " + to);
 			}
 		}
 		
@@ -45,6 +43,7 @@ public class Graph {
 				return v;
 			}
 		}
+		
 		return null; // vertex does not exist.
 	}
 
@@ -61,11 +60,15 @@ public class Graph {
 		if (vertices.size() == 0) {
 			System.out.println("Something went wrong!!!: ");
 		}
+		
 		for (Vertex v : vertices) {
+			
 			for (String edge : v.getNeighbors()) {
 				System.out.println("Edge: (" + v.getIdentifier() + " " + edge + ") \n");
 			}
+			
 		}
+		
 	}
 	
 	

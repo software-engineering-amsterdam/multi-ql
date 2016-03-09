@@ -11,5 +11,11 @@ public class StrType extends Type {
 	public String toString() {
 		return "String";
 	}
+
+	@Override
+	public Object parse(String message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
