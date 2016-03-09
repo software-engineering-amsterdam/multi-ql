@@ -7,12 +7,12 @@ import java.util.Map;
 
 import org.uva.ql.ast.Value;
 
-public class QLInterpreterContext {
+public class UIContext {
 
 	private Map<String, Value> valueMap;
 	private List<ContextListener> contextListeners;
 
-	public QLInterpreterContext() {
+	public UIContext() {
 		valueMap = new HashMap<String, Value>();
 		contextListeners = new ArrayList<ContextListener>();
 	}
@@ -36,7 +36,7 @@ public class QLInterpreterContext {
 	@FunctionalInterface
 	public static interface ContextListener {
 
-		public void contextChanged(QLInterpreterContext context);
+		public void contextChanged(UIContext context);
 	}
 
 	public void removeContextListener(ContextListener listener) {

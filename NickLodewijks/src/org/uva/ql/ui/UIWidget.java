@@ -2,13 +2,16 @@ package org.uva.ql.ui;
 
 import javax.swing.JComponent;
 
+import org.uva.ql.UIContext;
 import org.uva.ql.ast.Value;
 
 /**
  * A QLWidget represents the GUI component for an input field, or computed value
  * in the questionnaire.
  */
-public interface UIWidget<T extends Value> extends UIComponent {
+public interface UIWidget<T extends Value> {
+
+	public void setContext(UIContext context);
 
 	/**
 	 * Return the current value of the widget
