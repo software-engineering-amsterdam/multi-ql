@@ -3,6 +3,7 @@ package uva.ql.visitors;
 import java.util.HashMap;
 
 import uva.ql.ast.Form;
+import uva.ql.visitors.typechecker.ArithmeticOperator;
 import uva.ql.visitors.typechecker.CyclicDependency;
 import uva.ql.visitors.typechecker.DuplicateLabels;
 import uva.ql.visitors.typechecker.DuplicateQuestionDifferentTypes;
@@ -13,9 +14,6 @@ public class TypeChecker {
 	public static HashMap<String, Integer> checkAST( Form form ) {
 		
 		HashMap<String, Integer> msg = new HashMap<String, Integer>(0);
-		
-		/*CyclicDependency cduq = new CyclicDependency();
-		form.accept(cduq);*/
 		
 		UndefinedQuestions ud = new UndefinedQuestions();
 		form.accept(ud);
@@ -28,6 +26,9 @@ public class TypeChecker {
 		
 		DuplicateLabels dl = new DuplicateLabels();
 		form.accept(dl);
+		
+		ArithmeticOperator ao = new ArithmeticOperator();
+		form.accept(ao);
 		
 		return msg;
 	}

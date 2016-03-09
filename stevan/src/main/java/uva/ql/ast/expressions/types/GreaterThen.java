@@ -1,14 +1,13 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class GreaterThen extends Type {
+public class GreaterThen {
 
-	private String type = "greaterthen";
+	private EnumType type = EnumType.GREATERTHEN;
 
-	@Override
-	public String getType() {
+	public EnumType getType() {
 		return this.type;
 	}
 }

@@ -1,14 +1,13 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class LessThenOrEqualTo extends Type {
+public class LessThenOrEqualTo {
 
-	private String type = "lessthenorequalto";
+	private EnumType type = EnumType.LESSTHENOREQUALTO;
 
-	@Override
-	public String getType() {
+	public EnumType getType() {
 		return this.type;
 	}
 }

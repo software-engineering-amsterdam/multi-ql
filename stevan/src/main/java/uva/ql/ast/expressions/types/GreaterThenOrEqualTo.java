@@ -1,14 +1,13 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class GreaterThenOrEqualTo extends Type {
+public class GreaterThenOrEqualTo {
 
-	private String type = "greaterthenorequalto";
+	private EnumType type = EnumType.GREATERTHENOREQUALTO;
 
-	@Override
-	public String getType() {
+	public EnumType getType() {
 		return this.type;
 	}
 }

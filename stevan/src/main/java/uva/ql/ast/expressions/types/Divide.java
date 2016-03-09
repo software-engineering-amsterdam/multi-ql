@@ -1,13 +1,12 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
-public class Divide extends Type {
+public class Divide {
 
-	private String type = "divide";
+	private EnumType type = EnumType.DIVIDE;
 
-	@Override
-	public String getType() {
+	public EnumType getType() {
 		return this.type;
 	}
 }
