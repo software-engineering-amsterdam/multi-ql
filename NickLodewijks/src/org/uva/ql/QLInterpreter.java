@@ -13,10 +13,10 @@ import org.uva.ql.ast.expr.EqualsNot;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.ExprVisitor;
 import org.uva.ql.ast.expr.GreaterThan;
-import org.uva.ql.ast.expr.GreaterThanOrEquals;
+import org.uva.ql.ast.expr.GreaterThanOrEqual;
 import org.uva.ql.ast.expr.IntegerLiteral;
 import org.uva.ql.ast.expr.LessThan;
-import org.uva.ql.ast.expr.LessThanOrEquals;
+import org.uva.ql.ast.expr.LessThanOrEqual;
 import org.uva.ql.ast.expr.Multiply;
 import org.uva.ql.ast.expr.Negative;
 import org.uva.ql.ast.expr.Not;
@@ -82,7 +82,7 @@ public class QLInterpreter implements ExprVisitor<Value, QLContext> {
 	}
 
 	@Override
-	public Value visit(GreaterThanOrEquals node, QLContext context) {
+	public Value visit(GreaterThanOrEqual node, QLContext context) {
 		return node.left().accept(this, context).greaterThanOrEqual(node.right().accept(this, context));
 	}
 
@@ -92,7 +92,7 @@ public class QLInterpreter implements ExprVisitor<Value, QLContext> {
 	}
 
 	@Override
-	public BooleanValue visit(LessThanOrEquals node, QLContext context) {
+	public BooleanValue visit(LessThanOrEqual node, QLContext context) {
 		return node.left().accept(this, context).lessThanOrEqual(node.right().accept(this, context));
 	}
 

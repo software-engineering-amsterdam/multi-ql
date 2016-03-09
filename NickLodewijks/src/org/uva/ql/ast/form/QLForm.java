@@ -52,6 +52,6 @@ public class QLForm extends ASTNode {
 		tokenStream = new CommonTokenStream(new QLLexer(cs));
 		parser = new QLParser(tokenStream);
 
-		return parser.file().form().result;
+		return parser.form().result;
 	}
 }

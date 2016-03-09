@@ -17,10 +17,6 @@ import org.uva.ql.ast.form.*;
     }
 }
 
-
-file :  form EOF
-     ;
-
 form returns [QLForm result]
     :   'form' + ID + block { $result = new QLForm(src($ctx), $ID.text, $block.result); }
     ;
@@ -77,13 +73,13 @@ expr returns [Expr result]
         $result = new LessThan(src($ctx), $lhs.result, $rhs.result);
       }
       if ($op.text.equals("<=")) {
-        $result = new LessThanOrEquals(src($ctx), $lhs.result, $rhs.result);      
+        $result = new LessThanOrEqual(src($ctx), $lhs.result, $rhs.result);      
       }
       if ($op.text.equals(">")) {
         $result = new GreaterThan(src($ctx), $lhs.result, $rhs.result);
       }
       if ($op.text.equals(">=")) {
-        $result = new GreaterThanOrEquals(src($ctx), $lhs.result, $rhs.result);      
+        $result = new GreaterThanOrEqual(src($ctx), $lhs.result, $rhs.result);      
       }
       if ($op.text.equals("==")) {
         $result = new Equals(src($ctx), $lhs.result, $rhs.result);
