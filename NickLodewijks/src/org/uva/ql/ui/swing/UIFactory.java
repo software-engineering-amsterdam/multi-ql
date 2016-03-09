@@ -37,13 +37,11 @@ import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.ast.type.QLBooleanType;
 import org.uva.ql.ast.type.QLIntegerType;
 import org.uva.ql.ast.type.QLStringType;
-import org.uva.ql.ast.type.QLType;
 import org.uva.ql.ast.type.QLTypeVisitor;
 import org.uva.ql.ui.UIForm;
 import org.uva.ql.ui.UIQuestion;
 import org.uva.ql.ui.UIQuestionnaire;
 import org.uva.ql.ui.UIWidget;
-import org.uva.ql.ui.UIWidgetFactory;
 
 public class UIFactory {
 
@@ -93,25 +91,34 @@ public class UIFactory {
 	}
 
 	public UIQuestion create(QLQuestion question) {
-		UIWidget labelWidget;
-		UIWidget valueWidget;
+		UIWidget<?> labelWidget;
+		UIWidget<?> valueWidget;
 
-		labelWidget = createLabelWidget(question);
-		valueWidget = createValueWidget(question);
+		labelWidget = new DefaultLabelWidget(question.getLabel());
+
+		valueWidget = question.getType().accept(new QLTypeVisitor<UIWidget<?>, Void>() {
+
+			@Override
+			public UIWidget<?> visit(QLBooleanType type, Void context) {
+				return new DefaultBooleanWidget(question);
+			}
+
+			@Override
+			public UIWidget<?> visit(QLStringType type, Void context) {
+				return new DefaultStringWidget(question);
+			}
+
+			@Override
+			public UIWidget<?> visit(QLIntegerType type, Void context) {
+				return new DefaultIntegerWidget(question);
+			}
+		}, null);
 
 		return new DefaultUIQuestion(question, labelWidget, valueWidget);
 	}
 
-	public UIWidget createLabelWidget(QLQuestion q) {
+	public UIWidget<StringValue> createLabelWidget(QLQuestion q) {
 		return new DefaultLabelWidget(q.getLabel());
-	}
-
-	public UIWidget createValueWidget(QLQuestion q) {
-		UIWidgetFactory factory;
-
-		factory = DefaultUIWidgetFactory.get(q.getType());
-
-		return factory.create(q);
 	}
 
 	private static class DefaultUIQuestionnaire implements UIQuestionnaire {
@@ -206,10 +213,10 @@ public class UIFactory {
 
 		private final QLQuestion question;
 
-		private final UIWidget labelWidget;
-		private final UIWidget valueWidget;
+		private final UIWidget<?> labelWidget;
+		private final UIWidget<?> valueWidget;
 
-		public DefaultUIQuestion(QLQuestion q, UIWidget labelWidget, UIWidget valueWidget) {
+		public DefaultUIQuestion(QLQuestion q, UIWidget<?> labelWidget, UIWidget<?> valueWidget) {
 			this.question = q;
 
 			this.labelWidget = labelWidget;
@@ -238,17 +245,17 @@ public class UIFactory {
 		}
 
 		@Override
-		public UIWidget getLabelWidget() {
+		public UIWidget<?> getLabelWidget() {
 			return labelWidget;
 		}
 
 		@Override
-		public UIWidget getValueWidget() {
+		public UIWidget<?> getValueWidget() {
 			return valueWidget;
 		}
 	}
 
-	private static class DefaultLabelWidget implements UIWidget {
+	private static class DefaultLabelWidget implements UIWidget<StringValue> {
 
 		private final JLabel label;
 
@@ -268,12 +275,12 @@ public class UIFactory {
 		}
 
 		@Override
-		public Value getValue() {
+		public StringValue getValue() {
 			return new StringValue(label.getText());
 		}
 
 		@Override
-		public boolean setValue(Value value) {
+		public boolean setValue(StringValue value) {
 			if (getValue().equals(value)) {
 				return false;
 			}
@@ -289,7 +296,7 @@ public class UIFactory {
 		}
 	}
 
-	private static abstract class AbstractBaseWidget implements UIWidget, ContextListener {
+	private static abstract class AbstractBaseWidget<T extends Value> implements UIWidget<T>, ContextListener {
 
 		private final String variableName;
 		private final Expr expr;
@@ -306,7 +313,7 @@ public class UIFactory {
 		}
 
 		@Override
-		public final boolean setValue(Value value) {
+		public final boolean setValue(T value) {
 			if (!Objects.equals(context.getValue(variableName), value)) {
 				context.setValue(variableName, value);
 			}
@@ -315,15 +322,15 @@ public class UIFactory {
 		}
 
 		@Override
-		public final Value getValue() {
+		public final T getValue() {
 			return getViewValue();
 		}
 
-		protected abstract Value getDefaultValue();
+		protected abstract T getDefaultValue();
 
-		protected abstract Value getViewValue();
+		protected abstract T getViewValue();
 
-		protected abstract boolean setViewValue(Value value);
+		protected abstract boolean setViewValue(T value);
 
 		@Override
 		public final void setContext(QLInterpreterContext context) {
@@ -341,7 +348,7 @@ public class UIFactory {
 		}
 	}
 
-	private static class DefaultBooleanWidget extends AbstractBaseWidget implements ActionListener {
+	private static class DefaultBooleanWidget extends AbstractBaseWidget<BooleanValue> implements ActionListener {
 
 		private final JRadioButton rbYes;
 		private final JRadioButton rbNo;
@@ -384,12 +391,12 @@ public class UIFactory {
 		}
 
 		@Override
-		protected Value getViewValue() {
+		protected BooleanValue getViewValue() {
 			return new BooleanValue(rbYes.isSelected());
 		}
 
 		@Override
-		protected boolean setViewValue(Value value) {
+		protected boolean setViewValue(BooleanValue value) {
 			if (getViewValue().equals(value)) {
 				return false;
 			}
@@ -405,7 +412,7 @@ public class UIFactory {
 		}
 
 		@Override
-		protected Value getDefaultValue() {
+		protected BooleanValue getDefaultValue() {
 			return BooleanValue.FALSE;
 		}
 
@@ -415,7 +422,7 @@ public class UIFactory {
 		}
 	}
 
-	private static class DefaultIntegerWidget extends AbstractBaseWidget {
+	private static class DefaultIntegerWidget extends AbstractBaseWidget<NumberValue> {
 
 		private final JTextField textField;
 		private final JPanel panel;
@@ -445,7 +452,7 @@ public class UIFactory {
 		}
 
 		@Override
-		protected Value getViewValue() {
+		protected NumberValue getViewValue() {
 			try {
 				return new NumberValue(Integer.parseInt(textField.getText()));
 			} catch (NumberFormatException ex) {
@@ -454,7 +461,7 @@ public class UIFactory {
 		}
 
 		@Override
-		protected boolean setViewValue(Value value) {
+		protected boolean setViewValue(NumberValue value) {
 			if (getViewValue().equals(value)) {
 				return false;
 			}
@@ -464,7 +471,7 @@ public class UIFactory {
 		}
 
 		@Override
-		protected Value getDefaultValue() {
+		protected NumberValue getDefaultValue() {
 			return new NumberValue(0);
 		}
 
@@ -474,7 +481,7 @@ public class UIFactory {
 		}
 	}
 
-	private static class DefaultStringWidget extends AbstractBaseWidget {
+	private static class DefaultStringWidget extends AbstractBaseWidget<StringValue> {
 
 		private final JTextField textField;
 		private final JPanel panel;
@@ -505,12 +512,12 @@ public class UIFactory {
 		}
 
 		@Override
-		protected Value getViewValue() {
+		protected StringValue getViewValue() {
 			return new StringValue(textField.getText());
 		}
 
 		@Override
-		protected boolean setViewValue(Value value) {
+		protected boolean setViewValue(StringValue value) {
 			if (getViewValue().equals(value)) {
 				return false;
 			}
@@ -521,48 +528,13 @@ public class UIFactory {
 		}
 
 		@Override
-		protected Value getDefaultValue() {
+		protected StringValue getDefaultValue() {
 			return new StringValue("");
 		}
 
 		@Override
 		public void setVisible(boolean visible) {
 			textField.setVisible(visible);
-		}
-	}
-
-	private static class DefaultUIWidgetFactory implements QLTypeVisitor<UIWidgetFactory, Void> {
-
-		/**
-		 * Returns the {@code UIWidgetFactory} for widgets of type {@code type}.
-		 * 
-		 * @param type
-		 *            the {@code QLType} of the widget.
-		 * @return the {@link UIWidgetFactory}
-		 * @throws NullPointerException
-		 *             if {@code type} is {@code null}.
-		 */
-		public static UIWidgetFactory get(QLType type) {
-			return type.accept(new DefaultUIWidgetFactory(), null);
-		}
-
-		private DefaultUIWidgetFactory() {
-
-		}
-
-		@Override
-		public UIWidgetFactory visit(QLBooleanType type, Void context) {
-			return q -> new DefaultBooleanWidget(q);
-		}
-
-		@Override
-		public UIWidgetFactory visit(QLStringType type, Void context) {
-			return q -> new DefaultStringWidget(q);
-		}
-
-		@Override
-		public UIWidgetFactory visit(QLIntegerType type, Void context) {
-			return q -> new DefaultIntegerWidget(q);
 		}
 	}
 }
