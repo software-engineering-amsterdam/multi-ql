@@ -15,17 +15,7 @@ import XCTest
 class SemanticAnalyzerTests: XCTestCase {
     
     func testValid() {
-        if let form = parseFile("TypedValidForm") {
-            let sa = SemanticAnalyzer()
-            
-            do {
-                try sa.analyze(form)
-            }
-            catch let error {
-                print("\(error)")
-                XCTAssertTrue(false, "\(error)")
-            }
-        }
+        runValidForms("TypedValidForm")
     }
     
     func testInvalid() {
@@ -38,6 +28,24 @@ class SemanticAnalyzerTests: XCTestCase {
     
     func testScoped() {
         runInvalidForms("ScopedInvalid")
+    }
+    
+    func testValidTypeInference() {
+        runValidForms("ValidTypeInference")
+    }
+    
+    func runValidForms(file: String) {
+        if let form = parseFile(file) {
+            let sa = SemanticAnalyzer()
+            
+            do {
+                try sa.analyze(form)
+            }
+            catch let error {
+                print("\(error)")
+                XCTAssertTrue(false, "\(error)")
+            }
+        }
     }
     
     func runInvalidForms(file: String) {
@@ -64,7 +72,8 @@ class SemanticAnalyzerTests: XCTestCase {
                 try sa.analyze(form!)
                 XCTAssertTrue(false)
             }
-            catch {
+            catch let e {
+                print(e)
                 // Expected behaviour, move along!
             }
         }

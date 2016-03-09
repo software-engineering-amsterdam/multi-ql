@@ -24,59 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-            timestampString = "478799470.208527"
+            timestampString = "479244871.981867"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "testValid()"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "QLSwiftTests.SemanticAnalyzerTests.testValid (QLSwiftTests.SemanticAnalyzerTests)() -&gt; ()"
-                  moduleName = "QLSwiftTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-                  timestampString = "479244312.252172"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26"
-                  offsetFromSymbolStart = "745">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "QLSwiftTests.SemanticAnalyzerTests.(testValid (QLSwiftTests.SemanticAnalyzerTests) -&gt; () -&gt; ()).(implicit closure #1)"
-                  moduleName = "QLSwiftTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-                  timestampString = "479244312.252312"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26"
-                  offsetFromSymbolStart = "21">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-            timestampString = "479243743.289034"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "runInvalidForms(_:)"
             landmarkType = "5">
             <Locations>
@@ -88,11 +40,11 @@
                   moduleName = "QLSwiftTests"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-                  timestampString = "479244312.252427"
+                  timestampString = "479244961.688946"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65"
+                  startingLineNumber = "77"
+                  endingLineNumber = "77"
                   offsetFromSymbolStart = "1767">
                </Location>
                <Location
@@ -103,11 +55,11 @@
                   moduleName = "QLSwiftTests"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-                  timestampString = "479244312.252515"
+                  timestampString = "479244961.689283"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65"
+                  startingLineNumber = "77"
+                  endingLineNumber = "77"
                   offsetFromSymbolStart = "21">
                </Location>
             </Locations>
@@ -120,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-            timestampString = "479243743.289034"
+            timestampString = "479244871.981867"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "testCyclicDependency()"
             landmarkType = "5">
          </BreakpointContent>
@@ -135,44 +87,44 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift"
-            timestampString = "479244276.724251"
+            filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
+            timestampString = "479244902.010461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "visit(_:param:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "runValidForms(_:)"
             landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "QLSwift.ScopeChecker.visit (QLSwift.ScopeChecker)(QLSwift.QLBlock, param : Swift.Optional&lt;()&gt;) -&gt; ()"
-                  moduleName = "QLSwift"
+                  symbolName = "QLSwiftTests.SemanticAnalyzerTests.runValidForms (QLSwiftTests.SemanticAnalyzerTests)(Swift.String) -&gt; ()"
+                  moduleName = "QLSwiftTests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift"
-                  timestampString = "479244291.624446"
+                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
+                  timestampString = "479244961.689886"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "75"
-                  endingLineNumber = "75"
-                  offsetFromSymbolStart = "176">
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "778">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "QLSwiftTests.ScopeChecker.visit (QLSwiftTests.ScopeChecker)(QLSwiftTests.QLBlock, param : Swift.Optional&lt;()&gt;) -&gt; ()"
+                  symbolName = "QLSwiftTests.SemanticAnalyzerTests.(runValidForms (QLSwiftTests.SemanticAnalyzerTests) -&gt; (Swift.String) -&gt; ()).(implicit closure #1)"
                   moduleName = "QLSwiftTests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift"
-                  timestampString = "479244312.25273"
+                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
+                  timestampString = "479244961.690172"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "75"
-                  endingLineNumber = "75"
-                  offsetFromSymbolStart = "176">
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "21">
                </Location>
             </Locations>
          </BreakpointContent>

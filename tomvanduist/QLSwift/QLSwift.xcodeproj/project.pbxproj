@@ -52,6 +52,8 @@
 		E24CCEA31C906F7600ACA633 /* SemanticAnalysisRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */; };
 		E24CCEA51C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
 		E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
+		E24CCEA81C90B10900ACA633 /* ValidTypeInference.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */; };
+		E24CCEA91C90B10900ACA633 /* ValidTypeInference.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */; };
 		E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D3B1C7DF1CA00AC42ED /* FormView.swift */; };
 		E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D401C7EFB8F00AC42ED /* EvalTests.swift */; };
 		E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
@@ -193,6 +195,7 @@
 		E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScopeChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift; sourceTree = "<group>"; };
 		E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CyclicDependencyChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift; sourceTree = "<group>"; };
 		E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ScopedInvalid.ql; path = Resources/QL/SemanticAnalyzerTests/ScopedInvalid.ql; sourceTree = "<group>"; };
+		E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ValidTypeInference.ql; path = Resources/QL/SemanticAnalyzerTests/ValidTypeInference.ql; sourceTree = "<group>"; };
 		E2591D3B1C7DF1CA00AC42ED /* FormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormView.swift; path = Src/UI/Form/FormView.swift; sourceTree = "<group>"; };
 		E2591D401C7EFB8F00AC42ED /* EvalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EvalTests.swift; path = Src/Parser/EvalTests.swift; sourceTree = "<group>"; };
 		E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalAdd.ql; path = Resources/QL/EvalTests/EvalAdd.ql; sourceTree = "<group>"; };
@@ -289,6 +292,7 @@
 				E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */,
 				E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */,
 				E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */,
+				E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */,
 			);
 			name = SemanticAnalyzerTests;
 			sourceTree = "<group>";
@@ -731,6 +735,7 @@
 				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
 				E24CCEA51C90AD0100ACA633 /* ScopedInvalid.ql in Resources */,
 				E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */,
+				E24CCEA81C90B10900ACA633 /* ValidTypeInference.ql in Resources */,
 				E2DF31001C6240F800F5227B /* form.ql in Resources */,
 				E29A237E1C6D6C6500281E49 /* Podfile in Resources */,
 				E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */,
@@ -745,6 +750,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */,
+				E24CCEA91C90B10900ACA633 /* ValidTypeInference.ql in Resources */,
 				E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */,
 				E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */,
 				E2D518C51C701177008030C4 /* Unary.ql in Resources */,
