@@ -6,8 +6,8 @@ public interface UIQuestion {
 
 	public void setContext(QLContext context);
 
-	public UIWidget<?> getLabelWidget();
+	public UIWidget getLabelWidget();
 
-	public UIWidget<?> getValueWidget();
+	public UIWidget getValueWidget();
 
 }

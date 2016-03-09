@@ -9,7 +9,7 @@ import org.uva.ql.ast.Value;
  * A QLWidget represents the GUI component for an input field, or computed value
  * in the questionnaire.
  */
-public interface UIWidget<T extends Value> {
+public interface UIWidget {
 
 	public void setContext(QLContext context);
 
@@ -18,7 +18,7 @@ public interface UIWidget<T extends Value> {
 	 * 
 	 * @return the value of the widget.
 	 */
-	public T getValue();
+	public Value getValue();
 
 	/**
 	 * Set the value and return whether the value has changed.
@@ -27,7 +27,7 @@ public interface UIWidget<T extends Value> {
 	 *            the value to set
 	 * @return {@code true} if the value has changed, {@code false} otherwise.
 	 */
-	public boolean setValue(T value);
+	public void setValue(Value value);
 
 	public void setVisible(boolean visible);
 
