@@ -20,7 +20,7 @@ public abstract class QLQuestion extends QLStatement {
 		super(context);
 		this.id = id;
 		this.type = type;
-		this.label = label;
+		this.label = label.replace("\"", "");
 		this.condition = new BooleanLiteral(null, true);
 		this.calculation = null;
 	}
@@ -29,7 +29,7 @@ public abstract class QLQuestion extends QLStatement {
 		super(context);
 		this.id = id;
 		this.type = type;
-		this.label = label;
+		this.label = label.replace("\"", "");
 		this.condition = expr;
 		this.calculation = calculation;
 	}

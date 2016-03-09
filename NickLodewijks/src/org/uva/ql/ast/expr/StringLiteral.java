@@ -8,7 +8,7 @@ public final class StringLiteral extends Expr {
 
 	public StringLiteral(ASTSourceInfo context, String value) {
 		super(context);
-		this.value = value;
+		this.value = value.replaceAll("\"", "");
 	}
 
 	public String getValue() {

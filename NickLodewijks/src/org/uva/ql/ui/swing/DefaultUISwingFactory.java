@@ -252,7 +252,7 @@ public class DefaultUISwingFactory implements UIFactory {
 		private final JLabel label;
 
 		public DefaultLabelWidget(String text) {
-			label = new JLabel(text.replaceAll("\"", ""));
+			label = new JLabel(text);
 			label.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		}
 
