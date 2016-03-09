@@ -20,23 +20,22 @@ public class QuestionPanel extends Panel {
 	
 	private JPanel panel;
 	
-	public QuestionPanel(Question q, SymbolTable symbolTable) {
-		 panel = new JPanel(new GridLayout(1, 2));
+	public QuestionPanel(Question q, QuestionField field, SymbolTable symbolTable) {
+		 panel = new JPanel(new GridLayout(2, 1));
 		 
 		 addQuestionLabel(q);
-		 addQuestionField(q, symbolTable);
+		 addQuestionField(q, field, symbolTable);
 	}
 	
 	public void addQuestionLabel(Question q) {
-		Label questionLabel = new Label(q.getId().getValue()+" - "+q.getLabel());
+		// Remove the quotes by modifying the grammar
+		Label questionLabel = new Label(q.getLabel());
 		questionLabel.setFont(new Font("Arial", 0, 100));
 		
 		panel.add(questionLabel.getWidget());
 	}
 	
-	public void addQuestionField(Question q, SymbolTable symbolTable) {
-		QuestionField field = q.getType().getRelatedField();
-		
+	public void addQuestionField(Question q, QuestionField field, SymbolTable symbolTable) {	
 		Value v = symbolTable.getEntryValue(q.getId());
 		
 		System.out.println(q.getId().getValue() + " = " + v.getValue().toString());

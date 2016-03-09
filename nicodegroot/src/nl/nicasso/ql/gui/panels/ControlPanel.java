@@ -16,7 +16,6 @@ public class ControlPanel extends Panel {
 	public ControlPanel() {
 		panel = new JPanel();
 		
-		addButton("Submit");
 		addButton("Reset");
 	}
 	
