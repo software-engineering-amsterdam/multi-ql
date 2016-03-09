@@ -40,7 +40,7 @@ public abstract class QLQuestion extends QLStatement {
 	}
 
 	public boolean isEnabled(QLInterpreterContext context) {
-		return QLInterpreter.interpret(condition, context).equals(new BooleanValue(true));
+		return QLInterpreter.interpret(condition, context).equals(BooleanValue.TRUE);
 	}
 
 	public Expr expr() {

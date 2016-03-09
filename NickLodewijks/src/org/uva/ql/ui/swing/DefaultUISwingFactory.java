@@ -398,7 +398,7 @@ public class DefaultUISwingFactory implements UIFactory {
 			}
 
 			// Calling doClick will trigger actionPerformed
-			if (value.equals(new BooleanValue(true))) {
+			if (value.equals(BooleanValue.TRUE)) {
 				rbYes.doClick();
 			} else {
 				rbNo.doClick();
@@ -409,7 +409,7 @@ public class DefaultUISwingFactory implements UIFactory {
 
 		@Override
 		protected Value getDefaultValue() {
-			return new BooleanValue(false);
+			return BooleanValue.FALSE;
 		}
 
 		@Override

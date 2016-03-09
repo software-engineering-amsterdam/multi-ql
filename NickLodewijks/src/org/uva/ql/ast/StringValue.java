@@ -55,12 +55,12 @@ public final class StringValue extends ValueAdapter {
 
 	@Override
 	public BooleanValue equal(NumberValue other) {
-		return new BooleanValue(false);
+		return BooleanValue.FALSE;
 	}
 
 	@Override
 	public BooleanValue equal(BooleanValue other) {
-		return new BooleanValue(false);
+		return BooleanValue.FALSE;
 	}
 
 	@Override

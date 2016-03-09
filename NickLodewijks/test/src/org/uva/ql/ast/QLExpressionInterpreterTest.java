@@ -16,8 +16,8 @@ public class QLExpressionInterpreterTest {
 		Assert.assertEquals(new NumberValue(2), interpret("2"));
 
 		// Boolean literal
-		Assert.assertEquals(new BooleanValue(true), interpret("true"));
-		Assert.assertEquals(new BooleanValue(false), interpret("false"));
+		Assert.assertEquals(BooleanValue.TRUE, interpret("true"));
+		Assert.assertEquals(BooleanValue.FALSE, interpret("false"));
 
 		// String literal
 		Assert.assertEquals(new StringValue("test1"), interpret("\"test1\""));

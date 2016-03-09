@@ -18,7 +18,7 @@ public final class BooleanValue extends ValueAdapter {
 
 	@Override
 	public BooleanValue equal(NumberValue value) {
-		return new BooleanValue(false);
+		return BooleanValue.FALSE;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public final class BooleanValue extends ValueAdapter {
 
 	@Override
 	public BooleanValue equal(StringValue other) {
-		return new BooleanValue(false);
+		return BooleanValue.FALSE;
 	}
 
 	@Override
