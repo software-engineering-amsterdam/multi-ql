@@ -1,7 +1,7 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTSourceInfo;
-import org.uva.ql.ast.NumberValue;
+import org.uva.ql.ast.value.NumberValue;
 
 public final class IntegerLiteral extends Expr {
 

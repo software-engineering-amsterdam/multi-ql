@@ -1,7 +1,7 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTSourceInfo;
-import org.uva.ql.ast.StringValue;
+import org.uva.ql.ast.value.StringValue;
 
 public final class StringLiteral extends Expr {
 

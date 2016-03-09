@@ -1,4 +1,4 @@
-package org.uva.ql.ast;
+package org.uva.ql.ast.value;
 
 public final class BooleanValue extends ValueAdapter {
 

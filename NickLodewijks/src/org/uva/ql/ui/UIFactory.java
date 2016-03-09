@@ -26,10 +26,6 @@ import org.uva.ql.QLContext;
 import org.uva.ql.QLContext.ContextListener;
 import org.uva.ql.QLInterpreter;
 import org.uva.ql.ast.ASTNodeVisitorAdapter;
-import org.uva.ql.ast.BooleanValue;
-import org.uva.ql.ast.NumberValue;
-import org.uva.ql.ast.StringValue;
-import org.uva.ql.ast.Value;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BooleanLiteral;
 import org.uva.ql.ast.expr.Expr;
@@ -42,6 +38,10 @@ import org.uva.ql.ast.type.QLBooleanType;
 import org.uva.ql.ast.type.QLIntegerType;
 import org.uva.ql.ast.type.QLStringType;
 import org.uva.ql.ast.type.QLTypeVisitor;
+import org.uva.ql.ast.value.BooleanValue;
+import org.uva.ql.ast.value.NumberValue;
+import org.uva.ql.ast.value.StringValue;
+import org.uva.ql.ast.value.Value;
 
 public class UIFactory {
 

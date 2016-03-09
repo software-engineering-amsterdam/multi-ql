@@ -1,9 +1,5 @@
 package org.uva.ql;
 
-import org.uva.ql.ast.BooleanValue;
-import org.uva.ql.ast.NumberValue;
-import org.uva.ql.ast.StringValue;
-import org.uva.ql.ast.Value;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BooleanLiteral;
@@ -25,6 +21,10 @@ import org.uva.ql.ast.expr.Positive;
 import org.uva.ql.ast.expr.StringLiteral;
 import org.uva.ql.ast.expr.Subtract;
 import org.uva.ql.ast.expr.VariableExpr;
+import org.uva.ql.ast.value.BooleanValue;
+import org.uva.ql.ast.value.NumberValue;
+import org.uva.ql.ast.value.StringValue;
+import org.uva.ql.ast.value.Value;
 
 public class QLInterpreter implements ExprVisitor<Value, QLContext> {
 

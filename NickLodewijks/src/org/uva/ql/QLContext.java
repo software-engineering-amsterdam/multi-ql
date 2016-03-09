@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.uva.ql.ast.Value;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.value.Value;
 
 public class QLContext {
 

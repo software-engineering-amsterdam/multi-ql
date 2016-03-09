@@ -1,7 +1,7 @@
 package org.uva.ql.ast.expr;
 
 import org.uva.ql.ast.ASTSourceInfo;
-import org.uva.ql.ast.BooleanValue;
+import org.uva.ql.ast.value.BooleanValue;
 
 public final class BooleanLiteral extends Expr {
 
