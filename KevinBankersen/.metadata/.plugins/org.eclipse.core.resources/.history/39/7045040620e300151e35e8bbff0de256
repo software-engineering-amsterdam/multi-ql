@@ -1,0 +1,146 @@
+package eu.bankersen.kevin.ql.context.symboltable;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.ast.Visitor;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.math.Sub;
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.stat.AbstractQuestion;
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.errors.TypeCheckingError;
+
+public class SymbolTableBuilderNew extends AbstractVisitor {
+
+    private final Map<String, List<Symbol>> symbolTable;
+    private final Set<TypeCheckingError> errorList;
+    public List<String> x;
+
+    public SymbolTableBuilderNew() {
+	symbolTable = new LinkedHashMap<>();
+	errorList = new HashSet<>();
+	x = new ArrayList<>();
+    }
+
+    public SymbolTableBuilderNew(Form form) {
+	symbolTable = new LinkedHashMap<>();
+	errorList = new HashSet<>();
+	visit(form);
+    }
+
+    @Override
+    public void visit(Form form) {
+	form.body().accept(this);
+    }
+
+    @Override
+    public void visit(Body body) {
+	body.statements().forEach(s -> s.accept(this));
+	System.out.println(x);
+    }
+
+    public void visit(AbstractStatement state) {
+    }
+
+
+    public void visit(Expr test) {
+
+	System.out.println(test.lhs().line());
+
+    }
+
+    public void visit(Sub test) {
+	System.out.println("Sub");
+
+    }
+
+
+    @Override
+    public void visit(IFStatement ifStatement) {
+	System.out.println("Found an if statement");
+	ifStatement.body().statements().forEach(s -> s.accept(this));
+    }
+
+    @Override
+    public void visit(ElseStatement elseStatement) {
+	System.out.println("Found an if/else statement");
+	elseStatement.body().statements().forEach(s -> s.accept(this));
+	elseStatement.elseBody().statements().forEach(s -> s.accept(this));
+    }
+
+    @Override
+    public void visit(NormalQuestion normalQuestion) {
+	x.add("haha");
+	System.out.println("Found a normal question");
+
+    }
+
+    @Override
+    public void visit(ComputedQuestion o) {
+	System.out.println("Found a computed question");
+	x.add("jajaja");
+	addSymbol(true, o.name(), o.text(), o.type());
+    }
+
+    public SymbolTableBuilderNew construct(ComputedQuestion data) {
+	addSymbol(true, data.name(), data.text(), data.type());
+	return this;
+    } 
+
+    public SymbolTableBuilderNew construct(NormalQuestion data) {
+	addSymbol(false, data.name(), data.text(), data.type());
+	return this;
+    }
+
+    private void addSymbol(Boolean computed, String name, String question, Type type) {
+	Symbol symbolObject = new Symbol(computed, name, question, type, null);
+	List<Symbol> symbolList;
+
+	if (symbolTable.containsKey(name)) {
+	    symbolList = symbolTable.get(name);
+	    symbolList.add(symbolObject);
+	} else {
+	    symbolList = new ArrayList<>();
+	    symbolList.add(symbolObject);
+	}
+
+	symbolTable.put(name, symbolList);
+    }
+
+    public SymbolTable getSymbolTable() {
+	return convertRawSymboTable(symbolTable);
+    }
+
+    public Set<TypeCheckingError> getErrors() {
+	return errorList;
+    }
+
+    private SymbolTable convertRawSymboTable(Map<String, List<Symbol>> rawSymbolTable) {
+
+	SymbolTable table = new SymbolTable();
+	Symbol symbol;
+	for (String key : rawSymbolTable.keySet()) {
+	    if (rawSymbolTable.get(key).size() == 1) {
+		symbol = rawSymbolTable.get(key).get(0);
+	    } else {
+		//Analyze the problem somewhere else?
+		System.out.println("More then one");
+		//For now we will return the first one
+		symbol = rawSymbolTable.get(key).get(0);
+	    }
+	    table.addSymbol(key, symbol);
+	}
+	return  table;
+    }    
+}

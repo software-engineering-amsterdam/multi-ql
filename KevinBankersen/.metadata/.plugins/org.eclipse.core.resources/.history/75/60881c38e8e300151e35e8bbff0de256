@@ -1,0 +1,11 @@
+package eu.bankersen.kevin.ql.typechecker.warnings;
+
+import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
+
+public class AllreadyDeclaredWarning extends TypeCheckWarning {
+
+    public AllreadyDeclaredWarning(int line, Symbol firstQuestion) {
+	// TODO Auto-generated constructor stub
+    }
+
+}

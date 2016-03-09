@@ -1,0 +1,32 @@
+package eu.bankersen.kevin.ql.ast.type;
+
+import java.text.DecimalFormat;
+
+public abstract class NumberType extends Type {
+
+    @Override
+    public boolean isCompatible(Type type) {
+	return type instanceof IntType || type instanceof MoneyType;
+    }
+    
+    public boolean isNumber() {
+	return true;
+    }
+
+    @Override
+    public Double parseValue(String value) {
+	try {
+	    Double num = Double.valueOf(value); 
+	    DecimalFormat df2 = new DecimalFormat("###.##");
+	        return Double.valueOf(df2.format(num));
+	} catch (NumberFormatException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public Double parseValue(Double value) {
+	return value;
+    }
+
+}

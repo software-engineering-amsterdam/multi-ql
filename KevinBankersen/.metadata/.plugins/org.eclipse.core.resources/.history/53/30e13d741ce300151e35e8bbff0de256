@@ -1,0 +1,72 @@
+package eu.bankersen.kevin.ql.ast.form;
+
+import java.util.List;
+
+import eu.bankersen.kevin.ql.VisitAccept;
+import eu.bankersen.kevin.ql.ast.TypeCheckInterface;
+import eu.bankersen.kevin.ql.ast.Visitor;
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableBuilder;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableInterface;
+import eu.bankersen.kevin.ql.context.typeanalyzer.Context;
+
+public class Body implements VisitAccept, TypeCheckInterface, SymbolTableInterface {
+
+    private final List<AbstractStatement> statements;
+
+    public Body(List<AbstractStatement> statements) {
+	this.statements = statements;
+    }
+
+    public List<AbstractStatement> statements() {
+	return statements;
+    }
+
+    public SymbolTable evalBody(SymbolTable symbolTable) {
+	
+	for (AbstractStatement s : statements) {
+	    symbolTable = s.evalStatement(symbolTable);
+	}
+	return symbolTable;
+    }
+
+    @Override
+    public Context checkType(Context context) {
+	for (AbstractStatement s : statements) {
+	    context = s.checkType(context);
+	}
+	return context;
+    }
+
+
+    public SymbolTable visible(SymbolTable symbolTable, Boolean visible) {
+
+	for (AbstractStatement s : statements) {
+	    symbolTable = s.visible(symbolTable, visible);
+	}
+	return symbolTable;
+    }
+
+
+    public List<AbstractStatement> getStatements() {
+	return statements;
+    }
+
+    @Override
+    public SymbolTableBuilder process(SymbolTableBuilder builder) {
+	for (AbstractStatement s : statements) {
+	    builder = s.process(builder);
+	}
+	return builder;
+    }
+    
+    //Testing
+    @Override
+    public void accept(Visitor v) {
+	for (AbstractStatement statement : statements) {
+	    statement.accept(v);
+	}
+	v.visit(this);
+    }
+}

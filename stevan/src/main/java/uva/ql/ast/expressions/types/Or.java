@@ -1,8 +1,13 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Or extends Type {
+public class Or {
 
+	private EnumType type = EnumType.OR;
+
+	public EnumType getType() {
+		return this.type;
+	}
 }

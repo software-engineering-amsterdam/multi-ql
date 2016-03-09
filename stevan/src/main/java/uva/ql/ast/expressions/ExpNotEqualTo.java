@@ -1,19 +1,50 @@
 package uva.ql.ast.expressions;
 
+import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.abstracts.RelationalOperator;
 import uva.ql.ast.expressions.types.NotEqualTo;
+import uva.ql.interfaces.IArithmeticOperatorVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
+import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class ExpNotEqualTo extends RelationalOperator {
 
-	private Type type = new NotEqualTo();
+	private NotEqualTo type = new NotEqualTo();
 	
-	public ExpNotEqualTo(Node parent, Node lhs, Node rhs, int startLine, int startColumn) {
+	public ExpNotEqualTo(Node parent, Expression lhs, Expression rhs, int startLine, int startColumn) {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
+	
+	@Override
+	public boolean eval() {
+		return (this.getLhs().eval() && this.getRhs().eval());
+	}
 
-	public Type getType() {
-		return this.type;
+	@Override
+	public EnumType getType() {
+		return this.type.getType();
+	}
+	
+	@Override
+	public void accept(IArithmeticOperatorVisitor visitor) {
+		visitor.visitExpNotEqualTo(this);
+	}
+
+	@Override
+	public void accept(IUndefinedQuestionVisitor visitor) {
+		visitor.visitExpNotEqualTo(this);
+	}
+	
+	@Override
+	public void accept(ICyclicDependencyVisitor visitor) {
+		visitor.visitExpNotEqualTo(this);
+	}
+	
+	@Override
+	public void accept(IDupllicateLabelsVisitor visitor) {
+		visitor.visitExpNotEqualTo(this);
 	}
 }

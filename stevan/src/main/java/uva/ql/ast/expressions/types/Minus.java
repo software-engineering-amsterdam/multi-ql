@@ -1,7 +1,12 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
-public class Minus extends Type {
+public class Minus {
 
+	private EnumType type = EnumType.MINUS;
+
+	public EnumType getType() {
+		return this.type;
+	}
 }

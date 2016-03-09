@@ -1,0 +1,22 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.Context;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableBuilder;
+
+public class NormalQuestion extends Question {
+
+    public NormalQuestion(String name, String text, Type type, int line) {
+	super(name, text, type, null, line);
+    }
+    
+    @Override
+    public Context checkType(Context context) {
+	return context.evaluate(this);
+    }
+    
+    @Override
+    public SymbolTableBuilder buildSymbolTable(SymbolTableBuilder builder) {
+	return builder.construct(this);
+    }
+}

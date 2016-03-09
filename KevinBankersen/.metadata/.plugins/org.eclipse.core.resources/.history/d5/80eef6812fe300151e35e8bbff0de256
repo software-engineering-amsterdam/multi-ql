@@ -1,0 +1,32 @@
+package eu.bankersen.kevin.ql.ast.expr.logic;
+
+import java.math.BigDecimal;
+
+import eu.bankersen.kevin.ql.ast.Visitor;
+import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
+import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.context.typeanalyzer.Context;
+
+public class GT extends BooleanExpr {
+
+    public GT(final Expr lhs, final Expr rhs, final int line) {
+	super(lhs, rhs, line);
+    }
+
+    @Override
+    public final Boolean evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
+	return ((BigDecimal) lhs().evalExpr(symbolTable)).compareTo((BigDecimal) rhs().evalExpr(symbolTable)) > 0;
+    }
+    @Override
+    public Context checkType(Context context) {
+	return context.evaluate(this);
+    }
+    
+    @Override
+    public void accept(Visitor v) {
+	v.visit(this);
+    }
+    
+}

@@ -1,23 +1,36 @@
 package eu.bankersen.kevin.ql.ast.type;
 
-import eu.bankersen.kevin.ql.ast.Type;
+import java.math.BigDecimal;
 
-public class MoneyType extends TypeObject {
+public class MoneyType extends NumberType {
+    
+    private int round = BigDecimal.ROUND_HALF_DOWN;
 
-    private final Type type = Type.MONEY;
-       
-    @Override
-    public Type getType() {
-	return type;
+    public boolean isSimilar(Type type) {
+	return type instanceof MoneyType;
     }
-
+    
     @Override
-    public boolean compatible(TypeObject typeObject) {
-	switch(typeObject.getType()) {
-	case MONEY: return true;
-	case INTEGER: return true;
-	default : return false;
+    public String toString() {
+	return "Money";
+    }
+    
+    @Override
+    public BigDecimal parseValue(String value) {
+	try {
+	    return new BigDecimal(value).setScale(2, round);
+	} catch (NumberFormatException e) {
+	    return null;
 	}
     }
-
+    
+    @Override
+    public BigDecimal parseValue(Double value) {
+	return new BigDecimal(value).setScale(2, round);
+    }
+    
+    @Override
+    public String formatTypeToString(String value) {
+	return "€" + parseValue(value).toString();
+    }
 }

@@ -6,21 +6,21 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import nl.nicasso.ql.TypeChecker;
-import nl.nicasso.ql.ast.expression.additive.Addition;
-import nl.nicasso.ql.ast.expression.additive.Subtraction;
-import nl.nicasso.ql.ast.expression.conditional.And;
-import nl.nicasso.ql.ast.expression.conditional.Not;
-import nl.nicasso.ql.ast.expression.conditional.Or;
-import nl.nicasso.ql.ast.expression.equality.Equal;
-import nl.nicasso.ql.ast.expression.equality.NotEqual;
-import nl.nicasso.ql.ast.expression.multiplicative.Division;
-import nl.nicasso.ql.ast.expression.multiplicative.Multiplication;
-import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.MoneyLit;
-import nl.nicasso.ql.ast.type.IntegerType;
-import nl.nicasso.ql.ast.type.MoneyType;
-import nl.nicasso.ql.ast.type.Type;
+import nl.nicasso.ql.ast.expressions.additive.Addition;
+import nl.nicasso.ql.ast.expressions.additive.Subtraction;
+import nl.nicasso.ql.ast.expressions.conditional.And;
+import nl.nicasso.ql.ast.expressions.conditional.Not;
+import nl.nicasso.ql.ast.expressions.conditional.Or;
+import nl.nicasso.ql.ast.expressions.equality.Equal;
+import nl.nicasso.ql.ast.expressions.equality.NotEqual;
+import nl.nicasso.ql.ast.expressions.multiplicative.Division;
+import nl.nicasso.ql.ast.expressions.multiplicative.Multiplication;
+import nl.nicasso.ql.ast.literals.BooleanLit;
+import nl.nicasso.ql.ast.literals.IntegerLit;
+import nl.nicasso.ql.ast.literals.MoneyLit;
+import nl.nicasso.ql.ast.types.IntegerType;
+import nl.nicasso.ql.ast.types.MoneyType;
+import nl.nicasso.ql.ast.types.Type;
 
 public class Expressions {
 	
@@ -155,5 +155,31 @@ public class Expressions {
 				
 		Assert.assertEquals(type, new MoneyType());
 	}
-
+	
+	/*
+	@Test
+	public void testDouble() {
+		double a = 0.7;
+	    double b = 0.9;
+	    
+	    double x = a + 0.1;
+	    double y = b - 0.1;
+	    
+	    x = Math.round(x);
+	    y = Math.round(y);
+	    
+		Assert.assertEquals(x, y);
+	}
+	
+	@Test
+	public void testBigDecimal() {
+		BigDecimal a = new BigDecimal(0.7);
+		BigDecimal b = new BigDecimal(0.9);
+		
+		BigDecimal x = a.add(new BigDecimal(0.1)).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal y = b.subtract(new BigDecimal(0.1)).setScale(2, RoundingMode.HALF_UP);
+		
+		Assert.assertEquals(x, y);
+	}
+	*/
 }

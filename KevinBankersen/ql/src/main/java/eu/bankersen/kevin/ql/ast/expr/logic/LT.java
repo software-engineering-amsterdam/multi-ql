@@ -1,9 +1,12 @@
 package eu.bankersen.kevin.ql.ast.expr.logic;
 
-import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.context.SymbolTable;
+import java.math.BigDecimal;
+
+import eu.bankersen.kevin.ql.ast.BasicVisitor;
 import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
 import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 public class LT extends BooleanExpr {
 
@@ -12,8 +15,13 @@ public class LT extends BooleanExpr {
     }
 
     @Override
-    public final Boolean eval(SymbolTable symbolTable) throws EvaluateExeption {
-	return (Integer) lhs().eval(symbolTable) < (Integer) rhs().eval(symbolTable);
+    public final Boolean evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
+	return ((BigDecimal) lhs().evalExpr(symbolTable)).compareTo((BigDecimal) rhs().evalExpr(symbolTable)) < 0;
+    }
+    
+    @Override
+    public <T> void accept(BasicVisitor v, T context) {
+	v.visit(this);
     }
 
 }

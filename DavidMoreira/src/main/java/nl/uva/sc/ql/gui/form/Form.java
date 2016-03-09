@@ -11,12 +11,12 @@ public class Form extends JFrame implements GuiInterface {
 	
 	private String name;
 	private List<Question> questions;
-	private List<IfElse> ifElses;
+	private List<IfForm> listIfForm;
 
 	public Form(String name){
 		this.name = name;
 		this.questions = new ArrayList<Question>();
-		this.ifElses = new ArrayList<IfElse>();
+		this.listIfForm = new ArrayList<IfForm>();
 	}
 	
 	@Override
@@ -28,38 +28,38 @@ public class Form extends JFrame implements GuiInterface {
 		this.questions.add(question);
 	}
 	
-	public void addIfElse(IfElse ifElse){
-		this.ifElses.add(ifElse);
+	public void addIfForm(IfForm ifForm){
+		this.listIfForm.add(ifForm);
 	}
 
 	@Override
-	public boolean runGui() {		
+	public boolean runGui() {	
 		for(Question q : questions){
 			q.runGui();
 			this.add(q);
 		}
 		
-		for(IfElse i : ifElses){
+		for(IfForm i : listIfForm){
 			i.runGui();
 			this.add(i);
-		}
-		
+		}	
+
 		return true;
 	}
 	
 	@Override
 	public String toString(){
 		String questionsText = "";
-		String ifElsesText = "";
+		String listIfFormText = "";
 		
 		for(Question q : questions){
 			questionsText += q+"\n";
 		}
 		
-		for(IfElse q : ifElses){
-			ifElsesText += q+"\n";
+		for(IfForm q : listIfForm){
+			listIfFormText += q+"\n";
 		}
 
-		return "Form name: "+name+"\n"+"Questions: "+questionsText+"IfElses: "+ifElsesText;
+		return "Form name: "+name+"\n"+"Questions: "+questionsText+"ListIfForm: "+listIfFormText;
 	}
 }

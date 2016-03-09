@@ -16,13 +16,17 @@ form taxOfficeExample {
                sellingPrice: money
           "Value residue:"
                valueResidue: money = 
-                    (sellingPrice - privateDebt) && birthDate
+                    (sellingPrice - privateDebt) + birthDate
           "Private debts for the sold house:"
                privateDebt: money
           "Parents gift money:"
                giftMoneys: money
           "Parents gift money:"
                giftMoney: money
+     }
+     else {
+          "Did you buy a car?"
+               carPrice: money
      }
      
      if (age && 5.1) {
@@ -33,7 +37,7 @@ form taxOfficeExample {
      "Did you steal in 2010?"
           hasStolen: boolean
           
-     if (hasStolen && true) {
+     if (hasStol && true) {
           "How much did you steal?"
                stealingAmount: money
           "Did you hurt anyone in the process?"

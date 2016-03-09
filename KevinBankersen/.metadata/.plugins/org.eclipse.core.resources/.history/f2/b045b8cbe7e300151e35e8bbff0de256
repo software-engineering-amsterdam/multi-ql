@@ -1,0 +1,5 @@
+package eu.bankersen.kevin.ql.typechecker.warnings;
+
+public class AllreadyDeclaredWarning extends TypeCheckWarning {
+
+}

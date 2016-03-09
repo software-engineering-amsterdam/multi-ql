@@ -1,0 +1,14 @@
+package eu.bankersen.kevin.ql.gui.dialog;
+
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.typechecker.warnings.TypeCheckWarning;
+
+public class WarningDialog {
+    
+    public WarningDialog(Set<TypeCheckWarning> warnings) {
+	StringBuilder sb = new StringBuilder();
+	warnings.forEach(warning -> sb.append(warning + "\n"));
+    }
+
+}

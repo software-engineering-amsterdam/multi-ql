@@ -67,6 +67,7 @@ unExpr returns [Expr result]
 primary returns [Expr result]
 	: literal {$result = $literal.result;}
 	| variable {$result = $variable.result;}
+	| '(' orExpr + ')' {$result = $orExpr.result;}
 	;
 
 literal returns [Expr result]

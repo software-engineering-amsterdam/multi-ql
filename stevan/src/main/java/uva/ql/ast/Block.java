@@ -1,15 +1,26 @@
 package uva.ql.ast;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import uva.ql.ast.abstracts.Node;
-import uva.ql.visitors.INodeVisitor;
+import uva.ql.interfaces.IArithmeticOperatorVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
+import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.INodeVisitor;
+import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class Block extends Node {
 
-	private List<Node> children;
+	protected List<Node> children = new ArrayList<Node>(0);
 	
 	public Block(Node parent, int startLine, int startColumn) {
 		super(parent, startLine, startColumn);
+	}
+	
+	@Override
+	public EnumType getType() {
+		return EnumType.BLOCK;
 	}
 	
 	public void add(Node n) {
@@ -23,9 +34,33 @@ public class Block extends Node {
 	public int size() {
 		return this.children.size();
 	}
+	
+	public List<Node> children() {
+		return this.children;
+	}
 
 	@Override
 	public void accept(INodeVisitor visitor) {
+		visitor.visitBlock(this);
+	}
+	
+	@Override
+	public void accept(IArithmeticOperatorVisitor visitor) {
+		visitor.visitBlock(this);
+	}
+
+	@Override
+	public void accept(IUndefinedQuestionVisitor visitor) {
+		visitor.visitBlock(this);
+	}
+	
+	@Override
+	public void accept(ICyclicDependencyVisitor visitor) {
+		visitor.visitBlock(this);
+	}
+
+	@Override
+	public void accept(IDupllicateLabelsVisitor visitor) {
 		visitor.visitBlock(this);
 	}
 }

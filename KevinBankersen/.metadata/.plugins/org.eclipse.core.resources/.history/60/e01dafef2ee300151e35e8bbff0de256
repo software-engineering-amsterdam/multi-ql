@@ -1,0 +1,24 @@
+package eu.bankersen.kevin.ql.ast.stat;
+
+import eu.bankersen.kevin.ql.ast.Visitor;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTableBuilder;
+import eu.bankersen.kevin.ql.context.typeanalyzer.Context;
+
+public class NormalQuestion extends AbstractQuestion {
+
+    public NormalQuestion(String name, String text, Type type, int line) {
+	super(name, text, type, null, line);
+    }
+
+    @Override
+    public SymbolTable evalStatement(SymbolTable symbolTable) {
+	return symbolTable;
+    }
+    
+    @Override
+    public void accept(Visitor v) {
+	v.visit(this);
+    }
+}

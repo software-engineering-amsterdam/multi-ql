@@ -28,10 +28,6 @@ public class Evaluation extends BasicVisitor<Object> {
 		this.context = context;
 	}
 	
-	public Context getContext(){
-		return context;
-	}
-	
 	@Override
 	public Object visit(ComputedQuestion computedQuestion){
 		Object value = computedQuestion.getExpression().accept(this);
@@ -131,6 +127,10 @@ public class Evaluation extends BasicVisitor<Object> {
 	
 	@Override
 	public Object visit(VariableExpression variableExpression){
-		return context.getValueForVariable(variableExpression.getIdentifier());
+		return context.getValueForVariable(variableExpression);
+	}
+	
+	public Context getContext(){
+		return context;
 	}
 }

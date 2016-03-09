@@ -3,9 +3,8 @@ package org.uva.ql.ast;
 import org.junit.Assert;
 import org.junit.Test;
 import org.uva.ql.QLInterpreter;
-import org.uva.ql.ast.expr.LiteralExpr;
-import org.uva.ql.ast.expr.math.Add;
-import org.uva.ql.ast.literal.IntegerLiteral;
+import org.uva.ql.ast.expr.Add;
+import org.uva.ql.ast.expr.IntegerLiteral;
 
 public class QLExpressionInterpreterTest {
 
@@ -14,7 +13,7 @@ public class QLExpressionInterpreterTest {
 
 		IntegerLiteral one = new IntegerLiteral(null, 1);
 		IntegerLiteral two = new IntegerLiteral(null, 2);
-		Add add = new Add(null, new LiteralExpr(null, one), new LiteralExpr(null, two));
+		Add add = new Add(null, one, two);
 
 		Assert.assertEquals(3, (int) QLInterpreter.interpret(add, null));
 	}

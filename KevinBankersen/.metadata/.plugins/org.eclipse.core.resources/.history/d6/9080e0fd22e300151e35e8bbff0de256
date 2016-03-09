@@ -1,0 +1,108 @@
+package eu.bankersen.kevin.ql.context.symboltable;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.ast.AbstractVisitor;
+import eu.bankersen.kevin.ql.ast.Visitor;
+import eu.bankersen.kevin.ql.ast.expr.Expr;
+import eu.bankersen.kevin.ql.ast.expr.math.Sub;
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.stat.AbstractQuestion;
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.errors.TypeCheckingError;
+
+public class SymbolTableBuilderNew extends AbstractVisitor {
+
+    private final Map<String, List<Symbol>> symbolTable;
+    private final Set<TypeCheckingError> errorList;
+
+    public SymbolTableBuilderNew(Form form) {
+	symbolTable = new LinkedHashMap<>();
+	errorList = new HashSet<>();
+	visit(form);
+    }
+
+    @Override
+    public void visit(Form form) {
+	form.body().accept(this);
+	System.out.println(symbolTable);
+    }
+
+    @Override
+    public void visit(Body body) {
+	body.statements().forEach(s -> s.accept(this));
+    }
+
+    @Override
+    public void visit(IFStatement ifStatement) {
+	ifStatement.body().statements().forEach(s -> s.accept(this));
+    }
+
+    @Override
+    public void visit(ElseStatement elseStatement) {
+	elseStatement.body().statements().forEach(s -> s.accept(this));
+	elseStatement.elseBody().statements().forEach(s -> s.accept(this));
+    }
+
+    @Override
+    public void visit(NormalQuestion o) {
+	addSymbol(false, o.name(), o.text(), o.type());
+
+    }
+
+    @Override
+    public void visit(ComputedQuestion o) {
+	addSymbol(true, o.name(), o.text(), o.type());
+    }
+
+    private void addSymbol(Boolean computed, String name, String question, Type type) {
+	Symbol symbol = new Symbol(computed, name, question, type, null);
+	List<Symbol> list;
+
+	if (symbolTable.containsKey(name)) {
+	    list = symbolTable.get(name);
+	    list.add(symbol);
+	} else {
+	    list = new ArrayList<>();
+	    list.add(symbol);
+	}
+	symbolTable.put(name, list);
+    }
+
+    public SymbolTable getSymbolTable() {
+	return convertRawSymboTable(symbolTable);
+    }
+
+    public Set<TypeCheckingError> getErrors() {
+	return errorList;
+    }
+
+    private SymbolTable convertRawSymboTable(Map<String, List<Symbol>> rawSymbolTable) {
+
+	SymbolTable table = new SymbolTable();
+	Symbol symbol;
+	for (String key : rawSymbolTable.keySet()) {
+	    if (rawSymbolTable.get(key).size() == 1) {
+		symbol = rawSymbolTable.get(key).get(0);
+	    } else {
+		//Analyze the problem somewhere else?
+		System.out.println("More then one");
+		//For now we will return the first one
+		symbol = rawSymbolTable.get(key).get(0);
+	    }
+	    table.addSymbol(key, symbol);
+	}
+	return  table;
+    }    
+}

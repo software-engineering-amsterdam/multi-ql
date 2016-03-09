@@ -9,9 +9,9 @@ import java.util.List;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.Type;
-import eu.bankersen.kevin.ql.context.Symbol;
-import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 public class BoxWidget implements Widget {
 
@@ -27,23 +27,12 @@ public class BoxWidget implements Widget {
 	this.panel = new JPanel();
 	widgetListeners = new ArrayList<>();
 
-	inputField = new JFormattedTextField();
+	inputField = new JFormattedTextField(data.getValue());
 	inputField.setPreferredSize(new Dimension(120, 20));
+	inputField.setEditable(!data.isComputed());
 	inputField.addKeyListener(new BoxListener());
 
 	panel.add(inputField);
-    }
-
-    private Object returnValue(String data) {
-	if (type.equals(Type.INTEGER)) {
-	    try {
-		return Integer.parseInt(data);
-	    } catch (NumberFormatException e) {
-		return 0;
-	    }
-	} else {
-	    return data;
-	}
     }
 
     @Override
@@ -55,16 +44,11 @@ public class BoxWidget implements Widget {
     public void dataUpdate(SymbolTable symbolTable) {
 	Symbol data = symbolTable.getSymbol(name);
 
-	if (!data.getValue().equals(Type.EMPTY)) {
-	    inputField.setText(data.getValue().toString());
-	} else {
+	if (data.getValue() == null) {
 	    inputField.setText("");
+	} else if (data.isComputed()) {
+	    inputField.setText(type.formatTypeToString(data.getValue().toString()));
 	}
-
-	// Update the view.
-	BoxWidget.this.panel.revalidate();
-	BoxWidget.this.panel.repaint();
-
     }
 
     @Override
@@ -88,16 +72,9 @@ public class BoxWidget implements Widget {
 
 	    JFormattedTextField field = (JFormattedTextField) e.getSource();
 
-	    if (type.equals(Type.BOOLEAN)) {
-		if (field.getText().equalsIgnoreCase("true") || field.getText().equalsIgnoreCase("false")) {
-		    widgetUpdate(Boolean.valueOf(field.getText()));
-		}
-	    } else {
-		widgetUpdate(returnValue(field.getText()));
-	    }
+	    Object input = type.parseValue(field.getText());
 
-	    BoxWidget.this.panel.revalidate();
-	    BoxWidget.this.panel.repaint();
+	    widgetUpdate(input);
 	}
 
 	@Override

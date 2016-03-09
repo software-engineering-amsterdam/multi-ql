@@ -1,36 +1,61 @@
 package uva.ql.ast.conditionals;
 
-import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.Block;
+import uva.ql.ast.EnumType;
 import uva.ql.ast.conditionals.abstracts.Condition;
 import uva.ql.ast.conditionals.types.IfStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.visitors.INodeVisitor;
+import uva.ql.interfaces.IArithmeticOperatorVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
+import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.INodeVisitor;
+import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class CondIfStatement extends Condition {
 
-	private Type type = new IfStatement();
-	private Expression expression;
+	private IfStatement type = new IfStatement();
+	private Block lhs;
 	
-	public CondIfStatement(Expression expression, int startLine, int startColumn) {
-		super(null, startLine, startColumn);
-		this.expression = expression;
+	public CondIfStatement(Expression expression, Block block, int startLine, int startColumn) {
+		super(null, expression, startLine, startColumn);
+		this.lhs = block;
 	}
 	
-	public Type getType() {
-		return this.type;
+	@Override
+	public EnumType getType() {
+		return this.type.getType();
 	}
 	
-	public void setExpression(Expression expression) {
-		this.expression = expression;
+	public void setLhs(Block lhs) {
+		this.lhs = lhs;
 	}
 	
-	public Expression getExpression() {
-		return this.expression;
+	public Block getLhs() {
+		return this.lhs;
 	}
 
 	@Override
 	public void accept(INodeVisitor visitor) {
-		visitor.visitCondition(this);
+		visitor.visitIfCondition(this);
+	}
+	
+	@Override
+	public void accept(IArithmeticOperatorVisitor visitor) {
+		visitor.visitCondIfStatement(this);
+	}
+
+	@Override
+	public void accept(IUndefinedQuestionVisitor visitor) {
+		visitor.visitCondIfStatement(this);
+	}
+	
+	@Override
+	public void accept(ICyclicDependencyVisitor visitor) {
+		visitor.visitCondIfStatement(this);
+	}
+	
+	@Override
+	public void accept(IDupllicateLabelsVisitor visitor) {
+		visitor.visitCondIfStatement(this);
 	}
 }

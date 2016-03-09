@@ -5,6 +5,16 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.expr.logic.And;
+import org.uva.sea.ql.ast.expr.logic.Eq;
+import org.uva.sea.ql.ast.expr.logic.LT;
+import org.uva.sea.ql.ast.expr.logic.Or;
+import org.uva.sea.ql.ast.expr.math.Add;
+import org.uva.sea.ql.ast.expr.math.Mul;
+import org.uva.sea.ql.ast.expr.math.Neg;
+import org.uva.sea.ql.ast.expr.terminals.BooleanLiteral;
+import org.uva.sea.ql.ast.expr.terminals.IntegerLiteral;
+import org.uva.sea.ql.ast.expr.terminals.StringLiteral;
 /**
  * Unit test for simple App.
  */

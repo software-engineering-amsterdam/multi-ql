@@ -1,135 +1,108 @@
 package nl.uva.sc.ql.parser;
 
-import nl.uva.sc.ql.exceptions.CreateASTTreeException;
-import nl.uva.sc.ql.exceptions.ExceptionHandling;
-import nl.uva.sc.ql.parser.QLParser.Condition_blockContext;
-import nl.uva.sc.ql.parser.QLParser.StatementContext;
-import nl.uva.sc.ql.parser.ast.AssignVariableNode;
+import nl.uva.sc.ql.parser.ast.AdditionNode;
+import nl.uva.sc.ql.parser.ast.AndNode;
+import nl.uva.sc.ql.parser.ast.AssignedQuestionNode;
+import nl.uva.sc.ql.parser.ast.BinaryExpressionNode;
+import nl.uva.sc.ql.parser.ast.BlockNode;
 import nl.uva.sc.ql.parser.ast.BooleanNode;
 import nl.uva.sc.ql.parser.ast.ConditionBlockNode;
+import nl.uva.sc.ql.parser.ast.DifferentNode;
+import nl.uva.sc.ql.parser.ast.DivisionNode;
+import nl.uva.sc.ql.parser.ast.EqualsNode;
+import nl.uva.sc.ql.parser.ast.ExpressionNode;
 import nl.uva.sc.ql.parser.ast.FormNode;
-import nl.uva.sc.ql.parser.ast.OperationExpressionNode;
-import nl.uva.sc.ql.parser.ast.IfElseNode;
+import nl.uva.sc.ql.parser.ast.GreatEqualsThanNode;
+import nl.uva.sc.ql.parser.ast.GreatThanNode;
+import nl.uva.sc.ql.parser.ast.IdentifierNode;
+import nl.uva.sc.ql.parser.ast.LessEqualsThanNode;
+import nl.uva.sc.ql.parser.ast.LessThanNode;
+import nl.uva.sc.ql.parser.ast.ListStatementsNode;
+import nl.uva.sc.ql.parser.ast.MultiplicationNode;
+import nl.uva.sc.ql.parser.ast.NotNode;
 import nl.uva.sc.ql.parser.ast.IfNode;
 import nl.uva.sc.ql.parser.ast.IntegerNode;
-import nl.uva.sc.ql.parser.ast.LogicNode;
-import nl.uva.sc.ql.parser.ast.MathExpressionNode;
-import nl.uva.sc.ql.parser.ast.MoneyNode;
 import nl.uva.sc.ql.parser.ast.Node;
-import nl.uva.sc.ql.parser.ast.RelationalExpressionNode;
+import nl.uva.sc.ql.parser.ast.OrNode;
+import nl.uva.sc.ql.parser.ast.QuestionNode;
 import nl.uva.sc.ql.parser.ast.StatementNode;
 import nl.uva.sc.ql.parser.ast.StringNode;
-import nl.uva.sc.ql.parser.ast.VariableNode;
+import nl.uva.sc.ql.parser.ast.SubtractionNode;
+import nl.uva.sc.ql.parser.value.BooleanVal;
+import nl.uva.sc.ql.parser.value.IntegerVal;
+import nl.uva.sc.ql.parser.value.StringVal;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class CreateASTTree extends QLBaseVisitor<Node> {
- 
-    // store variables
-	private SymbolTable<Node> symbolTable;
-    
-    public CreateASTTree(SymbolTable<Node> symbolTable) {
-    	this.symbolTable = symbolTable;
-    }
     
     @Override
-    public Node visitForm(@NotNull QLParser.FormContext context) {
-    	String name = context.IDENTIFIER().getText();
-    	FormNode node = new FormNode(name);
+    public FormNode visitForm(@NotNull QLParser.FormContext context) {    	
+    	BlockNode block = (BlockNode) this.visit(context.block());
     	
-    	Node left = this.visit(context.block());
-    	
-    	node.init(left, null);
+    	FormNode node = new FormNode(context.IDENTIFIER().getText(), block);
         node.setLine(context.stop.getLine());
     	return node;
     }
     
     // assignment/identifiers overrides
     @Override
-    public Node visitDeclarationVariable(@NotNull QLParser.DeclarationVariableContext context) {
-        String name = context.IDENTIFIER().getText();
+    public QuestionNode visitDeclaration(@NotNull QLParser.DeclarationContext context) {
+        String identifier = context.IDENTIFIER().getText();
         String type = context.type().getText();
         String question = context.String().getText();
         
-        if (symbolTable.probe(name) != null) {
-        	CreateASTTreeException exception = new CreateASTTreeException("Already defined variable: "+name+". Line "+context.IDENTIFIER().getSymbol().getLine());
-            ExceptionHandling.getInstance().addError(exception);
-        }
-        if (symbolTable.probe(question) != null) {
-        	CreateASTTreeException exception = new CreateASTTreeException("Already defined question: "+question+". Line "+context.String().getSymbol().getLine());
-			ExceptionHandling.getInstance().addError(exception);
-        }
-        
-		VariableNode node = new VariableNode(type); 
-		node.setName(name);
-        node.setQuestion(question);
-        node.setLine(context.stop.getLine());
-        
-        symbolTable.add(name, node);
-        symbolTable.add(question, node);
-        return node;
+		QuestionNode vn = new QuestionNode(question, identifier, type); 
+        vn.setLine(context.stop.getLine());
+
+        return vn;
     }
     
     @Override
-    public Node visitDeclareAssignVariable(@NotNull QLParser.DeclareAssignVariableContext context) {        
-    	VariableNode left = (VariableNode) this.visit(context.declaration());
-        Node right = this.visit(context.expression());
+    public AssignedQuestionNode visitAssignment(@NotNull QLParser.AssignmentContext context) {        
+    	QuestionNode variable = (QuestionNode) this.visit(context.declaration());
+        ExpressionNode expression = (ExpressionNode) this.visit(context.expression());
         
-        Node node = new AssignVariableNode();
-        node.init(left, right);
-        node.setLine(context.stop.getLine());
+        AssignedQuestionNode avn = new AssignedQuestionNode(variable, expression);
+        avn.setLine(context.stop.getLine());
         
-        return node;
+        return avn;
     }
     
     // unity overrides
     @Override
-    public Node visitIdentifierUnity(@NotNull QLParser.IdentifierUnityContext context) {
-        String identifier = context.getText();
-        Node node = symbolTable.lookup(identifier);
-        
-        if (node == null) {
-        	CreateASTTreeException exception = new CreateASTTreeException("Assigning undefined variable "+identifier+". Line "+context.IDENTIFIER().getSymbol().getLine());
-        	ExceptionHandling.getInstance().addError(exception);
-        }
-        
-        node.setLine(context.start.getLine());
-        return node;
+    public IdentifierNode visitIdentifierUnity(@NotNull QLParser.IdentifierUnityContext context) {
+    	IdentifierNode in = new IdentifierNode(context.getText());       
+        in.setLine(context.start.getLine());
+        return in;
     }
 
     @Override
-    public Node visitStringUnity(@NotNull QLParser.StringUnityContext context) {
-    	Node node = new StringNode();
-    	node.setValue(context.getText());
-        node.setLine(context.start.getLine());
-    	return node;
+    public StringNode visitStringUnity(@NotNull QLParser.StringUnityContext context) {
+    	StringVal sv = new StringVal(context.getText());
+    	StringNode sn = new StringNode(sv);
+        sn.setLine(context.start.getLine());
+    	return sn;
     }
 
     @Override
-    public Node visitBooleanUnity(@NotNull QLParser.BooleanUnityContext context) {
-    	Node node = new BooleanNode();
-    	node.setValue(Boolean.parseBoolean(context.getText()));
-        node.setLine(context.start.getLine());
-    	return node;
+    public BooleanNode visitBooleanUnity(@NotNull QLParser.BooleanUnityContext context) {
+    	BooleanVal bv = new BooleanVal(Boolean.parseBoolean(context.getText()));
+    	BooleanNode bn = new BooleanNode(bv);
+        bn.setLine(context.start.getLine());
+    	return bn;
     }
     
     @Override 
-    public Node visitMoney(@NotNull QLParser.MoneyContext context) { 
-    	Node node = new MoneyNode();
-    	node.setValue(Double.parseDouble(context.getText()));
-        node.setLine(context.start.getLine());
-    	return node;
-    }
-    
-    @Override 
-    public Node visitIntegerUnity(@NotNull QLParser.IntegerUnityContext context) { 
-    	Node node = new IntegerNode();
-    	node.setValue(Integer.parseInt(context.getText()));
-        node.setLine(context.start.getLine());
-    	return node;
+    public IntegerNode visitIntegerUnity(@NotNull QLParser.IntegerUnityContext context) { 
+    	IntegerVal iv = new IntegerVal(Integer.parseInt(context.getText()));
+    	IntegerNode in = new IntegerNode(iv);
+        in.setLine(context.start.getLine());
+    	return in;
     }
 
     // expression overrides
@@ -139,164 +112,182 @@ public class CreateASTTree extends QLBaseVisitor<Node> {
     }
     
     @Override
-    public Node visitMinusExpression(@NotNull QLParser.MinusExpressionContext context) {
-        Node node = this.visit(context.money());
-        
-        Double d = (Double) node.getValue();
-        node.setValue(d*-1);
-    	return node;
+    public IntegerNode visitMinusExpression(@NotNull QLParser.MinusExpressionContext context) {
+    	IntegerVal iv = new IntegerVal(Integer.parseInt(context.INT().getText()) * -1);
+    	IntegerNode in = new IntegerNode(iv);
+    	in.setLine(context.start.getLine());
+    	return in;
     }
 
     @Override
-    public Node visitNotExpression(@NotNull QLParser.NotExpressionContext context) {
-        Node expression = this.visit(context.expression());
+    public NotNode visitNotExpression(@NotNull QLParser.NotExpressionContext context) {
+    	ExpressionNode expression = (ExpressionNode) this.visit(context.expression());
         
-        OperationExpressionNode node = new RelationalExpressionNode();
-        node.init(expression, null, "!");
-        node.setLine(context.start.getLine());
-        return node;
+        NotNode nn = new NotNode(expression);
+        nn.setLine(context.start.getLine());
+        return nn;
     }
     
     @Override
-    public Node visitMultDivModExpression(@NotNull QLParser.MultDivModExpressionContext context) {
-    	Node left = this.visit(context.expression(0));
-        Node right = this.visit(context.expression(1));
+    public BinaryExpressionNode visitMultDivExpression(@NotNull QLParser.MultDivExpressionContext context) {
+    	ExpressionNode left = (ExpressionNode) this.visit(context.expression(0));
+    	ExpressionNode right = (ExpressionNode) this.visit(context.expression(1));
         
-        OperationExpressionNode node = new MathExpressionNode();
-        node.init(left, right, context.op.getText());
-        node.setLine(context.start.getLine());
-    	return node;
+        BinaryExpressionNode be = null;
+        
+        switch (context.op.getText()) {
+        	case "*":
+        		be = new MultiplicationNode(left, right);
+        		break;
+        	case "/":
+        		be = new DivisionNode(left, right);
+        		break;
+        }
+
+        be.setLine(context.start.getLine());
+    	return be;
     }
 
     @Override
-    public Node visitAdditiveExpression(@NotNull QLParser.AdditiveExpressionContext context) {
-        Node left = this.visit(context.expression(0));
-        Node right = this.visit(context.expression(1));
+    public BinaryExpressionNode visitAdditiveExpression(@NotNull QLParser.AdditiveExpressionContext context) {
+    	ExpressionNode left = (ExpressionNode) this.visit(context.expression(0));
+    	ExpressionNode right = (ExpressionNode) this.visit(context.expression(1));
         
-        OperationExpressionNode node = new MathExpressionNode();
-        node.init(left, right, context.op.getText());
-        node.setLine(context.start.getLine());
-    	return node;
+        BinaryExpressionNode be = null;
+        
+        switch (context.op.getText()) {
+        	case "+":
+        		be = new AdditionNode(left, right);
+        		break;
+        	case "-":
+        		be = new SubtractionNode(left, right);
+        		break;
+        }
+
+        be.setLine(context.start.getLine());
+    	return be;
     }
 
     @Override
-    public Node visitRelationalExpression(@NotNull QLParser.RelationalExpressionContext context) {
-        Node left = this.visit(context.expression(0));
-        Node right = this.visit(context.expression(1));
-
-        OperationExpressionNode node = new RelationalExpressionNode();
-        node.init(left, right, context.op.getText());
-        node.setLine(context.start.getLine());
-        return node;
+    public BinaryExpressionNode visitRelationalExpression(@NotNull QLParser.RelationalExpressionContext context) {
+    	ExpressionNode left = (ExpressionNode) this.visit(context.expression(0));
+    	ExpressionNode right = (ExpressionNode) this.visit(context.expression(1));
+        
+        BinaryExpressionNode be = null;
+        
+        switch (context.op.getText()) {
+        	case "<":
+        		be = new LessThanNode(left, right);
+        		break;
+        	case ">":
+        		be = new GreatThanNode(left, right);
+        		break;
+			case "<=":
+				be = new LessEqualsThanNode(left, right);
+				break;
+			case ">=":
+				be = new GreatEqualsThanNode(left, right);
+				break;
+			case "==":
+				be = new EqualsNode(left, right);
+				break;
+			case "!=":
+				be = new DifferentNode(left, right);
+				break;				
+		}
+        
+        be.setLine(context.start.getLine());
+        return be;
     }
 
     @Override
-    public Node visitEqualityExpression(@NotNull QLParser.EqualityExpressionContext context) {
-        Node left = this.visit(context.expression(0));
-        Node right = this.visit(context.expression(1));
+    public BinaryExpressionNode visitAndExpression(@NotNull QLParser.AndExpressionContext context) {
+    	ExpressionNode left = (ExpressionNode) this.visit(context.expression(0));
+    	ExpressionNode right = (ExpressionNode) this.visit(context.expression(1));
         
-        OperationExpressionNode node = new RelationalExpressionNode();
-        node.init(left, right, context.op.getText());
-        node.setLine(context.start.getLine());
-        return node;
+        BinaryExpressionNode be = new AndNode(left, right);
+        be.setLine(context.start.getLine());
+        return be;  
     }
 
     @Override
-    public Node visitAndExpression(@NotNull QLParser.AndExpressionContext context) {
-        Node left = this.visit(context.expression(0));
-        Node right = this.visit(context.expression(1));
+    public BinaryExpressionNode visitOrExpression(@NotNull QLParser.OrExpressionContext context) {
+    	ExpressionNode left = (ExpressionNode) this.visit(context.expression(0));
+    	ExpressionNode right = (ExpressionNode) this.visit(context.expression(1));
         
-        OperationExpressionNode node = new LogicNode();
-        node.init(left, right, "&&");
-        node.setLine(context.start.getLine());
-        return node;  
-    }
-
-    @Override
-    public Node visitOrExpression(@NotNull QLParser.OrExpressionContext context) {
-        Node left = this.visit(context.expression(0));
-        Node right = this.visit(context.expression(1));
-        
-        OperationExpressionNode node = new LogicNode();
-        node.init(left, right, "||");
-        node.setLine(context.start.getLine());
-        return node;  
+        BinaryExpressionNode be = new OrNode(left, right);
+        be.setLine(context.start.getLine());
+        return be;   
     }
 
     // if override
     @Override
-    public Node visitIf_stat(@NotNull QLParser.If_statContext context) {
-    	Node left = auxVisitListIfStatements(context.condition_block());
-    	Node right = context.stat_block() != null ? this.visit(context.stat_block()) : null;
+    public IfNode visitIf_stat(@NotNull QLParser.If_statContext context) {
+    	BlockNode elseBlock;
+		
+    	if (context.stat_block() != null) {
+			elseBlock = (BlockNode) this.visit(context.stat_block());
+		} else {
+			elseBlock = null;
+		}
     	
-    	Node node = new IfElseNode();
-    	node.init(left, right);
-
-        return node;
-    }
-    
-    private Node auxVisitListIfStatements(List<Condition_blockContext> list){
-    	Node node, left = null, right = null;
+    	List<ConditionBlockNode> lcbn = new ArrayList<ConditionBlockNode>();
     	
-    	if (list.size() == 1){
-    		return this.visit(list.get(0));
+    	for (QLParser.Condition_blockContext cc : context.condition_block()){
+    		ConditionBlockNode cbn = (ConditionBlockNode) this.visit(cc);
+    		lcbn.add(cbn);
     	}
     	
-    	Condition_blockContext leftContext = list.get(0);
-    	left = this.visit(leftContext);
-		if (list.size() > 1) {
-			list.remove(0);
-			right = auxVisitListIfStatements(list);
-		}
-		
-    	node = new IfNode();
-    	node.init(left, right);
-        node.setLine(leftContext.start.getLine());
-    	return node;
+    	IfNode ifNode = new IfNode(lcbn, elseBlock);
+        return ifNode;
     }
     
-    //scope
     @Override
-    public Node visitBlock(@NotNull QLParser.BlockContext context) {
-    	symbolTable.enterScope();
-    	Node value = this.visit(context.list_statements()); 
-    	symbolTable.exitScope();
-        
-        return value;
-    }
-    
-    //rest of the overrides
-    @Override 
-    public Node visitList_statements(@NotNull QLParser.List_statementsContext context) {     	
-    	Node aux = auxVisitListStatements(context.statement());
-    	return aux;
-    }
-    
-    private Node auxVisitListStatements(List<StatementContext> list){
-    	Node node, left = null, right = null;
+    public BlockNode visitBlock(@NotNull QLParser.BlockContext context) {        
+    	ListStatementsNode lsn = new ListStatementsNode();
     	
-		if (!list.isEmpty()){
-			left = this.visit(list.get(0));
-		
-			if (list.size() > 1) {
-				list.remove(0);
-				right = auxVisitListStatements(list);
-			}
-		}
-		
-    	node = new StatementNode();
-    	node.init(left, right);
-    	return node;
+    	for (QLParser.StatementContext sc : context.statement()){
+    		StatementNode s = (StatementNode) this.visit(sc);
+    		lsn.add(s);
+    	}
+    	
+    	return new BlockNode(lsn);
     }
 
     @Override 
-    public Node visitCondition_block(@NotNull QLParser.Condition_blockContext context) { 
-    	Node left = this.visit(context.expression());
-    	Node right = this.visit(context.stat_block());
+    public ConditionBlockNode visitCondition_block(@NotNull QLParser.Condition_blockContext context) { 
+    	ExpressionNode expression = (ExpressionNode) this.visit(context.expression());
+    	BlockNode statement = (BlockNode) this.visit(context.stat_block());
     	
-    	Node node = new ConditionBlockNode();
-    	node.init(left, right);
-    	node.setLine(context.start.getLine());
-    	return node;
+    	ConditionBlockNode cbn = new ConditionBlockNode(expression, statement);
+    	cbn.setLine(context.start.getLine());
+    	return cbn;
+    }
+    
+    @Override
+    public BlockNode visitBlockStat_Block(@NotNull QLParser.BlockStat_BlockContext context) { 
+    	return (BlockNode) this.visit(context.if_block());
+    }
+    
+    @Override
+    public BlockNode visitStatStat_Block(@NotNull QLParser.StatStat_BlockContext context) { 
+    	StatementNode statement = (StatementNode) this.visit(context.if_statement());
+    	
+    	ListStatementsNode lsn = new ListStatementsNode();
+    	lsn.add(statement);
+    	
+    	return new BlockNode(lsn);
+    }
+    
+    @Override
+    public BlockNode visitIf_block(@NotNull QLParser.If_blockContext context) { 
+    	ListStatementsNode lsn = new ListStatementsNode();
+    	
+    	for (QLParser.If_statementContext sc : context.if_statement()){
+    		StatementNode s = (StatementNode) this.visit(sc);
+    		lsn.add(s);
+    	}
+    	
+    	return new BlockNode(lsn);
     }
 }

@@ -1,8 +1,13 @@
 package uva.ql.ast.variables.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Int extends Type {
+public class Int {
 
+	private EnumType type = EnumType.INTEGER;
+	
+	public EnumType getType() {
+		return type;
+	}
 }

@@ -1,36 +1,35 @@
 package eu.bankersen.kevin.ql.ast.type;
 
-import eu.bankersen.kevin.ql.ast.Type;
+import java.math.BigDecimal;
 
-public class IntType extends TypeObject {
-
-    private final Type type = Type.INTEGER;
+public class IntType extends NumberType {
 
     @Override
-    public Type getType() {
-	return type;
+    public boolean isSimilar(Type type) {
+	return type instanceof IntType;
     }
 
     @Override
-    public boolean compatible(TypeObject typeObject) {
-	switch(typeObject.getType()) {
-	case MONEY: return true;
-	case INTEGER: return true;
-	default : return false;
+    public String toString() {
+	return "Integer";
+    }
+    
+    @Override
+    public BigDecimal parseValue(String value) {
+	try {
+	    return new BigDecimal(value).setScale(0, BigDecimal.ROUND_HALF_DOWN);
+	} catch (NumberFormatException e) {
+	    return null;
 	}
     }
     
-    @Override 
-    public Object parseValue(Integer value) {
-	return value;
+    @Override
+    public BigDecimal parseValue(Double value) {
+	return new BigDecimal(value).setScale(0, BigDecimal.ROUND_HALF_DOWN);
     }
 
-    @Override 
-    public Object parseValue(String value) {
-	try {
-	    return Integer.valueOf(value);
-	} catch (NumberFormatException e) {
-	    return Type.EMPTY;
-	}
+    @Override
+    public String formatTypeToString(String value) {
+	return parseValue(value).toString();
     }
 }

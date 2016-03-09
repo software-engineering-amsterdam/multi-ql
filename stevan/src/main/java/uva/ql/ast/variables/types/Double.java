@@ -1,8 +1,13 @@
 package uva.ql.ast.variables.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Double extends Type {
+public class Double {
 
+	private EnumType type = EnumType.DOUBLE;
+	
+	public EnumType getType() {
+		return type;
+	}
 }

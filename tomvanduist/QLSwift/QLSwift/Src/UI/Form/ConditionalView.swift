@@ -12,9 +12,9 @@ class ConditionalView: BaseView, ViewContainable {
     let viewContainer = BaseView()
     let heightConstraint: NSLayoutConstraint
     
-    private let conditional: Conditional
+    private let conditional: QLConditional
     
-    init(conditional: Conditional) {
+    init(conditional: QLConditional) {
         self.conditional = conditional
         heightConstraint = NSLayoutConstraint(item: viewContainer, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 0)
         
@@ -22,7 +22,7 @@ class ConditionalView: BaseView, ViewContainable {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("StoryBoards not supported!")
+        fatalError("StoryBoards are not supported!")
     }
     
     override func initialize() {
@@ -39,7 +39,9 @@ class ConditionalView: BaseView, ViewContainable {
     }
     
     override func reloadView() {
-        self.heightConstraint.active = !self.conditional.isSatisfied()
+        super.reloadView()
+
+//        self.heightConstraint.active = !self.conditional.isSatisfied()
         
         UIView.animateWithDuration(kAnimationDuration) {
             self.layoutIfNeeded()

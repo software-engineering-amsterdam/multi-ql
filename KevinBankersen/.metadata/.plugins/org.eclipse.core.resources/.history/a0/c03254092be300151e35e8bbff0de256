@@ -1,0 +1,327 @@
+package eu.bankersen.kevin.ql.context.typeanalyzer;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.ast.AbstractVisitor;
+import eu.bankersen.kevin.ql.ast.Identifier;
+import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
+import eu.bankersen.kevin.ql.ast.expr.logic.And;
+import eu.bankersen.kevin.ql.ast.expr.logic.Eq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.GT;
+import eu.bankersen.kevin.ql.ast.expr.logic.LEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.LT;
+import eu.bankersen.kevin.ql.ast.expr.logic.NEq;
+import eu.bankersen.kevin.ql.ast.expr.logic.Not;
+import eu.bankersen.kevin.ql.ast.expr.logic.Or;
+import eu.bankersen.kevin.ql.ast.expr.math.Add;
+import eu.bankersen.kevin.ql.ast.expr.math.Div;
+import eu.bankersen.kevin.ql.ast.expr.math.Mul;
+import eu.bankersen.kevin.ql.ast.expr.math.Neg;
+import eu.bankersen.kevin.ql.ast.expr.math.Pos;
+import eu.bankersen.kevin.ql.ast.expr.math.Sub;
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.ast.type.BooleanType;
+import eu.bankersen.kevin.ql.ast.type.IntType;
+import eu.bankersen.kevin.ql.ast.type.MoneyType;
+import eu.bankersen.kevin.ql.ast.type.Type;
+import eu.bankersen.kevin.ql.context.errors.ExprTypeError;
+import eu.bankersen.kevin.ql.context.errors.NotDeclaredError;
+import eu.bankersen.kevin.ql.context.errors.TypeCheckingError;
+import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
+
+public class TypeAnalyzer extends AbstractVisitor {
+
+    private final SymbolTable symbolTable;
+    private final Set<TypeCheckingError> errorList;
+
+    public TypeAnalyzer(SymbolTable symbolTable, Form form) {
+	this.symbolTable = symbolTable;
+	this.errorList = new HashSet<>();
+	form.accept(this);
+    }
+
+    @Override
+    public void visit(Form o) {
+	o.body().accept(this);
+    }
+
+    @Override
+    public void visit(Body o) {
+	o.statements().forEach(s -> s.accept(this));
+    }
+
+    @Override
+    public void visit(IFStatement o) {
+	o.expr().accept(this);
+	o.body().accept(this);
+	
+	Type expr = o.expr().getType(symbolTable);
+
+	if (!expr.isCompatible(new BooleanType())) {
+	   addError(new ExprTypeError(o, expr));
+	}
+    }
+    
+    @Override
+    public void visit(ElseStatement o) {
+	
+	o.expr().accept(this);
+	o.body().accept(this);
+	o.elseBody().accept(this);
+
+	Type expr = o.expr().getType(symbolTable);
+	
+	if (!expr.isCompatible(new BooleanType())) {
+	    addError(new ExprTypeError(o, expr));
+	}
+    }
+    
+    @Override
+    public void visit(ComputedQuestion o) {
+	//identifiers.clear() //Method to calculate dependencies.
+	
+	o.expr().accept(this);
+	//defineRelation(o.name());
+	
+	Type question = o.type();
+	Type expr = o.expr().getType(symbolTable);
+	
+	if (!question.isCompatible(expr)) {
+	    addError(new ExprTypeError(o, question, expr));
+	}
+    }
+    
+    @Override
+    public void visit(NormalQuestion question) {
+	//identifiers.clear();
+    }
+    
+ // Mathematical Operations.
+    @Override
+    public void visit(Add operation) {
+
+	Context updatedContext = evaluateExpr(operation.lhs(), operation.rhs());
+	SymbolTable updatedSymbolTable = updatedContext.getSymbolTable();
+
+	Type left = operation.lhs().getType(updatedSymbolTable);
+	Type right = operation.rhs().getType(updatedSymbolTable);
+
+	Boolean check = isBothMoney(left, right) || isBothInt(left, right);
+
+	if (!check) {
+	    updatedContext.addError(new ExprTypeError(operation.line(), left, right));
+	}
+	return updatedContext;
+    }
+
+    @Override
+    public void visit(Sub operation) {
+
+	Context updatedContext = evaluateExpr(operation.lhs(), operation.rhs());
+	SymbolTable updatedSymbolTable = updatedContext.getSymbolTable();
+
+	Type left = operation.lhs().getType(updatedSymbolTable);
+	Type right = operation.rhs().getType(updatedSymbolTable);
+
+	Boolean check = isBothMoney(left, right) || isBothInt(left, right);
+
+	if (!check) {
+	    updatedContext.addError(new ExprTypeError(operation.line(), left, right));
+	}
+	return updatedContext;
+    }
+
+    @Override
+    public void visit(Div operation) {
+
+	Context updatedContext = evaluateExpr(operation.lhs(), operation.rhs());
+	SymbolTable updatedSymbolTable = updatedContext.getSymbolTable();
+
+	Type left = operation.lhs().getType(updatedSymbolTable);
+	Type right = operation.rhs().getType(updatedSymbolTable);
+
+	Boolean check = isMoneyInt(left, right) || isBothInt(left, right);
+
+	if (!check) {
+	    updatedContext.addError(new ExprTypeError(operation.line(), left, right, new IntType()));
+	}
+    }
+
+    @Override
+    public void visit(Mul operation) {
+
+	Context updatedContext = evaluateExpr(operation.lhs(), operation.rhs());
+	SymbolTable updatedSymbolTable = updatedContext.getSymbolTable();
+
+	Type left = operation.lhs().getType(updatedSymbolTable);
+	Type right = operation.rhs().getType(updatedSymbolTable);
+
+	Boolean check = isMoneyInt(left, right) || isBothInt(left, right);
+
+	if (!check) {
+	    updatedContext.addError(new ExprTypeError(operation.line(), left, right, new IntType()));
+	}
+    }
+
+    @Override
+    public void visit(Neg operation) {
+
+	Context updatedContext = evaluateExpr(operation.lhs(), operation.rhs());
+	SymbolTable updatedSymbolTable = updatedContext.getSymbolTable();
+
+	Type expr = operation.lhs().getType(updatedSymbolTable);
+
+	Boolean check = expr.isCompatible(new IntType());
+
+	if (!check) {
+	    updatedContext.addError(new ExprTypeError(operation.line(), expr, expr));// second expr must go
+	}
+    }
+
+    @Override
+    public void visit(Pos operation) {
+
+	Context updatedContext = evaluateExpr(operation.lhs());
+	SymbolTable updatedSymbolTable = updatedContext.getSymbolTable();
+
+	Type expr = operation.lhs().getType(updatedSymbolTable);
+
+	Boolean check = expr.isCompatible(new IntType());
+
+	if (!check) {
+	    updatedContext.addError(new ExprTypeError(operation.line(), expr, expr)); // second expr must go
+	}
+    }
+
+    @Override
+    public void visit(Not operation) {
+
+	Context updatedContext = evaluateExpr(operation.lhs());
+	SymbolTable updatedSymbolTable = updatedContext.getSymbolTable();
+
+	Type expr = operation.lhs().getType(updatedSymbolTable);
+
+	Boolean check = expr.isSimilar(new BooleanType());
+
+	if (!check) {
+	    updatedContext.addError(new ExprTypeError(operation.line(), new BooleanType(), expr));  
+	}
+    }
+
+    @Override
+    public void visit(Or operation) {
+	pureBooleanExprCheck(operation);
+    }
+
+    @Override
+    public void visit(And operation) {
+	pureBooleanExprCheck(operation);
+    }
+
+    @Override
+    public void visit(NEq o) {
+	notPureBooleanExprCheck(o);
+    }
+
+    @Override
+    public void visit(LT o) {
+	notPureBooleanExprCheck(o);
+    }
+
+    @Override
+    public void visit(LEq o) {
+	notPureBooleanExprCheck(o);
+    }
+
+    @Override
+    public void visit(GT o) {
+	notPureBooleanExprCheck(o);
+    }
+
+    @Override
+    public void visit(GEq o) {
+	notPureBooleanExprCheck(o);
+    }
+
+    @Override
+    public void visit(Eq o) {
+	notPureBooleanExprCheck(o);
+    }
+    
+    private void pureBooleanExprCheck(BooleanExpr o) {
+	
+	o.lhs().accept(this);
+
+	Type left = o.lhs().getType(symbolTable);
+	Type right = o.rhs().getType(symbolTable);
+
+	Boolean check = isBothBoolean(left, right);
+
+	if (!check) {
+	    addError(new ExprTypeError(o, left, right));  
+	}
+    }
+
+    private void notPureBooleanExprCheck(BooleanExpr o) {
+	o.lhs();
+	o.rhs();
+	
+	Type left = o.lhs().getType(symbolTable);
+	Type right = o.rhs().getType(symbolTable);
+
+	Boolean check = (left.isSimilar(right));
+
+	if (!check) {
+	    addError(new ExprTypeError(o, left, right));  
+	}
+    }
+    
+    // Functions for checking equality
+    private boolean isBothMoney(Type left, Type right) {
+	return isBothTypeX(left, right, new MoneyType());
+    }
+    
+    private boolean isBothInt(Type left, Type right) {
+	return isBothTypeX(left, right, new IntType());
+    }
+    
+    private boolean isBothBoolean(Type left, Type right) {
+	return isBothTypeX(left, right, new BooleanType());
+    }
+    
+    private boolean isBothTypeX(Type left, Type right, Type match) {
+	return left.isSimilar(match) && right.isSimilar(match);
+    }
+    
+    private boolean isMoneyInt(Type left, Type right) {
+	Type moneyType = new MoneyType();
+	Type intType = new IntType();
+	return left.isSimilar(moneyType) && right.isSimilar(intType)
+		|| left.isSimilar(intType) && right.isSimilar(moneyType);
+    }
+
+    @Override
+    public void visit(Identifier o) {
+	//identifiers.add(id.name());
+
+	if (!symbolTable.checkID(o.name())) {
+	    addError(new NotDeclaredError(o.line(), o.name()));
+	}
+    }
+    
+    private void addError(TypeCheckingError error) {
+	errorList.add(error);
+    }
+    
+    public Set<TypeCheckingError> getErrors() {
+	return errorList;
+    }
+
+}

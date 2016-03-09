@@ -1,0 +1,33 @@
+package eu.bankersen.kevin.ql.typechecker;
+
+import java.util.Set;
+
+import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.typechecker.warnings.TypeCheckWarning;
+
+public class TypeCheckWarnings extends Exception {
+    
+    private final Set<TypeCheckError> errors;
+    private final Set<TypeCheckWarning> warnings;
+    private final SymbolTable symbolTable;
+    
+    public TypeCheckWarnings(final Set<TypeCheckWarning> warnings, Set<TypeCheckError> errors, SymbolTable symboltable) {
+	this.warnings = warnings;
+	this.errors = errors;
+	this.symbolTable = symboltable;
+    }
+    
+    public Set<TypeCheckWarning> getWarnings() {
+	return warnings;
+    }
+    
+    public Set<TypeCheckWarning> getErrors() {
+	return warnings;
+    }
+    
+    public SymbolTable getSymbolTable() {
+	return symbolTable;
+    }
+
+}

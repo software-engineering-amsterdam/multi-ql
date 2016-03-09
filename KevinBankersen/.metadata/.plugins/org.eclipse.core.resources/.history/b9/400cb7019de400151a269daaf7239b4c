@@ -1,0 +1,139 @@
+package eu.bankersen.kevin.ql.ast.type.value;
+
+import java.math.BigDecimal;
+
+public class BooleanObject extends QLObject {
+
+    @Override
+    public QLObject subtract(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject add(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject divide(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject multiply(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject absolute() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject negate() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject or(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject and(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject equal(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject greaterOrEqual(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject greater(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject lowerOrEqual(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject lower(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject notEqual(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public QLObject not(QLObject o) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public Object value() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public boolean isSimilar(QLObject type) {
+	// TODO Auto-generated method stub
+	return false;
+    }
+
+    @Override
+    public void valueOf(String value) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void valueOf(BigDecimal value) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void valueOf(Integer value) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void valueOf(Boolean value) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void valueOf(QLObject value) {
+	// TODO Auto-generated method stub
+	
+    }
+
+}

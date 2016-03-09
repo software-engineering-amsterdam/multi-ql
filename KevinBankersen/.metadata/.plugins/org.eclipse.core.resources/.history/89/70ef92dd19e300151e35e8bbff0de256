@@ -1,0 +1,4 @@
+abstract class Fruit { }
+class Orange extends Fruit { }
+class Apple extends Fruit { }
+class Banana extends Fruit { }

@@ -1,9 +1,0 @@
-package eu.bankersen.kevin.ql.util.test2;
-
-public class ClassB {
-    
-    public static void main(String[] args) {
-	ClassA a = new ClassA("haha", true);
-    }
-
-}

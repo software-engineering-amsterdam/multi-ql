@@ -13,11 +13,11 @@ public abstract class BinaryExpr extends Expr {
 		this.rhs = rhs;
 	}
 
-	public Expr left() {
+	public final Expr left() {
 		return lhs;
 	}
 
-	public Expr right() {
+	public final Expr right() {
 		return rhs;
 	}
 }

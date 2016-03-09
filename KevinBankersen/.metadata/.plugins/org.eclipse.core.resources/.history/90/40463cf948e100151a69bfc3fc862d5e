@@ -1,0 +1,28 @@
+package eu.bankersen.kevin.ql.ast.type;
+
+public abstract class NumberType extends Type {
+
+    @Override
+    public boolean isCompatible(Type type) {
+	return type instanceof IntType || type instanceof MoneyType;
+    }
+    
+    public boolean isNumber() {
+	return true;
+    }
+
+    @Override
+    public Integer parseValue(String value) {
+	try {
+	    return Integer.valueOf(value);
+	} catch (NumberFormatException e) {
+	    return 0;
+	}
+    }
+
+    @Override
+    public Integer parseValue(Integer value) {
+	return value;
+    }
+
+}

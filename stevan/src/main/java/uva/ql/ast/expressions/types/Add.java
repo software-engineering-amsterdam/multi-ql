@@ -1,8 +1,13 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Add extends Type {
+public class Add {
 
+	private EnumType type = EnumType.ADD;
+
+	public EnumType getType() {
+		return this.type;
+	}
 }

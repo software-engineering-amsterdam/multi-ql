@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast.form;
 
 public class Value {
 	Object value;
-	
+
 	Value (Object value) {
 		
 	}
@@ -11,8 +11,8 @@ public class Value {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void updateValue(Object value, Context context) {
 		this.value = value;
 	}
-	
+
 }

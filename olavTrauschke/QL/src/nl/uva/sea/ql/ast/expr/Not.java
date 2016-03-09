@@ -6,7 +6,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of a (boolean) negation in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 4-mrt-2016
  */
 public class Not extends BooleanExpr {
     
@@ -26,6 +26,13 @@ public class Not extends BooleanExpr {
     public Not(Expr theContent) {
         assert theContent != null;
         content = theContent;
+    }
+    
+    /**
+     * @return <code>theContent</code> of <code>this Not</code>
+     */
+    public Expr getContent() {
+        return content;
     }
     
     /**

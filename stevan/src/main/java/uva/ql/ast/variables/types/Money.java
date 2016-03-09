@@ -1,8 +1,13 @@
 package uva.ql.ast.variables.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Money extends Type {
+public class Money {
 
+	private EnumType type = EnumType.MONEY;
+	
+	public EnumType getType() {
+		return type;
+	}
 }

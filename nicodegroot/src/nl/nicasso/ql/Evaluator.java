@@ -1,31 +1,31 @@
 package nl.nicasso.ql;
 
-import nl.nicasso.ql.ast.expression.Identifier;
-import nl.nicasso.ql.ast.expression.Parenthesis;
-import nl.nicasso.ql.ast.expression.additive.Addition;
-import nl.nicasso.ql.ast.expression.additive.Subtraction;
-import nl.nicasso.ql.ast.expression.conditional.And;
-import nl.nicasso.ql.ast.expression.conditional.Not;
-import nl.nicasso.ql.ast.expression.conditional.Or;
-import nl.nicasso.ql.ast.expression.equality.Equal;
-import nl.nicasso.ql.ast.expression.equality.NotEqual;
-import nl.nicasso.ql.ast.expression.multiplicative.Division;
-import nl.nicasso.ql.ast.expression.multiplicative.Multiplication;
-import nl.nicasso.ql.ast.expression.relational.Greater;
-import nl.nicasso.ql.ast.expression.relational.GreaterEqual;
-import nl.nicasso.ql.ast.expression.relational.Less;
-import nl.nicasso.ql.ast.expression.relational.LessEqual;
-import nl.nicasso.ql.ast.literal.BooleanLit;
-import nl.nicasso.ql.ast.literal.IntegerLit;
-import nl.nicasso.ql.ast.literal.MoneyLit;
-import nl.nicasso.ql.ast.literal.StringLit;
-import nl.nicasso.ql.ast.statement.ComputedQuestion;
-import nl.nicasso.ql.ast.statement.IfElseStatement;
-import nl.nicasso.ql.ast.statement.IfStatement;
-import nl.nicasso.ql.ast.statement.Question;
-import nl.nicasso.ql.ast.statement.Statement;
-import nl.nicasso.ql.ast.structure.Block;
-import nl.nicasso.ql.ast.structure.Form;
+import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.expressions.Parenthesis;
+import nl.nicasso.ql.ast.expressions.additive.Addition;
+import nl.nicasso.ql.ast.expressions.additive.Subtraction;
+import nl.nicasso.ql.ast.expressions.conditional.And;
+import nl.nicasso.ql.ast.expressions.conditional.Not;
+import nl.nicasso.ql.ast.expressions.conditional.Or;
+import nl.nicasso.ql.ast.expressions.equality.Equal;
+import nl.nicasso.ql.ast.expressions.equality.NotEqual;
+import nl.nicasso.ql.ast.expressions.multiplicative.Division;
+import nl.nicasso.ql.ast.expressions.multiplicative.Multiplication;
+import nl.nicasso.ql.ast.expressions.relational.Greater;
+import nl.nicasso.ql.ast.expressions.relational.GreaterEqual;
+import nl.nicasso.ql.ast.expressions.relational.Less;
+import nl.nicasso.ql.ast.expressions.relational.LessEqual;
+import nl.nicasso.ql.ast.literals.BooleanLit;
+import nl.nicasso.ql.ast.literals.IntegerLit;
+import nl.nicasso.ql.ast.literals.MoneyLit;
+import nl.nicasso.ql.ast.literals.StringLit;
+import nl.nicasso.ql.ast.statements.ComputedQuestion;
+import nl.nicasso.ql.ast.statements.IfElseStatement;
+import nl.nicasso.ql.ast.statements.IfStatement;
+import nl.nicasso.ql.ast.statements.Question;
+import nl.nicasso.ql.ast.statements.Statement;
+import nl.nicasso.ql.ast.structures.Block;
+import nl.nicasso.ql.ast.structures.Form;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 import nl.nicasso.ql.values.BooleanValue;
@@ -33,17 +33,17 @@ import nl.nicasso.ql.values.IntegerValue;
 import nl.nicasso.ql.values.MoneyValue;
 import nl.nicasso.ql.values.StringValue;
 import nl.nicasso.ql.values.Value;
-import nl.nicasso.ql.visitor.ExpressionVisitor;
-import nl.nicasso.ql.visitor.StatementVisitor;
-import nl.nicasso.ql.visitor.StructureVisitor;
+import nl.nicasso.ql.visitors.ExpressionVisitor;
+import nl.nicasso.ql.visitors.StatementVisitor;
+import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Value>, ExpressionVisitor<Value> {
+public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Value, Void>, ExpressionVisitor<Value> {
 	
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	private SymbolTable symbolTable;
 	
-	Evaluator(SymbolTable symbolTable) {
+	public Evaluator(SymbolTable symbolTable) {
 		this.symbolTable = symbolTable;
 	}
 
@@ -158,9 +158,6 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 		
-		System.out.println("Left: "+left.getClass());
-		System.out.println("Right: "+right.getClass());
-		
 		if (debug) {
 			System.out.println("Multiplication: "+left.getValue()+"*"+right.getValue());
 		}
@@ -241,7 +238,7 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	}
 
 	@Override
-	public Value visit(Question value) {
+	public Value visit(Question value, Void context) {
 		if (debug) {
 			System.out.println("Question");
 		}
@@ -257,7 +254,7 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	}
 
 	@Override
-	public Value visit(ComputedQuestion value) {
+	public Value visit(ComputedQuestion value, Void context) {
 		Value exprValue = value.getExpr().accept(this);
 		
 		if (debug) {
@@ -272,8 +269,8 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	}
 
 	@Override
-	public Value visit(IfStatement value) {
-		Value exprValue = value.getExpr().accept(this);
+	public Value visit(IfStatement value, Void context) {
+		value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		
 		if (debug) {
@@ -284,8 +281,8 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	}
 
 	@Override
-	public Value visit(IfElseStatement value) {
-		Value exprValue = value.getExpr().accept(this);
+	public Value visit(IfElseStatement value, Void context) {
+		value.getExpr().accept(this);
 		value.getBlock_if().accept(this);
 		value.getBlock_else().accept(this);
 		
@@ -305,12 +302,12 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	}
 
 	@Override
-	public Value visit(Identifier value) {
-		if (debug) {
-			System.out.println("IdentifierLit: "+value.getValue());
-		}
-		
+	public Value visit(Identifier value) {		
 		SymbolTableEntry entry = symbolTable.getEntry(value);
+		
+		if (debug) {
+			System.out.println("IdentifierLit: "+value.getValue() + " = " + entry.getValue().getValue());
+		}
 						
 		return entry.getValue();
 	}

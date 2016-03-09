@@ -1,0 +1,36 @@
+package eu.bankersen.kevin.ql.ast;
+
+import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.stat.AbstractQuestion;
+import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+
+public interface Visitor {
+
+    void visit(Form form);
+
+    void visit(Body body);
+
+    void visit(IFStatement ifStatement);
+
+    void visit(NormalQuestion normalQuestion);
+
+    void visit(ComputedQuestion computedQuestion);
+
+    void visit(ElseStatement elseStatement);
+    
+    void visit(AbstractStatement abstractStatement);
+
+    void visit(Sub sub);
+
+    void visit(Add add);
+
+    void visit(Div div);
+
+    void visit(Mul mul);
+
+}

@@ -1,0 +1,34 @@
+import java.util.List;
+
+public class FruitPartitioner implements IFruitVisitor {
+    
+    public List<Orange> Oranges;
+    public List<Apple> Apples;
+    public List<Banana> Bananas;
+
+    public FruitPartitioner()
+    {
+        Oranges = new List<Orange>();
+        Apples = new List<Apple>();
+        Bananas = new List<Banana>();
+    }
+
+    @Override
+    public void Visit(Orange fruit) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void Visit(Apple fruit) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void Visit(Banana fruit) {
+	// TODO Auto-generated method stub
+	
+    }
+
+}

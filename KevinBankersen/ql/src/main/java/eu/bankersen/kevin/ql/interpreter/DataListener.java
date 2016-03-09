@@ -1,6 +1,6 @@
 package eu.bankersen.kevin.ql.interpreter;
 
-import eu.bankersen.kevin.ql.context.SymbolTable;
+import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 public interface DataListener {
 

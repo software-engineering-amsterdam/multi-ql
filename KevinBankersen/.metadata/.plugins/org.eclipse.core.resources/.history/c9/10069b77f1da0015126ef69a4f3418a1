@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.util.testing;
-
-public interface DataEvent {
-    
-    private void dataUpdate(Object data);
-
-}

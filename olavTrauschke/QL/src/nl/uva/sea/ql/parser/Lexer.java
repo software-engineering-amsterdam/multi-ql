@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.expr.*;
  * Class for inerpretation of the syntax of ql-files.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 9-mrt-2016
  */
 public class Lexer implements Tokens {
     
@@ -83,9 +83,21 @@ public class Lexer implements Tokens {
     }
     
     private final Reader input;
-    private int character = ' '; //used only for checking no error has occured yet
+    private int character;
     private int token;
     private ASTNode semantic;
+    
+    /**
+     * Constructor for objects of this class.
+     * 
+     * @param file the <code>File</code> the constructed <code>Lexer</code>
+     *              should analyze
+     * @throws FileNotFoundException if <code>file</code> can not be read
+     */
+    public Lexer(File file) throws FileNotFoundException {
+        input = new FileReader(file);
+        readNextCharacter();
+    }
     
     /**
      * Constructor for objects of this class.
@@ -97,17 +109,6 @@ public class Lexer implements Tokens {
      */
     public Lexer(String filename) throws FileNotFoundException {
         input = new FileReader(filename);
-        readNextCharacter();
-    }
-    
-    /**
-     * Constructor for objects of this class.
-     * 
-     * @param theInput a <code>Reader</code> reading from the source the constructed
-     *                  <code>Lexer</code> should analyze
-     */
-    public Lexer(Reader theInput) {
-        input = theInput;
         readNextCharacter();
     }
     
@@ -278,12 +279,26 @@ public class Lexer implements Tokens {
         }
     }
     
+    /**
+     * Call <code>readNextCharacter</code> while <code>character</code> does not
+     * satisfy a specified <code>condition</code>.
+     * 
+     * @param condition a <code>Predicate</code> representing the condition
+     *                  <code>character</code> should satisfy after this call
+     */
     private void readWhile(Predicate<Integer> condition) {
         while (condition.test(character) && character >= MINIMUM_CHARACTER_VALUE) {
                     readNextCharacter();
         }
     }
     
+    /**
+     * Call <code>readNextCharacter</code> while the next <code>character</code>
+     * contributes to a number.
+     * 
+     * @return an <code>int</code> containing the number represented the by the
+     *          read characters
+     */
     private int readNumber() {
         int result = 0;
         do {
@@ -293,6 +308,13 @@ public class Lexer implements Tokens {
         return result;
     }
     
+    /**
+     * Call <code>readNextCharacter</code> while the next <code>character</code>
+     * contributes to a keyword or identifier. Also sets <code>token</code> and
+     * <code>semantic</code> to represent the value that was read.
+     * 
+     * @return the token representing the value that was read
+     */
     private int readText() {
         StringBuilder sb = new StringBuilder();
         do {
@@ -314,6 +336,12 @@ public class Lexer implements Tokens {
         return IDENT;
     }
     
+    /**
+     * Call <code>readNextCharacter</code> while the end of a string (quotes)
+     * was not found.
+     * 
+     * @return the <code>String</code> that was read
+     */
     private String readString() {
         StringBuilder sb = new StringBuilder();
         readNextCharacter();

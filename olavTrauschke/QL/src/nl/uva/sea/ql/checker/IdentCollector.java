@@ -1,76 +1,43 @@
 package nl.uva.sea.ql.checker;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.ast.question.Question;
 
 /**
- * Visitor to obtain a map from all <code>Ident</code>s in an <code>ast</code>
- * to a <code>Question</code> with that <code>Ident</code> and produce errors
- * when a question is redefined (another <code>Question</code> was parsed with
- * the same <code>Ident</code>) with a different type.
+ * Visitor to collect all <code>Ident</code>s in a part of an ast.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 9-mrt-2016
  */
 public class IdentCollector implements ASTVisitor {
     
-    /**
-     * Error presented to the user when a question was found to be redefined
-     * with another type.
-     */
-    public static final String REDEFINED_QUESTION_ERROR = "Question defined"
-            + " with different return types found: ";
-    
-    private final List<String> errors;
-    private final Map<Ident,Question> firstQuestionsForIdentifiers;
+    private final Set<Ident> identifiers;
     
     /**
      * Constructor for objects of this class.
      */
     public IdentCollector() {
-        errors = new ArrayList<>();
-        firstQuestionsForIdentifiers = new HashMap<>();
+        identifiers = new HashSet<>();
     }
     
     /**
-     * When a <code>IdentCollector visit</code>s a <code>Question</code>
-     * it checks whether a <code>Question</code> with the same <code>identifier</code>
-     * was <code>visit</code>ed before and checks whether the <code>Question</code>
-     * was defined with the same type before if this is the case and safes the
-     * <code>Question</code> as the first <code>Question</code> found with its
-     * <code>identifier</code> if this is not the case.
+     * Add an <code>Ident</code> to the <code>Set</code> of <code>Ident</code>s
+     * <code>this IdentCollector visit</code>ed.
      * 
-     * @param q the <code>Question</code> to <code>visit</code>
+     * @param i the <code>Ident</code> to add
      */
     @Override
-    public void visit(Question q) {
-        Ident identifier = q.getIdentifier();
-        if (firstQuestionsForIdentifiers.containsKey(identifier)) {
-            Question firstQuestionWithSameIdent = firstQuestionsForIdentifiers.get(identifier);
-            if (!q.hasEqualType(firstQuestionWithSameIdent)) {
-               errors.add(REDEFINED_QUESTION_ERROR + identifier);
-            }
-        }
-        else {
-            firstQuestionsForIdentifiers.put(identifier, q);
-        }
+    public void visit(Ident i) {
+        identifiers.add(i);
     }
     
     /**
-     * @return a <code>Map</code> from each <code>Ident</code> that was found in
-     *          the <code>visit</code>ed ast's to the first questions that were
-     *          found with these <code>Ident</code>s
+     * @return an <code>Iterable</code> containing the <code>Ident</code>s that
+     *          were <code>visit</code>ed by <code>this IdentCollector</code>
      */
-    public Map<Ident,Question> getFirstQuestionsForIdentifiers() {
-        return firstQuestionsForIdentifiers;
+    public Iterable<Ident> getIdentifiers() {
+        return identifiers;
     }
     
-    /**
-     * @return a <code>List</code> of all errors produced by
-     *          <code>this IdentCollector</code>
-     */
-    public List<String> getErrors() {
-        return errors;
-    }
 }

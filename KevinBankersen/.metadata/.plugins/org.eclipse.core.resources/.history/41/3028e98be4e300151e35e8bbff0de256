@@ -1,0 +1,37 @@
+package eu.bankersen.kevin.ql.gui.dialog;
+
+import java.util.List;
+import java.util.Set;
+
+import javax.swing.JOptionPane;
+
+import eu.bankersen.kevin.ql.parser.ANTLRParseError;
+import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
+
+public class ErrorDialog<T> {
+    
+    public ErrorDialog(String errorType, String message) {
+	showError(errorType, message);
+    }
+    
+    public ErrorDialog(List<TypeCheckError> list) {
+	StringBuilder sb = new StringBuilder();
+	list.forEach(error -> sb.append(error + "\n"));
+	showError("Type Errors!", sb.toString());
+    }
+    
+    public ErrorDialog(List<ANTLRParseError> errors) {
+	StringBuilder sb = new StringBuilder();
+	errors.forEach(error -> sb.append(error + "\n"));
+	showError("Parse Errors!", sb.toString());
+    }
+
+    private void showError(String errorType, String message) {
+	JOptionPane.showMessageDialog(
+		    null,
+		    message,
+		    errorType,
+		    JOptionPane.ERROR_MESSAGE);
+	System.exit(1);
+    }
+}

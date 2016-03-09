@@ -1,0 +1,9 @@
+package nl.uva.sc.ql.errorwarning;
+
+public class CyclicError extends MyError {
+
+	public CyclicError(String message) {
+		super(message);
+	}
+
+}
