@@ -1,11 +1,11 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.ASTSourceInfo;
 
 public class Add extends BinaryExpr {
 
-	public Add(ParserRuleContext context, Expr lhs, Expr rhs) {
-		super(context, lhs, rhs);
+	public Add(ASTSourceInfo sourceInfo, Expr lhs, Expr rhs) {
+		super(sourceInfo, lhs, rhs);
 	}
 
 	@Override

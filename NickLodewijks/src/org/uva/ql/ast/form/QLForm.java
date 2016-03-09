@@ -9,9 +9,9 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.uva.ql.ast.ASTNode;
+import org.uva.ql.ast.ASTSourceInfo;
 import org.uva.ql.ast.stat.QLQuestion;
 import org.uva.ql.parser.QLLexer;
 import org.uva.ql.parser.QLParser;
@@ -21,7 +21,7 @@ public class QLForm extends ASTNode {
 	private final String name;
 	private final QLBlock body;
 
-	public QLForm(ParserRuleContext context, String id, QLBlock body) {
+	public QLForm(ASTSourceInfo context, String id, QLBlock body) {
 		super(context);
 		this.name = id;
 		this.body = body;

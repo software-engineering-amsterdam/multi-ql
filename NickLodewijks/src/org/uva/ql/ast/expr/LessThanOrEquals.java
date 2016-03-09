@@ -1,10 +1,10 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.ASTSourceInfo;
 
 public class LessThanOrEquals extends BinaryExpr {
 
-	public LessThanOrEquals(ParserRuleContext context, Expr lhs, Expr rhs) {
+	public LessThanOrEquals(ASTSourceInfo context, Expr lhs, Expr rhs) {
 		super(context, lhs, rhs);
 	}
 

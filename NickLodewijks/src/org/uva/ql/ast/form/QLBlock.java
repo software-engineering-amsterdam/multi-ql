@@ -3,8 +3,8 @@ package org.uva.ql.ast.form;
 import java.util.Collections;
 import java.util.List;
 
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.ASTNode;
+import org.uva.ql.ast.ASTSourceInfo;
 import org.uva.ql.ast.stat.QLIFStatement;
 import org.uva.ql.ast.stat.QLQuestion;
 
@@ -13,7 +13,7 @@ public class QLBlock extends ASTNode {
 	private final List<QLQuestion> questions;
 	private final List<QLIFStatement> statements;
 
-	public QLBlock(ParserRuleContext context, List<QLQuestion> questions, List<QLIFStatement> statements) {
+	public QLBlock(ASTSourceInfo context, List<QLQuestion> questions, List<QLIFStatement> statements) {
 		super(context);
 		this.questions = questions;
 		this.statements = statements;

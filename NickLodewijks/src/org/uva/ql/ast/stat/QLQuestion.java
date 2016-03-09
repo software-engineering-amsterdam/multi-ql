@@ -1,8 +1,8 @@
 package org.uva.ql.ast.stat;
 
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.QLInterpreter;
 import org.uva.ql.QLInterpreterContext;
+import org.uva.ql.ast.ASTSourceInfo;
 import org.uva.ql.ast.expr.BooleanLiteral;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.type.QLType;
@@ -16,7 +16,7 @@ public abstract class QLQuestion extends QLStatement {
 	private final Expr condition;
 	private final Expr calculation;
 
-	public QLQuestion(ParserRuleContext context, QLType type, String id, String label) {
+	public QLQuestion(ASTSourceInfo context, QLType type, String id, String label) {
 		super(context);
 		this.id = id;
 		this.type = type;
@@ -25,7 +25,7 @@ public abstract class QLQuestion extends QLStatement {
 		this.calculation = null;
 	}
 
-	public QLQuestion(ParserRuleContext context, QLType type, String id, String label, Expr expr, Expr calculation) {
+	public QLQuestion(ASTSourceInfo context, QLType type, String id, String label, Expr expr, Expr calculation) {
 		super(context);
 		this.id = id;
 		this.type = type;
