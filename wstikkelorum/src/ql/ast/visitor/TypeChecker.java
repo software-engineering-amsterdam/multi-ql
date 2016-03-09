@@ -37,7 +37,7 @@ public class TypeChecker<T> extends BasicVisitor<Type>{
 	
 	@Override
 	public Type visit(IfStatement ifStatement) {
-		checkTypesCon(ifStatement.getExpression(), Type.BOOLEAN);
+		checkTypesCon(ifStatement.getCondition(), Type.BOOLEAN);
 		ifStatement.getBody().accept(this);
 		return null;
 	}
