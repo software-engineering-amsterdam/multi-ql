@@ -47,9 +47,18 @@ widgetType
 	: 'slider'
 	| 'spinbox'
 	| 'text'
-	| 'radio'
+	| 'radio' '(' valueOptions ')'
 	| 'checkbox'
-	| 'dropdown'
+	| 'dropdown' '(' valueOptions ')'
+	;
+
+valueOptions
+	: valueOption ',' valueOptions
+	| valueOption
+	;
+
+valueOption
+	: STRING_LITERAL
 	;
 
 STRING_LITERAL
