@@ -29,13 +29,13 @@ import java.util.List;
 /**
  * Created by roy on 25-2-16.
  */
-public class QuestionUIBuilder extends BaseVisitor<Void, QuestionWidget, Void, Void, Control, Question> {
+public class QuestionsView extends BaseVisitor<Void, QuestionWidget, Void, Void, Control, Question> {
     private GridPane box;
     private List<QuestionWidget> uiElements;
     private List<Question> questions;
     private ObservableMap<Var, Question> symbolTable;
 
-    public QuestionUIBuilder(List<Question> questions, ObservableMap<Var, Question> symbolTable) {
+    public QuestionsView(List<Question> questions, ObservableMap<Var, Question> symbolTable) {
         this.box = new GridPane();
         this.uiElements = new ArrayList<>();
         this.questions = questions;

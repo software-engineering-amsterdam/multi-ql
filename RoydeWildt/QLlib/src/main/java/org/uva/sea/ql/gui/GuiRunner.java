@@ -7,7 +7,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.checker.Checker;
+import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.parser.QLRunner;
+
+import java.util.List;
 
 public class GuiRunner extends Application {
     private Stage stage;
@@ -26,11 +30,20 @@ public class GuiRunner extends Application {
     public void initPreview() {
 
         Form f = parseFromPath("src/test/resources/example1.ql");
-        FormUIBuilder guiBuilder = new FormUIBuilder(f);
+        PreviewView preview = new PreviewView(f);
 
-        Scene scene = new Scene(guiBuilder.getRootPane());
-        stage.setScene(scene);
-        stage.show();
+        List<Message> messages = new Checker(f).getMessages();
+
+        if(messages.isEmpty()){
+            Scene scene = new Scene(preview.getRootPane());
+            stage.setScene(scene);
+            stage.show();
+        }
+        else {
+            for(Message m : messages){
+                System.out.println(m.getMsg());
+            }
+        }
     }
 
     private Form parseFromPath(String path){

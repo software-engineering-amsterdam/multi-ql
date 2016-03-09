@@ -20,17 +20,17 @@ import java.util.*;
 /**
  * Created by roy on 29-2-16.
  */
-public class FormUIBuilder {
+public class PreviewView {
     private Form form;
     private GridPane rootPane;
     private VBox vbox;
 
-    public FormUIBuilder(Form form) {
+    public PreviewView(Form form) {
         this.form = form;
 
         FormEvaluator evaluator = new FormEvaluator(this.form);
         List<Question> questions = evaluator.getQuestions();
-        QuestionUIBuilder visitor = new QuestionUIBuilder(questions, evaluator.getSymbolTable());
+        QuestionsView visitor = new QuestionsView(questions, evaluator.getSymbolTable());
 
         addFormListener(evaluator);
 
@@ -66,7 +66,7 @@ public class FormUIBuilder {
             FormEvaluator fe = new FormEvaluator(this.form, (ObservableMap<Var, Question>) c.getMap());
             List<Question> questions = fe.getQuestions();
 
-            QuestionUIBuilder visitor = new QuestionUIBuilder(questions, fe.getSymbolTable());
+            QuestionsView visitor = new QuestionsView(questions, fe.getSymbolTable());
             List<QuestionWidget> UIElements = visitor.getUiElements();
             updateFormUI(changedQuestion, UIElements);
         });

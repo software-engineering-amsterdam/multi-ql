@@ -57,7 +57,8 @@ public class TypeVisitor<F,S,T> extends BaseVisitor<F,S,Type,T,Type,Void> {
     @Override
     public Type visit(Eq expr, Void context) {
         if(!incompatibleTypes(expr, new Boolean()) ||
-                !incompatibleTypes(expr, new Money())){
+                !incompatibleTypes(expr, new Money()) ||
+                !incompatibleTypes(expr, new Text())){
             return new Boolean();
         }
         return null;
@@ -101,7 +102,8 @@ public class TypeVisitor<F,S,T> extends BaseVisitor<F,S,Type,T,Type,Void> {
     @Override
     public Type visit(NEq expr, Void context) {
         if(!incompatibleTypes(expr, new Boolean()) ||
-                !incompatibleTypes(expr, new Money())){
+                !incompatibleTypes(expr, new Money()) ||
+                !incompatibleTypes(expr, new Text())){
             return new Boolean();
         }
         return null;

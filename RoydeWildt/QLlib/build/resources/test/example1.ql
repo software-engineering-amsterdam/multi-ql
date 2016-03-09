@@ -5,10 +5,9 @@ form taxOfficeExample {
     nameis: text = (name)
   "Did you sell a house in 2010?"
     hasSoldHouse: boolean
-  "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean = (true == true)
-  "Did you enter a loan?"
-    hasMaintLoan: boolean
+  "Dit you give it away for free?"
+    forFree: boolean
+
 
   if (hasSoldHouse) {
     "What was the selling price?"
@@ -18,6 +17,10 @@ form taxOfficeExample {
     "Value residue:"
       valueResidue: money =
         (sellingPrice - privateDebt)
+    if (name == "roy"){
+      "You get everything for free my man"
+        free: boolean = (true)
+    }
   }
 
 }
