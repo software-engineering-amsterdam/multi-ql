@@ -8,10 +8,10 @@ import org.uva.sea.ql.ast.tree.stat.Question;
 /**
  * Created by roy on 5-2-16.
  */
-public interface StatVisitor<T,C> {
+public interface StatVisitor<STAT,CONTEXT> {
 
-    T visit(If stat, C context);
-    T visit(IfElse stat, C context);
-    T visit(Question stat, C context);
+    STAT visit(If stat, CONTEXT context);
+    STAT visit(IfElse stat, CONTEXT context);
+    STAT visit(Question stat, CONTEXT context);
 
 }

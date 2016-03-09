@@ -5,5 +5,5 @@ package org.uva.sea.ql.ast.visitor.interfaces;
  */
 public interface ExprVisitable {
 
-    <E,C> E accept(ExprVisitor<E,C> visitor, C context);
+    <EXPR,CONTEXT> EXPR accept(ExprVisitor<EXPR,CONTEXT> visitor, CONTEXT context);
 }

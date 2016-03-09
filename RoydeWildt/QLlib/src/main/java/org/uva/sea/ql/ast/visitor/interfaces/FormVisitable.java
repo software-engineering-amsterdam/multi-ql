@@ -5,5 +5,5 @@ package org.uva.sea.ql.ast.visitor.interfaces;
  */
 public interface FormVisitable {
 
-    <F,C> F accept(FormVisitor<F,C> visitor, C context);
+    <FORM,CONTEXT> FORM accept(FormVisitor<FORM,CONTEXT> visitor, CONTEXT context);
 }

@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.ast.tree.var.Var;
 import org.uva.sea.ql.evaluator.FormEvaluator;
 import org.uva.sea.ql.gui.widget.QuestionWidget;
 

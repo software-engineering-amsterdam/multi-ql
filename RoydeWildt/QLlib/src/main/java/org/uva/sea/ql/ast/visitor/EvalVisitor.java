@@ -8,13 +8,14 @@ import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.val.*;
+import org.uva.sea.ql.ast.tree.var.Var;
 
 import java.util.Map;
 
 /**
  * Created by roydewildt on 22/02/16.
  */
-public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,ObservableMap<Var, Question>> {
+public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr,TYPE,Val,Val,ObservableMap<Var, Question>> {
 
     private final Map<Var,Expr>  decls;
     private ObservableMap<Var, Question> symbolTable;
@@ -35,7 +36,7 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Observab
 
 
     @Override
-    public S visit(If stat, ObservableMap<Var, Question> symbolTable) {
+    public STAT visit(If stat, ObservableMap<Var, Question> symbolTable) {
         Bool value = stat.getCond().accept(this, symbolTable).getValue();
 
         if(value.getValue() == null){
@@ -50,7 +51,7 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Observab
     }
 
     @Override
-    public S visit(IfElse stat, ObservableMap<Var, Question> symbolTable) {
+    public STAT visit(IfElse stat, ObservableMap<Var, Question> symbolTable) {
         Bool value = stat.getCond().accept(this, symbolTable).getValue();
 
         if(value.getValue() == null){
@@ -288,21 +289,6 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Observab
     }
 
     @Override
-    public Val visit(Var val, ObservableMap<Var, Question> symbolTable) {
-        Expr expr;
-
-        if(symbolTable.containsKey(val)){
-            expr = symbolTable.get(val).getExpr();
-        }
-        else {
-            expr = decls.get(val);
-        }
-
-        Primary value = (Primary) expr.accept(this,symbolTable);
-        return value.getValue();
-    }
-
-    @Override
     public Val visit(Bool val, ObservableMap<Var, Question> symbolTable) {
         return val;
     }
@@ -327,6 +313,21 @@ public class EvalVisitor<F,S,T> extends BaseVisitor<F,S,UnaryExpr,T,Val,Observab
         else{
             return null;
         }
+    }
+
+    @Override
+    public Val visit(Var val, ObservableMap<Var, Question> symbolTable) {
+        Expr expr;
+
+        if(symbolTable.containsKey(val)){
+            expr = symbolTable.get(val).getExpr();
+        }
+        else {
+            expr = decls.get(val);
+        }
+
+        Primary value = (Primary) expr.accept(this,symbolTable);
+        return value.getValue();
     }
 
     public ObservableMap<Var, Question> getSymbolTable() {

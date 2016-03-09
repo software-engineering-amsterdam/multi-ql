@@ -3,7 +3,7 @@ package org.uva.sea.ql.checker;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.ast.tree.var.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
@@ -13,8 +13,7 @@ import java.util.*;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void> {
-    private Var current;
+public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void,Question> {
     private final Map<Node,List<Node>> references = new HashMap<>();
 
     public CyclicQuestionsCheck(Form f) {
@@ -22,32 +21,33 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,V
     }
 
     @Override
-    public Void visit(Question stat, Void context) {
-        // TODO do not use temp var (bad code smell here)
-        current = stat.getVarname();
+    public Void visit(Question stat, Question context) {
 
         if(!references.containsKey(stat.getVarname()))
             references.put(stat.getVarname(),new ArrayList<>());
-        stat.getExpr().accept(this, context);
-
-        current = null;
+        stat.getExpr().accept(this, stat);
 
         return null;
     }
 
     @Override
-    public Void visit(Var var, Void context) {
+    public Void visit(Var var, Question context) {
 
-        if(references.get(current) != null){
-            List<Node> l  = references.get(current);
+        Var v = null;
+
+        if(context != null)
+            v = context.getVarname();
+
+        if(references.get(v) != null){
+            List<Node> l  = references.get(v);
             l.add(var);
-            references.put(current,l);
+            references.put(v,l);
         }
 
         return null;
     }
 
-    private List<Node> getCyclics() {
+    private List<Node> getCycles() {
         Set<Node> questions = references.keySet();
         List<Node> cycles = new ArrayList<>();
 
@@ -81,7 +81,7 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,V
 
     public List<Message> cyclicQuestionChecker(){
         List<Message> messages = new ArrayList<>();
-        List<Node> cyclics = getCyclics();
+        List<Node> cyclics = getCycles();
 
         for(Node n : cyclics){
             Var v = (Var) n;

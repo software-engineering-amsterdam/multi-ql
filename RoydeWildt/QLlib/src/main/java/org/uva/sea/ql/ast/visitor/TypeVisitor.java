@@ -12,7 +12,7 @@ import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.tree.val.Bool;
 import org.uva.sea.ql.ast.tree.val.Int;
 import org.uva.sea.ql.ast.tree.val.Str;
-import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.ast.tree.var.Var;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +21,11 @@ import java.util.Map;
  * Created by roydewildt on 17/02/16.
  */
 
-public class TypeVisitor<F,S,T> extends BaseVisitor<F,S,Type,T,Type,Void> {
+public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,Type,Type,Void> {
     private final Map<Node,Node> decls = new HashMap<>();
 
     @Override
-    public S visit(Question stat, Void context) {
+    public STAT visit(Question stat, Void context) {
         decls.put(stat.getVarname(), stat);
         return null;
     }
@@ -148,19 +148,6 @@ public class TypeVisitor<F,S,T> extends BaseVisitor<F,S,Type,T,Type,Void> {
     }
 
     @Override
-    public Type visit(Var val, Void context) {
-        if (decls.containsKey(val)){
-
-            Question q = (Question) decls.get(val);
-            Type t = q.getType();
-            return t.getType();
-
-        }
-        else
-            return null;
-    }
-
-    @Override
     public Type visit(Int val, Void context) {
         return new Money();
     }
@@ -173,6 +160,19 @@ public class TypeVisitor<F,S,T> extends BaseVisitor<F,S,Type,T,Type,Void> {
     @Override
     public Type visit(Str val, Void context) {
         return new Text();
+    }
+
+    @Override
+    public Type visit(Var val, Void context) {
+        if (decls.containsKey(val)){
+
+            Question q = (Question) decls.get(val);
+            Type t = q.getType();
+            return t.getType();
+
+        }
+        else
+            return null;
     }
 
     private boolean incompatibleTypes(BinaryExpr expr, Type type){

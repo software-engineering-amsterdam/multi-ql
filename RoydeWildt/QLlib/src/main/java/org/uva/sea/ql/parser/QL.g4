@@ -155,7 +155,7 @@ str returns [Val result]
     : value=Str {$result = new Str($value.getLine(), $value.text); }
     ;
 
-id returns [Val result]
+id returns [Var result]
     : value=Ident {$result = new Var($value.getLine(), $value.text); }
     ;
     

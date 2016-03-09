@@ -7,9 +7,9 @@ import org.uva.sea.ql.ast.tree.type.Money;
 /**
  * Created by roy on 5-2-16.
  */
-public interface TypeVisitor<T, C> {
+public interface TypeVisitor<TYPE, CONTEXT> {
 
-    T visit(Boolean type, C context);
-    T visit(Money type, C context);
+    TYPE visit(Boolean type, CONTEXT context);
+    TYPE visit(Money type, CONTEXT context);
 
 }

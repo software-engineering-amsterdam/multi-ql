@@ -7,7 +7,7 @@ import javafx.collections.ObservableMap;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.ast.tree.var.Var;
 import org.uva.sea.ql.ast.visitor.EvalVisitor;
 
 import java.util.ArrayList;

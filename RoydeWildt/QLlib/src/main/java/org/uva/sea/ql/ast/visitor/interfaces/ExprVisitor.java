@@ -8,25 +8,26 @@ import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 
 
 /**
- * Created by roy on 5-2-16.
+ * CONTEXTreated by roy on 5-2-16.
  */
-public interface ExprVisitor<T,C> {
+
+public interface ExprVisitor<EXPR,CONTEXT> {
     
-    T visit(Add expr, C context);
-    T visit(And expr, C context);
-    T visit(Div expr, C context);
-    T visit(Eq expr, C context);
-    T visit(GEq expr, C context);
-    T visit(GT expr, C context);
-    T visit(LEq expr, C context);
-    T visit(LT expr, C context);
-    T visit(Mul expr, C context);
-    T visit(NEq expr, C context);
-    T visit(Or expr, C context);
-    T visit(Sub expr, C context);
-    T visit(Neg expr, C context);
-    T visit(Not expr, C context);
-    T visit(Pos expr, C context);
-    T visit(Primary expr, C context);
+    EXPR visit(Add expr, CONTEXT context);
+    EXPR visit(And expr, CONTEXT context);
+    EXPR visit(Div expr, CONTEXT context);
+    EXPR visit(Eq expr, CONTEXT context);
+    EXPR visit(GEq expr, CONTEXT context);
+    EXPR visit(GT expr, CONTEXT context);
+    EXPR visit(LEq expr, CONTEXT context);
+    EXPR visit(LT expr, CONTEXT context);
+    EXPR visit(Mul expr, CONTEXT context);
+    EXPR visit(NEq expr, CONTEXT context);
+    EXPR visit(Or expr, CONTEXT context);
+    EXPR visit(Sub expr, CONTEXT context);
+    EXPR visit(Neg expr, CONTEXT context);
+    EXPR visit(Not expr, CONTEXT context);
+    EXPR visit(Pos expr, CONTEXT context);
+    EXPR visit(Primary expr, CONTEXT context);
 
 }

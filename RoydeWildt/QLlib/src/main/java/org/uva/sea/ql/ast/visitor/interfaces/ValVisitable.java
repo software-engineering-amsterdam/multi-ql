@@ -5,5 +5,5 @@ package org.uva.sea.ql.ast.visitor.interfaces;
  */
 public interface ValVisitable {
 
-    <V,C> V accept(ValVisitor<V,C> visitor, C context);
+    <VAL,CONTEXT> VAL accept(ValVisitor<VAL,CONTEXT> visitor, CONTEXT context);
 }

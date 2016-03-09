@@ -6,8 +6,8 @@ import org.uva.sea.ql.ast.tree.form.Form;
 /**
  * Created by roy on 5-2-16.
  */
-public interface FormVisitor<T,C> {
+public interface FormVisitor<FORM,CONTEXT> {
 
-    T visit(Form form, C context);
+    FORM visit(Form form, CONTEXT context);
 
 }

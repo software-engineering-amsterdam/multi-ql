@@ -3,7 +3,7 @@ package org.uva.sea.ql.checker;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.val.Var;
+import org.uva.sea.ql.ast.tree.var.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by roydewildt on 11/02/16.
  */
-public class DuplicateVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void> {
+public class DuplicateVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void,Void> {
 
     private final Map<Var, List<Node>> duplicates = new HashMap<>();
 
@@ -51,9 +51,9 @@ public class DuplicateVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Voi
             for (int i = 1; i < dups.size(); i++) {
                 Question dup = (Question) dups.get(i);
                 sb.append("Variable ");
-                sb.append(dup.getVarname().getName() + " : " + dup.getType().getClass().getSimpleName());
+                sb.append(dup.getVarname().toString() + " : " + dup.getType().getClass().getSimpleName());
                 sb.append(" is already defined as ");
-                sb.append(org.getVarname().getName() + " : " + org.getType().getClass().getSimpleName());
+                sb.append(org.getVarname().toString() + " : " + org.getType().getClass().getSimpleName());
 
                 if(dup.getType().getClass().getSimpleName() == org.getType().getClass().getSimpleName())
                     messages.add(new WarningMessage(sb.toString(), dup.getVarname()));

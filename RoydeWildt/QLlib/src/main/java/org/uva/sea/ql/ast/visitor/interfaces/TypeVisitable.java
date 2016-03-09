@@ -5,5 +5,5 @@ package org.uva.sea.ql.ast.visitor.interfaces;
  */
 public interface TypeVisitable {
 
-    <T,C> T accept(TypeVisitor<T,C> visitor, C context);
+    <TYPE,CONTEXT> TYPE accept(TypeVisitor<TYPE,CONTEXT> visitor, CONTEXT context);
 }

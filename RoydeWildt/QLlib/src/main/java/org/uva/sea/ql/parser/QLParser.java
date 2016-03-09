@@ -1,4 +1,4 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /home/roy/Workspace/UvA/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 
 import java.util.List;
@@ -1245,7 +1245,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class IdContext extends ParserRuleContext {
-		public Val result;
+		public Var result;
 		public Token value;
 		public TerminalNode Ident() { return getToken(QLParser.Ident, 0); }
 		public IdContext(ParserRuleContext parent, int invokingState) {

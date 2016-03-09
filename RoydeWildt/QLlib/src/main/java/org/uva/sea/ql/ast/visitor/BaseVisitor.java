@@ -7,21 +7,28 @@ import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.val.*;
-import org.uva.sea.ql.ast.tree.val.Var;
-import org.uva.sea.ql.ast.visitor.interfaces.*;
+import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.FormVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.ValVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.VarVisitor;
 
 /**
  * Created by roydewildt on 10/02/16.
  */
-public abstract class BaseVisitor<F,S,E,T,V,C> implements FormVisitor<F,C>,StatVisitor<S,C>,ExprVisitor<E,C>,TypeVisitor<T,C>,ValVisitor<V,C> {
+public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,VAL,VAR,CONTEXT> implements
+        FormVisitor<FORM,CONTEXT>, StatVisitor<STAT,CONTEXT>, ExprVisitor<EXPR,CONTEXT>,
+        TypeVisitor<TYPE,CONTEXT>, ValVisitor<VAL,CONTEXT>, VarVisitor<VAR,CONTEXT>
+{
 
     @Override
-    public F visit(Form form, C context) {
+    public FORM visit(Form form, CONTEXT c) {
 
         if (form.getStms() != null){
             for (Stat s: form.getStms()) {
-                s.accept(this,context);
+                s.accept(this,c);
             }
         }
 
@@ -29,204 +36,204 @@ public abstract class BaseVisitor<F,S,E,T,V,C> implements FormVisitor<F,C>,StatV
     }
 
     @Override
-    public S visit(If stat, C context) {
+    public STAT visit(If stat, CONTEXT c) {
 
-        stat.getCond().accept(this,context);
+        stat.getCond().accept(this,c);
         for(Stat s : stat.getStms())
-            s.accept(this,context);
+            s.accept(this,c);
 
         return null;
     }
 
     @Override
-    public S visit(IfElse stat, C context) {
+    public STAT visit(IfElse stat, CONTEXT c) {
 
-        stat.getCond().accept(this,context);
+        stat.getCond().accept(this,c);
         for(Stat s : stat.getIfStms())
-            s.accept(this,context);
+            s.accept(this,c);
         for(Stat s : stat.getElseStms())
-            s.accept(this,context);
+            s.accept(this,c);
 
         return null;
     }
 
     @Override
-    public S visit(Question stat, C context) {
+    public STAT visit(Question stat, CONTEXT c) {
 
-        stat.getType().accept(this,context);
-        stat.getVarname().accept(this,context);
-        stat.getExpr().accept(this,context);
-
-        return null;
-    }
-
-    @Override
-    public E visit(Add expr, C context) {
-
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
+        stat.getType().accept(this,c);
+        stat.getVarname().accept(this,c);
+        stat.getExpr().accept(this,c);
 
         return null;
     }
 
     @Override
-    public E visit(And expr, C context) {
+    public EXPR visit(Add expr, CONTEXT c) {
 
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
-
-        return null;
-    }
-
-    @Override
-    public E visit(Div expr, C context) {
-
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
 
         return null;
     }
 
     @Override
-    public E visit(Eq expr, C context) {
+    public EXPR visit(And expr, CONTEXT c) {
 
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
-
-        return null;
-    }
-
-    @Override
-    public E visit(GEq expr, C context) {
-
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
 
         return null;
     }
 
     @Override
-    public E visit(GT expr, C context) {
+    public EXPR visit(Div expr, CONTEXT c) {
 
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
-
-        return null;
-    }
-
-    @Override
-    public E visit(LEq expr, C context) {
-
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
 
         return null;
     }
 
     @Override
-    public E visit(LT expr, C context) {
+    public EXPR visit(Eq expr, CONTEXT c) {
 
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
-
-        return null;
-    }
-
-    @Override
-    public E visit(Mul expr, C context) {
-
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
 
         return null;
     }
 
     @Override
-    public E visit(NEq expr, C context) {
+    public EXPR visit(GEq expr, CONTEXT c) {
 
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
-
-        return null;
-    }
-
-    @Override
-    public E visit(Or expr, C context) {
-
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
 
         return null;
     }
 
     @Override
-    public E visit(Sub expr, C context) {
+    public EXPR visit(GT expr, CONTEXT c) {
 
-        expr.getLhs().accept(this,context);
-        expr.getRhs().accept(this,context);
-
-        return null;
-    }
-
-    @Override
-    public E visit(Neg expr, C context) {
-
-        expr.getValue().accept(this,context);
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
 
         return null;
     }
 
     @Override
-    public E visit(Not expr, C context) {
+    public EXPR visit(LEq expr, CONTEXT c) {
 
-        expr.getValue().accept(this,context);
-
-        return null;
-    }
-
-    @Override
-    public E visit(Pos expr, C context) {
-
-        expr.getValue().accept(this,context);
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
 
         return null;
     }
 
     @Override
-    public E visit(Primary expr, C context) {
+    public EXPR visit(LT expr, CONTEXT c) {
 
-        expr.getValue().accept(this,context);
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
 
         return null;
     }
 
     @Override
-    public T visit(Boolean type, C context) {
+    public EXPR visit(Mul expr, CONTEXT c) {
+
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
+
         return null;
     }
 
     @Override
-    public T visit(Money type, C context) {
+    public EXPR visit(NEq expr, CONTEXT c) {
+
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
+
         return null;
     }
 
     @Override
-    public V visit(Bool val, C context) {
+    public EXPR visit(Or expr, CONTEXT c) {
+
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
+
         return null;
     }
 
     @Override
-    public V visit(Int val, C context) {
+    public EXPR visit(Sub expr, CONTEXT c) {
+
+        expr.getLhs().accept(this,c);
+        expr.getRhs().accept(this,c);
+
         return null;
     }
 
     @Override
-    public V visit(Str val, C context) {
+    public EXPR visit(Neg expr, CONTEXT c) {
+
+        expr.getValue().accept(this,c);
+
         return null;
     }
 
     @Override
-    public V visit(Var val, C context) {
+    public EXPR visit(Not expr, CONTEXT c) {
+
+        expr.getValue().accept(this,c);
+
+        return null;
+    }
+
+    @Override
+    public EXPR visit(Pos expr, CONTEXT c) {
+
+        expr.getValue().accept(this,c);
+
+        return null;
+    }
+
+    @Override
+    public EXPR visit(Primary expr, CONTEXT c) {
+
+        expr.getValue().accept(this,c);
+
+        return null;
+    }
+
+    @Override
+    public TYPE visit(Boolean type, CONTEXT c) {
+        return null;
+    }
+
+    @Override
+    public TYPE visit(Money type, CONTEXT c) {
+        return null;
+    }
+
+    @Override
+    public VAL visit(Bool val, CONTEXT c) {
+        return null;
+    }
+
+    @Override
+    public VAL visit(Int val, CONTEXT c) {
+        return null;
+    }
+
+    @Override
+    public VAL visit(Str val, CONTEXT c) {
+        return null;
+    }
+
+    @Override
+    public VAR visit(Var val, CONTEXT c) {
         return null;
     }
 
