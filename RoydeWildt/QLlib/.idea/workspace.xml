@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2fe6509e-12ac-42b3-a403-b4582894835f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/QuestionUIBuilder.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/FormUIBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/PreviewView.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/QuestionUIBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/QuestionsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/GuiRunner.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/GuiRunner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/TypeVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/TypeVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/GuiRunner.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/GuiRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/example1.ql" afterPath="$PROJECT_DIR$/src/test/resources/example1.ql" />
-    </list>
+    <list default="true" id="2fe6509e-12ac-42b3-a403-b4582894835f" name="Default" comment="" />
     <ignored path="QLlib.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -1576,7 +1562,7 @@
       <workItem from="1456905403539" duration="18158000" />
       <workItem from="1456995216201" duration="6173000" />
       <workItem from="1457001570626" duration="13313000" />
-      <workItem from="1457517681360" duration="8313000" />
+      <workItem from="1457517681360" duration="8401000" />
     </task>
     <servers />
   </component>
@@ -1613,7 +1599,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="157662000" />
+    <option name="totallyTimeSpent" value="157750000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1635,7 +1621,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29726028" sideWeight="0.503231" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27123287" sideWeight="0.49676898" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27123287" sideWeight="0.49676898" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32739726" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28836834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
