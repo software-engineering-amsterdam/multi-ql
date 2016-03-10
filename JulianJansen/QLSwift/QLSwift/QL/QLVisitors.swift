@@ -18,7 +18,20 @@ protocol Visitor {
     
     func visit(qlunaryexpression: QLUnaryExpression)
     func visit(qlnotexpression: QLNotExpression)
-    func visit(qlbinaryexpression: QLBinaryExpression)
+//    func visit(qlbinaryexpression: QLBinaryExpression)
+    
+    func visit(qlgreaterthanexpression: QLGreaterThanExpression)
+    func visit(qlsmallerthanexpression: QLSmallerThanExpression)
+    func visit(qlgreaterorisexpression: QLGreaterOrIsExpression)
+    func visit(qlsmallerorisexpression: QLSmallerOrISExpression)
+    func visit(qlisnotexpression: QLIsNotExpression)
+    func visit(qlisexpression: QLIsExpression)
+    func visit(qlmultiplyexpression: QLMultiplyExpression)
+    func visit(qldivideexpression: QLDivideExpression)
+    func visit(qladdexpression: QLAddExpression)
+    func visit(qlsubtractexpression: QLSubtractExpression)
+    func visit(qlandexpression: QLAndExpression)
+    func visit(qlorexpression: QLOrExpression)
     
     func visit(qlbool: QLBool)
     func visit(qlstring: QLString)
@@ -33,13 +46,15 @@ protocol Visitable {
     func accept(visitor: Visitor)
 }
 
+
+/// Concrete visitor.
 class TreePrinter: Visitor {
     
     func visit(qlform: QLForm) {
         print("Form -> ")
     }
     func visit(qlquestion: QLQuestion) {
-        print("Question")
+        print("Question: \(qlquestion.name)")
     }
     func visit(qlifstatement: QLIfStatement) {
         print("If-statement")
@@ -58,6 +73,45 @@ class TreePrinter: Visitor {
     func visit(qlbinaryexpression: QLBinaryExpression) {
         print("-> Binary expression")
     }
+    
+    
+    func visit(qlgreaterthanexpression: QLGreaterThanExpression) {
+        print("Greater than")
+    }
+    func visit(qlsmallerthanexpression: QLSmallerThanExpression) {
+        print("Smaller than")
+    }
+    func visit(qlgreaterorisexpression: QLGreaterOrIsExpression) {
+        print("Greater or is")
+    }
+    func visit(qlsmallerorisexpression: QLSmallerOrISExpression) {
+        print("Smaller or is")
+    }
+    func visit(qlisnotexpression: QLIsNotExpression) {
+        print("Is not")
+    }
+    func visit(qlisexpression: QLIsExpression) {
+        print("Is")
+    }
+    func visit(qlmultiplyexpression: QLMultiplyExpression) {
+        print("Multiply")
+    }
+    func visit(qldivideexpression: QLDivideExpression) {
+        print("Divide")
+    }
+    func visit(qladdexpression: QLAddExpression) {
+        print("Add")
+    }
+    func visit(qlsubtractexpression: QLSubtractExpression) {
+        print("Substract")
+    }
+    func visit(qlandexpression: QLAndExpression) {
+        print("And")
+    }
+    func visit(qlorexpression: QLOrExpression) {
+        print("Or")
+    }
+    
     
     func visit(qlbool: QLBool) {
         print("-> Boolean")

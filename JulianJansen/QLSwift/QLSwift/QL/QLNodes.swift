@@ -110,7 +110,12 @@ class QLNotExpression: QLExpression {
     }
 }
 
-class QLBinaryExpression: QLExpression {
+protocol QLBinaryExpression: QLExpression {
+    var lhs: QLExpression { set get }
+    var rhs: QLExpression { set get }
+}
+
+class QLGreaterThanExpression: QLBinaryExpression {
     var lhs: QLExpression
     var rhs: QLExpression
     
@@ -126,29 +131,181 @@ class QLBinaryExpression: QLExpression {
     }
 }
 
-class QLGreaterThanExpression: QLBinaryExpression { }
+class QLSmallerThanExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLSmallerThanExpression: QLBinaryExpression { }
+class QLGreaterOrIsExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLGreaterOrIsExpression: QLBinaryExpression { }
+class QLSmallerOrISExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLSmallerOrISExpression: QLBinaryExpression { }
+class QLIsNotExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLIsNotExpression: QLBinaryExpression { }
+class QLIsExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLIsExpression: QLBinaryExpression { }
+class QLMultiplyExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLMultiplyExpression: QLBinaryExpression { }
+class QLDivideExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLDivideExpression: QLBinaryExpression { }
+class QLAddExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLAddExpression: QLBinaryExpression { }
+class QLSubtractExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLSubtractExpression: QLBinaryExpression { }
+class QLAndExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
-class QLAndExpression: QLBinaryExpression { }
-
-class QLOrExpression: QLBinaryExpression { }
+class QLOrExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
+    }
+}
 
 
 // MARK: Literals.
