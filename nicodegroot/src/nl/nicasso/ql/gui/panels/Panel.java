@@ -3,6 +3,8 @@ package nl.nicasso.ql.gui.panels;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import nl.nicasso.ql.gui.Observer;
+
 public abstract class Panel {
 
 	private JPanel panel;

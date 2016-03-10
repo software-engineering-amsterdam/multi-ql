@@ -12,8 +12,7 @@ import SwiftParsec
 private let emptyOperatorLetterCharacters = "+-*/^!"
 
 
-public extension LanguageDefinition {
-    
+extension LanguageDefinition {
     
     public static var ql: LanguageDefinition {
         var qlDef = javaStyle

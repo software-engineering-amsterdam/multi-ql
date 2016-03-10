@@ -7,8 +7,8 @@ import ql.ast.visitor.Visitor;
 public class ComputedQuestion extends Question {
 	private final Expression expression;
 
-	public ComputedQuestion(int lineNumber, Variable variable, String str, Expression expression) {
-		super(lineNumber, variable, str);
+	public ComputedQuestion(int lineNumber, Variable variable, String questionString, Expression expression) {
+		super(lineNumber, variable, questionString);
 		this.expression = expression;
 	}
 

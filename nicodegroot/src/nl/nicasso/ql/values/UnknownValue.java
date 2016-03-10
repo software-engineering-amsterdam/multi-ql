@@ -5,7 +5,7 @@ public class UnknownValue extends Value {
 	private final String value;
 	
 	public UnknownValue() {
-		this.value = "Unknown";
+		this.value = "";
 	}
 	
 	@Override

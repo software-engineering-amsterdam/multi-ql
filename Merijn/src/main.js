@@ -2,7 +2,8 @@ import { AnalyzingQlParser } from 'src/ql/parser';
 import { SemanticAnalyser } from 'src/ql/ast_semantic_analysis';
 import { Parser as QlsParser } from 'src/qls/parser';
 import { Log } from 'src/log';
-import { Renderer as QlRenderer, WidgetFactory as QlWidgetFactory } from 'src/ql/rendering';
+import { Renderer as QlRenderer} from 'src/ql/rendering';
+import { WidgetFactory as QlWidgetFactory } from 'src/ql/widgets';
 import { Renderer as QlsRenderer } from 'src/qls/rendering';
 import * as ace from 'ace';
 

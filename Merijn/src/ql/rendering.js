@@ -1,27 +1,15 @@
 import * as _ from 'lodash';
-import * as ast from 'src/ql/ast';
-import * as types from 'src/ql/types';
-import * as values from 'src/ql/values';
-import * as evaluation from 'src/ql/evaluation';
-
-class Observable {
-	constructor() {
-		this._listeners = [];
-	}
-	listen(listener) {
-		this._listeners.push(listener);
-	}
-	notifyListeners() {
-		for (let listener of this._listeners) {
-			listener();
-		}
-	}
-}
+import { NodeVisitor, RecursingVisitor, AndNode, NotNode, LiteralNode} from 'src/ql/ast';
+import { BooleanValue, UndefinedValue } from 'src/ql/values';
+import { BooleanType } from 'src/ql/types';
+import { Observable } from 'src/ql/observable';
+import { WidgetFactory } from 'src/ql/widgets';
+import { ExprEvaluator } from 'src/ql/expr_evaluation';
 
 class Variable extends Observable {
 	constructor() {
 		super();
-		this._value = new values.UndefinedValue();
+		this._value = new UndefinedValue();
 	}
 	getValue() {
 		return this._value;
@@ -46,178 +34,16 @@ class VariableMap {
 	}
 }
 
-class ExprEvaluator extends ast.NodeVisitor {
-	evaluate(node, variableMap) {
-		return node.accept(this, variableMap);
-	}
-	handleUnaryPrefixOperation(unaryExpressionNode, variableMap, evaluator) {
-		let operandValue = unaryExpressionNode.operand.accept(this, variableMap);
-
-		return evaluator.evaluate(operandValue);
-	}
-	visitNotNode(notNode, variableMap) {
-		return this.handleUnaryPrefixOperation(notNode, variableMap, new evaluation.NotEvaluator());
-	}
-	visitNegationNode(negationNode, variableMap) {
-		return this.handleUnaryPrefixOperation(negationNode, variableMap, new evaluation.NegationEvaluator());
-	}
-	handleInfixOperation(infixNode, variableMap, evaluator) {
-		let leftOperandValue = infixNode.leftOperand.accept(this, variableMap),
-			rightOperandValue = infixNode.rightOperand.accept(this, variableMap);
-
-		return evaluator.evaluate(leftOperandValue, rightOperandValue);
-	}
-	visitAddNode(addNode, variableMap) {
-		return this.handleInfixOperation(addNode, variableMap, new evaluation.AddEvaluator());
-	}
-	visitSubtractNode(subtractNode, variableMap) {
-		return this.handleInfixOperation(subtractNode, variableMap, new evaluation.SubtractEvaluator());
-	}
-	visitMultiplyNode(multiplyNode, variableMap) {
-		return this.handleInfixOperation(multiplyNode, variableMap, new evaluation.MultiplyEvaluator());
-	}
-	visitDivideNode(divideNode, variableMap) {
-		return this.handleInfixOperation(divideNode, variableMap, new evaluation.DivideEvaluator());
-	}
-	visitGreaterNode(greaterNode, variableMap) {
-		return this.handleInfixOperation(greaterNode, variableMap, new evaluation.GreaterEvaluator());
-	}
-	visitGreaterEqualNode(greaterEqualNode, variableMap) {
-		return this.handleInfixOperation(greaterEqualNode, variableMap, new evaluation.GreaterEqualEvaluator());
-	}
-	visitLessNode(lessNode, variableMap) {
-		return this.handleInfixOperation(lessNode, variableMap, new evaluation.LessEvaluator());
-	}
-	visitLessEqualNode(lessEqualNode, variableMap) {
-		return this.handleInfixOperation(lessEqualNode, variableMap, new evaluation.LessEqualEvaluator());
-	}
-	visitEqualNode(equalNode, variableMap) {
-		return this.handleInfixOperation(equalNode, variableMap, new evaluation.EqualEvaluator());
-	}
-	visitNotEqualNode(notEqualNode, variableMap) {
-		return this.handleInfixOperation(notEqualNode, variableMap, new evaluation.NotEqualEvaluator());
-	}
-	visitAndNode(andNode, variableMap) {
-		return this.handleInfixOperation(andNode, variableMap, new evaluation.AndEvaluator());
-	}
-	visitOrNode(orNode, variableMap) {
-		return this.handleInfixOperation(orNode, variableMap, new evaluation.OrEvaluator());
-	}
-	visitLiteralNode(literalNode, variableMap) {
-		return literalNode.value;
-	}
-	visitIdentifierNode(identifierNode, variableMap) {
-		let name = identifierNode.name;
-
-		return variableMap.get(name).getValue();
-	}
-}
-
-class Widget extends Observable {
-	getValue() {
-		throw new Error("Override in subclasses");
-	}
-	setValue() {
-		throw new Error("Override in subclasses");
-	}
-}
-
-class InputWidget extends Widget {
-	constructor(inputElement) {
-		super();
-		this.inputElement = inputElement;
-		this.inputElement.onchange = () => {
-			this.notifyListeners();
-		};
-	}
-	static renderInputElement(elementFactory, containerElement, attributes) {
-		let inputElement = elementFactory.createElement('input');
-		_.forEach(attributes, function (value, key) {
-			inputElement.setAttribute(key, value);
-		});
-		containerElement.appendChild(inputElement);
-		return inputElement;
-	}
-}
-
-class StringInputWidget extends InputWidget {
-	getValue() {
-		return new values.StringValue(this.inputElement.value);
-	}
-	setValue(value) {
-		this.inputElement.value = value.toString();
-	}
-	static render(elementFactory, containerElement) {
-		return new StringInputWidget(InputWidget.renderInputElement(elementFactory, containerElement, {
-			'type': 'text'
-		}));
-	}
-}
-
-class BooleanCheckboxWidget extends InputWidget {
-	getValue() {
-		return new values.BooleanValue(this.inputElement.checked);
-	}
-	setValue(value) {
-		this.inputElement.checked = value.equals(new values.BooleanValue(true));
-	}
-	static render(elementFactory, containerElement) {
-		return new BooleanCheckboxWidget(InputWidget.renderInputElement(elementFactory, containerElement, {
-			'type': 'checkbox'
-		}));
-	}
-}
-
-class IntegerInputWidget extends InputWidget {
-	getValue() {
-		return values.IntegerValue.fromString(this.inputElement.value);
-	}
-	setValue(value) {
-		this.inputElement.value = value.toString();
-	}
-	static render(elementFactory, containerElement) {
-		return new IntegerInputWidget(InputWidget.renderInputElement(elementFactory, containerElement, {
-			'type': 'number',
-			'step': 1
-		}));
-	}
-}
-
-export class WidgetFactory extends types.TypeReceiver {
-	constructor(elementFactory) {
-		super();
-		this.elementFactory = elementFactory;
-	}
-	render(type, containerElement) {
-		return type.dispatch(this, containerElement);
-	}
-	receiveBoolean(type, containerElement) {
-		return BooleanCheckboxWidget.render(this.elementFactory, containerElement);
-	}
-	receiveString(type, containerElement) {
-		return StringInputWidget.render(this.elementFactory, containerElement);
-	}
-	receiveInteger(type, containerElement) {
-		return IntegerInputWidget.render(this.elementFactory, containerElement);
-	}
-	receiveFloat() {
-		throw new Error("TODO");
-	}
-	receiveMoney() {
-		throw new Error("TODO");
-	}
-}
-
-export class QuestionCollector extends ast.RecursingVisitor {
+export class QuestionCollector extends RecursingVisitor {
 	collect(node, questionCollection) {
-		node.accept(this, new ast.LiteralNode(null, new types.BooleanType(), new values.BooleanValue(true)), questionCollection);
+		node.accept(this, new LiteralNode(null, new BooleanType(), new BooleanValue(true)), questionCollection);
 	}
 	visitIfNode(ifNode, condition, questionCollection) {
-		ifNode.thenBlock.accept(this, new ast.AndNode(null, condition, ifNode.condition), questionCollection);
+		ifNode.thenBlock.accept(this, new AndNode(null, condition, ifNode.condition), questionCollection);
 	}
 	visitIfElseNode(ifElseNode, condition, questionCollection) {
 		this.visitIfNode(ifElseNode, condition, questionCollection);
-		ifElseNode.elseBlock.accept(this, new ast.AndNode(null, condition, new ast.NotNode(null, ifElseNode.condition)), questionCollection);
+		ifElseNode.elseBlock.accept(this, new AndNode(null, condition, new NotNode(null, ifElseNode.condition)), questionCollection);
 	}
 	visitQuestionNode(questionNode, condition, questionCollection) {
 		questionCollection.addQuestion(questionNode, condition);
@@ -285,7 +111,7 @@ export class WidgetStatusBinder {
 	}
 }
 
-class ExprBinder extends ast.NodeVisitor {
+class ExprBinder extends NodeVisitor {
 	listen(expr, listener, variableMap) {
 		return expr.accept(this, listener, variableMap, []);
 	}
@@ -306,7 +132,7 @@ class ExprBinder extends ast.NodeVisitor {
 	}
 }
 
-export class QuestionRenderer extends ast.NodeVisitor {
+export class QuestionRenderer extends NodeVisitor {
 	constructor(elementFactory) {
 		super();
 		this.elementFactory = elementFactory;
@@ -318,7 +144,7 @@ export class QuestionRenderer extends ast.NodeVisitor {
 		questionNode.accept(this, condition, containerElement, widgetFactory);
 	}
 	isTrue(condition) {
-		return this.exprEvaluator.evaluate(condition, this.variableMap).equals(new values.BooleanValue(true));
+		return this.exprEvaluator.evaluate(condition, this.variableMap).equals(new BooleanValue(true));
 	}
 	visitQuestionNode(questionNode, condition, containerElement, widgetFactory) {
 		let widgetBinder = WidgetStatusBinder.render(this.elementFactory, questionNode.description, questionNode.type, this.variableMap.get(questionNode.name), this.isTrue(condition), containerElement, widgetFactory);

@@ -1,11 +1,11 @@
-package ql.ast.expression;
+package ql.ast.literal;
 
 import ql.ast.visitor.Visitor;
 
-public class VariableExpression extends Expression {
+public class VariableExpression extends Literal {
 	private final String identifier;
 
-	public VariableExpression(int lineNumber, String identifier) {
+	public VariableExpression(String identifier, int lineNumber) {
 		super(lineNumber);
 		this.identifier = identifier;
 	}
