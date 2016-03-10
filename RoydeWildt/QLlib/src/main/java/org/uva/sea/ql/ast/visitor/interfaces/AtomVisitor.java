@@ -1,8 +1,8 @@
 package org.uva.sea.ql.ast.visitor.interfaces;
 
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
-import org.uva.sea.ql.ast.tree.atom.val.Int;
-import org.uva.sea.ql.ast.tree.atom.val.Float;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Float;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 

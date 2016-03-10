@@ -8,6 +8,10 @@ import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 public class Str extends Val{
     private String value;
 
+    public Str(){
+        super(0);
+    }
+
     public Str(int line, String value) {
         super(line);
         this.value = value.replace("\"", "");
@@ -18,7 +22,8 @@ public class Str extends Val{
         return value;
     }
 
-    public static Str defaultValue(int line){
+    @Override
+    public Str getDefaultValue(int line){
         return new Str(line,"");
     }
 

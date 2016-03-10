@@ -3,7 +3,9 @@ package org.uva.sea.ql.ast.visitor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import org.uva.sea.ql.ast.tree.atom.val.*;
-import org.uva.sea.ql.ast.tree.atom.val.Float;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Float;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Numeric;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
@@ -84,10 +86,10 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(Pos expr, ObservableMap<Var, Question> symbolTable) {
-        Int value = expr.getValue().accept(this, symbolTable).getValue();
+        Numeric value = expr.getValue().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Int(value.getLine(), value.getValue()));
+            return new Primary(value.Pos());
         }
         catch (Exception e){
             System.out.println("Log: invalid argument for x in +x");
@@ -110,10 +112,10 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(Neg expr, ObservableMap<Var, Question> symbolTable) {
-        Int value = expr.getValue().accept(this, symbolTable).getValue();
+        Numeric value = expr.getValue().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Int(value.getLine(), -value.getValue()));
+            return new Primary(value.Neg());
         }
         catch (Exception e){
             System.out.println("Log: invalid argument for x in -x");
@@ -123,11 +125,11 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(Sub expr, ObservableMap<Var, Question> symbolTable) {
-        Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
+        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
+        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Int(lhs.getLine(), lhs.getValue() - rhs.getValue()));
+            return new Primary(lhs.Sub(rhs));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x - y", getBadArgumentLetter(lhs, rhs)));
@@ -165,11 +167,11 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(Mul expr, ObservableMap<Var, Question> symbolTable) {
-        Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
+        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
+        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Int(lhs.getLine(), lhs.getValue() * rhs.getValue()));
+            return new Primary(lhs.Mul(rhs));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x * y", getBadArgumentLetter(lhs, rhs)));
@@ -179,11 +181,11 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(LT expr, ObservableMap<Var, Question> symbolTable) {
-        Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
+        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
+        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue() < rhs.getValue()));
+            return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() < (Double) rhs.getValue()));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x < y", getBadArgumentLetter(lhs, rhs)));
@@ -193,11 +195,11 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(LEq expr, ObservableMap<Var, Question> symbolTable) {
-        Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
+        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
+        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue() <= rhs.getValue()));
+            return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() <= (Double) rhs.getValue()));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x <= y", getBadArgumentLetter(lhs, rhs)));
@@ -207,11 +209,11 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(GT expr, ObservableMap<Var, Question> symbolTable) {
-        Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
+        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
+        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue() > rhs.getValue()));
+            return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() > (Double) rhs.getValue()));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x > y", getBadArgumentLetter(lhs, rhs)));
@@ -221,11 +223,11 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(GEq expr, ObservableMap<Var, Question> symbolTable) {
-        Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
+        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
+        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue() >= rhs.getValue()));
+            return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() >= (Double) rhs.getValue()));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x >= y", getBadArgumentLetter(lhs, rhs)));
@@ -249,11 +251,11 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(Div expr, ObservableMap<Var, Question> symbolTable) {
-        Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
+        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
+        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Int(lhs.getLine(), lhs.getValue() / rhs.getValue()));
+            return new Primary(lhs.Div(rhs));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x / y", getBadArgumentLetter(lhs, rhs)));
@@ -277,11 +279,11 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(Add expr, ObservableMap<Var, Question> symbolTable) {
-        Int lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Int rhs = expr.getRhs().accept(this, symbolTable).getValue();
+        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
+        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
 
         try {
-            return new Primary(new Int(lhs.getLine(), lhs.getValue() + rhs.getValue()));
+            return new Primary(lhs.Add(rhs));
         }
         catch (Exception e){
             System.out.println(String.format("Log: invalid argument for %1$s in x + y", getBadArgumentLetter(lhs, rhs)));
@@ -300,7 +302,7 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
     }
 
     @Override
-    public Val visit(Float atom, ObservableMap<Var, Question> varQuestionObservableMap) {
+    public Val visit(Float atom, ObservableMap<Var, Question> symbolTable) {
         return atom;
     }
 

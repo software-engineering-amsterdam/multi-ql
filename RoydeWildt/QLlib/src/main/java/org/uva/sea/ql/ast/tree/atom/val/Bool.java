@@ -8,6 +8,10 @@ import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 public class Bool extends Val {
     private Boolean value;
 
+    public Bool(){
+        super(0);
+    }
+
     public Bool(int line, boolean b){
         super(line);
         this.value = b;
@@ -28,7 +32,8 @@ public class Bool extends Val {
         return value;
     }
 
-    public static Bool defaultValue(int line){
+    @Override
+    public Bool getDefaultValue(int line){
         return new Bool(line,false);
     }
 

@@ -3,6 +3,7 @@ package org.uva.sea.ql.parser;
 
 import java.util.List;
 
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
 import org.uva.sea.ql.ast.tree.form.*;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.expr.Expr;
@@ -14,7 +15,7 @@ import org.uva.sea.ql.ast.tree.type.Number;
 import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.tree.atom.val.*;
-import org.uva.sea.ql.ast.tree.atom.val.Float;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Float;
 import org.uva.sea.ql.ast.tree.atom.var.*;
 
 import org.antlr.v4.runtime.atn.*;
@@ -22,8 +23,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
-import java.util.List;
-import java.util.Iterator;
+
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
@@ -1182,8 +1182,8 @@ public class QLParser extends Parser {
 	public static class NumContext extends ParserRuleContext {
 		public Val result;
 		public Token value;
-		public TerminalNode Int() { return getToken(QLParser.Int, 0); }
 		public TerminalNode Double() { return getToken(QLParser.Double, 0); }
+		public TerminalNode Int() { return getToken(QLParser.Int, 0); }
 		public NumContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1204,20 +1204,20 @@ public class QLParser extends Parser {
 		try {
 			setState(207);
 			switch (_input.LA(1)) {
-			case Int:
+			case Double:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(203);
-				((NumContext)_localctx).value = match(Int);
-				((NumContext)_localctx).result =  new Int(((NumContext)_localctx).value.getLine(), (((NumContext)_localctx).value!=null?((NumContext)_localctx).value.getText():null)); 
+				((NumContext)_localctx).value = match(Double);
+				((NumContext)_localctx).result =  new Float(((NumContext)_localctx).value.getLine(), (((NumContext)_localctx).value!=null?((NumContext)_localctx).value.getText():null)); 
 				}
 				break;
-			case Double:
+			case Int:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(205);
-				((NumContext)_localctx).value = match(Double);
-				((NumContext)_localctx).result =  new Float(((NumContext)_localctx).value.getLine(), (((NumContext)_localctx).value!=null?((NumContext)_localctx).value.getText():null)); 
+				((NumContext)_localctx).value = match(Int);
+				((NumContext)_localctx).result =  new Int(((NumContext)_localctx).value.getLine(), (((NumContext)_localctx).value!=null?((NumContext)_localctx).value.getText():null));
 				}
 				break;
 			default:
@@ -1376,8 +1376,8 @@ public class QLParser extends Parser {
 		"\u00c6\b\17\1\2\u00c5\u00bd\3\2\2\2\u00c5\u00bf\3\2\2\2\u00c5\u00c1\3"+
 		"\2\2\2\u00c5\u00c3\3\2\2\2\u00c6\35\3\2\2\2\u00c7\u00c8\7\33\2\2\u00c8"+
 		"\u00cc\b\20\1\2\u00c9\u00ca\7\34\2\2\u00ca\u00cc\b\20\1\2\u00cb\u00c7"+
-		"\3\2\2\2\u00cb\u00c9\3\2\2\2\u00cc\37\3\2\2\2\u00cd\u00ce\7#\2\2\u00ce"+
-		"\u00d2\b\21\1\2\u00cf\u00d0\7$\2\2\u00d0\u00d2\b\21\1\2\u00d1\u00cd\3"+
+		"\3\2\2\2\u00cb\u00c9\3\2\2\2\u00cc\37\3\2\2\2\u00cd\u00ce\7$\2\2\u00ce"+
+		"\u00d2\b\21\1\2\u00cf\u00d0\7#\2\2\u00d0\u00d2\b\21\1\2\u00d1\u00cd\3"+
 		"\2\2\2\u00d1\u00cf\3\2\2\2\u00d2!\3\2\2\2\u00d3\u00d4\7\"\2\2\u00d4\u00d5"+
 		"\b\22\1\2\u00d5#\3\2\2\2\u00d6\u00d7\7!\2\2\u00d7\u00d8\b\23\1\2\u00d8"+
 		"%\3\2\2\2\17C^es\u0084\u008e\u0099\u00a4\u00af\u00ba\u00c5\u00cb\u00d1";

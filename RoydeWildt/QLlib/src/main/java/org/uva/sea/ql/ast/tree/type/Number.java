@@ -1,14 +1,13 @@
 package org.uva.sea.ql.ast.tree.type;
 
-import org.uva.sea.ql.ast.tree.atom.val.Float;
-import org.uva.sea.ql.ast.tree.atom.val.Int;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
 /**
  * Created by roydewildt on 11/02/16.
  */
 public class Number extends Type {
-    private Float defaultValue;
+    private Int defaultValue;
 
     public Number(){
         super(0);
@@ -16,12 +15,12 @@ public class Number extends Type {
 
     public Number(int line) {
         super(line);
-        this.defaultValue = Float.defaultValue(line);
+        this.defaultValue = new Int().getDefaultValue(line);
     }
 
     public Type getType(){return new Number();}
 
-    public Float getDefaultValue() {
+    public Int getDefaultValue() {
         return defaultValue;
     }
 

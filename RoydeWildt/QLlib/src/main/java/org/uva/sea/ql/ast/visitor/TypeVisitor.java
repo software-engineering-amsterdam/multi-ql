@@ -1,14 +1,14 @@
 package org.uva.sea.ql.ast.visitor;
 
 import org.uva.sea.ql.ast.tree.Node;
-import org.uva.sea.ql.ast.tree.atom.val.Float;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Float;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.type.*;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
-import org.uva.sea.ql.ast.tree.atom.val.Int;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.type.Boolean;

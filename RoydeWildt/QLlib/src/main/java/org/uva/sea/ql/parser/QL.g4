@@ -152,8 +152,8 @@ bool returns [Val result]
     ;
 
 num returns [Val result]
-    : value=Int    {$result = new Int($value.getLine(), $value.text); }
-    | value=Double {$result = new Float($value.getLine(), $value.text); }
+    : value=Double {$result = new Float($value.getLine(), $value.text); }
+    | value=Int    {$result = new Int($value.getLine(), $value.text); }
     ;
 
 str returns [Val result]

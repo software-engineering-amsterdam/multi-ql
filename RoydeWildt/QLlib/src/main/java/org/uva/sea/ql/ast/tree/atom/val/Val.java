@@ -11,4 +11,5 @@ abstract public class Val extends Literal {
         super(line);
     }
     public abstract Object getValue();
+    public abstract Val getDefaultValue(int line);
 }

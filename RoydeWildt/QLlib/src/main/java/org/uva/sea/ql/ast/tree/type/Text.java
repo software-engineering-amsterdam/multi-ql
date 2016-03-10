@@ -16,7 +16,7 @@ public class Text extends Type {
 
     public Text(int line) {
         super(line);
-        this.defaultValue = Str.defaultValue(line);
+        this.defaultValue = new Str().getDefaultValue(line);
     }
 
     @Override

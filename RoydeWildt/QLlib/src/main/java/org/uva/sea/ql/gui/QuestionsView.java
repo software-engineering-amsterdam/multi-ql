@@ -9,18 +9,16 @@ import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Float;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
-import org.uva.sea.ql.ast.tree.atom.val.Int;
+import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.gui.widget.BooleanFieldWidget;
-import org.uva.sea.ql.gui.widget.MoneyFieldWidget;
-import org.uva.sea.ql.gui.widget.QuestionWidget;
-import org.uva.sea.ql.gui.widget.TextFieldWidget;
+import org.uva.sea.ql.gui.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +83,23 @@ public class QuestionsView extends BaseVisitor<Void, QuestionWidget, Void, Void,
 
     @Override
     public Control visit(Int val, Question parent) {
+        NumberFieldWidget f = new NumberFieldWidget(parent, parent.isComputed());
+        f.setAlignment(Pos.BASELINE_RIGHT);
+
+        if(val.getValue() != null) {
+            f.setText(val.getValue().toString());
+        }
+        else {
+            f.setText("-");
+        }
+
+        f.textProperty().addListener((observable, oldValue, newValue) ->
+                handleNumberFieldAction(f));
+        return f;
+    }
+
+    @Override
+    public Control visit(Float val, Question parent) {
         MoneyFieldWidget f = new MoneyFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
@@ -125,9 +140,19 @@ public class QuestionsView extends BaseVisitor<Void, QuestionWidget, Void, Void,
         return f;
     }
 
-    private void handleMoneyFieldAction(MoneyFieldWidget f) {
+
+    private void handleNumberFieldAction(NumberFieldWidget f) {
         Question parent = f.getParentQuestion();
         Expr newExpr = new Primary(new Int(
+                parent.getExpr().getLine(),
+                f.getText()));
+        Question update = updateQuestionExpr(parent, newExpr);
+        this.symbolTable.put(parent.getVarname(), update);
+    }
+
+    private void handleMoneyFieldAction(MoneyFieldWidget f) {
+        Question parent = f.getParentQuestion();
+        Expr newExpr = new Primary(new Float(
                 parent.getExpr().getLine(),
                 f.getText()));
         Question update = updateQuestionExpr(parent, newExpr);
