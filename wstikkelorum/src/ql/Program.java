@@ -7,23 +7,23 @@ import ql.ast.visitor.Context;
 import ql.issue.Issue;
 
 public class Program {
-	
-	//TODO: exception handling
-	public static void main(String[] args) throws IOException{
+
+	// TODO: exception handling
+	public static void main(String[] args) throws IOException {
 		Form form = parseForm();
 		SemanticAnalyser semanticAnalyser = analyseForm(form);
-		
-		if(semanticAnalyser.noIssues()){
+
+		if (semanticAnalyser.noIssues()) {
 			FormEvaluation formEval = evaluateForm(form, semanticAnalyser);
 			drawForm(form, formEval);
-		}else{
+		} else {
 			printIssues(semanticAnalyser);
 		}
 		System.out.println("Done");
 	}
 
 	private static void printIssues(SemanticAnalyser semanticAnalyser) {
-		for(Issue issue : semanticAnalyser.getContext().getIssues()){
+		for (Issue issue : semanticAnalyser.getContext().getIssues()) {
 			issue.print();
 		}
 	}
@@ -43,8 +43,10 @@ public class Program {
 		return semanticAnalyser;
 	}
 
-	private static FormEvaluation evaluateForm(Form form, SemanticAnalyser semanticAnalyser) {
-		FormEvaluation formEval = new FormEvaluation(semanticAnalyser.getContext());
+	private static FormEvaluation evaluateForm(Form form,
+			SemanticAnalyser semanticAnalyser) {
+		FormEvaluation formEval = new FormEvaluation(
+				semanticAnalyser.getContext());
 		formEval.evaluateForm(form);
 		formEval.printData();
 		return formEval;
@@ -52,7 +54,7 @@ public class Program {
 
 	private static void drawForm(Form form, FormEvaluation formEval) {
 		Context currentContext = formEval.getContext();
-		QLdrawer qld = new QLdrawer();
-		qld.drawForm(form, currentContext);
+		QLdrawer qld = new QLdrawer(form, currentContext);
+		qld.drawForm();
 	}
 }

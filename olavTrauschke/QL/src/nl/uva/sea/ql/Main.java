@@ -1,43 +1,22 @@
 package nl.uva.sea.ql;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.*;
+import nl.uva.sea.ql.interpreter.Interpreter;
+import nl.uva.sea.ql.symbolTable.SymbolTable;
 import nl.uva.sea.ql.parser.ParserWrapper;
 
 /**
  * Main class to type check and run questionairs.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 10-mrt-2016
  */
 public class Main {
-    
-    /**
-     * Error code representing an error while trying to read a file.
-     */
-    public static final int FILE_READING_ERROR = 1;
-    
-    /**
-     * Error message presented to the user when an error occured while reading
-     * the file he selected.
-     */
-    public static final String FILE_READING_ERROR_MESSAGE
-            = "The selected file could not be read";
-    
-    /**
-     * Title of the dialog a <code>FILE_READING_ERROR_MESSAGE</code> is displayed in.
-     */
-    public static final String FILE_READING_ERROR_TITLE
-            = "Error reading file";
     
     /**
      * Error code representing a syntax error in a read file.
@@ -63,54 +42,25 @@ public class Main {
      */
     public static final int SEMANTICS_ERROR = 3;
     
-    /**
-     * Text used to introduce a list of errors (and possibly warnings) displayed
-     * to the user.
-     */
-    public static final String SEMANTICS_ERROR_MESSAGE
-            = "The following errors were found while checking the selected file: ";
+    private final IOManager ioManager;
     
-    public static final String WARNINGS_MESSAGE
-            = "The following warnings apply to the selected file. Do you want to "
-            + "continue anyway?";
-    
-    /**
-     * Description of the type of file the user should select when running the program.
-     */
-    public static final String FILE_TYPE_DESCRIPTION
-            = "Question Language questionaire";
-    
-    /**
-     * Extensions of files the user is allowed to select when running the program.
-     */
-    public static final String[] ACCEPTED_EXTENSIONS = {"ql"};
-    
-    /**
-     * Text used to mark messages as warnings when errors and warnings are
-     * presented to the user in one list.
-     */
-    public static final String WARNING_LABEL = " (warning)";
-    
-    /**
-     * Main method that asks the user to select a ql-file, type checks it and
-     * reports any errors or warnings or creates and runs the questionaire whe
-     * there are no errors and there are no warnings or the users chooses to
-     * continue despite the warnings.
-     * 
-     * @param args the command line arguments, which are ignored
-     */
-    public static void main(String[] args) {
-        File file = selectFile();
+    public Main() {
+        ioManager = new IOManager();
+        File file = ioManager.selectFileToOpen();
         if (file == null) {
             //user cancelled file opening
             System.exit(0);
         }
         else {
-            ParserWrapper parser = read(file);
+            ParserWrapper parser = ioManager.read(file);
             Form form = parse(parser);
             boolean run = check(form);
             if (run) {
-                //TODO execute questionaire in form
+                Interpreter interpreter = new Interpreter(form);
+                interpreter.run();
+                SymbolTable answers = interpreter.getSymbolTable();
+                String destinationPath = ioManager.selectSaveLocation();
+                ioManager.writeToXml(answers, destinationPath);
                 System.exit(0);
             }
             else {
@@ -120,35 +70,15 @@ public class Main {
     }
     
     /**
-     * Ask the user to select a <code>File</code> to open.
-     * @return the <code>File</code> the user selected, or <code>null</code> if
-     *          he closed the dialog
-     */
-    private static File selectFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        FileFilter qlFilter = new FileNameExtensionFilter(FILE_TYPE_DESCRIPTION, ACCEPTED_EXTENSIONS);
-        fileChooser.setFileFilter(qlFilter);
-        fileChooser.showOpenDialog(null);
-        return fileChooser.getSelectedFile();
-    }
-    
-    /**
-     * Try to read a given <code>File</code> and shutdown with an error if this
-     * was not possible.
+     * Main method that asks the user to select a ql-file, type checks it and
+     * reports any errors or warnings or creates and runs the questionnaire whe
+     * there are no errors and there are no warnings or the users chooses to
+     * continue despite the warnings.
      * 
-     * @param file the <code>File</code> to read
-     * @return a <code>ParserWrapper</code> reading from the given <code>file</code>
+     * @param args the command line arguments, which are ignored
      */
-    private static ParserWrapper read(File file) {
-        try {
-            ParserWrapper parser = new ParserWrapper(file);
-            return parser;
-        }
-        catch (FileNotFoundException fnfe) {
-            showErrorMessage(FILE_READING_ERROR_MESSAGE, FILE_READING_ERROR_TITLE);
-            System.exit(FILE_READING_ERROR);
-            return null; //never reached
-        }
+    public static void main(String[] args) {
+        Main main = new Main();
     }
     
     /**
@@ -161,10 +91,10 @@ public class Main {
      * @return a <code>Form</code> representing the contents of the
      *          <code>parse</code>d file
      */
-    private static Form parse(ParserWrapper parser) {
+    private Form parse(ParserWrapper parser) {
         boolean parsed = parser.parse();
             if (!parsed) {
-                showErrorMessage(SYNTAX_ERROR_MESSAGE, SYNTAX_ERROR_TITLE);
+                ioManager.showErrorMessage(SYNTAX_ERROR_MESSAGE, SYNTAX_ERROR_TITLE);
                 System.exit(SYNTAX_ERROR);
                 return null; //never reached
             }
@@ -183,7 +113,7 @@ public class Main {
      *          no warnings were generated or the user chose to continue despite
      *          the warnings
      */
-    private static boolean check(Form form) {
+    private boolean check(Form form) {
         QuestionIdentCollector identCollector = new QuestionIdentCollector();
         form.accept(identCollector);
         List<String> errors = identCollector.getErrors();
@@ -194,7 +124,7 @@ public class Main {
         form.accept(typeChecker);
         errors.addAll(typeChecker.getErrors());
         
-        Set<Ident> identifiers = firstQuestionsForIdentifiers.keySet();
+        Iterable<Ident> identifiers = identCollector.obtainIdentifiers();
         DependencyChecker dependencyChecker = new DependencyChecker(identifiers);
         form.accept(dependencyChecker);
         dependencyChecker.detectCyclicDependencies();
@@ -219,58 +149,16 @@ public class Main {
      *          was empty or the user chose to continue despite the
      *          <code>warnings</code>
      */
-    private static boolean handleErrorsAndWarnings(List<String> errors, List<String> warnings) {
+    private boolean handleErrorsAndWarnings(List<String> errors, List<String> warnings) {
         if (!errors.isEmpty()) {
-            showErrorsAndWarnings(errors, warnings);
+            ioManager.showErrorsAndWarnings(errors, warnings);
             return false;
         }
         else if (!warnings.isEmpty()) {
-            return handleWarnings(warnings);
+            return ioManager.handleWarnings(warnings);
         }
         else {
             return true;
         }
     }
-    
-    /**
-     * Display errors and warnings (marked as warnings) to the user.
-     * 
-     * @param errors <code>String</code>s containing the <code>errors</code> to
-     *                  display
-     * @param warnings <code>String</code>s the <code>warnings</code> to display
-     */
-    private static void showErrorsAndWarnings(List<String> errors, List<String> warnings) {
-        assert !errors.isEmpty();
-        warnings.replaceAll(w -> w + WARNING_LABEL);
-        errors.addAll(warnings);
-        errors = toMultiLineList(errors);
-        showErrorMessage(errors, SEMANTICS_ERROR_MESSAGE);
-    }
-    
-    /**
-     * Displays warnings to the user and asks wether he wants to continue execution
-     * despite these warnings.
-     * 
-     * @param warnings a <code>List</code> of <code>String</code>s representing
-     *                  the <code>warnings</code> to display
-     * @return wether the user has chosen to continue despite the displayed warnings
-     */
-    private static boolean handleWarnings(List<String> warnings) {
-        warnings = toMultiLineList(warnings);
-        int run = JOptionPane.showConfirmDialog(null, warnings, WARNINGS_MESSAGE,
-                JOptionPane.YES_NO_OPTION);
-        return run == JOptionPane.YES_OPTION;
-    }
-    
-    /**
-     * Display an error to the user.
-     * 
-     * @param message an <code>Object</code> representing the message to display
-     * @param title a <code>String</code> containing the tile for the dialog to
-     *              display
-     */
-    private static void showErrorMessage(Object message, String title) {
-        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
-    }
-    
 }

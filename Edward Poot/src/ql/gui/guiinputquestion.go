@@ -14,11 +14,7 @@ type GUIInputQuestion struct {
 }
 
 func CreateGUIInputQuestion(label string, questionType vari.VarType, callback func(interface{}, error)) GUIInputQuestion {
-	questionLabel := createLabel(label)
-	questionElement := createQuestionElement(questionType, callback)
-	errorLabel := createLabel("")
-
-	return GUIInputQuestion{GUIQuestion: GUIQuestion{questionLabel, questionElement, errorLabel}}
+	return GUIInputQuestion{GUIQuestion: CreateGUIQuestion(label, questionType, callback)}
 }
 
 func createQuestionElement(questionType vari.VarType, callback func(interface{}, error)) gtk.IWidget {
@@ -33,7 +29,7 @@ func createQuestionElement(questionType vari.VarType, callback func(interface{},
 		})
 		GTKEntity = checkbox
 	case vari.StringType:
-		inputField := CreateInputTextField(questionType.GetDefaultValue().(litexpr.Lit).String())
+		inputField := CreateInputTextField(questionType.GetDefaultValue().(litexpr.LitExpr).String())
 		inputField.Connect("changed", func() {
 			inputText := inputField.GetText()
 
@@ -43,7 +39,7 @@ func createQuestionElement(questionType vari.VarType, callback func(interface{},
 		})
 		GTKEntity = inputField
 	case vari.IntType:
-		inputField := CreateInputTextField(questionType.GetDefaultValue().(litexpr.Lit).String())
+		inputField := CreateInputTextField(questionType.GetDefaultValue().(litexpr.LitExpr).String())
 		inputField.Connect("changed", func() {
 			inputText := inputField.GetText()
 			log.WithFields(log.Fields{"value": inputText}).Debug("Input text value changed")

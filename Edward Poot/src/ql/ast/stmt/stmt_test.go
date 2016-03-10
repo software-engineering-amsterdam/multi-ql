@@ -6,6 +6,9 @@ import (
 	"ql/ast/expr/litexpr"
 	"ql/ast/vari"
 	"testing"
+    "ql/symboltable"
+    "ql/ast/typechecker"
+    "ql/interfaces"
 )
 
 // TODO PUT IN HELPER FILE
@@ -79,7 +82,7 @@ func TestFormWithEmptyContent(t *testing.T) {
 func TestFormWithNonEmptyContent(t *testing.T) {
 	identifier := vari.VarId{"TestForm"}
 	questionExample := InputQuestion{litexpr.StrLit{"What was the selling price?"}, vari.VarDecl{vari.VarId{"sellingPrice"}, vari.IntType{}}}
-	questionsListExample := []Question{questionExample}
+	questionsListExample := []interfaces.Question{questionExample}
 	stmtListExample := StmtList{Questions: questionsListExample}
 	exampleForm := Form{identifier, stmtListExample}
 
@@ -121,7 +124,7 @@ func TestComputedQuestion(t *testing.T) {
 
 func TestIf(t *testing.T) {
 	questionExample := InputQuestion{litexpr.StrLit{"What was the selling price?"}, vari.VarDecl{vari.VarId{"sellingPrice"}, vari.IntType{}}}
-	ifBodyExample := StmtList{[]Question{questionExample}, []Conditional{}}
+	ifBodyExample := StmtList{[]interfaces.Question{questionExample}, []Conditional{}}
 	ifCondExample := litexpr.BoolLit{true}
 	ifExample := If{ifCondExample, ifBodyExample}
 
@@ -136,11 +139,11 @@ func TestIf(t *testing.T) {
 
 func TestIfElse(t *testing.T) {
 	ifQuestionExample := InputQuestion{litexpr.StrLit{"Did you sell a house in 2010?"}, vari.VarDecl{vari.VarId{"hasSoldHouse"}, vari.BoolType{}}}
-	ifBodyExample := StmtList{[]Question{ifQuestionExample}, []Conditional{}}
+	ifBodyExample := StmtList{[]interfaces.Question{ifQuestionExample}, []Conditional{}}
 	ifCondExample := litexpr.BoolLit{true}
 
 	elseQuestionExample := InputQuestion{litexpr.StrLit{"What was the selling price?"}, vari.VarDecl{vari.VarId{"sellingPrice"}, vari.IntType{}}}
-	elseBodyExample := StmtList{[]Question{elseQuestionExample}, []Conditional{}}
+	elseBodyExample := StmtList{[]interfaces.Question{elseQuestionExample}, []Conditional{}}
 
 	ifElseExample := IfElse{ifCondExample, ifBodyExample, elseBodyExample}
 
@@ -159,7 +162,7 @@ func TestIfElse(t *testing.T) {
 
 func TestStmtList(t *testing.T) {
 	questionExample := InputQuestion{litexpr.StrLit{"Did you sell a house in 2010?"}, vari.VarDecl{vari.VarId{"hasSoldHouse"}, vari.BoolType{}}}
-	questionListExample := []Question{questionExample}
+	questionListExample := []interfaces.Question{questionExample}
 
 	ifExample := If{litexpr.BoolLit{true}, StmtList{}}
 	conditionalListExample := []Conditional{ifExample}
@@ -174,3 +177,51 @@ func TestStmtList(t *testing.T) {
 		t.Errorf("Stmtlist conditionals list is not set correctly")
 	}
 }
+
+
+func TestNonBoolConditionalChecker(t *testing.T) {
+    exampleQuestion := InputQuestion{litexpr.StrLit{"Did you sell a house in 2010?"}, vari.VarDecl{vari.VarId{"hasSoldHouse"}, vari.BoolType{}}}
+    exampleIf := If{litexpr.IntLit{10}, StmtList{[]interfaces.Question{exampleQuestion}, []Conditional{}}}
+    exampleBody := StmtList{[]interfaces.Question{}, []Conditional{exampleIf}}
+    exampleForm := Form{vari.VarId{"TestForm"}, exampleBody}
+
+    typeChecker := typechecker.NewTypeChecker()
+    exampleForm.TypeCheck(&typeChecker, symboltable.NewSymbolTable())
+    errorsReported := typeChecker.GetEncountedErrorsForCheckType("NonBoolConditionals")
+
+    if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Non-boolean type used as condition: int")) {
+        t.Errorf("Non bool condition type checker did not correctly report condition of invalid type %v", errorsReported)
+    }
+}
+
+func TestDuplicateLabelChecker(t *testing.T) {
+    firstQuestion := InputQuestion{litexpr.StrLit{"Did you sell a house in 2010?"}, vari.VarDecl{vari.VarId{"hasSoldHouse"}, vari.BoolType{}}}
+    secondQuestion := InputQuestion{litexpr.StrLit{"Did you sell a house in 2010?"}, vari.VarDecl{vari.VarId{"hasMaintLoan"}, vari.BoolType{}}}
+    exampleBody:= StmtList{[]interfaces.Question{firstQuestion, secondQuestion}, []Conditional{}}
+    exampleForm := Form{vari.VarId{"TestForm"}, exampleBody}
+
+    typeChecker := typechecker.NewTypeChecker()
+    exampleForm.TypeCheck(&typeChecker, symboltable.NewSymbolTable())
+    warningsReported := typeChecker.GetEncountedErrorsForCheckType("DuplicateLabels")
+
+    if len(warningsReported) != 1 || fmt.Sprintf("%v", warningsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Label \"Did you sell a house in 2010?\" already used for question with identifier hasSoldHouse, using again for question with identifier hasMaintLoan")) {
+        t.Errorf("Duplicate label not reported correctly by type checker")
+    }
+}
+
+func TestDuplicateVarDeclChecker(t *testing.T) {
+    firstQuestion := InputQuestion{litexpr.StrLit{"Did you sell a house in 2010?"}, vari.VarDecl{vari.VarId{"hasSoldHouse"}, vari.BoolType{}}}
+    secondQuestion := InputQuestion{litexpr.StrLit{"Did you sell a house in 2010?"}, vari.VarDecl{vari.VarId{"hasSoldHouse"}, vari.IntType{}}}
+    exampleBody := StmtList{[]interfaces.Question{firstQuestion, secondQuestion}, []Conditional{}}
+    exampleForm := Form{vari.VarId{"TestForm"}, exampleBody}
+
+    typeChecker := typechecker.NewTypeChecker()
+    exampleForm.TypeCheck(&typeChecker, symboltable.NewSymbolTable())
+    errorsReported := typeChecker.GetEncountedErrorsForCheckType("DuplicateVarDeclarations")
+
+    if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Question redeclared with different types: vari.IntType and vari.BoolType")) {
+        t.Errorf("Duplicate var decl not reported correctly by type checker")
+    }
+}
+
+

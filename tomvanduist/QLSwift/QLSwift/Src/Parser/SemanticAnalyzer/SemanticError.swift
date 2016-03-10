@@ -29,7 +29,13 @@ class TypeMismatchError: SemanticError {
 class UndefinedVariableError: SemanticError {
 }
 
+class TypeInferenceError: SemanticError {
+}
+
 class CyclomaticDependencyError: SemanticError {
+}
+
+class MultipleDeclarations: SemanticError {
 }
 
 class SystemError: SemanticError {
@@ -84,5 +90,5 @@ class SemanticWarning: NSObject, ErrorType {
     }
 }
 
-class MultipleDeclarations: SemanticWarning {
+class OverridingVariable: SemanticWarning {
 }

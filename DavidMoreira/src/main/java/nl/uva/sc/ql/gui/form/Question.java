@@ -1,7 +1,5 @@
 package nl.uva.sc.ql.gui.form;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,20 +17,17 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 	private ExpressionNode expression;
 	private boolean editable;
 	
-	private boolean questionDone;
 	private JComponent component = null;
 	
 	public Question(State state, String question, String identifier, ExpressionNode expression, boolean editable){
-		//super(new BorderLayout());
-
 		this.state = state;
 		this.question = question;
 		this.identifier = identifier;
 		this.expression = expression;
 		this.editable = editable;
-		this.questionDone = false;
 		this.component = createComponentWithValue();
 		
+		setVisible(false);
 		state.registerObserver(this);
 	}
 
@@ -56,14 +51,6 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 		return this.editable;
 	}
 	
-	public boolean isQuestionDone() {
-		return this.questionDone;
-	}
-
-	public void setQuestionDone(boolean doneQuestion) {
-		this.questionDone = doneQuestion;
-	}
-	
 	public JComponent getComponent(){
 		return this.component;
 	}
@@ -73,17 +60,14 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 	@Override
 	public abstract void update();
 	
-	// TODO: maybe i don't need this
 	@Override
-	public boolean runGui(){
-		if(!isQuestionDone()){
-			add(new JLabel(question));
-			add(component);
-			setQuestionDone(true);
-		}
-		
-		return true;
+	public void createGui(){
+		add(new JLabel(question));
+		add(component);
 	}
+	
+	@Override
+	public void updateGui() {}
 		
 	@Override
 	public String toString(){

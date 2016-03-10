@@ -8,7 +8,7 @@ import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.Type;
 
-public class Question extends ASTNode {
+public class Question extends Statement {
 	private String identifier;
 	private String label;
 	private Type type;

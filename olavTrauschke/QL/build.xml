@@ -20,6 +20,7 @@
     <target name="-javadoc-build">
         <javadoc
             sourcepath="src"
+            classpath="src;lib/*"
             destdir="dist/javadoc"
             author="true"
             version="true"

@@ -4,21 +4,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public abstract class UIElement {
-	private JLabel variableLabel;
-	private JLabel stringLabel;
-	
-	public UIElement(JLabel variableLabel, JLabel stringLabel){
-		this.variableLabel = variableLabel;
-		this.stringLabel = stringLabel;
+	private final JLabel variableIdentifierLabel;
+	private final JLabel questionStringLabel;
+
+	public UIElement(JLabel variableIdentifierLabel, JLabel questionStringLabel) {
+		this.variableIdentifierLabel = variableIdentifierLabel;
+		this.questionStringLabel = questionStringLabel;
 	}
-	
-	public JLabel getVariableLabel(){
-		return variableLabel;
+
+	public JLabel getVariableIdentifierLabel() {
+		return variableIdentifierLabel;
 	}
-	
-	public JLabel getStringLabel(){
-		return stringLabel;
+
+	public JLabel getQuestionStringLabel() {
+		return questionStringLabel;
 	}
-	
+
 	public abstract JPanel getPanel();
 }

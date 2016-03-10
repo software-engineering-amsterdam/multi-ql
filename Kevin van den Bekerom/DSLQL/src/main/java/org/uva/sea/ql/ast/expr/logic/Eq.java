@@ -3,20 +3,23 @@ package org.uva.sea.ql.ast.expr.logic;
 import org.uva.sea.ql.ast.expr.BinaryExpr;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.form.ValueMap;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.Type;
 import org.uva.sea.ql.type.WildType;
+import org.uva.sea.ql.value.BoolValue;
+import org.uva.sea.ql.value.Value;
 
 public class Eq extends BinaryExpr {	
 	
-	public Eq(Expr lhs, Expr rhs) {
-		super(lhs, rhs);
+	public Eq(Expr lhs, Expr rhs, int startLine) {
+		super(lhs, rhs, startLine);
 	}
 
-	//TODO: different check for Strings and booleans!!! Need to know the type
 	@Override
-	public Boolean eval() {
-		return lhs.eval().equals(rhs.eval());
+	public Value eval(ValueMap valueMap) {
+		return new BoolValue(lhs.eval(valueMap).getValue()
+							.equals(rhs.eval(valueMap).getValue()));
 	}
 
 	public void accept(Visitor visitor, Object context) {

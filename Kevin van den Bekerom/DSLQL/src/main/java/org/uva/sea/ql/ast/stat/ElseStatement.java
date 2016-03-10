@@ -4,10 +4,11 @@ import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.visit.Visitable;
 import org.uva.sea.ql.ast.visit.Visitor;
 
-public class ElseStatement extends ASTNode implements Visitable {
+public class ElseStatement extends Statement implements Visitable {
 	private Block block;
 	
-	public ElseStatement(Block block) {
+	public ElseStatement(Block block, int startLine) {
+		super(startLine);
 		this.block = block;
 	}
 	

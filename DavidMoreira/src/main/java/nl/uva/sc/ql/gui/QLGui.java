@@ -6,11 +6,6 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 //import javax.swing.JScrollPane;
 
-
-
-
-import javax.swing.JScrollPane;
-
 import nl.uva.sc.ql.gui.form.Form;
 import nl.uva.sc.ql.parser.ast.Node;
 
@@ -19,12 +14,12 @@ public class QLGui {
 	private Node ast;
 	private State state;
 	
-	private JScrollPane scrollPanel;
+	//private JScrollPane scrollPanel;
 	
 	public QLGui(Node ast) {
 		this.ast = ast;
 		this.state = new State();
-		this.scrollPanel = new JScrollPane();
+		//this.scrollPanel = new JScrollPane();
 	}
 	
 	public void start(){
@@ -36,7 +31,8 @@ public class QLGui {
 	    
         System.out.println("Starting gui...");
         
-    	form.runGui();
+    	form.createGui();
+    	form.updateGui();
     	       
     	// form.add(scrollPanel);
     	

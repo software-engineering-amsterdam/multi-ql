@@ -2,14 +2,10 @@ package nl.nicasso.ql.gui.questionFields;
 
 import java.awt.Component;
 
-public abstract class QuestionField extends Component {
-	
+import nl.nicasso.ql.gui.widgets.Label;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2568908331809430726L;
-
+public abstract class QuestionField {
+		
 	public QuestionField() {
 		//throw new AssertionError("QuestionField");
 	}
@@ -20,6 +16,10 @@ public abstract class QuestionField extends Component {
 	
 	public Component getField() {
 		throw new AssertionError("QuestionField getField");
+	}
+	
+	public void setFeedbackLabel(Label label) {
+		throw new AssertionError("QuestionField setFeedbackLabel");
 	}
 	
 }

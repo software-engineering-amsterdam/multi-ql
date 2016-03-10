@@ -1,7 +1,5 @@
 package org.uva.sea.ql.ast.statement;
 
-import org.uva.sea.ql.ast.statement.*;
-
 
 public interface StatementVisitor {
 

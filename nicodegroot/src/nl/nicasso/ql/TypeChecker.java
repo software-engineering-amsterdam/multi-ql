@@ -44,7 +44,7 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class TypeChecker implements StructureVisitor<Void>, StatementVisitor<Void, Identifier>, ExpressionVisitor<Type> {
+public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisitor<Void, Identifier>, ExpressionVisitor<Type> {
 		
 	private List<String> errors;
 	private List<String> warnings;
@@ -158,8 +158,8 @@ public class TypeChecker implements StructureVisitor<Void>, StatementVisitor<Voi
 	}
 
 	@Override
-	public Void visit(Form value) {
-		value.getBlock().accept(this);
+	public Void visit(Form value, Void ignore) {
+		value.getBlock().accept(this, null);
 		
 		// @TODO This here?
 		detectCyclicDependencies();
@@ -168,9 +168,9 @@ public class TypeChecker implements StructureVisitor<Void>, StatementVisitor<Voi
 	}
 
 	@Override
-	public Void visit(Block value) {
+	public Void visit(Block value, Void ignore) {
 		for (Statement cur : value.getStatements()) {
-			cur.accept(this);
+			cur.accept(this, null);
 		}
 		
 		return null;
@@ -198,7 +198,7 @@ public class TypeChecker implements StructureVisitor<Void>, StatementVisitor<Voi
 	@Override
 	public Void visit(IfStatement value, Identifier context) {
 		Type expr = value.getExpr().accept(this);
-		value.getBlock_if().accept(this);
+		value.getBlock_if().accept(this, null);
 		
 		Type type = value.checkAllowedTypes(expr);
 		
@@ -212,8 +212,8 @@ public class TypeChecker implements StructureVisitor<Void>, StatementVisitor<Voi
 	@Override
 	public Void visit(IfElseStatement value, Identifier context) {
 		Type expr = value.getExpr().accept(this);
-		value.getBlock_if().accept(this);
-		value.getBlock_else().accept(this);
+		value.getBlock_if().accept(this, null);
+		value.getBlock_else().accept(this, null);
 		
 		Type type = value.checkAllowedTypes(expr);
 		

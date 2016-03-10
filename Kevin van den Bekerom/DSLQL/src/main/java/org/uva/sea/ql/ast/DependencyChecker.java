@@ -67,7 +67,7 @@ public class DependencyChecker extends LeftDFSVisitor<Graph> {
 	@Override
 	public void visit(IfStatement ifStatement, Graph dependencyGraph) {
 		Set<String> varIDs = new HashSet<String>();
-		varIDs.addAll(VariableCollector.geVariableIDs(ifStatement.getClause()));
+		varIDs.addAll(VariableCollector.geVariableIDs(ifStatement.getCondition()));
 
 		addCyclicErrors(ifStatement, varIDs, dependencyGraph);
 
@@ -123,7 +123,7 @@ public class DependencyChecker extends LeftDFSVisitor<Graph> {
 
 	}
 
-	private void DFSGraph(Vertex start, List<String> vist,
+	private void DFSGraph(Vertex start, Set<String> vist,
 			List<String> path, Set<String> cycls,
 			Graph g, ASTNode node) {
 		visited.add(start.getIdentifier());

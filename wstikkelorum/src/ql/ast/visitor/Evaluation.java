@@ -15,122 +15,132 @@ import ql.ast.expression.Not;
 import ql.ast.expression.OrExpression;
 import ql.ast.expression.Pos;
 import ql.ast.expression.Sub;
-import ql.ast.expression.VariableExpression;
 import ql.ast.literal.BoolLiteral;
 import ql.ast.literal.IntLiteral;
 import ql.ast.literal.StringLiteral;
+import ql.ast.literal.Variable;
+import ql.ast.literal.VariableExpression;
 import ql.ast.statement.ComputedQuestion;
 
 public class Evaluation extends BasicVisitor<Object> {
-	private Context context;
-	
-	public Evaluation(Context context){
+	protected Context context;
+
+	public Evaluation(Context context) {
 		this.context = context;
 	}
-	
+
 	@Override
-	public Object visit(ComputedQuestion computedQuestion){
+	public Object visit(ComputedQuestion computedQuestion) {
 		Object value = computedQuestion.getExpression().accept(this);
-		context.putValueQuestion(computedQuestion, value);
-		return null;
+		context.putValueForQuestion(computedQuestion, value);
+		return value;
 	}
-	
+
 	@Override
-	public Object visit(OrExpression orExpression){
-		return (boolean)orExpression.getLhs().accept(this) || (boolean)orExpression.getRhs().accept(this);
+	public Object visit(OrExpression orExpression) {
+		return (boolean) orExpression.getLhs().accept(this) || (boolean) orExpression.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(AndExpression andExpression){
-		return (boolean)andExpression.getLhs().accept(this) && (boolean)andExpression.getRhs().accept(this);
+	public Object visit(AndExpression andExpression) {
+		return (boolean) andExpression.getLhs().accept(this) && (boolean) andExpression.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(Eq eq){
+	public Object visit(Eq eq) {
 		return eq.getLhs().accept(this) == (eq.getRhs().accept(this));
 	}
-	
+
 	@Override
-	public Object visit(GEq geq){
-		return (int)geq.getLhs().accept(this) >= (int)geq.getRhs().accept(this);
+	public Object visit(GEq geq) {
+		return (int) geq.getLhs().accept(this) >= (int) geq.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(GT gt){
-		return (int)gt.getLhs().accept(this) > (int)gt.getRhs().accept(this);
+	public Object visit(GT gt) {
+		return (int) gt.getLhs().accept(this) > (int) gt.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(LEq leq){
-		return (int)leq.getLhs().accept(this) <= (int)leq.getRhs().accept(this);
+	public Object visit(LEq leq) {
+		return (int) leq.getLhs().accept(this) <= (int) leq.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(LT lt){
-		return (int)lt.getLhs().accept(this) < (int)lt.getRhs().accept(this);
+	public Object visit(LT lt) {
+		return (int) lt.getLhs().accept(this) < (int) lt.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(NEq neq){
+	public Object visit(NEq neq) {
 		return neq.getLhs().accept(this) != neq.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(Add add){
-		return (int)add.getLhs().accept(this) + (int)add.getRhs().accept(this);
+	public Object visit(Add add) {
+		return (int) add.getLhs().accept(this) + (int) add.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(Sub sub){
-		return (int)sub.getLhs().accept(this) - (int)sub.getRhs().accept(this);
+	public Object visit(Sub sub) {
+		return (int) sub.getLhs().accept(this) - (int) sub.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(Mul mul){
-		return (int)mul.getLhs().accept(this) * (int)mul.getRhs().accept(this);
+	public Object visit(Mul mul) {
+		return (int) mul.getLhs().accept(this) * (int) mul.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(Div div){
-		return (int)div.getLhs().accept(this) / (int)div.getRhs().accept(this);
+	public Object visit(Div div) {
+		return (int) div.getLhs().accept(this) / (int) div.getRhs().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(Pos pos){
+	public Object visit(Pos pos) {
 		return Math.abs((int) pos.getExpression().accept(this));
 	}
-	
-	@Override 
-	public Object visit(Neg neg){
+
+	@Override
+	public Object visit(Neg neg) {
 		return -Math.abs((int) neg.getExpression().accept(this));
 	}
-	
+
 	@Override
-	public Object visit(Not not){
-		return !(boolean)not.getExpression().accept(this);
+	public Object visit(Not not) {
+		return !(boolean) not.getExpression().accept(this);
 	}
-	
+
 	@Override
-	public Object visit(IntLiteral intLiteral){
+	public Object visit(IntLiteral intLiteral) {
 		return intLiteral.getValue();
 	}
-	
-	@Override 
-	public Object visit(BoolLiteral boolLiteral){
+
+	@Override
+	public Object visit(BoolLiteral boolLiteral) {
 		return boolLiteral.getValue();
 	}
-	
+
 	@Override
-	public Object visit(StringLiteral stringLiteral){
+	public Object visit(StringLiteral stringLiteral) {
 		return stringLiteral.getValue();
 	}
-	
+
 	@Override
-	public Object visit(VariableExpression variableExpression){
+	public Object visit(VariableExpression variableExpression) {
 		return context.getValueForVariable(variableExpression);
 	}
-	
-	public Context getContext(){
+
+	@Override
+	public Object visit(Variable variable) {
+		return context.getValueForVariable(variable);
+	}
+
+	public Context getContext() {
 		return context;
+	}
+
+	protected void addValueForQuestion(ComputedQuestion computedQuestion, Object value) {
+		context.putValueForQuestion(computedQuestion, value);
 	}
 }
