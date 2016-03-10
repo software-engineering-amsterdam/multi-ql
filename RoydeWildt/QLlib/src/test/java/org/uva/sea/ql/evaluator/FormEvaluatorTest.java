@@ -2,13 +2,11 @@ package org.uva.sea.ql.evaluator;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.*;
+import org.uva.sea.ql.ast.tree.atom.Literal;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.val.Val;
-import org.uva.sea.ql.checker.UndefinedVarsCheck;
-import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.parser.QLRunner;
 
 import java.util.ArrayList;
@@ -91,7 +89,7 @@ public class FormEvaluatorTest {
         for (Question q : questions){
             Expr e = q.getExpr();
             if (e instanceof Primary){
-                Val v = ((Primary) e).getValue();
+                Literal v = ((Primary) e).getValue();
                 testList.add(v.toString());
             }
         }

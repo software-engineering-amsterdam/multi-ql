@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.ast.visitor.DeclVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by roy on 5-2-16.
  */
-public class UndefinedVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void,Void> {
+public class UndefinedVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void> {
 
     private final List<Node> undefined;
     private final Map<Var,Expr> decls;

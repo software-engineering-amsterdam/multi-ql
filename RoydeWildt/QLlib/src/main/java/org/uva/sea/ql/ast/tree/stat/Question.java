@@ -3,7 +3,7 @@ package org.uva.sea.ql.ast.tree.stat;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.type.Type;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 
 /**

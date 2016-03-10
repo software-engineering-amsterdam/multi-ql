@@ -3,24 +3,25 @@ package org.uva.sea.ql.ast.visitor;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.ast.tree.atom.val.Bool;
+import org.uva.sea.ql.ast.tree.atom.val.Int;
+import org.uva.sea.ql.ast.tree.atom.val.Str;
 import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
-import org.uva.sea.ql.ast.tree.val.*;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
 import org.uva.sea.ql.ast.visitor.interfaces.FormVisitor;
 import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
-import org.uva.sea.ql.ast.visitor.interfaces.ValVisitor;
-import org.uva.sea.ql.ast.visitor.interfaces.VarVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 
 /**
  * Created by roydewildt on 10/02/16.
  */
-public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,VAL,VAR,CONTEXT> implements
+public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,ATOM,CONTEXT> implements
         FormVisitor<FORM,CONTEXT>, StatVisitor<STAT,CONTEXT>, ExprVisitor<EXPR,CONTEXT>,
-        TypeVisitor<TYPE,CONTEXT>, ValVisitor<VAL,CONTEXT>, VarVisitor<VAR,CONTEXT>
+        TypeVisitor<TYPE,CONTEXT>, AtomVisitor<ATOM,CONTEXT>
 {
 
     @Override
@@ -218,22 +219,22 @@ public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,VAL,VAR,CONTEXT> implement
     }
 
     @Override
-    public VAL visit(Bool val, CONTEXT c) {
+    public ATOM visit(Bool val, CONTEXT c) {
         return null;
     }
 
     @Override
-    public VAL visit(Int val, CONTEXT c) {
+    public ATOM visit(Int val, CONTEXT c) {
         return null;
     }
 
     @Override
-    public VAL visit(Str val, CONTEXT c) {
+    public ATOM visit(Str val, CONTEXT c) {
         return null;
     }
 
     @Override
-    public VAR visit(Var val, CONTEXT c) {
+    public ATOM visit(Var val, CONTEXT c) {
         return null;
     }
 

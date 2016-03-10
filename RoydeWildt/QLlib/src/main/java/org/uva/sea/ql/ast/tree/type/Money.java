@@ -1,6 +1,6 @@
 package org.uva.sea.ql.ast.tree.type;
 
-import org.uva.sea.ql.ast.tree.val.Int;
+import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
 /**

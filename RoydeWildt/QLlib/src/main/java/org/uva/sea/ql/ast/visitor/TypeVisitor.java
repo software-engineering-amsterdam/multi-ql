@@ -9,10 +9,10 @@ import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.tree.type.Type;
-import org.uva.sea.ql.ast.tree.val.Bool;
-import org.uva.sea.ql.ast.tree.val.Int;
-import org.uva.sea.ql.ast.tree.val.Str;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.atom.val.Bool;
+import org.uva.sea.ql.ast.tree.atom.val.Int;
+import org.uva.sea.ql.ast.tree.atom.val.Str;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by roydewildt on 17/02/16.
  */
 
-public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,Type,Type,Void> {
+public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,Type,Void> {
     private final Map<Node,Node> decls = new HashMap<>();
 
     @Override

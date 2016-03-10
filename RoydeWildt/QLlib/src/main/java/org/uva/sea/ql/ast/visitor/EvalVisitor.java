@@ -6,16 +6,19 @@ import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.ast.tree.atom.val.Bool;
+import org.uva.sea.ql.ast.tree.atom.val.Int;
+import org.uva.sea.ql.ast.tree.atom.val.Str;
+import org.uva.sea.ql.ast.tree.atom.val.Val;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.stat.*;
-import org.uva.sea.ql.ast.tree.val.*;
-import org.uva.sea.ql.ast.tree.var.Var;
 
 import java.util.Map;
 
 /**
  * Created by roydewildt on 22/02/16.
  */
-public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr,TYPE,Val,Val,ObservableMap<Var, Question>> {
+public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr,TYPE,Val,ObservableMap<Var, Question>> {
 
     private final Map<Var,Expr>  decls;
     private ObservableMap<Var, Question> symbolTable;
@@ -327,7 +330,7 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
         }
 
         Primary value = (Primary) expr.accept(this,symbolTable);
-        return value.getValue();
+        return (Val) value.getValue();
     }
 
     public ObservableMap<Var, Question> getSymbolTable() {

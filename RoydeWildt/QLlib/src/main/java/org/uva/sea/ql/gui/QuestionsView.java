@@ -12,10 +12,10 @@ import javafx.scene.layout.*;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.val.Bool;
-import org.uva.sea.ql.ast.tree.val.Int;
-import org.uva.sea.ql.ast.tree.val.Str;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.atom.val.Bool;
+import org.uva.sea.ql.ast.tree.atom.val.Int;
+import org.uva.sea.ql.ast.tree.atom.val.Str;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.gui.widget.BooleanFieldWidget;
 import org.uva.sea.ql.gui.widget.MoneyFieldWidget;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by roy on 25-2-16.
  */
-public class QuestionsView extends BaseVisitor<Void, QuestionWidget, Void, Void, Control, Void, Question> {
+public class QuestionsView extends BaseVisitor<Void, QuestionWidget, Void, Void, Control, Question> {
     private GridPane box;
     private List<QuestionWidget> uiElements;
     private List<Question> questions;

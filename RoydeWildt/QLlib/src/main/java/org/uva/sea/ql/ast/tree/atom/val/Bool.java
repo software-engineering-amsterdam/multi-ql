@@ -1,6 +1,6 @@
-package org.uva.sea.ql.ast.tree.val;
+package org.uva.sea.ql.ast.tree.atom.val;
 
-import org.uva.sea.ql.ast.visitor.interfaces.ValVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 
 /**
  * Created by roydewildt on 04/02/16.
@@ -32,14 +32,13 @@ public class Bool extends Val {
         return new Bool(line,false);
     }
 
+    @Override
+    public <ATOM, CONTEXT> ATOM accept(AtomVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
+        return visitor.visit(this,context);
+    }
 
     @Override
     public String toString() {
         return value.toString();
-    }
-
-    @Override
-    public <S, C> S accept(ValVisitor<S, C> visitor, C context) {
-        return visitor.visit(this, context);
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.uva.sea.ql.ast.checker.CheckerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2016-03-10T09:46:50" hostname="rdewildt-desktop" time="0.083">
+  <properties/>
+  <testcase name="UndefinedVarsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.054"/>
+  <testcase name="CyclicQuestionsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.003"/>
+  <testcase name="DuplicateQuestionLabelsCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.001"/>
+  <testcase name="DuplicateCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.001"/>
+  <testcase name="InvalidExpressionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.008"/>
+  <testcase name="InvalidExpressionCheckerTest2" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.013"/>
+  <testcase name="InvalidConditionCheckerTest1" classname="org.uva.sea.ql.ast.checker.CheckerTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

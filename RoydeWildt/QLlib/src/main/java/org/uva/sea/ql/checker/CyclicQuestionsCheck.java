@@ -3,7 +3,7 @@ package org.uva.sea.ql.checker;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.var.Var;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void,Question> {
+public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Question> {
     private final Map<Node,List<Node>> references = new HashMap<>();
 
     public CyclicQuestionsCheck(Form f) {
