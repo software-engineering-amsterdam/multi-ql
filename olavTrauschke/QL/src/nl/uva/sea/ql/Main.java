@@ -6,7 +6,7 @@ import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.*;
-import nl.uva.sea.ql.gui.Questionnaire;
+import nl.uva.sea.ql.interpreter.Interpreter;
 import nl.uva.sea.ql.symbolTable.SymbolTable;
 import nl.uva.sea.ql.parser.ParserWrapper;
 
@@ -42,7 +42,7 @@ public class Main {
      */
     public static final int SEMANTICS_ERROR = 3;
     
-    private IOManager ioManager;
+    private final IOManager ioManager;
     
     public Main() {
         ioManager = new IOManager();
@@ -56,9 +56,9 @@ public class Main {
             Form form = parse(parser);
             boolean run = check(form);
             if (run) {
-                Questionnaire gui = new Questionnaire(form);
-                gui.run();
-                SymbolTable answers = gui.getSymbolTable();
+                Interpreter interpreter = new Interpreter(form);
+                interpreter.run();
+                SymbolTable answers = interpreter.getSymbolTable();
                 String destinationPath = ioManager.selectSaveLocation();
                 ioManager.writeToXml(answers, destinationPath);
                 System.exit(0);
