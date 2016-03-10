@@ -9,6 +9,15 @@ public final class NumberValue extends ValueAdapter {
 	}
 
 	@Override
+	public NumberValue parse(String text) {
+		try {
+			return new NumberValue(Integer.parseInt(text));
+		} catch (NumberFormatException ex) {
+			return new NumberValue(0);
+		}
+	}
+
+	@Override
 	public Value add(Value value) {
 		return value.add(this);
 	}

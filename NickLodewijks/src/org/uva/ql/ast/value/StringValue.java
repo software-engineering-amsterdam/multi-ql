@@ -9,6 +9,11 @@ public final class StringValue extends ValueAdapter {
 	}
 
 	@Override
+	public StringValue parse(String text) {
+		return new StringValue(text);
+	}
+
+	@Override
 	public Value add(Value value) {
 		throw new UnsupportedOperationException();
 	}

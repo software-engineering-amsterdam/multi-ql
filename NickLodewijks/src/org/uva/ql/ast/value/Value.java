@@ -2,6 +2,8 @@ package org.uva.ql.ast.value;
 
 public abstract class Value {
 
+	public abstract Value parse(String text);
+
 	// Add
 	public abstract Value add(Value other);
 

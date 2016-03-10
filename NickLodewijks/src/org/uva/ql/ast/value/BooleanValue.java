@@ -7,8 +7,23 @@ public final class BooleanValue extends ValueAdapter {
 
 	private final Boolean value;
 
+	public BooleanValue(String text) {
+		if (text.equalsIgnoreCase("yes") || text.equals("true")) {
+			value = true;
+		} else if (text.equalsIgnoreCase("no") || text.equals("false")) {
+			value = false;
+		} else {
+			throw new IllegalArgumentException(text);
+		}
+	}
+
 	public BooleanValue(boolean value) {
 		this.value = value;
+	}
+
+	@Override
+	public BooleanValue parse(String text) {
+		return new BooleanValue(text);
 	}
 
 	@Override

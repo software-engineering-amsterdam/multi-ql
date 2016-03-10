@@ -30,5 +30,9 @@ public interface UIWidget {
 
 	public void setEditable(boolean editable);
 
+	public void setStyle(UIWidgetStyle style);
+
+	public UIWidgetStyle getStyle();
+
 	public JComponent getComponent();
 }
