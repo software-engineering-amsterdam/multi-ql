@@ -1,6 +1,7 @@
 package nl.uva.sea.ql.checker;
 
 import java.util.*;
+import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import org.jgrapht.DirectedGraph;
@@ -73,7 +74,29 @@ public class DependencyChecker extends GeneralizedASTVisitor {
         }
     }
     
-    //TODO handle ConditionalStatements
+    /**
+     * Add edges from the <code>identifier</code>s of all <code>Question</code>s
+     * in a <code>ConditionalStatement</code> to all <code>Ident</code>s used
+     * in its <code>condition</code> and add an error if a
+     * <code>ConditionalStatement</code> was found which <code>condition</code>
+     * refers to an undefined <code>Question</code>.
+     * 
+     * @param s the <code>ConditionalStatement</code> to check
+     */
+    @Override
+    public void visit(ConditionalStatement s) {
+        IdentCollector dependenciesCollector = new IdentCollector();
+        s.conditionAccept(dependenciesCollector);
+        Iterable<Ident> dependencies = dependenciesCollector.getIdentifiers();
+        
+        QuestionIdentCollector containedQuestionsCollector = new QuestionIdentCollector();
+        s.accept(containedQuestionsCollector);
+        Iterable<Ident> containedQuestions = containedQuestionsCollector.obtainIdentifiers();
+        
+        for(Ident startIdentifier : containedQuestions) {
+            addEdges(startIdentifier, dependencies);
+        }
+    }
     
     /**
      * Add an error stating which <code>Ident</code>s were involved if

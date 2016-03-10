@@ -12,13 +12,13 @@ public class StringLit extends Literal {
 
 	public StringLit(String lit) {
 		super(null);
-		this.lit = removeStringQuotes(lit);
+		this.lit = lit;
 		this.type = new StringType();
 	}
 	
 	public StringLit(String lit, CodeLocation location) {
 		super(location);
-		this.lit = removeStringQuotes(lit);
+		this.lit = lit;
 		this.type = new StringType(location);
 	}
 
@@ -46,13 +46,5 @@ public class StringLit extends Literal {
 	public int hashCode(){
 	    return lit.hashCode();
     }
-	
-	private String removeStringQuotes(String str) {
-		str = str.substring(1);
-		str = str.substring(0, str.length()-1);
-		
-		return str;
-
-	}
 	
 }

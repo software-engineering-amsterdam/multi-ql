@@ -1,28 +1,28 @@
 form taxOfficeExample {
-  "cQ1"
-    cQ1: integer = (2)
+  "Integer with value 10"
+    cQ1: integer = (10)
     
-  "cQ11"
-    cQ11: integer = (2)
+  "The integer from above + 6"
+    cQ11: integer = (cQ1 + 6)
     
-  "cQ3"
+  "Just 300.00 money"
     cQ3: money = (300.00)
     
-  "cQ2"
-    cQ2: money = (cQ3 * cQ1)
+  "The 300.00 money times the second from above."
+    cQ2: money = (cQ3 * cQ11)
     
     // Maybe a true or false check is cool? So no expression, just when a boolean is used directly. Then do a warning.
     if (true) {
-    	"cQ4"
+    	"Just empty money"
     	  cQ4: money
     	  
-    	"cQ5"
-    	  cQ5: money
+    	"The empty money times 2"
+    	  cQ5: money = (cQ4 * 2)
     	  
-    	"cQ6"
+    	"Just a boolean true"
     	  cQ6: boolean = (true)
     	  
-    	"cQ7"
+    	"Just a string"
     	  cQ7: string = ("abc")
     }
 }

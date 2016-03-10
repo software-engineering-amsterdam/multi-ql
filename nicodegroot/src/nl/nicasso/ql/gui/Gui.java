@@ -1,6 +1,12 @@
 package nl.nicasso.ql.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import nl.nicasso.ql.ast.expressions.Expression;
 import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.expressions.conditional.Not;
+import nl.nicasso.ql.ast.literals.BooleanLit;
 import nl.nicasso.ql.ast.statements.ComputedQuestion;
 import nl.nicasso.ql.ast.statements.IfElseStatement;
 import nl.nicasso.ql.ast.statements.IfStatement;
@@ -12,10 +18,6 @@ import nl.nicasso.ql.ast.types.BooleanType;
 import nl.nicasso.ql.ast.types.IntegerType;
 import nl.nicasso.ql.ast.types.MoneyType;
 import nl.nicasso.ql.ast.types.StringType;
-import nl.nicasso.ql.gui.panels.BlockPanel;
-import nl.nicasso.ql.gui.panels.ControlPanel;
-import nl.nicasso.ql.gui.panels.IfElseStatementPanel;
-import nl.nicasso.ql.gui.panels.IfStatementPanel;
 import nl.nicasso.ql.gui.panels.Panel;
 import nl.nicasso.ql.gui.panels.QuestionPanel;
 import nl.nicasso.ql.gui.questionFields.BooleanQuestionField;
@@ -24,11 +26,12 @@ import nl.nicasso.ql.gui.questionFields.MoneyQuestionField;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.questionFields.TextQuestionField;
 import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.values.Value;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 import nl.nicasso.ql.visitors.TypeVisitor;
 
-public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Void>, TypeVisitor<QuestionField, Identifier> {
+public class Gui implements StructureVisitor<List<Panel>, Expression>, StatementVisitor<List<Panel>, Expression>, TypeVisitor<QuestionField, Identifier> {
 	
 	private boolean debug = true;
 	
@@ -36,127 +39,131 @@ public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Voi
 	
 	private SymbolTable symbolTable;
 	
-	public Gui(SymbolTable symbolTable) {
-		// Maybe move this to visit form?
-		main = new MainFrame();
+	public Gui(SymbolTable symbolTable, MainFrame main) {
+		this.main = main;
 		
 		this.symbolTable = symbolTable;
 	}
 
 	@Override
-	public Panel visit(Form value) {
+	public List<Panel> visit(Form value, Expression ignore) {
 		if (debug) {
 			System.out.println("Form");
 		}
 
-		value.getBlock().accept(this);
+		List<Panel> blockPanel = value.getBlock().accept(this, new BooleanLit(true));
 		
-		//ControlPanel cp = new ControlPanel();
+		for (Panel p : blockPanel) {
+			main.addPanel(p);
+		}
 		
-		//main.addPanel(cp);
-		main.updateMainFrame();
+		main.addPanelsToMainFrame();
 		
 		return null;
 	}
 
 	@Override
-	public Panel visit(Block value) {
+	public List<Panel> visit(Block value, Expression expr) {
 		if (debug) {
 			System.out.println("Block");
 		}
 		
-		BlockPanel bp = new BlockPanel();
+		List<Panel> panelList = new ArrayList<Panel>();
 
+		// @TODO Improve
 		for (Statement cur : value.getStatements()) {
-			Panel currentPanel = cur.accept(this);
-			bp.addPanel(currentPanel);
+			List<Panel> panels = cur.accept(this, expr);
+			for (Panel p : panels) {
+				panelList.add(p);	
+			}
 		}
-		
-		main.addPanel(bp);
 
-		return bp;
+		return panelList;
 	}
 
 	@Override
-	public Panel visit(Question value, Void context) {
+	public List<Panel> visit(Question question, Expression expr) {
 		if (debug) {
-			System.out.println("Question: "+value.getId().getValue());
+			System.out.println("Question: "+question.getId().getValue());
 		}
 		
-		QuestionField field = value.getType().accept(this, value.getId());
+		QuestionField field = question.getType().accept(this, question.getId());
 		
-		QuestionPanel qp = new QuestionPanel(value, field, symbolTable);
-						
-		return qp;
+		Value value = symbolTable.getEntryValue(question.getId());
+		
+		QuestionPanel qp = new QuestionPanel(question, field, value, expr);
+		
+		List<Panel> panels = new ArrayList<Panel>();
+		panels.add(qp);
+
+		return panels;
 	}
 
 	@Override
-	public Panel visit(ComputedQuestion value, Void context) {
+	public List<Panel> visit(ComputedQuestion question, Expression expr) {
 		if (debug) {
-			System.out.println("ComputedQuestion: "+value.getId().getValue());
+			System.out.println("ComputedQuestion: "+question.getId().getValue());
 		}
 		
-		QuestionField field = value.getType().accept(this, value.getId());
+		QuestionField field = question.getType().accept(this, question.getId());
 		
-		QuestionPanel qp = new QuestionPanel(value, field, symbolTable);
+		Value value = symbolTable.getEntryValue(question.getId());
+		
+		QuestionPanel qp = new QuestionPanel(question, field, value, expr);
+		
+		List<Panel> panels = new ArrayList<Panel>();
+		panels.add(qp);
 
-		return qp;
+		return panels;
 	}
 
 	@Override
-	public Panel visit(IfStatement value, Void context) {
+	public List<Panel> visit(IfStatement value, Expression expr) {
 		if (debug) {
 			System.out.println("IfStatement");
 		}
+				
+//		Evaluator evaluator = new Evaluator(symbolTable);
+//		Value a = value.getExpr().accept(evaluator);
+//		System.out.println("VALUE VAN DE IF IS: "+a.getValue());
 		
-		IfStatementPanel panel = new IfStatementPanel();
+		List<Panel> ifBlockPanel = value.getBlock_if().accept(this, value.getExpr());
 		
-		//Evaluator evaluator = new Evaluator(symbolTable);
-		//Value a = value.getExpr().accept(evaluator);
-		//System.out.println("VALUE VAN DE IF IS: "+a.getValue());
-		
-		Panel ifBlockPanel = value.getBlock_if().accept(this);
-		
-		panel.addIfPanel(ifBlockPanel);
-		
-		return panel;
+		return ifBlockPanel;
 	}
 
 	@Override
-	public Panel visit(IfElseStatement value, Void context) {
+	public List<Panel> visit(IfElseStatement value, Expression expr) {
 		if (debug) {
 			System.out.println("IfElseStatement");
 		}
 		
-		IfElseStatementPanel panel = new IfElseStatementPanel();
+		List<Panel> ifBlockPanel = value.getBlock_if().accept(this, value.getExpr());
+		List<Panel> elseBlockPanel = value.getBlock_else().accept(this, new Not(value.getExpr(), null));
 		
-		Panel ifBlockPanel = value.getBlock_if().accept(this);
-		Panel elseBlockPanel = value.getBlock_else().accept(this);
+		ifBlockPanel.addAll(elseBlockPanel);
 		
-		panel.addIfPanel(ifBlockPanel);
-		panel.addElsePanel(elseBlockPanel);
-		
-		return panel;
+		return ifBlockPanel;
 	}
 
 	@Override
 	public QuestionField visit(BooleanType value, Identifier identifier) {
-		return new BooleanQuestionField(identifier);
+		return new BooleanQuestionField(identifier, symbolTable);
 	}
 
 	@Override
 	public QuestionField visit(MoneyType value, Identifier identifier) {
-		return new MoneyQuestionField(identifier);
+		return new MoneyQuestionField(identifier, symbolTable);
 	}
 
 	@Override
 	public QuestionField visit(StringType value, Identifier identifier) {
-		return new TextQuestionField(identifier);
+		return new TextQuestionField(identifier, symbolTable);
 	}
 
 	@Override
 	public QuestionField visit(IntegerType value, Identifier identifier) {
-		return new IntegerQuestionField(identifier);
+		return new IntegerQuestionField(identifier, symbolTable);
 	}
 
 }
