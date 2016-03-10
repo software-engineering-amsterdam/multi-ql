@@ -25,19 +25,15 @@ import SwiftParsec
  * unaryOp          ::= - | !
  * binary           ::= + | - | * | / | ^ | || | && | < | <= | == | >= | >
  * var              ::= identifier
+ *
  */
 class QLParser: NSObject {
-    
     let lexer   = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
     
     
     func parse(ql: QL) throws -> QLForm {
         return try (lexer.whiteSpace *> form() <* StringParser.eof).run(sourceName: "QL", input: ql)
     }
-}
-
-
-extension QLParser {
     
     private func form() -> GenericParser<String, (), QLForm> {
         return lexer.symbol("form") *> identifier().flatMap { [unowned self] fId in
@@ -53,7 +49,7 @@ extension QLParser {
                 stmts.append(acc)
                 return stmts
             }
-            ).map { stmts in QLBlock(block: stmts) }
+        ).map { stmts in QLBlock(block: stmts) }
     }
     
     private func statement() -> GenericParser<String, (), QLStatement> {

@@ -9,12 +9,10 @@
 import Foundation
 
 
-protocol QLType: QLTypeVisitable {
-    var defaultValue: NSObject { get }
+protocol QLType: QLNode, QLTypeVisitable {
 }
 
 class QLBooleanType: QLType {
-    let defaultValue: NSObject = true
     
     func toString() -> String {
         return "boolean"
@@ -26,7 +24,6 @@ class QLBooleanType: QLType {
 }
 
 class QLIntegerType: QLType {
-    let defaultValue: NSObject = 0
     
     func toString() -> String {
         return "integer"
@@ -38,7 +35,6 @@ class QLIntegerType: QLType {
 }
 
 class QLStringType: QLType {
-    let defaultValue: NSObject = ""
     
     func toString() -> String {
         return "string"
@@ -50,7 +46,21 @@ class QLStringType: QLType {
 }
 
 class QLUnknownType: QLType {
-    let defaultValue: NSObject = NSNull()
+    
+    func toString() -> String {
+        return "unknown"
+    }
+    
+    func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
+}
+
+class QLVoidType: QLType {
+    
+    func toString() -> String {
+        return "void"
+    }
     
     func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
         return visitor.visit(self, param: param)
