@@ -35,6 +35,9 @@ class TypeInferenceError: SemanticError {
 class CyclomaticDependencyError: SemanticError {
 }
 
+class MultipleDeclarations: SemanticError {
+}
+
 class SystemError: SemanticError {
     init(error: ErrorType) {
         super.init(description: "\(error)")
@@ -87,5 +90,5 @@ class SemanticWarning: NSObject, ErrorType {
     }
 }
 
-class MultipleDeclarations: SemanticWarning {
+class OverridingVariable: SemanticWarning {
 }

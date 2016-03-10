@@ -193,6 +193,8 @@ extension ScopeChecker {
                 try scopedSymbolTable.assign(question.identifier.id, symbol: symbol)
             } catch let warning as SemanticWarning {
                 collectWarning(warning)
+            } catch let error as SemanticError {
+                collectError(error)
             } catch let error {
                 collectError(error)
             }
@@ -203,6 +205,10 @@ extension ScopeChecker {
         if scopedSymbolTable.retrieve(identifier) == nil {
             collectError(UndefinedVariableError(description: "Variable \"\(identifier)\" is not defined at this scope"))
         }
+    }
+    
+    private func collectError(error: SemanticError) {
+        self.errors.append(error)
     }
     
     private func collectError(error: ErrorType) {

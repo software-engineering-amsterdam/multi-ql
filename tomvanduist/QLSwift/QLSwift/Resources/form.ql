@@ -13,7 +13,7 @@ form testForm1 {
         if (age < 18) {
             allowance   : "Enter your weekly allowence:"    integer
             allowance1  : "In one yearr you received:"      allowance * 52
-            allowance3  : "In three years you received:"    allowance1 * 3          // TODO: test error on overriding with different type
+            allowance3  : "In three years you received:"    allowance1 * 3
         }
     }
 }

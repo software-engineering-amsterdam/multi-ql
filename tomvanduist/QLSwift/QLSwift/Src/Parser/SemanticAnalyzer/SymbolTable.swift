@@ -22,10 +22,12 @@ internal class SymbolTable {
         else {
             let currentType = retrieveType(identifier)
             
-            if currentType! === symbol.type || currentType! === QLUnknownType.self {
+            if currentType! === QLUnknownType.self {
                 symbolTable[identifier] = symbol
+            } else if currentType! === symbol.type  {
+                throw OverridingVariable(description: "The variable \'\(identifier)\' overrides an earlier instance.")
             } else {
-                throw MultipleDeclarations(description: "Identifier is multiply declared as different types: \(identifier) as \'\(currentType!.toString())\' and \'\(symbol.type.toString())\'")
+                throw MultipleDeclarations(description: "The variable \'\(identifier)\' is multiply declared as both \'\(currentType!.toString())\' and \'\(symbol.type.toString())\'")
             }
         }
     }
