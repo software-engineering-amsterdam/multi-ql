@@ -2,16 +2,12 @@ package org.uva.sea.ql.gui.widgets;
 
 import javax.swing.JTextField;
 
-public class TextField extends Widget {
+public class TextField extends Widget<Object> {
 
-	private JTextField textField;
+	//private JTextField textField;
 	
 	public TextField() {
-		this.textField = new JTextField();
-	}
-
-	public JTextField getTextField() {
-		return textField;
+		super(new JTextField());
 	}
 
 }

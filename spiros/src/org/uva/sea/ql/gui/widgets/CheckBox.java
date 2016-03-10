@@ -2,16 +2,12 @@ package org.uva.sea.ql.gui.widgets;
 
 import javax.swing.JCheckBox;
 
-public class CheckBox extends Widget {
+public class CheckBox extends Widget<Object> {
 
-	private JCheckBox checkBox;
+	//private JCheckBox checkBox;
 	
 	public CheckBox() {
-		this.checkBox = new JCheckBox();
-	}
-
-	public JCheckBox getCheckBox() {
-		return checkBox;
+		super(new JCheckBox());
 	}
 
 }

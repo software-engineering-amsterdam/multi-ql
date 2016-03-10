@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.uva.ql.ast.Value;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.value.Value;
 
 public class QLContext {
 
@@ -25,7 +25,7 @@ public class QLContext {
 		computedValueMap.put(key, computation);
 	}
 
-	public synchronized void setValue(String key, Value newValue) {
+	public void setValue(String key, Value newValue) {
 		Value previousValue;
 
 		previousValue = valueMap.put(key, newValue);
@@ -64,7 +64,7 @@ public class QLContext {
 		}
 	}
 
-	public synchronized Value getValue(String key) {
+	public Value getValue(String key) {
 		return valueMap.get(key);
 	}
 

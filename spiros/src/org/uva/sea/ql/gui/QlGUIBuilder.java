@@ -2,9 +2,10 @@ package org.uva.sea.ql.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import net.miginfocom.swing.MigLayout;
 
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.form.Form;
@@ -16,41 +17,47 @@ import org.uva.sea.ql.ast.statement.Question;
 import org.uva.sea.ql.ast.statement.Statement;
 import org.uva.sea.ql.ast.statement.StatementVisitor;
 import org.uva.sea.ql.ast.type.BoolType;
-import org.uva.sea.ql.ast.type.IntType;
-import org.uva.sea.ql.ast.type.StrType;
 import org.uva.sea.ql.ast.type.Type;
-import org.uva.sea.ql.ast.type.TypeVisitor;
-import org.uva.sea.ql.ast.type.UndefinedType;
 import org.uva.sea.ql.gui.panels.Panel;
+import org.uva.sea.ql.gui.panels.QuestionPanel;
 import org.uva.sea.ql.gui.widgets.CheckBox;
 import org.uva.sea.ql.gui.widgets.TextField;
 import org.uva.sea.ql.gui.widgets.Widget;
 
 
+// typevisitor not used so far . . .
 
-public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor {
+
+public class QlGUIBuilder implements FormVisitor, StatementVisitor {
 	
 	private JFrame frame;
-	private List<Panel> panels;
+	private List<JPanel> panels;
 	
 	public QlGUIBuilder(Form form) {
-		panels = new ArrayList<Panel>();
-		frame = new JFrame("Questionnaire");
-		JLabel l=new JLabel("Questionnaire");
-		//frame.add(l);
-		frame.setSize(550,550);
-		//frame.setVisible(true);
-		
+		panels = new ArrayList<JPanel>();
 		visitForm(form);
+		
+		
+		frame = new JFrame("Questionnaire");
+		frame.setLayout(new MigLayout("al left, wrap, gapy 100"));
+		
+		System.out.println("To size twn panels einai: " + panels.size());
+		
+		for (JPanel panel: panels)
+			frame.add(panel);
+			
+		frame.setSize(550,550);
+		frame.setVisible(true);
+		
 	}
 
 	public JFrame getFrame() {
 		return frame;
 	}
 
-	public List<Panel> getPanels() {
-		return panels;
-	}
+//	public List<Panel> getPanels() {
+//		return panels;
+//	}
 	
 	 public void addPanel(Panel panel) {
 		 panels.add(panel);
@@ -62,7 +69,7 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 		form.getBlock().accept(this);
 		System.out.println("GUI ready . . . ");
 		
-		setFrameVisible(true);
+		//setFrameVisible(true);
 	}
 
 
@@ -76,9 +83,6 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 	}
 	
 		
-	private void setFrameVisible(boolean visibility) {
-		frame.setVisible(visibility);
-	}
 
 	@Override
 	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
@@ -91,12 +95,21 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 
 	@Override
 	public void visitQuestion(Question question) {
-		// TODO Auto-generated method stub
+		
+		System.out.println("Visiting question...");
 		
 		Type type = question.getType();
-		//Widget widget = type.a
-		System.out.println("ok now what?");
+		Widget widget = widgetAccordingToType(type);
+		QuestionPanel questionPanel = new QuestionPanel(question,widget);
+		panels.add(questionPanel.getPanel());
 		
+	}
+
+	private Widget widgetAccordingToType(Type type) {
+		if (type instanceof BoolType)
+			return new CheckBox();
+		else
+			return new TextField();
 	}
 
 	@Override
@@ -111,24 +124,24 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 		
 	}
 
-	@Override
-	public Widget visit(IntType intType) {
-		return new TextField();
-	}
-
-	@Override
-	public Widget visit(BoolType boolType) {
-		return new CheckBox();
-	}
-
-	@Override
-	public Widget visit(StrType strType) {
-		return new TextField();
-	}
-
-	@Override
-	public Widget visit(UndefinedType undefinedType) {
-		return null;
-	}
+//	@Override
+//	public Widget visit(IntType intType) {
+//		return new TextField();
+//	}
+//
+//	@Override
+//	public Widget visit(BoolType boolType) {
+//		return new CheckBox();
+//	}
+//
+//	@Override
+//	public Widget visit(StrType strType) {
+//		return new TextField();
+//	}
+//
+//	@Override
+//	public Widget visit(UndefinedType undefinedType) {
+//		return null;
+//	}
 
 }

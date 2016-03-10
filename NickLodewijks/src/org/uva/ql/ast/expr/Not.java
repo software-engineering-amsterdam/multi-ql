@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public class Not extends UnaryExpr {
 
-	public Not(ASTSourceInfo context, Expr expr) {
-		super(context, expr);
+	public Not(Expr expr) {
+		super(expr);
 	}
 
 	@Override

@@ -2,16 +2,13 @@ package org.uva.ql.ui;
 
 import javax.swing.JComponent;
 
-import org.uva.ql.QLContext;
-import org.uva.ql.ast.Value;
+import org.uva.ql.ast.value.Value;
 
 /**
  * A QLWidget represents the GUI component for an input field, or computed value
  * in the questionnaire.
  */
 public interface UIWidget {
-
-	public void setContext(QLContext context);
 
 	/**
 	 * Return the current value of the widget
@@ -32,6 +29,10 @@ public interface UIWidget {
 	public void setVisible(boolean visible);
 
 	public void setEditable(boolean editable);
+
+	public void setStyle(UIWidgetStyle style);
+
+	public UIWidgetStyle getStyle();
 
 	public JComponent getComponent();
 }

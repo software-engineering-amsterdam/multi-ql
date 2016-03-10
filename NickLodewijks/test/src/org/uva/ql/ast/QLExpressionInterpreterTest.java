@@ -6,6 +6,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.uva.ql.QLInterpreter;
 import org.uva.ql.ast.expr.Expr;
+import org.uva.ql.ast.value.BooleanValue;
+import org.uva.ql.ast.value.NumberValue;
+import org.uva.ql.ast.value.StringValue;
 
 public class QLExpressionInterpreterTest {
 

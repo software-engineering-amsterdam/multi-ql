@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.uva.ql.CyclicReferences.CyclicReference;
 import org.uva.ql.QLSemanticAnalyser.SemanticMessage.Level;
-import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.QLTopDown;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BinaryExpr;
@@ -83,7 +83,7 @@ public class QLSemanticAnalyser {
 
 		qt = new QuestionTable();
 
-		form.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+		form.accept(new QLTopDown<Void, Void>() {
 
 			@Override
 			public Void visit(QLQuestionComputed node, Void context) {
@@ -659,7 +659,7 @@ public class QLSemanticAnalyser {
 
 		private final Map<Level, List<SemanticMessage>> levelToMessages = new HashMap<>();
 
-		private SemanticErrors() {
+		public SemanticErrors() {
 
 		}
 

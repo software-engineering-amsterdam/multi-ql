@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public class Positive extends UnaryExpr {
 
-	public Positive(ASTSourceInfo context, Expr expr) {
-		super(context, expr);
+	public Positive(Expr expr) {
+		super(expr);
 	}
 
 	@Override

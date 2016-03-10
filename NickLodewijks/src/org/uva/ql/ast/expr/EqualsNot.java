@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public class EqualsNot extends BinaryExpr {
 
-	public EqualsNot(ASTSourceInfo context, Expr lhs, Expr rhs) {
-		super(context, lhs, rhs);
+	public EqualsNot(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
 	}
 
 	@Override

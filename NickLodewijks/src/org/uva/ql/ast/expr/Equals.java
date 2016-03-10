@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public class Equals extends BinaryExpr {
 
-	public Equals(ASTSourceInfo sourceInfo, Expr lhs, Expr rhs) {
-		super(sourceInfo, lhs, rhs);
+	public Equals(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
 	}
 
 	@Override

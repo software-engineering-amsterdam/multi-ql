@@ -10,25 +10,22 @@ import org.uva.ql.ui.UIQuestionnaire;
 public class QLMain {
 
 	public static void main(String[] args) throws IOException {
-		QLForm questionnaire;
+		QLForm form;
 		File inputFile;
 
-		// resources/Questionnaire.ql
-		inputFile = new File(args[0]);
-		questionnaire = QLForm.create(inputFile);
+		// inputFile = new File(args[0]);
+		inputFile = new File("resources/Questionnaire.ql");
 
-		new QLSemanticAnalyser().validateTypes(questionnaire);
+		form = QLForm.create(inputFile);
+		new QLSemanticAnalyser().validateTypes(form);
 
-		createUI(questionnaire);
+		createUI(form);
 	}
 
 	private static void createUI(QLForm form) {
-		UIQuestionnaire uiQuestionnaire;
-		UIFactory factory;
+		UIQuestionnaire uiForm;
 
-		factory = new UIFactory();
-		uiQuestionnaire = factory.create(form);
-
-		uiQuestionnaire.show();
+		uiForm = UIFactory.get().create(form);
+		uiForm.show();
 	}
 }

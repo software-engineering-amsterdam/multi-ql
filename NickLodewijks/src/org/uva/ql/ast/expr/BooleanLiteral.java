@@ -1,7 +1,6 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-import org.uva.ql.ast.BooleanValue;
+import org.uva.ql.ast.value.BooleanValue;
 
 public final class BooleanLiteral extends Expr {
 
@@ -11,12 +10,6 @@ public final class BooleanLiteral extends Expr {
 	private final BooleanValue value;
 
 	public BooleanLiteral(boolean value) {
-		this(null, value);
-	}
-
-	public BooleanLiteral(ASTSourceInfo context, boolean value) {
-		super(context);
-
 		this.value = new BooleanValue(value);
 	}
 

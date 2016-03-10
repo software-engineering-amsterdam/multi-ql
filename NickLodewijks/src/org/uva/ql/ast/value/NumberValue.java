@@ -1,4 +1,4 @@
-package org.uva.ql.ast;
+package org.uva.ql.ast.value;
 
 public final class NumberValue extends ValueAdapter {
 
@@ -6,6 +6,15 @@ public final class NumberValue extends ValueAdapter {
 
 	public NumberValue(int value) {
 		this.value = value;
+	}
+
+	@Override
+	public NumberValue parse(String text) {
+		try {
+			return new NumberValue(Integer.parseInt(text));
+		} catch (NumberFormatException ex) {
+			return new NumberValue(0);
+		}
 	}
 
 	@Override

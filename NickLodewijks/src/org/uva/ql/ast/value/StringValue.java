@@ -1,4 +1,4 @@
-package org.uva.ql.ast;
+package org.uva.ql.ast.value;
 
 public final class StringValue extends ValueAdapter {
 
@@ -6,6 +6,11 @@ public final class StringValue extends ValueAdapter {
 
 	public StringValue(String value) {
 		this.value = value;
+	}
+
+	@Override
+	public StringValue parse(String text) {
+		return new StringValue(text);
 	}
 
 	@Override
