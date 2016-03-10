@@ -11,7 +11,7 @@ public abstract class QLQuestion extends QLStatement {
 	public QLQuestion(QLType type, String id, String label) {
 		this.id = id;
 		this.type = type;
-		this.label = label.replace("\"", "");
+		this.label = label;
 	}
 
 	public String getId() {

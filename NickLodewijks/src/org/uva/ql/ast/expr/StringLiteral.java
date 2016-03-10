@@ -7,7 +7,7 @@ public final class StringLiteral extends Expr {
 	private final StringValue value;
 
 	public StringLiteral(String value) {
-		this.value = new StringValue(value.replaceAll("\"", ""));
+		this.value = new StringValue(value);
 	}
 
 	public StringValue getValue() {

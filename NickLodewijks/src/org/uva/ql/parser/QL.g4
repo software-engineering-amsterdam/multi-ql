@@ -16,6 +16,10 @@ import org.uva.ql.ast.form.*;
         node.setSourceInfo(new ASTSourceInfo(context));
         return (T) node;
     }
+    
+    private String unQuote(String text){
+        return text.substring(1, text.length()-1);
+    }
 }
 
 form returns [QLForm result]
@@ -44,11 +48,11 @@ ifStat returns [QLIFStatement result]
 question returns [QLQuestion result]
     : variableType + ID + STR + expr
     {
-        $result = addSource($ctx, new QLQuestionComputed($variableType.result, $ID.text,  $STR.text, $expr.result));
+        $result = addSource($ctx, new QLQuestionComputed($variableType.result, $ID.text,  unQuote($STR.text), $expr.result));
     }
     | variableType + ID + STR 
     { 
-        $result = addSource($ctx, new QLQuestionInput($variableType.result, $ID.text, $STR.text));
+        $result = addSource($ctx, new QLQuestionInput($variableType.result, $ID.text, unQuote($STR.text)));
     }
     ;
     
@@ -123,7 +127,7 @@ expr returns [Expr result]
     
 literal returns [Expr result]
     : INT   { $result = addSource($ctx, new IntegerLiteral(Integer.valueOf($INT.text))); }
-    | STR   { $result = addSource($ctx, new StringLiteral($STR.text)); }
+    | STR   { $result = addSource($ctx, new StringLiteral(unQuote($STR.text))); }
     | BOOL  { $result = addSource($ctx, new BooleanLiteral(Boolean.valueOf($BOOL.text))); }
     ;
     
