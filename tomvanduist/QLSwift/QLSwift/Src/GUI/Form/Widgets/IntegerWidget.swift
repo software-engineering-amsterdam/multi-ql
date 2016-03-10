@@ -79,3 +79,10 @@ extension QLIntegerType {
         return IntegerWidget(delegate: delegate)
     }
 }
+
+// TODO: create float widget !!
+extension QLFloatType {
+    func widgetView(delegate: WidgetDelegate) -> ViewWidget {
+        return IntegerWidget(delegate: delegate)
+    }
+}

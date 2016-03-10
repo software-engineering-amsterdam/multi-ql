@@ -79,6 +79,11 @@ extension QuestionView {
 // MARK: - QLTypeVisitor conformance
 
 extension QuestionView {
+    
+    func visit(node: QLFloatType, param delegate: WidgetDelegate) -> ViewWidget {
+        return node.widgetView(delegate)
+    }
+    
     func visit(node: QLStringType, param delegate: WidgetDelegate) -> ViewWidget {
         return node.widgetView(delegate)
     }

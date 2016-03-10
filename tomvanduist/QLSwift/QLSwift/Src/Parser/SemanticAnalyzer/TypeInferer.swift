@@ -115,7 +115,7 @@ extension TypeInferer {
     }
     
     func visit(node: QLNeg, param: Void?) -> QLType {
-        return QLIntegerType()
+        return node.rhs.accept(self, param: param)
     }
     
     func visit(node: QLNot, param: Void?) -> QLType {
@@ -123,23 +123,31 @@ extension TypeInferer {
     }
     
     func visit(node: QLAdd, param: Void?) -> QLType {
-        return QLIntegerType()
+        if node.lhs.accept(self, param: param) === QLIntegerType.self && node.rhs.accept(self, param: param) === QLIntegerType.self {
+            return QLIntegerType()
+        }
+        
+        return QLFloatType()
     }
     
     func visit(node: QLSub, param: Void?) -> QLType {
-        return QLIntegerType()
+        if node.lhs.accept(self, param: param) === QLIntegerType.self && node.rhs.accept(self, param: param) === QLIntegerType.self {
+            return QLIntegerType()
+        }
+        
+        return QLFloatType()
     }
     
     func visit(node: QLMul, param: Void?) -> QLType {
-        return QLIntegerType()
+        return QLFloatType()
     }
     
     func visit(node: QLDiv, param: Void?) -> QLType {
-        return QLIntegerType()
+        return QLFloatType()
     }
     
     func visit(node: QLPow, param: Void?) -> QLType {
-        return QLIntegerType()
+        return QLFloatType()
     }
     
     func visit(node: QLGe, param: Void?) -> QLType {
@@ -180,6 +188,10 @@ extension TypeInferer {
 
 extension TypeInferer {
     
+    func visit(node: QLFloatLiteral, param: Void?) -> QLType {
+        return QLFloatType()
+    }
+    
     func visit(node: QLIntegerLiteral, param: Void?) -> QLType {
         return QLIntegerType()
     }
@@ -197,6 +209,10 @@ extension TypeInferer {
 // MARK: -  QLTypeVisitor conformance
 
 extension TypeInferer {
+    
+    func visit(node: QLFloatType, param: Void?) -> QLType {
+        return node
+    }
     
     func visit(node: QLIntegerType, param: Void?) -> QLType {
         return node

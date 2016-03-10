@@ -166,6 +166,10 @@ extension CyclicDependencyChecker {
 
 extension CyclicDependencyChecker {
     
+    func visit(node: QLFloatLiteral, param: [String]) -> [SemanticError] {
+        return []
+    }
+    
     func visit(node: QLIntegerLiteral, param: [String]) -> [SemanticError] {
         return []
     }
@@ -183,6 +187,10 @@ extension CyclicDependencyChecker {
 // MARK: - QLTypeVisitor conformance
 
 extension CyclicDependencyChecker {
+    
+    func visit(node: QLFloatType, param: [String]) -> [SemanticError] {
+        return []
+    }
     
     func visit(node: QLIntegerType, param: [String]) -> [SemanticError] {
         return []

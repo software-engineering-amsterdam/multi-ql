@@ -13,10 +13,10 @@ protocol QLLiteral: QLNode, QLLiteralVisitable {
 }
 
 class QLStringLiteral: QLLiteral {
-    let string: String
+    let value: String
     
-    init(string: String) {
-        self.string = string
+    init(value: String) {
+        self.value = value
     }
     
     func toString() -> String {
@@ -24,7 +24,7 @@ class QLStringLiteral: QLLiteral {
     }
     
     func eval(context: QLContext) -> NSObject {
-        return string
+        return value
     }
     
     func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
@@ -33,18 +33,18 @@ class QLStringLiteral: QLLiteral {
 }
 
 class QLIntegerLiteral: QLLiteral {
-    let integer: NSInteger
+    let value: NSInteger
     
-    init(integer: NSInteger) {
-        self.integer = integer
+    init(value: NSInteger) {
+        self.value = value
     }
     
     func toString() -> String {
-        return "\(integer)"
+        return "\(value)"
     }
     
     func eval(context: QLContext) -> NSObject {
-        return integer
+        return value
     }
     
     func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
@@ -52,11 +52,32 @@ class QLIntegerLiteral: QLLiteral {
     }
 }
 
-class QLBooleanLiteral: QLLiteral {
-    let bool: Bool
+class QLFloatLiteral: QLLiteral {
+    let value: Double
     
-    init (bool: Bool) {
-        self.bool = bool
+    init(value: Double) {
+        self.value = value
+    }
+    
+    func toString() -> String {
+        return "\(value)"
+    }
+    
+    func eval(context: QLContext) -> NSObject {
+        return value
+    }
+    
+    func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
+}
+
+
+class QLBooleanLiteral: QLLiteral {
+    let value: Bool
+    
+    init (value: Bool) {
+        self.value = value
     }
     
     func toString() -> String {
@@ -64,7 +85,7 @@ class QLBooleanLiteral: QLLiteral {
     }
     
     func eval(context: QLContext) -> NSObject {
-        return bool
+        return value
     }
     
     func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {

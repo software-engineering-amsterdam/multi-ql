@@ -18,13 +18,13 @@ class EvalTests: XCTestCase {
         let form = parseFile("EvalAdd", doEval: true)
         
         guard form != nil
-            else { return }
+            else { XCTFail("Parse failed"); return }
         
         let q1 = form!.block.block.first as? QLComputedQuestion
         
         XCTAssertNotNil(q1)
         guard q1 != nil
-            else { return }
+            else { XCTFail("Parse failed"); return }
         
         
         XCTAssertTrue(q1!.expression.eval(QLContext(form: form!)) == 2)
@@ -34,13 +34,13 @@ class EvalTests: XCTestCase {
         let form = parseFile("EvalPow", doEval: true)
         
         guard form != nil
-            else { return }
+            else { XCTFail("Parse failed"); return }
         
         let q2 = form!.block.block.last as? QLComputedQuestion
         
         XCTAssertNotNil(q2)
         guard q2 != nil
-            else { return }
+            else { XCTFail("Parse failed"); return }
         
         
         XCTAssertTrue(q2!.eval(QLContext(form: form!)) == 4)
@@ -50,13 +50,13 @@ class EvalTests: XCTestCase {
         let form = parseFile("EvalPrec", doEval: true)
         
         guard form != nil
-            else { return }
+            else { XCTFail("Parse failed"); return }
         
         let q3 = form!.block.block.last as? QLComputedQuestion
         
         XCTAssertNotNil(q3)
         guard q3 != nil
-            else { return }
+            else { XCTFail("Parse failed"); return }
         
         
         XCTAssertTrue(q3!.expression.eval(QLContext(form: form!)) == 8)
@@ -66,13 +66,13 @@ class EvalTests: XCTestCase {
         let form = parseFile("EvalBool", doEval: true)
         
         guard form != nil
-            else { return }
+            else { XCTFail("Parse failed"); return }
         
         let q1 = form!.block.block.first as? QLComputedQuestion
         
         XCTAssertNotNil(q1)
         guard q1 != nil
-            else { return }
+            else { XCTFail("Parse failed"); return }
         
         
         XCTAssertTrue(q1!.expression.eval(QLContext(form: form!)) == true)

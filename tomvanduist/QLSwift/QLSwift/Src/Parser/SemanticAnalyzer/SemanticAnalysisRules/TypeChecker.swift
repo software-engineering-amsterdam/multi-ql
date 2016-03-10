@@ -79,37 +79,49 @@ extension TypeChecker {
         return node.literal.accept(self, param: param)
     }
     
-    func collectUnaryTypeError(node: QLUnary) {
+    private func collectUnaryTypeError(node: QLUnary) {
         let type = node.rhs.accept(self, param: nil)
         collectError(TypeMismatchError(description: "Unary operator '\(node.toString())' cannot be applied to operand of type '\(type.toString())'!"))
     }
     
-    func visit(node: QLNeg, param: Void?) -> QLType {
-        if (node.rhs.accept(self, param: param) !== QLIntegerType.self) {
+    private func performUnaryPropagator(node: QLUnary, allower: AbstractAllowType) {
+        let rightType = node.rhs.accept(self, param: nil)
+        
+        if !(allower.allowed(rightType)) {
             collectUnaryTypeError(node)
         }
+    }
+    
+    func visit(node: QLNeg, param: Void?) -> QLType {
+        performUnaryPropagator(node, allower: NumberAllowed())
         
         return QLIntegerType()
     }
     
     func visit(node: QLNot, param: Void?) -> QLType {
-        if (node.rhs.accept(self, param: param) !== QLBooleanType.self) {
-            collectUnaryTypeError(node)
-        }
+        performUnaryPropagator(node, allower: BoolAllowed())
         
         return QLBooleanType()
     }
     
-    func collectBinaryTypeError(node: QLBinary) {
+    private func collectBinaryTypeError(node: QLBinary) {
         let leftType = node.lhs.accept(self, param: nil)
         let rightType = node.rhs.accept(self, param: nil)
+        
         collectError(TypeMismatchError(description: "Binary operator '\(node.toString())' cannot be applied to operands of type '\(leftType.toString())' and '\(rightType.toString())'!"))
     }
     
-    func visitBinaryNumber(node: QLBinary) -> QLType {
-        if (node.lhs.accept(self, param: nil) !== QLIntegerType.self || node.rhs.accept(self, param: nil) !== QLIntegerType.self) {
+    private func performBinaryPropagator(node: QLBinary, propagator: AbstractPropagator) {
+        let lhsType = node.lhs.accept(self, param: nil)
+        let rhsType = node.rhs.accept(self, param: nil)
+        
+        if !(propagator.propagade(lhsType).allowed(rhsType)) {
             collectBinaryTypeError(node)
         }
+    }
+    
+    private func visitBinaryNumber(node: QLBinary) -> QLType {
+        performBinaryPropagator(node, propagator: NumericOperationPropagator())
         
         return QLIntegerType()
     }
@@ -134,10 +146,8 @@ extension TypeChecker {
         return visitBinaryNumber(node)
     }
     
-    func visitBinaryOrder(node: QLBinary) -> QLType {
-        if (node.lhs.accept(self, param: nil) !== QLIntegerType.self || node.rhs.accept(self, param: nil) !== QLIntegerType.self) {
-            collectBinaryTypeError(node)
-        }
+    private func visitBinaryOrder(node: QLBinary) -> QLType {
+        performBinaryPropagator(node, propagator: OrderOperationPropagator())
         
         return QLBooleanType()
     }
@@ -158,10 +168,8 @@ extension TypeChecker {
         return visitBinaryOrder(node)
     }
     
-    func visitBinaryEq(node: QLBinary) -> QLType {
-        if (node.lhs.accept(self, param: nil) !== node.rhs.accept(self, param: nil)) {
-            collectBinaryTypeError(node)
-        }
+    private func visitBinaryEq(node: QLBinary) -> QLType {
+        performBinaryPropagator(node, propagator: EqualityOperationPropagator())
         
         return QLBooleanType()
     }
@@ -174,10 +182,8 @@ extension TypeChecker {
         return visitBinaryEq(node)
     }
     
-    func visitBinaryBool(node: QLBinary) -> QLType {
-        if (node.lhs.accept(self, param: nil) !== QLBooleanType.self || node.rhs.accept(self, param: nil) !== QLBooleanType.self) {
-            collectBinaryTypeError(node)
-        }
+    private func visitBinaryBool(node: QLBinary) -> QLType {
+        performBinaryPropagator(node, propagator: BoolOperationPropagator())
         
         return QLBooleanType()
     }
@@ -196,6 +202,10 @@ extension TypeChecker {
 
 extension TypeChecker {
     
+    func visit(node: QLFloatLiteral, param: Void?) -> QLType {
+        return QLFloatType()
+    }
+    
     func visit(node: QLIntegerLiteral, param: Void?) -> QLType {
         return QLIntegerType()
     }
@@ -213,6 +223,10 @@ extension TypeChecker {
 // MARK: - QLTypeVisitor conformance
 
 extension TypeChecker {
+
+    func visit(node: QLFloatType, param: Void?) -> QLType {
+        return node
+    }
     
     func visit(node: QLIntegerType, param: Void?) -> QLType {
         return node
@@ -262,5 +276,120 @@ extension TypeChecker {
     
     private func collectError(error: ErrorType) {
         self.errors.append(SystemError(error: error))
+    }
+}
+
+// MARK: - Double Dispatchers
+
+/**
+ * A propagator converts a type into a checker
+ */
+private protocol Propagator: QLTypeVisitor {
+    func propagade(type: QLType) -> AbstractAllowType
+}
+
+/**
+ * A checkers defines if a type is allowed
+ */
+private protocol AllowType: QLTypeVisitor {
+    func allowed(type: QLType) -> Bool
+}
+
+private class AbstractPropagator: Propagator {
+    func propagade(type: QLType) -> AbstractAllowType {
+        return type.accept(self, param: nil)
+    }
+    
+    func visit(node: QLStringType, param: Void?) -> AbstractAllowType {
+        return AbstractAllowType()
+    }
+    func visit(node: QLIntegerType, param: Void?) -> AbstractAllowType {
+        return AbstractAllowType()
+    }
+    func visit(node: QLFloatType, param: Void?) -> AbstractAllowType {
+        return AbstractAllowType()
+    }
+    func visit(node: QLBooleanType, param: Void?) -> AbstractAllowType {
+        return AbstractAllowType()
+    }
+    func visit(node: QLVoidType, param: Void?) -> AbstractAllowType {
+        return AbstractAllowType()
+    }
+    func visit(node: QLUnknownType, param: Void?) -> AbstractAllowType {
+        return AbstractAllowType()
+    }
+}
+
+private class AbstractAllowType: AllowType {
+    func allowed(type: QLType) -> Bool {
+        return type.accept(self, param: nil)
+    }
+    
+    func visit(node: QLStringType, param: Void?) -> Bool {
+        return false
+    }
+    func visit(node: QLIntegerType, param: Void?) -> Bool {
+        return false
+    }
+    func visit(node: QLFloatType, param: Void?) -> Bool {
+        return false
+    }
+    func visit(node: QLBooleanType, param: Void?) -> Bool {
+        return false
+    }
+    func visit(node: QLVoidType, param: Void?) -> Bool {
+        return false
+    }
+    func visit(node: QLUnknownType, param: Void?) -> Bool {
+        return false
+    }
+}
+
+private class NumericOperationPropagator: AbstractPropagator {
+    override private func visit(node: QLFloatType, param: Void?) -> AbstractAllowType {
+        return NumberAllowed()
+    }
+    override private func visit(node: QLIntegerType, param: Void?) -> AbstractAllowType {
+        return NumberAllowed()
+    }
+}
+private class OrderOperationPropagator: NumericOperationPropagator {
+}
+private class BoolOperationPropagator: AbstractPropagator {
+    override private func visit(node: QLBooleanType, param: Void?) -> AbstractAllowType {
+        return BoolAllowed()
+    }
+}
+private class EqualityOperationPropagator: AbstractPropagator {
+    override func visit(node: QLStringType, param: Void?) -> AbstractAllowType {
+        return StringAllowed()
+    }
+    override func visit(node: QLIntegerType, param: Void?) -> AbstractAllowType {
+        return NumberAllowed()
+    }
+    override func visit(node: QLFloatType, param: Void?) -> AbstractAllowType {
+        return NumberAllowed()
+    }
+    override func visit(node: QLBooleanType, param: Void?) -> AbstractAllowType {
+        return BoolAllowed()
+    }
+}
+
+private class NumberAllowed: AbstractAllowType {
+    override private func visit(node: QLFloatType, param: Void?) -> Bool {
+        return true
+    }
+    override private func visit(node: QLIntegerType, param: Void?) -> Bool {
+        return true
+    }
+}
+private class StringAllowed: AbstractAllowType {
+    override private func visit(node: QLStringType, param: Void?) -> Bool {
+        return true
+    }
+}
+private class BoolAllowed: AbstractAllowType {
+    override private func visit(node: QLBooleanType, param: Void?) -> Bool {
+        return true
     }
 }
