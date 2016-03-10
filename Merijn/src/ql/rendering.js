@@ -183,7 +183,7 @@ class IntegerInputWidget extends InputWidget {
 	}
 }
 
-class WidgetFactory extends types.TypeReceiver {
+export class WidgetFactory extends types.TypeReceiver {
 	constructor(elementFactory) {
 		super();
 		this.elementFactory = elementFactory;
@@ -307,12 +307,12 @@ class ExprBinder extends ast.NodeVisitor {
 }
 
 export class QuestionRenderer extends ast.NodeVisitor {
-	constructor(elementFactory, exprEvaluator, exprBinder, variableMap) {
+	constructor(elementFactory) {
 		super();
 		this.elementFactory = elementFactory;
-		this.exprEvaluator = exprEvaluator;
-		this.exprBinder = exprBinder;
-		this.variableMap = variableMap;
+		this.exprEvaluator = new ExprEvaluator();
+		this.exprBinder = new ExprBinder();
+		this.variableMap = new VariableMap();
 	}
 	renderQuestion(questionNode, condition, containerElement, widgetFactory) {
 		questionNode.accept(this, condition, containerElement, widgetFactory);
@@ -355,7 +355,7 @@ export class Renderer {
 		this.questionCollector = new QuestionCollector();
 	}
 	render(node, containerElement) {
-		let questionRenderer = new QuestionRenderer(this.elementFactory, new ExprEvaluator(), new ExprBinder(), new VariableMap()),
+		let questionRenderer = new QuestionRenderer(this.elementFactory),
 			widgetFactory = new WidgetFactory(this.elementFactory),
 			directRenderingQuestionCollection = new DirectRenderingQuestionCollection(questionRenderer, widgetFactory, containerElement);
 
