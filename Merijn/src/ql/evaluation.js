@@ -4,7 +4,7 @@ class Evaluator extends ValueReceiver {
 	evaluate(value, ...args) {
 		return value.dispatch(this, ...args);
 	}
-	receiveType() {
+	receiveValue() {
 		return new UndefinedValue();
 	}
 }
@@ -55,6 +55,21 @@ class MoneyEvaluator extends Evaluator {
 	constructor(moneyValue) {
 		super();
 		this.moneyValue = moneyValue;
+	}
+}
+
+export class NegationEvaluator extends Evaluator {
+	receiveInteger(integerValue) {
+		return new IntegerValue(-integerValue.value);
+	}
+	receiveFloat(floatValue) {
+		return new FloatValue(-floatValue.value);
+	}
+}
+
+export class NotEvaluator extends Evaluator {
+	receiveBoolean(booleanValue) {
+		return new BooleanValue(!booleanValue.value);
 	}
 }
 

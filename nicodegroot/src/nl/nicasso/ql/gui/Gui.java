@@ -3,7 +3,6 @@ package nl.nicasso.ql.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.nicasso.ql.Evaluator;
 import nl.nicasso.ql.ast.expressions.Expression;
 import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.ast.expressions.conditional.Not;
@@ -58,7 +57,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			main.addPanel(p);
 		}
 		
-		main.updateMainFrame();
+		main.addPanelsToMainFrame();
 		
 		return null;
 	}
@@ -149,22 +148,22 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 
 	@Override
 	public QuestionField visit(BooleanType value, Identifier identifier) {
-		return new BooleanQuestionField(identifier);
+		return new BooleanQuestionField(identifier, symbolTable);
 	}
 
 	@Override
 	public QuestionField visit(MoneyType value, Identifier identifier) {
-		return new MoneyQuestionField(identifier);
+		return new MoneyQuestionField(identifier, symbolTable);
 	}
 
 	@Override
 	public QuestionField visit(StringType value, Identifier identifier) {
-		return new TextQuestionField(identifier);
+		return new TextQuestionField(identifier, symbolTable);
 	}
 
 	@Override
 	public QuestionField visit(IntegerType value, Identifier identifier) {
-		return new IntegerQuestionField(identifier);
+		return new IntegerQuestionField(identifier, symbolTable);
 	}
 
 }

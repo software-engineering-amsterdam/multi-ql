@@ -9,7 +9,6 @@ import nl.nicasso.ql.ast.expressions.Expression;
 import nl.nicasso.ql.ast.statements.Question;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.values.Value;
 
 public class QuestionPanel extends Panel {

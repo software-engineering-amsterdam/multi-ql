@@ -1,265 +1,356 @@
-import { NodeVisitor, RecursingVisitor } from 'src/ql/ast';
-import { TypeReceiver } from 'src/ql/types';
+import * as _ from 'lodash';
+import * as ast from 'src/ql/ast';
+import * as types from 'src/ql/types';
 import * as values from 'src/ql/values';
 import * as evaluation from 'src/ql/evaluation';
 
-class VariableMap {
+class Observable {
 	constructor() {
-		this._map = {};
+		this._listeners = [];
 	}
-	get(name) {
-		return name in this._map ? this._map[name] : new values.UndefinedValue();
+	listen(listener) {
+		this._listeners.push(listener);
 	}
-	set(name, value) {
-		this._map[name] = value;
+	notifyListeners() {
+		for (let listener of this._listeners) {
+			listener();
+		}
 	}
 }
 
-class ExprEvaluator extends NodeVisitor {
-	evaluate(node, variables) {
-		return node.accept(this, variables);
+class Variable extends Observable {
+	constructor() {
+		super();
+		this._value = new values.UndefinedValue();
 	}
-	handleUnaryPrefixOperation(unaryExpressionNode, variables, evaluator) {
-		let operandValue = unaryExpressionNode.operand.accept(this, variables);
+	getValue() {
+		return this._value;
+	}
+	setValue(value) {
+		if (!this._value.equals(value)) {
+			this._value = value;
+			this.notifyListeners();
+		}
+	}
+}
+
+class VariableMap {
+	constructor() {
+		this._variables = {};
+	}
+	get(name) {
+		if (!_.has(this._variables, name)) {
+			this._variables[name] = new Variable();
+		}
+		return this._variables[name];
+	}
+}
+
+class ExprEvaluator extends ast.NodeVisitor {
+	evaluate(node, variableMap) {
+		return node.accept(this, variableMap);
+	}
+	handleUnaryPrefixOperation(unaryExpressionNode, variableMap, evaluator) {
+		let operandValue = unaryExpressionNode.operand.accept(this, variableMap);
 
 		return evaluator.evaluate(operandValue);
 	}
-	visitNotNode(notNode, variables) {
-		return this.handleUnaryPrefixOperation(notNode, variables, new evaluation.NotEvaluator());
+	visitNotNode(notNode, variableMap) {
+		return this.handleUnaryPrefixOperation(notNode, variableMap, new evaluation.NotEvaluator());
 	}
-	visitNegationNode(negationNode, variables) {
-		return this.handleUnaryPrefixOperation(negationNode, variables, new evaluation.NegationEvaluator());
+	visitNegationNode(negationNode, variableMap) {
+		return this.handleUnaryPrefixOperation(negationNode, variableMap, new evaluation.NegationEvaluator());
 	}
-	handleInfixOperation(infixNode, variables, evaluator) {
-		let leftOperandValue = infixNode.leftOperand.accept(this, variables),
-			rightOperandValue = infixNode.rightOperand.accept(this, variables);
+	handleInfixOperation(infixNode, variableMap, evaluator) {
+		let leftOperandValue = infixNode.leftOperand.accept(this, variableMap),
+			rightOperandValue = infixNode.rightOperand.accept(this, variableMap);
 
 		return evaluator.evaluate(leftOperandValue, rightOperandValue);
 	}
-	visitAddNode(addNode, variables) {
-		return this.handleInfixOperation(addNode, variables, new evaluation.AddEvaluator());
+	visitAddNode(addNode, variableMap) {
+		return this.handleInfixOperation(addNode, variableMap, new evaluation.AddEvaluator());
 	}
-	visitSubtractNode(subtractNode, variables) {
-		return this.handleInfixOperation(subtractNode, variables, new evaluation.SubtractEvaluator());
+	visitSubtractNode(subtractNode, variableMap) {
+		return this.handleInfixOperation(subtractNode, variableMap, new evaluation.SubtractEvaluator());
 	}
-	visitMultiplyNode(multiplyNode, variables) {
-		return this.handleInfixOperation(multiplyNode, variables, new evaluation.MultiplyEvaluator());
+	visitMultiplyNode(multiplyNode, variableMap) {
+		return this.handleInfixOperation(multiplyNode, variableMap, new evaluation.MultiplyEvaluator());
 	}
-	visitDivideNode(divideNode, variables) {
-		return this.handleInfixOperation(divideNode, variables, new evaluation.DivideEvaluator());
+	visitDivideNode(divideNode, variableMap) {
+		return this.handleInfixOperation(divideNode, variableMap, new evaluation.DivideEvaluator());
 	}
-	visitGreaterNode(greaterNode, variables) {
-		return this.handleInfixOperation(greaterNode, variables, new evaluation.GreaterEvaluator());
+	visitGreaterNode(greaterNode, variableMap) {
+		return this.handleInfixOperation(greaterNode, variableMap, new evaluation.GreaterEvaluator());
 	}
-	visitGreaterEqualNode(greaterEqualNode, variables) {
-		return this.handleInfixOperation(greaterEqualNode, variables, new evaluation.GreaterEqualEvaluator());
+	visitGreaterEqualNode(greaterEqualNode, variableMap) {
+		return this.handleInfixOperation(greaterEqualNode, variableMap, new evaluation.GreaterEqualEvaluator());
 	}
-	visitLessNode(lessNode, variables) {
-		return this.handleInfixOperation(lessNode, variables, new evaluation.LessEvaluator());
+	visitLessNode(lessNode, variableMap) {
+		return this.handleInfixOperation(lessNode, variableMap, new evaluation.LessEvaluator());
 	}
-	visitLessEqualNode(lessEqualNode, variables) {
-		return this.handleInfixOperation(lessEqualNode, variables, new evaluation.LessEqualEvaluator());
+	visitLessEqualNode(lessEqualNode, variableMap) {
+		return this.handleInfixOperation(lessEqualNode, variableMap, new evaluation.LessEqualEvaluator());
 	}
-	visitEqualNode(equalNode, variables) {
-		return this.handleInfixOperation(equalNode, variables, new evaluation.EqualEvaluator());
+	visitEqualNode(equalNode, variableMap) {
+		return this.handleInfixOperation(equalNode, variableMap, new evaluation.EqualEvaluator());
 	}
-	visitNotEqualNode(notEqualNode, variables) {
-		return this.handleInfixOperation(notEqualNode, variables, new evaluation.NotEqualEvaluator());
+	visitNotEqualNode(notEqualNode, variableMap) {
+		return this.handleInfixOperation(notEqualNode, variableMap, new evaluation.NotEqualEvaluator());
 	}
-	visitAndNode(andNode, variables) {
-		return this.handleInfixOperation(andNode, variables, new evaluation.AndEvaluator());
+	visitAndNode(andNode, variableMap) {
+		return this.handleInfixOperation(andNode, variableMap, new evaluation.AndEvaluator());
 	}
-	visitOrNode(orNode, variables) {
-		return this.handleInfixOperation(orNode, variables, new evaluation.OrEvaluator());
+	visitOrNode(orNode, variableMap) {
+		return this.handleInfixOperation(orNode, variableMap, new evaluation.OrEvaluator());
 	}
-	visitLiteralNode(literalNode, variables) {
+	visitLiteralNode(literalNode, variableMap) {
 		return literalNode.value;
 	}
-	visitIdentifierNode(identifierNode, variables) {
+	visitIdentifierNode(identifierNode, variableMap) {
 		let name = identifierNode.name;
 
-		return variables.get(name);
+		return variableMap.get(name).getValue();
 	}
 }
 
-class ValueUpdater extends NodeVisitor {
-	constructor(exprEvaluator) {
+class Widget extends Observable {
+	getValue() {
+		throw new Error("Override in subclasses");
+	}
+	setValue() {
+		throw new Error("Override in subclasses");
+	}
+}
+
+class InputWidget extends Widget {
+	constructor(inputElement) {
 		super();
-		this.exprEvaluator = exprEvaluator;
+		this.inputElement = inputElement;
+		this.inputElement.onchange = () => {
+			this.notifyListeners();
+		};
 	}
-	update(node, variables) {
-		let updated;
-		do {
-			updated = node.accept(this, variables);
-		} while (updated === true);
-	}
-	visitFormNode(formNode, variables) {
-		return formNode.block.accept(this, variables);
-	}
-	visitBlockNode(blockNode, variables) {
-		return blockNode.statements.reduce((seed, statement) => seed || statement.accept(this, variables), false);
-	}
-	isIfConditionTrue(ifNode, variables) {
-		return this.exprEvaluator.evaluate(ifNode.condition, variables).equals(new values.BooleanValue(true));
-	}
-	visitIfNode(ifNode, variables) {
-		if (this.isIfConditionTrue(ifNode, variables)) {
-			return ifNode.thenBlock.accept(this, variables);
-		}
-		return false;
-	}
-	visitIfElseNode(ifElseNode, variables) {
-		return this.isIfConditionTrue(ifElseNode, variables) ? ifElseNode.thenBlock.accept(this, variables) : ifElseNode.elseBlock.accept(this, variables);
-	}
-	visitQuestionNode(questionNode, variables) {
-		return false;
-	}
-	visitExprQuestionNode(exprQuestionNode, variables) {
-		let name = exprQuestionNode.name,
-			exprValue = this.exprEvaluator.evaluate(exprQuestionNode.expr, variables);
-
-		if (exprValue.equals(variables.get(name))) {
-			return false;
-		}
-
-		variables.set(name, exprValue);
-		return true;
-	}
-}
-
-class WidgetBuilder {
-	constructor(elementFactory) {
-		this.elementFactory = elementFactory;
-	}
-}
-
-class BooleanCheckBoxWidgetBuilder extends WidgetBuilder {
-	render(containerElement, value, updateCallback) {
-		let inputElement = this.elementFactory.createElement('input');
-
-		inputElement.setAttribute('type', 'checkbox');
-		inputElement.checked = value.value;
-		if (updateCallback) {
-			inputElement.onchange = function () {
-				updateCallback(new values.BooleanValue(inputElement.checked));
-			};
-		} else {
-			inputElement.setAttribute('readonly', true);
-		}
+	static renderInputElement(elementFactory, containerElement, attributes) {
+		let inputElement = elementFactory.createElement('input');
+		_.forEach(attributes, function (value, key) {
+			inputElement.setAttribute(key, value);
+		});
 		containerElement.appendChild(inputElement);
+		return inputElement;
 	}
 }
 
-class StringInputWidgetBuilder extends WidgetBuilder {
-	render(containerElement, value, updateCallback) {
-		let inputElement = this.elementFactory.createElement('input');
-
-		inputElement.setAttribute('type', 'text');
-		inputElement.value = value.value;
-		if (updateCallback) {
-			inputElement.onchange = function () {
-				updateCallback(new values.StringValue(inputElement.value));
-			};
-		} else {
-			inputElement.setAttribute('readonly', true);
-		}
-		containerElement.appendChild(inputElement);
+class StringInputWidget extends InputWidget {
+	getValue() {
+		return new values.StringValue(this.inputElement.value);
+	}
+	setValue(value) {
+		this.inputElement.value = value.toString();
+	}
+	static render(elementFactory, containerElement) {
+		return new StringInputWidget(InputWidget.renderInputElement(elementFactory, containerElement, {
+			'type': 'text'
+		}));
 	}
 }
 
-class WidgetBuilderFactory extends TypeReceiver {
+class BooleanCheckboxWidget extends InputWidget {
+	getValue() {
+		return new values.BooleanValue(this.inputElement.checked);
+	}
+	setValue(value) {
+		this.inputElement.checked = value.equals(new values.BooleanValue(true));
+	}
+	static render(elementFactory, containerElement) {
+		return new BooleanCheckboxWidget(InputWidget.renderInputElement(elementFactory, containerElement, {
+			'type': 'checkbox'
+		}));
+	}
+}
+
+class IntegerInputWidget extends InputWidget {
+	getValue() {
+		return values.IntegerValue.fromString(this.inputElement.value);
+	}
+	setValue(value) {
+		this.inputElement.value = value.toString();
+	}
+	static render(elementFactory, containerElement) {
+		return new IntegerInputWidget(InputWidget.renderInputElement(elementFactory, containerElement, {
+			'type': 'number',
+			'step': 1
+		}));
+	}
+}
+
+class WidgetFactory extends types.TypeReceiver {
 	constructor(elementFactory) {
 		super();
 		this.elementFactory = elementFactory;
 	}
-	createWidgetBuilder(type) {
-		return type.dispatch(this);
+	render(type, containerElement) {
+		return type.dispatch(this, containerElement);
 	}
-	receiveBoolean() {
-		return new BooleanCheckBoxWidgetBuilder(this.elementFactory);
+	receiveBoolean(type, containerElement) {
+		return BooleanCheckboxWidget.render(this.elementFactory, containerElement);
 	}
-	receiveString() {
-		return new StringInputWidgetBuilder(this.elementFactory);
+	receiveString(type, containerElement) {
+		return StringInputWidget.render(this.elementFactory, containerElement);
 	}
-	receiveInteger() {
-		return new IntegerInputWidgetBuilder(this.elementFactory);
+	receiveInteger(type, containerElement) {
+		return IntegerInputWidget.render(this.elementFactory, containerElement);
 	}
 	receiveFloat() {
-		return new FloatInputWidgetBuilder(this.elementFactory);
+		throw new Error("TODO");
 	}
 	receiveMoney() {
-		return new MoneyInputWidgetBuilder(this.elementFactory);
+		throw new Error("TODO");
 	}
 }
 
-export class Renderer extends NodeVisitor {
-	constructor(elementFactory) {
+export class QuestionCollector extends ast.RecursingVisitor {
+	collect(node, questionCollection) {
+		node.accept(this, new ast.LiteralNode(null, new types.BooleanType(), new values.BooleanValue(true)), questionCollection);
+	}
+	visitIfNode(ifNode, condition, questionCollection) {
+		ifNode.thenBlock.accept(this, new ast.AndNode(null, condition, ifNode.condition), questionCollection);
+	}
+	visitIfElseNode(ifElseNode, condition, questionCollection) {
+		this.visitIfNode(ifElseNode, condition, questionCollection);
+		ifElseNode.elseBlock.accept(this, new ast.AndNode(null, condition, new ast.NotNode(null, ifElseNode.condition)), questionCollection);
+	}
+	visitQuestionNode(questionNode, condition, questionCollection) {
+		questionCollection.addQuestion(questionNode, condition);
+	}
+}
+
+export class WidgetBinder {
+	constructor(containerElement, wrappedWidget, variable, enabled) {
+		this.containerElement = containerElement;
+		this._wrappedWidget = wrappedWidget;
+		this._variable = variable;
+		this._enabled = enabled;
+
+		this._wrappedWidget.listen(() => {
+			this.updateVariable();
+		});
+		this.updateVariable();
+	}
+	updateVariable() {
+		if (this._enabled === true) {
+			this._variable.setValue(this._wrappedWidget.getValue());
+		}
+	}
+	setEnabled(enabled) {
+		if (enabled !== this._enabled) {
+			this._enabled = enabled;
+			WidgetBinder.setElementEnabled(this.containerElement, enabled);
+			this.updateVariable();
+		}
+	}
+	setValue(value) {
+		if (this._enabled === true) {
+			this._wrappedWidget.setValue(value);
+		}
+	}
+	static setElementEnabled(element, enabled) {
+		if (enabled === true) {
+			element.classList.remove('disabled');
+		} else {
+			element.classList.add('disabled');
+		}
+	}
+	static render(elementFactory, description, type, variable, enabled, containerElement, widgetFactory) {
+		let questionContainer = elementFactory.createElement('div'),
+			labelElement = elementFactory.createElement('label'),
+			wrappedWidget,
+			widgetWrapper;
+
+		labelElement.textContent = description;
+		questionContainer.appendChild(labelElement);
+		questionContainer.classList.add('question');
+		WidgetBinder.setElementEnabled(questionContainer, enabled);
+		wrappedWidget = widgetFactory.render(type, questionContainer);
+		widgetWrapper = new WidgetBinder(questionContainer, wrappedWidget, variable, enabled);
+		containerElement.appendChild(questionContainer);
+		return widgetWrapper;
+	}
+}
+
+class ExprBinder extends ast.NodeVisitor {
+	listen(expr, listener, variableMap) {
+		return expr.accept(this, listener, variableMap, []);
+	}
+	visitUnaryPrefixNode(unaryPrefixNode, listener, variableMap, boundVariables) {
+		unaryPrefixNode.operand.accept(this, listener, variableMap, boundVariables);
+	}
+	visitInfixNode(infixNode, listener, variableMap, boundVariables) {
+		infixNode.leftOperand.accept(this, listener, variableMap, boundVariables);
+		infixNode.rightOperand.accept(this, listener, variableMap, boundVariables);
+	}
+	visitIdentifierNode(identifierNode, listener, variableMap, boundVariables) {
+		let name = identifierNode.name;
+
+		if (!boundVariables.includes(name)) {
+			variableMap.get(name).listen(listener);
+			boundVariables.push(name);
+		}
+	}
+}
+
+export class QuestionRenderer extends ast.NodeVisitor {
+	constructor(elementFactory, exprEvaluator, exprBinder, variableMap) {
 		super();
 		this.elementFactory = elementFactory;
-		this.exprEvaluator = new ExprEvaluator();
-		this.valueUpdater = new ValueUpdater(this.exprEvaluator);
-		this.widgetBuilderFactory = new WidgetBuilderFactory(elementFactory);
+		this.exprEvaluator = exprEvaluator;
+		this.exprBinder = exprBinder;
+		this.variableMap = variableMap;
 	}
-	update(node, containerElement, variables, updateCallback) {
-		while(containerElement.firstChild !== null) {
-			containerElement.removeChild(containerElement.firstChild);
-		}
-		this.valueUpdater.update(node, variables);
-		node.accept(this, containerElement, variables, updateCallback);
+	renderQuestion(questionNode, condition, containerElement, widgetFactory) {
+		questionNode.accept(this, condition, containerElement, widgetFactory);
+	}
+	isTrue(condition) {
+		return this.exprEvaluator.evaluate(condition, this.variableMap).equals(new values.BooleanValue(true));
+	}
+	visitQuestionNode(questionNode, condition, containerElement, widgetFactory) {
+		let widgetWrapper = WidgetBinder.render(this.elementFactory, questionNode.description, questionNode.type, this.variableMap.get(questionNode.name), this.isTrue(condition), containerElement, widgetFactory);
+
+		this.exprBinder.listen(condition, () => {
+			widgetWrapper.setEnabled(this.isTrue(condition));
+		}, this.variableMap);
+		return widgetWrapper;
+	}
+	visitExprQuestionNode(exprQuestionNode, condition, containerElement, widgetFactory) {
+		let widgetWrapper = this.visitQuestionNode(exprQuestionNode, condition, containerElement, widgetFactory),
+			expr = exprQuestionNode.expr;
+
+		this.exprBinder.listen(expr, () => {
+			widgetWrapper.setValue(this.exprEvaluator.evaluate(expr, this.variableMap));
+		}, this.variableMap);
+	}
+}
+
+export class DirectRenderingQuestionCollection {
+	constructor(questionRenderer, widgetFactory, containerElement) {
+		this.questionRenderer = questionRenderer;
+		this.widgetFactory = widgetFactory;
+		this.containerElement = containerElement;
+	}
+	addQuestion(questionNode, condition) {
+		this.questionRenderer.renderQuestion(questionNode, condition, this.containerElement, this.widgetFactory);
+	}
+}
+
+export class Renderer {
+	constructor(elementFactory) {
+		this.elementFactory = elementFactory;
+		this.questionCollector = new QuestionCollector();
 	}
 	render(node, containerElement) {
-		let variables = new VariableMap(),
-			updateCallback = () => {
-				this.update(node, containerElement, variables, updateCallback);
-			};
-		updateCallback();
-	}
-	visitFormNode(formNode, containerElement, variables, updateCallback) {
-		let descriptionElement = this.elementFactory.createElement('h2');
+		let questionRenderer = new QuestionRenderer(this.elementFactory, new ExprEvaluator(), new ExprBinder(), new VariableMap()),
+			widgetFactory = new WidgetFactory(this.elementFactory),
+			directRenderingQuestionCollection = new DirectRenderingQuestionCollection(questionRenderer, widgetFactory, containerElement);
 
-		descriptionElement.textContent = formNode.description;
-		containerElement.appendChild(descriptionElement);
-		formNode.block.accept(this, containerElement, variables, updateCallback);
-	}
-	visitBlockNode(blockNode, containerElement, variables, updateCallback) {
-		for (let statement of blockNode.statements) {
-			statement.accept(this, containerElement, variables, updateCallback);
-		}
-	}
-	isExprTrue(exprNode, variables) {
-		return this.exprEvaluator.evaluate(exprNode, variables).equals(new values.BooleanValue(true));
-	}
-	visitIfNode(ifNode, containerElement, variables, updateCallback) {
-		if (this.isExprTrue(ifNode.condition, variables)) {
-			ifNode.thenBlock.accept(this, containerElement, variables, updateCallback);
-		}
-	}
-	visitIfElseNode(ifElseNode, containerElement, variables, updateCallback) {
-		if (this.isExprTrue(ifElseNode.condition, variables)) {
-			ifElseNode.thenBlock.accept(this, containerElement, variables, updateCallback);
-		} else {
-			ifElseNode.elseBlock.accept(this, containerElement, variables, updateCallback);
-		}
-	}
-	handleQuestion(questionNode, containerElement, variables, updateCallback, readOnly) {
-		let questionContainerElement = this.elementFactory.createElement('div'),
-			questionlabelElement = this.elementFactory.createElement('label');
-
-		questionContainerElement.setAttribute('class', 'question');
-		questionlabelElement.textContent = questionNode.description;
-		questionContainerElement.appendChild(questionlabelElement);
-
-		//widget = this.renderWidget(questionNode, questionContainerElement, scope);
-		this.widgetBuilderFactory.createWidgetBuilder(questionNode.type, readOnly).render(questionContainerElement, variables.get(questionNode.name), updateCallback);
-		containerElement.appendChild(questionContainerElement);
-	}
-	visitQuestionNode(questionNode, containerElement, variables, updateCallback) {
-		this.handleQuestion(questionNode, containerElement, variables, function (value) {
-			variables.set(questionNode.name, value);
-			updateCallback();
-		});
-	}
-	visitExprQuestionNode(exprQuestionNode, containerElement, variables, updateCallback) {
-		this.handleQuestion(exprQuestionNode, containerElement, variables);
+		this.questionCollector.collect(node, directRenderingQuestionCollection);
 	}
 }

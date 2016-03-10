@@ -1,11 +1,11 @@
 package org.uva.sea.ql.gui;
 
 import java.util.ArrayList;
-
-
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
 import org.uva.sea.ql.ast.block.Block;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.form.FormVisitor;
@@ -15,11 +15,17 @@ import org.uva.sea.ql.ast.statement.IfStatement;
 import org.uva.sea.ql.ast.statement.Question;
 import org.uva.sea.ql.ast.statement.Statement;
 import org.uva.sea.ql.ast.statement.StatementVisitor;
+import org.uva.sea.ql.ast.type.BoolType;
+import org.uva.sea.ql.ast.type.IntType;
+import org.uva.sea.ql.ast.type.StrType;
+import org.uva.sea.ql.ast.type.TypeVisitor;
+import org.uva.sea.ql.ast.type.UndefinedType;
 import org.uva.sea.ql.gui.panels.Panel;
+import org.uva.sea.ql.gui.widgets.Widget;
 
 
 
-public class QlGUIBuilder implements FormVisitor, StatementVisitor {
+public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor {
 	
 	private JFrame frame;
 	private List<Panel> panels;
@@ -93,6 +99,30 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor {
 	public void visitIfElseStatement(IfElseStatement ifElseStatement) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Widget visit(IntType intType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Widget visit(BoolType boolType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Widget visit(StrType strType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Widget visit(UndefinedType undefinedType) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

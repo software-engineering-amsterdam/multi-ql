@@ -20,6 +20,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         testQLParser()
         
 //        runTestBed()
+        
+//        testVisitorPattern()
+        
+//        visitorDemo()
+
+        
+        //func visitorDemo() {
+        //    let car: Visitable = Car()
+        //    print("digraph graphname {")
+        //    car.accept(CarElementPrintVisitor())
+        //    print("}")
+        //
+        ////    car.accept(CarElementDoVisitor())
+        //}
+        
+        
+        
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
@@ -32,21 +49,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             let form = try QLParser().parseStream(stream!)
 
-            print(form.formName)
-
-            for statement in form.codeBlock {
-                print(statement)
-            }
             
-            let ifStatement = form.codeBlock[3] as! QLIfStatement
-            
-            let condition = ifStatement.condition as! QLGreaterOrIsExpression
-            
-            let rhs = (condition.rhs as! QLUnaryExpression).expression as! QLBool
-            let lhs = (condition.lhs as! QLUnaryExpression).expression as! QLInteger
-            print(rhs.boolean)
-            print(lhs.integer)
-
+            form.accept(TreePrinter())
             
        
 
