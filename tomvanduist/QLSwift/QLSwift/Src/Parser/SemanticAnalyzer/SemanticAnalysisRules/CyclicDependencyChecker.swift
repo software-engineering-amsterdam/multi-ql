@@ -80,10 +80,8 @@ extension CyclicDependencyChecker {
         
         if introducesCycle(current, identifiers: param) {
             return [CyclomaticDependencyError(description: "A cyclomatic dependency exists for the identifier \(current). Path: \(constructPath(param + [current]))")]
-        } else if question.isComputed() {
-            return (question as! QLComputedQuestion).accept(self, param: param)
         } else {
-            return []
+            return question.accept(self, param: param)
         }
     }
     
