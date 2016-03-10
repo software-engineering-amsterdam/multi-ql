@@ -11,6 +11,7 @@ import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.*;
+import nl.uva.sea.ql.symbolTable.SymbolTable;
 import nl.uva.sea.ql.parser.ParserWrapper;
 
 /**
@@ -402,7 +403,7 @@ public class Main {
      * @param toWrite an <code>Object</code> containing the contents to write
      * @param destination a <code>String</code> containing the path to write to
      */
-    private void writeToXml(Object toWrite, String destination) {
+    private static void writeToXml(Object toWrite, String destination) {
         XStream xmlConverter = new XStream();
         String answersXml = xmlConverter.toXML(toWrite);
         try (FileWriter writer = new FileWriter(destination)) {
