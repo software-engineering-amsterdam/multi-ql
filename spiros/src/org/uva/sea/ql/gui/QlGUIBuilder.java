@@ -21,6 +21,8 @@ import org.uva.sea.ql.ast.type.StrType;
 import org.uva.sea.ql.ast.type.TypeVisitor;
 import org.uva.sea.ql.ast.type.UndefinedType;
 import org.uva.sea.ql.gui.panels.Panel;
+import org.uva.sea.ql.gui.widgets.CheckBox;
+import org.uva.sea.ql.gui.widgets.TextField;
 import org.uva.sea.ql.gui.widgets.Widget;
 
 
@@ -103,25 +105,21 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 
 	@Override
 	public Widget visit(IntType intType) {
-		// TODO Auto-generated method stub
-		return null;
+		return new TextField();
 	}
 
 	@Override
 	public Widget visit(BoolType boolType) {
-		// TODO Auto-generated method stub
-		return null;
+		return new CheckBox();
 	}
 
 	@Override
 	public Widget visit(StrType strType) {
-		// TODO Auto-generated method stub
-		return null;
+		return new TextField();
 	}
 
 	@Override
 	public Widget visit(UndefinedType undefinedType) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
