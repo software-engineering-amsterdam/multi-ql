@@ -11,7 +11,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * the same <code>Ident</code>) with a different type.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 10-mrt-2016
  */
 public class QuestionIdentCollector extends GeneralizedASTVisitor {
     
@@ -64,6 +64,14 @@ public class QuestionIdentCollector extends GeneralizedASTVisitor {
      */
     public Map<Ident,Question> getFirstQuestionsForIdentifiers() {
         return firstQuestionsForIdentifiers;
+    }
+    
+    /**
+     * @return an <code>Iterable</code> over all <code>Ident</code>s that were
+     *          found in the <code>visit</code>ed ast's
+     */
+    public Iterable<Ident> obtainIdentifiers() {
+        return firstQuestionsForIdentifiers.keySet();
     }
     
     /**

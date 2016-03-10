@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>ConditionalStatement</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-feb-2016
+ * @version 10-mrt-2016
  */
 public class ConditionalStatement extends ASTNode {
     
@@ -67,6 +67,17 @@ public class ConditionalStatement extends ASTNode {
         toDoElse.accept(v);
         
         v.visit(this);
+    }
+    
+    /**
+     * Has the <code>condition</code> of
+     * <code>this ConditionalStatement accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this ConditionalStatement</code>'s <code>condition</code>
+     */
+    public void conditionAccept(ASTVisitor v) {
+        condition.accept(v);
     }
     
     /**
