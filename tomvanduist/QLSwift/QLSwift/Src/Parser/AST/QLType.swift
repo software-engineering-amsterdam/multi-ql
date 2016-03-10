@@ -14,7 +14,7 @@ protocol QLType: QLNode, QLTypeVisitable {
 }
 
 class QLBooleanType: QLType {
-    let defaultValue: NSObject = true
+    let defaultValue: NSObject = false
     
     func toString() -> String {
         return "boolean"

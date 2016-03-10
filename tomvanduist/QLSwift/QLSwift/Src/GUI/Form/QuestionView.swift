@@ -12,25 +12,36 @@ class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
     typealias QLTypeVisitorParam    = (layout: Layout, delegate: WidgetDelegate)
     typealias QLTypeVisitorReturn   = ViewWidget
     
-    private let viewContainer = BaseView()
+    private let heightConstraint: NSLayoutConstraint
+
+    private let contentView = BaseView()
+    private let widgetContainer = BaseView()
     private let question: Question
     private var widget: Widget?
     
     
     init(layout: Layout, question: Question) {
+        self.heightConstraint = NSLayoutConstraint(
+            item: contentView,
+            attribute: .Height,
+            relatedBy: .Equal,
+            toItem: nil,
+            attribute: .NotAnAttribute,
+            multiplier: 1.0,
+            constant: 0
+        )
         self.question = question
         
         super.init(frame: CGRectZero)
         
         
-        let widgetView = question.type.accept(self, param: (layout, self))
-        widgetView.enabled = !question.isComputed
-        self.widget = widgetView
+        let widgetView = createWidgetView(layout, question: question)
         
         setupView(layout, question: question, widget: widgetView)
         
-        
         question.context.subscribe(self)
+        
+        update()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -41,52 +52,13 @@ class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
         question.context.assign(question.identifier, value: value)
     }
     
-    private func setupView(layout: Layout, question: Question, widget: ViewWidget) {
-        self.viewContainer.addSubview(widget)
-        widget.snp_makeConstraints { [unowned viewContainer] (make) -> Void in
-            make.edges.equalTo(viewContainer)
-        }
+    func update() {
+        widget?.setValue(question.context.retrieve(question.identifier))
         
-        self.addSubview(viewContainer)
-        viewContainer.snp_makeConstraints { [unowned self] (make) -> Void in
-            make.left.equalTo(self.snp_left)
-            make.right.equalTo(self.snp_right)
-            make.bottom.equalTo(self.snp_bottom)
-        }
+        self.heightConstraint.active = !question.enabled()
         
-        
-        let label = UILabel()
-        label.text = question.question
-        
-        self.addSubview(label)
-        
-        label.snp_makeConstraints { [unowned self, viewContainer] (make) -> Void in
-            make.top.equalTo(self.snp_top).offset(layout.margin.top)
-            make.left.equalTo(self.snp_left).offset(layout.margin.left)
-            make.right.equalTo(self.snp_right).offset(layout.margin.right)
-            make.bottom.equalTo(viewContainer.snp_top).offset(layout.margin.bottom)
-        }
-        
-        
-        let middleSeperator = UIView()
-        middleSeperator.backgroundColor = UIColor.lightGrayColor()
-        middleSeperator.alpha = 0.3
-        self.addSubview(middleSeperator)
-        middleSeperator.snp_makeConstraints { [unowned self] make in
-            make.left.equalTo(self.snp_left)
-            make.right.equalTo(self.snp_right)
-            make.bottom.equalTo(self.viewContainer.snp_top)
-            make.height.equalTo(1)
-        }
-        
-        let bottomSeperator = UIView()
-        bottomSeperator.backgroundColor = UIColor.lightGrayColor()
-        self.addSubview(bottomSeperator)
-        bottomSeperator.snp_makeConstraints { [unowned self] make in
-            make.left.equalTo(self.snp_left)
-            make.right.equalTo(self.snp_right)
-            make.bottom.equalTo(self.snp_bottom)
-            make.height.equalTo(1)
+        UIView.animateWithDuration(kAnimationDuration) { [unowned self] in
+            self.layoutIfNeeded()
         }
     }
 }
@@ -97,7 +69,7 @@ class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
 extension QuestionView {
     
     func contextUpdated(context: QLContext) {
-        widget?.setValue(context.retrieve(question.identifier))
+        update()
     }
 }
 
@@ -123,5 +95,72 @@ extension QuestionView {
     
     func visit(node: QLVoidType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
         fatalError()
+    }
+}
+
+
+// MARK: - Private
+
+extension QuestionView {
+    
+    private func createWidgetView(layout: Layout, question: Question) -> ViewWidget {
+        let widgetView = question.type.accept(self, param: (layout, self))
+        widgetView.enabled = !question.isComputed
+        self.widget = widgetView
+        
+        return widgetView
+    }
+    
+    private func setupView(layout: Layout, question: Question, widget: ViewWidget) {
+        widgetContainer.addSubview(widget)
+        widget.snp_makeConstraints { [unowned widgetContainer] (make) -> Void in
+            make.edges.equalTo(widgetContainer)
+        }
+        
+        contentView.addSubview(widgetContainer)
+        widgetContainer.snp_makeConstraints { [unowned contentView] (make) -> Void in
+            make.left.equalTo(contentView.snp_left)
+            make.right.equalTo(contentView.snp_right)
+            make.bottom.equalTo(contentView.snp_bottom)
+        }
+        
+        
+        let label = UILabel()
+        label.text = question.question
+        
+        contentView.addSubview(label)
+        label.snp_makeConstraints { [unowned contentView, widgetContainer] (make) -> Void in
+            make.top.equalTo(contentView.snp_top).offset(layout.margin.top)
+            make.left.equalTo(contentView.snp_left).offset(layout.margin.left)
+            make.right.equalTo(contentView.snp_right).offset(layout.margin.right)
+            make.bottom.equalTo(widgetContainer.snp_top).offset(layout.margin.bottom)
+        }
+        
+        
+        let middleSeperator = UIView()
+        middleSeperator.backgroundColor = UIColor.lightGrayColor()
+        middleSeperator.alpha = 0.3
+        contentView.addSubview(middleSeperator)
+        middleSeperator.snp_makeConstraints { [unowned self, contentView] make in
+            make.left.equalTo(contentView.snp_left)
+            make.right.equalTo(contentView.snp_right)
+            make.bottom.equalTo(self.widgetContainer.snp_top)
+            make.height.equalTo(1)
+        }
+        
+        let bottomSeperator = UIView()
+        bottomSeperator.backgroundColor = UIColor.lightGrayColor()
+        contentView.addSubview(bottomSeperator)
+        bottomSeperator.snp_makeConstraints { [unowned contentView] make in
+            make.left.equalTo(contentView.snp_left)
+            make.right.equalTo(contentView.snp_right)
+            make.bottom.equalTo(contentView.snp_bottom)
+            make.height.equalTo(1)
+        }
+        
+        self.addSubview(contentView)
+        contentView.snp_makeConstraints { [unowned self] make in
+            make.edges.equalTo(self)
+        }
     }
 }
