@@ -7,9 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
+import nl.nicasso.ql.gui.panels.ComputedQuestionPanel;
 import nl.nicasso.ql.gui.panels.Panel;
 
-public class MainFrame {
+public class MainFrame implements Observer {
 
 	private List<Panel> panels;
 	private JFrame mainFrame;
@@ -38,6 +39,17 @@ public class MainFrame {
 		}
 		
 		setVisible(true);
+	}
+
+	@Override
+	public void updatePanel() {
+		for (Panel p : panels) {
+			// I dont want to use instanceof :(
+			if (p instanceof ComputedQuestionPanel) {
+				ComputedQuestionPanel k = (ComputedQuestionPanel) p;
+				k.updatePanel();
+			}
+		}
 	}
 
 }

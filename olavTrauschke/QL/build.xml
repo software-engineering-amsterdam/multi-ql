@@ -20,7 +20,7 @@
     <target name="-javadoc-build">
         <javadoc
             sourcepath="src"
-            classpath="src;lib/jgrapht-core-0.9.1.jar"
+            classpath="src;lib/*"
             destdir="dist/javadoc"
             author="true"
             version="true"

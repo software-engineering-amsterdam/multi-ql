@@ -3,10 +3,9 @@ package nl.uva.sea.ql.checker;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import nl.uva.sea.ql.QuestionIdentCollector;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.parser.ParserWrapper;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -60,8 +59,8 @@ public class DependencyCheckerTest {
         ASTNode ast = parser.getResult();
         QuestionIdentCollector collector = new QuestionIdentCollector();
         ast.accept(collector);
-        Map<Ident,Question> firstQuestionsForIdentifiers = collector.getFirstQuestionsForIdentifiers();
-        DependencyChecker checker = new DependencyChecker(firstQuestionsForIdentifiers.keySet());
+        Iterable<Ident> identifiers = collector.obtainIdentifiers();
+        DependencyChecker checker = new DependencyChecker(identifiers);
         ast.accept(checker);
         return checker;
     }
