@@ -92,6 +92,17 @@ export class StyleBlockNode extends Node {
 	}
 }
 
+export class WidgetArgNode extends Node {
+	constructor(line, key, value) {
+		super(line);
+		this.key = key;
+		this.value = value;
+	}
+	accept(visitor, ...arg) {
+		return visitor.visitWidgetArgNode(this, ...args);
+	}
+}
+
 export class SliderWidgetNode extends Node {
 	accept(visitor, ...args) {
 		return visitor.visitSliderWidgetNode(this, ...args);
@@ -151,6 +162,9 @@ export class NodeVisitor {
 	visitStyleBlockNode(styleBlockNode, ...args) {
 		return this.visitNode(styleBlockNode, ...args);
 	}
+	visitWidgetArgNode(widgetArgNode, ...args) {
+		return this.visitNode(widgetArgNode, ...args);
+	}
 	visitSliderWidgetNode(sliderWidgetNode, ...args) {
 		return this.visitNode(sliderWidgetNode, ...args);
 	}
@@ -181,5 +195,10 @@ export class RecursingVisitor extends NodeVisitor {
 	}
 	visitSectionNode(sectionNode, ...args) {
 		sectionNode.block.accept(this, ...args);
+	}
+	visitStyleBlockNode(styleBlockNode, ...args) {
+		for (let statement of styleBlockNode.statements) {
+			statement.accept(this, ...args);
+		}
 	}
 }

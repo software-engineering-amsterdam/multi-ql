@@ -8,9 +8,9 @@ export class Node {
 }
 
 export class FormNode extends Node {
-	constructor(line, description, block) {
+	constructor(line, name, block) {
 		super(line);
-		this.description = description;
+		this.name = name;
 		this.block = block;
 	}
 	accept (visitor, ...args) {

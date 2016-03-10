@@ -1,7 +1,7 @@
 grammar QL;
 
 form
-	: FORM STRING_LITERAL block
+	: FORM IDENTIFIER block
 	;
 
 block
