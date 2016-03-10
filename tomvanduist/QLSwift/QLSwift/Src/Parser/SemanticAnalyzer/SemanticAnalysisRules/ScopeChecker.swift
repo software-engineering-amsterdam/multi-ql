@@ -20,6 +20,7 @@ private class ScopedSymbolTable: SymbolTable {
         if let o = super.retrieve(identifier) {
             return o
         }
+        
         return parent?.retrieve(identifier)
     }
 }
@@ -191,9 +192,9 @@ extension ScopeChecker {
         if let symbol = symbolTable.retrieve(question.identifier.id) {
             do {
                 try scopedSymbolTable.assign(question.identifier.id, symbol: symbol)
-            } catch let warning as SemanticWarning {
+            } catch let warning as OverridingVariable {
                 collectWarning(warning)
-            } catch let error as SemanticError {
+            } catch let error as MultipleDeclarations {
                 collectError(error)
             } catch let error {
                 collectError(error)

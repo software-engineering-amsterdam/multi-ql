@@ -72,10 +72,11 @@ extension TypeInferer {
         var unassignedQuestions = node.questions()
         var oldCount = 0
         
+        // Until fixed point is reached assign types
         while !unassignedQuestions.isEmpty && unassignedQuestions.count != oldCount {
             oldCount = unassignedQuestions.count
             
-            var newUnassigned: [QLQuestion] = []
+            var newUnassigned = [QLQuestion]()
             
             for question in node.questions() {
                 if question.accept(self, param: param) === QLUnknownType.self {
@@ -86,15 +87,15 @@ extension TypeInferer {
             unassignedQuestions = newUnassigned
         }
         
+        // Errors for unresolved types
         for unassignedQuestion in unassignedQuestions {
             collectError(TypeInferenceError(description: "The type of \'\(unassignedQuestion.identifier.toString())\' is ambigious and could not be resolved."))
         }
         
-        
+        // Dive into next scope
         for conditional in node.conditionals() {
             conditional.accept(self, param: param)
         }
-        
         
         return QLVoidType()
     }
@@ -232,8 +233,10 @@ extension TypeInferer {
             try symbolTable.assign(identifier.id, symbol: symbol)
         } catch _ as SemanticWarning {
             // no-op -> We do not care about warnings during type inference
+        } catch let error as SemanticError {
+            collectError(error)
         } catch let error {
-            collectError(SystemError(error: error))
+            collectError(error)
         }
     }
     

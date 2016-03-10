@@ -9,7 +9,7 @@
 import UIKit
 
 class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
-    typealias QLTypeVisitorParam    = (layout: Layout, delegate: WidgetDelegate)
+    typealias QLTypeVisitorParam    = WidgetDelegate
     typealias QLTypeVisitorReturn   = ViewWidget
     
     private let heightConstraint: NSLayoutConstraint
@@ -20,7 +20,7 @@ class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
     private var widget: Widget?
     
     
-    init(layout: Layout, question: Question) {
+    init(question: Question) {
         self.heightConstraint = NSLayoutConstraint(
             item: contentView,
             attribute: .Height,
@@ -35,9 +35,9 @@ class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
         super.init(frame: CGRectZero)
         
         
-        let widgetView = createWidgetView(layout, question: question)
+        let widgetView = createWidgetView(question)
         
-        setupView(layout, question: question, widget: widgetView)
+        setupView(question, widget: widgetView)
         
         question.context.subscribe(self)
         
@@ -79,23 +79,23 @@ extension QuestionView {
 // MARK: - QLTypeVisitor conformance
 
 extension QuestionView {
-    func visit(node: QLStringType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
-        return node.widgetView(param.layout, delegate: param.delegate)
+    func visit(node: QLStringType, param delegate: WidgetDelegate) -> ViewWidget {
+        return node.widgetView(delegate)
     }
     
-    func visit(node: QLBooleanType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
-        return node.widgetView(param.layout, delegate: param.delegate)
+    func visit(node: QLBooleanType, param delegate: WidgetDelegate) -> ViewWidget {
+        return node.widgetView(delegate)
     }
     
-    func visit(node: QLIntegerType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
-        return node.widgetView(param.layout, delegate: param.delegate)
+    func visit(node: QLIntegerType, param delegate: WidgetDelegate) -> ViewWidget {
+        return node.widgetView(delegate)
     }
     
-    func visit(node: QLUnknownType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
+    func visit(node: QLUnknownType, param: WidgetDelegate) -> ViewWidget {
         fatalError()
     }
     
-    func visit(node: QLVoidType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
+    func visit(node: QLVoidType, param: WidgetDelegate) -> ViewWidget {
         fatalError()
     }
 }
@@ -105,15 +105,15 @@ extension QuestionView {
 
 extension QuestionView {
     
-    private func createWidgetView(layout: Layout, question: Question) -> ViewWidget {
-        let widgetView = question.type.accept(self, param: (layout, self))
+    private func createWidgetView(question: Question) -> ViewWidget {
+        let widgetView = question.type.accept(self, param: self)
         widgetView.enabled = !question.isComputed
         self.widget = widgetView
         
         return widgetView
     }
     
-    private func setupView(layout: Layout, question: Question, widget: ViewWidget) {
+    private func setupView(question: Question, widget: ViewWidget) {
         widgetContainer.addSubview(widget)
         widget.snp_makeConstraints { [unowned widgetContainer] (make) -> Void in
             make.edges.equalTo(widgetContainer)
@@ -132,10 +132,10 @@ extension QuestionView {
         
         contentView.addSubview(label)
         label.snp_makeConstraints { [unowned contentView, widgetContainer] (make) -> Void in
-            make.top.equalTo(contentView.snp_top).offset(layout.margin.top)
-            make.left.equalTo(contentView.snp_left).offset(layout.margin.left)
-            make.right.equalTo(contentView.snp_right).offset(layout.margin.right)
-            make.bottom.equalTo(widgetContainer.snp_top).offset(layout.margin.bottom)
+            make.top.equalTo(contentView.snp_top).offset(20)
+            make.left.equalTo(contentView.snp_left).offset(20)
+            make.right.equalTo(contentView.snp_right).offset(-20)
+            make.bottom.equalTo(widgetContainer.snp_top).offset(-10)
         }
         
         

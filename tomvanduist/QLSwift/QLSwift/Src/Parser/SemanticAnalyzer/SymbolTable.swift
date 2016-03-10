@@ -16,18 +16,19 @@ internal class SymbolTable {
     
     
     func assign(identifier: String, symbol: Symbol) throws {
-        if symbolTable[identifier] == nil {
+        defer {
             symbolTable[identifier] = symbol
         }
-        else {
-            let currentType = retrieveType(identifier)
-            
-            if currentType! === QLUnknownType.self {
-                symbolTable[identifier] = symbol
-            } else if currentType! === symbol.type  {
-                throw OverridingVariable(description: "The variable \'\(identifier)\' overrides an earlier instance.")
-            } else {
-                throw MultipleDeclarations(description: "The variable \'\(identifier)\' is multiply declared as both \'\(currentType!.toString())\' and \'\(symbol.type.toString())\'")
+        
+        if let currentType = retrieveType(identifier) {
+            if currentType === symbol.type  {
+                throw OverridingVariable(
+                    description: "The variable \'\(identifier)\' overrides an earlier instance."
+                )
+            } else if currentType !== QLUnknownType.self {
+                throw MultipleDeclarations(
+                    description: "The variable \'\(identifier)\' is multiply declared as both \'\(currentType.toString())\' and \'\(symbol.type.toString())\'"
+                )
             }
         }
     }

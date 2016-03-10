@@ -19,7 +19,11 @@ class SemanticAnalyzer {
         
         // Perform remaining rules
         var results: [SemanticAnalysisResult] = []
-        let semanticRules: [SemanticAnalysisRule] = [TypeChecker(), ScopeChecker(), CyclicDependencyChecker()]
+        let semanticRules: [SemanticAnalysisRule] = [
+            TypeChecker(),
+            ScopeChecker(),
+            CyclicDependencyChecker()
+        ]
         
         for rule in semanticRules {
             results.append(rule.run(form, symbolTable: symbolTable))

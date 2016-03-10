@@ -99,7 +99,6 @@
 		E2E3FE0F1C919A980007E894 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE0E1C919A980007E894 /* Question.swift */; };
 		E2E3FE111C919AA70007E894 /* QuestionnaireBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */; };
 		E2E3FE271C91A18D0007E894 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1A1C91A18D0007E894 /* BaseView.swift */; };
-		E2E3FE291C91A18D0007E894 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1D1C91A18D0007E894 /* Layout.swift */; };
 		E2E3FE2A1C91A18D0007E894 /* QuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */; };
 		E2E3FE2B1C91A18D0007E894 /* QuestionnaireViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */; };
 		E2E3FE2D1C91A18D0007E894 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE211C91A18D0007E894 /* QuestionView.swift */; };
@@ -232,7 +231,6 @@
 		E2E3FE0E1C919A980007E894 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Question.swift; path = Src/Questionnaire/Question.swift; sourceTree = "<group>"; };
 		E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionnaireBuilder.swift; path = Src/Questionnaire/QuestionnaireBuilder.swift; sourceTree = "<group>"; };
 		E2E3FE1A1C91A18D0007E894 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
-		E2E3FE1D1C91A18D0007E894 /* Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireView.swift; sourceTree = "<group>"; };
 		E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireViewBuilder.swift; sourceTree = "<group>"; };
 		E2E3FE211C91A18D0007E894 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
@@ -585,7 +583,6 @@
 			isa = PBXGroup;
 			children = (
 				E2E3FE221C91A18D0007E894 /* Widgets */,
-				E2E3FE1D1C91A18D0007E894 /* Layout.swift */,
 				E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */,
 				E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */,
 				E2E3FE211C91A18D0007E894 /* QuestionView.swift */,
@@ -831,7 +828,6 @@
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
 				E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */,
 				E20B2B211C888F660096BA51 /* QLLiteral.swift in Sources */,
-				E2E3FE291C91A18D0007E894 /* Layout.swift in Sources */,
 				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
 				E20B2B151C8874500096BA51 /* QLContext.swift in Sources */,
 				E2E3FE271C91A18D0007E894 /* BaseView.swift in Sources */,
