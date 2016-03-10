@@ -15,7 +15,15 @@ class QuestionnaireBuilder: NSObject, QLStatementVisitor {
     
     
     func build(form: QLForm, symbolTable: SymbolTable) -> Questionnaire {
-        let questions = form.block.accept(self, param: (conditions: [], context: QLContext(form: form), symbolTable: symbolTable))
+        return build([(form, symbolTable)])
+    }
+    
+    func build(multiple: [(form: QLForm, symbolTable: SymbolTable)]) -> Questionnaire {
+        var questions = [Question]()
+        
+        for (form, symbolTable) in multiple {
+            questions += form.block.accept(self, param: (conditions: [], context: QLContext(form: form), symbolTable: symbolTable))
+        }
         
         return Questionnaire(questions: questions)
     }
