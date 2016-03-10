@@ -30,9 +30,7 @@ class QLContext {
         }
         
         guard let expression = computedContext[identifier]
-            else {
-                fatalError()
-            }
+            else { fatalError("This is not the context that you are looking for") }
         
         return expression.eval(self)
     }
