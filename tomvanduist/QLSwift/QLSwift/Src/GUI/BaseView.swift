@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol ViewContainable {
-    var viewContainer: BaseView { get }
-}
-
 class BaseView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)

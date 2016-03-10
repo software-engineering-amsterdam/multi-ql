@@ -26,6 +26,12 @@ class BooleanWidget: ViewWidget {
         }
     }
     
+    override internal func enable(enable: Bool) {
+        super.enable(enable)
+        
+        toggle.alpha = enable ? 1.0 : 0.3
+    }
+    
     override func setValue(value: NSObject) -> Bool {
         guard let boolValue = value as? Bool
             else { return false }
@@ -36,7 +42,7 @@ class BooleanWidget: ViewWidget {
     }
     
     internal func valueChanged(sender: UISwitch) {
-        delegate.widgetChangedValue(self, value: sender.on)
+        delegate?.widgetChangedValue(self, value: sender.on)
     }
 }
 

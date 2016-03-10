@@ -8,20 +8,40 @@
 
 import Foundation
 
+protocol QLContextDelegate: class {
+    func contextUpdated(context: QLContext)
+}
+
+
 class QLContext {
     private var variableContext = [String: NSObject]()
     private var computedContext = [String: QLExpression]()
+    
+    private var delegates = [QLContextDelegate]()
+    
     
     required init(form: QLForm) {
         setDefaults(form)
     }
     
+    func subscribe(delegate: QLContextDelegate) {
+        delegates.append(delegate)
+    }
+    
+    func unsubscribe(delegate: QLContextDelegate) {
+        delegates = delegates.filter { "\($0)" != "\(delegate)" }
+    }
+    
     func assign(identifier: String, value: NSObject) {
         variableContext[identifier] = value
+        
+        notifyDelegates()
     }
     
     func assign(identifier: String, expression: QLExpression) {
         computedContext[identifier] = expression
+        
+        notifyDelegates()
     }
     
     func retrieve(identifier: String) -> NSObject {
@@ -37,6 +57,12 @@ class QLContext {
     
     private func setDefaults(form: QLForm) {
         form.block.accept(QLContextVisitor(), param: self)
+    }
+    
+    private func notifyDelegates() {
+        for delegate in delegates {
+            delegate.contextUpdated(self)
+        }
     }
 }
 

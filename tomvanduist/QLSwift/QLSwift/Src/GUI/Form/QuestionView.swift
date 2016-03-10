@@ -8,36 +8,29 @@
 
 import UIKit
 
-class QuestionView: BaseView, ViewContainable, WidgetDelegate, QLTypeVisitor {
+class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
     typealias QLTypeVisitorParam    = (layout: Layout, delegate: WidgetDelegate)
     typealias QLTypeVisitorReturn   = ViewWidget
     
-    internal let viewContainer = BaseView()
-    private let context: QLContext
-    private let identifier: String
+    private let viewContainer = BaseView()
+    private let question: Question
+    private var widget: Widget?
     
     
-    init(layout: Layout, question: QLVariableQuestion, context: QLContext) {
-        self.context = context
-        self.identifier = question.identifier.id
+    init(layout: Layout, question: Question) {
+        self.question = question
         
         super.init(frame: CGRectZero)
         
-        let widget = question.type.accept(self, param: (layout, self))
         
-        setupView(layout, question: question, widget: widget)
-    }
-    
-    init(layout: Layout, question: QLComputedQuestion, type: QLType, context: QLContext) {
-        self.context = context
-        self.identifier = question.identifier.id
+        let widgetView = question.type.accept(self, param: (layout, self))
+        widgetView.enabled = !question.isComputed
+        self.widget = widgetView
         
-        super.init(frame: CGRectZero)
+        setupView(layout, question: question, widget: widgetView)
         
-        let widget = type.accept(self, param: (layout, self))
-        widget.enabled = false
         
-        setupView(layout, question: question, widget: widget)
+        question.context.subscribe(self)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -45,10 +38,10 @@ class QuestionView: BaseView, ViewContainable, WidgetDelegate, QLTypeVisitor {
     }
     
     func widgetChangedValue(widget: Widget, value: NSObject) {
-        context.assign(identifier, value: value)
+        question.context.assign(question.identifier, value: value)
     }
     
-    private func setupView(layout: Layout, question: QLQuestion, widget: ViewWidget) {
+    private func setupView(layout: Layout, question: Question, widget: ViewWidget) {
         self.viewContainer.addSubview(widget)
         widget.snp_makeConstraints { [unowned viewContainer] (make) -> Void in
             make.edges.equalTo(viewContainer)
@@ -63,7 +56,7 @@ class QuestionView: BaseView, ViewContainable, WidgetDelegate, QLTypeVisitor {
         
         
         let label = UILabel()
-        label.text = question.label
+        label.text = question.question
         
         self.addSubview(label)
         
@@ -98,6 +91,18 @@ class QuestionView: BaseView, ViewContainable, WidgetDelegate, QLTypeVisitor {
     }
 }
 
+
+// MARK: - QLContextDelegate conformance
+
+extension QuestionView {
+    
+    func contextUpdated(context: QLContext) {
+        widget?.setValue(context.retrieve(question.identifier))
+    }
+}
+
+
+// MARK: - QLTypeVisitor conformance
 
 extension QuestionView {
     func visit(node: QLStringType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {

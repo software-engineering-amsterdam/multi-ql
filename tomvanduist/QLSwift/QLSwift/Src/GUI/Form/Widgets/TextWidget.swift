@@ -8,6 +8,10 @@
 
 import UIKit
 
+
+let kTextPlaceholder = "Enter text"
+
+
 class TextWidget: ViewWidget, UITextFieldDelegate {
     private let textField: UITextField = UITextField()
     
@@ -16,6 +20,7 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
             textField.borderStyle = .Line
             textField.delegate = self
             textField.text = ""
+            textField.placeholder = kTextPlaceholder
             
             self.addSubview(textField)
             
@@ -29,6 +34,13 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
         }
     }
     
+    override internal func enable(enable: Bool) {
+        super.enable(enable)
+        
+        textField.placeholder = enable ? kTextPlaceholder : ""
+        textField.backgroundColor = enable ? UIColor.whiteColor() : UIColor.lightGrayColor()
+    }
+    
     override func setValue(value: NSObject) -> Bool {
         guard let stringValue = value as? String
             else { return false }
@@ -39,7 +51,7 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(sender: UITextField) {
-        delegate.widgetChangedValue(self, value: (sender.text != nil) ? sender.text! : "")
+        delegate?.widgetChangedValue(self, value: (sender.text != nil) ? sender.text! : "")
     }
 }
 

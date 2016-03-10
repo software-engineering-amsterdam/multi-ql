@@ -99,11 +99,9 @@
 		E2E3FE0F1C919A980007E894 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE0E1C919A980007E894 /* Question.swift */; };
 		E2E3FE111C919AA70007E894 /* QuestionnaireBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */; };
 		E2E3FE271C91A18D0007E894 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1A1C91A18D0007E894 /* BaseView.swift */; };
-		E2E3FE281C91A18D0007E894 /* ConditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1C1C91A18D0007E894 /* ConditionalView.swift */; };
-		E2E3FE291C91A18D0007E894 /* FormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1D1C91A18D0007E894 /* FormLayout.swift */; };
-		E2E3FE2A1C91A18D0007E894 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1E1C91A18D0007E894 /* FormView.swift */; };
-		E2E3FE2B1C91A18D0007E894 /* FormViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1F1C91A18D0007E894 /* FormViewBuilder.swift */; };
-		E2E3FE2C1C91A18D0007E894 /* FormViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE201C91A18D0007E894 /* FormViewFactory.swift */; };
+		E2E3FE291C91A18D0007E894 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1D1C91A18D0007E894 /* Layout.swift */; };
+		E2E3FE2A1C91A18D0007E894 /* QuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */; };
+		E2E3FE2B1C91A18D0007E894 /* QuestionnaireViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */; };
 		E2E3FE2D1C91A18D0007E894 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE211C91A18D0007E894 /* QuestionView.swift */; };
 		E2E3FE2E1C91A18D0007E894 /* BooleanWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */; };
 		E2E3FE2F1C91A18D0007E894 /* IntegerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */; };
@@ -233,11 +231,9 @@
 		E2E3FE0E1C919A980007E894 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Question.swift; path = Src/Questionnaire/Question.swift; sourceTree = "<group>"; };
 		E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionnaireBuilder.swift; path = Src/Questionnaire/QuestionnaireBuilder.swift; sourceTree = "<group>"; };
 		E2E3FE1A1C91A18D0007E894 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
-		E2E3FE1C1C91A18D0007E894 /* ConditionalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionalView.swift; sourceTree = "<group>"; };
-		E2E3FE1D1C91A18D0007E894 /* FormLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormLayout.swift; sourceTree = "<group>"; };
-		E2E3FE1E1C91A18D0007E894 /* FormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
-		E2E3FE1F1C91A18D0007E894 /* FormViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewBuilder.swift; sourceTree = "<group>"; };
-		E2E3FE201C91A18D0007E894 /* FormViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewFactory.swift; sourceTree = "<group>"; };
+		E2E3FE1D1C91A18D0007E894 /* Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
+		E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireView.swift; sourceTree = "<group>"; };
+		E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireViewBuilder.swift; sourceTree = "<group>"; };
 		E2E3FE211C91A18D0007E894 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanWidget.swift; sourceTree = "<group>"; };
 		E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerWidget.swift; sourceTree = "<group>"; };
@@ -586,11 +582,9 @@
 			isa = PBXGroup;
 			children = (
 				E2E3FE221C91A18D0007E894 /* Widgets */,
-				E2E3FE1C1C91A18D0007E894 /* ConditionalView.swift */,
-				E2E3FE1D1C91A18D0007E894 /* FormLayout.swift */,
-				E2E3FE1E1C91A18D0007E894 /* FormView.swift */,
-				E2E3FE1F1C91A18D0007E894 /* FormViewBuilder.swift */,
-				E2E3FE201C91A18D0007E894 /* FormViewFactory.swift */,
+				E2E3FE1D1C91A18D0007E894 /* Layout.swift */,
+				E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */,
+				E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */,
 				E2E3FE211C91A18D0007E894 /* QuestionView.swift */,
 			);
 			path = Form;
@@ -823,7 +817,7 @@
 				E26CC93A1C6B8C8C0042B5FF /* QLExpression.swift in Sources */,
 				E2E3FE301C91A18D0007E894 /* TextWidget.swift in Sources */,
 				E2FB4E041C8842DF00BDC988 /* QLNode.swift in Sources */,
-				E2E3FE2B1C91A18D0007E894 /* FormViewBuilder.swift in Sources */,
+				E2E3FE2B1C91A18D0007E894 /* QuestionnaireViewBuilder.swift in Sources */,
 				E20B2B241C8891080096BA51 /* QLLiteralVisitor.swift in Sources */,
 				E2E3FE2D1C91A18D0007E894 /* QuestionView.swift in Sources */,
 				E2E3FE311C91A18D0007E894 /* Widget.swift in Sources */,
@@ -831,11 +825,10 @@
 				E24CCEAE1C91780400ACA633 /* TypeInferer.swift in Sources */,
 				E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */,
 				E24CCEA11C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */,
-				E2E3FE2C1C91A18D0007E894 /* FormViewFactory.swift in Sources */,
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
 				E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */,
 				E20B2B211C888F660096BA51 /* QLLiteral.swift in Sources */,
-				E2E3FE291C91A18D0007E894 /* FormLayout.swift in Sources */,
+				E2E3FE291C91A18D0007E894 /* Layout.swift in Sources */,
 				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
 				E20B2B151C8874500096BA51 /* QLContext.swift in Sources */,
 				E2E3FE271C91A18D0007E894 /* BaseView.swift in Sources */,
@@ -856,10 +849,9 @@
 				E2E3FE0D1C919A8B0007E894 /* Questionnaire.swift in Sources */,
 				E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */,
 				E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */,
-				E2E3FE2A1C91A18D0007E894 /* FormView.swift in Sources */,
+				E2E3FE2A1C91A18D0007E894 /* QuestionnaireView.swift in Sources */,
 				E23493121C6CD59F00B40020 /* Parser.swift in Sources */,
 				E2E3FE0F1C919A980007E894 /* Question.swift in Sources */,
-				E2E3FE281C91A18D0007E894 /* ConditionalView.swift in Sources */,
 				E2E3FE2F1C91A18D0007E894 /* IntegerWidget.swift in Sources */,
 				E20B2B181C8881C20096BA51 /* QLIdentifier.swift in Sources */,
 				E20B2B0E1C884FEF0096BA51 /* QLTypeVisitor.swift in Sources */,

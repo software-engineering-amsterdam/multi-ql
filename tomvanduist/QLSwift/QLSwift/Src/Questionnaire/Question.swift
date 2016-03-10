@@ -11,21 +11,27 @@ import Foundation
 class Question: NSObject {
     let context: QLContext
     let conditions: [QLExpression]
+    let identifier: String
     let question: String
     let type: QLType
+    let isComputed: Bool
     
     init(question: QLVariableQuestion, conditions: [QLExpression], context: QLContext) {
         self.context = context
         self.conditions = conditions
+        self.identifier = question.identifier.id
         self.question = question.label
         self.type = question.type
+        self.isComputed = false
     }
     
     init(question: QLComputedQuestion, type: QLType, conditions: [QLExpression], context: QLContext) {
         self.context = context
         self.conditions = conditions
+        self.identifier = question.identifier.id
         self.question = question.label
         self.type = type
+        self.isComputed = true
     }
     
     func enabled() -> Bool {

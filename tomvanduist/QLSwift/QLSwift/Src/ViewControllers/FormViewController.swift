@@ -33,18 +33,13 @@ extension FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let formViewBuilder = DefaultFormViewBuilder()
-        
         guard let symbolTable = try? TypeInferer().inferTypes(form)
             else { return }
         
         
         let questionnaire = QuestionnaireBuilder().build(form, symbolTable: symbolTable)
         
-        
-        let context = QLContext(form: form)
-        
-        let view = formViewBuilder.buildFormView(self.form, context: context)
+        let view = QuestionnaireViewBuilder().build(questionnaire)
         
         self.contentView.addSubview(view)
         view.snp_makeConstraints { [unowned self] (make) -> Void in

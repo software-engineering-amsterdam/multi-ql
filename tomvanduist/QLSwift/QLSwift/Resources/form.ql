@@ -7,7 +7,7 @@ form testForm1 {
         moneyResult1    : "Result:"         moneyResult
 
         stringResult    : "Enter string"    string
-        booleanResult1  : "Result:"         stringResult
+        stringResult1   : "Result:"         stringResult    // TODO: test error on overriding with different type
     }
 }
 

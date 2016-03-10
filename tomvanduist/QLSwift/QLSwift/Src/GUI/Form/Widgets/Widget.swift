@@ -10,18 +10,18 @@ import UIKit
 
 protocol Widget {
     var enabled: Bool { get set }
-    var delegate: WidgetDelegate { get }
+    var delegate: WidgetDelegate? { get }
     
     func setValue(value: NSObject) -> Bool
 }
 
-protocol WidgetDelegate {
+protocol WidgetDelegate: class {
     func widgetChangedValue(widget: Widget, value: NSObject)
 }
 
 class ViewWidget: UIView, Widget {
     var enabled: Bool = false { didSet { enable(enabled) } }
-    internal let delegate: WidgetDelegate
+    weak internal var delegate: WidgetDelegate?
     
     init(layout: Layout, delegate: WidgetDelegate) {
         self.delegate = delegate
@@ -31,10 +31,6 @@ class ViewWidget: UIView, Widget {
         setupView(layout)
         
         self.enabled = false
-    }
-    
-    func enable(enable: Bool) {
-        self.userInteractionEnabled = enable
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,6 +44,11 @@ class ViewWidget: UIView, Widget {
     func setValue(value: NSObject) -> Bool {
         fatalError("Override")
     }
+    
+    internal func enable(enable: Bool) {
+        self.userInteractionEnabled = enable
+    }
+    
 }
 
 extension QLType {

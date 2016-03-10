@@ -31,6 +31,12 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
         }
     }
     
+    override internal func enable(enable: Bool) {
+        super.enable(enable)
+        
+        textField.backgroundColor = enable ? UIColor.whiteColor() : UIColor.lightGrayColor()
+    }
+    
     override func setValue(value: NSObject) -> Bool {
         guard let integerValue = value as? NSInteger
             else { return false }
@@ -41,10 +47,10 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let letters = NSCharacterSet.letterCharacterSet()
+        let digits = NSCharacterSet.decimalDigitCharacterSet()
         
         for char in string.unicodeScalars {
-            if letters.longCharacterIsMember(char.value) {
+            if !digits.longCharacterIsMember(char.value) {
                 return false
             }
         }
@@ -61,7 +67,7 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
             newValue = NSInteger(sender.text!)
         }
         
-        delegate.widgetChangedValue(self, value: newValue)
+        delegate?.widgetChangedValue(self, value: newValue)
     }
 }
 
