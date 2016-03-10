@@ -5,9 +5,9 @@ import ql.ast.visitor.Visitor;
 public class Not extends Expression {
 	private final Expression expression;
 
-	public Not(Expression result) {
-		super(result.getLineNumber());
-		this.expression = result;
+	public Not(Expression expression) {
+		super(expression.getLineNumber());
+		this.expression = expression;
 	}
 
 	public Expression getExpression() {

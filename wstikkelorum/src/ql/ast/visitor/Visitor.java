@@ -16,14 +16,13 @@ import ql.ast.expression.Not;
 import ql.ast.expression.OrExpression;
 import ql.ast.expression.Pos;
 import ql.ast.expression.Sub;
-import ql.ast.expression.VariableExpression;
 import ql.ast.form.Body;
 import ql.ast.form.Form;
 import ql.ast.literal.BoolLiteral;
 import ql.ast.literal.IntLiteral;
-import ql.ast.literal.Literal;
 import ql.ast.literal.StringLiteral;
 import ql.ast.literal.Variable;
+import ql.ast.literal.VariableExpression;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
 import ql.ast.statement.InputQuestion;
@@ -36,7 +35,7 @@ public interface Visitor<T> {
 	public T visit(Body body);
 
 	public T visit(ComputedQuestion computedQuestion);
-	
+
 	public T visit(InputQuestion inputQuestion);
 
 	public T visit(IfStatement ifStatement);
@@ -84,8 +83,6 @@ public interface Visitor<T> {
 	public T visit(BoolLiteral boolLiteral);
 
 	public T visit(StringLiteral stringLiteral);
-
-	public T visit(Literal literal);
 
 	public T visit(Variable variable);
 }

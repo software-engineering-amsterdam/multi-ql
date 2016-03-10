@@ -12,7 +12,7 @@ public class Body extends TreeNode implements Visitable {
 	private List<Statement> statements;
 
 	public Body() {
-		super(1);// TODO:???????????
+		super(1);//lineNumber
 		this.statements = new ArrayList<Statement>();
 	}
 

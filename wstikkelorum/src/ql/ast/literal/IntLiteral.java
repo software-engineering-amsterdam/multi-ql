@@ -1,14 +1,13 @@
 package ql.ast.literal;
 
-import ql.ast.expression.Expression;
 import ql.ast.visitor.Visitor;
 
-public class IntLiteral extends Expression {
+public class IntLiteral extends Literal {
 	private final int value;
 
-	public IntLiteral(int lineNumber, Integer valueOf) {
+	public IntLiteral(Integer value, int lineNumber) {
 		super(lineNumber);
-		this.value = (int) valueOf;
+		this.value = (int) value;
 	}
 
 	public int getValue() {

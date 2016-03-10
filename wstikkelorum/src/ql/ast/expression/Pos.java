@@ -5,9 +5,9 @@ import ql.ast.visitor.Visitor;
 public class Pos extends Expression {
 	private final Expression expression;
 
-	public Pos(Expression result) {
-		super(result.getLineNumber());
-		this.expression = result;
+	public Pos(Expression expression) {
+		super(expression.getLineNumber());
+		this.expression = expression;
 	}
 
 	public Expression getExpression() {
