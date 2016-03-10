@@ -1,18 +1,18 @@
 package org.uva.sea.ql.ast.visitor;
 
 import org.uva.sea.ql.ast.tree.Node;
+import org.uva.sea.ql.ast.tree.atom.val.Float;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.type.Boolean;
-import org.uva.sea.ql.ast.tree.type.Money;
-import org.uva.sea.ql.ast.tree.type.Text;
-import org.uva.sea.ql.ast.tree.type.Type;
+import org.uva.sea.ql.ast.tree.type.*;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
 import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.type.Boolean;
+import org.uva.sea.ql.ast.tree.type.Number;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,9 +53,7 @@ public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE
 
     @Override
     public Type visit(Eq expr, Void context) {
-        if(!incompatibleTypes(expr, new Boolean()) ||
-                !incompatibleTypes(expr, new Money()) ||
-                !incompatibleTypes(expr, new Text())){
+        if(equalTypes(expr)){
             return new Boolean();
         }
         return null;
@@ -98,9 +96,7 @@ public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE
 
     @Override
     public Type visit(NEq expr, Void context) {
-        if(!incompatibleTypes(expr, new Boolean()) ||
-                !incompatibleTypes(expr, new Money()) ||
-                !incompatibleTypes(expr, new Text())){
+        if(equalTypes(expr)){
             return new Boolean();
         }
         return null;
@@ -153,6 +149,11 @@ public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE
     }
 
     @Override
+    public Type visit(Float atom, Void context) {
+        return new Number();
+    }
+
+    @Override
     public Type visit(Bool val, Void context) {
         return new Boolean();
     }
@@ -179,20 +180,27 @@ public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE
         Type vlhs = expr.getLhs().accept(this, null);
         Type vrhs = expr.getRhs().accept(this, null);
 
-        if(vlhs == null ||
-                vrhs == null ||
-                !vlhs.equals(type) ||
-                !vrhs.equals(type) ||
-                !vlhs.equals(vrhs))
+        if(vlhs == null || vrhs == null || !vlhs.equals(type) ||
+                !vrhs.equals(type) || !vlhs.equals(vrhs)){
             return true;
+        }
         return false;
     }
 
     private boolean incompatibleTypes(UnaryExpr expr, Type type){
         Expr e = expr.getValue();
         Type v = e.accept(this, null);
-        if(v == null ||
-                !v.equals(type))
+        if(v == null || !v.equals(type)){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean equalTypes(BinaryExpr expr){
+        Type vlhs = expr.getLhs().accept(this, null);
+        Type vrhs = expr.getRhs().accept(this, null);
+
+        if(vlhs != null && vrhs != null && vlhs.equals(vrhs))
             return true;
         return false;
     }

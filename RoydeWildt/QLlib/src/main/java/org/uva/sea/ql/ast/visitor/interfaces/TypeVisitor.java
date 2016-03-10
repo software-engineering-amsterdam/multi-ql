@@ -2,6 +2,7 @@ package org.uva.sea.ql.ast.visitor.interfaces;
 
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.type.Number;
 import org.uva.sea.ql.ast.tree.type.Text;
 
 
@@ -12,6 +13,7 @@ public interface TypeVisitor<TYPE, CONTEXT> {
 
     TYPE visit(Boolean type, CONTEXT context);
     TYPE visit(Money type, CONTEXT context);
+    TYPE visit(Number type, CONTEXT context);
     TYPE visit(Text type, CONTEXT context);
 
 }

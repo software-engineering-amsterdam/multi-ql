@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.visitor;
 
+import org.uva.sea.ql.ast.tree.atom.val.Float;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
@@ -10,6 +11,7 @@ import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.type.Number;
 import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
 import org.uva.sea.ql.ast.visitor.interfaces.FormVisitor;
@@ -220,6 +222,11 @@ public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,ATOM,CONTEXT> implements
     }
 
     @Override
+    public TYPE visit(Number type, CONTEXT context) {
+        return null;
+    }
+
+    @Override
     public TYPE visit(Text type, CONTEXT context) {
         return null;
     }
@@ -231,6 +238,11 @@ public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,ATOM,CONTEXT> implements
 
     @Override
     public ATOM visit(Int val, CONTEXT c) {
+        return null;
+    }
+
+    @Override
+    public ATOM visit(Float atom, CONTEXT context) {
         return null;
     }
 

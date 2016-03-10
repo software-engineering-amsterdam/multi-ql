@@ -11,9 +11,11 @@ import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
+import org.uva.sea.ql.ast.tree.type.Number;
 import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.tree.atom.val.*;
+import org.uva.sea.ql.ast.tree.atom.val.Float;
 import org.uva.sea.ql.ast.tree.atom.var.*;
 }
 
@@ -140,6 +142,7 @@ orExpr returns [Expr result]
 type returns [Type result]
     : x=Boolean  {$result = new Boolean($x.getLine());}
     | x=Money    {$result = new Money($x.getLine());}
+    | x=Number   {$result = new Number($x.getLine());}
     | x=Text     {$result = new Text($x.getLine());}
     ;
 
@@ -149,7 +152,8 @@ bool returns [Val result]
     ;
 
 num returns [Val result]
-    : value=Int {$result = new Int($value.getLine(), $value.text); }
+    : value=Int    {$result = new Int($value.getLine(), $value.text); }
+    | value=Double {$result = new Float($value.getLine(), $value.text); }
     ;
 
 str returns [Val result]
@@ -171,9 +175,11 @@ False       : 'false';
 
 Boolean     : 'boolean';
 Money       : 'money';
+Number      : 'number';
 Text        : 'text';
 
 Ident       :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 Str         : '"' ~('\n'|'\r')*? '"';
 Int         : ('0'..'9')+;
+Double      : ('0'..'9')+'.'('0'..'9')+ ;

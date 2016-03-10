@@ -2,14 +2,12 @@ package org.uva.sea.ql.ast.visitor;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import org.uva.sea.ql.ast.tree.atom.val.*;
+import org.uva.sea.ql.ast.tree.atom.val.Float;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.atom.val.Bool;
-import org.uva.sea.ql.ast.tree.atom.val.Int;
-import org.uva.sea.ql.ast.tree.atom.val.Str;
-import org.uva.sea.ql.ast.tree.atom.val.Val;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.stat.*;
 
@@ -292,31 +290,25 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
     }
 
     @Override
-    public Val visit(Bool val, ObservableMap<Var, Question> symbolTable) {
-        return val;
+    public Val visit(Bool atom, ObservableMap<Var, Question> symbolTable) {
+        return atom;
     }
 
     @Override
-    public Val visit(Int val, ObservableMap<Var, Question> symbolTable) {
-        return val;
+    public Val visit(Int atom, ObservableMap<Var, Question> symbolTable) {
+        return atom;
     }
 
     @Override
-    public Val visit(Str val, ObservableMap<Var, Question> context) {
-        return val;
+    public Val visit(Float atom, ObservableMap<Var, Question> varQuestionObservableMap) {
+        return atom;
     }
 
-    private String getBadArgumentLetter(Val lhs, Val rhs){
-        if(lhs.getValue() == null){
-            return "x";
-        }
-        else if(rhs.getValue() == null){
-            return "y";
-        }
-        else{
-            return null;
-        }
+    @Override
+    public Val visit(Str atom, ObservableMap<Var, Question> context) {
+        return atom;
     }
+
 
     @Override
     public Val visit(Var val, ObservableMap<Var, Question> symbolTable) {
@@ -331,6 +323,18 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
         Primary value = (Primary) expr.accept(this,symbolTable);
         return (Val) value.getValue();
+    }
+
+    private String getBadArgumentLetter(Val lhs, Val rhs){
+        if(lhs.getValue() == null){
+            return "x";
+        }
+        else if(rhs.getValue() == null){
+            return "y";
+        }
+        else{
+            return null;
+        }
     }
 
     public ObservableMap<Var, Question> getSymbolTable() {
