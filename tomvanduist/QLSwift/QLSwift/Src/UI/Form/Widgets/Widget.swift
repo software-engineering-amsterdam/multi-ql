@@ -9,7 +9,10 @@
 import UIKit
 
 protocol Widget {
-    var delegate: WidgetDelegate? { get }
+    var enabled: Bool { get set }
+    var delegate: WidgetDelegate { get }
+    
+    func setValue(value: NSObject) -> Bool
 }
 
 protocol WidgetDelegate {
@@ -17,25 +20,38 @@ protocol WidgetDelegate {
 }
 
 class ViewWidget: UIView, Widget {
-    internal var delegate: WidgetDelegate?
+    var enabled: Bool = false { didSet { enable(enabled) } }
+    internal let delegate: WidgetDelegate
     
-    convenience init(layout: Layout) {
-        self.init(layout: layout, delegate: nil)
-    }
-    
-    init(layout: Layout, delegate: WidgetDelegate?) {
-        super.init(frame: CGRectZero)
-        
+    init(layout: Layout, delegate: WidgetDelegate) {
         self.delegate = delegate
         
+        super.init(frame: CGRectZero)
+        
         setupView(layout)
+        
+        self.enabled = false
     }
-
+    
+    func enable(enable: Bool) {
+        self.userInteractionEnabled = enable
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("StoryBoards are not supported!")
     }
     
     func setupView(layout: Layout) {
+        fatalError("Override")
+    }
+    
+    func setValue(value: NSObject) -> Bool {
+        fatalError("Override")
+    }
+}
+
+extension QLType {
+    func widgetView(layout: Layout, delegate: WidgetDelegate) -> ViewWidget {
         fatalError("Override")
     }
 }

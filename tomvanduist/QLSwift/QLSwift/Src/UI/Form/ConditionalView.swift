@@ -13,9 +13,12 @@ class ConditionalView: BaseView, ViewContainable {
     let heightConstraint: NSLayoutConstraint
     
     private let conditional: QLConditional
+    private let context: QLContext
     
-    init(conditional: QLConditional) {
+    init(conditional: QLConditional, context: QLContext) {
         self.conditional = conditional
+        self.context = context
+        
         heightConstraint = NSLayoutConstraint(item: viewContainer, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 0)
         
         super.init(frame: CGRectZero)
@@ -41,7 +44,7 @@ class ConditionalView: BaseView, ViewContainable {
     override func reloadView() {
         super.reloadView()
 
-//        self.heightConstraint.active = !self.conditional.isSatisfied()
+        self.heightConstraint.active = !self.conditional.isSatisfied(context)
         
         UIView.animateWithDuration(kAnimationDuration) {
             self.layoutIfNeeded()

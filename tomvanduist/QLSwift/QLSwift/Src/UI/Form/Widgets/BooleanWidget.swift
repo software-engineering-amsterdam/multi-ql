@@ -8,40 +8,41 @@
 
 import UIKit
 
-//class BooleanWidget: ViewWidget {
-//    let booleanField: BooleanField
-//    let toggle: UISwitch
-//    
-//    init(layout: Layout, delegate: WidgetDelegate?, booleanField: BooleanField) {
-//        self.booleanField = booleanField
-//        
-//        toggle = UISwitch()
-//        
-//        super.init(layout: layout, delegate: delegate)
-//        
-//        toggle.on = booleanField.value
-//        toggle.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("StoryBoards are not supported!")
-//    }
-//    
-//    override func setupView(layout: Layout) {
-//        
-//        if toggle.superview == nil {
-//            self.addSubview(toggle)
-//            
-//            toggle.snp_makeConstraints { [unowned self] (make) -> Void in
-//                make.top.equalTo(self.snp_top).offset(layout.margin.top)
-//                make.right.equalTo(self.snp_right).offset(layout.margin.right)
-//                make.bottom.equalTo(self.snp_bottom).offset(layout.margin.bottom)
-//            }
-//        }
-//    }
-//    
-//    internal func valueChanged(sender: UISwitch) {
-//        booleanField.value = sender.on
-//        delegate?.widgetChangedValue(self, value: sender.on)
-//    }
-//}
+class BooleanWidget: ViewWidget {
+    let toggle: UISwitch = UISwitch()
+    
+    override func setupView(layout: Layout) {
+        if toggle.superview == nil {
+            toggle.on = false
+            toggle.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
+            
+            self.addSubview(toggle)
+            
+            toggle.snp_makeConstraints { [unowned self] (make) -> Void in
+                make.top.equalTo(self.snp_top).offset(layout.margin.top)
+                make.right.equalTo(self.snp_right).offset(layout.margin.right)
+                make.bottom.equalTo(self.snp_bottom).offset(layout.margin.bottom)
+            }
+        }
+    }
+    
+    override func setValue(value: NSObject) -> Bool {
+        guard let boolValue = value as? Bool
+            else { return false }
+        
+        toggle.on = boolValue
+        
+        return true
+    }
+    
+    internal func valueChanged(sender: UISwitch) {
+        delegate.widgetChangedValue(self, value: sender.on)
+    }
+}
+
+
+extension QLBooleanType {
+    func widgetView(layout: Layout, delegate: WidgetDelegate) -> ViewWidget {
+        return BooleanWidget(layout: layout, delegate: delegate)
+    }
+}

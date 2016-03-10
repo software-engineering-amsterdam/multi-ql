@@ -17,7 +17,7 @@ import Foundation
 //    
 //    func createWidgetView(expression: BooleanField) -> ViewWidget
 //    func createWidgetView(expression: StringField) -> ViewWidget
-//    func createWidgetView(expression: MoneyField) -> ViewWidget
+//    func createWidgetView(expression: QLMoney) -> ViewWidget
 //    func createWidgetView(expression: QLExpression) -> ViewWidget
 //}
 //

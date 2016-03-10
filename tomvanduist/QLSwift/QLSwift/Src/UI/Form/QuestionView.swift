@@ -8,14 +8,44 @@
 
 import UIKit
 
-class QuestionView: BaseView, ViewContainable {
+class QuestionView: BaseView, ViewContainable, WidgetDelegate, QLTypeVisitor {
+    typealias QLTypeVisitorParam    = (layout: Layout, delegate: WidgetDelegate)
+    typealias QLTypeVisitorReturn   = ViewWidget
+    
     internal let viewContainer = BaseView()
+    private let context: QLContext
+    private let identifier: String
     
     
-    convenience init(layout: Layout, question: QLComputedQuestion, widget: ViewWidget) {
-        self.init(frame: CGRectZero)
+    init(layout: Layout, question: QLVariableQuestion, context: QLContext) {
+        self.context = context
+        self.identifier = question.identifier.id
+        
+        super.init(frame: CGRectZero)
+        
+        let widget = question.type.accept(self, param: (layout, self))
         
         setupView(layout, question: question, widget: widget)
+    }
+    
+    init(layout: Layout, question: QLComputedQuestion, type: QLType, context: QLContext) {
+        self.context = context
+        self.identifier = question.identifier.id
+        
+        super.init(frame: CGRectZero)
+        
+        let widget = type.accept(self, param: (layout, self))
+        widget.enabled = false
+        
+        setupView(layout, question: question, widget: widget)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Storyboards are not supported!")
+    }
+    
+    func widgetChangedValue(widget: Widget, value: NSObject) {
+        context.assign(identifier, value: value)
     }
     
     private func setupView(layout: Layout, question: QLQuestion, widget: ViewWidget) {
@@ -65,5 +95,28 @@ class QuestionView: BaseView, ViewContainable {
             make.bottom.equalTo(self.snp_bottom)
             make.height.equalTo(1)
         }
+    }
+}
+
+
+extension QuestionView {
+    func visit(node: QLStringType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
+        return node.widgetView(param.layout, delegate: param.delegate)
+    }
+    
+    func visit(node: QLBooleanType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
+        return node.widgetView(param.layout, delegate: param.delegate)
+    }
+    
+    func visit(node: QLIntegerType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
+        return node.widgetView(param.layout, delegate: param.delegate)
+    }
+    
+    func visit(node: QLUnknownType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
+        fatalError()
+    }
+    
+    func visit(node: QLVoidType, param: (layout: Layout, delegate: WidgetDelegate)) -> ViewWidget {
+        fatalError()
     }
 }

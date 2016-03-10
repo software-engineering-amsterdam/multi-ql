@@ -1,8 +1,8 @@
 form testForm1 {
-    booleanResult1 : "text" booleanResult
-    booleanResult   : "Enter boolean" true
+    booleanResult1 : "Boolean result" booleanResult
+    booleanResult  : "Enter boolean" boolean
 
-    if (booleanResult1) {
+    if (booleanResult) {
         moneyResult     : "Enter money"     integer
         moneyResult1    : "Result:"         moneyResult
 
