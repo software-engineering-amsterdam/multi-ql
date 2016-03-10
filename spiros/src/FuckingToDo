@@ -30,4 +30,6 @@
 
 --> instead of using getter when i add a panel: - class extends JPanel+@suppresswarning - anti gia panel.add(question) : question.add(panel)
 
+--> purifyLabel @ MyQLVisitor
+
 ###########################################################

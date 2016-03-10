@@ -18,7 +18,7 @@ import org.antlr.v4.runtime.tree.*;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.questionnaire.Questionnaire;
 import org.uva.sea.ql.ast.visitor.MyQLVisitor;
-import org.uva.sea.ql.gui.QlGUI;
+import org.uva.sea.ql.gui.QlGUIBuilder;
 import org.uva.sea.ql.type_checker.TypeChecker;
  
 
@@ -39,9 +39,9 @@ public class TestGrammar {
 		ParseTree parseTree = parser.form();
 		MyQLVisitor visitor = new MyQLVisitor();
 		//Questionnaire ast = (Questionnaire) parseTree.accept(visitor);
-		Form ast = (Form) parseTree.accept(visitor);
+		Form astForm = (Form) parseTree.accept(visitor);
 		
-		TypeChecker typeChecker = new TypeChecker(ast);
+		TypeChecker typeChecker = new TypeChecker(astForm);
 		typeChecker.performTypeChecking();
 		
 //	    JFrame frame = new JFrame("Generated Parse Tree");
@@ -55,7 +55,6 @@ public class TestGrammar {
 //	    frame.setSize(1200,600);
 //	    frame.setVisible(true);
 	    
-	    QlGUI gui = new QlGUI();
-		gui.visitForm(ast);
+	    QlGUIBuilder gui = new QlGUIBuilder(astForm);
 		}
 }
