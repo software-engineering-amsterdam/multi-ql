@@ -4,7 +4,7 @@ class Evaluator extends ValueReceiver {
 	evaluate(value, ...args) {
 		return value.dispatch(this, ...args);
 	}
-	receiveType() {
+	receiveValue() {
 		return new UndefinedValue();
 	}
 }
