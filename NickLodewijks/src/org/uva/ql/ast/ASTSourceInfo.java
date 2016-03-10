@@ -28,12 +28,16 @@ public class ASTSourceInfo {
 		column = context.getStart().getCharPositionInLine() + 1;
 	}
 
-	public String getText() {
+	public String getSourceLocation() {
+		return "[" + line + ": " + column + "]";
+	}
+
+	public String getSourceText() {
 		return text;
 	}
 
 	@Override
 	public String toString() {
-		return "[" + line + ": " + column + "]";
+		return getSourceLocation() + " " + getSourceText();
 	}
 }

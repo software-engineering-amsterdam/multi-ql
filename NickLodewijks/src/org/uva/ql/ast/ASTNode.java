@@ -13,11 +13,11 @@ public abstract class ASTNode {
 	}
 
 	public final String getSourceLocation() {
-		return sourceInfo.toString();
+		return sourceInfo.getSourceLocation();
 	}
 
 	public final String getSourceText() {
-		return sourceInfo.getText();
+		return sourceInfo.getSourceText();
 	}
 
 	@Override
