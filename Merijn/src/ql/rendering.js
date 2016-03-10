@@ -1,8 +1,7 @@
 import * as _ from 'lodash';
-import * as ast from 'src/ql/ast';
-import * as types from 'src/ql/types';
-import * as values from 'src/ql/values';
-import * as evaluation from 'src/ql/evaluation';
+import { NodeVisitor, RecursingVisitor, AndNode, NotNode, LiteralNode} from 'src/ql/ast';
+import { BooleanValue, UndefinedValue } from 'src/ql/values';
+import { BooleanType } from 'src/ql/types';
 import { Observable } from 'src/ql/observable';
 import { WidgetFactory } from 'src/ql/widgets';
 import { ExprEvaluator } from 'src/ql/expr_evaluation';
@@ -10,7 +9,7 @@ import { ExprEvaluator } from 'src/ql/expr_evaluation';
 class Variable extends Observable {
 	constructor() {
 		super();
-		this._value = new values.UndefinedValue();
+		this._value = new UndefinedValue();
 	}
 	getValue() {
 		return this._value;
@@ -35,16 +34,16 @@ class VariableMap {
 	}
 }
 
-export class QuestionCollector extends ast.RecursingVisitor {
+export class QuestionCollector extends RecursingVisitor {
 	collect(node, questionCollection) {
-		node.accept(this, new ast.LiteralNode(null, new types.BooleanType(), new values.BooleanValue(true)), questionCollection);
+		node.accept(this, new LiteralNode(null, new BooleanType(), new BooleanValue(true)), questionCollection);
 	}
 	visitIfNode(ifNode, condition, questionCollection) {
-		ifNode.thenBlock.accept(this, new ast.AndNode(null, condition, ifNode.condition), questionCollection);
+		ifNode.thenBlock.accept(this, new AndNode(null, condition, ifNode.condition), questionCollection);
 	}
 	visitIfElseNode(ifElseNode, condition, questionCollection) {
 		this.visitIfNode(ifElseNode, condition, questionCollection);
-		ifElseNode.elseBlock.accept(this, new ast.AndNode(null, condition, new ast.NotNode(null, ifElseNode.condition)), questionCollection);
+		ifElseNode.elseBlock.accept(this, new AndNode(null, condition, new NotNode(null, ifElseNode.condition)), questionCollection);
 	}
 	visitQuestionNode(questionNode, condition, questionCollection) {
 		questionCollection.addQuestion(questionNode, condition);
@@ -112,7 +111,7 @@ export class WidgetStatusBinder {
 	}
 }
 
-class ExprBinder extends ast.NodeVisitor {
+class ExprBinder extends NodeVisitor {
 	listen(expr, listener, variableMap) {
 		return expr.accept(this, listener, variableMap, []);
 	}
@@ -133,7 +132,7 @@ class ExprBinder extends ast.NodeVisitor {
 	}
 }
 
-export class QuestionRenderer extends ast.NodeVisitor {
+export class QuestionRenderer extends NodeVisitor {
 	constructor(elementFactory) {
 		super();
 		this.elementFactory = elementFactory;
@@ -145,7 +144,7 @@ export class QuestionRenderer extends ast.NodeVisitor {
 		questionNode.accept(this, condition, containerElement, widgetFactory);
 	}
 	isTrue(condition) {
-		return this.exprEvaluator.evaluate(condition, this.variableMap).equals(new values.BooleanValue(true));
+		return this.exprEvaluator.evaluate(condition, this.variableMap).equals(new BooleanValue(true));
 	}
 	visitQuestionNode(questionNode, condition, containerElement, widgetFactory) {
 		let widgetBinder = WidgetStatusBinder.render(this.elementFactory, questionNode.description, questionNode.type, this.variableMap.get(questionNode.name), this.isTrue(condition), containerElement, widgetFactory);
