@@ -38,7 +38,11 @@ extension FormViewController {
         guard let symbolTable = try? TypeInferer().inferTypes(form)
             else { return }
         
-        let context = QLContext(form: form, symbolTable: symbolTable)
+        
+        let questionnaire = QuestionnaireBuilder().build(form, symbolTable: symbolTable)
+        
+        
+        let context = QLContext(form: form)
         
         let view = formViewBuilder.buildFormView(self.form, context: context)
         

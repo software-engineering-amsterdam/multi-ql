@@ -10,10 +10,10 @@ import Foundation
 
 class QLContext {
     private var variableContext = [String: NSObject]()
-    private var computedContext = [String: (type: QLType, expression: QLExpression)]()
+    private var computedContext = [String: QLExpression]()
     
-    required init(form: QLForm, symbolTable: SymbolTable) {
-        setDefaults(form, symbolTable: symbolTable)
+    required init(form: QLForm) {
+        setDefaults(form)
     }
     
     func assign(identifier: String, value: NSObject) {
@@ -21,14 +21,7 @@ class QLContext {
     }
     
     func assign(identifier: String, expression: QLExpression) {
-        guard let (type, _) = computedContext[identifier]
-            else { fatalError("This is not the context that you are looking for") }
-        
-        computedContext[identifier] = (type, expression)
-    }
-    
-    func assign(identifier: String, object: (QLType, QLExpression)) {
-        computedContext[identifier] = object
+        computedContext[identifier] = expression
     }
     
     func retrieve(identifier: String) -> NSObject {
@@ -36,61 +29,43 @@ class QLContext {
             return value
         }
         
-        guard let (_, expression) = computedContext[identifier]
+        guard let expression = computedContext[identifier]
             else { fatalError("This is not the context that you are looking for") }
         
         return expression.eval(self)
     }
     
-    func retrieveType(computedQuestion: QLComputedQuestion) -> QLType {
-        guard let (type, _) = computedContext[computedQuestion.identifier.id]
-            else { fatalError("This is not the context that you are looking for") }
-        
-        return type
-    }
-    
-    private func setDefaults(form: QLForm, symbolTable: SymbolTable) {
-        form.block.accept(QLContextVisitor(context: self, symbolTable: symbolTable), param: nil)
+    private func setDefaults(form: QLForm) {
+        form.block.accept(QLContextVisitor(), param: self)
     }
 }
 
 
 private class QLContextVisitor: QLStatementVisitor {
     
-    typealias QLStatementVisitorParam   = Void?
-    typealias QLStatementVisitorReturn  = Void
-    
-    let context: QLContext
-    let symbolTable: SymbolTable
-    
-    init(context: QLContext, symbolTable: SymbolTable) {
-        self.context = context
-        self.symbolTable = symbolTable
-    }
+    typealias QLStatementVisitorParam   = QLContext
+    typealias QLExpressionVisitorParam  = QLContext
     
     
     // MARK: - QLStatementVisitor conformance
     
-    func visit(node: QLBlock, param: Void?) -> Void {
+    func visit(node: QLBlock, param: QLContext) -> Void {
         for statement in node.block {
             statement.accept(self, param: param)
         }
     }
     
-    func visit(node: QLConditional, param: Void?) -> Void {
+    func visit(node: QLConditional, param: QLContext) -> Void {
         for statement in node.ifBlock.block {
             statement.accept(self, param: param)
         }
     }
     
-    func visit(node: QLVariableQuestion, param: Void?) -> Void {
-        context.assign(node.identifier.id, value: node.type.defaultValue)
+    func visit(node: QLVariableQuestion, param: QLContext) -> Void {
+        param.assign(node.identifier.id, value: node.type.defaultValue)
     }
     
-    func visit(node: QLComputedQuestion, param: Void?) -> Void {
-        guard let type = symbolTable.retrieveType(node.identifier.id)
-            else { fatalError("This is not the context that you are looking for") }
-        
-        context.assign(node.identifier.id, object: (type, node.expression))
+    func visit(node: QLComputedQuestion, param: QLContext) -> Void {
+        param.assign(node.identifier.id, expression: node.expression)
     }
 }
