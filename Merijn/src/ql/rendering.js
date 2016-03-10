@@ -58,19 +58,19 @@ export class WidgetStatusBinder {
 		this._enabled = enabled;
 
 		this._wrappedWidget.listen(() => {
-			this.updateVariable();
+			this.updateVariableIfEnabled();
 		});
 		this._variable.listen(() => {
-			this.updateWidgetValue();
+			this.updateWidgetIfEnabled();
 		});
-		this.updateWidgetValue();
+		this.updateVariableIfEnabled();
 	}
-	updateVariable() {
+	updateVariableIfEnabled() {
 		if (this._enabled === true) {
 			this._variable.setValue(this._wrappedWidget.getValue());
 		}
 	}
-	updateWidgetValue() {
+	updateWidgetIfEnabled() {
 		if (this._enabled === true) {
 			this._wrappedWidget.setValue(this._variable.getValue());
 		}
@@ -79,7 +79,7 @@ export class WidgetStatusBinder {
 		if (enabled !== this._enabled) {
 			this._enabled = enabled;
 			WidgetStatusBinder.setElementEnabled(this.containerElement, enabled);
-			this.updateVariable();
+			this.updateVariableIfEnabled();
 		}
 	}
 	setValue(value) {
