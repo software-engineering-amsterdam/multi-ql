@@ -41,18 +41,21 @@ public class Float extends Numeric {
         else if (x instanceof Int){
             return new Float(this.getLine(), this.value + ((Int) x).getValue());
         }
-        return null;
+        throw new ClassCastException();
     }
 
     @Override
     public Float Div(Numeric x) {
+        if (x.getValue().equals(0)){
+            throw new ClassCastException();
+        }
         if(x instanceof Float){
             return new Float(this.getLine(), this.value / ((Float) x).getValue());
         }
         else if (x instanceof Int){
             return new Float(this.getLine(), this.value / ((Int) x).getValue());
         }
-        return null;
+        throw new ClassCastException();
     }
 
     @Override
@@ -63,7 +66,7 @@ public class Float extends Numeric {
         else if (x instanceof Int){
             return new Float(this.getLine(), this.value * ((Int) x).getValue());
         }
-        return null;
+        throw new ClassCastException();
     }
 
     @Override
@@ -74,7 +77,7 @@ public class Float extends Numeric {
         else if (x instanceof Int){
             return new Float(this.getLine(), this.value - ((Int) x).getValue());
         }
-        return null;
+        throw new ClassCastException();
     }
 
     @Override

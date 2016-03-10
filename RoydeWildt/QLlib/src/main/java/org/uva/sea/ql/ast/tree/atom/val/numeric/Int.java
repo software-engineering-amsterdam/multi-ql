@@ -38,17 +38,17 @@ public class Int extends Numeric {
         if(x instanceof Int){
             return new Int(this.getLine(), this.value + (Integer) x.getValue());
         }
-        return null;
+        throw new ClassCastException();
     }
 
     @Override
     public Int Div(Numeric x) {
-        return null;
+        throw new ClassCastException();
     }
 
     @Override
     public Int Mul(Numeric x) {
-        return null;
+        throw new ClassCastException();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Int extends Numeric {
         if(x instanceof Int){
             return new Int(this.getLine(), this.value - (Integer) x.getValue());
         }
-        return null;
+        throw new ClassCastException();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Int extends Numeric {
 
     @Override
     public Int Neg() {
-        return null;
+        throw new ClassCastException();
     }
 
     @Override

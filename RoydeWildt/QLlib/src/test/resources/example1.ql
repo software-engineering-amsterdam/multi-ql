@@ -12,11 +12,11 @@ form taxOfficeExample {
   if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: money
-    "Private debts for the sold house:"
+    "Age of the house:"
       privateDebt: number
     "Value residue:"
       valueResidue: money =
-        (sellingPrice - privateDebt)
+        (sellingPrice / privateDebt)
     if (name == "roy"){
       "You get everything for free my man"
         free: boolean = (true)
