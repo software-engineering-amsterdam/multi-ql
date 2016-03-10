@@ -32,7 +32,7 @@ public class MainFrame {
 		panels.add(panel);
 	}
 	
-	public void updateMainFrame() {
+	public void addPanelsToMainFrame() {
 		for (Panel p : panels) {
 			mainFrame.add(p.getPanel(), "wrap");
 		}

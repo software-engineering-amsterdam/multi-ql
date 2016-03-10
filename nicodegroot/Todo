@@ -4,6 +4,7 @@ MUST
 - Create GUI
 - Create more tests
 - Good error handling
+- Seperate the symbol table so one is for the typechecker and the other one is for the evaluator (states).
 
 SHOULD
 - Fix line numbers in error messages
