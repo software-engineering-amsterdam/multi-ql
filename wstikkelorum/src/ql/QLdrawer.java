@@ -10,7 +10,7 @@ public class QLdrawer {
 	}
 	
 	public void drawForm(Form form, Context context){
-		new QLFrame(form);
+		new QLFrame(form, context);
 	}
 
 }

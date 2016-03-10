@@ -1,7 +1,5 @@
 package ql.gui;
 
-import java.awt.GridLayout;
-
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +15,7 @@ public class InputQuestionWidget extends UIElement{
 	public InputQuestionWidget(InputQuestion inputQuestion){
 		super(new JLabel(inputQuestion.getVariable().getIdentifier()),
 			  new JLabel(inputQuestion.getStr()));
+		//input component must show a (default) value as well
 		if(inputQuestion.getVariable().getType().getType() == Type.BOOLEAN){
 			inputComponent = new JRadioButton();
 		}else{
