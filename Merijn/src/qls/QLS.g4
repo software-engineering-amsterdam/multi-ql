@@ -28,12 +28,12 @@ typeDefaultStatement
 	;
 
 styleBlock
-	: '{' (styleStatement ';')* '}'
+	: '{' styleStatement* '}'
 	;
 
 styleStatement
-	: 'widget' widgetType       # widgetStyleStatement
-	| IDENTIFIER ':' literal    # argStyleStatement
+	: 'widget' widgetType ';'       # widgetStyleStatement
+	| IDENTIFIER ':' literal ';'    # argStyleStatement
 	;
 
 widgetType

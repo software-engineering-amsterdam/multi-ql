@@ -44,28 +44,31 @@ export class Parser extends GeneratedVisitor {
 		return new ast.SectionNode(ctx.start.line, ctx.STRING_LITERAL().getText().slice(1, -1), ctx.pageBlock().accept(this));
 	}
 	visitQuestionPageStatement(ctx) {
-		return new ast.QuestionNode(ctx.start.line);
+		return new ast.QuestionNode(ctx.start.line, ctx.IDENTIFIER().getText(), ctx.styleBlock().accept(this));
 	}
 	visitTypeDefaultPageStatement(ctx) {
 		return ctx.typeDefaultStatement().accept(this);
 	}
 	visitTypeDefaultStatement(ctx) {
-		return new ast.TypeDefaultNode();
+		return new ast.TypeDefaultNode(ctx.start.line, ctx.type().accept(this), ctx.styleBlock().accept(this));
 	}
 	visitStyleBlock(ctx) {
 		return new ast.StyleBlockNode(ctx.start.line, ctx.children.slice(1, -1).map((node) => node.accept(this)));
+	}
+	visitWidgetStyleStatement(ctx) {
+		return ctx.widgetType().accept(this);
 	}
 	visitArgStyleStatement(ctx) {
 		return new ast.WidgetArgNode(ctx.start.line, ctx.IDENTIFIER(), ctx.literal().accept(this));
 	}
 	visitSliderWidgetType(ctx) {
-		return new ast.SliderWidgetType(ctx.start.line);
+		return new ast.SliderWidgetNode(ctx.start.line);
 	}
 	visitTextWidgetType(ctx) {
-		return new ast.TextWidgetType(ctx.start.line);
+		return new ast.TextWidgetNode(ctx.start.line);
 	}
 	visitRadioWidgetType(ctx) {
-		return new ast.RadioWidgetType(ctx.start.line, ctx.valueOptionList().accept(this));
+		return new ast.RadioWidgetNode(ctx.start.line, ctx.valueOptionList().accept(this));
 	}
 	visitValueOptionList(ctx) {
 		return ctx.valueOptions().accept(this);
@@ -92,16 +95,16 @@ export class Parser extends GeneratedVisitor {
 		return new ast.LiteralNode(ctx.start.line, new types.MoneyType(), values.MoneyValue.fromString(ctx.getText()));
 	}
 	visitType(ctx) {
-		switch (ctx.start.type) {
-			case GeneratedParser.TYPE_BOOLEAN:
+		switch (ctx.getText()) {
+			case 'boolean':
 				return new types.BooleanType();
-			case GeneratedParser.TYPE_STRING:
+			case 'string':
 				return new types.StringType();
-			case GeneratedParser.TYPE_INTEGER:
+			case 'integer':
 				return new types.IntegerType();
-			case GeneratedParser.TYPE_FLOAT:
+			case 'float':
 				return new types.FloatType();
-			case GeneratedParser.TYPE_MONEY:
+			case 'money':
 				return new types.MoneyType();
 			default:
 				throw new Error("Unexpected type `" + ctx.getText() + "`");
