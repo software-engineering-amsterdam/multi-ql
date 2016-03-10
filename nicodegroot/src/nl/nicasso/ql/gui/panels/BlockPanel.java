@@ -9,11 +9,6 @@ import net.miginfocom.swing.MigLayout;
 
 public class BlockPanel extends Panel {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4055866889146394322L;
-	
 	private List<Panel> panels;
 
 	private JPanel panel;

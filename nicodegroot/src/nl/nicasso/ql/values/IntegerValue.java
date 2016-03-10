@@ -28,7 +28,7 @@ public class IntegerValue extends Value {
 
 	@Override
 	public Value addition(Value arg) {
-		return arg.additionToInteger(this);
+		return new IntegerValue(value + (Integer) arg.getValue());
 	}	
 	
 	@Override

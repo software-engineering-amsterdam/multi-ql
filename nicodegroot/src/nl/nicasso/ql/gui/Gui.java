@@ -13,7 +13,6 @@ import nl.nicasso.ql.ast.types.IntegerType;
 import nl.nicasso.ql.ast.types.MoneyType;
 import nl.nicasso.ql.ast.types.StringType;
 import nl.nicasso.ql.gui.panels.BlockPanel;
-import nl.nicasso.ql.gui.panels.ControlPanel;
 import nl.nicasso.ql.gui.panels.IfElseStatementPanel;
 import nl.nicasso.ql.gui.panels.IfStatementPanel;
 import nl.nicasso.ql.gui.panels.Panel;
@@ -36,9 +35,8 @@ public class Gui implements StructureVisitor<Panel>, StatementVisitor<Panel, Voi
 	
 	private SymbolTable symbolTable;
 	
-	public Gui(SymbolTable symbolTable) {
-		// Maybe move this to visit form?
-		main = new MainFrame();
+	public Gui(SymbolTable symbolTable, MainFrame main) {
+		this.main = main;
 		
 		this.symbolTable = symbolTable;
 	}

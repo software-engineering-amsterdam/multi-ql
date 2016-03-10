@@ -1,42 +1,44 @@
 package nl.nicasso.ql.gui.questionFields.listeners;
 
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.math.BigDecimal;
+
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
 
 import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.values.StringValue;
 
-public class TextFieldListener extends FieldListener implements DocumentListener {
+public class TextFieldListener extends FieldListener implements KeyListener {
 
 	public TextFieldListener(Identifier identifier) {
 		super(identifier);
 	}
 
 	@Override
-	public void insertUpdate(DocumentEvent e) {
-		documentEventGetValue(e);
+	public void keyTyped(KeyEvent e) {
+		
 	}
 
 	@Override
-	public void removeUpdate(DocumentEvent e) {
-		documentEventGetValue(e);
+	public void keyPressed(KeyEvent e) {
+		
 	}
 
 	@Override
-	public void changedUpdate(DocumentEvent e) {
-		documentEventGetValue(e);
+	public void keyReleased(KeyEvent e) {
+		JTextField source = (JTextField) e.getSource();
+		respondToAction(source.getText());
 	}
 	
-	private void documentEventGetValue(DocumentEvent e) {
-		String value;
-		
-		try {
-			value = e.getDocument().getText(0, e.getLength());
-			fieldValueChanged(new StringValue(value));
-		} catch (BadLocationException e1) {
-			e1.printStackTrace();
-		}
+	
+	private void respondToAction(String value) {
+		fieldValueChanged(new StringValue(value));
 	}
 
 }

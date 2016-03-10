@@ -1,5 +1,6 @@
 package nl.nicasso.ql.gui.panels;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -13,26 +14,29 @@ import nl.nicasso.ql.values.Value;
 
 public class QuestionPanel extends Panel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8940568963006272156L;
-	
 	private JPanel panel;
 	
 	public QuestionPanel(Question q, QuestionField field, SymbolTable symbolTable) {
-		 panel = new JPanel(new GridLayout(2, 1));
+		 panel = new JPanel(new GridLayout(2,2));
 		 
 		 addQuestionLabel(q);
+		 panel.add(new JPanel());		 
 		 addQuestionField(q, field, symbolTable);
+		 addLabelForFeedback();
 	}
 	
 	public void addQuestionLabel(Question q) {
-		// Remove the quotes by modifying the grammar
 		Label questionLabel = new Label(q.getLabel());
 		questionLabel.setFont(new Font("Arial", 0, 100));
 		
 		panel.add(questionLabel.getWidget());
+	}
+	
+	public void addLabelForFeedback() {
+		Label feedback = new Label("");
+		feedback.setFont(new Font("Arial", 0, 100));
+		
+		panel.add(feedback.getWidget());
 	}
 	
 	public void addQuestionField(Question q, QuestionField field, SymbolTable symbolTable) {	

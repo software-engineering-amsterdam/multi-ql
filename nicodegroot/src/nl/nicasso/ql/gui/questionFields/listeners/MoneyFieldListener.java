@@ -1,44 +1,42 @@
 package nl.nicasso.ql.gui.questionFields.listeners;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
+import javax.swing.JTextField;
 
 import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.values.MoneyValue;
 
-public class MoneyFieldListener extends FieldListener implements DocumentListener {
+public class MoneyFieldListener extends FieldListener implements KeyListener {
 
 	public MoneyFieldListener(Identifier identifier) {
 		super(identifier);
 	}
 
 	@Override
-	public void insertUpdate(DocumentEvent e) {
-		documentEventGetValue(e);
-	}
-
-	@Override
-	public void removeUpdate(DocumentEvent e) {
-		documentEventGetValue(e);	
-	}
-
-	@Override
-	public void changedUpdate(DocumentEvent e) {
-		documentEventGetValue(e);
-	}
-
-	private void documentEventGetValue(DocumentEvent e) {
-		BigDecimal value;
+	public void keyTyped(KeyEvent e) {
 		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		try {
-			value = BigDecimal.valueOf(Double.valueOf(e.getDocument().getText(0, e.getDocument().getLength())));
-			fieldValueChanged(new MoneyValue(value));
-		} catch (BadLocationException e1) {
-			e1.printStackTrace();
+			JTextField source = (JTextField) e.getSource();
+			respondToAction(BigDecimal.valueOf(Double.parseDouble(source.getText())));
+		} catch (Exception ex) {
+			System.out.println("LEER TYPEN");
 		}
+	}
+	
+	private void respondToAction(BigDecimal value) {
+		fieldValueChanged(new MoneyValue(value));
 	}
 
 }
