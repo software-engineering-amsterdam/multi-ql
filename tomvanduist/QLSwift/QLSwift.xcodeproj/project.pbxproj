@@ -107,6 +107,7 @@
 		E2E3FE2F1C91A18D0007E894 /* IntegerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */; };
 		E2E3FE301C91A18D0007E894 /* TextWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE251C91A18D0007E894 /* TextWidget.swift */; };
 		E2E3FE311C91A18D0007E894 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE261C91A18D0007E894 /* Widget.swift */; };
+		E2E3FE331C91BD7B0007E894 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE321C91BD7B0007E894 /* UITextField.swift */; };
 		E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */; };
 		E2F0A2FA1C75CE5900D0C1AB /* QLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* QLType.swift */; };
 		E2F149A81C75DF88009BB7BC /* QLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* QLType.swift */; };
@@ -239,6 +240,7 @@
 		E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerWidget.swift; sourceTree = "<group>"; };
 		E2E3FE251C91A18D0007E894 /* TextWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWidget.swift; sourceTree = "<group>"; };
 		E2E3FE261C91A18D0007E894 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
+		E2E3FE321C91BD7B0007E894 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITextField.swift; path = Src/Extensions/UITextField.swift; sourceTree = "<group>"; };
 		E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CyclicDependency.ql; path = Resources/QL/SemanticAnalyzerTests/CyclicDependency.ql; sourceTree = "<group>"; };
 		E2F0A2F91C75CE5900D0C1AB /* QLType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLType.swift; path = Src/Parser/AST/QLType.swift; sourceTree = "<group>"; };
 		E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeInsets.swift; path = Src/Extensions/UIEdgeInsets.swift; sourceTree = "<group>"; };
@@ -554,6 +556,7 @@
 				E2A5AAB01C6CDF350009E869 /* StringExtension.swift */,
 				E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */,
 				E2D5188E1C6D6F19008030C4 /* UIView.swift */,
+				E2E3FE321C91BD7B0007E894 /* UITextField.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -838,6 +841,7 @@
 				E26CC92E1C6B8A260042B5FF /* QLForm.swift in Sources */,
 				E20B2B081C884FD00096BA51 /* QLStatementVisitor.swift in Sources */,
 				E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */,
+				E2E3FE331C91BD7B0007E894 /* UITextField.swift in Sources */,
 				E23493101C6CD55000B40020 /* SymbolTable.swift in Sources */,
 				E20B2B121C8851950096BA51 /* QLExpressionVisitor.swift in Sources */,
 				E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */,

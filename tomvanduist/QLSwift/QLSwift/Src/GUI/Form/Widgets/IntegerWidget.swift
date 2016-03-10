@@ -17,7 +17,8 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
             textField.borderStyle = .Line
             textField.textAlignment = .Right
             textField.delegate = self
-            textField.placeholder = "0"
+            textField.placeholder = ""
+            textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
             
             self.addSubview(textField)
             
@@ -58,13 +59,17 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidEndEditing(sender: UITextField) {
+    func textFieldDidChange(textField: UITextField) {
+        notifyDelegate(textField.text)
+    }
+    
+    private func notifyDelegate(value: String?) {
         var newValue: NSInteger!
         
-        if sender.text == nil || sender.text!.characters.count == 0 {
+        if value == nil || value!.characters.count == 0 {
             newValue = 0
         } else {
-            newValue = NSInteger(sender.text!)
+            newValue = NSInteger(value!)
         }
         
         delegate?.widgetChangedValue(self, value: newValue)

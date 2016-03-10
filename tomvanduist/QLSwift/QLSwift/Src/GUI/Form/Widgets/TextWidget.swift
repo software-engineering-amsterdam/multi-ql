@@ -12,15 +12,15 @@ import UIKit
 let kTextPlaceholder = "Enter text"
 
 
-class TextWidget: ViewWidget, UITextFieldDelegate {
+class TextWidget: ViewWidget {
     private let textField: UITextField = UITextField()
     
     override func setupView(layout: Layout) {
         if textField.superview == nil {
             textField.borderStyle = .Line
-            textField.delegate = self
             textField.text = ""
             textField.placeholder = kTextPlaceholder
+            textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
             
             self.addSubview(textField)
             
@@ -50,8 +50,12 @@ class TextWidget: ViewWidget, UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidEndEditing(sender: UITextField) {
-        delegate?.widgetChangedValue(self, value: (sender.text != nil) ? sender.text! : "")
+    func textFieldDidChange(textField: UITextField) {
+        notifyDelegate(textField.text)
+    }
+    
+    private func notifyDelegate(value: String?) {
+        delegate?.widgetChangedValue(self, value: (value != nil) ? value! : "")
     }
 }
 
