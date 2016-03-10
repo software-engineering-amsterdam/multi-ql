@@ -9,22 +9,26 @@
 import Foundation
 
 
-typealias Object = (type: QLType, question: QLQuestion)
+typealias Symbol = (type: QLType, question: QLQuestion)
 
 internal class SymbolTable {
-    let parent: SymbolTable?
-    private var symbolTable = [String: Object]()
+    private var symbolTable = [String: Symbol]()
     
-    init(parent: SymbolTable? = nil) {
-        self.parent = parent
-    }
     
-    func assign(identifier: String, object: Object) throws {
+    func assign(identifier: String, symbol: Symbol) throws {
         if symbolTable[identifier] == nil {
-            symbolTable[identifier] = object
+            symbolTable[identifier] = symbol
         }
         else {
-            throw MultipleDeclarations(description: "Identifier is already declared: \(identifier)")
+            let currentType = retrieveType(identifier)
+            
+            if currentType! === QLUnknownType.self {
+                symbolTable[identifier] = symbol
+            } else if currentType! === symbol.type  {
+                throw OverridingVariable(description: "The variable \'\(identifier)\' overrides an earlier instance.")
+            } else {
+                throw MultipleDeclarations(description: "The variable \'\(identifier)\' is multiply declared as both \'\(currentType!.toString())\' and \'\(symbol.type.toString())\'")
+            }
         }
     }
     
@@ -36,10 +40,11 @@ internal class SymbolTable {
         return retrieve(identifier)?.question
     }
     
-    func retrieve(identifier: String) -> Object? {
+    func retrieve(identifier: String) -> Symbol? {
         if let o = symbolTable[identifier] {
             return o
         }
-        return parent?.retrieve(identifier)
+        
+        return nil
     }
 }

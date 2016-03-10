@@ -1,6 +1,7 @@
 package nl.uva.sea.ql;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.*;
 import java.util.*;
 import javax.swing.JFileChooser;
@@ -141,6 +142,11 @@ public class Main {
      * presented to the user in one list.
      */
     public static final String WARNING_LABEL = " (warning)";
+    
+    /**
+     * Header predended when something is written to an xml-file.
+     */
+    public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     
     /**
      * Main method that asks the user to select a ql-file, type checks it and
@@ -404,9 +410,12 @@ public class Main {
      * @param destination a <code>String</code> containing the path to write to
      */
     private static void writeToXml(Object toWrite, String destination) {
-        XStream xmlConverter = new XStream();
+        XStream xmlConverter = new XStream(new DomDriver());
         String answersXml = xmlConverter.toXML(toWrite);
+        String systemNewLineCharacter = System.getProperty("line.separator");
         try (FileWriter writer = new FileWriter(destination)) {
+            writer.write(XML_HEADER);
+            writer.write(systemNewLineCharacter);
             writer.write(answersXml);
         }
         catch (IOException ioe) {

@@ -7,20 +7,20 @@ import ql.ast.visitor.Visitor;
 
 public class Question extends TreeNode implements Visitable {
 	private final Variable variable;
-	private final String str;
+	private final String questionString;
 
-	public Question(int lineNumber, Variable variable, String str) {
+	public Question(int lineNumber, Variable variable, String questionString) {
 		super(lineNumber);
 		this.variable = variable;
-		this.str = str;
+		this.questionString = questionString;
 	}
 
 	public Variable getVariable() {
 		return variable;
 	}
 
-	public String getStr() {
-		return str;
+	public String getQuestionString() {
+		return questionString;
 	}
 
 	@Override
