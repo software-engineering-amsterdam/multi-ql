@@ -9,7 +9,7 @@
 import Foundation
 
 
-internal class TypeInferer: SemanticAnalysisRule, QLNodeVisitor {
+internal class TypeInferer: QLNodeVisitor {
     typealias QLStatementVisitorParam   = Void?
     typealias QLExpressionVisitorParam  = Void?
     typealias QLLiteralVisitorParam     = Void?
@@ -26,14 +26,19 @@ internal class TypeInferer: SemanticAnalysisRule, QLNodeVisitor {
     private var errors: [SemanticError] = []
     
     
-    func run(param: QLForm) -> SemanticAnalysisResult<SymbolTable> {
+    func inferTypes(form: QLForm) throws -> SymbolTable {
         defer {
             resetInternals()
         }
         
-        inferTypes(param)
+        form.block.accept(self, param: nil)
         
-        return SemanticAnalysisResult(generic: symbolTable, warnings: [], errors: errors)
+        
+        if errors.isEmpty {
+            return symbolTable
+        } else {
+            throw SemanticErrorCollection(errors: errors)
+        }
     }
 }
 
@@ -220,10 +225,6 @@ extension TypeInferer {
     
     private func resetInternals() {
         errors = []
-    }
-    
-    private func inferTypes(form: QLForm) {
-        form.block.accept(self, param: nil)
     }
     
     private func assignSymbol(identifier: QLIdentifier, symbol: Symbol) {

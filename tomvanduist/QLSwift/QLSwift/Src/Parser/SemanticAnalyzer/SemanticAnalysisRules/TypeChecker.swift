@@ -20,19 +20,16 @@ internal class TypeChecker: SemanticAnalysisRule, QLNodeVisitor {
     typealias QLLiteralVisitorReturn    = QLType
     typealias QLTypeVisitorReturn       = QLType
     
-    typealias GenericParam  = (form: QLForm, symbolTable: SymbolTable)
-    typealias GenericResult = Bool
-    
     private var symbolTable: SymbolTable!
     private var errors: [SemanticError] = []
     
     
-    func run(param: (form: QLForm, symbolTable: SymbolTable)) -> SemanticAnalysisResult<Bool> {
-        resetInternals(param.symbolTable)
+    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult {
+        resetInternals(symbolTable)
         
-        checkTypes(param.form)
+        checkTypes(form)
         
-        return SemanticAnalysisResult(generic: errors.isEmpty, warnings: [], errors: errors)
+        return SemanticAnalysisResult(success: errors.isEmpty, warnings: [], errors: errors)
     }
 }
 

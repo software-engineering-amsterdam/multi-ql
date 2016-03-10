@@ -42,8 +42,6 @@
 		E24CCE931C9049CC00ACA633 /* QLNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */; };
 		E24CCE961C9062A700ACA633 /* SemanticAnalysisRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */; };
 		E24CCE981C90631E00ACA633 /* TypeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE971C90631E00ACA633 /* TypeChecker.swift */; };
-		E24CCE9A1C90633600ACA633 /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE991C90633600ACA633 /* TypeInferer.swift */; };
-		E24CCE9B1C90633600ACA633 /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE991C90633600ACA633 /* TypeInferer.swift */; };
 		E24CCE9C1C90633900ACA633 /* TypeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE971C90631E00ACA633 /* TypeChecker.swift */; };
 		E24CCE9E1C90635000ACA633 /* ScopeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */; };
 		E24CCE9F1C90635000ACA633 /* ScopeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */; };
@@ -54,6 +52,8 @@
 		E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
 		E24CCEA81C90B10900ACA633 /* ValidTypeInference.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */; };
 		E24CCEA91C90B10900ACA633 /* ValidTypeInference.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */; };
+		E24CCEAE1C91780400ACA633 /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCEAD1C91780400ACA633 /* TypeInferer.swift */; };
+		E24CCEAF1C91780400ACA633 /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCEAD1C91780400ACA633 /* TypeInferer.swift */; };
 		E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D3B1C7DF1CA00AC42ED /* FormView.swift */; };
 		E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D401C7EFB8F00AC42ED /* EvalTests.swift */; };
 		E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
@@ -191,11 +191,11 @@
 		E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLNodeVisitor.swift; path = Src/Parser/AST/Visitors/QLNodeVisitor.swift; sourceTree = "<group>"; };
 		E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalysisRule.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/SemanticAnalysisRule.swift; sourceTree = "<group>"; };
 		E24CCE971C90631E00ACA633 /* TypeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/TypeChecker.swift; sourceTree = "<group>"; };
-		E24CCE991C90633600ACA633 /* TypeInferer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeInferer.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/TypeInferer.swift; sourceTree = "<group>"; };
 		E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScopeChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift; sourceTree = "<group>"; };
 		E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CyclicDependencyChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift; sourceTree = "<group>"; };
 		E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ScopedInvalid.ql; path = Resources/QL/SemanticAnalyzerTests/ScopedInvalid.ql; sourceTree = "<group>"; };
 		E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ValidTypeInference.ql; path = Resources/QL/SemanticAnalyzerTests/ValidTypeInference.ql; sourceTree = "<group>"; };
+		E24CCEAD1C91780400ACA633 /* TypeInferer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeInferer.swift; path = Src/Parser/SemanticAnalyzer/TypeInferer.swift; sourceTree = "<group>"; };
 		E2591D3B1C7DF1CA00AC42ED /* FormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormView.swift; path = Src/UI/Form/FormView.swift; sourceTree = "<group>"; };
 		E2591D401C7EFB8F00AC42ED /* EvalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EvalTests.swift; path = Src/Parser/EvalTests.swift; sourceTree = "<group>"; };
 		E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalAdd.ql; path = Resources/QL/EvalTests/EvalAdd.ql; sourceTree = "<group>"; };
@@ -310,6 +310,7 @@
 			children = (
 				E24CCE941C9060F800ACA633 /* SemanticAnalysisRules */,
 				E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */,
+				E24CCEAD1C91780400ACA633 /* TypeInferer.swift */,
 				E234930D1C6CCE6700B40020 /* SemanticError.swift */,
 				E234930F1C6CD55000B40020 /* SymbolTable.swift */,
 			);
@@ -323,7 +324,6 @@
 				E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */,
 				E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */,
 				E24CCE971C90631E00ACA633 /* TypeChecker.swift */,
-				E24CCE991C90633600ACA633 /* TypeInferer.swift */,
 			);
 			name = SemanticAnalysisRules;
 			sourceTree = "<group>";
@@ -828,8 +828,8 @@
 				E2FB4E041C8842DF00BDC988 /* QLNode.swift in Sources */,
 				E20B2B241C8891080096BA51 /* QLLiteralVisitor.swift in Sources */,
 				E24CCE9E1C90635000ACA633 /* ScopeChecker.swift in Sources */,
+				E24CCEAE1C91780400ACA633 /* TypeInferer.swift in Sources */,
 				E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */,
-				E24CCE9A1C90633600ACA633 /* TypeInferer.swift in Sources */,
 				E24CCEA11C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */,
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
 				E2360B7C1C7DA50900DEA51A /* FormViewBuilder.swift in Sources */,
@@ -901,9 +901,9 @@
 				E24CCEA31C906F7600ACA633 /* SemanticAnalysisRule.swift in Sources */,
 				E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */,
 				E20B2B191C8881C20096BA51 /* QLIdentifier.swift in Sources */,
+				E24CCEAF1C91780400ACA633 /* TypeInferer.swift in Sources */,
 				E20B2B221C888F660096BA51 /* QLLiteral.swift in Sources */,
 				E2D518AA1C700252008030C4 /* QLStatement.swift in Sources */,
-				E24CCE9B1C90633600ACA633 /* TypeInferer.swift in Sources */,
 				E21F69111C747CBE00EB9E09 /* Utils.swift in Sources */,
 				E20B2B131C8851950096BA51 /* QLExpressionVisitor.swift in Sources */,
 				E24CCE9C1C90633900ACA633 /* TypeChecker.swift in Sources */,

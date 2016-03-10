@@ -8,21 +8,18 @@
 
 import Foundation
 
-struct SemanticAnalysisResult<T> {
-    let generic: T
+struct SemanticAnalysisResult {
+    let success: Bool
     let errors: [SemanticError]
     let warnings: [SemanticWarning]
     
-    init(generic: T, warnings: [SemanticWarning], errors: [SemanticError]) {
-        self.generic = generic
+    init(success: Bool, warnings: [SemanticWarning], errors: [SemanticError]) {
+        self.success = success
         self.warnings = warnings
         self.errors = errors
     }
 }
 
 protocol SemanticAnalysisRule {
-    typealias GenericParam
-    typealias GenericResult
-    
-    func run(param: GenericParam) -> SemanticAnalysisResult<GenericResult>
+    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult
 }

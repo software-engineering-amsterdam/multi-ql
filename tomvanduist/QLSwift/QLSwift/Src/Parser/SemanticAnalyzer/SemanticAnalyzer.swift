@@ -12,20 +12,18 @@ import Foundation
 class SemanticAnalyzer {
     
     func analyze(form: QLForm) throws -> [SemanticWarning] {
+        
+        // Infer types
         let typeInferer = TypeInferer()
-        let typeChecker = TypeChecker()
-        let scopeChecker = ScopeChecker()
-        let cdChecker = CyclicDependencyChecker()
+        let symbolTable = try typeInferer.inferTypes(form)
         
+        // Perform remaining rules
+        var results: [SemanticAnalysisResult] = []
+        let semanticRules: [SemanticAnalysisRule] = [TypeChecker(), ScopeChecker(), CyclicDependencyChecker()]
         
-        let tiResult = typeInferer.run(form)
-        let symbolTable = tiResult.generic
-        
-        var results: [SemanticAnalysisResult<Bool>] = [SemanticAnalysisResult(generic: true, warnings: tiResult.warnings, errors: tiResult.errors)]
-        results.append(typeChecker.run((form: form, symbolTable: symbolTable)))
-        results.append(scopeChecker.run((form: form, symbolTable: symbolTable)))
-        results.append(cdChecker.run((form: form, symbolTable: symbolTable)))
-        
+        for rule in semanticRules {
+            results.append(rule.run(form, symbolTable: symbolTable))
+        }
         
         let errors = retrieveErrors(results)
         if !errors.isEmpty {
@@ -35,7 +33,7 @@ class SemanticAnalyzer {
         return retrieveWarnings(results)
     }
     
-    private func retrieveErrors<T>(semanticResults: [SemanticAnalysisResult<T>]) -> [SemanticError] {
+    private func retrieveErrors(semanticResults: [SemanticAnalysisResult]) -> [SemanticError] {
         var errors: [SemanticError] = []
         
         semanticResults.forEach { errors += $0.errors }
@@ -43,7 +41,7 @@ class SemanticAnalyzer {
         return errors
     }
     
-    private func retrieveWarnings<T>(semanticResults: [SemanticAnalysisResult<T>]) -> [SemanticWarning] {
+    private func retrieveWarnings(semanticResults: [SemanticAnalysisResult]) -> [SemanticWarning] {
         var warnings: [SemanticWarning] = []
         
         semanticResults.forEach { warnings += $0.warnings }

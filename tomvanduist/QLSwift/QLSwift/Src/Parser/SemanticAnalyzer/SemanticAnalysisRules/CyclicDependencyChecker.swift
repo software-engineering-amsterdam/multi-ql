@@ -20,18 +20,15 @@ internal class CyclicDependencyChecker: SemanticAnalysisRule, QLNodeVisitor {
     typealias QLLiteralVisitorReturn    = [SemanticError]
     typealias QLTypeVisitorReturn       = [SemanticError]
     
-    typealias GenericParam  = (form: QLForm, symbolTable: SymbolTable)
-    typealias GenericResult = Bool
-    
     private var symbolTable: SymbolTable = SymbolTable()
     
     
-    func run(param: (form: QLForm, symbolTable: SymbolTable)) -> SemanticAnalysisResult<Bool> {
-        resetInternals(param.symbolTable)
+    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult {
+        resetInternals(symbolTable)
         
-        let errors = checkCyclicDependencies(param.form)
+        let errors = checkCyclicDependencies(form)
         
-        return SemanticAnalysisResult(generic: errors.isEmpty, warnings: [], errors: errors)
+        return SemanticAnalysisResult(success: errors.isEmpty, warnings: [], errors: errors)
     }
     
     private func checkCyclicDependencies(form: QLForm) -> [SemanticError] {

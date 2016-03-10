@@ -32,21 +32,18 @@ internal class ScopeChecker: SemanticAnalysisRule, QLStatementVisitor, QLExpress
     typealias QLStatementVisitorReturn  = Void
     typealias QLExpressionVisitorReturn = Void
     
-    typealias GenericParam  = (form: QLForm, symbolTable: SymbolTable)
-    typealias GenericResult = Bool
-    
     private var scopedSymbolTable: ScopedSymbolTable = ScopedSymbolTable(parent: nil)
     private var symbolTable: SymbolTable!
     private var errors: [SemanticError] = []
     private var warnings: [SemanticWarning] = []
     
     
-    func run(param: (form: QLForm, symbolTable: SymbolTable)) -> SemanticAnalysisResult<Bool> {
-        resetInternals(param.symbolTable)
+    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult {
+        resetInternals(symbolTable)
         
-        checkScopes(param.form)
+        checkScopes(form)
         
-        return SemanticAnalysisResult(generic: errors.isEmpty, warnings: warnings, errors: errors)
+        return SemanticAnalysisResult(success: errors.isEmpty, warnings: warnings, errors: errors)
     }
 }
 
