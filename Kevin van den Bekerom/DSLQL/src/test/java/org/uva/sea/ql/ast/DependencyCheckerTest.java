@@ -7,7 +7,9 @@ import junit.framework.TestSuite;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.errors.QLError;
+import org.uva.sea.ql.graph.DependencyGraphBuilder;
 import org.uva.sea.ql.graph.Graph;
+import org.uva.sea.ql.typechecker.DependencyChecker;
 
 import java.io.IOException;
 import java.util.HashMap;

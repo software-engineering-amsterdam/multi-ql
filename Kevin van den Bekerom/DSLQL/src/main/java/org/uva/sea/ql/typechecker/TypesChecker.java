@@ -1,8 +1,9 @@
-package org.uva.sea.ql.ast;
+package org.uva.sea.ql.typechecker;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.expr.logic.And;
 import org.uva.sea.ql.ast.expr.logic.Eq;
@@ -22,19 +23,19 @@ import org.uva.sea.ql.ast.expr.math.Sub;
 import org.uva.sea.ql.type.BoolType;
 import org.uva.sea.ql.type.MoneyType;
 import org.uva.sea.ql.type.Type;
-import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.visit.LeftDFSVisitor;
+import org.uva.sea.ql.ast.form.TypeMap;
 import org.uva.sea.ql.ast.stat.ComputedQuestion;
 import org.uva.sea.ql.ast.stat.IfStatement;
-import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
 import org.uva.sea.ql.errors.QLError;
 
-public class TypesChecker extends LeftDFSVisitor<Context> {
+public class TypesChecker extends LeftDFSVisitor<TypeMap> {
 
 	//of context param weg, of 
 	private List<QLError> errors;
-	private Context context;
+	private TypeMap context;
 
-	private TypesChecker(Context context) {
+	private TypesChecker(TypeMap context) {
 		this.context = context;
 		errors = new ArrayList<QLError>();
 	}
@@ -42,73 +43,73 @@ public class TypesChecker extends LeftDFSVisitor<Context> {
 	//
 
 	@Override
-	public void visit(And and, Context context) {
+	public void visit(And and, TypeMap context) {
 		childrenOfType(and);
 		super.visit(and, null);
 	}
 
 	@Override
-	public void visit(Or or, Context context) {
+	public void visit(Or or, TypeMap context) {
 		childrenOfType(or);
 		super.visit(or, null);
 	}
 
 	@Override
-	public void visit(Not not, Context context) {
+	public void visit(Not not, TypeMap context) {
 		childrenOfType(not);
 		super.visit(not, null);
 	}
 
 	@Override
-	public void visit(Eq eq, Context context) {
+	public void visit(Eq eq, TypeMap context) {
 		childrenEqualityWrapper(eq);
 		super.visit(eq, null);
 	}
 
 	@Override
-	public void visit(GEq geq, Context context) {
+	public void visit(GEq geq, TypeMap context) {
 		childrenOfType(geq);
 		super.visit(geq, null);
 	}
 
 	@Override
-	public void visit(GT gt, Context context) {
+	public void visit(GT gt, TypeMap context) {
 		childrenOfType(gt);
 		super.visit(gt, null);
 	}
 
 	@Override
-	public void visit(LEq leq, Context context) {
+	public void visit(LEq leq, TypeMap context) {
 		childrenOfType(leq);
 		super.visit(leq, null);
 	}
 
 	@Override
-	public void visit(LT lt, Context context) {
+	public void visit(LT lt, TypeMap context) {
 		childrenOfType(lt);
 		super.visit(lt, null);
 	}
 
 	@Override
-	public void visit(NEq neq, Context context) {
+	public void visit(NEq neq, TypeMap context) {
 		childrenEqualityWrapper(neq);
 		super.visit(neq, null);
 	}
 
 	@Override
-	public void visit(Add add, Context context) {
+	public void visit(Add add, TypeMap context) {
 		childrenOfType(add);
 		super.visit(add, null);
 	}
 
 	@Override
-	public void visit(Sub sub, Context context) {
+	public void visit(Sub sub, TypeMap context) {
 		childrenOfType(sub);
 		super.visit(sub, null);
 	}
 
 	@Override
-	public void visit(Div div, Context context) {
+	public void visit(Div div, TypeMap context) {
 		Type lhs = div.getLhs().getType(context);
 		Type rhs = div.getRhs().getType(context);
 		if (lhs.equals(new MoneyType()) && lhs.equals(rhs)) {
@@ -120,7 +121,7 @@ public class TypesChecker extends LeftDFSVisitor<Context> {
 	}
 // extract method
 	@Override
-	public void visit(Mul mul, Context context) {
+	public void visit(Mul mul, TypeMap context) {
 		Type lhs = mul.getLhs().getType(context);
 		Type rhs = mul.getRhs().getType(context);
 		if (lhs.equals(new MoneyType()) && lhs.equals(rhs)) {
@@ -132,19 +133,19 @@ public class TypesChecker extends LeftDFSVisitor<Context> {
 	}
 
 	@Override
-	public void visit(Neg neg, Context context) {
+	public void visit(Neg neg, TypeMap context) {
 		childrenOfType(neg);
 		super.visit(neg, null);
 	}
 
 	@Override
-	public void visit(Pos pos, Context context) {
+	public void visit(Pos pos, TypeMap context) {
 		childrenOfType(pos);
 		super.visit(pos, null);
 	}
 
 	@Override
-	public void visit(IfStatement ifStatement, Context context) {
+	public void visit(IfStatement ifStatement, TypeMap context) {
 		Expr root = ifStatement.getCondition();
 		if (! root.getType(context).equals(new BoolType())) { 
 			String message = "evaluates to the wrong type! Type should be Boolean but is " 
@@ -155,7 +156,7 @@ public class TypesChecker extends LeftDFSVisitor<Context> {
 	}
 
 	@Override 
-	public void visit(ComputedQuestion compQuestion, Context context) {
+	public void visit(ComputedQuestion compQuestion, TypeMap context) {
 		Expr root = compQuestion.getExpr();
 		if (! root.getType(context).equals(new BoolType())) { 
 			String message = "evaluates to the wrong type! Type should be " 
@@ -218,7 +219,7 @@ public class TypesChecker extends LeftDFSVisitor<Context> {
 		return lhs.getType(context).equals(expr.getType(context));
 	}
 
-	public static List<QLError> getErrorMessages(ASTNode startNode, Context context) {
+	public static List<QLError> getErrorMessages(ASTNode startNode, TypeMap context) {
 		TypesChecker v = new TypesChecker(context);
 		startNode.accept(v, context);
 		return v.errors;

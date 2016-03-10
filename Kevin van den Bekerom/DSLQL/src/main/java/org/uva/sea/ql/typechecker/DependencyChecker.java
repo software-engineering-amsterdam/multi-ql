@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast;
+package org.uva.sea.ql.typechecker;
 
 import java.util.ArrayList;
 
@@ -6,12 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
-import org.uva.sea.ql.ast.visit.VariableCollector;
 import org.uva.sea.ql.errors.QLError;
 import org.uva.sea.ql.graph.Graph;
 import org.uva.sea.ql.graph.Vertex;
+import org.uva.sea.ql.visit.LeftDFSVisitor;
+import org.uva.sea.ql.visit.VariableCollector;
 
 public class DependencyChecker extends LeftDFSVisitor<Graph> {
 	private List<QLError> errors;

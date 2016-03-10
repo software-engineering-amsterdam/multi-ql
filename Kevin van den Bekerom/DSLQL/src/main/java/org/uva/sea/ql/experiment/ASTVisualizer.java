@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import org.uva.sea.ql.ast.QuestionPainter;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.stat.Question;
-import org.uva.sea.ql.ast.expr.Type;
 
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
@@ -22,6 +21,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JRadioButton;
+import java.awt.FlowLayout;
+import javax.swing.Box;
 
 public class ASTVisualizer extends JFrame {
 
@@ -57,12 +58,31 @@ public class ASTVisualizer extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		Box verticalBox_2 = Box.createVerticalBox();
+		contentPane.add(verticalBox_2);
+		
+		Box horizontalBox_1 = Box.createHorizontalBox();
+		verticalBox_2.add(horizontalBox_1);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		horizontalBox_1.add(lblNewLabel);
+		
+		Box horizontalBox = Box.createHorizontalBox();
+		verticalBox_2.add(horizontalBox);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		horizontalBox.add(lblNewLabel_1);
+		
+		Box horizontalBox_2 = Box.createHorizontalBox();
+		contentPane.add(horizontalBox_2);
+		
+		Box verticalBox_1 = Box.createVerticalBox();
+		contentPane.add(verticalBox_1);
+		
+		Box verticalBox = Box.createVerticalBox();
+		contentPane.add(verticalBox);
 		/*
 		JLabel lblNewLabel = new JLabel("New label");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();

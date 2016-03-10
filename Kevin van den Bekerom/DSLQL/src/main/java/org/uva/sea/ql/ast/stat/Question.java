@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.Type;
+import org.uva.sea.ql.visit.Visitor;
 
 public class Question extends Statement {
 	private String identifier;

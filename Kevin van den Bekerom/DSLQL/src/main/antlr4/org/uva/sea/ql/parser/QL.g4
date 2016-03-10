@@ -3,10 +3,14 @@ grammar QL;
 
 @parser::header
 {
+import org.uva.sea.ql.ast.expr.logic.*;
+import org.uva.sea.ql.ast.expr.math.*;
+import org.uva.sea.ql.ast.expr.terminals.*;
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
 import org.uva.sea.ql.ast.form.*;
 import org.uva.sea.ql.type.*;
+import org.uva.sea.ql.value.*;
 }
 
 /* Form Grammar Rules = Entry Point */
@@ -44,7 +48,7 @@ question [Block result]
 	;
 
 variable returns [Expr result]
-	: id=Ident {$result = new Variable($Ident.getText(), $id.start.getLine()); };
+	: id=Ident {$result = new Variable($id.getText()); };
 	
 label : Str;
 
@@ -58,9 +62,9 @@ type returns [Type result]
 
 /* Expression Grammar Rules */
 unExpr returns [Expr result]
-    :  '+' x=unExpr { $result = new Pos($x.result); }
-    |  '-' x=unExpr { $result = new Neg($x.result); }
-    |  '!' x=unExpr { $result = new Not($x.result); }
+    :  '+' x=unExpr { $result = new Pos($x.result, $x.start.getLine()); }
+    |  '-' x=unExpr { $result = new Neg($x.result, $x.start.getLine()); }
+    |  '!' x=unExpr { $result = new Not($x.result, $x.start.getLine()); }
     |  y=primary    { $result = $y.result; }
     ;  
     
@@ -92,10 +96,10 @@ mulExpr returns [Expr result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
     { 
       if ($op.text.equals("*")) {
-        $result = new Mul($result, $rhs.result, $op.start.getLine());
+        $result = new Mul($result, $rhs.result, $rhs.start.getLine());
       }
       if ($op.text.equals("/")) {
-        $result = new Div($result, $rhs.result, $op.start.getLine());      
+        $result = new Div($result, $rhs.result, $rhs.start.getLine());      
       }
     })*
     ;
@@ -104,10 +108,10 @@ addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     { 
       if ($op.text.equals("+")) {
-        $result = new Add($result, $rhs.result, $op.start.getLine());
+        $result = new Add($result, $rhs.result, $rhs.start.getLine());
       }
       if ($op.text.equals("-")) {
-        $result = new Sub($result, $rhs.result, $op.start.getLine());      
+        $result = new Sub($result, $rhs.result, $rhs.start.getLine());      
       }
     })*
     ;
@@ -116,33 +120,33 @@ relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
     { 
       if ($op.text.equals("<")) {
-        $result = new LT($result, $rhs.result, $op.start.getLine());
+        $result = new LT($result, $rhs.result, $rhs.start.getLine());
       }
       if ($op.text.equals("<=")) {
-        $result = new LEq($result, $rhs.result, $op.start.getLine());      
+        $result = new LEq($result, $rhs.result, $rhs.start.getLine());      
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, $rhs.result, $op.start.getLine());
+        $result = new GT($result, $rhs.result, $rhs.start.getLine());
       }
       if ($op.text.equals(">=")) {
-        $result = new GEq($result, $rhs.result, $op.start.getLine());      
+        $result = new GEq($result, $rhs.result, $rhs.start.getLine());      
       }
       if ($op.text.equals("==")) {
-        $result = new Eq($result, $rhs.result, $op.start.getLine());
+        $result = new Eq($result, $rhs.result, $rhs.start.getLine());
       }
       if ($op.text.equals("!=")) {
-        $result = new NEq($result, $rhs.result, $op.start.getLine());
+        $result = new NEq($result, $rhs.result, $rhs.start.getLine());
       }
     })*
     ;
     
 andExpr returns [Expr result]
-    :   lhs=relExpr { $result=$lhs.result; } ( op='&&' rhs=relExpr { $result = new And($result, $rhs.result, $op.start.getLine()); } )*
+    :   lhs=relExpr { $result=$lhs.result; } ( op='&&' rhs=relExpr { $result = new And($result, $rhs.result, $rhs.start.getLine()); } )*
     ;
     
 
 orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( op='||' rhs=andExpr { $result = new Or($result, $rhs.result, $op.start.getLine()); } )*
+    :   lhs=andExpr { $result = $lhs.result; } ( op='||' rhs=andExpr { $result = new Or($result, $rhs.result, $rhs.start.getLine()); } )*
     ;
 
 // Tokens

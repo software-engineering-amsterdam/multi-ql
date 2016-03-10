@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.expr.*;
 import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
+import org.uva.sea.ql.visit.LeftDFSVisitor;
 
 public class QuestionPainter extends LeftDFSVisitor {
 	private List<Question> drawQuestions;
@@ -29,7 +29,7 @@ public class QuestionPainter extends LeftDFSVisitor {
 
 	@Override
 	public void visit(IfStatement ifStatement) {
-		if (ifStatement.getClauseValue()) {
+		if (ifStatement.getConditionValue()) {
 			ifStatement.getBlock().accept(this);
 		}
 		
