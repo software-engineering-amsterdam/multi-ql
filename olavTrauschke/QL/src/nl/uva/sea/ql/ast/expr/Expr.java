@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * Representation of expression in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 10-mrt-2016
  */
 public abstract class Expr extends ASTNode {
     
@@ -82,7 +82,9 @@ public abstract class Expr extends ASTNode {
      * numeric value is a value that is either decimal (that includes integer
      * values) or money.
      * 
-     * @param questionTypes 
+     * @param questionTypes a <code>Map</code> from each <code>Ident this Expr</code>
+     *                      might contain to a <code>Question</code> with that
+     *                      <code>Ident</code>
      * @return a <code>Map</code> from each <code>Ident this Expr</code>
      *          might contain to a <code>Question</code> with that
      *          <code>Ident</code>

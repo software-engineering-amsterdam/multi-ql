@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of the contents of a block in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 10-mrt-2016
  */
 public class StatementSet extends ASTNode {
     
@@ -39,11 +39,12 @@ public class StatementSet extends ASTNode {
     }
     
     /**
-     * Has all the <code>Statement</ode>s in
+     * Has all the <code>Statement</code>s in
      * <code>this StatementSet accept v</code> and then has
      * <code>v visit this StatementSet</code>. The <code>Statement</code>s are
      * visited in reverse order, to process them in the same order as they were
-     * in a ql-file that was analyzed by {@link nl.uva.sea.ql.ast.parser.Parser a Parser}.
+     * in a ql-file that was analyzed by a
+     * {@link nl.uva.sea.ql.parser.ParserWrapper Parser(Wrapper)}
      * 
      * @param v an <code>ASTVisitor</code> that should
      *          <code>visit this StatementSet</code> and its children

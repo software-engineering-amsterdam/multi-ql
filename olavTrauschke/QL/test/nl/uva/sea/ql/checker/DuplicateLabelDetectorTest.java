@@ -32,7 +32,7 @@ public class DuplicateLabelDetectorTest {
         
         List<String> warnings = detector.getWarnings();
         List<String> expectedWarnings = new ArrayList<>();
-        String warning = DuplicateLabelDetector.DUPLICATE_LABEL_ERROR + "Is this label duplicate?";
+        String warning = DuplicateLabelDetector.DUPLICATE_LABEL_ERROR + "\"Is this label duplicate?\"";
         expectedWarnings.add(warning);
         
         assertEquals(expectedWarnings, warnings);
