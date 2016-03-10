@@ -12,6 +12,8 @@
 
 --> Set<Str> ---> Set <Identifier>
 
+--> equals
+
 --> Organize packages
 
 --> Give info about the type of the condition (if it is not boolean . . . )
@@ -25,5 +27,7 @@
 --> set anti gia lista sto IdData?
 
 -->  *** GRAMMAR_PRECEDENCE ***
+
+--> instead of using getter when i add a panel: - class extends JPanel+@suppresswarning - anti gia panel.add(question) : question.add(panel)
 
 ###########################################################
