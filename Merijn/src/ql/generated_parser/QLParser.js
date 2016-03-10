@@ -30,7 +30,7 @@ var serializedATN = ["\u0003\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd",
     "\u0002\u0006#\u0003\u0002\u0002\u0002\b3\u0003\u0002\u0002\u0002\n>",
     "\u0003\u0002\u0002\u0002\fI\u0003\u0002\u0002\u0002\u000ed\u0003\u0002",
     "\u0002\u0002\u0010f\u0003\u0002\u0002\u0002\u0012\u0013\u0007\u0003",
-    "\u0002\u0002\u0013\u0014\u0007\u001e\u0002\u0002\u0014\u0015\u0005\u0004",
+    "\u0002\u0002\u0013\u0014\u0007$\u0002\u0002\u0014\u0015\u0005\u0004",
     "\u0003\u0002\u0015\u0003\u0003\u0002\u0002\u0002\u0016\u001a\u0007\u000b",
     "\u0002\u0002\u0017\u0019\u0005\u0006\u0004\u0002\u0018\u0017\u0003\u0002",
     "\u0002\u0002\u0019\u001c\u0003\u0002\u0002\u0002\u001a\u0018\u0003\u0002",
@@ -179,8 +179,8 @@ FormContext.prototype.FORM = function() {
     return this.getToken(QLParser.FORM, 0);
 };
 
-FormContext.prototype.STRING_LITERAL = function() {
-    return this.getToken(QLParser.STRING_LITERAL, 0);
+FormContext.prototype.IDENTIFIER = function() {
+    return this.getToken(QLParser.IDENTIFIER, 0);
 };
 
 FormContext.prototype.block = function() {
@@ -221,7 +221,7 @@ QLParser.prototype.form = function() {
         this.state = 16;
         this.match(QLParser.FORM);
         this.state = 17;
-        this.match(QLParser.STRING_LITERAL);
+        this.match(QLParser.IDENTIFIER);
         this.state = 18;
         this.block();
     } catch (re) {
