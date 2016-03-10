@@ -13,7 +13,7 @@ import nl.uva.sea.ql.ast.expr.Ident;
  */
 public class SymbolTable {
     
-    private Map<Ident,Value> symbolTable;
+    private final Map<Ident,Value> symbolTable;
     
     /**
      * Constructor for objects of this class.
