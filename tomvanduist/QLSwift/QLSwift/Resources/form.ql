@@ -3,24 +3,17 @@ form testForm1 {
     booleanResult  : "Enter boolean" boolean
 
     if (booleanResult) {
-        moneyResult     : "Enter money"     integer
-        moneyResult1    : "Result:"         moneyResult
+        age     : "Enter age:"     integer
 
-        stringResult    : "Enter string"    string
-        stringResult1   : "Result:"         stringResult    // TODO: test error on overriding with different type
+        if (age >= 18) {
+            savings     : "Enter your savings:"     integer
+            savings1    : "Comulative savings in 1 year:"   savings + (savings / 20)
+            savings2    : "Inflation corrected:"            savings1 - (savings1 / 50)
+        }
+        if (age < 18) {
+            allowance   : "Enter your weekly allowence:"    integer
+            allowance1  : "In one yearr you received:"      allowance * 52
+            allowance3  : "In three years you received:"    allowance1 * 3          // TODO: test error on overriding with different type
+        }
     }
 }
-
-/*
-form Box1HouseOwning {
-    hasSoldHouse: "Did you sell a house in 2010?" boolean
-    hasBoughtHouse: "Did you by a house in 2010?" 2
-    hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" money(hasBoughtHouse)
-
-    if (hasMaintLoan > 0) {
-        sellingPrice: "Price the house was sold for:" integer
-        privateDebt: "Private debts for the sold house:" (hasBoughtHouse * 10)
-        valueResidue: "Value residue:" money(privateDebt + privateDebt)
-    }
-}
-*/
