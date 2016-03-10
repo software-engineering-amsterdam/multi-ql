@@ -25,10 +25,6 @@ class QLForm: ASTNode, Visitable {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        
-        for statement in codeBlock {
-            statement.accept(visitor)
-        }
     }
 }
 
@@ -60,15 +56,7 @@ class QLIfStatement: QLStatement, Visitable {
     }
     
     func accept(visitor: Visitor) {
-        
         visitor.visit(self)
-
-        condition.accept(visitor)
-        
-        for statement in codeBlock {
-            statement.accept(visitor)
-        }
-    
     }
 }
 
@@ -95,7 +83,6 @@ class QLUnaryExpression: QLExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        expression.accept(visitor)
     }
 }
 
@@ -108,7 +95,6 @@ class QLNotExpression: QLExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        expression.accept(visitor)
     }
 }
 
@@ -128,8 +114,6 @@ class QLGreaterThanExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -144,8 +128,6 @@ class QLSmallerThanExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -160,8 +142,6 @@ class QLGreaterOrIsExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -176,8 +156,6 @@ class QLSmallerOrISExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -192,8 +170,6 @@ class QLIsNotExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -208,8 +184,6 @@ class QLIsExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -224,8 +198,6 @@ class QLMultiplyExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -240,8 +212,6 @@ class QLDivideExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -256,8 +226,6 @@ class QLAddExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -272,8 +240,6 @@ class QLSubtractExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -288,8 +254,6 @@ class QLAndExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
@@ -304,8 +268,6 @@ class QLOrExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
-        lhs.accept(visitor)
-        rhs.accept(visitor)
     }
 }
 
