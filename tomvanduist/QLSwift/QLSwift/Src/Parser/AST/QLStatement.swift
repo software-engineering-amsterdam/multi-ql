@@ -18,7 +18,7 @@ protocol QLQuestion: QLStatement {
     
     func isComputed() -> Bool
     
-    func eval(context: QLContext) -> NSObject
+    func eval(context: QLContext) -> NSObject?
 }
 
 class QLVariableQuestion: QLQuestion {
@@ -44,7 +44,7 @@ class QLVariableQuestion: QLQuestion {
         return "\(identifier.toString())"
     }
     
-    func eval(context: QLContext) -> NSObject {
+    func eval(context: QLContext) -> NSObject? {
         return context.retrieve(self.identifier.id)
     }
     
@@ -76,7 +76,7 @@ class QLComputedQuestion: QLQuestion {
         return "\(identifier.toString())"
     }
     
-    func eval(context: QLContext) -> NSObject {
+    func eval(context: QLContext) -> NSObject? {
         return expression.eval(context)
     }
     

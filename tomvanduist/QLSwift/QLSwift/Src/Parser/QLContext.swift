@@ -32,7 +32,7 @@ class QLContext {
         delegates = delegates.filter { "\($0)" != "\(delegate)" }
     }
     
-    func assign(identifier: String, value: NSObject) {
+    func assign(identifier: String, value: NSObject?) {
         variableContext[identifier] = value
         
         notifyDelegates()
@@ -44,13 +44,13 @@ class QLContext {
         notifyDelegates()
     }
     
-    func retrieve(identifier: String) -> NSObject {
+    func retrieve(identifier: String) -> NSObject? {
         if let value = variableContext[identifier] {
             return value
         }
         
         guard let expression = computedContext[identifier]
-            else { fatalError("This is not the context that you are looking for") }
+            else { return nil }
         
         return expression.eval(self)
     }
@@ -88,7 +88,7 @@ private class QLContextVisitor: QLStatementVisitor {
     }
     
     func visit(node: QLVariableQuestion, param: QLContext) -> Void {
-        param.assign(node.identifier.id, value: node.type.defaultValue)
+        param.assign(node.identifier.id, value: nil)
     }
     
     func visit(node: QLComputedQuestion, param: QLContext) -> Void {

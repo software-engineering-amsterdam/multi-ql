@@ -10,11 +10,9 @@ import Foundation
 
 
 protocol QLType: QLNode, QLTypeVisitable {
-    var defaultValue: NSObject { get }
 }
 
 class QLBooleanType: QLType {
-    let defaultValue: NSObject = false
     
     func toString() -> String {
         return "boolean"
@@ -26,7 +24,6 @@ class QLBooleanType: QLType {
 }
 
 class QLIntegerType: QLType {
-    let defaultValue: NSObject = 0
     
     func toString() -> String {
         return "integer"
@@ -38,7 +35,6 @@ class QLIntegerType: QLType {
 }
 
 class QLStringType: QLType {
-    let defaultValue: NSObject = ""
     
     func toString() -> String {
         return "string"
@@ -50,7 +46,6 @@ class QLStringType: QLType {
 }
 
 class QLUnknownType: QLType {
-    let defaultValue: NSObject = NSNull()
     
     func toString() -> String {
         return "unknown"
@@ -62,7 +57,6 @@ class QLUnknownType: QLType {
 }
 
 class QLVoidType: QLType {
-    let defaultValue: NSObject = NSNull()
     
     func toString() -> String {
         return "void"
