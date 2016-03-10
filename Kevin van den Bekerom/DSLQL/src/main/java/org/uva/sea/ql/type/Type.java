@@ -1,5 +1,7 @@
 package org.uva.sea.ql.type;
 
+import org.uva.sea.ql.value.Value;
+
 public abstract class Type {
 	
 	@Override
@@ -8,5 +10,5 @@ public abstract class Type {
 	@Override 
 	public abstract String toString();
 	
-	public abstract Object parse(String message);
+	public abstract Value parse(String message);
 }

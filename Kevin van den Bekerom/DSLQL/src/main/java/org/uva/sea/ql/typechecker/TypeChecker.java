@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast.form;
+package org.uva.sea.ql.typechecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,19 +8,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.visit.QuestionCollector;
 import org.uva.sea.ql.errors.AbstractQLError;
 import org.uva.sea.ql.errors.QLError;
 import org.uva.sea.ql.errors.QLWarning;
+import org.uva.sea.ql.graph.DependencyGraphBuilder;
 import org.uva.sea.ql.graph.Graph;
 import org.uva.sea.ql.graph.Vertex;
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.ContextVisitor;
-import org.uva.sea.ql.ast.DependencyChecker;
-import org.uva.sea.ql.ast.DependencyGraphBuilder;
-import org.uva.sea.ql.ast.TypesChecker;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.form.TypeMap;
 import org.uva.sea.ql.type.Type;
+import org.uva.sea.ql.visit.QuestionCollector;
 
 public class TypeChecker {
 	
@@ -71,9 +69,9 @@ public class TypeChecker {
 		// 0.2 Get dependency graph
 		Graph dependencyGraph = new DependencyGraphBuilder((Block) root).getDependencyGraph();
 
-		Context context = new Context();
+		TypeMap context = new TypeMap();
 
-		ContextVisitor cv = new ContextVisitor();
+		TypeMapBuilder cv = new TypeMapBuilder();
 		root.accept(cv, context);
 
 		// 1. duplicate questions:

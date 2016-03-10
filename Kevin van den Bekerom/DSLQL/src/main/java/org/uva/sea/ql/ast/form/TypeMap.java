@@ -5,10 +5,10 @@ import org.uva.sea.ql.type.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Context {
+public class TypeMap {
 	private Map<String, Type> questionTypes;
 	
-	public Context() {
+	public TypeMap() {
 		questionTypes = new HashMap<String, Type>();
 	}
 	

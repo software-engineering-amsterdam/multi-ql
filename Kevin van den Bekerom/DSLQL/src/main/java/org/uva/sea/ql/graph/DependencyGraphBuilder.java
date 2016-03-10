@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast;
+package org.uva.sea.ql.graph;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,11 +7,9 @@ import org.uva.sea.ql.ast.stat.Block;
 import org.uva.sea.ql.ast.stat.ComputedQuestion;
 import org.uva.sea.ql.ast.stat.IfStatement;
 import org.uva.sea.ql.ast.stat.Question;
-import org.uva.sea.ql.ast.visit.LeftDFSVisitor;
-import org.uva.sea.ql.ast.visit.QuestionCollector;
-import org.uva.sea.ql.ast.visit.VariableCollector;
-import org.uva.sea.ql.graph.Graph;
-import org.uva.sea.ql.graph.Vertex;
+import org.uva.sea.ql.visit.LeftDFSVisitor;
+import org.uva.sea.ql.visit.QuestionCollector;
+import org.uva.sea.ql.visit.VariableCollector;
 
 public class DependencyGraphBuilder extends LeftDFSVisitor<Graph> {
 

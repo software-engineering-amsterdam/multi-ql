@@ -1,4 +1,4 @@
-package org.uva.sea.ql.ast.visit;
+package org.uva.sea.ql.visit;
 
 import java.util.ArrayList;
 import java.util.List;

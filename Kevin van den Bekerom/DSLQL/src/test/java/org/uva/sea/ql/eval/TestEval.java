@@ -4,21 +4,13 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.sea.ql.ast.expr.logic.And;
-import org.uva.sea.ql.ast.expr.logic.GEq;
-import org.uva.sea.ql.ast.expr.logic.LT;
-import org.uva.sea.ql.ast.expr.logic.Or;
-import org.uva.sea.ql.ast.expr.math.Add;
-import org.uva.sea.ql.ast.expr.math.Div;
-import org.uva.sea.ql.ast.expr.terminals.BooleanLiteral;
-import org.uva.sea.ql.ast.expr.terminals.IntegerLiteral;
-import org.uva.sea.ql.ast.expr.terminals.Variable;
+import org.uva.sea.ql.ast.expr.math.*;
+import org.uva.sea.ql.ast.expr.logic.*;
+import org.uva.sea.ql.ast.expr.terminals.*;
 import org.uva.sea.ql.ast.form.ValueMap;
-import org.uva.sea.ql.value.IntValue;
-import org.uva.sea.ql.value.MoneyValue;
-import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.value.*;
 
-public class TestEvalMath {
+public class TestEval {
 
 	ValueMap valueMap = new ValueMap();
 	
@@ -26,6 +18,8 @@ public class TestEvalMath {
 	public void initialize() {
 		valueMap.putValueInMap("var1", new MoneyValue(4.5));
 		valueMap.putValueInMap("var2", new IntValue(4));
+		valueMap.putValueInMap("var3", new UndefinedValue());
+		valueMap.putValueInMap("var4", new BoolValue(false));
   	}
 	
 	@Test
@@ -68,7 +62,7 @@ public class TestEvalMath {
 	
 	@Test
 	public void testAddWithVariables() {
-		Add add = new Add(new Variable("var1", -1), new Variable("var2", -1), -1);
+		Add add = new Add(new Variable("var1"), new Variable("var2"), -1);
 		assertEquals(8.5, add.eval(valueMap).getValue());
 	}
 	
@@ -92,11 +86,23 @@ public class TestEvalMath {
 		GEq comparatorExpr = new GEq(div, new IntegerLiteral(4), -1); // 16/4 >= 4 ==> true
 		assertEquals(true, comparatorExpr.eval(valueMap).getValue());
 		
-		And andExpr = new And (new LT(new Variable("var1", -1), new Variable("var2", -1), -1), new BooleanLiteral(true), -1); // 4.5 < 4 && true ==> false
+		And andExpr = new And (new LT(new Variable("var1"), new Variable("var2"), -1), new BooleanLiteral(true), -1); // 4.5 < 4 && true ==> false
 		assertEquals(false, andExpr.eval(valueMap).getValue());
 		
 		Or root = new Or(andExpr, comparatorExpr, -1); // evaluates to false || true ==> true
 		assertEquals(true, root.eval(valueMap).getValue());
+	}
+	
+	@Test
+	public void testUndefinedMath() {
+		Add add = new Add(new Variable("var1"), new Variable("var3"), -1);
+		assertEquals(true, add.eval(valueMap).getValue().equals(new UndefinedValue()));
+	}
+	
+	@Test
+	public void testUndefinedAnd() {
+		And and = new And(new Variable("var4"), new Variable("var3"), -1);
+		assertEquals(true, and.eval(valueMap).getValue().equals(new UndefinedValue()));
 	}
 
 

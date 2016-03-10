@@ -1,14 +1,14 @@
 package org.uva.sea.ql.ast.stat;
 
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.visit.Visitable;
-import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.visit.Visitable;
+import org.uva.sea.ql.visit.Visitor;
 
 public class ElseStatement extends Statement implements Visitable {
 	private Block block;
 	
-	public ElseStatement(Block block, int startLine) {
-		super(startLine);
+	public ElseStatement(Block block) {
+		super(-1);
 		this.block = block;
 	}
 	
