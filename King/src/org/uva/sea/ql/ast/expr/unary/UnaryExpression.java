@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
-public class UnaryExpression extends Expr {
+public abstract class UnaryExpression extends Expr {
 	protected final Expr expr;
 
 	
@@ -19,10 +19,6 @@ public class UnaryExpression extends Expr {
 	public String toString() {
 		return "[ "+expr.toString()+" ]";
 	}
-	@Override
-	public Type accept(QLNodeVisitor visitor) {
-		return null;
-		
-	}
+	
 
 }

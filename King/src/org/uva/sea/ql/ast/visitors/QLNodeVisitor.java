@@ -1,15 +1,8 @@
 package org.uva.sea.ql.ast.visitors;
 
-import org.uva.sea.ql.ast.VarDeclaration;
-import org.uva.sea.ql.ast.VarIdentifier;
-import org.uva.sea.ql.ast.domain.Block;
-import org.uva.sea.ql.ast.domain.Form;
-import org.uva.sea.ql.ast.domain.IFblock;
-import org.uva.sea.ql.ast.domain.NormalQuestion;
-import org.uva.sea.ql.ast.domain.Question;
-import org.uva.sea.ql.ast.domain.ReadOnlyQuestion;
 import org.uva.sea.ql.ast.expr.VarExpr;
 import org.uva.sea.ql.ast.expr.binary.AND;
+import org.uva.sea.ql.ast.expr.binary.BinaryExpression;
 import org.uva.sea.ql.ast.expr.binary.Equal;
 import org.uva.sea.ql.ast.expr.binary.GreaterOrEqual;
 import org.uva.sea.ql.ast.expr.binary.GreaterThan;
@@ -19,74 +12,58 @@ import org.uva.sea.ql.ast.expr.binary.SmallerOrEqual;
 import org.uva.sea.ql.ast.expr.binary.SmallerThan;
 import org.uva.sea.ql.ast.expr.literal.BooleanLiteral;
 import org.uva.sea.ql.ast.expr.literal.IntegerLiteral;
-import org.uva.sea.ql.ast.expr.literal.Literal;
-import org.uva.sea.ql.ast.expr.literal.LiteralExpression;
 import org.uva.sea.ql.ast.expr.literal.MoneyLiteral;
 import org.uva.sea.ql.ast.expr.literal.StringLiteral;
 import org.uva.sea.ql.ast.expr.math.Add;
 import org.uva.sea.ql.ast.expr.math.Div;
 import org.uva.sea.ql.ast.expr.math.Mul;
 import org.uva.sea.ql.ast.expr.math.Sub;
-import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.expr.unary.NOT;
 import org.uva.sea.ql.ast.expr.unary.Negative;
 import org.uva.sea.ql.ast.expr.unary.Positive;
+import org.uva.sea.ql.ast.expr.unary.UnaryExpression;
 
-public interface QLNodeVisitor {
+public interface QLNodeVisitor<T> {
 	
-	public Type visit(Form form);
+	public T visit(Add add);
 	
-	public Type visit(Block block);
+	public T visit(AND and);
+
+	public T visit(Div div);
+
+	public T visit(Equal eq);
+
+	public T visit(GreaterOrEqual geq);
+
+	public T visit(GreaterThan gt);
+
+	public T visit(SmallerOrEqual leq);
+
+	public T visit(SmallerThan lt);
+
+	public T visit(Mul mul);
+
+	public T visit(NotEqual neq);
+
+	public T visit(Negative neg);
+
+	public T visit(NOT not);
+
+	public T visit(OR or);
+
+	public T visit(Positive pos);
+
+	public T visit(Sub sub);
+
+	public T visit(IntegerLiteral intLiteral);
+
+	public T visit(BooleanLiteral boolLiteral);
+
+	public T visit(StringLiteral stringLiteral);
 	
-	public Type visit(Add add);
+	public T visit(MoneyLiteral moneyLiteral);
 	
-	public Type visit(IFblock statement);
-	
-	public Type visit(Question question);
-	
-	public Type visit(ReadOnlyQuestion readOnlyQuestion);
-	
-	public Type visit(AND and);
-
-	public Type visit(Div div);
-
-	public Type visit(Equal eq);
-
-	public Type visit(GreaterOrEqual geq);
-
-	public Type visit(GreaterThan gt);
-
-	public Type visit(SmallerOrEqual leq);
-
-	public Type visit(SmallerThan lt);
-
-	public Type visit(Mul mul);
-
-	public Type visit(NotEqual neq);
-
-	public Type visit(Negative neg);
-
-	public Type visit(NOT not);
-
-	public Type visit(OR or);
-
-	public Type visit(Positive pos);
-
-	public Type visit(Sub sub);
-
-	public Type visit(IntegerLiteral intLiteral);
-
-	public Type visit(BooleanLiteral boolLiteral);
-
-	public Type visit(StringLiteral stringLiteral);
-	
-	public Type visit(MoneyLiteral moneyLiteral);
-
-	public Type visit(LiteralExpression literalExpression);
-	
-	public Type visit(Literal<?> literal);
-	
-	public Type visit(VarExpr varExpr);
+	public T visit(VarExpr varExpr);
 
 
 }

@@ -34,8 +34,7 @@ public class MainQL {
 	    //System.out.println(ast);
 	    TypeChecker typeChecker = new TypeChecker(ast);
 	    
-	    
-        
+	   
         
 
 	}

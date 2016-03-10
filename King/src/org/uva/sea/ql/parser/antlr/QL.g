@@ -7,8 +7,11 @@ grammar QL;
 package org.uva.sea.ql.parser.antlr;
 import org.uva.sea.ql.ast.*;
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.expr.math.*;
+import org.uva.sea.ql.ast.expr.unary.*;
+import org.uva.sea.ql.ast.expr.binary.*;
 import org.uva.sea.ql.ast.expr.literal.*;
-import org.uva.sea.ql.ast.TaxForm.*;
+import org.uva.sea.ql.ast.domain.*;
 import org.uva.sea.ql.ast.expr.type.*;
 import java.util.Map;
 import java.util.HashMap;
@@ -111,7 +114,7 @@ unExpr returns [Expr result]
     ;    
 
 primary returns [Expr result]
-    : literal        { $result = new LiteralExpression($literal.result); }
+    : literal        { $result = $literal.result; }
     | ID     		 { $result = new VarExpr(new VarIdentifier($ID.text));}
     | '(' orExpr ')' { $result = $orExpr.result; }
     
@@ -119,7 +122,7 @@ primary returns [Expr result]
     ;    
 
     
-literal returns [Literal result]
+literal returns [Expr result]
     : DIGIT   { $result = new IntegerLiteral(Integer.valueOf($DIGIT.text)); }
     | MON   { $result = new MoneyLiteral(Money.parse($MON.text)); }
     | STR   { $result = new StringLiteral($STR.text); }

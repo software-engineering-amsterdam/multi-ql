@@ -29,11 +29,13 @@ public class VarExpr extends Expr{
 	public String toString() {
 		return "[ "+identifier.toString()+" ]";
 	}
-	
+
 	@Override
-	public Type accept(QLNodeVisitor visitor) {
+	public <T> T accept(QLNodeVisitor<T> visitor) {
 		return visitor.visit(this);
 		
 	}
+	
+	
 
 }

@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
-public class BinaryExpression extends Expr {
+public abstract class BinaryExpression extends Expr {
 	protected final Expr e1;
 	protected final Expr e2;
 
@@ -23,12 +23,6 @@ public class BinaryExpression extends Expr {
 	@Override
 	public String toString() {
 		return "[ "+e1.toString()+" and "+e2.toString()+" ]";
-	}
-	@Override
-	public Type accept(QLNodeVisitor visitor) {
-		// TODO Auto-generated method stub
-		return null;
-		
 	}
 
 	

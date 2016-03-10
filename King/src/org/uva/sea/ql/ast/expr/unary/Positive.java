@@ -11,7 +11,7 @@ public class Positive extends UnaryExpression {
 	}
 	
 	@Override
-	public Type accept(QLNodeVisitor visitor) {
+	public <T> T accept(QLNodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

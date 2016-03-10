@@ -3,6 +3,7 @@ package org.uva.sea.ql.ast.domain;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.type.Type;
+import org.uva.sea.ql.ast.visitors.QLDomainVisitor;
 import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class IFblock extends ASTNode {
@@ -14,10 +15,8 @@ public class IFblock extends ASTNode {
 		this.body = body;
 	}
 
-	@Override
-	public Type accept(QLNodeVisitor qlPartVisitor) {
-		return qlPartVisitor.visit(this);
-		
+	public void accept(QLDomainVisitor qlPartVisitor) {
+		 qlPartVisitor.visit(this);
 	}
 
 	public Block getBody() {

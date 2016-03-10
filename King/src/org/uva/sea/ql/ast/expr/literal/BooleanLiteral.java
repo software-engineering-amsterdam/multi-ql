@@ -1,18 +1,25 @@
 package org.uva.sea.ql.ast.expr.literal;
 
+import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.expr.type.BooleanType;
 import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
-public class BooleanLiteral extends Literal<Boolean> {
-
+public class BooleanLiteral extends Expr {
+	private final boolean value;
 	public BooleanLiteral(boolean value) {
-		super(new BooleanType(), value);
-		// TODO Auto-generated constructor stub
+		this.value = value;
 	}
 	
+	public Boolean getValue() {
+		return value;
+	}
+	
+	public BooleanType getType() {
+		return new BooleanType();
+	}
 	@Override
-	public Type accept(QLNodeVisitor visitor) {
+	public <T> T accept(QLNodeVisitor<T> visitor) {
 		return visitor.visit(this);
 
 	}

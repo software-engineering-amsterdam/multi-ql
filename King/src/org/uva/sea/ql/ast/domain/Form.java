@@ -2,6 +2,7 @@ package org.uva.sea.ql.ast.domain;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.type.Type;
+import org.uva.sea.ql.ast.visitors.QLDomainVisitor;
 import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class Form extends ASTNode {
@@ -21,10 +22,8 @@ public class Form extends ASTNode {
 		return body;
 	}
 
-	@Override
-	public Type accept(QLNodeVisitor qlPartVisitor) {
-		return qlPartVisitor.visit(this);
-		
+	public void accept(QLDomainVisitor qlPartVisitor) {
+		 qlPartVisitor.visit(this);
 	}
 	
 	@Override

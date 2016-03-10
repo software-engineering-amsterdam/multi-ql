@@ -11,7 +11,7 @@ public class SmallerOrEqual extends BinaryExpression {
 	}
 	
 	@Override
-	public Type accept(QLNodeVisitor visitor) {
+	public <T> T accept(QLNodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
