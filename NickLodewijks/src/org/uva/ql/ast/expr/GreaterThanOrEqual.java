@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public class GreaterThanOrEqual extends BinaryExpr {
 
-	public GreaterThanOrEqual(ASTSourceInfo context, Expr lhs, Expr rhs) {
-		super(context, lhs, rhs);
+	public GreaterThanOrEqual(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
 	}
 
 	@Override

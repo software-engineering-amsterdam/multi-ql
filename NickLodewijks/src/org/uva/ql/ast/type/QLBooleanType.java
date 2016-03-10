@@ -1,15 +1,9 @@
 package org.uva.ql.ast.type;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public final class QLBooleanType extends QLType {
 
 	public QLBooleanType() {
-		super(null);
-	}
 
-	public QLBooleanType(ASTSourceInfo context) {
-		super(context);
 	}
 
 	@Override

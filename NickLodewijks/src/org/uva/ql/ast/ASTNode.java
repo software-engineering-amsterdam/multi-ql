@@ -2,10 +2,14 @@ package org.uva.ql.ast;
 
 public abstract class ASTNode {
 
-	private final ASTSourceInfo sourceInfo;
+	private ASTSourceInfo sourceInfo = new ASTSourceInfo();
 
-	public ASTNode(ASTSourceInfo sourceInfo) {
-		this.sourceInfo = (sourceInfo == null ? new ASTSourceInfo() : sourceInfo);
+	public ASTNode() {
+
+	}
+
+	public void setSourceInfo(ASTSourceInfo info) {
+		sourceInfo = info;
 	}
 
 	public final String getSourceLocation() {

@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
 import org.uva.ql.QLContext;
 import org.uva.ql.QLContext.ContextListener;
 import org.uva.ql.QLInterpreter;
-import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.QLTopDown;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BooleanLiteral;
 import org.uva.ql.ast.expr.Expr;
@@ -53,13 +53,13 @@ public class UIFactory {
 
 		uiForm = new DefaultUIForm(form);
 
-		form.accept(new ASTNodeVisitorAdapter<Void, Expr>() {
+		form.accept(new QLTopDown<Void, Expr>() {
 
 			@Override
 			public Void visit(QLIFStatement node, Expr condition) {
 				Expr conjunction;
 
-				conjunction = new And(null, condition, node.getCondition());
+				conjunction = new And(condition, node.getCondition());
 
 				node.getBody().accept(this, conjunction);
 
@@ -91,11 +91,11 @@ public class UIFactory {
 		return uiQuestionnaire;
 	}
 
-	public UIQuestion create(QLQuestion question, Expr condition) {
+	private UIQuestion create(QLQuestion question, Expr condition) {
 		return create(question, condition, null);
 	}
 
-	public UIQuestion create(QLQuestion question, Expr condition, Expr valueComputation) {
+	private UIQuestion create(QLQuestion question, Expr condition, Expr valueComputation) {
 		UIWidget labelWidget;
 		UIWidget valueWidget;
 

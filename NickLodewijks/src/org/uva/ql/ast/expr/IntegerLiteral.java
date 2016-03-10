@@ -1,14 +1,12 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
 import org.uva.ql.ast.value.NumberValue;
 
 public final class IntegerLiteral extends Expr {
 
 	private final NumberValue value;
 
-	public IntegerLiteral(ASTSourceInfo context, Integer value) {
-		super(context);
+	public IntegerLiteral(Integer value) {
 		this.value = new NumberValue(value);
 	}
 

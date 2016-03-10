@@ -12,7 +12,7 @@ import java.util.Set;
 import org.uva.ql.CyclicReferences.CyclicReference;
 import org.uva.ql.CyclicReferences.ReferenceTable.Reference;
 import org.uva.ql.CyclicReferences.ReferenceTable.ReferencePath;
-import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.QLTopDown;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.VariableExpr;
 import org.uva.ql.ast.form.QLForm;
@@ -39,7 +39,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 		rt = new ReferenceTable();
 
-		form.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+		form.accept(new QLTopDown<Void, Void>() {
 
 			@Override
 			public Void visit(QLQuestionComputed node, Void context) {
@@ -71,7 +71,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 		variables = new HashSet<>();
 
-		expr.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+		expr.accept(new QLTopDown<Void, Void>() {
 
 			@Override
 			public Void visit(VariableExpr node, Void v) {

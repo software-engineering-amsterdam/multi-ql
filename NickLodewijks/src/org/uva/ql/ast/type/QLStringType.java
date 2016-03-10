@@ -1,15 +1,8 @@
 package org.uva.ql.ast.type;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public final class QLStringType extends QLType {
 
 	public QLStringType() {
-		super(null);
-	}
-
-	public QLStringType(ASTSourceInfo context) {
-		super(context);
 	}
 
 	@Override

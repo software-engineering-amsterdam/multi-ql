@@ -12,13 +12,14 @@ import org.uva.ql.ast.form.*;
 }
 
 @parser::members {
-    private ASTSourceInfo src(ParserRuleContext context){
-        return new ASTSourceInfo(context);
+    private <T extends ASTNode> T addSource(ParserRuleContext context, T node){
+        node.setSourceInfo(new ASTSourceInfo(context));
+        return (T) node;
     }
 }
 
 form returns [QLForm result]
-    :   'form' + ID + block { $result = new QLForm(src($ctx), $ID.text, $block.result); }
+    :   'form' + ID + block { $result = addSource($ctx, new QLForm($ID.text, $block.result)); }
     ;
     
 block returns [QLBlock result]
@@ -27,7 +28,7 @@ block returns [QLBlock result]
       List<QLIFStatement> statements = new ArrayList<>();
     ]
     @after{
-        $result = new QLBlock(src($ctx), $ctx.questions, $ctx.statements);
+        $result = addSource($ctx, new QLBlock($ctx.questions, $ctx.statements));
     }
     : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
     
@@ -36,94 +37,94 @@ block returns [QLBlock result]
 ifStat returns [QLIFStatement result]
     : 'if' + '(' + expr + ')' + block
     { 
-        $result = new QLIFStatement(src($ctx), $expr.result, $block.result);
+        $result = addSource($ctx, new QLIFStatement($expr.result, $block.result));
     }
     ;
 
 question returns [QLQuestion result]
     : variableType + ID + STR + expr
     {
-        $result = new QLQuestionComputed(src($ctx), $variableType.result, $ID.text,  $STR.text, $expr.result);
+        $result = addSource($ctx, new QLQuestionComputed($variableType.result, $ID.text,  $STR.text, $expr.result));
     }
     | variableType + ID + STR 
     { 
-        $result = new QLQuestionInput(src($ctx), $variableType.result, $ID.text, $STR.text);
+        $result = addSource($ctx, new QLQuestionInput($variableType.result, $ID.text, $STR.text));
     }
     ;
     
 variableType returns [QLType result]
-    : BOOLEAN   { $result = new QLBooleanType(src($ctx)); }
-    | STRING    { $result = new QLStringType(src($ctx));  }
-    | INTEGER   { $result = new QLIntegerType(src($ctx)); }
+    : BOOLEAN   { $result = addSource($ctx, new QLBooleanType()); }
+    | STRING    { $result = addSource($ctx, new QLStringType());  }
+    | INTEGER   { $result = addSource($ctx, new QLIntegerType()); }
     ;
     
 expr returns [Expr result]
     : op=('+' | '-') exp=expr
     { 
       if ($op.text.equals("+")) {
-        $result = new Positive(src($ctx), $exp.result);
+        $result = addSource($ctx, new Positive($exp.result));
       }
       if ($op.text.equals("-")) {
-        $result = new Negative(src($ctx), $exp.result);
+        $result = addSource($ctx, new Negative($exp.result));
       }
     }
     | lhs=expr op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expr 
     { 
       if ($op.text.equals("<")) {
-        $result = new LessThan(src($ctx), $lhs.result, $rhs.result);
+        $result = addSource($ctx, new LessThan($lhs.result, $rhs.result));
       }
       if ($op.text.equals("<=")) {
-        $result = new LessThanOrEqual(src($ctx), $lhs.result, $rhs.result);      
+        $result = addSource($ctx, new LessThanOrEqual($lhs.result, $rhs.result));      
       }
       if ($op.text.equals(">")) {
-        $result = new GreaterThan(src($ctx), $lhs.result, $rhs.result);
+        $result = addSource($ctx, new GreaterThan($lhs.result, $rhs.result));
       }
       if ($op.text.equals(">=")) {
-        $result = new GreaterThanOrEqual(src($ctx), $lhs.result, $rhs.result);      
+        $result = addSource($ctx, new GreaterThanOrEqual($lhs.result, $rhs.result));      
       }
       if ($op.text.equals("==")) {
-        $result = new Equals(src($ctx), $lhs.result, $rhs.result);
+        $result = addSource($ctx, new Equals($lhs.result, $rhs.result));
       }
       if ($op.text.equals("!=")) {
-        $result = new EqualsNot(src($ctx), $lhs.result, $rhs.result);
+        $result = addSource($ctx, new EqualsNot($lhs.result, $rhs.result));
       }
     }
     | lhs=expr op=('*' | '/') rhs=expr
     { 
       if ($op.text.equals("*")) {
-        $result = new Multiply(src($ctx), $lhs.result, $rhs.result);
+        $result = addSource($ctx, new Multiply($lhs.result, $rhs.result));
       }
       if ($op.text.equals("/")) {
-        $result = new Divide(src($ctx), $lhs.result, $rhs.result);      
+        $result = addSource($ctx, new Divide($lhs.result, $rhs.result));      
       }
     }
     | lhs=expr op=('+' | '-') rhs=expr
     { 
       if ($op.text.equals("+")) {
-        $result = new Add(src($ctx), $lhs.result, $rhs.result);
+        $result = addSource($ctx, new Add($lhs.result, $rhs.result));
       }
       if ($op.text.equals("-")) {
-        $result = new Subtract(src($ctx), $lhs.result, $rhs.result);      
+        $result = addSource($ctx, new Subtract($lhs.result, $rhs.result));      
       }
     }
     | lhs=expr '&&' rhs=expr 
     { 
-        $result = new And(src($ctx), $lhs.result, $rhs.result);
+        $result = addSource($ctx, new And($lhs.result, $rhs.result));
     }
     | lhs=expr '||' rhs=expr 
     { 
-        $result = new Or(src($ctx), $lhs.result, $rhs.result);
+        $result = addSource($ctx, new Or($lhs.result, $rhs.result));
     }
-    | '!' exp=expr       { $result = new Not(src($ctx), $exp.result); }
+    | '!' exp=expr       { $result = addSource($ctx, new Not($exp.result)); }
     | '(' lhs=expr ')'   { $result = $lhs.result; }
     | literal            { $result = $literal.result; }
-    | ID                 { $result = new VariableExpr(src($ctx), $ID.text); }
+    | ID                 { $result = addSource($ctx, new VariableExpr($ID.text)); }
     ;
     
 literal returns [Expr result]
-    : INT   { $result = new IntegerLiteral(src($ctx), Integer.valueOf($INT.text)); }
-    | STR   { $result = new StringLiteral(src($ctx), $STR.text); }
-    | BOOL  { $result = new BooleanLiteral(src($ctx), Boolean.valueOf($BOOL.text)); }
+    : INT   { $result = addSource($ctx, new IntegerLiteral(Integer.valueOf($INT.text))); }
+    | STR   { $result = addSource($ctx, new StringLiteral($STR.text)); }
+    | BOOL  { $result = addSource($ctx, new BooleanLiteral(Boolean.valueOf($BOOL.text))); }
     ;
     
 // Tokens

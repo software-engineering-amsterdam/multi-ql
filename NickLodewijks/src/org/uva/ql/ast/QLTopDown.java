@@ -35,7 +35,7 @@ import org.uva.ql.ast.type.QLIntegerType;
 import org.uva.ql.ast.type.QLStringType;
 import org.uva.ql.ast.type.QLTypeVisitor;
 
-public class ASTNodeVisitorAdapter<T, U>
+public class QLTopDown<T, U>
 		implements ExprVisitor<T, U>, QLFormVisitor<T, U>, QLStatementVisitor<T, U>, QLTypeVisitor<T, U> {
 
 	public T visit(BinaryExpr node, U context) {

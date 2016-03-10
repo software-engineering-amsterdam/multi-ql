@@ -1,13 +1,10 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public abstract class UnaryExpr extends Expr {
 
 	private final Expr expr;
 
-	public UnaryExpr(ASTSourceInfo context, Expr expr) {
-		super(context);
+	public UnaryExpr(Expr expr) {
 		this.expr = expr;
 	}
 

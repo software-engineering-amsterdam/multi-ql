@@ -1,15 +1,9 @@
 package org.uva.ql.ast.type;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public final class QLIntegerType extends QLType {
 
 	public QLIntegerType() {
-		super(null);
-	}
 
-	public QLIntegerType(ASTSourceInfo context) {
-		super(context);
 	}
 
 	@Override

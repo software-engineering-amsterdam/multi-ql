@@ -1,14 +1,12 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
 import org.uva.ql.ast.value.StringValue;
 
 public final class StringLiteral extends Expr {
 
 	private final StringValue value;
 
-	public StringLiteral(ASTSourceInfo context, String value) {
-		super(context);
+	public StringLiteral(String value) {
 		this.value = new StringValue(value.replaceAll("\"", ""));
 	}
 

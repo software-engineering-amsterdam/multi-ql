@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public class Or extends BinaryExpr {
 
-	public Or(ASTSourceInfo context, Expr lhs, Expr rhs) {
-		super(context, lhs, rhs);
+	public Or(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
 	}
 
 	@Override

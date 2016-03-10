@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.uva.ql.ast.ASTSourceInfo;
-
 public class Negative extends UnaryExpr {
 
-	public Negative(ASTSourceInfo context, Expr expr) {
-		super(context, expr);
+	public Negative(Expr expr) {
+		super(expr);
 	}
 
 	@Override
