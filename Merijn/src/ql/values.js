@@ -113,7 +113,8 @@ export class IntegerValue extends NumberValue {
 		return this.value === integerValue.value;
 	}
 	static fromString(str) {
-		return new IntegerValue(parseInt(str, 10));
+		let value = parseInt(str, 10);
+		return isNaN(value) ? new UndefinedValue() : new IntegerValue(value);
 	}
 }
 
@@ -134,7 +135,8 @@ export class FloatValue extends NumberValue {
 		return this.value === floatValue.value;
 	}
 	static fromString(str) {
-		return new FloatValue(parseFloat(str));
+		let value = parseFloat(str);
+		return isNaN(value) ? new UndefinedValue() : new FloatValue(value);
 	}
 }
 
