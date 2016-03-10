@@ -1,7 +1,7 @@
 package nl.uva.sea.ql;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import com.thoughtworks.xstream.XStream;
+import java.io.*;
 import java.util.*;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -17,7 +17,7 @@ import nl.uva.sea.ql.parser.ParserWrapper;
  * Main class to type check and run questionairs.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 10-mrt-2016
  */
 public class Main {
     
@@ -82,15 +82,58 @@ public class Main {
             = "Warning: problems found. Do you want to continue anyway?";
     
     /**
+     * Question displayed to the user to ask him to confirm wether he wants to
+     * leave without saving.
+     */
+    public static final String LEAVE_WITHOUT_SAVING_MESSAGE
+            = "Are you sure you want to leave without saving?";
+    
+    /**
+     * Title for a dialog asking a user to confirm wether he wants to leave
+     * without saving
+     */
+    public static final String LEAVE_WITHOUT_SAVING_TITLE
+            = "Leave without saving";
+    
+    /**
+     * Error code representing failure to save the results of a questionnaire.
+     */
+    public static final int SAVING_ERROR = 4;
+    
+    /**
+     * Error message presented to the user when an exception was thrown while
+     * attempting to save the results of a questionnaire to a file the users
+     * specified.
+     */
+    public static final String SAVING_ERROR_MESSAGE
+            = "An error occured while saving your results. Please check wether "
+            + "the results file is complete.";
+    
+    /**
+     * Title of the dialog a <code>SAVING_ERROR_MESSAGE</code> is displayed in.
+     */
+    public static final String SAVING_ERROR_TITLE = "Error while saving";
+    
+    /**
      * Description of the type of file the user should select when running the program.
      */
-    public static final String FILE_TYPE_DESCRIPTION
-            = "Question Language questionaire";
+    public static final String ACCEPTED_FILE_TYPES_DESCRIPTION
+            = "Question Language questionnaire";
     
     /**
      * Extensions of files the user is allowed to select when running the program.
      */
     public static final String[] ACCEPTED_EXTENSIONS = {"ql"};
+    
+    /**
+     * Description of the type of file results of a questionnaire can be saved to.
+     */
+    public static final String SAVE_FILE_TYPE_DESCRIPTION = "XML-file";
+    
+    /**
+     * Extension of files the results of a questionnaire can be saved to.
+     */
+    public static final String SAVE_EXTENSION = "xml";
     
     /**
      * Text used to mark messages as warnings when errors and warnings are
@@ -100,14 +143,14 @@ public class Main {
     
     /**
      * Main method that asks the user to select a ql-file, type checks it and
-     * reports any errors or warnings or creates and runs the questionaire whe
+     * reports any errors or warnings or creates and runs the questionnaire whe
      * there are no errors and there are no warnings or the users chooses to
      * continue despite the warnings.
      * 
      * @param args the command line arguments, which are ignored
      */
     public static void main(String[] args) {
-        File file = selectFile();
+        File file = selectFileToOpen();
         if (file == null) {
             //user cancelled file opening
             System.exit(0);
@@ -117,7 +160,11 @@ public class Main {
             Form form = parse(parser);
             boolean run = check(form);
             if (run) {
-                //TODO execute questionaire in form
+                Questionnaire gui = new Questionnaire(form);
+                gui.run();
+                SymbolTable answers = gui.getSymbolTable();
+                String destinationPath = selectSaveLocation();
+                writeToXml(answers, destinationPath);
                 System.exit(0);
             }
             else {
@@ -128,12 +175,13 @@ public class Main {
     
     /**
      * Ask the user to select a <code>File</code> to open.
+     * 
      * @return the <code>File</code> the user selected, or <code>null</code> if
      *          he closed the dialog
      */
-    private static File selectFile() {
+    private static File selectFileToOpen() {
         JFileChooser fileChooser = new JFileChooser();
-        FileFilter qlFilter = new FileNameExtensionFilter(FILE_TYPE_DESCRIPTION, ACCEPTED_EXTENSIONS);
+        FileFilter qlFilter = new FileNameExtensionFilter(ACCEPTED_FILE_TYPES_DESCRIPTION, ACCEPTED_EXTENSIONS);
         fileChooser.setFileFilter(qlFilter);
         fileChooser.showOpenDialog(null);
         return fileChooser.getSelectedFile();
@@ -156,6 +204,49 @@ public class Main {
             System.exit(FILE_READING_ERROR);
             return null; //never reached
         }
+    }
+    
+    /**
+     * Ask the user to select a location to save the result of a questionnaire.
+     * 
+     * @return a <code>String</code> containing the path where the user wants
+     *          to save the result
+     */
+    private static String selectSaveLocation() {
+        JFileChooser fileChooser = new JFileChooser();
+        FileFilter xmlFilter = new FileNameExtensionFilter(SAVE_FILE_TYPE_DESCRIPTION, SAVE_EXTENSION);
+        fileChooser.setFileFilter(xmlFilter);
+        fileChooser.showSaveDialog(null);
+        File selectedFile = fileChooser.getSelectedFile();
+        if (selectedFile == null) {
+            int leave = JOptionPane.showConfirmDialog(null, LEAVE_WITHOUT_SAVING_MESSAGE,
+                    LEAVE_WITHOUT_SAVING_TITLE, JOptionPane.YES_NO_OPTION);
+            if (leave == JOptionPane.YES_OPTION) {
+                //User chose to leave without saving
+                System.exit(0);
+            }
+            else {
+                //User accidently cancelled saving
+                return selectSaveLocation();
+            }
+        }
+        String selectedPath = selectedFile.getPath();
+        if (isValidSaveLocation(selectedPath)) {
+            return selectedPath;
+        }
+        return selectedPath + "." + SAVE_EXTENSION;
+    }
+    
+    /**
+     * Determine wether a path is a valid location to save a file.
+     * 
+     * @param intendedSaveLocation a <code>String</code> containing the path to test
+     * @return <code>true</code> if and only if <code>intendedSaveLocation</code>
+     *          ends with <code>"." + </code>{@link #SAVE_EXTENSION SAVE_EXTENSION}
+     *          (ignoring case)
+     */
+    private static boolean isValidSaveLocation(String intendedSaveLocation) {
+        return intendedSaveLocation.toLowerCase().endsWith("." + SAVE_EXTENSION);
     }
     
     /**
@@ -250,7 +341,7 @@ public class Main {
         assert !errors.isEmpty();
         warnings.replaceAll(w -> w + WARNING_LABEL);
         errors.addAll(warnings);
-        showErrorMessage(errors, SEMANTICS_ERROR_MESSAGE);
+        showErrorMessage(toMultiLineString(errors), SEMANTICS_ERROR_MESSAGE);
     }
     
     /**
@@ -281,16 +372,6 @@ public class Main {
     }
     
     /**
-     * Display a list of error messages to the user.
-     * 
-     * @param message a <code>List</code> of the messages to display
-     * @param title a title for the dialog, intrucing the list of messages
-     */
-    private static void showErrorMessage(List message, String title) {
-        showErrorMessage(toMultiLineString(message), title);
-    }
-    
-    /**
      * Get a multi-line <code>String</code> representation of a the elements of
      * an <code>Iterable</code>.
      * 
@@ -310,6 +391,27 @@ public class Main {
             }
         }
         return messageString;
+    }
+    
+    /**
+     * Convert <code>toWrite</code> to xml and write the result to
+     * <code>destination</code>. Displays an error and shutsdown if an exception
+     * was thrown while attempting to write to the file specified by
+     * <code>destination</code>.
+     * 
+     * @param toWrite an <code>Object</code> containing the contents to write
+     * @param destination a <code>String</code> containing the path to write to
+     */
+    private void writeToXml(Object toWrite, String destination) {
+        XStream xmlConverter = new XStream();
+        String answersXml = xmlConverter.toXML(toWrite);
+        try (FileWriter writer = new FileWriter(destination)) {
+            writer.write(answersXml);
+        }
+        catch (IOException ioe) {
+            showErrorMessage(SAVING_ERROR_MESSAGE, SAVING_ERROR_TITLE);
+            System.exit(SAVING_ERROR);
+        }
     }
     
 }
