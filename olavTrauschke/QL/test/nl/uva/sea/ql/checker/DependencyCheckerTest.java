@@ -39,7 +39,17 @@ public class DependencyCheckerTest {
         List<String> errors = checker.getErrors();
         assertTrue(errors.isEmpty());
         checker.detectCyclicDependencies();
-        errors = checker.getErrors();
+        assertEquals(1, errors.size());
+    }
+    
+    @Test
+    public void testFormWithCyclicDependencyInvolvingConditionalStatement()
+            throws FileNotFoundException {
+        DependencyChecker checker
+                = createDependencyChecker("formWithCyclicDependencyInvolvingConditionalStatement.ql");
+        List<String> errors = checker.getErrors();
+        assertTrue(errors.isEmpty());
+        checker.detectCyclicDependencies();
         assertEquals(1, errors.size());
     }
     
