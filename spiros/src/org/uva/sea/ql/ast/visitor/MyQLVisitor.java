@@ -104,6 +104,16 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 	public ASTNode visitQuestionCompute(QLParser.QuestionComputeContext ctx) {
 		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
 		Identifier id = (Identifier) ctx.identi.accept(this);
+		
+		// below part to be checked...
+		
+		// void purifyLabel(String arg) to be created . . . (remove fuckin quotes)
+		
+//		String fullLabel = ctx.questionLabel().getText();
+//		String pureLabel = purifyLabel(fullLabel);
+//		StringLiteral label = new StringLiteral(fragment,pureLabel);
+//		String finalLabel = label.toString();
+				
 		StringLiteral label = new StringLiteral(fragment,ctx.questionLabel().getText());
 		String finalLabel = label.toString();
 		Type type = (Type) ctx.questionType().accept(this);
@@ -117,6 +127,11 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 	@Override public ASTNode visitQuestionNormal(QLParser.QuestionNormalContext ctx) {
 		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
 		Identifier id = (Identifier) ctx.identi.accept(this);
+		
+//		String fullLabel = ctx.questionLabel().getText();
+//		String pureLabel = purifyLabel(fullLabel);
+//		StringLiteral label = new StringLiteral(fragment,pureLabel);
+//		String finalLabel = label.toString();
 		
 		StringLiteral label = new StringLiteral(fragment,ctx.questionLabel().getText());
 		String finalLabel = label.toString();

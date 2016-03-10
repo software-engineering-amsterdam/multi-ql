@@ -45,7 +45,7 @@ public class QL {
         CollectIdentifiers collectIdentifiers = new CollectIdentifiers();
         
         QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, collectIdentifiers);
-        ast.accept(questionVisitor);
+        ast.accept(questionVisitor, null);
         
         //symbolTable.displaySymbolTable(symbolTable);
         
@@ -53,7 +53,7 @@ public class QL {
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
     
     	TypeChecker typeChecker = new TypeChecker(symbolTable);
-    	ast.accept(typeChecker);
+    	ast.accept(typeChecker, null);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
@@ -62,7 +62,7 @@ public class QL {
         
         Evaluator evaluator = new Evaluator(symbolTable);
         // Get all initial values
-        ast.accept(evaluator);
+        ast.accept(evaluator, null);
 
         // Use values to evaluate expressions (NOT NEEDED ANYMORE? HUH!)
         //ast.accept(evaluator);
@@ -72,7 +72,7 @@ public class QL {
         MainFrame main = new MainFrame();
         
         Gui guiVisitor = new Gui(symbolTable, main);
-        ast.accept(guiVisitor);
+        ast.accept(guiVisitor, null);
         //ex.setVisible(true);
 	}
 	
