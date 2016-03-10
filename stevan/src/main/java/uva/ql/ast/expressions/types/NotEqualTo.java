@@ -1,14 +1,13 @@
 package uva.ql.ast.expressions.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class NotEqualTo extends Type {
+public class NotEqualTo {
 
-	private String type = "notequalto";
+	private EnumType type = EnumType.NOTEQUALTO;
 
-	@Override
-	public String getType() {
+	public EnumType getType() {
 		return this.type;
 	}
 }

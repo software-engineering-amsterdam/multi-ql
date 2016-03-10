@@ -2,18 +2,23 @@ package nl.nicasso.ql.gui.questionFields;
 
 import javax.swing.JTextField;
 
+import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.gui.questionFields.listeners.TextFieldListener;
+
 public class TextQuestionField extends QuestionField {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8063194427157178583L;
+	private Identifier identifier;
 	
 	JTextField field;
 
-	public TextQuestionField() {
+	public TextQuestionField(Identifier identifier) {
+		this.identifier = identifier;
 		field = new JTextField();
-		field.setSize(200, 100);
+		field.setColumns(20);
+		
+		TextFieldListener listener = new TextFieldListener(identifier); 
+		
+		field.addKeyListener(listener);
 	}
 	
 	public void setValue(Object value) {

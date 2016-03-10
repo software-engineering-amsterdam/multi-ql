@@ -1,19 +1,19 @@
 package uva.ql.ast.conditionals;
 
 import uva.ql.ast.Block;
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 import uva.ql.ast.conditionals.abstracts.Condition;
 import uva.ql.ast.conditionals.types.IfElseStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicQuestionDependenciesVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class CondIfElseStatement extends Condition {
 
-	private Type type = new IfElseStatement();
+	private IfElseStatement type = new IfElseStatement();
 	private Block lhs;
 	private Block rhs;
 	
@@ -24,12 +24,7 @@ public class CondIfElseStatement extends Condition {
 	}
 	
 	@Override
-	public Type getType() {
-		return this.type;
-	}
-	
-	@Override
-	public String typeToString() {
+	public EnumType getType() {
 		return this.type.getType();
 	}
 	
@@ -65,7 +60,7 @@ public class CondIfElseStatement extends Condition {
 	}
 
 	@Override
-	public void accept(ICyclicQuestionDependenciesVisitor visitor) {
+	public void accept(ICyclicDependencyVisitor visitor) {
 		visitor.visitCondIfElseStatement(this);
 	}
 	

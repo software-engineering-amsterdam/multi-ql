@@ -44,7 +44,7 @@ question [Block result]
 	;
 
 variable returns [Expr result]
-	: Ident {$result = new Variable($Ident.getText()); };
+	: id=Ident {$result = new Variable($Ident.getText(), $id.start.getLine()); };
 	
 label : Str;
 
@@ -67,6 +67,7 @@ unExpr returns [Expr result]
 primary returns [Expr result]
 	: literal {$result = $literal.result;}
 	| variable {$result = $variable.result;}
+	| '(' orExpr + ')' {$result = $orExpr.result;}
 	;
 
 literal returns [Expr result]
@@ -91,10 +92,10 @@ mulExpr returns [Expr result]
     :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
     { 
       if ($op.text.equals("*")) {
-        $result = new Mul($result, $rhs.result);
+        $result = new Mul($result, $rhs.result, $op.start.getLine());
       }
       if ($op.text.equals("/")) {
-        $result = new Div($result, $rhs.result);      
+        $result = new Div($result, $rhs.result, $op.start.getLine());      
       }
     })*
     ;
@@ -103,10 +104,10 @@ addExpr returns [Expr result]
     :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
     { 
       if ($op.text.equals("+")) {
-        $result = new Add($result, $rhs.result);
+        $result = new Add($result, $rhs.result, $op.start.getLine());
       }
       if ($op.text.equals("-")) {
-        $result = new Sub($result, $rhs.result);      
+        $result = new Sub($result, $rhs.result, $op.start.getLine());      
       }
     })*
     ;
@@ -115,33 +116,33 @@ relExpr returns [Expr result]
     :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
     { 
       if ($op.text.equals("<")) {
-        $result = new LT($result, $rhs.result);
+        $result = new LT($result, $rhs.result, $op.start.getLine());
       }
       if ($op.text.equals("<=")) {
-        $result = new LEq($result, $rhs.result);      
+        $result = new LEq($result, $rhs.result, $op.start.getLine());      
       }
       if ($op.text.equals(">")) {
-        $result = new GT($result, $rhs.result);
+        $result = new GT($result, $rhs.result, $op.start.getLine());
       }
       if ($op.text.equals(">=")) {
-        $result = new GEq($result, $rhs.result);      
+        $result = new GEq($result, $rhs.result, $op.start.getLine());      
       }
       if ($op.text.equals("==")) {
-        $result = new Eq($result, $rhs.result);
+        $result = new Eq($result, $rhs.result, $op.start.getLine());
       }
       if ($op.text.equals("!=")) {
-        $result = new NEq($result, $rhs.result);
+        $result = new NEq($result, $rhs.result, $op.start.getLine());
       }
     })*
     ;
     
 andExpr returns [Expr result]
-    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result); } )*
+    :   lhs=relExpr { $result=$lhs.result; } ( op='&&' rhs=relExpr { $result = new And($result, $rhs.result, $op.start.getLine()); } )*
     ;
     
 
 orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
+    :   lhs=andExpr { $result = $lhs.result; } ( op='||' rhs=andExpr { $result = new Or($result, $rhs.result, $op.start.getLine()); } )*
     ;
 
 // Tokens

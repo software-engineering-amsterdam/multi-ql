@@ -9,10 +9,10 @@ import org.uva.ql.ast.expr.Equals;
 import org.uva.ql.ast.expr.EqualsNot;
 import org.uva.ql.ast.expr.ExprVisitor;
 import org.uva.ql.ast.expr.GreaterThan;
-import org.uva.ql.ast.expr.GreaterThanOrEquals;
+import org.uva.ql.ast.expr.GreaterThanOrEqual;
 import org.uva.ql.ast.expr.IntegerLiteral;
 import org.uva.ql.ast.expr.LessThan;
-import org.uva.ql.ast.expr.LessThanOrEquals;
+import org.uva.ql.ast.expr.LessThanOrEqual;
 import org.uva.ql.ast.expr.Multiply;
 import org.uva.ql.ast.expr.Negative;
 import org.uva.ql.ast.expr.Not;
@@ -77,7 +77,7 @@ public class ASTNodeVisitorAdapter<T, U>
 	}
 
 	@Override
-	public T visit(GreaterThanOrEquals node, U context) {
+	public T visit(GreaterThanOrEqual node, U context) {
 		return visit((BinaryExpr) node, context);
 	}
 
@@ -87,7 +87,7 @@ public class ASTNodeVisitorAdapter<T, U>
 	}
 
 	@Override
-	public T visit(LessThanOrEquals node, U context) {
+	public T visit(LessThanOrEqual node, U context) {
 		return visit((BinaryExpr) node, context);
 	}
 
@@ -153,7 +153,7 @@ public class ASTNodeVisitorAdapter<T, U>
 
 	@Override
 	public T visit(QLIFStatement node, U context) {
-		node.getExpr().accept(this, context);
+		node.getCondition().accept(this, context);
 		node.getBody().accept(this, context);
 
 		return null;

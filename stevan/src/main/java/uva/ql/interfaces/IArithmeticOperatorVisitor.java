@@ -40,43 +40,40 @@ public interface IArithmeticOperatorVisitor {
 	public void visitForm(Form form);
 	public void visitBlock(Block block);
 	public void visitQuestion(Question question);
-	public void visitQuestionVanilla(QuestionVanilla questionVanilla);
-	public void visitQuestionComputed(QuestionComputed questionComputed);
+	public void visitQuestionVanilla(QuestionVanilla question);
+	public void visitQuestionComputed(QuestionComputed question);
 	
 	public void visitCondition(Condition condition);
-	public void visitCondIfElseStatement(CondIfElseStatement condIfElseStatement);
-	public void visitCondIfStatement(CondIfStatement condIfStatement);
+	public void visitCondIfElseStatement(CondIfElseStatement condition);
+	public void visitCondIfStatement(CondIfStatement condition);
 	
-	public void visitExp(Expression expression);
+	public void visitExp(Expression exp);
+	public void visitExpParentheses(ExpParentheses exp);
 	public void visitExpAdd(ExpAdd exp);
-	public void visitExpAnd(ExpAnd expAnd);
-	public void visitExpDivide(ExpDivide expDivide);
-	public void visitExpEqualTo(ExpEqualTo expEqualTo);
-	public void visitExpGreaterThen(ExpGreaterThen expGreaterThen);
-	public void visitExpGreaterThenOrEqualTo(ExpGreaterThenOrEqualTo expGreaterThenOrEqualTo);
-	public void visitExpLessThen(ExpLessThen expLessThen);
-	public void visitExpLessThenOrEqualTo(ExpLessThenOrEqualTo expLessThenOrEqualTo);
-	public void visitExpMinus(ExpMinus expMinus);
-	public void visitExpMultiply(ExpMultiply expMultiply);
-	public void visitExpNot(ExpNot expNot);
-	public void visitExpNotEqualTo(ExpNotEqualTo expNotEqualTo);
-	public void visitExpOr(ExpOr expOr);
+	public void visitExpAnd(ExpAnd exp);
+	public void visitExpDivide(ExpDivide exp);
+	public void visitExpEqualTo(ExpEqualTo exp);
+	public void visitExpGreaterThen(ExpGreaterThen exp);
+	public void visitExpGreaterThenOrEqualTo(ExpGreaterThenOrEqualTo exp);
+	public void visitExpLessThen(ExpLessThen exp);
+	public void visitExpLessThenOrEqualTo(ExpLessThenOrEqualTo exp);
+	public void visitExpMinus(ExpMinus exp);
+	public void visitExpMultiply(ExpMultiply exp);
+	public void visitExpNot(ExpNot exp);
+	public void visitExpNotEqualTo(ExpNotEqualTo exp);
+	public void visitExpOr(ExpOr exp);
 	
-	public void visitValueBool(ValueBool valueBool);
-	public void visitValueDouble(ValueDouble valueDouble);
-	public void visitValueInt(ValueInt valueInt);
+	public void visitValueBool(ValueBool val);
+	public void visitValueDouble(ValueDouble val);
+	public void visitValueInt(ValueInt val);
 	
-	public void visitVarBool(VarBool varBool);
-	public void visitVarDate(VarDate varDate);
-	public void visitVarDecimal(VarDecimal varDecimal);
-	public void visitVarDouble(VarDouble varDouble);
-	public void visitVarGeneric(VarGeneric varGeneric);
-	public void visitVarInt(VarInt varInt);
-	public void visitVarMoney(VarMoney varMoney);
-	public void visitVarStr(VarStr varStr);
-	public void visitExpParentheses(ExpParentheses expParentheses);
-	
-	
-	
+	public void visitVarBool(VarBool var);
+	public void visitVarDate(VarDate var);
+	public void visitVarDecimal(VarDecimal var);
+	public void visitVarDouble(VarDouble var);
+	public void visitVarGeneric(VarGeneric var);
+	public void visitVarInt(VarInt var);
+	public void visitVarMoney(VarMoney var);
+	public void visitVarStr(VarStr var);
 	
 }

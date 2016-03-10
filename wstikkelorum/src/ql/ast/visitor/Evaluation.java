@@ -22,7 +22,7 @@ import ql.ast.literal.StringLiteral;
 import ql.ast.statement.ComputedQuestion;
 
 public class Evaluation extends BasicVisitor<Object> {
-	private Context context;
+	protected Context context;
 	
 	public Evaluation(Context context){
 		this.context = context;
@@ -36,42 +36,42 @@ public class Evaluation extends BasicVisitor<Object> {
 	}
 	
 	@Override
-	public Object visit(OrExpression orExpression){
+	public Boolean visit(OrExpression orExpression){
 		return (boolean)orExpression.getLhs().accept(this) || (boolean)orExpression.getRhs().accept(this);
 	}
 	
 	@Override
-	public Object visit(AndExpression andExpression){
+	public Boolean visit(AndExpression andExpression){
 		return (boolean)andExpression.getLhs().accept(this) && (boolean)andExpression.getRhs().accept(this);
 	}
 	
 	@Override
-	public Object visit(Eq eq){
+	public Boolean visit(Eq eq){
 		return eq.getLhs().accept(this) == (eq.getRhs().accept(this));
 	}
 	
 	@Override
-	public Object visit(GEq geq){
+	public Boolean visit(GEq geq){
 		return (int)geq.getLhs().accept(this) >= (int)geq.getRhs().accept(this);
 	}
 	
 	@Override
-	public Object visit(GT gt){
+	public Boolean visit(GT gt){
 		return (int)gt.getLhs().accept(this) > (int)gt.getRhs().accept(this);
 	}
 	
 	@Override
-	public Object visit(LEq leq){
+	public Boolean visit(LEq leq){
 		return (int)leq.getLhs().accept(this) <= (int)leq.getRhs().accept(this);
 	}
 	
 	@Override
-	public Object visit(LT lt){
+	public Boolean visit(LT lt){
 		return (int)lt.getLhs().accept(this) < (int)lt.getRhs().accept(this);
 	}
 	
 	@Override
-	public Object visit(NEq neq){
+	public Boolean visit(NEq neq){
 		return neq.getLhs().accept(this) != neq.getRhs().accept(this);
 	}
 	
@@ -127,10 +127,14 @@ public class Evaluation extends BasicVisitor<Object> {
 	
 	@Override
 	public Object visit(VariableExpression variableExpression){
-		return context.getValueForVariable(variableExpression.getIdentifier());
+		return context.getValueForVariable(variableExpression);
 	}
 	
 	public Context getContext(){
 		return context;
+	}
+	
+	protected void addValueForQuestion(ComputedQuestion computedQuestion, Object value){
+		context.putValueQuestion(computedQuestion, value);
 	}
 }

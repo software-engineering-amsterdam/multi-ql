@@ -1,10 +1,10 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.ASTSourceInfo;
 
 public class EqualsNot extends BinaryExpr {
 
-	public EqualsNot(ParserRuleContext context, Expr lhs, Expr rhs) {
+	public EqualsNot(ASTSourceInfo context, Expr lhs, Expr rhs) {
 		super(context, lhs, rhs);
 	}
 

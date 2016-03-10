@@ -1,14 +1,13 @@
 package uva.ql.ast.variables.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Generic extends Type {
+public class Generic {
 
-	private String type = "generic";
-
-	@Override
-	public String getType() {
-		return this.type;
+	private EnumType type = EnumType.GENERIC;
+	
+	public EnumType getType() {
+		return type;
 	}
 }

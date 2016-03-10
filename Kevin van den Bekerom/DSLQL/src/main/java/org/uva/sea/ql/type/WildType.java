@@ -12,4 +12,10 @@ public class WildType extends Type {
 		return "Wildcard";
 	}
 
+	@Override
+	public Object parse(String message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

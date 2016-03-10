@@ -77,7 +77,7 @@ public class BasicVisitor<T> implements Visitor<T> {
 
 	@Override
 	public T visit(IfStatement ifStatement) {
-		ifStatement.getExpression().accept(this);
+		ifStatement.getCondition().accept(this);
 		ifStatement.getBody().accept(this);
 		return null;
 	}

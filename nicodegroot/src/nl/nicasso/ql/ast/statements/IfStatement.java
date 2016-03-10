@@ -27,8 +27,8 @@ public class IfStatement extends Statement {
 	}
 	
 	@Override
-	public <T, U> T accept(StatementVisitor<T, U> visitor) {
-		return visitor.visit(this, null);
+	public <T, U> T accept(StatementVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 	
 	public Type checkAllowedTypes(Type expr) {	

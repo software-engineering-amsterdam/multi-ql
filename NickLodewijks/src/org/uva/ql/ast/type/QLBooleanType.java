@@ -1,6 +1,6 @@
 package org.uva.ql.ast.type;
 
-import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.ASTSourceInfo;
 
 public final class QLBooleanType extends QLType {
 
@@ -8,7 +8,7 @@ public final class QLBooleanType extends QLType {
 		super(null);
 	}
 
-	public QLBooleanType(ParserRuleContext context) {
+	public QLBooleanType(ASTSourceInfo context) {
 		super(context);
 	}
 

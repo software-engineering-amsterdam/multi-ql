@@ -9,15 +9,16 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.gui.TreeViewer;
 
 import nl.nicasso.ql.antlr.QLLexer;
 import nl.nicasso.ql.antlr.QLParser;
 import nl.nicasso.ql.ast.structures.Form;
 import nl.nicasso.ql.gui.Gui;
+import nl.nicasso.ql.gui.MainFrame;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 
 public class QL {
@@ -26,10 +27,6 @@ public class QL {
 	
 	private QLParser parser;		
 	private ParseTree tree;
-	
-	public QL() {
-		// Empty?
-	}
 	
 	public void start() {
 		ANTLRInputStream input = readInputDSL();
@@ -48,7 +45,7 @@ public class QL {
         CollectIdentifiers collectIdentifiers = new CollectIdentifiers();
         
         QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, collectIdentifiers);
-        ast.accept(questionVisitor);
+        ast.accept(questionVisitor, null);
         
         //symbolTable.displaySymbolTable(symbolTable);
         
@@ -56,7 +53,7 @@ public class QL {
         displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
     
     	TypeChecker typeChecker = new TypeChecker(symbolTable);
-    	ast.accept(typeChecker);
+    	ast.accept(typeChecker, null);
         
         displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
         displayMessages("TypeChecker Errors", typeChecker.getErrors());
@@ -65,15 +62,17 @@ public class QL {
         
         Evaluator evaluator = new Evaluator(symbolTable);
         // Get all initial values
-        ast.accept(evaluator);
+        ast.accept(evaluator, null);
 
-        // Use values to evaluate expressions
-        ast.accept(evaluator);
+        // Use values to evaluate expressions (NOT NEEDED ANYMORE? HUH!)
+        //ast.accept(evaluator);
         
         //symbolTable.displaySymbolTable(symbolTable);
 
-        Gui guiVisitor = new Gui(symbolTable);
-        ast.accept(guiVisitor);
+        MainFrame main = new MainFrame();
+        
+        Gui guiVisitor = new Gui(symbolTable, main);
+        ast.accept(guiVisitor, null);
         //ex.setVisible(true);
 	}
 	

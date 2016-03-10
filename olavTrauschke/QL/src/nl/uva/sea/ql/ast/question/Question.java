@@ -2,15 +2,15 @@ package nl.uva.sea.ql.ast.question;
 
 import java.util.Objects;
 import nl.uva.sea.ql.ast.ASTNode;
-import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.Label;
+import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 9-mrt-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -91,7 +91,7 @@ public abstract class Question extends ASTNode {
         identifierAccept(v);
         labelAccept(v);
         if (calculation != null) {
-            calculation.accept(v);
+            calculationAccept(v);
         }
     }
     
@@ -113,6 +113,26 @@ public abstract class Question extends ASTNode {
      */
     protected void labelAccept(ASTVisitor v) {
         label.accept(v);
+    }
+    
+    /**
+     * Tells whether this <code>Question</code> is computed (or should be
+     * anwered by the user.
+     * 
+     * @return <code>true</code> if and only if <code>calculation != null</code>
+     */
+    public boolean isComputed() {
+        return calculation != null;
+    }
+    
+    /**
+     * Has the <code>calculation</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that the <code>calculation</code> of
+     *          <code>this Question</code> should <code>accept</code>
+     */
+    public void calculationAccept(ASTVisitor v) {
+        calculation.accept(v);
     }
     
     /**

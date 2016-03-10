@@ -54,7 +54,7 @@ public class IdentCollectorTest {
         assertTrue(parsed);
         Form ast = parser.getResult();
         
-        IdentCollector collector = new IdentCollector();
+        QuestionIdentCollector collector = new QuestionIdentCollector();
         ast.accept(collector);
         
         List<String> errors = collector.getErrors();
@@ -71,12 +71,12 @@ public class IdentCollectorTest {
         assertTrue(parsed);
         Form ast = parser.getResult();
         
-        IdentCollector collector = new IdentCollector();
+        QuestionIdentCollector collector = new QuestionIdentCollector();
         ast.accept(collector);
         
         List<String> errors = collector.getErrors();
         List<String> expectedErrors = new ArrayList<>();
-        String error = IdentCollector.REDEFINED_QUESTION_ERROR + "hasBoughtHouse";
+        String error = QuestionIdentCollector.REDEFINED_QUESTION_ERROR + "hasBoughtHouse";
         expectedErrors.add(error);
         assertEquals(expectedErrors, errors);
         

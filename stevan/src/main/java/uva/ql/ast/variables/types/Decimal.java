@@ -1,14 +1,13 @@
 package uva.ql.ast.variables.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Decimal extends Type {
+public class Decimal {
 
-	private String type = "decimal";
-
-	@Override
-	public String getType() {
-		return this.type;
+	private EnumType type = EnumType.DECIMAL;
+	
+	public EnumType getType() {
+		return type;
 	}
 }

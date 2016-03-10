@@ -1,7 +1,7 @@
 package uva.ql.ast;
 
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicQuestionDependenciesVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
@@ -20,6 +20,11 @@ public class Form extends Block {
 	}
 	
 	@Override
+	public EnumType getType() {
+		return EnumType.FORM;
+	}
+	
+	@Override
 	public void accept(INodeVisitor visitor) {
 		visitor.visitForm(this);
 	}
@@ -35,7 +40,7 @@ public class Form extends Block {
 	}
 	
 	@Override
-	public void accept(ICyclicQuestionDependenciesVisitor visitor) {
+	public void accept(ICyclicDependencyVisitor visitor) {
 		visitor.visitForm(this);
 	}
 	
