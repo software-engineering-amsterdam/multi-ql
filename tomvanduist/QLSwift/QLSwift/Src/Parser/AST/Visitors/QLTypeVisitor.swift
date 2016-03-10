@@ -21,5 +21,6 @@ protocol QLTypeVisitor {
     func visit(node: QLStringType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
     func visit(node: QLIntegerType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
     func visit(node: QLBooleanType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
+    func visit(node: QLVoidType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
     func visit(node: QLUnknownType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
 }

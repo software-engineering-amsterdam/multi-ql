@@ -33,15 +33,18 @@ extension FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let formViewFactory = DefaultFormViewFactory(formLayout: DefaultFormLayout())
-//        let formViewBuilder = DefaultFormViewBuilder(formViewFactory: formViewFactory)
-//        
-//        let view = formViewBuilder.buildFormView(self.form)
-//        
-//        self.contentView.addSubview(view)
-//        view.snp_makeConstraints { [unowned self] (make) -> Void in
-//            make.edges.equalTo(self.contentView)
-//        }
+        guard let symbolTable = try? TypeInferer().inferTypes(form)
+            else { return }
+        
+        
+        let questionnaire = QuestionnaireBuilder().build(form, symbolTable: symbolTable)
+        
+        let view = QuestionnaireViewBuilder().build(questionnaire)
+        
+        self.contentView.addSubview(view)
+        view.snp_makeConstraints { [unowned self] (make) -> Void in
+            make.edges.equalTo(self.contentView)
+        }
     }
 }
 
