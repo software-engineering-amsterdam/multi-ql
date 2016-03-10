@@ -3,6 +3,8 @@ package org.uva.sea.ql.ast.form;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.uva.sea.ql.value.Value;
+
 public class ValueMap {
 	private Map<String, Value> valueMap;
 	

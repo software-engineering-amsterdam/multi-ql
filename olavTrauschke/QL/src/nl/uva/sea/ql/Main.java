@@ -68,11 +68,18 @@ public class Main {
      * to the user.
      */
     public static final String SEMANTICS_ERROR_MESSAGE
-            = "The following errors were found while checking the selected file: ";
+            = "Errors occured:";
     
+    /**
+     * Title for dialog displaying warnings.
+     */
+    public static final String WARNING_TITLE = "Warnings";
+    
+    /**
+     * Message to introduce warnings.
+     */
     public static final String WARNINGS_MESSAGE
-            = "The following warnings apply to the selected file. Do you want to "
-            + "continue anyway?";
+            = "Warning: problems found. Do you want to continue anyway?";
     
     /**
      * Description of the type of file the user should select when running the program.
@@ -243,7 +250,6 @@ public class Main {
         assert !errors.isEmpty();
         warnings.replaceAll(w -> w + WARNING_LABEL);
         errors.addAll(warnings);
-        errors = toMultiLineList(errors);
         showErrorMessage(errors, SEMANTICS_ERROR_MESSAGE);
     }
     
@@ -256,9 +262,10 @@ public class Main {
      * @return wether the user has chosen to continue despite the displayed warnings
      */
     private static boolean handleWarnings(List<String> warnings) {
-        warnings = toMultiLineList(warnings);
-        int run = JOptionPane.showConfirmDialog(null, warnings, WARNINGS_MESSAGE,
-                JOptionPane.YES_NO_OPTION);
+        String warningsString = toMultiLineString(warnings);
+        String message = WARNINGS_MESSAGE + "\n" + warningsString;
+        int run = JOptionPane.showConfirmDialog(null, message, WARNING_TITLE,
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         return run == JOptionPane.YES_OPTION;
     }
     
@@ -269,8 +276,40 @@ public class Main {
      * @param title a <code>String</code> containing the tile for the dialog to
      *              display
      */
-    private static void showErrorMessage(Object message, String title) {
+    private static void showErrorMessage(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+    }
+    
+    /**
+     * Display a list of error messages to the user.
+     * 
+     * @param message a <code>List</code> of the messages to display
+     * @param title a title for the dialog, intrucing the list of messages
+     */
+    private static void showErrorMessage(List message, String title) {
+        showErrorMessage(toMultiLineString(message), title);
+    }
+    
+    /**
+     * Get a multi-line <code>String</code> representation of a the elements of
+     * an <code>Iterable</code>.
+     * 
+     * @param message the <code>Iterable</code> to convert
+     * @return a <code>String</code> containing all elements of <code>message</code>
+     *          in the order they are returned by its <code>iterator</code>,
+     *          seperated by the new line character "\n"
+     */
+    private static String toMultiLineString(Iterable message) {
+        Iterator iterator = message.iterator();
+        String messageString = "";
+        if (iterator.hasNext()) {
+            messageString += iterator.next();
+            while (iterator.hasNext()) {
+                messageString += "\n";
+                messageString += iterator.next();
+            }
+        }
+        return messageString;
     }
     
 }

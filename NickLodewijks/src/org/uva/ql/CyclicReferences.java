@@ -43,7 +43,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 			@Override
 			public Void visit(QLQuestionComputed node, Void context) {
-				rt.add(node, freeVariables(node.expr()));
+				rt.add(node, freeVariables(node.getComputation()));
 				return null;
 			}
 		}, null);

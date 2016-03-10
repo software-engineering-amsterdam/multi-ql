@@ -33,18 +33,26 @@ public class Form extends JFrame implements GuiInterface {
 	}
 
 	@Override
-	public boolean runGui() {	
+	public void createGui() {	
 		for(Question q : questions){
-			q.runGui();
+			q.createGui();
 			this.add(q);
 		}
 		
 		for(IfForm i : listIfForm){
-			i.runGui();
-			this.add(i);
-		}	
-
-		return true;
+			i.createGui();
+		}
+	}
+	
+	@Override
+	public void updateGui() {
+		for(Question q : questions){
+			q.setVisible(true);
+		}
+		
+		for(IfForm i : listIfForm){
+			i.updateGui();
+		}
 	}
 	
 	@Override

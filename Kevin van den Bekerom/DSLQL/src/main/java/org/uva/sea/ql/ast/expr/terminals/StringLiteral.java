@@ -2,20 +2,24 @@ package org.uva.sea.ql.ast.expr.terminals;
 
 import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.form.ValueMap;
 import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.StrType;
 import org.uva.sea.ql.type.Type;
+import org.uva.sea.ql.value.StrValue;
+import org.uva.sea.ql.value.Value;
 
 public class StringLiteral extends Expr {
 	final String value;
 	
 	public StringLiteral(String value) {
+		super(-1);
 		this.value = value;
 	}
 	
 	@Override
-	public String eval() {
-		return value;
+	public Value eval(ValueMap valueMap) {
+		return new StrValue(value);
 	}
 	
 	public void accept(Visitor visitor, Object context) {

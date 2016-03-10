@@ -12,7 +12,7 @@ import org.jgrapht.graph.DefaultEdge;
  * Visitor to check the dependencies between <code>Question</code>s in an ast.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 10-mrt-2016
  */
 public class DependencyChecker extends GeneralizedASTVisitor {
     
@@ -72,6 +72,8 @@ public class DependencyChecker extends GeneralizedASTVisitor {
             addEdges(startIdentifier, identifiersInCalculation);
         }
     }
+    
+    //TODO handle ConditionalStatements
     
     /**
      * Add an error stating which <code>Ident</code>s were involved if

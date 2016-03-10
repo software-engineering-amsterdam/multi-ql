@@ -24,5 +24,4 @@ public class ComputedQuestionWidget extends UIElement{
 		panel.setVisible(true);
 		return panel;
 	}
-
 }

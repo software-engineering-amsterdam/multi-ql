@@ -134,7 +134,7 @@ public class LeftDFSVisitor<U> implements Visitor<U> {
 	}
 
 	public void visit(IfStatement ifStatement, U context) {
-		ifStatement.getClause().accept(this, context);
+		ifStatement.getCondition().accept(this, context);
 		ifStatement.getBlock().accept(this, context);
 	}
 

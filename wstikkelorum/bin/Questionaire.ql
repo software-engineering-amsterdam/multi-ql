@@ -3,7 +3,7 @@ form Box1HouseOwning {
 	hasBoughtHouse: boolean "Did you by a house in 2010?"
 	hasMaintLoan: boolean "Did you enter a loan for maintenance/reconstruction?"
 	
-	if(hasSoldHouse){
+	if(true){
 		hasSoldCar: int "How much?" (2000)
 		
 			if(laterDeclaredVariable){
