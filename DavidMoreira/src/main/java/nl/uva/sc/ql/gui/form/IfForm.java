@@ -1,21 +1,18 @@
 package nl.uva.sc.ql.gui.form;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
-public class IfForm extends JPanel implements GuiInterface, Observer {
-
-	private static final long serialVersionUID = 1L;
+public class IfForm implements GuiInterface, Observer {
 	
 	private List<ConditionBlockForm> listConditionBlock;
 	private List<Question> questions;
+	private JFrame jFrame;
 	
-	public IfForm(){
-		//super(new BorderLayout());
-		
+	public IfForm(JFrame jFrame){
+		this.jFrame = jFrame;
 		this.listConditionBlock = new ArrayList<ConditionBlockForm>();
 		this.questions = new ArrayList<Question>();
 	}
@@ -30,33 +27,39 @@ public class IfForm extends JPanel implements GuiInterface, Observer {
 	}
 	
 	@Override
-	public boolean runGui() {
+	public void createGui() {
 		for(ConditionBlockForm i : listConditionBlock){
-			if(i.runGui()){
-				resetPanel();
-				this.add(i);
-				return true;
-			}
+			i.createGui();
 		}
 		
 		for(Question q : questions){
-			q.runGui();
-			this.add(q);
-		}
+			q.createGui();
+			jFrame.add(q);
+		}		
+	}
+
+	@Override
+	public void updateGui() {
+		boolean result = evaluateConditions();
 		
+		for(Question q : questions){
+			q.setVisible(result);
+		}		
+	}
+	
+	private boolean evaluateConditions(){
+		for(ConditionBlockForm i : listConditionBlock){
+			if(i.getResultOfCondition()){
+				i.updateGui();
+				return false;
+			}
+		}
 		return true;
 	}
 	
 	@Override
 	public void update() {
-		runGui();
-		this.validate();
-	}
-	
-	public void resetPanel(){
-		this.removeAll();
-		
-		this.validate();
+		updateGui();
 	}
 	
 	@Override
