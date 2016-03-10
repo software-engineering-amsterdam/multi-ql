@@ -14,11 +14,6 @@ public class Str extends Val{
     }
 
     @Override
-    public <ATOM, CONTEXT> ATOM accept(AtomVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
-        return visitor.visit(this,context);
-    }
-
-    @Override
     public Object getValue() {
         return value;
     }
@@ -30,5 +25,10 @@ public class Str extends Val{
     @Override
     public String toString() {
         return value;
+    }
+
+    @Override
+    public <ATOM, CONTEXT> ATOM accept(AtomVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
+        return visitor.visit(this,context);
     }
 }

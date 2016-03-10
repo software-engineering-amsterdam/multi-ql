@@ -32,12 +32,12 @@ public class Int extends Val {
     }
 
     @Override
-    public <ATOM, CONTEXT> ATOM accept(AtomVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
-        return visitor.visit(this,context);
+    public String toString() {
+        return value.toString();
     }
 
     @Override
-    public String toString() {
-        return value.toString();
+    public <ATOM, CONTEXT> ATOM accept(AtomVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
+        return visitor.visit(this,context);
     }
 }

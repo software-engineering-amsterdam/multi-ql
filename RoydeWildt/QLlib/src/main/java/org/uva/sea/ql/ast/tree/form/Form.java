@@ -40,7 +40,7 @@ public class Form extends Node implements FormVisitable {
     }
 
     @Override
-    public <E, C> E accept(FormVisitor<E, C> visitor, C context) {
+    public <FORM, CONTEXT> FORM accept(FormVisitor<FORM, CONTEXT> visitor, CONTEXT context) {
         return visitor.visit(this,context);
     }
 }

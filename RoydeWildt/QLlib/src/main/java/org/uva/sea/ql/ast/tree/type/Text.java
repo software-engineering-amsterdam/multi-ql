@@ -30,7 +30,7 @@ public class Text extends Type {
     }
 
     @Override
-    public <T, C> T accept(TypeVisitor<T, C> visitor, C context) {
-        return null;
+    public <TYPE, CONTEXT> TYPE accept(TypeVisitor<TYPE, CONTEXT> visitor, CONTEXT context) {
+        return visitor.visit(this, context);
     }
 }

@@ -10,6 +10,7 @@ import org.uva.sea.ql.ast.tree.stat.*;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
 import org.uva.sea.ql.ast.visitor.interfaces.FormVisitor;
 import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
@@ -215,6 +216,11 @@ public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,ATOM,CONTEXT> implements
 
     @Override
     public TYPE visit(Money type, CONTEXT c) {
+        return null;
+    }
+
+    @Override
+    public TYPE visit(Text type, CONTEXT context) {
         return null;
     }
 

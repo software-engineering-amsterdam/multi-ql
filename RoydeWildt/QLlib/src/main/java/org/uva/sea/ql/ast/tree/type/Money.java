@@ -25,7 +25,7 @@ public class Money extends Type {
     }
 
     @Override
-    public <S, C> S accept(TypeVisitor<S, C> visitor, C context) {
+    public <TYPE, CONTEXT> TYPE accept(TypeVisitor<TYPE, CONTEXT> visitor, CONTEXT context) {
         return visitor.visit(this, context);
     }
 }

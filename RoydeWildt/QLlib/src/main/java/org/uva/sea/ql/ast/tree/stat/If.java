@@ -30,7 +30,7 @@ public class If extends Stat{
     }
 
     @Override
-    public <S, C> S accept(StatVisitor<S, C> visitor, C context) {
+    public <STAT, CONTEXT> STAT accept(StatVisitor<STAT, CONTEXT> visitor, CONTEXT context) {
         return visitor.visit(this, context);
     }
 

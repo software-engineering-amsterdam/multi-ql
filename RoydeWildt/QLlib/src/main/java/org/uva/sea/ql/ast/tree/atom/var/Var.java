@@ -19,11 +19,6 @@ public class  Var extends Literal {
     }
 
     @Override
-    public <ATOM, CONTEXT> ATOM accept(AtomVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
-        return visitor.visit(this,context);
-    }
-
-    @Override
     public String toString() {
         return name;
     }
@@ -42,4 +37,8 @@ public class  Var extends Literal {
         return name.hashCode();
     }
 
+    @Override
+    public <ATOM, CONTEXT> ATOM accept(AtomVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
+        return visitor.visit(this,context);
+    }
 }

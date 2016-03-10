@@ -18,7 +18,7 @@ public class Div extends BinaryExpr {
     }
 
     @Override
-    public <E, C> E accept(ExprVisitor<E, C> visitor, C context) {
+    public <EXPR, CONTEXT> EXPR accept(ExprVisitor<EXPR, CONTEXT> visitor, CONTEXT context) {
         return visitor.visit(this,context);
     }
 }
