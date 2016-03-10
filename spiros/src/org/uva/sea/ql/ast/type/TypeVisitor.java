@@ -8,4 +8,5 @@ public interface TypeVisitor {
 	public Widget visit(BoolType boolType);
 	public Widget visit(StrType strType);
 	public Widget visit(UndefinedType undefinedType);	// needed????
+	
 }
