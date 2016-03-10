@@ -1,44 +1,37 @@
 package nl.nicasso.ql.gui.questionFields.listeners;
 
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JTextField;
 
 import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.values.IntegerValue;
+import nl.nicasso.ql.values.StringValue;
 
-public class IntegerFieldListener extends FieldListener implements DocumentListener {
+public class IntegerFieldListener extends FieldListener implements KeyListener {
 
 	public IntegerFieldListener(Identifier identifier) {
 		super(identifier);
 	}
-
-	@Override
-	public void insertUpdate(DocumentEvent e) {
-		documentEventGetValue(e);
-	}
-
-	@Override
-	public void removeUpdate(DocumentEvent e) {
-		documentEventGetValue(e);	
-	}
-
-	@Override
-	public void changedUpdate(DocumentEvent e) {
-		documentEventGetValue(e);
-	}
 	
-	private void documentEventGetValue(DocumentEvent e) {
-		Integer value;
-				
-		try {
-			value = Integer.parseInt(e.getDocument().getText(0, e.getDocument().getLength()));
-			fieldValueChanged(new IntegerValue(value));
-		} catch (BadLocationException e1) {
-			e1.printStackTrace();
-		}
+	private void respondToAction(Integer value) {
+		fieldValueChanged(new IntegerValue(value));
 	}
 
-	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		JTextField source = (JTextField) e.getSource();
+		respondToAction(Integer.parseInt(source.getText()));
+	}
 }

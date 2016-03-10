@@ -76,7 +76,7 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 	public Question visitQuestionStatement(QLParser.QuestionStatementContext ctx) {
 		Type type = (Type) ctx.type.accept(this);
 		Identifier id = new Identifier(ctx.identifier.getText(), getCodeLocation(ctx));
-		String label = ctx.label.getText();
+		String label = removeStringQuotes(ctx.label.getText());
 
 		return new Question(id, label, type, getCodeLocation(ctx));
 	}
@@ -85,7 +85,7 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 	public ComputedQuestion visitComputedQuestionStatement(QLParser.ComputedQuestionStatementContext ctx) {
 		Type type = (Type) ctx.type.accept(this);
 		Identifier id = new Identifier(ctx.identifier.getText(), getCodeLocation(ctx));
-		String label = ctx.label.getText();
+		String label = removeStringQuotes(ctx.label.getText());
 		Expression expr = (Expression) ctx.expr.accept(this);
 
 		return new ComputedQuestion(id, label, type, expr, getCodeLocation(ctx));
@@ -236,7 +236,7 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 
 	@Override
 	public StringLit visitStringLiteral(QLParser.StringLiteralContext ctx) {
-		return new StringLit(ctx.getText(), getCodeLocation(ctx));
+		return new StringLit(removeStringQuotes(ctx.getText()), getCodeLocation(ctx));
 	}
 	
 	@Override
@@ -261,6 +261,10 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 	
 	private CodeLocation getCodeLocation(ParserRuleContext ctx) {
 		return new CodeLocation(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+	}
+	
+	private String removeStringQuotes(String str) {
+		return str.substring(1, str.length()-1);
 	}
 
 }

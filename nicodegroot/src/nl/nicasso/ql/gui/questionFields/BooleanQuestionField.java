@@ -7,11 +7,6 @@ import nl.nicasso.ql.gui.questionFields.listeners.CheckBoxListener;
 
 public class BooleanQuestionField extends QuestionField {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8996503194626046477L;
-	
 	private Identifier identifier;
 	
 	JCheckBox field;
