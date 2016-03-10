@@ -58,6 +58,21 @@ class MoneyEvaluator extends Evaluator {
 	}
 }
 
+export class NegationEvaluator extends Evaluator {
+	receiveInteger(integerValue) {
+		return new IntegerValue(-integerValue.value);
+	}
+	receiveFloat(floatValue) {
+		return new FloatValue(-floatValue.value);
+	}
+}
+
+export class NotEvaluator extends Evaluator {
+	receiveBoolean(booleanValue) {
+		return new BooleanValue(!booleanValue.value);
+	}
+}
+
 export class AddEvaluator extends Evaluator {
 	receiveBoolean(booleanValue, otherValue) {
 		return otherValue.dispatch(new BooleanAddEvaluator(booleanValue));
