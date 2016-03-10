@@ -60,6 +60,8 @@ class QLIfStatement: QLStatement, Visitable {
     }
     
     func accept(visitor: Visitor) {
+        condition.accept(visitor)
+        
         for statement in codeBlock {
             statement.accept(visitor)
         }
@@ -118,6 +120,8 @@ class QLBinaryExpression: QLExpression {
     }
     
     func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
         visitor.visit(self)
     }
 }
