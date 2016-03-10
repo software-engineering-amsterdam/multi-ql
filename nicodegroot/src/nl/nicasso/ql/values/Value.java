@@ -63,14 +63,6 @@ public abstract class Value {
 
 	// INTEGER
 	
-	public Value additionToInteger(IntegerValue v) {
-		throw new AssertionError("KAPOT!");
-	}
-	
-	public Value subtractionToInteger(IntegerValue v) {
-		throw new AssertionError("KAPOT!");
-	}
-	
 	public Value multiplicationToInteger(IntegerValue v) {
 		throw new AssertionError("KAPOT!");
 	}
@@ -81,14 +73,6 @@ public abstract class Value {
 	
 	// MONEY
 	
-	public Value additionToMoney(MoneyValue v) {
-		throw new AssertionError("KAPOT!");
-	}
-	
-	public Value subtractionToMoney(MoneyValue v) {
-		throw new AssertionError("KAPOT!");
-	}
-
 	public Value multiplicationToMoney(MoneyValue v) {
 		throw new AssertionError("KAPOT!");
 	}

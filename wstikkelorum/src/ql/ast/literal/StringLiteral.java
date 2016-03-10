@@ -1,12 +1,11 @@
 package ql.ast.literal;
 
-import ql.ast.expression.Expression;
 import ql.ast.visitor.Visitor;
 
-public class StringLiteral extends Expression {
+public class StringLiteral extends Literal {
 	private final String value;
 
-	public StringLiteral(int lineNumber, String value) {
+	public StringLiteral(String value, int lineNumber) {
 		super(lineNumber);
 		this.value = value;
 	}

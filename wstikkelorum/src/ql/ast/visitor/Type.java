@@ -1,6 +1,6 @@
 package ql.ast.visitor;
 
-//classes van maken??
+//TODO: create class instead of enum
 public enum Type {
 	BOOLEAN, INT, STRING;
 }

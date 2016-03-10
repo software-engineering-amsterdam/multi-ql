@@ -86,7 +86,7 @@ public class CreateForm implements Visitor {
 		ExpressionNode expression = conditionBlockNode.getExpression();
 		BlockNode block = conditionBlockNode.getBlock();
 		
-		conditionBlockForm = new ConditionBlockForm(state, expression);
+		conditionBlockForm = new ConditionBlockForm(form, state, expression);
 		
 		block.accept(this);
 		
@@ -129,7 +129,7 @@ public class CreateForm implements Visitor {
 		List<ConditionBlockNode> conditions = ifNode.getConditions();
 		BlockNode elseBlock = ifNode.getElseBlock();
 		
-		ifForm = new IfForm();
+		ifForm = new IfForm(form);
 	
 		for(ConditionBlockNode cbn : conditions){
 			cbn.accept(this);

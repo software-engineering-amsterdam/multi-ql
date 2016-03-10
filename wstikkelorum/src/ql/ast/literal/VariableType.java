@@ -20,7 +20,8 @@ public class VariableType extends TreeNode {
 		}
 		return Type.STRING;
 	}
-
+	
+	//TODO: dit kan misschien weg...???
 	@Override
 	public String toString() {
 		if (type.equals("boolean")) {

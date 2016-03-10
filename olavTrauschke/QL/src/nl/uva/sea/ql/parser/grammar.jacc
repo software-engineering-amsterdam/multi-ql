@@ -131,7 +131,7 @@ public Parser(File file) throws FileNotFoundException {
 }
 
 /**
- * Get the result of the last parsing <code>this Parser</code> performed.
+ * @return the result of the last parsing <code>this Parser</code> performed
  */
 public Form getResult() {
   return result;

@@ -2,7 +2,9 @@ import { AnalyzingQlParser } from 'src/ql/parser';
 import { SemanticAnalyser } from 'src/ql/ast_semantic_analysis';
 import { Parser as QlsParser } from 'src/qls/parser';
 import { Log } from 'src/log';
-import { Renderer } from 'src/ql/rendering';
+import { Renderer as QlRenderer} from 'src/ql/rendering';
+import { WidgetFactory as QlWidgetFactory } from 'src/ql/widgets';
+import { Renderer as QlsRenderer } from 'src/qls/rendering';
 import * as ace from 'ace';
 
 let LOCALSTORAGE_KEY = 'uva-software-process-ql-merijn-last-input',
@@ -16,7 +18,8 @@ let LOCALSTORAGE_KEY = 'uva-software-process-ql-merijn-last-input',
 	qlsLogElement = document.getElementById('log-qls'),
 	qlsParser = new QlsParser(),
 	renderElement = document.getElementById('render'),
-	renderer = new Renderer(document),
+	qlRenderer = new QlRenderer(document),
+	qlsRenderer = new QlsRenderer(document, new QlWidgetFactory(document )),
 	qlAst,
 	qlsAst;
 
@@ -41,7 +44,13 @@ function render() {
 	while (renderElement.firstChild !== null) {
 		renderElement.removeChild(renderElement.firstChild);
 	}
-	renderer.render(qlAst, renderElement);
+	if (qlAst) {
+		if (qlsAst) {
+			qlsRenderer.render(qlAst, qlsAst, renderElement);
+		} else {
+			qlRenderer.render(qlAst, renderElement);
+		}
+	}
 }
 
 qlSession.on('change', function (e) {
@@ -60,7 +69,7 @@ qlSession.on('change', function (e) {
 	qlLogElement.value = outputMessages.join("\n");
 	qlSession.setAnnotations(annotations);
 	if (!log.hasErrors()) {
-		//render();
+		render();
 	}
 });
 qlSession.setValue(window.localStorage.getItem(LOCALSTORAGE_KEY));
@@ -81,8 +90,7 @@ qlsSession.on('change', function (e) {
 	qlsLogElement.value = outputMessages.join("\n");
 	qlsSession.setAnnotations(annotations);
 	if (!log.hasErrors()) {
-		console.log(qlsAst);
-		//render();
+		render();
 	}
 });
 qlsSession.setValue(window.localStorage.getItem(QLS_LOCALSTORAGE_KEY));

@@ -8,10 +8,10 @@ public class Form extends TreeNode implements Visitable {
 	private final String identifier;
 	private final Body body;
 
-	public Form(int lineNumber, String identifier, Body result) {
+	public Form(int lineNumber, String identifier, Body body) {
 		super(lineNumber);
 		this.identifier = identifier;
-		this.body = result;
+		this.body = body;
 	}
 
 	public String getIdentifier() {

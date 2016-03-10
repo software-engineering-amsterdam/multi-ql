@@ -1,55 +1,57 @@
 package nl.nicasso.ql.gui.panels;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import nl.nicasso.ql.ast.expressions.Expression;
 import nl.nicasso.ql.ast.statements.Question;
+import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.values.UnknownValue;
 import nl.nicasso.ql.values.Value;
 
 public class QuestionPanel extends Panel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8940568963006272156L;
-	
 	private JPanel panel;
+	private Label feedback;
+	private Expression condition;
 	
-	public QuestionPanel(Question q, QuestionField field, SymbolTable symbolTable) {
-		 panel = new JPanel(new GridLayout(2, 1));
+	public QuestionPanel(Question q, QuestionField field, Expression condition) {
+		 panel = new JPanel(new GridLayout(2,2));
+		 feedback = new Label("");
+		 this.condition = condition;
+		 field.setFeedbackLabel(feedback);
 		 
 		 addQuestionLabel(q);
-		 addQuestionField(q, field, symbolTable);
+		 panel.add(new JPanel());		 
+		 addQuestionField(q, field, new UnknownValue());
+		 addLabelForFeedback();
 	}
 	
 	public void addQuestionLabel(Question q) {
-		// Remove the quotes by modifying the grammar
-		Label questionLabel = new Label(q.getLabel());
+		Label questionLabel = new Label("Q: "+q.getLabel());
 		questionLabel.setFont(new Font("Arial", 0, 100));
-		
 		panel.add(questionLabel.getWidget());
 	}
 	
-	public void addQuestionField(Question q, QuestionField field, SymbolTable symbolTable) {	
-		Value v = symbolTable.getEntryValue(q.getId());
-		
-		System.out.println(q.getId().getValue() + " = " + v.getValue().toString());
-		
-		field.setValue(v.getValue());
-		
+	public void addLabelForFeedback() {
+		feedback.setFont(new Font("Arial", 0, 100));
+		feedback.setLabelColor(Color.RED);
+		panel.add(feedback.getWidget());
+	}
+	
+	public void addQuestionField(Question q, QuestionField field, Value value) {		
+		field.setValue(value.getValue());
 		panel.add(field.getField());
 	}
 	
 	@Override
-	public JPanel getPanel() {
-		panel.setVisible(true);
-		
+	public JPanel getPanel() {		
 		return this.panel;
 	}
-	
+
 }

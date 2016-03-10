@@ -1,6 +1,8 @@
 package nl.uva.sea.ql.checker;
 
 import java.util.*;
+import nl.uva.sea.ql.QuestionIdentCollector;
+import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import org.jgrapht.DirectedGraph;
@@ -12,7 +14,7 @@ import org.jgrapht.graph.DefaultEdge;
  * Visitor to check the dependencies between <code>Question</code>s in an ast.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 10-mrt-2016
  */
 public class DependencyChecker extends GeneralizedASTVisitor {
     
@@ -70,6 +72,30 @@ public class DependencyChecker extends GeneralizedASTVisitor {
             q.calculationAccept(collector);
             Iterable<Ident> identifiersInCalculation = collector.getIdentifiers();
             addEdges(startIdentifier, identifiersInCalculation);
+        }
+    }
+    
+    /**
+     * Add edges from the <code>identifier</code>s of all <code>Question</code>s
+     * in a <code>ConditionalStatement</code> to all <code>Ident</code>s used
+     * in its <code>condition</code> and add an error if a
+     * <code>ConditionalStatement</code> was found which <code>condition</code>
+     * refers to an undefined <code>Question</code>.
+     * 
+     * @param s the <code>ConditionalStatement</code> to check
+     */
+    @Override
+    public void visit(ConditionalStatement s) {
+        IdentCollector dependenciesCollector = new IdentCollector();
+        s.conditionAccept(dependenciesCollector);
+        Iterable<Ident> dependencies = dependenciesCollector.getIdentifiers();
+        
+        QuestionIdentCollector containedQuestionsCollector = new QuestionIdentCollector();
+        s.accept(containedQuestionsCollector);
+        Iterable<Ident> containedQuestions = containedQuestionsCollector.obtainIdentifiers();
+        
+        for(Ident startIdentifier : containedQuestions) {
+            addEdges(startIdentifier, dependencies);
         }
     }
     

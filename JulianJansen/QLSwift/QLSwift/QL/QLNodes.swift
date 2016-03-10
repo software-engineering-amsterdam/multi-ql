@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol ASTNode {}
+protocol ASTNode: Visitable {}
 protocol QLLiteral: ASTNode {}
 protocol QLStatement: ASTNode {}
 protocol QLExpression: QLStatement {}
 protocol QLOperator {}
 
-class QLForm: ASTNode {
+class QLForm: ASTNode, Visitable {
     let formName: String
     let codeBlock: [QLStatement]
     
@@ -22,11 +22,19 @@ class QLForm: ASTNode {
         self.formName = formName
         self.codeBlock = codeBlock
     }
+    
+    func accept(visitor: Visitor) {
+        for statement in codeBlock {
+            statement.accept(visitor)
+        }
+        
+        visitor.visit(self)
+    }
 }
 
 // MARK: Statements.
 
-class QLQuestion: QLStatement {
+class QLQuestion: QLStatement, Visitable {
     let name: String
     let variable: QLExpression
     let type: String
@@ -36,15 +44,29 @@ class QLQuestion: QLStatement {
         self.variable = variable
         self.type = type
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
-class QLIfStatement: QLStatement {
+class QLIfStatement: QLStatement, Visitable {
     let condition: QLExpression
     let codeBlock: [QLStatement]
     
     init(condition: QLExpression, codeBlock: [QLStatement]) {
         self.condition = condition
         self.codeBlock = codeBlock
+    }
+    
+    func accept(visitor: Visitor) {
+        condition.accept(visitor)
+        
+        for statement in codeBlock {
+            statement.accept(visitor)
+        }
+        
+        visitor.visit(self)
     }
 }
 
@@ -56,6 +78,10 @@ class QLVariable: QLExpression {
     init(identifier: String) {
         self.identifier = identifier
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLUnaryExpression: QLExpression {
@@ -64,6 +90,11 @@ class QLUnaryExpression: QLExpression {
     init(expression: QLLiteral) {
         self.expression = expression
     }
+    
+    func accept(visitor: Visitor) {
+        expression.accept(visitor)
+        visitor.visit(self)
+    }
 }
 
 class QLNotExpression: QLExpression {
@@ -71,6 +102,11 @@ class QLNotExpression: QLExpression {
     
     init(expression: QLExpression) {
         self.expression = expression
+    }
+    
+    func accept(visitor: Visitor) {
+        expression.accept(visitor)
+        visitor.visit(self)
     }
 }
 
@@ -81,6 +117,12 @@ class QLBinaryExpression: QLExpression {
     init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        lhs.accept(visitor)
+        rhs.accept(visitor)
+        visitor.visit(self)
     }
 }
 
@@ -109,9 +151,6 @@ class QLAndExpression: QLBinaryExpression { }
 class QLOrExpression: QLBinaryExpression { }
 
 
-
-
-
 // MARK: Literals.
 
 class QLBool: QLLiteral {
@@ -119,6 +158,10 @@ class QLBool: QLLiteral {
     
     init(boolean: Bool) {
         self.boolean = boolean
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }
 
@@ -128,6 +171,10 @@ class QLString: QLLiteral {
     init(string: String) {
         self.string = string
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLInteger: QLLiteral {
@@ -135,6 +182,10 @@ class QLInteger: QLLiteral {
     
     init(integer: Int) {
         self.integer = integer
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }
 
@@ -148,6 +199,10 @@ class QLDate: QLLiteral {
         self.month = month
         self.year = year
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLDecimal: QLLiteral {
@@ -156,6 +211,10 @@ class QLDecimal: QLLiteral {
     init(decimal: Int) {
         self.decimal = decimal
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLMoney: QLLiteral {
@@ -163,5 +222,9 @@ class QLMoney: QLLiteral {
     
     init(money: Float) {
         self.money = money
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }

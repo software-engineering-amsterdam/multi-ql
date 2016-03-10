@@ -1,17 +1,12 @@
 package nl.nicasso.ql.gui.panels;
 
-import java.awt.Component;
-
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-public abstract class Panel extends Component {
+import nl.nicasso.ql.gui.Observer;
 
-	/**
-	 * Because Eclipse said so...
-	 */
-	private static final long serialVersionUID = 2587664050727551993L;
-	
+public abstract class Panel {
+
 	private JPanel panel;
 
 	public Panel() {
@@ -20,7 +15,7 @@ public abstract class Panel extends Component {
 	}
 
 	public void addPanel(Panel subPanel) {
-		panel.add(subPanel);
+		//panel.add(subPanel);
 	}
 
 	public void setVisible(boolean visible) {

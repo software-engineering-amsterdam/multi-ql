@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.tree.*;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.questionnaire.Questionnaire;
 import org.uva.sea.ql.ast.visitor.MyQLVisitor;
+import org.uva.sea.ql.gui.QlGUIBuilder;
 import org.uva.sea.ql.type_checker.TypeChecker;
  
 
@@ -38,21 +39,22 @@ public class TestGrammar {
 		ParseTree parseTree = parser.form();
 		MyQLVisitor visitor = new MyQLVisitor();
 		//Questionnaire ast = (Questionnaire) parseTree.accept(visitor);
-		Form ast = (Form) parseTree.accept(visitor);
+		Form astForm = (Form) parseTree.accept(visitor);
 		
-		TypeChecker typeChecker = new TypeChecker(ast);
+		TypeChecker typeChecker = new TypeChecker(astForm);
 		typeChecker.performTypeChecking();
 		
-		//show tree in simple GUI
-	    JFrame frame = new JFrame("Generated Parse Tree");
-	    JPanel panel = new JPanel();
-	    TreeViewer treeViewer = new TreeViewer(Arrays.asList(
-	               parser.getRuleNames()),parseTree);
-	    treeViewer.setScale(1);
-	    panel.add(treeViewer);
-	    frame.add(panel);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(1200,600);
-	    //frame.setVisible(true);
-	}
+//	    JFrame frame = new JFrame("Generated Parse Tree");
+//	    JPanel panel = new JPanel();
+//	    TreeViewer treeViewer = new TreeViewer(Arrays.asList(
+//	               parser.getRuleNames()),parseTree);
+//	    treeViewer.setScale(1);
+//	    panel.add(treeViewer);
+//	    frame.add(panel);
+//	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//	    frame.setSize(1200,600);
+//	    frame.setVisible(true);
+	    
+	    QlGUIBuilder gui = new QlGUIBuilder(astForm);
+		}
 }

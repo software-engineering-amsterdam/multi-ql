@@ -31,11 +31,12 @@ import SwiftParsec
 class QLParser {
     
     // MARK: Properties.
+    
     private let lexer = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
     private let symbol = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).symbol
     private let integerLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).integer
     private let floatLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).float
-    private let stringLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).stringLiteral // Includes the quotes.
+    private let stringLiteral = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).stringLiteral
     private let identifier = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).identifier
     private let colon = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).colon
     private let whiteSpace = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql).whiteSpace
@@ -58,6 +59,7 @@ class QLParser {
     }
 
     // MARK: Literals.
+    
     private func booleanParser() -> GenericParser<String, (), QLExpression> {
         let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
         let qlbooleanFalse: GenericParser<String, (), QLBool> = symbol("false") *> GenericParser(result: QLBool(boolean: false))
@@ -92,9 +94,7 @@ class QLParser {
         return booleanParser() <|> stringParser() <|> integerParser() /* <|> decimalParser() */
     }
     
-    // Variable.
     private func variableParser() -> GenericParser<String, (), QLExpression> { return identifier.map{ QLVariable(identifier: $0) } }
-    
     
     // MARK: Expression.
     private func singleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
@@ -122,9 +122,7 @@ class QLParser {
         let closingParen = StringParser.character(")")
         
         return singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-            
             expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "single symbol expression"
-            
         }
     }
     
@@ -148,19 +146,14 @@ class QLParser {
         let closingParen = StringParser.character(")")
         
         return doubleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-            
             expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "double symbol expression"
-            
         }
     }
     
     private func expressionParser() -> GenericParser<String, (), QLExpression> {
-        print(singleSymbolExpressionParser())
-        print(doubleSymbolExpressionParser())
         return singleSymbolExpressionParser().attempt <|> doubleSymbolExpressionParser()
     }
     
-    /// "name" variable: type
     private func questionParser() -> GenericParser<String, (), QLStatement> {
         return (stringLiteral <?> "question name").flatMap{ name in
             (self.variableParser() <* self.colon <?> "question variable").flatMap{ variable -> GenericParser<String, (), QLStatement> in
@@ -183,7 +176,6 @@ class QLParser {
         let qlstatement = questionParser() <|> ifParser()
 
         let qlstatements: GenericParser<String, (), [QLStatement]> = qlstatement.manyAccumulator { (let statement, var accumulated) in
-            print("Statement: \(statement)")
             accumulated.append(statement)
             return accumulated
         }
@@ -192,44 +184,27 @@ class QLParser {
     }
     
     private func formParser() -> GenericParser<String, (), QLForm> {
-        let form = symbol("form") *> identifier.flatMap{ (formName) -> GenericParser<String, (), QLForm> in
-
-            print("Form name: \(formName)")
-
-            let temp = self.codeBlockParser().map{ (let block: [QLStatement]) -> QLForm in
-                print("Block: \(block)")
+        return symbol("form") *> identifier.flatMap{ formName in
+            self.codeBlockParser().map{ block in
                 return QLForm(formName: formName, codeBlock: block)
             }
-
-            print("Temp: \(temp)")
-
-            return temp
-        }  <?> "Error at the end of the form."
-        
-        return form
+        }  <?> "form"
     }
-    
     
     // MARK: Expression operators.
     // Partly based on functions from ExpressionTests.swift of SwiftParsec.
     private func binary(name: String, function: (QLExpression, QLExpression) -> QLExpression, assoc: Associativity) -> Operator<String, (), QLExpression> {
-        
         let opParser = StringParser.string(name) *> GenericParser(result: function)
         return .Infix(opParser, assoc)
-        
     }
     
     private func prefix(name: String, function: QLExpression -> QLExpression) -> Operator<String, (), QLExpression> {
-        
         let opParser = StringParser.string(name) *> GenericParser(result: function)
         return .Prefix(opParser)
-        
     }
     
     private func postfix(name: String, function: QLExpression -> QLExpression) -> Operator<String, (), QLExpression> {
-        
         let opParser = StringParser.string(name) *> GenericParser(result: function)
         return .Postfix(opParser.attempt)
-        
     }
 }
