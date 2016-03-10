@@ -32,44 +32,53 @@ import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
 //Form Grammar
 
 form returns [Form result]
-    : 'form' i=Ident '{' s=stats '}' {$result = new Form($i.getLine(), $i.text, $s.result);}
+    : 'form' i=IDENT '{' s=stats '}'
+        {
+            $result = new Form($i.getLine(), $i.text, $s.result);
+        }
     ;
 
 
 //Stat Grammar
-varDecl returns [Var result]
-    : i=Ident {$result = new Var($i.getLine(), $i.text);}
-    ;
-
-varAss returns [Expr result]
-    : '=' x=expr {$result = $x.result;}
-    ;
-
-question returns [Stat result]
-    : l=Str v=varDecl ':'  t=type  {$result = new Question($l.getLine(), $l.text, $v.result, $t.result);}
-    | l=Str v=varDecl ':'  t=type e=varAss {$result = new Question($l.getLine(), $l.text, $v.result, $t.result, $e.result);}
+stats returns [List<Stat> result]
+    @init
+        {
+            $result = new ArrayList<Stat>();
+        }
+    : (s=stat
+        {
+            $result.add($s.result);
+        }
+      )+
     ;
 
 stat returns [Stat result]
-    : q=question {$result = $q.result;}
-    | 'if' '(' c=expr ')' '{' s=stats '}' {$result = new If($c.start.getLine(), $c.result, $s.result);}
-    | 'if' '(' c=expr ')' '{' i=stats '}' 'else' '{' e=stats '}'{$result = new IfElse($c.start.getLine(), $c.result, $i.result, $e.result);}
+    : q=question
+        {
+            $result = $q.result;
+        }
+    | 'if' '(' c=expr ')' '{' s=stats '}'
+        {
+            $result = new If($c.start.getLine(), $c.result, $s.result);
+        }
+    | 'if' '(' c=expr ')' '{' i=stats '}' 'else' '{' e=stats '}'
+        {
+            $result = new IfElse($c.start.getLine(), $c.result, $i.result, $e.result);
+        }
     ;
 
-stats returns [List<Stat> result]
-    @init{$result = new ArrayList<Stat>();}
-    : (stat {$result.add($stat.result);} )+
+question returns [Stat result]
+    : label=STR decl=IDENT ':' typ=type
+        {
+            $result = new Question($label.getLine(), $label.text, new Var($decl.getLine(), $decl.text), $typ.result);
+        }
+    | label=STR decl=IDENT ':' typ=type '=' exp=expr
+        {
+            $result = new Question($label.getLine(), $label.text, new Var($decl.getLine(), $decl.text), $typ.result, $exp.result);
+        }
     ;
-
 
 //Expression Grammar
-primary returns [Expr result]
-    :   x1=num   {$result = new Primary($x1.start.getLine(), $x1.result);}
-    |   x2=id    {$result = new Primary($x2.start.getLine(), $x2.result);}
-    |   x3=str   {$result = new Primary($x3.start.getLine(), $x3.result);}
-    |   x4=bool  {$result = new Primary($x4.start.getLine(), $x4.result);}
-    ;
-
 expr returns [Expr result]
     :  op=('+' | '-') value=expr
         {
@@ -141,32 +150,80 @@ expr returns [Expr result]
         }
     ;
 
+primary returns [Expr result]
+    :   x1=num
+        {
+            $result = new Primary($x1.start.getLine(), $x1.result);
+        }
+    |   x2=id
+        {
+            $result = new Primary($x2.start.getLine(), $x2.result);
+        }
+    |   x3=str
+        {
+            $result = new Primary($x3.start.getLine(), $x3.result);
+        }
+    |   x4=bool
+        {
+            $result = new Primary($x4.start.getLine(), $x4.result);
+        }
+    ;
 
 //ValueType Grammar
 
 type returns [Type result]
-    : x=Boolean  {$result = new Boolean($x.getLine());}
-    | x=Money    {$result = new Money($x.getLine());}
-    | x=Number   {$result = new Number($x.getLine());}
-    | x=Text     {$result = new Text($x.getLine());}
+    : x=BOOLEAN
+        {
+            $result = new Boolean($x.getLine());
+        }
+    | x=MONEY
+        {
+            $result = new Money($x.getLine());
+        }
+    | x=NUMBER
+        {
+            $result = new Number($x.getLine());
+        }
+    | x=TEXT
+        {
+            $result = new Text($x.getLine());
+        }
     ;
 
 bool returns [Val result]
-    : value=True  {$result = new Bool($value.getLine(), $value.text);}
-    | value=False {$result = new Bool($value.getLine(), $value.text);}
+    : value=TRUE
+        {
+            $result = new Bool($value.getLine(), $value.text);
+        }
+    | value=FALSE
+        {
+            $result = new Bool($value.getLine(), $value.text);
+        }
     ;
 
 num returns [Val result]
-    : value=Int    {$result = new Int($value.getLine(), $value.text); }
-    | value=Double {$result = new Float($value.getLine(), $value.text); }
+    : value=INT
+        {
+            $result = new Int($value.getLine(), $value.text);
+        }
+    | value=FLOAT
+        {
+            $result = new Float($value.getLine(), $value.text);
+        }
     ;
 
 str returns [Val result]
-    : value=Str {$result = new Str($value.getLine(), $value.text); }
+    : value=STR
+        {
+            $result = new Str($value.getLine(), $value.text);
+        }
     ;
 
 id returns [Var result]
-    : value=Ident {$result = new Var($value.getLine(), $value.text); }
+    : value=IDENT
+        {
+            $result = new Var($value.getLine(), $value.text);
+        }
     ;
     
 /*
@@ -175,16 +232,16 @@ id returns [Var result]
 WHITESPACE  :	( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ -> channel(HIDDEN);
 COMMENT     : ( '//' ~[\r\n]* '\r'? '\n' | '/*' .*? '*/') -> channel(HIDDEN) ;
 
-True        : 'true';
-False       : 'false';
+TRUE        : 'true';
+FALSE       : 'false';
 
-Boolean     : 'boolean';
-Money       : 'money';
-Number      : 'number';
-Text        : 'text';
+BOOLEAN     : 'boolean';
+MONEY       : 'money';
+NUMBER      : 'number';
+TEXT        : 'text';
 
-Ident       :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+IDENT       :   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
-Str         : '"' ~('\n'|'\r')*? '"';
-Int         : '0'..'9'+;
-Double      : '0'..'9'+'.''0'..'9'+;
+STR         : '"' ~('\n'|'\r')*? '"';
+INT         : '0'..'9'+;
+FLOAT       : '0'..'9'+'.''0'..'9'+;

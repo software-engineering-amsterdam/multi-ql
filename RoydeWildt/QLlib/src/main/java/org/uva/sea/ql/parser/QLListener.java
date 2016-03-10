@@ -36,35 +36,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitForm(QLParser.FormContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#varDecl}.
+	 * Enter a parse tree produced by {@link QLParser#stats}.
 	 * @param ctx the parse tree
 	 */
-	void enterVarDecl(QLParser.VarDeclContext ctx);
+	void enterStats(QLParser.StatsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#varDecl}.
+	 * Exit a parse tree produced by {@link QLParser#stats}.
 	 * @param ctx the parse tree
 	 */
-	void exitVarDecl(QLParser.VarDeclContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#varAss}.
-	 * @param ctx the parse tree
-	 */
-	void enterVarAss(QLParser.VarAssContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#varAss}.
-	 * @param ctx the parse tree
-	 */
-	void exitVarAss(QLParser.VarAssContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#question}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestion(QLParser.QuestionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#question}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestion(QLParser.QuestionContext ctx);
+	void exitStats(QLParser.StatsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#stat}.
 	 * @param ctx the parse tree
@@ -76,25 +56,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitStat(QLParser.StatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#stats}.
+	 * Enter a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void enterStats(QLParser.StatsContext ctx);
+	void enterQuestion(QLParser.QuestionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#stats}.
+	 * Exit a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void exitStats(QLParser.StatsContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#primary}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrimary(QLParser.PrimaryContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#primary}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrimary(QLParser.PrimaryContext ctx);
+	void exitQuestion(QLParser.QuestionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#expr}.
 	 * @param ctx the parse tree
@@ -105,6 +75,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpr(QLParser.ExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#primary}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimary(QLParser.PrimaryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#primary}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimary(QLParser.PrimaryContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#type}.
 	 * @param ctx the parse tree
