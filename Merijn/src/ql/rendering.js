@@ -224,7 +224,7 @@ export class QuestionCollector extends ast.RecursingVisitor {
 	}
 }
 
-export class WidgetBinder {
+export class WidgetStatusBinder {
 	constructor(containerElement, wrappedWidget, variable, enabled) {
 		this.containerElement = containerElement;
 		this._wrappedWidget = wrappedWidget;
@@ -234,23 +234,31 @@ export class WidgetBinder {
 		this._wrappedWidget.listen(() => {
 			this.updateVariable();
 		});
-		this.updateVariable();
+		this._variable.listen(() => {
+			this.updateWidgetValue();
+		});
+		this.updateWidgetValue();
 	}
 	updateVariable() {
 		if (this._enabled === true) {
 			this._variable.setValue(this._wrappedWidget.getValue());
 		}
 	}
+	updateWidgetValue() {
+		if (this._enabled === true) {
+			this._wrappedWidget.setValue(this._variable.getValue());
+		}
+	}
 	setEnabled(enabled) {
 		if (enabled !== this._enabled) {
 			this._enabled = enabled;
-			WidgetBinder.setElementEnabled(this.containerElement, enabled);
+			WidgetStatusBinder.setElementEnabled(this.containerElement, enabled);
 			this.updateVariable();
 		}
 	}
 	setValue(value) {
 		if (this._enabled === true) {
-			this._wrappedWidget.setValue(value);
+			this._variable.setValue(value);
 		}
 	}
 	static setElementEnabled(element, enabled) {
@@ -269,9 +277,9 @@ export class WidgetBinder {
 		labelElement.textContent = description;
 		questionContainer.appendChild(labelElement);
 		questionContainer.classList.add('question');
-		WidgetBinder.setElementEnabled(questionContainer, enabled);
+		WidgetStatusBinder.setElementEnabled(questionContainer, enabled);
 		wrappedWidget = widgetFactory.render(type, questionContainer);
-		widgetWrapper = new WidgetBinder(questionContainer, wrappedWidget, variable, enabled);
+		widgetWrapper = new WidgetStatusBinder(questionContainer, wrappedWidget, variable, enabled);
 		containerElement.appendChild(questionContainer);
 		return widgetWrapper;
 	}
@@ -313,19 +321,19 @@ export class QuestionRenderer extends ast.NodeVisitor {
 		return this.exprEvaluator.evaluate(condition, this.variableMap).equals(new values.BooleanValue(true));
 	}
 	visitQuestionNode(questionNode, condition, containerElement, widgetFactory) {
-		let widgetWrapper = WidgetBinder.render(this.elementFactory, questionNode.description, questionNode.type, this.variableMap.get(questionNode.name), this.isTrue(condition), containerElement, widgetFactory);
+		let widgetBinder = WidgetStatusBinder.render(this.elementFactory, questionNode.description, questionNode.type, this.variableMap.get(questionNode.name), this.isTrue(condition), containerElement, widgetFactory);
 
 		this.exprBinder.listen(condition, () => {
-			widgetWrapper.setEnabled(this.isTrue(condition));
+			widgetBinder.setEnabled(this.isTrue(condition));
 		}, this.variableMap);
-		return widgetWrapper;
+		return widgetBinder;
 	}
 	visitExprQuestionNode(exprQuestionNode, condition, containerElement, widgetFactory) {
-		let widgetWrapper = this.visitQuestionNode(exprQuestionNode, condition, containerElement, widgetFactory),
+		let widgetBinder = this.visitQuestionNode(exprQuestionNode, condition, containerElement, widgetFactory),
 			expr = exprQuestionNode.expr;
 
 		this.exprBinder.listen(expr, () => {
-			widgetWrapper.setValue(this.exprEvaluator.evaluate(expr, this.variableMap));
+			widgetBinder.setValue(this.exprEvaluator.evaluate(expr, this.variableMap));
 		}, this.variableMap);
 	}
 }
