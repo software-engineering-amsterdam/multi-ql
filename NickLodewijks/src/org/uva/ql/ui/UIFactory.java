@@ -46,12 +46,9 @@ import org.uva.ql.ast.value.Value;
 public class UIFactory {
 
 	public UIQuestionnaire create(QLForm form) {
-		DefaultUIQuestionnaire uiQuestionnaire;
 		UIForm uiForm;
 
-		uiQuestionnaire = new DefaultUIQuestionnaire(form);
-
-		uiForm = new DefaultUIForm(form);
+		uiForm = new DefaultUIForm();
 
 		form.accept(new QLTopDown<Void, Expr>() {
 
@@ -86,9 +83,7 @@ public class UIFactory {
 
 		}, BooleanLiteral.TRUE);
 
-		uiQuestionnaire.addForm(uiForm);
-
-		return uiQuestionnaire;
+		return new DefaultUIQuestionnaire(uiForm);
 	}
 
 	private UIQuestion create(QLQuestion question, Expr condition) {
@@ -124,19 +119,22 @@ public class UIFactory {
 
 	private static class DefaultUIQuestionnaire implements UIQuestionnaire {
 
-		private final List<UIForm> forms = new ArrayList<>();
+		private final UIForm form;
 
 		private final JFrame jframe;
 		private final JScrollPane scrollPanel;
 
-		public DefaultUIQuestionnaire(QLForm q) {
+		public DefaultUIQuestionnaire(UIForm form) {
 			JPanel panel;
 			JPanel root;
+
+			this.form = form;
 
 			jframe = new JFrame();
 			jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			scrollPanel = new JScrollPane();
+			scrollPanel.setViewportView(form.getComponent());
 
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -155,19 +153,12 @@ public class UIFactory {
 		}
 
 		@Override
-		public void addForm(UIForm form) {
-			forms.add(form);
-			scrollPanel.setViewportView(form.getComponent());
-		}
-
-		@Override
 		public void show() {
 			QLContext context;
 
 			context = new QLContext();
-			for (UIForm form : forms) {
-				form.setContext(context);
-			}
+
+			form.setContext(context);
 
 			jframe.setVisible(true);
 		}
@@ -178,7 +169,7 @@ public class UIFactory {
 		private final List<UIQuestion> questions = new ArrayList<>();
 		private final JPanel panel;
 
-		public DefaultUIForm(QLForm form) {
+		public DefaultUIForm() {
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		}
