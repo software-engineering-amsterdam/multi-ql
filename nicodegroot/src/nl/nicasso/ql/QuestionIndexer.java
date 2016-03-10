@@ -20,7 +20,7 @@ import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class QuestionIndexer implements StructureVisitor<Identifier>, StatementVisitor<Identifier, Void> {
+public class QuestionIndexer implements StructureVisitor<Identifier, Void>, StatementVisitor<Identifier, Void> {
 	
 	private List<String> warnings;
 	private List<String> errors;
@@ -44,8 +44,8 @@ public class QuestionIndexer implements StructureVisitor<Identifier>, StatementV
 	}
 
 	@Override
-	public Identifier visit(Form value) {
-		value.getBlock().accept(this);
+	public Identifier visit(Form value, Void ignore) {
+		value.getBlock().accept(this, null);
 		
 		checkUndefinedIdentifiers();
 		
@@ -53,9 +53,9 @@ public class QuestionIndexer implements StructureVisitor<Identifier>, StatementV
 	}
 
 	@Override
-	public Identifier visit(Block value) {
+	public Identifier visit(Block value, Void ignore) {
 		for (Statement cur : value.getStatements()) {
-			cur.accept(this);
+			cur.accept(this, ignore);
 		}
 
 		return null;
@@ -88,7 +88,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier>, StatementV
 		value.getExpr().accept(collectIdentifiers);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		
-		value.getBlock_if().accept(this);
+		value.getBlock_if().accept(this, null);
 		return null;
 	}
 
@@ -97,8 +97,8 @@ public class QuestionIndexer implements StructureVisitor<Identifier>, StatementV
 		value.getExpr().accept(collectIdentifiers);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		
-		value.getBlock_if().accept(this);
-		value.getBlock_else().accept(this);
+		value.getBlock_if().accept(this, null);
+		value.getBlock_else().accept(this, null);
 		return null;
 	}
 	

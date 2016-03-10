@@ -37,9 +37,9 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Value, Void>, ExpressionVisitor<Value> {
+public class Evaluator implements StructureVisitor<Value, Void>, StatementVisitor<Value, Void>, ExpressionVisitor<Value> {
 	
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	private SymbolTable symbolTable;
 	
@@ -214,8 +214,8 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	}
 
 	@Override
-	public Value visit(Form value) {
-		value.getBlock().accept(this);
+	public Value visit(Form value, Void ignore) {
+		value.getBlock().accept(this, null);
 		
 		if (debug) {
 			System.out.println("Form");
@@ -225,9 +225,9 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	}
 
 	@Override
-	public Value visit(Block value) {
+	public Value visit(Block value, Void ignore) {
 		for (Statement cur : value.getStatements()) {
-			cur.accept(this);
+			cur.accept(this, ignore);
 		}
 		
 		if (debug) {
@@ -271,7 +271,7 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	@Override
 	public Value visit(IfStatement value, Void context) {
 		value.getExpr().accept(this);
-		value.getBlock_if().accept(this);
+		value.getBlock_if().accept(this, null);
 		
 		if (debug) {
 			System.out.println("ifStatement");
@@ -283,8 +283,8 @@ public class Evaluator implements StructureVisitor<Value>, StatementVisitor<Valu
 	@Override
 	public Value visit(IfElseStatement value, Void context) {
 		value.getExpr().accept(this);
-		value.getBlock_if().accept(this);
-		value.getBlock_else().accept(this);
+		value.getBlock_if().accept(this, null);
+		value.getBlock_else().accept(this, null);
 		
 		if (debug) {
 			System.out.println("IfElseStatement");

@@ -12,7 +12,7 @@ public class FieldListener {
 	}
 
 	public void fieldValueChanged(Value newValue) {
-		System.out.println("SOMETHING CHANGED!: "+newValue.getValue().toString());
+		//System.out.println("SOMETHING CHANGED!: "+newValue.getValue().toString());
 	}
 	
 }

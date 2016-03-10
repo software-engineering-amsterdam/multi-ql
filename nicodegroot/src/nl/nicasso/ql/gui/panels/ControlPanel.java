@@ -21,7 +21,6 @@ public class ControlPanel extends Panel {
 	
 	@Override
 	public JPanel getPanel() {
-		System.out.println("GETPANEL CONTROLPANEL");
 		return this.panel;
 	}
 	
