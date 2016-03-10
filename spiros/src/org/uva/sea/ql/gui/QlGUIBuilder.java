@@ -18,6 +18,7 @@ import org.uva.sea.ql.ast.statement.StatementVisitor;
 import org.uva.sea.ql.ast.type.BoolType;
 import org.uva.sea.ql.ast.type.IntType;
 import org.uva.sea.ql.ast.type.StrType;
+import org.uva.sea.ql.ast.type.Type;
 import org.uva.sea.ql.ast.type.TypeVisitor;
 import org.uva.sea.ql.ast.type.UndefinedType;
 import org.uva.sea.ql.gui.panels.Panel;
@@ -36,8 +37,8 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 		panels = new ArrayList<Panel>();
 		frame = new JFrame("Questionnaire");
 		JLabel l=new JLabel("Questionnaire");
-		frame.add(l);
-		frame.setSize(400,400);
+		//frame.add(l);
+		frame.setSize(550,550);
 		//frame.setVisible(true);
 		
 		visitForm(form);
@@ -83,11 +84,18 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
 		// TODO Auto-generated method stub
 		
+		// take widget from visiting the type...
+		
+		
 	}
 
 	@Override
 	public void visitQuestion(Question question) {
 		// TODO Auto-generated method stub
+		
+		Type type = question.getType();
+		//Widget widget = type.a
+		System.out.println("ok now what?");
 		
 	}
 
