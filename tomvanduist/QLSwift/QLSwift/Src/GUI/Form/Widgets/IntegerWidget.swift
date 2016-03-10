@@ -17,7 +17,7 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
             textField.borderStyle = .Line
             textField.textAlignment = .Right
             textField.delegate = self
-            textField.placeholder = "0.00"
+            textField.placeholder = "0"
             
             self.addSubview(textField)
             
