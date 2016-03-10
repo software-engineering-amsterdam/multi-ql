@@ -46,7 +46,10 @@ import org.uva.ql.ast.value.Value;
 public class UIFactory {
 
 	public UIQuestionnaire create(QLForm form) {
+		QLContext context;
 		UIForm uiForm;
+
+		context = new QLContext();
 
 		uiForm = new DefaultUIForm();
 
@@ -67,7 +70,7 @@ public class UIFactory {
 			public Void visit(QLQuestionInput node, Expr condition) {
 				UIQuestion uiQuestion;
 
-				uiQuestion = create(node, condition);
+				uiQuestion = create(context, node, condition);
 				uiForm.addQuestion(uiQuestion);
 				return null;
 			}
@@ -76,7 +79,7 @@ public class UIFactory {
 			public Void visit(QLQuestionComputed node, Expr condition) {
 				UIQuestion uiQuestion;
 
-				uiQuestion = create(node, condition, node.getComputation());
+				uiQuestion = create(context, node, condition, node.getComputation());
 				uiForm.addQuestion(uiQuestion);
 				return null;
 			}
@@ -86,11 +89,11 @@ public class UIFactory {
 		return new DefaultUIQuestionnaire(uiForm);
 	}
 
-	private UIQuestion create(QLQuestion question, Expr condition) {
-		return create(question, condition, null);
+	private UIQuestion create(QLContext context, QLQuestion question, Expr condition) {
+		return create(context, question, condition, null);
 	}
 
-	private UIQuestion create(QLQuestion question, Expr condition, Expr valueComputation) {
+	private UIQuestion create(QLContext context, QLQuestion question, Expr condition, Expr valueComputation) {
 		UIWidget labelWidget;
 		UIWidget valueWidget;
 
@@ -99,27 +102,25 @@ public class UIFactory {
 		valueWidget = question.getType().accept(new QLTypeVisitor<UIWidget, Void>() {
 
 			@Override
-			public UIWidget visit(QLBooleanType type, Void context) {
-				return new DefaultBooleanWidget(question);
+			public UIWidget visit(QLBooleanType type, Void unused) {
+				return new DefaultBooleanWidget(context, question);
 			}
 
 			@Override
-			public UIWidget visit(QLStringType type, Void context) {
-				return new DefaultStringWidget(question);
+			public UIWidget visit(QLStringType type, Void unused) {
+				return new DefaultStringWidget(context, question);
 			}
 
 			@Override
-			public UIWidget visit(QLIntegerType type, Void context) {
-				return new DefaultIntegerWidget(question);
+			public UIWidget visit(QLIntegerType type, Void unused) {
+				return new DefaultIntegerWidget(context, question);
 			}
 		}, null);
 
-		return new DefaultUIQuestion(question, labelWidget, valueWidget, condition, valueComputation);
+		return new DefaultUIQuestion(context, question, labelWidget, valueWidget, condition, valueComputation);
 	}
 
 	private static class DefaultUIQuestionnaire implements UIQuestionnaire {
-
-		private final UIForm form;
 
 		private final JFrame jframe;
 		private final JScrollPane scrollPanel;
@@ -127,8 +128,6 @@ public class UIFactory {
 		public DefaultUIQuestionnaire(UIForm form) {
 			JPanel panel;
 			JPanel root;
-
-			this.form = form;
 
 			jframe = new JFrame();
 			jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,12 +153,6 @@ public class UIFactory {
 
 		@Override
 		public void show() {
-			QLContext context;
-
-			context = new QLContext();
-
-			form.setContext(context);
-
 			jframe.setVisible(true);
 		}
 	}
@@ -191,11 +184,6 @@ public class UIFactory {
 		}
 
 		@Override
-		public void setContext(QLContext context) {
-			questions.stream().forEach(q -> q.setContext(context));
-		}
-
-		@Override
 		public JComponent getComponent() {
 			return panel;
 		}
@@ -210,8 +198,8 @@ public class UIFactory {
 		private final UIWidget labelWidget;
 		private final UIWidget valueWidget;
 
-		public DefaultUIQuestion(QLQuestion question, UIWidget labelWidget, UIWidget valueWidget, Expr condition,
-				Expr valueComputation) {
+		public DefaultUIQuestion(QLContext context, QLQuestion question, UIWidget labelWidget, UIWidget valueWidget,
+				Expr condition, Expr valueComputation) {
 			this.question = question;
 			this.condition = condition;
 
@@ -222,13 +210,6 @@ public class UIFactory {
 			if (valueComputation != null) {
 				this.valueWidget.setEditable(false);
 			}
-		}
-
-		@Override
-		public void setContext(QLContext context) {
-
-			labelWidget.setContext(context);
-			valueWidget.setContext(context);
 
 			if (valueComputation != null) {
 				context.addComputedValue(question.getId(), valueComputation);
@@ -281,11 +262,6 @@ public class UIFactory {
 		}
 
 		@Override
-		public void setContext(QLContext context) {
-			// DefaultLabelWidget does not use the context
-		}
-
-		@Override
 		public JComponent getComponent() {
 			return label;
 		}
@@ -314,11 +290,13 @@ public class UIFactory {
 	private static abstract class AbstractBaseWidget implements UIWidget {
 
 		private final String variableName;
+		private final QLContext context;
 
-		private QLContext context;
-
-		public AbstractBaseWidget(String variableName) {
+		public AbstractBaseWidget(QLContext context, String variableName) {
 			this.variableName = variableName;
+			this.context = context;
+
+			context.setValue(variableName, getDefaultValue());
 		}
 
 		@Override
@@ -344,13 +322,6 @@ public class UIFactory {
 		protected abstract Value getViewValue();
 
 		protected abstract void setViewValue(Value value);
-
-		@Override
-		public final void setContext(QLContext context) {
-			this.context = context;
-
-			context.setValue(variableName, getDefaultValue());
-		}
 	}
 
 	private static class DefaultBooleanWidget extends AbstractBaseWidget implements ActionListener {
@@ -359,8 +330,8 @@ public class UIFactory {
 		private final JRadioButton rbNo;
 		private final JPanel panel;
 
-		public DefaultBooleanWidget(QLQuestion q) {
-			super(q.getId());
+		public DefaultBooleanWidget(QLContext context, QLQuestion q) {
+			super(context, q.getId());
 			ButtonGroup bg;
 
 			panel = new JPanel(new BorderLayout());
@@ -427,8 +398,8 @@ public class UIFactory {
 		private final JTextField textField;
 		private final JPanel panel;
 
-		public DefaultIntegerWidget(QLQuestion q) {
-			super(q.getId());
+		public DefaultIntegerWidget(QLContext context, QLQuestion q) {
+			super(context, q.getId());
 
 			panel = new JPanel();
 
@@ -485,8 +456,8 @@ public class UIFactory {
 		private final JTextField textField;
 		private final JPanel panel;
 
-		public DefaultStringWidget(QLQuestion q) {
-			super(q.getId());
+		public DefaultStringWidget(QLContext context, QLQuestion q) {
+			super(context, q.getId());
 
 			panel = new JPanel();
 

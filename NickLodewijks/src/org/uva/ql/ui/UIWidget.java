@@ -2,7 +2,6 @@ package org.uva.ql.ui;
 
 import javax.swing.JComponent;
 
-import org.uva.ql.QLContext;
 import org.uva.ql.ast.value.Value;
 
 /**
@@ -10,8 +9,6 @@ import org.uva.ql.ast.value.Value;
  * in the questionnaire.
  */
 public interface UIWidget {
-
-	public void setContext(QLContext context);
 
 	/**
 	 * Return the current value of the widget
