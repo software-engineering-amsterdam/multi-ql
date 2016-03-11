@@ -1,7 +1,5 @@
 package org.uva.sea.ql.gui.widget;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -35,17 +33,20 @@ public class FieldWidget extends QuestionWidget {
 	        }
 
 			public void keyPressed(KeyEvent keyEvent) {
-	        	Value value = getQuestion().getType().parse(inputField.getText());
-	        	if (value.equals(new UndefinedValue())) {
-	        		inputField.setText("");
-	        	} else {
-	        		dataManager.updateValueState(getQuestion().getIdentifier(), value);
-	        	}
-        		
+				//
 			}
 
 			public void keyReleased(KeyEvent keyEvent) {
-				// 
+				System.out.println("DA!");
+				Value value = getQuestion().getType().parse(inputField.getText());
+				System.out.println("Actual value: " + String.valueOf(value.getValue()));
+	        	if (value.equals(new UndefinedValue())) {
+	        		inputField.setText("");
+	        		dataManager.updateValueState(getQuestion().getIdentifier(), value);
+	        	} else {
+	        		System.out.println(inputField.getText());
+	        		dataManager.updateValueState(getQuestion().getIdentifier(), value);
+	        	}
 			}
 	    });
 		

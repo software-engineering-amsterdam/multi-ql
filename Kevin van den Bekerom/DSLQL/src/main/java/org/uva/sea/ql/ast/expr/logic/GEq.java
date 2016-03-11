@@ -9,7 +9,7 @@ import org.uva.sea.ql.type.Type;
 import org.uva.sea.ql.value.*;
 import org.uva.sea.ql.visit.Visitor;
 
-public class GEq<U> extends BinaryExpr {
+public class GEq extends BinaryExpr {
 	
 	public GEq(Expr lhs, Expr rhs, int startLine) {
 		super(lhs, rhs, startLine);
