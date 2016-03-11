@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.gui.widgets;
-
-import eu.bankersen.kevin.ql.ast.BasicVisitor;
-
-public class QuestionBuilder implements BasicVisitorsi{
-
-}

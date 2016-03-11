@@ -2,13 +2,13 @@ package eu.bankersen.kevin.ql.gui.widgets;
 
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.interpreter.DataListener;
+import eu.bankersen.kevin.ql.ast.object.value.QLValue;
 
-public interface Widget extends DataListener {
-    
+public interface Widget {
+
     JPanel build();
-    
-    void widgetUpdate(Object value);
-    
-    void addWidgetListener(Widget listener);
+
+    void widgetUpdated(QLValue value);
+
+    void addWidgetListener(InputWidget listener);
 }

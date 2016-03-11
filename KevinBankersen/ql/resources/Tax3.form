@@ -1,7 +1,13 @@
 form testForm { 
 
+	"q0"
+	q0: boolean
+	
+	"q99"
+	q99: money = q0
+
 	"q1"
-	q1: boolean = q2
+	q1: string = q2
 		
 	if (q1){
 
@@ -28,7 +34,7 @@ form testForm {
 	q4: boolean = q3
 	
 		"q14"
-	q14: boolean = q5
+	q14: boolean = (q0 + q2)
 	
 	"q2"
 	q2: boolean

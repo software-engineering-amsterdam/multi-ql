@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.util.testing.new2;
-
-public abstract class TypeObject implements TypeDefinitions{
-    
-    public abstract TypeObject getType();
-
-}

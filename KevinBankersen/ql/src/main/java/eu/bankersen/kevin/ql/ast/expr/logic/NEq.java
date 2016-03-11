@@ -1,31 +1,27 @@
 package eu.bankersen.kevin.ql.ast.expr.logic;
 
-import java.math.BigDecimal;
-
-import eu.bankersen.kevin.ql.ast.BasicVisitor;
-import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
-import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.BinaryExpr;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
+import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.interpreter.Environment;
 
-public class NEq extends BooleanExpr {
+public class NEq extends BinaryExpr {
 
     public NEq(Expr lhs, Expr rhs, int line) {
-	super(lhs, rhs, line);
+	super(line, lhs, rhs);
     }
 
     @Override
-    public final Boolean evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
-	if (lhs().getType(symbolTable).isNumber()) {
-	    return ((BigDecimal) lhs().evalExpr(symbolTable)).compareTo((BigDecimal) rhs().evalExpr(symbolTable)) != 0;
-	} else { 
-	    return !lhs().evalExpr(symbolTable).equals(rhs().evalExpr(symbolTable));
-	}
+    public final QLValue eval(Environment context) {
+	QLValue lhs = lhs().eval(context);
+	QLValue rhs = rhs().eval(context);
 
+	return lhs.notEqual(rhs);
     }
-    
+
     @Override
-    public <T> void accept(BasicVisitor v, T context) {
-	v.visit(this);
+    public <T, U> T accept(ExprVisitor<T, U> v, U context) {
+	return v.visit(this, context);
     }
 }

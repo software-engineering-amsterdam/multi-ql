@@ -1,26 +1,24 @@
 package eu.bankersen.kevin.ql.ast.expr.math;
 
-import java.math.BigDecimal;
-
-import eu.bankersen.kevin.ql.ast.BasicVisitor;
-import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.NumberExpr;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
+import eu.bankersen.kevin.ql.ast.expr.UnaryExpr;
+import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.interpreter.Environment;
 
-public class Neg extends NumberExpr {
+public class Neg extends UnaryExpr {
 
     public Neg(final Expr expr, final int line) {
-	super(expr, null, line);
+	super(line, expr);
     }
 
     @Override
-    public final BigDecimal evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
-	return ((BigDecimal) lhs().evalExpr(symbolTable)).negate();
+    public final QLValue eval(Environment context) {
+	return expr().eval(context).negate();
     }
-    
+
     @Override
-    public <T> void accept(BasicVisitor v, T context) {
-	v.visit(this);
+    public <T, U> T accept(ExprVisitor<T, U> v, U context) {
+	return v.visit(this, context);
     }
 }

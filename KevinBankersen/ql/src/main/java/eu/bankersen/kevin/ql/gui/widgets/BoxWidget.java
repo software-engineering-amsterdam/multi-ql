@@ -9,29 +9,25 @@ import java.util.List;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.type.Type;
-import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.ast.object.type.QLType;
+import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.object.value.UndifinedValue;
 
-public class BoxWidget implements Widget {
+public class BoxWidget implements InputWidget {
 
-    private final String name;
     private final JPanel panel;
-    private final Type type;
+    private final QLType type;
     private final JFormattedTextField inputField;
     private final List<Widget> widgetListeners;
+    private QLValue oldValue;
 
-    BoxWidget(Symbol data) {
-	this.name = data.getName();
-	this.type = data.getType();
+    public BoxWidget(QLType type) {
+	this.type = type;
 	this.panel = new JPanel();
 	widgetListeners = new ArrayList<>();
-
-	inputField = new JFormattedTextField(data.getValue());
+	inputField = new JFormattedTextField();
 	inputField.setPreferredSize(new Dimension(120, 20));
-	inputField.setEditable(!data.isComputed());
 	inputField.addKeyListener(new BoxListener());
-
 	panel.add(inputField);
     }
 
@@ -41,19 +37,24 @@ public class BoxWidget implements Widget {
     }
 
     @Override
-    public void dataUpdate(SymbolTable symbolTable) {
-	Symbol data = symbolTable.getSymbol(name);
-
-	if (data.getValue() == null) {
-	    inputField.setText("");
-	} else if (data.isComputed()) {
-	    inputField.setText(type.formatTypeToString(data.getValue().toString()));
-	}
+    public void setComputed(Boolean isComputed) {
+	inputField.setEditable(!isComputed);
     }
 
     @Override
-    public void widgetUpdate(Object value) {
-	widgetListeners.forEach(l -> l.widgetUpdate(value));
+    public void updateWidget(QLValue value) {
+
+	if (value.equals(new UndifinedValue())) {
+	    inputField.setText("");
+	} else if (!inputField.isEditable()) {
+	    inputField.setText(value.toString());
+	}
+
+    }
+
+    @Override
+    public void widgetUpdated(QLValue value) {
+	widgetListeners.forEach(l -> l.widgetUpdated(value));
     }
 
     @Override
@@ -61,25 +62,23 @@ public class BoxWidget implements Widget {
 	widgetListeners.add(listener);
 
     }
+
     class BoxListener implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	    JFormattedTextField field = (JFormattedTextField) e.getSource();
+	    QLValue value = type.createQLValueFrom(field.getText());
+	    widgetUpdated(value);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
-	    JFormattedTextField field = (JFormattedTextField) e.getSource();
-
-	    Object input = type.parseValue(field.getText());
-
-	    widgetUpdate(input);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 	}
-
     }
+
 }
