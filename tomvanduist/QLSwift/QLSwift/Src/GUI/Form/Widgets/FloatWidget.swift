@@ -1,5 +1,5 @@
 //
-//  IntegerView.swift
+//  FloatWidget.swift
 //  QLSwift
 //
 //  Created by Tom van Duist on 18/02/16.
@@ -8,12 +8,15 @@
 
 import UIKit
 
-class IntegerWidget: ViewWidget, UITextFieldDelegate {
+class FloatWidget: ViewWidget, UITextFieldDelegate {
+    lazy var numberFormatter = NSNumberFormatter.localizedFloatingPointFormatter()
+    
     let textField: UITextField = UITextField()
     
     override func setupView() {
+        numberFormatter = NSNumberFormatter()
         if textField.superview == nil {
-            textField.keyboardType = .NumberPad
+            textField.keyboardType = .DecimalPad
             textField.borderStyle = .Line
             textField.textAlignment = .Right
             textField.delegate = self
@@ -36,16 +39,27 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
     }
     
     override func setValue(value: NSObject) -> Bool {
-        guard let integerValue = value as? NSInteger
+        guard let floatValue = value as? Float
             else { return false }
         
-        textField.text = "\(integerValue)"
+        
+        // Do not update when the values are the same, prevents removing of trailing .
+        if let text = textField.text {
+            if let number = numberFormatter.numberFromString(text) {
+                if floatValue == number.floatValue {
+                    return false
+                }
+            }
+        }
+        
+        textField.text = numberFormatter.stringFromNumber(NSNumber(float: floatValue))
         
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let digits = NSCharacterSet.decimalDigitCharacterSet()
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, var replacementString string: String) -> Bool {
+        let digits = NSCharacterSet.decimalDigitCharacterSet().mutableCopy()
+        digits.addCharactersInString(".")
         
         for char in string.unicodeScalars {
             if !digits.longCharacterIsMember(char.value) {
@@ -61,21 +75,19 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
     }
     
     private func notifyDelegate(value: String?) {
-        var newValue: NSInteger!
+        var newValue: Float?
         
-        if value == nil || value!.characters.count == 0 {
-            newValue = 0
-        } else {
-            newValue = NSInteger(value!)
+        if value != nil {
+            newValue = numberFormatter.numberFromString(value!)?.floatValue
         }
         
-        delegate?.widgetChangedValue(self, value: newValue)
+        delegate?.widgetChangedValue(self, value: newValue != nil ? newValue! : 0)
     }
 }
 
 
-extension QLIntegerType {
+extension QLFloatType {
     func widgetView(delegate: WidgetDelegate) -> ViewWidget {
-        return IntegerWidget(delegate: delegate)
+        return FloatWidget(delegate: delegate)
     }
 }

@@ -11,17 +11,16 @@ import UIKit
 class BooleanWidget: ViewWidget {
     let toggle: UISwitch = UISwitch()
     
-    override func setupView(layout: Layout) {
+    override func setupView() {
         if toggle.superview == nil {
             toggle.on = false
             toggle.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
             
             self.addSubview(toggle)
-            
             toggle.snp_makeConstraints { [unowned self] (make) -> Void in
-                make.top.equalTo(self.snp_top).offset(layout.margin.top)
-                make.right.equalTo(self.snp_right).offset(layout.margin.right)
-                make.bottom.equalTo(self.snp_bottom).offset(layout.margin.bottom)
+                make.top.equalTo(self.snp_top).offset(20)
+                make.right.equalTo(self.snp_right).offset(-20)
+                make.bottom.equalTo(self.snp_bottom).offset(-10)
             }
         }
     }
@@ -48,7 +47,7 @@ class BooleanWidget: ViewWidget {
 
 
 extension QLBooleanType {
-    func widgetView(layout: Layout, delegate: WidgetDelegate) -> ViewWidget {
-        return BooleanWidget(layout: layout, delegate: delegate)
+    func widgetView(delegate: WidgetDelegate) -> ViewWidget {
+        return BooleanWidget(delegate: delegate)
     }
 }

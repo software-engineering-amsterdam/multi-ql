@@ -15,7 +15,7 @@ let kTextPlaceholder = "Enter text"
 class TextWidget: ViewWidget {
     private let textField: UITextField = UITextField()
     
-    override func setupView(layout: Layout) {
+    override func setupView() {
         if textField.superview == nil {
             textField.borderStyle = .Line
             textField.text = ""
@@ -23,12 +23,8 @@ class TextWidget: ViewWidget {
             textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
             
             self.addSubview(textField)
-            
             textField.snp_makeConstraints { [unowned self] (make) -> Void in
-                make.top.equalTo(self.snp_top).offset(layout.margin.top)
-                make.left.equalTo(self.snp_left).offset(layout.margin.left)
-                make.right.equalTo(self.snp_right).offset(layout.margin.right)
-                make.bottom.equalTo(self.snp_bottom).offset(layout.margin.bottom)
+                make.edges.equalTo(self).offset(UIEdgeInsets(top: 20, left: 20, bottom: -10, right: -20))
                 make.height.equalTo(50)
             }
         }
@@ -61,7 +57,7 @@ class TextWidget: ViewWidget {
 
 
 extension QLStringType {
-    func widgetView(layout: Layout, delegate: WidgetDelegate) -> ViewWidget {
-        return TextWidget(layout: layout, delegate: delegate)
+    func widgetView(delegate: WidgetDelegate) -> ViewWidget {
+        return TextWidget(delegate: delegate)
     }
 }

@@ -23,12 +23,12 @@ class ViewWidget: UIView, Widget {
     var enabled: Bool = false { didSet { enable(enabled) } }
     weak internal var delegate: WidgetDelegate?
     
-    init(layout: Layout, delegate: WidgetDelegate) {
+    init(delegate: WidgetDelegate) {
         self.delegate = delegate
         
         super.init(frame: CGRectZero)
         
-        setupView(layout)
+        setupView()
         
         self.enabled = false
     }
@@ -37,7 +37,7 @@ class ViewWidget: UIView, Widget {
         fatalError("StoryBoards are not supported!")
     }
     
-    func setupView(layout: Layout) {
+    func setupView() {
         fatalError("Override")
     }
     
@@ -52,7 +52,7 @@ class ViewWidget: UIView, Widget {
 }
 
 extension QLType {
-    func widgetView(layout: Layout, delegate: WidgetDelegate) -> ViewWidget {
+    func widgetView(delegate: WidgetDelegate) -> ViewWidget {
         fatalError("Override")
     }
 }

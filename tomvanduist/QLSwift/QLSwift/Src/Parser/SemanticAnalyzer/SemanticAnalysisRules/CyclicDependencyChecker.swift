@@ -10,21 +10,12 @@ import Foundation
 
 
 internal class CyclicDependencyChecker: SemanticAnalysisRule, QLNodeVisitor {
+    private var context: Context!
+    private var questionMap = Map<QLQuestion>()
     
-    typealias QLStatementVisitorParam   = [String]
-    typealias QLExpressionVisitorParam  = [String]
-    typealias QLLiteralVisitorParam     = [String]
-    typealias QLTypeVisitorParam        = [String]
-    typealias QLStatementVisitorReturn  = [SemanticError]
-    typealias QLExpressionVisitorReturn = [SemanticError]
-    typealias QLLiteralVisitorReturn    = [SemanticError]
-    typealias QLTypeVisitorReturn       = [SemanticError]
-    
-    private var symbolTable: SymbolTable = SymbolTable()
-    
-    
-    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult {
-        resetInternals(symbolTable)
+    func run(form: QLForm, context: Context) -> SemanticAnalysisResult {
+        self.context = context
+        self.questionMap = QuestionMapFiller().fill(form, map: Map<QLQuestion>())
         
         let errors = checkCyclicDependencies(form)
         
@@ -73,17 +64,15 @@ extension CyclicDependencyChecker {
 extension CyclicDependencyChecker {
     
     func visit(node: QLVariable, param: [String]) -> [SemanticError] {
-        guard let question = symbolTable.retrieveQuestion(node.id)
+        guard let question = questionMap.retrieve(node.id)
             else { return [] }
         
         let current = question.identifier.id
         
         if introducesCycle(current, identifiers: param) {
             return [CyclomaticDependencyError(description: "A cyclomatic dependency exists for the identifier \(current). Path: \(constructPath(param + [current]))")]
-        } else if question.isComputed() {
-            return (question as! QLComputedQuestion).accept(self, param: param)
         } else {
-            return []
+            return question.accept(self, param: param)
         }
     }
     
@@ -168,6 +157,10 @@ extension CyclicDependencyChecker {
 
 extension CyclicDependencyChecker {
     
+    func visit(node: QLFloatLiteral, param: [String]) -> [SemanticError] {
+        return []
+    }
+    
     func visit(node: QLIntegerLiteral, param: [String]) -> [SemanticError] {
         return []
     }
@@ -185,6 +178,10 @@ extension CyclicDependencyChecker {
 // MARK: - QLTypeVisitor conformance
 
 extension CyclicDependencyChecker {
+    
+    func visit(node: QLFloatType, param: [String]) -> [SemanticError] {
+        return []
+    }
     
     func visit(node: QLIntegerType, param: [String]) -> [SemanticError] {
         return []
@@ -212,10 +209,6 @@ extension CyclicDependencyChecker {
 
 extension CyclicDependencyChecker {
     
-    private func resetInternals(symbolTable: SymbolTable) {
-        self.symbolTable = symbolTable
-    }
-    
     private func introducesCycle(current: String, identifiers: [String]) -> Bool {
         return identifiers.indexOf(current) != nil
     }
@@ -237,5 +230,34 @@ extension CyclicDependencyChecker {
     
     private func asSemanticError(error: ErrorType) -> SemanticError {
         return SystemError(error: error)
+    }
+}
+
+
+private class QuestionMapFiller: QLStatementVisitor {
+    
+    func fill(form: QLForm, map: Map<QLQuestion>) -> Map<QLQuestion> {
+        return form.block.accept(self, param: map)
+    }
+    
+    func visit(node: QLVariableQuestion, param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        map.assign(node.identifier.id, value: node)
+        
+        return map
+    }
+    func visit(node: QLComputedQuestion, param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        map.assign(node.identifier.id, value: node)
+        
+        return map
+    }
+    func visit(node: QLConditional, param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        return node.ifBlock.accept(self, param: map)
+    }
+    func visit(node: QLBlock, var param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        for statement in node.block {
+            map = statement.accept(self, param: map)
+        }
+        
+        return map
     }
 }

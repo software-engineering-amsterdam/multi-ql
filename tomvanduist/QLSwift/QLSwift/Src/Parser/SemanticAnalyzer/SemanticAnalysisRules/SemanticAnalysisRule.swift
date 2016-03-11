@@ -21,5 +21,5 @@ struct SemanticAnalysisResult {
 }
 
 protocol SemanticAnalysisRule {
-    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult
+    func run(form: QLForm, context: Context) -> SemanticAnalysisResult
 }
