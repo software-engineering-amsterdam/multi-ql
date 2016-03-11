@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
-import sc.ql.ast.stat.Question;
+import sc.ql.ast.Statement.Question;
 import sc.qls.ast.QLSASTNode;
 import sc.qls.parser.QLSLexer;
 import sc.qls.parser.QLSParser;

@@ -5,10 +5,9 @@ grammar QL;
 import java.util.Map;
 import java.util.HashMap;
 import sc.ql.ast.*;
-import sc.ql.ast.stat.*;
-import sc.ql.ast.type.*;
-import sc.ql.ast.form.*;
 import static sc.ql.ast.Expression.*;
+import static sc.ql.ast.Statement.*;
+import static sc.ql.ast.ValueType.*;
 }
 
 @parser::members {
@@ -29,7 +28,7 @@ form returns [Form result]
 block returns [Block result]
     locals [
       List<Question> questions = new ArrayList<>();
-      List<IFStatement> statements = new ArrayList<>();
+      List<IfThen> statements = new ArrayList<>();
     ]
     @after{
         $result = addSource($ctx, new Block($ctx.questions, $ctx.statements));
@@ -38,10 +37,10 @@ block returns [Block result]
     
     ;
     
-ifStat returns [IFStatement result]
+ifStat returns [IfThen result]
     : 'if' + '(' + expr + ')' + block
     { 
-        $result = addSource($ctx, new IFStatement($expr.result, $block.result));
+        $result = addSource($ctx, new IfThen($expr.result, $block.result));
     }
     ;
 
@@ -56,10 +55,10 @@ question returns [Question result]
     }
     ;
     
-variableType returns [QLType result]
-    : BOOLEAN   { $result = addSource($ctx, new QLBooleanType()); }
-    | STRING    { $result = addSource($ctx, new QLStringType());  }
-    | INTEGER   { $result = addSource($ctx, new QLIntegerType()); }
+variableType returns [ValueType result]
+    : BOOLEAN   { $result = addSource($ctx, new BooleanType()); }
+    | STRING    { $result = addSource($ctx, new StringType());  }
+    | INTEGER   { $result = addSource($ctx, new IntegerType()); }
     ;
     
 expr returns [Expression result]

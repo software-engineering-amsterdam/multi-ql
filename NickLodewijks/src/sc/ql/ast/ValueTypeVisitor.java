@@ -1,4 +1,8 @@
-package sc.ql.ast.type;
+package sc.ql.ast;
+
+import sc.ql.ast.ValueType.BooleanType;
+import sc.ql.ast.ValueType.IntegerType;
+import sc.ql.ast.ValueType.StringType;
 
 public interface ValueTypeVisitor<T, U> {
 

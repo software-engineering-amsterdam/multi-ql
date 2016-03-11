@@ -9,9 +9,8 @@ import java.util.Set;
 
 import sc.ql.CyclicReferences.CyclicReference;
 import sc.ql.SemanticAnalyser.SemanticMessage.Level;
+import sc.ql.ast.Block;
 import sc.ql.ast.Expression;
-import sc.ql.ast.ExpressionVisitor;
-import sc.ql.ast.TopDown;
 import sc.ql.ast.Expression.Add;
 import sc.ql.ast.Expression.And;
 import sc.ql.ast.Expression.BinaryExpr;
@@ -32,15 +31,16 @@ import sc.ql.ast.Expression.Positive;
 import sc.ql.ast.Expression.StringLiteral;
 import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.VariableExpr;
-import sc.ql.ast.form.Block;
-import sc.ql.ast.form.Form;
-import sc.ql.ast.form.FormVisitor;
-import sc.ql.ast.stat.IFStatement;
-import sc.ql.ast.stat.Question;
-import sc.ql.ast.stat.ComputedQuestion;
-import sc.ql.ast.stat.NormalQuestion;
-import sc.ql.ast.stat.StatementVisitor;
-import sc.ql.ast.type.ValueType;
+import sc.ql.ast.ExpressionVisitor;
+import sc.ql.ast.Form;
+import sc.ql.ast.FormVisitor;
+import sc.ql.ast.Statement.ComputedQuestion;
+import sc.ql.ast.Statement.IfThen;
+import sc.ql.ast.Statement.NormalQuestion;
+import sc.ql.ast.Statement.Question;
+import sc.ql.ast.StatementVisitor;
+import sc.ql.ast.TopDown;
+import sc.ql.ast.ValueType;
 
 public class SemanticAnalyser {
 
@@ -184,8 +184,8 @@ public class SemanticAnalyser {
 		return result;
 	}
 
-	private static class TypeCheckVisitor implements ExpressionVisitor<ValueType, SymbolTable>, FormVisitor<Void, SymbolTable>,
-			StatementVisitor<Void, SymbolTable> {
+	private static class TypeCheckVisitor implements ExpressionVisitor<ValueType, SymbolTable>,
+			FormVisitor<Void, SymbolTable>, StatementVisitor<Void, SymbolTable> {
 
 		private SemanticErrors result;
 
@@ -217,7 +217,7 @@ public class SemanticAnalyser {
 				question.accept(this, st);
 			}
 
-			for (IFStatement statement : node.getIfStatements()) {
+			for (IfThen statement : node.getIfStatements()) {
 				statement.accept(this, st);
 			}
 
@@ -225,7 +225,7 @@ public class SemanticAnalyser {
 		}
 
 		@Override
-		public Void visit(IFStatement node, SymbolTable st) {
+		public Void visit(IfThen node, SymbolTable st) {
 			checkType(node.getCondition(), st, ValueType.BOOLEAN);
 			node.getBody().accept(this, st);
 

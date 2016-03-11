@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import sc.ql.Environment;
-import sc.ql.ast.stat.Question;
+import sc.ql.ast.Statement.Question;
 import sc.ql.ast.value.Value;
 import sc.ql.ui.UIWidgetStyle;
 

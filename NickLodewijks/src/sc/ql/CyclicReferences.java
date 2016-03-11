@@ -13,10 +13,10 @@ import sc.ql.CyclicReferences.CyclicReference;
 import sc.ql.CyclicReferences.ReferenceTable.Reference;
 import sc.ql.CyclicReferences.ReferenceTable.ReferencePath;
 import sc.ql.ast.Expression;
-import sc.ql.ast.TopDown;
 import sc.ql.ast.Expression.VariableExpr;
-import sc.ql.ast.form.Form;
-import sc.ql.ast.stat.ComputedQuestion;
+import sc.ql.ast.Form;
+import sc.ql.ast.Statement.ComputedQuestion;
+import sc.ql.ast.TopDown;
 
 public class CyclicReferences implements Iterable<CyclicReference> {
 

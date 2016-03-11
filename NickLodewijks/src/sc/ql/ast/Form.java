@@ -1,4 +1,4 @@
-package sc.ql.ast.form;
+package sc.ql.ast;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,6 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
-import sc.ql.ast.ASTNode;
 import sc.ql.parser.QLLexer;
 import sc.ql.parser.QLParser;
 

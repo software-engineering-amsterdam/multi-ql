@@ -1,4 +1,4 @@
-package sc.ql.ast.form;
+package sc.ql.ast;
 
 public interface FormVisitor<T, U> {
 

@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import sc.ql.Environment;
-import sc.ql.ast.stat.Question;
+import sc.ql.ast.Statement.Question;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIForm;
 import sc.ql.ui.UIQuestion;

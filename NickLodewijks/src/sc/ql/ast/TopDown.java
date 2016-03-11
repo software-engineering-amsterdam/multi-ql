@@ -21,18 +21,13 @@ import sc.ql.ast.Expression.StringLiteral;
 import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.UnaryExpr;
 import sc.ql.ast.Expression.VariableExpr;
-import sc.ql.ast.form.Block;
-import sc.ql.ast.form.Form;
-import sc.ql.ast.form.FormVisitor;
-import sc.ql.ast.stat.IFStatement;
-import sc.ql.ast.stat.Question;
-import sc.ql.ast.stat.ComputedQuestion;
-import sc.ql.ast.stat.NormalQuestion;
-import sc.ql.ast.stat.StatementVisitor;
-import sc.ql.ast.type.BooleanType;
-import sc.ql.ast.type.IntegerType;
-import sc.ql.ast.type.StringType;
-import sc.ql.ast.type.ValueTypeVisitor;
+import sc.ql.ast.Statement.ComputedQuestion;
+import sc.ql.ast.Statement.IfThen;
+import sc.ql.ast.Statement.NormalQuestion;
+import sc.ql.ast.Statement.Question;
+import sc.ql.ast.ValueType.BooleanType;
+import sc.ql.ast.ValueType.IntegerType;
+import sc.ql.ast.ValueType.StringType;
 
 public class TopDown<T, U>
 		implements ExpressionVisitor<T, U>, FormVisitor<T, U>, StatementVisitor<T, U>, ValueTypeVisitor<T, U> {
@@ -143,7 +138,7 @@ public class TopDown<T, U>
 			q.accept(this, context);
 		}
 
-		for (IFStatement statement : node.getIfStatements()) {
+		for (IfThen statement : node.getIfStatements()) {
 			statement.accept(this, context);
 		}
 
@@ -151,7 +146,7 @@ public class TopDown<T, U>
 	}
 
 	@Override
-	public T visit(IFStatement node, U context) {
+	public T visit(IfThen node, U context) {
 		node.getCondition().accept(this, context);
 		node.getBody().accept(this, context);
 

@@ -18,18 +18,18 @@ import sc.ql.Environment;
 import sc.ql.Environment.ContextListener;
 import sc.ql.Interpreter;
 import sc.ql.ast.Expression;
-import sc.ql.ast.TopDown;
 import sc.ql.ast.Expression.And;
 import sc.ql.ast.Expression.BooleanLiteral;
-import sc.ql.ast.form.Form;
-import sc.ql.ast.stat.IFStatement;
-import sc.ql.ast.stat.Question;
-import sc.ql.ast.stat.ComputedQuestion;
-import sc.ql.ast.stat.NormalQuestion;
-import sc.ql.ast.type.BooleanType;
-import sc.ql.ast.type.IntegerType;
-import sc.ql.ast.type.StringType;
-import sc.ql.ast.type.ValueTypeVisitor;
+import sc.ql.ast.Form;
+import sc.ql.ast.Statement.ComputedQuestion;
+import sc.ql.ast.Statement.IfThen;
+import sc.ql.ast.Statement.NormalQuestion;
+import sc.ql.ast.Statement.Question;
+import sc.ql.ast.TopDown;
+import sc.ql.ast.ValueType.BooleanType;
+import sc.ql.ast.ValueType.IntegerType;
+import sc.ql.ast.ValueType.StringType;
+import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.ast.value.BooleanValue;
 import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
@@ -64,7 +64,7 @@ public class UIFactory {
 		form.accept(new TopDown<Void, Expression>() {
 
 			@Override
-			public Void visit(IFStatement node, Expression condition) {
+			public Void visit(IfThen node, Expression condition) {
 				Expression conjunction;
 
 				conjunction = new And(condition, node.getCondition());

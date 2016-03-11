@@ -3,7 +3,7 @@ package sc.ql;
 import java.io.File;
 import java.io.IOException;
 
-import sc.ql.ast.form.Form;
+import sc.ql.ast.Form;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIQuestionnaire;
 

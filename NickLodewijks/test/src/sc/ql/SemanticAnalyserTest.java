@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import sc.ql.SemanticAnalyser;
 import sc.ql.SemanticAnalyser.SemanticErrors;
-import sc.ql.ast.form.Form;
+import sc.ql.ast.Form;
 
 public class SemanticAnalyserTest {
 
