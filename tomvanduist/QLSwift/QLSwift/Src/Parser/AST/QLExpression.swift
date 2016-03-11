@@ -10,7 +10,6 @@ import Foundation
 
 
 protocol QLExpression: QLNode, QLExpressionVisitable {
-    func eval(context: Context) -> NSObject?
 }
 
 class QLVariable: QLExpression {
@@ -22,10 +21,6 @@ class QLVariable: QLExpression {
     
     func toString() -> String {
         return id
-    }
-    
-    func eval(context: Context) -> NSObject? {
-        return context.retrieve(id)
     }
     
     func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
@@ -42,10 +37,6 @@ class QLLiteralExpression: QLExpression {
     
     func toString() -> String {
         return literal.toString()
-    }
-    
-    func eval(context: Context) -> NSObject? {
-        return literal.eval(context)
     }
     
     func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
@@ -78,13 +69,6 @@ class QLNot: QLUnary, QLExpression {
         return "!"
     }
     
-    override func eval(context: Context) -> NSObject? {
-        guard let value = rhs.eval(context) as? Bool
-            else { return nil }
-        
-        return value == false
-    }
-    
     func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -97,13 +81,6 @@ class QLNeg: QLUnary, QLExpression {
     
     override func toString() -> String {
         return "-"
-    }
-    
-    override func eval(context: Context) -> NSObject? {
-        guard let value = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return value * -1
     }
     
     func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
@@ -141,13 +118,6 @@ class QLAdd: QLBinary {
         return "+"
     }
     
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return lval + rval
-    }
-    
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -160,13 +130,6 @@ class QLSub: QLBinary {
     
     override func toString() -> String {
         return "-"
-    }
-    
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return lval - rval
     }
     
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
@@ -183,13 +146,6 @@ class QLMul: QLBinary {
         return "*"
     }
     
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return lval * rval
-    }
-    
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -202,13 +158,6 @@ class QLDiv: QLBinary {
     
     override func toString() -> String {
         return "/"
-    }
-    
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return lval / rval
     }
     
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
@@ -225,13 +174,6 @@ class QLPow: QLBinary {
         return "^"
     }
     
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? Double, rval = rhs.eval(context) as? Double
-            else { return nil }
-        
-        return NSInteger(pow(lval, rval))
-    }
-    
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -244,13 +186,6 @@ class QLEq: QLBinary {
     
     override func toString() -> String {
         return "=="
-    }
-    
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context), rval = rhs.eval(context)
-            else { return nil }
-        
-        return lval == rval
     }
     
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
@@ -267,13 +202,6 @@ class QLNe: QLBinary {
         return "!="
     }
     
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context), rval = rhs.eval(context)
-            else { return nil }
-        
-        return lval != rval
-    }
-    
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -286,13 +214,6 @@ class QLGe: QLBinary {
     
     override func toString() -> String {
         return ">="
-    }
-    
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return lval >= rval
     }
     
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
@@ -309,13 +230,6 @@ class QLGt: QLBinary {
         return ">"
     }
     
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return lval > rval
-    }
-    
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -328,13 +242,6 @@ class QLLe: QLBinary {
     
     override func toString() -> String {
         return "<="
-    }
-    
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return lval <= rval
     }
     
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
@@ -351,13 +258,6 @@ class QLLt: QLBinary {
         return "<"
     }
     
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
-            else { return nil }
-        
-        return lval < rval
-    }
-    
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -372,13 +272,6 @@ class QLAnd: QLBinary {
         return "&&"
     }
     
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? Bool, rval = rhs.eval(context) as? Bool
-            else { return nil }
-        
-        return lval && rval
-    }
-    
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -391,13 +284,6 @@ class QLOr: QLBinary {
     
     override func toString() -> String {
         return "||"
-    }
-    
-    override func eval(context: Context) -> NSObject? {
-        guard let lval = lhs.eval(context) as? Bool, rval = rhs.eval(context) as? Bool
-            else { return nil }
-        
-        return lval || rval
     }
     
     override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {

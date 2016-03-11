@@ -10,11 +10,12 @@ import Foundation
 
 
 internal class CyclicDependencyChecker: SemanticAnalysisRule, QLNodeVisitor {
-    private var symbolTable: SymbolTable = SymbolTable()
+    private var context: Context!
+    private var questionMap = Map<QLQuestion>()
     
-    
-    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult {
-        resetInternals(symbolTable)
+    func run(form: QLForm, context: Context) -> SemanticAnalysisResult {
+        self.context = context
+        self.questionMap = QuestionMapFiller().fill(form, map: Map<QLQuestion>())
         
         let errors = checkCyclicDependencies(form)
         
@@ -63,7 +64,7 @@ extension CyclicDependencyChecker {
 extension CyclicDependencyChecker {
     
     func visit(node: QLVariable, param: [String]) -> [SemanticError] {
-        guard let question = symbolTable.retrieveQuestion(node.id)
+        guard let question = questionMap.retrieve(node.id)
             else { return [] }
         
         let current = question.identifier.id
@@ -208,10 +209,6 @@ extension CyclicDependencyChecker {
 
 extension CyclicDependencyChecker {
     
-    private func resetInternals(symbolTable: SymbolTable) {
-        self.symbolTable = symbolTable
-    }
-    
     private func introducesCycle(current: String, identifiers: [String]) -> Bool {
         return identifiers.indexOf(current) != nil
     }
@@ -233,5 +230,34 @@ extension CyclicDependencyChecker {
     
     private func asSemanticError(error: ErrorType) -> SemanticError {
         return SystemError(error: error)
+    }
+}
+
+
+private class QuestionMapFiller: QLStatementVisitor {
+    
+    func fill(form: QLForm, map: Map<QLQuestion>) -> Map<QLQuestion> {
+        return form.block.accept(self, param: map)
+    }
+    
+    func visit(node: QLVariableQuestion, param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        map.assign(node.identifier.id, value: node)
+        
+        return map
+    }
+    func visit(node: QLComputedQuestion, param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        map.assign(node.identifier.id, value: node)
+        
+        return map
+    }
+    func visit(node: QLConditional, param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        return node.ifBlock.accept(self, param: map)
+    }
+    func visit(node: QLBlock, var param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        for statement in node.block {
+            map = statement.accept(self, param: map)
+        }
+        
+        return map
     }
 }

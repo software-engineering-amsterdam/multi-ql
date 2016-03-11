@@ -9,14 +9,14 @@
 import Foundation
 
 
-private class ScopedSymbolTable: SymbolTable {
-    let parent: ScopedSymbolTable?
+private class ScopedMap: Map<QLType> {
+    let parent: ScopedMap?
     
-    init(parent: ScopedSymbolTable? = nil) {
+    init(parent: ScopedMap? = nil) {
         self.parent = parent
     }
     
-    override func retrieve(identifier: String) -> Symbol? {
+    override func retrieve(identifier: String) -> QLType? {
         if let o = super.retrieve(identifier) {
             return o
         }
@@ -27,16 +27,15 @@ private class ScopedSymbolTable: SymbolTable {
 
 
 internal class ScopeChecker: SemanticAnalysisRule, QLStatementVisitor, QLExpressionVisitor {
-    private var scopedSymbolTable: ScopedSymbolTable = ScopedSymbolTable(parent: nil)
-    private var symbolTable: SymbolTable!
+    private var scopedMap: ScopedMap = ScopedMap(parent: nil)
     private var errors: [SemanticError] = []
     private var warnings: [SemanticWarning] = []
     
     
-    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult {
-        resetInternals(symbolTable)
+    func run(form: QLForm, context: Context) -> SemanticAnalysisResult {
+        resetInternals()
         
-        checkScopes(form)
+        checkScopes(form, context: context)
         
         return SemanticAnalysisResult(success: errors.isEmpty, warnings: warnings, errors: errors)
     }
@@ -47,39 +46,39 @@ internal class ScopeChecker: SemanticAnalysisRule, QLStatementVisitor, QLExpress
 
 extension ScopeChecker {
     
-    func visit(node: QLVariableQuestion, param: Void?) {
+    func visit(node: QLVariableQuestion, param context: Context) {
         // no-op
     }
     
-    func visit(node: QLComputedQuestion, param: Void?) {
-        node.expression.accept(self, param: nil)
+    func visit(node: QLComputedQuestion, param context: Context) {
+        node.expression.accept(self, param: context)
     }
     
-    func visit(node: QLConditional, param: Void?) {
-        node.condition.accept(self, param: param)
-        node.ifBlock.accept(self, param: param)
+    func visit(node: QLConditional, param context: Context) {
+        node.condition.accept(self, param: context)
+        node.ifBlock.accept(self, param: context)
     }
     
-    func visit(node: QLBlock, param: Void?) {
-        scopedSymbolTable = ScopedSymbolTable(parent: scopedSymbolTable)
+    func visit(node: QLBlock, param context: Context) {
+        scopedMap = ScopedMap(parent: scopedMap)
         
         // Assign scopes
         for question in node.questions() {
-            assignScope(question)
+            assignScope(question, context: context)
         }
         
         // Visit questions
         for question in node.questions() {
-            question.accept(self, param: param)
+            question.accept(self, param: context)
         }
         
         // Visit deeper scopes
         for conditional in node.conditionals() {
-            conditional.accept(self, param: param)
+            conditional.accept(self, param: context)
         }
         
-        if let parentScope = scopedSymbolTable.parent {
-            scopedSymbolTable = parentScope
+        if let parentScope = scopedMap.parent {
+            scopedMap = parentScope
         }
     }
 }
@@ -89,80 +88,80 @@ extension ScopeChecker {
 
 extension ScopeChecker {
     
-    func visit(node: QLVariable, param: Void?) {
-        return retrieveSymbolType(node.id)
+    func visit(node: QLVariable, param context: Context) {
+        return retrieveType(node.id)
     }
     
-    func visit(node: QLLiteralExpression, param: Void?) {
+    func visit(node: QLLiteralExpression, param context: Context) {
     }
     
-    func visitUnary(unary: QLUnary) {
-        unary.rhs.accept(self, param: nil)
+    private func processUnary(unary: QLUnary, context: Context) {
+        unary.rhs.accept(self, param: context)
     }
     
-    func visit(node: QLNeg, param: Void?) {
-        visitUnary(node)
+    func visit(node: QLNeg, param context: Context) {
+        processUnary(node, context: context)
     }
     
-    func visit(node: QLNot, param: Void?) {
-        visitUnary(node)
+    func visit(node: QLNot, param context: Context) {
+        processUnary(node, context: context)
     }
     
-    func visitBinary(binary: QLBinary) {
-        binary.lhs.accept(self, param: nil)
-        binary.rhs.accept(self, param: nil)
+    private func processBinary(binary: QLBinary, context: Context) {
+        binary.lhs.accept(self, param: context)
+        binary.rhs.accept(self, param: context)
     }
     
-    func visit(node: QLAdd, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLAdd, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLSub, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLSub, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLMul, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLMul, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLDiv, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLDiv, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLPow, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLPow, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLGe, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLGe, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLGt, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLGt, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLLe, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLLe, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLLt, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLLt, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLEq, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLEq, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLNe, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLNe, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLAnd, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLAnd, param context: Context) {
+        processBinary(node, context: context)
     }
     
-    func visit(node: QLOr, param: Void?) {
-        visitBinary(node)
+    func visit(node: QLOr, param context: Context) {
+        processBinary(node, context: context)
     }
 }
 
@@ -171,33 +170,41 @@ extension ScopeChecker {
 
 extension ScopeChecker {
     
-    private func resetInternals(symbolTable: SymbolTable) {
-        scopedSymbolTable = ScopedSymbolTable(parent: nil)
-        self.symbolTable = symbolTable
+    private func resetInternals() {
+        scopedMap = ScopedMap(parent: nil)
         errors = []
         warnings = []
     }
     
-    private func checkScopes(form: QLForm) {
-        self.visit(form.block, param: nil)
+    private func checkScopes(form: QLForm, context: Context) {
+        self.visit(form.block, param: context)
     }
     
-    private func assignScope(question: QLQuestion) {
-        if let symbol = symbolTable.retrieve(question.identifier.id) {
-            do {
-                try scopedSymbolTable.assign(question.identifier.id, symbol: symbol)
-            } catch let warning as OverridingVariable {
-                collectWarning(warning)
-            } catch let error as MultipleDeclarations {
-                collectError(error)
-            } catch let error {
-                collectError(error)
+    private func assignScope(question: QLQuestion, context: Context) {
+        if let newType = context.retrieveType(question.identifier.id) {
+            
+            // assign
+            defer {
+                scopedMap.assign(question.identifier.id, value: newType)
+            }
+            
+            // Collect any errors or warnings
+            if let currentType = scopedMap.retrieve(question.identifier.id) {
+                if currentType === newType  {
+                    collectWarning(
+                        OverridingVariable(description: "The variable \'\(question.identifier.id)\' overrides an earlier instance.")
+                    )
+                } else if currentType !== QLUnknownType.self {
+                    collectError(
+                        MultipleDeclarations(description: "The variable \'\(question.identifier.id)\' is multiply declared as both \'\(currentType.toString())\' and \'\(newType.toString())\'")
+                    )
+                }
             }
         }
     }
     
-    private func retrieveSymbolType(identifier: String) {
-        if scopedSymbolTable.retrieve(identifier) == nil {
+    private func retrieveType(identifier: String) {
+        if scopedMap.retrieve(identifier) == nil {
             collectError(UndefinedVariableError(description: "Variable \"\(identifier)\" is not defined at this scope"))
         }
     }

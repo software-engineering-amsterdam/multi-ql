@@ -50,9 +50,10 @@ class QuestionView: BaseView, WidgetDelegate, ContextDelegate, QLTypeVisitor {
     }
     
     func update() {
-        if let value = question.context.retrieve(question.identifier) {
-            widget?.setValue(value)
-        }
+        // TODO: interpret
+//        if let value = question.context.retrieve(question.identifier) {
+//            widget?.setValue(value)
+//        }
         
         self.heightConstraint.active = !question.enabled()
         

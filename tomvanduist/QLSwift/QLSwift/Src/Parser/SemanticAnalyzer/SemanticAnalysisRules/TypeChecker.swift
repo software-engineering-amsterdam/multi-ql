@@ -10,14 +10,14 @@ import Foundation
 
 
 internal class TypeChecker: SemanticAnalysisRule, QLNodeVisitor {
-    private var symbolTable: SymbolTable!
+//    private var symbolTable: SymbolTable!
     private var errors: [SemanticError] = []
     
     
-    func run(form: QLForm, symbolTable: SymbolTable) -> SemanticAnalysisResult {
-        resetInternals(symbolTable)
+    func run(form: QLForm, context: Context) -> SemanticAnalysisResult {
+        resetInternals()
         
-        checkTypes(form)
+        checkTypes(form, context: context)
         
         return SemanticAnalysisResult(success: errors.isEmpty, warnings: [], errors: errors)
     }
@@ -28,28 +28,28 @@ internal class TypeChecker: SemanticAnalysisRule, QLNodeVisitor {
 
 extension TypeChecker {
     
-    func visit(node: QLVariableQuestion, param: Void?) -> QLType {
+    func visit(node: QLVariableQuestion, param context: Context) -> QLType {
         return node.type
     }
     
-    func visit(node: QLComputedQuestion, param: Void?) -> QLType {
-        return node.expression.accept(self, param: nil)
+    func visit(node: QLComputedQuestion, param context: Context) -> QLType {
+        return node.expression.accept(self, param: context)
     }
     
-    func visit(node: QLConditional, param: Void?) -> QLType {
-        node.condition.accept(self, param: param)
-        node.ifBlock.accept(self, param: param)
+    func visit(node: QLConditional, param context: Context) -> QLType {
+        node.condition.accept(self, param: context)
+        node.ifBlock.accept(self, param: context)
         
-        if (node.condition.accept(self, param: nil) !== QLBooleanType.self) {
+        if (node.condition.accept(self, param: context) !== QLBooleanType.self) {
             collectError(TypeMismatchError(description: "If statement condition must be of type Bool: \(node.condition.toString())"))
         }
         
         return QLVoidType()
     }
     
-    func visit(node: QLBlock, param: Void?) -> QLType {
+    func visit(node: QLBlock, param context: Context) -> QLType {
         for statement in node.block {
-            statement.accept(self, param: param)
+            statement.accept(self, param: context)
         }
         
         return QLVoidType()
@@ -61,129 +61,129 @@ extension TypeChecker {
 
 extension TypeChecker {
     
-    func visit(node: QLVariable, param: Void?) -> QLType {
-        return retrieveSymbolType(node.id)
+    func visit(node: QLVariable, param context: Context) -> QLType {
+        return retrieveSymbolType(node.id, context: context)
     }
     
-    func visit(node: QLLiteralExpression, param: Void?) -> QLType {
-        return node.literal.accept(self, param: param)
+    func visit(node: QLLiteralExpression, param context: Context) -> QLType {
+        return node.literal.accept(self, param: context)
     }
     
-    private func collectUnaryTypeError(node: QLUnary) {
-        let type = node.rhs.accept(self, param: nil)
+    private func collectUnaryTypeError(node: QLUnary, context: Context) {
+        let type = node.rhs.accept(self, param: context)
         collectError(TypeMismatchError(description: "Unary operator '\(node.toString())' cannot be applied to operand of type '\(type.toString())'!"))
     }
     
-    private func performUnaryPropagator(node: QLUnary, allower: AbstractAllowType) {
-        let rightType = node.rhs.accept(self, param: nil)
+    private func performUnaryPropagator(node: QLUnary, allower: AbstractAllowType, context: Context) {
+        let rightType = node.rhs.accept(self, param: context)
         
-        if !(allower.allowed(rightType)) {
-            collectUnaryTypeError(node)
+        if !(allower.allowed(rightType, context: context)) {
+            collectUnaryTypeError(node, context: context)
         }
     }
     
-    func visit(node: QLNeg, param: Void?) -> QLType {
-        performUnaryPropagator(node, allower: NumberAllowed())
+    func visit(node: QLNeg, param context: Context) -> QLType {
+        performUnaryPropagator(node, allower: NumberAllowed(), context: context)
         
         return QLIntegerType()
     }
     
-    func visit(node: QLNot, param: Void?) -> QLType {
-        performUnaryPropagator(node, allower: BoolAllowed())
+    func visit(node: QLNot, param context: Context) -> QLType {
+        performUnaryPropagator(node, allower: BoolAllowed(), context: context)
         
         return QLBooleanType()
     }
     
-    private func collectBinaryTypeError(node: QLBinary) {
-        let leftType = node.lhs.accept(self, param: nil)
-        let rightType = node.rhs.accept(self, param: nil)
+    private func collectBinaryTypeError(node: QLBinary, context: Context) {
+        let leftType = node.lhs.accept(self, param: context)
+        let rightType = node.rhs.accept(self, param: context)
         
         collectError(TypeMismatchError(description: "Binary operator '\(node.toString())' cannot be applied to operands of type '\(leftType.toString())' and '\(rightType.toString())'!"))
     }
     
-    private func performBinaryPropagator(node: QLBinary, propagator: AbstractPropagator) {
-        let lhsType = node.lhs.accept(self, param: nil)
-        let rhsType = node.rhs.accept(self, param: nil)
+    private func performBinaryPropagator(node: QLBinary, propagator: AbstractPropagator, context: Context) {
+        let lhsType = node.lhs.accept(self, param: context)
+        let rhsType = node.rhs.accept(self, param: context)
         
-        if !(propagator.propagade(lhsType).allowed(rhsType)) {
-            collectBinaryTypeError(node)
+        if !(propagator.propagade(lhsType, context: context).allowed(rhsType, context: context)) {
+            collectBinaryTypeError(node, context: context)
         }
     }
     
-    private func visitBinaryNumber(node: QLBinary) -> QLType {
-        performBinaryPropagator(node, propagator: NumericOperationPropagator())
+    private func visitBinaryNumber(node: QLBinary, context: Context) -> QLType {
+        performBinaryPropagator(node, propagator: NumericOperationPropagator(), context: context)
         
         return QLIntegerType()
     }
     
-    func visit(node: QLAdd, param: Void?) -> QLType {
-        return visitBinaryNumber(node)
+    func visit(node: QLAdd, param context: Context) -> QLType {
+        return visitBinaryNumber(node, context: context)
     }
     
-    func visit(node: QLSub, param: Void?) -> QLType {
-        return visitBinaryNumber(node)
+    func visit(node: QLSub, param context: Context) -> QLType {
+        return visitBinaryNumber(node, context: context)
     }
     
-    func visit(node: QLMul, param: Void?) -> QLType {
-        return visitBinaryNumber(node)
+    func visit(node: QLMul, param context: Context) -> QLType {
+        return visitBinaryNumber(node, context: context)
     }
     
-    func visit(node: QLDiv, param: Void?) -> QLType {
-        return visitBinaryNumber(node)
+    func visit(node: QLDiv, param context: Context) -> QLType {
+        return visitBinaryNumber(node, context: context)
     }
     
-    func visit(node: QLPow, param: Void?) -> QLType {
-        return visitBinaryNumber(node)
+    func visit(node: QLPow, param context: Context) -> QLType {
+        return visitBinaryNumber(node, context: context)
     }
     
-    private func visitBinaryOrder(node: QLBinary) -> QLType {
-        performBinaryPropagator(node, propagator: OrderOperationPropagator())
+    private func visitBinaryOrder(node: QLBinary, context: Context) -> QLType {
+        performBinaryPropagator(node, propagator: OrderOperationPropagator(), context: context)
         
         return QLBooleanType()
     }
     
-    func visit(node: QLGe, param: Void?) -> QLType {
-        return visitBinaryOrder(node)
+    func visit(node: QLGe, param context: Context) -> QLType {
+        return visitBinaryOrder(node, context: context)
     }
     
-    func visit(node: QLGt, param: Void?) -> QLType {
-        return visitBinaryOrder(node)
+    func visit(node: QLGt, param context: Context) -> QLType {
+        return visitBinaryOrder(node, context: context)
     }
     
-    func visit(node: QLLe, param: Void?) -> QLType {
-        return visitBinaryOrder(node)
+    func visit(node: QLLe, param context: Context) -> QLType {
+        return visitBinaryOrder(node, context: context)
     }
     
-    func visit(node: QLLt, param: Void?) -> QLType {
-        return visitBinaryOrder(node)
+    func visit(node: QLLt, param context: Context) -> QLType {
+        return visitBinaryOrder(node, context: context)
     }
     
-    private func visitBinaryEq(node: QLBinary) -> QLType {
-        performBinaryPropagator(node, propagator: EqualityOperationPropagator())
+    private func visitBinaryEq(node: QLBinary, context: Context) -> QLType {
+        performBinaryPropagator(node, propagator: EqualityOperationPropagator(), context: context)
         
         return QLBooleanType()
     }
     
-    func visit(node: QLEq, param: Void?) -> QLType {
-        return visitBinaryEq(node)
+    func visit(node: QLEq, param context: Context) -> QLType {
+        return visitBinaryEq(node, context: context)
     }
     
-    func visit(node: QLNe, param: Void?) -> QLType {
-        return visitBinaryEq(node)
+    func visit(node: QLNe, param context: Context) -> QLType {
+        return visitBinaryEq(node, context: context)
     }
     
-    private func visitBinaryBool(node: QLBinary) -> QLType {
-        performBinaryPropagator(node, propagator: BoolOperationPropagator())
+    private func visitBinaryBool(node: QLBinary, context: Context) -> QLType {
+        performBinaryPropagator(node, propagator: BoolOperationPropagator(), context: context)
         
         return QLBooleanType()
     }
     
-    func visit(node: QLAnd, param: Void?) -> QLType {
-        return visitBinaryBool(node)
+    func visit(node: QLAnd, param context: Context) -> QLType {
+        return visitBinaryBool(node, context: context)
     }
     
-    func visit(node: QLOr, param: Void?) -> QLType {
-        return visitBinaryBool(node)
+    func visit(node: QLOr, param context: Context) -> QLType {
+        return visitBinaryBool(node, context: context)
     }
 }
 
@@ -192,19 +192,19 @@ extension TypeChecker {
 
 extension TypeChecker {
     
-    func visit(node: QLFloatLiteral, param: Void?) -> QLType {
+    func visit(node: QLFloatLiteral, param context: Context) -> QLType {
         return QLFloatType()
     }
     
-    func visit(node: QLIntegerLiteral, param: Void?) -> QLType {
+    func visit(node: QLIntegerLiteral, param context: Context) -> QLType {
         return QLIntegerType()
     }
     
-    func visit(node: QLStringLiteral, param: Void?) -> QLType {
+    func visit(node: QLStringLiteral, param context: Context) -> QLType {
         return QLStringType()
     }
     
-    func visit(node: QLBooleanLiteral, param: Void?) -> QLType {
+    func visit(node: QLBooleanLiteral, param context: Context) -> QLType {
         return QLBooleanType()
     }
 }
@@ -214,27 +214,27 @@ extension TypeChecker {
 
 extension TypeChecker {
 
-    func visit(node: QLFloatType, param: Void?) -> QLType {
+    func visit(node: QLFloatType, param context: Context) -> QLType {
         return node
     }
     
-    func visit(node: QLIntegerType, param: Void?) -> QLType {
+    func visit(node: QLIntegerType, param context: Context) -> QLType {
         return node
     }
     
-    func visit(node: QLStringType, param: Void?) -> QLType {
+    func visit(node: QLStringType, param context: Context) -> QLType {
         return node
     }
     
-    func visit(node: QLBooleanType, param: Void?) -> QLType {
+    func visit(node: QLBooleanType, param context: Context) -> QLType {
         return node
     }
     
-    func visit(node: QLVoidType, param: Void?) -> QLType {
+    func visit(node: QLVoidType, param context: Context) -> QLType {
         return node
     }
     
-    func visit(node: QLUnknownType, param: Void?) -> QLType {
+    func visit(node: QLUnknownType, param context: Context) -> QLType {
         return node
     }
 }
@@ -244,17 +244,16 @@ extension TypeChecker {
 
 extension TypeChecker {
     
-    private func resetInternals(symbolTable: SymbolTable) {
-        self.symbolTable = symbolTable
+    private func resetInternals() {
         errors = []
     }
     
-    private func checkTypes(form: QLForm) {
-        self.visit(form.block, param: nil)
+    private func checkTypes(form: QLForm, context: Context) {
+        self.visit(form.block, param: context)
     }
     
-    private func retrieveSymbolType(identifier: String) -> QLType {
-        guard let type = symbolTable.retrieveType(identifier)
+    private func retrieveSymbolType(identifier: String, context: Context) -> QLType {
+        guard let type = context.retrieveType(identifier)
             else { return QLUnknownType() }
         
         return type
@@ -275,111 +274,111 @@ extension TypeChecker {
  * A propagator converts a type into a checker
  */
 private protocol Propagator: QLTypeVisitor {
-    func propagade(type: QLType) -> AbstractAllowType
+    func propagade(type: QLType, context: Context) -> AbstractAllowType
 }
 
 /**
  * A checkers defines if a type is allowed
  */
 private protocol AllowType: QLTypeVisitor {
-    func allowed(type: QLType) -> Bool
+    func allowed(type: QLType, context: Context) -> Bool
 }
 
 private class AbstractPropagator: Propagator {
-    func propagade(type: QLType) -> AbstractAllowType {
-        return type.accept(self, param: nil)
+    func propagade(type: QLType, context: Context) -> AbstractAllowType {
+        return type.accept(self, param: context)
     }
     
-    func visit(node: QLStringType, param: Void?) -> AbstractAllowType {
+    func visit(node: QLStringType, param context: Context) -> AbstractAllowType {
         return AbstractAllowType()
     }
-    func visit(node: QLIntegerType, param: Void?) -> AbstractAllowType {
+    func visit(node: QLIntegerType, param context: Context) -> AbstractAllowType {
         return AbstractAllowType()
     }
-    func visit(node: QLFloatType, param: Void?) -> AbstractAllowType {
+    func visit(node: QLFloatType, param context: Context) -> AbstractAllowType {
         return AbstractAllowType()
     }
-    func visit(node: QLBooleanType, param: Void?) -> AbstractAllowType {
+    func visit(node: QLBooleanType, param context: Context) -> AbstractAllowType {
         return AbstractAllowType()
     }
-    func visit(node: QLVoidType, param: Void?) -> AbstractAllowType {
+    func visit(node: QLVoidType, param context: Context) -> AbstractAllowType {
         return AbstractAllowType()
     }
-    func visit(node: QLUnknownType, param: Void?) -> AbstractAllowType {
+    func visit(node: QLUnknownType, param context: Context) -> AbstractAllowType {
         return AbstractAllowType()
     }
 }
 
 private class AbstractAllowType: AllowType {
-    func allowed(type: QLType) -> Bool {
-        return type.accept(self, param: nil)
+    func allowed(type: QLType, context: Context) -> Bool {
+        return type.accept(self, param: context)
     }
     
-    func visit(node: QLStringType, param: Void?) -> Bool {
+    func visit(node: QLStringType, param context: Context) -> Bool {
         return false
     }
-    func visit(node: QLIntegerType, param: Void?) -> Bool {
+    func visit(node: QLIntegerType, param context: Context) -> Bool {
         return false
     }
-    func visit(node: QLFloatType, param: Void?) -> Bool {
+    func visit(node: QLFloatType, param context: Context) -> Bool {
         return false
     }
-    func visit(node: QLBooleanType, param: Void?) -> Bool {
+    func visit(node: QLBooleanType, param context: Context) -> Bool {
         return false
     }
-    func visit(node: QLVoidType, param: Void?) -> Bool {
+    func visit(node: QLVoidType, param context: Context) -> Bool {
         return false
     }
-    func visit(node: QLUnknownType, param: Void?) -> Bool {
+    func visit(node: QLUnknownType, param context: Context) -> Bool {
         return false
     }
 }
 
 private class NumericOperationPropagator: AbstractPropagator {
-    override private func visit(node: QLFloatType, param: Void?) -> AbstractAllowType {
+    override private func visit(node: QLFloatType, param context: Context) -> AbstractAllowType {
         return NumberAllowed()
     }
-    override private func visit(node: QLIntegerType, param: Void?) -> AbstractAllowType {
+    override private func visit(node: QLIntegerType, param context: Context) -> AbstractAllowType {
         return NumberAllowed()
     }
 }
 private class OrderOperationPropagator: NumericOperationPropagator {
 }
 private class BoolOperationPropagator: AbstractPropagator {
-    override private func visit(node: QLBooleanType, param: Void?) -> AbstractAllowType {
+    override private func visit(node: QLBooleanType, param context: Context) -> AbstractAllowType {
         return BoolAllowed()
     }
 }
 private class EqualityOperationPropagator: AbstractPropagator {
-    override func visit(node: QLStringType, param: Void?) -> AbstractAllowType {
+    override func visit(node: QLStringType, param context: Context) -> AbstractAllowType {
         return StringAllowed()
     }
-    override func visit(node: QLIntegerType, param: Void?) -> AbstractAllowType {
+    override func visit(node: QLIntegerType, param context: Context) -> AbstractAllowType {
         return NumberAllowed()
     }
-    override func visit(node: QLFloatType, param: Void?) -> AbstractAllowType {
+    override func visit(node: QLFloatType, param context: Context) -> AbstractAllowType {
         return NumberAllowed()
     }
-    override func visit(node: QLBooleanType, param: Void?) -> AbstractAllowType {
+    override func visit(node: QLBooleanType, param context: Context) -> AbstractAllowType {
         return BoolAllowed()
     }
 }
 
 private class NumberAllowed: AbstractAllowType {
-    override private func visit(node: QLFloatType, param: Void?) -> Bool {
+    override private func visit(node: QLFloatType, param context: Context) -> Bool {
         return true
     }
-    override private func visit(node: QLIntegerType, param: Void?) -> Bool {
+    override private func visit(node: QLIntegerType, param context: Context) -> Bool {
         return true
     }
 }
 private class StringAllowed: AbstractAllowType {
-    override private func visit(node: QLStringType, param: Void?) -> Bool {
+    override private func visit(node: QLStringType, param context: Context) -> Bool {
         return true
     }
 }
 private class BoolAllowed: AbstractAllowType {
-    override private func visit(node: QLBooleanType, param: Void?) -> Bool {
+    override private func visit(node: QLBooleanType, param context: Context) -> Bool {
         return true
     }
 }

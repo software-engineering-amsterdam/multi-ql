@@ -15,66 +15,57 @@ import XCTest
 class EvalTests: XCTestCase {
 
     func testAdd() {
-        let form = parseFile("EvalAdd", doEval: true)
-        
-        guard form != nil
-            else { XCTFail("Parse failed"); return }
-        
-        let q1 = form!.block.block.first as? QLComputedQuestion
-        
-        XCTAssertNotNil(q1)
-        guard q1 != nil
-            else { XCTFail("Parse failed"); return }
-        
-        
-        XCTAssertTrue(q1!.expression.eval(QLContext(form: form!)) == 2)
+        eval("EvalAdd", expectedValues: [
+            "q1": 2
+            ]
+        )
     }
     
     func testPow() {
-        let form = parseFile("EvalPow", doEval: true)
-        
-        guard form != nil
-            else { XCTFail("Parse failed"); return }
-        
-        let q2 = form!.block.block.last as? QLComputedQuestion
-        
-        XCTAssertNotNil(q2)
-        guard q2 != nil
-            else { XCTFail("Parse failed"); return }
-        
-        
-        XCTAssertTrue(q2!.eval(QLContext(form: form!)) == 4)
+        eval("EvalPow", expectedValues: [
+            "q2": 4
+            ]
+        )
     }
     
     func testPrec() {
-        let form = parseFile("EvalPrec", doEval: true)
-        
-        guard form != nil
-            else { XCTFail("Parse failed"); return }
-        
-        let q3 = form!.block.block.last as? QLComputedQuestion
-        
-        XCTAssertNotNil(q3)
-        guard q3 != nil
-            else { XCTFail("Parse failed"); return }
-        
-        
-        XCTAssertTrue(q3!.expression.eval(QLContext(form: form!)) == 8)
+        eval("EvalPrec", expectedValues: [
+            "q3": 8
+            ]
+        )
     }
     
     func testBool() {
-        let form = parseFile("EvalBool", doEval: true)
+        eval("EvalBool", expectedValues: [
+                "q1": true
+            ]
+        )
+    }
+    
+    private func eval(file: String, var expectedValues: [String: NSObject?]) {
         
-        guard form != nil
+        guard let form = parseFile(file, doEval: true)
             else { XCTFail("Parse failed"); return }
         
-        let q1 = form!.block.block.first as? QLComputedQuestion
         
-        XCTAssertNotNil(q1)
-        guard q1 != nil
+        guard let context = try? Context(form: form)
             else { XCTFail("Parse failed"); return }
         
+        let interpreter = Interpreter.sharedInstance
         
-        XCTAssertTrue(q1!.expression.eval(QLContext(form: form!)) == true)
+        for (id, expectedValue) in expectedValues {
+            guard let expression = context.retrieveExpression(id)
+                else { XCTFail("Question with id \'\(id)\' does not exist!"); return }
+            
+            let realValue = interpreter.resolve(expression, context: context)
+            
+            guard realValue == expectedValue
+                else { XCTFail("Values for \'\(id)\' are not equal (\(expectedValue) != \(realValue)"); return }
+            
+            expectedValues.removeValueForKey(id)
+        }
+        
+        
+        XCTAssertTrue(expectedValues.isEmpty, "Not all expected values are resolved!")
     }
 }

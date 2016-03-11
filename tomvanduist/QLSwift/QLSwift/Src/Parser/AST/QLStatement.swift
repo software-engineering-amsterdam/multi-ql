@@ -93,9 +93,10 @@ class QLConditional: QLStatement {
     }
     
     func isSatisfied(context: Context) -> Bool {
-        if let isSatisfied = condition.eval(context) as? Bool {
+        if let isSatisfied = Interpreter.sharedInstance.resolve(condition, context: context) as? Bool {
             return isSatisfied
         }
+        
         return false
     }
     
