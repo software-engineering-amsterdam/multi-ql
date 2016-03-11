@@ -72,8 +72,24 @@ public class IntValue extends Value {
 	
 	@Override
 	public Value equalInt(IntValue value) {
-		return new BoolValue(value.getValue() == getValue());
+		return new BoolValue(value.getValue().equals(this.value));
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof IntValue))
+			return false;
+		
+		return ((IntValue) obj).getValue().equals(this.value);
+	}
+	
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+	
 	
 	@Override
 	public Value notEqual(Value value) {
@@ -82,7 +98,7 @@ public class IntValue extends Value {
 	
 	@Override
 	public Value notEqualInt(IntValue value) {
-		return new BoolValue(value.getValue() != getValue());
+		return new BoolValue(!(value.getValue().equals(this.value)));
 	}
 	
 	@Override

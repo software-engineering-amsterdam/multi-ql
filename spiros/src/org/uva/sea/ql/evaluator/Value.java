@@ -71,6 +71,10 @@ public abstract class Value {
 		return new UndefinedValue();
 	}
 	
+	public Value equalBool(BoolValue value) {
+		return new UndefinedValue();
+	}
+	
 	public Value notEqual(Value value) {
 		return new UndefinedValue();
 	}

@@ -12,9 +12,9 @@
 
 --> Set<Str> ---> Set <Identifier>
 
---> equals
-
 --> Organize packages
+
+--> equal se bool kai str?
 
 --> Give info about the type of the condition (if it is not boolean . . . )
 

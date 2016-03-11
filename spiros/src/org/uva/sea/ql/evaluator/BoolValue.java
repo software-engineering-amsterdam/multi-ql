@@ -1,5 +1,8 @@
 package org.uva.sea.ql.evaluator;
 
+// equalBool and equals to be implemented...
+// why the fuck do i have primitive type here?  --> change...
+
 public class BoolValue extends Value {
 	
 	private final boolean value;
@@ -36,5 +39,11 @@ public class BoolValue extends Value {
 	public Value orBool(BoolValue value) {
 		return new BoolValue(value.getValue() || this.getValue());
 	}
+	
+	@Override
+	public Value equal(Value value) {
+		return value.equalBool(this);
+	}
+	
 
 }
