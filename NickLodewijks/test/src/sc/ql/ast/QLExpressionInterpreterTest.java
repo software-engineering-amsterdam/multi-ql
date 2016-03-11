@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import sc.ql.QLInterpreter;
-import sc.ql.ast.expr.Expr;
+import sc.ql.ast.expr.Expression;
 import sc.ql.ast.value.BooleanValue;
 import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
@@ -139,7 +139,7 @@ public class QLExpressionInterpreterTest {
 	}
 
 	private Object interpret(String input) throws IOException {
-		return QLInterpreter.interpret(Expr.create(input), null);
+		return QLInterpreter.interpret(Expression.create(input), null);
 	}
 
 }

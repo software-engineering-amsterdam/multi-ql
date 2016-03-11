@@ -1,19 +1,19 @@
 package sc.ql.ast.stat;
 
-import sc.ql.ast.expr.Expr;
+import sc.ql.ast.expr.Expression;
 import sc.ql.ast.type.QLType;
 
 public final class QLQuestionComputed extends QLQuestion {
 
-	private final Expr computation;
+	private final Expression computation;
 
-	public QLQuestionComputed(QLType type, String id, String label, Expr computation) {
+	public QLQuestionComputed(QLType type, String id, String label, Expression computation) {
 		super(type, id, label);
 
 		this.computation = computation;
 	}
 
-	public Expr getComputation() {
+	public Expression getComputation() {
 		return computation;
 	}
 

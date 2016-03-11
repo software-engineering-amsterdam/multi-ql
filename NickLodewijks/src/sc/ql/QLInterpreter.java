@@ -1,26 +1,26 @@
 package sc.ql;
 
-import sc.ql.ast.expr.Add;
-import sc.ql.ast.expr.And;
-import sc.ql.ast.expr.BooleanLiteral;
-import sc.ql.ast.expr.Divide;
-import sc.ql.ast.expr.Equals;
-import sc.ql.ast.expr.EqualsNot;
-import sc.ql.ast.expr.Expr;
 import sc.ql.ast.expr.ExprVisitor;
-import sc.ql.ast.expr.GreaterThan;
-import sc.ql.ast.expr.GreaterThanOrEqual;
-import sc.ql.ast.expr.IntegerLiteral;
-import sc.ql.ast.expr.LessThan;
-import sc.ql.ast.expr.LessThanOrEqual;
-import sc.ql.ast.expr.Multiply;
-import sc.ql.ast.expr.Negative;
-import sc.ql.ast.expr.Not;
-import sc.ql.ast.expr.Or;
-import sc.ql.ast.expr.Positive;
-import sc.ql.ast.expr.StringLiteral;
-import sc.ql.ast.expr.Subtract;
-import sc.ql.ast.expr.VariableExpr;
+import sc.ql.ast.expr.Expression;
+import sc.ql.ast.expr.Expression.Add;
+import sc.ql.ast.expr.Expression.And;
+import sc.ql.ast.expr.Expression.BooleanLiteral;
+import sc.ql.ast.expr.Expression.Divide;
+import sc.ql.ast.expr.Expression.Equals;
+import sc.ql.ast.expr.Expression.EqualsNot;
+import sc.ql.ast.expr.Expression.GreaterThan;
+import sc.ql.ast.expr.Expression.GreaterThanOrEqual;
+import sc.ql.ast.expr.Expression.IntegerLiteral;
+import sc.ql.ast.expr.Expression.LessThan;
+import sc.ql.ast.expr.Expression.LessThanOrEqual;
+import sc.ql.ast.expr.Expression.Multiply;
+import sc.ql.ast.expr.Expression.Negative;
+import sc.ql.ast.expr.Expression.Not;
+import sc.ql.ast.expr.Expression.Or;
+import sc.ql.ast.expr.Expression.Positive;
+import sc.ql.ast.expr.Expression.StringLiteral;
+import sc.ql.ast.expr.Expression.Subtract;
+import sc.ql.ast.expr.Expression.VariableExpr;
 import sc.ql.ast.value.BooleanValue;
 import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
@@ -29,7 +29,7 @@ import sc.ql.ast.value.Value;
 public class QLInterpreter implements ExprVisitor<Value, QLContext> {
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Value> T interpret(Expr expr, QLContext context) {
+	public static <T extends Value> T interpret(Expression expr, QLContext context) {
 		try {
 			return (T) expr.accept(new QLInterpreter(), context);
 		} catch (RuntimeException ex) {

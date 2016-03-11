@@ -1,19 +1,19 @@
 package sc.ql.ast.stat;
 
-import sc.ql.ast.expr.Expr;
+import sc.ql.ast.expr.Expression;
 import sc.ql.ast.form.QLBlock;
 
 public final class QLIFStatement extends QLStatement {
 
-	private final Expr condition;
+	private final Expression condition;
 	private final QLBlock body;
 
-	public QLIFStatement(Expr condition, QLBlock body) {
+	public QLIFStatement(Expression condition, QLBlock body) {
 		this.condition = condition;
 		this.body = body;
 	}
 
-	public Expr getCondition() {
+	public Expression getCondition() {
 		return condition;
 	}
 

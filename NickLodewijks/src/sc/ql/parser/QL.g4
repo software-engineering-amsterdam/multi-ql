@@ -9,6 +9,7 @@ import sc.ql.ast.expr.*;
 import sc.ql.ast.stat.*;
 import sc.ql.ast.type.*;
 import sc.ql.ast.form.*;
+import static sc.ql.ast.expr.Expression.*;
 }
 
 @parser::members {
@@ -62,7 +63,7 @@ variableType returns [QLType result]
     | INTEGER   { $result = addSource($ctx, new QLIntegerType()); }
     ;
     
-expr returns [Expr result]
+expr returns [Expression result]
     : op=('+' | '-') exp=expr
     { 
       if ($op.text.equals("+")) {
@@ -125,7 +126,7 @@ expr returns [Expr result]
     | ID                 { $result = addSource($ctx, new VariableExpr($ID.text)); }
     ;
     
-literal returns [Expr result]
+literal returns [Expression result]
     : INT   { $result = addSource($ctx, new IntegerLiteral(Integer.valueOf($INT.text))); }
     | STR   { $result = addSource($ctx, new StringLiteral(unQuote($STR.text))); }
     | BOOL  { $result = addSource($ctx, new BooleanLiteral(Boolean.valueOf($BOOL.text))); }

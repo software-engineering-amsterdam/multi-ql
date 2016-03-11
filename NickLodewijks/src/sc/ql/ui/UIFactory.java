@@ -15,12 +15,12 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import sc.ql.QLContext;
-import sc.ql.QLInterpreter;
 import sc.ql.QLContext.ContextListener;
+import sc.ql.QLInterpreter;
 import sc.ql.ast.QLTopDown;
-import sc.ql.ast.expr.And;
-import sc.ql.ast.expr.BooleanLiteral;
-import sc.ql.ast.expr.Expr;
+import sc.ql.ast.expr.Expression;
+import sc.ql.ast.expr.Expression.And;
+import sc.ql.ast.expr.Expression.BooleanLiteral;
 import sc.ql.ast.form.QLForm;
 import sc.ql.ast.stat.QLIFStatement;
 import sc.ql.ast.stat.QLQuestion;
@@ -61,11 +61,11 @@ public class UIFactory {
 
 		uiForm = createForm();
 
-		form.accept(new QLTopDown<Void, Expr>() {
+		form.accept(new QLTopDown<Void, Expression>() {
 
 			@Override
-			public Void visit(QLIFStatement node, Expr condition) {
-				Expr conjunction;
+			public Void visit(QLIFStatement node, Expression condition) {
+				Expression conjunction;
 
 				conjunction = new And(condition, node.getCondition());
 
@@ -75,7 +75,7 @@ public class UIFactory {
 			}
 
 			@Override
-			public Void visit(QLQuestionInput node, Expr condition) {
+			public Void visit(QLQuestionInput node, Expression condition) {
 				UIQuestion uiQuestion;
 
 				uiQuestion = create(context, node, condition);
@@ -84,7 +84,7 @@ public class UIFactory {
 			}
 
 			@Override
-			public Void visit(QLQuestionComputed node, Expr condition) {
+			public Void visit(QLQuestionComputed node, Expression condition) {
 				UIQuestion uiQuestion;
 
 				uiQuestion = create(context, node, condition, node.getComputation());
@@ -101,11 +101,12 @@ public class UIFactory {
 		return new DefaultUIForm();
 	}
 
-	private UIQuestion create(QLContext context, QLQuestion question, Expr condition) {
+	private UIQuestion create(QLContext context, QLQuestion question, Expression condition) {
 		return create(context, question, condition, null);
 	}
 
-	private UIQuestion create(QLContext context, QLQuestion question, Expr condition, Expr valueComputation) {
+	private UIQuestion create(QLContext context, QLQuestion question, Expression condition,
+			Expression valueComputation) {
 		UIWidget labelWidget;
 		UIWidget valueWidget;
 
@@ -221,14 +222,14 @@ public class UIFactory {
 	private static class DefaultUIQuestion implements UIQuestion, ContextListener {
 
 		private final QLQuestion question;
-		private final Expr condition;
-		private final Expr valueComputation;
+		private final Expression condition;
+		private final Expression valueComputation;
 
 		private final UIWidget labelWidget;
 		private final UIWidget valueWidget;
 
 		public DefaultUIQuestion(QLContext context, QLQuestion question, UIWidget labelWidget, UIWidget valueWidget,
-				Expr condition, Expr valueComputation) {
+				Expression condition, Expression valueComputation) {
 			this.question = question;
 			this.condition = condition;
 

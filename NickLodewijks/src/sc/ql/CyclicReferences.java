@@ -13,8 +13,8 @@ import sc.ql.CyclicReferences.CyclicReference;
 import sc.ql.CyclicReferences.ReferenceTable.Reference;
 import sc.ql.CyclicReferences.ReferenceTable.ReferencePath;
 import sc.ql.ast.QLTopDown;
-import sc.ql.ast.expr.Expr;
-import sc.ql.ast.expr.VariableExpr;
+import sc.ql.ast.expr.Expression;
+import sc.ql.ast.expr.Expression.VariableExpr;
 import sc.ql.ast.form.QLForm;
 import sc.ql.ast.stat.QLQuestionComputed;
 
@@ -66,7 +66,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 	 *            the expression to collect all free variables from.
 	 * @return the free variables used in the expression.
 	 */
-	public static Set<String> freeVariables(Expr expr) {
+	public static Set<String> freeVariables(Expression expr) {
 		Set<String> variables;
 
 		variables = new HashSet<>();

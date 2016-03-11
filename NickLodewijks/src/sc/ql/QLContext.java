@@ -6,22 +6,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import sc.ql.ast.expr.Expr;
+import sc.ql.ast.expr.Expression;
 import sc.ql.ast.value.Value;
 
 public class QLContext {
 
 	private final Map<String, Value> valueMap;
-	private final Map<String, Expr> computedValueMap;
+	private final Map<String, Expression> computedValueMap;
 	private final List<ContextListener> contextListeners;
 
 	public QLContext() {
 		valueMap = new HashMap<String, Value>();
-		computedValueMap = new HashMap<String, Expr>();
+		computedValueMap = new HashMap<String, Expression>();
 		contextListeners = new ArrayList<ContextListener>();
 	}
 
-	public void addComputedValue(String key, Expr computation) {
+	public void addComputedValue(String key, Expression computation) {
 		computedValueMap.put(key, computation);
 	}
 
@@ -43,8 +43,8 @@ public class QLContext {
 		boolean valuesChanged;
 
 		valuesChanged = false;
-		for (Map.Entry<String, Expr> entry : computedValueMap.entrySet()) {
-			Expr computation;
+		for (Map.Entry<String, Expression> entry : computedValueMap.entrySet()) {
+			Expression computation;
 			Value previousValue;
 			Value newValue;
 

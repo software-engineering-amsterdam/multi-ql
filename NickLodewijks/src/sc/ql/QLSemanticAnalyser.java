@@ -10,28 +10,28 @@ import java.util.Set;
 import sc.ql.CyclicReferences.CyclicReference;
 import sc.ql.QLSemanticAnalyser.SemanticMessage.Level;
 import sc.ql.ast.QLTopDown;
-import sc.ql.ast.expr.Add;
-import sc.ql.ast.expr.And;
-import sc.ql.ast.expr.BinaryExpr;
-import sc.ql.ast.expr.BooleanLiteral;
-import sc.ql.ast.expr.Divide;
-import sc.ql.ast.expr.Equals;
-import sc.ql.ast.expr.EqualsNot;
-import sc.ql.ast.expr.Expr;
 import sc.ql.ast.expr.ExprVisitor;
-import sc.ql.ast.expr.GreaterThan;
-import sc.ql.ast.expr.GreaterThanOrEqual;
-import sc.ql.ast.expr.IntegerLiteral;
-import sc.ql.ast.expr.LessThan;
-import sc.ql.ast.expr.LessThanOrEqual;
-import sc.ql.ast.expr.Multiply;
-import sc.ql.ast.expr.Negative;
-import sc.ql.ast.expr.Not;
-import sc.ql.ast.expr.Or;
-import sc.ql.ast.expr.Positive;
-import sc.ql.ast.expr.StringLiteral;
-import sc.ql.ast.expr.Subtract;
-import sc.ql.ast.expr.VariableExpr;
+import sc.ql.ast.expr.Expression;
+import sc.ql.ast.expr.Expression.Add;
+import sc.ql.ast.expr.Expression.And;
+import sc.ql.ast.expr.Expression.BinaryExpr;
+import sc.ql.ast.expr.Expression.BooleanLiteral;
+import sc.ql.ast.expr.Expression.Divide;
+import sc.ql.ast.expr.Expression.Equals;
+import sc.ql.ast.expr.Expression.EqualsNot;
+import sc.ql.ast.expr.Expression.GreaterThan;
+import sc.ql.ast.expr.Expression.GreaterThanOrEqual;
+import sc.ql.ast.expr.Expression.IntegerLiteral;
+import sc.ql.ast.expr.Expression.LessThan;
+import sc.ql.ast.expr.Expression.LessThanOrEqual;
+import sc.ql.ast.expr.Expression.Multiply;
+import sc.ql.ast.expr.Expression.Negative;
+import sc.ql.ast.expr.Expression.Not;
+import sc.ql.ast.expr.Expression.Or;
+import sc.ql.ast.expr.Expression.Positive;
+import sc.ql.ast.expr.Expression.StringLiteral;
+import sc.ql.ast.expr.Expression.Subtract;
+import sc.ql.ast.expr.Expression.VariableExpr;
 import sc.ql.ast.form.QLBlock;
 import sc.ql.ast.form.QLForm;
 import sc.ql.ast.form.QLFormVisitor;
@@ -388,7 +388,7 @@ public class QLSemanticAnalyser {
 			checkType(expr.right(), st, expectedType);
 		}
 
-		private void checkType(Expr expr, SymbolTable st, QLType expectedType) {
+		private void checkType(Expression expr, SymbolTable st, QLType expectedType) {
 			QLType actualType;
 
 			actualType = expr.accept(this, st);
@@ -458,7 +458,7 @@ public class QLSemanticAnalyser {
 		private final String MESSAGE = "Type mismatch: operands of %s should be of same type. (lhs='%s', rhs='%s'";
 
 		private final String msg;
-		private final Expr expr;
+		private final Expression expr;
 
 		public OperandTypeMismatch(BinaryExpr expr, QLType lhsType, QLType rhsType) {
 			msg = String.format(MESSAGE, expr.getSourceText(), lhsType, rhsType);
@@ -486,9 +486,9 @@ public class QLSemanticAnalyser {
 		private final String MESSAGE = "Type mismatch: '%s' should be of type '%s' but is of type '%s'. ";
 
 		private final String msg;
-		private final Expr expr;
+		private final Expression expr;
 
-		public TypeMismatch(Expr expr, QLType expected, QLType actual) {
+		public TypeMismatch(Expression expr, QLType expected, QLType actual) {
 			msg = String.format(MESSAGE, expr.getSourceText(), expected, actual);
 			this.expr = expr;
 		}
@@ -514,9 +514,9 @@ public class QLSemanticAnalyser {
 		private final String MESSAGE = "Unknown type for %s";
 
 		private final String msg;
-		private final Expr expr;
+		private final Expression expr;
 
-		public UnknownType(Expr expr) {
+		public UnknownType(Expression expr) {
 			msg = String.format(MESSAGE, expr);
 			this.expr = expr;
 		}
