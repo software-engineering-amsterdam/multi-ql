@@ -123,6 +123,8 @@ extension Interpreter {
 }
 
 
+// MARK: - Double dispatch resolvers
+
 private protocol Resolver {
     typealias GenericParam
     

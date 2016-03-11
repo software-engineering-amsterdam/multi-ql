@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias QLFLoat   = Double
+typealias QLFLoat   = Float
 typealias QLString  = String
 typealias QLInteger = NSInteger
 typealias QLBoolean = Bool

@@ -71,6 +71,8 @@
 		E2C4E6331C931D2700F8191F /* EvalNeg.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6321C931D2700F8191F /* EvalNeg.ql */; };
 		E2C4E6351C93214500F8191F /* EvalNot.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6341C93214500F8191F /* EvalNot.ql */; };
 		E2C4E6371C93273C00F8191F /* EvalSub.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6361C93273C00F8191F /* EvalSub.ql */; };
+		E2C4E6391C932C0900F8191F /* FloatWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E6381C932C0900F8191F /* FloatWidget.swift */; };
+		E2C4E63B1C934BB800F8191F /* NSNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */; };
 		E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
 		E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
@@ -113,7 +115,6 @@
 		E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */; };
 		E2F0A2FA1C75CE5900D0C1AB /* QLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* QLType.swift */; };
 		E2F149A81C75DF88009BB7BC /* QLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* QLType.swift */; };
-		E2FA49311C79EE6B00FC5BE0 /* UIEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */; };
 		E2FB4E041C8842DF00BDC988 /* QLNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FB4E031C8842DF00BDC988 /* QLNode.swift */; };
 		E2FB4E051C8843D100BDC988 /* QLNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FB4E031C8842DF00BDC988 /* QLNode.swift */; };
 /* End PBXBuildFile section */
@@ -213,6 +214,8 @@
 		E2C4E6321C931D2700F8191F /* EvalNeg.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalNeg.ql; path = Resources/QL/EvalTests/EvalNeg.ql; sourceTree = "<group>"; };
 		E2C4E6341C93214500F8191F /* EvalNot.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalNot.ql; path = Resources/QL/EvalTests/EvalNot.ql; sourceTree = "<group>"; };
 		E2C4E6361C93273C00F8191F /* EvalSub.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalSub.ql; path = Resources/QL/EvalTests/EvalSub.ql; sourceTree = "<group>"; };
+		E2C4E6381C932C0900F8191F /* FloatWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatWidget.swift; sourceTree = "<group>"; };
+		E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSNumberFormatter.swift; path = Src/Extensions/NSNumberFormatter.swift; sourceTree = "<group>"; };
 		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
@@ -247,7 +250,6 @@
 		E2E3FE321C91BD7B0007E894 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITextField.swift; path = Src/Extensions/UITextField.swift; sourceTree = "<group>"; };
 		E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CyclicDependency.ql; path = Resources/QL/SemanticAnalyzerTests/CyclicDependency.ql; sourceTree = "<group>"; };
 		E2F0A2F91C75CE5900D0C1AB /* QLType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLType.swift; path = Src/Parser/AST/QLType.swift; sourceTree = "<group>"; };
-		E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeInsets.swift; path = Src/Extensions/UIEdgeInsets.swift; sourceTree = "<group>"; };
 		E2FB4E031C8842DF00BDC988 /* QLNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLNode.swift; path = Src/Parser/AST/QLNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -569,9 +571,9 @@
 			isa = PBXGroup;
 			children = (
 				E2A5AAB01C6CDF350009E869 /* StringExtension.swift */,
-				E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */,
 				E2D5188E1C6D6F19008030C4 /* UIView.swift */,
 				E2E3FE321C91BD7B0007E894 /* UITextField.swift */,
+				E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -611,6 +613,7 @@
 			isa = PBXGroup;
 			children = (
 				E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */,
+				E2C4E6381C932C0900F8191F /* FloatWidget.swift */,
 				E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */,
 				E2E3FE251C91A18D0007E894 /* TextWidget.swift */,
 				E2E3FE261C91A18D0007E894 /* Widget.swift */,
@@ -864,6 +867,7 @@
 				E24CCE981C90631E00ACA633 /* TypeChecker.swift in Sources */,
 				E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */,
 				E2E3FE0D1C919A8B0007E894 /* Questionnaire.swift in Sources */,
+				E2C4E63B1C934BB800F8191F /* NSNumberFormatter.swift in Sources */,
 				E2C4E6291C92E04900F8191F /* Context.swift in Sources */,
 				E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */,
 				E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */,
@@ -874,9 +878,9 @@
 				E2E3FE2F1C91A18D0007E894 /* IntegerWidget.swift in Sources */,
 				E20B2B181C8881C20096BA51 /* QLIdentifier.swift in Sources */,
 				E20B2B0E1C884FEF0096BA51 /* QLTypeVisitor.swift in Sources */,
-				E2FA49311C79EE6B00FC5BE0 /* UIEdgeInsets.swift in Sources */,
 				E2C4E62B1C92E06F00F8191F /* TypeInferer.swift in Sources */,
 				E2E3FE2E1C91A18D0007E894 /* BooleanWidget.swift in Sources */,
+				E2C4E6391C932C0900F8191F /* FloatWidget.swift in Sources */,
 				E24CCE911C90498600ACA633 /* QLNodeVisitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

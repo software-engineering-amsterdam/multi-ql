@@ -6,9 +6,9 @@ form testForm1 {
         age     : "Enter age:"     integer
 
         if (age >= 18) {
-            savings     : "Enter your savings:"     integer
-            savings1    : "Comulative savings in 1 year:"   savings + (savings / 20)
-            savings2    : "Inflation corrected:"            savings1 - (savings1 / 50)
+            savings     : "Enter your savings:"             integer
+            savings1    : "Comulative savings in 1 year:"   savings * 1.02
+            savings2    : "Comulative savings in 4 year:"   savings * 1.02 * 1.02 * 1.02 * 1.02
         }
         if (age < 18) {
             allowance   : "Enter your weekly allowence:"    integer

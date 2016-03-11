@@ -33,9 +33,6 @@ extension FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        guard let symbolTable = try? TypeInferer().inferTypes(form)
-//            else { return }
-
         //TODO:
         guard let context = try? Context(form: form)
             else { return }

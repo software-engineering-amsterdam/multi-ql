@@ -131,7 +131,7 @@ class QLParser: NSObject {
         let intLit: GenericParser<String, (), QLLiteral> =
             lexer.integer.map { i in QLIntegerLiteral(value: i) }
         let floatLit: GenericParser<String, (), QLLiteral> =
-            lexer.float.map { f in QLFloatLiteral(value: f) }
+            lexer.float.map { f in QLFloatLiteral(value: QLFLoat(f)) }
         
         return boolLit <|> stringLit <|> floatLit.attempt <|> intLit
     }
