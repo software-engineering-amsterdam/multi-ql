@@ -1,8 +1,0 @@
-00:00  INFO: Reading resources/test.form
-00:00  INFO: Parsing File
-00:00  INFO: File Parsed
-00:00  INFO: Checking Form
-00:01  INFO: Symbol Table Contents
-q1 = true
-q2 = true
-
