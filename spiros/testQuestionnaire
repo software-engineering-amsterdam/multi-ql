@@ -11,7 +11,4 @@ form Box1HouseOwning {
 		totalTaxes: "You have to pay: " int (annualIncome + sellIncome)
 	}
 	
-	else {
-		totalTaxes: "You have to pay: " int(annualIncome)
-	}
 }

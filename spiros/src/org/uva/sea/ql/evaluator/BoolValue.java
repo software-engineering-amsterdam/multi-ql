@@ -5,13 +5,13 @@ package org.uva.sea.ql.evaluator;
 
 public class BoolValue extends Value {
 	
-	private final boolean value;
+	private final Boolean value;
 	
 	public BoolValue(boolean value) {
 		this.value = value;
 	}
 
-	public boolean getValue() {
+	public Boolean getValue() {
 		return value;
 	}
 	
@@ -43,6 +43,37 @@ public class BoolValue extends Value {
 	@Override
 	public Value equal(Value value) {
 		return value.equalBool(this);
+	}
+	
+	@Override
+	public Value equalBool(BoolValue value) {
+		return new BoolValue(value.getValue().equals(this.value));
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof BoolValue))
+			return false;
+		
+		return ((BoolValue) obj).getValue().equals(this.value);
+	}
+	
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+	
+	
+	@Override
+	public Value notEqual(Value value) {
+		return value.notEqualBool(this);
+	}
+	
+	@Override
+	public Value notEqualBool(BoolValue value) {
+		return new BoolValue(!(value.getValue().equals(this.value)));
 	}
 	
 
