@@ -15,7 +15,6 @@ typealias QLBoolean = Bool
 
 
 protocol QLLiteral: QLNode, QLLiteralVisitable {
-    func eval(context: Context) -> NSObject // TODO: remove
 }
 
 class QLStringLiteral: QLLiteral {
@@ -27,10 +26,6 @@ class QLStringLiteral: QLLiteral {
     
     func toString() -> String {
         return "String"
-    }
-    
-    func eval(context: Context) -> NSObject {
-        return value
     }
     
     func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
@@ -49,10 +44,6 @@ class QLIntegerLiteral: QLLiteral {
         return "\(value)"
     }
     
-    func eval(context: Context) -> NSObject {
-        return value
-    }
-    
     func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
         return visitor.visit(self, param: param)
     }
@@ -67,10 +58,6 @@ class QLFloatLiteral: QLLiteral {
     
     func toString() -> String {
         return "\(value)"
-    }
-    
-    func eval(context: Context) -> NSObject {
-        return value
     }
     
     func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
@@ -88,10 +75,6 @@ class QLBooleanLiteral: QLLiteral {
     
     func toString() -> String {
         return "Bool"
-    }
-    
-    func eval(context: Context) -> NSObject {
-        return value
     }
     
     func accept<T: QLLiteralVisitor>(visitor: T, param: T.QLLiteralVisitorParam) -> T.QLLiteralVisitorReturn {
