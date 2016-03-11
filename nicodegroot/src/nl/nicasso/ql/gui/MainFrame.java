@@ -44,11 +44,7 @@ public class MainFrame implements Observer {
 	@Override
 	public void updatePanel() {
 		for (Panel p : panels) {
-			// I dont want to use instanceof :(
-			if (p instanceof ComputedQuestionPanel) {
-				ComputedQuestionPanel k = (ComputedQuestionPanel) p;
-				k.updatePanel();
-			}
+			p.updatePanel();
 		}
 	}
 

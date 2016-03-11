@@ -3,8 +3,8 @@ package nl.nicasso.ql.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.nicasso.ql.Evaluator;
 import nl.nicasso.ql.ast.expressions.Expression;
-import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.ast.expressions.conditional.Not;
 import nl.nicasso.ql.ast.literals.BooleanLit;
 import nl.nicasso.ql.ast.statements.ComputedQuestion;
@@ -58,6 +58,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			main.addPanel(p);
 		}
 		
+		main.updatePanel();
 		main.addPanelsToMainFrame();
 		
 		return null;
@@ -93,7 +94,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 		
 		Value value = symbolTable.getEntryValue(question.getId());
 		
-		QuestionPanel qp = new QuestionPanel(question, field, expr);
+		QuestionPanel qp = new QuestionPanel(question, field, expr, symbolTable);
 		
 		List<Panel> panels = new ArrayList<Panel>();
 		panels.add(qp);
@@ -126,9 +127,9 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("IfStatement");
 		}
 				
-//		Evaluator evaluator = new Evaluator(symbolTable);
-//		Value a = value.getExpr().accept(evaluator);
-//		System.out.println("VALUE VAN DE IF IS: "+a.getValue());
+		Evaluator evaluator = new Evaluator(symbolTable);
+		Value a = value.getExpr().accept(evaluator);
+		System.out.println("VALUE VAN DE IF IS: "+a.getValue());
 		
 		List<Panel> ifBlockPanel = value.getBlock_if().accept(this, value.getExpr());
 		

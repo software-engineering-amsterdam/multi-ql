@@ -9,10 +9,10 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
 
 import nl.nicasso.ql.antlr.QLLexer;
 import nl.nicasso.ql.antlr.QLParser;
