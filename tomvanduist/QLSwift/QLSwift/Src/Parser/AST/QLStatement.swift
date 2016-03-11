@@ -17,8 +17,6 @@ protocol QLQuestion: QLStatement {
     var  label: String { get }
     
     func isComputed() -> Bool
-    
-    func eval(context: QLContext) -> NSObject?
 }
 
 class QLVariableQuestion: QLQuestion {
@@ -42,10 +40,6 @@ class QLVariableQuestion: QLQuestion {
     
     func toString() -> String {
         return "\(identifier.toString())"
-    }
-    
-    func eval(context: QLContext) -> NSObject? {
-        return context.retrieve(self.identifier.id)
     }
     
     func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {
@@ -74,10 +68,6 @@ class QLComputedQuestion: QLQuestion {
     
     func toString() -> String {
         return "\(identifier.toString())"
-    }
-    
-    func eval(context: QLContext) -> NSObject? {
-        return expression.eval(context)
     }
     
     func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {
