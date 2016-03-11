@@ -1,5 +1,8 @@
 package org.uva.sea.ql.evaluator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.uva.sea.ql.ast.expression.ExpressionVisitor;
 import org.uva.sea.ql.ast.expression.Comparison.Equal;
 import org.uva.sea.ql.ast.expression.Comparison.Greater;
@@ -23,6 +26,12 @@ import org.uva.sea.ql.ast.expression.Unary.Not;
 import org.uva.sea.ql.ast.expression.Unary.Positive;
 
 public class Evaluator implements ExpressionVisitor<Value>  {
+	
+	private Map<Identifier, Value> values;
+	
+	public  Evaluator() {
+		this.values = new HashMap<Identifier, Value>();
+	}
 
 	@Override
 	public Value visit(Equal node) {
@@ -68,26 +77,26 @@ public class Evaluator implements ExpressionVisitor<Value>  {
 
 	@Override
 	public Value visit(BooleanLiteral node) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BoolValue(node.getValue());
 	}
 
 	@Override
 	public Value visit(Identifier node) {
-		// TODO Auto-generated method stub
+		if (values.containsKey(node)) {
+			return values.get(node);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public Value visit(IntegerLiteral node) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IntValue(node.getValue());
 	}
 
 	@Override
 	public Value visit(StringLiteral node) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StrValue(node.getValue());
 	}
 
 	@Override
@@ -139,20 +148,17 @@ public class Evaluator implements ExpressionVisitor<Value>  {
 
 	@Override
 	public Value visit(Not node) {
-		// TODO Auto-generated method stub
-		return null;
+		return node.getExpression().accept(this).not();
 	}
 
 	@Override
 	public Value visit(Positive node) {
-		// TODO Auto-generated method stub
-		return null;
+		return node.getExpression().accept(this).positive();
 	}
 
 	@Override
 	public Value visit(Negative node) {
-		// TODO Auto-generated method stub
-		return null;
+		return node.getExpression().accept(this).negative();
 	}
 
 }

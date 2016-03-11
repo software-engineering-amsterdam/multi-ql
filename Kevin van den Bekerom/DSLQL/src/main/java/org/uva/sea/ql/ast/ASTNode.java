@@ -1,9 +1,13 @@
 package org.uva.sea.ql.ast;
 
-import org.uva.sea.ql.ast.visit.Visitable;
+import org.uva.sea.ql.visit.Visitable;
 
 public abstract class ASTNode implements Visitable {
-	protected int startLine = 0; // default value
+	private int startLine = -1; // default value
+	
+	public ASTNode (int startLine) {
+		this.startLine = startLine;
+	}
 	
 	public int getStartLine() {
 		return this.startLine;

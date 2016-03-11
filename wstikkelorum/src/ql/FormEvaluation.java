@@ -6,22 +6,26 @@ import ql.ast.visitor.Evaluation;
 
 public class FormEvaluation {
 	private Context context;
-	
-	public FormEvaluation(Context context){
+
+	public FormEvaluation(Context context) {
 		this.context = context;
 	}
-	
-	public void evaluateForm(Form form){
+
+	public void evaluateForm(Form form) {
 		Evaluation eval = new Evaluation(context);
 		eval.visit(form);
-		//TODO:.....
 	}
-	
-	//Only for debugging
-	public void printData(){
+
+	// Only for debugging
+	public void printData() {
 		System.out.println("Identifier - value");
-		context.getIdentifierToValueMap().forEach((i, v) -> System.out.println(String.format("%s: %s", i, v)));
+		context.getIdentifierToValueMap().forEach(
+				(i, v) -> System.out.println(String.format("%s: %s", i, v)));
 		System.out.println();
+	}
+
+	public Context getContext() {
+		return context;
 	}
 
 }

@@ -2,12 +2,11 @@ package stmt
 
 import (
 	"fmt"
-	"ql/ast/expr"
-	"ql/ast/visit"
+	"ql/interfaces"
 )
 
 type If struct {
-	Cond expr.Expr
+	Cond interfaces.Expr
 	Body StmtList
 }
 
@@ -17,8 +16,4 @@ func (i If) String() string {
 
 func (i If) EvalCondition() bool {
 	return i.Cond.Eval(nil).(bool)
-}
-
-func (i If) Accept(v visit.Visitor, s interface{}) interface{} {
-	return v.Visit(i, s)
 }

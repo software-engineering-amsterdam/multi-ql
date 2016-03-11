@@ -1,15 +1,9 @@
 package org.uva.ql.ast.type;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public final class QLBooleanType extends QLType {
 
 	public QLBooleanType() {
-		super(null);
-	}
 
-	public QLBooleanType(ParserRuleContext context) {
-		super(context);
 	}
 
 	@Override

@@ -1,14 +1,13 @@
 package uva.ql.ast.variables.types;
 
-import uva.ql.ast.abstracts.Type;
+import uva.ql.ast.EnumType;
 
 
-public class Str extends Type {
+public class Str {
 
-	private String type = "string";
-
-	@Override
-	public String getType() {
-		return this.type;
+	private EnumType type = EnumType.STRING;
+	
+	public EnumType getType() {
+		return type;
 	}
 }

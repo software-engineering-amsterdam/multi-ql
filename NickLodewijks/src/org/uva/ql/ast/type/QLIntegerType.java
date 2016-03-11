@@ -1,15 +1,9 @@
 package org.uva.ql.ast.type;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public final class QLIntegerType extends QLType {
 
 	public QLIntegerType() {
-		super(null);
-	}
 
-	public QLIntegerType(ParserRuleContext context) {
-		super(context);
 	}
 
 	@Override

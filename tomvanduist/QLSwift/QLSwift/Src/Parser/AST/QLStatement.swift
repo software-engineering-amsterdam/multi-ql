@@ -9,49 +9,37 @@
 import Foundation
 
 protocol QLStatement: QLNode, QLStatementVisitable {
+    func isConditional() -> Bool
 }
 
-class QLQuestion {
+protocol QLQuestion: QLStatement {
+    var identifier: QLIdentifier { get }
+    var  label: String { get }
+    
+    func isComputed() -> Bool
+}
+
+class QLVariableQuestion: QLQuestion {
     let identifier: QLIdentifier
     let label: String
-    
-    init(identifier: QLIdentifier, label: String) {
-        self.identifier = identifier
-        self.label = label
-    }
-    
-    func isComputed() -> Bool {
-        fatalError("Override")
-    }
-    
-    func toString() -> String {
-        fatalError("Override")
-    }
-    
-    func eval(context: QLContext) -> NSObject {
-        fatalError("Override")
-    }
-}
-
-class QLVariableQuestion: QLQuestion, QLStatement {
     let type: QLType
     
     init(identifier: QLIdentifier, label: String, type: QLType) {
+        self.identifier = identifier
+        self.label = label
         self.type = type
-        
-        super.init(identifier: identifier, label: label)
     }
     
-    override func isComputed() -> Bool {
+    func isComputed() -> Bool {
         return false
     }
     
-    override func toString() -> String {
-        return "\(identifier.toString())"
+    func isConditional() -> Bool {
+        return false
     }
     
-    override func eval(context: QLContext) -> NSObject {
-        return context.retrieve(self.identifier.id)
+    func toString() -> String {
+        return "\(identifier.toString())"
     }
     
     func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {
@@ -59,25 +47,27 @@ class QLVariableQuestion: QLQuestion, QLStatement {
     }
 }
 
-class QLComputedQuestion: QLQuestion, QLStatement {
+class QLComputedQuestion: QLQuestion {
+    let identifier: QLIdentifier
+    let label: String
     let expression: QLExpression
     
     init(identifier: QLIdentifier, label: String, expression: QLExpression) {
+        self.identifier = identifier
+        self.label = label
         self.expression = expression
-        
-        super.init(identifier: identifier, label: label)
     }
     
-    override func isComputed() -> Bool {
+    func isComputed() -> Bool {
         return true
     }
     
-    override func toString() -> String {
-        return "\(identifier.toString())"
+    func isConditional() -> Bool {
+        return false
     }
     
-    override func eval(context: QLContext) -> NSObject {
-        return expression.eval(context)
+    func toString() -> String {
+        return "\(identifier.toString())"
     }
     
     func accept<T: QLStatementVisitor>(visitor: T, param: T.QLStatementVisitorParam) -> T.QLStatementVisitorReturn {
@@ -94,14 +84,19 @@ class QLConditional: QLStatement {
         self.ifBlock = ifBlock
     }
     
+    func isConditional() -> Bool {
+        return true
+    }
+    
     func toString() -> String {
         return "\(condition.toString())"
     }
     
-    func isSatisfied(context: QLContext) -> Bool {
-        if let isSatisfied = condition.eval(context) as? Bool {
+    func isSatisfied(context: Context) -> Bool {
+        if let isSatisfied = Interpreter.sharedInstance.resolve(condition, context: context) as? Bool {
             return isSatisfied
         }
+        
         return false
     }
     
@@ -110,11 +105,19 @@ class QLConditional: QLStatement {
     }
 }
 
-class QLBlock: QLStatement {
+class QLBlock {
     let block: [QLStatement]
     
-    init (block: [QLStatement]) {
+    init(block: [QLStatement]) {
         self.block = block
+    }
+    
+    func questions() -> [QLQuestion] {
+        return block.filter { !$0.isConditional() }.map { $0 as! QLQuestion }
+    }
+    
+    func conditionals() -> [QLConditional] {
+        return block.filter { $0.isConditional() }.map { $0 as! QLConditional }
     }
     
     func toString() -> String {

@@ -1,27 +1,16 @@
 package vari
 
-import (
-	"ql/ast/visit"
-)
+import "ql/interfaces"
 
 type VarDecl struct {
-	Ident VarId
-	Type  variType
+	Ident interfaces.VarId
+	Type  interfaces.VarType
 }
 
-// TODO: needed to break import cycle, look at better solution
-type variType interface {
-	GetDefaultValue() interface{}
-}
-
-func (v VarDecl) GetType() variType {
-	return v.Type
-}
-
-func (v VarDecl) GetIdentifier() VarId {
+func (v VarDecl) GetIdent() interfaces.VarId {
 	return v.Ident
 }
 
-func (va VarDecl) Accept(v visit.Visitor, s interface{}) interface{} {
-	return v.Visit(va, s)
+func (v VarDecl) GetType() interfaces.VarType {
+	return v.Type
 }

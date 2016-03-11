@@ -4,9 +4,9 @@ import uva.ql.ast.abstracts.Node;
 
 public abstract class LogicalOperator extends Expression {
 
-	private Node lhs, rhs;
+	private Expression lhs, rhs;
 	
-	public LogicalOperator(Node parent, int startLine, int startColumn, Node lhs, Node rhs) {
+	public LogicalOperator(Node parent, int startLine, int startColumn, Expression lhs, Expression rhs) {
 		
 		super(parent, startLine, startColumn);
 		
@@ -14,12 +14,12 @@ public abstract class LogicalOperator extends Expression {
 		this.rhs = rhs;
 	}
 
-	public Node getLhs() {
+	public Expression getLhs() {
 		
 		return this.lhs;
 	}
 	
-	public Node getRhs() {
+	public Expression getRhs() {
 		
 		return this.rhs;
 	}

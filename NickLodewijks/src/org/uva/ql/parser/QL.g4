@@ -9,126 +9,126 @@ import org.uva.ql.ast.expr.*;
 import org.uva.ql.ast.stat.*;
 import org.uva.ql.ast.type.*;
 import org.uva.ql.ast.form.*;
-import org.uva.ql.ast.literal.*;
 }
 
-file :  form EOF
-     ;
+@parser::members {
+    private <T extends ASTNode> T addSource(ParserRuleContext context, T node){
+        node.setSourceInfo(new ASTSourceInfo(context));
+        return (T) node;
+    }
+    
+    private String unQuote(String text){
+        return text.substring(1, text.length()-1);
+    }
+}
 
 form returns [QLForm result]
-    :   'form' + ID + block[new BooleanLiteral(null, true)] { $result = new QLForm($ctx, $ID.text, $block.result); }
+    :   'form' + ID + block { $result = addSource($ctx, new QLForm($ID.text, $block.result)); }
     ;
     
-block[Expr condition] returns [QLBlock result]
+block returns [QLBlock result]
     locals [
       List<QLQuestion> questions = new ArrayList<>();
       List<QLIFStatement> statements = new ArrayList<>();
     ]
     @after{
-        $result = new QLBlock($ctx, $ctx.questions, $ctx.statements);
+        $result = addSource($ctx, new QLBlock($ctx.questions, $ctx.statements));
     }
-    : '{' + (ifStat[$condition] { $ctx.statements.add($ifStat.result); } | question[$condition] { $ctx.questions.add($question.result); } )+ '}'
+    : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
     
     ;
     
-ifStat[Expr condition] returns [QLIFStatement result]
-    : 'if' + '(' + orExpr + ')' + block[new And(null, condition, $orExpr.result)] 
+ifStat returns [QLIFStatement result]
+    : 'if' + '(' + expr + ')' + block
     { 
-        $result = new QLIFStatement($ctx, $orExpr.result, $block.result);
+        $result = addSource($ctx, new QLIFStatement($expr.result, $block.result));
     }
     ;
 
-question[Expr condition] returns [QLQuestion result]
-    : variableType + ID + STR + orExpr
+question returns [QLQuestion result]
+    : variableType + ID + STR + expr
     {
-        $result = new QLQuestionComputed($ctx, $variableType.result, $ID.text,  $STR.text, $condition, $orExpr.result);
+        $result = addSource($ctx, new QLQuestionComputed($variableType.result, $ID.text,  unQuote($STR.text), $expr.result));
     }
     | variableType + ID + STR 
     { 
-        $result = new QLQuestionInput($ctx, $variableType.result, $ID.text, $STR.text, $condition);
+        $result = addSource($ctx, new QLQuestionInput($variableType.result, $ID.text, unQuote($STR.text)));
     }
     ;
     
 variableType returns [QLType result]
-    : BOOLEAN   { $result = new QLBooleanType($ctx); }
-    | STRING    { $result = new QLStringType($ctx);  }
-    | INTEGER   { $result = new QLIntegerType($ctx); }
+    : BOOLEAN   { $result = addSource($ctx, new QLBooleanType()); }
+    | STRING    { $result = addSource($ctx, new QLStringType());  }
+    | INTEGER   { $result = addSource($ctx, new QLIntegerType()); }
     ;
-   
-addExpr returns [Expr result]
-    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
+    
+expr returns [Expr result]
+    : op=('+' | '-') exp=expr
     { 
       if ($op.text.equals("+")) {
-        $result = new Add($ctx, $result, $rhs.result);
+        $result = addSource($ctx, new Positive($exp.result));
       }
       if ($op.text.equals("-")) {
-        $result = new Subtract($ctx, $result, $rhs.result);      
+        $result = addSource($ctx, new Negative($exp.result));
       }
-    })*
-    ;
-
-mulExpr returns [Expr result]
-    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
+    }
+    | lhs=expr op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expr 
+    { 
+      if ($op.text.equals("<")) {
+        $result = addSource($ctx, new LessThan($lhs.result, $rhs.result));
+      }
+      if ($op.text.equals("<=")) {
+        $result = addSource($ctx, new LessThanOrEqual($lhs.result, $rhs.result));      
+      }
+      if ($op.text.equals(">")) {
+        $result = addSource($ctx, new GreaterThan($lhs.result, $rhs.result));
+      }
+      if ($op.text.equals(">=")) {
+        $result = addSource($ctx, new GreaterThanOrEqual($lhs.result, $rhs.result));      
+      }
+      if ($op.text.equals("==")) {
+        $result = addSource($ctx, new Equals($lhs.result, $rhs.result));
+      }
+      if ($op.text.equals("!=")) {
+        $result = addSource($ctx, new EqualsNot($lhs.result, $rhs.result));
+      }
+    }
+    | lhs=expr op=('*' | '/') rhs=expr
     { 
       if ($op.text.equals("*")) {
-        $result = new Multiply($ctx, $result, $rhs.result);
+        $result = addSource($ctx, new Multiply($lhs.result, $rhs.result));
       }
       if ($op.text.equals("/")) {
-        $result = new Divide($ctx, $result, $rhs.result);      
+        $result = addSource($ctx, new Divide($lhs.result, $rhs.result));      
       }
-    })*
-    ;
-
-
-unExpr returns [Expr result]
-    :  '+' x=unExpr { $result = new Positive($ctx, $x.result); }
-    |  '-' x=unExpr { $result = new Negative($ctx, $x.result); }
-    |  '!' x=unExpr { $result = new Not($ctx, $x.result); }
-    |  z=primary    { $result = $z.result; }
-    ;    
-    
-primary returns [Expr result]
-    : literal        { $result = $literal.result; }
-    | ID             { $result = new VariableExpr($ctx, $ID.text); }
-    | '(' orExpr ')' { $result = $orExpr.result; }
+    }
+    | lhs=expr op=('+' | '-') rhs=expr
+    { 
+      if ($op.text.equals("+")) {
+        $result = addSource($ctx, new Add($lhs.result, $rhs.result));
+      }
+      if ($op.text.equals("-")) {
+        $result = addSource($ctx, new Subtract($lhs.result, $rhs.result));      
+      }
+    }
+    | lhs=expr '&&' rhs=expr 
+    { 
+        $result = addSource($ctx, new And($lhs.result, $rhs.result));
+    }
+    | lhs=expr '||' rhs=expr 
+    { 
+        $result = addSource($ctx, new Or($lhs.result, $rhs.result));
+    }
+    | '!' exp=expr       { $result = addSource($ctx, new Not($exp.result)); }
+    | '(' lhs=expr ')'   { $result = $lhs.result; }
+    | literal            { $result = $literal.result; }
+    | ID                 { $result = addSource($ctx, new VariableExpr($ID.text)); }
     ;
     
 literal returns [Expr result]
-    : INT   { $result = new IntegerLiteral($ctx, Integer.valueOf($INT.text)); }
-    | STR   { $result = new StringLiteral($ctx, $STR.text); }
-    | BOOL  { $result = new BooleanLiteral($ctx, Boolean.valueOf($BOOL.text)); }
-    ;
-
-orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($ctx, $result, $rhs.result); } )*
-    ;
-    
-andExpr returns [Expr result]
-    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($ctx, $result, $rhs.result); } )*
-    ;
-  
-relExpr returns [Expr result]
-    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
-    { 
-      if ($op.text.equals("<")) {
-        $result = new LessThan($ctx, $result, $rhs.result);
-      }
-      if ($op.text.equals("<=")) {
-        $result = new LessThanOrEquals($ctx, $result, $rhs.result);      
-      }
-      if ($op.text.equals(">")) {
-        $result = new GreaterThan($ctx, $result, $rhs.result);
-      }
-      if ($op.text.equals(">=")) {
-        $result = new GreaterThanOrEquals($ctx, $result, $rhs.result);      
-      }
-      if ($op.text.equals("==")) {
-        $result = new Equals($ctx, $result, $rhs.result);
-      }
-      if ($op.text.equals("!=")) {
-        $result = new EqualsNot($ctx, $result, $rhs.result);
-      }
-    })*
+    : INT   { $result = addSource($ctx, new IntegerLiteral(Integer.valueOf($INT.text))); }
+    | STR   { $result = addSource($ctx, new StringLiteral(unQuote($STR.text))); }
+    | BOOL  { $result = addSource($ctx, new BooleanLiteral(Boolean.valueOf($BOOL.text))); }
     ;
     
 // Tokens

@@ -8,14 +8,14 @@ public class Statement extends TreeNode implements Visitable {
 	private Question question;
 	private IfStatement ifStatement;
 
-	public Statement(Question result) {
-		super(result.getLineNumber());
-		this.question = result;
+	public Statement(Question question) {
+		super(question.getLineNumber());
+		this.question = question;
 	}
 
-	public Statement(IfStatement result) {
-		super(result.getLineNumber());
-		this.ifStatement = result;
+	public Statement(IfStatement ifStatement) {
+		super(ifStatement.getLineNumber());
+		this.ifStatement = ifStatement;
 	}
 
 	public Question getQuestion() {

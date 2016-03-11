@@ -1,18 +1,19 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.value.BooleanValue;
 
 public final class BooleanLiteral extends Expr {
 
-	private final boolean value;
+	public static final BooleanLiteral TRUE = new BooleanLiteral(true);
+	public static final BooleanLiteral FALSE = new BooleanLiteral(false);
 
-	public BooleanLiteral(ParserRuleContext context, boolean value) {
-		super(context);
+	private final BooleanValue value;
 
-		this.value = value;
+	public BooleanLiteral(boolean value) {
+		this.value = new BooleanValue(value);
 	}
 
-	public Boolean getValue() {
+	public BooleanValue getValue() {
 		return value;
 	}
 

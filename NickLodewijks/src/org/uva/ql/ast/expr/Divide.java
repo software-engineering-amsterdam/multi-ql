@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public class Divide extends BinaryExpr {
 
-	public Divide(ParserRuleContext context, Expr lhs, Expr rhs) {
-		super(context, lhs, rhs);
+	public Divide(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
 	}
 
 	@Override

@@ -2,30 +2,31 @@ package stmt
 
 import (
 	"fmt"
-	"ql/ast/expr"
-	"ql/ast/expr/lit"
-	"ql/ast/vari"
-	"ql/ast/visit"
+	"ql/interfaces"
 )
 
 type ComputedQuestion struct {
-	Label       lit.StrLit
-	VarDecl     vari.VarDecl
-	Computation expr.Expr
+	Label       interfaces.StrLit
+	VarDecl     interfaces.VarDecl
+	Computation interfaces.Expr
 }
 
 func (c ComputedQuestion) String() string {
 	return fmt.Sprintf("A question with label %s, var decl %s and computation", c.Label, c.VarDecl, c.Computation)
 }
 
+func (c ComputedQuestion) GetLabel() interfaces.StrLit {
+	return c.Label
+}
+
 func (c ComputedQuestion) GetLabelAsString() string {
-	return c.Label.GetValue().(string)
+	return c.Label.GetValue()
 }
 
-func (c ComputedQuestion) GetVarDecl() vari.VarDecl {
+func (c ComputedQuestion) GetComputation() interfaces.Expr {
+	return c.Computation
+}
+
+func (c ComputedQuestion) GetVarDecl() interfaces.VarDecl {
 	return c.VarDecl
-}
-
-func (c ComputedQuestion) Accept(v visit.Visitor, s interface{}) interface{} {
-	return v.Visit(c, s)
 }

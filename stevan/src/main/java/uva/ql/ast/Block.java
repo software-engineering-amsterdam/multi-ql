@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.abstracts.Type;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicQuestionDependenciesVisitor;
+import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
@@ -17,6 +16,11 @@ public class Block extends Node {
 	
 	public Block(Node parent, int startLine, int startColumn) {
 		super(parent, startLine, startColumn);
+	}
+	
+	@Override
+	public EnumType getType() {
+		return EnumType.BLOCK;
 	}
 	
 	public void add(Node n) {
@@ -46,24 +50,12 @@ public class Block extends Node {
 	}
 
 	@Override
-	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String typeToString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void accept(IUndefinedQuestionVisitor visitor) {
 		visitor.visitBlock(this);
 	}
 	
 	@Override
-	public void accept(ICyclicQuestionDependenciesVisitor visitor) {
+	public void accept(ICyclicDependencyVisitor visitor) {
 		visitor.visitBlock(this);
 	}
 

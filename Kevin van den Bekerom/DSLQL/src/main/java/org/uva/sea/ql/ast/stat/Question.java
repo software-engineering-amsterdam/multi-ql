@@ -5,16 +5,16 @@ import java.util.List;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.Type;
+import org.uva.sea.ql.visit.Visitor;
 
-public class Question extends ASTNode {
-	protected String identifier;
-	protected String label;
-	protected Type type;
+public class Question extends Statement {
+	private String identifier;
+	private String label;
+	private Type type;
 
 	public Question(String identifier, String label, Type type, int startLine) {
-		super.startLine = startLine;
+		super(startLine);
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;

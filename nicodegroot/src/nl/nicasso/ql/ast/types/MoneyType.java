@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.values.MoneyValue;
+import nl.nicasso.ql.visitors.TypeVisitor;
 
 public class MoneyType extends NumericType {
 
@@ -37,4 +38,9 @@ public class MoneyType extends NumericType {
 	public int hashCode(){
 	    return type.hashCode();
     }
+	
+	@Override
+	public <T, U> T accept(TypeVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
 }

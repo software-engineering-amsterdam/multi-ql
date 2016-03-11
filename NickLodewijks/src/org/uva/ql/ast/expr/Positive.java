@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public class Positive extends UnaryExpr {
 
-	public Positive(ParserRuleContext context, Expr expr) {
-		super(context, expr);
+	public Positive(Expr expr) {
+		super(expr);
 	}
 
 	@Override

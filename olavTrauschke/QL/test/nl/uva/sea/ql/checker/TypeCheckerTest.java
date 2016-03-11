@@ -2,6 +2,7 @@ package nl.uva.sea.ql.checker;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+import nl.uva.sea.ql.QuestionIdentCollector;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
@@ -33,10 +34,11 @@ public class TypeCheckerTest {
         assertEquals(expectedErrors, errors);
     }
     
-    private Map<Ident,Question> collectIdentifiers(ASTNode n) {
-        IdentCollector collector = new IdentCollector();
-        n.accept(collector);
-        return collector.getFirstQuestionsForIdentifiers();
+    @Test
+    public void testFormWithLiterals() throws FileNotFoundException {
+        List<String> errors = typeCheck("formWithLiterals.ql");
+        List<String> expectedErrors = new ArrayList<>();
+        assertEquals(expectedErrors, errors);
     }
     
     private List<String> typeCheck(String filename) throws FileNotFoundException {
@@ -44,7 +46,7 @@ public class TypeCheckerTest {
         boolean parsed = parser.parse();
         assertTrue(parsed);
         ASTNode ast = parser.getResult();
-        IdentCollector collector = new IdentCollector();
+        QuestionIdentCollector collector = new QuestionIdentCollector();
         ast.accept(collector);
         Map<Ident,Question> firstQuestionsForIdentifiers = collector.getFirstQuestionsForIdentifiers();
         TypeChecker checker = new TypeChecker(firstQuestionsForIdentifiers);

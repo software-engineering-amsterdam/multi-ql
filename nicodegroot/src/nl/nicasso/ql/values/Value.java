@@ -13,10 +13,6 @@ public abstract class Value {
 		return null;
 	}
 	
-	public Value addToInt(IntegerValue v) {
-		throw new AssertionError("KAPOT!");
-	}
-	
 	public Value subtraction(Value arg) {
 		return null;
 	}
@@ -63,6 +59,26 @@ public abstract class Value {
 	
 	public Value lessEqual(Value arg) {
 		return null;
+	}
+
+	// INTEGER
+	
+	public Value multiplicationToInteger(IntegerValue v) {
+		throw new AssertionError("KAPOT!");
+	}
+	
+	public Value divisionToInteger(IntegerValue v) {
+		throw new AssertionError("KAPOT!");
+	}
+	
+	// MONEY
+	
+	public Value multiplicationToMoney(MoneyValue v) {
+		throw new AssertionError("KAPOT!");
+	}
+	
+	public Value divisionToMoney(MoneyValue v) {
+		throw new AssertionError("KAPOT!");
 	}
 	
 }

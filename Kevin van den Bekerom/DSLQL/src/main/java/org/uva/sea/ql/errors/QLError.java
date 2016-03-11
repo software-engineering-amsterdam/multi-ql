@@ -2,14 +2,14 @@ package org.uva.sea.ql.errors;
 
 import org.uva.sea.ql.ast.ASTNode;
 
-public class QLError extends AbstractQLError{
+public class QLError extends AbstractQLError {
 
-	public QLError(ASTNode source, String message) {
+	public QLError(final ASTNode source, final String message) {
 		super.source = source;
 		super.message = message;
 	}
-	
-	public String getErrorMessage() {
+
+	public final String getErrorMessage() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[ERROR on line ")
 		.append(source.getStartLine())
@@ -19,4 +19,4 @@ public class QLError extends AbstractQLError{
 		.append(message);
 		return sb.toString();
 	}
-}	
+}

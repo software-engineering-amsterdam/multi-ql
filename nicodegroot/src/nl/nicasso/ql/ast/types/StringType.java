@@ -2,6 +2,7 @@ package nl.nicasso.ql.ast.types;
 
 import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.values.StringValue;
+import nl.nicasso.ql.visitors.TypeVisitor;
 
 public class StringType extends Type {
 
@@ -35,4 +36,9 @@ public class StringType extends Type {
 	public int hashCode(){
 	    return type.hashCode();
     }
+	
+	@Override
+	public <T, U> T accept(TypeVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
 }

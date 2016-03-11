@@ -1,12 +1,11 @@
 package ql.ast.literal;
 
-import ql.ast.expression.Expression;
 import ql.ast.visitor.Visitor;
 
-public class BoolLiteral extends Expression {
+public class BoolLiteral extends Literal {
 	private final boolean value;
 
-	public BoolLiteral(int lineNumber, Boolean value) {
+	public BoolLiteral(Boolean value, int lineNumber) {
 		super(lineNumber);
 		this.value = value;
 	}

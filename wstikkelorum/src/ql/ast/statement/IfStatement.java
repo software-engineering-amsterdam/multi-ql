@@ -7,17 +7,17 @@ import ql.ast.visitor.Visitable;
 import ql.ast.visitor.Visitor;
 
 public class IfStatement extends TreeNode implements Visitable {
-	private final Expression expression;
+	private final Expression condition;
 	private final Body body;
 
-	public IfStatement(int lineNumber, Expression result, Body result2) {
+	public IfStatement(int lineNumber, Expression expression, Body body) {
 		super(lineNumber);
-		this.expression = result;
-		this.body = result2;
+		this.condition = expression;
+		this.body = body;
 	}
 
-	public Expression getExpression() {
-		return expression;
+	public Expression getCondition() {
+		return condition;
 	}
 
 	public Body getBody() {

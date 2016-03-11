@@ -14,8 +14,6 @@
 		E20B2B101C884FF60096BA51 /* QLStatementVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B071C884FD00096BA51 /* QLStatementVisitor.swift */; };
 		E20B2B121C8851950096BA51 /* QLExpressionVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */; };
 		E20B2B131C8851950096BA51 /* QLExpressionVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */; };
-		E20B2B151C8874500096BA51 /* QLContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B141C8874500096BA51 /* QLContext.swift */; };
-		E20B2B161C8874500096BA51 /* QLContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B141C8874500096BA51 /* QLContext.swift */; };
 		E20B2B181C8881C20096BA51 /* QLIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B171C8881C20096BA51 /* QLIdentifier.swift */; };
 		E20B2B191C8881C20096BA51 /* QLIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B171C8881C20096BA51 /* QLIdentifier.swift */; };
 		E20B2B211C888F660096BA51 /* QLLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B201C888F660096BA51 /* QLLiteral.swift */; };
@@ -34,18 +32,27 @@
 		E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */; };
 		E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
 		E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
-		E23493101C6CD55000B40020 /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930F1C6CD55000B40020 /* SymbolTable.swift */; };
 		E23493121C6CD59F00B40020 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493111C6CD59F00B40020 /* Parser.swift */; };
-		E2360B7C1C7DA50900DEA51A /* FormViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2360B7B1C7DA50900DEA51A /* FormViewBuilder.swift */; };
-		E2360B7F1C7DACD700DEA51A /* StaticWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */; };
-		E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D3B1C7DF1CA00AC42ED /* FormView.swift */; };
+		E24CCE911C90498600ACA633 /* QLNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */; };
+		E24CCE931C9049CC00ACA633 /* QLNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */; };
+		E24CCE961C9062A700ACA633 /* SemanticAnalysisRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */; };
+		E24CCE981C90631E00ACA633 /* TypeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE971C90631E00ACA633 /* TypeChecker.swift */; };
+		E24CCE9C1C90633900ACA633 /* TypeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE971C90631E00ACA633 /* TypeChecker.swift */; };
+		E24CCE9E1C90635000ACA633 /* ScopeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */; };
+		E24CCE9F1C90635000ACA633 /* ScopeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */; };
+		E24CCEA11C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */; };
+		E24CCEA21C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */; };
+		E24CCEA31C906F7600ACA633 /* SemanticAnalysisRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */; };
+		E24CCEA51C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
+		E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
+		E24CCEA81C90B10900ACA633 /* ValidTypeInference.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */; };
+		E24CCEA91C90B10900ACA633 /* ValidTypeInference.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */; };
 		E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D401C7EFB8F00AC42ED /* EvalTests.swift */; };
 		E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
 		E2591D461C7EFD7900AC42ED /* EvalPow.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D451C7EFD7900AC42ED /* EvalPow.ql */; };
 		E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */; };
 		E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D491C7F024400AC42ED /* EvalBool.ql */; };
 		E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
-		E265696A1C766FDD000CB9E6 /* FormViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26569691C766FDD000CB9E6 /* FormViewFactory.swift */; };
 		E26CC92E1C6B8A260042B5FF /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92D1C6B8A260042B5FF /* QLForm.swift */; };
 		E26CC9341C6B8B030042B5FF /* QLStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* QLStatement.swift */; };
 		E26CC93A1C6B8C8C0042B5FF /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */; };
@@ -55,27 +62,31 @@
 		E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */; };
 		E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */; };
 		E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAB01C6CDF350009E869 /* StringExtension.swift */; };
+		E2C4E6291C92E04900F8191F /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E6281C92E04900F8191F /* Context.swift */; };
+		E2C4E62B1C92E06F00F8191F /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */; };
+		E2C4E62D1C92E09A00F8191F /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62C1C92E09A00F8191F /* Interpreter.swift */; };
+		E2C4E62F1C92F56900F8191F /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62C1C92E09A00F8191F /* Interpreter.swift */; };
+		E2C4E6301C92F56C00F8191F /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E6281C92E04900F8191F /* Context.swift */; };
+		E2C4E6311C92F56F00F8191F /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */; };
+		E2C4E6331C931D2700F8191F /* EvalNeg.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6321C931D2700F8191F /* EvalNeg.ql */; };
+		E2C4E6351C93214500F8191F /* EvalNot.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6341C93214500F8191F /* EvalNot.ql */; };
+		E2C4E6371C93273C00F8191F /* EvalSub.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6361C93273C00F8191F /* EvalSub.ql */; };
+		E2C4E6391C932C0900F8191F /* FloatWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E6381C932C0900F8191F /* FloatWidget.swift */; };
+		E2C4E63B1C934BB800F8191F /* NSNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */; };
 		E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
 		E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E2C8DA001C761D8C005F1C41 /* BooleanWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */; };
-		E2C8DA011C761D8C005F1C41 /* MoneyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FD1C761D8C005F1C41 /* MoneyWidget.swift */; };
-		E2C8DA021C761D8C005F1C41 /* IntegerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */; };
-		E2C8DA031C761D8C005F1C41 /* TextWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */; };
-		E2C8DA051C761DB4005F1C41 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C8DA041C761DB4005F1C41 /* Widget.swift */; };
 		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
 		E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CE05FF1C621A1600F2B43B /* Assets.xcassets */; };
 		E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06011C621A1D00F2B43B /* AppDelegate.swift */; };
 		E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE06091C621A6400F2B43B /* LaunchScreen.xib */; };
 		E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE060C1C621C4800F2B43B /* RootView.xib */; };
 		E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D5188E1C6D6F19008030C4 /* UIView.swift */; };
-		E2D518931C6E15B5008030C4 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D518921C6E15B5008030C4 /* QuestionView.swift */; };
 		E2D5189D1C700215008030C4 /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF30FD1C62380600F5227B /* QLParser.swift */; };
 		E2D518A71C700252008030C4 /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */; };
 		E2D518A81C700252008030C4 /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92D1C6B8A260042B5FF /* QLForm.swift */; };
 		E2D518AA1C700252008030C4 /* QLStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* QLStatement.swift */; };
 		E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
 		E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
-		E2D518AD1C70025E008030C4 /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930F1C6CD55000B40020 /* SymbolTable.swift */; };
 		E2D518AE1C700270008030C4 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493111C6CD59F00B40020 /* Parser.swift */; };
 		E2D518AF1C700287008030C4 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAB01C6CDF350009E869 /* StringExtension.swift */; };
 		E2D518B01C700292008030C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
@@ -89,13 +100,21 @@
 		E2DF31001C6240F800F5227B /* form.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2DF30FF1C6240F800F5227B /* form.ql */; };
 		E2DF31051C62481A00F5227B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
 		E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */; };
+		E2E3FE0D1C919A8B0007E894 /* Questionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE0C1C919A8B0007E894 /* Questionnaire.swift */; };
+		E2E3FE0F1C919A980007E894 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE0E1C919A980007E894 /* Question.swift */; };
+		E2E3FE111C919AA70007E894 /* QuestionnaireBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */; };
+		E2E3FE271C91A18D0007E894 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1A1C91A18D0007E894 /* BaseView.swift */; };
+		E2E3FE2A1C91A18D0007E894 /* QuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */; };
+		E2E3FE2B1C91A18D0007E894 /* QuestionnaireViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */; };
+		E2E3FE2D1C91A18D0007E894 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE211C91A18D0007E894 /* QuestionView.swift */; };
+		E2E3FE2E1C91A18D0007E894 /* BooleanWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */; };
+		E2E3FE2F1C91A18D0007E894 /* IntegerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */; };
+		E2E3FE301C91A18D0007E894 /* TextWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE251C91A18D0007E894 /* TextWidget.swift */; };
+		E2E3FE311C91A18D0007E894 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE261C91A18D0007E894 /* Widget.swift */; };
+		E2E3FE331C91BD7B0007E894 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE321C91BD7B0007E894 /* UITextField.swift */; };
 		E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */; };
 		E2F0A2FA1C75CE5900D0C1AB /* QLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* QLType.swift */; };
 		E2F149A81C75DF88009BB7BC /* QLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* QLType.swift */; };
-		E2FA492C1C79E5D100FC5BE0 /* FormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA492B1C79E5D100FC5BE0 /* FormLayout.swift */; };
-		E2FA492F1C79ECD200FC5BE0 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA492E1C79ECD200FC5BE0 /* BaseView.swift */; };
-		E2FA49311C79EE6B00FC5BE0 /* UIEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */; };
-		E2FA49331C7A033900FC5BE0 /* ConditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA49321C7A033900FC5BE0 /* ConditionalView.swift */; };
 		E2FB4E041C8842DF00BDC988 /* QLNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FB4E031C8842DF00BDC988 /* QLNode.swift */; };
 		E2FB4E051C8843D100BDC988 /* QLNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FB4E031C8842DF00BDC988 /* QLNode.swift */; };
 /* End PBXBuildFile section */
@@ -152,7 +171,6 @@
 		E20B2B071C884FD00096BA51 /* QLStatementVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLStatementVisitor.swift; path = Src/Parser/AST/Visitors/QLStatementVisitor.swift; sourceTree = "<group>"; };
 		E20B2B0B1C884FEF0096BA51 /* QLTypeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLTypeVisitor.swift; path = Src/Parser/AST/Visitors/QLTypeVisitor.swift; sourceTree = "<group>"; };
 		E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpressionVisitor.swift; path = Src/Parser/AST/Visitors/QLExpressionVisitor.swift; sourceTree = "<group>"; };
-		E20B2B141C8874500096BA51 /* QLContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLContext.swift; path = Src/Parser/QLContext.swift; sourceTree = "<group>"; };
 		E20B2B171C8881C20096BA51 /* QLIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLIdentifier.swift; path = Src/Parser/AST/QLIdentifier.swift; sourceTree = "<group>"; };
 		E20B2B201C888F660096BA51 /* QLLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteral.swift; path = Src/Parser/AST/QLLiteral.swift; sourceTree = "<group>"; };
 		E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteralVisitor.swift; path = Src/Parser/AST/Visitors/QLLiteralVisitor.swift; sourceTree = "<group>"; };
@@ -168,17 +186,19 @@
 		E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleForms.ql; path = Resources/QL/FormTests/SimpleForms.ql; sourceTree = "<group>"; };
 		E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalyzer.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift; sourceTree = "<group>"; };
 		E234930D1C6CCE6700B40020 /* SemanticError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticError.swift; path = Src/Parser/SemanticAnalyzer/SemanticError.swift; sourceTree = "<group>"; };
-		E234930F1C6CD55000B40020 /* SymbolTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SymbolTable.swift; path = Src/Parser/SemanticAnalyzer/SymbolTable.swift; sourceTree = "<group>"; };
 		E23493111C6CD59F00B40020 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Src/Parser/Parser.swift; sourceTree = "<group>"; };
-		E2360B7B1C7DA50900DEA51A /* FormViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewBuilder.swift; path = Src/UI/Form/FormViewBuilder.swift; sourceTree = "<group>"; };
-		E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaticWidget.swift; path = Src/UI/Form/Widgets/StaticWidget.swift; sourceTree = "<group>"; };
-		E2591D3B1C7DF1CA00AC42ED /* FormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormView.swift; path = Src/UI/Form/FormView.swift; sourceTree = "<group>"; };
+		E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLNodeVisitor.swift; path = Src/Parser/AST/Visitors/QLNodeVisitor.swift; sourceTree = "<group>"; };
+		E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalysisRule.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/SemanticAnalysisRule.swift; sourceTree = "<group>"; };
+		E24CCE971C90631E00ACA633 /* TypeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/TypeChecker.swift; sourceTree = "<group>"; };
+		E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScopeChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift; sourceTree = "<group>"; };
+		E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CyclicDependencyChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift; sourceTree = "<group>"; };
+		E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ScopedInvalid.ql; path = Resources/QL/SemanticAnalyzerTests/ScopedInvalid.ql; sourceTree = "<group>"; };
+		E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ValidTypeInference.ql; path = Resources/QL/SemanticAnalyzerTests/ValidTypeInference.ql; sourceTree = "<group>"; };
 		E2591D401C7EFB8F00AC42ED /* EvalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EvalTests.swift; path = Src/Parser/EvalTests.swift; sourceTree = "<group>"; };
 		E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalAdd.ql; path = Resources/QL/EvalTests/EvalAdd.ql; sourceTree = "<group>"; };
 		E2591D451C7EFD7900AC42ED /* EvalPow.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalPow.ql; path = Resources/QL/EvalTests/EvalPow.ql; sourceTree = "<group>"; };
 		E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalPrec.ql; path = Resources/QL/EvalTests/EvalPrec.ql; sourceTree = "<group>"; };
 		E2591D491C7F024400AC42ED /* EvalBool.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalBool.ql; path = Resources/QL/EvalTests/EvalBool.ql; sourceTree = "<group>"; };
-		E26569691C766FDD000CB9E6 /* FormViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewFactory.swift; path = Src/UI/Form/FormViewFactory.swift; sourceTree = "<group>"; };
 		E26CC92D1C6B8A260042B5FF /* QLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLForm.swift; path = Src/Parser/AST/QLForm.swift; sourceTree = "<group>"; };
 		E26CC92F1C6B8B030042B5FF /* QLStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLStatement.swift; path = Src/Parser/AST/QLStatement.swift; sourceTree = "<group>"; };
 		E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpression.swift; path = Src/Parser/AST/QLExpression.swift; sourceTree = "<group>"; };
@@ -188,11 +208,14 @@
 		E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseFormViewController.swift; path = Src/ViewControllers/ChooseFormViewController.swift; sourceTree = "<group>"; };
 		E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Src/ViewControllers/RootViewController.swift; sourceTree = "<group>"; };
 		E2A5AAB01C6CDF350009E869 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Src/Extensions/StringExtension.swift; sourceTree = "<group>"; };
-		E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BooleanWidget.swift; path = Src/UI/Form/Widgets/BooleanWidget.swift; sourceTree = "<group>"; };
-		E2C8D9FD1C761D8C005F1C41 /* MoneyWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoneyWidget.swift; path = Src/UI/Form/Widgets/MoneyWidget.swift; sourceTree = "<group>"; };
-		E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntegerWidget.swift; path = Src/UI/Form/Widgets/IntegerWidget.swift; sourceTree = "<group>"; };
-		E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextWidget.swift; path = Src/UI/Form/Widgets/TextWidget.swift; sourceTree = "<group>"; };
-		E2C8DA041C761DB4005F1C41 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Widget.swift; path = Src/UI/Form/Widgets/Widget.swift; sourceTree = "<group>"; };
+		E2C4E6281C92E04900F8191F /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Context.swift; path = Src/Parser/Interpreter/Context.swift; sourceTree = "<group>"; };
+		E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeInferer.swift; path = Src/Parser/Interpreter/TypeInferer.swift; sourceTree = "<group>"; };
+		E2C4E62C1C92E09A00F8191F /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Interpreter.swift; path = Src/Parser/Interpreter/Interpreter.swift; sourceTree = "<group>"; };
+		E2C4E6321C931D2700F8191F /* EvalNeg.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalNeg.ql; path = Resources/QL/EvalTests/EvalNeg.ql; sourceTree = "<group>"; };
+		E2C4E6341C93214500F8191F /* EvalNot.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalNot.ql; path = Resources/QL/EvalTests/EvalNot.ql; sourceTree = "<group>"; };
+		E2C4E6361C93273C00F8191F /* EvalSub.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalSub.ql; path = Resources/QL/EvalTests/EvalSub.ql; sourceTree = "<group>"; };
+		E2C4E6381C932C0900F8191F /* FloatWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatWidget.swift; sourceTree = "<group>"; };
+		E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSNumberFormatter.swift; path = Src/Extensions/NSNumberFormatter.swift; sourceTree = "<group>"; };
 		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
@@ -203,7 +226,6 @@
 		E2CE06091C621A6400F2B43B /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = Views/LaunchScreen.xib; sourceTree = "<group>"; };
 		E2CE060C1C621C4800F2B43B /* RootView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RootView.xib; path = Views/RootView.xib; sourceTree = "<group>"; };
 		E2D5188E1C6D6F19008030C4 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIView.swift; path = Src/Extensions/UIView.swift; sourceTree = "<group>"; };
-		E2D518921C6E15B5008030C4 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionView.swift; path = Src/UI/Form/QuestionView.swift; sourceTree = "<group>"; };
 		E2D518BC1C70115C008030C4 /* QLParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLParserTests.swift; path = Src/Parser/QLParserTests.swift; sourceTree = "<group>"; };
 		E2D518BE1C701177008030C4 /* IfStatement.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = IfStatement.ql; path = Resources/QL/QLParserTests/IfStatement.ql; sourceTree = "<group>"; };
 		E2D518BF1C701177008030C4 /* Binary.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Binary.ql; path = Resources/QL/QLParserTests/Binary.ql; sourceTree = "<group>"; };
@@ -214,12 +236,20 @@
 		E2DF30FF1C6240F800F5227B /* form.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = form.ql; path = Resources/form.ql; sourceTree = "<group>"; };
 		E2DF31041C62481A00F5227B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = "Supporting Files/Constants.swift"; sourceTree = "<group>"; };
 		E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLanguageDefinition.swift; path = Src/Parser/QLParser/QLLanguageDefinition.swift; sourceTree = "<group>"; };
+		E2E3FE0C1C919A8B0007E894 /* Questionnaire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Questionnaire.swift; path = Src/Questionnaire/Questionnaire.swift; sourceTree = "<group>"; };
+		E2E3FE0E1C919A980007E894 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Question.swift; path = Src/Questionnaire/Question.swift; sourceTree = "<group>"; };
+		E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionnaireBuilder.swift; path = Src/Questionnaire/QuestionnaireBuilder.swift; sourceTree = "<group>"; };
+		E2E3FE1A1C91A18D0007E894 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireView.swift; sourceTree = "<group>"; };
+		E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireViewBuilder.swift; sourceTree = "<group>"; };
+		E2E3FE211C91A18D0007E894 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanWidget.swift; sourceTree = "<group>"; };
+		E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerWidget.swift; sourceTree = "<group>"; };
+		E2E3FE251C91A18D0007E894 /* TextWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWidget.swift; sourceTree = "<group>"; };
+		E2E3FE261C91A18D0007E894 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
+		E2E3FE321C91BD7B0007E894 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITextField.swift; path = Src/Extensions/UITextField.swift; sourceTree = "<group>"; };
 		E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CyclicDependency.ql; path = Resources/QL/SemanticAnalyzerTests/CyclicDependency.ql; sourceTree = "<group>"; };
 		E2F0A2F91C75CE5900D0C1AB /* QLType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLType.swift; path = Src/Parser/AST/QLType.swift; sourceTree = "<group>"; };
-		E2FA492B1C79E5D100FC5BE0 /* FormLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormLayout.swift; path = Src/UI/Form/FormLayout.swift; sourceTree = "<group>"; };
-		E2FA492E1C79ECD200FC5BE0 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseView.swift; path = Src/UI/BaseView.swift; sourceTree = "<group>"; };
-		E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeInsets.swift; path = Src/Extensions/UIEdgeInsets.swift; sourceTree = "<group>"; };
-		E2FA49321C7A033900FC5BE0 /* ConditionalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConditionalView.swift; path = Src/UI/Form/ConditionalView.swift; sourceTree = "<group>"; };
 		E2FB4E031C8842DF00BDC988 /* QLNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLNode.swift; path = Src/Parser/AST/QLNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -267,6 +297,8 @@
 				E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */,
 				E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */,
 				E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */,
+				E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */,
+				E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */,
 			);
 			name = SemanticAnalyzerTests;
 			sourceTree = "<group>";
@@ -282,31 +314,22 @@
 		E234930A1C6CB70F00B40020 /* SemanticAnalyzer */ = {
 			isa = PBXGroup;
 			children = (
+				E24CCE941C9060F800ACA633 /* SemanticAnalysisRules */,
 				E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */,
 				E234930D1C6CCE6700B40020 /* SemanticError.swift */,
-				E234930F1C6CD55000B40020 /* SymbolTable.swift */,
 			);
 			name = SemanticAnalyzer;
 			sourceTree = "<group>";
 		};
-		E2591D3E1C7E0AD600AC42ED /* Factory */ = {
+		E24CCE941C9060F800ACA633 /* SemanticAnalysisRules */ = {
 			isa = PBXGroup;
 			children = (
-				E26569691C766FDD000CB9E6 /* FormViewFactory.swift */,
-				E2FA492B1C79E5D100FC5BE0 /* FormLayout.swift */,
+				E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */,
+				E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */,
+				E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */,
+				E24CCE971C90631E00ACA633 /* TypeChecker.swift */,
 			);
-			name = Factory;
-			sourceTree = "<group>";
-		};
-		E2591D3F1C7E0AE400AC42ED /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				E2FA492E1C79ECD200FC5BE0 /* BaseView.swift */,
-				E2FA49321C7A033900FC5BE0 /* ConditionalView.swift */,
-				E2591D3B1C7DF1CA00AC42ED /* FormView.swift */,
-				E2D518921C6E15B5008030C4 /* QuestionView.swift */,
-			);
-			name = Views;
+			name = SemanticAnalysisRules;
 			sourceTree = "<group>";
 		};
 		E2591D421C7EFBDB00AC42ED /* EvalTests */ = {
@@ -314,8 +337,11 @@
 			children = (
 				E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */,
 				E2591D491C7F024400AC42ED /* EvalBool.ql */,
+				E2C4E6321C931D2700F8191F /* EvalNeg.ql */,
+				E2C4E6341C93214500F8191F /* EvalNot.ql */,
 				E2591D451C7EFD7900AC42ED /* EvalPow.ql */,
 				E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */,
+				E2C4E6361C93273C00F8191F /* EvalSub.ql */,
 			);
 			name = EvalTests;
 			sourceTree = "<group>";
@@ -344,17 +370,6 @@
 			name = AST;
 			sourceTree = "<group>";
 		};
-		E2A5AAA81C6CDE360009E869 /* Form */ = {
-			isa = PBXGroup;
-			children = (
-				E2591D3E1C7E0AD600AC42ED /* Factory */,
-				E2591D3F1C7E0AE400AC42ED /* Views */,
-				E2C8D9FB1C761D11005F1C41 /* Widgets */,
-				E2360B7B1C7DA50900DEA51A /* FormViewBuilder.swift */,
-			);
-			name = Form;
-			sourceTree = "<group>";
-		};
 		E2A5AAAB1C6CDEBF0009E869 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -366,17 +381,14 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
-		E2C8D9FB1C761D11005F1C41 /* Widgets */ = {
+		E2C4E6261C92DFCD00F8191F /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
-				E2C8D9FC1C761D8C005F1C41 /* BooleanWidget.swift */,
-				E2C8D9FD1C761D8C005F1C41 /* MoneyWidget.swift */,
-				E2C8D9FE1C761D8C005F1C41 /* IntegerWidget.swift */,
-				E2360B7E1C7DACD700DEA51A /* StaticWidget.swift */,
-				E2C8D9FF1C761D8C005F1C41 /* TextWidget.swift */,
-				E2C8DA041C761DB4005F1C41 /* Widget.swift */,
+				E2C4E6281C92E04900F8191F /* Context.swift */,
+				E2C4E62C1C92E09A00F8191F /* Interpreter.swift */,
+				E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */,
 			);
-			name = Widgets;
+			name = Interpreter;
 			sourceTree = "<group>";
 		};
 		E2CE05CD1C62191F00F2B43B = {
@@ -446,10 +458,11 @@
 			isa = PBXGroup;
 			children = (
 				E2CE06011C621A1D00F2B43B /* AppDelegate.swift */,
-				E2A5AAAB1C6CDEBF0009E869 /* ViewControllers */,
 				E2DF31011C62448900F5227B /* Extensions */,
-				E2CE060B1C621BA000F2B43B /* UI */,
+				E2E3FE191C91A18D0007E894 /* GUI */,
 				E2DF30F91C6237E600F5227B /* Parser */,
+				E2E3FE0B1C919A650007E894 /* Questionnaire */,
+				E2A5AAAB1C6CDEBF0009E869 /* ViewControllers */,
 			);
 			name = Src;
 			sourceTree = "<group>";
@@ -463,14 +476,6 @@
 				E21DC3F81C6CE6E8005564FE /* FormView.xib */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		E2CE060B1C621BA000F2B43B /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				E2A5AAA81C6CDE360009E869 /* Form */,
-			);
-			name = UI;
 			sourceTree = "<group>";
 		};
 		E2D518941C6FF9E1008030C4 /* Src */ = {
@@ -545,8 +550,8 @@
 			isa = PBXGroup;
 			children = (
 				E23493111C6CD59F00B40020 /* Parser.swift */,
-				E20B2B141C8874500096BA51 /* QLContext.swift */,
 				E26CC92A1C6B7CF40042B5FF /* AST */,
+				E2C4E6261C92DFCD00F8191F /* Interpreter */,
 				E2DF30FC1C6237EB00F5227B /* QLParser */,
 				E234930A1C6CB70F00B40020 /* SemanticAnalyzer */,
 			);
@@ -566,10 +571,54 @@
 			isa = PBXGroup;
 			children = (
 				E2A5AAB01C6CDF350009E869 /* StringExtension.swift */,
-				E2FA49301C79EE6B00FC5BE0 /* UIEdgeInsets.swift */,
 				E2D5188E1C6D6F19008030C4 /* UIView.swift */,
+				E2E3FE321C91BD7B0007E894 /* UITextField.swift */,
+				E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		E2E3FE0B1C919A650007E894 /* Questionnaire */ = {
+			isa = PBXGroup;
+			children = (
+				E2E3FE0E1C919A980007E894 /* Question.swift */,
+				E2E3FE0C1C919A8B0007E894 /* Questionnaire.swift */,
+				E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */,
+			);
+			name = Questionnaire;
+			sourceTree = "<group>";
+		};
+		E2E3FE191C91A18D0007E894 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				E2E3FE1B1C91A18D0007E894 /* Form */,
+				E2E3FE1A1C91A18D0007E894 /* BaseView.swift */,
+			);
+			name = GUI;
+			path = Src/GUI;
+			sourceTree = "<group>";
+		};
+		E2E3FE1B1C91A18D0007E894 /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				E2E3FE221C91A18D0007E894 /* Widgets */,
+				E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */,
+				E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */,
+				E2E3FE211C91A18D0007E894 /* QuestionView.swift */,
+			);
+			path = Form;
+			sourceTree = "<group>";
+		};
+		E2E3FE221C91A18D0007E894 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */,
+				E2C4E6381C932C0900F8191F /* FloatWidget.swift */,
+				E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */,
+				E2E3FE251C91A18D0007E894 /* TextWidget.swift */,
+				E2E3FE261C91A18D0007E894 /* Widget.swift */,
+			);
+			path = Widgets;
 			sourceTree = "<group>";
 		};
 		E2FB4E061C88472C00BDC988 /* Visitors */ = {
@@ -577,6 +626,7 @@
 			children = (
 				E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */,
 				E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */,
+				E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */,
 				E20B2B071C884FD00096BA51 /* QLStatementVisitor.swift */,
 				E20B2B0B1C884FEF0096BA51 /* QLTypeVisitor.swift */,
 			);
@@ -693,7 +743,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
+				E24CCEA51C90AD0100ACA633 /* ScopedInvalid.ql in Resources */,
 				E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */,
+				E24CCEA81C90B10900ACA633 /* ValidTypeInference.ql in Resources */,
 				E2DF31001C6240F800F5227B /* form.ql in Resources */,
 				E29A237E1C6D6C6500281E49 /* Podfile in Resources */,
 				E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */,
@@ -708,18 +760,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */,
+				E24CCEA91C90B10900ACA633 /* ValidTypeInference.ql in Resources */,
+				E2C4E6351C93214500F8191F /* EvalNot.ql in Resources */,
 				E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */,
 				E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */,
 				E2D518C51C701177008030C4 /* Unary.ql in Resources */,
 				E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */,
 				E2D518C31C701177008030C4 /* Binary.ql in Resources */,
+				E2C4E6371C93273C00F8191F /* EvalSub.ql in Resources */,
 				E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */,
 				E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */,
 				E2D518C41C701177008030C4 /* Literals.ql in Resources */,
 				E2591D461C7EFD7900AC42ED /* EvalPow.ql in Resources */,
 				E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */,
+				E2C4E6331C931D2700F8191F /* EvalNeg.ql in Resources */,
 				E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */,
 				E2D518C21C701177008030C4 /* IfStatement.ql in Resources */,
+				E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */,
 				E29D0BE71C72766800AB3BCF /* FailQuestion.ql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -781,44 +838,50 @@
 			files = (
 				E26CC9341C6B8B030042B5FF /* QLStatement.swift in Sources */,
 				E26CC93A1C6B8C8C0042B5FF /* QLExpression.swift in Sources */,
+				E2E3FE301C91A18D0007E894 /* TextWidget.swift in Sources */,
 				E2FB4E041C8842DF00BDC988 /* QLNode.swift in Sources */,
+				E2E3FE2B1C91A18D0007E894 /* QuestionnaireViewBuilder.swift in Sources */,
 				E20B2B241C8891080096BA51 /* QLLiteralVisitor.swift in Sources */,
+				E2E3FE2D1C91A18D0007E894 /* QuestionView.swift in Sources */,
+				E2E3FE311C91A18D0007E894 /* Widget.swift in Sources */,
+				E24CCE9E1C90635000ACA633 /* ScopeChecker.swift in Sources */,
 				E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */,
+				E24CCEA11C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */,
 				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
-				E2360B7C1C7DA50900DEA51A /* FormViewBuilder.swift in Sources */,
 				E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */,
-				E2C8DA001C761D8C005F1C41 /* BooleanWidget.swift in Sources */,
 				E20B2B211C888F660096BA51 /* QLLiteral.swift in Sources */,
-				E2C8DA021C761D8C005F1C41 /* IntegerWidget.swift in Sources */,
-				E2C8DA031C761D8C005F1C41 /* TextWidget.swift in Sources */,
 				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
-				E20B2B151C8874500096BA51 /* QLContext.swift in Sources */,
+				E2E3FE271C91A18D0007E894 /* BaseView.swift in Sources */,
 				E2F0A2FA1C75CE5900D0C1AB /* QLType.swift in Sources */,
-				E2FA492F1C79ECD200FC5BE0 /* BaseView.swift in Sources */,
-				E2360B7F1C7DACD700DEA51A /* StaticWidget.swift in Sources */,
 				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
+				E2E3FE111C919AA70007E894 /* QuestionnaireBuilder.swift in Sources */,
 				E26CC92E1C6B8A260042B5FF /* QLForm.swift in Sources */,
 				E20B2B081C884FD00096BA51 /* QLStatementVisitor.swift in Sources */,
 				E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */,
-				E23493101C6CD55000B40020 /* SymbolTable.swift in Sources */,
-				E2591D3C1C7DF1CA00AC42ED /* FormView.swift in Sources */,
+				E2E3FE331C91BD7B0007E894 /* UITextField.swift in Sources */,
 				E20B2B121C8851950096BA51 /* QLExpressionVisitor.swift in Sources */,
 				E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */,
-				E2C8DA011C761D8C005F1C41 /* MoneyWidget.swift in Sources */,
 				E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */,
 				E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */,
-				E265696A1C766FDD000CB9E6 /* FormViewFactory.swift in Sources */,
-				E2C8DA051C761DB4005F1C41 /* Widget.swift in Sources */,
-				E2FA492C1C79E5D100FC5BE0 /* FormLayout.swift in Sources */,
+				E24CCE961C9062A700ACA633 /* SemanticAnalysisRule.swift in Sources */,
+				E24CCE981C90631E00ACA633 /* TypeChecker.swift in Sources */,
 				E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */,
+				E2E3FE0D1C919A8B0007E894 /* Questionnaire.swift in Sources */,
+				E2C4E63B1C934BB800F8191F /* NSNumberFormatter.swift in Sources */,
+				E2C4E6291C92E04900F8191F /* Context.swift in Sources */,
 				E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */,
-				E2FA49331C7A033900FC5BE0 /* ConditionalView.swift in Sources */,
-				E2D518931C6E15B5008030C4 /* QuestionView.swift in Sources */,
 				E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */,
+				E2E3FE2A1C91A18D0007E894 /* QuestionnaireView.swift in Sources */,
 				E23493121C6CD59F00B40020 /* Parser.swift in Sources */,
+				E2E3FE0F1C919A980007E894 /* Question.swift in Sources */,
+				E2C4E62D1C92E09A00F8191F /* Interpreter.swift in Sources */,
+				E2E3FE2F1C91A18D0007E894 /* IntegerWidget.swift in Sources */,
 				E20B2B181C8881C20096BA51 /* QLIdentifier.swift in Sources */,
 				E20B2B0E1C884FEF0096BA51 /* QLTypeVisitor.swift in Sources */,
-				E2FA49311C79EE6B00FC5BE0 /* UIEdgeInsets.swift in Sources */,
+				E2C4E62B1C92E06F00F8191F /* TypeInferer.swift in Sources */,
+				E2E3FE2E1C91A18D0007E894 /* BooleanWidget.swift in Sources */,
+				E2C4E6391C932C0900F8191F /* FloatWidget.swift in Sources */,
+				E24CCE911C90498600ACA633 /* QLNodeVisitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,12 +894,13 @@
 				E2D518B01C700292008030C4 /* Constants.swift in Sources */,
 				E2FB4E051C8843D100BDC988 /* QLNode.swift in Sources */,
 				E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */,
-				E2D518AD1C70025E008030C4 /* SymbolTable.swift in Sources */,
+				E2C4E6301C92F56C00F8191F /* Context.swift in Sources */,
 				E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */,
+				E24CCEA21C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */,
 				E2D518AF1C700287008030C4 /* StringExtension.swift in Sources */,
 				E2270DB51C73C1B400E5FC2A /* SemanticAnalyzerTests.swift in Sources */,
+				E24CCE9F1C90635000ACA633 /* ScopeChecker.swift in Sources */,
 				E2D518A81C700252008030C4 /* QLForm.swift in Sources */,
-				E20B2B161C8874500096BA51 /* QLContext.swift in Sources */,
 				E2D518BD1C70115C008030C4 /* QLParserTests.swift in Sources */,
 				E20B2B101C884FF60096BA51 /* QLStatementVisitor.swift in Sources */,
 				E2D5189D1C700215008030C4 /* QLParser.swift in Sources */,
@@ -845,12 +909,17 @@
 				E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */,
 				E2D518AE1C700270008030C4 /* Parser.swift in Sources */,
 				E20B2B251C8891080096BA51 /* QLLiteralVisitor.swift in Sources */,
+				E24CCE931C9049CC00ACA633 /* QLNodeVisitor.swift in Sources */,
+				E24CCEA31C906F7600ACA633 /* SemanticAnalysisRule.swift in Sources */,
 				E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */,
 				E20B2B191C8881C20096BA51 /* QLIdentifier.swift in Sources */,
+				E2C4E6311C92F56F00F8191F /* TypeInferer.swift in Sources */,
+				E2C4E62F1C92F56900F8191F /* Interpreter.swift in Sources */,
 				E20B2B221C888F660096BA51 /* QLLiteral.swift in Sources */,
 				E2D518AA1C700252008030C4 /* QLStatement.swift in Sources */,
 				E21F69111C747CBE00EB9E09 /* Utils.swift in Sources */,
 				E20B2B131C8851950096BA51 /* QLExpressionVisitor.swift in Sources */,
+				E24CCE9C1C90633900ACA633 /* TypeChecker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

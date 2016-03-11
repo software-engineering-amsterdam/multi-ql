@@ -28,13 +28,8 @@ public class IntegerValue extends Value {
 
 	@Override
 	public Value addition(Value arg) {
-		return arg.addToInt(this);
-	}
-
-	@Override
-	public Value addToInt(IntegerValue v) {
-		return new IntegerValue(value + v.value);
-	}
+		return new IntegerValue(value + (Integer) arg.getValue());
+	}	
 	
 	@Override
 	public Value subtraction(Value arg) {
@@ -53,19 +48,12 @@ public class IntegerValue extends Value {
 	
 	@Override
 	public Value division(Value arg) {
-		return new IntegerValue(value / (Integer) arg.getValue());
-	}
-	
-	@Override
-	public Value multiplication(MoneyValue arg) {
-		System.out.println("MULTI 2");
-		return new MoneyValue(BigDecimal.valueOf(value).multiply(arg.getValue()));
+		return arg.divisionToInteger(this);
 	}
 	
 	@Override
 	public Value multiplication(Value arg) {
-		System.out.println("MULTI 1");
-		return new IntegerValue(value * (Integer) arg.getValue());
+		return arg.multiplicationToInteger(this);
 	}
 	
 	@Override
@@ -88,4 +76,15 @@ public class IntegerValue extends Value {
 		return new BooleanValue(value <= (Integer) arg.getValue());
 	}
 	
+	// DOUBLE DISPATCHING
+	
+	@Override
+	public Value divisionToMoney(MoneyValue v) {
+		return new MoneyValue(v.getValue().divide(BigDecimal.valueOf(Double.parseDouble(Integer.toString(value)))));
+	}
+	
+	@Override
+	public Value multiplicationToMoney(MoneyValue v) {
+		return new MoneyValue(v.getValue().multiply(BigDecimal.valueOf(Double.parseDouble(Integer.toString(value)))));
+	}
 }

@@ -1,28 +1,28 @@
 package nl.uva.sc.ql.gui.form;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 import nl.uva.sc.ql.gui.State;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
 import nl.uva.sc.ql.parser.value.Value;
 
-public class ConditionBlockForm extends JPanel implements GuiInterface, Observer, Subject {
-
-	private static final long serialVersionUID = 1L;
+public class ConditionBlockForm implements GuiInterface, Observer, Subject {
 	
     private List<Observer> observers = new ArrayList<Observer>();
 
 	private ExpressionNode condition;
 	private List<Question> questions;
 	private State state;
+
+	private JFrame jFrame;
 	
-	public ConditionBlockForm(State state, ExpressionNode condition){
+	public ConditionBlockForm(JFrame jFrame, State state, ExpressionNode condition){
 		//super(new BorderLayout());
-		
+		this.jFrame = jFrame;
+
 		this.condition = condition;
 		this.questions = new ArrayList<Question>();
 		this.state = state;
@@ -33,7 +33,7 @@ public class ConditionBlockForm extends JPanel implements GuiInterface, Observer
 		this.questions.add(question);
 	}
 	
-	public boolean isConditionValid(){
+	public boolean getResultOfCondition(){
 		Value value = condition.eval(state);
 		if (value == null){
 			return false;
@@ -42,32 +42,28 @@ public class ConditionBlockForm extends JPanel implements GuiInterface, Observer
 	}
 	
 	@Override
-	public boolean runGui() {
-		Value value = condition.eval(state);
-		if(value == null || (boolean) value.getValue() == false) {
-			resetPanel();
-			return false;
-		}
-		
+	public void createGui() {		
 		for(Question q : questions){
-			q.runGui();
-			this.add(q);
-		}	
-		
-		return true;
+			q.createGui();
+			jFrame.add(q);
+		}			
+	}
+	
+	@Override
+	public void updateGui() {
+		for(Question q : questions){
+			if(getResultOfCondition() == false){
+				q.setVisible(false);
+			} else {
+				q.setVisible(true);
+			}
+		}
 	}
 	
 	@Override
 	public void update() {
-		runGui();
-		notifyObservers();
-		this.validate();
-	}
-	
-	public void resetPanel(){
-		this.removeAll();
-		
-		this.validate();
+		updateGui();
+		notifyObservers();		
 	}
 	
 	// methods related with observer pattern

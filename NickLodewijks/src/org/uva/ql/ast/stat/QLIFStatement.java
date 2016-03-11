@@ -1,22 +1,20 @@
 package org.uva.ql.ast.stat;
 
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.form.QLBlock;
 
 public final class QLIFStatement extends QLStatement {
 
-	private final Expr expr;
+	private final Expr condition;
 	private final QLBlock body;
 
-	public QLIFStatement(ParserRuleContext context, Expr condition, QLBlock body) {
-		super(context);
-		this.expr = condition;
+	public QLIFStatement(Expr condition, QLBlock body) {
+		this.condition = condition;
 		this.body = body;
 	}
 
-	public Expr getExpr() {
-		return expr;
+	public Expr getCondition() {
+		return condition;
 	}
 
 	public QLBlock getBody() {

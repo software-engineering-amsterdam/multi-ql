@@ -1,15 +1,11 @@
 package vari
 
-import (
-	"ql/ast/visit"
-)
-
 type VarId struct {
 	Ident string
 }
 
-func (va VarId) Accept(v visit.Visitor, s interface{}) interface{} {
-	return v.Visit(va, s)
+func (v VarId) GetIdent() string {
+	return v.Ident
 }
 
 func (va VarId) String() string {

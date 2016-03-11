@@ -16,7 +16,7 @@ form taxOfficeExample {
                sellingPrice: money
           "Value residue:"
                valueResidue: money = 
-                    (sellingPrice - privateDebt) && birthDate
+                    (sellingPrice - privateDebt) + birthDate
           "Private debts for the sold house:"
                privateDebt: money
           "Parents gift money:"

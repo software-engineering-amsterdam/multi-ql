@@ -1,6 +1,8 @@
 package org.uva.ql.ui;
 
-public interface UIQuestion extends UIComponent {
+public interface UIQuestion {
+
+	public String getId();
 
 	public UIWidget getLabelWidget();
 

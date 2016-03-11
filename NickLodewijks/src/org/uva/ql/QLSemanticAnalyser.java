@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.uva.ql.CyclicReferences.CyclicReference;
 import org.uva.ql.QLSemanticAnalyser.SemanticMessage.Level;
-import org.uva.ql.ast.ASTNodeVisitorAdapter;
+import org.uva.ql.ast.QLTopDown;
 import org.uva.ql.ast.expr.Add;
 import org.uva.ql.ast.expr.And;
 import org.uva.ql.ast.expr.BinaryExpr;
@@ -20,10 +20,10 @@ import org.uva.ql.ast.expr.EqualsNot;
 import org.uva.ql.ast.expr.Expr;
 import org.uva.ql.ast.expr.ExprVisitor;
 import org.uva.ql.ast.expr.GreaterThan;
-import org.uva.ql.ast.expr.GreaterThanOrEquals;
+import org.uva.ql.ast.expr.GreaterThanOrEqual;
 import org.uva.ql.ast.expr.IntegerLiteral;
 import org.uva.ql.ast.expr.LessThan;
-import org.uva.ql.ast.expr.LessThanOrEquals;
+import org.uva.ql.ast.expr.LessThanOrEqual;
 import org.uva.ql.ast.expr.Multiply;
 import org.uva.ql.ast.expr.Negative;
 import org.uva.ql.ast.expr.Not;
@@ -83,7 +83,7 @@ public class QLSemanticAnalyser {
 
 		qt = new QuestionTable();
 
-		form.accept(new ASTNodeVisitorAdapter<Void, Void>() {
+		form.accept(new QLTopDown<Void, Void>() {
 
 			@Override
 			public Void visit(QLQuestionComputed node, Void context) {
@@ -226,7 +226,7 @@ public class QLSemanticAnalyser {
 
 		@Override
 		public Void visit(QLIFStatement node, SymbolTable st) {
-			checkType(node.getExpr(), st, QLType.BOOLEAN);
+			checkType(node.getCondition(), st, QLType.BOOLEAN);
 			node.getBody().accept(this, st);
 
 			return null;
@@ -341,7 +341,7 @@ public class QLSemanticAnalyser {
 
 		// Number relations
 		@Override
-		public QLType visit(GreaterThanOrEquals node, SymbolTable st) {
+		public QLType visit(GreaterThanOrEqual node, SymbolTable st) {
 			checkOperands(node, st, QLType.INTEGER);
 			return QLType.BOOLEAN;
 		}
@@ -353,7 +353,7 @@ public class QLSemanticAnalyser {
 		}
 
 		@Override
-		public QLType visit(LessThanOrEquals node, SymbolTable st) {
+		public QLType visit(LessThanOrEqual node, SymbolTable st) {
 			checkOperands(node, st, QLType.INTEGER);
 			return QLType.BOOLEAN;
 		}
@@ -659,7 +659,7 @@ public class QLSemanticAnalyser {
 
 		private final Map<Level, List<SemanticMessage>> levelToMessages = new HashMap<>();
 
-		private SemanticErrors() {
+		public SemanticErrors() {
 
 		}
 

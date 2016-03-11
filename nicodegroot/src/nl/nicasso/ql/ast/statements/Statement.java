@@ -10,6 +10,6 @@ public abstract class Statement extends ASTNode {
 		super(location);
 	}
 	
-	public abstract <T, U> T accept(StatementVisitor<T, U> visitor);
+	public abstract <T, U> T accept(StatementVisitor<T, U> visitor, U context);
 
 }

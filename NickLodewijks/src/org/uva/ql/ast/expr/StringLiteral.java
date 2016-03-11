@@ -1,17 +1,16 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
+import org.uva.ql.ast.value.StringValue;
 
 public final class StringLiteral extends Expr {
 
-	private final String value;
+	private final StringValue value;
 
-	public StringLiteral(ParserRuleContext context, String value) {
-		super(context);
-		this.value = value;
+	public StringLiteral(String value) {
+		this.value = new StringValue(value);
 	}
 
-	public String getValue() {
+	public StringValue getValue() {
 		return value;
 	}
 

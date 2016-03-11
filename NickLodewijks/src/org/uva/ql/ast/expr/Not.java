@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public class Not extends UnaryExpr {
 
-	public Not(ParserRuleContext context, Expr expr) {
-		super(context, expr);
+	public Not(Expr expr) {
+		super(expr);
 	}
 
 	@Override

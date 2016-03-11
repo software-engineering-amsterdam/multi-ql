@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public class Subtract extends BinaryExpr {
 
-	public Subtract(ParserRuleContext context, Expr lhs, Expr rhs) {
-		super(context, lhs, rhs);
+	public Subtract(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
 	}
 
 	@Override

@@ -1,15 +1,8 @@
 package org.uva.ql.ast.type;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public final class QLStringType extends QLType {
 
 	public QLStringType() {
-		super(null);
-	}
-
-	public QLStringType(ParserRuleContext context) {
-		super(context);
 	}
 
 	@Override

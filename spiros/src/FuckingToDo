@@ -1,7 +1,5 @@
 ###################### TO DO ##############################
 
---> ***************** EVALUATOR ***************************
-
 --> ******************** GUI ******************************
 
 --> *************** ERROR HANDLING ************************
@@ -16,6 +14,8 @@
 
 --> Organize packages
 
+--> equal se bool kai str?
+
 --> Give info about the type of the condition (if it is not boolean . . . )
 
 --> Give info about the type of an expression (if it doesn't match)
@@ -26,8 +26,10 @@
 
 --> set anti gia lista sto IdData?
 
---> money needed?
-
 -->  *** GRAMMAR_PRECEDENCE ***
+
+--> instead of using getter when i add a panel: - class extends JPanel+@suppresswarning - anti gia panel.add(question) : question.add(panel)
+
+--> purifyLabel @ MyQLVisitor
 
 ###########################################################

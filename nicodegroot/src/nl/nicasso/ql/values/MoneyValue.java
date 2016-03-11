@@ -48,12 +48,12 @@ public class MoneyValue extends Value {
 	
 	@Override
 	public Value division(Value arg) {
-		return new MoneyValue(value.divide((BigDecimal) arg.getValue()));
+		return arg.divisionToMoney(this);
 	}
 	
 	@Override
 	public Value multiplication(Value arg) {
-		return new MoneyValue(value.multiply((BigDecimal) arg.getValue()));
+		return arg.multiplicationToMoney(this);
 	}
 	
 	@Override
@@ -75,4 +75,11 @@ public class MoneyValue extends Value {
 	public Value lessEqual(Value arg) {
 		return new BooleanValue(value.compareTo((BigDecimal) arg.getValue()) <= 0);
 	}
+	
+	// DOUBLE DISPATCHING
+	
+	public Value multiplicationToInteger(IntegerValue v) {
+		return new MoneyValue(value.multiply(BigDecimal.valueOf(Double.parseDouble(Integer.toString(v.getValue())))));
+	}
+	
 }

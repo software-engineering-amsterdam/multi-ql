@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public class Multiply extends BinaryExpr {
 
-	public Multiply(ParserRuleContext context, Expr lhs, Expr rhs) {
-		super(context, lhs, rhs);
+	public Multiply(Expr lhs, Expr rhs) {
+		super(lhs, rhs);
 	}
 
 	@Override

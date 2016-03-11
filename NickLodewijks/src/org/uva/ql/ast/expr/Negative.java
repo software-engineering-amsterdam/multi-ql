@@ -1,11 +1,9 @@
 package org.uva.ql.ast.expr;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public class Negative extends UnaryExpr {
 
-	public Negative(ParserRuleContext context, Expr expr) {
-		super(context, expr);
+	public Negative(Expr expr) {
+		super(expr);
 	}
 
 	@Override

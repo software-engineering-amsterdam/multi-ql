@@ -4,144 +4,130 @@ import (
 	"fmt"
 	//"io/ioutil"
 	log "github.com/Sirupsen/logrus"
-	"ql/ast/expr"
-	"ql/ast/expr/binaryoperatorexpr"
-	"ql/ast/expr/lit"
-	"ql/ast/expr/unaryoperatorexpr"
+	"github.com/mattn/go-gtk/gtk"
 	"ql/ast/stmt"
-	"ql/ast/vari"
-	"ql/ast/vari/vartype"
-	"ql/ast/visit"
-	"ql/env"
+	"ql/ast/visitor"
+	"ql/interfaces"
 	"strconv"
+	"strings"
 )
 
 type GUI struct {
-	visit.Visitor
+	visitor.BaseVisitor
 	Form *GUIForm
 }
 
-func CreateGUI(form stmt.Form, symbolTable env.SymbolTable) {
-	gui := GUI{Form: &GUIForm{Title: form.Identifier.Ident}}
+func CreateGUI(form stmt.Form, symbolTable interfaces.SymbolTable, typeCheckerErrors []error) GUI {
+	gui := GUI{Form: &GUIForm{Title: form.Identifier.GetIdent()}}
 
 	gui.Form.SaveDataCallback = symbolTable.SaveToDisk
 
-	gui.Visit(form, symbolTable)
-}
+	form.Accept(gui, symbolTable)
 
-func (v GUI) Visit(t interface{}, s interface{}) interface{} {
-	symbolTable := s.(env.SymbolTable)
+	gui.Show()
 
-	switch t.(type) {
-	default:
-		panic(fmt.Sprintf("Unexpected node type %T", t))
-	case stmt.Form:
-		log.Debug("Visit Form")
-
-		t.(stmt.Form).Identifier.Accept(v, symbolTable)
-		t.(stmt.Form).Content.Accept(v, symbolTable)
-
-		v.Form.Show()
-	case stmt.StmtList:
-		log.Debug("Visit StmtList")
-
-		for _, question := range t.(stmt.StmtList).Questions {
-			question.Accept(v, symbolTable)
-		}
-
-		for _, conditional := range t.(stmt.StmtList).Conditionals {
-			conditional.Accept(v, symbolTable)
-		}
-
-	case stmt.InputQuestion:
-		log.Debug("Visit InputQuestion")
-
-		question := t.(stmt.InputQuestion)
-
-		var guiQuestion GUIInputQuestion
-		questionCallback := func(input interface{}, err error) {
-			if err != nil {
-				if numError, ok := err.(*strconv.NumError); err != nil && ok {
-					if numError.Err.Error() == "invalid syntax" {
-						guiQuestion.ChangeErrorLabelText("not a valid number")
-						log.Debug("Presenting invalid number error to user")
-					}
-				}
-
-				return
-			}
-
-			questionIdentifier := question.GetVarDecl().Ident
-			log.WithFields(log.Fields{"input": input, "identifier": questionIdentifier}).Debug("Question input received")
-			symbolTable.SetNodeForIdentifier(input, questionIdentifier)
-
-			v.updateComputedQuestions(symbolTable)
-		}
-
-		guiQuestion = CreateGUIInputQuestion(question.GetLabelAsString(), question.GetVarDecl().GetType(), questionCallback)
-		v.Form.AddInputQuestion(guiQuestion)
-
-		question.Label.Accept(v, symbolTable)
-		question.VarDecl.Accept(v, symbolTable)
-	case stmt.ComputedQuestion:
-		log.Debug("Visit ComputedQuestion")
-
-		question := t.(stmt.ComputedQuestion)
-
-		question.Label.Accept(v, symbolTable)
-		question.VarDecl.Accept(v, symbolTable)
-		question.Computation.Accept(v, symbolTable)
-
-		computation := question.Computation.(expr.Expr)
-		guiQuestion := CreateGUIComputedQuestion(question.GetLabelAsString(), question.VarDecl.GetType(), computation, question.VarDecl.GetIdentifier())
-
-		v.Form.AddComputedQuestion(guiQuestion)
-	case stmt.If:
-		log.Debug("Visit If")
-		t.(stmt.If).Cond.Accept(v, symbolTable)
-		t.(stmt.If).Body.Accept(v, symbolTable)
-	case stmt.IfElse:
-		log.Debug("Visit IfElse")
-		t.(stmt.IfElse).Cond.Accept(v, symbolTable)
-		t.(stmt.IfElse).IfBody.Accept(v, symbolTable)
-		t.(stmt.IfElse).ElseBody.Accept(v, symbolTable)
-	case vari.VarId:
-		log.Debug("Visit VarId")
-	case vari.VarDecl:
-		log.Debug("Visit VarDecl")
-		t.(vari.VarDecl).Ident.Accept(v, symbolTable)
-	case vartype.VarType:
-		log.Debug("Visit VarType")
-	case lit.StrLit:
-		log.Debug("Visit StrLit")
-	case lit.BoolLit:
-		log.Debug("Visit BoolLit")
-	case lit.IntLit:
-		log.Debug("Visit IntLit")
-	case binaryoperatorexpr.BinaryOperatorExpr:
-		log.Debug("Visit BinaryOperatorExpr")
-		t.(binaryoperatorexpr.BinaryOperatorExpr).GetLhs().(expr.Expr).Accept(v, symbolTable)
-		t.(binaryoperatorexpr.BinaryOperatorExpr).GetRhs().(expr.Expr).Accept(v, symbolTable)
-	case unaryoperatorexpr.UnaryOperatorExpr:
-		log.Debug("Visit UnaryOperatorExpr")
-		t.(unaryoperatorexpr.UnaryOperatorExpr).GetValue().(expr.Expr).Accept(v, symbolTable)
-	case expr.VarExpr:
-		log.Debug("Visit VarExpr")
+	if len(typeCheckerErrors) != 0 {
+		gui.ShowErrorDialog(typeCheckerErrors)
+	} else {
+		gui.Form.ShowForm()
 	}
 
-	return nil
+	gui.Form.Window.ShowAll()
+	gtk.Main()
+
+	return gui
 }
 
-func (g GUI) updateComputedQuestions(symbolTable env.SymbolTable) {
+func (g *GUI) Show() {
+	log.Info("Showing GUI")
+
+	gtk.Init(nil)
+
+	window := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
+	window.SetPosition(gtk.WIN_POS_CENTER)
+	window.SetTitle("QL")
+	window.SetIconName("gtk-dialog-info")
+
+	//window.SetSizeRequest(400, 400)
+	window.ShowAll()
+
+	g.Form.Window = window
+}
+
+func (g GUI) VisitComputedQuestion(c interfaces.ComputedQuestion, s interface{}) {
+	g.handleComputedQuestion(c, s.(interfaces.SymbolTable))
+}
+
+func (g GUI) VisitInputQuestion(i interfaces.InputQuestion, s interface{}) {
+	g.handleInputQuestion(i, s.(interfaces.SymbolTable))
+}
+
+func (v GUI) handleInputQuestion(question interfaces.InputQuestion, symbolTable interfaces.SymbolTable) {
+	var guiQuestion GUIInputQuestion
+	questionCallback := func(input interface{}, err error) {
+		if err != nil {
+			if numError, ok := err.(*strconv.NumError); err != nil && ok {
+				if numError.Err.Error() == "invalid syntax" {
+					guiQuestion.ChangeErrorLabelText("not a valid number")
+					log.Debug("Presenting invalid number error to user")
+				}
+			}
+
+			return
+		}
+
+		questionIdentifier := question.GetVarDecl().GetIdent()
+		log.WithFields(log.Fields{"input": input, "identifier": questionIdentifier}).Debug("Question input received")
+		symbolTable.SetNodeForIdentifier(input, questionIdentifier)
+
+		v.updateComputedQuestions(symbolTable)
+	}
+
+	guiQuestion = CreateGUIInputQuestion(question.GetLabelAsString(), question.GetVarDecl().GetType(), questionCallback)
+	v.Form.AddInputQuestion(guiQuestion)
+}
+
+func (v GUI) handleComputedQuestion(question interfaces.ComputedQuestion, symbolTable interfaces.SymbolTable) {
+	computation := question.GetComputation()
+	guiQuestion := CreateGUIComputedQuestion(question.GetLabelAsString(), question.GetVarDecl().GetType(), computation, question.GetVarDecl().GetIdent())
+
+	v.Form.AddComputedQuestion(guiQuestion)
+}
+
+func (g GUI) updateComputedQuestions(symbolTable interfaces.SymbolTable) {
 	for _, computedQuestion := range g.Form.ComputedQuestions {
 		computedQuestionEval := computedQuestion.Expr.Eval(symbolTable)
-		computedQuestion.GUIQuestion.ChangeElementText(fmt.Sprintf("%v", computedQuestionEval))
+		computedQuestion.ChangeElementText(fmt.Sprintf("%v", computedQuestionEval))
 
 		// save the computed value to the symbol table
 		symbolTable.SetNodeForIdentifier(computedQuestionEval, computedQuestion.VarId)
 
 		log.WithFields(log.Fields{"eval": computedQuestionEval}).Info("Computed question value changed")
 	}
+}
+
+func (g GUI) ShowErrorDialog(errors []error) {
+	errorStrings := []string{}
+	for _, singleError := range errors {
+		errorStrings = append(errorStrings, fmt.Sprintf("%s", singleError))
+	}
+
+	errorsAsString := strings.Join(errorStrings, "\n")
+
+	messagedialog := gtk.NewMessageDialog(
+		g.Form.Window,
+		gtk.DIALOG_MODAL,
+		gtk.MESSAGE_INFO,
+		gtk.BUTTONS_OK,
+		fmt.Sprintf("Errors encountered: \n%s", errorsAsString))
+
+	messagedialog.Response(func() {
+		log.Info("Error dialog displayed")
+
+		messagedialog.Destroy()
+	})
+
+	messagedialog.Run()
 }
 
 /*

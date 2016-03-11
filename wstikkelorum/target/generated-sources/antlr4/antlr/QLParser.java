@@ -955,28 +955,28 @@ public class QLParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(163); ((LiteralContext)_localctx).intLiteral = intLiteral();
-				 ((LiteralContext)_localctx).result =  new Literal(((LiteralContext)_localctx).intLiteral.result); 
+				 ((LiteralContext)_localctx).result =  new IntLiteral(((LiteralContext)_localctx).intLiteral.result); 
 				}
 				break;
 			case BOOL:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(166); ((LiteralContext)_localctx).boolLiteral = boolLiteral();
-				 ((LiteralContext)_localctx).result =  new Literal(((LiteralContext)_localctx).boolLiteral.result); 
+				 ((LiteralContext)_localctx).result =  new BoolLiteral(((LiteralContext)_localctx).boolLiteral.result); 
 				}
 				break;
 			case STR:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(169); ((LiteralContext)_localctx).stringLiteral = stringLiteral();
-				 ((LiteralContext)_localctx).result =  new Literal(((LiteralContext)_localctx).stringLiteral.result); 
+				 ((LiteralContext)_localctx).result =  new StringLiteral(((LiteralContext)_localctx).stringLiteral.result); 
 				}
 				break;
 			case ID:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(172); ((LiteralContext)_localctx).variableExpression = variableExpression();
-				((LiteralContext)_localctx).result =  new Literal(((LiteralContext)_localctx).variableExpression.result); 
+				((LiteralContext)_localctx).result =  new VariableExpression(((LiteralContext)_localctx).variableExpression.result); 
 				}
 				break;
 			default:

@@ -2,12 +2,11 @@ package stmt
 
 import (
 	"fmt"
-	"ql/ast/expr"
-	"ql/ast/visit"
+	"ql/interfaces"
 )
 
 type IfElse struct {
-	Cond     expr.Expr
+	Cond     interfaces.Expr
 	IfBody   StmtList
 	ElseBody StmtList
 }
@@ -17,9 +16,5 @@ func (i IfElse) String() string {
 }
 
 func (i IfElse) EvalCondition() bool {
-	return i.Cond.Eval(nil).(bool)
-}
-
-func (i IfElse) Accept(v visit.Visitor, s interface{}) interface{} {
-	return v.Visit(i, s)
+	return i.Cond.Eval(nil).(bool) // TODO symboltable
 }

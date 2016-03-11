@@ -1,52 +1,96 @@
-import { AnalyzingQlParser } from 'src/parser';
-import { NodeNormalizer } from 'src/ast_normalization';
-import { SemanticAnalyser } from 'src/ast_semantic_analysis';
+import { AnalyzingQlParser } from 'src/ql/parser';
+import { SemanticAnalyser } from 'src/ql/ast_semantic_analysis';
+import { Parser as QlsParser } from 'src/qls/parser';
 import { Log } from 'src/log';
-import { Renderer } from 'src/rendering';
+import { Renderer as QlRenderer} from 'src/ql/rendering';
+import { WidgetFactory as QlWidgetFactory } from 'src/ql/widgets';
+import { Renderer as QlsRenderer } from 'src/qls/rendering';
 import * as ace from 'ace';
 
 let LOCALSTORAGE_KEY = 'uva-software-process-ql-merijn-last-input',
-	editor = ace.edit('input'),
-	session = editor.getSession(),
-	logElement = document.getElementById('log'),
+	QLS_LOCALSTORAGE_KEY = 'uva-software-process-ql-merijn-last-input-qls',
+	qlEditor = ace.edit('input-ql'),
+	qlSession = qlEditor.getSession(),
+	qlLogElement = document.getElementById('log-ql'),
+	qlParser = new AnalyzingQlParser(new SemanticAnalyser()),
+	qlsEditor = ace.edit('input-qls'),
+	qlsSession = qlsEditor.getSession(),
+	qlsLogElement = document.getElementById('log-qls'),
+	qlsParser = new QlsParser(),
 	renderElement = document.getElementById('render'),
-	parser = new AnalyzingQlParser(new SemanticAnalyser()),
-	renderer = new Renderer(document);
+	qlRenderer = new QlRenderer(document),
+	qlsRenderer = new QlsRenderer(document, new QlWidgetFactory(document )),
+	qlAst,
+	qlsAst;
 
-session.on('change', function (e) {
+function addLogMessages(logMessages, type, outputMessages, annotations) {
 	"use strict";
 
-	let val = session.getValue(),
+	for (let logMessage of logMessages) {
+		outputMessages.push("[" + type + "] line(s): " + logMessage.lines.join(',') + " - " + logMessage.message);
+		for (let line of logMessage.lines) {
+			annotations.push({
+				'row': line-1,
+				'text': logMessage.message,
+				'type': type
+			});
+		}
+	}
+}
+
+function render() {
+	"use strict";
+
+	while (renderElement.firstChild !== null) {
+		renderElement.removeChild(renderElement.firstChild);
+	}
+	if (qlAst) {
+		if (qlsAst) {
+			qlsRenderer.render(qlAst, qlsAst, renderElement);
+		} else {
+			qlRenderer.render(qlAst, renderElement);
+		}
+	}
+}
+
+qlSession.on('change', function (e) {
+	"use strict";
+
+	let val = qlSession.getValue(),
 		log = new Log(),
-		ast,
 		outputMessages = [],
 		annotations = [];
 
-	function addLogMessages(logMessages, type) {
-		for (let logMessage of logMessages) {
-			outputMessages.push("[" + type + "] line(s): " + logMessage.lines.join(',') + " - " + logMessage.message);
-			for (let line of logMessage.lines) {
-				annotations.push({
-					'row': line-1,
-					'text': logMessage.message,
-					'type': type
-				});
-			}
-		}
-	}
-
 	window.localStorage.setItem(LOCALSTORAGE_KEY, val); // store before parse, as otherwise errors will block storing
 
-	ast = parser.parse(val, log);
-	addLogMessages(log.errors, 'error');
-	addLogMessages(log.warnings, 'warnings');
-	logElement.value = outputMessages.join("\n");
-	session.setAnnotations(annotations);
+	qlAst = qlParser.parse(val, log);
+	addLogMessages(log.errors, 'error', outputMessages, annotations);
+	addLogMessages(log.warnings, 'warning', outputMessages, annotations);
+	qlLogElement.value = outputMessages.join("\n");
+	qlSession.setAnnotations(annotations);
 	if (!log.hasErrors()) {
-		while (renderElement.firstChild !== null) {
-			renderElement.removeChild(renderElement.firstChild);
-		}
-		renderer.render(ast, renderElement);
+		render();
 	}
 });
-session.setValue(window.localStorage.getItem(LOCALSTORAGE_KEY));
+qlSession.setValue(window.localStorage.getItem(LOCALSTORAGE_KEY));
+
+qlsSession.on('change', function (e) {
+	"use strict";
+
+	let val = qlsSession.getValue(),
+		log = new Log(),
+		outputMessages = [],
+		annotations = [];
+
+	window.localStorage.setItem(QLS_LOCALSTORAGE_KEY, val);
+
+	qlsAst = qlsParser.parse(val, log);
+	addLogMessages(log.errors, 'error', outputMessages, annotations);
+	addLogMessages(log.warnings, 'warning', outputMessages, annotations);
+	qlsLogElement.value = outputMessages.join("\n");
+	qlsSession.setAnnotations(annotations);
+	if (!log.hasErrors()) {
+		render();
+	}
+});
+qlsSession.setValue(window.localStorage.getItem(QLS_LOCALSTORAGE_KEY));

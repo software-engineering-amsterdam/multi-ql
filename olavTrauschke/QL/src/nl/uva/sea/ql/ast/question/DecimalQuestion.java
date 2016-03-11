@@ -1,15 +1,15 @@
 package nl.uva.sea.ql.ast.question;
 
+import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s that return decimals in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 9-mrt-2016
  */
 public class DecimalQuestion extends Question {
     

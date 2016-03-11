@@ -20,6 +20,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         testQLParser()
         
 //        runTestBed()
+        
+//        testVisitorPattern()
+        
+//        visitorDemo()
+
+        
+        //func visitorDemo() {
+        //    let car: Visitable = Car()
+        //    print("digraph graphname {")
+        //    car.accept(CarElementPrintVisitor())
+        //    print("}")
+        //
+        ////    car.accept(CarElementDoVisitor())
+        //}
+        
+        
+        
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
@@ -30,23 +47,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let stream = readFile("questionsAndIfStatement", fileType: "ql")
         
         do {
-            let test = try QLParser().parseStream(stream!)
-            print("After parsing")
-            print(test.formName)
-            print(test.codeBlock)
+            let form = try QLParser().parseStream(stream!)
+
             
-            var temp = test.codeBlock[0] as! QLQuestion
-            print(temp.name)
-            print(temp.variable)
+            form.accept(TreePrinter())
             
-            temp = test.codeBlock[1] as! QLQuestion
-            print(temp.name)
-            print(temp.variable)
-            
-            
-            temp = test.codeBlock[2] as! QLQuestion
-            print(temp.name)
-            print(temp.variable)
+       
 
             
         } catch {
