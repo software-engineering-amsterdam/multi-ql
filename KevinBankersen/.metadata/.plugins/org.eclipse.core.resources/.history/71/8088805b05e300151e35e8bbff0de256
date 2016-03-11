@@ -1,5 +1,0 @@
-package eu.bankersen.kevin.ql.interpreter;
-
-public interface InterperterInterface {
-
-}

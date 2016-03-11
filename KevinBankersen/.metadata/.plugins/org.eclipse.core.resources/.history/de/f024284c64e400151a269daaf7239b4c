@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.ast;
-
-public interface AcceptVisitor<T, U> {
-    
-    T accept(BasicVisitor v, U context);
-
-}
