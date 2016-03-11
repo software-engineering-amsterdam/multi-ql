@@ -10,16 +10,6 @@ import Foundation
 
 
 internal class TypeChecker: SemanticAnalysisRule, QLNodeVisitor {
-    
-    typealias QLStatementVisitorParam   = Void?
-    typealias QLExpressionVisitorParam  = Void?
-    typealias QLLiteralVisitorParam     = Void?
-    typealias QLTypeVisitorParam        = Void?
-    typealias QLStatementVisitorReturn  = QLType
-    typealias QLExpressionVisitorReturn = QLType
-    typealias QLLiteralVisitorReturn    = QLType
-    typealias QLTypeVisitorReturn       = QLType
-    
     private var symbolTable: SymbolTable!
     private var errors: [SemanticError] = []
     

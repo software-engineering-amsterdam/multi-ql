@@ -27,12 +27,6 @@ private class ScopedSymbolTable: SymbolTable {
 
 
 internal class ScopeChecker: SemanticAnalysisRule, QLStatementVisitor, QLExpressionVisitor {
-    
-    typealias QLStatementVisitorParam   = Void?
-    typealias QLExpressionVisitorParam  = Void?
-    typealias QLStatementVisitorReturn  = Void
-    typealias QLExpressionVisitorReturn = Void
-    
     private var scopedSymbolTable: ScopedSymbolTable = ScopedSymbolTable(parent: nil)
     private var symbolTable: SymbolTable!
     private var errors: [SemanticError] = []

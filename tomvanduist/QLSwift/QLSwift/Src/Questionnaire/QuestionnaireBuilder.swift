@@ -10,10 +10,6 @@ import Foundation
 
 class QuestionnaireBuilder: NSObject, QLStatementVisitor {
     
-    typealias QLStatementVisitorParam   = (conditions: [QLExpression], context: QLContext, symbolTable: SymbolTable)
-    typealias QLStatementVisitorReturn  = [Question]
-    
-    
     func build(form: QLForm, symbolTable: SymbolTable) -> Questionnaire {
         return build([(form, symbolTable)])
     }

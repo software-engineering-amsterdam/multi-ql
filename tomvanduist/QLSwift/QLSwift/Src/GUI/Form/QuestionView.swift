@@ -9,9 +9,6 @@
 import UIKit
 
 class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
-    typealias QLTypeVisitorParam    = WidgetDelegate
-    typealias QLTypeVisitorReturn   = ViewWidget
-    
     private let heightConstraint: NSLayoutConstraint
 
     private let contentView = BaseView()

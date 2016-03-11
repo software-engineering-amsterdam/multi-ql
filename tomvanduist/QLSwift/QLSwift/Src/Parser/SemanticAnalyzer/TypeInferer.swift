@@ -10,18 +10,6 @@ import Foundation
 
 
 internal class TypeInferer: QLNodeVisitor {
-    typealias QLStatementVisitorParam   = Void?
-    typealias QLExpressionVisitorParam  = Void?
-    typealias QLLiteralVisitorParam     = Void?
-    typealias QLTypeVisitorParam        = Void?
-    typealias QLStatementVisitorReturn  = QLType
-    typealias QLExpressionVisitorReturn = QLType
-    typealias QLLiteralVisitorReturn    = QLType
-    typealias QLTypeVisitorReturn       = QLType
-    
-    typealias GenericParam  = QLForm
-    typealias GenericResult = SymbolTable
-    
     private var symbolTable: SymbolTable = SymbolTable()
     private var errors: [SemanticError] = []
     

@@ -69,10 +69,6 @@ class QLContext {
 
 private class QLContextVisitor: QLStatementVisitor {
     
-    typealias QLStatementVisitorParam   = QLContext
-    typealias QLExpressionVisitorParam  = QLContext
-    
-    
     // MARK: - QLStatementVisitor conformance
     
     func visit(node: QLBlock, param: QLContext) -> Void {

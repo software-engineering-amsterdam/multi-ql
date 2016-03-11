@@ -10,16 +10,6 @@ import Foundation
 
 
 internal class CyclicDependencyChecker: SemanticAnalysisRule, QLNodeVisitor {
-    
-    typealias QLStatementVisitorParam   = [String]
-    typealias QLExpressionVisitorParam  = [String]
-    typealias QLLiteralVisitorParam     = [String]
-    typealias QLTypeVisitorParam        = [String]
-    typealias QLStatementVisitorReturn  = [SemanticError]
-    typealias QLExpressionVisitorReturn = [SemanticError]
-    typealias QLLiteralVisitorReturn    = [SemanticError]
-    typealias QLTypeVisitorReturn       = [SemanticError]
-    
     private var symbolTable: SymbolTable = SymbolTable()
     
     
