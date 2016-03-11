@@ -3,7 +3,7 @@ package sc.qls.ast;
 import java.io.File;
 import java.io.IOException;
 
-import sc.ql.QLSemanticAnalyser;
+import sc.ql.SemanticAnalyser;
 import sc.ql.ast.form.QLForm;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIQuestionnaire;
@@ -21,7 +21,7 @@ public class QLSMain {
 		inputFile = new File("resources/Questionnaire.ql");
 
 		form = QLForm.create(inputFile);
-		new QLSemanticAnalyser().validateTypes(form);
+		new SemanticAnalyser().validateTypes(form);
 
 		styleSheet = QLSStyleSheet.create(new File("resources/Stylesheet.qls"));
 

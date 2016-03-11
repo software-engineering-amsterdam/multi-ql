@@ -5,11 +5,10 @@ grammar QL;
 import java.util.Map;
 import java.util.HashMap;
 import sc.ql.ast.*;
-import sc.ql.ast.expr.*;
 import sc.ql.ast.stat.*;
 import sc.ql.ast.type.*;
 import sc.ql.ast.form.*;
-import static sc.ql.ast.expr.Expression.*;
+import static sc.ql.ast.Expression.*;
 }
 
 @parser::members {

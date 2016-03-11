@@ -12,9 +12,9 @@ import java.util.Set;
 import sc.ql.CyclicReferences.CyclicReference;
 import sc.ql.CyclicReferences.ReferenceTable.Reference;
 import sc.ql.CyclicReferences.ReferenceTable.ReferencePath;
-import sc.ql.ast.QLTopDown;
-import sc.ql.ast.expr.Expression;
-import sc.ql.ast.expr.Expression.VariableExpr;
+import sc.ql.ast.Expression;
+import sc.ql.ast.TopDown;
+import sc.ql.ast.Expression.VariableExpr;
 import sc.ql.ast.form.QLForm;
 import sc.ql.ast.stat.QLQuestionComputed;
 
@@ -39,7 +39,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 		rt = new ReferenceTable();
 
-		form.accept(new QLTopDown<Void, Void>() {
+		form.accept(new TopDown<Void, Void>() {
 
 			@Override
 			public Void visit(QLQuestionComputed node, Void context) {
@@ -71,7 +71,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 		variables = new HashSet<>();
 
-		expr.accept(new QLTopDown<Void, Void>() {
+		expr.accept(new TopDown<Void, Void>() {
 
 			@Override
 			public Void visit(VariableExpr node, Void v) {

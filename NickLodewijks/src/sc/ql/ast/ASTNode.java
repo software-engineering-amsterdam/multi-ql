@@ -2,13 +2,13 @@ package sc.ql.ast;
 
 public abstract class ASTNode {
 
-	private ASTSourceInfo sourceInfo = new ASTSourceInfo();
+	private SourceLocation sourceInfo = new SourceLocation();
 
 	public ASTNode() {
 
 	}
 
-	public void setSourceInfo(ASTSourceInfo info) {
+	public void setSourceInfo(SourceLocation info) {
 		sourceInfo = info;
 	}
 

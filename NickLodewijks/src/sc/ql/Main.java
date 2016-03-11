@@ -7,7 +7,7 @@ import sc.ql.ast.form.QLForm;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIQuestionnaire;
 
-public class QLMain {
+public class Main {
 
 	public static void main(String[] args) throws IOException {
 		QLForm form;
@@ -17,7 +17,7 @@ public class QLMain {
 		inputFile = new File("resources/Questionnaire.ql");
 
 		form = QLForm.create(inputFile);
-		new QLSemanticAnalyser().validateTypes(form);
+		new SemanticAnalyser().validateTypes(form);
 
 		createUI(form);
 	}

@@ -1,27 +1,26 @@
 package sc.ql.ast;
 
-import sc.ql.ast.expr.ExprVisitor;
-import sc.ql.ast.expr.Expression.Add;
-import sc.ql.ast.expr.Expression.And;
-import sc.ql.ast.expr.Expression.BinaryExpr;
-import sc.ql.ast.expr.Expression.BooleanLiteral;
-import sc.ql.ast.expr.Expression.Divide;
-import sc.ql.ast.expr.Expression.Equals;
-import sc.ql.ast.expr.Expression.EqualsNot;
-import sc.ql.ast.expr.Expression.GreaterThan;
-import sc.ql.ast.expr.Expression.GreaterThanOrEqual;
-import sc.ql.ast.expr.Expression.IntegerLiteral;
-import sc.ql.ast.expr.Expression.LessThan;
-import sc.ql.ast.expr.Expression.LessThanOrEqual;
-import sc.ql.ast.expr.Expression.Multiply;
-import sc.ql.ast.expr.Expression.Negative;
-import sc.ql.ast.expr.Expression.Not;
-import sc.ql.ast.expr.Expression.Or;
-import sc.ql.ast.expr.Expression.Positive;
-import sc.ql.ast.expr.Expression.StringLiteral;
-import sc.ql.ast.expr.Expression.Subtract;
-import sc.ql.ast.expr.Expression.UnaryExpr;
-import sc.ql.ast.expr.Expression.VariableExpr;
+import sc.ql.ast.Expression.Add;
+import sc.ql.ast.Expression.And;
+import sc.ql.ast.Expression.BinaryExpr;
+import sc.ql.ast.Expression.BooleanLiteral;
+import sc.ql.ast.Expression.Divide;
+import sc.ql.ast.Expression.Equals;
+import sc.ql.ast.Expression.EqualsNot;
+import sc.ql.ast.Expression.GreaterThan;
+import sc.ql.ast.Expression.GreaterThanOrEqual;
+import sc.ql.ast.Expression.IntegerLiteral;
+import sc.ql.ast.Expression.LessThan;
+import sc.ql.ast.Expression.LessThanOrEqual;
+import sc.ql.ast.Expression.Multiply;
+import sc.ql.ast.Expression.Negative;
+import sc.ql.ast.Expression.Not;
+import sc.ql.ast.Expression.Or;
+import sc.ql.ast.Expression.Positive;
+import sc.ql.ast.Expression.StringLiteral;
+import sc.ql.ast.Expression.Subtract;
+import sc.ql.ast.Expression.UnaryExpr;
+import sc.ql.ast.Expression.VariableExpr;
 import sc.ql.ast.form.QLBlock;
 import sc.ql.ast.form.QLForm;
 import sc.ql.ast.form.QLFormVisitor;
@@ -35,8 +34,8 @@ import sc.ql.ast.type.QLIntegerType;
 import sc.ql.ast.type.QLStringType;
 import sc.ql.ast.type.QLTypeVisitor;
 
-public class QLTopDown<T, U>
-		implements ExprVisitor<T, U>, QLFormVisitor<T, U>, QLStatementVisitor<T, U>, QLTypeVisitor<T, U> {
+public class TopDown<T, U>
+		implements ExpressionVisitor<T, U>, QLFormVisitor<T, U>, QLStatementVisitor<T, U>, QLTypeVisitor<T, U> {
 
 	public T visit(BinaryExpr node, U context) {
 		node.left().accept(this, context);

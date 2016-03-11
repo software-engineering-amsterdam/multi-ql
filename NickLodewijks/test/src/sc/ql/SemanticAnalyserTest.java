@@ -6,8 +6,8 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 
-import sc.ql.QLSemanticAnalyser;
-import sc.ql.QLSemanticAnalyser.SemanticErrors;
+import sc.ql.SemanticAnalyser;
+import sc.ql.SemanticAnalyser.SemanticErrors;
 import sc.ql.ast.form.QLForm;
 
 public class SemanticAnalyserTest {
@@ -16,7 +16,7 @@ public class SemanticAnalyserTest {
 	public void testDuplicateQuestions() throws IOException {
 		SemanticErrors result;
 
-		result = new QLSemanticAnalyser().validate(createQuestionnaire("DuplicateQuestions.ql"));
+		result = new SemanticAnalyser().validate(createQuestionnaire("DuplicateQuestions.ql"));
 
 		result.print();
 		assertNumberOfWarnings(result, 4);
@@ -27,7 +27,7 @@ public class SemanticAnalyserTest {
 	public void testDuplicateQuestionsNested() throws IOException {
 		SemanticErrors result;
 
-		result = new QLSemanticAnalyser().validate(createQuestionnaire("DuplicateQuestionsNested.ql"));
+		result = new SemanticAnalyser().validate(createQuestionnaire("DuplicateQuestionsNested.ql"));
 
 		result.print();
 		assertNumberOfWarnings(result, 4);
@@ -38,7 +38,7 @@ public class SemanticAnalyserTest {
 	public void testCyclicReferences() throws IOException {
 		SemanticErrors result;
 
-		result = new QLSemanticAnalyser().validateCyclicReferences(createQuestionnaire("CyclicReferences.ql"));
+		result = new SemanticAnalyser().validateCyclicReferences(createQuestionnaire("CyclicReferences.ql"));
 
 		result.print();
 		assertNumberOfErrors(result, 6);
@@ -49,7 +49,7 @@ public class SemanticAnalyserTest {
 	public void testValidQuestions() throws IOException {
 		SemanticErrors result;
 
-		result = new QLSemanticAnalyser().validate(createQuestionnaire("ValidQuestions.ql"));
+		result = new SemanticAnalyser().validate(createQuestionnaire("ValidQuestions.ql"));
 
 		result.print();
 		assertNumberOfErrors(result, 0);

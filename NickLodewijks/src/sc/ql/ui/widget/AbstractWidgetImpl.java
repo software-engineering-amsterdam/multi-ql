@@ -2,17 +2,17 @@ package sc.ql.ui.widget;
 
 import javax.swing.SwingUtilities;
 
-import sc.ql.QLContext;
+import sc.ql.Environment;
 import sc.ql.ast.value.Value;
 import sc.ql.ui.UIWidget;
 
 public abstract class AbstractWidgetImpl implements UIWidget {
 
 	private final String variableName;
-	private final QLContext context;
+	private final Environment context;
 	private final Value defaultValue;
 
-	public AbstractWidgetImpl(QLContext context, String variableName, Value defaultValue) {
+	public AbstractWidgetImpl(Environment context, String variableName, Value defaultValue) {
 		this.variableName = variableName;
 		this.context = context;
 		this.defaultValue = defaultValue;

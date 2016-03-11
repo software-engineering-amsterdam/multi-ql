@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
-import sc.ql.QLContext;
+import sc.ql.Environment;
 import sc.ql.ast.value.Value;
 import sc.ql.ui.UIWidgetChoice;
 import sc.ql.ui.UIWidgetChoices;
@@ -43,7 +43,7 @@ public class RadioButtonWidget extends AbstractWidgetImpl implements ActionListe
 		}
 	};
 
-	public RadioButtonWidget(QLContext context, String variableName, UIWidgetChoices choices) {
+	public RadioButtonWidget(Environment context, String variableName, UIWidgetChoices choices) {
 		super(context, variableName, choices.getDefaultChoice().getValue());
 		ButtonGroup bg;
 

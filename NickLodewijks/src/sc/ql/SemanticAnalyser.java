@@ -8,30 +8,30 @@ import java.util.Map;
 import java.util.Set;
 
 import sc.ql.CyclicReferences.CyclicReference;
-import sc.ql.QLSemanticAnalyser.SemanticMessage.Level;
-import sc.ql.ast.QLTopDown;
-import sc.ql.ast.expr.ExprVisitor;
-import sc.ql.ast.expr.Expression;
-import sc.ql.ast.expr.Expression.Add;
-import sc.ql.ast.expr.Expression.And;
-import sc.ql.ast.expr.Expression.BinaryExpr;
-import sc.ql.ast.expr.Expression.BooleanLiteral;
-import sc.ql.ast.expr.Expression.Divide;
-import sc.ql.ast.expr.Expression.Equals;
-import sc.ql.ast.expr.Expression.EqualsNot;
-import sc.ql.ast.expr.Expression.GreaterThan;
-import sc.ql.ast.expr.Expression.GreaterThanOrEqual;
-import sc.ql.ast.expr.Expression.IntegerLiteral;
-import sc.ql.ast.expr.Expression.LessThan;
-import sc.ql.ast.expr.Expression.LessThanOrEqual;
-import sc.ql.ast.expr.Expression.Multiply;
-import sc.ql.ast.expr.Expression.Negative;
-import sc.ql.ast.expr.Expression.Not;
-import sc.ql.ast.expr.Expression.Or;
-import sc.ql.ast.expr.Expression.Positive;
-import sc.ql.ast.expr.Expression.StringLiteral;
-import sc.ql.ast.expr.Expression.Subtract;
-import sc.ql.ast.expr.Expression.VariableExpr;
+import sc.ql.SemanticAnalyser.SemanticMessage.Level;
+import sc.ql.ast.Expression;
+import sc.ql.ast.ExpressionVisitor;
+import sc.ql.ast.TopDown;
+import sc.ql.ast.Expression.Add;
+import sc.ql.ast.Expression.And;
+import sc.ql.ast.Expression.BinaryExpr;
+import sc.ql.ast.Expression.BooleanLiteral;
+import sc.ql.ast.Expression.Divide;
+import sc.ql.ast.Expression.Equals;
+import sc.ql.ast.Expression.EqualsNot;
+import sc.ql.ast.Expression.GreaterThan;
+import sc.ql.ast.Expression.GreaterThanOrEqual;
+import sc.ql.ast.Expression.IntegerLiteral;
+import sc.ql.ast.Expression.LessThan;
+import sc.ql.ast.Expression.LessThanOrEqual;
+import sc.ql.ast.Expression.Multiply;
+import sc.ql.ast.Expression.Negative;
+import sc.ql.ast.Expression.Not;
+import sc.ql.ast.Expression.Or;
+import sc.ql.ast.Expression.Positive;
+import sc.ql.ast.Expression.StringLiteral;
+import sc.ql.ast.Expression.Subtract;
+import sc.ql.ast.Expression.VariableExpr;
 import sc.ql.ast.form.QLBlock;
 import sc.ql.ast.form.QLForm;
 import sc.ql.ast.form.QLFormVisitor;
@@ -42,9 +42,9 @@ import sc.ql.ast.stat.QLQuestionInput;
 import sc.ql.ast.stat.QLStatementVisitor;
 import sc.ql.ast.type.QLType;
 
-public class QLSemanticAnalyser {
+public class SemanticAnalyser {
 
-	public QLSemanticAnalyser() {
+	public SemanticAnalyser() {
 
 	}
 
@@ -83,7 +83,7 @@ public class QLSemanticAnalyser {
 
 		qt = new QuestionTable();
 
-		form.accept(new QLTopDown<Void, Void>() {
+		form.accept(new TopDown<Void, Void>() {
 
 			@Override
 			public Void visit(QLQuestionComputed node, Void context) {
@@ -184,7 +184,7 @@ public class QLSemanticAnalyser {
 		return result;
 	}
 
-	private static class TypeCheckVisitor implements ExprVisitor<QLType, SymbolTable>, QLFormVisitor<Void, SymbolTable>,
+	private static class TypeCheckVisitor implements ExpressionVisitor<QLType, SymbolTable>, QLFormVisitor<Void, SymbolTable>,
 			QLStatementVisitor<Void, SymbolTable> {
 
 		private SemanticErrors result;

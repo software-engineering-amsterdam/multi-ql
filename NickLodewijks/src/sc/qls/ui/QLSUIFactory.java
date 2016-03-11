@@ -13,7 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import sc.ql.QLContext;
+import sc.ql.Environment;
 import sc.ql.ast.stat.QLQuestion;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIForm;
@@ -41,7 +41,7 @@ public class QLSUIFactory extends UIFactory {
 	}
 
 	@Override
-	protected UIWidget createValueWidget(QLQuestion question, QLContext context) {
+	protected UIWidget createValueWidget(QLQuestion question, Environment context) {
 		QLSWidgetType widgetType;
 		QLSWidget widget;
 		UIWidget uiWidget;

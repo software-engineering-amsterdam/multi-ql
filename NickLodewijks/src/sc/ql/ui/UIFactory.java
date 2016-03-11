@@ -14,13 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import sc.ql.QLContext;
-import sc.ql.QLContext.ContextListener;
-import sc.ql.QLInterpreter;
-import sc.ql.ast.QLTopDown;
-import sc.ql.ast.expr.Expression;
-import sc.ql.ast.expr.Expression.And;
-import sc.ql.ast.expr.Expression.BooleanLiteral;
+import sc.ql.Environment;
+import sc.ql.Environment.ContextListener;
+import sc.ql.Interpreter;
+import sc.ql.ast.Expression;
+import sc.ql.ast.TopDown;
+import sc.ql.ast.Expression.And;
+import sc.ql.ast.Expression.BooleanLiteral;
 import sc.ql.ast.form.QLForm;
 import sc.ql.ast.stat.QLIFStatement;
 import sc.ql.ast.stat.QLQuestion;
@@ -54,14 +54,14 @@ public class UIFactory {
 	}
 
 	public UIQuestionnaire create(QLForm form) {
-		QLContext context;
+		Environment context;
 		UIForm uiForm;
 
-		context = new QLContext();
+		context = new Environment();
 
 		uiForm = createForm();
 
-		form.accept(new QLTopDown<Void, Expression>() {
+		form.accept(new TopDown<Void, Expression>() {
 
 			@Override
 			public Void visit(QLIFStatement node, Expression condition) {
@@ -101,11 +101,11 @@ public class UIFactory {
 		return new DefaultUIForm();
 	}
 
-	private UIQuestion create(QLContext context, QLQuestion question, Expression condition) {
+	private UIQuestion create(Environment context, QLQuestion question, Expression condition) {
 		return create(context, question, condition, null);
 	}
 
-	private UIQuestion create(QLContext context, QLQuestion question, Expression condition,
+	private UIQuestion create(Environment context, QLQuestion question, Expression condition,
 			Expression valueComputation) {
 		UIWidget labelWidget;
 		UIWidget valueWidget;
@@ -120,7 +120,7 @@ public class UIFactory {
 		return new LabelWidget(question.getLabel());
 	}
 
-	protected UIWidget createValueWidget(QLQuestion question, QLContext context) {
+	protected UIWidget createValueWidget(QLQuestion question, Environment context) {
 		return question.getType().accept(new QLTypeVisitor<UIWidget, Void>() {
 
 			@Override
@@ -228,7 +228,7 @@ public class UIFactory {
 		private final UIWidget labelWidget;
 		private final UIWidget valueWidget;
 
-		public DefaultUIQuestion(QLContext context, QLQuestion question, UIWidget labelWidget, UIWidget valueWidget,
+		public DefaultUIQuestion(Environment context, QLQuestion question, UIWidget labelWidget, UIWidget valueWidget,
 				Expression condition, Expression valueComputation) {
 			this.question = question;
 			this.condition = condition;
@@ -252,12 +252,12 @@ public class UIFactory {
 			return question.getId();
 		}
 
-		public boolean isEnabled(QLContext context) {
-			return QLInterpreter.interpret(condition, context).equals(BooleanValue.TRUE);
+		public boolean isEnabled(Environment context) {
+			return Interpreter.interpret(condition, context).equals(BooleanValue.TRUE);
 		}
 
 		@Override
-		public void contextChanged(QLContext context) {
+		public void contextChanged(Environment context) {
 			setVisible(isEnabled(context));
 
 			if (valueComputation != null) {

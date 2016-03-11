@@ -1,6 +1,6 @@
 package sc.ql.ast.stat;
 
-import sc.ql.ast.expr.Expression;
+import sc.ql.ast.Expression;
 import sc.ql.ast.type.QLType;
 
 public final class QLQuestionComputed extends QLQuestion {

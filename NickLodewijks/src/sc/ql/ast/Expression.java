@@ -1,4 +1,4 @@
-package sc.ql.ast.expr;
+package sc.ql.ast;
 
 import java.io.IOException;
 
@@ -6,7 +6,6 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
-import sc.ql.ast.ASTNode;
 import sc.ql.ast.value.BooleanValue;
 import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
@@ -15,7 +14,7 @@ import sc.ql.parser.QLParser;
 
 public abstract class Expression extends ASTNode {
 
-	public abstract <T, U> T accept(ExprVisitor<T, U> visitor, U context);
+	public abstract <T, U> T accept(ExpressionVisitor<T, U> visitor, U context);
 
 	public static Expression create(String text) throws IOException {
 		TokenStream tokenStream;
@@ -53,7 +52,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -65,7 +64,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -77,7 +76,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -89,7 +88,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -101,7 +100,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -113,7 +112,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -125,7 +124,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -137,7 +136,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -149,7 +148,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -161,7 +160,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -173,7 +172,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -185,7 +184,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -210,7 +209,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -222,7 +221,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -234,7 +233,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -252,7 +251,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -270,7 +269,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -288,7 +287,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
@@ -309,7 +308,7 @@ public abstract class Expression extends ASTNode {
 		}
 
 		@Override
-		public <T, U> T accept(ExprVisitor<T, U> visitor, U context) {
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 			return visitor.visit(this, context);
 		}
 	}
