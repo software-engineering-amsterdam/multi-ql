@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
+class QuestionView: BaseView, WidgetDelegate, ContextDelegate, QLTypeVisitor {
     private let heightConstraint: NSLayoutConstraint
 
     private let contentView = BaseView()
@@ -67,7 +67,7 @@ class QuestionView: BaseView, WidgetDelegate, QLContextDelegate, QLTypeVisitor {
 
 extension QuestionView {
     
-    func contextUpdated(context: QLContext) {
+    func contextUpdated(context: Context) {
         update()
     }
 }

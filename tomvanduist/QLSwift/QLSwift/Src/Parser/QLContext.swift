@@ -1,5 +1,5 @@
 //
-//  QLContext.swift
+//  Context.swift
 //  QLSwift
 //
 //  Created by Tom van Duist on 03/03/16.
@@ -8,27 +8,27 @@
 
 import Foundation
 
-protocol QLContextDelegate: class {
-    func contextUpdated(context: QLContext)
+protocol ContextDelegate: class {
+    func contextUpdated(context: Context)
 }
 
 
-class QLContext {
+class Context {
     private var variableContext = [String: NSObject]()
     private var computedContext = [String: QLExpression]()
     
-    private var delegates = [QLContextDelegate]()
+    private var delegates = [ContextDelegate]()
     
     
     required init(form: QLForm) {
         setDefaults(form)
     }
     
-    func subscribe(delegate: QLContextDelegate) {
+    func subscribe(delegate: ContextDelegate) {
         delegates.append(delegate)
     }
     
-    func unsubscribe(delegate: QLContextDelegate) {
+    func unsubscribe(delegate: ContextDelegate) {
         delegates = delegates.filter { "\($0)" != "\(delegate)" }
     }
     
@@ -56,7 +56,7 @@ class QLContext {
     }
     
     private func setDefaults(form: QLForm) {
-        form.block.accept(QLContextVisitor(), param: self)
+        form.block.accept(ContextVisitor(), param: self)
     }
     
     private func notifyDelegates() {
@@ -67,27 +67,27 @@ class QLContext {
 }
 
 
-private class QLContextVisitor: QLStatementVisitor {
+private class ContextVisitor: QLStatementVisitor {
     
     // MARK: - QLStatementVisitor conformance
     
-    func visit(node: QLBlock, param: QLContext) -> Void {
+    func visit(node: QLBlock, param: Context) -> Void {
         for statement in node.block {
             statement.accept(self, param: param)
         }
     }
     
-    func visit(node: QLConditional, param: QLContext) -> Void {
+    func visit(node: QLConditional, param: Context) -> Void {
         for statement in node.ifBlock.block {
             statement.accept(self, param: param)
         }
     }
     
-    func visit(node: QLVariableQuestion, param: QLContext) -> Void {
+    func visit(node: QLVariableQuestion, param: Context) -> Void {
         param.assign(node.identifier.id, value: nil)
     }
     
-    func visit(node: QLComputedQuestion, param: QLContext) -> Void {
+    func visit(node: QLComputedQuestion, param: Context) -> Void {
         param.assign(node.identifier.id, expression: node.expression)
     }
 }

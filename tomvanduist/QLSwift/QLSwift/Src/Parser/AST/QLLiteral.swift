@@ -9,7 +9,7 @@
 import Foundation
 
 protocol QLLiteral: QLNode, QLLiteralVisitable {
-    func eval(context: QLContext) -> NSObject
+    func eval(context: Context) -> NSObject
 }
 
 class QLStringLiteral: QLLiteral {
@@ -23,7 +23,7 @@ class QLStringLiteral: QLLiteral {
         return "String"
     }
     
-    func eval(context: QLContext) -> NSObject {
+    func eval(context: Context) -> NSObject {
         return value
     }
     
@@ -43,7 +43,7 @@ class QLIntegerLiteral: QLLiteral {
         return "\(value)"
     }
     
-    func eval(context: QLContext) -> NSObject {
+    func eval(context: Context) -> NSObject {
         return value
     }
     
@@ -63,7 +63,7 @@ class QLFloatLiteral: QLLiteral {
         return "\(value)"
     }
     
-    func eval(context: QLContext) -> NSObject {
+    func eval(context: Context) -> NSObject {
         return value
     }
     
@@ -84,7 +84,7 @@ class QLBooleanLiteral: QLLiteral {
         return "Bool"
     }
     
-    func eval(context: QLContext) -> NSObject {
+    func eval(context: Context) -> NSObject {
         return value
     }
     

@@ -9,14 +9,14 @@
 import Foundation
 
 class Question: NSObject {
-    let context: QLContext
+    let context: Context
     let conditions: [QLExpression]
     let identifier: String
     let question: String
     let type: QLType
     let isComputed: Bool
     
-    init(question: QLVariableQuestion, conditions: [QLExpression], context: QLContext) {
+    init(question: QLVariableQuestion, conditions: [QLExpression], context: Context) {
         self.context = context
         self.conditions = conditions
         self.identifier = question.identifier.id
@@ -25,7 +25,7 @@ class Question: NSObject {
         self.isComputed = false
     }
     
-    init(question: QLComputedQuestion, type: QLType, conditions: [QLExpression], context: QLContext) {
+    init(question: QLComputedQuestion, type: QLType, conditions: [QLExpression], context: Context) {
         self.context = context
         self.conditions = conditions
         self.identifier = question.identifier.id

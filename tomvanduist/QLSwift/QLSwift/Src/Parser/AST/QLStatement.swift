@@ -92,7 +92,7 @@ class QLConditional: QLStatement {
         return "\(condition.toString())"
     }
     
-    func isSatisfied(context: QLContext) -> Bool {
+    func isSatisfied(context: Context) -> Bool {
         if let isSatisfied = condition.eval(context) as? Bool {
             return isSatisfied
         }

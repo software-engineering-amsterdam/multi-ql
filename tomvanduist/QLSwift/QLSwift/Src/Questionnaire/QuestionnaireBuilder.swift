@@ -18,7 +18,7 @@ class QuestionnaireBuilder: NSObject, QLStatementVisitor {
         var questions = [Question]()
         
         for (form, symbolTable) in multiple {
-            questions += form.block.accept(self, param: (conditions: [], context: QLContext(form: form), symbolTable: symbolTable))
+            questions += form.block.accept(self, param: (conditions: [], context: Context(form: form), symbolTable: symbolTable))
         }
         
         return Questionnaire(questions: questions)
@@ -30,24 +30,24 @@ class QuestionnaireBuilder: NSObject, QLStatementVisitor {
 
 extension QuestionnaireBuilder {
     
-    func visit(node: QLVariableQuestion, param: (conditions: [QLExpression], context: QLContext, symbolTable: SymbolTable)) -> [Question] {
+    func visit(node: QLVariableQuestion, param: (conditions: [QLExpression], context: Context, symbolTable: SymbolTable)) -> [Question] {
         return [Question(question: node, conditions: param.conditions, context: param.context)]
     }
     
-    func visit(node: QLComputedQuestion, param: (conditions: [QLExpression], context: QLContext, symbolTable: SymbolTable)) -> [Question] {
+    func visit(node: QLComputedQuestion, param: (conditions: [QLExpression], context: Context, symbolTable: SymbolTable)) -> [Question] {
         guard let type = param.symbolTable.retrieveType(node.identifier.id)
             else { fatalError() }
         
         return [Question(question: node, type: type, conditions: param.conditions, context: param.context)]
     }
     
-    func visit(node: QLConditional, var param: (conditions: [QLExpression], context: QLContext, symbolTable: SymbolTable)) -> [Question] {
+    func visit(node: QLConditional, var param: (conditions: [QLExpression], context: Context, symbolTable: SymbolTable)) -> [Question] {
         param.conditions = param.conditions + [node.condition]
 
         return node.ifBlock.accept(self, param: param)
     }
     
-    func visit(node: QLBlock, param: (conditions: [QLExpression], context: QLContext, symbolTable: SymbolTable)) -> [Question] {
+    func visit(node: QLBlock, param: (conditions: [QLExpression], context: Context, symbolTable: SymbolTable)) -> [Question] {
         var questions = [Question]()
         
         for statement in node.block {

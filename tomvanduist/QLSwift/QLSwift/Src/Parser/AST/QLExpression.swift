@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol QLExpression: QLNode, QLExpressionVisitable {
-    func eval(context: QLContext) -> NSObject?
+    func eval(context: Context) -> NSObject?
 }
 
 class QLVariable: QLExpression {
@@ -24,7 +24,7 @@ class QLVariable: QLExpression {
         return id
     }
     
-    func eval(context: QLContext) -> NSObject? {
+    func eval(context: Context) -> NSObject? {
         return context.retrieve(id)
     }
     
@@ -44,7 +44,7 @@ class QLLiteralExpression: QLExpression {
         return literal.toString()
     }
     
-    func eval(context: QLContext) -> NSObject? {
+    func eval(context: Context) -> NSObject? {
         return literal.eval(context)
     }
     
@@ -64,7 +64,7 @@ class QLUnary {
         fatalError("Override")
     }
     
-    func eval(context: QLContext) -> NSObject? {
+    func eval(context: Context) -> NSObject? {
         fatalError("Override")
     }
 }
@@ -78,7 +78,7 @@ class QLNot: QLUnary, QLExpression {
         return "!"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let value = rhs.eval(context) as? Bool
             else { return nil }
         
@@ -99,7 +99,7 @@ class QLNeg: QLUnary, QLExpression {
         return "-"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let value = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -123,7 +123,7 @@ class QLBinary: QLExpression {
         fatalError("Override")
     }
     
-    func eval(context: QLContext) -> NSObject? {
+    func eval(context: Context) -> NSObject? {
         fatalError("Override")
     }
     
@@ -141,7 +141,7 @@ class QLAdd: QLBinary {
         return "+"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -162,7 +162,7 @@ class QLSub: QLBinary {
         return "-"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -183,7 +183,7 @@ class QLMul: QLBinary {
         return "*"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -204,7 +204,7 @@ class QLDiv: QLBinary {
         return "/"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -225,7 +225,7 @@ class QLPow: QLBinary {
         return "^"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? Double, rval = rhs.eval(context) as? Double
             else { return nil }
         
@@ -246,7 +246,7 @@ class QLEq: QLBinary {
         return "=="
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context), rval = rhs.eval(context)
             else { return nil }
         
@@ -267,7 +267,7 @@ class QLNe: QLBinary {
         return "!="
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context), rval = rhs.eval(context)
             else { return nil }
         
@@ -288,7 +288,7 @@ class QLGe: QLBinary {
         return ">="
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -309,7 +309,7 @@ class QLGt: QLBinary {
         return ">"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -330,7 +330,7 @@ class QLLe: QLBinary {
         return "<="
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -351,7 +351,7 @@ class QLLt: QLBinary {
         return "<"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? NSInteger, rval = rhs.eval(context) as? NSInteger
             else { return nil }
         
@@ -372,7 +372,7 @@ class QLAnd: QLBinary {
         return "&&"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? Bool, rval = rhs.eval(context) as? Bool
             else { return nil }
         
@@ -393,7 +393,7 @@ class QLOr: QLBinary {
         return "||"
     }
     
-    override func eval(context: QLContext) -> NSObject? {
+    override func eval(context: Context) -> NSObject? {
         guard let lval = lhs.eval(context) as? Bool, rval = rhs.eval(context) as? Bool
             else { return nil }
         
