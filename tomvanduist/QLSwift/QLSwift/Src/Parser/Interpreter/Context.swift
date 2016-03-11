@@ -119,28 +119,3 @@ private class ComputedContextFiller: QLStatementVisitor {
         node.ifBlock.accept(self, param: param)
     }
 }
-
-//private class SymbolTableFiller: QLStatementVisitor {
-//    
-//    func fill(form: QLForm, context: Context) {
-//        form.block.accept(self, param: context)
-//    }
-//    
-//    func visit(node: QLVariableQuestion, param context: Context) -> Void {
-//        context.assign(node.identifier.id, type: node.type)
-//    }
-//    
-//    func visit(node: QLComputedQuestion, param context: Context) -> Void {
-//        context.assign(node.identifier.id, type: TypeInferer().inferType(node, context: context))
-//    }
-//    
-//    func visit(node: QLBlock, param: Context) -> Void {
-//        for statement in node.block {
-//            statement.accept(self, param: param)
-//        }
-//    }
-//    
-//    func visit(node: QLConditional, param: Context) -> Void {
-//        node.ifBlock.accept(self, param: param)
-//    }
-//}

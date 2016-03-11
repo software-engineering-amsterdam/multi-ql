@@ -32,7 +32,6 @@
 		E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */; };
 		E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
 		E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
-		E23493101C6CD55000B40020 /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930F1C6CD55000B40020 /* SymbolTable.swift */; };
 		E23493121C6CD59F00B40020 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493111C6CD59F00B40020 /* Parser.swift */; };
 		E24CCE911C90498600ACA633 /* QLNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */; };
 		E24CCE931C9049CC00ACA633 /* QLNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */; };
@@ -83,7 +82,6 @@
 		E2D518AA1C700252008030C4 /* QLStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* QLStatement.swift */; };
 		E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
 		E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
-		E2D518AD1C70025E008030C4 /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930F1C6CD55000B40020 /* SymbolTable.swift */; };
 		E2D518AE1C700270008030C4 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493111C6CD59F00B40020 /* Parser.swift */; };
 		E2D518AF1C700287008030C4 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAB01C6CDF350009E869 /* StringExtension.swift */; };
 		E2D518B01C700292008030C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
@@ -184,7 +182,6 @@
 		E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleForms.ql; path = Resources/QL/FormTests/SimpleForms.ql; sourceTree = "<group>"; };
 		E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalyzer.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift; sourceTree = "<group>"; };
 		E234930D1C6CCE6700B40020 /* SemanticError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticError.swift; path = Src/Parser/SemanticAnalyzer/SemanticError.swift; sourceTree = "<group>"; };
-		E234930F1C6CD55000B40020 /* SymbolTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SymbolTable.swift; path = Src/Parser/SemanticAnalyzer/SymbolTable.swift; sourceTree = "<group>"; };
 		E23493111C6CD59F00B40020 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Src/Parser/Parser.swift; sourceTree = "<group>"; };
 		E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLNodeVisitor.swift; path = Src/Parser/AST/Visitors/QLNodeVisitor.swift; sourceTree = "<group>"; };
 		E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalysisRule.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/SemanticAnalysisRule.swift; sourceTree = "<group>"; };
@@ -312,7 +309,6 @@
 				E24CCE941C9060F800ACA633 /* SemanticAnalysisRules */,
 				E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */,
 				E234930D1C6CCE6700B40020 /* SemanticError.swift */,
-				E234930F1C6CD55000B40020 /* SymbolTable.swift */,
 			);
 			name = SemanticAnalyzer;
 			sourceTree = "<group>";
@@ -848,7 +844,6 @@
 				E20B2B081C884FD00096BA51 /* QLStatementVisitor.swift in Sources */,
 				E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */,
 				E2E3FE331C91BD7B0007E894 /* UITextField.swift in Sources */,
-				E23493101C6CD55000B40020 /* SymbolTable.swift in Sources */,
 				E20B2B121C8851950096BA51 /* QLExpressionVisitor.swift in Sources */,
 				E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */,
 				E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */,
@@ -883,7 +878,6 @@
 				E2D518B01C700292008030C4 /* Constants.swift in Sources */,
 				E2FB4E051C8843D100BDC988 /* QLNode.swift in Sources */,
 				E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */,
-				E2D518AD1C70025E008030C4 /* SymbolTable.swift in Sources */,
 				E2C4E6301C92F56C00F8191F /* Context.swift in Sources */,
 				E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */,
 				E24CCEA21C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */,

@@ -46,4 +46,15 @@ class Question: NSObject {
         
         return true
     }
+    
+    func eval() -> NSObject? {
+        if isComputed {
+            guard let expression = context.retrieveExpression(identifier)
+                else { return nil }
+            
+            return Interpreter.sharedInstance.resolve(expression, context: context)
+        } else {
+            return context.retrieveValue(identifier)
+        }
+    }
 }

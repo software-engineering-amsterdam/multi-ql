@@ -14,10 +14,6 @@ internal class TypeInferer: QLNodeVisitor {
     private var errors: [SemanticError] = []
     
     
-//    func inferType(question: QLComputedQuestion, context: Context) -> QLType {
-//        return question.accept(self, param: context)
-//    }
-    
     func inferTypes(form: QLForm, context: Context) throws -> Map<QLType> {
         defer {
             resetInternals()
