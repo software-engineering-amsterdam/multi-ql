@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias QLFLoat   = Float
+typealias QLFloat   = Float
 typealias QLString  = String
 typealias QLInteger = NSInteger
 typealias QLBoolean = Bool
@@ -50,9 +50,9 @@ class QLIntegerLiteral: QLLiteral {
 }
 
 class QLFloatLiteral: QLLiteral {
-    let value: QLFLoat
+    let value: QLFloat
     
-    init(value: QLFLoat) {
+    init(value: QLFloat) {
         self.value = value
     }
     

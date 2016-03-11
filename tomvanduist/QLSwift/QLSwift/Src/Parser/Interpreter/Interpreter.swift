@@ -163,7 +163,7 @@ private class UnaryResolver: AbstractResolver<NSObject> {
 }
 private class NegResolver: UnaryResolver {
     override func visit(node: QLFloatType, param value: NSObject) -> NSObject? {
-        if let value = value as? QLFLoat {
+        if let value = value as? QLFloat {
             return value * -1
         }
         return nil
@@ -188,7 +188,7 @@ private class BinaryResolver: AbstractResolver<(left: NSObject, right: NSObject)
 }
 private class AddResolver: BinaryResolver {
     override func visit(node: QLFloatType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return lVal + rVal
         }
         return nil
@@ -202,7 +202,7 @@ private class AddResolver: BinaryResolver {
 }
 private class SubResolver: BinaryResolver {
     override func visit(node: QLFloatType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return lVal - rVal
         }
         return nil
@@ -216,7 +216,7 @@ private class SubResolver: BinaryResolver {
 }
 private class MulResolver: BinaryResolver {
     override func visit(node: QLFloatType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return lVal * rVal
         }
         return nil
@@ -230,7 +230,7 @@ private class MulResolver: BinaryResolver {
 }
 private class DivResolver: BinaryResolver {
     override func visit(node: QLFloatType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return lVal / rVal
         }
         return nil
@@ -244,7 +244,7 @@ private class DivResolver: BinaryResolver {
 }
 private class PowResolver: BinaryResolver {
     override func visit(node: QLFloatType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return pow(lVal, rVal)
         }
         return nil
@@ -262,7 +262,7 @@ private class NotEqualsResolver: BinaryResolver {
 }
 private class GreaterEqualsResolver: BinaryResolver {
     override func visit(node: QLBooleanType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return lVal >= rVal
         }
         return nil
@@ -270,7 +270,7 @@ private class GreaterEqualsResolver: BinaryResolver {
 }
 private class GreaterThanResolver: BinaryResolver {
     override func visit(node: QLBooleanType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return lVal > rVal
         }
         return nil
@@ -278,7 +278,7 @@ private class GreaterThanResolver: BinaryResolver {
 }
 private class LowerEqualsResolver: BinaryResolver {
     override func visit(node: QLBooleanType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return lVal <= rVal
         }
         return nil
@@ -286,7 +286,7 @@ private class LowerEqualsResolver: BinaryResolver {
 }
 private class LowerThanResolver: BinaryResolver {
     override func visit(node: QLBooleanType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
-        if let lVal = value.left as? QLFLoat, rVal = value.right as? QLFLoat {
+        if let lVal = value.left as? QLFloat, rVal = value.right as? QLFloat {
             return lVal < rVal
         }
         return nil
