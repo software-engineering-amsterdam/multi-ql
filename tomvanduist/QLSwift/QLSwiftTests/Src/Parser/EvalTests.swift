@@ -14,9 +14,35 @@ import XCTest
  */
 class EvalTests: XCTestCase {
 
+    func testNeg() {
+        eval("EvalNeg", expectedValues: [
+            "q2": -10,
+            "q3": -10,
+            "q4": 10,
+            ]
+        )
+    }
+    
+    func testNot() {
+        eval("EvalNot", expectedValues: [
+            "q1": false,
+            "q2": true,
+            ]
+        )
+    }
+    
     func testAdd() {
         eval("EvalAdd", expectedValues: [
-            "q1": 2
+            "q1": 2,
+            "q2": 3.1,
+            ]
+        )
+    }
+    
+    func testSub() {
+        eval("EvalSub", expectedValues: [
+            "q1": 0,
+            "q2": -1.1,
             ]
         )
     }

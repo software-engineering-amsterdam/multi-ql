@@ -44,7 +44,7 @@ class QLLiteralExpression: QLExpression {
     }
 }
 
-class QLUnary {
+class QLUnary: QLExpression {
     let rhs: QLExpression
     
     required init(rhs: QLExpression) {
@@ -55,12 +55,12 @@ class QLUnary {
         fatalError("Override")
     }
     
-    func eval(context: Context) -> NSObject? {
-        fatalError("Override")
+    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+        fatalError("Override - Simulated abstract")
     }
 }
 
-class QLNot: QLUnary, QLExpression {
+class QLNot: QLUnary {
     required init (rhs: QLExpression) {
         super.init(rhs: rhs)
     }
@@ -69,12 +69,12 @@ class QLNot: QLUnary, QLExpression {
         return "!"
     }
     
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
 }
 
-class QLNeg: QLUnary, QLExpression {
+class QLNeg: QLUnary {
     required init (rhs: QLExpression) {
         super.init(rhs: rhs)
     }
@@ -83,7 +83,7 @@ class QLNeg: QLUnary, QLExpression {
         return "-"
     }
     
-    func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
+    override func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
         return visitor.visit(self, param: param)
     }
 }
@@ -105,7 +105,7 @@ class QLBinary: QLExpression {
     }
     
     func accept<T: QLExpressionVisitor>(visitor: T, param: T.QLExpressionVisitorParam) -> T.QLExpressionVisitorReturn {
-        fatalError("Simulated abstract")
+        fatalError("Override - Simulated abstract")
     }
 }
 

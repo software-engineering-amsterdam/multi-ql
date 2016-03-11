@@ -68,6 +68,9 @@
 		E2C4E62F1C92F56900F8191F /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62C1C92E09A00F8191F /* Interpreter.swift */; };
 		E2C4E6301C92F56C00F8191F /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E6281C92E04900F8191F /* Context.swift */; };
 		E2C4E6311C92F56F00F8191F /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */; };
+		E2C4E6331C931D2700F8191F /* EvalNeg.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6321C931D2700F8191F /* EvalNeg.ql */; };
+		E2C4E6351C93214500F8191F /* EvalNot.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6341C93214500F8191F /* EvalNot.ql */; };
+		E2C4E6371C93273C00F8191F /* EvalSub.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6361C93273C00F8191F /* EvalSub.ql */; };
 		E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
 		E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
@@ -207,6 +210,9 @@
 		E2C4E6281C92E04900F8191F /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Context.swift; path = Src/Parser/Interpreter/Context.swift; sourceTree = "<group>"; };
 		E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeInferer.swift; path = Src/Parser/Interpreter/TypeInferer.swift; sourceTree = "<group>"; };
 		E2C4E62C1C92E09A00F8191F /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Interpreter.swift; path = Src/Parser/Interpreter/Interpreter.swift; sourceTree = "<group>"; };
+		E2C4E6321C931D2700F8191F /* EvalNeg.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalNeg.ql; path = Resources/QL/EvalTests/EvalNeg.ql; sourceTree = "<group>"; };
+		E2C4E6341C93214500F8191F /* EvalNot.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalNot.ql; path = Resources/QL/EvalTests/EvalNot.ql; sourceTree = "<group>"; };
+		E2C4E6361C93273C00F8191F /* EvalSub.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalSub.ql; path = Resources/QL/EvalTests/EvalSub.ql; sourceTree = "<group>"; };
 		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
@@ -329,8 +335,11 @@
 			children = (
 				E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */,
 				E2591D491C7F024400AC42ED /* EvalBool.ql */,
+				E2C4E6321C931D2700F8191F /* EvalNeg.ql */,
+				E2C4E6341C93214500F8191F /* EvalNot.ql */,
 				E2591D451C7EFD7900AC42ED /* EvalPow.ql */,
 				E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */,
+				E2C4E6361C93273C00F8191F /* EvalSub.ql */,
 			);
 			name = EvalTests;
 			sourceTree = "<group>";
@@ -749,16 +758,19 @@
 			files = (
 				E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */,
 				E24CCEA91C90B10900ACA633 /* ValidTypeInference.ql in Resources */,
+				E2C4E6351C93214500F8191F /* EvalNot.ql in Resources */,
 				E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */,
 				E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */,
 				E2D518C51C701177008030C4 /* Unary.ql in Resources */,
 				E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */,
 				E2D518C31C701177008030C4 /* Binary.ql in Resources */,
+				E2C4E6371C93273C00F8191F /* EvalSub.ql in Resources */,
 				E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */,
 				E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */,
 				E2D518C41C701177008030C4 /* Literals.ql in Resources */,
 				E2591D461C7EFD7900AC42ED /* EvalPow.ql in Resources */,
 				E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */,
+				E2C4E6331C931D2700F8191F /* EvalNeg.ql in Resources */,
 				E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */,
 				E2D518C21C701177008030C4 /* IfStatement.ql in Resources */,
 				E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */,

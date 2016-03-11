@@ -9,10 +9,15 @@
 import Foundation
 
 
-internal class TypeInferer: QLNodeVisitor {
+class TypeInferer: QLNodeVisitor {
+    static let sharedInstance = TypeInferer()
+    
     private var symbolTable = Map<QLType>()
     private var errors: [SemanticError] = []
     
+    func inferType(expression: QLExpression, context: Context) -> QLType {
+        return expression.accept(self, param: context)
+    }
     
     func inferTypes(form: QLForm, context: Context) throws -> Map<QLType> {
         defer {
@@ -234,10 +239,13 @@ extension TypeInferer {
     }
     
     private func retrieveType(variable: QLVariable, context: Context) -> QLType {
-        guard let type = symbolTable.retrieve(variable.id)
-            else { return QLUnknownType() }
+        if let type = symbolTable.retrieve(variable.id) {
+            return type
+        } else if let type = context.retrieveType(variable.id) {
+            return type
+        }
         
-        return type
+        return QLUnknownType()
     }
     
     private func collectError(error: SemanticError) {

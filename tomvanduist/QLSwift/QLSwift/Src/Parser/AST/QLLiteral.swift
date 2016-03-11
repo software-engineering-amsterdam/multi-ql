@@ -8,14 +8,20 @@
 
 import Foundation
 
+typealias QLFLoat   = Double
+typealias QLString  = String
+typealias QLInteger = NSInteger
+typealias QLBoolean = Bool
+
+
 protocol QLLiteral: QLNode, QLLiteralVisitable {
-    func eval(context: Context) -> NSObject
+    func eval(context: Context) -> NSObject // TODO: remove
 }
 
 class QLStringLiteral: QLLiteral {
-    let value: String
+    let value: QLString
     
-    init(value: String) {
+    init(value: QLString) {
         self.value = value
     }
     
@@ -33,9 +39,9 @@ class QLStringLiteral: QLLiteral {
 }
 
 class QLIntegerLiteral: QLLiteral {
-    let value: NSInteger
+    let value: QLInteger
     
-    init(value: NSInteger) {
+    init(value: QLInteger) {
         self.value = value
     }
     
@@ -53,9 +59,9 @@ class QLIntegerLiteral: QLLiteral {
 }
 
 class QLFloatLiteral: QLLiteral {
-    let value: Double
+    let value: QLFLoat
     
-    init(value: Double) {
+    init(value: QLFLoat) {
         self.value = value
     }
     
@@ -74,9 +80,9 @@ class QLFloatLiteral: QLLiteral {
 
 
 class QLBooleanLiteral: QLLiteral {
-    let value: Bool
+    let value: QLBoolean
     
-    init (value: Bool) {
+    init (value: QLBoolean) {
         self.value = value
     }
     
