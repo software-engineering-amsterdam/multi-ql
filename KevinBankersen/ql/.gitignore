@@ -1,5 +1,8 @@
 target/
+<<<<<<< HEAD
 target.
+=======
+>>>>>>> 957ce81d7ef2d4bcbb4bdd996b35bab30a2bf0dd
 .metadata
 bin/
 tmp/
@@ -49,4 +52,8 @@ local.properties
 .springBeans
 
 # Code Recommenders
+<<<<<<< HEAD
 .recommenders/
+=======
+.recommenders/
+>>>>>>> 957ce81d7ef2d4bcbb4bdd996b35bab30a2bf0dd
