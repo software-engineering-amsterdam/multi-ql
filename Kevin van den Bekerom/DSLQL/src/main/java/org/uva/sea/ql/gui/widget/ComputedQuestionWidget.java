@@ -24,7 +24,7 @@ public class ComputedQuestionWidget extends Widget {
 	}
 	
 	private void initialize(Box container) {
-		label = new JLabel(compQuestion.getIdentifier());
+		label = new JLabel(compQuestion.getLabel());
 		resultField = new JTextField();
 		resultField.setEditable(false);
 		
@@ -44,14 +44,22 @@ public class ComputedQuestionWidget extends Widget {
 
 	@Override
 	public void update(ValueMap valueMap) {
-		Value value = valueMap.getValueFromMap(compQuestion.getIdentifier());
-		if (! value.equals(new UndefinedValue())) {
-			String result = String.valueOf(value.getValue());
+		Value oldValue = valueMap.getValueFromMap(compQuestion.getIdentifier());
+		System.out.println("oldValue: " + String.valueOf(oldValue.getValue()));
+		Value newValue = compQuestion.getExpr().eval(valueMap);
+		System.out.println("newValue: " + String.valueOf(newValue.getValue()));
+		
+		if (!oldValue.getValue().equals(newValue.getValue())) {
+			System.out.println("Current value: " + String.valueOf(newValue.getValue()));
+			dataManager.updateValueState(compQuestion.getIdentifier(), newValue);
+		}
+		else if (!newValue.equals(new UndefinedValue())) {
+			String result = String.valueOf(newValue.getValue());
 			resultField.setText(result);
 		} else {
 			resultField.setText("");
 		}
-		
+	
 	}
 
 	@Override

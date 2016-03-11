@@ -95,7 +95,7 @@ public class TestEval {
 	
 	@Test
 	public void testUndefinedMath() {
-		Add add = new Add(new Variable("var1"), new Variable("var3"), -1);
+		Add add = new Add(new Variable("var3"), new Variable("var1"), -1);
 		assertEquals(true, add.eval(valueMap).getValue().equals(new UndefinedValue()));
 	}
 	

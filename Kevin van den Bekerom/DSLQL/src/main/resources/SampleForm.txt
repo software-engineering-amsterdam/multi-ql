@@ -4,8 +4,9 @@ form Box1HouseOwning {
 	 hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" money
 	 if ( hasSoldHouse ) {
 	 	 awesomeHiddenQuestion: "I was hidden!" boolean
-		 sellingPrice: "Price the house was sold for:" int
-		 privateDebt: "Private debts for the sold house:" int (sellingPrice)
+		 sellingPrice: " (sellingPrice) Price the house was sold for:" int
+		 buyingPrice: " (buyingPrice * 5) BuyPrice" int (sellingPrice * 5)
+		 privateDebt: "(buyingPrice - sellingPrice)" int (buyingPrice - sellingPrice)
 	 } 
 	 if (false) {
 	 	qN: "Do not show me!" boolean

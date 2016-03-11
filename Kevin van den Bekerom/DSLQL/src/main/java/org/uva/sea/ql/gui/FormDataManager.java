@@ -6,7 +6,6 @@ import java.util.List;
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.form.ReachableQuestionsMap;
 import org.uva.sea.ql.ast.form.ValueMap;
-import org.uva.sea.ql.experiment.ValueObserver;
 import org.uva.sea.ql.value.Value;
 import org.uva.sea.ql.visit.VisibilityChecker;
 import org.uva.sea.ql.visit.Visitor;
