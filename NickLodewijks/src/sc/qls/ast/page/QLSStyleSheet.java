@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
-import sc.ql.ast.stat.QLQuestion;
+import sc.ql.ast.stat.Question;
 import sc.qls.ast.QLSASTNode;
 import sc.qls.parser.QLSLexer;
 import sc.qls.parser.QLSParser;
@@ -29,7 +29,7 @@ public class QLSStyleSheet extends QLSASTNode {
 		return Collections.unmodifiableList(pages);
 	}
 
-	public QLSQuestion getQLSQuestion(QLQuestion question) {
+	public QLSQuestion getQLSQuestion(Question question) {
 		for (QLSPage page : pages) {
 			for (QLSSection section : page.getSections()) {
 				QLSQuestion qlsQuestion;

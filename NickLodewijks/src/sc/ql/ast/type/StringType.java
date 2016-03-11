@@ -1,19 +1,18 @@
 package sc.ql.ast.type;
 
-public final class QLIntegerType extends QLType {
+public final class StringType extends ValueType {
 
-	public QLIntegerType() {
-
+	public StringType() {
 	}
 
 	@Override
-	public <T, U> T accept(QLTypeVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(ValueTypeVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof QLIntegerType;
+		return obj instanceof StringType;
 	}
 
 	@Override
@@ -23,7 +22,6 @@ public final class QLIntegerType extends QLType {
 
 	@Override
 	public String toString() {
-		return "Integer";
+		return "String";
 	}
-
 }

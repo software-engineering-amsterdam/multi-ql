@@ -21,21 +21,21 @@ import sc.ql.ast.Expression.StringLiteral;
 import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.UnaryExpr;
 import sc.ql.ast.Expression.VariableExpr;
-import sc.ql.ast.form.QLBlock;
-import sc.ql.ast.form.QLForm;
-import sc.ql.ast.form.QLFormVisitor;
-import sc.ql.ast.stat.QLIFStatement;
-import sc.ql.ast.stat.QLQuestion;
-import sc.ql.ast.stat.QLQuestionComputed;
-import sc.ql.ast.stat.QLQuestionInput;
-import sc.ql.ast.stat.QLStatementVisitor;
-import sc.ql.ast.type.QLBooleanType;
-import sc.ql.ast.type.QLIntegerType;
-import sc.ql.ast.type.QLStringType;
-import sc.ql.ast.type.QLTypeVisitor;
+import sc.ql.ast.form.Block;
+import sc.ql.ast.form.Form;
+import sc.ql.ast.form.FormVisitor;
+import sc.ql.ast.stat.IFStatement;
+import sc.ql.ast.stat.Question;
+import sc.ql.ast.stat.ComputedQuestion;
+import sc.ql.ast.stat.NormalQuestion;
+import sc.ql.ast.stat.StatementVisitor;
+import sc.ql.ast.type.BooleanType;
+import sc.ql.ast.type.IntegerType;
+import sc.ql.ast.type.StringType;
+import sc.ql.ast.type.ValueTypeVisitor;
 
 public class TopDown<T, U>
-		implements ExpressionVisitor<T, U>, QLFormVisitor<T, U>, QLStatementVisitor<T, U>, QLTypeVisitor<T, U> {
+		implements ExpressionVisitor<T, U>, FormVisitor<T, U>, StatementVisitor<T, U>, ValueTypeVisitor<T, U> {
 
 	public T visit(BinaryExpr node, U context) {
 		node.left().accept(this, context);
@@ -131,19 +131,19 @@ public class TopDown<T, U>
 	}
 
 	@Override
-	public T visit(QLForm node, U context) {
+	public T visit(Form node, U context) {
 		node.getBody().accept(this, context);
 
 		return null;
 	}
 
 	@Override
-	public T visit(QLBlock node, U context) {
-		for (QLQuestion q : node.getQuestions()) {
+	public T visit(Block node, U context) {
+		for (Question q : node.getQuestions()) {
 			q.accept(this, context);
 		}
 
-		for (QLIFStatement statement : node.getIfStatements()) {
+		for (IFStatement statement : node.getIfStatements()) {
 			statement.accept(this, context);
 		}
 
@@ -151,7 +151,7 @@ public class TopDown<T, U>
 	}
 
 	@Override
-	public T visit(QLIFStatement node, U context) {
+	public T visit(IFStatement node, U context) {
 		node.getCondition().accept(this, context);
 		node.getBody().accept(this, context);
 
@@ -174,31 +174,31 @@ public class TopDown<T, U>
 	}
 
 	@Override
-	public T visit(QLQuestionInput node, U context) {
+	public T visit(NormalQuestion node, U context) {
 		node.getType().accept(this, context);
 
 		return null;
 	}
 
 	@Override
-	public T visit(QLQuestionComputed node, U context) {
+	public T visit(ComputedQuestion node, U context) {
 		node.getType().accept(this, context);
 
 		return null;
 	}
 
 	@Override
-	public T visit(QLBooleanType type, U context) {
+	public T visit(BooleanType type, U context) {
 		return null;
 	}
 
 	@Override
-	public T visit(QLStringType type, U context) {
+	public T visit(StringType type, U context) {
 		return null;
 	}
 
 	@Override
-	public T visit(QLIntegerType type, U context) {
+	public T visit(IntegerType type, U context) {
 		return null;
 	}
 }

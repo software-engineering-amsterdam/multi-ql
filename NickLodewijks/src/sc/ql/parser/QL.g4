@@ -13,7 +13,7 @@ import static sc.ql.ast.Expression.*;
 
 @parser::members {
     private <T extends ASTNode> T addSource(ParserRuleContext context, T node){
-        node.setSourceInfo(new ASTSourceInfo(context));
+        node.setSourceInfo(new SourceLocation(context));
         return (T) node;
     }
     
@@ -22,37 +22,37 @@ import static sc.ql.ast.Expression.*;
     }
 }
 
-form returns [QLForm result]
-    :   'form' + ID + block { $result = addSource($ctx, new QLForm($ID.text, $block.result)); }
+form returns [Form result]
+    :   'form' + ID + block { $result = addSource($ctx, new Form($ID.text, $block.result)); }
     ;
     
-block returns [QLBlock result]
+block returns [Block result]
     locals [
-      List<QLQuestion> questions = new ArrayList<>();
-      List<QLIFStatement> statements = new ArrayList<>();
+      List<Question> questions = new ArrayList<>();
+      List<IFStatement> statements = new ArrayList<>();
     ]
     @after{
-        $result = addSource($ctx, new QLBlock($ctx.questions, $ctx.statements));
+        $result = addSource($ctx, new Block($ctx.questions, $ctx.statements));
     }
     : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
     
     ;
     
-ifStat returns [QLIFStatement result]
+ifStat returns [IFStatement result]
     : 'if' + '(' + expr + ')' + block
     { 
-        $result = addSource($ctx, new QLIFStatement($expr.result, $block.result));
+        $result = addSource($ctx, new IFStatement($expr.result, $block.result));
     }
     ;
 
-question returns [QLQuestion result]
+question returns [Question result]
     : variableType + ID + STR + expr
     {
-        $result = addSource($ctx, new QLQuestionComputed($variableType.result, $ID.text,  unQuote($STR.text), $expr.result));
+        $result = addSource($ctx, new ComputedQuestion($variableType.result, $ID.text,  unQuote($STR.text), $expr.result));
     }
     | variableType + ID + STR 
     { 
-        $result = addSource($ctx, new QLQuestionInput($variableType.result, $ID.text, unQuote($STR.text)));
+        $result = addSource($ctx, new NormalQuestion($variableType.result, $ID.text, unQuote($STR.text)));
     }
     ;
     

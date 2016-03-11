@@ -14,17 +14,17 @@ import sc.ql.ast.ASTNode;
 import sc.ql.parser.QLLexer;
 import sc.ql.parser.QLParser;
 
-public class QLForm extends ASTNode {
+public class Form extends ASTNode {
 
 	private final String name;
-	private final QLBlock body;
+	private final Block body;
 
-	public QLForm(String id, QLBlock body) {
+	public Form(String id, Block body) {
 		this.name = id;
 		this.body = body;
 	}
 
-	public QLBlock getBody() {
+	public Block getBody() {
 		return body;
 	}
 
@@ -32,19 +32,19 @@ public class QLForm extends ASTNode {
 		return name;
 	}
 
-	public <T, U> T accept(QLFormVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(FormVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 
-	public static QLForm create(InputStream is) throws IOException {
-		return QLForm.create(new ANTLRInputStream(is));
+	public static Form create(InputStream is) throws IOException {
+		return Form.create(new ANTLRInputStream(is));
 	}
 
-	public static QLForm create(File file) throws IOException {
-		return QLForm.create(new ANTLRFileStream(file.getAbsolutePath()));
+	public static Form create(File file) throws IOException {
+		return Form.create(new ANTLRFileStream(file.getAbsolutePath()));
 	}
 
-	private static QLForm create(CharStream cs) throws IOException {
+	private static Form create(CharStream cs) throws IOException {
 		TokenStream tokenStream;
 		QLParser parser;
 

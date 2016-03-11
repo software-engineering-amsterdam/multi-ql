@@ -15,8 +15,8 @@ import sc.ql.CyclicReferences.ReferenceTable.ReferencePath;
 import sc.ql.ast.Expression;
 import sc.ql.ast.TopDown;
 import sc.ql.ast.Expression.VariableExpr;
-import sc.ql.ast.form.QLForm;
-import sc.ql.ast.stat.QLQuestionComputed;
+import sc.ql.ast.form.Form;
+import sc.ql.ast.stat.ComputedQuestion;
 
 public class CyclicReferences implements Iterable<CyclicReference> {
 
@@ -33,7 +33,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 	 *            the questionnaire to collect all cyclic references from.
 	 * @return the cyclic references in the questionnaire.
 	 */
-	public static CyclicReferences collect(QLForm form) {
+	public static CyclicReferences collect(Form form) {
 		CyclicReferences cyclicReferences;
 		ReferenceTable rt;
 
@@ -42,7 +42,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 		form.accept(new TopDown<Void, Void>() {
 
 			@Override
-			public Void visit(QLQuestionComputed node, Void context) {
+			public Void visit(ComputedQuestion node, Void context) {
 				rt.add(node, freeVariables(node.getComputation()));
 				return null;
 			}
@@ -121,7 +121,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 			referenceMapById = new HashMap<>();
 		}
 
-		public void add(QLQuestionComputed question, Set<String> variables) {
+		public void add(ComputedQuestion question, Set<String> variables) {
 			Reference reference;
 
 			reference = getReference(question.getId());

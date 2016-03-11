@@ -21,15 +21,15 @@ import sc.ql.ast.Expression;
 import sc.ql.ast.TopDown;
 import sc.ql.ast.Expression.And;
 import sc.ql.ast.Expression.BooleanLiteral;
-import sc.ql.ast.form.QLForm;
-import sc.ql.ast.stat.QLIFStatement;
-import sc.ql.ast.stat.QLQuestion;
-import sc.ql.ast.stat.QLQuestionComputed;
-import sc.ql.ast.stat.QLQuestionInput;
-import sc.ql.ast.type.QLBooleanType;
-import sc.ql.ast.type.QLIntegerType;
-import sc.ql.ast.type.QLStringType;
-import sc.ql.ast.type.QLTypeVisitor;
+import sc.ql.ast.form.Form;
+import sc.ql.ast.stat.IFStatement;
+import sc.ql.ast.stat.Question;
+import sc.ql.ast.stat.ComputedQuestion;
+import sc.ql.ast.stat.NormalQuestion;
+import sc.ql.ast.type.BooleanType;
+import sc.ql.ast.type.IntegerType;
+import sc.ql.ast.type.StringType;
+import sc.ql.ast.type.ValueTypeVisitor;
 import sc.ql.ast.value.BooleanValue;
 import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
@@ -53,7 +53,7 @@ public class UIFactory {
 		return new UIFactory();
 	}
 
-	public UIQuestionnaire create(QLForm form) {
+	public UIQuestionnaire create(Form form) {
 		Environment context;
 		UIForm uiForm;
 
@@ -64,7 +64,7 @@ public class UIFactory {
 		form.accept(new TopDown<Void, Expression>() {
 
 			@Override
-			public Void visit(QLIFStatement node, Expression condition) {
+			public Void visit(IFStatement node, Expression condition) {
 				Expression conjunction;
 
 				conjunction = new And(condition, node.getCondition());
@@ -75,7 +75,7 @@ public class UIFactory {
 			}
 
 			@Override
-			public Void visit(QLQuestionInput node, Expression condition) {
+			public Void visit(NormalQuestion node, Expression condition) {
 				UIQuestion uiQuestion;
 
 				uiQuestion = create(context, node, condition);
@@ -84,7 +84,7 @@ public class UIFactory {
 			}
 
 			@Override
-			public Void visit(QLQuestionComputed node, Expression condition) {
+			public Void visit(ComputedQuestion node, Expression condition) {
 				UIQuestion uiQuestion;
 
 				uiQuestion = create(context, node, condition, node.getComputation());
@@ -101,11 +101,11 @@ public class UIFactory {
 		return new DefaultUIForm();
 	}
 
-	private UIQuestion create(Environment context, QLQuestion question, Expression condition) {
+	private UIQuestion create(Environment context, Question question, Expression condition) {
 		return create(context, question, condition, null);
 	}
 
-	private UIQuestion create(Environment context, QLQuestion question, Expression condition,
+	private UIQuestion create(Environment context, Question question, Expression condition,
 			Expression valueComputation) {
 		UIWidget labelWidget;
 		UIWidget valueWidget;
@@ -116,15 +116,15 @@ public class UIFactory {
 		return new DefaultUIQuestion(context, question, labelWidget, valueWidget, condition, valueComputation);
 	}
 
-	protected UIWidget createLabelWidget(QLQuestion question) {
+	protected UIWidget createLabelWidget(Question question) {
 		return new LabelWidget(question.getLabel());
 	}
 
-	protected UIWidget createValueWidget(QLQuestion question, Environment context) {
-		return question.getType().accept(new QLTypeVisitor<UIWidget, Void>() {
+	protected UIWidget createValueWidget(Question question, Environment context) {
+		return question.getType().accept(new ValueTypeVisitor<UIWidget, Void>() {
 
 			@Override
-			public UIWidget visit(QLBooleanType type, Void unused) {
+			public UIWidget visit(BooleanType type, Void unused) {
 				final UIWidgetChoice YES;
 				final UIWidgetChoice NO;
 				UIWidgetChoices choices;
@@ -138,12 +138,12 @@ public class UIFactory {
 			}
 
 			@Override
-			public UIWidget visit(QLStringType type, Void unused) {
+			public UIWidget visit(StringType type, Void unused) {
 				return new TextFieldWidget(context, question, new StringValue(""));
 			}
 
 			@Override
-			public UIWidget visit(QLIntegerType type, Void unused) {
+			public UIWidget visit(IntegerType type, Void unused) {
 				return new TextFieldWidget(context, question, new NumberValue(0));
 			}
 		}, null);
@@ -221,14 +221,14 @@ public class UIFactory {
 
 	private static class DefaultUIQuestion implements UIQuestion, ContextListener {
 
-		private final QLQuestion question;
+		private final Question question;
 		private final Expression condition;
 		private final Expression valueComputation;
 
 		private final UIWidget labelWidget;
 		private final UIWidget valueWidget;
 
-		public DefaultUIQuestion(Environment context, QLQuestion question, UIWidget labelWidget, UIWidget valueWidget,
+		public DefaultUIQuestion(Environment context, Question question, UIWidget labelWidget, UIWidget valueWidget,
 				Expression condition, Expression valueComputation) {
 			this.question = question;
 			this.condition = condition;

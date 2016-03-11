@@ -1,14 +1,14 @@
 package sc.ql.ast.stat;
 
 import sc.ql.ast.Expression;
-import sc.ql.ast.form.QLBlock;
+import sc.ql.ast.form.Block;
 
-public final class QLIFStatement extends QLStatement {
+public final class IFStatement extends Statement {
 
 	private final Expression condition;
-	private final QLBlock body;
+	private final Block body;
 
-	public QLIFStatement(Expression condition, QLBlock body) {
+	public IFStatement(Expression condition, Block body) {
 		this.condition = condition;
 		this.body = body;
 	}
@@ -17,12 +17,12 @@ public final class QLIFStatement extends QLStatement {
 		return condition;
 	}
 
-	public QLBlock getBody() {
+	public Block getBody() {
 		return body;
 	}
 
 	@Override
-	public <T, U> T accept(QLStatementVisitor<T, U> visitor, U context) {
+	public <T, U> T accept(StatementVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
 }

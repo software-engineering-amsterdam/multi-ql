@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import sc.ql.SemanticAnalyser;
 import sc.ql.SemanticAnalyser.SemanticErrors;
-import sc.ql.ast.form.QLForm;
+import sc.ql.ast.form.Form;
 
 public class SemanticAnalyserTest {
 
@@ -56,8 +56,8 @@ public class SemanticAnalyserTest {
 		assertNumberOfWarnings(result, 0);
 	}
 
-	private QLForm createQuestionnaire(String fileName) throws IOException {
-		return QLForm.create(SemanticAnalyserTest.class.getResourceAsStream(fileName));
+	private Form createQuestionnaire(String fileName) throws IOException {
+		return Form.create(SemanticAnalyserTest.class.getResourceAsStream(fileName));
 	}
 
 	private void assertNumberOfWarnings(SemanticErrors result, int warnings) {
