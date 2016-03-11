@@ -34,7 +34,7 @@ class EvalTests: XCTestCase {
     func testAdd() {
         eval("EvalAdd", expectedValues: [
             "q1": 2,
-            "q2": 3.1,
+            "q2": QLFloat(3.1),
             ]
         )
     }
@@ -42,7 +42,7 @@ class EvalTests: XCTestCase {
     func testSub() {
         eval("EvalSub", expectedValues: [
             "q1": 0,
-            "q2": -1.1,
+            "q2": QLFloat(-1.1),
             ]
         )
     }
