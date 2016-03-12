@@ -81,7 +81,6 @@ class SymbolsVisitor: Visitor {
         qlnotexpression.accept(self)
     }
     
-    
     func visit(qlgreaterthanexpression: QLGreaterThanExpression) {
         qlgreaterthanexpression.lhs.accept(self)
         qlgreaterthanexpression.rhs.accept(self)

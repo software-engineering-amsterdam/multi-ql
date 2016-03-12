@@ -58,8 +58,7 @@ class QLTypeChecker: Visitor {
         print("-> Not expression")
         qlnotexpression.accept(self)
     }
-    
-    
+        
     func visit(qlgreaterthanexpression: QLGreaterThanExpression) {
         print("Greater than")
         qlgreaterthanexpression.lhs.accept(self)
@@ -133,32 +132,18 @@ class QLTypeChecker: Visitor {
     }
     
     // MARK: Literals.
-    func visit(qlunknownliteral: QLUnknownLiteral) {
-        print("-> Unknown literal")
-    }
+    func visit(qlunknownliteral: QLUnknownLiteral) { }
     
-    func visit(qlbool: QLBool) {
-        print("-> Boolean")
-    }
+    func visit(qlbool: QLBool) { }
     
-    func visit(qlstring: QLString) {
-        print("-> String")
-    }
+    func visit(qlstring: QLString) { }
     
-    func visit(qlinteger: QLInteger) {
-        print("-> Integer")
-    }
+    func visit(qlinteger: QLInteger) { }
     
-    func visit(qldate: QLDate) {
-        print("-> Date")
-    }
+    func visit(qldate: QLDate) { }
     
-    func visit(qldecimal: QLDecimal) {
-        print("-> Decimal")
-    }
+    func visit(qldecimal: QLDecimal) { }
     
-    func visit(qlmoney: QLMoney) {
-        print("-> Money")
-    }
+    func visit(qlmoney: QLMoney) { }
     
 }
