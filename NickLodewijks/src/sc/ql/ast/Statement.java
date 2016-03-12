@@ -10,19 +10,19 @@ public abstract class Statement extends ASTNode {
 	public static final class IfThen extends Statement {
 
 		private final Expression condition;
-		private final Block body;
+		private final Statement then;
 
-		public IfThen(Expression condition, Block body) {
+		public IfThen(Expression condition, Statement then) {
 			this.condition = condition;
-			this.body = body;
+			this.then = then;
 		}
 
-		public Expression getCondition() {
+		public Expression condition() {
 			return condition;
 		}
 
-		public Block getBody() {
-			return body;
+		public Statement then() {
+			return then;
 		}
 
 		@Override
@@ -31,7 +31,7 @@ public abstract class Statement extends ASTNode {
 		}
 	}
 
-	public static class Block extends Statement {
+	public static final class Block extends Statement {
 
 		private final List<Statement> statements;
 
@@ -51,25 +51,25 @@ public abstract class Statement extends ASTNode {
 
 	public static abstract class Question extends Statement {
 
-		private final String id;
 		private final ValueType type;
+		private final String name;
 		private final String label;
 
-		public Question(ValueType type, String id, String label) {
-			this.id = id;
+		public Question(ValueType type, String name, String label) {
 			this.type = type;
+			this.name = name;
 			this.label = label;
 		}
 
-		public String getId() {
-			return id;
-		}
-
-		public ValueType getType() {
+		public ValueType type() {
 			return type;
 		}
 
-		public String getLabel() {
+		public String name() {
+			return name;
+		}
+
+		public String label() {
 			return label;
 		}
 	}
@@ -78,13 +78,13 @@ public abstract class Statement extends ASTNode {
 
 		private final Expression computation;
 
-		public ComputedQuestion(ValueType type, String id, String label, Expression computation) {
-			super(type, id, label);
+		public ComputedQuestion(ValueType type, String name, String label, Expression computation) {
+			super(type, name, label);
 
 			this.computation = computation;
 		}
 
-		public Expression getComputation() {
+		public Expression computation() {
 			return computation;
 		}
 
@@ -96,8 +96,8 @@ public abstract class Statement extends ASTNode {
 
 	public static final class NormalQuestion extends Question {
 
-		public NormalQuestion(ValueType type, String id, String label) {
-			super(type, id, label);
+		public NormalQuestion(ValueType type, String name, String label) {
+			super(type, name, label);
 		}
 
 		@Override

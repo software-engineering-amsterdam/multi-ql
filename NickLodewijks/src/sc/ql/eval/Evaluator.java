@@ -1,4 +1,4 @@
-package sc.ql;
+package sc.ql.eval;
 
 import sc.ql.ast.Expression;
 import sc.ql.ast.ExpressionVisitor;
@@ -26,18 +26,18 @@ import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
 import sc.ql.ast.value.Value;
 
-public class Interpreter implements ExpressionVisitor<Value, Environment> {
+public class Evaluator implements ExpressionVisitor<Value, Environment> {
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Value> T interpret(Expression expr, Environment context) {
+	public static <T extends Value> T evaluate(Expression expr, Environment context) {
 		try {
-			return (T) expr.accept(new Interpreter(), context);
+			return (T) expr.accept(new Evaluator(), context);
 		} catch (RuntimeException ex) {
 			throw new RuntimeException(String.format("Failed to interpret expression '%s'", expr.getSourceText()), ex);
 		}
 	}
 
-	private Interpreter() {
+	private Evaluator() {
 
 	}
 
@@ -118,7 +118,7 @@ public class Interpreter implements ExpressionVisitor<Value, Environment> {
 
 	@Override
 	public Value visit(VariableExpr node, Environment context) {
-		return context.getValue(node.getVariableId());
+		return context.getValue(node.getVariableName());
 	}
 
 	@Override

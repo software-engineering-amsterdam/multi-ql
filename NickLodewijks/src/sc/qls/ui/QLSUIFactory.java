@@ -13,8 +13,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import sc.ql.Environment;
 import sc.ql.ast.Statement.Question;
+import sc.ql.eval.Environment;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIForm;
 import sc.ql.ui.UIQuestion;
@@ -55,7 +55,7 @@ public class QLSUIFactory extends UIFactory {
 			widgetType = widget.getType();
 
 			if (widgetType instanceof QLSRadioButton) {
-				uiWidget = new RadioButtonWidget(context, question.getId(), ((QLSRadioButton) widgetType).getChoices());
+				uiWidget = new RadioButtonWidget(context, question.name(), ((QLSRadioButton) widgetType).getChoices());
 			} else {
 				uiWidget = super.createValueWidget(question, context);
 			}

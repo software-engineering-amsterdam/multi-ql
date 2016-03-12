@@ -34,7 +34,7 @@ public class QLSStyleSheet extends QLSASTNode {
 			for (QLSSection section : page.getSections()) {
 				QLSQuestion qlsQuestion;
 
-				qlsQuestion = section.getById(question.getId());
+				qlsQuestion = section.getById(question.name());
 
 				if (qlsQuestion != null) {
 					return qlsQuestion;

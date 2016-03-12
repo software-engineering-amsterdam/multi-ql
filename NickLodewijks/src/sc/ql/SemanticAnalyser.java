@@ -117,7 +117,7 @@ public class SemanticAnalyser {
 			question = qt.getByName(name).get(0);
 			for (Question other : qt.getByName(name)) {
 
-				if (other.getType().equals(question.getType())) {
+				if (other.type().equals(question.type())) {
 					continue;
 				}
 
@@ -142,8 +142,8 @@ public class SemanticAnalyser {
 			List<Question> nameToQuestionsList;
 			List<Question> labelToQuestionList;
 
-			labelToQuestionList = labelToQuestion.computeIfAbsent(q.getLabel(), f -> new ArrayList<>());
-			nameToQuestionsList = nameToQuestion.computeIfAbsent(q.getId(), f -> new ArrayList<>());
+			labelToQuestionList = labelToQuestion.computeIfAbsent(q.label(), f -> new ArrayList<>());
+			nameToQuestionsList = nameToQuestion.computeIfAbsent(q.name(), f -> new ArrayList<>());
 
 			labelToQuestionList.add(q);
 			nameToQuestionsList.add(q);
@@ -213,26 +213,30 @@ public class SemanticAnalyser {
 		@Override
 		public Void visit(Block node, SymbolTable st) {
 
-			// First traverse the questions, because they
-			// declare variables that can be used in the if statements.
+			collectSymbols(node, st);
+			checkExpressions(node, st);
 
-			for (Statement statement : node.statements()) {
+			return null;
+		}
+
+		private void collectSymbols(Block block, SymbolTable st) {
+			for (Statement statement : block.statements()) {
 				statement.accept(new StatementVisitor<Void, Void>() {
 
 					@Override
-					public Void visit(ComputedQuestion question, Void context) {
+					public Void visit(ComputedQuestion question, Void unused) {
 						question.accept(TypeCheckVisitor.this, st);
 						return null;
 					};
 
 					@Override
-					public Void visit(NormalQuestion question, Void context) {
+					public Void visit(NormalQuestion question, Void unused) {
 						question.accept(TypeCheckVisitor.this, st);
 						return null;
 					}
 
 					@Override
-					public Void visit(Block block, Void context) {
+					public Void visit(Block block, Void unused) {
 						block.accept(TypeCheckVisitor.this, st);
 						return null;
 					}
@@ -243,54 +247,58 @@ public class SemanticAnalyser {
 					}
 				}, null);
 			}
+		}
 
-			for (Statement statement : node.statements()) {
-
+		private void checkExpressions(Block block, SymbolTable st) {
+			block.statements().forEach(statement -> {
 				statement.accept(new StatementVisitor<Void, Void>() {
 
 					@Override
-					public Void visit(ComputedQuestion question, Void context) {
+					public Void visit(ComputedQuestion question, Void unused) {
+						ValueType type;
+
+						type = st.typeOf(question.name());
+						assert type != null;
+
+						checkType(question.computation(), st, type);
 						return null;
 					};
 
 					@Override
-					public Void visit(NormalQuestion question, Void context) {
+					public Void visit(NormalQuestion question, Void unused) {
 						return null;
 					}
 
 					@Override
-					public Void visit(Block block, Void context) {
+					public Void visit(Block block, Void unused) {
 						return null;
 					}
 
 					@Override
-					public Void visit(IfThen ifThen, Void context) {
-						ifThen.accept(TypeCheckVisitor.this, st);
+					public Void visit(IfThen ifThen, Void unused) {
+						checkType(ifThen.condition(), st, ValueType.BOOLEAN);
+						ifThen.then().accept(TypeCheckVisitor.this, st);
 						return null;
 					}
 				}, null);
-			}
-
-			return null;
+			});
 		}
 
 		@Override
 		public Void visit(IfThen node, SymbolTable st) {
-			checkType(node.getCondition(), st, ValueType.BOOLEAN);
-			node.getBody().accept(this, st);
-
+			assert false : "Should have visited this type of node in checkExpressions()";
 			return null;
 		}
 
 		@Override
 		public Void visit(NormalQuestion node, SymbolTable st) {
-			st.setType(node.getId(), node.getType());
+			st.add(node.name(), node.type());
 			return null;
 		}
 
 		@Override
 		public Void visit(ComputedQuestion node, SymbolTable st) {
-			st.setType(node.getId(), node.getType());
+			st.add(node.name(), node.type());
 			return null;
 		}
 
@@ -298,7 +306,7 @@ public class SemanticAnalyser {
 		public ValueType visit(VariableExpr node, SymbolTable st) {
 			ValueType type;
 
-			type = st.getType(node.getVariableId());
+			type = st.typeOf(node.getVariableName());
 			if (type == null) {
 				result.add(new UndeclaredVariable(node));
 				return null;
@@ -462,11 +470,11 @@ public class SemanticAnalyser {
 
 		}
 
-		public void setType(String name, ValueType type) {
+		public void add(String name, ValueType type) {
 			nameToType.put(name, type);
 		}
 
-		public ValueType getType(String name) {
+		public ValueType typeOf(String name) {
 			return nameToType.get(name);
 		}
 	}
@@ -620,7 +628,7 @@ public class SemanticAnalyser {
 		private final VariableExpr node;
 
 		public UndeclaredVariable(VariableExpr node) {
-			msg = String.format(MESSAGE, node, node.getVariableId());
+			msg = String.format(MESSAGE, node, node.getVariableName());
 			this.node = node;
 		}
 

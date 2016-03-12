@@ -1,30 +1,12 @@
 package sc.ql.ast;
 
-import java.io.IOException;
-
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
-
 import sc.ql.ast.value.BooleanValue;
 import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
-import sc.ql.parser.QLLexer;
-import sc.ql.parser.QLParser;
 
 public abstract class Expression extends ASTNode {
 
 	public abstract <T, U> T accept(ExpressionVisitor<T, U> visitor, U context);
-
-	public static Expression create(String text) throws IOException {
-		TokenStream tokenStream;
-		QLParser parser;
-
-		tokenStream = new CommonTokenStream(new QLLexer(new ANTLRInputStream(text)));
-		parser = new QLParser(tokenStream);
-
-		return parser.expr().result;
-	}
 
 	public static abstract class BinaryExpr extends Expression {
 
@@ -240,14 +222,14 @@ public abstract class Expression extends ASTNode {
 
 	public static final class VariableExpr extends Expression {
 
-		private final String variableId;
+		private final String variableName;
 
-		public VariableExpr(String variableId) {
-			this.variableId = variableId;
+		public VariableExpr(String variableName) {
+			this.variableName = variableName;
 		}
 
-		public String getVariableId() {
-			return variableId;
+		public String getVariableName() {
+			return variableName;
 		}
 
 		@Override

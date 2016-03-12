@@ -1,16 +1,22 @@
-package sc.ql.ast;
+package sc.ql.eval;
 
 import java.io.IOException;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import sc.ql.Interpreter;
+import sc.ql.ast.Expression;
 import sc.ql.ast.value.BooleanValue;
 import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
+import sc.ql.eval.Evaluator;
+import sc.ql.parser.QLLexer;
+import sc.ql.parser.QLParser;
 
-public class QLExpressionInterpreterTest {
+public class EvaluatorTest {
 
 	@Test
 	public void testExpressions() throws IOException {
@@ -138,7 +144,17 @@ public class QLExpressionInterpreterTest {
 	}
 
 	private Object interpret(String input) throws IOException {
-		return Interpreter.interpret(Expression.create(input), null);
+		return Evaluator.evaluate(create(input), null);
+	}
+
+	public static Expression create(String text) throws IOException {
+		TokenStream tokenStream;
+		QLParser parser;
+
+		tokenStream = new CommonTokenStream(new QLLexer(new ANTLRInputStream(text)));
+		parser = new QLParser(tokenStream);
+
+		return parser.expr().result;
 	}
 
 }

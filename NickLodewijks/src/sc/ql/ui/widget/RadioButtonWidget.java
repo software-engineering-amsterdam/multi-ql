@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
-import sc.ql.Environment;
 import sc.ql.ast.value.Value;
+import sc.ql.eval.Environment;
 import sc.ql.ui.UIWidgetChoice;
 import sc.ql.ui.UIWidgetChoices;
 import sc.ql.ui.UIWidgetStyle;

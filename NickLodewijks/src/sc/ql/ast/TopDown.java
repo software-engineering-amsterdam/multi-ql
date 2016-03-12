@@ -143,8 +143,8 @@ public class TopDown<T, U>
 
 	@Override
 	public T visit(IfThen node, U context) {
-		node.getCondition().accept(this, context);
-		node.getBody().accept(this, context);
+		node.condition().accept(this, context);
+		node.then().accept(this, context);
 
 		return null;
 	}
@@ -166,14 +166,14 @@ public class TopDown<T, U>
 
 	@Override
 	public T visit(NormalQuestion node, U context) {
-		node.getType().accept(this, context);
+		node.type().accept(this, context);
 
 		return null;
 	}
 
 	@Override
 	public T visit(ComputedQuestion node, U context) {
-		node.getType().accept(this, context);
+		node.type().accept(this, context);
 
 		return null;
 	}

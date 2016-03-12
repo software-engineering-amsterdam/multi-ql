@@ -14,9 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import sc.ql.Environment;
-import sc.ql.Environment.ContextListener;
-import sc.ql.Interpreter;
 import sc.ql.ast.Expression;
 import sc.ql.ast.Expression.And;
 import sc.ql.ast.Expression.BooleanLiteral;
@@ -33,6 +30,9 @@ import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.ast.value.BooleanValue;
 import sc.ql.ast.value.NumberValue;
 import sc.ql.ast.value.StringValue;
+import sc.ql.eval.Environment;
+import sc.ql.eval.Evaluator;
+import sc.ql.eval.Environment.ContextListener;
 import sc.ql.ui.widget.LabelWidget;
 import sc.ql.ui.widget.RadioButtonWidget;
 import sc.ql.ui.widget.TextFieldWidget;
@@ -67,9 +67,9 @@ public class UIFactory {
 			public Void visit(IfThen node, Expression condition) {
 				Expression conjunction;
 
-				conjunction = new And(condition, node.getCondition());
+				conjunction = new And(condition, node.condition());
 
-				node.getBody().accept(this, conjunction);
+				node.then().accept(this, conjunction);
 
 				return null;
 			}
@@ -87,7 +87,7 @@ public class UIFactory {
 			public Void visit(ComputedQuestion node, Expression condition) {
 				UIQuestion uiQuestion;
 
-				uiQuestion = create(context, node, condition, node.getComputation());
+				uiQuestion = create(context, node, condition, node.computation());
 				uiForm.addQuestion(uiQuestion);
 				return null;
 			}
@@ -117,11 +117,11 @@ public class UIFactory {
 	}
 
 	protected UIWidget createLabelWidget(Question question) {
-		return new LabelWidget(question.getLabel());
+		return new LabelWidget(question.label());
 	}
 
 	protected UIWidget createValueWidget(Question question, Environment context) {
-		return question.getType().accept(new ValueTypeVisitor<UIWidget, Void>() {
+		return question.type().accept(new ValueTypeVisitor<UIWidget, Void>() {
 
 			@Override
 			public UIWidget visit(BooleanType type, Void unused) {
@@ -134,7 +134,7 @@ public class UIFactory {
 
 				choices = new UIWidgetChoices(Arrays.asList(YES, NO), NO);
 
-				return new RadioButtonWidget(context, question.getId(), choices);
+				return new RadioButtonWidget(context, question.name(), choices);
 			}
 
 			@Override
@@ -239,7 +239,7 @@ public class UIFactory {
 
 			if (valueComputation != null) {
 				this.valueWidget.setEditable(false);
-				context.addComputedValue(question.getId(), valueComputation);
+				context.addComputedValue(question.name(), valueComputation);
 			}
 
 			context.addContextListener(this);
@@ -249,11 +249,11 @@ public class UIFactory {
 
 		@Override
 		public String getId() {
-			return question.getId();
+			return question.name();
 		}
 
 		public boolean isEnabled(Environment context) {
-			return Interpreter.interpret(condition, context).equals(BooleanValue.TRUE);
+			return Evaluator.evaluate(condition, context).equals(BooleanValue.TRUE);
 		}
 
 		@Override
@@ -261,7 +261,7 @@ public class UIFactory {
 			setVisible(isEnabled(context));
 
 			if (valueComputation != null) {
-				valueWidget.setValue(context.getValue(question.getId()));
+				valueWidget.setValue(context.getValue(question.name()));
 			}
 		}
 

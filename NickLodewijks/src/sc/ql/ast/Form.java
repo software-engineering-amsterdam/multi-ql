@@ -17,19 +17,19 @@ import sc.ql.parser.QLParser;
 public class Form extends ASTNode {
 
 	private final String name;
-	private final Block body;
+	private final Statement body;
 
 	public Form(String id, Block body) {
 		this.name = id;
 		this.body = body;
 	}
 
-	public Block getBody() {
-		return body;
-	}
-
 	public String getName() {
 		return name;
+	}
+
+	public Statement getBody() {
+		return body;
 	}
 
 	public <T, U> T accept(FormVisitor<T, U> visitor, U context) {

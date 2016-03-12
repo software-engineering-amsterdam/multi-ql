@@ -43,7 +43,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 			@Override
 			public Void visit(ComputedQuestion node, Void context) {
-				rt.add(node, freeVariables(node.getComputation()));
+				rt.add(node, freeVariables(node.computation()));
 				return null;
 			}
 		}, null);
@@ -75,7 +75,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 
 			@Override
 			public Void visit(VariableExpr node, Void v) {
-				variables.add(node.getVariableId());
+				variables.add(node.getVariableName());
 
 				return null;
 			}
@@ -124,7 +124,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 		public void add(ComputedQuestion question, Set<String> variables) {
 			Reference reference;
 
-			reference = getReference(question.getId());
+			reference = getReference(question.name());
 
 			variables.forEach(variable -> reference.addDependency(variable));
 		}

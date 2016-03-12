@@ -2,8 +2,8 @@ package sc.ql.ui.widget;
 
 import javax.swing.SwingUtilities;
 
-import sc.ql.Environment;
 import sc.ql.ast.value.Value;
+import sc.ql.eval.Environment;
 import sc.ql.ui.UIWidget;
 
 public abstract class AbstractWidgetImpl implements UIWidget {

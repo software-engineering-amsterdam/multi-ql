@@ -10,9 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import sc.ql.Environment;
 import sc.ql.ast.Statement.Question;
 import sc.ql.ast.value.Value;
+import sc.ql.eval.Environment;
 import sc.ql.ui.UIWidgetStyle;
 
 public class TextFieldWidget extends AbstractWidgetImpl {
@@ -39,7 +39,7 @@ public class TextFieldWidget extends AbstractWidgetImpl {
 	};
 
 	public TextFieldWidget(Environment context, Question q, Value defaultValue) {
-		super(context, q.getId(), defaultValue);
+		super(context, q.name(), defaultValue);
 
 		panel = new JPanel();
 

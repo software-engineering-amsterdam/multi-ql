@@ -1,4 +1,4 @@
-package sc.ql;
+package sc.ql.eval;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ public class Environment {
 
 			computation = entry.getValue();
 
-			newValue = Interpreter.interpret(computation, this);
+			newValue = Evaluator.evaluate(computation, this);
 			previousValue = valueMap.put(entry.getKey(), newValue);
 
 			// We have to re-run all the computations if some value has changed.
