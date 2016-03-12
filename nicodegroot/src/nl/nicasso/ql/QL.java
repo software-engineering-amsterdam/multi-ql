@@ -19,6 +19,7 @@ import nl.nicasso.ql.antlr.QLParser;
 import nl.nicasso.ql.ast.structures.Form;
 import nl.nicasso.ql.gui.Gui;
 import nl.nicasso.ql.gui.MainFrame;
+import nl.nicasso.ql.stateTable.StateTable;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 
 public class QL {
@@ -60,7 +61,9 @@ public class QL {
         
         //symbolTable.displaySymbolTable(symbolTable);
         
-        Evaluator evaluator = new Evaluator(symbolTable);
+        StateTable stateTable = new StateTable();
+        
+        Evaluator evaluator = new Evaluator(stateTable);
         // Get all initial values
         ast.accept(evaluator, null);
 
@@ -71,7 +74,7 @@ public class QL {
 
         MainFrame main = new MainFrame();
         
-        Gui guiVisitor = new Gui(symbolTable, main);
+        Gui guiVisitor = new Gui(stateTable, main);
         ast.accept(guiVisitor, null);
         //ex.setVisible(true);
 	}

@@ -10,21 +10,21 @@ import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.symbolTable.SymbolTable;
-import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.stateTable.StateTable;
+import nl.nicasso.ql.stateTable.StateTableEntry;
 import nl.nicasso.ql.values.MoneyValue;
 
 public class MoneyQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JTextField field;
-	private SymbolTable symboltable;
+	private StateTable stateTable;
 	private Label label;
 	private Observer main;
 
 	public MoneyQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
-		this.symboltable = params.getSymboltable();
+		this.stateTable = params.getStateTable();
 		this.main = params.getMain();
 		
 		setupField(params.isEnabled());	
@@ -43,7 +43,7 @@ public class MoneyQuestionField extends QuestionField {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				SymbolTableEntry entry = symboltable.getEntry(identifier);
+				StateTableEntry entry = stateTable.getEntry(identifier);
 				boolean parseSuccess = true;
 				
 				try {
@@ -55,7 +55,7 @@ public class MoneyQuestionField extends QuestionField {
 				
 				if (parseSuccess) {
 					label.setLabelText("");
-					main.updatePanel();
+					main.fieldValueChanged();
 				}
 			}
 			
@@ -64,6 +64,15 @@ public class MoneyQuestionField extends QuestionField {
 	
 	public void setValue(Object value) {
 		field.setText(value.toString());
+	}
+	
+	public boolean equalValues(Object value) {
+		BigDecimal bd = (BigDecimal) value;
+		BigDecimal bd2 = (BigDecimal) BigDecimal.valueOf(Double.parseDouble(field.getText()));
+
+		//System.out.println(bd+" - "+bd2 + " EQUALS? "+ (bd.compareTo(bd2) == 0));
+
+		return bd.compareTo(bd2) == 0;
 	}
 	
 	public void setFeedbackLabel(Label label) {

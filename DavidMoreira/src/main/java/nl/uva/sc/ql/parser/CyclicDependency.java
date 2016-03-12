@@ -13,7 +13,7 @@ public class CyclicDependency {
 		this.isCyclic = false;
 	}
 	
-	public void checkIdentifier(String identifier){
+	public void analyseIfCycle(String identifier){
 		if (identifier.equals(this.identifier)){
 			this.isCyclic = true;
 		}

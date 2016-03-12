@@ -3,9 +3,9 @@ package nl.uva.sc.ql.gui.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class Form extends JFrame implements GuiInterface {
+public class Form extends JPanel implements GuiInterface {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -16,10 +16,9 @@ public class Form extends JFrame implements GuiInterface {
 	public Form(String name){
 		this.name = name;
 		this.questions = new ArrayList<Question>();
-		this.listIfForm = new ArrayList<IfForm>();
+		this.listIfForm = new ArrayList<IfForm>();		
 	}
 	
-	@Override
 	public String getName(){
 		return this.name;
 	}

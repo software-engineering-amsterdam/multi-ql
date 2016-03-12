@@ -17,13 +17,37 @@ form taxOfficeExample {
     "Did you enter a loan2?"
       hasMaintLoan2: int = 2 + 2 * 4
   } else if (hasBoughtHouse) {
-      "What was the selling price3?"
+      "What was the selling price3124123412341234?"
       	sellingPrice3: int   
   }
   
   if (true){
-    "What was the selling price5?"
-      sellingPrice5: int
+    "What was the describe price5?"
+      sellingPrice5: string
+    "What was the selling price6?"
+      sellingPrice6: int
+    "What was the selling price7?"
+      sellingPrice7: int
+    "What was the selling price8?"
+      sellingPrice8: int
+    "What was the selling price9?"
+      sellingPrice9: int
+    "What was the selling price10?"
+      sellingPrice10: int
+      
+      /*
+          "What was the selling price11?"
+      sellingPrice11: int
+          "What was the selling price12?"
+      sellingPrice12: int
+          "What was the selling price13?"
+      sellingPrice13: int
+          "What was the selling price14?"
+      sellingPrice14: int
+          "What was the selling price15?"
+      sellingPrice15: int
+          "What was the selling price16?"
+      sellingPrice16: int
+      */
   }
-  
 }

@@ -1,22 +1,22 @@
 package nl.nicasso.ql.gui;
 
 import nl.nicasso.ql.ast.expressions.Identifier;
-import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.stateTable.StateTable;
 
 public class QuestionFieldParameter {
 
 	private Identifier identifier;
-	private SymbolTable symboltable;
+	private StateTable stateTable;
 	private Observer main;
 	private boolean enabled;
 	
 	public QuestionFieldParameter() {
-		
+		// CAN GO?!
 	}
 	
-	public QuestionFieldParameter(Identifier identifier, SymbolTable symboltable, Observer main, boolean enabled) {
+	public QuestionFieldParameter(Identifier identifier, StateTable stateTable, Observer main, boolean enabled) {
 		this.identifier = identifier;
-		this.symboltable = symboltable;
+		this.stateTable = stateTable;
 		this.main = main;
 		this.enabled = enabled;
 	}
@@ -25,8 +25,8 @@ public class QuestionFieldParameter {
 		this.identifier = identifier;
 	}
 
-	public void setSymboltable(SymbolTable symboltable) {
-		this.symboltable = symboltable;
+	public void setSymboltable(StateTable stateTable) {
+		this.stateTable = stateTable;
 	}
 
 	public void setMain(Observer main) {
@@ -41,8 +41,8 @@ public class QuestionFieldParameter {
 		return identifier;
 	}
 
-	public SymbolTable getSymboltable() {
-		return symboltable;
+	public StateTable getStateTable() {
+		return stateTable;
 	}
 
 	public Observer getMain() {
