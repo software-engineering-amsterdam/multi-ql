@@ -21,10 +21,10 @@ import sc.ql.ast.Expression.StringLiteral;
 import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.UnaryExpr;
 import sc.ql.ast.Expression.VariableExpr;
+import sc.ql.ast.Statement.Block;
 import sc.ql.ast.Statement.ComputedQuestion;
 import sc.ql.ast.Statement.IfThen;
 import sc.ql.ast.Statement.NormalQuestion;
-import sc.ql.ast.Statement.Question;
 import sc.ql.ast.ValueType.BooleanType;
 import sc.ql.ast.ValueType.IntegerType;
 import sc.ql.ast.ValueType.StringType;
@@ -134,11 +134,7 @@ public class TopDown<T, U>
 
 	@Override
 	public T visit(Block node, U context) {
-		for (Question q : node.getQuestions()) {
-			q.accept(this, context);
-		}
-
-		for (IfThen statement : node.getIfStatements()) {
+		for (Statement statement : node.statements()) {
 			statement.accept(this, context);
 		}
 

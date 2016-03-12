@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
+import sc.ql.ast.Statement.Block;
 import sc.ql.parser.QLLexer;
 import sc.ql.parser.QLParser;
 

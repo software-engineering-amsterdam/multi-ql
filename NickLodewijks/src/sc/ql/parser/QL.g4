@@ -25,19 +25,24 @@ form returns [Form result]
     :   'form' + ID + block { $result = addSource($ctx, new Form($ID.text, $block.result)); }
     ;
     
+statement returns [Statement result]
+    : ifStat    { $result=$ifStat.result; }
+    | question  { $result=$question.result; } 
+    | block     { $result=$block.result; }
+    ;
+    
 block returns [Block result]
     locals [
-      List<Question> questions = new ArrayList<>();
-      List<IfThen> statements = new ArrayList<>();
+      List<Statement> statements = new ArrayList<>();
     ]
     @after{
-        $result = addSource($ctx, new Block($ctx.questions, $ctx.statements));
+        $result = addSource($ctx, new Block($ctx.statements));
     }
-    : '{' + (ifStat { $ctx.statements.add($ifStat.result); } | question { $ctx.questions.add($question.result); } )+ '}'
+    : '{' + (statement { $ctx.statements.add($statement.result); })+ '}'
     
     ;
     
-ifStat returns [IfThen result]
+ifStat returns [Statement result]
     : 'if' + '(' + expr + ')' + block
     { 
         $result = addSource($ctx, new IfThen($expr.result, $block.result));

@@ -1,5 +1,8 @@
 package sc.ql.ast;
 
+import java.util.Collections;
+import java.util.List;
+
 public abstract class Statement extends ASTNode {
 
 	public abstract <T, U> T accept(StatementVisitor<T, U> visitor, U context);
@@ -20,6 +23,24 @@ public abstract class Statement extends ASTNode {
 
 		public Block getBody() {
 			return body;
+		}
+
+		@Override
+		public <T, U> T accept(StatementVisitor<T, U> visitor, U context) {
+			return visitor.visit(this, context);
+		}
+	}
+
+	public static class Block extends Statement {
+
+		private final List<Statement> statements;
+
+		public Block(List<Statement> statements) {
+			this.statements = statements;
+		}
+
+		public List<Statement> statements() {
+			return Collections.unmodifiableList(statements);
 		}
 
 		@Override

@@ -9,7 +9,6 @@ import java.util.Set;
 
 import sc.ql.CyclicReferences.CyclicReference;
 import sc.ql.SemanticAnalyser.SemanticMessage.Level;
-import sc.ql.ast.Block;
 import sc.ql.ast.Expression;
 import sc.ql.ast.Expression.Add;
 import sc.ql.ast.Expression.And;
@@ -34,6 +33,8 @@ import sc.ql.ast.Expression.VariableExpr;
 import sc.ql.ast.ExpressionVisitor;
 import sc.ql.ast.Form;
 import sc.ql.ast.FormVisitor;
+import sc.ql.ast.Statement;
+import sc.ql.ast.Statement.Block;
 import sc.ql.ast.Statement.ComputedQuestion;
 import sc.ql.ast.Statement.IfThen;
 import sc.ql.ast.Statement.NormalQuestion;
@@ -211,14 +212,63 @@ public class SemanticAnalyser {
 
 		@Override
 		public Void visit(Block node, SymbolTable st) {
+
 			// First traverse the questions, because they
 			// declare variables that can be used in the if statements.
-			for (Question question : node.getQuestions()) {
-				question.accept(this, st);
+
+			for (Statement statement : node.statements()) {
+				statement.accept(new StatementVisitor<Void, Void>() {
+
+					@Override
+					public Void visit(ComputedQuestion question, Void context) {
+						question.accept(TypeCheckVisitor.this, st);
+						return null;
+					};
+
+					@Override
+					public Void visit(NormalQuestion question, Void context) {
+						question.accept(TypeCheckVisitor.this, st);
+						return null;
+					}
+
+					@Override
+					public Void visit(Block block, Void context) {
+						block.accept(TypeCheckVisitor.this, st);
+						return null;
+					}
+
+					@Override
+					public Void visit(IfThen node, Void context) {
+						return null;
+					}
+				}, null);
 			}
 
-			for (IfThen statement : node.getIfStatements()) {
-				statement.accept(this, st);
+			for (Statement statement : node.statements()) {
+
+				statement.accept(new StatementVisitor<Void, Void>() {
+
+					@Override
+					public Void visit(ComputedQuestion question, Void context) {
+						return null;
+					};
+
+					@Override
+					public Void visit(NormalQuestion question, Void context) {
+						return null;
+					}
+
+					@Override
+					public Void visit(Block block, Void context) {
+						return null;
+					}
+
+					@Override
+					public Void visit(IfThen ifThen, Void context) {
+						ifThen.accept(TypeCheckVisitor.this, st);
+						return null;
+					}
+				}, null);
 			}
 
 			return null;
