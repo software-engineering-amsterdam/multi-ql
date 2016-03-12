@@ -41,17 +41,22 @@ public class MoneyQuestionField extends QuestionField {
 			public void keyReleased(KeyEvent e) {
 				boolean parseSuccess = true;
 				
-				try {
-					MoneyValue value = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(field.getText())));
-					main.fieldValueChanged(identifier, value);
-					main.updateAllPanels();
-				} catch (Exception ex) {
-					label.setLabelText("This is not a valid decimal number.");
-					parseSuccess = false;
+				MoneyValue value = new MoneyValue(BigDecimal.valueOf(0.00));
+				
+				if (!field.getText().equals("")) {
+					try {
+						value = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(field.getText())));
+					} catch (Exception ex) {
+						label.setLabelText("This is not a valid decimal number.");
+						parseSuccess = false;
+					}
 				}
 				
 				if (parseSuccess) {
 					label.setLabelText("");
+					
+					main.fieldValueChanged(identifier, value);
+					main.updateAllPanels();
 				}
 			}
 			
@@ -66,7 +71,7 @@ public class MoneyQuestionField extends QuestionField {
 		BigDecimal bd = (BigDecimal) value;
 		BigDecimal bd2 = (BigDecimal) BigDecimal.valueOf(Double.parseDouble(field.getText()));
 
-		System.out.println(bd+" - "+bd2 + " EQUALS? "+ (bd.compareTo(bd2) == 0));
+		//System.out.println(bd+" - "+bd2 + " EQUALS? "+ (bd.compareTo(bd2) == 0));
 
 		return bd.compareTo(bd2) == 0;
 	}
