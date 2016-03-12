@@ -39,7 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             print(symbolTable.getSymbolTable().description)
             
-            form.accept(QLTypeChecker())
+//            form.accept(QLTypeChecker())
 
             
         } catch {
