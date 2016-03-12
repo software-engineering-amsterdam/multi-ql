@@ -9,7 +9,11 @@ import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
+import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.gui.panels.Panel;
+import nl.nicasso.ql.stateTable.StateTable;
+import nl.nicasso.ql.stateTable.StateTableEntry;
+import nl.nicasso.ql.values.Value;
 
 public class MainFrame implements Observer {
 
@@ -17,8 +21,10 @@ public class MainFrame implements Observer {
 	private JFrame mainFrame;
 	private JPanel rootPanel;
 	private JScrollPane scrollFrame;
+	private StateTable stateTable;
 	
-	public MainFrame() {
+	public MainFrame(StateTable stateTable) {
+		this.stateTable = stateTable;
 		panels = new ArrayList<Panel>();
 		
 		mainFrame = new JFrame("Questionnaire");
@@ -47,33 +53,33 @@ public class MainFrame implements Observer {
 			rootPanel.add(p.getPanel(), "wrap");
 		}
 		
+		updateAllPanels();
 		setVisible(true);
 	}
 
 	@Override
-	public boolean fieldValueChanged() {
+	public boolean fieldValueChanged(Identifier identifier, Value value) {
 		
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("UDPATE PANELS MAINFRAME");
+		StateTableEntry entry = new StateTableEntry(value);
+		stateTable.addState(identifier, entry);
 		
+		return true;
+	}
+	
+	public void updateAllPanels() {
 		boolean runAgain = false;
 		
 		for (Panel p : panels) {
-			boolean updatedPanel = p.fieldValueChanged();
+			boolean updatedPanel = p.update();
 			if (updatedPanel) {
 				runAgain = true;
 			}
 		}
 		
 		if (runAgain) {
-			System.out.println("RUN AGAIN!");
-			fieldValueChanged();
+			updateAllPanels();
 		}
-		
-		return true;
+	
 	}
 
 }

@@ -8,13 +8,12 @@ import javax.swing.JPanel;
 import nl.nicasso.ql.Evaluator;
 import nl.nicasso.ql.ast.expressions.Expression;
 import nl.nicasso.ql.ast.statements.Question;
-import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.widgets.Label;
 import nl.nicasso.ql.stateTable.StateTable;
 import nl.nicasso.ql.values.Value;
 
-public abstract class Panel implements Observer {
+public abstract class Panel {
 
 	protected JPanel panel;
 	protected StateTable stateTable;
@@ -48,20 +47,19 @@ public abstract class Panel implements Observer {
 		panel.add(field.getField());
 	}
 	
-	@Override
-	public boolean fieldValueChanged() {
+	public boolean update() {
 		boolean updated = false;
 		
 		// Visibility
 		Evaluator evaluator = new Evaluator(stateTable);
-		Value value = condition.accept(evaluator);
+		Value visibility = condition.accept(evaluator);
 		
-		if (panel.isVisible() != (Boolean) value.getValue()) {
+		if (panel.isVisible() != (Boolean) visibility.getValue()) {
 			//updated = true;
 		}
 		
-		//System.out.println("VISIBILITY: "+value.getValue());
-		setVisible((Boolean) value.getValue());
+		//System.out.println("VISIBILITY: "+visibility.getValue());
+		setVisible((Boolean) visibility.getValue());
 		
 		return updated;
 	}
