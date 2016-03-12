@@ -5,8 +5,8 @@ form taxOfficeExample {
   "The integer from above + 6"
     cQ11: integer = (cQ1 + 6)
     
-  "Just 300.00 money"
-    cQ3: money = (300.00)
+  "30.00 money times the above"
+    cQ3: money = (30.00 * cQ11)
     
   "The 300.00 money times the second from above."
     cQ2: money = (cQ3 * cQ11)
@@ -22,6 +22,9 @@ form taxOfficeExample {
     	  
     	"The empty money times 2"
     	  cQ5: money = (cQ4 * 2)
+    	  
+    	"The above times 2"
+    	  cQ55: money = (cQ5 * 2)
     	  
     	"Just a boolean true"
     	  cQ6: boolean = (true)

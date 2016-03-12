@@ -38,7 +38,6 @@ import nl.nicasso.ql.ast.types.StringType;
 import nl.nicasso.ql.ast.types.Type;
 import nl.nicasso.ql.ast.types.UnknownType;
 import nl.nicasso.ql.symbolTable.SymbolTable;
-import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 import nl.nicasso.ql.utils.Pair;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
@@ -231,11 +230,11 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 
 	@Override
 	public Type visit(Identifier value) {
-		SymbolTableEntry entry = symbolTable.getEntry(value);
+		Type entryType = symbolTable.getEntryType(value);
 		
 		addQuestionDependency(value);
 		
-		return entry.getType();
+		return entryType;
 	}
 
 	@Override

@@ -11,13 +11,13 @@ import nl.nicasso.ql.ast.statements.Question;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.stateTable.StateTable;
 import nl.nicasso.ql.values.Value;
 
 public abstract class Panel implements Observer {
 
 	protected JPanel panel;
-	protected SymbolTable symbolTable;
+	protected StateTable stateTable;
 	protected Expression condition;
 	protected QuestionField field;
 
@@ -49,12 +49,21 @@ public abstract class Panel implements Observer {
 	}
 	
 	@Override
-	public void updatePanel() {
+	public boolean fieldValueChanged() {
+		boolean updated = false;
+		
 		// Visibility
-		Evaluator evaluator = new Evaluator(symbolTable);
+		Evaluator evaluator = new Evaluator(stateTable);
 		Value value = condition.accept(evaluator);
-		System.out.println("VALUE: "+value.getValue());
+		
+		if (panel.isVisible() != (Boolean) value.getValue()) {
+			//updated = true;
+		}
+		
+		//System.out.println("VISIBILITY: "+value.getValue());
 		setVisible((Boolean) value.getValue());
+		
+		return updated;
 	}
 	
 }
