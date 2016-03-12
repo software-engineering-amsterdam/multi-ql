@@ -61,7 +61,7 @@ class SymbolsVisitor: Visitor {
         }
     }
     
-    func visit(qlifstatement: QLIfStatement) {        
+    func visit(qlifstatement: QLIfStatement) {
         qlifstatement.condition.accept(self)
         
         for statement in qlifstatement.codeBlock {

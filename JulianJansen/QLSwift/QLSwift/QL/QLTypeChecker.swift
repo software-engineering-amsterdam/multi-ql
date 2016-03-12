@@ -10,7 +10,11 @@ import Foundation
 
 class QLTypeChecker: Visitor {
     
+    let symbolTable: QLSymbolTable
     
+    init(symbolTable: QLSymbolTable) {
+        self.symbolTable = symbolTable
+    }
     
     let testCase = false
     
@@ -19,11 +23,7 @@ class QLTypeChecker: Visitor {
     }
     
     func visit(qlform: QLForm) {
-//        guard testCase == true else {
-//            throw TypeError.A
-//        }
-        
-        
+
         for statement in qlform.codeBlock {
             statement.accept(self)
         }
