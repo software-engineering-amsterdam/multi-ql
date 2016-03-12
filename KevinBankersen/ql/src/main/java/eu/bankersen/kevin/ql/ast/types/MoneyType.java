@@ -1,10 +1,10 @@
-package eu.bankersen.kevin.ql.ast.object.type;
+package eu.bankersen.kevin.ql.ast.types;
 
 import java.math.BigDecimal;
 
-import eu.bankersen.kevin.ql.ast.object.value.MoneyValue;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
-import eu.bankersen.kevin.ql.ast.object.value.UndifinedValue;
+import eu.bankersen.kevin.ql.ast.values.MoneyValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 import eu.bankersen.kevin.ql.gui.widgets.BoxWidget;
 import eu.bankersen.kevin.ql.gui.widgets.InputWidget;
 

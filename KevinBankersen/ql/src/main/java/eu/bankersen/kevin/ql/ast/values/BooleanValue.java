@@ -1,7 +1,7 @@
-package eu.bankersen.kevin.ql.ast.object.value;
+package eu.bankersen.kevin.ql.ast.values;
 
-import eu.bankersen.kevin.ql.ast.object.type.BooleanType;
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
+import eu.bankersen.kevin.ql.ast.types.BooleanType;
+import eu.bankersen.kevin.ql.ast.types.QLType;
 
 public class BooleanValue extends AbstractValue {
 

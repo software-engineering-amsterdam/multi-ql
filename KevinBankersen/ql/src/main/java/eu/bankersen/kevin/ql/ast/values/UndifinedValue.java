@@ -1,7 +1,7 @@
-package eu.bankersen.kevin.ql.ast.object.value;
+package eu.bankersen.kevin.ql.ast.values;
 
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
-import eu.bankersen.kevin.ql.ast.object.type.UndifinedType;
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.types.UndifinedType;
 
 public class UndifinedValue extends AbstractValue {
 

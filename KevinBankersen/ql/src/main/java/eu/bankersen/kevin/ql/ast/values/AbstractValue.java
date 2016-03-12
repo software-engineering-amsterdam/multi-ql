@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.ast.object.value;
+package eu.bankersen.kevin.ql.ast.values;
 
 public abstract class AbstractValue implements QLValue {
 

@@ -5,10 +5,10 @@ import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.UnaryExpr;
 import eu.bankersen.kevin.ql.ast.expr.math.Div;
 import eu.bankersen.kevin.ql.ast.expr.math.Mul;
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
 import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
 import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
 import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.ast.types.QLType;
 
 public class ExprTypeError extends TypeCheckError {
 

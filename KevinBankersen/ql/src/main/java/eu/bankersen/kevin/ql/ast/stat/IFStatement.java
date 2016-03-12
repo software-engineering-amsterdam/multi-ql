@@ -3,8 +3,8 @@ package eu.bankersen.kevin.ql.ast.stat;
 import eu.bankersen.kevin.ql.ast.BaseVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.form.Body;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
-import eu.bankersen.kevin.ql.ast.object.value.UndifinedValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class IFStatement extends AbstractStatement {

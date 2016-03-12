@@ -17,7 +17,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.gui.widgets.QuestionBuilder;
 import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
 import eu.bankersen.kevin.ql.interpreter.DataListener;
