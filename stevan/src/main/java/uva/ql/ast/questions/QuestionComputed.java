@@ -9,6 +9,7 @@ import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
 import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class QuestionComputed extends Question {
@@ -24,7 +25,7 @@ public class QuestionComputed extends Question {
 	public Expression getExp() {
 		return exp;
 	}
-	
+
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
@@ -47,6 +48,11 @@ public class QuestionComputed extends Question {
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {
+		visitor.visitQuestionComputed(this);
+	}
+	
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
 		visitor.visitQuestionComputed(this);
 	}
 }

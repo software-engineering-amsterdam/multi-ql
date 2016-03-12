@@ -1,13 +1,18 @@
 MUST
 - Remove the tempvariable smell! Just pass it on?
 - Check all the variable names!
-- Create GUI
 - Create more tests
-- Good error handling
+- Better error handling
+- Seperate the symbol table so one is for the typechecker and the other one is for the evaluator (states).
+- Move classes and packages to create a good structure
+- Do a Fixpoint loop for evaluating.  
 
 SHOULD
 - Fix line numbers in error messages
 - Acknowledge also 2 as money instead of only 2.00?
+- Dependency based evaluating may be very cool, so the fixpoint loop is not needed anymore.
+- Memento for resetting the stateTable?
+- Factory for the GUI
 
 COULD
 - QLS

@@ -2,12 +2,12 @@ package eu.bankersen.kevin.ql.ast.form;
 
 import java.util.List;
 
-import eu.bankersen.kevin.ql.ast.BasicVisitor;
-import eu.bankersen.kevin.ql.ast.AcceptVisitor;
+import eu.bankersen.kevin.ql.ast.BaseVisitor;
+import eu.bankersen.kevin.ql.ast.BaseVisitorAccept;
 import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.interpreter.Environment;
 
-public class Body implements AcceptVisitor {
+public class Body implements BaseVisitorAccept {
 
     private final List<AbstractStatement> statements;
 
@@ -19,24 +19,16 @@ public class Body implements AcceptVisitor {
 	return statements;
     }
 
-    public SymbolTable evalBody(SymbolTable symbolTable) {
-	
-	for (AbstractStatement s : statements) {
-	    symbolTable = s.evalStatement(symbolTable);
-	}
-	return symbolTable;
-    }
-
-    public SymbolTable visible(SymbolTable symbolTable, Boolean visible) {
+    public Environment evalBody(Environment context) {
 
 	for (AbstractStatement s : statements) {
-	    symbolTable = s.visible(symbolTable, visible);
+	    context = s.evalStatement(context);
 	}
-	return symbolTable;
+	return context;
     }
-    
+
     @Override
-    public <T> void accept(BasicVisitor v, T context) {
-	v.visit(this);
+    public <T> T accept(BaseVisitor<T> v, T context) {
+	return v.visit(this, context);
     }
 }

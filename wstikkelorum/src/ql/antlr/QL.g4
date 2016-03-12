@@ -1,15 +1,15 @@
 grammar QL;
 
 @parser::header{
-	package antlr;
-	import ast.expression.*;
-	import ast.form.*;
-	import ast.literal.*;
-	import ast.statement.*;
+	package ql.antlr;
+	import ql.ast.expression.*;
+	import ql.ast.form.*;
+	import ql.ast.literal.*;
+	import ql.ast.statement.*;
 }
 
 @lexer::header{
-	package antlr;
+	package ql.antlr;
 }
 
 file 
@@ -111,28 +111,12 @@ unExpression returns [Expression result]
 	;
 
 literal returns [Literal result]
-	: intLiteral { $result = new Literal($intLiteral.result); }
-	| boolLiteral { $result = new Literal($boolLiteral.result); }
-	| stringLiteral { $result = new Literal($stringLiteral.result); }
-	| variableExpression {$result = new Literal($variableExpression.result); }
+	: INT { $result = new IntLiteral(Integer.valueOf($INT.text), $INT.getLine()); }
+	| BOOL { $result = new BoolLiteral(Boolean.valueOf($BOOL.text), $BOOL.getLine()); }
+	| STR { $result = new StringLiteral($STR.text, $STR.getLine()); }
+	| ID { $result = new VariableExpression($ID.text, $ID.getLine()); }
 	;
 
-intLiteral returns [IntLiteral result]
-	: INT { $result = new IntLiteral($INT.getLine(), Integer.valueOf($INT.text)); }
-	;
-	
-boolLiteral returns [BoolLiteral result]
-	: BOOL { $result = new BoolLiteral($BOOL.getLine(), Boolean.valueOf($BOOL.text)); }
-	;
-
-stringLiteral returns [StringLiteral result]
-	: STR { $result = new StringLiteral($STR.getLine(), $STR.text); }
-	;
-
-variableExpression returns [VariableExpression result]
-	: ID { $result = new VariableExpression($ID.getLine(), $ID.text); }
-	;
-	
 WHITESPACE: (' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
 COMMENT: '/*' .*? '/*' -> channel(HIDDEN);
 

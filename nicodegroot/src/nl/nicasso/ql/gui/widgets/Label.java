@@ -1,5 +1,6 @@
 package nl.nicasso.ql.gui.widgets;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.AbstractButton;
@@ -19,6 +20,14 @@ public class Label extends Widget {
 		
 		label.setVerticalTextPosition(AbstractButton.CENTER);
 		label.setHorizontalTextPosition(AbstractButton.CENTER);
+	}
+	
+	public void setLabelText(String labelText) {
+		label.setText(labelText);
+	}
+	
+	public void setLabelColor(Color color) {
+		label.setForeground(color);
 	}
 	
 	public Component getWidget() {

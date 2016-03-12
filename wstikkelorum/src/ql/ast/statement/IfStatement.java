@@ -10,10 +10,10 @@ public class IfStatement extends TreeNode implements Visitable {
 	private final Expression condition;
 	private final Body body;
 
-	public IfStatement(int lineNumber, Expression result, Body result2) {
+	public IfStatement(int lineNumber, Expression expression, Body body) {
 		super(lineNumber);
-		this.condition = result;
-		this.body = result2;
+		this.condition = expression;
+		this.body = body;
 	}
 
 	public Expression getCondition() {

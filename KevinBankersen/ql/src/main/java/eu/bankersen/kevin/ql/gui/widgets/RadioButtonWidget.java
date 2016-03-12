@@ -10,39 +10,36 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import eu.bankersen.kevin.ql.ast.type.Type;
-import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 
-public class RadioButtonWidget implements Widget {
+public class RadioButtonWidget implements InputWidget {
 
-    private final String name;
     private final JPanel panel;
-    private final Type type;
+    private final QLType type;
     private final JRadioButton trueToggle;
     private final JRadioButton falseToggle;
     private final List<Widget> widgetListeners;
     private final ButtonGroup group;
 
-    public RadioButtonWidget(Symbol data) {
-	this.name = data.getName();
-	this.type = data.getType();
+    public RadioButtonWidget(QLType type) {
+	this.type = type;
 	this.panel = new JPanel();
 	widgetListeners = new ArrayList<>();
 
 	trueToggle = new JRadioButton("True");
-	trueToggle.setEnabled(!data.isComputed());
 	falseToggle = new JRadioButton("False");
-	falseToggle.setEnabled(!data.isComputed());
-	
+
 	group = new ButtonGroup();
 	group.add(trueToggle);
 	group.add(falseToggle);
 
-	ActionListener toggleListerner =  new ActionListener() {	
+	ActionListener toggleListerner = new ActionListener() {
 	    public void actionPerformed(ActionEvent actionEvent) {
 		AbstractButton aButton = (AbstractButton) actionEvent.getSource();
-		widgetUpdate(type.parseValue(aButton.getText()));
+		QLValue value = type.createQLValueFrom(aButton.getText());
+		widgetUpdated(value);
 	    }
 	};
 
@@ -59,22 +56,28 @@ public class RadioButtonWidget implements Widget {
     }
 
     @Override
-    public void dataUpdate(SymbolTable symbolTable) {
-	Symbol data = symbolTable.getSymbol(name);
+    public void setComputed(Boolean isComputed) {
+	trueToggle.setEnabled(!isComputed);
+	falseToggle.setEnabled(!isComputed);
+    }
 
-	if (data.getValue() != null) {
-	    if (data.getValue().equals(true)) {
+    @Override
+    public void updateWidget(QLValue value) {
+
+	if (!value.equals(new UndifinedValue())) {
+	    if (value.value().equals(true)) {
 		trueToggle.setSelected(true);
-	    } else if (data.getValue().equals(false)) {
+	    } else if (value.value().equals(false)) {
 		falseToggle.setSelected(true);
 	    }
 	} else {
 	    group.clearSelection();
 	}
     }
+
     @Override
-    public void widgetUpdate(Object value) {
-	widgetListeners.forEach(l -> l.widgetUpdate(value));
+    public void widgetUpdated(QLValue value) {
+	widgetListeners.forEach(l -> l.widgetUpdated(value));
     }
 
     @Override
@@ -82,4 +85,3 @@ public class RadioButtonWidget implements Widget {
 	widgetListeners.add(listener);
     }
 }
-

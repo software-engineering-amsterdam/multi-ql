@@ -1,28 +1,28 @@
 package eu.bankersen.kevin.ql.parser;
 
-import com.esotericsoftware.minlog.Log;
-
-import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.parser.QLParser.FormContext;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-public class FormParser {
+import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.parser.QLParser.FormContext;
 
+public class FormParser {
 
     private final String input;
     private FormContext formContext;
     private QLParser parser;
 
-    public FormParser(final String input) throws ANTLRParseException {
-	this.input = input;
+    public FormParser(String file) throws ANTLRParseException, IOException {
+	this.input = readFile(file);
 	parse();
     }
 
     private void parse() throws ANTLRParseException {
-
-	Log.info("Parsing File");
 
 	ANTLRInputStream antlrStream = new ANTLRInputStream(input);
 
@@ -31,31 +31,34 @@ public class FormParser {
 	CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 
 	parser = new QLParser(tokenStream);
-	
+
 	ErrorListener listener = new ErrorListener();
-	
+
 	parser.addErrorListener(listener);
 
 	formContext = parser.form();
-	
+
 	if (listener.errors()) {
 	    throw new ANTLRParseException(listener.getErrors());
 	}
     }
 
-    public final FormContext getFormContext() {
-	return formContext;
-    }
-
-    public final Form getForm() {
+    public Form getForm() {
 	return formContext.result;
     }
 
-    public final int getParseErrors() {
-	return parser.getNumberOfSyntaxErrors();
-    }
+    private String readFile(final String filePath) throws IOException {
 
-    public final String[] getParseRules() {
-	return parser.getRuleNames();
+	BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
+
+	StringBuilder out = new StringBuilder();
+	String line;
+
+	while ((line = reader.readLine()) != null) {
+	    out.append(line + "\n");
+	}
+	reader.close();
+
+	return out.toString();
     }
 }

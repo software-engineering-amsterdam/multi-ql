@@ -8,9 +8,9 @@ import (
 	"testing"
 )
 
-func TestSymbolTableAdd(t *testing.T) {
+func testSymbolTableAdd(t *testing.T) {
 	newSymbolTable := NewSymbolTable()
-	exampleVarId := vari.VarId{"testIdentifier"}
+	exampleVarId := vari.NewVarIdNoSourceInfo("testIdentifier")
 	newSymbolTable.SetNodeForIdentifier("testValue", exampleVarId)
 
 	if lookupValue := newSymbolTable.GetNodeForIdentifier(exampleVarId); lookupValue != "testValue" {
@@ -18,9 +18,9 @@ func TestSymbolTableAdd(t *testing.T) {
 	}
 }
 
-func TestSaveToDisk(t *testing.T) {
+func testSaveToDisk(t *testing.T) {
 	newSymbolTable := NewSymbolTable()
-	exampleVarId := vari.VarId{"testIdentifier"}
+	exampleVarId := vari.NewVarIdNoSourceInfo("testIdentifier")
 	newSymbolTable.SetNodeForIdentifier("testValue", exampleVarId)
 
 	newSymbolTable.SaveToDisk()

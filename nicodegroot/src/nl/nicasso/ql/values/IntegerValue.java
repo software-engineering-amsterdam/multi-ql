@@ -12,6 +12,7 @@ public class IntegerValue extends Value {
 	
 	@Override
 	public boolean equals(Object ob) {
+		System.out.println(ob.getClass());
 		IntegerValue value = (IntegerValue) ob;
 		return value.equals(value.getValue());
 	}

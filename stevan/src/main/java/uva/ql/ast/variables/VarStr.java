@@ -4,12 +4,12 @@ import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.ast.variables.types.Str;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
 import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
-public class VarStr extends Variable {
+public class VarStr extends Variable implements IVariable {
 
 	private Str type = new Str();
 	
@@ -18,13 +18,13 @@ public class VarStr extends Variable {
 	}
 	
 	@Override
-	public EnumType getType() {
-		return this.type.getType();
+	public EnumType evalType() {
+		return this.getType();
 	}
 	
 	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {
-		visitor.visitVarStr(this);
+	public EnumType getType() {
+		return this.type.getType();
 	}
 
 	@Override
@@ -35,4 +35,7 @@ public class VarStr extends Variable {
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {}
+
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {}
 }

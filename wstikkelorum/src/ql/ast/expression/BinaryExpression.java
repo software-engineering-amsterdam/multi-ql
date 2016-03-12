@@ -1,6 +1,5 @@
 package ql.ast.expression;
 
-import ql.ast.expression.Expression;
 import ql.ast.visitor.Visitor;
 
 public class BinaryExpression extends Expression {

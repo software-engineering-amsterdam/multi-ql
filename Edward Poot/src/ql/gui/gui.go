@@ -4,81 +4,65 @@ import (
 	"fmt"
 	//"io/ioutil"
 	log "github.com/Sirupsen/logrus"
-	"ql/ast/expr"
+	"github.com/mattn/go-gtk/gtk"
 	"ql/ast/stmt"
-	"ql/ast/visit"
-	"ql/symboltable"
+	"ql/ast/visitor"
+	"ql/interfaces"
 	"strconv"
+	"strings"
 )
 
 type GUI struct {
-	visit.Visitor
+	visitor.BaseVisitor
 	Form *GUIForm
 }
 
-func CreateGUI(form stmt.Form, symbolTable symboltable.SymbolTable) {
-	gui := GUI{Form: &GUIForm{Title: form.Identifier.Ident}}
+func CreateGUI(form stmt.Form, symbolTable interfaces.SymbolTable, typeCheckerErrors []error) GUI {
+	gui := GUI{Form: &GUIForm{Title: form.Identifier.GetIdent()}}
 
 	gui.Form.SaveDataCallback = symbolTable.SaveToDisk
 
-	gui.Visit(form, symbolTable)
-}
+	form.Accept(gui, symbolTable)
 
-func (v GUI) Visit(t interface{}, s interface{}) interface{} {
-	symbolTable := s.(symboltable.SymbolTable)
+	gui.Show()
 
-	switch t.(type) {
-	default:
-		log.WithFields(log.Fields{"Node": fmt.Sprintf("%T", t)}).Debug("Ignoring unhandled node type")
-	case stmt.Form:
-		log.Debug("Visit Form")
-
-		t.(stmt.Form).Identifier.Accept(v, symbolTable)
-		t.(stmt.Form).Content.Accept(v, symbolTable)
-
-		v.Form.Show()
-	case stmt.StmtList:
-		log.Debug("Visit StmtList")
-
-		for _, question := range t.(stmt.StmtList).Questions {
-			question.Accept(v, symbolTable)
-		}
-
-		for _, conditional := range t.(stmt.StmtList).Conditionals {
-			conditional.Accept(v, symbolTable)
-		}
-	case stmt.InputQuestion:
-		log.Debug("Visit InputQuestion")
-
-		question := t.(stmt.InputQuestion)
-		v.handleInputQuestion(question, symbolTable)
-
-		question.Label.Accept(v, symbolTable)
-		question.VarDecl.Accept(v, symbolTable)
-	case stmt.ComputedQuestion:
-		log.Debug("Visit ComputedQuestion")
-
-		question := t.(stmt.ComputedQuestion)
-		v.handleComputedQuestion(question, symbolTable)
-
-		question.Label.Accept(v, symbolTable)
-		question.VarDecl.Accept(v, symbolTable)
-		question.Computation.Accept(v, symbolTable)
-	case stmt.If:
-		log.Debug("Visit If")
-		t.(stmt.If).Cond.Accept(v, symbolTable)
-		t.(stmt.If).Body.Accept(v, symbolTable)
-	case stmt.IfElse:
-		log.Debug("Visit IfElse")
-		t.(stmt.IfElse).Cond.Accept(v, symbolTable)
-		t.(stmt.IfElse).IfBody.Accept(v, symbolTable)
-		t.(stmt.IfElse).ElseBody.Accept(v, symbolTable)
+	if len(typeCheckerErrors) != 0 {
+		gui.ShowErrorDialog(typeCheckerErrors)
+	} else {
+		gui.Form.ShowForm()
 	}
 
-	return nil
+	gui.Form.Window.ShowAll()
+	gtk.Main()
+
+	return gui
 }
 
-func (v GUI) handleInputQuestion(question stmt.InputQuestion, symbolTable symboltable.SymbolTable) {
+func (g *GUI) Show() {
+	log.Info("Showing GUI")
+
+	gtk.Init(nil)
+
+	window := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
+	window.SetPosition(gtk.WIN_POS_CENTER)
+	window.SetTitle("QL")
+	window.SetIconName("gtk-dialog-info")
+
+	//window.SetSizeRequest(400, 400)
+	window.ShowAll()
+
+	g.Form.Window = window
+}
+
+func (g GUI) VisitComputedQuestion(c interfaces.ComputedQuestion, s interface{}) {
+	g.handleComputedQuestion(c, s.(interfaces.SymbolTable))
+}
+
+func (g GUI) VisitInputQuestion(i interfaces.InputQuestion, s interface{}) {
+	g.handleInputQuestion(i, s.(interfaces.SymbolTable))
+}
+
+func (v GUI) handleInputQuestion(question interfaces.InputQuestion, symbolTable interfaces.SymbolTable) {
 	var guiQuestion GUIInputQuestion
 	questionCallback := func(input interface{}, err error) {
 		if err != nil {
@@ -92,7 +76,7 @@ func (v GUI) handleInputQuestion(question stmt.InputQuestion, symbolTable symbol
 			return
 		}
 
-		questionIdentifier := question.GetVarDecl().Ident
+		questionIdentifier := question.GetVarDecl().GetIdent()
 		log.WithFields(log.Fields{"input": input, "identifier": questionIdentifier}).Debug("Question input received")
 		symbolTable.SetNodeForIdentifier(input, questionIdentifier)
 
@@ -103,23 +87,48 @@ func (v GUI) handleInputQuestion(question stmt.InputQuestion, symbolTable symbol
 	v.Form.AddInputQuestion(guiQuestion)
 }
 
-func (v GUI) handleComputedQuestion(question stmt.ComputedQuestion, symbolTable symboltable.SymbolTable) {
-	computation := question.Computation.(expr.Expr)
-	guiQuestion := CreateGUIComputedQuestion(question.GetLabelAsString(), question.VarDecl.GetType(), computation, question.VarDecl.GetIdentifier())
+func (v GUI) handleComputedQuestion(question interfaces.ComputedQuestion, symbolTable interfaces.SymbolTable) {
+	computation := question.GetComputation()
+	guiQuestion := CreateGUIComputedQuestion(question.GetLabelAsString(), question.GetVarDecl().GetType(), computation, question.GetVarDecl().GetIdent())
 
 	v.Form.AddComputedQuestion(guiQuestion)
 }
 
-func (g GUI) updateComputedQuestions(symbolTable symboltable.SymbolTable) {
+func (g GUI) updateComputedQuestions(symbolTable interfaces.SymbolTable) {
 	for _, computedQuestion := range g.Form.ComputedQuestions {
 		computedQuestionEval := computedQuestion.Expr.Eval(symbolTable)
-		computedQuestion.GUIQuestion.ChangeElementText(fmt.Sprintf("%v", computedQuestionEval))
+		computedQuestion.ChangeElementText(fmt.Sprintf("%v", computedQuestionEval))
 
 		// save the computed value to the symbol table
 		symbolTable.SetNodeForIdentifier(computedQuestionEval, computedQuestion.VarId)
 
 		log.WithFields(log.Fields{"eval": computedQuestionEval}).Info("Computed question value changed")
 	}
+}
+
+func (g GUI) ShowErrorDialog(errors []error) {
+	errorStrings := []string{}
+	for _, singleError := range errors {
+		errorStrings = append(errorStrings, fmt.Sprintf("%s", singleError))
+	}
+
+	errorsAsString := strings.Join(errorStrings, "\n")
+
+	messagedialog := gtk.NewMessageDialog(
+		g.Form.Window,
+		gtk.DIALOG_MODAL,
+		gtk.MESSAGE_INFO,
+		gtk.BUTTONS_OK,
+		fmt.Sprintf("Errors encountered: \n%s", errorsAsString))
+	messagedialog.Response(func() {
+		log.Info("Error dialog displayed")
+		messagedialog.Connect("destroy", func() {
+			gtk.MainQuit()
+		})
+		messagedialog.Destroy()
+	})
+
+	messagedialog.Run()
 }
 
 /*

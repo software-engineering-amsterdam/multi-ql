@@ -8,40 +8,38 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.gui.ViewListener;
-import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.interpreter.DataListener;
+import eu.bankersen.kevin.ql.interpreter.Environment;
 
-public class QuestionWidget implements Widget {
+public class QuestionWidget implements Widget, DataListener {
 
     private final String name;
     private final JPanel questionContainer;
-    private final Widget questionInput;
+    private final InputWidget questionInput;
     private final List<ViewListener> viewListeners;
-    private final List<Widget> widgetListeners;
+    private final List<InputWidget> widgetListeners;
 
-    public QuestionWidget(Symbol data) {
+    public QuestionWidget(String name, String question, Boolean isComputed, QLType type) {
 
 	viewListeners = new ArrayList<>();
 	widgetListeners = new ArrayList<>();
-	name = data.getName();
+	this.name = name;
 
 	questionContainer = new JPanel(new BorderLayout());
-	questionContainer.setVisible(data.getActive());
+	questionContainer.setVisible(true);
 
-	String questionString = data.getQuestion();
+	String questionString = question;
 	JLabel questionText = new JLabel("<html><p>" + questionString + "</p></html>");
 	int rows = (questionString.length() / 40);
 	questionText.setPreferredSize(new Dimension(290, rows * 20));
 
 	questionContainer.add(questionText, BorderLayout.WEST);
 
-
-	if (data.getType().isBoolean()) {
-	    questionInput = new RadioButtonWidget(data);
-	} else {
-	    questionInput = new BoxWidget(data);
-	}
+	questionInput = type.defaultWidget();
+	questionInput.setComputed(isComputed);
 
 	questionInput.addWidgetListener(this);
 	questionContainer.add(questionInput.build(), BorderLayout.EAST);
@@ -53,9 +51,9 @@ public class QuestionWidget implements Widget {
     }
 
     @Override
-    public void dataUpdate(SymbolTable symbolTable) {
-	questionContainer.setVisible(symbolTable.getSymbol(name).getActive());
-	questionInput.dataUpdate(symbolTable);
+    public void dataUpdate(Environment context) {
+	questionContainer.setVisible(context.getVisible(name));
+	questionInput.updateWidget(context.getValue(name));
 
 	// Update the view.
 	QuestionWidget.this.questionContainer.revalidate();
@@ -63,8 +61,8 @@ public class QuestionWidget implements Widget {
     }
 
     @Override
-    public void widgetUpdate(Object value) {
-	viewListeners.forEach(l -> l.viewUpdate(name, value));	
+    public void widgetUpdated(QLValue value) {
+	viewListeners.forEach(l -> l.viewUpdate(name, value));
     }
 
     public void addUIListener(ViewListener listener) {
@@ -72,7 +70,7 @@ public class QuestionWidget implements Widget {
     }
 
     @Override
-    public void addWidgetListener(Widget listener) {
+    public void addWidgetListener(InputWidget listener) {
 	widgetListeners.add(listener);
     }
 

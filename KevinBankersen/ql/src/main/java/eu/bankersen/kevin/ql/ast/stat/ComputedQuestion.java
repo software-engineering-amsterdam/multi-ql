@@ -1,33 +1,33 @@
 package eu.bankersen.kevin.ql.ast.stat;
 
-import eu.bankersen.kevin.ql.ast.BasicVisitor;
-import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.BaseVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.type.Type;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.interpreter.Environment;
 
-public class ComputedQuestion extends AbstractQuestion {
+public class ComputedQuestion extends NormalQuestion {
 
-    public ComputedQuestion(String name, String text, Type type, Expr expr, int line) {
-	super(name, text, type, expr, line);
+    private final Expr computation;
+
+    public ComputedQuestion(String name, String text, Expr computation, QLType type, int line) {
+	super(name, text, type, line);
+	this.computation = computation;
     }
-    
-    @Override
-    public SymbolTable evalStatement(SymbolTable symbolTable) {
-	
-	Object value;
-	try {
-	    value = expr().evalExpr(symbolTable);
-	} catch (EvaluateExeption  e) {
-	    value = null;
-	}
-	symbolTable.updateSymbol(name(), value);
-	
-	return symbolTable;
+
+    public Expr computation() {
+	return computation;
     }
-    
+
     @Override
-    public <T> void accept(BasicVisitor v, T context) {
-	v.visit(this);
+    public Environment evalStatement(Environment context) {
+	QLValue result = computation.eval(context);
+	context.updateQuestion(name(), result);
+	return context;
+    }
+
+    @Override
+    public <T> T accept(BaseVisitor<T> v, T context) {
+	return v.visit(this, context);
     }
 }

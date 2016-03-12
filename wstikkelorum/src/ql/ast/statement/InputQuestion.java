@@ -3,10 +3,10 @@ package ql.ast.statement;
 import ql.ast.literal.Variable;
 import ql.ast.visitor.Visitor;
 
-public class InputQuestion extends Question{
+public class InputQuestion extends Question {
 
-	public InputQuestion(int lineNumber, Variable variable, String str) {
-		super(lineNumber, variable, str);
+	public InputQuestion(int lineNumber, Variable variable, String questionString) {
+		super(lineNumber, variable, questionString);
 	}
 
 	@Override

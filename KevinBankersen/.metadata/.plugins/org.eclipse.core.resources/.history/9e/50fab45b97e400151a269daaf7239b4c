@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.ast.type.value;
-
-import eu.bankersen.kevin.ql.ast.type.NumberType;
-
-public class MoneyObject extends NumberType {
-
-}

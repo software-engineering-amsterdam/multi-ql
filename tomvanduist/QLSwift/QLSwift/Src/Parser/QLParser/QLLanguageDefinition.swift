@@ -12,13 +12,12 @@ import SwiftParsec
 private let emptyOperatorLetterCharacters = "+-*/^!"
 
 
-public extension LanguageDefinition {
-    
+extension LanguageDefinition {
     
     public static var ql: LanguageDefinition {
         var qlDef = javaStyle
         
-        qlDef.reservedNames     = ["form", "if", "else", "true", "false", "boolean", "integer", "string"]
+        qlDef.reservedNames     = ["form", "if", "else", "true", "false", "boolean", "integer", "string", "float"]
         qlDef.reservedOperators = [":", "<", ">", "!"]
         
         return qlDef

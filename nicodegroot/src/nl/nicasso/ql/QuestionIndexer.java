@@ -15,6 +15,8 @@ import nl.nicasso.ql.ast.statements.Question;
 import nl.nicasso.ql.ast.statements.Statement;
 import nl.nicasso.ql.ast.structures.Block;
 import nl.nicasso.ql.ast.structures.Form;
+import nl.nicasso.ql.stateTable.StateTable;
+import nl.nicasso.ql.stateTable.StateTableEntry;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 import nl.nicasso.ql.visitors.StatementVisitor;
@@ -28,10 +30,11 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	private Set<Identifier> identifiers;
 	private Set<String> questionLabels;
 	private SymbolTable symbolTable;
+	private StateTable stateTable;
 	
 	private CollectIdentifiers collectIdentifiers;
 
-	QuestionIndexer(SymbolTable symbolTable, CollectIdentifiers collectIdentifiers) {		
+	QuestionIndexer(SymbolTable symbolTable, StateTable stateTable, CollectIdentifiers collectIdentifiers) {		
 		identifiers = new HashSet<Identifier>();
 		
 		warnings = new ArrayList<String>();
@@ -40,6 +43,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		questionLabels = new HashSet<String>();
 		
 		this.symbolTable = symbolTable;
+		this.stateTable = stateTable;
 		this.collectIdentifiers = collectIdentifiers;
 	}
 
@@ -65,6 +69,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	public Identifier visit(Question value, Void context) {
 		if (checkIfUniqueQuestion(value)) {
 			symbolTable.addSymbol(value.getId(), new SymbolTableEntry(value.getType()));
+			stateTable.addState(value.getId(), new StateTableEntry(value.getType().getDefaultValue()));
 			questionLabels.add(value.getLabel());
 		}
 				
@@ -75,6 +80,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	public Identifier visit(ComputedQuestion value, Void context) {
 		if (checkIfUniqueQuestion(value)) {
 			symbolTable.addSymbol(value.getId(), new SymbolTableEntry(value.getType()));
+			stateTable.addState(value.getId(), new StateTableEntry(value.getType().getDefaultValue()));
 			questionLabels.add(value.getLabel());
 		}
 		

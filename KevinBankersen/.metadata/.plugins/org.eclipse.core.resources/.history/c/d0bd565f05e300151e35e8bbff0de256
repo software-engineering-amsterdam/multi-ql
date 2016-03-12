@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.interpreter;
-
-import eu.bankersen.kevin.ql.context.symboltable.SymbolTable;
-
-public interface InterperterInterface {
-    public SymbolTable evalForm(SymbolTable symbolTable)
-}

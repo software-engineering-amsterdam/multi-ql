@@ -2,8 +2,10 @@ package nl.nicasso.ql.gui.questionFields;
 
 import java.awt.Component;
 
+import nl.nicasso.ql.gui.widgets.Label;
+
 public abstract class QuestionField {
-	
+		
 	public QuestionField() {
 		//throw new AssertionError("QuestionField");
 	}
@@ -14,6 +16,14 @@ public abstract class QuestionField {
 	
 	public Component getField() {
 		throw new AssertionError("QuestionField getField");
+	}
+	
+	public boolean equalValues(Object value) {
+		throw new AssertionError("QuestionField equalValues");
+	}
+	
+	public void setFeedbackLabel(Label label) {
+		throw new AssertionError("QuestionField setFeedbackLabel");
 	}
 	
 }

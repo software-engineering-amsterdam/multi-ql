@@ -4,17 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
+import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.gui.panels.Panel;
+import nl.nicasso.ql.stateTable.StateTable;
+import nl.nicasso.ql.stateTable.StateTableEntry;
+import nl.nicasso.ql.values.Value;
 
-public class MainFrame {
+public class MainFrame implements Observer {
 
 	private List<Panel> panels;
 	private JFrame mainFrame;
+	private JPanel rootPanel;
+	private JScrollPane scrollFrame;
+	private StateTable stateTable;
 	
-	public MainFrame() {
+	public MainFrame(StateTable stateTable) {
+		this.stateTable = stateTable;
 		panels = new ArrayList<Panel>();
 		
 		mainFrame = new JFrame("Questionnaire");
@@ -22,6 +32,12 @@ public class MainFrame {
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setLayout(new MigLayout());
 		mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		rootPanel = new JPanel();
+		rootPanel.setLayout(new MigLayout());
+		
+		JScrollPane scrollFrame = new JScrollPane(rootPanel);
+		mainFrame.setContentPane(scrollFrame);
 	}
 	
 	public void setVisible(boolean visible) {
@@ -32,12 +48,38 @@ public class MainFrame {
 		panels.add(panel);
 	}
 	
-	public void updateMainFrame() {
+	public void addPanelsToMainFrame() {
 		for (Panel p : panels) {
-			mainFrame.add(p.getPanel(), "wrap");
+			rootPanel.add(p.getPanel(), "wrap");
 		}
 		
+		updateAllPanels();
 		setVisible(true);
+	}
+
+	@Override
+	public boolean fieldValueChanged(Identifier identifier, Value value) {
+		
+		StateTableEntry entry = new StateTableEntry(value);
+		stateTable.addState(identifier, entry);
+		
+		return true;
+	}
+	
+	public void updateAllPanels() {
+		boolean runAgain = false;
+		
+		for (Panel p : panels) {
+			boolean updatedPanel = p.update();
+			if (updatedPanel) {
+				runAgain = true;
+			}
+		}
+		
+		if (runAgain) {
+			updateAllPanels();
+		}
+	
 	}
 
 }

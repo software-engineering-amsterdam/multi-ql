@@ -9,30 +9,27 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.type.Type;
-import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 
-public class DropdownWidget implements Widget {
+public class DropdownWidget implements InputWidget {
 
-    private final String name;
     private final JPanel panel;
-    private final Type type;
-    private final JComboBox  inputField;
+    private final QLType type;
+    private final JComboBox inputField;
     private final List<Widget> widgetListeners;
 
-    DropdownWidget(Symbol data) {
-	this.name = data.getName();
-	this.type = data.getType();
+    DropdownWidget(QLType type) {
+	this.type = type;
 	this.panel = new JPanel();
 	widgetListeners = new ArrayList<>();
 
-	String[] params = {"True", "False"}; 
+	String[] params = { "True", "False" };
 	inputField = new JComboBox(params);
 	inputField.setSelectedIndex(-1);
 	inputField.setPreferredSize(new Dimension(120, 20));
 	inputField.addActionListener(new ComboListener());
-	inputField.setEditable(!data.isComputed());
 
 	panel.add(inputField);
     }
@@ -43,24 +40,25 @@ public class DropdownWidget implements Widget {
     }
 
     @Override
-    public void dataUpdate(SymbolTable symbolTable) {
-	Symbol data = symbolTable.getSymbol(name);
+    public void setComputed(Boolean isComputed) {
+	inputField.setEditable(!isComputed);
+    }
 
-	if (data.getValue() != null) {
-	    if (data.getValue().toString().equalsIgnoreCase("true")) {
+    @Override
+    public void updateWidget(QLValue value) {
+
+	if (!value.equals(new UndifinedValue())) {
+	    if (value.value().toString().equalsIgnoreCase("true")) {
 		inputField.setSelectedIndex(0);
-	    } else if (data.getValue().toString().equalsIgnoreCase("false")) {
+	    } else if (value.value().toString().equalsIgnoreCase("false")) {
 		inputField.setSelectedIndex(1);
 	    }
-	    // Update the view.
-	    DropdownWidget.this.panel.revalidate();
-	    DropdownWidget.this.panel.repaint();
 	}
     }
 
     @Override
-    public void widgetUpdate(Object value) {
-	widgetListeners.forEach(l -> l.widgetUpdate(value));
+    public void widgetUpdated(QLValue value) {
+	widgetListeners.forEach(l -> l.widgetUpdated(value));
     }
 
     @Override
@@ -68,12 +66,14 @@ public class DropdownWidget implements Widget {
 	widgetListeners.add(listener);
 
     }
+
     class ComboListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    JComboBox cb = (JComboBox) e.getSource();
-	    widgetUpdate(type.parseValue(cb.getSelectedItem().toString()));
+	    QLValue value = type.createQLValueFrom(cb.getSelectedItem().toString());
+	    widgetUpdated(value);
 	}
     }
 }

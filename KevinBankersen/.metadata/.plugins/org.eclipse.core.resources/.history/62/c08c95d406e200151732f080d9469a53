@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.context;
-
-public interface QLVisitor {
-    
-    public void visit(Variable data);
-
-}

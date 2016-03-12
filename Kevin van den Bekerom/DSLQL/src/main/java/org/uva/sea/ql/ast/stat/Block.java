@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.visit.Visitable;
-import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.visit.Visitable;
+import org.uva.sea.ql.visit.Visitor;
 
 public class Block extends ASTNode implements Visitable {
 	List<Statement> stmts;
