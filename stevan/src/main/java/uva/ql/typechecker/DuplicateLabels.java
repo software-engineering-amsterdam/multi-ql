@@ -1,11 +1,7 @@
-package uva.ql.visitors.typechecker;
+package uva.ql.typechecker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
@@ -17,18 +13,14 @@ import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
 import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.variables.VarGeneric;
-import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.visitors.typechecker.abstracts.AbstractTypeChecker;
-import uva.ql.visitors.typechecker.abstracts.ErrorWarning;
-import uva.ql.visitors.typechecker.errors.ErrorCyclic;
+import uva.ql.ast.questions.abstracts.Question;
+import uva.ql.typechecker.abstracts.AbstractTypeChecker;
+import uva.ql.typechecker.errors.WarningDuplicateLabel;
+import uva.ql.visitors.interfaces.typechecker.IDupllicateLabelsVisitor;
 
-public class CyclicDependency extends AbstractTypeChecker implements ICyclicDependencyVisitor {
+public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateLabelsVisitor {
 
-	private final Map<String, Variable> questionVariables = new HashMap<String, Variable>(0);
-	private final Map<String, Variable> cyclicVariables = new HashMap<String, Variable>(0);
-	private final List<ErrorWarning> errorMessages = new ArrayList<ErrorWarning>(0);
+	private final Map<String, Question> questions = new HashMap<String, Question>(0);
 	
 	@Override
 	public void visitForm(Form form) {
@@ -37,18 +29,6 @@ public class CyclicDependency extends AbstractTypeChecker implements ICyclicDepe
 			
 			Block block = (Block) form.get(i);
 			block.accept(this);
-		}
-		
-		Iterator<Entry<String, Variable>> varIterator = cyclicVariables.entrySet().iterator();
-		
-		while(varIterator.hasNext()) {
-			
-			Entry<String, Variable> pair = varIterator.next();
-			
-			if(questionVariables.containsKey(pair.getKey())) {
-
-				errorMessages.add(new ErrorCyclic(pair.getKey(), pair.getValue().getLine(), pair.getValue().getColumn()));
-			}
 		}
 	}
 
@@ -64,17 +44,24 @@ public class CyclicDependency extends AbstractTypeChecker implements ICyclicDepe
 	@Override
 	public void visitQuestionVanilla(QuestionVanilla questionVanilla) {
 		
-		Variable var = questionVanilla.getVariable();
-		questionVariables.put(var.getName(), var);
+		if (questions.containsKey(questionVanilla.getLabel())) {
+			errorMessages.add(new WarningDuplicateLabel(questionVanilla.getLabel(), questionVanilla.getLine(), questionVanilla.getColumn()));
+		}
+		else {
+			questions.put(questionVanilla.getLabel(), questionVanilla);
+		}
+		
 	}
 	
 	@Override
 	public void visitQuestionComputed(QuestionComputed questionComputed) {
 		
-		Variable var = questionComputed.getVariable();
-		questionVariables.put(var.getName(), var);
-		
-		questionComputed.getExp().accept(this);
+		if (questions.containsKey(questionComputed.getLabel())) {
+			errorMessages.add(new WarningDuplicateLabel(questionComputed.getLabel(), questionComputed.getLine(), questionComputed.getColumn()));
+		}
+		else {
+			questions.put(questionComputed.getLabel(), questionComputed);
+		}
 	}
 	
 	@Override
@@ -89,12 +76,7 @@ public class CyclicDependency extends AbstractTypeChecker implements ICyclicDepe
 		condIfElseStatement.getLhs().accept(this);
 		condIfElseStatement.getRhs().accept(this);
 	}
-
-	@Override
-	public void visitVarGeneric(VarGeneric var) {
-		cyclicVariables.put(var.getName(), var);
-	}
-
+	
 	@Override
 	public void visitArithmeticOperator(AbstractArithmeticOperator exp) {
 		exp.getLhs().accept(this);
@@ -117,5 +99,4 @@ public class CyclicDependency extends AbstractTypeChecker implements ICyclicDepe
 	public void visitSingleLogicalOperator(AbstractSingleLogicalOperator exp) {
 		exp.getLhs().accept(this);
 	}
-
 }

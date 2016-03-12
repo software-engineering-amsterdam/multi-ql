@@ -1,16 +1,10 @@
-package uva.ql.visitors;
+package uva.ql.typechecker;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import uva.ql.ast.Form;
-import uva.ql.visitors.typechecker.ArithmeticOperator;
-import uva.ql.visitors.typechecker.BinaryOperator;
-import uva.ql.visitors.typechecker.CyclicDependency;
-import uva.ql.visitors.typechecker.DuplicateLabels;
-import uva.ql.visitors.typechecker.DuplicateQuestionDifferentTypes;
-import uva.ql.visitors.typechecker.UndefinedQuestions;
-import uva.ql.visitors.typechecker.abstracts.ErrorWarning;
+import uva.ql.typechecker.abstracts.ErrorWarning;
 
 public class TypeChecker {
 	
@@ -56,11 +50,6 @@ public class TypeChecker {
 		
 		return msg;
 	}
-	
-	/* 
-	 * Abstract message, sub class error,...
-	 * Simplify!
-	 * */
 }
 
 

@@ -1,4 +1,4 @@
-package uva.ql.visitors.typechecker;
+package uva.ql.typechecker;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
@@ -7,9 +7,9 @@ import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.AbstractArithmeticOperator;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.visitors.typechecker.abstracts.AbstractTypeChecker;
-import uva.ql.visitors.typechecker.errors.ErrorOperand;
+import uva.ql.typechecker.abstracts.AbstractTypeChecker;
+import uva.ql.typechecker.errors.ErrorOperand;
+import uva.ql.visitors.interfaces.typechecker.IArithmeticOperatorVisitor;
 
 public class ArithmeticOperator extends AbstractTypeChecker implements IArithmeticOperatorVisitor {
 		

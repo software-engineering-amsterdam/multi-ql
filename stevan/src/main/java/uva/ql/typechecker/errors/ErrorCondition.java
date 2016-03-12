@@ -1,6 +1,6 @@
-package uva.ql.visitors.typechecker.errors;
+package uva.ql.typechecker.errors;
 
-import uva.ql.visitors.typechecker.abstracts.ErrorWarning;
+import uva.ql.typechecker.abstracts.ErrorWarning;
 
 public class ErrorCondition extends ErrorWarning {
 

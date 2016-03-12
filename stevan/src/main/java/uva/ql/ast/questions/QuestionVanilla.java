@@ -5,13 +5,10 @@ import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.ast.questions.types.Vanilla;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.IBinaryOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
-import uva.ql.interfaces.INodeVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
+import uva.ql.visitors.interfaces.typechecker.ICyclicDependencyVisitor;
+import uva.ql.visitors.interfaces.typechecker.IDupllicateLabelsVisitor;
+import uva.ql.visitors.interfaces.typechecker.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.visitors.interfaces.typechecker.IUndefinedQuestionVisitor;
 
 public class QuestionVanilla extends Question {
 
@@ -24,11 +21,6 @@ public class QuestionVanilla extends Question {
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
-	}
-	
-	@Override
-	public void accept(INodeVisitor visitor) {
-		visitor.visitQuestionVanilla(this);
 	}
 
 	@Override
@@ -45,15 +37,9 @@ public class QuestionVanilla extends Question {
 	public void accept(IDupllicateLabelsVisitor visitor) {
 		visitor.visitQuestionVanilla(this);
 	}
-
-	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {}
 	
 	@Override
 	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
 		visitor.visitQuestionVanilla(this);
 	}
-
-	@Override
-	public void accept(IBinaryOperatorVisitor visitor) {}
 }

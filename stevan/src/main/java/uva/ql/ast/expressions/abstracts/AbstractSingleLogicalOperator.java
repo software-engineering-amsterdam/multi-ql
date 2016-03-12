@@ -1,12 +1,11 @@
 package uva.ql.ast.expressions.abstracts;
 
 import uva.ql.ast.abstracts.Node;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.IBinaryOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
+import uva.ql.visitors.interfaces.typechecker.IBinaryOperatorVisitor;
+import uva.ql.visitors.interfaces.typechecker.ICyclicDependencyVisitor;
+import uva.ql.visitors.interfaces.typechecker.IDupllicateLabelsVisitor;
+import uva.ql.visitors.interfaces.typechecker.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.visitors.interfaces.typechecker.IUndefinedQuestionVisitor;
 
 public abstract class AbstractSingleLogicalOperator extends Expression {
 
@@ -23,9 +22,6 @@ public abstract class AbstractSingleLogicalOperator extends Expression {
 		
 		return this.lhs;
 	}
-	
-	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {}
 
 	@Override
 	public void accept(IUndefinedQuestionVisitor visitor) {

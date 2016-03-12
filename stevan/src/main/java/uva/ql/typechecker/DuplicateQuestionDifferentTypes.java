@@ -1,7 +1,9 @@
-package uva.ql.visitors.typechecker;
+package uva.ql.typechecker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -15,16 +17,14 @@ import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
 import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.variables.VarGeneric;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
-import uva.ql.visitors.typechecker.abstracts.AbstractTypeChecker;
-import uva.ql.visitors.typechecker.errors.ErrorUndefinedQuestion;
+import uva.ql.typechecker.abstracts.AbstractTypeChecker;
+import uva.ql.typechecker.errors.ErrorDuplicateQuestion;
+import uva.ql.visitors.interfaces.typechecker.IDupllicateQuestionDifferentTypesVisitor;
 
-public class UndefinedQuestions extends AbstractTypeChecker implements IUndefinedQuestionVisitor {
+public class DuplicateQuestionDifferentTypes extends AbstractTypeChecker implements IDupllicateQuestionDifferentTypesVisitor {
 
-	private final Map<String, Variable> questionVariables = new HashMap<String, Variable>(0);
-	private final Map<String, Variable> referencedVariables = new HashMap<String, Variable>(0);
+	private final Map<String, List<Variable>> questionVariables = new HashMap<String, List<Variable>>(0);
 	
 	@Override
 	public void visitForm(Form form) {
@@ -35,15 +35,31 @@ public class UndefinedQuestions extends AbstractTypeChecker implements IUndefine
 			block.accept(this);
 		}
 		
-		Iterator<Entry<String, Variable>> varIterator = referencedVariables.entrySet().iterator();
+		Iterator<Entry<String, List<Variable>>> varIterator = questionVariables.entrySet().iterator();
 		
 		while(varIterator.hasNext()) {
 			
-			Entry<String, Variable> pair = varIterator.next();
+			Entry<String, List<Variable>> variables = varIterator.next();
 			
-			if(!questionVariables.containsKey(pair.getKey())) {
-				errorMessages.add(new ErrorUndefinedQuestion(pair.getKey(), pair.getValue().getLine(), pair.getValue().getColumn()));
+			if(variables.getValue().size() > 1) {
+
+				checkForDuplication(variables.getValue());
 			}
+		}
+	}
+	
+	private void checkForDuplication(List<Variable> variables) {
+	
+		Variable tempVar = variables.get(0);
+		variables.remove(0);
+		
+		for(Variable var : variables) {
+
+			if(!tempVar.getType().equals(var.getType())) {
+				errorMessages.add(new ErrorDuplicateQuestion(var.getName(), var.getLine(), var.getColumn()));
+			}
+			
+			tempVar = var;
 		}
 	}
 
@@ -60,14 +76,34 @@ public class UndefinedQuestions extends AbstractTypeChecker implements IUndefine
 	public void visitQuestionVanilla(QuestionVanilla questionVanilla) {
 		
 		Variable var = questionVanilla.getVariable();
-		questionVariables.put(var.getName(), var);
+		
+		if(questionVariables.containsKey(var.getName())) {
+			List<Variable> variables = questionVariables.get(var.getName());
+			variables.add(var);
+			questionVariables.put(var.getName(), variables);
+		}
+		else {
+			List<Variable> variables = new ArrayList<Variable>(0);
+			variables.add(var);
+			questionVariables.put(var.getName(), variables);
+		}
 	}
 	
 	@Override
 	public void visitQuestionComputed(QuestionComputed questionComputed) {
 		
 		Variable var = questionComputed.getVariable();
-		questionVariables.put(var.getName(), var);
+		
+		if(questionVariables.containsKey(var.getName())) {
+			List<Variable> variables = questionVariables.get(var.getName());
+			variables.add(var);
+			questionVariables.put(var.getName(), variables);
+		}
+		else {
+			List<Variable> variables = new ArrayList<Variable>(0);
+			variables.add(var);
+			questionVariables.put(var.getName(), variables);
+		}
 		
 		questionComputed.getExp().accept(this);
 	}
@@ -83,11 +119,6 @@ public class UndefinedQuestions extends AbstractTypeChecker implements IUndefine
 		condIfElseStatement.getExpression().accept(this);
 		condIfElseStatement.getLhs().accept(this);
 		condIfElseStatement.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitVarGeneric(VarGeneric var) {
-		referencedVariables.put(var.getName(), var);
 	}
 
 	@Override
@@ -112,10 +143,5 @@ public class UndefinedQuestions extends AbstractTypeChecker implements IUndefine
 	public void visitSingleLogicalOperator(AbstractSingleLogicalOperator exp) {
 		exp.getLhs().accept(this);
 	}
-
-
-	
-
-	
 
 }

@@ -1,4 +1,4 @@
-package uva.ql.interfaces;
+package uva.ql.visitors.interfaces.typechecker;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;

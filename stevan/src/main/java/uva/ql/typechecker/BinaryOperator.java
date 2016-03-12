@@ -1,4 +1,4 @@
-package uva.ql.visitors.typechecker;
+package uva.ql.typechecker;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.EnumType;
@@ -8,9 +8,9 @@ import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.AbstractLogicalOperator;
 import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
 import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
-import uva.ql.interfaces.IBinaryOperatorVisitor;
-import uva.ql.visitors.typechecker.abstracts.AbstractTypeChecker;
-import uva.ql.visitors.typechecker.errors.ErrorOperand;
+import uva.ql.typechecker.abstracts.AbstractTypeChecker;
+import uva.ql.typechecker.errors.ErrorCondition;
+import uva.ql.visitors.interfaces.typechecker.IBinaryOperatorVisitor;
 
 public class BinaryOperator extends AbstractTypeChecker implements IBinaryOperatorVisitor {
 		
@@ -52,7 +52,7 @@ public class BinaryOperator extends AbstractTypeChecker implements IBinaryOperat
 		exp.getRhs().accept(this);
 		
 		if(!exp.evalType().equals(EnumType.BOOLEAN)) {
-			errorMessages.add(new ErrorOperand(exp.getType().toString(), exp.getLine(), exp.getColumn()));
+			errorMessages.add(new ErrorCondition(exp.getType().toString(), exp.getLine(), exp.getColumn()));
 		}
 	}
 
@@ -62,7 +62,7 @@ public class BinaryOperator extends AbstractTypeChecker implements IBinaryOperat
 		exp.getRhs().accept(this);
 		
 		if(!exp.evalType().equals(EnumType.BOOLEAN)) {
-			errorMessages.add(new ErrorOperand(exp.getType().toString(), exp.getLine(), exp.getColumn()));
+			errorMessages.add(new ErrorCondition(exp.getType().toString(), exp.getLine(), exp.getColumn()));
 		}
 	}
 
@@ -71,7 +71,7 @@ public class BinaryOperator extends AbstractTypeChecker implements IBinaryOperat
 		exp.getLhs().accept(this);
 		
 		if(!exp.evalType().equals(EnumType.BOOLEAN)) {
-			errorMessages.add(new ErrorOperand(exp.getType().toString(), exp.getLine(), exp.getColumn()));
+			errorMessages.add(new ErrorCondition(exp.getType().toString(), exp.getLine(), exp.getColumn()));
 		}
 	}
 }

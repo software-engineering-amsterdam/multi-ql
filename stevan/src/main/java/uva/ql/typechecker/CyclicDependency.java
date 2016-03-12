@@ -1,7 +1,9 @@
-package uva.ql.visitors.typechecker;
+package uva.ql.typechecker;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
@@ -13,14 +15,16 @@ import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
 import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.questions.abstracts.Question;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.visitors.typechecker.abstracts.AbstractTypeChecker;
-import uva.ql.visitors.typechecker.errors.WarningDuplicateLabel;
+import uva.ql.ast.variables.VarGeneric;
+import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.typechecker.abstracts.AbstractTypeChecker;
+import uva.ql.typechecker.errors.ErrorCyclic;
+import uva.ql.visitors.interfaces.typechecker.ICyclicDependencyVisitor;
 
-public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateLabelsVisitor {
+public class CyclicDependency extends AbstractTypeChecker implements ICyclicDependencyVisitor {
 
-	private final Map<String, Question> questions = new HashMap<String, Question>(0);
+	private final Map<String, Variable> questionVariables = new HashMap<String, Variable>(0);
+	private final Map<String, Variable> cyclicVariables = new HashMap<String, Variable>(0);
 	
 	@Override
 	public void visitForm(Form form) {
@@ -29,6 +33,18 @@ public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateL
 			
 			Block block = (Block) form.get(i);
 			block.accept(this);
+		}
+		
+		Iterator<Entry<String, Variable>> varIterator = cyclicVariables.entrySet().iterator();
+		
+		while(varIterator.hasNext()) {
+			
+			Entry<String, Variable> pair = varIterator.next();
+			
+			if(questionVariables.containsKey(pair.getKey())) {
+
+				errorMessages.add(new ErrorCyclic(pair.getKey(), pair.getValue().getLine(), pair.getValue().getColumn()));
+			}
 		}
 	}
 
@@ -44,24 +60,17 @@ public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateL
 	@Override
 	public void visitQuestionVanilla(QuestionVanilla questionVanilla) {
 		
-		if (questions.containsKey(questionVanilla.getLabel())) {
-			errorMessages.add(new WarningDuplicateLabel(questionVanilla.getLabel(), questionVanilla.getLine(), questionVanilla.getColumn()));
-		}
-		else {
-			questions.put(questionVanilla.getLabel(), questionVanilla);
-		}
-		
+		Variable var = questionVanilla.getVariable();
+		questionVariables.put(var.getName(), var);
 	}
 	
 	@Override
 	public void visitQuestionComputed(QuestionComputed questionComputed) {
 		
-		if (questions.containsKey(questionComputed.getLabel())) {
-			errorMessages.add(new WarningDuplicateLabel(questionComputed.getLabel(), questionComputed.getLine(), questionComputed.getColumn()));
-		}
-		else {
-			questions.put(questionComputed.getLabel(), questionComputed);
-		}
+		Variable var = questionComputed.getVariable();
+		questionVariables.put(var.getName(), var);
+		
+		questionComputed.getExp().accept(this);
 	}
 	
 	@Override
@@ -76,7 +85,12 @@ public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateL
 		condIfElseStatement.getLhs().accept(this);
 		condIfElseStatement.getRhs().accept(this);
 	}
-	
+
+	@Override
+	public void visitVarGeneric(VarGeneric var) {
+		cyclicVariables.put(var.getName(), var);
+	}
+
 	@Override
 	public void visitArithmeticOperator(AbstractArithmeticOperator exp) {
 		exp.getLhs().accept(this);
@@ -99,4 +113,5 @@ public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateL
 	public void visitSingleLogicalOperator(AbstractSingleLogicalOperator exp) {
 		exp.getLhs().accept(this);
 	}
+
 }

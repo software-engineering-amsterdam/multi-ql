@@ -6,11 +6,11 @@ import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.ast.questions.types.Computed;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
+import uva.ql.visitors.interfaces.typechecker.IArithmeticOperatorVisitor;
+import uva.ql.visitors.interfaces.typechecker.ICyclicDependencyVisitor;
+import uva.ql.visitors.interfaces.typechecker.IDupllicateLabelsVisitor;
+import uva.ql.visitors.interfaces.typechecker.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.visitors.interfaces.typechecker.IUndefinedQuestionVisitor;
 
 public class QuestionComputed extends Question {
 

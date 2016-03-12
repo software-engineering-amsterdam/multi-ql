@@ -1,4 +1,4 @@
-package uva.ql.interfaces;
+package uva.ql.visitors.interfaces.typechecker;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
@@ -12,14 +12,14 @@ import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.variables.VarGeneric;
 
-public interface IUndefinedQuestionVisitor {
+public interface ICyclicDependencyVisitor {
 	
 	public void visitForm(Form form);
 	public void visitBlock(Block block);
 	
 	public void visitQuestionVanilla(QuestionVanilla questionVanilla);
 	public void visitQuestionComputed(QuestionComputed questionComputed);
-
+	
 	public void visitArithmeticOperator(AbstractArithmeticOperator exp);
 	public void visitLogicalOperator(AbstractLogicalOperator exp);
 	public void visitRelationalOperator(AbstractRelationalOperator exp);
@@ -27,7 +27,6 @@ public interface IUndefinedQuestionVisitor {
 	
 	public void visitCondIfElseStatement(CondIfElseStatement condIfElseStatement);
 	public void visitCondIfStatement(CondIfStatement condIfStatement);
-	
-	public void visitVarGeneric(VarGeneric varGeneric);
+	public void visitVarGeneric(VarGeneric var);
 	
 }

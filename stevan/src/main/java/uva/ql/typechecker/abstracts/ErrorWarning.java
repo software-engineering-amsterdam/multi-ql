@@ -1,4 +1,4 @@
-package uva.ql.visitors.typechecker.abstracts;
+package uva.ql.typechecker.abstracts;
 
 public abstract class ErrorWarning {
 	

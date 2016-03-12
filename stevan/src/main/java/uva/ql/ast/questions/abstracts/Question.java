@@ -2,12 +2,9 @@ package uva.ql.ast.questions.abstracts;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.questions.IQuestion;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.IBinaryOperatorVisitor;
-import uva.ql.interfaces.INodeVisitor;
 
-public abstract class Question extends Node implements IQuestion {
+public abstract class Question extends Node {
 
 	private String label;
 	private Variable variable;
@@ -17,6 +14,8 @@ public abstract class Question extends Node implements IQuestion {
 		this.label = label;
 		this.variable = variable;
 	}
+	
+	abstract public EnumType getType();
 	
 	public String getLabel() {
 		return this.label;
@@ -29,14 +28,4 @@ public abstract class Question extends Node implements IQuestion {
 	public void setVariable(Variable var) {
 		this.variable = var;
 	}
-	
-	@Override
-	public void accept(INodeVisitor visitor) {
-		visitor.visitQuestion(this);
-	}
-
-	abstract public EnumType getType();
-	
-	@Override
-	public void accept(IBinaryOperatorVisitor visitor) {}
 }

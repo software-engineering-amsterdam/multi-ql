@@ -1,4 +1,4 @@
-package uva.ql.visitors.typechecker.abstracts;
+package uva.ql.typechecker.abstracts;
 
 import java.util.ArrayList;
 import java.util.List;
