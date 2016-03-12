@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.ast;
-
-import eu.bankersen.kevin.ql.context.QLVisitor;
-
-public interface VisitAst {
-    void accept(QLVisitor visitor);
-}

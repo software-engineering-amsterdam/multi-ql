@@ -2,8 +2,6 @@ package eu.bankersen.kevin.ql;
 
 import java.io.IOException;
 
-import com.esotericsoftware.minlog.Log;
-
 import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.gui.QLgui;
 import eu.bankersen.kevin.ql.gui.dialog.ErrorDialog;
@@ -11,12 +9,8 @@ import eu.bankersen.kevin.ql.gui.dialog.WarningDialog;
 import eu.bankersen.kevin.ql.interpreter.Interpreter;
 import eu.bankersen.kevin.ql.parser.ANTLRParseException;
 import eu.bankersen.kevin.ql.parser.FormParser;
-import eu.bankersen.kevin.ql.typechecker.TypeCheckException;
-import eu.bankersen.kevin.ql.typechecker.TypeChecker;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
-import eu.bankersen.kevin.ql.util.CustomLogger;
-import eu.bankersen.kevin.ql.util.FileReader;
-
+import eu.bankersen.kevin.ql.typechecker.FormChecker;
+import eu.bankersen.kevin.ql.typechecker.FormCheckerException;
 
 public final class App {
 
@@ -24,44 +18,30 @@ public final class App {
     }
 
     public static void main(String[] args) {
-	Log.INFO(); // Set log level
-	Log.setLogger(new CustomLogger()); // Our custom logger.
-
-	System.out.println("Welcome to the Questionnaire Language (QL)!\n");
-
 	String resource;
 
-	//resource = "resources/Tax.form";
-	//resource = "resources/Tax2.form";
-	resource = "resources/Tax3.form";
-
-	// Read the file.
-	String file;
-	try { // Currently the top level so here we catch exceptions.
-	    file = new FileReader().read(resource);
-	} catch (IOException e) {
-	    file = null;
-	    new ErrorDialog("File Reader Error", "Can't read the file " + resource);
-	}
+	// resource = "resources/Tax.form";
+	// resource = "resources/Tax2.form";
+	// resource = "resources/Tax3.form";
+	resource = "resources/test.form";
 
 	// Parse the form to an AST
 	Form form;
 	try {
-	    FormParser parser = new FormParser(file);
+	    FormParser parser = new FormParser(resource);
 	    form = parser.getForm();
-	    Log.info("File Parsed");
 	} catch (ANTLRParseException e) {
 	    form = null;
 	    new ErrorDialog(e.getErrors());
+	} catch (IOException e) {
+	    form = null;
+	    new ErrorDialog("File Reader Error", "Can't read the file " + resource);
 	}
 
 	// Build the context object (type-checking and symbol table)
-	SymbolTable symbolTable;
 	try {
-	    symbolTable = new TypeChecker(form).getSymbolTable();
-	    Log.info("Build Context");
-	} catch (TypeCheckException e) {
-	    symbolTable = e.getSymbolTable();
+	    new FormChecker(form);
+	} catch (FormCheckerException e) {
 	    if (!e.getWarnings().isEmpty()) {
 		new WarningDialog(e.getWarnings());
 	    }
@@ -71,8 +51,8 @@ public final class App {
 	}
 
 	// Create the GUI
-	Interpreter interp = new Interpreter(form, symbolTable);
-	QLgui ui = new QLgui(form, symbolTable);
+	Interpreter interp = new Interpreter(form);
+	QLgui ui = new QLgui(form);
 
 	// Link Listeners
 	ui.addViewListener(interp);

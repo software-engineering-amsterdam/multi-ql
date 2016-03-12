@@ -3,16 +3,17 @@ package nl.uva.sc.ql.gui.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
+import nl.uva.sc.ql.gui.state.Observer;
 
 public class IfForm implements GuiInterface, Observer {
 	
 	private List<ConditionBlockForm> listConditionBlock;
 	private List<Question> questions;
-	private JFrame jFrame;
 	
-	public IfForm(JFrame jFrame){
-		this.jFrame = jFrame;
+	private Form form;
+	
+	public IfForm(Form form){
+		this.form = form;
 		this.listConditionBlock = new ArrayList<ConditionBlockForm>();
 		this.questions = new ArrayList<Question>();
 	}
@@ -34,8 +35,8 @@ public class IfForm implements GuiInterface, Observer {
 		
 		for(Question q : questions){
 			q.createGui();
-			jFrame.add(q);
-		}		
+			form.add(q);
+		}
 	}
 
 	@Override
@@ -44,15 +45,21 @@ public class IfForm implements GuiInterface, Observer {
 		
 		for(Question q : questions){
 			q.setVisible(result);
-		}		
+		}
 	}
 	
 	private boolean evaluateConditions(){
+		boolean evaluated = false;
+		
 		for(ConditionBlockForm i : listConditionBlock){
-			if(i.getResultOfCondition()){
-				i.updateGui();
-				return false;
-			}
+			if(!evaluated && i.getResultOfCondition()){
+				i.setVisibility(true);
+				evaluated = true;
+			
+			// if there was an evaluated if statement, make the rest invisible
+			} else {
+				i.setVisibility(false);
+			}	
 		}
 		return true;
 	}
@@ -60,6 +67,7 @@ public class IfForm implements GuiInterface, Observer {
 	@Override
 	public void update() {
 		updateGui();
+		form.revalidate();
 	}
 	
 	@Override

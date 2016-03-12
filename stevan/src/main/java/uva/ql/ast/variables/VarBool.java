@@ -7,6 +7,7 @@ import uva.ql.ast.variables.types.Bool;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
 import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class VarBool extends Variable {
@@ -18,14 +19,17 @@ public class VarBool extends Variable {
 	}
 	
 	@Override
+	public EnumType evalType() {
+		return this.getType();
+	}
+	
+	@Override
 	public EnumType getType() {
 		return this.type.getType();
 	}
 	
 	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {
-		visitor.visitVarBool(this);
-	}
+	public void accept(IArithmeticOperatorVisitor visitor) {}
 
 	@Override
 	public void accept(IUndefinedQuestionVisitor visitor) {}
@@ -35,4 +39,7 @@ public class VarBool extends Variable {
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {}
+	
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {}
 }

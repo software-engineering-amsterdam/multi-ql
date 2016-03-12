@@ -1,32 +1,25 @@
 package nl.nicasso.ql.gui;
 
 import nl.nicasso.ql.ast.expressions.Identifier;
-import nl.nicasso.ql.symbolTable.SymbolTable;
 
 public class QuestionFieldParameter {
 
 	private Identifier identifier;
-	private SymbolTable symboltable;
 	private Observer main;
 	private boolean enabled;
 	
 	public QuestionFieldParameter() {
-		
+		// CAN GO?!
 	}
 	
-	public QuestionFieldParameter(Identifier identifier, SymbolTable symboltable, Observer main, boolean enabled) {
+	public QuestionFieldParameter(Identifier identifier, Observer main, boolean enabled) {
 		this.identifier = identifier;
-		this.symboltable = symboltable;
 		this.main = main;
 		this.enabled = enabled;
 	}
 
 	public void setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
-	}
-
-	public void setSymboltable(SymbolTable symboltable) {
-		this.symboltable = symboltable;
 	}
 
 	public void setMain(Observer main) {
@@ -39,10 +32,6 @@ public class QuestionFieldParameter {
 
 	public Identifier getIdentifier() {
 		return identifier;
-	}
-
-	public SymbolTable getSymboltable() {
-		return symboltable;
 	}
 
 	public Observer getMain() {

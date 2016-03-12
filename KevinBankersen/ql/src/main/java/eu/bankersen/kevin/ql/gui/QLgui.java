@@ -17,17 +17,18 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.gui.widgets.QuestionBuilder;
 import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
 import eu.bankersen.kevin.ql.interpreter.DataListener;
-import eu.bankersen.kevin.ql.typechecker.symboltable.Symbol;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class QLgui extends JFrame implements DataListener, ViewListener {
-    
+
     private List<DataListener> listeners = new ArrayList<DataListener>();
     private List<ViewListener> ui = new ArrayList<ViewListener>();
 
-    public QLgui(Form form, SymbolTable symbolTable) {
+    public QLgui(Form form) {
 
 	// The main panel for the UI.
 	JPanel mainpanel = new JPanel(new BorderLayout(20, 20));
@@ -40,28 +41,29 @@ public class QLgui extends JFrame implements DataListener, ViewListener {
 	label.setPreferredSize(new Dimension(400, 30));
 	mainpanel.add(label, BorderLayout.NORTH);
 
-
 	// The center panel containing the questions.
 	JPanel centerpanel = new JPanel(new GridBagLayout());
 	centerpanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-	
+
 	GridBagConstraints gbc = new GridBagConstraints();
 	gbc.fill = GridBagConstraints.HORIZONTAL;
 	gbc.weightx = 1;
-	
-	for (Symbol object : symbolTable.getEntries().values()) {
 
-	    QuestionWidget question = new QuestionWidget(object);
+	QuestionBuilder builder = new QuestionBuilder(form);
 
-	    //Register listeners.
+	// for (Symbol object : symbolTable.getEntries().values()) {
+
+	// QuestionWidget question = new QuestionWidget(object);
+
+	for (QuestionWidget question : builder.getWidgets()) {
+	    // Register listeners.
 	    this.addDataListener(question);
 	    question.addUIListener(this);
-	    
+
 	    gbc.gridy++;
 	    centerpanel.add(question.build(), gbc);
 	}
-	
-	
+
 	// Lets push everything to the top
 	gbc.weighty = 1;
 	gbc.gridy++;
@@ -76,14 +78,14 @@ public class QLgui extends JFrame implements DataListener, ViewListener {
 	next.setName("next");
 
 	JButton back = new JButton("<<- Back");
-	back.setName("back");	
+	back.setName("back");
 
 	bottomPanel.add(next, BorderLayout.EAST);
 	bottomPanel.add(back, BorderLayout.WEST);
 
 	// Keep bottom panel out for now, needed for card-layout
-	//mainpanel.add(bottomPanel, BorderLayout.SOUTH);
-	
+	// mainpanel.add(bottomPanel, BorderLayout.SOUTH);
+
 	try {
 	    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 	} catch (UnsupportedLookAndFeelException ex) {
@@ -95,9 +97,8 @@ public class QLgui extends JFrame implements DataListener, ViewListener {
 	} catch (ClassNotFoundException ex) {
 	    ex.printStackTrace();
 	}
-	
 
-	//Build the application
+	// Build the application
 	add(mainpanel);
 	pack();
 	setTitle("Questionnaire Language");
@@ -108,19 +109,20 @@ public class QLgui extends JFrame implements DataListener, ViewListener {
     }
 
     @Override
-    public void dataUpdate(SymbolTable symbolTable) {
-	listeners.forEach(listener -> listener.dataUpdate(symbolTable));
+    public void dataUpdate(Environment context) {
+	listeners.forEach(listener -> listener.dataUpdate(context));
     }
 
     public void addDataListener(DataListener listener) {
 	listeners.add(listener);
     }
+
     public void addViewListener(ViewListener listener) {
 	ui.add(listener);
     }
 
     @Override
-    public void viewUpdate(String name, Object value) {
+    public void viewUpdate(String name, QLValue value) {
 	ui.forEach(listener -> listener.viewUpdate(name, value));
     }
 }

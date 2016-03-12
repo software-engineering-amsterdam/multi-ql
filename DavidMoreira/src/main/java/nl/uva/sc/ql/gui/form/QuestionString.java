@@ -6,9 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
-import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
-import nl.uva.sc.ql.parser.ast.IdentifierNode;
 import nl.uva.sc.ql.parser.value.StringVal;
 import nl.uva.sc.ql.parser.value.Value;
 
@@ -28,10 +27,10 @@ public class QuestionString extends Question {
 			@Override
 	        public void actionPerformed(ActionEvent e) {
 				// Get the String entered into the input TextField
-	            String string = component.getText();
-				IdentifierNode in = new IdentifierNode(getIdentifier());
+				String string = component.getText();
+				String identifier = getIdentifier();
 				Value value = new StringVal(string);
-				getState().add(in, value);	
+				getState().add(identifier, value);
 			}
 	    });
 		
@@ -45,8 +44,8 @@ public class QuestionString extends Question {
 	
 	@Override
 	public void update() {
-		IdentifierNode in = new IdentifierNode(getIdentifier());
-		Value value = (getExpression() == null) ? getState().lookup(in) : getExpression().eval(getState());
+		String identifier = getIdentifier();
+		Value value = (getExpression() == null) ? getState().lookup(identifier) : getExpression().eval(getState());
 		String valueText = (value == null) ? "" : value.toString();
 		((JTextField) getComponent()).setText(valueText);
 	}

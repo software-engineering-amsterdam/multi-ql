@@ -3,15 +3,11 @@ package uva.ql.ast.values;
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.values.abstracts.Values;
-import uva.ql.ast.values.types.Int;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
+import uva.ql.ast.values.types.Bool;
 
 public class ValueBool extends Values {
 
-	private Int type = new Int();
+	private Bool type = new Bool();
 	private boolean value;
 	
 	public ValueBool(Node parent, String value, int startLine, int startColumn) {
@@ -19,9 +15,9 @@ public class ValueBool extends Values {
 		this.value = Boolean.parseBoolean(value);
 	}
 	
-	public boolean eval() {
-		// TODO Auto-generated method stub
-		return false;
+	@Override
+	public EnumType evalType() {
+		return this.getType();
 	}
 	
 	@Override
@@ -32,18 +28,4 @@ public class ValueBool extends Values {
 	public boolean getValue() {
 		return this.value;
 	}
-	
-	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {
-		visitor.visitValueBool(this);
-	}
-
-	@Override
-	public void accept(IUndefinedQuestionVisitor visitor) {}
-	
-	@Override
-	public void accept(ICyclicDependencyVisitor visitor) {}
-	
-	@Override
-	public void accept(IDupllicateLabelsVisitor visitor) {}
 }

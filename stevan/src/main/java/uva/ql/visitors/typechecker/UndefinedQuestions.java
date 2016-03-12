@@ -9,26 +9,19 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.expressions.ExpAdd;
-import uva.ql.ast.expressions.ExpAnd;
-import uva.ql.ast.expressions.ExpDivide;
-import uva.ql.ast.expressions.ExpEqualTo;
-import uva.ql.ast.expressions.ExpGreaterThen;
-import uva.ql.ast.expressions.ExpGreaterThenOrEqualTo;
-import uva.ql.ast.expressions.ExpLessThen;
-import uva.ql.ast.expressions.ExpLessThenOrEqualTo;
-import uva.ql.ast.expressions.ExpMinus;
-import uva.ql.ast.expressions.ExpMultiply;
-import uva.ql.ast.expressions.ExpNot;
-import uva.ql.ast.expressions.ExpNotEqualTo;
-import uva.ql.ast.expressions.ExpOr;
+import uva.ql.ast.expressions.abstracts.AbstractArithmeticOperator;
+import uva.ql.ast.expressions.abstracts.AbstractLogicalOperator;
+import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
+import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.variables.VarGeneric;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
+import uva.ql.visitors.typechecker.abstracts.AbstractTypeChecker;
+import uva.ql.visitors.typechecker.errors.ErrorUndefinedQuestion;
 
-public class UndefinedQuestions implements IUndefinedQuestionVisitor {
+public class UndefinedQuestions extends AbstractTypeChecker implements IUndefinedQuestionVisitor {
 
 	private final Map<String, Variable> questionVariables = new HashMap<String, Variable>(0);
 	private final Map<String, Variable> referencedVariables = new HashMap<String, Variable>(0);
@@ -49,9 +42,7 @@ public class UndefinedQuestions implements IUndefinedQuestionVisitor {
 			Entry<String, Variable> pair = varIterator.next();
 			
 			if(!questionVariables.containsKey(pair.getKey())) {
-
-				//TODO: Create error Object
-				System.out.println("error Undefined: " + pair.getKey() + " - " + pair.getValue().getLine() + ", " + pair.getValue().getColumn());
+				errorMessages.add(new ErrorUndefinedQuestion(pair.getKey(), pair.getValue().getLine(), pair.getValue().getColumn()));
 			}
 		}
 	}
@@ -95,86 +86,31 @@ public class UndefinedQuestions implements IUndefinedQuestionVisitor {
 	}
 
 	@Override
-	public void visitExpAdd(ExpAdd exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpAnd(ExpAnd exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpDivide(ExpDivide exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpEqualTo(ExpEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpGreaterThen(ExpGreaterThen exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpGreaterThenOrEqualTo(ExpGreaterThenOrEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpLessThen(ExpLessThen exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpLessThenOrEqualTo(
-			ExpLessThenOrEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpMinus(ExpMinus exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpMultiply(ExpMultiply exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpNot(ExpNot exp) {
-		exp.getLhs().accept(this);
-	}
-
-	@Override
-	public void visitExpNotEqualTo(ExpNotEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpOr(ExpOr exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
 	public void visitVarGeneric(VarGeneric var) {
 		referencedVariables.put(var.getName(), var);
+	}
+
+	@Override
+	public void visitArithmeticOperator(AbstractArithmeticOperator exp) {
+		exp.getLhs().accept(this);
+		exp.getRhs().accept(this);
+	}
+
+	@Override
+	public void visitLogicalOperator(AbstractLogicalOperator exp) {
+		exp.getLhs().accept(this);
+		exp.getRhs().accept(this);
+	}
+
+	@Override
+	public void visitRelationalOperator(AbstractRelationalOperator exp) {
+		exp.getLhs().accept(this);
+		exp.getRhs().accept(this);
+	}
+
+	@Override
+	public void visitSingleLogicalOperator(AbstractSingleLogicalOperator exp) {
+		exp.getLhs().accept(this);
 	}
 
 

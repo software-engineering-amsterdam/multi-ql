@@ -19,7 +19,7 @@ import SwiftParsec
  * question         ::= computedQuestion | variableQuestion
  * computedQuestion ::= var ':' stringLit expr
  * variableQuestion ::= var ':' stringLit type
- * type             ::= integer | boolean | string
+ * type             ::= integer | float | boolean | string
  * expr             ::= unaryOp expr | expr binary expr | ( expr ) | literal | var
  * literal          ::= true | false | stringLit | integerLit
  * unaryOp          ::= - | !
@@ -124,14 +124,16 @@ class QLParser: NSObject {
     
     private func literal() -> GenericParser<String, (), QLLiteral> {
         let boolLit: GenericParser<String, (), QLLiteral> =
-            lexer.symbol("true") *> GenericParser(result: QLBooleanLiteral(bool: true)) <|>
-            lexer.symbol("false") *> GenericParser(result: QLBooleanLiteral(bool: false))
+            lexer.symbol("true") *> GenericParser(result: QLBooleanLiteral(value: true)) <|>
+            lexer.symbol("false") *> GenericParser(result: QLBooleanLiteral(value: false))
         let stringLit: GenericParser<String, (), QLLiteral> =
-            lexer.stringLiteral.map{ s in QLStringLiteral(string: s) }
+            lexer.stringLiteral.map{ s in QLStringLiteral(value: s) }
         let intLit: GenericParser<String, (), QLLiteral> =
-            lexer.integer.map { i in QLIntegerLiteral(integer: i) }
+            lexer.integer.map { i in QLIntegerLiteral(value: i) }
+        let floatLit: GenericParser<String, (), QLLiteral> =
+            lexer.float.map { f in QLFloatLiteral(value: QLFloat(f)) }
         
-        return boolLit <|> stringLit <|> intLit
+        return boolLit <|> stringLit <|> floatLit.attempt <|> intLit
     }
     
     private func type() -> GenericParser<String, (), QLType> {
@@ -141,8 +143,10 @@ class QLParser: NSObject {
             lexer.symbol("string").map { _ in QLStringType() }
         let integerType: GenericParser<String, (), QLType> =
             lexer.symbol("integer").map { _ in QLIntegerType() }
+        let floatType: GenericParser<String, (), QLType> =
+            lexer.symbol("float").map { _ in QLFloatType() }
         
-        return boolType <|> stringType <|> integerType
+        return boolType <|> stringType <|> integerType <|> floatType
     }
     
     private func identifier() -> GenericParser<String, (), QLIdentifier> {

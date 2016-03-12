@@ -105,36 +105,39 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode> {
 		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
 		Identifier id = (Identifier) ctx.identi.accept(this);
 		
-		// below part to be checked...
+		// below part to be checked...	// removed the fuckin quotes...
 		
-		// void purifyLabel(String arg) to be created . . . (remove fuckin quotes)
-		
-//		String fullLabel = ctx.questionLabel().getText();
-//		String pureLabel = purifyLabel(fullLabel);
-//		StringLiteral label = new StringLiteral(fragment,pureLabel);
-//		String finalLabel = label.toString();
-				
-		StringLiteral label = new StringLiteral(fragment,ctx.questionLabel().getText());
+		String fullLabel = ctx.questionLabel().getText();
+		String pureLabel = purifyLabel(fullLabel);
+		StringLiteral label = new StringLiteral(fragment,pureLabel);
 		String finalLabel = label.toString();
+				
+//		StringLiteral label = new StringLiteral(fragment,ctx.questionLabel().getText());
+//		String finalLabel = label.toString();
 		Type type = (Type) ctx.questionType().accept(this);
 		Expression expression = (Expression) ctx.expression().accept(this);
 		ComputedQuestion computedQuestion = new ComputedQuestion(fragment, id, finalLabel, type, expression);
 		return computedQuestion; 
 	}
 	
+	private String purifyLabel(String arg) {
+		return arg.substring(1, arg.length()-1);
+	}
 	
 	
-	@Override public ASTNode visitQuestionNormal(QLParser.QuestionNormalContext ctx) {
+	
+	@Override 
+	public ASTNode visitQuestionNormal(QLParser.QuestionNormalContext ctx) {
 		CodeFragment fragment = CodeFragment.getCodeFragment(ctx);
 		Identifier id = (Identifier) ctx.identi.accept(this);
 		
-//		String fullLabel = ctx.questionLabel().getText();
-//		String pureLabel = purifyLabel(fullLabel);
-//		StringLiteral label = new StringLiteral(fragment,pureLabel);
-//		String finalLabel = label.toString();
-		
-		StringLiteral label = new StringLiteral(fragment,ctx.questionLabel().getText());
+		String fullLabel = ctx.questionLabel().getText();
+		String pureLabel = purifyLabel(fullLabel);
+		StringLiteral label = new StringLiteral(fragment,pureLabel);
 		String finalLabel = label.toString();
+		
+//		StringLiteral label = new StringLiteral(fragment,ctx.questionLabel().getText());
+//		String finalLabel = label.toString();
 		Type type = (Type) ctx.questionType().accept(this);
 		Question question = new Question(id, finalLabel, type, fragment);
 		return question; 

@@ -20,6 +20,7 @@ protocol QLExpressionVisitor {
     
     func visit(node: QLVariable, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLNeg, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
+    func visit(node: QLNot, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLAdd, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLSub, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLMul, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
@@ -33,6 +34,5 @@ protocol QLExpressionVisitor {
     func visit(node: QLLt, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLAnd, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLOr, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
-    func visit(node: QLNot, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLLiteralExpression, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
 }

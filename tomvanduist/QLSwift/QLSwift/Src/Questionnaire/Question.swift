@@ -9,14 +9,14 @@
 import Foundation
 
 class Question: NSObject {
-    let context: QLContext
+    let context: Context
     let conditions: [QLExpression]
     let identifier: String
     let question: String
     let type: QLType
     let isComputed: Bool
     
-    init(question: QLVariableQuestion, conditions: [QLExpression], context: QLContext) {
+    init(question: QLVariableQuestion, conditions: [QLExpression], context: Context) {
         self.context = context
         self.conditions = conditions
         self.identifier = question.identifier.id
@@ -25,7 +25,7 @@ class Question: NSObject {
         self.isComputed = false
     }
     
-    init(question: QLComputedQuestion, type: QLType, conditions: [QLExpression], context: QLContext) {
+    init(question: QLComputedQuestion, type: QLType, conditions: [QLExpression], context: Context) {
         self.context = context
         self.conditions = conditions
         self.identifier = question.identifier.id
@@ -36,7 +36,7 @@ class Question: NSObject {
     
     func enabled() -> Bool {
         for condition in conditions {
-            guard let value = condition.eval(context) as? Bool
+            guard let value = Interpreter.sharedInstance.resolve(condition, context: context) as? Bool // TODO: fix this plox
                 else { return false }
             
             if !value {
@@ -45,5 +45,16 @@ class Question: NSObject {
         }
         
         return true
+    }
+    
+    func eval() -> NSObject? {
+        if isComputed {
+            guard let expression = context.retrieveExpression(identifier)
+                else { return nil }
+            
+            return Interpreter.sharedInstance.resolve(expression, context: context)
+        } else {
+            return context.retrieveValue(identifier)
+        }
     }
 }

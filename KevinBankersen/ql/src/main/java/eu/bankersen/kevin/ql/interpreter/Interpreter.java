@@ -1,37 +1,53 @@
 package eu.bankersen.kevin.ql.interpreter;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esotericsoftware.minlog.Log;
-
+import eu.bankersen.kevin.ql.ast.ASTVisitor;
 import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
 import eu.bankersen.kevin.ql.gui.ViewListener;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
 
 public class Interpreter implements ViewListener {
 
     private final Form form;
-    private SymbolTable symbolTable;
+    private final Environment environment;
     private List<DataListener> dataListeners;
 
-    public Interpreter(Form form, SymbolTable symbolTable) {
+    public Interpreter(Form form) {
 	this.form = form;
-	this.symbolTable = symbolTable;
 	this.dataListeners = new ArrayList<>();
-	evalForm();
+	this.environment = new Environment();
+
+	// Construct the environment
+	form.accept(new ASTVisitor<Void>() {
+
+	    @Override
+	    public Void visit(NormalQuestion o, Void empty) {
+		environment.addQuestion(o.name());
+		return null;
+	    }
+
+	    @Override
+	    public Void visit(ComputedQuestion o, Void empty) {
+		environment.addQuestion(o.name());
+		return null;
+	    }
+	}, null);
     }
-    
+
     private void evalForm() {
-	for (int i = 0; i < symbolTable.size(); i++) {
-	    symbolTable = form.evalForm(symbolTable);
-	}
+	Environment previousEnv;
+
+	do {
+	    previousEnv = environment;
+	    form.evalForm(environment);
+	} while (!previousEnv.equals(environment));
+
+	System.out.println(environment);
 	dataUpdate();
-    }
-    
-    public SymbolTable getSymbolTable() {
-	return symbolTable;
     }
 
     public void addDataListener(DataListener listener) {
@@ -40,17 +56,12 @@ public class Interpreter implements ViewListener {
     }
 
     private void dataUpdate() {
-	dataListeners.forEach(listener -> listener.dataUpdate(symbolTable));
+	dataListeners.forEach(listener -> listener.dataUpdate(environment));
     }
 
     @Override
-    public void viewUpdate(String name, Object value) {
-	symbolTable.updateSymbol(name, value);
+    public void viewUpdate(String name, QLValue value) {
+	environment.updateQuestion(name, value);
 	this.evalForm();
-	
-	Log.info("Symbol Table Contents\n" + symbolTable.toString());
-	
     }
 }
-
-

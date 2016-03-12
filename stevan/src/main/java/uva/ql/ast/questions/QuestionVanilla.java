@@ -6,8 +6,10 @@ import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.ast.questions.types.Vanilla;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
+import uva.ql.interfaces.IBinaryOperatorVisitor;
 import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
@@ -28,11 +30,6 @@ public class QuestionVanilla extends Question {
 	public void accept(INodeVisitor visitor) {
 		visitor.visitQuestionVanilla(this);
 	}
-	
-	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {
-		visitor.visitQuestionVanilla(this);
-	}
 
 	@Override
 	public void accept(IUndefinedQuestionVisitor visitor) {
@@ -48,4 +45,15 @@ public class QuestionVanilla extends Question {
 	public void accept(IDupllicateLabelsVisitor visitor) {
 		visitor.visitQuestionVanilla(this);
 	}
+
+	@Override
+	public void accept(IArithmeticOperatorVisitor visitor) {}
+	
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
+		visitor.visitQuestionVanilla(this);
+	}
+
+	@Override
+	public void accept(IBinaryOperatorVisitor visitor) {}
 }

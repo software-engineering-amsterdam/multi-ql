@@ -20,5 +20,6 @@ protocol QLLiteralVisitor {
     
     func visit(node: QLStringLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
     func visit(node: QLIntegerLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
+    func visit(node: QLFloatLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
     func visit(node: QLBooleanLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
 }

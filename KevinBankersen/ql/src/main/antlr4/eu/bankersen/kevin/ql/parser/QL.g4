@@ -8,7 +8,15 @@ import eu.bankersen.kevin.ql.ast.expr.math.*;
 import eu.bankersen.kevin.ql.ast.stat.*;
 import eu.bankersen.kevin.ql.ast.form.*;
 import eu.bankersen.kevin.ql.ast.*;
-import eu.bankersen.kevin.ql.ast.type.*;
+import eu.bankersen.kevin.ql.ast.object.type.*;
+import eu.bankersen.kevin.ql.ast.object.value.*;
+
+import eu.bankersen.kevin.ql.ast.object.*;
+import eu.bankersen.kevin.ql.ast.object.bool.*;
+import eu.bankersen.kevin.ql.ast.object.num.*;
+import eu.bankersen.kevin.ql.ast.object.money.*;
+import eu.bankersen.kevin.ql.ast.object.str.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
@@ -30,7 +38,7 @@ question[List<AbstractStatement> result]
 	
 	: STR + ID + ':' + type + '=' + primary
 	{
-		$result.add(new ComputedQuestion($ID.text, $STR.text, $type.result, $primary.result, $ID.getLine()));
+		$result.add(new ComputedQuestion($ID.text, $STR.text, $primary.result, $type.result, $ID.getLine()));
 	}
 		
 	| STR + ID + ':' + type
@@ -106,7 +114,15 @@ unExpr returns [Expr result]
 	|	'-' x=unExpr 	{ $result = new Neg($x.result, $x.start.getLine()); }
 	|	'!' x=unExpr 	{ $result = new Not($x.result, $x.start.getLine()); }
 	|	y=primary    	{ $result = $y.result; }
-	;    
+	;
+	
+orExpr returns [Expr result]
+	:   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result, $rhs.start.getLine()); } )*
+	;
+
+andExpr returns [Expr result]
+	:   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result, $rhs.start.getLine()); } )*
+	;	
 
 	
 primary returns [Expr result]
@@ -116,28 +132,20 @@ primary returns [Expr result]
 	;
 
 literal returns [Expr result]
-	: INT 	{ $result = new Literal(new BigDecimal($INT.text), new IntType(), $INT.getLine()); } 
-	| STR 	{ $result = new Literal($STR.text, new StringType(), $STR.getLine()); } 
-	| BOOL 	{ $result = new Literal(Boolean.valueOf($BOOL.text), new BooleanType(), $BOOL.getLine()); }
+	: INT 	{ $result = new Literal($INT.getLine(), new IntegerValue(Integer.valueOf($INT.text)) , new IntegerType()); } 
+	| STR 	{ $result = new Literal($STR.getLine(), new StringValue($STR.text), new StringType() ); } 
+	| BOOL 	{ $result = new Literal($BOOL.getLine(), new BooleanValue(Boolean.valueOf($BOOL.text)), new BooleanType()); }
 	;
 	
 identifier returns [Expr result]
 	: ID	{ $result = new Identifier($ID.text, $ID.getLine()); }
 	;
 	
-type returns [Type result]
+type returns [QLType result]
 	: BOOLEAN		{ $result = new BooleanType(); }
 	| STRING		{ $result = new StringType(); }
-	| INTEGER		{ $result = new IntType(); }
+	| INTEGER		{ $result = new IntegerType(); }
 	| MONEY			{ $result = new MoneyType(); }
-	;
-
-orExpr returns [Expr result]
-	:   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result, $rhs.start.getLine()); } )*
-	;
-
-andExpr returns [Expr result]
-	:   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, $rhs.result, $rhs.start.getLine()); } )*
 	;
 	
 

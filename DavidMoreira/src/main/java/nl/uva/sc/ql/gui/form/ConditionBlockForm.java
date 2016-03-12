@@ -3,9 +3,9 @@ package nl.uva.sc.ql.gui.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-
-import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.gui.state.Observer;
+import nl.uva.sc.ql.gui.state.State;
+import nl.uva.sc.ql.gui.state.Subject;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
 import nl.uva.sc.ql.parser.value.Value;
 
@@ -17,16 +17,15 @@ public class ConditionBlockForm implements GuiInterface, Observer, Subject {
 	private List<Question> questions;
 	private State state;
 
-	private JFrame jFrame;
+	private Form form;
 	
-	public ConditionBlockForm(JFrame jFrame, State state, ExpressionNode condition){
-		//super(new BorderLayout());
-		this.jFrame = jFrame;
-
+	public ConditionBlockForm(Form form, State state, ExpressionNode condition){
+		this.form = form;
 		this.condition = condition;
 		this.questions = new ArrayList<Question>();
 		this.state = state;
-		state.registerObserver(this);
+		
+		state.registerObserverForExpressionNode(this, condition);
 	}
 
 	public void addQuestion(Question question){
@@ -45,25 +44,25 @@ public class ConditionBlockForm implements GuiInterface, Observer, Subject {
 	public void createGui() {		
 		for(Question q : questions){
 			q.createGui();
-			jFrame.add(q);
-		}			
+			form.add(q);
+		}	
 	}
 	
 	@Override
 	public void updateGui() {
+		notifyObservers();
+	}
+	
+	public void setVisibility(boolean visible){
 		for(Question q : questions){
-			if(getResultOfCondition() == false){
-				q.setVisible(false);
-			} else {
-				q.setVisible(true);
-			}
+			q.setVisible(visible);
 		}
 	}
 	
 	@Override
 	public void update() {
 		updateGui();
-		notifyObservers();		
+		form.revalidate();
 	}
 	
 	// methods related with observer pattern

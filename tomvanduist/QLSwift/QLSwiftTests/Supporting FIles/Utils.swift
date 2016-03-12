@@ -24,6 +24,7 @@ internal func getQL(owner: AnyObject, file: String) throws -> QL {
 // MARK: Convenience methods
 
 extension XCTestCase {
+    
     internal func parseFile(file: String, doEval: Bool = false) -> QLForm? {
         do {
             return try parseQL(getQL(self, file: file), doEval: doEval)

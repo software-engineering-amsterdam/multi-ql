@@ -2,15 +2,11 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.expressions.abstracts.AbstractLogicalOperator;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.expressions.abstracts.LogicalOperator;
 import uva.ql.ast.expressions.types.Or;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
-public class ExpOr extends LogicalOperator {
+public class ExpOr extends AbstractLogicalOperator {
 
 	private Or type = new Or();
 	
@@ -19,32 +15,15 @@ public class ExpOr extends LogicalOperator {
 	}
 	
 	@Override
-	public boolean eval() {
-		return (this.getLhs().eval() && this.getRhs().eval());
+	public EnumType evalType() {
+		EnumType Tlhs = this.getLhs().evalType();
+		EnumType Trhs = this.getRhs().evalType();
+		
+		return (Tlhs.equals(Trhs))? Tlhs : Trhs;
 	}
 
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
-	}
-	
-	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {
-		visitor.visitExpOr(this);
-	}
-
-	@Override
-	public void accept(IUndefinedQuestionVisitor visitor) {
-		visitor.visitExpOr(this);
-	}
-	
-	@Override
-	public void accept(ICyclicDependencyVisitor visitor) {
-		visitor.visitExpOr(this);
-	}
-	
-	@Override
-	public void accept(IDupllicateLabelsVisitor visitor) {
-		visitor.visitExpOr(this);
 	}
 }

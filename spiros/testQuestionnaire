@@ -1,18 +1,14 @@
 form Box1HouseOwning {
-	hasRentHouse: "Did you sell a house in 2010?" boolean
-	hasBoughtHouse: "Did you sell a house in 2011?" int
-	hasSoldHouse: "Did you sell a house in 2010?"
-	boolean (true)
+	hasBoughtHouse: "Did you buy a house in 2011?" boolean
+	hasSoldHouse: "Did you sell a house in 2010?"	boolean
+	annualIncome: "What is your annual income?"  int
 	
-	hasBoughtkHouse: "Did you buy a house in 2012?" boolean
-	hasBoughhbtHouse: "Did you buy a house in 2013?" boolean
-	
-	if (5 != 4) {
-		takeMaintLoan: "Did you buy a house in 2010?" int
+	if (hasSoldHouse) {
+		sellIncome: "How much money did you earn?" int
 	}
 	
-	if (false) {
-		testVar: "Did you buy a house in 2010?" boolean (7 == 6)
+	if (hasSoldHouse) {
+		totalTaxes: "You have to pay: " int (annualIncome + sellIncome)
 	}
 	
 }

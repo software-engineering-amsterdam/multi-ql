@@ -39,7 +39,7 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor {
 		
 		
 		frame = new JFrame("Questionnaire");
-		frame.setLayout(new MigLayout("al left, wrap, gapy 100"));
+		frame.setLayout(new MigLayout("al left, wrap, gapy 66"));
 		
 		System.out.println("To size twn panels einai: " + panels.size());
 		
@@ -75,10 +75,12 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor {
 
 	@Override
 	public void visitBlock(Block block) {
+		
+		System.out.println("Visiting block");
+		
 		for (Statement statement: block.getStatements()) {
 			statement.accept(this);
 		}	
-		System.out.println("Visiting block");
 		
 	}
 	
@@ -86,11 +88,13 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor {
 
 	@Override
 	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
-		// TODO Auto-generated method stub
 		
-		// take widget from visiting the type...
+		System.out.println("Visiting computed question...");
 		
-		
+		Type type = computedQuestion.getType();
+		Widget widget = widgetAccordingToType(type);
+		QuestionPanel questionPanel = new QuestionPanel(computedQuestion,widget);
+		panels.add(questionPanel.getPanel());
 	}
 
 	@Override
