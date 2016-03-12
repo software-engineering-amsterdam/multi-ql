@@ -32,10 +32,10 @@ class QLForm: ASTNode, Visitable {
 
 class QLQuestion: QLStatement, Visitable {
     let name: String
-    let variable: QLExpression
-    let type: String
+    let variable: QLVariable
+    let type: QLLiteral
     
-    init(name: String, variable: QLExpression, type: String) {
+    init(name: String, variable: QLVariable, type: QLLiteral) {
         self.name = name
         self.variable = variable
         self.type = type
@@ -275,11 +275,7 @@ class QLOrExpression: QLBinaryExpression {
 // MARK: Literals.
 
 class QLBool: QLLiteral {
-    let boolean: Bool
-    
-    init(boolean: Bool) {
-        self.boolean = boolean
-    }
+    var boolean = Bool()
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
@@ -287,11 +283,7 @@ class QLBool: QLLiteral {
 }
 
 class QLString: QLLiteral {
-    let string: String
-    
-    init(string: String) {
-        self.string = string
-    }
+    var string = String()
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
@@ -299,11 +291,7 @@ class QLString: QLLiteral {
 }
 
 class QLInteger: QLLiteral {
-    let integer: Int
-    
-    init(integer: Int) {
-        self.integer = integer
-    }
+    var integer = Int()
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
@@ -311,15 +299,9 @@ class QLInteger: QLLiteral {
 }
 
 class QLDate: QLLiteral {
-    let day: Int
-    let month: Int
-    let year: Int
-    
-    init(day: Int, month: Int, year: Int) {
-        self.day = day
-        self.month = month
-        self.year = year
-    }
+    var day = Int()
+    var month = Int()
+    var year = Int()
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
@@ -327,11 +309,7 @@ class QLDate: QLLiteral {
 }
 
 class QLDecimal: QLLiteral {
-    let decimal: Int
-    
-    init(decimal: Int) {
-        self.decimal = decimal
-    }
+    var decimal = Int()
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
@@ -339,11 +317,7 @@ class QLDecimal: QLLiteral {
 }
 
 class QLMoney: QLLiteral {
-    let money: Float
-    
-    init(money: Float) {
-        self.money = money
-    }
+    var money = Float()
     
     func accept(visitor: Visitor) {
         visitor.visit(self)

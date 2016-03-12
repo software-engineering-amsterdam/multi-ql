@@ -10,6 +10,8 @@ import Foundation
 
 class QLTypeChecker: Visitor {
     
+    
+    
     let testCase = false
     
     enum TypeError: ErrorType {
