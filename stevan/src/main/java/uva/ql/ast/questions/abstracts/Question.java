@@ -1,11 +1,13 @@
 package uva.ql.ast.questions.abstracts;
 
+import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.questions.IQuestion;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
+import uva.ql.interfaces.IBinaryOperatorVisitor;
 import uva.ql.interfaces.INodeVisitor;
 
-public abstract class Question extends Node {
+public abstract class Question extends Node implements IQuestion {
 
 	private String label;
 	private Variable variable;
@@ -32,9 +34,9 @@ public abstract class Question extends Node {
 	public void accept(INodeVisitor visitor) {
 		visitor.visitQuestion(this);
 	}
+
+	abstract public EnumType getType();
 	
 	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {
-		visitor.visitQuestion(this);
-	}
+	public void accept(IBinaryOperatorVisitor visitor) {}
 }

@@ -6,8 +6,10 @@ import uva.ql.ast.conditionals.abstracts.Condition;
 import uva.ql.ast.conditionals.types.IfElseStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
+import uva.ql.interfaces.IBinaryOperatorVisitor;
 import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
@@ -23,6 +25,11 @@ public class CondIfElseStatement extends Condition {
 		this.rhs = rhsBlock;
 	}
 	
+	@Override
+	public EnumType evalType() {
+		return this.expression.evalType();
+	}
+
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
@@ -66,6 +73,16 @@ public class CondIfElseStatement extends Condition {
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {
+		visitor.visitCondIfElseStatement(this);
+	}
+
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
+		visitor.visitCondIfElseStatement(this);
+	}
+
+	@Override
+	public void accept(IBinaryOperatorVisitor visitor) {
 		visitor.visitCondIfElseStatement(this);
 	}
 }

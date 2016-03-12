@@ -1,7 +1,9 @@
 package uva.ql.visitors.typechecker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,29 +11,20 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.expressions.ExpAdd;
-import uva.ql.ast.expressions.ExpAnd;
-import uva.ql.ast.expressions.ExpDivide;
-import uva.ql.ast.expressions.ExpEqualTo;
-import uva.ql.ast.expressions.ExpGreaterThen;
-import uva.ql.ast.expressions.ExpGreaterThenOrEqualTo;
-import uva.ql.ast.expressions.ExpLessThen;
-import uva.ql.ast.expressions.ExpLessThenOrEqualTo;
-import uva.ql.ast.expressions.ExpMinus;
-import uva.ql.ast.expressions.ExpMultiply;
-import uva.ql.ast.expressions.ExpNot;
-import uva.ql.ast.expressions.ExpNotEqualTo;
-import uva.ql.ast.expressions.ExpOr;
+import uva.ql.ast.expressions.abstracts.AbstractArithmeticOperator;
+import uva.ql.ast.expressions.abstracts.AbstractLogicalOperator;
+import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
+import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.variables.VarGeneric;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
+import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.visitors.typechecker.abstracts.AbstractTypeChecker;
+import uva.ql.visitors.typechecker.errors.ErrorDuplicateQuestion;
 
-public class DuplicateQuestionDifferentTypes implements ICyclicDependencyVisitor {
+public class DuplicateQuestionDifferentTypes extends AbstractTypeChecker implements IDupllicateQuestionDifferentTypesVisitor {
 
-	private final Map<String, Variable> questionVariables = new HashMap<String, Variable>(0);
-	private final Map<String, Variable> duplicateVariables = new HashMap<String, Variable>(0);
+	private final Map<String, List<Variable>> questionVariables = new HashMap<String, List<Variable>>(0);
 	
 	@Override
 	public void visitForm(Form form) {
@@ -42,17 +35,31 @@ public class DuplicateQuestionDifferentTypes implements ICyclicDependencyVisitor
 			block.accept(this);
 		}
 		
-		Iterator<Entry<String, Variable>> varIterator = duplicateVariables.entrySet().iterator();
+		Iterator<Entry<String, List<Variable>>> varIterator = questionVariables.entrySet().iterator();
 		
 		while(varIterator.hasNext()) {
 			
-			Entry<String, Variable> pair = varIterator.next();
+			Entry<String, List<Variable>> variables = varIterator.next();
 			
-			if(questionVariables.containsKey(pair.getKey())) {
+			if(variables.getValue().size() > 1) {
 
-				//TODO: Create error Object
-				System.out.println("error DupDiffType: " + pair.getKey() + " - " + pair.getValue().getLine() + ", " + pair.getValue().getColumn());
+				checkForDuplication(variables.getValue());
 			}
+		}
+	}
+	
+	private void checkForDuplication(List<Variable> variables) {
+	
+		Variable tempVar = variables.get(0);
+		variables.remove(0);
+		
+		for(Variable var : variables) {
+
+			if(!tempVar.getType().equals(var.getType())) {
+				errorMessages.add(new ErrorDuplicateQuestion(var.getName(), var.getLine(), var.getColumn()));
+			}
+			
+			tempVar = var;
 		}
 	}
 
@@ -69,28 +76,34 @@ public class DuplicateQuestionDifferentTypes implements ICyclicDependencyVisitor
 	public void visitQuestionVanilla(QuestionVanilla questionVanilla) {
 		
 		Variable var = questionVanilla.getVariable();
-		Iterator<Entry<String, Variable>> questionVariablesIterator = questionVariables.entrySet().iterator();
 		
-		while(questionVariablesIterator.hasNext()) {
-			
-			Entry<String, Variable> pair = questionVariablesIterator.next();
-			Variable varPair = pair.getValue();
-			
-			if( varPair.getName().equalsIgnoreCase(var.getName()) &&
-					!varPair.getType().equals(var.getType())) {
-				
-				duplicateVariables.put(var.getName(), var);
-			}
+		if(questionVariables.containsKey(var.getName())) {
+			List<Variable> variables = questionVariables.get(var.getName());
+			variables.add(var);
+			questionVariables.put(var.getName(), variables);
 		}
-		
-		questionVariables.put(var.getName(), var);
+		else {
+			List<Variable> variables = new ArrayList<Variable>(0);
+			variables.add(var);
+			questionVariables.put(var.getName(), variables);
+		}
 	}
 	
 	@Override
 	public void visitQuestionComputed(QuestionComputed questionComputed) {
 		
 		Variable var = questionComputed.getVariable();
-		questionVariables.put(var.getName(), var);
+		
+		if(questionVariables.containsKey(var.getName())) {
+			List<Variable> variables = questionVariables.get(var.getName());
+			variables.add(var);
+			questionVariables.put(var.getName(), variables);
+		}
+		else {
+			List<Variable> variables = new ArrayList<Variable>(0);
+			variables.add(var);
+			questionVariables.put(var.getName(), variables);
+		}
 		
 		questionComputed.getExp().accept(this);
 	}
@@ -109,85 +122,26 @@ public class DuplicateQuestionDifferentTypes implements ICyclicDependencyVisitor
 	}
 
 	@Override
-	public void visitExpAdd(ExpAdd exp) {
+	public void visitArithmeticOperator(AbstractArithmeticOperator exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitExpAnd(ExpAnd exp) {
+	public void visitLogicalOperator(AbstractLogicalOperator exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitExpDivide(ExpDivide exp) {
+	public void visitRelationalOperator(AbstractRelationalOperator exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitExpEqualTo(ExpEqualTo exp) {
+	public void visitSingleLogicalOperator(AbstractSingleLogicalOperator exp) {
 		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpGreaterThen(ExpGreaterThen exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpGreaterThenOrEqualTo(ExpGreaterThenOrEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpLessThen(ExpLessThen exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpLessThenOrEqualTo(ExpLessThenOrEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpMinus(ExpMinus exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpMultiply(ExpMultiply exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpNot(ExpNot exp) {
-		exp.getLhs().accept(this);
-	}
-
-	@Override
-	public void visitExpNotEqualTo(ExpNotEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpOr(ExpOr exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitVarGeneric(VarGeneric var) {
-//		duplicateVariables.put(var.getName(), var);
 	}
 
 }
