@@ -6,9 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
-import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
-import nl.uva.sc.ql.parser.ast.IdentifierNode;
 import nl.uva.sc.ql.parser.value.BooleanVal;
 import nl.uva.sc.ql.parser.value.Value;
 
@@ -27,14 +26,14 @@ public class QuestionBoolean extends Question {
 		component.addActionListener(new ActionListener() {
 			@Override
 	        public void actionPerformed(ActionEvent e) {
+				String identifier = getIdentifier();
+
 				if (component.isSelected()){
-					IdentifierNode in = new IdentifierNode(getIdentifier());
 					Value value = new BooleanVal(true);
-					getState().add(in, value);					
+					getState().add(identifier, value);					
 				} else {
-					IdentifierNode in = new IdentifierNode(getIdentifier());
 					Value value = new BooleanVal(false);
-					getState().add(in, value);					
+					getState().add(identifier, value);					
 				}				
 	        }
 	    });
@@ -49,8 +48,8 @@ public class QuestionBoolean extends Question {
 	
 	@Override
 	public void update() {
-		IdentifierNode in = new IdentifierNode(getIdentifier());
-		Value value = (getExpression() == null) ? getState().lookup(in) : getExpression().eval(getState());
+		String identifier = getIdentifier();
+		Value value = (getExpression() == null) ? getState().lookup(identifier) : getExpression().eval(getState());
 		boolean bool = (value == null) ? false : (boolean) value.getValue();		
 		((JCheckBox) getComponent()).setSelected(bool);
 	}

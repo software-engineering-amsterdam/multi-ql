@@ -10,6 +10,7 @@ import nl.uva.sc.ql.gui.form.Question;
 import nl.uva.sc.ql.gui.form.QuestionBoolean;
 import nl.uva.sc.ql.gui.form.QuestionInteger;
 import nl.uva.sc.ql.gui.form.QuestionString;
+import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.Visitor;
 import nl.uva.sc.ql.parser.ast.AdditionNode;
 import nl.uva.sc.ql.parser.ast.AndNode;
@@ -46,7 +47,7 @@ public class CreateForm implements Visitor {
 	private IfForm ifForm = null;
 	private ConditionBlockForm conditionBlockForm = null;
 	private State state;
-	
+		
 	public CreateForm(State state) {
 		this.state = state;
 	}
@@ -220,7 +221,6 @@ public class CreateForm implements Visitor {
 		
 		// this fills the map of values
 		Value value = valueNode == null ? null : valueNode.eval(state);
-		IdentifierNode in = new IdentifierNode(questionNode.getIdentifier());
-		state.add(in, value);
+		state.add(identifier, value);
 	}
 }
