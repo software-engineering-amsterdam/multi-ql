@@ -133,6 +133,10 @@ class QLTypeChecker: Visitor {
     }
     
     // MARK: Literals.
+    func visit(qlunknownliteral: QLUnknownLiteral) {
+        print("-> Unknown literal")
+    }
+    
     func visit(qlbool: QLBool) {
         print("-> Boolean")
     }

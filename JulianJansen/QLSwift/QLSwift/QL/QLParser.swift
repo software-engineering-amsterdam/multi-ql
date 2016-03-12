@@ -155,7 +155,7 @@ class QLParser {
     }
     
     private func questionTypeParser() -> GenericParser<String, (), QLLiteral> {
-        (StringParser.noneOf("\r\n,\n\r").many.stringValue <* self.endOfLineParser() <* self.whiteSpace <?> "question type").map{ type -> QLLiteral in
+        return (StringParser.noneOf("\r\n,\n\r").many.stringValue <* self.endOfLineParser() <* self.whiteSpace <?> "question type").map{ type -> QLLiteral in
             
             switch type {
                 case "boolean":
@@ -170,6 +170,8 @@ class QLParser {
                     return QLDecimal()
                 case "money":
                     return QLMoney()
+                default:
+                    return QLUnknownLiteral()
             }
         }
     }

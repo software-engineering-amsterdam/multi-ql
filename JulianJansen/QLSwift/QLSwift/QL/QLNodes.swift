@@ -274,8 +274,20 @@ class QLOrExpression: QLBinaryExpression {
 
 // MARK: Literals.
 
+class QLUnknownLiteral: QLLiteral {    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
+
 class QLBool: QLLiteral {
     var boolean = Bool()
+    
+    init() { }
+    
+    init(boolean: Bool) {
+        self.boolean = boolean
+    }
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
@@ -285,6 +297,12 @@ class QLBool: QLLiteral {
 class QLString: QLLiteral {
     var string = String()
     
+    init() { }
+    
+    init(string: String) {
+        self.string = string
+    }
+    
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
@@ -292,6 +310,12 @@ class QLString: QLLiteral {
 
 class QLInteger: QLLiteral {
     var integer = Int()
+    
+    init() { }
+    
+    init(integer: Int) {
+        self.integer = integer
+    }
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
@@ -303,6 +327,14 @@ class QLDate: QLLiteral {
     var month = Int()
     var year = Int()
     
+    init() { }
+    
+    init(day: Int, month: Int, year: Int) {
+        self.day = day
+        self.month = month
+        self.year = year
+    }
+    
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
@@ -311,6 +343,12 @@ class QLDate: QLLiteral {
 class QLDecimal: QLLiteral {
     var decimal = Int()
     
+    init() { }
+    
+    init(decimal: Int) {
+        self.decimal = decimal
+    }
+    
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
@@ -318,6 +356,12 @@ class QLDecimal: QLLiteral {
 
 class QLMoney: QLLiteral {
     var money = Float()
+    
+    init() { }
+    
+    init(money: Float) {
+        self.money = money
+    }
     
     func accept(visitor: Visitor) {
         visitor.visit(self)

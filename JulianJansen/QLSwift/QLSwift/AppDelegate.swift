@@ -31,6 +31,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             let form = try QLParser().parseStream(stream!)
 
+            let symbolsVisitor = SymbolsVisitor()
+            
+            form.accept(symbolsVisitor)
+            
+            let symbolTable = symbolsVisitor.getSymbolTable()
+            
+            print(symbolTable.getSymbolTable().description)
             
             form.accept(QLTypeChecker())
 

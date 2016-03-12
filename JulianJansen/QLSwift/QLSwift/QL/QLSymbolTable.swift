@@ -16,6 +16,10 @@ class QLSymbolTable {
         let message: String
     }
     
+    func getSymbolTable() -> Dictionary<String, QLLiteral> {
+        return symbolTable
+    }
+    
     func getSymbol(identifier: String) throws -> QLLiteral {
         if let symbol = symbolTable[identifier] {
             return symbol
@@ -50,7 +54,11 @@ class SymbolsVisitor: Visitor {
     }
     
     func visit(qlquestion: QLQuestion) {
-        symbolTable.addSymbol(qlquestion.variable.identifier, qlType: qlquestion.type)
+        do {
+            try symbolTable.addSymbol(qlquestion.variable.identifier, qlType: qlquestion.type)
+        } catch {
+            print(error)
+        }
     }
     
     func visit(qlifstatement: QLIfStatement) {
@@ -152,6 +160,10 @@ class SymbolsVisitor: Visitor {
     }
     
     // MARK: Literals.
+    func visit(qlunknownliteral: QLUnknownLiteral) {
+        print("-> Unknown literal")
+    }
+    
     func visit(qlbool: QLBool) {
         print("-> Boolean")
     }

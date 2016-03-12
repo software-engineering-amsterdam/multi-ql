@@ -31,6 +31,7 @@ protocol Visitor {
     func visit(qlandexpression: QLAndExpression)
     func visit(qlorexpression: QLOrExpression)
     
+    func visit(qlunknownliteral: QLUnknownLiteral)
     func visit(qlbool: QLBool)
     func visit(qlstring: QLString)
     func visit(qlinteger: QLInteger)
