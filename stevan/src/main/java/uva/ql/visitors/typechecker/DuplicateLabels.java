@@ -7,25 +7,18 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.expressions.ExpAdd;
-import uva.ql.ast.expressions.ExpAnd;
-import uva.ql.ast.expressions.ExpDivide;
-import uva.ql.ast.expressions.ExpEqualTo;
-import uva.ql.ast.expressions.ExpGreaterThen;
-import uva.ql.ast.expressions.ExpGreaterThenOrEqualTo;
-import uva.ql.ast.expressions.ExpLessThen;
-import uva.ql.ast.expressions.ExpLessThenOrEqualTo;
-import uva.ql.ast.expressions.ExpMinus;
-import uva.ql.ast.expressions.ExpMultiply;
-import uva.ql.ast.expressions.ExpNot;
-import uva.ql.ast.expressions.ExpNotEqualTo;
-import uva.ql.ast.expressions.ExpOr;
+import uva.ql.ast.expressions.abstracts.AbstractArithmeticOperator;
+import uva.ql.ast.expressions.abstracts.AbstractLogicalOperator;
+import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
+import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.visitors.typechecker.abstracts.AbstractTypeChecker;
+import uva.ql.visitors.typechecker.errors.WarningDuplicateLabel;
 
-public class DuplicateLabels implements IDupllicateLabelsVisitor {
+public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateLabelsVisitor {
 
 	private final Map<String, Question> questions = new HashMap<String, Question>(0);
 	
@@ -52,9 +45,7 @@ public class DuplicateLabels implements IDupllicateLabelsVisitor {
 	public void visitQuestionVanilla(QuestionVanilla questionVanilla) {
 		
 		if (questions.containsKey(questionVanilla.getLabel())) {
-			
-			//TODO: Create error Object
-			System.out.println("warning duplicate label: " + questionVanilla.getLabel() + " - " + questionVanilla.getLine() + ", " + questionVanilla.getColumn());
+			errorMessages.add(new WarningDuplicateLabel(questionVanilla.getLabel(), questionVanilla.getLine(), questionVanilla.getColumn()));
 		}
 		else {
 			questions.put(questionVanilla.getLabel(), questionVanilla);
@@ -66,9 +57,7 @@ public class DuplicateLabels implements IDupllicateLabelsVisitor {
 	public void visitQuestionComputed(QuestionComputed questionComputed) {
 		
 		if (questions.containsKey(questionComputed.getLabel())) {
-			
-			//TODO: Create error Object
-			System.out.println("warning duplicate label: " + questionComputed.getLabel() + " - " + questionComputed.getLine() + ", " + questionComputed.getColumn());
+			errorMessages.add(new WarningDuplicateLabel(questionComputed.getLabel(), questionComputed.getLine(), questionComputed.getColumn()));
 		}
 		else {
 			questions.put(questionComputed.getLabel(), questionComputed);
@@ -87,82 +76,27 @@ public class DuplicateLabels implements IDupllicateLabelsVisitor {
 		condIfElseStatement.getLhs().accept(this);
 		condIfElseStatement.getRhs().accept(this);
 	}
-
+	
 	@Override
-	public void visitExpAdd(ExpAdd exp) {
+	public void visitArithmeticOperator(AbstractArithmeticOperator exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitExpAnd(ExpAnd exp) {
+	public void visitLogicalOperator(AbstractLogicalOperator exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitExpDivide(ExpDivide exp) {
+	public void visitRelationalOperator(AbstractRelationalOperator exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitExpEqualTo(ExpEqualTo exp) {
+	public void visitSingleLogicalOperator(AbstractSingleLogicalOperator exp) {
 		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpGreaterThen(ExpGreaterThen exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpGreaterThenOrEqualTo(ExpGreaterThenOrEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpLessThen(ExpLessThen exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpLessThenOrEqualTo(
-			ExpLessThenOrEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpMinus(ExpMinus exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpMultiply(ExpMultiply exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpNot(ExpNot exp) {
-		exp.getLhs().accept(this);
-	}
-
-	@Override
-	public void visitExpNotEqualTo(ExpNotEqualTo exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
-	}
-
-	@Override
-	public void visitExpOr(ExpOr exp) {
-		exp.getLhs().accept(this);
-		exp.getRhs().accept(this);
 	}
 }

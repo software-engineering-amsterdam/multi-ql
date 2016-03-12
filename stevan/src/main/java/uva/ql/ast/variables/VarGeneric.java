@@ -4,9 +4,9 @@ import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.ast.variables.types.Generic;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
 import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
 public class VarGeneric extends Variable {
@@ -18,13 +18,13 @@ public class VarGeneric extends Variable {
 	}
 	
 	@Override
-	public EnumType getType() {
-		return this.type.getType();
+	public EnumType evalType() {
+		return this.getType();
 	}
 	
 	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {
-		visitor.visitVarGeneric(this);
+	public EnumType getType() {
+		return this.type.getType();
 	}
 
 	@Override
@@ -39,4 +39,7 @@ public class VarGeneric extends Variable {
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {}
+	
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {}
 }

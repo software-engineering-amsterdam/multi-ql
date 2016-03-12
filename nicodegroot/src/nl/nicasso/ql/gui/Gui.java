@@ -26,7 +26,7 @@ import nl.nicasso.ql.gui.questionFields.IntegerQuestionField;
 import nl.nicasso.ql.gui.questionFields.MoneyQuestionField;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.questionFields.TextQuestionField;
-import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.stateTable.StateTable;
 import nl.nicasso.ql.values.Value;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
@@ -34,16 +34,16 @@ import nl.nicasso.ql.visitors.TypeVisitor;
 
 public class Gui implements StructureVisitor<List<Panel>, Expression>, StatementVisitor<List<Panel>, Expression>, TypeVisitor<QuestionField, QuestionFieldParameter> {
 	
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	private MainFrame main;
 	
-	private SymbolTable symbolTable;
+	private StateTable stateTable;
 	
-	public Gui(SymbolTable symbolTable, MainFrame main) {
+	public Gui(StateTable stateTable, MainFrame main) {
 		this.main = main;
 		
-		this.symbolTable = symbolTable;
+		this.stateTable = stateTable;
 	}
 
 	@Override
@@ -58,7 +58,6 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			main.addPanel(p);
 		}
 		
-		main.updatePanel();
 		main.addPanelsToMainFrame();
 		
 		return null;
@@ -89,12 +88,12 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("Question: "+question.getId().getValue());
 		}
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), symbolTable, main, true);
+		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, true);
 		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
 		
-		Value value = symbolTable.getEntryValue(question.getId());
+		Value value = stateTable.getEntryValue(question.getId());
 		
-		QuestionPanel qp = new QuestionPanel(question, field, expr, symbolTable);
+		QuestionPanel qp = new QuestionPanel(question, field, expr, stateTable);
 		
 		List<Panel> panels = new ArrayList<Panel>();
 		panels.add(qp);
@@ -108,12 +107,12 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("ComputedQuestion: "+question.getId().getValue());
 		}
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), symbolTable, main, false);
+		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, false);
 		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
 		
-		Value value = symbolTable.getEntryValue(question.getId());
+		Value value = stateTable.getEntryValue(question.getId());
 		
-		ComputedQuestionPanel qp = new ComputedQuestionPanel(question, field, value, expr, symbolTable);
+		ComputedQuestionPanel qp = new ComputedQuestionPanel(question, field, value, expr, stateTable, main);
 		
 		List<Panel> panels = new ArrayList<Panel>();
 		panels.add(qp);
@@ -127,9 +126,8 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("IfStatement");
 		}
 				
-		Evaluator evaluator = new Evaluator(symbolTable);
+		Evaluator evaluator = new Evaluator(stateTable);
 		Value a = value.getExpr().accept(evaluator);
-		System.out.println("VALUE VAN DE IF IS: "+a.getValue());
 		
 		List<Panel> ifBlockPanel = value.getBlock_if().accept(this, value.getExpr());
 		

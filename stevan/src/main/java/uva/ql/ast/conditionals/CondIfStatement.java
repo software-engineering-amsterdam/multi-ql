@@ -6,8 +6,10 @@ import uva.ql.ast.conditionals.abstracts.Condition;
 import uva.ql.ast.conditionals.types.IfStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.interfaces.IArithmeticOperatorVisitor;
+import uva.ql.interfaces.IBinaryOperatorVisitor;
 import uva.ql.interfaces.ICyclicDependencyVisitor;
 import uva.ql.interfaces.IDupllicateLabelsVisitor;
+import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.interfaces.INodeVisitor;
 import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
@@ -19,6 +21,11 @@ public class CondIfStatement extends Condition {
 	public CondIfStatement(Expression expression, Block block, int startLine, int startColumn) {
 		super(null, expression, startLine, startColumn);
 		this.lhs = block;
+	}
+	
+	@Override
+	public EnumType evalType() {
+		return this.expression.evalType();
 	}
 	
 	@Override
@@ -56,6 +63,16 @@ public class CondIfStatement extends Condition {
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {
+		visitor.visitCondIfStatement(this);
+	}
+
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
+		visitor.visitCondIfStatement(this);
+	}
+	
+	@Override
+	public void accept(IBinaryOperatorVisitor visitor) {
 		visitor.visitCondIfStatement(this);
 	}
 }

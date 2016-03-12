@@ -5,7 +5,6 @@ import java.util.List;
 import nl.nicasso.ql.ast.ASTNode;
 import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.statements.Statement;
-import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
 public class Block extends ASTNode {

@@ -75,11 +75,24 @@ public abstract class Value {
 		return new UndefinedValue();
 	}
 	
+	public Value equalStr(StrValue value) {
+		return new UndefinedValue();
+	}
+	
+	
 	public Value notEqual(Value value) {
 		return new UndefinedValue();
 	}
 	
 	public Value notEqualInt(IntValue value) {
+		return new UndefinedValue();
+	}
+	
+	public Value notEqualBool(BoolValue value) {
+		return new UndefinedValue();
+	}
+	
+	public Value notEqualStr(StrValue value) {
 		return new UndefinedValue();
 	}
 	

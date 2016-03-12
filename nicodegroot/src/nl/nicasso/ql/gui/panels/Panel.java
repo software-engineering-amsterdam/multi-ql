@@ -8,16 +8,15 @@ import javax.swing.JPanel;
 import nl.nicasso.ql.Evaluator;
 import nl.nicasso.ql.ast.expressions.Expression;
 import nl.nicasso.ql.ast.statements.Question;
-import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.stateTable.StateTable;
 import nl.nicasso.ql.values.Value;
 
-public abstract class Panel implements Observer {
+public abstract class Panel {
 
 	protected JPanel panel;
-	protected SymbolTable symbolTable;
+	protected StateTable stateTable;
 	protected Expression condition;
 	protected QuestionField field;
 
@@ -48,13 +47,21 @@ public abstract class Panel implements Observer {
 		panel.add(field.getField());
 	}
 	
-	@Override
-	public void updatePanel() {
+	public boolean update() {
+		boolean updated = false;
+		
 		// Visibility
-		Evaluator evaluator = new Evaluator(symbolTable);
-		Value value = condition.accept(evaluator);
-		System.out.println("VALUE: "+value.getValue());
-		setVisible((Boolean) value.getValue());
+		Evaluator evaluator = new Evaluator(stateTable);
+		Value visibility = condition.accept(evaluator);
+		
+		if (panel.isVisible() != (Boolean) visibility.getValue()) {
+			//updated = true;
+		}
+		
+		//System.out.println("VISIBILITY: "+visibility.getValue());
+		setVisible((Boolean) visibility.getValue());
+		
+		return updated;
 	}
 	
 }

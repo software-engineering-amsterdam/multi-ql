@@ -39,7 +39,7 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor {
 		
 		
 		frame = new JFrame("Questionnaire");
-		frame.setLayout(new MigLayout("al left, wrap, gapy 100"));
+		frame.setLayout(new MigLayout("al left, wrap, gapy 66"));
 		
 		System.out.println("To size twn panels einai: " + panels.size());
 		

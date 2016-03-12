@@ -18,6 +18,10 @@ public abstract class QuestionField {
 		throw new AssertionError("QuestionField getField");
 	}
 	
+	public boolean equalValues(Object value) {
+		throw new AssertionError("QuestionField equalValues");
+	}
+	
 	public void setFeedbackLabel(Label label) {
 		throw new AssertionError("QuestionField setFeedbackLabel");
 	}

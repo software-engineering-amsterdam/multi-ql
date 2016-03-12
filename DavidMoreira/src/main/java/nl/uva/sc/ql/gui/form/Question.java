@@ -1,10 +1,13 @@
 package nl.uva.sc.ql.gui.form;
 
+import java.awt.FlowLayout;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.gui.state.Observer;
+import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
 
 public abstract class Question extends JPanel implements GuiInterface, Observer {
@@ -18,8 +21,9 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 	private boolean editable;
 	
 	private JComponent component = null;
-	
+
 	public Question(State state, String question, String identifier, ExpressionNode expression, boolean editable){
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.state = state;
 		this.question = question;
 		this.identifier = identifier;
@@ -28,7 +32,10 @@ public abstract class Question extends JPanel implements GuiInterface, Observer 
 		this.component = createComponentWithValue();
 		
 		setVisible(false);
-		state.registerObserver(this);
+		
+		if (expression != null){
+			state.registerObserverForExpressionNode(this, expression);
+		}
 	}
 
 	public State getState(){

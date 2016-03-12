@@ -9,21 +9,17 @@ import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.symbolTable.SymbolTable;
-import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 import nl.nicasso.ql.values.IntegerValue;
 
 public class IntegerQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JTextField field;
-	private SymbolTable symboltable;
 	private Label label;
 	private Observer main;
 
 	public IntegerQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
-		this.symboltable = params.getSymboltable();
 		this.main = params.getMain();
 		
 		setupField(params.isEnabled());
@@ -42,11 +38,12 @@ public class IntegerQuestionField extends QuestionField {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				SymbolTableEntry entry = symboltable.getEntry(identifier);
 				boolean parseSuccess = true;
 				
 				try {
-					entry.setValue(new IntegerValue(Integer.parseInt(field.getText())));
+					IntegerValue value = new IntegerValue(Integer.parseInt(field.getText()));
+					main.fieldValueChanged(identifier, value);
+					main.updateAllPanels();
 				} catch (Exception ex) {
 					label.setLabelText("This is not a valid integer.");
 					parseSuccess = false;
@@ -54,7 +51,6 @@ public class IntegerQuestionField extends QuestionField {
 				
 				if (parseSuccess) {
 					label.setLabelText("");
-					main.updatePanel();
 				}
 			}
 			
@@ -63,6 +59,11 @@ public class IntegerQuestionField extends QuestionField {
 	
 	public void setValue(Object value) {
 		field.setText(value.toString());
+	}
+	
+	public boolean equalValues(Object value) {
+		//System.out.println(value+" - "+field.getText() + " EQUALS? "+ value.equals(Integer.parseInt(field.getText())));
+		return value.equals(Integer.parseInt(field.getText()));
 	}
 	
 	public void setFeedbackLabel(Label label) {

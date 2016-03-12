@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,9 +18,11 @@ import org.antlr.v4.runtime.tree.gui.TreeViewer;
 
 import nl.nicasso.ql.antlr.QLLexer;
 import nl.nicasso.ql.antlr.QLParser;
+import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.ast.structures.Form;
 import nl.nicasso.ql.gui.Gui;
 import nl.nicasso.ql.gui.MainFrame;
+import nl.nicasso.ql.stateTable.StateTable;
 import nl.nicasso.ql.symbolTable.SymbolTable;
 
 public class QL {
@@ -38,13 +42,14 @@ public class QL {
 		tree = parser.form();
 				
 		SymbolTable symbolTable = new SymbolTable();
+		StateTable stateTable = new StateTable();
         
         CreateAST astVisitor = new CreateAST();
         Form ast = (Form) tree.accept(astVisitor);
 
         CollectIdentifiers collectIdentifiers = new CollectIdentifiers();
         
-        QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, collectIdentifiers);
+        QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, stateTable, collectIdentifiers);
         ast.accept(questionVisitor, null);
         
         //symbolTable.displaySymbolTable(symbolTable);
@@ -60,7 +65,7 @@ public class QL {
         
         //symbolTable.displaySymbolTable(symbolTable);
         
-        Evaluator evaluator = new Evaluator(symbolTable);
+        Evaluator evaluator = new Evaluator(stateTable);
         // Get all initial values
         ast.accept(evaluator, null);
 
@@ -69,9 +74,10 @@ public class QL {
         
         //symbolTable.displaySymbolTable(symbolTable);
 
-        MainFrame main = new MainFrame();
+        MainFrame main = new MainFrame(stateTable);
         
-        Gui guiVisitor = new Gui(symbolTable, main);
+        // Does the GUI need a stateTable?
+        Gui guiVisitor = new Gui(stateTable, main);
         ast.accept(guiVisitor, null);
         //ex.setVisible(true);
 	}
