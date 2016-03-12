@@ -21,6 +21,7 @@
 		B92BC84E1C91BD8800ADB8EA /* QLTypeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BC84D1C91BD8800ADB8EA /* QLTypeChecker.swift */; };
 		B96FD03C1C8B80C8002FE778 /* TestBed.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96FD03B1C8B80C8002FE778 /* TestBed.swift */; };
 		B96FD0421C8B83DF002FE778 /* expression.ql in Resources */ = {isa = PBXBuildFile; fileRef = B96FD0411C8B83DF002FE778 /* expression.ql */; };
+		B98F1F141C94BACC00C485D1 /* QLSymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98F1F131C94BACC00C485D1 /* QLSymbolTable.swift */; };
 		B9F721571C8CF30100A3399E /* questionsAndIfStatement.ql in Resources */ = {isa = PBXBuildFile; fileRef = B9F721561C8CF30100A3399E /* questionsAndIfStatement.ql */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,7 @@
 		B92BC84D1C91BD8800ADB8EA /* QLTypeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLTypeChecker.swift; path = QL/QLTypeChecker.swift; sourceTree = "<group>"; };
 		B96FD03B1C8B80C8002FE778 /* TestBed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBed.swift; sourceTree = "<group>"; };
 		B96FD0411C8B83DF002FE778 /* expression.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = expression.ql; path = Streams/expression.ql; sourceTree = "<group>"; };
+		B98F1F131C94BACC00C485D1 /* QLSymbolTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLSymbolTable.swift; path = QL/QLSymbolTable.swift; sourceTree = "<group>"; };
 		B9F721561C8CF30100A3399E /* questionsAndIfStatement.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = questionsAndIfStatement.ql; path = Streams/questionsAndIfStatement.ql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +177,7 @@
 				B91DEBBE1C86F66600A07F12 /* QLNodes.swift */,
 				B92BC8471C91917400ADB8EA /* QLVisitorProtocols.swift */,
 				B92BC84D1C91BD8800ADB8EA /* QLTypeChecker.swift */,
+				B98F1F131C94BACC00C485D1 /* QLSymbolTable.swift */,
 			);
 			name = QL;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B91DEB271C86EC5900A07F12 /* AppDelegate.swift in Sources */,
+				B98F1F141C94BACC00C485D1 /* QLSymbolTable.swift in Sources */,
 				B92BC8481C91917400ADB8EA /* QLVisitorProtocols.swift in Sources */,
 				B91DEBBD1C86F64700A07F12 /* QLParser.swift in Sources */,
 				B91DEBBF1C86F66600A07F12 /* QLNodes.swift in Sources */,
