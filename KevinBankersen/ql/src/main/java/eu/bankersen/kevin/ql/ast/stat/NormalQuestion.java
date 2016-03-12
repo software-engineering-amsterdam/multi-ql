@@ -1,7 +1,7 @@
 package eu.bankersen.kevin.ql.ast.stat;
 
 import eu.bankersen.kevin.ql.ast.BaseVisitor;
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
+import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class NormalQuestion extends AbstractStatement {
@@ -12,7 +12,7 @@ public class NormalQuestion extends AbstractStatement {
     public NormalQuestion(String name, String text, QLType type, int line) {
 	super(line);
 	this.name = name;
-	this.text = text.substring(1, text.length() - 1);
+	this.text = text;
 	this.type = type;
     }
 

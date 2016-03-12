@@ -1,21 +1,26 @@
-package eu.bankersen.kevin.ql.ast.object.value;
+package eu.bankersen.kevin.ql.ast.values;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import eu.bankersen.kevin.ql.ast.object.type.IntegerType;
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
+import eu.bankersen.kevin.ql.ast.types.MoneyType;
+import eu.bankersen.kevin.ql.ast.types.QLType;
 
-public class IntegerValue extends AbstractValue {
+public class MoneyValue extends AbstractValue {
 
     private final BigDecimal value;
 
-    public IntegerValue(Integer value) {
-	this.value = new BigDecimal(value).setScale(0, RoundingMode.HALF_UP);
+    public MoneyValue(Integer value) {
+	this.value = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public IntegerValue(BigDecimal value) {
-	this.value = value.setScale(0, RoundingMode.HALF_UP);
+    public MoneyValue(BigDecimal value) {
+	this.value = value.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    @Override
+    public String toString() {
+	return "€" + value.toString();
     }
 
     @Override
@@ -25,7 +30,7 @@ public class IntegerValue extends AbstractValue {
 
     @Override
     public QLType getType() {
-	return new IntegerType();
+	return new MoneyType();
     }
 
     @Override
@@ -34,12 +39,8 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public Boolean equals(IntegerValue value) {
+    public Boolean equals(MoneyValue value) {
 	return value.value().compareTo(this.value) == 0 ? true : false;
-    }
-
-    public String toString() {
-	return value.toString();
     }
 
     @Override
@@ -48,8 +49,8 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue subtract(IntegerValue value) {
-	return new IntegerValue(value.value().subtract(this.value));
+    public QLValue subtract(MoneyValue value) {
+	return new MoneyValue(value.value().subtract(this.value));
     }
 
     @Override
@@ -58,13 +59,13 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue add(IntegerValue value) {
-	return new IntegerValue(value.value().add(this.value));
+    public QLValue add(MoneyValue value) {
+	return new MoneyValue(value.value().add(this.value));
     }
 
     @Override
     public QLValue add(StringValue value) {
-	return new StringValue(value.value() + this.value.toString());
+	return new StringValue(value.value() + this.toString());
     }
 
     @Override
@@ -73,38 +74,18 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue divide(IntegerValue value) {
-	return new IntegerValue(value.value().divide(this.value));
-    }
-
-    @Override
-    public QLValue divide(MoneyValue value) {
-	return new MoneyValue(value.value().divide(this.value));
-    }
-
-    @Override
     public QLValue multiply(QLValue value) {
 	return value.multiply(this);
     }
 
     @Override
-    public QLValue multiply(IntegerValue value) {
-	return new IntegerValue(value.value().multiply(this.value));
-    }
-
-    @Override
-    public QLValue multiply(MoneyValue value) {
-	return new MoneyValue(value.value().multiply(this.value));
-    }
-
-    @Override
     public QLValue absolute() {
-	return new IntegerValue(this.value.abs());
+	return new MoneyValue(this.value.abs());
     }
 
     @Override
     public QLValue negate() {
-	return new IntegerValue(this.value.negate());
+	return new MoneyValue(this.value.negate());
     }
 
     @Override
@@ -123,7 +104,7 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue equal(IntegerValue value) {
+    public QLValue equal(MoneyValue value) {
 	return new BooleanValue(value.value().compareTo(this.value) == 0 ? true : false);
     }
 
@@ -133,7 +114,7 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue greaterOrEqual(IntegerValue value) {
+    public QLValue greaterOrEqual(MoneyValue value) {
 	return new BooleanValue(value.value().compareTo(this.value) >= 0 ? true : false);
     }
 
@@ -143,7 +124,7 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue greater(IntegerValue value) {
+    public QLValue greater(MoneyValue value) {
 	return new BooleanValue(value.value().compareTo(this.value) > 0 ? true : false);
     }
 
@@ -153,7 +134,7 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue lowerOrEqual(IntegerValue value) {
+    public QLValue lowerOrEqual(MoneyValue value) {
 	return new BooleanValue(value.value().compareTo(this.value) <= 0 ? true : false);
     }
 
@@ -163,7 +144,7 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue lower(IntegerValue value) {
+    public QLValue lower(MoneyValue value) {
 	return new BooleanValue(value.value().compareTo(this.value) < 0 ? true : false);
     }
 
@@ -173,7 +154,7 @@ public class IntegerValue extends AbstractValue {
     }
 
     @Override
-    public QLValue notEqual(IntegerValue value) {
+    public QLValue notEqual(MoneyValue value) {
 	return new BooleanValue(value.value().compareTo(this.value) != 0 ? true : false);
     }
 }

@@ -2,7 +2,7 @@ package eu.bankersen.kevin.ql.gui.widgets;
 
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 
 public interface InputWidget {
 

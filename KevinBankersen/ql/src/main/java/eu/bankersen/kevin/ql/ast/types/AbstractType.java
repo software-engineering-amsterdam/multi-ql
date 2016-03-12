@@ -1,395 +1,358 @@
-package eu.bankersen.kevin.ql.ast.object.type;
+package eu.bankersen.kevin.ql.ast.types;
 
 import java.math.BigDecimal;
 
-import eu.bankersen.kevin.ql.ast.object.value.IntegerValue;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
-import eu.bankersen.kevin.ql.ast.object.value.UndifinedValue;
-import eu.bankersen.kevin.ql.gui.widgets.BoxWidget;
-import eu.bankersen.kevin.ql.gui.widgets.InputWidget;
-
-public class IntegerType extends AbstractType {
+public abstract class AbstractType implements QLType {
 
     @Override
-    public InputWidget defaultWidget() {
-	return new BoxWidget(new IntegerType());
-    }
-
-    @Override
-    public String toString() {
-	return "Integer";
-    }
-
-    @Override
-    public QLValue createQLValueFrom(String string) {
-	return isValidBigDecimal(string) ? new IntegerValue(new BigDecimal(string)) : new UndifinedValue();
-    }
-
-    @Override
-    public Boolean equals(QLType type) {
-	return type.equals(this);
+    public Boolean equals(UndifinedType type) {
+	return false;
     }
 
     @Override
     public Boolean equals(IntegerType type) {
-	return true;
+	return false;
+    }
+
+    @Override
+    public Boolean equals(MoneyType type) {
+	return false;
+    }
+
+    @Override
+    public Boolean equals(BooleanType type) {
+	return false;
+    }
+
+    @Override
+    public Boolean equals(StringType type) {
+	return false;
+    }
+
+    protected boolean isValidBigDecimal(String value) {
+	if (!value.isEmpty()) {
+	    try {
+		BigDecimal test = new BigDecimal(value);
+		return true;
+	    } catch (NumberFormatException e) {
+		return false;
+	    }
+	} else {
+	    return false;
+	}
+    }
+
+    protected boolean isValidBoolean(String value) {
+	return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
     }
 
     @Override
     public QLType isSubtractSupported(QLType type) {
-	return type.isSubtractSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isSubtractSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isSubtractSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isSubtractSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isSubtractSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAddSupported(QLType type) {
-	return type.isAddSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isAddSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAddSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAddSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAddSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isDivideSupported(QLType type) {
-	return type.isDivideSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isDivideSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isDivideSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isDivideSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isDivideSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isMultiplySupported(QLType type) {
-	return type.isMultiplySupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isMultiplySupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isMultiplySupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isMultiplySupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isMultiplySupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAbsoluteSupported() {
-	return this;
+	return new UndifinedType();
     }
 
     @Override
     public QLType isNegateSupported() {
-	return this;
+	return new UndifinedType();
     }
 
     @Override
     public QLType isOrSupported(QLType type) {
-	return type.isOrSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isOrSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isOrSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isOrSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isOrSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAndSupported(QLType type) {
-	return type.isAndSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isAndSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAndSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAndSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isAndSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isEqualSupported(QLType type) {
-	return type.isEqualSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isEqualSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isEqualSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isEqualSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isEqualSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterOrEqualSupported(QLType type) {
-	return type.isGreaterOrEqualSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterOrEqualSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterOrEqualSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterOrEqualSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterOrEqualSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterSupported(QLType type) {
-	return type.isGreaterSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isGreaterSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerOrEqualSupported(QLType type) {
-	return type.isLowerOrEqualSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerOrEqualSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerOrEqualSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerOrEqualSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerOrEqualSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerSupported(QLType type) {
-	return type.isLowerSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isLowerSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isNotEqualSupported(QLType type) {
-	return type.isNotEqualSupported(this);
+	return new UndifinedType();
     }
 
     @Override
     public QLType isNotEqualSupported(IntegerType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isNotEqualSupported(MoneyType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isNotEqualSupported(BooleanType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
     @Override
     public QLType isNotEqualSupported(StringType type) {
-	// TODO Auto-generated method stub
 	return new UndifinedType();
     }
 
@@ -397,4 +360,5 @@ public class IntegerType extends AbstractType {
     public QLType isNotSupported() {
 	return new UndifinedType();
     }
+
 }

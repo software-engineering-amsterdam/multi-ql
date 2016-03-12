@@ -5,9 +5,9 @@ import java.util.List;
 
 import eu.bankersen.kevin.ql.ast.ASTVisitor;
 import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
 import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
 import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.gui.ViewListener;
 
 public class Interpreter implements ViewListener {
@@ -42,6 +42,7 @@ public class Interpreter implements ViewListener {
 	Environment previousEnv;
 
 	do {
+	    System.out.println("one");
 	    previousEnv = environment;
 	    form.evalForm(environment);
 	} while (!previousEnv.equals(environment));

@@ -14,7 +14,7 @@ form schoolDuration {
   	startSchool: integer
   	
   	"You have studied this many years: "
-  	startAge: integer = (age * (startSchool + age))
+  	startAge: string = ("hoi" + (startSchool + age))
   	
 	  	if(age >= 20){
 	  		"You studied longer than most other students"

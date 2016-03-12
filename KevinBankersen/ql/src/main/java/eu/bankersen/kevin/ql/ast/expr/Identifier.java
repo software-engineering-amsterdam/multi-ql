@@ -1,6 +1,6 @@
 package eu.bankersen.kevin.ql.ast.expr;
 
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class Identifier extends Expr {

@@ -10,9 +10,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
-import eu.bankersen.kevin.ql.ast.object.value.UndifinedValue;
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 
 public class RadioButtonWidget implements InputWidget {
 

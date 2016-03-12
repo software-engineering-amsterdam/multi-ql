@@ -3,7 +3,7 @@ package eu.bankersen.kevin.ql.ast.expr.logic;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
 import eu.bankersen.kevin.ql.ast.expr.UnaryExpr;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class Not extends UnaryExpr {

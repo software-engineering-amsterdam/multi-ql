@@ -1,6 +1,6 @@
-package eu.bankersen.kevin.ql.ast.object.value;
+package eu.bankersen.kevin.ql.ast.values;
 
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
+import eu.bankersen.kevin.ql.ast.types.QLType;
 
 public interface QLValue {
 

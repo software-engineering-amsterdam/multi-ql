@@ -1,7 +1,7 @@
 package eu.bankersen.kevin.ql.ast.expr;
 
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class Literal extends Expr {
