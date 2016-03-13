@@ -1,6 +1,6 @@
 package nl.uva.sc.ql.gui.form;
 
-public interface GuiInterface {
+public interface QL {
 	public void createGui();
 	public void updateGui();
 }

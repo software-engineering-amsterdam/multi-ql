@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.function.Function;
 
 import nl.uva.sc.ql.gui.form.Form;
-import nl.uva.sc.ql.gui.form.ConditionBlockForm;
-import nl.uva.sc.ql.gui.form.IfForm;
+import nl.uva.sc.ql.gui.form.ConditionBlock;
+import nl.uva.sc.ql.gui.form.IfStatement;
 import nl.uva.sc.ql.gui.form.Question;
 import nl.uva.sc.ql.gui.form.QuestionBoolean;
 import nl.uva.sc.ql.gui.form.QuestionInteger;
@@ -41,14 +41,14 @@ import nl.uva.sc.ql.parser.ast.SubtractionNode;
 import nl.uva.sc.ql.parser.ast.QuestionNode;
 import nl.uva.sc.ql.parser.value.Value;
 
-public class CreateForm implements Visitor {
+public class CreateQL implements Visitor {
 
 	private Form form = null;
-	private IfForm ifForm = null;
-	private ConditionBlockForm conditionBlockForm = null;
+	private IfStatement ifForm = null;
+	private ConditionBlock conditionBlockForm = null;
 	private State state;
 		
-	public CreateForm(State state) {
+	public CreateQL(State state) {
 		this.state = state;
 	}
 	
@@ -87,7 +87,7 @@ public class CreateForm implements Visitor {
 		ExpressionNode expression = conditionBlockNode.getExpression();
 		BlockNode block = conditionBlockNode.getBlock();
 		
-		conditionBlockForm = new ConditionBlockForm(form, state, expression);
+		conditionBlockForm = new ConditionBlock(form, state, expression);
 		
 		block.accept(this);
 		
@@ -130,7 +130,7 @@ public class CreateForm implements Visitor {
 		List<ConditionBlockNode> conditions = ifNode.getConditions();
 		BlockNode elseBlock = ifNode.getElseBlock();
 		
-		ifForm = new IfForm(form);
+		ifForm = new IfStatement(form);
 	
 		for(ConditionBlockNode cbn : conditions){
 			cbn.accept(this);

@@ -1,4 +1,4 @@
-package nl.uva.sc.ql.parser;
+package nl.uva.sc.ql.gui;
 
 import nl.uva.sc.ql.parser.ast.AdditionNode;
 import nl.uva.sc.ql.parser.ast.AndNode;

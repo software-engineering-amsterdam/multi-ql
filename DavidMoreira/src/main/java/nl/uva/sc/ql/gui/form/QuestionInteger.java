@@ -27,18 +27,26 @@ public class QuestionInteger extends Question {
 		component.addActionListener(new ActionListener() {
 			@Override
 	        public void actionPerformed(ActionEvent e) {	
+	            String text = component.getText();					
+				String identifier = getIdentifier();
+				Value value;
+				
 				try {
-					// Get the String entered into the input TextField, convert to int
-		            int integer = Integer.parseInt(component.getText());
-					String identifier = getIdentifier();
-					Value value = new IntegerVal(integer);
-					getState().add(identifier, value);	
+					if(text.isEmpty()){ 
+		            	value = null;
+		            } else {
+		            	value = new IntegerVal(Integer.parseInt(text));
+		            }
+					
 				} catch (NumberFormatException nfe) {
 					String[] error = nfe.getMessage().split("For input string: ");
 					String message = "It was expecting an integer, but instead it was "+error[1];
-
 					new UserInputWarning(message, getQuestion());
+					
+					value = null;
 				}
+				
+				getState().add(identifier, value);
 			}
 	    });
 		
