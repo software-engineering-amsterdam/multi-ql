@@ -5,12 +5,12 @@ form Box1HouseOwning {
 	
 	lastYearTaxes: "How much did u pay last year for taxes?" int
 	
-	if (hasSoldHouse) {
+	salary: "What is your salary?" int (lastYearTaxes + 5)
+	
+	if (5 == 5) {
 		sellIncome: "How much money did you earn?" int
 	}
 	
-	if (hasSoldHouse) {
-		totalTaxes: "You have to pay: " int (annualIncome + sellIncome)
-	}
+	
 	
 }
