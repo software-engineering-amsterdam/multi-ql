@@ -10,11 +10,11 @@ import nl.uva.sc.ql.errorwarning.CompilerException;
 import nl.uva.sc.ql.errorwarning.MessagesHandler;
 import nl.uva.sc.ql.parser.ast.FormNode;
 
-public class QLCompiler {
+public class Compiler {
     
 	private MessagesHandler messagesHandler;
 	
-	public QLCompiler(MessagesHandler errorHandler) {
+	public Compiler(MessagesHandler errorHandler) {
 		this.messagesHandler = errorHandler;
 	}
 
