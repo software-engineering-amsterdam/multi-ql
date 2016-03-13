@@ -24,10 +24,6 @@ class QLForm: ASTNode, Visitable {
     }
     
     func accept(visitor: Visitor) {
-        for statement in codeBlock {
-            statement.accept(visitor)
-        }
-        
         visitor.visit(self)
     }
 }
@@ -36,10 +32,10 @@ class QLForm: ASTNode, Visitable {
 
 class QLQuestion: QLStatement, Visitable {
     let name: String
-    let variable: QLExpression
-    let type: String
+    let variable: QLVariable
+    let type: QLLiteral
     
-    init(name: String, variable: QLExpression, type: String) {
+    init(name: String, variable: QLVariable, type: QLLiteral) {
         self.name = name
         self.variable = variable
         self.type = type
@@ -60,12 +56,6 @@ class QLIfStatement: QLStatement, Visitable {
     }
     
     func accept(visitor: Visitor) {
-        condition.accept(visitor)
-        
-        for statement in codeBlock {
-            statement.accept(visitor)
-        }
-        
         visitor.visit(self)
     }
 }
@@ -92,7 +82,6 @@ class QLUnaryExpression: QLExpression {
     }
     
     func accept(visitor: Visitor) {
-        expression.accept(visitor)
         visitor.visit(self)
     }
 }
@@ -105,12 +94,16 @@ class QLNotExpression: QLExpression {
     }
     
     func accept(visitor: Visitor) {
-        expression.accept(visitor)
         visitor.visit(self)
     }
 }
 
-class QLBinaryExpression: QLExpression {
+protocol QLBinaryExpression: QLExpression {
+    var lhs: QLExpression { set get }
+    var rhs: QLExpression { set get }
+}
+
+class QLGreaterThanExpression: QLBinaryExpression {
     var lhs: QLExpression
     var rhs: QLExpression
     
@@ -120,41 +113,177 @@ class QLBinaryExpression: QLExpression {
     }
     
     func accept(visitor: Visitor) {
-        lhs.accept(visitor)
-        rhs.accept(visitor)
         visitor.visit(self)
     }
 }
 
-class QLGreaterThanExpression: QLBinaryExpression { }
+class QLSmallerThanExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLSmallerThanExpression: QLBinaryExpression { }
+class QLGreaterOrIsExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLGreaterOrIsExpression: QLBinaryExpression { }
+class QLSmallerOrISExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLSmallerOrISExpression: QLBinaryExpression { }
+class QLIsNotExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLIsNotExpression: QLBinaryExpression { }
+class QLIsExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLIsExpression: QLBinaryExpression { }
+class QLMultiplyExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLMultiplyExpression: QLBinaryExpression { }
+class QLDivideExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLDivideExpression: QLBinaryExpression { }
+class QLAddExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLAddExpression: QLBinaryExpression { }
+class QLSubtractExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLSubtractExpression: QLBinaryExpression { }
+class QLAndExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
-class QLAndExpression: QLBinaryExpression { }
-
-class QLOrExpression: QLBinaryExpression { }
+class QLOrExpression: QLBinaryExpression {
+    var lhs: QLExpression
+    var rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
 
 
 // MARK: Literals.
 
+class QLUnknownLiteral: QLLiteral {    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+}
+
 class QLBool: QLLiteral {
-    let boolean: Bool
+    var boolean = Bool()
+    
+    init() { }
     
     init(boolean: Bool) {
         self.boolean = boolean
@@ -166,7 +295,9 @@ class QLBool: QLLiteral {
 }
 
 class QLString: QLLiteral {
-    let string: String
+    var string = String()
+    
+    init() { }
     
     init(string: String) {
         self.string = string
@@ -178,7 +309,9 @@ class QLString: QLLiteral {
 }
 
 class QLInteger: QLLiteral {
-    let integer: Int
+    var integer = Int()
+    
+    init() { }
     
     init(integer: Int) {
         self.integer = integer
@@ -190,9 +323,11 @@ class QLInteger: QLLiteral {
 }
 
 class QLDate: QLLiteral {
-    let day: Int
-    let month: Int
-    let year: Int
+    var day = Int()
+    var month = Int()
+    var year = Int()
+    
+    init() { }
     
     init(day: Int, month: Int, year: Int) {
         self.day = day
@@ -206,7 +341,9 @@ class QLDate: QLLiteral {
 }
 
 class QLDecimal: QLLiteral {
-    let decimal: Int
+    var decimal = Int()
+    
+    init() { }
     
     init(decimal: Int) {
         self.decimal = decimal
@@ -218,7 +355,9 @@ class QLDecimal: QLLiteral {
 }
 
 class QLMoney: QLLiteral {
-    let money: Float
+    var money = Float()
+    
+    init() { }
     
     init(money: Float) {
         self.money = money

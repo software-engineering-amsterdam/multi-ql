@@ -1,9 +1,8 @@
 package uva.ql;
 
-import uva.TaxForm.GUI.GUI;
 import uva.ql.ast.Form;
-import uva.ql.deprecated.ASTVisitorToGUI;
-import uva.ql.deprecated.ASTVisitorToGUIListeners;
+import uva.ql.gui.GUI;
+import uva.ql.visitors.VisitorToGUI;
 
 public class App {
 	
@@ -11,7 +10,7 @@ public class App {
 		String filePath;
 		boolean internal = true;
 		QL ql = null;
-		Form root = null;
+		Form form = null;
 		GUI gui = null;
 
 		if (args.length == 0) {
@@ -24,18 +23,19 @@ public class App {
 		ql = new QL(filePath, internal);
 		
 		try {
-			root = (Form) ql.start();
+			form = (Form) ql.start();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		/*
-		//Visit AST and build GUI
-		gui = new GUI(root);
-		ASTVisitorToGUI astToGUI = new ASTVisitorToGUI(gui);
-		astToGUI.visit(root);
 		
+		//Visit AST and build GUI
+		gui = new GUI(form);
+		VisitorToGUI astToGUI = new VisitorToGUI(gui);
+		astToGUI.visitForm(form);
+		
+		/*
 		// Add Action/DocumentListeners to update computed fields.
 		ASTVisitorToGUIListeners astToGUIListeners = new ASTVisitorToGUIListeners(gui);
 		astToGUIListeners.visit(root);

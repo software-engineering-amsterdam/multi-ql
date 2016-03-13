@@ -2,11 +2,11 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.expressions.abstracts.AbstractArithmeticOperator;
+import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.types.Add;
 
-public class ExpAdd extends AbstractArithmeticOperator {
+public class ExpAdd extends ArithmeticOperatorBinary {
 
 	private Add type = new Add();
 	
@@ -16,10 +16,7 @@ public class ExpAdd extends AbstractArithmeticOperator {
 	
 	@Override
 	public EnumType evalType() {
-		EnumType Tlhs = this.getLhs().evalType();
-		EnumType Trhs = this.getRhs().evalType();
-		
-		return (Tlhs.equals(Trhs))? Tlhs : Trhs;
+		return super.getEnumTypeEvaluation();
 	}
 
 	@Override

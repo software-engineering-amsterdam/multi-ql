@@ -6,8 +6,12 @@ public class CheckBox extends Widget<Object> {
 
 	//private JCheckBox checkBox;
 	
-	public CheckBox() {
-		super(new JCheckBox());
+//	public CheckBox() {
+//		super(new JCheckBox());
+//	}
+	
+	public CheckBox(String label) {
+		super(new JCheckBox(), label);
 	}
 
 }
