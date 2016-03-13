@@ -9,17 +9,17 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.expressions.abstracts.AbstractArithmeticOperator;
-import uva.ql.ast.expressions.abstracts.AbstractLogicalOperator;
-import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
-import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
+import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
+import uva.ql.ast.expressions.abstracts.LogicalOperatorBinary;
+import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
+import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.variables.VarGeneric;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.typechecker.abstracts.AbstractTypeChecker;
 import uva.ql.typechecker.errors.ErrorCyclic;
-import uva.ql.visitors.interfaces.typechecker.ICyclicDependencyVisitor;
+import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
 
 public class CyclicDependency extends AbstractTypeChecker implements ICyclicDependencyVisitor {
 
@@ -36,7 +36,7 @@ public class CyclicDependency extends AbstractTypeChecker implements ICyclicDepe
 		}
 		
 		Iterator<Entry<String, Variable>> varIterator = cyclicVariables.entrySet().iterator();
-		
+
 		while(varIterator.hasNext()) {
 			
 			Entry<String, Variable> pair = varIterator.next();
@@ -59,14 +59,12 @@ public class CyclicDependency extends AbstractTypeChecker implements ICyclicDepe
 	
 	@Override
 	public void visitQuestionVanilla(QuestionVanilla questionVanilla) {
-		
 		Variable var = questionVanilla.getVariable();
 		questionVariables.put(var.getName(), var);
 	}
 	
 	@Override
 	public void visitQuestionComputed(QuestionComputed questionComputed) {
-		
 		Variable var = questionComputed.getVariable();
 		questionVariables.put(var.getName(), var);
 		
@@ -92,25 +90,25 @@ public class CyclicDependency extends AbstractTypeChecker implements ICyclicDepe
 	}
 
 	@Override
-	public void visitArithmeticOperator(AbstractArithmeticOperator exp) {
+	public void visitArithmeticOperator(ArithmeticOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitLogicalOperator(AbstractLogicalOperator exp) {
+	public void visitLogicalOperator(LogicalOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitRelationalOperator(AbstractRelationalOperator exp) {
+	public void visitRelationalOperator(RelationalOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitSingleLogicalOperator(AbstractSingleLogicalOperator exp) {
+	public void visitSingleLogicalOperator(LogicalOperatorUnary exp) {
 		exp.getLhs().accept(this);
 	}
 

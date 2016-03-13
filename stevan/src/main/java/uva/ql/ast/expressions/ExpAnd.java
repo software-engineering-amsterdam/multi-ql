@@ -2,11 +2,11 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.expressions.abstracts.AbstractLogicalOperator;
+import uva.ql.ast.expressions.abstracts.LogicalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.types.And;
 
-public class ExpAnd extends AbstractLogicalOperator {
+public class ExpAnd extends LogicalOperatorBinary {
 
 	private And type = new And();
 	
@@ -16,10 +16,7 @@ public class ExpAnd extends AbstractLogicalOperator {
 	
 	@Override
 	public EnumType evalType() {
-		EnumType Tlhs = this.getLhs().evalType();
-		EnumType Trhs = this.getRhs().evalType();
-		
-		return (Tlhs.equals(Trhs))? Tlhs : Trhs;
+		return super.getEnumTypeEvaluation();
 	}
 
 	@Override

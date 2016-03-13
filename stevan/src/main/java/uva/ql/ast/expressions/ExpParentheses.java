@@ -12,7 +12,7 @@ public class ExpParentheses extends Expression {
 	
 	public ExpParentheses(Node parent, Expression exp, int startLine, int startColumn) {
 		super(parent, startLine, startColumn);
-		this.setExp(exp);
+		this.exp = exp;
 	}
 	
 	@Override
@@ -23,13 +23,5 @@ public class ExpParentheses extends Expression {
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
-	}
-	
-	public Expression getExp() {
-		return exp;
-	}
-
-	public void setExp(Expression exp) {
-		this.exp = exp;
 	}
 }

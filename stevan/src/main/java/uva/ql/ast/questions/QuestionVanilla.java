@@ -1,14 +1,17 @@
 package uva.ql.ast.questions;
 
+import javax.swing.JPanel;
+
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.ast.questions.types.Vanilla;
 import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.visitors.interfaces.typechecker.ICyclicDependencyVisitor;
-import uva.ql.visitors.interfaces.typechecker.IDupllicateLabelsVisitor;
-import uva.ql.visitors.interfaces.typechecker.IDupllicateQuestionDifferentTypesVisitor;
-import uva.ql.visitors.interfaces.typechecker.IUndefinedQuestionVisitor;
+import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
+import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
+import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
 
 public class QuestionVanilla extends Question {
 
@@ -41,5 +44,10 @@ public class QuestionVanilla extends Question {
 	@Override
 	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
 		visitor.visitQuestionVanilla(this);
+	}
+	
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitQuestionVanilla(this, panel);
 	}
 }

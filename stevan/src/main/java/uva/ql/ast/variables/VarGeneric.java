@@ -4,8 +4,8 @@ import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.variables.abstracts.Variable;
 import uva.ql.ast.variables.types.Generic;
-import uva.ql.visitors.interfaces.typechecker.ICyclicDependencyVisitor;
-import uva.ql.visitors.interfaces.typechecker.IUndefinedQuestionVisitor;
+import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
+import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
 
 public class VarGeneric extends Variable {
 

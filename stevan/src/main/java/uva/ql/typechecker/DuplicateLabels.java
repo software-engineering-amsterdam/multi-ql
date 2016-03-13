@@ -7,16 +7,16 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.expressions.abstracts.AbstractArithmeticOperator;
-import uva.ql.ast.expressions.abstracts.AbstractLogicalOperator;
-import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
-import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
+import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
+import uva.ql.ast.expressions.abstracts.LogicalOperatorBinary;
+import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
+import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.typechecker.abstracts.AbstractTypeChecker;
 import uva.ql.typechecker.errors.WarningDuplicateLabel;
-import uva.ql.visitors.interfaces.typechecker.IDupllicateLabelsVisitor;
+import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 
 public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateLabelsVisitor {
 
@@ -78,25 +78,25 @@ public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateL
 	}
 	
 	@Override
-	public void visitArithmeticOperator(AbstractArithmeticOperator exp) {
+	public void visitArithmeticOperator(ArithmeticOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitLogicalOperator(AbstractLogicalOperator exp) {
+	public void visitLogicalOperator(LogicalOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitRelationalOperator(AbstractRelationalOperator exp) {
+	public void visitRelationalOperator(RelationalOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
 
 	@Override
-	public void visitSingleLogicalOperator(AbstractSingleLogicalOperator exp) {
+	public void visitSingleLogicalOperator(LogicalOperatorUnary exp) {
 		exp.getLhs().accept(this);
 	}
 }

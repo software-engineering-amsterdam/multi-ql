@@ -3,14 +3,18 @@ package uva.ql.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import uva.ql.ast.abstracts.Node;
-import uva.ql.visitors.interfaces.INodeVisitor;
-import uva.ql.visitors.interfaces.typechecker.IArithmeticOperatorVisitor;
-import uva.ql.visitors.interfaces.typechecker.IBinaryOperatorVisitor;
-import uva.ql.visitors.interfaces.typechecker.ICyclicDependencyVisitor;
-import uva.ql.visitors.interfaces.typechecker.IDupllicateLabelsVisitor;
-import uva.ql.visitors.interfaces.typechecker.IDupllicateQuestionDifferentTypesVisitor;
-import uva.ql.visitors.interfaces.typechecker.IUndefinedQuestionVisitor;
+import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
+import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
+import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
+import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
+import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class Block extends Node {
 
@@ -70,4 +74,13 @@ public class Block extends Node {
 	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
 		visitor.visitBlock(this);
 	}
+
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {}
+	
+	public JComponent accept(IGUIVisitor visitor) {
+		return visitor.visitBlock(this);
+	}
+
+	
 }

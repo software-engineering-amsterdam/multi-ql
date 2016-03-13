@@ -36,13 +36,13 @@ public class TypeChecker {
 			msg.put(ew.getMessage(), -2);
 		}
 		
-		ArithmeticOperator ao = new ArithmeticOperator();
+		OperandsToOperators ao = new OperandsToOperators();
 		form.accept(ao);
 		for( ErrorWarning ew : ao.getErrors()) {
 			msg.put(ew.getMessage(), -1);
 		}
 		
-		BinaryOperator bo = new BinaryOperator();
+		BooleanOperators bo = new BooleanOperators();
 		form.accept(bo);
 		for( ErrorWarning ew : bo.getErrors()) {
 			msg.put(ew.getMessage(), -1);

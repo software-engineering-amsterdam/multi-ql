@@ -2,11 +2,11 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
+import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.types.GreaterThen;
 
-public class ExpGreaterThen extends AbstractRelationalOperator {
+public class ExpGreaterThen extends RelationalOperatorBinary {
 
 	private GreaterThen type = new GreaterThen();
 	
@@ -16,10 +16,7 @@ public class ExpGreaterThen extends AbstractRelationalOperator {
 	
 	@Override
 	public EnumType evalType() {
-		EnumType Tlhs = this.getLhs().evalType();
-		EnumType Trhs = this.getRhs().evalType();
-		
-		return (Tlhs.equals(Trhs))? Tlhs : Trhs;
+		return super.getEnumTypeEvaluation();
 	}
 
 	@Override

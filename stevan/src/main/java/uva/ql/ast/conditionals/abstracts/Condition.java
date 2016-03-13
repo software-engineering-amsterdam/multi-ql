@@ -3,7 +3,7 @@ package uva.ql.ast.conditionals.abstracts;
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.visitors.interfaces.INodeVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public abstract class Condition extends Node {
 
