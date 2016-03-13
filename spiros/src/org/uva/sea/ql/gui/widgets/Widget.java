@@ -1,15 +1,28 @@
 package org.uva.sea.ql.gui.widgets;
 
-public abstract class Widget<T> {
+import java.awt.Component;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+
+import org.antlr.grammar.v3.ANTLRParser.finallyClause_return;
+
+public abstract class Widget<T> extends Component {
 	
-	private final T widget;
+	private final JComponent widget;
+	private final JLabel label;
 	
-	public Widget(T value) {
+	public Widget(JComponent value, String label) {
 		this.widget = value;
+		this.label = new JLabel(label);
 	}
 	
-	public T getWidget() {
+	public JComponent getWidget() {
 		return this.widget;
+	}
+	
+	public JLabel getLabel() {
+		return this.label;
 	}
 
 }
