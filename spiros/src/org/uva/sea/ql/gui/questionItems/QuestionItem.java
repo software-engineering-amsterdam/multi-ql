@@ -27,10 +27,10 @@ public abstract class QuestionItem {
 		this.question = question;
 	}
 	
-	public void addToPanel(JPanel panel) {
-		panel.add(widget);
-		
-	}
+//	public void addToPanel(JPanel panel) {
+//		panel.add(widget);
+//		
+//	}
 	
 	public void removeFromPanel () {
 		

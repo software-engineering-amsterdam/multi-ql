@@ -28,7 +28,7 @@ public class QuestionPanel {
 		this.panel = new JPanel(gridLayout);
 		JLabel label = new JLabel(question.getLabel());
 		panel.add(label);
-		panel.add((Component) widget.getWidget());
+		panel.add((Component) widget.getComponent());
 	}
 	
 	public Question getQuestion() {
