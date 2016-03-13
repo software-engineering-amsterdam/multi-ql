@@ -3,6 +3,8 @@ form Box1HouseOwning {
 	hasSoldHouse: "Did you sell a house in 2010?"	boolean
 	annualIncome: "What is your annual income?"  int
 	
+	lastYearTaxes: "How much did u pay last year for taxes?" int
+	
 	if (hasSoldHouse) {
 		sellIncome: "How much money did you earn?" int
 	}

@@ -3,7 +3,7 @@ package eu.bankersen.kevin.ql.ast.expr.math;
 import eu.bankersen.kevin.ql.ast.expr.BinaryExpr;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class Mul extends BinaryExpr {
@@ -17,7 +17,7 @@ public class Mul extends BinaryExpr {
 	QLValue lhs = lhs().eval(context);
 	QLValue rhs = rhs().eval(context);
 
-	return lhs.multiply(lhs);
+	return lhs.multiply(rhs);
     }
 
     @Override

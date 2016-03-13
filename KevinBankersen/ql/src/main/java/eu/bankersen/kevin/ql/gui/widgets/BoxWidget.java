@@ -9,9 +9,9 @@ import java.util.List;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
-import eu.bankersen.kevin.ql.ast.object.value.UndifinedValue;
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 
 public class BoxWidget implements InputWidget {
 
@@ -67,13 +67,13 @@ public class BoxWidget implements InputWidget {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-	    JFormattedTextField field = (JFormattedTextField) e.getSource();
-	    QLValue value = type.createQLValueFrom(field.getText());
-	    widgetUpdated(value);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+	    JFormattedTextField field = (JFormattedTextField) e.getSource();
+	    QLValue value = type.createQLValueFrom(field.getText());
+	    widgetUpdated(value);
 	}
 
 	@Override

@@ -8,14 +8,8 @@ import eu.bankersen.kevin.ql.ast.expr.math.*;
 import eu.bankersen.kevin.ql.ast.stat.*;
 import eu.bankersen.kevin.ql.ast.form.*;
 import eu.bankersen.kevin.ql.ast.*;
-import eu.bankersen.kevin.ql.ast.object.type.*;
-import eu.bankersen.kevin.ql.ast.object.value.*;
-
-import eu.bankersen.kevin.ql.ast.object.*;
-import eu.bankersen.kevin.ql.ast.object.bool.*;
-import eu.bankersen.kevin.ql.ast.object.num.*;
-import eu.bankersen.kevin.ql.ast.object.money.*;
-import eu.bankersen.kevin.ql.ast.object.str.*;
+import eu.bankersen.kevin.ql.ast.types.*;
+import eu.bankersen.kevin.ql.ast.values.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +32,13 @@ question[List<AbstractStatement> result]
 	
 	: STR + ID + ':' + type + '=' + primary
 	{
-		$result.add(new ComputedQuestion($ID.text, $STR.text, $primary.result, $type.result, $ID.getLine()));
+		$result.add(new ComputedQuestion($ID.text, $STR.text.substring(1, $STR.text.length()-1), $primary.result, $type.result, $ID.getLine()));
 	}
 		
 	| STR + ID + ':' + type
 	
 	{  
-		$result.add(new NormalQuestion($ID.text, $STR.text, $type.result, $ID.getLine()));
+		$result.add(new NormalQuestion($ID.text, $STR.text.substring(1, $STR.text.length()-1), $type.result, $ID.getLine()));
 	}
 	;
 
@@ -133,7 +127,7 @@ primary returns [Expr result]
 
 literal returns [Expr result]
 	: INT 	{ $result = new Literal($INT.getLine(), new IntegerValue(Integer.valueOf($INT.text)) , new IntegerType()); } 
-	| STR 	{ $result = new Literal($STR.getLine(), new StringValue($STR.text), new StringType() ); } 
+	| STR 	{ $result = new Literal($STR.getLine(), new StringValue($STR.text.substring(1, $STR.text.length()-1)), new StringType() ); } 
 	| BOOL 	{ $result = new Literal($BOOL.getLine(), new BooleanValue(Boolean.valueOf($BOOL.text)), new BooleanType()); }
 	;
 	

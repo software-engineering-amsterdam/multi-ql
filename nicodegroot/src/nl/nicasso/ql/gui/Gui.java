@@ -58,7 +58,6 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			main.addPanel(p);
 		}
 		
-		main.fieldValueChanged();
 		main.addPanelsToMainFrame();
 		
 		return null;
@@ -89,7 +88,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("Question: "+question.getId().getValue());
 		}
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), stateTable, main, true);
+		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, true);
 		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
 		
 		Value value = stateTable.getEntryValue(question.getId());
@@ -108,12 +107,12 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("ComputedQuestion: "+question.getId().getValue());
 		}
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), stateTable, main, false);
+		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, false);
 		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
 		
 		Value value = stateTable.getEntryValue(question.getId());
 		
-		ComputedQuestionPanel qp = new ComputedQuestionPanel(question, field, value, expr, stateTable);
+		ComputedQuestionPanel qp = new ComputedQuestionPanel(question, field, value, expr, stateTable, main);
 		
 		List<Panel> panels = new ArrayList<Panel>();
 		panels.add(qp);

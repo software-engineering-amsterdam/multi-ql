@@ -2,7 +2,6 @@ package nl.nicasso.ql.gui.questionFields;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.math.BigDecimal;
 
 import javax.swing.JTextField;
 
@@ -10,21 +9,17 @@ import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.stateTable.StateTable;
-import nl.nicasso.ql.stateTable.StateTableEntry;
 import nl.nicasso.ql.values.IntegerValue;
 
 public class IntegerQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JTextField field;
-	private StateTable stateTable;
 	private Label label;
 	private Observer main;
 
 	public IntegerQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
-		this.stateTable = params.getStateTable();
 		this.main = params.getMain();
 		
 		setupField(params.isEnabled());
@@ -43,19 +38,24 @@ public class IntegerQuestionField extends QuestionField {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				StateTableEntry entry = stateTable.getEntry(identifier);
 				boolean parseSuccess = true;
 				
-				try {
-					entry.setValue(new IntegerValue(Integer.parseInt(field.getText())));
-				} catch (Exception ex) {
-					label.setLabelText("This is not a valid integer.");
-					parseSuccess = false;
+				IntegerValue value = new IntegerValue(0);
+				
+				if (!field.getText().equals("")) {
+					try {
+						value = new IntegerValue(Integer.parseInt(field.getText()));
+					} catch (Exception ex) {
+						label.setLabelText("This is not a valid integer.");
+						parseSuccess = false;
+					}
 				}
 				
 				if (parseSuccess) {
 					label.setLabelText("");
-					main.fieldValueChanged();
+					
+					main.fieldValueChanged(identifier, value);
+					main.updateAllPanels();
 				}
 			}
 			

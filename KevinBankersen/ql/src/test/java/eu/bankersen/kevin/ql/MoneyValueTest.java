@@ -2,10 +2,10 @@ package eu.bankersen.kevin.ql;
 
 import java.math.BigDecimal;
 
-import eu.bankersen.kevin.ql.ast.object.value.BooleanValue;
-import eu.bankersen.kevin.ql.ast.object.value.IntegerValue;
-import eu.bankersen.kevin.ql.ast.object.value.MoneyValue;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.values.BooleanValue;
+import eu.bankersen.kevin.ql.ast.values.IntegerValue;
+import eu.bankersen.kevin.ql.ast.values.MoneyValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import junit.framework.TestCase;
 
 public class MoneyValueTest extends TestCase {

@@ -2,11 +2,11 @@ package eu.bankersen.kevin.ql;
 
 import java.math.BigDecimal;
 
-import eu.bankersen.kevin.ql.ast.object.value.IntegerValue;
-import eu.bankersen.kevin.ql.ast.object.value.MoneyValue;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
-import eu.bankersen.kevin.ql.ast.object.value.StringValue;
-import eu.bankersen.kevin.ql.ast.object.value.UndifinedValue;
+import eu.bankersen.kevin.ql.ast.values.IntegerValue;
+import eu.bankersen.kevin.ql.ast.values.MoneyValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.ast.values.StringValue;
+import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 import junit.framework.TestCase;
 
 public class MixedValueTest extends TestCase {

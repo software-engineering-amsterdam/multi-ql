@@ -3,8 +3,8 @@ package eu.bankersen.kevin.ql.interpreter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
-import eu.bankersen.kevin.ql.ast.object.value.UndifinedValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 
 public class Environment {
 
@@ -69,4 +69,5 @@ public class Environment {
 	    this.value = value;
 	}
     }
+
 }

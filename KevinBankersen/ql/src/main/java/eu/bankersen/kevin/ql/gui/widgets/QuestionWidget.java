@@ -8,8 +8,8 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.object.type.QLType;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.gui.ViewListener;
 import eu.bankersen.kevin.ql.interpreter.DataListener;
 import eu.bankersen.kevin.ql.interpreter.Environment;

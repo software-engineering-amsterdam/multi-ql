@@ -17,14 +17,15 @@ form taxOfficeExample {
 	  cQ9: boolean
     
     if (cQ9) {
+    
+    "The above times 55"
+    	  cQ55: money = (cQ5)
+    
     	"Just empty money"
     	  cQ4: money
     	  
-    	"The empty money times 2"
-    	  cQ5: money = (cQ4 * 2)
-    	  
-    	"The above times 2"
-    	  cQ55: money = (cQ5 * 2)
+    	"The empty money times 5"
+    	  cQ5: money = (cQ4)
     	  
     	"Just a boolean true"
     	  cQ6: boolean = (true)

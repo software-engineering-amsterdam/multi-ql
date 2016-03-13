@@ -1,7 +1,7 @@
 package eu.bankersen.kevin.ql;
 
-import eu.bankersen.kevin.ql.ast.object.value.BooleanValue;
-import eu.bankersen.kevin.ql.ast.object.value.QLValue;
+import eu.bankersen.kevin.ql.ast.values.BooleanValue;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
 import junit.framework.TestCase;
 
 public class BooleanValueTest extends TestCase {

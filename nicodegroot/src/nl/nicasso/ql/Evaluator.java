@@ -39,7 +39,7 @@ import nl.nicasso.ql.visitors.StructureVisitor;
 
 public class Evaluator implements StructureVisitor<Value, Void>, StatementVisitor<Value, Void>, ExpressionVisitor<Value> {
 	
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	private StateTable stateTable;
 	

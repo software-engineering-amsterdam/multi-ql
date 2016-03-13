@@ -2,7 +2,6 @@ package nl.nicasso.ql.gui.questionFields;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.math.BigDecimal;
 
 import javax.swing.JCheckBox;
 
@@ -10,21 +9,17 @@ import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.stateTable.StateTable;
-import nl.nicasso.ql.stateTable.StateTableEntry;
 import nl.nicasso.ql.values.BooleanValue;
 
 public class BooleanQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JCheckBox field;
-	private StateTable stateTable;
 	private Label label;
 	private Observer main;
 
 	public BooleanQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
-		this.stateTable = params.getStateTable();
 		this.main = params.getMain();
 		
 		setupField(params.isEnabled());
@@ -42,13 +37,16 @@ public class BooleanQuestionField extends QuestionField {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				StateTableEntry entry = stateTable.getEntry(identifier);
+				BooleanValue value;
+				
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					entry.setValue(new BooleanValue(true));
+					value = new BooleanValue(true);
 				} else {
-					entry.setValue(new BooleanValue(false));
+					value = new BooleanValue(false);
 				}
-				main.fieldValueChanged();
+				
+				main.fieldValueChanged(identifier, value);
+				main.updateAllPanels();
 			}
 		});
 	}
