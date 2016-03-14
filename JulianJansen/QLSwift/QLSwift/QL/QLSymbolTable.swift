@@ -70,11 +70,17 @@ class SymbolsVisitor: Visitor {
     }
     
     func visit(qlvariable: QLVariable) {
+    
     }
     
     // MARK: Expressions.
     func visit(qlunaryexpression: QLUnaryExpression) {
-        qlunaryexpression.expression.accept(self)
+        qlunaryexpression.literal.accept(self)
+    }
+    
+    func visit(qlbinaryexpression: QLBinaryExpression) {
+        qlbinaryexpression.lhs.accept(self)
+        qlbinaryexpression.rhs.accept(self)
     }
     
     func visit(qlnotexpression: QLNotExpression) {

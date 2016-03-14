@@ -63,20 +63,20 @@ class QLParser {
     private func booleanParser() -> GenericParser<String, (), QLExpression> {
         let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
         let qlbooleanFalse: GenericParser<String, (), QLBool> = symbol("false") *> GenericParser(result: QLBool(boolean: false))
-        return (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(expression: $0) }
+        return (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(literal: $0) }
     }
     
     private func stringParser() -> GenericParser<String, (), QLExpression> {
-        return stringLiteral.map{ QLString(string: $0) }.map{ QLUnaryExpression(expression: $0) }
+        return stringLiteral.map{ QLString(string: $0) }.map{ QLUnaryExpression(literal: $0) }
     }
     
     private func integerParser() -> GenericParser<String, (), QLExpression> {
-        return integerLiteral.map{ QLInteger(integer: $0) }.map{ QLUnaryExpression(expression: $0) }
+        return integerLiteral.map{ QLInteger(integer: $0) }.map{ QLUnaryExpression(literal: $0) }
     }
     
     /// Parses a positive whole number in the decimal system. Returns the value of the number as a QLUnaryExpression.
     private func decimalParser() -> GenericParser<String, (), QLExpression> {
-        return GenericTokenParser<()>.decimal.map{ QLDecimal(decimal: $0) }.map{ QLUnaryExpression(expression: $0) }
+        return GenericTokenParser<()>.decimal.map{ QLDecimal(decimal: $0) }.map{ QLUnaryExpression(literal: $0) }
     }
     
 //    private func dateParser() -> GenericParser<String, (), QLExpression> {

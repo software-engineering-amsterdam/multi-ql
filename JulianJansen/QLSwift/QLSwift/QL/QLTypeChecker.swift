@@ -51,7 +51,12 @@ class QLTypeChecker: Visitor {
     // MARK: Expressions.
     func visit(qlunaryexpression: QLUnaryExpression) {
         print("-> Unary expression")
-        qlunaryexpression.expression.accept(self)
+        qlunaryexpression.literal.accept(self)
+    }
+    
+    func visit(qlbinaryexpression: QLBinaryExpression) {
+        qlbinaryexpression.lhs.accept(self)
+        qlbinaryexpression.rhs.accept(self)
     }
     
     func visit(qlnotexpression: QLNotExpression) {
@@ -72,9 +77,26 @@ class QLTypeChecker: Visitor {
     }
     
     func visit(qlgreaterorisexpression: QLGreaterOrIsExpression) {
+        print("----------------------")
         print("Greater or is")
-        qlgreaterorisexpression.lhs.accept(self)
+        
+        print(symbolTable.getSymbolTable().description)
+        
+        print(self)
+        
+        // Get types.
+        if let lhs = qlgreaterorisexpression.lhs as? QLUnaryExpression {
+            print(lhs.dynamicType)
+        } else {
+            qlgreaterorisexpression.lhs.accept(self)
+        }
+        
+        
+        
         qlgreaterorisexpression.rhs.accept(self)
+        
+        print("----------------------")
+
     }
     
     func visit(qlsmallerorisexpression: QLSmallerOrISExpression) {

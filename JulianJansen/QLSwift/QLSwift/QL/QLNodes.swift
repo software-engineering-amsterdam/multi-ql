@@ -75,10 +75,10 @@ class QLVariable: QLExpression {
 }
 
 class QLUnaryExpression: QLExpression {
-    let expression: QLLiteral
+    let literal: QLLiteral
     
-    init(expression: QLLiteral) {
-        self.expression = expression
+    init(literal: QLLiteral) {
+        self.literal = literal
     }
     
     func accept(visitor: Visitor) {
@@ -98,14 +98,34 @@ class QLNotExpression: QLExpression {
     }
 }
 
-protocol QLBinaryExpression: QLExpression {
-    var lhs: QLExpression { set get }
-    var rhs: QLExpression { set get }
-}
+//protocol QLBinaryExpression: QLExpression {
+//    var lhs: QLExpression { set get }
+//    var rhs: QLExpression { set get }
+//}
 
-class QLGreaterThanExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+
+//class QLTest: QLExpression {
+//    var lhs: Int
+//    var rhs: Int
+//    
+//    init(lhs: Int, rhs: Int) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//    }
+//}
+//
+//class QLSubTest: QLTest {
+//    override init(lhs: Int, rhs: Int) {
+//        super.init(lhs: lhs, rhs: rhs)
+//    }
+//}
+
+class QLBinaryExpression: QLExpression {
+    let lhs: QLExpression
+    let rhs: QLExpression
     
     init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
@@ -114,162 +134,253 @@ class QLGreaterThanExpression: QLBinaryExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
+    }
+
+}
+
+class QLGreaterThanExpression: QLBinaryExpression {
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLSmallerThanExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLGreaterOrIsExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLSmallerOrISExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLIsNotExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLIsExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLMultiplyExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLDivideExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLAddExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLSubtractExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLAndExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
 
 class QLOrExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
-    
-    init(lhs: QLExpression, rhs: QLExpression) {
-        self.lhs = lhs
-        self.rhs = rhs
-    }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
+    override init(lhs: QLExpression, rhs: QLExpression) {
+        super.init(lhs: lhs, rhs: rhs)
     }
 }
+
+
+
+
+//
+//class QLGreaterThanExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLSmallerThanExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLGreaterOrIsExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLSmallerOrISExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLIsNotExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLIsExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLMultiplyExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLDivideExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLAddExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLSubtractExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLAndExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
+//
+//class QLOrExpression: QLBinaryExpression {
+//    var lhs: QLExpression
+//    var rhs: QLExpression
+//    
+//    init(lhs: QLExpression, rhs: QLExpression) {
+//        self.lhs = lhs
+//        self.rhs = rhs
+//    }
+//    
+//    func accept(visitor: Visitor) {
+//        visitor.visit(self)
+//    }
+//}
 
 
 // MARK: Literals.
