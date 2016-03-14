@@ -21,8 +21,8 @@ public class Gui extends JFrame {
 	}
 	
 	public void start(){
-    	CreateQL createQL = new CreateQL(state);
-    	Form form = createQL.getForm(ast);
+    	CreateForm createForm = new CreateForm(state);
+    	Form form = createForm.getForm(ast);
     	form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
     	
     	form.createGui();

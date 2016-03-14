@@ -1,4 +1,4 @@
-package nl.uva.sc.ql.errorwarning;
+package nl.uva.sc.ql.messages.warnings;
 
 public class QuestionWarning extends MyWarning {
 

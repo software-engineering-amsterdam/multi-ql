@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-public class Form extends JPanel implements QL {
+public class Form extends JPanel implements GuiRepresentation {
 	
 	private static final long serialVersionUID = 1L;
 	

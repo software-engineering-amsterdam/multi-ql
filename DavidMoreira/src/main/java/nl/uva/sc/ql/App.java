@@ -2,9 +2,9 @@ package nl.uva.sc.ql;
 
 import java.io.IOException;
 
-import nl.uva.sc.ql.errorwarning.CompilerException;
-import nl.uva.sc.ql.errorwarning.MessagesHandler;
 import nl.uva.sc.ql.gui.Gui;
+import nl.uva.sc.ql.messages.MessagesHandler;
+import nl.uva.sc.ql.messages.exceptions.CompilerException;
 import nl.uva.sc.ql.parser.Compiler;
 import nl.uva.sc.ql.parser.ast.Node;
 

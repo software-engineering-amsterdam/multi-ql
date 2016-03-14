@@ -1,4 +1,4 @@
-package nl.uva.sc.ql.errorwarning;
+package nl.uva.sc.ql.messages.warnings;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

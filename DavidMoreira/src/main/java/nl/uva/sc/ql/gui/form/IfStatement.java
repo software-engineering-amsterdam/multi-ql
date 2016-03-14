@@ -5,7 +5,7 @@ import java.util.List;
 
 import nl.uva.sc.ql.gui.state.Observer;
 
-public class IfStatement implements QL, Observer {
+public class IfStatement implements GuiRepresentation, Observer {
 	
 	private List<ConditionBlock> listConditionBlock;
 	private List<Question> questions;
