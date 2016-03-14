@@ -3,10 +3,10 @@ package uva.ql.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import uva.ql.ast.abstracts.Node;
+import uva.ql.gui.visitors.IActionListenerVisitor;
 import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
@@ -76,11 +76,12 @@ public class Block extends Node {
 	}
 
 	@Override
-	public void accept(IGUIVisitor visitor, JPanel panel) {}
-	
-	public JComponent accept(IGUIVisitor visitor) {
-		return visitor.visitBlock(this);
+	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitBlock(this, panel);
 	}
 
-	
+	@Override
+	public void accept(IActionListenerVisitor visitor, JPanel panel) {
+		visitor.visitBlock(this, panel);
+	}
 }

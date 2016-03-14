@@ -3,6 +3,7 @@ package uva.ql.ast.abstracts;
 import javax.swing.JPanel;
 
 import uva.ql.ast.INode;
+import uva.ql.gui.visitors.IActionListenerVisitor;
 import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
@@ -61,8 +62,11 @@ public abstract class Node implements INode {
 
 	@Override
 	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {}
-
+	
 	@Override
 	public void accept(IGUIVisitor visitor, JPanel panel) {}
+	
+	@Override
+	public void accept(IActionListenerVisitor visitor, JPanel panel) {}
 	
 }

@@ -41,6 +41,7 @@ public class Question extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					//var.setValue(String.valueOf(checkBox.isSelected()));
+					System.out.println(checkBox.isSelected());
 				}
 			});
 			

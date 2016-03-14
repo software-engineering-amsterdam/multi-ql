@@ -27,5 +27,5 @@ public interface INodeVisitor {
 	public void visitIfElseCondition(CondIfElseStatement condIfElseStatement);
 	
 	public void visitVar(Variable variable);
-	public void visitNum(Values values);
+	public void visitVal(Values<?> values);
 }

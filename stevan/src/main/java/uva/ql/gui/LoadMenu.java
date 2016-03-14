@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 import uva.ql.QL;
 import uva.ql.ast.Form;
-import uva.ql.visitors.VisitorToGUI;
+import uva.ql.visitors.VisitorASTToGUI;
 
 public class LoadMenu implements ActionListener {
 
@@ -39,8 +39,9 @@ public class LoadMenu implements ActionListener {
 				e.printStackTrace();
 			}
 			
-			VisitorToGUI astToGUI = new VisitorToGUI(gui.resetFrame());
-			astToGUI.visitForm(form);
+			VisitorASTToGUI astToGUI = new VisitorASTToGUI();
+			gui.resetFrame();
+			astToGUI.visitForm(form, gui.getPanel());
 		} 
 		else {
 			//System.out.println("Cancelled");

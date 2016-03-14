@@ -45,7 +45,7 @@ import uva.ql.ast.variables.VarMoney;
 import uva.ql.ast.variables.VarStr;
 import uva.ql.ast.variables.abstracts.Variable;
 
-public class VisitorToAST extends QLBaseVisitor<Object> {
+public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 
 	private final Map<String, Variable> varStore = new HashMap<String, Variable>(0);
 
@@ -274,7 +274,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public Values visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
+	public Values<Integer> visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
 		
 		Token token = ctx.getStart();
 		int line = token.getLine();
@@ -291,7 +291,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public Values visitExpBool( @NotNull QLParser.ExpBoolContext ctx ) {
+	public Values<Boolean> visitExpBool( @NotNull QLParser.ExpBoolContext ctx ) {
 		
 		Token token = ctx.getStart();
 		int line = token.getLine();
