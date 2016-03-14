@@ -8,6 +8,22 @@
 
 import Foundation
 
+class QLTypeStack {
+    var stack = Array<QLExpression.Type>()
+    
+    func push(element: QLExpression.Type) {
+        stack.append(element)
+    }
+    
+    func pop() -> QLExpression.Type? {
+        return stack.popLast()
+    }
+    
+    func getCurrectIndex() -> Int {
+        return stack.count
+    }
+}
+
 class QLTypeChecker: Visitor {
     
     let symbolTable: QLSymbolTable
@@ -15,6 +31,15 @@ class QLTypeChecker: Visitor {
     init(symbolTable: QLSymbolTable) {
         self.symbolTable = symbolTable
     }
+    
+    
+    // TEST
+    
+
+    
+    private var typeStack = Array<QLExpression.Type>()
+    
+    ///////
     
     let testCase = false
     
@@ -55,6 +80,7 @@ class QLTypeChecker: Visitor {
     }
     
     func visit(qlbinaryexpression: QLBinaryExpression) {
+        print("-> Binary expression")
         qlbinaryexpression.lhs.accept(self)
         qlbinaryexpression.rhs.accept(self)
     }

@@ -9,9 +9,13 @@
 import Foundation
 
 protocol ASTNode: Visitable {}
-protocol QLLiteral: ASTNode {}
+protocol QLLiteral: ASTNode {
+    func getType(typeStack: QLTypeStack)
+}
 protocol QLStatement: ASTNode {}
-protocol QLExpression: QLStatement {}
+protocol QLExpression: QLStatement {
+    func getType(typeStack: QLTypeStack)
+}
 protocol QLOperator {}
 
 class QLForm: ASTNode, Visitable {
@@ -64,13 +68,23 @@ class QLIfStatement: QLStatement, Visitable {
 
 class QLVariable: QLExpression {
     let identifier: String
+    let type: QLLiteral
     
     init(identifier: String) {
         self.identifier = identifier
     }
     
+    init(identifier: String, type: QLLiteral) {
+        self.identifier = identifier
+        self.type = type
+    }
+    
     func accept(visitor: Visitor) {
         visitor.visit(self)
+    }
+    
+    func getType(typeStack: QLTypeStack) {
+        return type.getType(typeStack)
     }
 }
 
@@ -84,6 +98,10 @@ class QLUnaryExpression: QLExpression {
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
+    
+    func getType(typeStack: QLTypeStack) {
+        literal.getType(typeStack)
+    }
 }
 
 class QLNotExpression: QLExpression {
@@ -95,6 +113,10 @@ class QLNotExpression: QLExpression {
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
+    }
+    
+    func getType(typeStack: QLTypeStack) {
+        expression.getType(typeStack)
     }
 }
 
@@ -123,7 +145,32 @@ class QLNotExpression: QLExpression {
 //    }
 //}
 
-class QLBinaryExpression: QLExpression {
+protocol QLBinaryExpression: QLExpression {
+    var lhs: QLExpression { get }
+    var rhs: QLExpression { get }
+}
+
+extension QLBinaryExpression {
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
+    
+    func getType(typeStack: QLTypeStack) {
+        self.lhs.getType(typeStack)
+        self.rhs.getType(typeStack)
+    }
+    
+//    func getType() throws -> QLExpression.Type {
+//        if (lhs.dynamicType == rhs.dynamicType) {
+//            return lhs.dynamicType
+//        } else {
+//            throw
+//        }
+//    }
+}
+
+class QLGreaterThanExpression: QLBinaryExpression {
     let lhs: QLExpression
     let rhs: QLExpression
     
@@ -131,82 +178,115 @@ class QLBinaryExpression: QLExpression {
         self.lhs = lhs
         self.rhs = rhs
     }
-    
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
-    }
-
-}
-
-class QLGreaterThanExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
-    }
 }
 
 class QLSmallerThanExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLGreaterOrIsExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLSmallerOrISExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLIsNotExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLIsExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLMultiplyExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLDivideExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLAddExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLSubtractExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLAndExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
 class QLOrExpression: QLBinaryExpression {
-    override init(lhs: QLExpression, rhs: QLExpression) {
-        super.init(lhs: lhs, rhs: rhs)
+    let lhs: QLExpression
+    let rhs: QLExpression
+    
+    init(lhs: QLExpression, rhs: QLExpression) {
+        self.lhs = lhs
+        self.rhs = rhs
     }
 }
 
@@ -389,6 +469,8 @@ class QLUnknownLiteral: QLLiteral {
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
+    
+    
 }
 
 class QLBool: QLLiteral {
