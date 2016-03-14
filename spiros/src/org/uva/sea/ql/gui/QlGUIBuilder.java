@@ -43,6 +43,7 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 	private GUIPanel panel;		// do i need this?
 	private List<QuestionItem> questionItems;
 	private CollectIdentifiersAndDependencies identifiers;		// needed?
+	private CollectIdentifiersInConditions identifiersInCOnditions;
 	//private Evaluator evaluator;
 	
 	//private Map
@@ -54,6 +55,7 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 		this.questionItems = new ArrayList<>();
 		
 		this.identifiers = new CollectIdentifiersAndDependencies(form);
+		this.identifiersInCOnditions = new CollectIdentifiersInConditions(form);
 		
 //		for(Identifier id: identifiers.getIdentifiers())
 //			System.out.println("Exw ton identifier" + id.getValue());

@@ -41,14 +41,14 @@ import nl.uva.sc.ql.parser.ast.SubtractionNode;
 import nl.uva.sc.ql.parser.ast.QuestionNode;
 import nl.uva.sc.ql.parser.value.Value;
 
-public class CreateQL implements Visitor {
+public class CreateForm implements Visitor {
 
 	private Form form = null;
 	private IfStatement ifForm = null;
 	private ConditionBlock conditionBlockForm = null;
 	private State state;
 		
-	public CreateQL(State state) {
+	public CreateForm(State state) {
 		this.state = state;
 	}
 	

@@ -7,7 +7,11 @@ form Box1HouseOwning {
 	
 	salary: "What is your salary?" int (lastYearTaxes + 5)
 	
-	if (5 == 5) {
+	if (hasSoldHouse || hasBoughtHouse) {
+		sellIncome: "How much money did you earn?" int
+	}
+	
+	if (lastYearTaxes > 56) {
 		sellIncome: "How much money did you earn?" int
 	}
 	

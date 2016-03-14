@@ -34,19 +34,19 @@ class VariableMap {
 	}
 }
 
-export class QuestionCollector extends RecursingVisitor {
-	collect(node, questionCollection) {
-		node.accept(this, new LiteralNode(null, new BooleanType(), new BooleanValue(true)), questionCollection);
+export class QuestionConditionComputer extends RecursingVisitor {
+	computeQuestionConditions(node, questionHandlingStrategy) {
+		node.accept(this, new LiteralNode(null, new BooleanType(), new BooleanValue(true)), questionHandlingStrategy);
 	}
-	visitIfNode(ifNode, condition, questionCollection) {
-		ifNode.thenBlock.accept(this, new AndNode(null, condition, ifNode.condition), questionCollection);
+	visitIfNode(ifNode, condition, questionHandlingStrategy) {
+		ifNode.thenBlock.accept(this, new AndNode(null, condition, ifNode.condition), questionHandlingStrategy);
 	}
-	visitIfElseNode(ifElseNode, condition, questionCollection) {
-		this.visitIfNode(ifElseNode, condition, questionCollection);
-		ifElseNode.elseBlock.accept(this, new AndNode(null, condition, new NotNode(null, ifElseNode.condition)), questionCollection);
+	visitIfElseNode(ifElseNode, condition, questionHandlingStrategy) {
+		this.visitIfNode(ifElseNode, condition, questionHandlingStrategy);
+		ifElseNode.elseBlock.accept(this, new AndNode(null, condition, new NotNode(null, ifElseNode.condition)), questionHandlingStrategy);
 	}
-	visitQuestionNode(questionNode, condition, questionCollection) {
-		questionCollection.addQuestion(questionNode, condition);
+	visitQuestionNode(questionNode, condition, questionHandlingStrategy) {
+		questionHandlingStrategy.handleQuestion(questionNode, condition);
 	}
 }
 
@@ -164,13 +164,13 @@ export class QuestionRenderer extends NodeVisitor {
 	}
 }
 
-export class DirectRenderingQuestionCollection {
+export class DirectRenderingStrategy {
 	constructor(questionRenderer, widgetFactory, containerElement) {
 		this.questionRenderer = questionRenderer;
 		this.widgetFactory = widgetFactory;
 		this.containerElement = containerElement;
 	}
-	addQuestion(questionNode, condition) {
+	handleQuestion(questionNode, condition) {
 		this.questionRenderer.renderQuestion(questionNode, condition, this.containerElement, this.widgetFactory);
 	}
 }
@@ -178,13 +178,13 @@ export class DirectRenderingQuestionCollection {
 export class Renderer {
 	constructor(elementFactory) {
 		this.elementFactory = elementFactory;
-		this.questionCollector = new QuestionCollector();
+		this.questionConditionComputer = new QuestionConditionComputer();
 	}
 	render(node, containerElement) {
 		let questionRenderer = new QuestionRenderer(this.elementFactory),
 			widgetFactory = new WidgetFactory(this.elementFactory),
-			directRenderingQuestionCollection = new DirectRenderingQuestionCollection(questionRenderer, widgetFactory, containerElement);
+			directRenderingQuestionCollection = new DirectRenderingStrategy(questionRenderer, widgetFactory, containerElement);
 
-		this.questionCollector.collect(node, directRenderingQuestionCollection);
+		this.questionConditionComputer.computeQuestionConditions(node, directRenderingQuestionCollection);
 	}
 }

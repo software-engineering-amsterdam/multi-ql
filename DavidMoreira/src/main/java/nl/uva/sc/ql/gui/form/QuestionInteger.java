@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
-import nl.uva.sc.ql.errorwarning.UserInputWarning;
 import nl.uva.sc.ql.gui.state.State;
+import nl.uva.sc.ql.messages.warnings.UserInputWarning;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
 import nl.uva.sc.ql.parser.value.IntegerVal;
 import nl.uva.sc.ql.parser.value.Value;

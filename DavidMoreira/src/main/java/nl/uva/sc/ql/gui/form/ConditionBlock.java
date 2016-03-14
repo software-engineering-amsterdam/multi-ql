@@ -9,7 +9,7 @@ import nl.uva.sc.ql.gui.state.Subject;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
 import nl.uva.sc.ql.parser.value.Value;
 
-public class ConditionBlock implements QL, Observer, Subject {
+public class ConditionBlock implements GuiRepresentation, Observer, Subject {
 	
     private List<Observer> observers = new ArrayList<Observer>();
 

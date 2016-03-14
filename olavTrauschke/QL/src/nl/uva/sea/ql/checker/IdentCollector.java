@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.expr.Ident;
  * Visitor to collect all <code>Ident</code>s in a part of an ast.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 14-mrt-2016
  */
 public class IdentCollector implements ASTVisitor {
     
@@ -25,11 +25,11 @@ public class IdentCollector implements ASTVisitor {
      * Add an <code>Ident</code> to the <code>Set</code> of <code>Ident</code>s
      * <code>this IdentCollector visit</code>ed.
      * 
-     * @param i the <code>Ident</code> to add
+     * @param identifier the <code>Ident</code> to add
      */
     @Override
-    public void visit(Ident i) {
-        identifiers.add(i);
+    public void visit(Ident identifier) {
+        identifiers.add(identifier);
     }
     
     /**
