@@ -1,9 +1,0 @@
-package eu.bankersen.kevin.ql.typechecker.errors;
-
-public class CyclicDependencyError extends TypeCheckingError {
-
-    public CyclicDependencyError(String name) {
-	super(0, String.format("The variable \"%s\" has a cyclic dependency!", name));
-    }
-
-}

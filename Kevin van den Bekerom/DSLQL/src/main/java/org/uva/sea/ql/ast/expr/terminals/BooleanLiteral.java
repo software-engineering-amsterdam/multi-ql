@@ -1,13 +1,13 @@
 package org.uva.sea.ql.ast.expr.terminals;
 
 import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.form.TypeMap;
 import org.uva.sea.ql.ast.form.ValueMap;
-import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.BoolType;
 import org.uva.sea.ql.type.Type;
 import org.uva.sea.ql.value.BoolValue;
 import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.visit.Visitor;
 
 public class BooleanLiteral extends Expr {
 	final boolean value;
@@ -33,7 +33,7 @@ public class BooleanLiteral extends Expr {
 	}
 	
 	@Override
-	public Type getType(Context context) {
+	public Type getType(TypeMap context) {
 		return new BoolType();
 	}
 }

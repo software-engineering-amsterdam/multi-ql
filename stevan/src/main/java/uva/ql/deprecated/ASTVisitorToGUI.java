@@ -5,14 +5,14 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import uva.TaxForm.GUI.GUI;
-import uva.TaxForm.GUI.GUIQuestion;
 import uva.ql.deprecated.ASTBlock;
 import uva.ql.deprecated.ASTExpression;
 import uva.ql.deprecated.ASTIfStatement;
 import uva.ql.deprecated.ASTNode;
 import uva.ql.deprecated.ASTQuestion;
 import uva.ql.deprecated.ASTVariable;
+import uva.ql.gui.GUI;
+import uva.ql.gui.Question;
 
 public class ASTVisitorToGUI {
 
@@ -77,14 +77,14 @@ public class ASTVisitorToGUI {
 		return panel;
 	}
 	
-	private GUIQuestion addQuestion(ASTNode node) {
+	private Question addQuestion(ASTNode node) {
 		
 		ASTQuestion questionNode = (ASTQuestion) node;
 		
 		String label = questionNode.getLabel();
 		ASTVariable var = (ASTVariable) questionNode.getExpression().getLeftNode();
 		
-		final GUIQuestion question = new GUIQuestion(label, var);
+		final Question question = new Question(label, var);
 		question.setPreferredSize(new Dimension(this.gui.panel.getWidth()-30, 20));
 		
 		if (questionNode.getExpression().getExpressionType() == ASTExpression.ASSIGN_EXP) {

@@ -1,5 +1,17 @@
 package expr
 
-type Expr interface {
-	Eval(s interface{}) interface{}
+import (
+	"ql/ast/node"
+)
+
+type Expr struct {
+	node.Node
+}
+
+func NewExpr(sourceInfo interface{}) Expr {
+	return Expr{node.NewNode(sourceInfo)}
+}
+
+func NewExprNoSourceInfo() Expr {
+	return NewExpr(nil)
 }

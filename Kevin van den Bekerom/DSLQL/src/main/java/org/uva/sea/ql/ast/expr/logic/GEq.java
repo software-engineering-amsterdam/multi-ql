@@ -2,14 +2,14 @@ package org.uva.sea.ql.ast.expr.logic;
 
 import org.uva.sea.ql.ast.expr.BinaryExpr;
 import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.form.Context;
+import org.uva.sea.ql.ast.form.TypeMap;
 import org.uva.sea.ql.ast.form.ValueMap;
-import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.type.NumericalType;
 import org.uva.sea.ql.type.Type;
 import org.uva.sea.ql.value.*;
+import org.uva.sea.ql.visit.Visitor;
 
-public class GEq<U> extends BinaryExpr {
+public class GEq extends BinaryExpr {
 	
 	public GEq(Expr lhs, Expr rhs, int startLine) {
 		super(lhs, rhs, startLine);
@@ -30,7 +30,7 @@ public class GEq<U> extends BinaryExpr {
 	}
 	
 	@Override
-	public Type getType(Context context) {
+	public Type getType(TypeMap context) {
 		return new NumericalType();
 	}
 }

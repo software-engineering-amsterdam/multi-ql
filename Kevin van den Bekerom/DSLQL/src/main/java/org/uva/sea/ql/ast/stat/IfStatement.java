@@ -2,8 +2,11 @@ package org.uva.sea.ql.ast.stat;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.visit.Visitable;
-import org.uva.sea.ql.ast.visit.Visitor;
+import org.uva.sea.ql.ast.form.ValueMap;
+import org.uva.sea.ql.value.UndefinedValue;
+import org.uva.sea.ql.value.Value;
+import org.uva.sea.ql.visit.Visitable;
+import org.uva.sea.ql.visit.Visitor;
 
 public class IfStatement extends Statement implements Visitable {
 	private Block block;
@@ -32,12 +35,12 @@ public class IfStatement extends Statement implements Visitable {
 		return "IfStatement";
 	}
 	
-	public boolean getClauseValue() {
-		try {
-			return (Boolean) condition.eval();
-		} catch (NullPointerException e) {
-			System.out.println(e.toString());
+	public boolean getConditionValue(ValueMap valueMap) {
+		Value conditionValue = condition.eval(valueMap);
+		if (conditionValue.equals(new UndefinedValue())) {
 			return false;
+		} else {
+			return (Boolean) conditionValue.getValue();
 		}
 	}
 }

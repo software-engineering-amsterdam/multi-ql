@@ -35,7 +35,7 @@ class QuestionnaireViewBuilder {
     }
     
     private func placeQuestion(question: Question, superView: UIView, prevView: UIView?, nextView: UIView?) -> UIView {
-        let questionView = createQuestionView(question)
+        let questionView = QuestionView(question: question)
         
         superView.addSubview(questionView)
         
@@ -53,9 +53,5 @@ class QuestionnaireViewBuilder {
         }
         
         return questionView
-    }
-    
-    private func createQuestionView(question: Question) -> UIView {
-        return QuestionView(layout: DefaultFormLayout().questionLayout, question: question)
     }
 }

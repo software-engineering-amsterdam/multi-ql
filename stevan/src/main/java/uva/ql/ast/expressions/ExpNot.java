@@ -2,15 +2,11 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.expressions.abstracts.SingleLogicalOperator;
 import uva.ql.ast.expressions.types.Not;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
 
-public class ExpNot extends SingleLogicalOperator {
+public class ExpNot extends LogicalOperatorUnary {
 
 	private Not type = new Not();
 	
@@ -19,32 +15,12 @@ public class ExpNot extends SingleLogicalOperator {
 	}
 	
 	@Override
-	public boolean eval() {
-		return this.getLhs().eval();
+	public EnumType evalType() {
+		return this.getLhs().evalType();
 	}
 
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
-	}
-	
-	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {
-		visitor.visitExpNot(this);
-	}
-
-	@Override
-	public void accept(IUndefinedQuestionVisitor visitor) {
-		visitor.visitExpNot(this);
-	}
-	
-	@Override
-	public void accept(ICyclicDependencyVisitor visitor) {
-		visitor.visitExpNot(this);
-	}
-	
-	@Override
-	public void accept(IDupllicateLabelsVisitor visitor) {
-		visitor.visitExpNot(this);
 	}
 }

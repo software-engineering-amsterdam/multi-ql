@@ -1,7 +1,0 @@
-package eu.bankersen.kevin.ql.ast;
-
-public interface AcceptVisitor {
-    
-    void accept(BasicVisitor v);
-
-}

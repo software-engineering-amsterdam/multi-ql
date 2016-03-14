@@ -4,10 +4,10 @@ import uva.ql.ast.EnumType;
 
 
 public class Money {
-
-	private EnumType type = EnumType.MONEY;
+	
+	EnumType type = EnumType.MONEY;
 	
 	public EnumType getType() {
-		return type;
+		return this.type;
 	}
 }

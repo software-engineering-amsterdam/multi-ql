@@ -5,9 +5,9 @@ import uva.ql.ast.EnumType;
 
 public class Str {
 
-	private EnumType type = EnumType.STRING;
+	EnumType type = EnumType.STRING;
 	
 	public EnumType getType() {
-		return type;
+		return this.type;
 	}
 }

@@ -1,28 +1,28 @@
 package eu.bankersen.kevin.ql.ast.expr.math;
 
-import java.math.BigDecimal;
-
-import eu.bankersen.kevin.ql.ast.BasicVisitor;
-import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.BinaryExpr;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.NumberExpr;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.interpreter.Environment;
 
-public class Mul extends NumberExpr {
+public class Mul extends BinaryExpr {
 
-    public Mul(final Expr lhs, final Expr rhs,  final int line) {
-	super(lhs, rhs, line);
+    public Mul(final Expr lhs, final Expr rhs, final int line) {
+	super(line, lhs, rhs);
     }
 
     @Override
-    public final BigDecimal evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
-	return ((BigDecimal) lhs().evalExpr(symbolTable)).multiply((BigDecimal) rhs().evalExpr(symbolTable));
-    }
-    
-    @Override
-    public <T> void accept(BasicVisitor v, T context) {
-	v.visit(this);
+    public final QLValue eval(Environment context) {
+	QLValue lhs = lhs().eval(context);
+	QLValue rhs = rhs().eval(context);
+
+	return lhs.multiply(rhs);
     }
 
+    @Override
+    public <T, U> T accept(ExprVisitor<T, U> v, U context) {
+	return v.visit(this, context);
+    }
 
 }

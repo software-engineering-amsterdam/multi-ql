@@ -1,57 +1,64 @@
 package nl.nicasso.ql.gui.panels;
 
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
 import nl.nicasso.ql.Evaluator;
 import nl.nicasso.ql.ast.expressions.Expression;
-import nl.nicasso.ql.ast.statements.Question;
+import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.statements.ComputedQuestion;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
-import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.stateTable.StateTable;
 import nl.nicasso.ql.values.Value;
 
-public class ComputedQuestionPanel extends Panel implements Observer {
-
-	private JPanel panel;
-	private Expression condition;
-	private SymbolTable symbolTable;
+public class ComputedQuestionPanel extends Panel {
+	
+	private ComputedQuestion question;
+	private Observer main;
 	
 	// Is 4 params too long? Should I use the ParamObject here?
-	public ComputedQuestionPanel(Question q, QuestionField field, Value value, Expression condition, SymbolTable symbolTable) {
+	public ComputedQuestionPanel(ComputedQuestion q, QuestionField field, Value value, Expression condition, StateTable stateTable, Observer main) {
 		 panel = new JPanel(new GridLayout(2,2));
+		 this.main = main;
 		 this.condition = condition;
-		 this.symbolTable = symbolTable;
+		 this.stateTable = stateTable;
+		 this.question = q;
 		 
 		 addQuestionLabel(q);
 		 panel.add(new JPanel());		 
 		 addQuestionField(q, field, value);
 	}
 	
-	public void addQuestionLabel(Question q) {
-		Label questionLabel = new Label("CQ: "+q.getLabel());
-		questionLabel.setFont(new Font("Arial", 0, 100));
-		panel.add(questionLabel.getWidget());
-	}
-	
-	public void addQuestionField(Question q, QuestionField field, Value value) {		
-		field.setValue(value.getValue());
-		panel.add(field.getField());
-	}
-	
-	@Override
-	public JPanel getPanel() {		
-		return this.panel;
-	}
-
-	@Override
-	public void updatePanel() {
-		Evaluator evaluator = new Evaluator(symbolTable);
-		Value value = condition.accept(evaluator);
+	public boolean update() {
+		boolean updated = false;
 		
+		// Visibility
+		Evaluator evaluator = new Evaluator(stateTable);
+		Value visibility = condition.accept(evaluator);
+		//System.out.println("VISIBLITY: "+visibility.getValue());
+		setVisible((Boolean) visibility.getValue());
+		
+		if (panel.isVisible() != (Boolean) visibility.getValue()) {
+			//updated = true;
+		}
+		
+		// Expression
+		Value questionValue = question.getExpr().accept(evaluator);
+		
+		if (!field.equalValues(questionValue.getValue())) {
+			//updateAllPanels();
+			main.fieldValueChanged(question.getId(), questionValue);
+			updated = true;
+		}
+		
+		field.setValue(questionValue.getValue());
+		
+		// SET VALUE IN STATETABLE
+		//stateTable.addState();
+		
+		return updated;
 	}
 	
 }

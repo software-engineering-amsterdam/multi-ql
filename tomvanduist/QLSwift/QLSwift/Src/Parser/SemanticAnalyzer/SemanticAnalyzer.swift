@@ -13,16 +13,18 @@ class SemanticAnalyzer {
     
     func analyze(form: QLForm) throws -> [SemanticWarning] {
         
-        // Infer types
-        let typeInferer = TypeInferer()
-        let symbolTable = try typeInferer.inferTypes(form)
+        let context = try Context(form: form)
         
         // Perform remaining rules
         var results: [SemanticAnalysisResult] = []
-        let semanticRules: [SemanticAnalysisRule] = [TypeChecker(), ScopeChecker(), CyclicDependencyChecker()]
+        let semanticRules: [SemanticAnalysisRule] = [
+            TypeChecker(),
+            ScopeChecker(),
+            CyclicDependencyChecker()
+        ]
         
         for rule in semanticRules {
-            results.append(rule.run(form, symbolTable: symbolTable))
+            results.append(rule.run(form, context: context))
         }
         
         let errors = retrieveErrors(results)

@@ -11,9 +11,9 @@ import UIKit
 class IntegerWidget: ViewWidget, UITextFieldDelegate {
     let textField: UITextField = UITextField()
     
-    override func setupView(layout: Layout) {
+    override func setupView() {
         if textField.superview == nil {
-            textField.keyboardType = .DecimalPad
+            textField.keyboardType = .NumberPad
             textField.borderStyle = .Line
             textField.textAlignment = .Right
             textField.delegate = self
@@ -23,10 +23,7 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
             self.addSubview(textField)
             
             textField.snp_makeConstraints { [unowned self] (make) -> Void in
-                make.top.equalTo(self.snp_top).offset(layout.margin.top)
-                make.left.equalTo(self.snp_left).offset(layout.margin.left)
-                make.right.equalTo(self.snp_right).offset(layout.margin.right)
-                make.bottom.equalTo(self.snp_bottom).offset(layout.margin.bottom)
+                make.edges.equalTo(self).offset(UIEdgeInsetsMake(20, 20, -10, -20))
                 make.height.equalTo(50)
             }
         }
@@ -78,7 +75,7 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
 
 
 extension QLIntegerType {
-    func widgetView(layout: Layout, delegate: WidgetDelegate) -> ViewWidget {
-        return IntegerWidget(layout: layout, delegate: delegate)
+    func widgetView(delegate: WidgetDelegate) -> ViewWidget {
+        return IntegerWidget(delegate: delegate)
     }
 }

@@ -1,5 +1,7 @@
 package org.uva.sea.ql.type;
 
+import org.uva.sea.ql.value.Value;
+
 public class Undefined extends Type {
 
 	@Override
@@ -13,7 +15,7 @@ public class Undefined extends Type {
 	}
 
 	@Override
-	public Object parse(String message) {
+	public Value parse(String message) {
 		// TODO Auto-generated method stub
 		return null;
 	}

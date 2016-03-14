@@ -1,4 +1,0 @@
-abstract class Fruit { }
-class Orange : Fruit { }
-class Apple : Fruit { }
-class Banana : Fruit { }

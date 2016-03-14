@@ -34,13 +34,11 @@ import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.ast.values.ValueBool;
-import uva.ql.ast.values.ValueDouble;
 import uva.ql.ast.values.ValueInt;
+import uva.ql.ast.values.ValueMoney;
 import uva.ql.ast.values.abstracts.Values;
 import uva.ql.ast.variables.VarBool;
 import uva.ql.ast.variables.VarDate;
-import uva.ql.ast.variables.VarDecimal;
-import uva.ql.ast.variables.VarDouble;
 import uva.ql.ast.variables.VarGeneric;
 import uva.ql.ast.variables.VarInt;
 import uva.ql.ast.variables.VarMoney;
@@ -288,7 +286,7 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 		}
 		else {
 			
-			return new ValueDouble(null, ctx.getText(), line, column);
+			return new ValueMoney(null, ctx.getText(), line, column);
 		}
 	}
 	
@@ -315,10 +313,6 @@ public class VisitorToAST extends QLBaseVisitor<Object> {
 				return new VarBool(null, varName, line, column);
 			case "DATE":
 				return new VarDate(null, varName, line, column);
-			case "DECIMAL":
-				return new VarDecimal(null, varName, line, column);
-			case "DOUBLE":
-				return new VarDouble(null, varName, line, column);
 			case "INTEGER":
 				return new VarInt(null, varName, line, column);
 			case "MONEY":

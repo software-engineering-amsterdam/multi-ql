@@ -154,11 +154,33 @@ class QLParser {
         return singleSymbolExpressionParser().attempt <|> doubleSymbolExpressionParser()
     }
     
+    private func questionTypeParser() -> GenericParser<String, (), QLLiteral> {
+        return (StringParser.noneOf("\r\n,\n\r").many.stringValue <* self.endOfLineParser() <* self.whiteSpace <?> "question type").map{ type -> QLLiteral in
+            
+            switch type {
+                case "boolean":
+                    return QLBool()
+                case "string":
+                    return QLString()
+                case "integer":
+                    return QLInteger()
+                case "date":
+                    return QLDate()
+                case "decimal":
+                    return QLDecimal()
+                case "money":
+                    return QLMoney()
+                default:
+                    return QLUnknownLiteral()
+            }
+        }
+    }
+    
     private func questionParser() -> GenericParser<String, (), QLStatement> {
         return (stringLiteral <?> "question name").flatMap{ name in
             (self.variableParser() <* self.colon <?> "question variable").flatMap{ variable -> GenericParser<String, (), QLStatement> in
-                (StringParser.noneOf("\r\n,\n\r").many.stringValue <* self.endOfLineParser() <* self.whiteSpace <?> "type identifier").map{ type in
-                    return QLQuestion(name: name, variable: variable, type: type)
+                (self.questionTypeParser() <* self.whiteSpace <?> "type identifier").map{ type in
+                    return QLQuestion(name: name, variable: (variable as! QLVariable), type: type)
                 }
             }
         }

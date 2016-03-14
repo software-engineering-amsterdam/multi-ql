@@ -34,6 +34,17 @@ class QLIntegerType: QLType {
     }
 }
 
+class QLFloatType: QLType {
+    
+    func toString() -> String {
+        return "float"
+    }
+    
+    func accept<T: QLTypeVisitor>(visitor: T, param: T.QLTypeVisitorParam) -> T.QLTypeVisitorReturn {
+        return visitor.visit(self, param: param)
+    }
+}
+
 class QLStringType: QLType {
     
     func toString() -> String {

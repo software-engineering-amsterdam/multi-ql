@@ -3,23 +3,22 @@ package nl.uva.sc.ql.gui.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class Form extends JFrame implements GuiInterface {
+public class Form extends JPanel implements QL {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
 	private List<Question> questions;
-	private List<IfForm> listIfForm;
+	private List<IfStatement> listIfForm;
 
 	public Form(String name){
 		this.name = name;
 		this.questions = new ArrayList<Question>();
-		this.listIfForm = new ArrayList<IfForm>();
+		this.listIfForm = new ArrayList<IfStatement>();		
 	}
 	
-	@Override
 	public String getName(){
 		return this.name;
 	}
@@ -28,7 +27,7 @@ public class Form extends JFrame implements GuiInterface {
 		this.questions.add(question);
 	}
 	
-	public void addIfForm(IfForm ifForm){
+	public void addIfForm(IfStatement ifForm){
 		this.listIfForm.add(ifForm);
 	}
 
@@ -39,7 +38,7 @@ public class Form extends JFrame implements GuiInterface {
 			this.add(q);
 		}
 		
-		for(IfForm i : listIfForm){
+		for(IfStatement i : listIfForm){
 			i.createGui();
 		}
 	}
@@ -50,7 +49,7 @@ public class Form extends JFrame implements GuiInterface {
 			q.setVisible(true);
 		}
 		
-		for(IfForm i : listIfForm){
+		for(IfStatement i : listIfForm){
 			i.updateGui();
 		}
 	}
@@ -64,7 +63,7 @@ public class Form extends JFrame implements GuiInterface {
 			questionsText += q+"\n";
 		}
 		
-		for(IfForm q : listIfForm){
+		for(IfStatement q : listIfForm){
 			listIfFormText += q+"\n";
 		}
 

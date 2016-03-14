@@ -1,9 +1,0 @@
-package eu.bankersen.kevin.ql.util.test;
-
-public abstract class Type {
-    
-    public abstract boolean isSimilar(Type type);
-    
-    public abstract boolean isCompatible(Type type);
-
-}

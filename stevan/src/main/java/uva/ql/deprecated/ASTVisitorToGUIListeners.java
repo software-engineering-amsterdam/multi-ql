@@ -7,20 +7,20 @@ import java.util.Stack;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import uva.TaxForm.GUI.GUI;
-import uva.TaxForm.GUI.Fields.IntTextField;
-import uva.TaxForm.GUI.Fields.MoneyTextField;
-import uva.TaxForm.GUI.Fields.ActionListeners.AbstractActionListener;
-import uva.TaxForm.GUI.Fields.ActionListeners.JCheckBoxActionListener;
-import uva.TaxForm.GUI.Fields.DocumentListeners.IntTextFieldDocumentListener;
-import uva.TaxForm.GUI.Fields.DocumentListeners.MoneyDocumentListener;
-import uva.TaxForm.GUI.Fields.DocumentListeners.MoneyTextFieldDocumentListener;
 import uva.ql.deprecated.ASTBlock;
 import uva.ql.deprecated.ASTExpression;
 import uva.ql.deprecated.ASTIfStatement;
 import uva.ql.deprecated.ASTNode;
 import uva.ql.deprecated.ASTQuestion;
 import uva.ql.deprecated.ASTVariable;
+import uva.ql.gui.GUI;
+import uva.ql.gui.fields.IntTextField;
+import uva.ql.gui.fields.MoneyTextField;
+import uva.ql.gui.fields.actionlisteners.AbstractActionListener;
+import uva.ql.gui.fields.actionlisteners.JCheckBoxActionListener;
+import uva.ql.gui.fields.documentlisteners.IntTextFieldDocumentListener;
+import uva.ql.gui.fields.documentlisteners.MoneyDocumentListener;
+import uva.ql.gui.fields.documentlisteners.MoneyTextFieldDocumentListener;
 
 public class ASTVisitorToGUIListeners {
 	

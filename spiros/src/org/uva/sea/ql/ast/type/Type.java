@@ -2,6 +2,8 @@ package org.uva.sea.ql.ast.type;
 
 import org.uva.sea.ql.ast.node.ASTNode;
 import org.uva.sea.ql.ast.node.CodeFragment;
+import org.uva.sea.ql.ast.statement.Question;
+import org.uva.sea.ql.gui.questionItems.QuestionItem;
 
 
 public abstract class Type extends ASTNode {
@@ -16,6 +18,8 @@ public abstract class Type extends ASTNode {
 	public String getTypeName() {
 		return this.typeName;
 	}
+	
+	public abstract QuestionItem  accept(TypeVisitor visitor, Question question);
 	
 //	public boolean isUndefined() {
 //		return false;
@@ -37,6 +41,5 @@ public abstract class Type extends ASTNode {
 //		return false;
 //	}
 	
-	//public abstract ASTNode accept(TypeVisitor<ASTNode> visitor);
 
 }

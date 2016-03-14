@@ -26,8 +26,8 @@ import nl.nicasso.ql.ast.statements.Question;
 import nl.nicasso.ql.ast.statements.Statement;
 import nl.nicasso.ql.ast.structures.Block;
 import nl.nicasso.ql.ast.structures.Form;
-import nl.nicasso.ql.symbolTable.SymbolTable;
-import nl.nicasso.ql.symbolTable.SymbolTableEntry;
+import nl.nicasso.ql.stateTable.StateTable;
+import nl.nicasso.ql.stateTable.StateTableEntry;
 import nl.nicasso.ql.values.BooleanValue;
 import nl.nicasso.ql.values.IntegerValue;
 import nl.nicasso.ql.values.MoneyValue;
@@ -41,10 +41,10 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	
 	private boolean debug = false;
 	
-	private SymbolTable symbolTable;
+	private StateTable stateTable;
 	
-	public Evaluator(SymbolTable symbolTable) {
-		this.symbolTable = symbolTable;
+	public Evaluator(StateTable stateTable) {
+		this.stateTable = stateTable;
 	}
 
 	@Override
@@ -243,12 +243,13 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 			System.out.println("Question");
 		}
 		
-		// WATCH OUT!
-		//symbolTable.addSymbol(value.getId(), null);
-		
 		//SymbolTableEntry ste = symbolTable.getEntry(value.getId());
 		//ste.setValue(exprValue);
 		//symbolTable.addSymbol(value.getId(), ste);
+		
+		// getDefaultValue? Is this ugly?!
+		StateTableEntry ste = new StateTableEntry(value.getType().getDefaultValue());
+		stateTable.addState(value.getId(), ste);
 		
 		return null;
 	}
@@ -261,9 +262,10 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 			System.out.println("ComputedQuestion");
 		}
 		
-		SymbolTableEntry ste = symbolTable.getEntry(value.getId());
-		ste.setValue(exprValue);
-		symbolTable.addSymbol(value.getId(), ste);
+		//StateTableEntry ste = stateTable.getEntry(value.getId());
+		//ste.setValue(exprValue);
+		StateTableEntry ste = new StateTableEntry(exprValue);
+		stateTable.addState(value.getId(), ste);                                                             
 
 		return null;
 	}
@@ -303,7 +305,7 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 
 	@Override
 	public Value visit(Identifier value) {		
-		SymbolTableEntry entry = symbolTable.getEntry(value);
+		StateTableEntry entry = stateTable.getEntry(value);
 		
 		if (debug) {
 			System.out.println("IdentifierLit: "+value.getValue() + " = " + entry.getValue().getValue());
