@@ -6,7 +6,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of a (boolean) negation in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 14-mrt-2016
  */
 public class Not extends BooleanExpr {
     
@@ -36,17 +36,17 @@ public class Not extends BooleanExpr {
     }
     
     /**
-     * Has <code>theContent</code> of <code>this Not accept v</code> and then
-     * has <code>v visit this Not</code>.
+     * Has <code>theContent</code> of <code>this Not accept visitor</code> and then
+     * has <code>visitor visit this Not</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should <code>visit this Not</code>
-     *          and its children
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this Not</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
-        content.accept(v);
+    public void accept(ASTVisitor visitor) {
+        content.accept(visitor);
         
-        v.visit(this);
+        visitor.visit(this);
     }
     
     /**

@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>ConditionalStatement</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 14-mrt-2016
  */
 public class ConditionalStatement extends ASTNode {
     
@@ -54,30 +54,32 @@ public class ConditionalStatement extends ASTNode {
     
     /**
      * Has the <code>condition</code>, the <code>toDoIf</code> and the
-     * <code>toDoElse</code> of <code>this ConditionalStatement accept v</code>
-     * and then has <code>v visit this ConditionalStatement</code>.
+     * <code>toDoElse</code> of <code>this ConditionalStatement accept visitor</code>
+     * and then has <code>visitor visit this ConditionalStatement</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should
-     *          <code>visit this ConditionalStatement</code> and its children
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this ConditionalStatement</code> and its
+     *                  children
      */
     @Override
-    public void accept(ASTVisitor v) {
-        condition.accept(v);
-        toDoIf.accept(v);
-        toDoElse.accept(v);
+    public void accept(ASTVisitor visitor) {
+        condition.accept(visitor);
+        toDoIf.accept(visitor);
+        toDoElse.accept(visitor);
         
-        v.visit(this);
+        visitor.visit(this);
     }
     
     /**
      * Has the <code>condition</code> of
-     * <code>this ConditionalStatement accept v</code>.
+     * <code>this ConditionalStatement accept visitor</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should
-     *          <code>visit this ConditionalStatement</code>'s <code>condition</code>
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this ConditionalStatement</code>'s
+     *                  <code>condition</code>
      */
-    public void conditionAccept(ASTVisitor v) {
-        condition.accept(v);
+    public void conditionAccept(ASTVisitor visitor) {
+        condition.accept(visitor);
     }
     
     /**

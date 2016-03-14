@@ -10,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 14-mrt-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -71,48 +71,48 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * Has the children of <code>this Question accept v</code> and then has
-     * <code>v visit this Question</code>.
+     * Has the children of <code>this Question accept visitor</code> and then
+     * has <code>visitor visit this Question</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should
-     *          <code>visit this Question</code> and its children
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this Question</code> and its children
      */
     @Override
-    public abstract void accept(ASTVisitor v);
+    public abstract void accept(ASTVisitor visitor);
     
     /**
      * Has the <code>identifier</code>, the <code>label</code> and the
-     * <code>calculation</code> of <code>this Question accept v</code>.
+     * <code>calculation</code> of <code>this Question accept visitor</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should <code>visit</code> the
-     *          children of <code>this Question</code>
+     * @param visitor an <code>ASTVisitor</code> that should <code>visit</code>
+     *                  the children of <code>this Question</code>
      */
-    protected void childrenAccept(ASTVisitor v) {
-        identifierAccept(v);
-        labelAccept(v);
+    protected void childrenAccept(ASTVisitor visitor) {
+        identifierAccept(visitor);
+        labelAccept(visitor);
         if (calculation != null) {
-            calculationAccept(v);
+            calculationAccept(visitor);
         }
     }
     
     /**
-     * Has the <code>identifier</code> of <code>this Question accept v</code>.
+     * Has the <code>identifier</code> of <code>this Question accept visitor</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that the <code>identifier</code> of
-     *          <code>this Question</code> should <code>accept</code>
+     * @param visitor an <code>ASTVisitor</code> that the <code>identifier</code>
+     *                  of <code>this Question</code> should <code>accept</code>
      */
-    protected void identifierAccept(ASTVisitor v) {
-        identifier.accept(v);
+    protected void identifierAccept(ASTVisitor visitor) {
+        identifier.accept(visitor);
     }
     
     /**
-     * Has the <code>label</code> of <code>this Question accept v</code>.
+     * Has the <code>label</code> of <code>this Question accept visitor</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that the <code>label</code> of
-     *          <code>this Question</code> should <code>accept</code>
+     * @param visitor an <code>ASTVisitor</code> that the <code>label</code> of
+     *                  <code>this Question</code> should <code>accept</code>
      */
-    protected void labelAccept(ASTVisitor v) {
-        label.accept(v);
+    protected void labelAccept(ASTVisitor visitor) {
+        label.accept(visitor);
     }
     
     /**
@@ -126,13 +126,13 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * Has the <code>calculation</code> of <code>this Question accept v</code>.
+     * Has the <code>calculation</code> of <code>this Question accept visitor</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that the <code>calculation</code> of
-     *          <code>this Question</code> should <code>accept</code>
+     * @param visitor an <code>ASTVisitor</code> that the <code>calculation</code>
+     *                  of <code>this Question</code> should <code>accept</code>
      */
-    public void calculationAccept(ASTVisitor v) {
-        calculation.accept(v);
+    public void calculationAccept(ASTVisitor visitor) {
+        calculation.accept(visitor);
     }
     
     /**

@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of a a minus in front of a number in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 14-mrt-2016
  */
 public class Neg extends NumericExpr {
     
@@ -37,17 +37,17 @@ public class Neg extends NumericExpr {
     }
     
     /**
-     * Has <code>theContent</code> of <code>this ComparisonExpr accept v</code>
-     * and then has <code>v visit this Neg</code>.
+     * Has <code>theContent</code> of <code>this ComparisonExpr accept visitor</code>
+     * and then has <code>visitor visit this Neg</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should
-     *          <code>visit this Neg</code> and its children
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this Neg</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
-        content.accept(v);
+    public void accept(ASTVisitor visitor) {
+        content.accept(visitor);
         
-        v.visit(this);
+        visitor.visit(this);
     }
     
     /**
