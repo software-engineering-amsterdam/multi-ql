@@ -1,12 +1,15 @@
 form Box1HouseOwning {
 	 hasSoldHouse: "Did you sell a house in 2010?" boolean
 	 hasBoughtHouse: "Did you by a house in 2010?" boolean
-	 hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
-	 if ( 4 > sellingPrice) {
-		 sellingPrice: "Price the house was sold for:" money
-		 privateDebt: "Private debts for the sold house:" money
-		 if (false || "captainAmerica" == "thor") {
-		 	valueResidue: "Value residue:" money(sellingPrice - privateDebt)
+	 hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" money
+	 if ( hasSoldHouse ) {
+	 	 awesomeHiddenQuestion: "I was hidden!" boolean
+		 sellingPrice: " (sellingPrice) Price the house was sold for:" int
+		 buyingPrice: " (buyingPrice * 5) BuyPrice" int (sellingPrice * 5)
+		 privateDebt: "(buyingPrice - sellingPrice)" int (buyingPrice - sellingPrice)
 	 } 
-	}
+	 if (false) {
+	 	qN: "Do not show me!" boolean
+	 }
+	
 }

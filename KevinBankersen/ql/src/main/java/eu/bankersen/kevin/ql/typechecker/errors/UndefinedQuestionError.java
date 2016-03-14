@@ -1,6 +1,6 @@
 package eu.bankersen.kevin.ql.typechecker.errors;
 
-import eu.bankersen.kevin.ql.ast.Identifier;
+import eu.bankersen.kevin.ql.ast.expr.Identifier;
 
 public class UndefinedQuestionError extends TypeCheckError {
 

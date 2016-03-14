@@ -1,6 +1,7 @@
 package nl.uva.sc.ql.parser.ast;
 
-import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.gui.VisitorExpression;
+import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.value.Value;
 
 public abstract class ExpressionNode extends Node {
@@ -11,5 +12,7 @@ public abstract class ExpressionNode extends Node {
 	public void dump() {
 		System.out.println(getClass());
 	}
+	
+	public abstract void accept(VisitorExpression visitorExpression);
 
 }

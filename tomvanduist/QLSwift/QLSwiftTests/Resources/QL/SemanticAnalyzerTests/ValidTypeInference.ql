@@ -1,4 +1,5 @@
 form form1 {
+    _float: "f" float
     _string: "s" string
     _integer: "i" integer
     _boolean: "b" boolean
@@ -12,4 +13,9 @@ form form1 {
 
     _integer_inferred_0: "i" 1 + 1
     _integer_inferred_1: "i" _integer_inferred_0
+
+
+    _float_inferred_0: "f" 1.0 + 1
+    _float_inferred_1: "f" _float_inferred_0
+    _float_inferred_2: "f" 1 + float
 }

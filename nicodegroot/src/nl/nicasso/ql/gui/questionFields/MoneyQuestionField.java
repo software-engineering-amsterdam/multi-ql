@@ -10,21 +10,17 @@ import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.symbolTable.SymbolTable;
-import nl.nicasso.ql.symbolTable.SymbolTableEntry;
 import nl.nicasso.ql.values.MoneyValue;
 
 public class MoneyQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JTextField field;
-	private SymbolTable symboltable;
 	private Label label;
 	private Observer main;
 
 	public MoneyQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
-		this.symboltable = params.getSymboltable();
 		this.main = params.getMain();
 		
 		setupField(params.isEnabled());	
@@ -43,19 +39,24 @@ public class MoneyQuestionField extends QuestionField {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				SymbolTableEntry entry = symboltable.getEntry(identifier);
 				boolean parseSuccess = true;
 				
-				try {
-					entry.setValue(new MoneyValue(BigDecimal.valueOf(Double.parseDouble(field.getText()))));
-				} catch (Exception ex) {
-					label.setLabelText("This is not a valid decimal number.");
-					parseSuccess = false;
+				MoneyValue value = new MoneyValue(BigDecimal.valueOf(0.00));
+				
+				if (!field.getText().equals("")) {
+					try {
+						value = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(field.getText())));
+					} catch (Exception ex) {
+						label.setLabelText("This is not a valid decimal number.");
+						parseSuccess = false;
+					}
 				}
 				
 				if (parseSuccess) {
 					label.setLabelText("");
-					main.updatePanel();
+					
+					main.fieldValueChanged(identifier, value);
+					main.updateAllPanels();
 				}
 			}
 			
@@ -64,6 +65,15 @@ public class MoneyQuestionField extends QuestionField {
 	
 	public void setValue(Object value) {
 		field.setText(value.toString());
+	}
+	
+	public boolean equalValues(Object value) {
+		BigDecimal bd = (BigDecimal) value;
+		BigDecimal bd2 = (BigDecimal) BigDecimal.valueOf(Double.parseDouble(field.getText()));
+
+		//System.out.println(bd+" - "+bd2 + " EQUALS? "+ (bd.compareTo(bd2) == 0));
+
+		return bd.compareTo(bd2) == 0;
 	}
 	
 	public void setFeedbackLabel(Label label) {

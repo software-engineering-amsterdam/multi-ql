@@ -1,8 +1,0 @@
-package eu.bankersen.kevin.ql.ast;
-
-import eu.bankersen.kevin.ql.context.typeanalyzer.Context;
-
-public interface TypeCheckInterface {
-    
-    Context checkType(Context context);
-}

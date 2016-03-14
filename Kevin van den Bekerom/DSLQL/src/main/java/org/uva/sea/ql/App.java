@@ -1,36 +1,19 @@
 package org.uva.sea.ql;
 
-import java.awt.EventQueue;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.uva.sea.ql.parser.QLLexer;
 import org.uva.sea.ql.parser.QLParser;
 import org.uva.sea.ql.parser.QLParser.FormContext;
-import org.uva.sea.utils.Utils;
+import org.uva.sea.ql.typechecker.TypeChecker;
+import org.uva.sea.ql.typechecker.TypesChecker;
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.DependencyGraphBuilder;
-import org.uva.sea.ql.ast.QuestionPainter;
-import org.uva.sea.ql.ast.TypesChecker;
-import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.form.Form;
-import org.uva.sea.ql.ast.form.TypeChecker;
-import org.uva.sea.ql.ast.stat.Block;
-import org.uva.sea.ql.ast.visit.Visitor;
 import org.uva.sea.ql.errors.QLError;
-import org.uva.sea.ql.experiment.ASTVisualizer;
-import org.uva.sea.ql.graph.Graph;
-
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
@@ -118,14 +101,6 @@ public class App
 		}
 		
 	}*/
-	
-	public static void testDrawVisitor(QLParser parser, JPanel formContext) {
-		FormContext fc = parser.form(); // begin parsing at init rule
-		Form f = new Form("testForm", fc.b.result);
-		ASTVisualizer visualizer = new ASTVisualizer();
-		visualizer.drawQuestions(f, formContext);
-	}
-	
 
 	public static QLParser getParser(String in){
 		// create a CharStream that reads from standard input

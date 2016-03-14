@@ -1,22 +1,17 @@
 package gui
 
 import (
-	"fmt"
-	"ql/ast/expr"
-	"ql/ast/vari"
+	"ql/interfaces"
 )
 
 type GUIComputedQuestion struct {
-	GUIQuestion
-	Expr  expr.Expr
-	VarId vari.VarId
+	*GUIQuestion
+	Expr  interfaces.Expr
+	VarId interfaces.VarId
 }
 
-func CreateGUIComputedQuestion(label string, questionType vari.VarType, expr expr.Expr, varId vari.VarId) GUIComputedQuestion {
-	questionLabel := createLabel(label)
-	questionElement := CreateDisabledInputTextField(fmt.Sprintf("%s", questionType.GetDefaultValue()))
-	errorLabel := createLabel("")
-
-	guiQuestion := GUIQuestion{questionLabel, questionElement, errorLabel}
-	return GUIComputedQuestion{GUIQuestion: guiQuestion, Expr: expr, VarId: varId}
+// CreateGUIComputedQuestion is a constructr method returning a new GUIComputedQuestion
+func CreateGUIComputedQuestion(label string, questionType interfaces.VarType, expr interfaces.Expr, varId interfaces.VarId) *GUIComputedQuestion {
+	guiQuestion := CreateDisabledGUIQuestion(label, questionType, nil)
+	return &GUIComputedQuestion{GUIQuestion: guiQuestion, Expr: expr, VarId: varId}
 }

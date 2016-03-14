@@ -76,14 +76,14 @@ public class TypeChecker implements Visitor {
 	public void visit(AssignedQuestionNode assignedQuestionNode) {
 		QuestionNode questionNode = assignedQuestionNode.getVariableNode();
 		ExpressionNode expression = assignedQuestionNode.getExpression();		
-		
+				
 		// initialize the cyclicDependency before the expression is visited
 		cyclic.init(questionNode.getIdentifier());
 		
 		questionNode.accept(this);
 		expression.accept(this);
 		
-		// since it already visited the expression node, the cyclicDependency is already checked
+		// since it visited the expression previously, the result of if it's cyclic is known
 		if (cyclic.isCyclic()){
 			CyclicError cyclicError = new CyclicError("Line "+assignedQuestionNode.getLine()+": cyclic dependency: "+questionNode.getIdentifier());
 			handler.addError(cyclicError);
@@ -203,8 +203,9 @@ public class TypeChecker implements Visitor {
 	    	handler.addError(variableError);
 	    } else {
 	    	identifierNode.setType(questionNode.getType());
-	    	cyclic.checkIdentifier(identifier);
 	    }
+		
+		cyclic.analyseIfCycle(identifier);
 	}
 
 	@Override

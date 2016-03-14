@@ -1,15 +1,20 @@
 package uva.ql.ast.conditionals;
 
+import javax.swing.JPanel;
+
 import uva.ql.ast.Block;
 import uva.ql.ast.EnumType;
 import uva.ql.ast.conditionals.abstracts.Condition;
 import uva.ql.ast.conditionals.types.IfStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.INodeVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
+import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
+import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
+import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
+import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
+import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class CondIfStatement extends Condition {
 
@@ -19,6 +24,11 @@ public class CondIfStatement extends Condition {
 	public CondIfStatement(Expression expression, Block block, int startLine, int startColumn) {
 		super(null, expression, startLine, startColumn);
 		this.lhs = block;
+	}
+	
+	@Override
+	public EnumType evalType() {
+		return this.expression.evalType();
 	}
 	
 	@Override
@@ -57,5 +67,20 @@ public class CondIfStatement extends Condition {
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {
 		visitor.visitCondIfStatement(this);
+	}
+
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
+		visitor.visitCondIfStatement(this);
+	}
+	
+	@Override
+	public void accept(IBinaryOperatorVisitor visitor) {
+		visitor.visitCondIfStatement(this);
+	}
+	
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitCondIfStatement(this, panel);
 	}
 }

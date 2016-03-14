@@ -1,5 +1,8 @@
 package org.uva.sea.ql.type;
 
+import org.uva.sea.ql.value.MoneyValue;
+import org.uva.sea.ql.value.Value;
+
 public class MoneyType extends Type {
 	
 	@Override
@@ -13,9 +16,8 @@ public class MoneyType extends Type {
 	}
 
 	@Override
-	public Object parse(String message) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value parse(String message) {
+		return new MoneyValue(Double.parseDouble(message));
 	}
 	
 }

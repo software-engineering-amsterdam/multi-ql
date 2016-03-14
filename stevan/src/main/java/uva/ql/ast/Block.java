@@ -3,12 +3,18 @@ package uva.ql.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import uva.ql.ast.abstracts.Node;
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.INodeVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
+import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
+import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
+import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
+import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
+import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.INodeVisitor;
 
 public class Block extends Node {
 
@@ -16,11 +22,6 @@ public class Block extends Node {
 	
 	public Block(Node parent, int startLine, int startColumn) {
 		super(parent, startLine, startColumn);
-	}
-	
-	@Override
-	public EnumType getType() {
-		return EnumType.BLOCK;
 	}
 	
 	public void add(Node n) {
@@ -48,6 +49,11 @@ public class Block extends Node {
 	public void accept(IArithmeticOperatorVisitor visitor) {
 		visitor.visitBlock(this);
 	}
+	
+	@Override
+	public void accept(IBinaryOperatorVisitor visitor) {
+		visitor.visitBlock(this);
+	}
 
 	@Override
 	public void accept(IUndefinedQuestionVisitor visitor) {
@@ -63,4 +69,18 @@ public class Block extends Node {
 	public void accept(IDupllicateLabelsVisitor visitor) {
 		visitor.visitBlock(this);
 	}
+	
+	@Override
+	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
+		visitor.visitBlock(this);
+	}
+
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {}
+	
+	public JComponent accept(IGUIVisitor visitor) {
+		return visitor.visitBlock(this);
+	}
+
+	
 }

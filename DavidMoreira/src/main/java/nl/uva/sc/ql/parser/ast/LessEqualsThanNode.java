@@ -1,6 +1,7 @@
 package nl.uva.sc.ql.parser.ast;
 
-import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.gui.VisitorExpression;
+import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.Visitor;
 import nl.uva.sc.ql.parser.value.IntegerVal;
 import nl.uva.sc.ql.parser.value.Value;
@@ -19,6 +20,11 @@ public class LessEqualsThanNode extends BinaryExpressionNode {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public void accept(VisitorExpression visitorExpression){
+		visitorExpression.visit(this);
 	}
 
 	@Override

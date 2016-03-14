@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 //extend Component or .getPanel?
 
-public abstract class Panel {
+public abstract class Panel extends JPanel {
 
 	private JPanel panel;
 	

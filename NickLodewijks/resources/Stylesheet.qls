@@ -1,0 +1,30 @@
+stylesheet taxOfficeExample {
+    page "Housing" {
+        section "House" {
+            question hasMaintLoan
+                widget radio("Yes", "No") default "No"
+            question hasSoldHouse
+                widget radio("Yes", "No") default "Yes"
+            question hasBoughtHouse
+                widget radio("Yes", "No") default "No" 
+        }
+        
+        section "You sold a house" {
+            question sellingPrice
+                widget text
+            question privateDebt
+                widget text
+        }
+        
+        section "What?" {
+            question areYouSure
+            question enterAnumber
+        }
+    
+        section "Dept" {
+            question valueResidue
+            question valueResidue2
+            question valueResidue3
+        }
+    }
+}

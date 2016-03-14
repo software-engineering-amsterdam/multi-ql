@@ -1,30 +1,35 @@
 package gui
 
 import (
-	"github.com/mattn/go-gtk/gtk"
+	"github.com/andlabs/ui"
 )
 
-// convenience method
-func CreateDisabledInputTextField(defaultText string) *gtk.Entry {
-	entry := CreateInputTextField(defaultText)
-	entry.SetEditable(false)
-	return entry
+// CreateInputTextField returns a new generic input text field.
+func CreateInputTextField(defaultText string, disabled bool) *ui.Entry {
+	textField := ui.NewEntry()
+	textField.SetText(defaultText)
+
+	if disabled {
+		textField.Disable()
+	}
+
+	return textField
 }
 
-func CreateInputTextField(defaultText string) *gtk.Entry {
-	entry := gtk.NewEntry()
-	entry.SetText(defaultText)
-	return entry
+// CreateCheckboxConditional returns a new checkbox.
+func CreateCheckboxConditional() *ui.Checkbox {
+	return ui.NewCheckbox("")
 }
 
-func CreateCheckboxConditional() *gtk.CheckButton {
-	checkbutton := gtk.NewCheckButtonWithLabel("")
+// CreateButton returns a new button with passed onClick callback.
+func CreateButton(buttonText string, onClick func(*ui.Button)) *ui.Button {
+	button := ui.NewButton(buttonText)
+	button.OnClicked(onClick)
 
-	return checkbutton
-}
-
-func CreateButton(buttonText string, onClick func()) *gtk.Button {
-	button := gtk.NewButtonWithLabel(buttonText)
-	button.Connect("clicked", onClick)
 	return button
+}
+
+// CreateCheckboxConditional returns a new text label.
+func CreateLabel(text string) *ui.Label {
+	return ui.NewLabel(text)
 }

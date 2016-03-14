@@ -1,6 +1,7 @@
 package nl.uva.sc.ql.parser.ast;
 
-import nl.uva.sc.ql.gui.State;
+import nl.uva.sc.ql.gui.VisitorExpression;
+import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.Visitor;
 import nl.uva.sc.ql.parser.value.Value;
 
@@ -31,6 +32,11 @@ public class IdentifierNode extends ExpressionNode {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+	
+	@Override
+	public void accept(VisitorExpression visitorExpression){
+		visitorExpression.visit(this);
+	}
 
 	@Override
 	public Value eval(State state) {
@@ -45,7 +51,7 @@ public class IdentifierNode extends ExpressionNode {
 
         IdentifierNode that = (IdentifierNode) o;
 
-        return getName().equals(that.getName()); // TODO: it'll be valid to have same variable name?? && getType().equals(that.getType());
+        return this.name.equals(that.getName());
     }
 	
     @Override

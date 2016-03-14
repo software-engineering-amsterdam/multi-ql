@@ -1,8 +1,8 @@
 package uva.ql;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -13,7 +13,7 @@ import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
 import uva.ql.ast.Form;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.visitors.TypeChecker;
+import uva.ql.typechecker.TypeChecker;
 import uva.ql.visitors.VisitorToAST;
 
 public class QL {
@@ -44,7 +44,7 @@ public class QL {
 		VisitorToAST visitor = new VisitorToAST();
 		Form form = (Form) visitor.visit(tree);
 		
-		HashMap<String, Integer> errorMsg = TypeChecker.checkAST(form);
+		Map<String, Integer> errorMsg = TypeChecker.checkAST(form);
 		
 		if( errorMsg.containsValue(-1) ) {
 			Iterator<String> it = errorMsg.keySet().iterator();

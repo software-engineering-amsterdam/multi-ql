@@ -33,11 +33,11 @@ extension FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let symbolTable = try? TypeInferer().inferTypes(form)
+        //TODO:
+        guard let context = try? Context(form: form)
             else { return }
         
-        
-        let questionnaire = QuestionnaireBuilder().build(form, symbolTable: symbolTable)
+        let questionnaire = QuestionnaireBuilder().build(form, context: context)
         
         let view = QuestionnaireViewBuilder().build(questionnaire)
         

@@ -1,25 +1,28 @@
 package eu.bankersen.kevin.ql.ast.expr.logic;
 
-import eu.bankersen.kevin.ql.ast.BasicVisitor;
-import eu.bankersen.kevin.ql.ast.expr.BooleanExpr;
-import eu.bankersen.kevin.ql.ast.expr.EvaluateExeption;
+import eu.bankersen.kevin.ql.ast.expr.BinaryExpr;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.typechecker.symboltable.SymbolTable;
+import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
+import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.interpreter.Environment;
 
-public class Or extends BooleanExpr {
+public class Or extends BinaryExpr {
 
     public Or(Expr lhs, Expr rhs, int line) {
-	super(lhs, rhs, line);
+	super(line, lhs, rhs);
     }
 
     @Override
-    public final Boolean evalExpr(SymbolTable symbolTable) throws EvaluateExeption {
-	return (Boolean) lhs().evalExpr(symbolTable) || (Boolean) rhs().evalExpr(symbolTable);
+    public final QLValue eval(Environment context) {
+	QLValue lhs = lhs().eval(context);
+	QLValue rhs = rhs().eval(context);
+
+	return lhs.or(rhs);
     }
-    
+
     @Override
-    public <T> void accept(BasicVisitor v, T context) {
-	v.visit(this);
+    public <T, U> T accept(ExprVisitor<T, U> v, U context) {
+	return v.visit(this, context);
     }
 
 }

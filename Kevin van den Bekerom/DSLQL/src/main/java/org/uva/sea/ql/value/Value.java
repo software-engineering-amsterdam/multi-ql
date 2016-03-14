@@ -7,96 +7,94 @@ public abstract class Value {
 	
 	//add
 	public Value add(Value rhs) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value addInt(IntValue rhs) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value addMoney(MoneyValue rhs) {
-		return null;
+		return new UndefinedValue();
 	}
 	
 	//sub
 	public Value sub(Value rhs) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value subInt(IntValue rhs) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value subMoney(MoneyValue rhs) {
-		return null;
+		return new UndefinedValue();
 	}
 	
 	// mul
 	public Value mul(Value rhs) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value mulInt(IntValue rhs) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value mulMoney(MoneyValue rhs) {
-		return null;
+		return new UndefinedValue();
 	}
 	
 	// div
 	public Value div(Value rhs) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value divInt(IntValue rhs) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value divMoney(MoneyValue rhs) {
-		return null;
+		return new UndefinedValue();
 	}
 	
 	// pos
 	public Value pos() {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	// neg 
 	public Value neg() {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	/* logic operations */
 	
 	// greater than
 	public Value gt(Value rhs, boolean gEq) {
-		return null;
+		return new UndefinedValue();
 	}
 	
 	public Value gtInt(IntValue rhs, boolean gEq) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value gtMoney(MoneyValue rhs, boolean gEq) {
-		return null;
+		return new UndefinedValue();
 	}
 	
 	// less than
 	public Value lt(Value rhs, boolean lEq) {
-		return null;
+		return new UndefinedValue();
 	}
 	
 	public Value ltInt(IntValue rhs, boolean lEq) {
-		return null; //BadOperandException()
+		return new UndefinedValue(); //BadOperandException()
 	}
 	
 	public Value ltMoney(MoneyValue rhs, boolean lEq) {
-		return null;
+		return new UndefinedValue();
 	}
-	
-	
-	
+
 	public abstract Object getValue();
 	
 }
