@@ -9,18 +9,22 @@
 import Foundation
 
 class QLTypeStack {
-    var stack = Array<QLExpression.Type>()
+    var stack = Array<QLLiteral.Type>()
     
-    func push(element: QLExpression.Type) {
+    func push(element: QLLiteral.Type) {
         stack.append(element)
     }
     
-    func pop() -> QLExpression.Type? {
+    func pop() -> QLLiteral.Type? {
         return stack.popLast()
     }
     
     func getCurrectIndex() -> Int {
         return stack.count
+    }
+    
+    func getStack() -> Array<QLLiteral.Type> {
+        return stack
     }
 }
 
@@ -32,12 +36,15 @@ class QLTypeChecker: Visitor {
         self.symbolTable = symbolTable
     }
     
+    func getTypeStack() -> Array<QLLiteral.Type> {
+        return typeStack.getStack()
+    }
     
     // TEST
     
 
     
-    private var typeStack = Array<QLExpression.Type>()
+    private var typeStack = QLTypeStack()
     
     ///////
     
@@ -106,20 +113,27 @@ class QLTypeChecker: Visitor {
         print("----------------------")
         print("Greater or is")
         
-        print(symbolTable.getSymbolTable().description)
-        
-        print(self)
+//        print(symbolTable.getSymbolTable().description)
+//        
+//        print(self)
         
         // Get types.
-        if let lhs = qlgreaterorisexpression.lhs as? QLUnaryExpression {
-            print(lhs.dynamicType)
-        } else {
-            qlgreaterorisexpression.lhs.accept(self)
-        }
+//        if let lhs = qlgreaterorisexpression.lhs as? QLUnaryExpression {
+//            print(lhs.dynamicType)
+//        } else {
+//        }
         
+        print("Stack before: \(typeStack.getStack())")
         
+        qlgreaterorisexpression.lhs.getType(typeStack)
+        qlgreaterorisexpression.rhs.getType(typeStack)
+
         
+        qlgreaterorisexpression.lhs.accept(self)
         qlgreaterorisexpression.rhs.accept(self)
+        
+        print("Stack after: \(typeStack.getStack())")
+
         
         print("----------------------")
 

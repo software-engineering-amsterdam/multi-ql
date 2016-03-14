@@ -40,7 +40,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             print(symbolTable.getSymbolTable().description)
             
-            form.accept(QLTypeChecker(symbolTable: symbolTable))
+            let typeChecker = QLTypeChecker(symbolTable: symbolTable)
+            
+            form.accept(typeChecker)
+            
+            print(typeChecker.getTypeStack())
 
             
         } catch {

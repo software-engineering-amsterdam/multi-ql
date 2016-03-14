@@ -17,7 +17,6 @@ protocol Visitor {
     func visit(qlvariable: QLVariable)
     
     func visit(qlunaryexpression: QLUnaryExpression)
-    func visit(qlbinaryexpression: QLBinaryExpression)
     func visit(qlnotexpression: QLNotExpression)
     func visit(qlgreaterthanexpression: QLGreaterThanExpression)
     func visit(qlsmallerthanexpression: QLSmallerThanExpression)

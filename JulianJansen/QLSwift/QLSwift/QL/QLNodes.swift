@@ -72,6 +72,7 @@ class QLVariable: QLExpression {
     
     init(identifier: String) {
         self.identifier = identifier
+        self.type = QLUnknownLiteral()
     }
     
     init(identifier: String, type: QLLiteral) {
@@ -152,10 +153,6 @@ protocol QLBinaryExpression: QLExpression {
 
 extension QLBinaryExpression {
     
-    func accept(visitor: Visitor) {
-        visitor.visit(self)
-    }
-    
     func getType(typeStack: QLTypeStack) {
         self.lhs.getType(typeStack)
         self.rhs.getType(typeStack)
@@ -178,6 +175,10 @@ class QLGreaterThanExpression: QLBinaryExpression {
         self.lhs = lhs
         self.rhs = rhs
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLSmallerThanExpression: QLBinaryExpression {
@@ -187,6 +188,10 @@ class QLSmallerThanExpression: QLBinaryExpression {
     init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }
 
@@ -198,6 +203,10 @@ class QLGreaterOrIsExpression: QLBinaryExpression {
         self.lhs = lhs
         self.rhs = rhs
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLSmallerOrISExpression: QLBinaryExpression {
@@ -207,6 +216,10 @@ class QLSmallerOrISExpression: QLBinaryExpression {
     init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }
 
@@ -218,6 +231,10 @@ class QLIsNotExpression: QLBinaryExpression {
         self.lhs = lhs
         self.rhs = rhs
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLIsExpression: QLBinaryExpression {
@@ -227,6 +244,10 @@ class QLIsExpression: QLBinaryExpression {
     init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }
 
@@ -238,6 +259,10 @@ class QLMultiplyExpression: QLBinaryExpression {
         self.lhs = lhs
         self.rhs = rhs
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLDivideExpression: QLBinaryExpression {
@@ -247,6 +272,10 @@ class QLDivideExpression: QLBinaryExpression {
     init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }
 
@@ -258,6 +287,10 @@ class QLAddExpression: QLBinaryExpression {
         self.lhs = lhs
         self.rhs = rhs
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLSubtractExpression: QLBinaryExpression {
@@ -267,6 +300,10 @@ class QLSubtractExpression: QLBinaryExpression {
     init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }
 
@@ -278,6 +315,10 @@ class QLAndExpression: QLBinaryExpression {
         self.lhs = lhs
         self.rhs = rhs
     }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
+    }
 }
 
 class QLOrExpression: QLBinaryExpression {
@@ -287,6 +328,10 @@ class QLOrExpression: QLBinaryExpression {
     init(lhs: QLExpression, rhs: QLExpression) {
         self.lhs = lhs
         self.rhs = rhs
+    }
+    
+    func accept(visitor: Visitor) {
+        visitor.visit(self)
     }
 }
 
@@ -465,12 +510,16 @@ class QLOrExpression: QLBinaryExpression {
 
 // MARK: Literals.
 
+extension QLLiteral {
+    func getType(typeStack: QLTypeStack) {
+        typeStack.push(self.dynamicType)
+    }
+}
+
 class QLUnknownLiteral: QLLiteral {    
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
-    
-    
 }
 
 class QLBool: QLLiteral {
