@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of (literals of) the type string in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 14-mrt-2016
  */
 public class Str extends Expr {
     
@@ -31,13 +31,14 @@ public class Str extends Expr {
     }
     
     /**
-     * Has <code>v visit this Str</code>.
+     * Has <code>visitor visit this Str</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should <code>visit this Str</code>
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this Str</code>
      */
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
     
     /**
