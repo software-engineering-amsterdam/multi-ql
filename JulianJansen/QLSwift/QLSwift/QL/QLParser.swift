@@ -30,6 +30,22 @@ import SwiftParsec
 
 class QLParser {
     
+    // MARK: Expression identifier counter.
+    class ExpressionIdentifier {
+        private var idNumber: Int
+        
+        init() {
+            idNumber = 0
+        }
+        
+        func getId() -> Int {
+            idNumber++
+            return idNumber
+        }
+    }
+    
+    var expID = ExpressionIdentifier()
+    
     // MARK: Properties.
     
     private let lexer = GenericTokenParser(languageDefinition: LanguageDefinition<()>.ql)
@@ -63,20 +79,20 @@ class QLParser {
     private func booleanParser() -> GenericParser<String, (), QLExpression> {
         let qlbooleanTrue: GenericParser<String, (), QLBool> = symbol("true") *> GenericParser(result: QLBool(boolean: true))
         let qlbooleanFalse: GenericParser<String, (), QLBool> = symbol("false") *> GenericParser(result: QLBool(boolean: false))
-        return (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(literal: $0) }
+        return (qlbooleanTrue <|> qlbooleanFalse).map{ QLUnaryExpression(literal: $0, identifier: self.expID.getId()) }
     }
     
     private func stringParser() -> GenericParser<String, (), QLExpression> {
-        return stringLiteral.map{ QLString(string: $0) }.map{ QLUnaryExpression(literal: $0) }
+        return stringLiteral.map{ QLString(string: $0) }.map{ QLUnaryExpression(literal: $0, identifier: self.expID.getId()) }
     }
     
     private func integerParser() -> GenericParser<String, (), QLExpression> {
-        return integerLiteral.map{ QLInteger(integer: $0) }.map{ QLUnaryExpression(literal: $0) }
+        return integerLiteral.map{ QLInteger(integer: $0) }.map{ QLUnaryExpression(literal: $0, identifier: self.expID.getId()) }
     }
     
     /// Parses a positive whole number in the decimal system. Returns the value of the number as a QLUnaryExpression.
     private func decimalParser() -> GenericParser<String, (), QLExpression> {
-        return GenericTokenParser<()>.decimal.map{ QLDecimal(decimal: $0) }.map{ QLUnaryExpression(literal: $0) }
+        return GenericTokenParser<()>.decimal.map{ QLDecimal(decimal: $0) }.map{ QLUnaryExpression(literal: $0, identifier: self.expID.getId()) }
     }
     
 //    private func dateParser() -> GenericParser<String, (), QLExpression> {
@@ -94,7 +110,7 @@ class QLParser {
         return booleanParser() <|> stringParser() <|> integerParser() /* <|> decimalParser() */
     }
     
-    private func variableParser() -> GenericParser<String, (), QLExpression> { return identifier.map{ QLVariable(identifier: $0) } }
+    private func variableParser() -> GenericParser<String, (), QLExpression> { return identifier.map{ QLVariable(name: $0, identifier: self.expID.getId()) } }
     
     // MARK: Expression.
     private func singleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
@@ -102,19 +118,19 @@ class QLParser {
         // Based on opTable from ExpressionTests.swift of SwiftParsec.
         let singleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
             [
-                prefix("!", function: { QLNotExpression(expression: $0) }),
+                prefix("!", function: { QLNotExpression(expression: $0, identifier: self.expID.getId()) }),
             ],
             [
-                binary("<", function: { QLSmallerThanExpression(lhs: $0, rhs: $1) }, assoc: .None),
-                binary(">", function: { QLGreaterThanExpression(lhs: $0, rhs: $1) }, assoc: .None)
+                binary("<", function: { QLSmallerThanExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
+                binary(">", function: { QLGreaterThanExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None)
             ],
             [
-                binary("*", function: { QLMultiplyExpression(lhs: $0, rhs: $1) }, assoc: .Left),
-                binary("/", function: { QLDivideExpression(lhs: $0, rhs: $1) }, assoc: .Left)
+                binary("*", function: { QLMultiplyExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left),
+                binary("/", function: { QLDivideExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left)
             ],
             [
-                binary("+", function: { QLAddExpression(lhs: $0, rhs: $1) }, assoc: .Left),
-                binary("-", function: { QLSubtractExpression(lhs: $0, rhs: $1) }, assoc: .Left)
+                binary("+", function: { QLAddExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left),
+                binary("-", function: { QLSubtractExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left)
             ]
         ]
         
@@ -129,16 +145,16 @@ class QLParser {
     private func doubleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
         let doubleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
             [
-                binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1) }, assoc: .None),
-                binary("<=", function: { QLSmallerOrISExpression(lhs: $0, rhs: $1) }, assoc: .None)
+                binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
+                binary("<=", function: { QLSmallerOrISExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None)
             ],
             [
-                binary("!=", function: { QLIsNotExpression(lhs: $0, rhs: $1) }, assoc: .None),
-                binary("==", function: { QLIsExpression(lhs: $0, rhs: $1) }, assoc: .None)
+                binary("!=", function: { QLIsNotExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
+                binary("==", function: { QLIsExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None)
             ],
             [
-                binary("&&", function: { QLAndExpression(lhs: $0, rhs: $1) }, assoc: .Left),
-                binary("||", function: { QLOrExpression(lhs: $0, rhs: $1) }, assoc: .Left)
+                binary("&&", function: { QLAndExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left),
+                binary("||", function: { QLOrExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left)
             ]
         ]
         
@@ -180,7 +196,7 @@ class QLParser {
         return (stringLiteral <?> "question name").flatMap{ name in
             (self.identifier <* self.colon <?> "question variable").flatMap{ variableName -> GenericParser<String, (), QLStatement> in
                 (self.questionTypeParser() <* self.whiteSpace <?> "type identifier").map{ type in
-                    return QLQuestion(name: name, variable: QLVariable(identifier: variableName, type: type), type: type)
+                    return QLQuestion(name: name, variable: QLVariable(name: variableName, type: type, identifier: self.expID.getId()), type: type)
                 }
             }
         }

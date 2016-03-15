@@ -8,25 +8,21 @@
 
 import Foundation
 
-class QLTypeStack {
-    var stack = Array<QLLiteral.Type>()
+class QLExpressionTable {
     
-    func push(element: QLLiteral.Type) {
-        stack.append(element)
+    private var expressions = Array<QLExpression>()
+    private var types = Array<QLLiteral>()
+    
+    func storeExpression(expression: QLExpression, type: QLLiteral) {
+        expressions.append(expression)
+        types.append(type)
     }
     
-    func pop() -> QLLiteral.Type? {
-        return stack.popLast()
-    }
-    
-    func getCurrectIndex() -> Int {
-        return stack.count
-    }
-    
-    func getStack() -> Array<QLLiteral.Type> {
-        return stack
+    func getExpressionType(expression: QLExpression) -> QLLiteral {
+        expressions.indexOf({$0 == expression})
     }
 }
+
 
 class QLTypeChecker: Visitor {
     
@@ -34,24 +30,6 @@ class QLTypeChecker: Visitor {
     
     init(symbolTable: QLSymbolTable) {
         self.symbolTable = symbolTable
-    }
-    
-    func getTypeStack() -> Array<QLLiteral.Type> {
-        return typeStack.getStack()
-    }
-    
-    // TEST
-    
-
-    
-    private var typeStack = QLTypeStack()
-    
-    ///////
-    
-    let testCase = false
-    
-    enum TypeError: ErrorType {
-        case A
     }
     
     func visit(qlform: QLForm) {
@@ -113,22 +91,7 @@ class QLTypeChecker: Visitor {
         print("----------------------")
         print("Greater or is")
         
-//        print(symbolTable.getSymbolTable().description)
-//        
-//        print(self)
-        
-        // Get types.
-//        if let lhs = qlgreaterorisexpression.lhs as? QLUnaryExpression {
-//            print(lhs.dynamicType)
-//        } else {
-//        }
-        
-        print("Stack before: \(typeStack.getStack())")
-        
-        qlgreaterorisexpression.lhs.getType(typeStack)
-        qlgreaterorisexpression.rhs.getType(typeStack)
-        
-        print("Stack after: \(typeStack.getStack())")
+
 
         
         qlgreaterorisexpression.lhs.accept(self)

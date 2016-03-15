@@ -55,7 +55,7 @@ class SymbolsVisitor: Visitor {
     
     func visit(qlquestion: QLQuestion) {
         do {
-            try symbolTable.addSymbol(qlquestion.variable.identifier, qlType: qlquestion.type)
+            try symbolTable.addSymbol(qlquestion.variable.name, qlType: qlquestion.type)
         } catch {
             print(error)
         }

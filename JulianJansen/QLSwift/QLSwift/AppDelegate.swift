@@ -44,8 +44,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             form.accept(typeChecker)
             
-            print(typeChecker.getTypeStack())
-
             
         } catch {
             print("Error in do-catch of testQLParser in AppDelegate: \(error)")

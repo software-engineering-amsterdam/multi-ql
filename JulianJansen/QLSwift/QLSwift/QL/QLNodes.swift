@@ -9,12 +9,10 @@
 import Foundation
 
 protocol ASTNode: Visitable {}
-protocol QLLiteral: ASTNode {
-    func getType(typeStack: QLTypeStack)
-}
+protocol QLLiteral: ASTNode {}
 protocol QLStatement: ASTNode {}
 protocol QLExpression: QLStatement {
-    func getType(typeStack: QLTypeStack)
+    var identifier:Int { get }
 }
 protocol QLOperator {}
 
@@ -66,112 +64,74 @@ class QLIfStatement: QLStatement, Visitable {
 
 // MARK: Expressions.
 
+extension QLExpression {
+    func getID() -> Int {
+        return self.identifier
+    }
+}
+
 class QLVariable: QLExpression {
-    let identifier: String
+    let identifier: Int
+    let name: String
     let type: QLLiteral
     
-    init(identifier: String) {
+    init(name: String, identifier: Int) {
         self.identifier = identifier
+        self.name = name
         self.type = QLUnknownLiteral()
     }
     
-    init(identifier: String, type: QLLiteral) {
+    init(name: String, type: QLLiteral, identifier: Int) {
         self.identifier = identifier
+        self.name = name
         self.type = type
     }
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
-    
-    func getType(typeStack: QLTypeStack) {
-        return type.getType(typeStack)
-    }
 }
 
 class QLUnaryExpression: QLExpression {
+    let identifier: Int
     let literal: QLLiteral
     
-    init(literal: QLLiteral) {
+    init(literal: QLLiteral, identifier: Int) {
+        self.identifier = identifier
         self.literal = literal
     }
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
-    
-    func getType(typeStack: QLTypeStack) {
-        literal.getType(typeStack)
-    }
 }
 
 class QLNotExpression: QLExpression {
+    let identifier: Int
     let expression: QLExpression
     
-    init(expression: QLExpression) {
+    init(expression: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.expression = expression
     }
     
     func accept(visitor: Visitor) {
         visitor.visit(self)
     }
-    
-    func getType(typeStack: QLTypeStack) {
-        expression.getType(typeStack)
-    }
 }
-
-//protocol QLBinaryExpression: QLExpression {
-//    var lhs: QLExpression { set get }
-//    var rhs: QLExpression { set get }
-//}
-
-
-//class QLTest: QLExpression {
-//    var lhs: Int
-//    var rhs: Int
-//    
-//    init(lhs: Int, rhs: Int) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//    }
-//}
-//
-//class QLSubTest: QLTest {
-//    override init(lhs: Int, rhs: Int) {
-//        super.init(lhs: lhs, rhs: rhs)
-//    }
-//}
 
 protocol QLBinaryExpression: QLExpression {
     var lhs: QLExpression { get }
     var rhs: QLExpression { get }
 }
 
-extension QLBinaryExpression {
-    
-    func getType(typeStack: QLTypeStack) {
-        self.lhs.getType(typeStack)
-        self.rhs.getType(typeStack)
-    }
-    
-//    func getType() throws -> QLExpression.Type {
-//        if (lhs.dynamicType == rhs.dynamicType) {
-//            return lhs.dynamicType
-//        } else {
-//            throw
-//        }
-//    }
-}
-
 class QLGreaterThanExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -182,10 +142,12 @@ class QLGreaterThanExpression: QLBinaryExpression {
 }
 
 class QLSmallerThanExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -196,10 +158,12 @@ class QLSmallerThanExpression: QLBinaryExpression {
 }
 
 class QLGreaterOrIsExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -210,10 +174,12 @@ class QLGreaterOrIsExpression: QLBinaryExpression {
 }
 
 class QLSmallerOrISExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -224,10 +190,12 @@ class QLSmallerOrISExpression: QLBinaryExpression {
 }
 
 class QLIsNotExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -238,10 +206,12 @@ class QLIsNotExpression: QLBinaryExpression {
 }
 
 class QLIsExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -252,10 +222,12 @@ class QLIsExpression: QLBinaryExpression {
 }
 
 class QLMultiplyExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -266,10 +238,12 @@ class QLMultiplyExpression: QLBinaryExpression {
 }
 
 class QLDivideExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -280,10 +254,12 @@ class QLDivideExpression: QLBinaryExpression {
 }
 
 class QLAddExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -294,10 +270,12 @@ class QLAddExpression: QLBinaryExpression {
 }
 
 class QLSubtractExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -308,10 +286,12 @@ class QLSubtractExpression: QLBinaryExpression {
 }
 
 class QLAndExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -322,10 +302,12 @@ class QLAndExpression: QLBinaryExpression {
 }
 
 class QLOrExpression: QLBinaryExpression {
+    let identifier: Int
     let lhs: QLExpression
     let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -335,186 +317,7 @@ class QLOrExpression: QLBinaryExpression {
     }
 }
 
-
-
-
-//
-//class QLGreaterThanExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLSmallerThanExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLGreaterOrIsExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLSmallerOrISExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLIsNotExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLIsExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLMultiplyExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLDivideExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLAddExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLSubtractExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLAndExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-//
-//class QLOrExpression: QLBinaryExpression {
-//    var lhs: QLExpression
-//    var rhs: QLExpression
-//    
-//    init(lhs: QLExpression, rhs: QLExpression) {
-//        self.lhs = lhs
-//        self.rhs = rhs
-//    }
-//    
-//    func accept(visitor: Visitor) {
-//        visitor.visit(self)
-//    }
-//}
-
-
 // MARK: Literals.
-
-extension QLLiteral {
-    func getType(typeStack: QLTypeStack) {
-        typeStack.push(self.dynamicType)
-    }
-}
 
 class QLUnknownLiteral: QLLiteral {    
     func accept(visitor: Visitor) {
