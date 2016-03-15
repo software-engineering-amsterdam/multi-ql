@@ -127,12 +127,13 @@ class QLTypeChecker: Visitor {
         
         qlgreaterorisexpression.lhs.getType(typeStack)
         qlgreaterorisexpression.rhs.getType(typeStack)
+        
+        print("Stack after: \(typeStack.getStack())")
 
         
         qlgreaterorisexpression.lhs.accept(self)
         qlgreaterorisexpression.rhs.accept(self)
         
-        print("Stack after: \(typeStack.getStack())")
 
         
         print("----------------------")
