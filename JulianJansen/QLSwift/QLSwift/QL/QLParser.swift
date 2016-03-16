@@ -110,12 +110,11 @@ class QLParser {
         return booleanParser() <|> stringParser() <|> integerParser() /* <|> decimalParser() */
     }
     
-    private func variableParser() -> GenericParser<String, (), QLExpression> { return identifier.map{ QLVariable(name: $0, identifier: self.expID.getId()) } }
+    private func variableParser() -> GenericParser<String, (), QLExpression> {
+        return identifier.map{ QLVariable(name: $0, identifier: self.expID.getId()) }
+    }
     
-    // MARK: Expression.
-//    private func singleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
-//        
-//        // Based on opTable from ExpressionTests.swift of SwiftParsec.
+    private func operatorTables() -> GenericParser<String, (), QLExpression> {
 //        let singleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
 //            [
 //                prefix("!", function: { QLNotExpression(expression: $0, identifier: self.expID.getId()) }),
@@ -134,18 +133,8 @@ class QLParser {
 //            ]
 //        ]
 //        
-//        let openingParen = StringParser.character("(")
-//        let closingParen = StringParser.character(")")
-//        
-//        return singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-//            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "single symbol expression"
-//        }
-//    }
-//    
-//    private func doubleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
 //        let doubleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
 //            [
-//                binary(">", function: { QLGreaterThanExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
 //                binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
 //                binary("<=", function: { QLSmallerOrISExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None)
 //            ],
@@ -158,17 +147,8 @@ class QLParser {
 //                binary("||", function: { QLOrExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left)
 //            ]
 //        ]
-//        
-//        let openingParen = StringParser.character("(")
-//        let closingParen = StringParser.character(")")
-//        
-//        return doubleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-//            self.whiteSpace *> expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <* self.whiteSpace <?> "double symbol expression"
-//        }
-//    }
-//    
-    private func combineOperatorTables() -> GenericParser<String, (), QLExpression>{
-        let singleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
+        
+        let combinedOperatorTable: OperatorTable<String, (), QLExpression> = [
             [
                 prefix("!", function: { QLNotExpression(expression: $0, identifier: self.expID.getId()) }),
             ],
@@ -183,10 +163,7 @@ class QLParser {
             [
                 binary("+", function: { QLAddExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left),
                 binary("-", function: { QLSubtractExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left)
-            ]
-        ]
-        
-        let doubleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
+            ],
             [
                 binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
                 binary("<=", function: { QLSmallerOrISExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None)
@@ -204,23 +181,19 @@ class QLParser {
         let openingParen = StringParser.character("(")
         let closingParen = StringParser.character(")")
         
-        let singleOperatorParser = singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "single symbol expression"
+        let operatorParser = combinedOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
+            self.whiteSpace *> expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <* self.whiteSpace <?> "double symbol expression"
         }
+    
+        return operatorParser
         
-        return doubleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-            self.whiteSpace *> expression.between(openingParen, closingParen) <|> singleOperatorParser <|> literalParser() <|> variableParser() <* self.whiteSpace <?> "double symbol expression"
-        }
     }
     
     private func expressionParser() -> GenericParser<String, (), QLExpression> {
+        let openingParen = StringParser.character("(")
+        let closingParen = StringParser.character(")")
         
-        return StringParser.character("(") *> self.whiteSpace *> combineOperatorTables() <* self.whiteSpace <* StringParser.character(")")
-        
-        // return StringParser.character("(") *> self.whiteSpace *> singleSymbolExpressionParser().attempt <|> doubleSymbolExpressionParser() <* self.whiteSpace <* StringParser.character(")")
-        
-        
-        // singleSymbolExpressionParser().attempt <|>
+        return operatorTables().between(openingParen, closingParen)
     }
     
     private func questionTypeParser() -> GenericParser<String, (), QLLiteral> {
@@ -285,7 +258,8 @@ class QLParser {
     // MARK: Expression operators.
     // Partly based on functions from ExpressionTests.swift of SwiftParsec.
     private func binary(name: String, function: (QLExpression, QLExpression) -> QLExpression, assoc: Associativity) -> Operator<String, (), QLExpression> {
-        let opParser = StringParser.string(name) *> GenericParser(result: function)
+        let opParser =  self.whiteSpace *> StringParser.string(name) *> self.whiteSpace *> GenericParser(result: function)
+
         return .Infix(opParser, assoc)
     }
     
