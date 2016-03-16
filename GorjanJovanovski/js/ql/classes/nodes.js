@@ -7,17 +7,11 @@ class FormNode {
 		this.setQuestionListeners();
 	}
 
-	setEnvironment(environment) {
-		this.environment = environment;
+	initializeQuestions(environment) {
 		this.transverseAST((questionNode) => {
-				questionNode.setEnvironment(environment);
-			},
-			(conditionNode) => {
-				conditionNode.setEnvironment(environment);
-			}
-		);
+			questionNode.initializeValue(environment);
+		});
 	}
-
 	setQuestionListeners() {
 		this.transverseAST((questionNode) => {
 			var dependencies = questionNode.getDependencies();
@@ -27,15 +21,15 @@ class FormNode {
 		});
 	}
 
-	getAnswerList() {
+	getAnswerList(environment) {
 		var answerList = new AnswerList();
 		this.transverseAST((questionNode) => {
-			answerList.addQuestion(questionNode, this.environment);
-		}, undefined, true);
+			answerList.addQuestion(questionNode, environment);
+		}, undefined, true, environment);
 		return answerList;
 	}
 
-	transverseAST(questionFunction, conditionFunction, evaluateConditions) {
+	transverseAST(questionFunction, conditionFunction, evaluateConditions, environment) {
 		if (evaluateConditions === undefined) {
 			evaluateConditions = false;
 		}
@@ -60,12 +54,12 @@ class FormNode {
 						return result;
 					}
 				}
-				if (evaluateConditions === false || (evaluateConditions === true && currentNode.condition.compute(this.environment) === true)) {
+				if (evaluateConditions === false || (evaluateConditions === true && currentNode.condition.compute(environment) === true)) {
 					for (i = 0; i < currentNode.ifBlock.length; i++) {
 						queue.push(currentNode.ifBlock[i]);
 					}
 				}
-				if (currentNode.elseBlock !== undefined && (evaluateConditions === false || (evaluateConditions === true && currentNode.condition.compute(this.environment) === false))) {
+				if (currentNode.elseBlock !== undefined && (evaluateConditions === false || (evaluateConditions === true && currentNode.condition.compute(environment) === false))) {
 					for (i = 0; i < currentNode.elseBlock.length; i++) {
 						queue.push(currentNode.elseBlock[i]);
 					}
@@ -74,13 +68,13 @@ class FormNode {
 		}
 	}
 
-	notify(label, value) {
+	notify(label, value, environment) {
 		this.transverseAST((questionNode) => {
 			if (questionNode.label === label) {
-				questionNode.notify(value);
+				questionNode.notify(value, environment);
 			}
 		});
-		this.listener.notify(label);
+		this.listener.notify(label, environment);
 	}
 
 }
@@ -93,28 +87,27 @@ class QuestionNode {
 		this.line = line;
 	}
 
-	notify(value) {
-		this.environment.setValue(this.label, this.type.parseValue(value));
+	initializeValue(environment) {
+		environment.setValue(this.label, this.type.parseValue(this.type.defaultValue()));
+	}
+
+	notify(value, environment) {
+		environment.setValue(this.label, this.type.parseValue(value));
 	}
 
 	getDependencies() {
 		return [];
 	}
 
-	setEnvironment(environment) {
-		this.environment = environment;
-		this.environment.setValue(this.label, this.type.parseValue(this.type.defaultValue()));
-	}
-
 	getTypeString() {
 		return this.type.getTypeString();
 	}
 
-	checkExpressionType() {
+	checkExpressionType(environment) {
 		return true;
 	}
 
-	isExpressionDefined() {
+	isExpressionDefined(environment) {
 		return true;
 	}
 
@@ -137,22 +130,16 @@ class ComputedQuestionNode extends QuestionNode {
 		return this.computedExpr.getLabelsInExpression();
 	}
 
-	notify() {
-		super.notify(this.computedExpr.compute(this.environment));
+	notify(environment) {
+		super.notify(this.computedExpr.compute(environment), environment);
 	}
 
-	setEnvironment(environment) {
-		super.setEnvironment(environment);
-		this.computedExpr.setEnvironment(environment);
-		this.notify();
+	checkExpressionType(environment) {
+		return typeof this.computedExpr.compute(environment) === this.type.toString();
 	}
 
-	checkExpressionType() {
-		return typeof this.computedExpr.compute() === this.type.toString();
-	}
-
-	isExpressionDefined() {
-		return this.computedExpr.compute() !== undefined;
+	isExpressionDefined(environment) {
+		return this.computedExpr.compute(environment) !== undefined;
 	}
 
 	exprString() {
@@ -172,20 +159,16 @@ class ConditionNode {
 		return this.condition.toString();
 	}
 
-	setEnvironment(environment) {
-		this.condition.setEnvironment(environment);
-	}
-
-	isExpressionDefined() {
-		return this.condition.compute() !== undefined;
+	isExpressionDefined(environment) {
+		return this.condition.compute(environment) !== undefined;
 	}
 
 	exprString() {
 		return this.condition.toString();
 	}
 
-	checkExpressionType() {
-		return typeof this.condition.compute() === "boolean";
+	checkExpressionType(environment) {
+		return typeof this.condition.compute(environment) === "boolean";
 	}
 }
 
@@ -195,13 +178,9 @@ class NotExpression {
 		this.line = line;
 	}
 
-	setEnvironment(environment) {
-		this.environment = environment;
-	}
-
-	compute() {
-		if (this.validateArguments()) {
-			return !this.expr.compute(this.environment);
+	compute(environment) {
+		if (this.validateArguments(environment)) {
+			return !this.expr.compute(environment);
 		}
 	}
 
@@ -213,8 +192,8 @@ class NotExpression {
 		return this.expr.getLabelsInExpression();
 	}
 
-	validateArguments() {
-		if (typeof this.expr.compute(this.environment) !== "boolean") {
+	validateArguments(environment) {
+		if (typeof this.expr.compute(environment) !== "boolean") {
 			return false;
 		}
 		return true;
@@ -229,12 +208,8 @@ class OperatorExpressionNode {
 		this.line = line;
 	}
 
-	setEnvironment(environment) {
-		this.environment = environment;
-	}
-
-	compute() {
-		return this.opNode.compute(this.left, this.right, this.environment);
+	compute(environment) {
+		return this.opNode.compute(this.left, this.right, environment);
 	}
 
 	toString() {
@@ -355,10 +330,6 @@ class LabelNode {
 		return environment.getValue(this.label);
 	}
 
-	setEnvironment(environment) {
-
-	}
-
 	getLabelsInExpression() {
 		return [this.label];
 	}
@@ -375,10 +346,6 @@ class LiteralNode {
 
 	toString() {
 		return this.value;
-	}
-
-	setEnvironment(environment) {
-
 	}
 
 	getLabelsInExpression() {

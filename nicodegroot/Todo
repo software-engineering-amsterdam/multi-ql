@@ -6,6 +6,7 @@ MUST
 - Better error handling
 - Move classes and packages to create a good structure
 - Remove all the null stuff
+- Remove the "getDefaultValue" thingy from the AST types? Seems a bit weird.
 
 SHOULD
 - Fix line numbers in error messages

@@ -9,11 +9,11 @@ import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
-import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
+import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
+import nl.nicasso.ql.gui.evaluator.stateTable.StateTableEntry;
+import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.Panel;
-import nl.nicasso.ql.stateTable.StateTable;
-import nl.nicasso.ql.stateTable.StateTableEntry;
-import nl.nicasso.ql.values.Value;
 
 public class MainFrame implements Observer {
 

@@ -5,8 +5,8 @@ function initiate(inputString) {
 	visitor.visitForm = function (ctx) {
 		var ast = ctx.FormNode;
 		var environment = new Environment();
-		ast.setEnvironment(environment);
-		if (performAstChecks(ast)) {
+		ast.initializeQuestions(environment);
+		if (performAstChecks(ast, environment)) {
 			renderQuestions(ast, environment);
 			refreshGUI(ast, environment);
 			setOnClickListeners(ast);

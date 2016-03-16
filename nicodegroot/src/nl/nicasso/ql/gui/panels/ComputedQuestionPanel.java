@@ -4,13 +4,13 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import nl.nicasso.ql.Evaluator;
-import nl.nicasso.ql.ast.expressions.Expression;
-import nl.nicasso.ql.ast.statements.ComputedQuestion;
+import nl.nicasso.ql.ast.nodes.expressions.Expression;
+import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
 import nl.nicasso.ql.gui.Observer;
+import nl.nicasso.ql.gui.evaluator.Evaluator;
+import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
+import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
-import nl.nicasso.ql.stateTable.StateTable;
-import nl.nicasso.ql.values.Value;
 
 public class ComputedQuestionPanel extends Panel {
 	

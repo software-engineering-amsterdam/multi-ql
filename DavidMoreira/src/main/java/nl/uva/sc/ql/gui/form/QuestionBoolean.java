@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
+import nl.uva.sc.ql.compiler.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.compiler.parser.value.BooleanVal;
+import nl.uva.sc.ql.compiler.parser.value.Value;
 import nl.uva.sc.ql.gui.state.State;
-import nl.uva.sc.ql.parser.ast.ExpressionNode;
-import nl.uva.sc.ql.parser.value.BooleanVal;
-import nl.uva.sc.ql.parser.value.Value;
 
 public class QuestionBoolean extends Question {
 
