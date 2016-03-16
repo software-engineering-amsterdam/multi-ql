@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
         
+        
         testQLParser()
         
     }
@@ -39,8 +40,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             print(symbolTable.getSymbolTable().description)
             
-            form.accept(QLTypeChecker(symbolTable: symbolTable))
-
+            let typeChecker = QLTypeChecker(symbolTable: symbolTable)
+            
+            form.accept(typeChecker)
+            
             
         } catch {
             print("Error in do-catch of testQLParser in AppDelegate: \(error)")

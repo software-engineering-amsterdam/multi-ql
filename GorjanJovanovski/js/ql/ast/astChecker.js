@@ -1,7 +1,6 @@
 function performAstChecks(ast, environment) {
 	var textSet = new Set();
 	var identifierMap = [];
-
 	var noErrors = true;
 
 	ast.transverseAST(
@@ -19,6 +18,9 @@ function performAstChecks(ast, environment) {
 			if (!isExpressionDefined(questionNode, environment)) {
 				noErrors = false;
 			}
+			else if (!isValidExpressionArguments(questionNode, environment)) {
+				noErrors = false;
+			}
 			else if (!isExpressionExpectedType(questionNode, environment)) {
 				noErrors = false;
 			}
@@ -27,6 +29,9 @@ function performAstChecks(ast, environment) {
 		},
 		(conditionNode) => {
 			if (!isExpressionDefined(conditionNode, environment)) {
+				noErrors = false;
+			}
+			else if (!isValidExpressionArguments(conditionNode, environment)) {
 				noErrors = false;
 			}
 			else if (!isExpressionExpectedType(conditionNode, environment)) {
@@ -58,7 +63,7 @@ function checkQuestionTextDuplicate(questionNode, textSet) {
 
 function isExpressionDefined(astNode, environment) {
 	if (!astNode.isExpressionDefined(environment)) {
-		throwError(astNode.line, "Type error: Computed expression '" + astNode.exprString() + "' is undefined");
+		throwError(astNode.line, "Type error: Expression '" + astNode.expressionString() + "' is undefined");
 		return false;
 	}
 	return true;
@@ -67,8 +72,12 @@ function isExpressionDefined(astNode, environment) {
 
 function isExpressionExpectedType(astNode, environment) {
 	if (!astNode.checkExpressionType(environment)) {
-		throwError(astNode.line, "Type error: Computed expression '" + astNode.exprString() + "' must evaluate to " + type);
+		throwError(astNode.line, "Type error: Expression '" + astNode.expressionString() + "' must evaluate to " + type);
 		return false;
 	}
 	return true;
+}
+
+function isValidExpressionArguments(astNode, environment) {
+	return astNode.isValidExpressionArguments(environment);
 }

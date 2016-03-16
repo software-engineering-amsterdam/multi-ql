@@ -1,11 +1,3 @@
-/ast/
-/CyclicExample.ql
-/CyclicExampleA.ql
-/CyclicExampleB.ql
-/CyclicExampleC.ql
-/CyclicExampleD.ql
-/antlr/
-/gui/
-/issue/
-/QL/
 /ql/
+/testAllOperands.ql
+/qlTests/

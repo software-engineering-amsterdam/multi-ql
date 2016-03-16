@@ -18,34 +18,26 @@ import ql.ast.visitor.Type;
 public class InputQuestionWidget extends UIElement {
 	private JComponent inputComponent;
 
-	public InputQuestionWidget(InputQuestion inputQuestion, Object value,
-			QLdrawer qlDrawer) {
+	public InputQuestionWidget(InputQuestion inputQuestion, Object value, QLdrawer qlDrawer) {
 		super(new JLabel(inputQuestion.getVariable().getIdentifier()), new JLabel(inputQuestion.getQuestionString()));
 
 		if (inputQuestion.getVariable().getType() == Type.BOOLEAN) {
-			if (value == null) {// because the cast will fail with null
-				inputComponent = createRadioButton(null, qlDrawer, inputQuestion);
-			} else {
-				inputComponent = createRadioButton((boolean) value, qlDrawer, inputQuestion);
-			}
+			inputComponent = createBooleanInputField(value, qlDrawer, inputQuestion);
 			return;
 		}
 
 		if (inputQuestion.getVariable().getType() == Type.INT) {
-			inputComponent = createIntegerInputField(value, qlDrawer,
-					inputQuestion);
+			inputComponent = createIntegerInputField(value, qlDrawer, inputQuestion);
 			return;
 		}
 
 		if (inputQuestion.getVariable().getType() == Type.STRING) {
-			inputComponent = createStringInputField(value, qlDrawer,
-					inputQuestion);
+			inputComponent = createStringInputField(value, qlDrawer, inputQuestion);
 			return;
 		}
 	}
 
-	private JComponent createStringInputField(Object value, QLdrawer qlDrawer,
-			Question question) {
+	private JComponent createStringInputField(Object value, QLdrawer qlDrawer, Question question) {
 		JTextField textField = new JTextField(6);
 		if (value == null) {
 			textField.setText("");
@@ -86,9 +78,13 @@ public class InputQuestionWidget extends UIElement {
 		return textField;
 	}
 
-	private JComponent createRadioButton(Boolean value, QLdrawer qlDrawer, Question question) {
+	private JComponent createBooleanInputField(Object value, QLdrawer qlDrawer, Question question) {
+		if(value == null){
+			value = false;
+		}
+		
 		JRadioButton radioButton = new JRadioButton();
-		if (value != null && value) {
+		if ((boolean) value) {
 			radioButton.setSelected(true);
 		}
 		radioButton.addActionListener(new ActionListener() {
@@ -112,7 +108,6 @@ public class InputQuestionWidget extends UIElement {
 	@Override
 	public JPanel getPanel() {
 		JPanel panel = new JPanel();
-		// panel.add(this.getVariableLabel());
 		panel.add(this.getQuestionStringLabel());
 		panel.add(inputComponent);
 		panel.setVisible(true);

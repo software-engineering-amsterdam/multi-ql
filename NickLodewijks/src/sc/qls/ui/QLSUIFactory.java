@@ -19,19 +19,31 @@ import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIForm;
 import sc.ql.ui.UIQuestion;
 import sc.ql.ui.UIWidget;
+import sc.ql.ui.UIWidgetStyle;
 import sc.ql.ui.widget.RadioButtonWidget;
-import sc.qls.ast.page.QLSPage;
-import sc.qls.ast.page.QLSSection;
-import sc.qls.ast.page.QLSStyleSheet;
-import sc.qls.ast.widget.QLSRadioButton;
-import sc.qls.ast.widget.QLSWidget;
-import sc.qls.ast.widget.QLSWidgetType;
+import sc.qls.ast.page.Page;
+import sc.qls.ast.page.Property;
+import sc.qls.ast.page.Property.ColorProperty;
+import sc.qls.ast.page.Property.HeightProperty;
+import sc.qls.ast.page.Property.WidthProperty;
+import sc.qls.ast.page.PropertyVisitor;
+import sc.qls.ast.page.Rule.QuestionRule;
+import sc.qls.ast.page.Section;
+import sc.qls.ast.page.StyleSheet;
+import sc.qls.ast.widget.CheckBox;
+import sc.qls.ast.widget.DropDown;
+import sc.qls.ast.widget.RadioButton;
+import sc.qls.ast.widget.Slider;
+import sc.qls.ast.widget.Spinbox;
+import sc.qls.ast.widget.TextField;
+import sc.qls.ast.widget.Widget;
+import sc.qls.ast.widget.WidgetVisitor;
 
 public class QLSUIFactory extends UIFactory {
 
-	private QLSStyleSheet styleSheet;
+	private StyleSheet styleSheet;
 
-	public QLSUIFactory(QLSStyleSheet styleSheet) {
+	public QLSUIFactory(StyleSheet styleSheet) {
 		this.styleSheet = styleSheet;
 	}
 
@@ -42,23 +54,74 @@ public class QLSUIFactory extends UIFactory {
 
 	@Override
 	protected UIWidget createValueWidget(Question question, Environment context) {
-		QLSWidgetType widgetType;
-		QLSWidget widget;
+		QuestionRule rule;
 		UIWidget uiWidget;
 
-		widget = styleSheet.getQLSQuestion(question).getWidget();
+		Widget widget;
+		rule = styleSheet.getQLSQuestion(question);
 
-		// Use default widget
-		if (widget == null) {
+		uiWidget = null;
+		widget = rule.widget();
+
+		if (widget != null) {
+			uiWidget = widget.accept(new WidgetVisitor<UIWidget, Void>() {
+
+				@Override
+				public UIWidget visit(RadioButton rb, Void unused) {
+					return new RadioButtonWidget(context, question.name(), rb.getChoices());
+				}
+
+				@Override
+				public UIWidget visit(DropDown rb, Void context) {
+					return null;
+				}
+
+				@Override
+				public UIWidget visit(Slider rb, Void context) {
+					return null;
+				}
+
+				@Override
+				public UIWidget visit(Spinbox rb, Void context) {
+					return null;
+				}
+
+				@Override
+				public UIWidget visit(TextField rb, Void context) {
+					return null;
+				}
+
+				@Override
+				public UIWidget visit(CheckBox rb, Void context) {
+					return null;
+				}
+
+			}, null);
+		}
+
+		if (uiWidget == null) {
+			// Use default widget
 			uiWidget = super.createValueWidget(question, context);
-		} else {
-			widgetType = widget.getType();
+		}
 
-			if (widgetType instanceof QLSRadioButton) {
-				uiWidget = new RadioButtonWidget(context, question.name(), ((QLSRadioButton) widgetType).getChoices());
-			} else {
-				uiWidget = super.createValueWidget(question, context);
-			}
+		for (Property prop : rule.properties()) {
+			prop.accept(new PropertyVisitor<Void, UIWidgetStyle>() {
+
+				@Override
+				public Void visit(ColorProperty property, UIWidgetStyle context) {
+					return null;
+				}
+
+				@Override
+				public Void visit(HeightProperty property, UIWidgetStyle context) {
+					return null;
+				}
+
+				@Override
+				public Void visit(WidthProperty property, UIWidgetStyle context) {
+					return null;
+				}
+			}, null);
 		}
 
 		return uiWidget;
@@ -66,18 +129,18 @@ public class QLSUIFactory extends UIFactory {
 
 	private static class QLSUIForm implements UIForm {
 
-		private final QLSStyleSheet styleSheet;
+		private final StyleSheet styleSheet;
 		private final List<UIPage> pages = new ArrayList<>();
 
 		private JPanel panel;
 
-		public QLSUIForm(QLSStyleSheet styleSheet) {
+		public QLSUIForm(StyleSheet styleSheet) {
 			this.styleSheet = styleSheet;
 
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
-			for (QLSPage page : styleSheet.getPages()) {
+			for (Page page : styleSheet.getPages()) {
 				UIPage uiPage;
 
 				uiPage = new UIPage(page);
@@ -106,16 +169,16 @@ public class QLSUIFactory extends UIFactory {
 
 		private final List<UISection> sections = new ArrayList<>();
 
-		private final QLSPage page;
+		private final Page page;
 		private JPanel panel;
 
-		public UIPage(QLSPage page) {
+		public UIPage(Page page) {
 			this.page = page;
 
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
-			for (QLSSection section : page.getSections()) {
+			for (Section section : page.getSections()) {
 				UISection uiSection;
 
 				uiSection = new UISection(section);
@@ -154,11 +217,11 @@ public class QLSUIFactory extends UIFactory {
 	private static class UISection implements UIForm {
 
 		private final ArrayList<UIQuestion> questions;
-		private final QLSSection section;
+		private final Section section;
 
 		private JPanel panel;
 
-		public UISection(QLSSection section) {
+		public UISection(Section section) {
 			TitledBorder title;
 
 			this.section = section;
@@ -167,7 +230,7 @@ public class QLSUIFactory extends UIFactory {
 			panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
-			title = BorderFactory.createTitledBorder(section.getName());
+			title = BorderFactory.createTitledBorder(section.name());
 			title.setTitleJustification(TitledBorder.LEFT);
 			panel.setBorder(title);
 		}

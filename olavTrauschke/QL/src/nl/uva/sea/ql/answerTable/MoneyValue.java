@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * @author Olav Trauschke
  * @version 16-mrt-2016
  */
-public class MoneyValue extends Value {
+public class MoneyValue extends NumericValue {
     
     private final BigDecimal value;
     
@@ -22,4 +22,88 @@ public class MoneyValue extends Value {
     public MoneyValue(String theValue) {
         value = new BigDecimal(theValue);
     }
+    
+    /**
+     * Constructor for objects of this class based on <code>double</code> values.
+     * This constructor should be used for unsafe casting of
+     * <code>double</code>s only.
+     * 
+     * @param theValue a <code>double</code> the constructed <code>MoneyValue</code>
+     *                  should represent
+     */
+    protected MoneyValue(double theValue) {
+        value = new BigDecimal(theValue);
+    }
+    
+    /**
+     * Test whether <code>this MoneyValue</code> equals another
+     * <code>NumericValue</code> according to ternary logic. Dispatches to a
+     * more specific method of <code>other</code>.
+     * 
+     * @param other a <code>NumericValue</code> to compare to this one
+     * @return a <code>BooleanValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkown value, <code>true</code> if this is not the case and
+     *          <code>this MoneyValue</code> and <code>other</code> represent
+     *          equal values and <code>false</code> otherwise
+     */
+    @Override
+    public BooleanValue hasEqualValue(NumericValue other) {
+        return other.hasEqualValue(this); //double dispatch to a more specific case
+    }
+    
+    /**
+     * Test whether <code>this MoneyValue</code> equals a specified
+     * <code>DecimalValue</code> according to ternary logic.
+     * 
+     * @param other a <code>DecimalValue</code> to compare to
+     *              <code>this MoneyValue</code>
+     * @return a <code>BooleanValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkown value, <code>true</code> if this is not the case and
+     *          <code>this MoneyValue</code> and <code>other</code> represent
+     *          equal values and <code>false</code> otherwise
+     */
+    @Override
+    public BooleanValue hasEqualValue(DecimalValue other) {
+        return hasEqualValue(other.castMoney());
+    }
+    
+    /**
+     * Test whether <code>this MoneyValue</code> equals a specified
+     * <code>IntValue</code> according to ternary logic.
+     * 
+     * @param other an <code>IntValue</code> to compare to
+     *              <code>this MoneyValue</code>
+     * @return a <code>BooleanValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkown value, <code>true</code> if this is not the case and
+     *          <code>this MoneyValue</code> and <code>other</code> represent
+     *          equal values and <code>false</code> otherwise
+     */
+    @Override
+    public BooleanValue hasEqualValue(IntValue other) {
+        return hasEqualValue(other.castMoney());
+    }
+    
+    /**
+     * Test whether <code>this MoneyValue</code> equals another according to
+     * ternary logic.
+     * 
+     * @param other a <code>MoneyValue</code> to compare to <code>this one</code>
+     * @return a <code>BooleanValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkown value, <code>true</code> if this is not the case and
+     *          <code>this MoneyValue</code> and <code>other</code> represent
+     *          equal values and <code>false</code> otherwise
+     */
+    @Override
+    public BooleanValue hasEqualValue(MoneyValue other) {
+        if (value == null || other.value == null) {
+            return new BooleanValue(null);
+        }
+        boolean equalValues = value.compareTo(other.value) == 0;
+        return new BooleanValue(equalValues);
+    }
+    
 }

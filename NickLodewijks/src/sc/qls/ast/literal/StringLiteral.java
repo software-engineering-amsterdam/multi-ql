@@ -1,8 +1,8 @@
 package sc.qls.ast.literal;
 
-import sc.ql.ast.value.StringValue;
+import sc.ql.value.StringValue;
 
-public final class StringLiteral extends QLSLiteral {
+public final class StringLiteral extends Literal {
 
 	private final StringValue value;
 

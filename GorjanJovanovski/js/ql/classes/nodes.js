@@ -12,6 +12,7 @@ class FormNode {
 			questionNode.initializeValue(environment);
 		});
 	}
+
 	setQuestionListeners() {
 		this.transverseAST((questionNode) => {
 			var dependencies = questionNode.getDependencies();
@@ -111,8 +112,12 @@ class QuestionNode {
 		return true;
 	}
 
-	exprString() {
+	expressionString() {
 		return "";
+	}
+
+	isValidExpressionArguments(environment) {
+		return true;
 	}
 }
 
@@ -142,8 +147,12 @@ class ComputedQuestionNode extends QuestionNode {
 		return this.computedExpr.compute(environment) !== undefined;
 	}
 
-	exprString() {
+	expressionString() {
 		return this.computedExpr.toString();
+	}
+
+	isValidExpressionArguments(environment) {
+		return this.computedExpr.validateArguments(environment);
 	}
 }
 
@@ -163,12 +172,16 @@ class ConditionNode {
 		return this.condition.compute(environment) !== undefined;
 	}
 
-	exprString() {
+	expressionString() {
 		return this.condition.toString();
 	}
 
 	checkExpressionType(environment) {
 		return typeof this.condition.compute(environment) === "boolean";
+	}
+
+	isValidExpressionArguments(environment) {
+		return this.condition.validateArguments(environment);
 	}
 }
 
@@ -179,9 +192,7 @@ class NotExpression {
 	}
 
 	compute(environment) {
-		if (this.validateArguments(environment)) {
-			return !this.expr.compute(environment);
-		}
+		return !this.expr.compute(environment);
 	}
 
 	toString() {
@@ -193,10 +204,13 @@ class NotExpression {
 	}
 
 	validateArguments(environment) {
-		if (typeof this.expr.compute(environment) !== "boolean") {
-			return false;
+		if (this.expr.validateArguments(environment) && typeof this.expr.compute(environment) === "boolean") {
+			return true;
 		}
-		return true;
+		else if (typeof this.expr.compute(environment) !== "boolean") {
+			throwError(this.line, "Type error: Expression requires a boolean argument");
+		}
+		return false;
 	}
 }
 
@@ -219,13 +233,27 @@ class OperatorExpressionNode {
 	getLabelsInExpression() {
 		return this.left.getLabelsInExpression().concat(this.right.getLabelsInExpression());
 	}
+
+	validateArguments(environment) {
+		var valid = true;
+		if (!this.left.validateArguments(environment)) {
+			valid = false;
+		}
+		if (!this.opNode.validateArguments(this.left, this.right, environment)) {
+			valid = false;
+		}
+		if (!this.right.validateArguments(environment)) {
+			valid = false;
+		}
+
+		return valid;
+	}
+
 }
 
 class OperatorNode {
-
-	constructor(op, validArguments, line) {
+	constructor(op, line) {
 		this.op = op;
-		this.validArguments = validArguments;
 		this.line = line;
 	}
 
@@ -233,85 +261,90 @@ class OperatorNode {
 		return this.op;
 	}
 
-	validateArguments(left, right) {
-		if ((typeof left === typeof right) && this.validArguments.indexOf(typeof left) !== -1) {
+	validateArguments(left, right, validArguments, environment) {
+		if ((typeof left.compute(environment) === typeof right.compute(environment)) && validArguments.indexOf(typeof left.compute(environment)) !== -1) {
 			return true;
 		}
 		else {
-			//TODO don't throw here?
-			throwError(this.line, "Statement '" + left + this.op.toString() + right + "' expecting left and right to be of " + this.validArguments + ", found " + typeof left + " and " + typeof right);
+			throwError(this.line, "Statement '" + left + this.op.toString() + right + "' expecting left and right to be of " + validArguments.toString() + ", found " + typeof left.compute(environment) + " and " + typeof right.compute(environment));
 			return false;
 		}
 	}
-
 }
 
 class NumOperatorNode extends OperatorNode {
 	constructor(op, line) {
-		super(op, ["number"], line);
+		super(op, line);
+	}
+
+	validateArguments(left, right, environment) {
+		return super.validateArguments(left, right, ["number"], environment);
 	}
 
 	compute(left, right, environment) {
-		if (this.validateArguments(left.compute(environment), right.compute(environment))) {
-			switch (this.op) {
-				case "*":
-					return left.compute(environment) * right.compute(environment);
-				case "/":
-					return left.compute(environment) / right.compute(environment);
-				case "+":
-					return left.compute(environment) + right.compute(environment);
-				case "-":
-					return left.compute(environment) - right.compute(environment);
-				case "<":
-					return left.compute(environment) < right.compute(environment);
-				case "<=":
-					return left.compute(environment) <= right.compute(environment);
-				case ">":
-					return left.compute(environment) > right.compute(environment);
-				case ">=":
-					return left.compute(environment) >= right.compute(environment);
-				default:
-					return undefined;
-			}
+		switch (this.op) {
+			case "*":
+				return left.compute(environment) * right.compute(environment);
+			case "/":
+				return left.compute(environment) / right.compute(environment);
+			case "+":
+				return left.compute(environment) + right.compute(environment);
+			case "-":
+				return left.compute(environment) - right.compute(environment);
+			case "<":
+				return left.compute(environment) < right.compute(environment);
+			case "<=":
+				return left.compute(environment) <= right.compute(environment);
+			case ">":
+				return left.compute(environment) > right.compute(environment);
+			case ">=":
+				return left.compute(environment) >= right.compute(environment);
+			default:
+				return undefined;
 		}
+
 	}
 }
 
 class BoolOperatorNode extends OperatorNode {
 	constructor(op, line) {
-		super(op, ["boolean"], line);
+		super(op, line);
+	}
+
+	validateArguments(left, right, environment) {
+		return super.validateArguments(left, right, ["boolean"], environment);
 	}
 
 	compute(left, right, environment) {
-		if (this.validateArguments(left.compute(environment), right.compute(environment))) {
-			switch (this.op) {
-				case "&&":
-					return left.compute(environment) && right.compute(environment);
-				case "||":
-					return left.compute(environment) || right.compute(environment);
-				default:
-					return undefined;
-			}
+		switch (this.op) {
+			case "&&":
+				return left.compute(environment) && right.compute(environment);
+			case "||":
+				return left.compute(environment) || right.compute(environment);
+			default:
+				return undefined;
 		}
 	}
 }
 
 class NumOrBoolOperatorNode extends OperatorNode {
 	constructor(op, line) {
-		super(op, ["number", "boolean"], line);
+		super(op, line);
+	}
+
+	validateArguments(left, right, environment) {
+		return super.validateArguments(left, right, ["number", "boolean"], environment);
 	}
 
 	compute(left, right, environment) {
 
-		if (this.validateArguments(left.compute(environment), right.compute(environment))) {
-			switch (this.op) {
-				case "==":
-					return left.compute(environment) === right.compute(environment);
-				case "!=":
-					return left.compute(environment) !== right.compute(environment);
-				default:
-					return undefined;
-			}
+		switch (this.op) {
+			case "==":
+				return left.compute(environment) === right.compute(environment);
+			case "!=":
+				return left.compute(environment) !== right.compute(environment);
+			default:
+				return undefined;
 		}
 	}
 }
@@ -333,6 +366,10 @@ class LabelNode {
 	getLabelsInExpression() {
 		return [this.label];
 	}
+
+	validateArguments(environment) {
+		return true;
+	}
 }
 
 class LiteralNode {
@@ -340,7 +377,7 @@ class LiteralNode {
 		this.value = value;
 	}
 
-	compute() {
+	compute(environment) {
 		return this.value;
 	}
 
@@ -350,5 +387,9 @@ class LiteralNode {
 
 	getLabelsInExpression() {
 		return [];
+	}
+
+	validateArguments(environment) {
+		return true;
 	}
 }

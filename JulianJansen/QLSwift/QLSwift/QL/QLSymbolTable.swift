@@ -55,7 +55,7 @@ class SymbolsVisitor: Visitor {
     
     func visit(qlquestion: QLQuestion) {
         do {
-            try symbolTable.addSymbol(qlquestion.variable.identifier, qlType: qlquestion.type)
+            try symbolTable.addSymbol(qlquestion.variable.name, qlType: qlquestion.type)
         } catch {
             print(error)
         }
@@ -70,17 +70,22 @@ class SymbolsVisitor: Visitor {
     }
     
     func visit(qlvariable: QLVariable) {
+    
     }
     
     // MARK: Expressions.
     func visit(qlunaryexpression: QLUnaryExpression) {
-        qlunaryexpression.expression.accept(self)
+        qlunaryexpression.literal.accept(self)
+    }
+    
+    func visit(qlbinaryexpression: QLBinaryExpression) {
+        qlbinaryexpression.lhs.accept(self)
+        qlbinaryexpression.rhs.accept(self)
     }
     
     func visit(qlnotexpression: QLNotExpression) {
         qlnotexpression.accept(self)
     }
-    
     
     func visit(qlgreaterthanexpression: QLGreaterThanExpression) {
         qlgreaterthanexpression.lhs.accept(self)

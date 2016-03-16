@@ -30,4 +30,31 @@ public class DateValue extends Value {
         year = theYear;
     }
     
+    /**
+     * Test whether <code>this DateValue</code> equals another <code>Value</code>
+     * according to ternary logic.
+     * 
+     * @param o a <code>Value</code> to compare to this one
+     * @return a <code>BooleanValue</code> representing <code>false</code> if
+     *          <code>other</code> is not a <code>DateValue</code>, an unknown
+     *          value if this is not the case and <code>this DateValue</code>
+     *          or <code>other</code> represents an unkonwn value and the result
+     *          of comparing <code>theDay</code>, <code>theMonth</code> and
+     *          <code>theYear</code> of <code>this DateValue</code> to those of
+     *          <code>other</code> otherwise
+     */
+    @Override
+    public BooleanValue ternaryEquals(Value o) {
+        if (o instanceof DateValue) {
+            DateValue other = (DateValue) o;
+            boolean equalValues = day == other.day
+                   && month == other.month
+                   && year == other.year;
+            return new BooleanValue(equalValues);
+        }
+        else {
+            return new BooleanValue(false);
+        }
+    }
+    
 }

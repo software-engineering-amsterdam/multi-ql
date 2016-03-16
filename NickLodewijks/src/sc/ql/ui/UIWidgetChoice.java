@@ -1,6 +1,6 @@
 package sc.ql.ui;
 
-import sc.ql.ast.value.Value;
+import sc.ql.value.Value;
 
 public class UIWidgetChoice {
 

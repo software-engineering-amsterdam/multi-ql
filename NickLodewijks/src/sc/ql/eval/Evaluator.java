@@ -21,10 +21,10 @@ import sc.ql.ast.Expression.Positive;
 import sc.ql.ast.Expression.StringLiteral;
 import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.VariableExpr;
-import sc.ql.ast.value.BooleanValue;
-import sc.ql.ast.value.NumberValue;
-import sc.ql.ast.value.StringValue;
-import sc.ql.ast.value.Value;
+import sc.ql.value.BooleanValue;
+import sc.ql.value.NumberValue;
+import sc.ql.value.StringValue;
+import sc.ql.value.Value;
 
 public class Evaluator implements ExpressionVisitor<Value, Environment> {
 
