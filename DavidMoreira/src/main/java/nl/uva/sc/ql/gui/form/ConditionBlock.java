@@ -3,13 +3,13 @@ package nl.uva.sc.ql.gui.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.uva.sc.ql.compiler.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.compiler.parser.value.Value;
 import nl.uva.sc.ql.gui.state.Observer;
 import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.gui.state.Subject;
-import nl.uva.sc.ql.parser.ast.ExpressionNode;
-import nl.uva.sc.ql.parser.value.Value;
 
-public class ConditionBlock implements GuiRepresentation, Observer, Subject {
+public class ConditionBlock implements Gui, Observer, Subject {
 	
     private List<Observer> observers = new ArrayList<Observer>();
 

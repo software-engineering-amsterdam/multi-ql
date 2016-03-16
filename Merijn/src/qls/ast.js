@@ -61,13 +61,22 @@ export class SectionNode extends Node {
 }
 
 export class QuestionNode extends Node {
-	constructor(line, name, block) {
+	constructor(line, name) {
 		super(line);
 		this.name = name;
-		this.block = block;
 	}
 	accept(visitor, ...args) {
 		return visitor.visitQuestionNode(this, ...args);
+	}
+}
+
+export class ConfiguredQuestionNode extends QuestionNode {
+	constructor(line, name, widgetConfiguration) {
+		super(line, name);
+		this.widgetConfiguration = widgetConfiguration;
+	}
+	accept(visitor, ...args) {
+		return visitor.visitConfiguredQuestionNode(this, ...args);
 	}
 }
 
@@ -82,13 +91,14 @@ export class TypeDefaultNode extends Node {
 	}
 }
 
-export class StyleBlockNode extends Node {
-	constructor(line, statements) {
+export class WidgetConfigurationNode extends Node {
+	constructor(line, widgetArgs, widgetType) {
 		super(line);
-		this.statements = statements;
+		this.widgetArgs = widgetArgs;
+		this.widgetType = widgetType;
 	}
 	accept(visitor, ...args) {
-		return visitor.visitStyleBlockNode(this, ...args);
+		return visitor.visitWidgetConfiguration(this, ...args);
 	}
 }
 
@@ -98,24 +108,26 @@ export class WidgetArgNode extends Node {
 		this.key = key;
 		this.value = value;
 	}
-	accept(visitor, ...arg) {
+	accept(visitor, ...args) {
 		return visitor.visitWidgetArgNode(this, ...args);
 	}
 }
 
-export class SliderWidgetNode extends Node {
+export class WidgetTypeNode extends Node {}
+
+export class SliderWidgetNode extends WidgetTypeNode {
 	accept(visitor, ...args) {
 		return visitor.visitSliderWidgetNode(this, ...args);
 	}
 }
 
-export class TextWidgetNode extends Node {
+export class TextWidgetNode extends WidgetTypeNode {
 	accept(visitor, ...args) {
 		return visitor.visitTextWidgetNode(this, ...args);
 	}
 }
 
-export class RadioWidgetNode extends Node {
+export class RadioWidgetNode extends WidgetTypeNode {
 	constructor(line, options) {
 		super(line);
 		this.options = options;
@@ -156,23 +168,26 @@ export class NodeVisitor {
 	visitQuestionNode(questionNode, ...args) {
 		return this.visitNode(questionNode, ...args);
 	}
+	visitConfiguredQuestionNode(configuredQuestionNode, ...args) {
+		return this.visitQuestionNode(configuredQuestionNode, ...args);
+	}
 	visitTypeDefaultNode(typeDefaultNode, ...args) {
 		return this.visitNode(typeDefaultNode, ...args);
-	}
-	visitStyleBlockNode(styleBlockNode, ...args) {
-		return this.visitNode(styleBlockNode, ...args);
 	}
 	visitWidgetArgNode(widgetArgNode, ...args) {
 		return this.visitNode(widgetArgNode, ...args);
 	}
+	visitWidgetTypeNode(widgetNode, ...args) {
+		return this.visitNode(widgetNode, ...args);
+	}
 	visitSliderWidgetNode(sliderWidgetNode, ...args) {
-		return this.visitNode(sliderWidgetNode, ...args);
+		return this.visitWidgetTypeNode(sliderWidgetNode, ...args);
 	}
 	visitTextWidgetNode(textWidgetNode, ...args) {
-		return this.visitNode(textWidgetNode, ...args);
+		return this.visitWidgetTypeNode(textWidgetNode, ...args);
 	}
 	visitRadioWidgetNode(radioWidgetNode, ...args) {
-		return this.visitNode(radioWidgetNode, ...args);
+		return this.visitWidgetTypeNode(radioWidgetNode, ...args);
 	}
 }
 
@@ -195,10 +210,5 @@ export class RecursingVisitor extends NodeVisitor {
 	}
 	visitSectionNode(sectionNode, ...args) {
 		sectionNode.block.accept(this, ...args);
-	}
-	visitStyleBlockNode(styleBlockNode, ...args) {
-		for (let statement of styleBlockNode.statements) {
-			statement.accept(this, ...args);
-		}
 	}
 }

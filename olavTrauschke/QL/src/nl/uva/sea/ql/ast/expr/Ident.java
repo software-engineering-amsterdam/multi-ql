@@ -1,6 +1,8 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.Value;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
@@ -8,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 16-mrt-2016
  */
 public class Ident extends Expr {
     
@@ -31,14 +33,13 @@ public class Ident extends Expr {
     }
     
     /**
-     * Has <code>visitor visit this Ident</code>.
+     * Has <code>v visit this Ident</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *                  <code>visit this Ident</code>
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Ident</code>
      */
     @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
+    public void accept(ASTVisitor v) {
+        v.visit(this);
     }
     
     /**
@@ -57,8 +58,8 @@ public class Ident extends Expr {
     public boolean isBoolean(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question question = questionTypes.get(this);
-        return question.isBoolean();
+        Question q = questionTypes.get(this);
+        return q.isBoolean();
     }
     
     /**
@@ -77,8 +78,8 @@ public class Ident extends Expr {
     public boolean isDecimal(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question question = questionTypes.get(this);
-        return question.isDecimal();
+        Question q = questionTypes.get(this);
+        return q.isDecimal();
     }
     
     /**
@@ -97,8 +98,8 @@ public class Ident extends Expr {
     public boolean isInt(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question question = questionTypes.get(this);
-        return question.isInt();
+        Question q = questionTypes.get(this);
+        return q.isInt();
     }
     
     /**
@@ -117,8 +118,8 @@ public class Ident extends Expr {
     public boolean isMoney(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question question = questionTypes.get(this);
-        return question.isMoney();
+        Question q = questionTypes.get(this);
+        return q.isMoney();
     }
     
     /**
@@ -137,8 +138,23 @@ public class Ident extends Expr {
     public boolean isString(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question question = questionTypes.get(this);
-        return question.isString();
+        Question q = questionTypes.get(this);
+        return q.isString();
+    }
+    
+    /**
+     * Obtain the <code>Value</code> for <code>this Ident</code> from a
+     * <code>answerTable</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping <code>this Ident</code>
+     *                      to the answer to the corresponding <code>Question</code>
+     *                      if it is known and to <code>null</code> otherwise
+     * @return the answer to the <code>Question this Ident</code> refers to,
+     *          according to <code>answerTable</code>
+     */
+    @Override
+    public Value eval(AnswerTable answerTable) {
+        return answerTable.get(this);
     }
     
     /**

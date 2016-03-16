@@ -7,7 +7,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.uva.sea.ql.gui.questionItems.QuestionItem;
-import org.uva.sea.ql.gui.widgets.Widget;
 
 public class GUIPanel {
 
@@ -27,18 +26,13 @@ public class GUIPanel {
 
 	public void addToPanel(QuestionItem questionItem) {
 		System.out.println("Vazw to question item sto panel!");
-		//questionItem.addToPanel(panel);
+		questionItem.addToPanel(panel);
 		
 	}
 	
 	public JPanel getPanel() {
 		System.out.println("To panel exei components " + panel.getComponentCount());
 		return this.panel;
-	}
-
-	public void add(Widget widget) {
-		this.panel.add(widget.getLabel());
-		this.panel.add(widget.getComponent(),"wrap");
 	}
 	
 }

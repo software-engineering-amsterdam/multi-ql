@@ -6,7 +6,7 @@ import java.math.RoundingMode;
 import eu.bankersen.kevin.ql.ast.types.IntegerType;
 import eu.bankersen.kevin.ql.ast.types.QLType;
 
-public class IntegerValue extends AbstractValue {
+public class IntegerValue extends QLValue {
 
     private final BigDecimal value;
 

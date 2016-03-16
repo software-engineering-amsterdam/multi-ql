@@ -13,50 +13,50 @@ import nl.uva.sea.ql.ast.question.*;
  * actually need to handle (in addition to just passing them in an AST).
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 3-mrt-2016
  */
 public interface ASTVisitor {
     
-    default void visit(ConditionalStatement statement) {}
+    default void visit(ConditionalStatement s) {}
     
-    default void visit(Form form) {}
+    default void visit(Form f) {}
     
-    default void visit(Label label) {}
+    default void visit(Label l) {}
     
-    default void visit(StatementSet statement) {}
+    default void visit(StatementSet s) {}
     
-    default void visit(BooleanQuestion question) {}
+    default void visit(BooleanQuestion q) {}
     
-    default void visit(DateQuestion question) {}
+    default void visit(DateQuestion q) {}
     
-    default void visit(DecimalQuestion question) {}
+    default void visit(DecimalQuestion q) {}
     
-    default void visit(IntQuestion question) {}
+    default void visit(IntQuestion q) {}
     
-    default void visit(MoneyQuestion question) {}
+    default void visit(MoneyQuestion q) {}
     
-    default void visit(StringQuestion question) {}
+    default void visit(StringQuestion q) {}
     
-    default void visit(Add addition) {}
+    default void visit(Add a) {}
     
-    default void visit(BinaryNumericOperatorExpr expression) {}
+    default void visit(BinaryNumericOperatorExpr e) {}
     
-    default void visit(BooleanConjunctiveExpr expression) {}
+    default void visit(BooleanConjunctiveExpr e) {}
     
-    default void visit(Bool bool) {}
+    default void visit(Bool b) {}
     
-    default void visit(ComparisonExpr expression) {}
+    default void visit(ComparisonExpr e) {}
     
-    default void visit(Ident identifier) {}
+    default void visit(Ident i) {}
     
-    default void visit(Int integer) {}
+    default void visit(Int i) {}
     
-    default void visit(Neg negative) {}
+    default void visit(Neg n) {}
     
-    default void visit(Not negation) {}
+    default void visit(Not n) {}
     
-    default void visit(OrderedComparisonExpr expression) {}
+    default void visit(OrderedComparisonExpr e) {}
     
-    default void visit(Str string) {}
+    default void visit(Str s) {}
     
 }

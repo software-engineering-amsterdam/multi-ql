@@ -5,18 +5,20 @@ import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-public abstract class Widget<T> {
+import org.antlr.grammar.v3.ANTLRParser.finallyClause_return;
+
+public abstract class Widget<T> extends Component {
 	
-	private final JComponent component;
+	private final JComponent widget;
 	private final JLabel label;
 	
 	public Widget(JComponent value, String label) {
-		this.component = value;
+		this.widget = value;
 		this.label = new JLabel(label);
 	}
 	
-	public JComponent getComponent() {
-		return this.component;
+	public JComponent getWidget() {
+		return this.widget;
 	}
 	
 	public JLabel getLabel() {

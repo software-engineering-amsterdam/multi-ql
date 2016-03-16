@@ -1,12 +1,14 @@
 package nl.uva.sea.ql.ast.expr;
 
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.BooleanValue;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type boolean in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 16-mrt-2016
  */
 public class Bool extends BooleanExpr {
     
@@ -29,14 +31,26 @@ public class Bool extends BooleanExpr {
     }
     
     /**
-     * Has <code>visitor visit this Bool</code>.
+     * Has <code>v visit this Bool</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *                  <code>visit this Bool</code>
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Bool</code>
      */
     @Override
-    public void accept(ASTVisitor visitor) {
-        visitor.visit(this);
+    public void accept(ASTVisitor v) {
+        v.visit(this);
+    }
+    
+    /**
+     * Obtain <code>theValue</code> of <code>this Bool</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> that is not used, may also
+     *                      be <code>null</code>
+     * @return a <code>BooleanValue</code> representing <code>theValue</code> of
+     *          <code>this Bool</code>
+     */
+    @Override
+    public BooleanValue eval(AnswerTable answerTable) {
+        return new BooleanValue(value);
     }
     
     /**

@@ -14,7 +14,7 @@ public class TextField extends Widget<Object> {
 
 	public TextField(String label) {
 		//JTextField textField = new JTextField();
-		super(new JTextField(15),label);
+		super(new JTextField(),label);
 	}
 
 }

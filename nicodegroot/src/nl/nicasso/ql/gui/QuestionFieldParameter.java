@@ -1,16 +1,12 @@
 package nl.nicasso.ql.gui;
 
-import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 
 public class QuestionFieldParameter {
 
 	private Identifier identifier;
 	private Observer main;
 	private boolean enabled;
-	
-	public QuestionFieldParameter() {
-		// CAN GO?!
-	}
 	
 	public QuestionFieldParameter(Identifier identifier, Observer main, boolean enabled) {
 		this.identifier = identifier;

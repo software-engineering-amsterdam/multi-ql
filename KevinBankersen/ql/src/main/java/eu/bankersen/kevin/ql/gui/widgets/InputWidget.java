@@ -8,12 +8,7 @@ public interface InputWidget {
 
     JPanel build();
 
-    void widgetUpdated(QLValue value);
+    void notifyParentWidget(QLValue value);
 
-    void setComputed(Boolean isComputed);
-
-    void updateWidget(QLValue value);
-
-    void addWidgetListener(Widget questionWidget);
-
+    void updateWidgetValue(QLValue value);
 }

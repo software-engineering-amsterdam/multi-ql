@@ -3,7 +3,7 @@ package eu.bankersen.kevin.ql.ast.values;
 import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.ast.types.StringType;
 
-public class StringValue extends AbstractValue {
+public class StringValue extends QLValue {
 
     private final String value;
 

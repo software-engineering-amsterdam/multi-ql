@@ -7,6 +7,7 @@ import uva.ql.ast.EnumType;
 import uva.ql.ast.conditionals.abstracts.Condition;
 import uva.ql.ast.conditionals.types.IfElseStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.gui.visitors.IActionListenerVisitor;
 import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
@@ -91,6 +92,11 @@ public class CondIfElseStatement extends Condition {
 	
 	@Override
 	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitCondIfElseStatement(this, panel);
+	}
+	
+	@Override
+	public void accept(IActionListenerVisitor visitor, JPanel panel) {
 		visitor.visitCondIfElseStatement(this, panel);
 	}
 }

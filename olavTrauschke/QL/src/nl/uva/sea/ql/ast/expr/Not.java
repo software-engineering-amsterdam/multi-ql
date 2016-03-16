@@ -1,12 +1,14 @@
 package nl.uva.sea.ql.ast.expr;
 
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.BooleanValue;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of a (boolean) negation in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 16-mrt-2016
  */
 public class Not extends BooleanExpr {
     
@@ -36,17 +38,33 @@ public class Not extends BooleanExpr {
     }
     
     /**
-     * Has <code>theContent</code> of <code>this Not accept visitor</code> and then
-     * has <code>visitor visit this Not</code>.
+     * Has <code>theContent</code> of <code>this Not accept v</code> and then
+     * has <code>v visit this Not</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *                  <code>visit this Not</code> and its children
+     * @param v an <code>ASTVisitor</code> that should <code>visit this Not</code>
+     *          and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
-        content.accept(visitor);
+    public void accept(ASTVisitor v) {
+        content.accept(v);
         
-        visitor.visit(this);
+        v.visit(this);
+    }
+    
+    /**
+     * Evaluate <code>this Not</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping all <code>Ident</code>s
+     *                      that might appear in <code>theContent</code> of
+     *                      <code>this Not</code> to the <code>Value</code>s of
+     *                      the <code>Question</code>s they represent
+     * @return a <code>BooleanValue</code> representing the result of negating
+     *          the value of <code>theContent</code> of <code>this Not</code> 
+     */
+    @Override
+    public BooleanValue eval(AnswerTable answerTable) {
+        BooleanValue value = (BooleanValue) content.eval(answerTable);
+        return value.negate();
     }
     
     /**

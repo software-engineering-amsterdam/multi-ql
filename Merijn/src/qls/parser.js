@@ -44,22 +44,22 @@ export class Parser extends GeneratedVisitor {
 		return new ast.SectionNode(ctx.start.line, ctx.STRING_LITERAL().getText().slice(1, -1), ctx.pageBlock().accept(this));
 	}
 	visitQuestionPageStatement(ctx) {
-		return new ast.QuestionNode(ctx.start.line, ctx.IDENTIFIER().getText(), ctx.styleBlock().accept(this));
+		return new ast.QuestionNode(ctx.start.line, ctx.IDENTIFIER().getText());
+	}
+	visitConfiguredQuestionPageStatement(ctx) {
+		return new ast.ConfiguredQuestionNode(ctx.start.line, ctx.IDENTIFIER().getText(), ctx.widgetConfiguration().accept(this));
 	}
 	visitTypeDefaultPageStatement(ctx) {
 		return ctx.typeDefaultStatement().accept(this);
 	}
 	visitTypeDefaultStatement(ctx) {
-		return new ast.TypeDefaultNode(ctx.start.line, ctx.type().accept(this), ctx.styleBlock().accept(this));
+		return new ast.TypeDefaultNode(ctx.start.line, ctx.type().accept(this), ctx.widgetConfiguration().accept(this));
 	}
-	visitStyleBlock(ctx) {
-		return new ast.StyleBlockNode(ctx.start.line, ctx.children.slice(1, -1).map((node) => node.accept(this)));
+	visitWidgetConfiguration(ctx) {
+		return new ast.WidgetConfigurationNode(ctx.start.line, ctx.children.slice(1, -3).map((node) => node.accept(this)), ctx.widgetType().accept(this));
 	}
-	visitWidgetStyleStatement(ctx) {
-		return ctx.widgetType().accept(this);
-	}
-	visitArgStyleStatement(ctx) {
-		return new ast.WidgetArgNode(ctx.start.line, ctx.IDENTIFIER(), ctx.literal().accept(this));
+	visitWidgetArg(ctx) {
+		return new ast.WidgetArgNode(ctx.start.line, ctx.IDENTIFIER().getText(), ctx.literal().accept(this));
 	}
 	visitSliderWidgetType(ctx) {
 		return new ast.SliderWidgetNode(ctx.start.line);
@@ -79,19 +79,19 @@ export class Parser extends GeneratedVisitor {
 	visitLastValueOption(ctx) {
 		return [ctx.STRING_LITERAL().getText().slice(1, -1)];
 	}
-	visitBooleanLiteralCase (ctx) {
+	visitBooleanLiteral(ctx) {
 		return new ast.LiteralNode(ctx.start.line, new types.BooleanType(), values.BooleanValue.fromString(ctx.getText()));
 	}
-	visitStringLiteralCase (ctx) {
+	visitStringLiteral(ctx) {
 		return new ast.LiteralNode(ctx.start.line, new types.StringType(), values.StringValue.fromString(ctx.getText().slice(1,-1)));
 	}
-	visitIntegerLiteralCase (ctx) {
+	visitIntegerLiteral(ctx) {
 		return new ast.LiteralNode(ctx.start.line, new types.IntegerType(), values.IntegerValue.fromString(ctx.getText()));
 	}
-	visitFloatLiteralCase (ctx) {
+	visitFloatLiteral(ctx) {
 		return new ast.LiteralNode(ctx.start.line, new types.FloatType(), values.FloatValue.fromString(ctx.getText()));
 	}
-	visitMoneyLiteralCase (ctx) {
+	visitMoneyLiteral(ctx) {
 		return new ast.LiteralNode(ctx.start.line, new types.MoneyType(), values.MoneyValue.fromString(ctx.getText()));
 	}
 	visitType(ctx) {

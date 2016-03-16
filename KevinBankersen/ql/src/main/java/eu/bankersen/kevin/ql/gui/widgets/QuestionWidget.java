@@ -17,16 +17,16 @@ import eu.bankersen.kevin.ql.interpreter.Environment;
 public class QuestionWidget implements Widget, DataListener {
 
     private final String name;
+    private final Boolean computed;
     private final JPanel questionContainer;
     private final InputWidget questionInput;
     private final List<ViewListener> viewListeners;
-    private final List<InputWidget> widgetListeners;
 
     public QuestionWidget(String name, String question, Boolean isComputed, QLType type) {
 
 	viewListeners = new ArrayList<>();
-	widgetListeners = new ArrayList<>();
 	this.name = name;
+	this.computed = isComputed;
 
 	questionContainer = new JPanel(new BorderLayout());
 	questionContainer.setVisible(true);
@@ -38,10 +38,8 @@ public class QuestionWidget implements Widget, DataListener {
 
 	questionContainer.add(questionText, BorderLayout.WEST);
 
-	questionInput = type.defaultWidget();
-	questionInput.setComputed(isComputed);
+	questionInput = type.defaultWidget(this);
 
-	questionInput.addWidgetListener(this);
 	questionContainer.add(questionInput.build(), BorderLayout.EAST);
     }
 
@@ -51,9 +49,14 @@ public class QuestionWidget implements Widget, DataListener {
     }
 
     @Override
+    public boolean isComputed() {
+	return computed;
+    }
+
+    @Override
     public void dataUpdate(Environment context) {
 	questionContainer.setVisible(context.getVisible(name));
-	questionInput.updateWidget(context.getValue(name));
+	questionInput.updateWidgetValue(context.getValue(name));
 
 	// Update the view.
 	QuestionWidget.this.questionContainer.revalidate();
@@ -67,11 +70,6 @@ public class QuestionWidget implements Widget, DataListener {
 
     public void addUIListener(ViewListener listener) {
 	viewListeners.add(listener);
-    }
-
-    @Override
-    public void addWidgetListener(InputWidget listener) {
-	widgetListeners.add(listener);
     }
 
 }

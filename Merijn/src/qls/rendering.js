@@ -27,29 +27,40 @@ class TypeDefaults {
 }
 
 class TypeDefaultsCollector extends RecursingVisitor {
+	collect(node, typeDefaults) {
+		return node.accept(this, typeDefaults);
+	}
 	visitSectionNode() {}   // we only want type default declarations for this page or section, so do not recurse
 	visitTypeDefaultNode(typeDefaultNode, typeDefaults) {
 		typeDefaults.add(typeDefaultNode);
 	}
 }
 
-
-class TypeDefaultScopedWidgetFactory {
+class TypeDefaultsScopedWidgetRenderer {
 	constructor(wrappedWidgetFactory, typeDefaults) {
 		this.wrappedWidgetFactory = wrappedWidgetFactory;
 		this.typeDefaults = typeDefaults;
 	}
-	createWidget(type, containerElement, disabled) {
-		if (this.typeDefaults.hasTypeDefault(type)) {
-			// create widget based on type default
-		}
-		return this.wrappedWidgetFactory.createWidget(type, containerElement, disabled);
+	render(type, containerElement, disabled) {
+		//if (this.typeDefaults.hasTypeDefault(type)) {
+		//	// create widget based on type default
+		//}
+		return this.wrappedWidgetFactory.render(type, containerElement, disabled);
 	}
 }
 
-class ScopedWidgetFactoryFactory {
-	createTypeDefaultScopedWidgetFactory(widgetFactory, typeDefaults) {
-		return new TypeDefaultScopedWidgetFactory(widgetFactory, typeDefaults);
+class StyleScopedWidgetRenderer {
+	constructor() {
+
+	}
+}
+
+class ScopedWidgetRendererFactory {
+	createTypeDefaultsScopedWidgetRenderer(widgetRenderer, typeDefaults) {
+		return new TypeDefaultsScopedWidgetRenderer(widgetRenderer, typeDefaults);
+	}
+	createStyleScopedWidgetRenderer(widgetRenderer, styleBlock) {
+
 	}
 }
 
@@ -70,56 +81,60 @@ class ManualRenderingStrategy {
 			condition: condition
 		});
 	}
-	renderQuestions(name, containerElement, widgetFactory) {
+	renderQuestions(name, containerElement, widgetRenderer) {
 		if (_.has(this._questions, name)) {
 			_.forEach(this._questions[name], (question) => {
-				this.questionRenderer.renderQuestion(question.node, question.condition, containerElement, widgetFactory);
+				this.questionRenderer.renderQuestion(question.node, question.condition, containerElement, widgetRenderer);
 			});
 		}
 	}
 }
 
 export class Renderer extends RecursingVisitor {
-	constructor(elementFactory, widgetFactory) {
+	constructor(elementFactory, widgetRenderer) {
 		super();
 		this.elementFactory = elementFactory;
-		this.widgetFactory = widgetFactory;
+		this.widgetRenderer = widgetRenderer;
 		this.questionConditionComputer = new QuestionConditionComputer();
-		this.scopedWidgetFactoryFactory = new ScopedWidgetFactoryFactory();
+		this.scopedWidgetRendererFactory = new ScopedWidgetRendererFactory();
 		this.typeDefaultsCollector = new TypeDefaultsCollector();
 	}
 	render(qlNode, qlsNode, containerElement) {
 		let manualRenderingStrategy = new ManualRenderingStrategy(this.elementFactory, new QuestionRenderer(this.elementFactory));
 
 		this.questionConditionComputer.computeQuestionConditions(qlNode, manualRenderingStrategy);
-		return qlsNode.accept(this, containerElement, manualRenderingStrategy, this.widgetFactory);
+		return qlsNode.accept(this, containerElement, manualRenderingStrategy, this.widgetRenderer);
 	}
-	createScopedWidgetFactory(pageBlockNode, widgetFactory) {
-		//return this.scopedWidgetFactoryFactory.createTypeDefaultScopedWidgetFactory(widgetFactory, this.typeDefaultsCollector.collect(pageBlockNode, new TypeDefaults()));
+	createScopedWidgetFactoryFromPageBlock(pageBlockNode, widgetRenderer) {
+		return this.scopedWidgetRendererFactory.createTypeDefaultsScopedWidgetRenderer(widgetRenderer, this.typeDefaultsCollector.collect(pageBlockNode, new TypeDefaults()));
 	}
-	visitPageNode(pageNode, containerElement, manualRenderingStrategy, widgetFactory) {
+	visitPageNode(pageNode, containerElement, manualRenderingStrategy, widgetRenderer) {
 		let pageContainer = this.elementFactory.createElement('fieldset'),
 			legendElement = this.elementFactory.createElement('legend'),
-			scopedWidgetFactory = this.createScopedWidgetFactory(pageNode.block, widgetFactory);
+			scopedWidgetFactory = this.createScopedWidgetFactoryFromPageBlock(pageNode.block, widgetRenderer);
 
 		pageContainer.classList.add('page');
 		legendElement.textContent = 'page: ' + pageNode.name;
 		pageContainer.appendChild(legendElement);
-		pageNode.block.accept(this, pageContainer, manualRenderingStrategy, widgetFactory);
+		pageNode.block.accept(this, pageContainer, manualRenderingStrategy, scopedWidgetFactory);
 		containerElement.appendChild(pageContainer);
 	}
-	visitSectionNode(sectionNode, containerElement, manualRenderingStrategy, widgetFactory) {
+	visitSectionNode(sectionNode, containerElement, manualRenderingStrategy, widgetRenderer) {
 		let sectionContainer = this.elementFactory.createElement('fieldset'),
 			legendElement = this.elementFactory.createElement('legend'),
-			scopedWidgetFactory = this.createScopedWidgetFactory(sectionNode.block, widgetFactory);
+			scopedWidgetFactory = this.createScopedWidgetFactoryFromPageBlock(sectionNode.block, widgetRenderer);
 
 		sectionContainer.classList.add('section');
 		legendElement.textContent = 'section: ' + sectionNode.description;
 		sectionContainer.appendChild(legendElement);
-		sectionNode.block.accept(this, sectionContainer, manualRenderingStrategy, widgetFactory);
+		sectionNode.block.accept(this, sectionContainer, manualRenderingStrategy, scopedWidgetFactory);
 		containerElement.appendChild(sectionContainer);
 	}
-	visitQuestionNode(questionNode, containerElement, manualRenderingStrategy, widgetFactory) {
-		manualRenderingStrategy.renderQuestions(questionNode.name, containerElement, widgetFactory);
+	visitQuestionNode(questionNode, containerElement, manualRenderingStrategy, widgetRenderer) {
+		manualRenderingStrategy.renderQuestions(questionNode.name, containerElement, widgetRenderer);
+	}
+	visitConfiguredQuestionNode(configuredQuestionNode, containerElement, manualRenderingStrategy, widgetRenderer) {
+		//let scopedWidgetRenderer = this.scopedWidgetRendererFactory.createStyleScopedWidgetRenderer(configuredQuestionNode.widgetConfiguration);
+		manualRenderingStrategy.renderQuestions(configuredQuestionNode.name, containerElement, widgetRenderer);
 	}
 }

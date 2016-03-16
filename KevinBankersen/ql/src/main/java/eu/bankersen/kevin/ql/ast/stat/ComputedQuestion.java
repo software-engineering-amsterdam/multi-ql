@@ -1,6 +1,6 @@
 package eu.bankersen.kevin.ql.ast.stat;
 
-import eu.bankersen.kevin.ql.ast.BaseVisitor;
+import eu.bankersen.kevin.ql.ast.QuestionVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.ast.values.QLValue;
@@ -27,7 +27,7 @@ public class ComputedQuestion extends NormalQuestion {
     }
 
     @Override
-    public <T> T accept(BaseVisitor<T> v, T context) {
-	return v.visit(this, context);
+    public <T> void accept(QuestionVisitor<T> v, T context) {
+	v.visit(this, context);
     }
 }

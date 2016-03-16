@@ -3,7 +3,7 @@ package nl.uva.sc.ql.gui.state;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.uva.sc.ql.parser.value.Value;
+import nl.uva.sc.ql.compiler.parser.value.Value;
 
 public class ElementMap implements Subject {
 
