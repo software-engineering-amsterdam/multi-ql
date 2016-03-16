@@ -2,19 +2,19 @@ package sc.qls.ast;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-public class QLSASTSourceInfo {
+public class ASTSourceInfo {
 
 	private final int line;
 	private final int column;
 	private final String text;
 
-	public QLSASTSourceInfo() {
+	public ASTSourceInfo() {
 		text = "";
 		line = -1;
 		column = -1;
 	}
 
-	public QLSASTSourceInfo(ParserRuleContext context) {
+	public ASTSourceInfo(ParserRuleContext context) {
 		StringBuilder textBuilder;
 
 		textBuilder = new StringBuilder();

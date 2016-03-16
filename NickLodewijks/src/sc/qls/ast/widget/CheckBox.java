@@ -3,17 +3,22 @@ package sc.qls.ast.widget;
 import java.util.Collections;
 import java.util.List;
 
-public class QLSDropDown extends QLSWidgetType {
+public class CheckBox extends Widget {
 
 	private final List<String> options;
 	private final String defaultOption;
 
-	public QLSDropDown(List<String> options, String defaultOption) {
+	public CheckBox(List<String> options, String defaultOption) {
 		this.options = options;
 		this.defaultOption = defaultOption;
 	}
 
 	public List<String> getOptions() {
 		return Collections.unmodifiableList(options);
+	}
+
+	@Override
+	public <T, U> T accept(WidgetVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 }

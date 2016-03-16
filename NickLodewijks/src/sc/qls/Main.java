@@ -1,4 +1,4 @@
-package sc.qls.ast;
+package sc.qls;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,13 +7,13 @@ import sc.ql.SemanticAnalyser;
 import sc.ql.ast.Form;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIQuestionnaire;
-import sc.qls.ast.page.QLSStyleSheet;
+import sc.qls.ast.page.StyleSheet;
 import sc.qls.ui.QLSUIFactory;
 
-public class QLSMain {
+public class Main {
 
 	public static void main(String[] args) throws IOException {
-		QLSStyleSheet styleSheet;
+		StyleSheet styleSheet;
 		Form form;
 		File inputFile;
 
@@ -23,12 +23,12 @@ public class QLSMain {
 		form = Form.create(inputFile);
 		new SemanticAnalyser().validateTypes(form);
 
-		styleSheet = QLSStyleSheet.create(new File("resources/Stylesheet.qls"));
+		styleSheet = StyleSheet.create(new File("resources/Stylesheet.qls"));
 
 		createUI(form, styleSheet);
 	}
 
-	private static void createUI(Form form, QLSStyleSheet styleSheet) {
+	private static void createUI(Form form, StyleSheet styleSheet) {
 		UIQuestionnaire uiForm;
 
 		UIFactory.set(new QLSUIFactory(styleSheet));

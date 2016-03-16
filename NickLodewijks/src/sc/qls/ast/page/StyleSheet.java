@@ -13,31 +13,32 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
 import sc.ql.ast.Statement.Question;
-import sc.qls.ast.QLSASTNode;
+import sc.qls.ast.ASTNode;
+import sc.qls.ast.page.Rule.QuestionRule;
 import sc.qls.parser.QLSLexer;
 import sc.qls.parser.QLSParser;
 
-public class QLSStyleSheet extends QLSASTNode {
+public class StyleSheet extends ASTNode {
 
-	private final List<QLSPage> pages;
+	private final List<Page> pages;
 
-	public QLSStyleSheet(String id, List<QLSPage> pages) {
+	public StyleSheet(String id, List<Page> pages) {
 		this.pages = pages;
 	}
 
-	public List<QLSPage> getPages() {
+	public List<Page> getPages() {
 		return Collections.unmodifiableList(pages);
 	}
 
-	public QLSQuestion getQLSQuestion(Question question) {
-		for (QLSPage page : pages) {
-			for (QLSSection section : page.getSections()) {
-				QLSQuestion qlsQuestion;
+	public QuestionRule getQLSQuestion(Question question) {
+		for (Page page : pages) {
+			for (Section section : page.getSections()) {
+				QuestionRule rule;
 
-				qlsQuestion = section.getById(question.name());
+				rule = section.getById(question.name());
 
-				if (qlsQuestion != null) {
-					return qlsQuestion;
+				if (rule != null) {
+					return rule;
 				}
 			}
 		}
@@ -47,15 +48,15 @@ public class QLSStyleSheet extends QLSASTNode {
 		return null;
 	}
 
-	public static QLSStyleSheet create(InputStream is) throws IOException {
-		return QLSStyleSheet.create(new ANTLRInputStream(is));
+	public static StyleSheet create(InputStream is) throws IOException {
+		return StyleSheet.create(new ANTLRInputStream(is));
 	}
 
-	public static QLSStyleSheet create(File file) throws IOException {
-		return QLSStyleSheet.create(new ANTLRFileStream(file.getAbsolutePath()));
+	public static StyleSheet create(File file) throws IOException {
+		return StyleSheet.create(new ANTLRFileStream(file.getAbsolutePath()));
 	}
 
-	private static QLSStyleSheet create(CharStream cs) throws IOException {
+	private static StyleSheet create(CharStream cs) throws IOException {
 		TokenStream tokenStream;
 		QLSParser parser;
 

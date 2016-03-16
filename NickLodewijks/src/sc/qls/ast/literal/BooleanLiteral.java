@@ -2,7 +2,7 @@ package sc.qls.ast.literal;
 
 import sc.ql.value.BooleanValue;
 
-public final class BooleanLiteral extends QLSLiteral {
+public final class BooleanLiteral extends Literal {
 
 	public static final BooleanLiteral TRUE = new BooleanLiteral(true);
 	public static final BooleanLiteral FALSE = new BooleanLiteral(false);

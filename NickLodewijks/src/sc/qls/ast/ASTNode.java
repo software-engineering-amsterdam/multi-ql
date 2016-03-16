@@ -1,14 +1,14 @@
 package sc.qls.ast;
 
-public class QLSASTNode {
+public class ASTNode {
 
-	private QLSASTSourceInfo sourceInfo = new QLSASTSourceInfo();
+	private ASTSourceInfo sourceInfo = new ASTSourceInfo();
 
-	public QLSASTNode() {
+	public ASTNode() {
 
 	}
 
-	public void setSourceInfo(QLSASTSourceInfo info) {
+	public void setSourceInfo(ASTSourceInfo info) {
 		sourceInfo = info;
 	}
 

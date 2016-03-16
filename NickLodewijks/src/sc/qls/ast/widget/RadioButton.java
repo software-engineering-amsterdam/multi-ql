@@ -8,12 +8,12 @@ import sc.ql.ui.UIWidgetChoice;
 import sc.ql.ui.UIWidgetChoices;
 import sc.ql.value.BooleanValue;
 
-public class QLSRadioButton extends QLSWidgetType {
+public class RadioButton extends Widget {
 
 	private final List<String> options;
 	private final String defaultOption;
 
-	public QLSRadioButton(List<String> options, String defaultOption) {
+	public RadioButton(List<String> options, String defaultOption) {
 		this.options = options;
 		this.defaultOption = defaultOption;
 	}
@@ -37,4 +37,8 @@ public class QLSRadioButton extends QLSWidgetType {
 		return new UIWidgetChoices(choices, defaultChoice);
 	}
 
+	@Override
+	public <T, U> T accept(WidgetVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
 }

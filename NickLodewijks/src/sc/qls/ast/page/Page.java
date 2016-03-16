@@ -3,14 +3,14 @@ package sc.qls.ast.page;
 import java.util.Collections;
 import java.util.List;
 
-import sc.qls.ast.QLSASTNode;
+import sc.qls.ast.ASTNode;
 
-public class QLSPage extends QLSASTNode {
+public class Page extends ASTNode {
 
 	private final String name;
-	private final List<QLSSection> sections;
+	private final List<Section> sections;
 
-	public QLSPage(String name, List<QLSSection> sections) {
+	public Page(String name, List<Section> sections) {
 		this.name = name;
 		this.sections = sections;
 	}
@@ -19,7 +19,7 @@ public class QLSPage extends QLSASTNode {
 		return name;
 	}
 
-	public List<QLSSection> getSections() {
+	public List<Section> getSections() {
 		return Collections.unmodifiableList(sections);
 	}
 
