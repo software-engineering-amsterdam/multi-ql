@@ -3,7 +3,7 @@ form taxOfficeExample {
     cQ1: integer = (10)
     
   "The integer from above + 6"
-    cQ11: integer = (cQ1 + 6)
+    cQ11: integer = (cQ1 + true)
     
   "30.00 money times the above"
     cQ3: money = (30.00 * cQ11)

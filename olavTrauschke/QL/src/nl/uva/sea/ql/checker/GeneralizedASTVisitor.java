@@ -7,7 +7,7 @@ import nl.uva.sea.ql.ast.question.*;
  * to do the same for all types of <code>Question</code>s.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 14-mar-2016
  */
 public abstract class GeneralizedASTVisitor implements ASTVisitor {
     

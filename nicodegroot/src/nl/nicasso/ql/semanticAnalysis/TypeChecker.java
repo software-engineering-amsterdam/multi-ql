@@ -37,6 +37,9 @@ import nl.nicasso.ql.ast.nodes.types.MoneyType;
 import nl.nicasso.ql.ast.nodes.types.StringType;
 import nl.nicasso.ql.ast.nodes.types.Type;
 import nl.nicasso.ql.ast.nodes.types.UnknownType;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.MessageHandler;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.CyclomaticDependency;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.IncompatibleTypes;
 import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 import nl.nicasso.ql.utils.Pair;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
@@ -44,20 +47,17 @@ import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
 public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisitor<Void, Identifier>, ExpressionVisitor<Type> {
-		
-	private List<String> errors;
-	private List<String> warnings;
 	
 	private List<Pair<Identifier>> dependencies;
 	private Identifier currentIdentifier;
 
 	private SymbolTable symbolTable;
+	private MessageHandler messages;
 	
-	public TypeChecker(SymbolTable symbolTable) {
-		errors = new ArrayList<String>();
-		warnings = new ArrayList<String>();
-		
+	public TypeChecker(SymbolTable symbolTable, MessageHandler messages) {
 		this.symbolTable = symbolTable;
+		this.messages = messages;
+		
 		this.dependencies = new ArrayList<Pair<Identifier>>();
 	}
 	
@@ -67,10 +67,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		
 		Type type = expr.inferType(leftType, rightType);
 		
-		if (type.equals(new UnknownType())) {
-			errors.add("Error: Incompatible types detected. "+expr.toString());
-		}
-		
 		return type;
 	}
 	
@@ -78,10 +74,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type exprType = expr.getExpr().accept(this);
 		
 		Type type = expr.inferType(exprType);
-		
-		if (type.equals(new UnknownType())) {
-			errors.add("Error: Incompatible types detected. "+expr.toString());
-		}
 		
 		return type;
 	}
@@ -190,7 +182,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		currentIdentifier = null;
 		
 		if (!expr.equals(value.getType())) {
-			errors.add("Error: Incompatible types detected (ComputedQuestion): "+value.getId().getValue());
+			messages.addMessage(new IncompatibleTypes(value.getLocation()));
 		}
 		
 		return null;
@@ -204,7 +196,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type type = value.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			errors.add("Error: Incompatible types detected (IfStatement)");
+			messages.addMessage(new IncompatibleTypes(value.getLocation()));
 		}
 		
 		return null;
@@ -219,7 +211,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type type = value.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			errors.add("Error: Incompatible types detected (IfElseStatement)");
+			messages.addMessage(new IncompatibleTypes(value.getLocation()));
 		}
 		
 		return null;
@@ -231,9 +223,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 
 	@Override
-	public Type visit(Identifier value) {
-		System.out.println(value.getValue());
-		
+	public Type visit(Identifier value) {		
 		Type entryType = symbolTable.getEntryType(value);
 		
 		addQuestionDependency(value);
@@ -256,14 +246,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		return new MoneyType();
 	}
 	
-	public List<String> getErrors() {
-		return errors;
-	}
-	
-	public List<String> getWarnings() {
-		return warnings;
-	}
-	
 	private void addQuestionDependency(Identifier currentId) {
 		// UGLY!
 		if (currentIdentifier != null) {
@@ -279,7 +261,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		for (int i = 0; i < size; i++) {
 			Pair<Identifier> tmp = new Pair<Identifier>(dependencies.get(i).getRight(), dependencies.get(i).getLeft());
 			if (checkPairExistance(tmp)) {
-				errors.add("A cyclic dependency has been detected!");
+				messages.addMessage(new CyclomaticDependency(tmp.getLeft().getLocation()));
 				return true;
 			}
 		}

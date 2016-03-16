@@ -51,10 +51,6 @@ public class QLgui extends JFrame implements DataListener, ViewListener {
 
 	QuestionBuilder builder = new QuestionBuilder(form);
 
-	// for (Symbol object : symbolTable.getEntries().values()) {
-
-	// QuestionWidget question = new QuestionWidget(object);
-
 	for (QuestionWidget question : builder.getWidgets()) {
 	    // Register listeners.
 	    this.addDataListener(question);

@@ -10,5 +10,5 @@ public interface Widget {
 
     void widgetUpdated(QLValue value);
 
-    boolean isComputed();
+    void addWidgetListener(InputWidget listener);
 }

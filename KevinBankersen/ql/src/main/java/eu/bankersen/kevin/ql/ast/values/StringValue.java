@@ -36,6 +36,7 @@ public class StringValue extends QLValue {
 	return value.value().equals(this.value);
     }
 
+    // Operations
     @Override
     public QLValue subtract(QLValue value) {
 	return value.subtract(this);
@@ -48,7 +49,7 @@ public class StringValue extends QLValue {
 
     @Override
     public QLValue add(StringValue value) {
-	return new StringValue(value.value + this.value.toString());
+	return new StringValue(value.value.concat(this.value));
     }
 
     @Override

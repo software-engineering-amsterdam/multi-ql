@@ -1,9 +1,7 @@
 package nl.nicasso.ql.semanticAnalysis;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -17,6 +15,11 @@ import nl.nicasso.ql.ast.nodes.structures.Block;
 import nl.nicasso.ql.ast.nodes.structures.Form;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTableEntry;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.MessageHandler;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.DuplicateIdentifier;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.NonExistantQuestion;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.warnings.DuplicateIdentifierSameType;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.warnings.DuplicateLabels;
 import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTableEntry;
 import nl.nicasso.ql.visitors.StatementVisitor;
@@ -24,27 +27,22 @@ import nl.nicasso.ql.visitors.StructureVisitor;
 
 public class QuestionIndexer implements StructureVisitor<Identifier, Void>, StatementVisitor<Identifier, Void> {
 	
-	private List<String> warnings;
-	private List<String> errors;
-	
 	private Set<Identifier> identifiers;
 	private Set<String> questionLabels;
 	private SymbolTable symbolTable;
 	private StateTable stateTable;
 	
 	private CollectIdentifiers collectIdentifiers;
+	private MessageHandler messages;
 
-	public QuestionIndexer(SymbolTable symbolTable, StateTable stateTable, CollectIdentifiers collectIdentifiers) {		
-		identifiers = new HashSet<Identifier>();
-		
-		warnings = new ArrayList<String>();
-		errors = new ArrayList<String>();
-		
-		questionLabels = new HashSet<String>();
-		
+	public QuestionIndexer(SymbolTable symbolTable, StateTable stateTable, MessageHandler messages) {		
 		this.symbolTable = symbolTable;
 		this.stateTable = stateTable;
-		this.collectIdentifiers = collectIdentifiers;
+		this.messages = messages;
+		
+		this.identifiers = new HashSet<Identifier>();		
+		this.questionLabels = new HashSet<String>();		
+		this.collectIdentifiers = new CollectIdentifiers();
 	}
 
 	@Override
@@ -111,19 +109,19 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	public void checkUndefinedIdentifiers() {
 		for (Identifier id : identifiers) {
 			if (!checkExistanceIdentifier(id)) {
-				errors.add("The identifier " + id.getValue() + " does not exist.");
+				messages.addMessage(new NonExistantQuestion(id));
 			}
 		}
 	}
 
 	public boolean checkIfUniqueQuestion(Question q) {
-		checkExistanceLabel(q.getLabel());
+		checkExistanceLabel(q);
 		
 		if (checkExistanceIdentifier(q.getId())) {
 			if (symbolTable.getEntryType(q.getId()).equals(q.getType())) {
-				warnings.add("Warning: The identifier " + q.getId().getValue() + " already exist. "+q.getLocation());
+				messages.addMessage(new DuplicateIdentifierSameType(q.getId()));
 			} else {
-				errors.add("Error: The identifier " + q.getId().getValue() + " already exist.");
+				messages.addMessage(new DuplicateIdentifier(q.getId()));
 				return false;
 			}
 		}
@@ -146,10 +144,10 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		return false;
 	}
 	
-	private boolean checkExistanceLabel(String value) {
+	private boolean checkExistanceLabel(Question question) {
 		for (String cur : questionLabels) {
-			if (cur.equals(value)) {
-				warnings.add("Warning: The label " + value + " already exist.");
+			if (cur.equals(question.getLabel())) {
+				messages.addMessage(new DuplicateLabels(question.getId(), question.getLabel()));
 				return true;
 			}
 		}
@@ -157,14 +155,6 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		return false;
 	}
 	
-	public List<String> getErrors() {
-		return errors;
-	}
-	
-	public List<String> getWarnings() {
-		return warnings;
-	}
-
 	public Set<Identifier> getIdentifiers() {
 		return identifiers;
 	}

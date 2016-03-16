@@ -87,13 +87,13 @@ public class SemanticAnalyser {
 		form.accept(new TopDown<Void, Void>() {
 
 			@Override
-			public Void visit(ComputedQuestion node, Void context) {
+			public Void visit(ComputedQuestion node, Void unused) {
 				qt.add(node);
 				return null;
 			}
 
 			@Override
-			public Void visit(NormalQuestion node, Void context) {
+			public Void visit(NormalQuestion node, Void unused) {
 				qt.add(node);
 				return null;
 			}
@@ -242,7 +242,7 @@ public class SemanticAnalyser {
 					}
 
 					@Override
-					public Void visit(IfThen node, Void context) {
+					public Void visit(IfThen node, Void unused) {
 						return null;
 					}
 				}, null);

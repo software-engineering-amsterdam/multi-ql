@@ -5,13 +5,12 @@ import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 import eu.bankersen.kevin.ql.gui.widgets.InputWidget;
 import eu.bankersen.kevin.ql.gui.widgets.RadioButtonWidget;
-import eu.bankersen.kevin.ql.gui.widgets.Widget;
 
-public class BooleanType extends QLType {
+public class BooleanType extends AbstractType {
 
     @Override
-    public InputWidget defaultWidget(Widget parentWidget) {
-	return new RadioButtonWidget(new BooleanType(), parentWidget);
+    public InputWidget defaultWidget() {
+	return new RadioButtonWidget(new BooleanType());
     }
 
     @Override

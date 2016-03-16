@@ -9,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * (string) concatenation.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 4-mar-2016
  */
 public class Add extends Expr {
     

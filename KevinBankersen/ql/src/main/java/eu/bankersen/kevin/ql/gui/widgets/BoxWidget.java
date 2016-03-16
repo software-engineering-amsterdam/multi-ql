@@ -3,6 +3,8 @@ package eu.bankersen.kevin.ql.gui.widgets;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
@@ -13,17 +15,17 @@ import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 
 public class BoxWidget implements InputWidget {
 
-    private Widget parentWidget;
     private final JPanel panel;
     private final QLType type;
     private final JFormattedTextField inputField;
+    private final List<Widget> widgetListeners;
+    private QLValue oldValue;
 
-    public BoxWidget(QLType type, Widget parentWidget) {
+    public BoxWidget(QLType type) {
 	this.type = type;
 	this.panel = new JPanel();
-	this.parentWidget = parentWidget;
+	widgetListeners = new ArrayList<>();
 	inputField = new JFormattedTextField();
-	inputField.setEditable(!parentWidget.isComputed());
 	inputField.setPreferredSize(new Dimension(120, 20));
 	inputField.addKeyListener(new BoxListener());
 	panel.add(inputField);
@@ -35,7 +37,12 @@ public class BoxWidget implements InputWidget {
     }
 
     @Override
-    public void updateWidgetValue(QLValue value) {
+    public void setComputed(Boolean isComputed) {
+	inputField.setEditable(!isComputed);
+    }
+
+    @Override
+    public void updateWidget(QLValue value) {
 
 	if (value.equals(new UndifinedValue())) {
 	    inputField.setText("");
@@ -46,8 +53,14 @@ public class BoxWidget implements InputWidget {
     }
 
     @Override
-    public void notifyParentWidget(QLValue value) {
-	parentWidget.widgetUpdated(value);
+    public void widgetUpdated(QLValue value) {
+	widgetListeners.forEach(l -> l.widgetUpdated(value));
+    }
+
+    @Override
+    public void addWidgetListener(Widget listener) {
+	widgetListeners.add(listener);
+
     }
 
     class BoxListener implements KeyListener {
@@ -60,7 +73,7 @@ public class BoxWidget implements InputWidget {
 	public void keyReleased(KeyEvent e) {
 	    JFormattedTextField field = (JFormattedTextField) e.getSource();
 	    QLValue value = type.createQLValueFrom(field.getText());
-	    notifyParentWidget(value);
+	    widgetUpdated(value);
 	}
 
 	@Override

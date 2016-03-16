@@ -14,6 +14,7 @@ import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTableEntry;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.Panel;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.Message;
 
 public class MainFrame implements Observer {
 
@@ -23,7 +24,7 @@ public class MainFrame implements Observer {
 	private JPanel rootPanel;
 	private StateTable stateTable;
 	
-	public MainFrame(StateTable stateTable) {
+	public MainFrame(StateTable stateTable, List<Message> messages) {
 		this.stateTable = stateTable;
 		panels = new ArrayList<Panel>();
 		

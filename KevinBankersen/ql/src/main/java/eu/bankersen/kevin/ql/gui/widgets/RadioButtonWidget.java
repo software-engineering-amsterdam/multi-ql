@@ -2,6 +2,8 @@ package eu.bankersen.kevin.ql.gui.widgets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -18,26 +20,31 @@ public class RadioButtonWidget implements InputWidget {
     private final QLType type;
     private final JRadioButton trueToggle;
     private final JRadioButton falseToggle;
-    private final Widget parentWidget;
+    private final List<Widget> widgetListeners;
     private final ButtonGroup group;
 
-    public RadioButtonWidget(QLType type, Widget parentWidget) {
+    public RadioButtonWidget(QLType type) {
 	this.type = type;
 	this.panel = new JPanel();
-	this.parentWidget = parentWidget;
+	widgetListeners = new ArrayList<>();
 
 	trueToggle = new JRadioButton("True");
-	trueToggle.setEnabled(!parentWidget.isComputed());
-
 	falseToggle = new JRadioButton("False");
-	falseToggle.setEnabled(!parentWidget.isComputed());
 
 	group = new ButtonGroup();
 	group.add(trueToggle);
 	group.add(falseToggle);
 
-	trueToggle.addActionListener(new ToggleListerner());
-	falseToggle.addActionListener(new ToggleListerner());
+	ActionListener toggleListerner = new ActionListener() {
+	    public void actionPerformed(ActionEvent actionEvent) {
+		AbstractButton aButton = (AbstractButton) actionEvent.getSource();
+		QLValue value = type.createQLValueFrom(aButton.getText());
+		widgetUpdated(value);
+	    }
+	};
+
+	trueToggle.addActionListener(toggleListerner);
+	falseToggle.addActionListener(toggleListerner);
 
 	panel.add(trueToggle);
 	panel.add(falseToggle);
@@ -49,7 +56,13 @@ public class RadioButtonWidget implements InputWidget {
     }
 
     @Override
-    public void updateWidgetValue(QLValue value) {
+    public void setComputed(Boolean isComputed) {
+	trueToggle.setEnabled(!isComputed);
+	falseToggle.setEnabled(!isComputed);
+    }
+
+    @Override
+    public void updateWidget(QLValue value) {
 
 	if (!value.equals(new UndifinedValue())) {
 	    if (value.value().equals(true)) {
@@ -63,18 +76,12 @@ public class RadioButtonWidget implements InputWidget {
     }
 
     @Override
-    public void notifyParentWidget(QLValue value) {
-	parentWidget.widgetUpdated(value);
+    public void widgetUpdated(QLValue value) {
+	widgetListeners.forEach(l -> l.widgetUpdated(value));
     }
 
-    class ToggleListerner implements ActionListener {
-
-	@Override
-	public void actionPerformed(ActionEvent actionEvent) {
-	    AbstractButton aButton = (AbstractButton) actionEvent.getSource();
-	    QLValue value = type.createQLValueFrom(aButton.getText());
-	    notifyParentWidget(value);
-	}
+    @Override
+    public void addWidgetListener(Widget listener) {
+	widgetListeners.add(listener);
     }
-
 }

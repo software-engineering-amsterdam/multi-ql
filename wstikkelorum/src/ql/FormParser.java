@@ -14,23 +14,24 @@ import ql.antlr.QLParser.FileContext;
 import ql.ast.form.Form;
 
 public class FormParser {
+
+	public FormParser() {
+
+	}
+
 	// TODO:expection handling
-	public static Form parseForm(String path, boolean viewTree) throws IOException {
-		try{
-			ANTLRFileStream input = new ANTLRFileStream(new File(path).getPath());
-			CommonTokenStream tokens = new CommonTokenStream(new QLLexer(input));
-			QLParser parser = new QLParser(tokens);
-			FileContext fileContext = parser.file();
+	public Form parseForm(String path, boolean viewTree) throws IOException {
+		ANTLRFileStream input = new ANTLRFileStream(new File(path).getPath());
+		CommonTokenStream tokens = new CommonTokenStream(new QLLexer(input));
+		QLParser parser = new QLParser(tokens);
+		FileContext fileContext = parser.file();
 
-			if (viewTree) {
-				TreeViewer viewer = new TreeViewer(Arrays.asList(parser
-						.getRuleNames()), fileContext);
-				viewer.open();
-			}
-
-			return fileContext.form().result;
-		}catch(IOException ioe){
-			throw(ioe);
+		if (viewTree) {
+			TreeViewer viewer = new TreeViewer(Arrays.asList(parser
+					.getRuleNames()), fileContext);
+			viewer.open();
 		}
+
+		return fileContext.form().result;
 	}
 }

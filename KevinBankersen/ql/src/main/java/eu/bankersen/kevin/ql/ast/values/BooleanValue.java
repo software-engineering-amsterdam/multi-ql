@@ -36,6 +36,7 @@ public class BooleanValue extends QLValue {
 	return value.toString();
     }
 
+    // Operations
     @Override
     public QLValue subtract(QLValue value) {
 	return value.subtract(this);

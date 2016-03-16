@@ -10,9 +10,9 @@ public class ComputedQuestionWidget extends UIElement {
 
 	public ComputedQuestionWidget(ComputedQuestion computedQuestion, String value) {
 		super(new JLabel(computedQuestion.getVariable().getIdentifier()), new JLabel(computedQuestion.getQuestionString()));
-		
+
 		if (value == null) {
-			valueLabel = new JLabel("-");
+			valueLabel = new JLabel("No value");
 		} else {
 			valueLabel = new JLabel(value);
 		}
@@ -21,6 +21,7 @@ public class ComputedQuestionWidget extends UIElement {
 	@Override
 	public JPanel getPanel() {
 		JPanel panel = new JPanel();
+		// panel.add(this.getVariableLabel());
 		panel.add(this.getQuestionStringLabel());
 		panel.add(valueLabel);
 		panel.setVisible(true);

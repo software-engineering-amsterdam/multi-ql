@@ -9,7 +9,7 @@ import nl.uva.sea.ql.ast.question.*;
  * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 7-mrt-2016
+ * @version 7-mar-2016
  */
 public class TypeChecker implements ASTVisitor {
     

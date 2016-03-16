@@ -2,23 +2,26 @@ form test {
 
 
 "Test question 1"
-q1: boolean = q5
+q1: integer
+
+"Test question 1"
+q6: integer
 
 "Test question 2"
 q2: boolean
 
 if(q2) {
 
-
+"Test question 2"
+q3: integer = (q4 + q5)
 
 "Test question 2"
-q3: boolean = q4
+q4: integer
+
+} else {
 
 "Test question 2"
-q4: boolean
-
-"Test question 2"
-q5: boolean
+q5: integer
 
 }
 

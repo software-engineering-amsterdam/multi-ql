@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.question.*;
  * Visitor to detect identical labels that were used for different questions.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 9-mar-2016
  */
 public class DuplicateLabelDetector extends GeneralizedASTVisitor {
     

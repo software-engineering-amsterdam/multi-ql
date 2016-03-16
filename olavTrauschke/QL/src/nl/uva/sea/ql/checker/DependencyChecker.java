@@ -14,7 +14,7 @@ import org.jgrapht.graph.DefaultEdge;
  * Visitor to check the dependencies between <code>Question</code>s in an ast.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 10-mar-2016
  */
 public class DependencyChecker extends GeneralizedASTVisitor {
     

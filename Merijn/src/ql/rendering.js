@@ -3,7 +3,7 @@ import { NodeVisitor, RecursingVisitor, AndNode, NotNode, LiteralNode} from 'src
 import { BooleanValue, UndefinedValue } from 'src/ql/values';
 import { BooleanType } from 'src/ql/types';
 import { Observable } from 'src/ql/observable';
-import { WidgetRenderer } from 'src/ql/widgets';
+import { WidgetFactory } from 'src/ql/widgets';
 import { ExprEvaluator } from 'src/ql/expr_evaluation';
 
 class Variable extends Observable {
@@ -34,30 +34,29 @@ class VariableMap {
 	}
 }
 
-export class QuestionConditionComputer extends RecursingVisitor {
-	computeQuestionConditions(node, questionHandlingStrategy) {
-		node.accept(this, new LiteralNode(null, new BooleanType(), new BooleanValue(true)), questionHandlingStrategy);
+export class QuestionCollector extends RecursingVisitor {
+	collect(node, questionCollection) {
+		node.accept(this, new LiteralNode(null, new BooleanType(), new BooleanValue(true)), questionCollection);
 	}
-	visitIfNode(ifNode, condition, questionHandlingStrategy) {
-		ifNode.thenBlock.accept(this, new AndNode(null, condition, ifNode.condition), questionHandlingStrategy);
+	visitIfNode(ifNode, condition, questionCollection) {
+		ifNode.thenBlock.accept(this, new AndNode(null, condition, ifNode.condition), questionCollection);
 	}
-	visitIfElseNode(ifElseNode, condition, questionHandlingStrategy) {
-		this.visitIfNode(ifElseNode, condition, questionHandlingStrategy);
-		ifElseNode.elseBlock.accept(this, new AndNode(null, condition, new NotNode(null, ifElseNode.condition)), questionHandlingStrategy);
+	visitIfElseNode(ifElseNode, condition, questionCollection) {
+		this.visitIfNode(ifElseNode, condition, questionCollection);
+		ifElseNode.elseBlock.accept(this, new AndNode(null, condition, new NotNode(null, ifElseNode.condition)), questionCollection);
 	}
-	visitQuestionNode(questionNode, condition, questionHandlingStrategy) {
-		questionHandlingStrategy.handleQuestion(questionNode, condition);
+	visitQuestionNode(questionNode, condition, questionCollection) {
+		questionCollection.addQuestion(questionNode, condition);
 	}
 }
 
-class QuestionStatusManager {
+export class WidgetStatusBinder {
 	constructor(containerElement, wrappedWidget, variable, enabled) {
 		this.containerElement = containerElement;
 		this._wrappedWidget = wrappedWidget;
 		this._variable = variable;
 		this._enabled = enabled;
 
-		this.setElementEnabled(containerElement, enabled);
 		this._wrappedWidget.listen(() => {
 			this.updateVariableIfEnabled();
 		});
@@ -65,13 +64,6 @@ class QuestionStatusManager {
 			this.updateWidgetIfEnabled();
 		});
 		this.updateVariableIfEnabled();
-	}
-	setElementEnabled(element, enabled) {
-		if (enabled === true) {
-			element.classList.remove('disabled');
-		} else {
-			element.classList.add('disabled');
-		}
 	}
 	updateVariableIfEnabled() {
 		if (this._enabled === true) {
@@ -86,7 +78,7 @@ class QuestionStatusManager {
 	setEnabled(enabled) {
 		if (enabled !== this._enabled) {
 			this._enabled = enabled;
-			this.setElementEnabled(this.containerElement, enabled);
+			WidgetStatusBinder.setElementEnabled(this.containerElement, enabled);
 			this.updateVariableIfEnabled();
 		}
 	}
@@ -94,6 +86,28 @@ class QuestionStatusManager {
 		if (this._enabled === true) {
 			this._variable.setValue(value);
 		}
+	}
+	static setElementEnabled(element, enabled) {
+		if (enabled === true) {
+			element.classList.remove('disabled');
+		} else {
+			element.classList.add('disabled');
+		}
+	}
+	static render(elementFactory, description, type, variable, enabled, containerElement, widgetFactory) {
+		let questionContainer = elementFactory.createElement('div'),
+			labelElement = elementFactory.createElement('label'),
+			wrappedWidget,
+			widgetWrapper;
+
+		labelElement.textContent = description;
+		questionContainer.appendChild(labelElement);
+		questionContainer.classList.add('question');
+		WidgetStatusBinder.setElementEnabled(questionContainer, enabled);
+		wrappedWidget = widgetFactory.render(type, questionContainer);
+		widgetWrapper = new WidgetStatusBinder(questionContainer, wrappedWidget, variable, enabled);
+		containerElement.appendChild(questionContainer);
+		return widgetWrapper;
 	}
 }
 
@@ -126,32 +140,22 @@ export class QuestionRenderer extends NodeVisitor {
 		this.exprBinder = new ExprBinder();
 		this.variableMap = new VariableMap();
 	}
-	renderQuestion(questionNode, condition, containerElement, widgetRenderer) {
-		questionNode.accept(this, condition, containerElement, widgetRenderer);
+	renderQuestion(questionNode, condition, containerElement, widgetFactory) {
+		questionNode.accept(this, condition, containerElement, widgetFactory);
 	}
 	isTrue(condition) {
 		return this.exprEvaluator.evaluate(condition, this.variableMap).equals(new BooleanValue(true));
 	}
-	visitQuestionNode(questionNode, condition, containerElement, widgetRenderer) {
-		let questionContainer = this.elementFactory.createElement('div'),
-			labelElement = this.elementFactory.createElement('label'),
-			wrappedWidget,
-			questionBinder;
-
-		labelElement.textContent = questionNode.description;
-		questionContainer.appendChild(labelElement);
-		questionContainer.classList.add('question');
-		wrappedWidget = widgetRenderer.render(questionNode.type, questionContainer);
-		questionBinder = new QuestionStatusManager(questionContainer, wrappedWidget, this.variableMap.get(questionNode.name), this.isTrue(condition));
-		containerElement.appendChild(questionContainer);
+	visitQuestionNode(questionNode, condition, containerElement, widgetFactory) {
+		let widgetBinder = WidgetStatusBinder.render(this.elementFactory, questionNode.description, questionNode.type, this.variableMap.get(questionNode.name), this.isTrue(condition), containerElement, widgetFactory);
 
 		this.exprBinder.listen(condition, () => {
-			questionBinder.setEnabled(this.isTrue(condition));
+			widgetBinder.setEnabled(this.isTrue(condition));
 		}, this.variableMap);
-		return questionBinder;
+		return widgetBinder;
 	}
-	visitExprQuestionNode(exprQuestionNode, condition, containerElement, widgetRenderer) {
-		let widgetBinder = this.visitQuestionNode(exprQuestionNode, condition, containerElement, widgetRenderer),
+	visitExprQuestionNode(exprQuestionNode, condition, containerElement, widgetFactory) {
+		let widgetBinder = this.visitQuestionNode(exprQuestionNode, condition, containerElement, widgetFactory),
 			expr = exprQuestionNode.expr;
 
 		this.exprBinder.listen(expr, () => {
@@ -160,27 +164,27 @@ export class QuestionRenderer extends NodeVisitor {
 	}
 }
 
-export class DirectRenderingStrategy {
-	constructor(questionRenderer, widgetRenderer, containerElement) {
+export class DirectRenderingQuestionCollection {
+	constructor(questionRenderer, widgetFactory, containerElement) {
 		this.questionRenderer = questionRenderer;
-		this.widgetRenderer = widgetRenderer;
+		this.widgetFactory = widgetFactory;
 		this.containerElement = containerElement;
 	}
-	handleQuestion(questionNode, condition) {
-		this.questionRenderer.renderQuestion(questionNode, condition, this.containerElement, this.widgetRenderer);
+	addQuestion(questionNode, condition) {
+		this.questionRenderer.renderQuestion(questionNode, condition, this.containerElement, this.widgetFactory);
 	}
 }
 
 export class Renderer {
 	constructor(elementFactory) {
 		this.elementFactory = elementFactory;
-		this.questionConditionComputer = new QuestionConditionComputer();
+		this.questionCollector = new QuestionCollector();
 	}
 	render(node, containerElement) {
 		let questionRenderer = new QuestionRenderer(this.elementFactory),
-			widgetRenderer = new WidgetRenderer(this.elementFactory),
-			directRenderingStrategy = new DirectRenderingStrategy(questionRenderer, widgetRenderer, containerElement);
+			widgetFactory = new WidgetFactory(this.elementFactory),
+			directRenderingQuestionCollection = new DirectRenderingQuestionCollection(questionRenderer, widgetFactory, containerElement);
 
-		this.questionConditionComputer.computeQuestionConditions(node, directRenderingStrategy);
+		this.questionCollector.collect(node, directRenderingQuestionCollection);
 	}
 }

@@ -9,12 +9,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import sc.ql.ast.Expression;
-import sc.ql.ast.value.BooleanValue;
-import sc.ql.ast.value.NumberValue;
-import sc.ql.ast.value.StringValue;
 import sc.ql.eval.Evaluator;
 import sc.ql.parser.QLLexer;
 import sc.ql.parser.QLParser;
+import sc.ql.value.BooleanValue;
+import sc.ql.value.NumberValue;
+import sc.ql.value.StringValue;
 
 public class EvaluatorTest {
 

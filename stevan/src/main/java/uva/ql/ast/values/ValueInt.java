@@ -2,10 +2,10 @@ package uva.ql.ast.values;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.values.abstracts.Values;
+import uva.ql.ast.values.abstracts.Value;
 import uva.ql.ast.values.types.Int;
 
-public class ValueInt extends Values<Integer> {
+public class ValueInt extends Value<Integer> {
 
 	private Int type = new Int();
 	private int value;

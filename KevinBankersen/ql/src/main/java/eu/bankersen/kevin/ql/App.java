@@ -21,9 +21,9 @@ public final class App {
 	String resource;
 
 	// resource = "resources/Tax.form";
-	resource = "resources/Tax2.form";
+	// resource = "resources/Tax2.form";
 	// resource = "resources/Tax3.form";
-	// resource = "resources/test.form";
+	resource = "resources/test.form";
 
 	// Parse the form to an AST
 	Form form;

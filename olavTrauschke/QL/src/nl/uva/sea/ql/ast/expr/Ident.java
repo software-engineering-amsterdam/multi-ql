@@ -10,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mrt-2016
+ * @version 16-mar-2016
  */
 public class Ident extends Expr {
     
