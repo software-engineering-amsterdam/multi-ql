@@ -10,7 +10,7 @@ import nl.uva.sc.ql.gui.state.Observer;
 import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
 
-public abstract class Question extends JPanel implements GuiInterface, Observer {
+public abstract class Question extends JPanel implements GuiRepresentation, Observer {
 
 	private static final long serialVersionUID = 1L;
 		

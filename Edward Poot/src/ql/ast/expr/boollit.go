@@ -4,16 +4,22 @@ import "fmt"
 
 type BoolLit struct {
 	Value bool
+	Expr
 }
 
-func NewBoolLit(value bool) BoolLit {
-	return BoolLit{Value: value}
+func NewBoolLit(value bool, sourceInfo interface{}) BoolLit {
+	return BoolLit{Value: value, Expr: NewExpr(sourceInfo)}
 }
 
-func (b BoolLit) GetValue() bool {
-	return b.Value
+func NewBoolLitNoSourceInfo(value bool) BoolLit {
+	return NewBoolLit(value, nil)
 }
 
-func (b BoolLit) String() string {
-	return fmt.Sprintf("%t", b.Value)
+func (this BoolLit) GetValue() bool {
+	return this.Value
+}
+
+// FIXME needed for test comparison due to strange behavior. Find better solution.
+func (this BoolLit) String() string {
+	return fmt.Sprintf("%t", this.Value)
 }

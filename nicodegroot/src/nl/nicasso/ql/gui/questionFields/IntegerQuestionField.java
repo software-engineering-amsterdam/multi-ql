@@ -40,17 +40,22 @@ public class IntegerQuestionField extends QuestionField {
 			public void keyReleased(KeyEvent e) {
 				boolean parseSuccess = true;
 				
-				try {
-					IntegerValue value = new IntegerValue(Integer.parseInt(field.getText()));
-					main.fieldValueChanged(identifier, value);
-					main.updateAllPanels();
-				} catch (Exception ex) {
-					label.setLabelText("This is not a valid integer.");
-					parseSuccess = false;
+				IntegerValue value = new IntegerValue(0);
+				
+				if (!field.getText().equals("")) {
+					try {
+						value = new IntegerValue(Integer.parseInt(field.getText()));
+					} catch (Exception ex) {
+						label.setLabelText("This is not a valid integer.");
+						parseSuccess = false;
+					}
 				}
 				
 				if (parseSuccess) {
 					label.setLabelText("");
+					
+					main.fieldValueChanged(identifier, value);
+					main.updateAllPanels();
 				}
 			}
 			

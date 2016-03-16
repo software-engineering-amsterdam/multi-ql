@@ -230,6 +230,8 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 
 	@Override
 	public Type visit(Identifier value) {
+		System.out.println(value.getValue());
+		
 		Type entryType = symbolTable.getEntryType(value);
 		
 		addQuestionDependency(value);

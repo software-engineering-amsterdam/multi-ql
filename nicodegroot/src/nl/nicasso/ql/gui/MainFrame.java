@@ -17,10 +17,10 @@ import nl.nicasso.ql.values.Value;
 
 public class MainFrame implements Observer {
 
+	// Do these need to be global?
 	private List<Panel> panels;
 	private JFrame mainFrame;
 	private JPanel rootPanel;
-	private JScrollPane scrollFrame;
 	private StateTable stateTable;
 	
 	public MainFrame(StateTable stateTable) {

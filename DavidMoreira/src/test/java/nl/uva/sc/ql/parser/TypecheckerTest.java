@@ -2,7 +2,7 @@ package nl.uva.sc.ql.parser;
 
 import java.io.IOException;
 
-import nl.uva.sc.ql.errorwarning.MessagesHandler;
+import nl.uva.sc.ql.messages.MessagesHandler;
 import nl.uva.sc.ql.parser.ast.FormNode;
 
 import org.antlr.v4.runtime.*;

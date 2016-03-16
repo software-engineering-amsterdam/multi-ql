@@ -2,16 +2,24 @@ form taxOfficeExample {
     "Did you sell a house in 2010?"
         hasSoldHouse: boolean
     "Did you buy a house in 2010?"
-        hasBoughtHouse: boolean
+        hasBoughtHouse: string
     "Did you enter a loan?"
-        hasMaintLoan: boolean
+        hasMaintLoan: decimal
 
-    if (10>=true) {
-        "Did you sell a house in 2010?"
+    if (true>=true) {
+        "Did you sell a house in 2012?"
             hasSoldHouse: boolean
-        "Did you buy a house in 2010?"
+        "Did you buy a house in 2012?"
             hasBoughtHouse: boolean
-        "Did you enter a loan?"
+        "Did you enter a loan 2?"
             hasMaintLoan: boolean
     }
+
+
+    "Did you sell a house in 2016?"
+        hasSoldHouse: boolean
+    "Did you buy a house in 2016?"
+        hasBoughtHouse: boolean
+    "Did you enter a loan 2016?"
+        hasMaintLoan: boolean
 }

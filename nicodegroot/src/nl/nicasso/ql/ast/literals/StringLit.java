@@ -38,6 +38,9 @@ public class StringLit extends Literal {
 	
 	@Override
 	public boolean equals(Object ob) {
+		if (!(ob instanceof StringLit)) {
+			return false;
+		}
 		StringLit lit2 = (StringLit) ob;
 		return lit.equals(lit2.getValue());
 	}

@@ -1,15 +1,22 @@
 package expr
 
-import "ql/interfaces"
+import (
+	"ql/interfaces"
+)
 
 type BinaryOperator struct {
 	Lhs, Rhs interfaces.Expr
+	Expr
 }
 
-func (b BinaryOperator) GetLhs() interfaces.Expr {
-	return b.Lhs
+func NewBinaryOperator(lhs interfaces.Expr, rhs interfaces.Expr, sourceInfo interface{}) BinaryOperator {
+	return BinaryOperator{Lhs: lhs, Rhs: rhs, Expr: NewExpr(sourceInfo)}
 }
 
-func (b BinaryOperator) GetRhs() interfaces.Expr {
-	return b.Rhs
+func (this BinaryOperator) GetLhs() interfaces.Expr {
+	return this.Lhs
+}
+
+func (this BinaryOperator) GetRhs() interfaces.Expr {
+	return this.Rhs
 }

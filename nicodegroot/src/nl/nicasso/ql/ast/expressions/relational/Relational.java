@@ -2,6 +2,7 @@ package nl.nicasso.ql.ast.expressions.relational;
 
 import nl.nicasso.ql.ast.CodeLocation;
 import nl.nicasso.ql.ast.expressions.Binary;
+import nl.nicasso.ql.ast.types.BooleanType;
 import nl.nicasso.ql.ast.types.IntegerType;
 import nl.nicasso.ql.ast.types.MoneyType;
 import nl.nicasso.ql.ast.types.Type;
@@ -17,7 +18,7 @@ public abstract class Relational extends Binary {
 	public Type inferType(Type left, Type right) {
 		if (left.equals(right)) {
 			if (left.equals(new IntegerType()) || left.equals(new MoneyType())) {
-				return left;
+				return new BooleanType();
 			}
 		}
 		

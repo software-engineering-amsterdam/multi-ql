@@ -8,20 +8,29 @@ import (
 type InputQuestion struct {
 	Label   interfaces.StrLit
 	VarDecl interfaces.VarDecl
+	Stmt
 }
 
-func (i InputQuestion) String() string {
-	return fmt.Sprintf("A question with label %s, var decl %s", i.Label, i.VarDecl)
+func NewInputQuestion(label interfaces.StrLit, varDecl interfaces.VarDecl, sourceInfo interface{}) InputQuestion {
+	return InputQuestion{label, varDecl, NewStmt(sourceInfo)}
 }
 
-func (i InputQuestion) GetLabel() interfaces.StrLit {
-	return i.Label
+func NewInputQuestionNoSourceInfo(label interfaces.StrLit, varDecl interfaces.VarDecl) InputQuestion {
+	return NewInputQuestion(label, varDecl, nil)
 }
 
-func (i InputQuestion) GetLabelAsString() string {
-	return i.Label.GetValue()
+func (this InputQuestion) String() string {
+	return fmt.Sprintf("A question with label %s, var decl %s", this.Label, this.VarDecl)
 }
 
-func (i InputQuestion) GetVarDecl() interfaces.VarDecl {
-	return i.VarDecl
+func (this InputQuestion) GetLabel() interfaces.StrLit {
+	return this.Label
+}
+
+func (this InputQuestion) GetLabelAsString() string {
+	return this.Label.GetValue()
+}
+
+func (this InputQuestion) GetVarDecl() interfaces.VarDecl {
+	return this.VarDecl
 }

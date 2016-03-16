@@ -28,6 +28,9 @@ public class UnknownType extends Type {
 	
 	@Override
 	public boolean equals(Object ob) {
+		if (!(ob instanceof Type)) {
+			return false;
+		}
 		Type t2 = (Type) ob;
 		return type.equals(t2.getType());
 	}

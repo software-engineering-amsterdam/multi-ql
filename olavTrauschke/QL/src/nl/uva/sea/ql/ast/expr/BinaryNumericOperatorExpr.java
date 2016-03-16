@@ -9,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * and have two arguments in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 14-mrt-2016
  */
 public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
@@ -57,18 +57,19 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
     /**
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
-     * <code>this BinaryNumericOperatorExpr accept v</code> and then has
-     * <code>v visit this BinaryNumericOperatorExpr</code>.
+     * <code>this BinaryNumericOperatorExpr accept visitor</code> and then has
+     * <code>visitor visit this BinaryNumericOperatorExpr</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should
-     *          <code>visit this BinaryNumericOperatorExpr</code> and its children
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this BinaryNumericOperatorExpr</code> and
+     *                  its children
      */
     @Override
-    public void accept(ASTVisitor v) {
-        firstExpr.accept(v);
-        secondExpr.accept(v);
+    public void accept(ASTVisitor visitor) {
+        firstExpr.accept(visitor);
+        secondExpr.accept(visitor);
         
-        v.visit(this);
+        visitor.visit(this);
     }
     
     /**

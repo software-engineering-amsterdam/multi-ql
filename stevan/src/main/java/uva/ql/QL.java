@@ -13,8 +13,8 @@ import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
 import uva.ql.ast.Form;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.visitors.TypeChecker;
-import uva.ql.visitors.VisitorToAST;
+import uva.ql.typechecker.TypeChecker;
+import uva.ql.visitors.VisitorAntlrToAST;
 
 public class QL {
 	private String filePath;
@@ -41,17 +41,17 @@ public class QL {
     	QLParser parser = new QLParser(tokens);
 		
 		ParseTree tree = parser.form();
-		VisitorToAST visitor = new VisitorToAST();
+		VisitorAntlrToAST visitor = new VisitorAntlrToAST();
 		Form form = (Form) visitor.visit(tree);
 		
-		Map<String, Integer> errorMsg = TypeChecker.checkAST(form);
+		/*Map<String, Integer> errorMsg = TypeChecker.checkAST(form);
 		
 		if( errorMsg.containsValue(-1) ) {
 			Iterator<String> it = errorMsg.keySet().iterator();
 			while( it.hasNext() ) {
 				System.out.println(it.next());
 			}
-		}
+		}*/
 		
 		return form;
     }

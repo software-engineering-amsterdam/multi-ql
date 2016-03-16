@@ -2,11 +2,11 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
+import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.types.NotEqualTo;
 
-public class ExpNotEqualTo extends AbstractRelationalOperator {
+public class ExpNotEqualTo extends RelationalOperatorBinary {
 
 	private NotEqualTo type = new NotEqualTo();
 	

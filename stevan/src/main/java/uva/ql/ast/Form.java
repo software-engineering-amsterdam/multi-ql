@@ -1,12 +1,13 @@
 package uva.ql.ast;
 
-import uva.ql.interfaces.IArithmeticOperatorVisitor;
-import uva.ql.interfaces.IBinaryOperatorVisitor;
-import uva.ql.interfaces.ICyclicDependencyVisitor;
-import uva.ql.interfaces.IDupllicateLabelsVisitor;
-import uva.ql.interfaces.IDupllicateQuestionDifferentTypesVisitor;
-import uva.ql.interfaces.INodeVisitor;
-import uva.ql.interfaces.IUndefinedQuestionVisitor;
+import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
+import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
+import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
+import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
+import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
+import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.INodeVisitor;
+
 
 public class Form extends Block {
 
