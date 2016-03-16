@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 
 import javax.swing.JTextField;
 
-import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.values.MoneyValue;
 
 public class MoneyQuestionField extends QuestionField {
 
@@ -53,10 +53,16 @@ public class MoneyQuestionField extends QuestionField {
 				}
 				
 				if (parseSuccess) {
-					label.setLabelText("");
-					
-					main.fieldValueChanged(identifier, value);
-					main.updateAllPanels();
+					// Does too much?!
+					if (getNumberOfDecimalPlaces(BigDecimal.valueOf(Double.parseDouble(field.getText()))) > 2) {
+						label.setLabelText("No more than 2 decimals allowed.");
+						parseSuccess = false;
+					} else {
+						label.setLabelText("");
+						
+						main.fieldValueChanged(identifier, value);
+						main.updateAllPanels();
+					}
 				}
 			}
 			
@@ -71,8 +77,6 @@ public class MoneyQuestionField extends QuestionField {
 		BigDecimal bd = (BigDecimal) value;
 		BigDecimal bd2 = (BigDecimal) BigDecimal.valueOf(Double.parseDouble(field.getText()));
 
-		//System.out.println(bd+" - "+bd2 + " EQUALS? "+ (bd.compareTo(bd2) == 0));
-
 		return bd.compareTo(bd2) == 0;
 	}
 	
@@ -82,6 +86,10 @@ public class MoneyQuestionField extends QuestionField {
 	
 	public JTextField getField() {
 		return this.field;
+	}
+	
+	private int getNumberOfDecimalPlaces(BigDecimal bigDecimal) {
+	    return Math.max(0, bigDecimal.stripTrailingZeros().scale());
 	}
 	
 }
