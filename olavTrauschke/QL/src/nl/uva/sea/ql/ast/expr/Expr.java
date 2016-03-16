@@ -95,6 +95,14 @@ public abstract class Expr extends ASTNode {
         return isDecimal(questionTypes) || isMoney(questionTypes);
     }
     
+    /**
+     * Evaluate <code>this Expr</code>.
+     * 
+     * @param answerTable a <code>Map</code> from each <code>Ident</code> that
+     *                      can appear in <code>this Expr</code> to its
+     *                      <code>Value</code>
+     * @return the <code>Value</code> of <code>this Expr</code>
+     */
     public abstract Value eval(AnswerTable answerTable);
     
     /**
