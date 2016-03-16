@@ -28,8 +28,8 @@ public class Eq extends ComparisonExpr {
      *                      <code>this Eq</code> to the <code>Value</code> of
      *                      the <code>Question</code> they represent
      * @return a <code>BooleanValue</code> representing the result of comparing
-     *          the value of <code>this Eq</code>'s <code>firstExpr</code> to
-     *          its <code>secondExpr</code>
+     *          <code>this Eq</code>'s <code>firstExpr</code> to its
+     *          <code>secondExpr</code>
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {

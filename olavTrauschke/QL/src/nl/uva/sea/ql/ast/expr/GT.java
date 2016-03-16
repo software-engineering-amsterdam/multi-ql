@@ -28,8 +28,8 @@ public class GT extends OrderedComparisonExpr {
      *                      <code>this GT</code> to the <code>Value</code> of
      *                      the <code>Question</code> they represent
      * @return a <code>BooleanValue</code> representing the result of checking
-     *          whether the value of <code>this GT</code>'s <code>firstExpr</code>
-     *          is greater than the value of its <code>secondExpr</code>
+     *          whether <code>this GT</code>'s <code>firstExpr</code> is greater
+     *          than its <code>secondExpr</code>
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {

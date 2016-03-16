@@ -59,7 +59,7 @@ public class Not extends BooleanExpr {
      *                      <code>this Not</code> to the <code>Value</code>s of
      *                      the <code>Question</code>s they represent
      * @return a <code>BooleanValue</code> representing the result of negating
-     *          the value of <code>theContent</code> of <code>this Not</code> 
+     *          <code>theContent</code> of <code>this Not</code> 
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {
