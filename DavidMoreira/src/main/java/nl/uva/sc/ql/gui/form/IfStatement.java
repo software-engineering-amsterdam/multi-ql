@@ -5,20 +5,20 @@ import java.util.List;
 
 import nl.uva.sc.ql.gui.state.Observer;
 
-public class IfForm implements GuiInterface, Observer {
+public class IfStatement implements GuiRepresentation, Observer {
 	
-	private List<ConditionBlockForm> listConditionBlock;
+	private List<ConditionBlock> listConditionBlock;
 	private List<Question> questions;
 	
 	private Form form;
 	
-	public IfForm(Form form){
+	public IfStatement(Form form){
 		this.form = form;
-		this.listConditionBlock = new ArrayList<ConditionBlockForm>();
+		this.listConditionBlock = new ArrayList<ConditionBlock>();
 		this.questions = new ArrayList<Question>();
 	}
 	
-	public void addConditionBlock(ConditionBlockForm conditionBlock){
+	public void addConditionBlock(ConditionBlock conditionBlock){
 		this.listConditionBlock.add(conditionBlock);
 		conditionBlock.registerObserver(this);
 	}
@@ -29,7 +29,7 @@ public class IfForm implements GuiInterface, Observer {
 	
 	@Override
 	public void createGui() {
-		for(ConditionBlockForm i : listConditionBlock){
+		for(ConditionBlock i : listConditionBlock){
 			i.createGui();
 		}
 		
@@ -41,17 +41,17 @@ public class IfForm implements GuiInterface, Observer {
 
 	@Override
 	public void updateGui() {
-		boolean result = evaluateConditions();
+		boolean result = !wasConditionEvaluated();
 		
 		for(Question q : questions){
 			q.setVisible(result);
 		}
 	}
 	
-	private boolean evaluateConditions(){
+	private boolean wasConditionEvaluated(){
 		boolean evaluated = false;
 		
-		for(ConditionBlockForm i : listConditionBlock){
+		for(ConditionBlock i : listConditionBlock){
 			if(!evaluated && i.getResultOfCondition()){
 				i.setVisibility(true);
 				evaluated = true;
@@ -61,7 +61,7 @@ public class IfForm implements GuiInterface, Observer {
 				i.setVisibility(false);
 			}	
 		}
-		return true;
+		return evaluated;
 	}
 	
 	@Override
@@ -79,7 +79,7 @@ public class IfForm implements GuiInterface, Observer {
 			questionsText += q+"\n";
 		}
 		
-		for(ConditionBlockForm q : listConditionBlock){
+		for(ConditionBlock q : listConditionBlock){
 			listConditionBlockText += q+"\n";
 		}
 		

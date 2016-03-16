@@ -1,7 +1,10 @@
-package nl.uva.sc.ql.errorwarning;
+package nl.uva.sc.ql.messages;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import nl.uva.sc.ql.messages.errors.MyError;
+import nl.uva.sc.ql.messages.warnings.MyWarning;
 
 public class MessagesHandler {
 	

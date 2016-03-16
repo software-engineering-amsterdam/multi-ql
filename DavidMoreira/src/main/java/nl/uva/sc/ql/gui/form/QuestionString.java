@@ -26,7 +26,6 @@ public class QuestionString extends Question {
 		component.addActionListener(new ActionListener() {
 			@Override
 	        public void actionPerformed(ActionEvent e) {
-				// Get the String entered into the input TextField
 				String string = component.getText();
 				String identifier = getIdentifier();
 				Value value = new StringVal(string);

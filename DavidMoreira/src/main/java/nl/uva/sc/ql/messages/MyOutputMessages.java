@@ -1,4 +1,4 @@
-package nl.uva.sc.ql.errorwarning;
+package nl.uva.sc.ql.messages;
 
 public abstract class MyOutputMessages {
 
