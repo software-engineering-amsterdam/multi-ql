@@ -14,7 +14,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-QLSwiftTests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SnapKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftParsec.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,17 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>24E264AB7A9685FDFEC15EC25685247B</key>
+		<key>0B2F714C4628CB6180B9FAE3BDD165F9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>325A9A9C01862791EBE09B867E46BDD9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3FDB3739C6BE0C4E59EC01A7693EECFD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>524A9609642CD293A3F7DDD7CC36D3C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>D2C03375DF65BFA5B198FC2AD246CCEF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FD9F8CDA0387F80A0F934955C86571DE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
