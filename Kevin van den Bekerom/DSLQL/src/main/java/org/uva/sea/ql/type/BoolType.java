@@ -1,5 +1,6 @@
 package org.uva.sea.ql.type;
 
+import org.uva.sea.ql.value.BoolValue;
 import org.uva.sea.ql.value.Value;
 
 public class BoolType extends Type {
@@ -16,7 +17,10 @@ public class BoolType extends Type {
 
 	@Override
 	public Value parse(String message) {
-		// TODO Auto-generated method stub
-		return null;
+		if (message.equals("true")) {
+			return new BoolValue(true);
+		} else {
+			return new BoolValue(false);
+		}
 	}
 }

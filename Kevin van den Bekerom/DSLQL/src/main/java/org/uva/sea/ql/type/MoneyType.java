@@ -1,6 +1,7 @@
 package org.uva.sea.ql.type;
 
 import org.uva.sea.ql.value.MoneyValue;
+import org.uva.sea.ql.value.UndefinedValue;
 import org.uva.sea.ql.value.Value;
 
 public class MoneyType extends Type {
@@ -17,7 +18,13 @@ public class MoneyType extends Type {
 
 	@Override
 	public Value parse(String message) {
-		return new MoneyValue(Double.parseDouble(message));
+		try {
+			double value = Double.parseDouble(message);
+			return new MoneyValue(value);
+		} catch (NumberFormatException e) {
+			return new UndefinedValue();
+		}
+		
 	}
 	
 }

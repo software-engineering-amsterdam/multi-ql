@@ -1,5 +1,6 @@
 package org.uva.sea.ql.gui.widget;
 
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -17,14 +18,20 @@ public class FieldWidget extends QuestionWidget {
 	JTextField inputField;
 	JLabel label;
 
-	public FieldWidget(Question question, Box container, FormDataManager dataManager) {
+	public FieldWidget(Question question, 
+						Box container, 
+						FormDataManager dataManager) {
 		super(question, dataManager);
 		initialize(container);
 	}
 	
 	private void initialize(Box container) {
-		inputField = new JTextField();
-		label = new JLabel(getQuestion().getLabel());
+		inputField = new JTextField("", 10);
+		inputField.setMaximumSize(new Dimension(100,20));
+		String labelText = getQuestion().getLabel();
+		//remove quotes
+		labelText = labelText.substring(1, labelText.length()-1);
+		label = new JLabel(labelText);
 		
 		//add isTrue listener
 		inputField.addKeyListener(new KeyListener() {
@@ -37,14 +44,11 @@ public class FieldWidget extends QuestionWidget {
 			}
 
 			public void keyReleased(KeyEvent keyEvent) {
-				System.out.println("DA!");
 				Value value = getQuestion().getType().parse(inputField.getText());
-				System.out.println("Actual value: " + String.valueOf(value.getValue()));
 	        	if (value.equals(new UndefinedValue())) {
 	        		inputField.setText("");
 	        		dataManager.updateValueState(getQuestion().getIdentifier(), value);
 	        	} else {
-	        		System.out.println(inputField.getText());
 	        		dataManager.updateValueState(getQuestion().getIdentifier(), value);
 	        	}
 			}
@@ -53,19 +57,17 @@ public class FieldWidget extends QuestionWidget {
 		attachToPanel(container);
 	}
 	
-	private void attachToPanel(Box b) {
+	@Override
+	protected void attachToPanel(Box b) {
 		Box horBox = Box.createHorizontalBox();
 		horBox.add(label);
+		horBox.add(Box.createHorizontalGlue());
 		horBox.add(inputField);
 		b.add(horBox);
 	}
 
 	@Override
-	public void update(ValueMap valueMap) {
-		//Value value = valueMap.getValueFromMap(getQuestion().getIdentifier());
-		//inputValue = String.valueOf(value.getValue());
-		//inputField.setText(inputValue);
-	}
+	public void update(ValueMap valueMap) {}
 
 	@Override
 	public void update() {
