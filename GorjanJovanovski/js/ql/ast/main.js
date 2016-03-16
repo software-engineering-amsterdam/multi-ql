@@ -9,7 +9,7 @@ function initiate(inputString) {
 		if (performAstChecks(ast, environment)) {
 			renderQuestions(ast, environment);
 			refreshGUI(ast, environment);
-			setOnClickListeners(ast);
+			setOnClickListeners(ast, environment);
 		}
 	};
 	tree.accept(visitor);

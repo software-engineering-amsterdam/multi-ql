@@ -4,7 +4,8 @@ function goToLine(line) {
 }
 
 function registerQuestionChangeListeners(ast, environment) {
-	$("input").change(function () {
+	$("input").bind("change keyup", function () {
+		console.log($(this).attr("name"));
 		notifyListeners($(this), ast, environment);
 		refreshGUI(ast, environment);
 	});
@@ -18,10 +19,10 @@ function notifyListeners(element, ast, environment) {
 	ast.notify(element.attr("name"), value, environment);
 }
 
-function setOnClickListeners(ast) {
+function setOnClickListeners(ast, environment) {
 
 	$("#save").click(function () {
-		saveAnswers(ast);
+		saveAnswers(ast, environment);
 	});
 
 	$(window).keypress(function (event) {
@@ -33,8 +34,8 @@ function setOnClickListeners(ast) {
 	});
 }
 
-function saveAnswers(ast) {
-	var answerList = ast.getAnswerList();
+function saveAnswers(ast, environment) {
+	var answerList = ast.getAnswerList(environment);
 	var blob = new Blob([answerList.toString()], {type: "text/plain;charset=utf-8"});
 	fileSaverSaveAs(blob, "answers.json");
 }
