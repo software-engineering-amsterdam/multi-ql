@@ -45,6 +45,8 @@ class SemanticAnalyzerTests: XCTestCase {
                 print("\(error)")
                 XCTAssertTrue(false, "\(error)")
             }
+        } else {
+            XCTFail("Parse error")
         }
     }
     
@@ -56,6 +58,7 @@ class SemanticAnalyzerTests: XCTestCase {
         
         for form in forms {
             XCTAssertNotNil(form)
+            
             guard form != nil
                 else { continue }
             

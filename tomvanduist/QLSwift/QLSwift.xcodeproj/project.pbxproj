@@ -53,6 +53,7 @@
 		E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */; };
 		E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D491C7F024400AC42ED /* EvalBool.ql */; };
 		E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
+		E2643BDB1C999D96009EAFD8 /* EvalCombination.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2643BDA1C999D96009EAFD8 /* EvalCombination.ql */; };
 		E26CC92E1C6B8A260042B5FF /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92D1C6B8A260042B5FF /* QLForm.swift */; };
 		E26CC9341C6B8B030042B5FF /* QLStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* QLStatement.swift */; };
 		E26CC93A1C6B8C8C0042B5FF /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */; };
@@ -199,6 +200,7 @@
 		E2591D451C7EFD7900AC42ED /* EvalPow.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalPow.ql; path = Resources/QL/EvalTests/EvalPow.ql; sourceTree = "<group>"; };
 		E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalPrec.ql; path = Resources/QL/EvalTests/EvalPrec.ql; sourceTree = "<group>"; };
 		E2591D491C7F024400AC42ED /* EvalBool.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalBool.ql; path = Resources/QL/EvalTests/EvalBool.ql; sourceTree = "<group>"; };
+		E2643BDA1C999D96009EAFD8 /* EvalCombination.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalCombination.ql; path = Resources/QL/EvalTests/EvalCombination.ql; sourceTree = "<group>"; };
 		E26CC92D1C6B8A260042B5FF /* QLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLForm.swift; path = Src/Parser/AST/QLForm.swift; sourceTree = "<group>"; };
 		E26CC92F1C6B8B030042B5FF /* QLStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLStatement.swift; path = Src/Parser/AST/QLStatement.swift; sourceTree = "<group>"; };
 		E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpression.swift; path = Src/Parser/AST/QLExpression.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 			children = (
 				E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */,
 				E2591D491C7F024400AC42ED /* EvalBool.ql */,
+				E2643BDA1C999D96009EAFD8 /* EvalCombination.ql */,
 				E2C4E6321C931D2700F8191F /* EvalNeg.ql */,
 				E2C4E6341C93214500F8191F /* EvalNot.ql */,
 				E2591D451C7EFD7900AC42ED /* EvalPow.ql */,
@@ -767,6 +770,7 @@
 				E2D518C51C701177008030C4 /* Unary.ql in Resources */,
 				E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */,
 				E2D518C31C701177008030C4 /* Binary.ql in Resources */,
+				E2643BDB1C999D96009EAFD8 /* EvalCombination.ql in Resources */,
 				E2C4E6371C93273C00F8191F /* EvalSub.ql in Resources */,
 				E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */,
 				E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */,
