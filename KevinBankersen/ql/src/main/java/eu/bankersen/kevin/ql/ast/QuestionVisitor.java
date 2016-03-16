@@ -9,16 +9,16 @@ import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
 
 public interface QuestionVisitor<T> {
 
-    T visit(Form o, T context);
+    void visit(Form o, T context);
 
-    T visit(Body o, T context);
+    void visit(Body o, T context);
 
-    T visit(IFStatement o, T context);
+    void visit(IFStatement o, T context);
 
-    T visit(ElseStatement o, T context);
+    void visit(ElseStatement o, T context);
 
-    T visit(NormalQuestion o, T context);
+    void visit(NormalQuestion o, T context);
 
-    T visit(ComputedQuestion o, T context);
+    void visit(ComputedQuestion o, T context);
 
 }
