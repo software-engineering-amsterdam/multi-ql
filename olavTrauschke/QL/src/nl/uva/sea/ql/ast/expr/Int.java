@@ -1,6 +1,8 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.IntValue;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
@@ -8,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of (literals of) the type int in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 16-mar-2016
  */
 public class Int extends NumericExpr {
     
@@ -67,6 +69,19 @@ public class Int extends NumericExpr {
     @Override
     public boolean isInt(Map<Ident,Question> questionTypes) {
         return true;
+    }
+    
+    /**
+     * Obtain <code>theValue</code> of <code>this Int</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> that is not used, may also
+     *                      be null
+     * @return an <code>IntValue</code> representing <code>theValue</code> of
+     *          <code>this Int</code>
+     */
+    @Override
+    public IntValue eval(AnswerTable answerTable) {
+        return new IntValue(value);
     }
     
      /**

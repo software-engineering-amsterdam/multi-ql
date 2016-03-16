@@ -19,7 +19,9 @@ public class BooleanWidget extends QuestionWidget {
 	ButtonGroup editableGroup;
 	JLabel label;
 	
-	public BooleanWidget(Question question, Box container, FormDataManager dataManager) {
+	public BooleanWidget(Question question, 
+							Box container, 
+							FormDataManager dataManager) {
 		super(question, dataManager);
 		initialize(container);
 	}
@@ -28,7 +30,10 @@ public class BooleanWidget extends QuestionWidget {
 		// radio buttons
 		isTrue = new JRadioButton("true");
 		isFalse = new JRadioButton("false");
-		label = new JLabel(getQuestion().getLabel());
+		String labelText = getQuestion().getLabel();
+		//remove quotes
+		labelText = labelText.substring(1, labelText.length()-1);
+		label = new JLabel(labelText);
 		
 		//The Group, make sure only one button is selected at a time in the group
 	    editableGroup = new ButtonGroup();
@@ -53,27 +58,18 @@ public class BooleanWidget extends QuestionWidget {
 		attachToPanel(container);
 	}
 	
-	private void attachToPanel(Box b) {
+	@Override
+	protected void attachToPanel(Box b) {
 		Box horBox = Box.createHorizontalBox();
 		horBox.add(label);
+		horBox.add(Box.createHorizontalGlue());
 		horBox.add(isTrue);
 		horBox.add(isFalse);
 		b.add(horBox);
 	}
 
 	@Override
-	public void update(ValueMap valueMap) {
-//		Value value =  valueMap.getValueFromMap(getQuestion().getIdentifier());
-//		if (! value.equals(new UndefinedValue())) {
-//			if ((Boolean) value.getValue()) {
-//				isTrue.setSelected(true);
-//				isFalse.setSelected(false);
-//			}
-//		} else {
-//			isTrue.setSelected(false);
-//			isFalse.setSelected(true);
-//		} 
-	}
+	public void update(ValueMap valueMap) {}
 
 	@Override
 	public void update() {

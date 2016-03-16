@@ -1,0 +1,53 @@
+package nl.uva.sc.ql.compiler.typechecker;
+
+import nl.uva.sc.ql.compiler.parser.ast.AdditionNode;
+import nl.uva.sc.ql.compiler.parser.ast.AndNode;
+import nl.uva.sc.ql.compiler.parser.ast.AssignedQuestionNode;
+import nl.uva.sc.ql.compiler.parser.ast.BlockNode;
+import nl.uva.sc.ql.compiler.parser.ast.BooleanNode;
+import nl.uva.sc.ql.compiler.parser.ast.ConditionBlockNode;
+import nl.uva.sc.ql.compiler.parser.ast.DifferentNode;
+import nl.uva.sc.ql.compiler.parser.ast.DivisionNode;
+import nl.uva.sc.ql.compiler.parser.ast.EqualsNode;
+import nl.uva.sc.ql.compiler.parser.ast.FormNode;
+import nl.uva.sc.ql.compiler.parser.ast.GreatEqualsThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.GreatThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.IdentifierNode;
+import nl.uva.sc.ql.compiler.parser.ast.IfNode;
+import nl.uva.sc.ql.compiler.parser.ast.IntegerNode;
+import nl.uva.sc.ql.compiler.parser.ast.LessEqualsThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.LessThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.ListStatementsNode;
+import nl.uva.sc.ql.compiler.parser.ast.MultiplicationNode;
+import nl.uva.sc.ql.compiler.parser.ast.NotNode;
+import nl.uva.sc.ql.compiler.parser.ast.OrNode;
+import nl.uva.sc.ql.compiler.parser.ast.QuestionNode;
+import nl.uva.sc.ql.compiler.parser.ast.StringNode;
+import nl.uva.sc.ql.compiler.parser.ast.SubtractionNode;
+
+public interface Visitor {
+	public void visit(AdditionNode additionNode);
+	public void visit(AndNode andNode);
+	public void visit(AssignedQuestionNode assignVariableNode);
+	public void visit(BlockNode blockNode);
+	public void visit(BooleanNode booleanNode);
+	public void visit(ConditionBlockNode conditionBlockNode);
+	public void visit(DifferentNode differentNode);
+	public void visit(DivisionNode divisionNode);
+	public void visit(EqualsNode equalsNode);
+	public void visit(FormNode formNode);
+	public void visit(GreatEqualsThanNode greatEqualsThanNode);
+	public void visit(GreatThanNode greatThanNode);
+	public void visit(IdentifierNode identifierNode);
+	public void visit(IfNode ifNode);
+	public void visit(IntegerNode integerNode);
+	public void visit(LessEqualsThanNode lessEqualsThanNode);
+	public void visit(LessThanNode lessThanNode);
+	public void visit(ListStatementsNode listStatementsNode);
+	public void visit(MultiplicationNode multiplicationNode);
+	public void visit(NotNode notNode);
+	public void visit(OrNode orNode);
+	public void visit(QuestionNode questionNode);
+	public void visit(StringNode stringNode);
+	public void visit(SubtractionNode subtractionNode);
+}

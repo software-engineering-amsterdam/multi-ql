@@ -1,6 +1,8 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.Value;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.question.Question;
 
@@ -8,7 +10,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * Representation of expression in an AST.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 16-mar-2016
  */
 public abstract class Expr extends ASTNode {
     
@@ -92,6 +94,8 @@ public abstract class Expr extends ASTNode {
     public boolean isNumeric(Map<Ident,Question> questionTypes) {
         return isDecimal(questionTypes) || isMoney(questionTypes);
     }
+    
+    public abstract Value eval(AnswerTable answerTable);
     
     /**
      * Compares <code>this Expr</code> to another <code>Object</code>.

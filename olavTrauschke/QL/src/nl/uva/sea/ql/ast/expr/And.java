@@ -29,8 +29,8 @@ public class And extends BooleanConjunctiveExpr {
      *                      <code>this And</code> to the <code>Value</code> of
      *                      the <code>Question</code> they represent
      * @return a <code>BooleanValue</code> representing the result of conjuncting
-     *          the value of <code>this And</code>'s <code>firstExpr</code> to
-     *          its <code>secondExpr</code>
+     *          <code>this And</code>'s <code>firstExpr</code> to its
+     *          <code>secondExpr</code>
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {

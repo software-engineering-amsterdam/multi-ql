@@ -11,5 +11,10 @@ public class UndefinedValue extends Value {
 	public boolean equals(Object value) {
 		return value instanceof UndefinedValue;
 	}
+	
+	@Override
+	public String toString() {
+		return "undefined value";
+	}
 
 }

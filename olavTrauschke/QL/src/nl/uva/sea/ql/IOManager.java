@@ -15,7 +15,7 @@ import nl.uva.sea.ql.parser.ParserWrapper;
  * Class to present various dialogs to the user.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 10-mar-2016
  */
 public class IOManager {
     
@@ -69,7 +69,7 @@ public class IOManager {
      * specified.
      */
     public static final String SAVING_ERROR_MESSAGE
-            = "An error occured while saving your results. Please check wether "
+            = "An error occured while saving your results. Please check whether "
             + "the results file is complete.";
     
     /**
@@ -78,14 +78,14 @@ public class IOManager {
     public static final String SAVING_ERROR_TITLE = "Error while saving";
     
     /**
-     * Question displayed to the user to ask him to confirm wether he wants to
+     * Question displayed to the user to ask him to confirm whether he wants to
      * leave without saving.
      */
     public static final String LEAVE_WITHOUT_SAVING_MESSAGE
             = "Are you sure you want to leave without saving?";
     
     /**
-     * Title for a dialog asking a user to confirm wether he wants to leave
+     * Title for a dialog asking a user to confirm whether he wants to leave
      * without saving
      */
     public static final String LEAVE_WITHOUT_SAVING_TITLE
@@ -185,7 +185,7 @@ public class IOManager {
     }
     
     /**
-     * Determine wether a path is a valid location to save a file.
+     * Determine whether a path is a valid location to save a file.
      * 
      * @param intendedSaveLocation a <code>String</code> containing the path to test
      * @return <code>true</code> if and only if <code>intendedSaveLocation</code>
@@ -235,12 +235,12 @@ public class IOManager {
     }
     
     /**
-     * Displays warnings to the user and asks wether he wants to continue execution
+     * Displays warnings to the user and asks whether he wants to continue execution
      * despite these warnings.
      * 
      * @param warnings a <code>List</code> of <code>String</code>s representing
      *                  the <code>warnings</code> to display
-     * @return wether the user has chosen to continue despite the displayed warnings
+     * @return whether the user has chosen to continue despite the displayed warnings
      */
     public boolean handleWarnings(List<String> warnings) {
         String warningsString = toMultiLineString(warnings);

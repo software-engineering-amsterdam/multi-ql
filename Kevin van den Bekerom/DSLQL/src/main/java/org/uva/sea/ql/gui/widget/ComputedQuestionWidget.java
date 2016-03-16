@@ -1,5 +1,7 @@
 package org.uva.sea.ql.gui.widget;
 
+import java.awt.Dimension;
+
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -16,41 +18,43 @@ public class ComputedQuestionWidget extends Widget {
 	JTextField resultField;
 	
 	public ComputedQuestionWidget(ComputedQuestion compQuestion, 
-			Box container, FormDataManager dataManager) {
+									Box container, 
+									FormDataManager dataManager) {
 		super.dataManager = dataManager;
 		this.compQuestion = compQuestion;
 		initialize(container);
-
 	}
 	
 	private void initialize(Box container) {
-		label = new JLabel(compQuestion.getLabel());
-		resultField = new JTextField();
+		String labelText = compQuestion.getLabel();
+		//remove quotes
+		labelText = labelText.substring(1, labelText.length()-1);
+		label = new JLabel(labelText);
+		resultField = new JTextField("", 10);
+		resultField.setMaximumSize(new Dimension(100,20));
 		resultField.setEditable(false);
 		
 		attachToPanel(container);
 	}
 	
-	private void attachToPanel(Box b) {
-		Box horBox = Box.createHorizontalBox();
-		horBox.add(label);
-		horBox.add(resultField);
-		b.add(horBox);
-	}
-	
 	public ComputedQuestion getCompQuestion() {
 		return this.compQuestion;
+	}
+	
+	@Override
+	protected void attachToPanel(Box b) {
+		Box horBox = Box.createHorizontalBox();
+		horBox.add(label);
+		horBox.add(Box.createHorizontalGlue());
+		horBox.add(resultField);
+		b.add(horBox);
 	}
 
 	@Override
 	public void update(ValueMap valueMap) {
 		Value oldValue = valueMap.getValueFromMap(compQuestion.getIdentifier());
-		System.out.println("oldValue: " + String.valueOf(oldValue.getValue()));
-		Value newValue = compQuestion.getExpr().eval(valueMap);
-		System.out.println("newValue: " + String.valueOf(newValue.getValue()));
-		
+		Value newValue = compQuestion.getExpr().eval(valueMap);	
 		if (!oldValue.getValue().equals(newValue.getValue())) {
-			System.out.println("Current value: " + String.valueOf(newValue.getValue()));
 			dataManager.updateValueState(compQuestion.getIdentifier(), newValue);
 		}
 		else if (!newValue.equals(new UndefinedValue())) {
@@ -59,7 +63,6 @@ public class ComputedQuestionWidget extends Widget {
 		} else {
 			resultField.setText("");
 		}
-	
 	}
 
 	@Override

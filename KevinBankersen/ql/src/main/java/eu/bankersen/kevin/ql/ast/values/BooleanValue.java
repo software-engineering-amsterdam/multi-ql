@@ -28,7 +28,7 @@ public class BooleanValue extends QLValue {
 
     @Override
     public Boolean equals(BooleanValue value) {
-	return value.value() == this.value ? true : false;
+	return value.value().equals(this.value) ? true : false;
     }
 
     @Override

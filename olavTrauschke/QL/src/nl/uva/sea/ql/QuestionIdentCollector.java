@@ -12,7 +12,7 @@ import nl.uva.sea.ql.checker.GeneralizedASTVisitor;
  * the same <code>Ident</code>) with a different type.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 14-mar-2016
  */
 public class QuestionIdentCollector extends GeneralizedASTVisitor {
     

@@ -33,13 +33,13 @@ public class Ident extends Expr {
     }
     
     /**
-     * Has <code>v visit this Ident</code>.
+     * Has <code>visitor visit this Ident</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should <code>visit this Ident</code>
+     * @param visitor an <code>ASTVisitor</code> that should <code>visit this Ident</code>
      */
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
     
     /**
@@ -58,8 +58,8 @@ public class Ident extends Expr {
     public boolean isBoolean(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question q = questionTypes.get(this);
-        return q.isBoolean();
+        Question question = questionTypes.get(this);
+        return question.isBoolean();
     }
     
     /**
@@ -78,8 +78,8 @@ public class Ident extends Expr {
     public boolean isDecimal(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question q = questionTypes.get(this);
-        return q.isDecimal();
+        Question question = questionTypes.get(this);
+        return question.isDecimal();
     }
     
     /**
@@ -98,8 +98,8 @@ public class Ident extends Expr {
     public boolean isInt(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question q = questionTypes.get(this);
-        return q.isInt();
+        Question question = questionTypes.get(this);
+        return question.isInt();
     }
     
     /**
@@ -118,8 +118,8 @@ public class Ident extends Expr {
     public boolean isMoney(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question q = questionTypes.get(this);
-        return q.isMoney();
+        Question question = questionTypes.get(this);
+        return question.isMoney();
     }
     
     /**
@@ -138,8 +138,8 @@ public class Ident extends Expr {
     public boolean isString(Map<Ident,Question> questionTypes) {
         if (!questionTypes.containsKey(this)) return true;
         
-        Question q = questionTypes.get(this);
-        return q.isString();
+        Question question = questionTypes.get(this);
+        return question.isString();
     }
     
     /**

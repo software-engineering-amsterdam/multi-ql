@@ -137,12 +137,12 @@ public class Main {
     }
     
     /**
-     * Display errors and warnings to the user and determine wether to execute
+     * Display errors and warnings to the user and determine whether to execute
      * the <code>Form</code> they apply to.
      * 
      * @param errors any error messages to display to the user
      * @param warnings any warning messages to display to the user
-     * @return wether to execute the <code>Form</code> the <code>error</code>
+     * @return whether to execute the <code>Form</code> the <code>error</code>
      *          and <code>warnings</code> apply to, <code>true</code> if and
      *          only if <code>errors</code> was empty and <code>warnings</code>
      *          was empty or the user chose to continue despite the

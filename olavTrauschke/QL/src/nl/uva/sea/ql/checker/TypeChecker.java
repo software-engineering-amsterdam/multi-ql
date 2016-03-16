@@ -120,11 +120,11 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>ConditionalStatement</code> with a <code>condition</code>
      * that is not a boolean was found.
      * 
-     * @param s the <code>ConditionalStatement</code> to check
+     * @param statement the <code>ConditionalStatement</code> to check
      */
     @Override
-    public void visit(ConditionalStatement s) {
-        Expr condition = s.getCondition();
+    public void visit(ConditionalStatement statement) {
+        Expr condition = statement.getCondition();
         if (!isBoolean(condition)) {
             errors.add(NON_BOOLEAN_CONDITION_ERROR);
         }
@@ -134,11 +134,11 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>BooleanQuestion</code> with a non-boolean
      * <code>calculation</code> was found.
      * 
-     * @param q the <code>BooleanQuestion</code> to check
+     * @param question the <code>BooleanQuestion</code> to check
      */
     @Override
-    public void visit(BooleanQuestion q) {
-        Expr calculation = q.getCalculation();
+    public void visit(BooleanQuestion question) {
+        Expr calculation = question.getCalculation();
         if (calculation != null && !calculation.isBoolean(questionTypes)) {
             addQuestionTypeError(BOOLEAN);
         }
@@ -148,11 +148,11 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>DateQuestion</code> with a
      * <code>calculation</code> was found.
      * 
-     * @param q the <code>DateQuestion</code> to check
+     * @param question the <code>DateQuestion</code> to check
      */
     @Override
-    public void visit(DateQuestion q) {
-        Expr calculation = q.getCalculation();
+    public void visit(DateQuestion question) {
+        Expr calculation = question.getCalculation();
         if (calculation != null) {
             addQuestionTypeError(DATE);
         }
@@ -162,11 +162,11 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>DecimalQuestion</code> with a non-decimal
      * (or integer) <code>calculation</code> was found.
      * 
-     * @param q the <code>DecimalQuestion</code> to check
+     * @param question the <code>DecimalQuestion</code> to check
      */
     @Override
-    public void visit(DecimalQuestion q) {
-        Expr calculation = q.getCalculation();
+    public void visit(DecimalQuestion question) {
+        Expr calculation = question.getCalculation();
         if (calculation != null && !isDecimal(calculation) && !isInt(calculation)) {
             addQuestionTypeError(DECIMAL);
         }
@@ -176,11 +176,11 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if an <code>IntQuestion</code> with a non-integer
      * <code>calculation</code> was found.
      * 
-     * @param q the <code>IntQuestion</code> to check
+     * @param question the <code>IntQuestion</code> to check
      */
     @Override
-    public void visit(IntQuestion q) {
-        Expr calculation = q.getCalculation();
+    public void visit(IntQuestion question) {
+        Expr calculation = question.getCalculation();
         if (calculation != null && !isInt(calculation)) {
             addQuestionTypeError(INT);
         }
@@ -190,11 +190,11 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>MoneyQuestion</code> with a non-money
      * <code>calculation</code> was found.
      * 
-     * @param q the <code>MoneyQuestion</code> to check
+     * @param question the <code>MoneyQuestion</code> to check
      */
     @Override
-    public void visit(MoneyQuestion q) {
-        Expr calculation = q.getCalculation();
+    public void visit(MoneyQuestion question) {
+        Expr calculation = question.getCalculation();
         if (calculation != null && !isMoney(calculation)) {
             addQuestionTypeError(MONEY);
         }
@@ -204,11 +204,11 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>StringQuestion</code> with a non-string
      * <code>calculation</code> was found.
      * 
-     * @param q the <code>StringQuestion</code> to check
+     * @param question the <code>StringQuestion</code> to check
      */
     @Override
-    public void visit(StringQuestion q) {
-        Expr calculation = q.getCalculation();
+    public void visit(StringQuestion question) {
+        Expr calculation = question.getCalculation();
         if (calculation != null && !isString(calculation)) {
             addQuestionTypeError(MONEY);
         }
@@ -220,28 +220,28 @@ public class TypeChecker implements ASTVisitor {
      * Sets the <code>Add</code> to be decimal, integer, money and string when
      * an error was added, to avoid unnecessary errors.
      * 
-     * @param a the <code>Add</code> to check and set the type of
+     * @param addition the <code>Add</code> to check and set the type of
      */
     @Override
-    public void visit(Add a) {
-        Expr firstExpr = a.getFirstExpr();
-        Expr secondExpr = a.getSecondExpr();
+    public void visit(Add addition) {
+        Expr firstExpr = addition.getFirstExpr();
+        Expr secondExpr = addition.getSecondExpr();
         boolean bothNumeric = isNumeric(firstExpr) && isNumeric(secondExpr);
         boolean bothString = isString(firstExpr) && isString(secondExpr);
         if (!bothNumeric && !bothString) {
             errors.add(ADDITION_TYPE_ERROR);
         }
         else if (bothString) {
-            a.setIsString(true);
+            addition.setIsString(true);
         }
         else if (isMoney(firstExpr) || isMoney(secondExpr)) {
-            a.setIsMoney(true);
+            addition.setIsMoney(true);
         }
         else if (isDecimal(firstExpr) || isDecimal(secondExpr)) {
-            a.setIsDecimal(true);
+            addition.setIsDecimal(true);
         }
         else {
-            a.setIsInt(true);
+            addition.setIsInt(true);
         }
     }
     
@@ -252,27 +252,27 @@ public class TypeChecker implements ASTVisitor {
      * <code>BinaryNumericOperatorExpr</code> to be decimal, integer and money
      * when an error was added, to avoid unnecessary errors.
      * 
-     * @param e the <code>BinaryNumericOperatorExpr</code> to check and set the
+     * @param expression the <code>BinaryNumericOperatorExpr</code> to check and set the
      *          type of
      */
     @Override
-    public void visit(BinaryNumericOperatorExpr e) {
-        Expr firstExpr = e.getFirstExpr();
-        Expr secondExpr = e.getSecondExpr();
+    public void visit(BinaryNumericOperatorExpr expression) {
+        Expr firstExpr = expression.getFirstExpr();
+        Expr secondExpr = expression.getSecondExpr();
         if (!isNumeric(firstExpr) || !isNumeric(secondExpr)) {
             errors.add(NUMERIC_OPERATOR_WITH_NON_NUMERIC_OPERAND_ERROR);
-            e.setIsDecimal(true);
-            e.setIsInt(true);
-            e.setIsMoney(true);
+            expression.setIsDecimal(true);
+            expression.setIsInt(true);
+            expression.setIsMoney(true);
         }
         else if (isMoney(firstExpr) || isMoney(secondExpr)) {
-            e.setIsMoney(true);
+            expression.setIsMoney(true);
         }
         else if (isInt(firstExpr) && isInt(secondExpr)) {
-            e.setIsInt(true);
+            expression.setIsInt(true);
         }
         else {
-            e.setIsDecimal(true);
+            expression.setIsDecimal(true);
         }
     }
     
@@ -280,12 +280,12 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>BooleanConjunctiveExpr</code> containing a
      * non-boolean value was found.
      * 
-     * @param e the <code>BooleanConjunctiveExpr</code> to check
+     * @param expression the <code>BooleanConjunctiveExpr</code> to check
      */
     @Override
-    public void visit(BooleanConjunctiveExpr e) {
-        Expr firstExpr = e.getFirstExpr();
-        Expr secondExpr = e.getSecondExpr();
+    public void visit(BooleanConjunctiveExpr expression) {
+        Expr firstExpr = expression.getFirstExpr();
+        Expr secondExpr = expression.getSecondExpr();
         if (!isBoolean(firstExpr) || !isBoolean(secondExpr)) {
             errors.add(BOOLEAN_CONJUNCTION_OF_NON_BOOLEAN_ERROR);
         }
@@ -295,12 +295,12 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>ComparisonExpr</code> containing <code>Expr</code>s
      * of different types was found.
      * 
-     * @param e the <code>ComparisonExpr</code> to check
+     * @param expression the <code>ComparisonExpr</code> to check
      */
     @Override
-    public void visit(ComparisonExpr e) {
-        Expr firstExpr = e.getFirstExpr();
-        Expr secondExpr = e.getSecondExpr();
+    public void visit(ComparisonExpr expression) {
+        Expr firstExpr = expression.getFirstExpr();
+        Expr secondExpr = expression.getSecondExpr();
         boolean bothBoolean = isBoolean(firstExpr) && isBoolean(secondExpr);
         boolean bothNumeric = isNumeric(firstExpr) && isNumeric(secondExpr);
         boolean bothString = isString(firstExpr) && isString(secondExpr);
@@ -312,11 +312,11 @@ public class TypeChecker implements ASTVisitor {
     /**
      * Add an error if a <code>Neg</code> with a non-numeric content was found.
      * 
-     * @param n the <code>Neg</code> to check
+     * @param negative the <code>Neg</code> to check
      */
     @Override
-    public void visit(Neg n) {
-        Expr content = n.getContent();
+    public void visit(Neg negative) {
+        Expr content = negative.getContent();
         if (!isNumeric(content)) {
             errors.add(NEGATIVE_OF_NON_NUMERIC_ERROR);
         }
@@ -325,11 +325,11 @@ public class TypeChecker implements ASTVisitor {
     /**
      * Add an error if a <code>Not</code> with a non-boolean content was found.
      * 
-     * @param n the <code>Not</code> to check
+     * @param negation the <code>Not</code> to check
      */
     @Override
-    public void visit(Not n) {
-        Expr content = n.getContent();
+    public void visit(Not negation) {
+        Expr content = negation.getContent();
         if (!isBoolean(content)) {
             errors.add(NEGATION_OF_NON_BOOLEAN_ERROR);
         }
@@ -339,12 +339,12 @@ public class TypeChecker implements ASTVisitor {
      * Add an error if a <code>OrderedComparisonExpr</code> containing a
      * non-numeric <code>Expr</code> was found.
      * 
-     * @param e the <code>OrderedComparisonExpr</code> to check
+     * @param expression the <code>OrderedComparisonExpr</code> to check
      */
     @Override
-    public void visit(OrderedComparisonExpr e) {
-        Expr firstExpr = e.getFirstExpr();
-        Expr secondExpr = e.getSecondExpr();
+    public void visit(OrderedComparisonExpr expression) {
+        Expr firstExpr = expression.getFirstExpr();
+        Expr secondExpr = expression.getSecondExpr();
         if (!isNumeric(firstExpr) || !isNumeric(secondExpr)) {
             errors.add(ORDERED_COMPARISON_OF_NON_NUMERIC_ERROR);
         }
@@ -353,67 +353,67 @@ public class TypeChecker implements ASTVisitor {
     /**
      * Checks whether an <code>Expr</code> has a boolean value.
      * 
-     * @param e the <code>Expr</code> to check
+     * @param expression the <code>Expr</code> to check
      * @return <code>true</code> if and only if
-     *          <code>e.isBoolean(questionTypes)</code> returns <code>true</code>
+     *          <code>expression.isBoolean(questionTypes)</code> returns <code>true</code>
      */
-    private boolean isBoolean(Expr e) {
-        return e.isBoolean(questionTypes);
+    private boolean isBoolean(Expr expression) {
+        return expression.isBoolean(questionTypes);
     }
     
     /**
      * Checks whether an <code>Expr</code> has a decimal value.
      * 
-     * @param e the <code>Expr</code> to check
-     * @return <code>true</code> if and only if <code>e.isDecimal(questionTypes</code>
+     * @param expression the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>expression.isDecimal(questionTypes</code>
      *          returns <code>true</code>
      */
-    private boolean isDecimal(Expr e) {
-        return e.isDecimal(questionTypes);
+    private boolean isDecimal(Expr expression) {
+        return expression.isDecimal(questionTypes);
     }
     
     /**
      * Checks whether an <code>Expr</code> has an integer value.
      * 
-     * @param e the <code>Expr</code> to check
-     * @return <code>true</code> if and only if <code>e.isInt(questionTypes)</code>
+     * @param expression the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>expression.isInt(questionTypes)</code>
      *          returns <code>true</code>
      */
-    private boolean isInt(Expr e) {
-        return e.isInt(questionTypes);
+    private boolean isInt(Expr expression) {
+        return expression.isInt(questionTypes);
     }
     
     /**
      * Checks whether an <code>Expr</code> has a money value.
      * 
-     * @param e the <code>Expr</code> to check
-     * @return <code>true</code> if and only if <code>e.isMoney(questionTypes)</code>
+     * @param expression the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>expression.isMoney(questionTypes)</code>
      *          returns <code>true</code>
      */
-    private boolean isMoney(Expr e) {
-        return e.isMoney(questionTypes);
+    private boolean isMoney(Expr expression) {
+        return expression.isMoney(questionTypes);
     }
     
     /**
      * Checks whether an <code>Expr</code> has a string value.
      * 
-     * @param e the <code>Expr</code> to check
-     * @return <code>true</code> if and only if <code>e.isString(questionTypes)</code>
+     * @param expression the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>expression.isString(questionTypes)</code>
      *          returns <code>true</code>
      */
-    private boolean isString(Expr e) {
-        return e.isString(questionTypes);
+    private boolean isString(Expr expression) {
+        return expression.isString(questionTypes);
     }
     
     /**
      * Checks whether an <code>Expr</code> has a numeric value.
      * 
-     * @param e the <code>Expr</code> to check
-     * @return <code>true</code> if and only if <code>e.isNumeric(questionTypes</code>
+     * @param expression the <code>Expr</code> to check
+     * @return <code>true</code> if and only if <code>expression.isNumeric(questionTypes</code>
      *          returns <code>true</code>
      */
-    private boolean isNumeric(Expr e) {
-        return e.isNumeric(questionTypes);
+    private boolean isNumeric(Expr expression) {
+        return expression.isNumeric(questionTypes);
     }
     
     /**

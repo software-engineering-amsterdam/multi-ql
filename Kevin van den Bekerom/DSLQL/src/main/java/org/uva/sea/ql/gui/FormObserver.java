@@ -1,6 +1,5 @@
 package org.uva.sea.ql.gui;
 
-import org.uva.sea.ql.ast.form.ReachableQuestionsMap;
 import org.uva.sea.ql.ast.form.ValueMap;
 
 public abstract class FormObserver {

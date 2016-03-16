@@ -28,8 +28,8 @@ public class NEq extends ComparisonExpr {
      *                      <code>this NEq</code> to the <code>Value</code> of
      *                      the <code>Question</code> they represent
      * @return a <code>BooleanValue</code> representing the negation of the
-     *          result of comparing the value of <code>this NEq</code>'s
-     *          <code>firstExpr</code> to its <code>secondExpr</code>
+     *          result of comparing <code>this NEq</code>'s <code>firstExpr</code>
+     *          to its <code>secondExpr</code>
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {

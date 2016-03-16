@@ -3,7 +3,7 @@ package eu.bankersen.kevin.ql.interpreter;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.bankersen.kevin.ql.ast.ASTVisitor;
+import eu.bankersen.kevin.ql.ast.TopDownQuestionVisitor;
 import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
 import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
@@ -22,30 +22,25 @@ public class Interpreter implements ViewListener {
 	this.environment = new Environment();
 
 	// Construct the environment
-	form.accept(new ASTVisitor<Void>() {
+	form.accept(new TopDownQuestionVisitor<Environment>() {
 
 	    @Override
-	    public Void visit(NormalQuestion o, Void empty) {
+	    public void visit(NormalQuestion o, Environment environment) {
 		environment.addQuestion(o.name());
-		return null;
 	    }
 
 	    @Override
-	    public Void visit(ComputedQuestion o, Void empty) {
+	    public void visit(ComputedQuestion o, Environment environment) {
 		environment.addQuestion(o.name());
-		return null;
 	    }
-	}, null);
+	}, environment);
     }
 
     private void evalForm() {
-	Environment previousEnv;
 
 	do {
-	    System.out.println("one");
-	    previousEnv = environment;
 	    form.evalForm(environment);
-	} while (!previousEnv.equals(environment));
+	} while (environment.isUpdated());
 
 	System.out.println(environment);
 	dataUpdate();

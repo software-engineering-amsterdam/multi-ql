@@ -10,7 +10,6 @@ public abstract class Widget extends FormObserver {
 	
 	public void setVisible(boolean visible) {
 		this.visible = visible;
-		box = new Box(0);
 	}
 	
 	public boolean IsVisible() {
@@ -20,4 +19,6 @@ public abstract class Widget extends FormObserver {
 	public Box getBox() {
 		return this.box;
 	}
+	
+	protected abstract void attachToPanel(Box b);
 }

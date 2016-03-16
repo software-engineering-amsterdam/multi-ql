@@ -1,6 +1,7 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
@@ -8,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of a a minus in front of a number in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 16-mar-2016
  */
 public class Neg extends NumericExpr {
     
@@ -16,6 +17,12 @@ public class Neg extends NumericExpr {
      * Start value used to calculate hashes for objects of this class.
      */
     public static final int HASH_ORIGIN = 155;
+    
+    /**
+     * <code>IntValue</code> representing the factor <code>NumericValue</code>
+     * should be multiplied by to negate them.
+     */
+    public static final IntValue MULTIPLICATION_FACTOR = new IntValue(-1);
     
     private final Expr content;
     
@@ -81,6 +88,23 @@ public class Neg extends NumericExpr {
     @Override
     public boolean isMoney(Map<Ident,Question> questionTypes) {
         return content.isMoney(questionTypes);
+    }
+    
+    /**
+     * Evaluate <code>this Neg</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping all <code>Ident</code>s
+     *                      that might appear in <code>theContent</code> of
+     *                      <code>this Neg</code> to the <code>Value</code> of
+     *                      the <code>Question</code> they represent
+     * @return a <code>NumericValue</code> representing the result of multiplying
+     *          <code>theContent</code> by the
+     *          {@link #MULTIPLICATION_FACTOR MULTIPLICATION_FACTOR}
+     */
+    @Override
+    public NumericValue eval(AnswerTable answerTable) {
+        NumericValue value = (NumericValue) content.eval(answerTable);
+        return value.multiply(MULTIPLICATION_FACTOR);
     }
     
     /**

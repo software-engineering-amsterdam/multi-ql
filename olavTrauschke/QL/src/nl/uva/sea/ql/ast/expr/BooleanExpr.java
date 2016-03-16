@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 3-mar-2016
  */
 public abstract class BooleanExpr extends Expr {
     

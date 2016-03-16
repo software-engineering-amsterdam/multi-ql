@@ -40,22 +40,22 @@ public class StatementSet extends ASTNode {
     
     /**
      * Has all the <code>Statement</code>s in
-     * <code>this StatementSet accept v</code> and then has
-     * <code>v visit this StatementSet</code>. The <code>Statement</code>s are
+     * <code>this StatementSet accept visitor</code> and then has
+     * <code>visitor visit this StatementSet</code>. The <code>Statement</code>s are
      * visited in reverse order, to process them in the same order as they were
      * in a ql-file that was analyzed by a
      * {@link nl.uva.sea.ql.parser.ParserWrapper Parser(Wrapper)}
      * 
-     * @param v an <code>ASTVisitor</code> that should
+     * @param visitor an <code>ASTVisitor</code> that should
      *          <code>visit this StatementSet</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
+    public void accept(ASTVisitor visitor) {
         ASTNode[] nodes = set.toArray(new ASTNode[0]);
         for (int i = nodes.length - 1; i >= 0; i--) {
-            nodes[i].accept(v);
+            nodes[i].accept(visitor);
         }
-        v.visit(this);
+        visitor.visit(this);
     }
     
     /**

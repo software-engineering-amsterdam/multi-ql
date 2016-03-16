@@ -31,13 +31,13 @@ public class Bool extends BooleanExpr {
     }
     
     /**
-     * Has <code>v visit this Bool</code>.
+     * Has <code>visitor visit this Bool</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should <code>visit this Bool</code>
+     * @param visitor an <code>ASTVisitor</code> that should <code>visit this Bool</code>
      */
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
     
     /**
