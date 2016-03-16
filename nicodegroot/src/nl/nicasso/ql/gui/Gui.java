@@ -35,15 +35,12 @@ import nl.nicasso.ql.visitors.TypeVisitor;
 public class Gui implements StructureVisitor<List<Panel>, Expression>, StatementVisitor<List<Panel>, Expression>, TypeVisitor<QuestionField, QuestionFieldParameter> {
 	
 	private boolean debug = false;
-	
 	private MainFrame main;
-	
 	private StateTable stateTable;
 	
 	public Gui(StateTable stateTable, MainFrame main) {
-		this.main = main;
-		
 		this.stateTable = stateTable;
+		this.main = main;
 	}
 
 	@Override
@@ -91,8 +88,6 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, true);
 		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
 		
-		Value value = stateTable.getEntryValue(question.getId());
-		
 		QuestionPanel qp = new QuestionPanel(question, field, expr, stateTable);
 		
 		List<Panel> panels = new ArrayList<Panel>();
@@ -127,7 +122,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 		}
 				
 		Evaluator evaluator = new Evaluator(stateTable);
-		Value a = value.getExpr().accept(evaluator);
+		value.getExpr().accept(evaluator);
 		
 		List<Panel> ifBlockPanel = value.getBlock_if().accept(this, value.getExpr());
 		

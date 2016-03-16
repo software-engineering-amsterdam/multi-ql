@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import nl.nicasso.ql.Evaluator;
 import nl.nicasso.ql.ast.expressions.Expression;
-import nl.nicasso.ql.ast.expressions.Identifier;
 import nl.nicasso.ql.ast.statements.ComputedQuestion;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.questionFields.QuestionField;

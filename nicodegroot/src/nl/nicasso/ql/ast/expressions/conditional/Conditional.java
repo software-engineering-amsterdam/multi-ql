@@ -17,7 +17,7 @@ public abstract class Conditional extends Binary {
 		
 		if (left.equals(right)) {
 			if (left.equals(new BooleanType())) {
-				return left;
+				return new BooleanType();
 			}
 		}
 		

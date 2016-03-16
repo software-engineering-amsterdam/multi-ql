@@ -29,25 +29,6 @@ public class MoneyLit extends Literal {
 		return value;
 	}
 
-	/*
-	private final Integer number;
-	private final Integer cents;
-
-	public DecimalLit(Integer number, Integer cents) {
-		this.number = number;
-		this.cents = cents;
-		this.type = new MoneyType();
-	}
-
-	@Override
-	public Integer getValue() {
-		if (cents.equals(00)) {
-			return number * 100;
-		} else {
-			return Integer.parseInt(Integer.toString(number) + Integer.toString(cents));
-		}
-	}
-	*/
 	public Type getType() {
 		return type;
 	}
@@ -59,6 +40,9 @@ public class MoneyLit extends Literal {
 	
 	@Override
 	public boolean equals(Object ob) {
+		if (!(ob instanceof MoneyLit)) {
+			return false;
+		}
 		MoneyLit lit = (MoneyLit) ob;
 		return value.equals(lit.getValue());
 	}

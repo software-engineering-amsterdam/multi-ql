@@ -37,7 +37,10 @@ public class Question extends Statement {
 	
 	@Override
 	public boolean equals(Object ob) {
-		ComputedQuestion q2 = (ComputedQuestion) ob;
+		if (!(ob instanceof Question)) {
+			return false;
+		}
+		Question q2 = (ComputedQuestion) ob;
 		return id.equals(q2.getId());
 	}
 	
