@@ -11,11 +11,11 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import sc.ql.ast.Statement.Question;
-import sc.ql.ast.value.Value;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIWidgetStyle;
+import sc.ql.value.Value;
 
-public class TextFieldWidget extends AbstractWidgetImpl {
+public class TextFieldWidget extends AbstractUIWidget {
 
 	private final JTextField textField;
 	private final JPanel panel;
@@ -38,8 +38,8 @@ public class TextFieldWidget extends AbstractWidgetImpl {
 		}
 	};
 
-	public TextFieldWidget(Environment context, Question q, Value defaultValue) {
-		super(context, q.name(), defaultValue);
+	public TextFieldWidget(Environment env, Question q, Value defaultValue) {
+		super(env, q.name(), defaultValue);
 
 		panel = new JPanel();
 

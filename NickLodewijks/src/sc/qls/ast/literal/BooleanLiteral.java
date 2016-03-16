@@ -1,6 +1,6 @@
 package sc.qls.ast.literal;
 
-import sc.ql.ast.value.BooleanValue;
+import sc.ql.value.BooleanValue;
 
 public final class BooleanLiteral extends QLSLiteral {
 

@@ -1,8 +1,8 @@
 package sc.ql.ast;
 
-import sc.ql.ast.value.BooleanValue;
-import sc.ql.ast.value.NumberValue;
-import sc.ql.ast.value.StringValue;
+import sc.ql.value.BooleanValue;
+import sc.ql.value.NumberValue;
+import sc.ql.value.StringValue;
 
 public abstract class Expression extends ASTNode {
 

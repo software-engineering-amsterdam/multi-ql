@@ -42,7 +42,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 		form.accept(new TopDown<Void, Void>() {
 
 			@Override
-			public Void visit(ComputedQuestion node, Void context) {
+			public Void visit(ComputedQuestion node, Void unused) {
 				rt.add(node, freeVariables(node.computation()));
 				return null;
 			}
@@ -74,7 +74,7 @@ public class CyclicReferences implements Iterable<CyclicReference> {
 		expr.accept(new TopDown<Void, Void>() {
 
 			@Override
-			public Void visit(VariableExpr node, Void v) {
+			public Void visit(VariableExpr node, Void unused) {
 				variables.add(node.getVariableName());
 
 				return null;

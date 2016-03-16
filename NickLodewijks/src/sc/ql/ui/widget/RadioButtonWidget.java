@@ -13,13 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
-import sc.ql.ast.value.Value;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIWidgetChoice;
 import sc.ql.ui.UIWidgetChoices;
 import sc.ql.ui.UIWidgetStyle;
+import sc.ql.value.Value;
 
-public class RadioButtonWidget extends AbstractWidgetImpl implements ActionListener {
+public class RadioButtonWidget extends AbstractUIWidget implements ActionListener {
 
 	private final Map<UIWidgetChoice, JRadioButton> choiceToButton;
 	private final UIWidgetChoices choices;
@@ -43,8 +43,8 @@ public class RadioButtonWidget extends AbstractWidgetImpl implements ActionListe
 		}
 	};
 
-	public RadioButtonWidget(Environment context, String variableName, UIWidgetChoices choices) {
-		super(context, variableName, choices.getDefaultChoice().getValue());
+	public RadioButtonWidget(Environment env, String variableName, UIWidgetChoices choices) {
+		super(env, variableName, choices.getDefaultChoice().getValue());
 		ButtonGroup bg;
 
 		this.choiceToButton = new LinkedHashMap<>();

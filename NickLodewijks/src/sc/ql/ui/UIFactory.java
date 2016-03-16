@@ -27,15 +27,15 @@ import sc.ql.ast.ValueType.BooleanType;
 import sc.ql.ast.ValueType.IntegerType;
 import sc.ql.ast.ValueType.StringType;
 import sc.ql.ast.ValueTypeVisitor;
-import sc.ql.ast.value.BooleanValue;
-import sc.ql.ast.value.NumberValue;
-import sc.ql.ast.value.StringValue;
 import sc.ql.eval.Environment;
-import sc.ql.eval.Evaluator;
 import sc.ql.eval.Environment.ContextListener;
+import sc.ql.eval.Evaluator;
 import sc.ql.ui.widget.LabelWidget;
 import sc.ql.ui.widget.RadioButtonWidget;
 import sc.ql.ui.widget.TextFieldWidget;
+import sc.ql.value.BooleanValue;
+import sc.ql.value.NumberValue;
+import sc.ql.value.StringValue;
 
 public class UIFactory {
 
@@ -54,10 +54,10 @@ public class UIFactory {
 	}
 
 	public UIQuestionnaire create(Form form) {
-		Environment context;
+		Environment env;
 		UIForm uiForm;
 
-		context = new Environment();
+		env = new Environment();
 
 		uiForm = createForm();
 
@@ -78,7 +78,7 @@ public class UIFactory {
 			public Void visit(NormalQuestion node, Expression condition) {
 				UIQuestion uiQuestion;
 
-				uiQuestion = create(context, node, condition);
+				uiQuestion = create(env, node, condition);
 				uiForm.addQuestion(uiQuestion);
 				return null;
 			}
@@ -87,7 +87,7 @@ public class UIFactory {
 			public Void visit(ComputedQuestion node, Expression condition) {
 				UIQuestion uiQuestion;
 
-				uiQuestion = create(context, node, condition, node.computation());
+				uiQuestion = create(env, node, condition, node.computation());
 				uiForm.addQuestion(uiQuestion);
 				return null;
 			}
@@ -101,26 +101,25 @@ public class UIFactory {
 		return new DefaultUIForm();
 	}
 
-	private UIQuestion create(Environment context, Question question, Expression condition) {
-		return create(context, question, condition, null);
+	private UIQuestion create(Environment env, Question question, Expression condition) {
+		return create(env, question, condition, null);
 	}
 
-	private UIQuestion create(Environment context, Question question, Expression condition,
-			Expression valueComputation) {
+	private UIQuestion create(Environment env, Question question, Expression condition, Expression valueComputation) {
 		UIWidget labelWidget;
 		UIWidget valueWidget;
 
 		labelWidget = createLabelWidget(question);
-		valueWidget = createValueWidget(question, context);
+		valueWidget = createValueWidget(question, env);
 
-		return new DefaultUIQuestion(context, question, labelWidget, valueWidget, condition, valueComputation);
+		return new DefaultUIQuestion(env, question, labelWidget, valueWidget, condition, valueComputation);
 	}
 
 	protected UIWidget createLabelWidget(Question question) {
 		return new LabelWidget(question.label());
 	}
 
-	protected UIWidget createValueWidget(Question question, Environment context) {
+	protected UIWidget createValueWidget(Question question, Environment env) {
 		return question.type().accept(new ValueTypeVisitor<UIWidget, Void>() {
 
 			@Override
@@ -134,17 +133,17 @@ public class UIFactory {
 
 				choices = new UIWidgetChoices(Arrays.asList(YES, NO), NO);
 
-				return new RadioButtonWidget(context, question.name(), choices);
+				return new RadioButtonWidget(env, question.name(), choices);
 			}
 
 			@Override
 			public UIWidget visit(StringType type, Void unused) {
-				return new TextFieldWidget(context, question, new StringValue(""));
+				return new TextFieldWidget(env, question, new StringValue(""));
 			}
 
 			@Override
 			public UIWidget visit(IntegerType type, Void unused) {
-				return new TextFieldWidget(context, question, new NumberValue(0));
+				return new TextFieldWidget(env, question, new NumberValue(0));
 			}
 		}, null);
 	}
@@ -228,7 +227,7 @@ public class UIFactory {
 		private final UIWidget labelWidget;
 		private final UIWidget valueWidget;
 
-		public DefaultUIQuestion(Environment context, Question question, UIWidget labelWidget, UIWidget valueWidget,
+		public DefaultUIQuestion(Environment env, Question question, UIWidget labelWidget, UIWidget valueWidget,
 				Expression condition, Expression valueComputation) {
 			this.question = question;
 			this.condition = condition;
@@ -239,12 +238,12 @@ public class UIFactory {
 
 			if (valueComputation != null) {
 				this.valueWidget.setEditable(false);
-				context.addComputedValue(question.name(), valueComputation);
+				env.addComputedValue(question.name(), valueComputation);
 			}
 
-			context.addContextListener(this);
+			env.addContextListener(this);
 
-			setVisible(isEnabled(context));
+			setVisible(isEnabled(env));
 		}
 
 		@Override
@@ -252,16 +251,16 @@ public class UIFactory {
 			return question.name();
 		}
 
-		public boolean isEnabled(Environment context) {
-			return Evaluator.evaluate(condition, context).equals(BooleanValue.TRUE);
+		public boolean isEnabled(Environment env) {
+			return Evaluator.evaluate(condition, env).equals(BooleanValue.TRUE);
 		}
 
 		@Override
-		public void contextChanged(Environment context) {
-			setVisible(isEnabled(context));
+		public void contextChanged(Environment env) {
+			setVisible(isEnabled(env));
 
 			if (valueComputation != null) {
-				valueWidget.setValue(context.getValue(question.name()));
+				valueWidget.setValue(env.getValue(question.name()));
 			}
 		}
 

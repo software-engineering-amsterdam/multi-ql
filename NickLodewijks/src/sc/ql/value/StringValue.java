@@ -1,4 +1,4 @@
-package sc.ql.ast.value;
+package sc.ql.value;
 
 public final class StringValue extends ValueAdapter {
 

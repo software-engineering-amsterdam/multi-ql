@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import sc.ql.ast.value.BooleanValue;
 import sc.ql.ui.UIWidgetChoice;
 import sc.ql.ui.UIWidgetChoices;
+import sc.ql.value.BooleanValue;
 
 public class QLSRadioButton extends QLSWidgetType {
 

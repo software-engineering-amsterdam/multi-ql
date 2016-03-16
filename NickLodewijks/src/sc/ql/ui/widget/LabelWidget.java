@@ -8,10 +8,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
-import sc.ql.ast.value.StringValue;
-import sc.ql.ast.value.Value;
 import sc.ql.ui.UIWidget;
 import sc.ql.ui.UIWidgetStyle;
+import sc.ql.value.StringValue;
+import sc.ql.value.Value;
 
 public class LabelWidget implements UIWidget {
 

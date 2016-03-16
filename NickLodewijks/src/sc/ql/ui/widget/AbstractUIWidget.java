@@ -2,22 +2,22 @@ package sc.ql.ui.widget;
 
 import javax.swing.SwingUtilities;
 
-import sc.ql.ast.value.Value;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIWidget;
+import sc.ql.value.Value;
 
-public abstract class AbstractWidgetImpl implements UIWidget {
+public abstract class AbstractUIWidget implements UIWidget {
 
 	private final String variableName;
-	private final Environment context;
+	private final Environment env;
 	private final Value defaultValue;
 
-	public AbstractWidgetImpl(Environment context, String variableName, Value defaultValue) {
+	public AbstractUIWidget(Environment env, String variableName, Value defaultValue) {
 		this.variableName = variableName;
-		this.context = context;
+		this.env = env;
 		this.defaultValue = defaultValue;
 
-		context.setValue(variableName, defaultValue);
+		env.setValue(variableName, defaultValue);
 	}
 
 	protected final Value getDefaultValue() {
@@ -26,7 +26,7 @@ public abstract class AbstractWidgetImpl implements UIWidget {
 
 	@Override
 	public final void setValue(Value value) {
-		context.setValue(variableName, value);
+		env.setValue(variableName, value);
 
 		SwingUtilities.invokeLater(() -> {
 			if (getViewValue().equals(value)) {
