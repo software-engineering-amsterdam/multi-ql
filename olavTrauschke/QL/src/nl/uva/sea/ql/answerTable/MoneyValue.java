@@ -1,4 +1,4 @@
-package nl.uva.sea.ql.symbolTable;
+package nl.uva.sea.ql.answerTable;
 
 import java.math.BigDecimal;
 

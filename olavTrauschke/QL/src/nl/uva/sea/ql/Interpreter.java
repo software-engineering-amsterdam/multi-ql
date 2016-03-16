@@ -1,9 +1,9 @@
-package nl.uva.sea.ql.interpreter;
+package nl.uva.sea.ql;
 
 import nl.uva.sea.ql.QuestionIdentCollector;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.symbolTable.SymbolTable;
+import nl.uva.sea.ql.answerTable.AnswerTable;
 
 /**
  * Class for interpretating ast's.
@@ -13,7 +13,7 @@ import nl.uva.sea.ql.symbolTable.SymbolTable;
  */
 public class Interpreter {
     
-    private final SymbolTable symbolTable;
+    private final AnswerTable answerTable;
     
     /**
      * Constructor for objects of this class.
@@ -25,7 +25,7 @@ public class Interpreter {
         QuestionIdentCollector identCollector = new QuestionIdentCollector();
         form.accept(identCollector);
         Iterable<Ident> identifiers = identCollector.obtainIdentifiers();
-        symbolTable = new SymbolTable(identifiers);
+        answerTable = new AnswerTable(identifiers);
         //TODO create GUI
     }
     
@@ -37,10 +37,10 @@ public class Interpreter {
     }
     
     /**
-     * @return the <code>SymbolTable</code> used by <code>this Interpreter</code>
+     * @return the <code>AnswerTable</code> used by <code>this Interpreter</code>
      */
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
+    public AnswerTable getSymbolTable() {
+        return answerTable;
     }
     
 }

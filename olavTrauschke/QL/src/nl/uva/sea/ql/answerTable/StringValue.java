@@ -1,4 +1,4 @@
-package nl.uva.sea.ql.symbolTable;
+package nl.uva.sea.ql.answerTable;
 
 /**
  * Objects of this class represent values of QL
