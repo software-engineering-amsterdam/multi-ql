@@ -1,4 +1,4 @@
-package org.uva.sea.ql.gui;
+package org.uva.sea.ql.gui.view;
 
 import javafx.collections.*;
 import javafx.geometry.Insets;
@@ -13,6 +13,7 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.evaluator.FormEvaluator;
+import org.uva.sea.ql.gui.QuestionsView;
 import org.uva.sea.ql.gui.widget.QuestionWidget;
 
 import java.util.*;
@@ -30,7 +31,7 @@ public class PreviewView {
 
         FormEvaluator evaluator = new FormEvaluator(this.form);
         List<Question> questions = evaluator.getQuestions();
-        QuestionsView visitor = new QuestionsView(questions, evaluator.getSymbolTable());
+        QuestionsView visitor = new QuestionsView(questions, (ObservableMap<Var, Question>) evaluator.getSymbolTable());
 
         addFormListener(evaluator);
 
@@ -58,15 +59,15 @@ public class PreviewView {
     }
 
     private void addFormListener(FormEvaluator evaluator) {
-
-        evaluator.getSymbolTable().addListener((MapChangeListener<Var,Question>) c -> {
+        ObservableMap<Var,Question> symbolTable = (ObservableMap<Var, Question>) evaluator.getSymbolTable();
+        symbolTable.addListener((MapChangeListener<Var,Question>) c -> {
             //System.out.println("Changed " + c.toString());
             Question changedQuestion = c.getValueAdded();
 
             FormEvaluator fe = new FormEvaluator(this.form, (ObservableMap<Var, Question>) c.getMap());
             List<Question> questions = fe.getQuestions();
 
-            QuestionsView visitor = new QuestionsView(questions, fe.getSymbolTable());
+            QuestionsView visitor = new QuestionsView(questions, (ObservableMap<Var, Question>) fe.getSymbolTable());
             List<QuestionWidget> UIElements = visitor.getUiElements();
             updateFormUI(changedQuestion, UIElements);
         });

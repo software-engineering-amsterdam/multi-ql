@@ -17,15 +17,14 @@ public class Float extends Numeric {
         this.value = i;
     }
 
+    public Float(String x){
+        super(0);
+        this.value = Double.valueOf(x);
+    }
+
     public Float(int line, String x){
         super(line);
-
-        try{
-            this.value = Double.valueOf(x);
-        }
-        catch (Exception e){
-            System.out.println("Log: invalid value, expected an float");
-        }
+        this.value = Double.valueOf(x);
     }
 
     @Override

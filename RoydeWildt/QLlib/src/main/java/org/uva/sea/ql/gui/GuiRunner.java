@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.checker.Checker;
 import org.uva.sea.ql.checker.message.Message;
+import org.uva.sea.ql.gui.view.PreviewView;
 import org.uva.sea.ql.parser.QLRunner;
 
 import java.util.List;

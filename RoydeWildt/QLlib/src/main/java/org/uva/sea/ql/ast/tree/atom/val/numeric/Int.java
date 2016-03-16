@@ -17,15 +17,14 @@ public class Int extends Numeric {
         this.value = i;
     }
 
+    public Int(String x){
+        super(0);
+        this.value = Integer.valueOf(x);
+    }
+
     public Int(int line, String x){
         super(line);
-
-        try{
-            this.value = Integer.valueOf(x);
-        }
-        catch (Exception e){
-            System.out.println("Log: invalid value, expected an integer");
-        }
+        this.value = Integer.valueOf(x);
     }
 
     @Override

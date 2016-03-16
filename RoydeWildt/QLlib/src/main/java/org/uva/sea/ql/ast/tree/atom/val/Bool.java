@@ -12,6 +12,11 @@ public class Bool extends Val {
         super(0);
     }
 
+    public Bool(boolean b){
+        super(0);
+        this.value = b;
+    }
+
     public Bool(int line, boolean b){
         super(line);
         this.value = b;

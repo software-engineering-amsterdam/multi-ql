@@ -19,13 +19,13 @@ public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
     public FormEvaluator(Form f) {
         super(f);
         this.questions = new ArrayList<>();
-        f.accept(this, this.getSymbolTable());
+        f.accept(this, (ObservableMap) this.getSymbolTable());
     }
 
     public FormEvaluator(Form f, ObservableMap<Var, Question> symbolTable) {
         super(f, symbolTable);
         this.questions = new ArrayList<>();
-        f.accept(this, this.getSymbolTable());
+        f.accept(this, (ObservableMap) this.getSymbolTable());
     }
 
     @Override

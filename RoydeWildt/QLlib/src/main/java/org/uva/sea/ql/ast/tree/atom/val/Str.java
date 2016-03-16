@@ -12,6 +12,11 @@ public class Str extends Val{
         super(0);
     }
 
+    public Str(String value) {
+        super(0);
+        this.value = value.replace("\"", "");
+    }
+
     public Str(int line, String value) {
         super(line);
         this.value = value.replace("\"", "");

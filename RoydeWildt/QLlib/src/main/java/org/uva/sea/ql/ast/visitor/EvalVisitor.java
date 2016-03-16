@@ -21,7 +21,7 @@ import java.util.Map;
 public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr,TYPE,Val,ObservableMap<Var, Question>> {
 
     private final Map<Var,Expr>  decls;
-    private ObservableMap<Var, Question> symbolTable;
+    private Map<Var, Question> symbolTable;
 
     public EvalVisitor(Form f) {
         this.symbolTable = FXCollections.observableHashMap();
@@ -74,221 +74,109 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public Primary visit(Primary expr, ObservableMap<Var, Question> symbolTable) {
-
-        try {
-            return new Primary(expr.getValue().accept(this, symbolTable));
-        }
-        catch (Exception e){
-            System.out.println("Log: invalid value x");
-            return null;
-        }
+        return new Primary(expr.getValue().accept(this, symbolTable));
     }
 
     @Override
     public Primary visit(Pos expr, ObservableMap<Var, Question> symbolTable) {
         Numeric value = expr.getValue().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(value.Pos());
-        }
-        catch (Exception e){
-            System.out.println("Log: invalid argument for x in +x");
-            return null;
-        }
+        return new Primary(value.Pos());
     }
 
     @Override
     public Primary visit(Not expr, ObservableMap<Var, Question> symbolTable) {
         Bool value = expr.getValue().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(value.getLine(), !value.getValue()));
-        }
-        catch (Exception e){
-            System.out.println("Log: invalid argument for x in !x");
-            return null;
-        }
+        return new Primary(new Bool(value.getLine(), !value.getValue()));
     }
 
     @Override
     public Primary visit(Neg expr, ObservableMap<Var, Question> symbolTable) {
         Numeric value = expr.getValue().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(value.Neg());
-        }
-        catch (Exception e){
-            System.out.println("Log: invalid argument for x in -x");
-            return null;
-        }
+        return new Primary(value.Neg());
     }
 
     @Override
     public Primary visit(Sub expr, ObservableMap<Var, Question> symbolTable) {
         Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(lhs.Sub(rhs));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x - y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(lhs.Sub(rhs));
     }
 
     @Override
     public Primary visit(Or expr, ObservableMap<Var, Question> symbolTable) {
         Bool lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Bool rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue() || rhs.getValue()));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x || y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() || rhs.getValue()));
     }
 
     @Override
     public Primary visit(NEq expr, ObservableMap<Var, Question> symbolTable) {
         Val lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Val rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(lhs.getLine(), !lhs.getValue().equals(rhs.getValue())));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x != y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(new Bool(lhs.getLine(), !lhs.getValue().equals(rhs.getValue())));
     }
 
     @Override
     public Primary visit(Mul expr, ObservableMap<Var, Question> symbolTable) {
         Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(lhs.Mul(rhs));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x * y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(lhs.Mul(rhs));
     }
 
     @Override
     public Primary visit(LT expr, ObservableMap<Var, Question> symbolTable) {
         Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() < (Double) rhs.getValue()));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x < y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() < (Double) rhs.getValue()));
     }
 
     @Override
     public Primary visit(LEq expr, ObservableMap<Var, Question> symbolTable) {
         Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() <= (Double) rhs.getValue()));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x <= y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() <= (Double) rhs.getValue()));
     }
 
     @Override
     public Primary visit(GT expr, ObservableMap<Var, Question> symbolTable) {
         Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() > (Double) rhs.getValue()));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x > y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() > (Double) rhs.getValue()));
     }
 
     @Override
     public Primary visit(GEq expr, ObservableMap<Var, Question> symbolTable) {
         Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() >= (Double) rhs.getValue()));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x >= y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() >= (Double) rhs.getValue()));
     }
 
     @Override
     public Primary visit(Eq expr, ObservableMap<Var, Question> symbolTable) {
         Val lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Val rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue().equals(rhs.getValue())));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x == y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue().equals(rhs.getValue())));
     }
 
     @Override
     public Primary visit(Div expr, ObservableMap<Var, Question> symbolTable) {
         Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(lhs.Div(rhs));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x / y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(lhs.Div(rhs));
     }
 
     @Override
     public Primary visit(And expr, ObservableMap<Var, Question> symbolTable) {
         Bool lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Bool rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(new Bool(lhs.getLine(), lhs.getValue() && rhs.getValue()));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x && y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(new Bool(lhs.getLine(), lhs.getValue() && rhs.getValue()));
     }
 
     @Override
     public Primary visit(Add expr, ObservableMap<Var, Question> symbolTable) {
         Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
         Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-
-        try {
-            return new Primary(lhs.Add(rhs));
-        }
-        catch (Exception e){
-            System.out.println(String.format("Log: invalid argument for %1$s in x + y", getBadArgumentLetter(lhs, rhs)));
-            return null;
-        }
+        return new Primary(lhs.Add(rhs));
     }
 
     @Override
@@ -327,19 +215,7 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
         return (Val) value.getValue();
     }
 
-    private String getBadArgumentLetter(Val lhs, Val rhs){
-        if(lhs.getValue() == null){
-            return "x";
-        }
-        else if(rhs.getValue() == null){
-            return "y";
-        }
-        else{
-            return null;
-        }
-    }
-
-    public ObservableMap<Var, Question> getSymbolTable() {
+    public Map<Var, Question> getSymbolTable() {
         return symbolTable;
     }
 }

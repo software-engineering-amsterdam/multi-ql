@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import org.uva.sea.ql.ast.tree.atom.Literal;
 import org.uva.sea.ql.ast.tree.atom.val.numeric.Float;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
@@ -22,6 +23,7 @@ import org.uva.sea.ql.gui.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -86,12 +88,7 @@ public class QuestionsView extends BaseVisitor<Void, QuestionWidget, Void, Void,
         NumberFieldWidget f = new NumberFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
-        if(val.getValue() != null) {
-            f.setText(val.getValue().toString());
-        }
-        else {
-            f.setText("-");
-        }
+        f.setText(val.getValue().toString());
 
         f.textProperty().addListener((observable, oldValue, newValue) ->
                 handleNumberFieldAction(f));
@@ -103,12 +100,7 @@ public class QuestionsView extends BaseVisitor<Void, QuestionWidget, Void, Void,
         MoneyFieldWidget f = new MoneyFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
-        if(val.getValue() != null) {
-            f.setText(val.getValue().toString());
-        }
-        else {
-            f.setText("-");
-        }
+        f.setText(val.getValue().toString());
 
         f.textProperty().addListener((observable, oldValue, newValue) ->
                 handleMoneyFieldAction(f));
@@ -128,64 +120,52 @@ public class QuestionsView extends BaseVisitor<Void, QuestionWidget, Void, Void,
         TextFieldWidget f = new TextFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
-        if(val.getValue() != null) {
-            f.setText(val.getValue().toString());
-        }
-        else {
-            f.setText("-");
-        }
+        f.setText(val.getValue().toString());
 
         f.textProperty().addListener((observable, oldValue, newValue) ->
                 handleTextFieldAction(f));
         return f;
     }
 
+    /*
+     *  Event Handlers
+     */
+
 
     private void handleNumberFieldAction(NumberFieldWidget f) {
-        Question parent = f.getParentQuestion();
-        Expr newExpr = new Primary(new Int(
-                parent.getExpr().getLine(),
-                f.getText()));
-        Question update = updateQuestionExpr(parent, newExpr);
-        this.symbolTable.put(parent.getVarname(), update);
+        Literal newExpr = new Int(f.getText());
+        updateSymbolTable(f.getParentQuestion(), newExpr);
     }
 
     private void handleMoneyFieldAction(MoneyFieldWidget f) {
-        Question parent = f.getParentQuestion();
-        Expr newExpr = new Primary(new Float(
-                parent.getExpr().getLine(),
-                f.getText()));
-        Question update = updateQuestionExpr(parent, newExpr);
-        this.symbolTable.put(parent.getVarname(), update);
+        Literal newExpr = new Float(f.getText());
+        updateSymbolTable(f.getParentQuestion(), newExpr);
     }
 
     private void handleCheckBoxAction(ActionEvent actionEvent) {
         BooleanFieldWidget b = (BooleanFieldWidget) actionEvent.getSource();
-        Question parent = b.getParentQuestion();
-        Expr newExpr = new Primary(new Bool(
-                        parent.getLine(),
-                        b.isSelected()));
-        Question update = updateQuestionExpr(parent, newExpr);
-        this.symbolTable.put(parent.getVarname(), update);
+        Literal newExpr = new Bool(b.isSelected());
+        updateSymbolTable(b.getParentQuestion(), newExpr);
     }
 
     private void handleTextFieldAction(TextFieldWidget f) {
-        Question parent = f.getParentQuestion();
-        Expr newExpr = new Primary(new Str(
-                parent.getExpr().getLine(),
-                f.getText()));
-        Question update = updateQuestionExpr(parent, newExpr);
-        this.symbolTable.put(parent.getVarname(), update);
+        Literal newExpr = new Str(f.getText());
+        updateSymbolTable(f.getParentQuestion(), newExpr);
     }
 
-    private Question updateQuestionExpr(Question q, Expr e){
-        Question update = new Question(q.getLine(),
-                q.getLabel(),
-                q.getVarname(),
-                q.getType(),
-                e,
-                q.isComputed());
-        return update;
+    private void updateSymbolTable(Question changedQuestion, Literal newValue){
+        Question update = updateQuestionExpr(changedQuestion, newValue);
+        this.symbolTable.put(changedQuestion.getVarname(), update);
+    }
+
+    private Question updateQuestionExpr(Question q, Literal atom){
+        return new Question(q.getLine(),
+                        q.getLabel(),
+                        q.getVarname(),
+                        q.getType(),
+                        new Primary(atom),
+                        q.isComputed()
+                    );
     }
 
     public List<QuestionWidget> getUiElements() {
