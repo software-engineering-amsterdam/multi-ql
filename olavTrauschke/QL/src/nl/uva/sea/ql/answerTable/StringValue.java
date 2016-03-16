@@ -6,9 +6,9 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a string value.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 16-mrt-2016
  */
-public class StringValue {
+public class StringValue extends Value {
     
     private final String value;
     

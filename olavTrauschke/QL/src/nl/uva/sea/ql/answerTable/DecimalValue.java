@@ -5,9 +5,9 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.question.DecimalQuestion DecimalQuestion}s.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 16-mrt-2016
  */
-public class DecimalValue {
+public class DecimalValue extends Value {
     
     private final Double value;
     
