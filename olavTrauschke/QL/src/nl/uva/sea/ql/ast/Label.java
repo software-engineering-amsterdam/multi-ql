@@ -7,7 +7,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Label</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 14-mrt-2016
  */
 public class Label extends ASTNode {
     
@@ -30,13 +30,14 @@ public class Label extends ASTNode {
     }
     
     /**
-     * Has <code>v visit this Label</code>.
+     * Has <code>visitor visit this Label</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should <code>visit this Label</code>
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this Label</code>
      */
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
     
     /**

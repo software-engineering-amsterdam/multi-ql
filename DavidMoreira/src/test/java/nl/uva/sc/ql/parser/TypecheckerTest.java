@@ -2,8 +2,11 @@ package nl.uva.sc.ql.parser;
 
 import java.io.IOException;
 
-import nl.uva.sc.ql.errorwarning.MessagesHandler;
-import nl.uva.sc.ql.parser.ast.FormNode;
+import nl.uva.sc.ql.compiler.parser.CreateASTTree;
+import nl.uva.sc.ql.compiler.parser.ast.FormNode;
+import nl.uva.sc.ql.compiler.typechecker.SymbolTable;
+import nl.uva.sc.ql.compiler.typechecker.TypeChecker;
+import nl.uva.sc.ql.messages.MessagesHandler;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;

@@ -2,25 +2,25 @@ package nl.uva.sc.ql.gui.state;
 
 import java.util.List;
 
-import nl.uva.sc.ql.parser.VisitorExpression;
-import nl.uva.sc.ql.parser.ast.AdditionNode;
-import nl.uva.sc.ql.parser.ast.AndNode;
-import nl.uva.sc.ql.parser.ast.BooleanNode;
-import nl.uva.sc.ql.parser.ast.DifferentNode;
-import nl.uva.sc.ql.parser.ast.DivisionNode;
-import nl.uva.sc.ql.parser.ast.EqualsNode;
-import nl.uva.sc.ql.parser.ast.ExpressionNode;
-import nl.uva.sc.ql.parser.ast.GreatEqualsThanNode;
-import nl.uva.sc.ql.parser.ast.GreatThanNode;
-import nl.uva.sc.ql.parser.ast.IdentifierNode;
-import nl.uva.sc.ql.parser.ast.IntegerNode;
-import nl.uva.sc.ql.parser.ast.LessEqualsThanNode;
-import nl.uva.sc.ql.parser.ast.LessThanNode;
-import nl.uva.sc.ql.parser.ast.MultiplicationNode;
-import nl.uva.sc.ql.parser.ast.NotNode;
-import nl.uva.sc.ql.parser.ast.OrNode;
-import nl.uva.sc.ql.parser.ast.StringNode;
-import nl.uva.sc.ql.parser.ast.SubtractionNode;
+import nl.uva.sc.ql.compiler.parser.ast.AdditionNode;
+import nl.uva.sc.ql.compiler.parser.ast.AndNode;
+import nl.uva.sc.ql.compiler.parser.ast.BooleanNode;
+import nl.uva.sc.ql.compiler.parser.ast.DifferentNode;
+import nl.uva.sc.ql.compiler.parser.ast.DivisionNode;
+import nl.uva.sc.ql.compiler.parser.ast.EqualsNode;
+import nl.uva.sc.ql.compiler.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.compiler.parser.ast.GreatEqualsThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.GreatThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.IdentifierNode;
+import nl.uva.sc.ql.compiler.parser.ast.IntegerNode;
+import nl.uva.sc.ql.compiler.parser.ast.LessEqualsThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.LessThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.MultiplicationNode;
+import nl.uva.sc.ql.compiler.parser.ast.NotNode;
+import nl.uva.sc.ql.compiler.parser.ast.OrNode;
+import nl.uva.sc.ql.compiler.parser.ast.StringNode;
+import nl.uva.sc.ql.compiler.parser.ast.SubtractionNode;
+import nl.uva.sc.ql.gui.VisitorExpression;
 
 public class CreateListOfIdentifiersInExpression implements VisitorExpression {
 	

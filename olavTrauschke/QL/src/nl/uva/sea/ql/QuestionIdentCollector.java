@@ -12,7 +12,7 @@ import nl.uva.sea.ql.checker.GeneralizedASTVisitor;
  * the same <code>Ident</code>) with a different type.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 14-mrt-2016
  */
 public class QuestionIdentCollector extends GeneralizedASTVisitor {
     
@@ -42,19 +42,19 @@ public class QuestionIdentCollector extends GeneralizedASTVisitor {
      * <code>Question</code> as the first <code>Question</code> found with its
      * <code>identifier</code> if this is not the case.
      * 
-     * @param q the <code>Question</code> to <code>visit</code>
+     * @param question the <code>Question</code> to <code>visit</code>
      */
     @Override
-    public void visit(Question q) {
-        Ident identifier = q.getIdentifier();
+    public void visit(Question question) {
+        Ident identifier = question.getIdentifier();
         if (firstQuestionsForIdentifiers.containsKey(identifier)) {
             Question firstQuestionWithSameIdent = firstQuestionsForIdentifiers.get(identifier);
-            if (!q.hasEqualType(firstQuestionWithSameIdent)) {
+            if (!question.hasEqualType(firstQuestionWithSameIdent)) {
                errors.add(REDEFINED_QUESTION_ERROR + identifier);
             }
         }
         else {
-            firstQuestionsForIdentifiers.put(identifier, q);
+            firstQuestionsForIdentifiers.put(identifier, question);
         }
     }
     

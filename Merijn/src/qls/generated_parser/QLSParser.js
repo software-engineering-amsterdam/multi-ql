@@ -7,7 +7,7 @@ var QLSVisitor = require('./QLSVisitor').QLSVisitor;
 var grammarFileName = "QLS.g4";
 
 var serializedATN = ["\u0003\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd",
-    "\u0003\u001fs\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
+    "\u0003\u001fr\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
     "\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007\u0004",
     "\b\t\b\u0004\t\t\t\u0004\n\t\n\u0004\u000b\t\u000b\u0004\f\t\f\u0004",
     "\r\t\r\u0004\u000e\t\u000e\u0003\u0002\u0003\u0002\u0003\u0002\u0003",
@@ -16,59 +16,58 @@ var serializedATN = ["\u0003\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd",
     "\u0004\u0003\u0004\u0005\u0004.\n\u0004\u0003\u0005\u0003\u0005\u0007",
     "\u00052\n\u0005\f\u0005\u000e\u00055\u000b\u0005\u0003\u0005\u0003\u0005",
     "\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006",
-    "\u0003\u0006\u0005\u0006@\n\u0006\u0003\u0007\u0003\u0007\u0003\u0007",
-    "\u0003\u0007\u0003\b\u0003\b\u0007\bH\n\b\f\b\u000e\bK\u000b\b\u0003",
-    "\b\u0003\b\u0003\t\u0003\t\u0003\t\u0003\t\u0003\t\u0003\t\u0003\t\u0003",
-    "\t\u0003\t\u0005\tX\n\t\u0003\n\u0003\n\u0003\n\u0003\n\u0005\n^\n\n",
-    "\u0003\u000b\u0003\u000b\u0003\u000b\u0003\u000b\u0003\f\u0003\f\u0003",
-    "\f\u0003\f\u0005\fh\n\f\u0003\r\u0003\r\u0003\r\u0003\r\u0003\r\u0005",
-    "\ro\n\r\u0003\u000e\u0003\u000e\u0003\u000e\u0002\u0002\u000f\u0002",
-    "\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u0002\u0003",
-    "\u0003\u0002\u0013\u0017s\u0002\u001c\u0003\u0002\u0002\u0002\u0004",
-    " \u0003\u0002\u0002\u0002\u0006-\u0003\u0002\u0002\u0002\b/\u0003\u0002",
-    "\u0002\u0002\n?\u0003\u0002\u0002\u0002\fA\u0003\u0002\u0002\u0002\u000e",
-    "E\u0003\u0002\u0002\u0002\u0010W\u0003\u0002\u0002\u0002\u0012]\u0003",
-    "\u0002\u0002\u0002\u0014_\u0003\u0002\u0002\u0002\u0016g\u0003\u0002",
-    "\u0002\u0002\u0018n\u0003\u0002\u0002\u0002\u001ap\u0003\u0002\u0002",
-    "\u0002\u001c\u001d\u0007\u0003\u0002\u0002\u001d\u001e\u0007\u001e\u0002",
-    "\u0002\u001e\u001f\u0005\u0004\u0003\u0002\u001f\u0003\u0003\u0002\u0002",
-    "\u0002 $\u0007\u0004\u0002\u0002!#\u0005\u0006\u0004\u0002\"!\u0003",
-    "\u0002\u0002\u0002#&\u0003\u0002\u0002\u0002$\"\u0003\u0002\u0002\u0002",
-    "$%\u0003\u0002\u0002\u0002%\'\u0003\u0002\u0002\u0002&$\u0003\u0002",
-    "\u0002\u0002\'(\u0007\u0005\u0002\u0002(\u0005\u0003\u0002\u0002\u0002",
-    ")*\u0007\u0006\u0002\u0002*+\u0007\u001e\u0002\u0002+.\u0005\b\u0005",
-    "\u0002,.\u0005\f\u0007\u0002-)\u0003\u0002\u0002\u0002-,\u0003\u0002",
-    "\u0002\u0002.\u0007\u0003\u0002\u0002\u0002/3\u0007\u0004\u0002\u0002",
-    "02\u0005\n\u0006\u000210\u0003\u0002\u0002\u000225\u0003\u0002\u0002",
-    "\u000231\u0003\u0002\u0002\u000234\u0003\u0002\u0002\u000246\u0003\u0002",
-    "\u0002\u000253\u0003\u0002\u0002\u000267\u0007\u0005\u0002\u00027\t",
-    "\u0003\u0002\u0002\u000289\u0007\u0007\u0002\u00029:\u0007\u0018\u0002",
-    "\u0002:@\u0005\b\u0005\u0002;<\u0007\b\u0002\u0002<=\u0007\u001e\u0002",
-    "\u0002=@\u0005\u000e\b\u0002>@\u0005\f\u0007\u0002?8\u0003\u0002\u0002",
-    "\u0002?;\u0003\u0002\u0002\u0002?>\u0003\u0002\u0002\u0002@\u000b\u0003",
-    "\u0002\u0002\u0002AB\u0007\t\u0002\u0002BC\u0005\u001a\u000e\u0002C",
-    "D\u0005\u000e\b\u0002D\r\u0003\u0002\u0002\u0002EI\u0007\u0004\u0002",
-    "\u0002FH\u0005\u0010\t\u0002GF\u0003\u0002\u0002\u0002HK\u0003\u0002",
-    "\u0002\u0002IG\u0003\u0002\u0002\u0002IJ\u0003\u0002\u0002\u0002JL\u0003",
-    "\u0002\u0002\u0002KI\u0003\u0002\u0002\u0002LM\u0007\u0005\u0002\u0002",
-    "M\u000f\u0003\u0002\u0002\u0002NO\u0007\n\u0002\u0002OP\u0005\u0012",
-    "\n\u0002PQ\u0007\u000b\u0002\u0002QX\u0003\u0002\u0002\u0002RS\u0007",
-    "\u001e\u0002\u0002ST\u0007\f\u0002\u0002TU\u0005\u0018\r\u0002UV\u0007",
-    "\u000b\u0002\u0002VX\u0003\u0002\u0002\u0002WN\u0003\u0002\u0002\u0002",
-    "WR\u0003\u0002\u0002\u0002X\u0011\u0003\u0002\u0002\u0002Y^\u0007\r",
-    "\u0002\u0002Z^\u0007\u000e\u0002\u0002[\\\u0007\u000f\u0002\u0002\\",
-    "^\u0005\u0014\u000b\u0002]Y\u0003\u0002\u0002\u0002]Z\u0003\u0002\u0002",
-    "\u0002][\u0003\u0002\u0002\u0002^\u0013\u0003\u0002\u0002\u0002_`\u0007",
-    "\u0010\u0002\u0002`a\u0005\u0016\f\u0002ab\u0007\u0011\u0002\u0002b",
-    "\u0015\u0003\u0002\u0002\u0002cd\u0007\u0018\u0002\u0002de\u0007\u0012",
-    "\u0002\u0002eh\u0005\u0016\f\u0002fh\u0007\u0018\u0002\u0002gc\u0003",
-    "\u0002\u0002\u0002gf\u0003\u0002\u0002\u0002h\u0017\u0003\u0002\u0002",
-    "\u0002io\u0007\u001d\u0002\u0002jo\u0007\u0018\u0002\u0002ko\u0007\u0019",
-    "\u0002\u0002lo\u0007\u001a\u0002\u0002mo\u0007\u001b\u0002\u0002ni\u0003",
-    "\u0002\u0002\u0002nj\u0003\u0002\u0002\u0002nk\u0003\u0002\u0002\u0002",
-    "nl\u0003\u0002\u0002\u0002nm\u0003\u0002\u0002\u0002o\u0019\u0003\u0002",
-    "\u0002\u0002pq\t\u0002\u0002\u0002q\u001b\u0003\u0002\u0002\u0002\u000b",
-    "$-3?IW]gn"].join("");
+    "\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0005\u0006C\n\u0006",
+    "\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007\u0003\b\u0003\b\u0007",
+    "\bK\n\b\f\b\u000e\bN\u000b\b\u0003\b\u0003\b\u0003\b\u0003\b\u0003\t",
+    "\u0003\t\u0003\t\u0003\t\u0003\t\u0003\n\u0003\n\u0003\n\u0003\n\u0005",
+    "\n]\n\n\u0003\u000b\u0003\u000b\u0003\u000b\u0003\u000b\u0003\f\u0003",
+    "\f\u0003\f\u0003\f\u0005\fg\n\f\u0003\r\u0003\r\u0003\r\u0003\r\u0003",
+    "\r\u0005\rn\n\r\u0003\u000e\u0003\u000e\u0003\u000e\u0002\u0002\u000f",
+    "\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u0002",
+    "\u0003\u0003\u0002\u0013\u0017r\u0002\u001c\u0003\u0002\u0002\u0002",
+    "\u0004 \u0003\u0002\u0002\u0002\u0006-\u0003\u0002\u0002\u0002\b/\u0003",
+    "\u0002\u0002\u0002\nB\u0003\u0002\u0002\u0002\fD\u0003\u0002\u0002\u0002",
+    "\u000eH\u0003\u0002\u0002\u0002\u0010S\u0003\u0002\u0002\u0002\u0012",
+    "\\\u0003\u0002\u0002\u0002\u0014^\u0003\u0002\u0002\u0002\u0016f\u0003",
+    "\u0002\u0002\u0002\u0018m\u0003\u0002\u0002\u0002\u001ao\u0003\u0002",
+    "\u0002\u0002\u001c\u001d\u0007\u0003\u0002\u0002\u001d\u001e\u0007\u001e",
+    "\u0002\u0002\u001e\u001f\u0005\u0004\u0003\u0002\u001f\u0003\u0003\u0002",
+    "\u0002\u0002 $\u0007\u0004\u0002\u0002!#\u0005\u0006\u0004\u0002\"!",
+    "\u0003\u0002\u0002\u0002#&\u0003\u0002\u0002\u0002$\"\u0003\u0002\u0002",
+    "\u0002$%\u0003\u0002\u0002\u0002%\'\u0003\u0002\u0002\u0002&$\u0003",
+    "\u0002\u0002\u0002\'(\u0007\u0005\u0002\u0002(\u0005\u0003\u0002\u0002",
+    "\u0002)*\u0007\u0006\u0002\u0002*+\u0007\u001e\u0002\u0002+.\u0005\b",
+    "\u0005\u0002,.\u0005\f\u0007\u0002-)\u0003\u0002\u0002\u0002-,\u0003",
+    "\u0002\u0002\u0002.\u0007\u0003\u0002\u0002\u0002/3\u0007\u0004\u0002",
+    "\u000202\u0005\n\u0006\u000210\u0003\u0002\u0002\u000225\u0003\u0002",
+    "\u0002\u000231\u0003\u0002\u0002\u000234\u0003\u0002\u0002\u000246\u0003",
+    "\u0002\u0002\u000253\u0003\u0002\u0002\u000267\u0007\u0005\u0002\u0002",
+    "7\t\u0003\u0002\u0002\u000289\u0007\u0007\u0002\u00029:\u0007\u0018",
+    "\u0002\u0002:C\u0005\b\u0005\u0002;<\u0007\b\u0002\u0002<=\u0007\u001e",
+    "\u0002\u0002=C\u0007\t\u0002\u0002>?\u0007\b\u0002\u0002?@\u0007\u001e",
+    "\u0002\u0002@C\u0005\u000e\b\u0002AC\u0005\f\u0007\u0002B8\u0003\u0002",
+    "\u0002\u0002B;\u0003\u0002\u0002\u0002B>\u0003\u0002\u0002\u0002BA\u0003",
+    "\u0002\u0002\u0002C\u000b\u0003\u0002\u0002\u0002DE\u0007\n\u0002\u0002",
+    "EF\u0005\u001a\u000e\u0002FG\u0005\u000e\b\u0002G\r\u0003\u0002\u0002",
+    "\u0002HL\u0007\u0004\u0002\u0002IK\u0005\u0010\t\u0002JI\u0003\u0002",
+    "\u0002\u0002KN\u0003\u0002\u0002\u0002LJ\u0003\u0002\u0002\u0002LM\u0003",
+    "\u0002\u0002\u0002MO\u0003\u0002\u0002\u0002NL\u0003\u0002\u0002\u0002",
+    "OP\u0007\u000b\u0002\u0002PQ\u0005\u0012\n\u0002QR\u0007\u0005\u0002",
+    "\u0002R\u000f\u0003\u0002\u0002\u0002ST\u0007\u001e\u0002\u0002TU\u0007",
+    "\f\u0002\u0002UV\u0005\u0018\r\u0002VW\u0007\t\u0002\u0002W\u0011\u0003",
+    "\u0002\u0002\u0002X]\u0007\r\u0002\u0002Y]\u0007\u000e\u0002\u0002Z",
+    "[\u0007\u000f\u0002\u0002[]\u0005\u0014\u000b\u0002\\X\u0003\u0002\u0002",
+    "\u0002\\Y\u0003\u0002\u0002\u0002\\Z\u0003\u0002\u0002\u0002]\u0013",
+    "\u0003\u0002\u0002\u0002^_\u0007\u0010\u0002\u0002_`\u0005\u0016\f\u0002",
+    "`a\u0007\u0011\u0002\u0002a\u0015\u0003\u0002\u0002\u0002bc\u0007\u0018",
+    "\u0002\u0002cd\u0007\u0012\u0002\u0002dg\u0005\u0016\f\u0002eg\u0007",
+    "\u0018\u0002\u0002fb\u0003\u0002\u0002\u0002fe\u0003\u0002\u0002\u0002",
+    "g\u0017\u0003\u0002\u0002\u0002hn\u0007\u001d\u0002\u0002in\u0007\u0018",
+    "\u0002\u0002jn\u0007\u0019\u0002\u0002kn\u0007\u001a\u0002\u0002ln\u0007",
+    "\u001b\u0002\u0002mh\u0003\u0002\u0002\u0002mi\u0003\u0002\u0002\u0002",
+    "mj\u0003\u0002\u0002\u0002mk\u0003\u0002\u0002\u0002ml\u0003\u0002\u0002",
+    "\u0002n\u0019\u0003\u0002\u0002\u0002op\t\u0002\u0002\u0002p\u001b\u0003",
+    "\u0002\u0002\u0002\n$-3BL\\fm"].join("");
 
 
 var atn = new antlr4.atn.ATNDeserializer().deserialize(serializedATN);
@@ -78,7 +77,7 @@ var decisionsToDFA = atn.decisionToState.map( function(ds, index) { return new a
 var sharedContextCache = new antlr4.PredictionContextCache();
 
 var literalNames = [ 'null', "'stylesheet'", "'{'", "'}'", "'page'", "'section'", 
-                     "'question'", "'default'", "'widget'", "';'", "':'", 
+                     "'question'", "';'", "'default'", "'widget'", "':'", 
                      "'slider'", "'text'", "'radio'", "'('", "')'", "','", 
                      "'boolean'", "'string'", "'integer'", "'float'", "'money'" ];
 
@@ -91,7 +90,7 @@ var symbolicNames = [ 'null', 'null', 'null', 'null', 'null', 'null', 'null',
 
 var ruleNames =  [ "stylesheet", "stylesheetBlock", "stylesheetStatement", 
                    "pageBlock", "pageStatement", "typeDefaultStatement", 
-                   "styleBlock", "styleStatement", "widgetType", "valueOptionList", 
+                   "widgetConfiguration", "widgetArg", "widgetType", "valueOptionList", 
                    "valueOptions", "literal", "type" ];
 
 function QLSParser (input) {
@@ -149,8 +148,8 @@ QLSParser.RULE_stylesheetStatement = 2;
 QLSParser.RULE_pageBlock = 3;
 QLSParser.RULE_pageStatement = 4;
 QLSParser.RULE_typeDefaultStatement = 5;
-QLSParser.RULE_styleBlock = 6;
-QLSParser.RULE_styleStatement = 7;
+QLSParser.RULE_widgetConfiguration = 6;
+QLSParser.RULE_widgetArg = 7;
 QLSParser.RULE_widgetType = 8;
 QLSParser.RULE_valueOptionList = 9;
 QLSParser.RULE_valueOptions = 10;
@@ -296,7 +295,7 @@ QLSParser.prototype.stylesheetBlock = function() {
         this.state = 34;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
-        while(_la===QLSParser.T__3 || _la===QLSParser.T__6) {
+        while(_la===QLSParser.T__3 || _la===QLSParser.T__7) {
             this.state = 31;
             this.stylesheetStatement();
             this.state = 36;
@@ -436,7 +435,7 @@ QLSParser.prototype.stylesheetStatement = function() {
             this.state = 41;
             this.pageBlock();
             break;
-        case QLSParser.T__6:
+        case QLSParser.T__7:
             localctx = new TypeDefaultStylesheetStatementContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
             this.state = 42;
@@ -523,7 +522,7 @@ QLSParser.prototype.pageBlock = function() {
         this.state = 49;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
-        while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << QLSParser.T__4) | (1 << QLSParser.T__5) | (1 << QLSParser.T__6))) !== 0)) {
+        while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << QLSParser.T__4) | (1 << QLSParser.T__5) | (1 << QLSParser.T__7))) !== 0)) {
             this.state = 46;
             this.pageStatement();
             this.state = 51;
@@ -622,10 +621,6 @@ QLSParser.QuestionPageStatementContext = QuestionPageStatementContext;
 QuestionPageStatementContext.prototype.IDENTIFIER = function() {
     return this.getToken(QLSParser.IDENTIFIER, 0);
 };
-
-QuestionPageStatementContext.prototype.styleBlock = function() {
-    return this.getTypedRuleContext(StyleBlockContext,0);
-};
 QuestionPageStatementContext.prototype.enterRule = function(listener) {
     if(listener instanceof QLSListener ) {
         listener.enterQuestionPageStatement(this);
@@ -641,6 +636,45 @@ QuestionPageStatementContext.prototype.exitRule = function(listener) {
 QuestionPageStatementContext.prototype.accept = function(visitor) {
     if ( visitor instanceof QLSVisitor ) {
         return visitor.visitQuestionPageStatement(this);
+    } else {
+        return visitor.visitChildren(this);
+    }
+};
+
+
+function ConfiguredQuestionPageStatementContext(parser, ctx) {
+	PageStatementContext.call(this, parser);
+    PageStatementContext.prototype.copyFrom.call(this, ctx);
+    return this;
+}
+
+ConfiguredQuestionPageStatementContext.prototype = Object.create(PageStatementContext.prototype);
+ConfiguredQuestionPageStatementContext.prototype.constructor = ConfiguredQuestionPageStatementContext;
+
+QLSParser.ConfiguredQuestionPageStatementContext = ConfiguredQuestionPageStatementContext;
+
+ConfiguredQuestionPageStatementContext.prototype.IDENTIFIER = function() {
+    return this.getToken(QLSParser.IDENTIFIER, 0);
+};
+
+ConfiguredQuestionPageStatementContext.prototype.widgetConfiguration = function() {
+    return this.getTypedRuleContext(WidgetConfigurationContext,0);
+};
+ConfiguredQuestionPageStatementContext.prototype.enterRule = function(listener) {
+    if(listener instanceof QLSListener ) {
+        listener.enterConfiguredQuestionPageStatement(this);
+	}
+};
+
+ConfiguredQuestionPageStatementContext.prototype.exitRule = function(listener) {
+    if(listener instanceof QLSListener ) {
+        listener.exitConfiguredQuestionPageStatement(this);
+	}
+};
+
+ConfiguredQuestionPageStatementContext.prototype.accept = function(visitor) {
+    if ( visitor instanceof QLSVisitor ) {
+        return visitor.visitConfiguredQuestionPageStatement(this);
     } else {
         return visitor.visitChildren(this);
     }
@@ -690,9 +724,10 @@ QLSParser.prototype.pageStatement = function() {
     var localctx = new PageStatementContext(this, this._ctx, this.state);
     this.enterRule(localctx, 8, QLSParser.RULE_pageStatement);
     try {
-        this.state = 61;
-        switch(this._input.LA(1)) {
-        case QLSParser.T__4:
+        this.state = 64;
+        var la_ = this._interp.adaptivePredict(this._input,3,this._ctx);
+        switch(la_) {
+        case 1:
             localctx = new SectionPageStatementContext(this, localctx);
             this.enterOuterAlt(localctx, 1);
             this.state = 54;
@@ -702,7 +737,8 @@ QLSParser.prototype.pageStatement = function() {
             this.state = 56;
             this.pageBlock();
             break;
-        case QLSParser.T__5:
+
+        case 2:
             localctx = new QuestionPageStatementContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
             this.state = 57;
@@ -710,16 +746,27 @@ QLSParser.prototype.pageStatement = function() {
             this.state = 58;
             this.match(QLSParser.IDENTIFIER);
             this.state = 59;
-            this.styleBlock();
+            this.match(QLSParser.T__6);
             break;
-        case QLSParser.T__6:
-            localctx = new TypeDefaultPageStatementContext(this, localctx);
+
+        case 3:
+            localctx = new ConfiguredQuestionPageStatementContext(this, localctx);
             this.enterOuterAlt(localctx, 3);
             this.state = 60;
+            this.match(QLSParser.T__5);
+            this.state = 61;
+            this.match(QLSParser.IDENTIFIER);
+            this.state = 62;
+            this.widgetConfiguration();
+            break;
+
+        case 4:
+            localctx = new TypeDefaultPageStatementContext(this, localctx);
+            this.enterOuterAlt(localctx, 4);
+            this.state = 63;
             this.typeDefaultStatement();
             break;
-        default:
-            throw new antlr4.error.NoViableAltException(this);
+
         }
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -755,8 +802,8 @@ TypeDefaultStatementContext.prototype.type = function() {
     return this.getTypedRuleContext(TypeContext,0);
 };
 
-TypeDefaultStatementContext.prototype.styleBlock = function() {
-    return this.getTypedRuleContext(StyleBlockContext,0);
+TypeDefaultStatementContext.prototype.widgetConfiguration = function() {
+    return this.getTypedRuleContext(WidgetConfigurationContext,0);
 };
 
 TypeDefaultStatementContext.prototype.enterRule = function(listener) {
@@ -790,12 +837,12 @@ QLSParser.prototype.typeDefaultStatement = function() {
     this.enterRule(localctx, 10, QLSParser.RULE_typeDefaultStatement);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 63;
-        this.match(QLSParser.T__6);
-        this.state = 64;
+        this.state = 66;
+        this.match(QLSParser.T__7);
+        this.state = 67;
         this.type();
-        this.state = 65;
-        this.styleBlock();
+        this.state = 68;
+        this.widgetConfiguration();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
 	        localctx.exception = re;
@@ -810,7 +857,7 @@ QLSParser.prototype.typeDefaultStatement = function() {
     return localctx;
 };
 
-function StyleBlockContext(parser, parent, invokingState) {
+function WidgetConfigurationContext(parser, parent, invokingState) {
 	if(parent===undefined) {
 	    parent = null;
 	}
@@ -819,39 +866,43 @@ function StyleBlockContext(parser, parent, invokingState) {
 	}
 	antlr4.ParserRuleContext.call(this, parent, invokingState);
     this.parser = parser;
-    this.ruleIndex = QLSParser.RULE_styleBlock;
+    this.ruleIndex = QLSParser.RULE_widgetConfiguration;
     return this;
 }
 
-StyleBlockContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
-StyleBlockContext.prototype.constructor = StyleBlockContext;
+WidgetConfigurationContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
+WidgetConfigurationContext.prototype.constructor = WidgetConfigurationContext;
 
-StyleBlockContext.prototype.styleStatement = function(i) {
+WidgetConfigurationContext.prototype.widgetType = function() {
+    return this.getTypedRuleContext(WidgetTypeContext,0);
+};
+
+WidgetConfigurationContext.prototype.widgetArg = function(i) {
     if(i===undefined) {
         i = null;
     }
     if(i===null) {
-        return this.getTypedRuleContexts(StyleStatementContext);
+        return this.getTypedRuleContexts(WidgetArgContext);
     } else {
-        return this.getTypedRuleContext(StyleStatementContext,i);
+        return this.getTypedRuleContext(WidgetArgContext,i);
     }
 };
 
-StyleBlockContext.prototype.enterRule = function(listener) {
+WidgetConfigurationContext.prototype.enterRule = function(listener) {
     if(listener instanceof QLSListener ) {
-        listener.enterStyleBlock(this);
+        listener.enterWidgetConfiguration(this);
 	}
 };
 
-StyleBlockContext.prototype.exitRule = function(listener) {
+WidgetConfigurationContext.prototype.exitRule = function(listener) {
     if(listener instanceof QLSListener ) {
-        listener.exitStyleBlock(this);
+        listener.exitWidgetConfiguration(this);
 	}
 };
 
-StyleBlockContext.prototype.accept = function(visitor) {
+WidgetConfigurationContext.prototype.accept = function(visitor) {
     if ( visitor instanceof QLSVisitor ) {
-        return visitor.visitStyleBlock(this);
+        return visitor.visitWidgetConfiguration(this);
     } else {
         return visitor.visitChildren(this);
     }
@@ -860,28 +911,32 @@ StyleBlockContext.prototype.accept = function(visitor) {
 
 
 
-QLSParser.StyleBlockContext = StyleBlockContext;
+QLSParser.WidgetConfigurationContext = WidgetConfigurationContext;
 
-QLSParser.prototype.styleBlock = function() {
+QLSParser.prototype.widgetConfiguration = function() {
 
-    var localctx = new StyleBlockContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 12, QLSParser.RULE_styleBlock);
+    var localctx = new WidgetConfigurationContext(this, this._ctx, this.state);
+    this.enterRule(localctx, 12, QLSParser.RULE_widgetConfiguration);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 67;
+        this.state = 70;
         this.match(QLSParser.T__1);
-        this.state = 71;
+        this.state = 74;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
-        while(_la===QLSParser.T__7 || _la===QLSParser.IDENTIFIER) {
-            this.state = 68;
-            this.styleStatement();
-            this.state = 73;
+        while(_la===QLSParser.IDENTIFIER) {
+            this.state = 71;
+            this.widgetArg();
+            this.state = 76;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
-        this.state = 74;
+        this.state = 77;
+        this.match(QLSParser.T__8);
+        this.state = 78;
+        this.widgetType();
+        this.state = 79;
         this.match(QLSParser.T__2);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -897,7 +952,7 @@ QLSParser.prototype.styleBlock = function() {
     return localctx;
 };
 
-function StyleStatementContext(parser, parent, invokingState) {
+function WidgetArgContext(parser, parent, invokingState) {
 	if(parent===undefined) {
 	    parent = null;
 	}
@@ -906,88 +961,36 @@ function StyleStatementContext(parser, parent, invokingState) {
 	}
 	antlr4.ParserRuleContext.call(this, parent, invokingState);
     this.parser = parser;
-    this.ruleIndex = QLSParser.RULE_styleStatement;
+    this.ruleIndex = QLSParser.RULE_widgetArg;
     return this;
 }
 
-StyleStatementContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
-StyleStatementContext.prototype.constructor = StyleStatementContext;
+WidgetArgContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
+WidgetArgContext.prototype.constructor = WidgetArgContext;
 
-
- 
-StyleStatementContext.prototype.copyFrom = function(ctx) {
-    antlr4.ParserRuleContext.prototype.copyFrom.call(this, ctx);
-};
-
-
-function ArgStyleStatementContext(parser, ctx) {
-	StyleStatementContext.call(this, parser);
-    StyleStatementContext.prototype.copyFrom.call(this, ctx);
-    return this;
-}
-
-ArgStyleStatementContext.prototype = Object.create(StyleStatementContext.prototype);
-ArgStyleStatementContext.prototype.constructor = ArgStyleStatementContext;
-
-QLSParser.ArgStyleStatementContext = ArgStyleStatementContext;
-
-ArgStyleStatementContext.prototype.IDENTIFIER = function() {
+WidgetArgContext.prototype.IDENTIFIER = function() {
     return this.getToken(QLSParser.IDENTIFIER, 0);
 };
 
-ArgStyleStatementContext.prototype.literal = function() {
+WidgetArgContext.prototype.literal = function() {
     return this.getTypedRuleContext(LiteralContext,0);
 };
-ArgStyleStatementContext.prototype.enterRule = function(listener) {
+
+WidgetArgContext.prototype.enterRule = function(listener) {
     if(listener instanceof QLSListener ) {
-        listener.enterArgStyleStatement(this);
+        listener.enterWidgetArg(this);
 	}
 };
 
-ArgStyleStatementContext.prototype.exitRule = function(listener) {
+WidgetArgContext.prototype.exitRule = function(listener) {
     if(listener instanceof QLSListener ) {
-        listener.exitArgStyleStatement(this);
+        listener.exitWidgetArg(this);
 	}
 };
 
-ArgStyleStatementContext.prototype.accept = function(visitor) {
+WidgetArgContext.prototype.accept = function(visitor) {
     if ( visitor instanceof QLSVisitor ) {
-        return visitor.visitArgStyleStatement(this);
-    } else {
-        return visitor.visitChildren(this);
-    }
-};
-
-
-function WidgetStyleStatementContext(parser, ctx) {
-	StyleStatementContext.call(this, parser);
-    StyleStatementContext.prototype.copyFrom.call(this, ctx);
-    return this;
-}
-
-WidgetStyleStatementContext.prototype = Object.create(StyleStatementContext.prototype);
-WidgetStyleStatementContext.prototype.constructor = WidgetStyleStatementContext;
-
-QLSParser.WidgetStyleStatementContext = WidgetStyleStatementContext;
-
-WidgetStyleStatementContext.prototype.widgetType = function() {
-    return this.getTypedRuleContext(WidgetTypeContext,0);
-};
-WidgetStyleStatementContext.prototype.enterRule = function(listener) {
-    if(listener instanceof QLSListener ) {
-        listener.enterWidgetStyleStatement(this);
-	}
-};
-
-WidgetStyleStatementContext.prototype.exitRule = function(listener) {
-    if(listener instanceof QLSListener ) {
-        listener.exitWidgetStyleStatement(this);
-	}
-};
-
-WidgetStyleStatementContext.prototype.accept = function(visitor) {
-    if ( visitor instanceof QLSVisitor ) {
-        return visitor.visitWidgetStyleStatement(this);
+        return visitor.visitWidgetArg(this);
     } else {
         return visitor.visitChildren(this);
     }
@@ -995,40 +998,23 @@ WidgetStyleStatementContext.prototype.accept = function(visitor) {
 
 
 
-QLSParser.StyleStatementContext = StyleStatementContext;
 
-QLSParser.prototype.styleStatement = function() {
+QLSParser.WidgetArgContext = WidgetArgContext;
 
-    var localctx = new StyleStatementContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 14, QLSParser.RULE_styleStatement);
+QLSParser.prototype.widgetArg = function() {
+
+    var localctx = new WidgetArgContext(this, this._ctx, this.state);
+    this.enterRule(localctx, 14, QLSParser.RULE_widgetArg);
     try {
-        this.state = 85;
-        switch(this._input.LA(1)) {
-        case QLSParser.T__7:
-            localctx = new WidgetStyleStatementContext(this, localctx);
-            this.enterOuterAlt(localctx, 1);
-            this.state = 76;
-            this.match(QLSParser.T__7);
-            this.state = 77;
-            this.widgetType();
-            this.state = 78;
-            this.match(QLSParser.T__8);
-            break;
-        case QLSParser.IDENTIFIER:
-            localctx = new ArgStyleStatementContext(this, localctx);
-            this.enterOuterAlt(localctx, 2);
-            this.state = 80;
-            this.match(QLSParser.IDENTIFIER);
-            this.state = 81;
-            this.match(QLSParser.T__9);
-            this.state = 82;
-            this.literal();
-            this.state = 83;
-            this.match(QLSParser.T__8);
-            break;
-        default:
-            throw new antlr4.error.NoViableAltException(this);
-        }
+        this.enterOuterAlt(localctx, 1);
+        this.state = 81;
+        this.match(QLSParser.IDENTIFIER);
+        this.state = 82;
+        this.match(QLSParser.T__9);
+        this.state = 83;
+        this.literal();
+        this.state = 84;
+        this.match(QLSParser.T__6);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
 	        localctx.exception = re;
@@ -1173,26 +1159,26 @@ QLSParser.prototype.widgetType = function() {
     var localctx = new WidgetTypeContext(this, this._ctx, this.state);
     this.enterRule(localctx, 16, QLSParser.RULE_widgetType);
     try {
-        this.state = 91;
+        this.state = 90;
         switch(this._input.LA(1)) {
         case QLSParser.T__10:
             localctx = new SliderWidgetTypeContext(this, localctx);
             this.enterOuterAlt(localctx, 1);
-            this.state = 87;
+            this.state = 86;
             this.match(QLSParser.T__10);
             break;
         case QLSParser.T__11:
             localctx = new TextWidgetTypeContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
-            this.state = 88;
+            this.state = 87;
             this.match(QLSParser.T__11);
             break;
         case QLSParser.T__12:
             localctx = new RadioWidgetTypeContext(this, localctx);
             this.enterOuterAlt(localctx, 3);
-            this.state = 89;
+            this.state = 88;
             this.match(QLSParser.T__12);
-            this.state = 90;
+            this.state = 89;
             this.valueOptionList();
             break;
         default:
@@ -1263,11 +1249,11 @@ QLSParser.prototype.valueOptionList = function() {
     this.enterRule(localctx, 18, QLSParser.RULE_valueOptionList);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 93;
+        this.state = 92;
         this.match(QLSParser.T__13);
-        this.state = 94;
+        this.state = 93;
         this.valueOptions();
-        this.state = 95;
+        this.state = 94;
         this.match(QLSParser.T__14);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1388,24 +1374,24 @@ QLSParser.prototype.valueOptions = function() {
     var localctx = new ValueOptionsContext(this, this._ctx, this.state);
     this.enterRule(localctx, 20, QLSParser.RULE_valueOptions);
     try {
-        this.state = 101;
-        var la_ = this._interp.adaptivePredict(this._input,7,this._ctx);
+        this.state = 100;
+        var la_ = this._interp.adaptivePredict(this._input,6,this._ctx);
         switch(la_) {
         case 1:
             localctx = new MoreValueOptionsContext(this, localctx);
             this.enterOuterAlt(localctx, 1);
-            this.state = 97;
+            this.state = 96;
             this.match(QLSParser.STRING_LITERAL);
-            this.state = 98;
+            this.state = 97;
             this.match(QLSParser.T__15);
-            this.state = 99;
+            this.state = 98;
             this.valueOptions();
             break;
 
         case 2:
             localctx = new LastValueOptionContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
-            this.state = 100;
+            this.state = 99;
             this.match(QLSParser.STRING_LITERAL);
             break;
 
@@ -1630,36 +1616,36 @@ QLSParser.prototype.literal = function() {
     var localctx = new LiteralContext(this, this._ctx, this.state);
     this.enterRule(localctx, 22, QLSParser.RULE_literal);
     try {
-        this.state = 108;
+        this.state = 107;
         switch(this._input.LA(1)) {
         case QLSParser.BOOLEAN_LITERAL:
             localctx = new BooleanLiteralContext(this, localctx);
             this.enterOuterAlt(localctx, 1);
-            this.state = 103;
+            this.state = 102;
             this.match(QLSParser.BOOLEAN_LITERAL);
             break;
         case QLSParser.STRING_LITERAL:
             localctx = new StringLiteralContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
-            this.state = 104;
+            this.state = 103;
             this.match(QLSParser.STRING_LITERAL);
             break;
         case QLSParser.INTEGER_LITERAL:
             localctx = new IntegerLiteralContext(this, localctx);
             this.enterOuterAlt(localctx, 3);
-            this.state = 105;
+            this.state = 104;
             this.match(QLSParser.INTEGER_LITERAL);
             break;
         case QLSParser.FLOAT_LITERAL:
             localctx = new FloatLiteralContext(this, localctx);
             this.enterOuterAlt(localctx, 4);
-            this.state = 106;
+            this.state = 105;
             this.match(QLSParser.FLOAT_LITERAL);
             break;
         case QLSParser.MONEY_LITERAL:
             localctx = new MoneyLiteralContext(this, localctx);
             this.enterOuterAlt(localctx, 5);
-            this.state = 107;
+            this.state = 106;
             this.match(QLSParser.MONEY_LITERAL);
             break;
         default:
@@ -1728,7 +1714,7 @@ QLSParser.prototype.type = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 110;
+        this.state = 109;
         _la = this._input.LA(1);
         if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << QLSParser.T__16) | (1 << QLSParser.T__17) | (1 << QLSParser.T__18) | (1 << QLSParser.T__19) | (1 << QLSParser.T__20))) !== 0))) {
         this._errHandler.recoverInline(this);

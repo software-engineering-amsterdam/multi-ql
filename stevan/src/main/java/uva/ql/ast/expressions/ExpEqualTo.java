@@ -2,11 +2,11 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.expressions.abstracts.AbstractRelationalOperator;
+import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.types.EqualTo;
 
-public class ExpEqualTo extends AbstractRelationalOperator {
+public class ExpEqualTo extends RelationalOperatorBinary {
 
 	private EqualTo type = new EqualTo();
 	

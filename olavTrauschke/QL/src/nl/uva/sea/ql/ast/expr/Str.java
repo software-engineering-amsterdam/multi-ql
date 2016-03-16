@@ -1,6 +1,8 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.StringValue;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
@@ -8,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of (literals of) the type string in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 16-mrt-2016
  */
 public class Str extends Expr {
     
@@ -31,13 +33,14 @@ public class Str extends Expr {
     }
     
     /**
-     * Has <code>v visit this Str</code>.
+     * Has <code>visitor visit this Str</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should <code>visit this Str</code>
+     * @param visitor an <code>ASTVisitor</code> that should
+     *                  <code>visit this Str</code>
      */
     @Override
-    public void accept(ASTVisitor v) {
-        v.visit(this);
+    public void accept(ASTVisitor visitor) {
+        visitor.visit(this);
     }
     
     /**
@@ -52,6 +55,19 @@ public class Str extends Expr {
     @Override
     public boolean isString(Map<Ident,Question> questionTypes) {
         return true;
+    }
+    
+    /**
+     * Obtain <code>theValue</code> of <code>this Str</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> that is not used, may also
+     *                      be null
+     * @return a <code>StringValue</code> representing <code>theValue</code> of
+     *          <code>this Str</code>
+     */
+    @Override
+    public StringValue eval(AnswerTable answerTable) {
+        return new StringValue(value);
     }
     
     /**

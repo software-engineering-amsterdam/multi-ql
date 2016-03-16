@@ -2,11 +2,11 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.expressions.abstracts.AbstractSingleLogicalOperator;
+import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.types.Not;
 
-public class ExpNot extends AbstractSingleLogicalOperator {
+public class ExpNot extends LogicalOperatorUnary {
 
 	private Not type = new Not();
 	

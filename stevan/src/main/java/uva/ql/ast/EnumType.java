@@ -4,8 +4,6 @@ public enum EnumType {
 	MONEY,
 	STRING,
 	INTEGER,
-	DOUBLE,
-	DECIMAL,
 	DATE,
 	BOOLEAN,
 	GENERIC,
