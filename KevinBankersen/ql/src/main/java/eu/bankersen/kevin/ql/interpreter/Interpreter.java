@@ -22,27 +22,24 @@ public class Interpreter implements ViewListener {
 	this.environment = new Environment();
 
 	// Construct the environment
-	form.accept(new TopDownQuestionVisitor<Void>() {
+	form.accept(new TopDownQuestionVisitor<Environment>() {
 
 	    @Override
-	    public Void visit(NormalQuestion o, Void empty) {
+	    public void visit(NormalQuestion o, Environment environment) {
 		environment.addQuestion(o.name());
-		return null;
 	    }
 
 	    @Override
-	    public Void visit(ComputedQuestion o, Void empty) {
+	    public void visit(ComputedQuestion o, Environment environment) {
 		environment.addQuestion(o.name());
-		return null;
 	    }
-	}, null);
+	}, environment);
     }
 
     private void evalForm() {
 	Environment previousEnv;
 
 	do {
-	    System.out.println("one");
 	    previousEnv = environment;
 	    form.evalForm(environment);
 	} while (!previousEnv.equals(environment));

@@ -43,6 +43,7 @@ public class MoneyValue extends QLValue {
 	return value.value().compareTo(this.value) == 0 ? true : false;
     }
 
+    // Operations
     @Override
     public QLValue subtract(QLValue value) {
 	return value.subtract(this);
@@ -65,7 +66,7 @@ public class MoneyValue extends QLValue {
 
     @Override
     public QLValue add(StringValue value) {
-	return new StringValue(value.value() + this.toString());
+	return new StringValue(value.value().concat(this.toString()));
     }
 
     @Override

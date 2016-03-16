@@ -9,9 +9,7 @@ import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.Identifier;
 import eu.bankersen.kevin.ql.ast.expr.Literal;
 import eu.bankersen.kevin.ql.ast.expr.TopDownExprVisitor;
-import eu.bankersen.kevin.ql.ast.form.Body;
 import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
 import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
 import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
 import eu.bankersen.kevin.ql.ast.stat.IFStatement;
@@ -24,7 +22,8 @@ public class DependancyAnalyzer {
     private final List<TypeCheckError> errorList;
 
     public DependancyAnalyzer(Form form) {
-	DependancyChecker data = form.accept(new DependancyVisitor(), new DependancyChecker());
+	DependancyChecker data = new DependancyChecker();
+	form.accept(new FormDependancyVisitor(), data);
 	this.errorList = data.getErrors();
     }
 
@@ -32,77 +31,67 @@ public class DependancyAnalyzer {
 	return errorList;
     }
 
-    public class DependancyVisitor extends TopDownQuestionVisitor<DependancyChecker> {
+    public class FormDependancyVisitor extends TopDownQuestionVisitor<DependancyChecker> {
 
 	@Override
-	public DependancyChecker visit(Form o, DependancyChecker context) {
-	    context.openNewBlock();
+	public void visit(Form o, DependancyChecker context) {
+	    context.openNewBlock(0);
+
 	    o.body().accept(this, context);
+
 	    Set<String> name = new HashSet<>();
 	    name.add(o.name());
+
 	    context.closeBlock(name);
-	    return context;
-
 	}
 
 	@Override
-	public DependancyChecker visit(Body o, DependancyChecker context) {
-	    for (AbstractStatement s : o.statements()) {
-		context = s.accept(this, context);
-	    }
-	    return context;
-	}
+	public void visit(IFStatement o, DependancyChecker context) {
 
-	@Override
-	public DependancyChecker visit(IFStatement o, DependancyChecker context) {
+	    context.openNewBlock(o.line());
 
-	    context.openNewBlock();
+	    Set<String> condition = o.condition().accept(new ExprDependancyVisitor(), null);
 
-	    Set<String> condition = o.condition().accept(this, null);
-
-	    context = o.body().accept(this, context);
+	    o.body().accept(this, context);
 	    context.closeIfBlock();
 
 	    context.closeBlock(condition);
-	    return context;
 	}
 
 	@Override
-	public DependancyChecker visit(ElseStatement o, DependancyChecker context) {
+	public void visit(ElseStatement o, DependancyChecker context) {
 
-	    context.openNewBlock();
-	    Set<String> condition = o.condition().accept(this, null);
-	    context = o.body().accept(this, context);
+	    context.openNewBlock(o.line());
+	    Set<String> condition = o.condition().accept(new ExprDependancyVisitor(), null);
+
+	    o.body().accept(this, context);
 	    context.closeIfBlock();
 
-	    context = o.elseBody().accept(this, context);
+	    o.elseBody().accept(this, context);
 	    context.closeBlock(condition);
-	    return context;
 	}
 
 	@Override
-	public DependancyChecker visit(NormalQuestion o, DependancyChecker context) {
+	public void visit(NormalQuestion o, DependancyChecker context) {
 	    context.registerQuestion(o.name());
-	    return context;
 	}
 
 	@Override
-	public DependancyChecker visit(ComputedQuestion o, DependancyChecker context) {
-	    Set<String> identifiers = o.computation().accept(new ExprIdentifierVisitor(), null);
+	public void visit(ComputedQuestion o, DependancyChecker context) {
+	    Set<String> identifiers = o.computation().accept(new ExprDependancyVisitor(), null);
 	    context.registerQuestion(o.name(), identifiers);
-	    return context;
 	}
 
-	public class ExprIdentifierVisitor extends TopDownExprVisitor<Set<String>, Void> {
+	public class ExprDependancyVisitor extends TopDownExprVisitor<Set<String>, Void> {
 
 	    @Override
 	    public Set<String> visitDoubleExpression(Expr lhs, Expr rhs, Void context) {
 
-		Set<String> left = lhs.accept(this, context);
-		Set<String> right = rhs.accept(this, context);
+		Set<String> leftIdentifiers = lhs.accept(this, context);
+		Set<String> rightIdentifiers = rhs.accept(this, context);
 
-		left.addAll(right);
-		return left;
+		leftIdentifiers.addAll(rightIdentifiers);
+		return leftIdentifiers;
 	    }
 
 	    @Override
