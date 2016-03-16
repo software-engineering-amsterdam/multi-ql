@@ -40,7 +40,6 @@ import nl.nicasso.ql.ast.nodes.types.UnknownType;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.MessageHandler;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.CyclomaticDependency;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.IncompatibleTypes;
-import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.NonExistantQuestion;
 import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 import nl.nicasso.ql.utils.Pair;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
@@ -68,10 +67,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		
 		Type type = expr.inferType(leftType, rightType);
 		
-		if (type.equals(new UnknownType())) {
-			messages.addMessage(new IncompatibleTypes(expr.getLocation()));
-		}
-		
 		return type;
 	}
 	
@@ -79,10 +74,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type exprType = expr.getExpr().accept(this);
 		
 		Type type = expr.inferType(exprType);
-		
-		if (type.equals(new UnknownType())) {
-			messages.addMessage(new IncompatibleTypes(expr.getLocation()));
-		}
 		
 		return type;
 	}
@@ -191,7 +182,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		currentIdentifier = null;
 		
 		if (!expr.equals(value.getType())) {
-			messages.addMessage(new IncompatibleTypes(expr.getLocation()));
+			messages.addMessage(new IncompatibleTypes(value.getLocation()));
 		}
 		
 		return null;
@@ -205,7 +196,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type type = value.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			messages.addMessage(new IncompatibleTypes(expr.getLocation()));
+			messages.addMessage(new IncompatibleTypes(value.getLocation()));
 		}
 		
 		return null;
@@ -220,7 +211,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type type = value.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			messages.addMessage(new IncompatibleTypes(expr.getLocation()));
+			messages.addMessage(new IncompatibleTypes(value.getLocation()));
 		}
 		
 		return null;
