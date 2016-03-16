@@ -87,7 +87,7 @@ public class DependancyChecker {
 
     private void checkForErrors(Set<String> dependencies, String var) {
 	if (dependencies.contains(var)) {
-	    errorList.add(new CyclicDependencyError(var, dependencies));
+	    errorList.add(new CyclicDependencyError(0, var, dependencies));
 	}
     }
 
@@ -101,9 +101,9 @@ public class DependancyChecker {
 	defineQuestionRelation(name, identifiers);
     }
 
-    public void openNewBlock() {
+    public void openNewBlock(int line) {
 	ifBlock = true;
-	openBlocks.add(new BlockContents());
+	openBlocks.add(new BlockContents(line));
 	ifBlockIdentifiers.add(new HashSet<>());
 	elseBlockIdentifiers.add(new HashSet<>());
     }
@@ -190,17 +190,20 @@ public class DependancyChecker {
 
     private class BlockContents {
 
-	private Set<String> condition;
-	private Set<String> ifIdentifiers;
-	private Set<String> elseIdentifiers;
+	private final int line;
+	private final Set<String> condition;
+	private final Set<String> ifIdentifiers;
+	private final Set<String> elseIdentifiers;
 
-	BlockContents() {
+	BlockContents(int line) {
+	    this.line = line;
+	    this.condition = new HashSet<>();
 	    this.ifIdentifiers = new HashSet<>();
 	    this.elseIdentifiers = new HashSet<>();
 	}
 
 	public void setIdentifiers(Set<String> condition, Set<String> ifIdentifiers, Set<String> elseIdentifiers) {
-	    this.condition = condition;
+	    this.condition.addAll(condition);
 	    this.ifIdentifiers.addAll(ifIdentifiers);
 	    this.elseIdentifiers.addAll(elseIdentifiers);
 	}
@@ -226,36 +229,40 @@ public class DependancyChecker {
 		findRelationWithDeclaration(identifier, errorList);
 	    }
 
-	    for (String identifier : ifIdentifiers) {
-		findRelationsBetweenIFandElse(identifier, errorList);
-	    }
+	    findRelationsBetweenIFandElse(questionDependancies, errorList);
 	    return errorList;
 	}
 
 	private void findRelationWithOwnDependancies(Set<String> conditionRelations, List<TypeCheckError> errorList) {
 
 	    if (containsAnyEqualObject(conditionRelations, ifIdentifiers)) {
-		errorList.add(new CyclicDependencyError(condition, ifIdentifiers));
+		errorList.add(new CyclicDependencyError(line, condition, ifIdentifiers));
 	    }
 
 	    if (containsAnyEqualObject(conditionRelations, elseIdentifiers)) {
-		errorList.add(new CyclicDependencyError(condition, elseIdentifiers));
+		errorList.add(new CyclicDependencyError(line, condition, elseIdentifiers));
 	    }
 	}
 
 	private void findRelationWithDeclaration(String identifier, List<TypeCheckError> errorList) {
 	    if (ifIdentifiers.contains(identifier)) {
-		errorList.add(new CyclicDependencyError(condition, ifIdentifiers));
+		errorList.add(new CyclicDependencyError(line, condition, ifIdentifiers));
 	    }
 
 	    if (elseIdentifiers.contains(identifier)) {
-		errorList.add(new CyclicDependencyError(condition, elseIdentifiers));
+		errorList.add(new CyclicDependencyError(line, condition, elseIdentifiers));
 	    }
 	}
 
-	private void findRelationsBetweenIFandElse(String identifier, List<TypeCheckError> errorList) {
-	    if (elseIdentifiers.contains(identifier)) {
-		errorList.add(new CyclicDependencyError(condition, ifIdentifiers, elseIdentifiers));
+	private void findRelationsBetweenIFandElse(Map<String, Set<String>> conditionRelations,
+		List<TypeCheckError> errorList) {
+
+	    for (String identifier : ifIdentifiers) {
+		if (conditionRelations.containsKey(identifier)) {
+		    if (containsAnyEqualObject(conditionRelations.get(identifier), elseIdentifiers)) {
+			errorList.add(new CyclicDependencyError(line, identifier, elseIdentifiers));
+		    }
+		}
 	    }
 	}
 

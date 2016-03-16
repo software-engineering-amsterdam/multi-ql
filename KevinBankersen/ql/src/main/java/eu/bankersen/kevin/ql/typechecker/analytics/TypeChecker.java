@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.bankersen.kevin.ql.ast.ASTVisitor;
+import eu.bankersen.kevin.ql.ast.TopDownQuestionVisitor;
 import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Identifier;
 import eu.bankersen.kevin.ql.ast.expr.Literal;
@@ -51,63 +51,57 @@ public class TypeChecker {
 	this.symbolTable = new HashMap<>();
 
 	// Build a table mapping questions and types.
-	form.accept(new ASTVisitor<Void>() {
+	form.accept(new TopDownQuestionVisitor<Void>() {
 
 	    @Override
-	    public Void visit(NormalQuestion o, Void empty) {
+	    public void visit(NormalQuestion o, Void empty) {
 		if (symbolTable.containsKey(o.name())) {
 		    errorList.add(new AllreadyDeclaredError(o.line(), o.name()));
 		} else {
 		    symbolTable.put(o.name(), o.type());
 		}
-		return null;
 	    }
 
 	    @Override
-	    public Void visit(ComputedQuestion o, Void empty) {
+	    public void visit(ComputedQuestion o, Void empty) {
 		if (symbolTable.containsKey(o.name())) {
 		    errorList.add(new AllreadyDeclaredError(o.line(), o.name()));
 		} else {
 		    symbolTable.put(o.name(), o.type());
 		}
-		return null;
 	    }
 	}, null);
 
 	// TypeCheck the form.
-	form.accept(new ASTVisitor<Void>() {
+	form.accept(new TopDownQuestionVisitor<Void>() {
 
 	    @Override
-	    public Void visit(IFStatement o, Void context) {
+	    public void visit(IFStatement o, Void context) {
 
-		context = o.body().accept(this, context);
+		o.body().accept(this, context);
 
 		QLType expr = o.condition().accept(new ExprTypeChecker(), symbolTable);
 
 		if (!expr.equals(new BooleanType())) {
 		    errorList.add(new ExprTypeError(o, expr));
 		}
-
-		return null;
 	    }
 
 	    @Override
-	    public Void visit(ElseStatement o, Void context) {
+	    public void visit(ElseStatement o, Void context) {
 
-		context = o.body().accept(this, context);
-		context = o.elseBody().accept(this, context);
+		o.body().accept(this, context);
+		o.elseBody().accept(this, context);
 
 		QLType expr = o.condition().accept(new ExprTypeChecker(), symbolTable);
 
 		if (!expr.equals(new BooleanType())) {
 		    errorList.add(new ExprTypeError(o, expr));
 		}
-
-		return null;
 	    }
 
 	    @Override
-	    public Void visit(ComputedQuestion o, Void context) {
+	    public void visit(ComputedQuestion o, Void context) {
 
 		QLType question = o.type();
 		QLType expr = o.computation().accept(new ExprTypeChecker(), symbolTable);
@@ -115,7 +109,10 @@ public class TypeChecker {
 		if (!question.equals(expr) && !expr.equals(new UndifinedType())) {
 		    errorList.add(new ExprTypeError(o, question, expr));
 		}
-		return null;
+	    }
+
+	    @Override
+	    public void visit(NormalQuestion o, Void context) {
 	    }
 	}, null);
 
