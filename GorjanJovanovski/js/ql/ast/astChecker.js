@@ -1,7 +1,6 @@
 function performAstChecks(ast, environment) {
 	var textSet = new Set();
 	var identifierMap = [];
-
 	var noErrors = true;
 
 	ast.transverseAST(

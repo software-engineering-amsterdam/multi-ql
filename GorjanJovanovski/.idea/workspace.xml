@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cd652696-3ee0-4e96-b125-62e87dc87f46" name="Default" comment="reorganize">
+    <list default="true" id="cd652696-3ee0-4e96-b125-62e87dc87f46" name="Default" comment="corrected type check">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/ast/astChecker.js" afterPath="$PROJECT_DIR$/js/ql/ast/astChecker.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/ast/main.js" afterPath="$PROJECT_DIR$/js/ql/ast/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/classes/nodes.js" afterPath="$PROJECT_DIR$/js/ql/classes/nodes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/html/initialize.js" afterPath="$PROJECT_DIR$/js/ql/html/initialize.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/html/update.js" afterPath="$PROJECT_DIR$/js/ql/html/update.js" />
     </list>
     <ignored path="GorjanJovanovski.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,37 +43,95 @@
         <entry file="file://$PROJECT_DIR$/js/ql/ast/astChecker.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+              <caret line="80" column="59" selection-start-line="80" selection-start-column="59" selection-end-line="80" selection-end-column="59" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nodes.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="QLGrammar.g4" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/QLGrammar.g4">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="nodes.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/ql/classes/nodes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="270" column="248" selection-start-line="270" selection-start-column="248" selection-end-line="270" selection-end-column="248" />
-              <folding />
+            <state vertical-scroll-proportion="-0.49786323">
+              <caret line="347" column="9" selection-start-line="347" selection-start-column="9" selection-end-line="347" selection-end-column="9" />
+              <folding>
+                <element signature="n#FormNode#0" expanded="false" />
+                <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
+                <element signature="n#!!block;n#initializeQuestions#0;n#FormNode#0" expanded="false" />
+                <element signature="e#235#286#0" expanded="false" />
+                <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
+                <element signature="e#358#532#0" expanded="false" />
+                <element signature="e#463#528#0" expanded="false" />
+                <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
+                <element signature="e#645#704#0" expanded="false" />
+                <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
+                <element signature="e#889#925#0" expanded="false" />
+                <element signature="e#991#1026#0" expanded="false" />
+                <element signature="e#1054#2034#0" expanded="false" />
+                <element signature="e#1185#1293#0" expanded="false" />
+                <element signature="e#1261#1288#0" expanded="false" />
+                <element signature="e#1344#2030#0" expanded="false" />
+                <element signature="e#1387#1501#0" expanded="false" />
+                <element signature="e#1466#1495#0" expanded="false" />
+                <element signature="e#1628#1740#0" expanded="false" />
+                <element signature="e#1684#1734#0" expanded="false" />
+                <element signature="e#1909#2025#0" expanded="false" />
+                <element signature="e#1967#2019#0" expanded="false" />
+                <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
+                <element signature="e#2115#2209#0" expanded="false" />
+                <element signature="e#2154#2205#0" expanded="false" />
+                <element signature="n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#initializeValue#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#checkExpressionType#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#isExpressionDefined#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#expressionString#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#isValidExpressionArguments#0;n#QuestionNode#0" expanded="false" />
+                <element signature="n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#checkExpressionType#0;n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#isExpressionDefined#0;n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#expressionString#0;n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#isValidExpressionArguments#0;n#ComputedQuestionNode#0" expanded="false" />
+                <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
+                <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
+                <element signature="n#!!block;n#isExpressionDefined#0;n#ConditionNode#0" expanded="false" />
+                <element signature="n#!!block;n#expressionString#0;n#ConditionNode#0" expanded="false" />
+                <element signature="n#!!block;n#checkExpressionType#0;n#ConditionNode#0" expanded="false" />
+                <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
+                <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
+                <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
+                <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
+                <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
+                <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
+                <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
+                <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ql/ast/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39957264">
-              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="errorHandlers.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/ql/ast/errorHandlers.js">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -118,9 +172,9 @@
         <option value="$PROJECT_DIR$/js/ql/html/initialize.js" />
         <option value="$PROJECT_DIR$/js/ql/html/update.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/ql/ast/main.js" />
         <option value="$PROJECT_DIR$/js/ql/ast/astChecker.js" />
         <option value="$PROJECT_DIR$/js/ql/classes/nodes.js" />
-        <option value="$PROJECT_DIR$/js/ql/ast/main.js" />
       </list>
     </option>
   </component>
@@ -328,44 +382,26 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/.gitignore</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/README.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/acceptexpr.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/add.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/evalexpr.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/intlit.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/leq.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/typecheckexpr.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/unaryoperator.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/unaryoperator_test.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/node/node.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/acceptstmt.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/computedquestion.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/form.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/ifelse.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/typecheckstmt.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/vari/vardecl.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/vari/varid.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/visitor/basevisitor.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/example.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/grammar/ql.bnf</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/gui/gui.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/gui/guiquestion.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/expr.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/stmt.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/typechecker.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/lexer/lexer.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/main.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/makefile</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/parser/actiontable.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/parser/productionstable.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift.xcodeproj/project.xcworkspace/xcuserdata/Julian.xcuserdatad/UserInterfaceState.xcuserstate</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/AppDelegate.swift</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLNodes.swift</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLParser.swift</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLSymbolTable.swift</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLTypeChecker.swift</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/Streams/questionsAndIfStatement.ql</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/CyclicReferences.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/SemanticAnalyser.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ast/Expression.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/eval/Environment.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/eval/Evaluator.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/UIFactory.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/UIQuestion.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/UIWidget.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/UIWidgetChoice.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/UIWidgetChoices.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/UIWidgetStyle.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/widget/LabelWidget.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/widget/RadioButtonWidget.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/widget/TextFieldWidget.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/literal/BooleanLiteral.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/literal/IntegerLiteral.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/literal/StringLiteral.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/parser/QLS.g4</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ui/QLSUIFactory.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/test/src/sc/ql/eval/EvaluatorTest.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -373,16 +409,31 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/glide.lock</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/glide.yaml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/astnode.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/symbols.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/libui.A.dylib</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symbols/symbols.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symbols/symbols_test.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/typechecker/typechecker.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/typechecker/typechecker_test.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/vendor/golang.org/x/sys</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/widget/AbstractUIWidget.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/value/BooleanValue.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/value/NumberValue.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/value/StringValue.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/value/Value.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/value/ValueAdapter.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/Main.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/ASTNode.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/ASTSourceInfo.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/literal/Literal.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/Page.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/Property.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/PropertyVisitor.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/Rule.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/RuleVisitor.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/Section.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/StyleSheet.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/CheckBox.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/DropDown.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/RadioButton.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/Slider.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/Spinbox.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/TextField.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/Widget.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/WidgetVisitor.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -390,11 +441,34 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/typechecker/typechecker.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/typechecker/typechecker_test.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/symboltable.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symboltable/symboltable.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symboltable/symboltable_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ast/value/BooleanValue.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ast/value/NumberValue.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ast/value/StringValue.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ast/value/Value.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ast/value/ValueAdapter.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/ql/ui/widget/AbstractWidgetImpl.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/QLSASTNode.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/QLSASTSourceInfo.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/QLSMain.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/literal/QLSLiteral.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/QLSPage.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/QLSQuestion.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/QLSSection.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/page/QLSStyleSheet.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/type/QLSBooleanType.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/type/QLSIntegerType.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/type/QLSStringType.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/type/QLSType.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/type/QLSTypeDef.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/type/QLSTypeOption.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/QLSCheckBox.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/QLSDropDown.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/QLSRadioButton.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/QLSSlider.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/QLSSpinbox.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/QLSTextField.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/QLSWidget.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../NickLodewijks/src/sc/qls/ast/widget/QLSWidgetType.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Restored" />
@@ -653,18 +727,24 @@
       <option name="project" value="LOCAL" />
       <updated>1458128896688</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="corrected type check">
+      <created>1458132548141</created>
+      <option name="number" value="00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1458132548141</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16410257" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15213676" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15213676" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2065053" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -739,12 +819,13 @@
     <MESSAGE value="file restructuring" />
     <MESSAGE value="removing symbol table from ast" />
     <MESSAGE value="reorganize" />
-    <option name="LAST_COMMIT_MESSAGE" value="reorganize" />
+    <MESSAGE value="corrected type check" />
+    <option name="LAST_COMMIT_MESSAGE" value="corrected type check" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="45" />
+      <option name="time" value="55" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -883,14 +964,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3326226">
           <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QLGrammar.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1121,6 +1194,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/QLGrammar.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/ql/ast/errorHandlers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1129,27 +1210,85 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/ast/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/ql/ast/astChecker.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+          <caret line="80" column="59" selection-start-line="80" selection-start-column="59" selection-end-line="80" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/ql/classes/nodes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="270" column="248" selection-start-line="270" selection-start-column="248" selection-end-line="270" selection-end-column="248" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ql/ast/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39957264">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-          <folding />
+        <state vertical-scroll-proportion="-0.49786323">
+          <caret line="347" column="9" selection-start-line="347" selection-start-column="9" selection-end-line="347" selection-end-column="9" />
+          <folding>
+            <element signature="n#FormNode#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
+            <element signature="n#!!block;n#initializeQuestions#0;n#FormNode#0" expanded="false" />
+            <element signature="e#235#286#0" expanded="false" />
+            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
+            <element signature="e#358#532#0" expanded="false" />
+            <element signature="e#463#528#0" expanded="false" />
+            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
+            <element signature="e#645#704#0" expanded="false" />
+            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
+            <element signature="e#889#925#0" expanded="false" />
+            <element signature="e#991#1026#0" expanded="false" />
+            <element signature="e#1054#2034#0" expanded="false" />
+            <element signature="e#1185#1293#0" expanded="false" />
+            <element signature="e#1261#1288#0" expanded="false" />
+            <element signature="e#1344#2030#0" expanded="false" />
+            <element signature="e#1387#1501#0" expanded="false" />
+            <element signature="e#1466#1495#0" expanded="false" />
+            <element signature="e#1628#1740#0" expanded="false" />
+            <element signature="e#1684#1734#0" expanded="false" />
+            <element signature="e#1909#2025#0" expanded="false" />
+            <element signature="e#1967#2019#0" expanded="false" />
+            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
+            <element signature="e#2115#2209#0" expanded="false" />
+            <element signature="e#2154#2205#0" expanded="false" />
+            <element signature="n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#initializeValue#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#checkExpressionType#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#isExpressionDefined#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#expressionString#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#isValidExpressionArguments#0;n#QuestionNode#0" expanded="false" />
+            <element signature="n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#checkExpressionType#0;n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#isExpressionDefined#0;n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#expressionString#0;n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#isValidExpressionArguments#0;n#ComputedQuestionNode#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
+            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
+            <element signature="n#!!block;n#isExpressionDefined#0;n#ConditionNode#0" expanded="false" />
+            <element signature="n#!!block;n#expressionString#0;n#ConditionNode#0" expanded="false" />
+            <element signature="n#!!block;n#checkExpressionType#0;n#ConditionNode#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
+            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
+            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
+            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
+            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
+            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
+            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

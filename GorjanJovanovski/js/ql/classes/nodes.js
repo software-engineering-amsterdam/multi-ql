@@ -252,7 +252,6 @@ class OperatorExpressionNode {
 }
 
 class OperatorNode {
-
 	constructor(op, line) {
 		this.op = op;
 		this.line = line;
@@ -261,7 +260,6 @@ class OperatorNode {
 	toString() {
 		return this.op;
 	}
-
 
 	validateArguments(left, right, validArguments, environment) {
 		if ((typeof left.compute(environment) === typeof right.compute(environment)) && validArguments.indexOf(typeof left.compute(environment)) !== -1) {
@@ -318,15 +316,13 @@ class BoolOperatorNode extends OperatorNode {
 	}
 
 	compute(left, right, environment) {
-		if (this.validateArguments(left.compute(environment), right.compute(environment))) {
-			switch (this.op) {
-				case "&&":
-					return left.compute(environment) && right.compute(environment);
-				case "||":
-					return left.compute(environment) || right.compute(environment);
-				default:
-					return undefined;
-			}
+		switch (this.op) {
+			case "&&":
+				return left.compute(environment) && right.compute(environment);
+			case "||":
+				return left.compute(environment) || right.compute(environment);
+			default:
+				return undefined;
 		}
 	}
 }
@@ -342,15 +338,13 @@ class NumOrBoolOperatorNode extends OperatorNode {
 
 	compute(left, right, environment) {
 
-		if (this.validateArguments(left.compute(environment), right.compute(environment))) {
-			switch (this.op) {
-				case "==":
-					return left.compute(environment) === right.compute(environment);
-				case "!=":
-					return left.compute(environment) !== right.compute(environment);
-				default:
-					return undefined;
-			}
+		switch (this.op) {
+			case "==":
+				return left.compute(environment) === right.compute(environment);
+			case "!=":
+				return left.compute(environment) !== right.compute(environment);
+			default:
+				return undefined;
 		}
 	}
 }
@@ -383,7 +377,7 @@ class LiteralNode {
 		this.value = value;
 	}
 
-	compute() {
+	compute(environment) {
 		return this.value;
 	}
 
