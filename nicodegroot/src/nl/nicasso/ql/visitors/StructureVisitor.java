@@ -1,7 +1,7 @@
 package nl.nicasso.ql.visitors;
 
-import nl.nicasso.ql.ast.structures.Block;
-import nl.nicasso.ql.ast.structures.Form;
+import nl.nicasso.ql.ast.nodes.structures.Block;
+import nl.nicasso.ql.ast.nodes.structures.Form;
 
 public interface StructureVisitor<T, U> {
 

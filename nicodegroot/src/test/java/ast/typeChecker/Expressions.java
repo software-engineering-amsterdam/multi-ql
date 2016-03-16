@@ -5,22 +5,22 @@ import java.math.BigDecimal;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.nicasso.ql.TypeChecker;
-import nl.nicasso.ql.ast.expressions.additive.Addition;
-import nl.nicasso.ql.ast.expressions.additive.Subtraction;
-import nl.nicasso.ql.ast.expressions.conditional.And;
-import nl.nicasso.ql.ast.expressions.conditional.Not;
-import nl.nicasso.ql.ast.expressions.conditional.Or;
-import nl.nicasso.ql.ast.expressions.equality.Equal;
-import nl.nicasso.ql.ast.expressions.equality.NotEqual;
-import nl.nicasso.ql.ast.expressions.multiplicative.Division;
-import nl.nicasso.ql.ast.expressions.multiplicative.Multiplication;
-import nl.nicasso.ql.ast.literals.BooleanLit;
-import nl.nicasso.ql.ast.literals.IntegerLit;
-import nl.nicasso.ql.ast.literals.MoneyLit;
-import nl.nicasso.ql.ast.types.IntegerType;
-import nl.nicasso.ql.ast.types.MoneyType;
-import nl.nicasso.ql.ast.types.Type;
+import nl.nicasso.ql.ast.nodes.expressions.additive.Addition;
+import nl.nicasso.ql.ast.nodes.expressions.additive.Subtraction;
+import nl.nicasso.ql.ast.nodes.expressions.conditional.And;
+import nl.nicasso.ql.ast.nodes.expressions.conditional.Not;
+import nl.nicasso.ql.ast.nodes.expressions.conditional.Or;
+import nl.nicasso.ql.ast.nodes.expressions.equality.Equal;
+import nl.nicasso.ql.ast.nodes.expressions.equality.NotEqual;
+import nl.nicasso.ql.ast.nodes.expressions.multiplicative.Division;
+import nl.nicasso.ql.ast.nodes.expressions.multiplicative.Multiplication;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
+import nl.nicasso.ql.ast.nodes.literals.IntegerLit;
+import nl.nicasso.ql.ast.nodes.literals.MoneyLit;
+import nl.nicasso.ql.ast.nodes.types.IntegerType;
+import nl.nicasso.ql.ast.nodes.types.MoneyType;
+import nl.nicasso.ql.ast.nodes.types.Type;
+import nl.nicasso.ql.semanticAnalysis.TypeChecker;
 
 public class Expressions {
 	

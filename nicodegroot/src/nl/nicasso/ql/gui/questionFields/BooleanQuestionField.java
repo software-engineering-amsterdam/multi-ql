@@ -5,11 +5,11 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 
-import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.evaluator.values.BooleanValue;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.values.BooleanValue;
 
 public class BooleanQuestionField extends QuestionField {
 

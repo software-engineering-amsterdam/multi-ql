@@ -3,21 +3,23 @@ package nl.nicasso.ql.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.nicasso.ql.Evaluator;
-import nl.nicasso.ql.ast.expressions.Expression;
-import nl.nicasso.ql.ast.expressions.conditional.Not;
-import nl.nicasso.ql.ast.literals.BooleanLit;
-import nl.nicasso.ql.ast.statements.ComputedQuestion;
-import nl.nicasso.ql.ast.statements.IfElseStatement;
-import nl.nicasso.ql.ast.statements.IfStatement;
-import nl.nicasso.ql.ast.statements.Question;
-import nl.nicasso.ql.ast.statements.Statement;
-import nl.nicasso.ql.ast.structures.Block;
-import nl.nicasso.ql.ast.structures.Form;
-import nl.nicasso.ql.ast.types.BooleanType;
-import nl.nicasso.ql.ast.types.IntegerType;
-import nl.nicasso.ql.ast.types.MoneyType;
-import nl.nicasso.ql.ast.types.StringType;
+import nl.nicasso.ql.ast.nodes.expressions.Expression;
+import nl.nicasso.ql.ast.nodes.expressions.conditional.Not;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
+import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
+import nl.nicasso.ql.ast.nodes.statements.IfElseStatement;
+import nl.nicasso.ql.ast.nodes.statements.IfStatement;
+import nl.nicasso.ql.ast.nodes.statements.Question;
+import nl.nicasso.ql.ast.nodes.statements.Statement;
+import nl.nicasso.ql.ast.nodes.structures.Block;
+import nl.nicasso.ql.ast.nodes.structures.Form;
+import nl.nicasso.ql.ast.nodes.types.BooleanType;
+import nl.nicasso.ql.ast.nodes.types.IntegerType;
+import nl.nicasso.ql.ast.nodes.types.MoneyType;
+import nl.nicasso.ql.ast.nodes.types.StringType;
+import nl.nicasso.ql.gui.evaluator.Evaluator;
+import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
+import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.ComputedQuestionPanel;
 import nl.nicasso.ql.gui.panels.Panel;
 import nl.nicasso.ql.gui.panels.QuestionPanel;
@@ -26,8 +28,6 @@ import nl.nicasso.ql.gui.questionFields.IntegerQuestionField;
 import nl.nicasso.ql.gui.questionFields.MoneyQuestionField;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
 import nl.nicasso.ql.gui.questionFields.TextQuestionField;
-import nl.nicasso.ql.stateTable.StateTable;
-import nl.nicasso.ql.values.Value;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 import nl.nicasso.ql.visitors.TypeVisitor;
@@ -42,7 +42,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 		this.stateTable = stateTable;
 		this.main = main;
 	}
-
+	
 	@Override
 	public List<Panel> visit(Form value, Expression ignore) {
 		if (debug) {
