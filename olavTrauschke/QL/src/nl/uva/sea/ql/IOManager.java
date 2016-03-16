@@ -15,7 +15,7 @@ import nl.uva.sea.ql.parser.ParserWrapper;
  * Class to present various dialogs to the user.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 10-mar-2016
  */
 public class IOManager {
     

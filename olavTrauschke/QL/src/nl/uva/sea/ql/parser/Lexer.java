@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.expr.*;
  * Class for inerpretation of the syntax of ql-files.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 9-mar-2016
  */
 public class Lexer implements Tokens {
     
