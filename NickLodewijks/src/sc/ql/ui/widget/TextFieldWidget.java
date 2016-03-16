@@ -1,7 +1,6 @@
 package sc.ql.ui.widget;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -20,23 +19,8 @@ public class TextFieldWidget extends AbstractUIWidget {
 	private final JTextField textField;
 	private final JPanel panel;
 
-	private UIWidgetStyle style = new UIWidgetStyle() {
-
-		@Override
-		public Font getFont() {
-			return UIManager.getDefaults().getFont("JTextField.font");
-		}
-
-		@Override
-		public int getWidth() {
-			return 100;
-		}
-
-		@Override
-		public int getHeight() {
-			return 20;
-		}
-	};
+	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JTextField.font"),
+			new Dimension(100, 20));
 
 	public TextFieldWidget(Environment env, Question q, Value defaultValue) {
 		super(env, q.name(), defaultValue);

@@ -1,7 +1,6 @@
 package sc.ql.ui.widget;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedHashMap;
@@ -25,23 +24,8 @@ public class RadioButtonWidget extends AbstractUIWidget implements ActionListene
 	private final UIWidgetChoices choices;
 	private final JPanel panel;
 
-	private UIWidgetStyle style = new UIWidgetStyle() {
-
-		@Override
-		public Font getFont() {
-			return UIManager.getDefaults().getFont("JRadioButton.font");
-		}
-
-		@Override
-		public int getWidth() {
-			return 150;
-		}
-
-		@Override
-		public int getHeight() {
-			return 30;
-		}
-	};
+	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JRadioButton.font"),
+			new Dimension(150, 30));
 
 	public RadioButtonWidget(Environment env, String variableName, UIWidgetChoices choices) {
 		super(env, variableName, choices.getDefaultChoice().getValue());

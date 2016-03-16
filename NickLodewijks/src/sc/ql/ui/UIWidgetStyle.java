@@ -1,12 +1,27 @@
 package sc.ql.ui;
 
+import java.awt.Dimension;
 import java.awt.Font;
 
-public interface UIWidgetStyle {
+public class UIWidgetStyle {
 
-	public Font getFont();
+	private final Font font;
+	private final Dimension dimension;
 
-	public int getWidth();
+	public UIWidgetStyle(Font font, Dimension dimension) {
+		this.font = font;
+		this.dimension = dimension;
+	}
 
-	public int getHeight();
+	public Font getFont() {
+		return font;
+	}
+
+	public int getWidth() {
+		return dimension.width;
+	}
+
+	public int getHeight() {
+		return dimension.height;
+	}
 }

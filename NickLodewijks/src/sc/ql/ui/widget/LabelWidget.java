@@ -2,7 +2,6 @@ package sc.ql.ui.widget;
 
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -17,25 +16,12 @@ public class LabelWidget implements UIWidget {
 
 	private final JLabel label;
 
-	private UIWidgetStyle style = new UIWidgetStyle() {
+	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JLabel.font"),
+			new Dimension(150, 20));
 
-		@Override
-		public int getHeight() {
-			return 20;
-		}
+	public LabelWidget(String text)
 
-		@Override
-		public int getWidth() {
-			return 150;
-		}
-
-		@Override
-		public Font getFont() {
-			return UIManager.getDefaults().getFont("JLabel.font");
-		}
-	};
-
-	public LabelWidget(String text) {
+	{
 		label = new JLabel(text);
 		label.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
