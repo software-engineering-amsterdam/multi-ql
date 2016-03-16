@@ -1,150 +1,3 @@
-/* ---- VALUES ---- */
-
-class Listener {
-	constructor() {
-		this.listenerMap = [];
-	}
-
-	register(label, questionNode) {
-		if (this.listenerMap[label] !== undefined) {
-			this.listenerMap[label].push(questionNode);
-		}
-		else {
-			this.listenerMap[label] = [questionNode];
-		}
-	}
-
-	notify(label) {
-		if (this.listenerMap[label] !== undefined) {
-			for (var i = 0; i < this.listenerMap[label].length; i++) {
-				var dependant = this.listenerMap[label][i];
-				dependant.notify();
-				this.notify(dependant.label);
-			}
-		}
-	}
-}
-
-/* ---- ENVIRONMENT ---- */
-
-class Environment {
-	constructor() {
-		this.valueMap = [];
-	}
-
-	setValue(label, value) {
-		this.valueMap[label] = value;
-	}
-
-	getValue(label) {
-		return this.valueMap[label];
-	}
-
-}
-
-/* ---- TYPES ---- */
-
-class NumberType {
-	parseValue(value) {
-		return parseInt(value);
-	}
-
-	defaultValue() {
-		return 0;
-	}
-
-	toString() {
-		return 'number';
-	}
-
-	getTypeString() {
-		return "integer";
-	}
-}
-
-class DecimalType {
-	parseValue(value) {
-		return parseFloat(value);
-	}
-
-	defaultValue() {
-		return 0.0;
-	}
-
-	toString() {
-		return 'number';
-	}
-
-	getTypeString() {
-		return "decimal";
-	}
-}
-
-class MoneyType extends DecimalType {
-	getTypeString() {
-		return "money";
-	}
-}
-
-class CurrencyType extends DecimalType {
-	getTypeString() {
-		return "currency";
-	}
-}
-
-class FloatType {
-	getTypeString() {
-		return "float";
-	}
-}
-
-class BooleanType {
-	parseValue(value) {
-		if (typeof value === 'boolean')
-			return value;
-		return value === "true";
-	}
-
-	defaultValue() {
-		return false;
-	}
-
-	toString() {
-		return 'boolean';
-	}
-
-	getTypeString() {
-		return "boolean";
-	}
-}
-
-class StringType {
-	parseValue(value) {
-		return value + "";
-	}
-
-	defaultValue() {
-		return "";
-	}
-
-	toString() {
-		return 'string';
-	}
-
-	getTypeString() {
-		return "string";
-	}
-}
-
-class DateType extends StringType {
-
-	getTypeString() {
-		return "date";
-	}
-}
-
-/* ---- FORMS ---- */
-
 class FormNode {
 
 	constructor(label, block) {
@@ -257,6 +110,17 @@ class QuestionNode {
 		return this.type.getTypeString();
 	}
 
+	checkExpressionType() {
+		return true;
+	}
+
+	isExpressionDefined() {
+		return true;
+	}
+
+	exprString() {
+		return "";
+	}
 }
 
 class ComputedQuestionNode extends QuestionNode {
@@ -282,6 +146,18 @@ class ComputedQuestionNode extends QuestionNode {
 		this.computedExpr.setEnvironment(environment);
 		this.notify();
 	}
+
+	checkExpressionType() {
+		return typeof this.computedExpr.compute() === this.type.toString();
+	}
+
+	isExpressionDefined() {
+		return this.computedExpr.compute() !== undefined;
+	}
+
+	exprString() {
+		return this.computedExpr.toString();
+	}
 }
 
 class ConditionNode {
@@ -299,6 +175,18 @@ class ConditionNode {
 	setEnvironment(environment) {
 		this.condition.setEnvironment(environment);
 	}
+
+	isExpressionDefined() {
+		return this.condition.compute() !== undefined;
+	}
+
+	exprString() {
+		return this.condition.toString();
+	}
+
+	checkExpressionType() {
+		return typeof this.condition.compute() === "boolean";
+	}
 }
 
 class NotExpression {
@@ -311,9 +199,9 @@ class NotExpression {
 		this.environment = environment;
 	}
 
-	compute(environment) {
+	compute() {
 		if (this.validateArguments()) {
-			return !this.expr.compute(environment);
+			return !this.expr.compute(this.environment);
 		}
 	}
 
@@ -345,11 +233,8 @@ class OperatorExpressionNode {
 		this.environment = environment;
 	}
 
-	compute(environment) {
-		if (environment === undefined) {
-			environment = this.environment;
-		}
-		return this.opNode.compute(this.left, this.right, environment);
+	compute() {
+		return this.opNode.compute(this.left, this.right, this.environment);
 	}
 
 	toString() {
@@ -498,29 +383,5 @@ class LiteralNode {
 
 	getLabelsInExpression() {
 		return [];
-	}
-}
-
-/* ---- ANSWERS ---- */
-
-class AnswerList {
-	constructor() {
-		this.answerList = [];
-	}
-
-	addQuestion(questionNode, environment) {
-		this.answerList.push(new AnswerListQuestion(questionNode, environment));
-	}
-
-	toString() {
-		return JSON.stringify(this.answerList, null, 2);
-	}
-}
-
-class AnswerListQuestion {
-	constructor(questionNode, environment) {
-		this.label = questionNode.label;
-		this.text = questionNode.text;
-		this.value = environment.getValue(questionNode.label);
 	}
 }
