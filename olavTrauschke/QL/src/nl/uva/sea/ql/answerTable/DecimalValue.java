@@ -165,6 +165,70 @@ public class DecimalValue extends NumericValue {
     }
     
     /**
+     * Multiply <code>this DecimalValue</code> by a specified
+     * <code>NumericValue</code>. Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to multiply this one by
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    @Override
+    public NumericValue multiply(NumericValue other) {
+        return other.multiply(this); //double dispatch to a more specific case
+    }
+    
+    /**
+     * Multiply <code>this DecimalValue</code> by another.
+     * 
+     * @param other a <code>DecimalValue</code> to multiply this one by
+     * @return a <code>DecimalValue</code> representing an unkonwn value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>DecimalValue</code>s otherwise
+     */
+    @Override
+    protected DecimalValue multiply(DecimalValue other) {
+        if (value == null || other.value == null) {
+            return new DecimalValue(null);
+        }
+        double result = value * other.value;
+        return new DecimalValue(result);
+    }
+    
+    /**
+     * Multiply <code>this DecimalValue</code> by a specified <code>IntValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to multiply
+     *              <code>this DecimalValue</code> by
+     * @return a <code>DecimalValue</code> representing an unkonwn value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    @Override
+    protected DecimalValue multiply(IntValue other) {
+        return multiply(other.castDecimal());
+    }
+    
+    /**
+     * Multiply <code>this DecimalValue</code> by a specified
+     * <code>MoneyValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to multiply 
+     *              <code>this DecimalValue</code> by
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    @Override
+    protected MoneyValue multiply(MoneyValue other) {
+        return (MoneyValue) other.multiply(this);
+    }
+    
+    /**
      * Obtain a <code>MoneyValue</code> representing <code>theValue</code>
      * of <code>this DecimalValue</code>.
      * 

@@ -144,4 +144,55 @@ public abstract class NumericValue extends Value {
      */
     protected abstract BooleanValue ternaryGreaterThan(MoneyValue other);
     
+    /**
+     * Multiply <code>this NumericValue</code> by another. Dispatches to a more
+     * specific case.
+     * 
+     * @param other a <code>NumericValue</code> to multiply this one by
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    public abstract NumericValue multiply(NumericValue other);
+    
+    /**
+     * Multiply <code>this NumericValue</code> by a specified
+     * <code>DecimalValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to multiply
+     *              <code>this NumericValue</code> by
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    protected abstract NumericValue multiply(DecimalValue other);
+    
+    /**
+     * Multiply <code>this NumericValue</code> by a specified
+     * <code>IntValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to multiply
+     *              <code>this NumericValue</code> by
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    protected abstract NumericValue multiply(IntValue other);
+    
+    /**
+     * Multiply <code>this NumericValue</code> by a specified
+     * <code>MoneyValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to multiply
+     *              <code>this NumericValue</code> by
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    protected abstract MoneyValue multiply(MoneyValue other);
+    
 }
