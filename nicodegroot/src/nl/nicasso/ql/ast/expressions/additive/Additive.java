@@ -9,6 +9,7 @@ import nl.nicasso.ql.ast.types.UnknownType;
 
 public abstract class Additive extends Binary {
 
+	// Do we need this?! Will we really instantiate this class? TRY IT OUT!
 	public Additive(CodeLocation location) {
 		super(location);
 	}

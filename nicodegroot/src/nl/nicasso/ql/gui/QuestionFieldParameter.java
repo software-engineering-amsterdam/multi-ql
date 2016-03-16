@@ -8,10 +8,6 @@ public class QuestionFieldParameter {
 	private Observer main;
 	private boolean enabled;
 	
-	public QuestionFieldParameter() {
-		// CAN GO?!
-	}
-	
 	public QuestionFieldParameter(Identifier identifier, Observer main, boolean enabled) {
 		this.identifier = identifier;
 		this.main = main;

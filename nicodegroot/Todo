@@ -1,11 +1,11 @@
 MUST
 - Remove the tempvariable smell! Just pass it on?
 - Check all the variable names!
-- Create more tests
+- Check if all the equal methods require instanceof. (Test this by doing a equal on two different types)
+- Create more and better unit tests
 - Better error handling
-- Seperate the symbol table so one is for the typechecker and the other one is for the evaluator (states).
 - Move classes and packages to create a good structure
-- Do a Fixpoint loop for evaluating.  
+- Remove all the null stuff
 
 SHOULD
 - Fix line numbers in error messages
@@ -15,4 +15,4 @@ SHOULD
 - Factory for the GUI
 
 COULD
-- QLS
+- QLS?

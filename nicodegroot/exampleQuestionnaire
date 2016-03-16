@@ -16,7 +16,7 @@ form taxOfficeExample {
     "Toggle switch for if statement"
 	  cQ9: boolean
     
-    if (cQ9) {
+    if (cQ2 > 100.00) {
     
     "The above times 55"
     	  cQ55: money = (cQ5)
