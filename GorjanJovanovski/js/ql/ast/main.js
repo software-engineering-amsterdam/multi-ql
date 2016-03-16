@@ -11,9 +11,6 @@ function initiate(inputString) {
 			refreshGUI(ast, environment);
 			setOnClickListeners(ast);
 		}
-		else {
-			throwError(0, "Form checks failed");
-		}
 	};
 	tree.accept(visitor);
 }

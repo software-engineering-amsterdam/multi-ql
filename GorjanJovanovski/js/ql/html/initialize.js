@@ -12,16 +12,13 @@ function generateQuestionHTML(questionNode) {
 	else {
 		html += "text";
 	}
-
 	html += "'";
 
 
 	if (questionNode instanceof ComputedQuestionNode) {
 		html += " disabled";
 	}
-
 	html += "/></label></div>";
-
 	return html;
 }
 

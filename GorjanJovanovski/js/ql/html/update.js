@@ -37,6 +37,4 @@ function renderDebugMessage(type, line, message) {
 	$("#" + type).append(html);
 	$("#" + type + "Panel").show();
 	$("#formWrapper").hide();
-
-
 }
