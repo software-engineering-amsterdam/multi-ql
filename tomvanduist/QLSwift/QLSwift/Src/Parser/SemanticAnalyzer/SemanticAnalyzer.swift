@@ -16,38 +16,21 @@ class SemanticAnalyzer {
         let context = try Context(form: form)
         
         // Perform remaining rules
-        var results: [SemanticAnalysisResult] = []
         let semanticRules: [SemanticAnalysisRule] = [
             TypeChecker(),
             ScopeChecker(),
             CyclicDependencyChecker()
         ]
         
-        for rule in semanticRules {
-            results.append(rule.run(form, context: context))
+        let result = semanticRules.reduce(SemanticAnalysisResult(), combine: { result, rule in
+            result.combine(rule.run(form, context: context))
+        })
+        
+        
+        if result.didSucceed() {
+            return result.getWarnings()
         }
         
-        let errors = retrieveErrors(results)
-        if !errors.isEmpty {
-            throw SemanticErrorCollection(errors: errors)
-        }
-        
-        return retrieveWarnings(results)
-    }
-    
-    private func retrieveErrors(semanticResults: [SemanticAnalysisResult]) -> [SemanticError] {
-        var errors: [SemanticError] = []
-        
-        semanticResults.forEach { errors += $0.getErrors() }
-        
-        return errors
-    }
-    
-    private func retrieveWarnings(semanticResults: [SemanticAnalysisResult]) -> [SemanticWarning] {
-        var warnings: [SemanticWarning] = []
-        
-        semanticResults.forEach { warnings += $0.getWarnings() }
-        
-        return warnings
+        throw SemanticErrorCollection(errors: result.getErrors())
     }
 }

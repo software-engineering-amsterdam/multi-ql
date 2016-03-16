@@ -50,6 +50,14 @@ class SemanticAnalysisResult {
         return errors
     }
     
+    func combine(otherResult: SemanticAnalysisResult) -> SemanticAnalysisResult {
+        success = success && otherResult.success
+        warnings += otherResult.warnings
+        errors += otherResult.errors
+        
+        return self
+    }
+    
     internal func collectWarning(warning: SemanticWarning) {
         self.warnings.append(warning)
     }
