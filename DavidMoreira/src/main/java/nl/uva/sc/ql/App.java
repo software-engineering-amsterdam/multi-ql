@@ -2,24 +2,22 @@ package nl.uva.sc.ql;
 
 import java.io.IOException;
 
-import nl.uva.sc.ql.errorwarning.CompilerException;
-import nl.uva.sc.ql.errorwarning.MessagesHandler;
-import nl.uva.sc.ql.gui.QLGui;
-import nl.uva.sc.ql.parser.QLCompiler;
+import nl.uva.sc.ql.gui.Gui;
+import nl.uva.sc.ql.messages.MessagesHandler;
+import nl.uva.sc.ql.messages.exceptions.CompilerException;
+import nl.uva.sc.ql.parser.Compiler;
 import nl.uva.sc.ql.parser.ast.Node;
 
 public class App {
 	
 	public static void main(String[] args) throws IOException {
-        System.out.println("Start...");
-
         MessagesHandler messagesHandler = new MessagesHandler();
-		QLCompiler compiler = new QLCompiler(messagesHandler);
+		Compiler compiler = new Compiler(messagesHandler);
 		
         try {
         	Node ast = compiler.compile("/example.ql");
         	
-            QLGui gui = new QLGui(ast);
+            Gui gui = new Gui(ast);
             gui.start();
 
         } catch (CompilerException ce) {
@@ -28,8 +26,6 @@ public class App {
         
         if(messagesHandler.asWarning()){
         	System.err.println(messagesHandler.toString());
-        }
-        
-		System.out.println("Finished");
+        }        
 	}
 }

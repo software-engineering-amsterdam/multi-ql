@@ -9,7 +9,7 @@ import nl.uva.sc.ql.gui.state.Subject;
 import nl.uva.sc.ql.parser.ast.ExpressionNode;
 import nl.uva.sc.ql.parser.value.Value;
 
-public class ConditionBlockForm implements GuiInterface, Observer, Subject {
+public class ConditionBlock implements GuiRepresentation, Observer, Subject {
 	
     private List<Observer> observers = new ArrayList<Observer>();
 
@@ -19,7 +19,7 @@ public class ConditionBlockForm implements GuiInterface, Observer, Subject {
 
 	private Form form;
 	
-	public ConditionBlockForm(Form form, State state, ExpressionNode condition){
+	public ConditionBlock(Form form, State state, ExpressionNode condition){
 		this.form = form;
 		this.condition = condition;
 		this.questions = new ArrayList<Question>();

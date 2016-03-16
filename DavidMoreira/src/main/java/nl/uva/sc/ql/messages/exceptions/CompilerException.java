@@ -1,4 +1,4 @@
-package nl.uva.sc.ql.errorwarning;
+package nl.uva.sc.ql.messages.exceptions;
 
 public class CompilerException extends RuntimeException {
 

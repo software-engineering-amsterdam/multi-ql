@@ -6,15 +6,15 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import nl.uva.sc.ql.errorwarning.CompilerException;
-import nl.uva.sc.ql.errorwarning.MessagesHandler;
+import nl.uva.sc.ql.messages.MessagesHandler;
+import nl.uva.sc.ql.messages.exceptions.CompilerException;
 import nl.uva.sc.ql.parser.ast.FormNode;
 
-public class QLCompiler {
+public class Compiler {
     
 	private MessagesHandler messagesHandler;
 	
-	public QLCompiler(MessagesHandler errorHandler) {
+	public Compiler(MessagesHandler errorHandler) {
 		this.messagesHandler = errorHandler;
 	}
 

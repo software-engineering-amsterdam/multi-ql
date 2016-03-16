@@ -8,26 +8,23 @@ import nl.uva.sc.ql.gui.form.Form;
 import nl.uva.sc.ql.gui.state.State;
 import nl.uva.sc.ql.parser.ast.Node;
 
-public class QLGui extends JFrame {
+public class Gui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	private Node ast;
 	private State state;
 		
-	public QLGui(Node ast) {
+	public Gui(Node ast) {
 		this.ast = ast;
 		this.state = new State();
 	}
 	
 	public void start(){
-    	CreateForm cf = new CreateForm(state);
-    	Form form = cf.getForm(ast);
-	    
+    	CreateForm createForm = new CreateForm(state);
+    	Form form = createForm.getForm(ast);
     	form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
-	    
-        System.out.println("Starting gui...");
-        
+    	
     	form.createGui();
     	form.updateGui();
     	     
@@ -36,7 +33,7 @@ public class QLGui extends JFrame {
     	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle(form.getName());
-		setSize(550, 500);  // sets initial size frame
+		setSize(560, 400);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
