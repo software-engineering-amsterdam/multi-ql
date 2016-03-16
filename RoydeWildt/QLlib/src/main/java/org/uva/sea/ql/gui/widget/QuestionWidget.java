@@ -6,6 +6,7 @@ import org.uva.sea.ql.ast.tree.stat.Question;
 /**
  * Created by roy on 3-3-16.
  */
+//TODO: Is this a widget?
 public class QuestionWidget extends GridPane {
     private Question question;
 

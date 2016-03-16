@@ -3,22 +3,26 @@ package org.uva.sea.ql.ast.visitor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import org.uva.sea.ql.ast.tree.atom.val.*;
-import org.uva.sea.ql.ast.tree.atom.val.numeric.Float;
-import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
-import org.uva.sea.ql.ast.tree.atom.val.numeric.Numeric;
+import org.uva.sea.ql.ast.tree.atom.val.Float;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.evaluator.value.*;
+import org.uva.sea.ql.evaluator.value.Bool;
+import org.uva.sea.ql.evaluator.value.String;
+import org.uva.sea.ql.evaluator.value.numeric.Double;
+import org.uva.sea.ql.evaluator.value.numeric.Int;
+import org.uva.sea.ql.evaluator.value.numeric.Numeric;
 
 import java.util.Map;
 
 /**
  * Created by roydewildt on 22/02/16.
  */
-public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr,TYPE,Val,ObservableMap<Var, Question>> {
+public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Value,TYPE,Value,ObservableMap<Var, Question>> {
 
     private final Map<Var,Expr>  decls;
     private Map<Var, Question> symbolTable;
@@ -40,13 +44,13 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public STAT visit(If stat, ObservableMap<Var, Question> symbolTable) {
-        Bool value = stat.getCond().accept(this, symbolTable).getValue();
+        Boolean value = (Boolean) stat.getCond().accept(this, symbolTable).getValue();
 
-        if(value.getValue() == null){
+        if(value == null){
             return null;
         }
 
-        if(value.getValue()){
+        if(value){
             for(Stat s : stat.getStms())
                 s.accept(this, symbolTable);
         }
@@ -55,13 +59,13 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
 
     @Override
     public STAT visit(IfElse stat, ObservableMap<Var, Question> symbolTable) {
-        Bool value = stat.getCond().accept(this, symbolTable).getValue();
+        Boolean value = (Boolean) stat.getCond().accept(this, symbolTable).getValue();
 
-        if(value.getValue() == null){
+        if(value == null){
             return null;
         }
 
-        if(value.getValue()){
+        if(value){
             for(Stat s : stat.getIfStms())
                 s.accept(this, symbolTable);
         }
@@ -73,135 +77,135 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
     }
 
     @Override
-    public Primary visit(Primary expr, ObservableMap<Var, Question> symbolTable) {
-        return new Primary(expr.getValue().accept(this, symbolTable));
+    public Value visit(Primary expr, ObservableMap<Var, Question> symbolTable) {
+        return expr.accept(this, symbolTable);
     }
 
     @Override
-    public Primary visit(Pos expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric value = expr.getValue().accept(this, symbolTable).getValue();
-        return new Primary(value.Pos());
+    public Value visit(Pos expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric value = (Numeric) expr.accept(this, symbolTable);
+        return value.Pos();
     }
 
     @Override
-    public Primary visit(Not expr, ObservableMap<Var, Question> symbolTable) {
-        Bool value = expr.getValue().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(value.getLine(), !value.getValue()));
+    public Value visit(Not expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric value = (Numeric) expr.accept(this, symbolTable);
+        return value.Pos();
     }
 
     @Override
-    public Primary visit(Neg expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric value = expr.getValue().accept(this, symbolTable).getValue();
-        return new Primary(value.Neg());
+    public Value visit(Neg expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric value = (Numeric) expr.accept(this, symbolTable);
+        return value.Neg();
     }
 
     @Override
-    public Primary visit(Sub expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(lhs.Sub(rhs));
+    public Value visit(Sub expr, ObservableMap<Var, Question> symbolTable){
+    Numeric lhs = (Numeric) expr.getLhs().accept(this, symbolTable);
+    Numeric rhs = (Numeric) expr.getRhs().accept(this, symbolTable);
+    return lhs.Sub(rhs);
     }
 
     @Override
-    public Primary visit(Or expr, ObservableMap<Var, Question> symbolTable) {
-        Bool lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Bool rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getLine(), lhs.getValue() || rhs.getValue()));
+    public Value visit(Or expr, ObservableMap<Var, Question> symbolTable) {
+        Bool lhs = (Bool) expr.getLhs().accept(this, symbolTable);
+        Bool rhs = (Bool) expr.getRhs().accept(this, symbolTable);
+        return lhs.Or(rhs);
     }
 
     @Override
-    public Primary visit(NEq expr, ObservableMap<Var, Question> symbolTable) {
-        Val lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Val rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getLine(), !lhs.getValue().equals(rhs.getValue())));
+    public Value visit(NEq expr, ObservableMap<Var, Question> symbolTable) {
+        Value lhs = expr.getLhs().accept(this, symbolTable);
+        Value rhs = expr.getRhs().accept(this, symbolTable);
+        return lhs.NEq(rhs);
     }
 
     @Override
-    public Primary visit(Mul expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(lhs.Mul(rhs));
+    public Value visit(Mul expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric lhs = (Numeric) expr.getLhs().accept(this, symbolTable);
+        Numeric rhs = (Numeric) expr.getRhs().accept(this, symbolTable);
+        return lhs.Mul(rhs);
     }
 
     @Override
-    public Primary visit(LT expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() < (Double) rhs.getValue()));
+    public Value visit(LT expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric lhs = (Numeric) expr.getLhs().accept(this, symbolTable);
+        Numeric rhs = (Numeric) expr.getRhs().accept(this, symbolTable);
+        return lhs.LT(rhs);
     }
 
     @Override
-    public Primary visit(LEq expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() <= (Double) rhs.getValue()));
+    public Value visit(LEq expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric lhs = (Numeric) expr.getLhs().accept(this, symbolTable);
+        Numeric rhs = (Numeric) expr.getRhs().accept(this, symbolTable);
+        return lhs.LEq(rhs);
     }
 
     @Override
-    public Primary visit(GT expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() > (Double) rhs.getValue()));
+    public Value visit(GT expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric lhs = (Numeric) expr.getLhs().accept(this, symbolTable);
+        Numeric rhs = (Numeric) expr.getRhs().accept(this, symbolTable);
+        return lhs.GT(rhs);
     }
 
     @Override
-    public Primary visit(GEq expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getLine(), (Double) lhs.getValue() >= (Double) rhs.getValue()));
+    public Value visit(GEq expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric lhs = (Numeric) expr.getLhs().accept(this, symbolTable);
+        Numeric rhs = (Numeric) expr.getRhs().accept(this, symbolTable);
+        return lhs.GEq(rhs);
     }
 
     @Override
-    public Primary visit(Eq expr, ObservableMap<Var, Question> symbolTable) {
-        Val lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Val rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getLine(), lhs.getValue().equals(rhs.getValue())));
+    public Value visit(Eq expr, ObservableMap<Var, Question> symbolTable) {
+        Value lhs = expr.getLhs().accept(this, symbolTable);
+        Value rhs = expr.getRhs().accept(this, symbolTable);
+        return lhs.Eq(rhs);
     }
 
     @Override
-    public Primary visit(Div expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(lhs.Div(rhs));
+    public Value visit(Div expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric lhs = (Numeric) expr.getLhs().accept(this, symbolTable);
+        Numeric rhs = (Numeric) expr.getRhs().accept(this, symbolTable);
+        return lhs.Div(rhs);
     }
 
     @Override
-    public Primary visit(And expr, ObservableMap<Var, Question> symbolTable) {
-        Bool lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Bool rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(new Bool(lhs.getLine(), lhs.getValue() && rhs.getValue()));
+    public Value visit(And expr, ObservableMap<Var, Question> symbolTable) {
+        Bool lhs = (Bool) expr.getLhs().accept(this, symbolTable);
+        Bool rhs = (Bool) expr.getRhs().accept(this, symbolTable);
+        return lhs.And(rhs);
     }
 
     @Override
-    public Primary visit(Add expr, ObservableMap<Var, Question> symbolTable) {
-        Numeric lhs = expr.getLhs().accept(this, symbolTable).getValue();
-        Numeric rhs = expr.getRhs().accept(this, symbolTable).getValue();
-        return new Primary(lhs.Add(rhs));
+    public Value visit(Add expr, ObservableMap<Var, Question> symbolTable) {
+        Numeric lhs = (Numeric) expr.getLhs().accept(this, symbolTable);
+        Numeric rhs = (Numeric) expr.getRhs().accept(this, symbolTable);
+        return lhs.Add(rhs);
     }
 
     @Override
-    public Val visit(Bool atom, ObservableMap<Var, Question> symbolTable) {
-        return atom;
+    public Value visit(org.uva.sea.ql.ast.tree.atom.val.Bool atom, ObservableMap<Var, Question> symbolTable) {
+        return new Bool(atom.getValue());
     }
 
     @Override
-    public Val visit(Int atom, ObservableMap<Var, Question> symbolTable) {
-        return atom;
+    public Value visit(org.uva.sea.ql.ast.tree.atom.val.Int atom, ObservableMap<Var, Question> symbolTable) {
+        return new Int(atom.getValue());
     }
 
     @Override
-    public Val visit(Float atom, ObservableMap<Var, Question> symbolTable) {
-        return atom;
+    public Value visit(Float atom, ObservableMap<Var, Question> symbolTable) {
+        return new Double(atom.getValue());
     }
 
     @Override
-    public Val visit(Str atom, ObservableMap<Var, Question> context) {
-        return atom;
+    public Value visit(Str atom, ObservableMap<Var, Question> context) {
+        return new String(atom.getValue());
     }
 
 
     @Override
-    public Val visit(Var val, ObservableMap<Var, Question> symbolTable) {
+    public Value visit(Var val, ObservableMap<Var, Question> symbolTable) {
         Expr expr;
 
         if(symbolTable.containsKey(val)){
@@ -211,8 +215,7 @@ public class EvalVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,UnaryExpr
             expr = decls.get(val);
         }
 
-        Primary value = (Primary) expr.accept(this,symbolTable);
-        return (Val) value.getValue();
+        return expr.accept(this,symbolTable);
     }
 
     public Map<Var, Question> getSymbolTable() {

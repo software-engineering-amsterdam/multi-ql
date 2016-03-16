@@ -52,7 +52,7 @@ public class DuplicateLabelsCheck extends BaseVisitor<Void,Void,Void,Void,Void,V
         for(Node n : duplicates){
             Var v = ((Question) n).getVarname();
             StringBuilder sb = new StringBuilder();
-            sb.append("Question ");
+            sb.append("EvaluatedQuestion ");
             sb.append(v.toString());
             sb.append(" uses a label that has already been used");
 

@@ -3,9 +3,10 @@ package org.uva.sea.ql.evaluator;
 import javafx.collections.ObservableMap;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.visitor.EvalVisitor;
+import org.uva.sea.ql.evaluator.value.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by roy on 29-2-16.
  */
 public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
-    private List<Question> questions;
+    private List<EvaluatedQuestion> questions;
 
     public FormEvaluator(Form f) {
         super(f);
@@ -39,20 +40,18 @@ public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
             expr = stat.getExpr();
         }
 
-        Expr computedValue = expr.accept(this,symbolTable);
+        Value computedValue = expr.accept(this,symbolTable);
 
-        Question computedQuestion = new Question(stat.getLine(),
+        questions.add(new EvaluatedQuestion(
                                         stat.getLabel(),
                                         stat.getVarname(),
                                         stat.getType(),
-                                        computedValue,
-                                        stat.isComputed());
+                                        computedValue));
 
-        questions.add(computedQuestion);
         return null;
     }
 
-    public List<Question> getQuestions() {
+    public List<EvaluatedQuestion> getQuestions() {
         return questions;
     }
 

@@ -86,7 +86,7 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Q
         for(Node n : cyclics){
             Var v = (Var) n;
             StringBuilder sb = new StringBuilder();
-            sb.append("Question ");
+            sb.append("EvaluatedQuestion ");
             sb.append(v.toString());
             sb.append(" contains cyclic dependencies");
 

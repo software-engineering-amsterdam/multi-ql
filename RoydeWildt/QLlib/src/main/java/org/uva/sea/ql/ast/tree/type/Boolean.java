@@ -15,7 +15,7 @@ public class Boolean extends Type {
 
     public Boolean(int line) {
         super(line);
-        this.defaultValue = new Bool().getDefaultValue(line);
+        this.defaultValue = new Bool().getDefaultValue();
     }
 
     public Type getType(){return new Boolean();}

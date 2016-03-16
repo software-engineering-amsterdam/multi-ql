@@ -17,20 +17,9 @@ public class Bool extends Val {
         this.value = b;
     }
 
-    public Bool(int line, boolean b){
-        super(line);
-        this.value = b;
-    }
-
     public Bool(int line, String x){
         super(line);
-        try{
-            this.value = Boolean.valueOf(x);
-        }
-
-        catch (Exception e){
-            System.out.println("Log: invalid value, expected a boolean");
-        }
+        this.value = Boolean.valueOf(x);
     }
 
     public Boolean getValue() {
@@ -38,8 +27,8 @@ public class Bool extends Val {
     }
 
     @Override
-    public Bool getDefaultValue(int line){
-        return new Bool(line,false);
+    public Bool getDefaultValue(){
+        return new Bool(false);
     }
 
     @Override

@@ -1,13 +1,12 @@
 package org.uva.sea.ql.gui.widget;
 
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import org.uva.sea.ql.ast.tree.stat.Question;
 
 /**
  * Created by roy on 28-2-16.
  */
-public class TextFieldWidget extends TextField {
+public class TextFieldWidget extends TextField implements Widget{
     private Question parentQuestion;
 
     public TextFieldWidget(Question parent, boolean readOnly) {
@@ -24,6 +23,16 @@ public class TextFieldWidget extends TextField {
 
     public Question getParentQuestion() {
         return parentQuestion;
+    }
+
+    @Override
+    public void setInvalid() {
+        getStyleClass().add("error");
+    }
+
+    @Override
+    public void unSetInvalid() {
+        getStyleClass().remove("error");
     }
 
 }

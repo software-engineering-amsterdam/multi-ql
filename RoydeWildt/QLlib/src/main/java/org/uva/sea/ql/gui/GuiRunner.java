@@ -37,6 +37,7 @@ public class GuiRunner extends Application {
 
         if(messages.isEmpty()){
             Scene scene = new Scene(preview.getRootPane());
+            scene.getStylesheets().add("customStylesheet.css");
             stage.setScene(scene);
             stage.show();
         }

@@ -23,13 +23,13 @@ public class Str extends Val{
     }
 
     @Override
-    public Object getValue() {
+    public String getValue() {
         return value;
     }
 
     @Override
-    public Str getDefaultValue(int line){
-        return new Str(line,"");
+    public Str getDefaultValue(){
+        return new Str("");
     }
 
     @Override

@@ -15,16 +15,15 @@ import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.tree.atom.var.*;
 import org.uva.sea.ql.ast.tree.atom.val.*;
-import org.uva.sea.ql.ast.tree.atom.val.numeric.Float;
-import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
+import org.uva.sea.ql.ast.tree.atom.val.Float;
+import org.uva.sea.ql.ast.tree.atom.val.Int;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
-import java.util.List;
-import java.util.Iterator;
+
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})

@@ -6,7 +6,7 @@ import org.uva.sea.ql.ast.tree.stat.Question;
 /**
  * Created by roy on 3-3-16.
  */
-public class NumberFieldWidget extends TextField {
+public class NumberFieldWidget extends TextField implements Widget {
     private Question parentQuestion;
 
     public NumberFieldWidget(Question question, boolean readOnly) {
@@ -22,5 +22,15 @@ public class NumberFieldWidget extends TextField {
 
     public Question getParentQuestion() {
         return parentQuestion;
+    }
+
+    @Override
+    public void setInvalid() {
+        getStyleClass().add("error");
+    }
+
+    @Override
+    public void unSetInvalid() {
+        getStyleClass().remove("error");
     }
 }

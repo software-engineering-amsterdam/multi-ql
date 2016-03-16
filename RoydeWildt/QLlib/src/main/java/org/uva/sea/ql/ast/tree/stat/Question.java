@@ -66,7 +66,7 @@ public class Question extends Stat {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Question(");
+        sb.append("EvaluatedQuestion(");
         sb.append(this.getLabel() + ",");
         sb.append(this.getVarname() + ",");
         sb.append(this.getType() + ",");

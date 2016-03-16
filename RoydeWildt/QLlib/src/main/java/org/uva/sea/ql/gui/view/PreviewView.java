@@ -12,8 +12,9 @@ import javafx.scene.text.Font;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 import org.uva.sea.ql.evaluator.FormEvaluator;
-import org.uva.sea.ql.gui.QuestionsView;
+import org.uva.sea.ql.gui.builder.QuestionListBuilder;
 import org.uva.sea.ql.gui.widget.QuestionWidget;
 
 import java.util.*;
@@ -30,8 +31,8 @@ public class PreviewView {
         this.form = form;
 
         FormEvaluator evaluator = new FormEvaluator(this.form);
-        List<Question> questions = evaluator.getQuestions();
-        QuestionsView visitor = new QuestionsView(questions, (ObservableMap<Var, Question>) evaluator.getSymbolTable());
+        List<EvaluatedQuestion> questions = evaluator.getQuestions();
+        QuestionListBuilder visitor = new QuestionListBuilder(questions, (ObservableMap<Var, Question>) evaluator.getSymbolTable());
 
         addFormListener(evaluator);
 
@@ -65,9 +66,9 @@ public class PreviewView {
             Question changedQuestion = c.getValueAdded();
 
             FormEvaluator fe = new FormEvaluator(this.form, (ObservableMap<Var, Question>) c.getMap());
-            List<Question> questions = fe.getQuestions();
+            List<EvaluatedQuestion> questions = fe.getQuestions();
 
-            QuestionsView visitor = new QuestionsView(questions, (ObservableMap<Var, Question>) fe.getSymbolTable());
+            QuestionListBuilder visitor = new QuestionListBuilder(questions, (ObservableMap<Var, Question>) fe.getSymbolTable());
             List<QuestionWidget> UIElements = visitor.getUiElements();
             updateFormUI(changedQuestion, UIElements);
         });

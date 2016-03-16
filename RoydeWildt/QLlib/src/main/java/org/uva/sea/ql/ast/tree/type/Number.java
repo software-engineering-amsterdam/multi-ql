@@ -1,6 +1,6 @@
 package org.uva.sea.ql.ast.tree.type;
 
-import org.uva.sea.ql.ast.tree.atom.val.numeric.Int;
+import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
 /**
@@ -15,7 +15,7 @@ public class Number extends Type {
 
     public Number(int line) {
         super(line);
-        this.defaultValue = new Int().getDefaultValue(line);
+        this.defaultValue = new Int().getDefaultValue();
     }
 
     public Type getType(){return new Number();}
