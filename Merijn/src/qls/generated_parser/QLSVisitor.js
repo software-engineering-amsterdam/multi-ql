@@ -47,6 +47,11 @@ QLSVisitor.prototype.visitQuestionPageStatement = function(ctx) {
 };
 
 
+// Visit a parse tree produced by QLSParser#configuredQuestionPageStatement.
+QLSVisitor.prototype.visitConfiguredQuestionPageStatement = function(ctx) {
+};
+
+
 // Visit a parse tree produced by QLSParser#typeDefaultPageStatement.
 QLSVisitor.prototype.visitTypeDefaultPageStatement = function(ctx) {
 };
@@ -57,18 +62,13 @@ QLSVisitor.prototype.visitTypeDefaultStatement = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLSParser#styleBlock.
-QLSVisitor.prototype.visitStyleBlock = function(ctx) {
+// Visit a parse tree produced by QLSParser#widgetConfiguration.
+QLSVisitor.prototype.visitWidgetConfiguration = function(ctx) {
 };
 
 
-// Visit a parse tree produced by QLSParser#widgetStyleStatement.
-QLSVisitor.prototype.visitWidgetStyleStatement = function(ctx) {
-};
-
-
-// Visit a parse tree produced by QLSParser#argStyleStatement.
-QLSVisitor.prototype.visitArgStyleStatement = function(ctx) {
+// Visit a parse tree produced by QLSParser#widgetArg.
+QLSVisitor.prototype.visitWidgetArg = function(ctx) {
 };
 
 

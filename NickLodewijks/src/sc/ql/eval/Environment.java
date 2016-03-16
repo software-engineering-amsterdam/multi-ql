@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import sc.ql.ast.Expression;
-import sc.ql.ast.value.Value;
+import sc.ql.value.Value;
 
 public class Environment {
 

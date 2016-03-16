@@ -10,50 +10,51 @@ public class Program {
 
 	// TODO: exception handling
 	public static void main(String[] args) throws IOException {
-		Form form = parseForm();
+//		String path = "resources/CyclicExampleC.ql";
+//		String path = "resources/SmallQuestionaire.ql";
+		String path = "resources/Questionaire.ql";
+		
+		Form form = parseForm(path);
 		SemanticAnalyser semanticAnalyser = analyseForm(form);
 
 		if (semanticAnalyser.noIssues()) {
-			FormEvaluation formEval = evaluateForm(form, semanticAnalyser);
-			drawForm(form, formEval);
+			//TODO: evaluation is done in drawing so this does not need to be done before drawing....
+			FormEvaluation formEval = evaluateForm(form, semanticAnalyser.getContext());
+			drawForm(form, formEval.getContext());
 		} else {
-			printIssues(semanticAnalyser);
+			printIssues(semanticAnalyser.getContext());
 		}
 		System.out.println("Done");
 	}
 
-	private static void printIssues(SemanticAnalyser semanticAnalyser) {
-		for (Issue issue : semanticAnalyser.getContext().getIssues()) {
+	private static void printIssues(Context context) {
+		for (Issue issue : context.getIssues()) {
 			issue.print();
 		}
 	}
 
-	private static Form parseForm() throws IOException {
-		FormParser formParser = new FormParser();
-//		Form form = formParser.parseForm("resources/CyclicExampleC.ql", false);
-//		Form form = formParser.parseForm("resources/SmallQuestionaire.ql", false);
-		Form form = formParser.parseForm("resources/Questionaire.ql", false);
+	//TODO: load form from GUI?
+	public static Form parseForm(String path) throws IOException {
+		Form form = FormParser.parseForm(path, false);
 		return form;
 	}
 
-	private static SemanticAnalyser analyseForm(Form form) {
+	public static SemanticAnalyser analyseForm(Form form) {
 		SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
 		semanticAnalyser.analyseForm(form);
 		semanticAnalyser.printData();
 		return semanticAnalyser;
 	}
 
-	private static FormEvaluation evaluateForm(Form form,
-			SemanticAnalyser semanticAnalyser) {
-		FormEvaluation formEval = new FormEvaluation(
-				semanticAnalyser.getContext());
+	public static FormEvaluation evaluateForm(Form form, Context context) {
+		FormEvaluation formEval = new FormEvaluation(context);
 		formEval.evaluateForm(form);
 		formEval.printData();
 		return formEval;
 	}
 
-	private static void drawForm(Form form, FormEvaluation formEval) {
-		Context currentContext = formEval.getContext();
+	public static void drawForm(Form form, Context context) {
+		Context currentContext = context;
 		QLdrawer qld = new QLdrawer(form, currentContext);
 		qld.drawForm();
 	}

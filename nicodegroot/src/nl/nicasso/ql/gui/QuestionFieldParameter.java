@@ -1,6 +1,6 @@
 package nl.nicasso.ql.gui;
 
-import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 
 public class QuestionFieldParameter {
 

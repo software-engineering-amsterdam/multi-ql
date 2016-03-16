@@ -3,7 +3,7 @@ package eu.bankersen.kevin.ql.ast.values;
 import eu.bankersen.kevin.ql.ast.types.BooleanType;
 import eu.bankersen.kevin.ql.ast.types.QLType;
 
-public class BooleanValue extends AbstractValue {
+public class BooleanValue extends QLValue {
 
     private final Boolean value;
 
@@ -11,6 +11,7 @@ public class BooleanValue extends AbstractValue {
 	this.value = value;
     }
 
+    @Override
     public Boolean value() {
 	return value;
     }

@@ -1,9 +1,9 @@
 package nl.nicasso.ql.visitors;
 
-import nl.nicasso.ql.ast.types.BooleanType;
-import nl.nicasso.ql.ast.types.IntegerType;
-import nl.nicasso.ql.ast.types.MoneyType;
-import nl.nicasso.ql.ast.types.StringType;
+import nl.nicasso.ql.ast.nodes.types.BooleanType;
+import nl.nicasso.ql.ast.nodes.types.IntegerType;
+import nl.nicasso.ql.ast.nodes.types.MoneyType;
+import nl.nicasso.ql.ast.nodes.types.StringType;
 
 public interface TypeVisitor<T, U> {
 

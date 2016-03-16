@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 
 import javax.swing.JTextField;
 
-import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.values.MoneyValue;
 
 public class MoneyQuestionField extends QuestionField {
 

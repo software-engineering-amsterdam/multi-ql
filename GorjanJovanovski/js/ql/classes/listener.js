@@ -12,12 +12,12 @@ class Listener {
 		}
 	}
 
-	notify(label) {
+	notify(label, environment) {
 		if (this.listenerMap[label] !== undefined) {
 			for (var i = 0; i < this.listenerMap[label].length; i++) {
 				var dependant = this.listenerMap[label][i];
-				dependant.notify();
-				this.notify(dependant.label);
+				dependant.notify(environment);
+				this.notify(dependant.label, environment);
 			}
 		}
 	}

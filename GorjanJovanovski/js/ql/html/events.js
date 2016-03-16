@@ -5,17 +5,17 @@ function goToLine(line) {
 
 function registerQuestionChangeListeners(ast, environment) {
 	$("input").change(function () {
-		notifyListeners($(this), ast);
+		notifyListeners($(this), ast, environment);
 		refreshGUI(ast, environment);
 	});
 }
 
-function notifyListeners(element, ast) {
+function notifyListeners(element, ast, environment) {
 	var value = element.val();
 	if (element.attr("type") === "checkbox") {
 		value = element.is(":checked");
 	}
-	ast.notify(element.attr("name"), value);
+	ast.notify(element.attr("name"), value, environment);
 }
 
 function setOnClickListeners(ast) {

@@ -3,29 +3,27 @@ package nl.nicasso.ql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import nl.nicasso.ql.antlr.QLLexer;
 import nl.nicasso.ql.antlr.QLParser;
-import nl.nicasso.ql.ast.structures.Form;
+import nl.nicasso.ql.ast.CreateAST;
+import nl.nicasso.ql.ast.nodes.structures.Form;
 import nl.nicasso.ql.gui.Gui;
 import nl.nicasso.ql.gui.MainFrame;
-import nl.nicasso.ql.stateTable.StateTable;
-import nl.nicasso.ql.symbolTable.SymbolTable;
+import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
+import nl.nicasso.ql.semanticAnalysis.CollectIdentifiers;
+import nl.nicasso.ql.semanticAnalysis.QuestionIndexer;
+import nl.nicasso.ql.semanticAnalysis.TypeChecker;
+import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 
 public class QL {
 	
 	public final static String DSLFILE = "exampleQuestionnaire";
-	
 	
 	public void start() {
 		ANTLRInputStream input = readInputDSL();

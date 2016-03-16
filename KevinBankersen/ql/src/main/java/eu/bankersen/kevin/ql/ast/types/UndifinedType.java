@@ -3,8 +3,9 @@ package eu.bankersen.kevin.ql.ast.types;
 import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
 import eu.bankersen.kevin.ql.gui.widgets.InputWidget;
+import eu.bankersen.kevin.ql.gui.widgets.Widget;
 
-public class UndifinedType extends AbstractType {
+public class UndifinedType extends QLType {
 
     private final Object value;
 
@@ -23,7 +24,7 @@ public class UndifinedType extends AbstractType {
     }
 
     @Override
-    public InputWidget defaultWidget() {
+    public InputWidget defaultWidget(Widget parentWidget) {
 	return null;
     }
 

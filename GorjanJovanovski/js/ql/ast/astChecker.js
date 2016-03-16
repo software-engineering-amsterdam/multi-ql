@@ -1,7 +1,6 @@
-function performAstChecks(ast) {
+function performAstChecks(ast, environment) {
 	var textSet = new Set();
 	var identifierMap = [];
-
 	var noErrors = true;
 
 	ast.transverseAST(
@@ -16,20 +15,26 @@ function performAstChecks(ast) {
 				identifierMap[questionNode.label] = questionNode.getTypeString();
 			}
 
-			if (!isExpressionDefined(questionNode)) {
+			if (!isExpressionDefined(questionNode, environment)) {
 				noErrors = false;
 			}
-			else if (!isExpressionExpectedType(questionNode)) {
+			else if (!isValidExpressionArguments(questionNode, environment)) {
+				noErrors = false;
+			}
+			else if (!isExpressionExpectedType(questionNode, environment)) {
 				noErrors = false;
 			}
 
 			textSet.add(questionNode.text);
 		},
 		(conditionNode) => {
-			if (!isExpressionDefined(conditionNode)) {
+			if (!isExpressionDefined(conditionNode, environment)) {
 				noErrors = false;
 			}
-			else if (!isExpressionExpectedType(conditionNode)) {
+			else if (!isValidExpressionArguments(conditionNode, environment)) {
+				noErrors = false;
+			}
+			else if (!isExpressionExpectedType(conditionNode, environment)) {
 				noErrors = false;
 			}
 		}
@@ -56,19 +61,23 @@ function checkQuestionTextDuplicate(questionNode, textSet) {
 	}
 }
 
-function isExpressionDefined(astNode) {
-	if (!astNode.isExpressionDefined()) {
-		throwError(astNode.line, "Type error: Computed expression '" + astNode.exprString() + "' is undefined");
+function isExpressionDefined(astNode, environment) {
+	if (!astNode.isExpressionDefined(environment)) {
+		throwError(astNode.line, "Type error: Expression '" + astNode.expressionString() + "' is undefined");
 		return false;
 	}
 	return true;
 }
 
 
-function isExpressionExpectedType(astNode) {
-	if (!astNode.checkExpressionType()) {
-		throwError(astNode.line, "Type error: Computed expression '" + astNode.exprString() + "' must evaluate to " + type);
+function isExpressionExpectedType(astNode, environment) {
+	if (!astNode.checkExpressionType(environment)) {
+		throwError(astNode.line, "Type error: Expression '" + astNode.expressionString() + "' must evaluate to " + type);
 		return false;
 	}
 	return true;
+}
+
+function isValidExpressionArguments(astNode, environment) {
+	return astNode.isValidExpressionArguments(environment);
 }
