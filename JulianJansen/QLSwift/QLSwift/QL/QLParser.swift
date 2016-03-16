@@ -113,9 +113,61 @@ class QLParser {
     private func variableParser() -> GenericParser<String, (), QLExpression> { return identifier.map{ QLVariable(name: $0, identifier: self.expID.getId()) } }
     
     // MARK: Expression.
-    private func singleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
-        
-        // Based on opTable from ExpressionTests.swift of SwiftParsec.
+//    private func singleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
+//        
+//        // Based on opTable from ExpressionTests.swift of SwiftParsec.
+//        let singleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
+//            [
+//                prefix("!", function: { QLNotExpression(expression: $0, identifier: self.expID.getId()) }),
+//            ],
+//            [
+//                binary("<", function: { QLSmallerThanExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
+//                binary(">", function: { QLGreaterThanExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None)
+//            ],
+//            [
+//                binary("*", function: { QLMultiplyExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left),
+//                binary("/", function: { QLDivideExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left)
+//            ],
+//            [
+//                binary("+", function: { QLAddExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left),
+//                binary("-", function: { QLSubtractExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left)
+//            ]
+//        ]
+//        
+//        let openingParen = StringParser.character("(")
+//        let closingParen = StringParser.character(")")
+//        
+//        return singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
+//            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "single symbol expression"
+//        }
+//    }
+//    
+//    private func doubleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
+//        let doubleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
+//            [
+//                binary(">", function: { QLGreaterThanExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
+//                binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
+//                binary("<=", function: { QLSmallerOrISExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None)
+//            ],
+//            [
+//                binary("!=", function: { QLIsNotExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
+//                binary("==", function: { QLIsExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None)
+//            ],
+//            [
+//                binary("&&", function: { QLAndExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left),
+//                binary("||", function: { QLOrExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .Left)
+//            ]
+//        ]
+//        
+//        let openingParen = StringParser.character("(")
+//        let closingParen = StringParser.character(")")
+//        
+//        return doubleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
+//            self.whiteSpace *> expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <* self.whiteSpace <?> "double symbol expression"
+//        }
+//    }
+//    
+    private func combineOperatorTables() -> GenericParser<String, (), QLExpression>{
         let singleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
             [
                 prefix("!", function: { QLNotExpression(expression: $0, identifier: self.expID.getId()) }),
@@ -134,15 +186,6 @@ class QLParser {
             ]
         ]
         
-        let openingParen = StringParser.character("(")
-        let closingParen = StringParser.character(")")
-        
-        return singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "single symbol expression"
-        }
-    }
-    
-    private func doubleSymbolExpressionParser() -> GenericParser<String, (), QLExpression> {
         let doubleSymbolOperatorTable: OperatorTable<String, (), QLExpression> = [
             [
                 binary(">=", function: { QLGreaterOrIsExpression(lhs: $0, rhs: $1, identifier: self.expID.getId()) }, assoc: .None),
@@ -161,13 +204,23 @@ class QLParser {
         let openingParen = StringParser.character("(")
         let closingParen = StringParser.character(")")
         
+        let singleOperatorParser = singleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
+            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "single symbol expression"
+        }
+        
         return doubleSymbolOperatorTable.expressionParser { (expression: GenericParser<String, (), QLExpression>) in
-            expression.between(openingParen, closingParen) <|> literalParser() <|> variableParser() <?> "double symbol expression"
+            self.whiteSpace *> expression.between(openingParen, closingParen) <|> singleOperatorParser <|> literalParser() <|> variableParser() <* self.whiteSpace <?> "double symbol expression"
         }
     }
     
     private func expressionParser() -> GenericParser<String, (), QLExpression> {
-        return singleSymbolExpressionParser().attempt <|> doubleSymbolExpressionParser()
+        
+        return StringParser.character("(") *> self.whiteSpace *> combineOperatorTables() <* self.whiteSpace <* StringParser.character(")")
+        
+        // return StringParser.character("(") *> self.whiteSpace *> singleSymbolExpressionParser().attempt <|> doubleSymbolExpressionParser() <* self.whiteSpace <* StringParser.character(")")
+        
+        
+        // singleSymbolExpressionParser().attempt <|>
     }
     
     private func questionTypeParser() -> GenericParser<String, (), QLLiteral> {
@@ -203,7 +256,7 @@ class QLParser {
     }
     
     private func ifParser() -> GenericParser<String, (), QLStatement> {
-        return (symbol("if") *> expressionParser()).flatMap{ condition in
+        return (symbol("if") *> self.whiteSpace *> expressionParser()).flatMap{ condition in
             (self.whiteSpace *> self.codeBlockParser()).map { codeBlock in
                 QLIfStatement(condition: condition, codeBlock: codeBlock)
             }
