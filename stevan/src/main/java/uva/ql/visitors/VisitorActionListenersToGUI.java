@@ -1,12 +1,16 @@
 package uva.ql.visitors;
 
+import java.awt.Component;
+
 import javax.swing.JPanel;
 
 import uva.ql.ast.Block;
+import uva.ql.ast.EnumType;
 import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.gui.GUI;
 import uva.ql.gui.visitors.IActionListenerVisitor;
 
@@ -36,23 +40,35 @@ public class VisitorActionListenersToGUI implements IActionListenerVisitor {
 	@Override
 	public void visitBlock(Block block, JPanel panel) {
 		
-		System.out.println("BLOCK - " + panel.getComponentCount());
+		//System.out.println("BLOCK - " + panel.getComponentCount() + " - " + block.size());
+		//System.out.println("BLOCK - " + panel.getComponents());
+		
+		/*for(Component comp : panel.getComponents()) {
+			//System.out.println(comp.isEnabled());
+		}*/
+		
 		for(int i=0; i<block.size(); i++) {
-			System.out.println("\t" + panel.getComponent(i));
-			block.get(i).accept(this, (JPanel) panel.getComponent(i));
+			//System.out.println(block.get(i));
+			block.get(i).accept(this, panel);
 		}
+		
+		/*for(int i=0; i<block.size(); i++) {
+			//System.out.println("\t" + panel.getComponent(i));
+			block.get(i).accept(this, (JPanel) panel.getComponent(i));
+		}*/
 		//AbstractActionListener.enablePanel(containerPanel, false);
 	}
 
 	@Override
 	public void visitCondIfStatement(CondIfStatement condition, JPanel panel) {
-		//System.out.println(panel.getComponentCount());
+		//System.out.println("CondIfStatement: " + panel.getComponentCount());
+		condition.getExpression().accept(this, panel);
 		condition.getLhs().accept(this, panel);
 	}
 
 	@Override
 	public void visitCondIfElseStatement(CondIfElseStatement condition, JPanel panel) {
-		//System.out.println(panel.getComponentCount());
+		//System.out.println("CondIfElseStatement: " + panel.getComponentCount());
 		condition.getExpression().accept(this, panel);
 		condition.getLhs().accept(this, panel);
 		condition.getRhs().accept(this, panel);

@@ -9,10 +9,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.antlr4.QLBaseVisitor;
 import uva.ql.antlr4.QLParser;
-import uva.ql.antlr4.QLParser.ConditionContext;
 import uva.ql.antlr4.QLParser.QuestionContext;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
+import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.conditionals.abstracts.Condition;
@@ -36,7 +36,7 @@ import uva.ql.ast.questions.abstracts.Question;
 import uva.ql.ast.values.ValueBool;
 import uva.ql.ast.values.ValueInt;
 import uva.ql.ast.values.ValueMoney;
-import uva.ql.ast.values.abstracts.Values;
+import uva.ql.ast.values.abstracts.Value;
 import uva.ql.ast.variables.VarBool;
 import uva.ql.ast.variables.VarDate;
 import uva.ql.ast.variables.VarGeneric;
@@ -81,18 +81,14 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		
 		Block block = new Block(null, line, column);
 		
-		for(QuestionContext q : ctx.question()) {
-			
-			Question question = (Question) q.accept(this);
-			question.setParent(block);
-			block.add(question);
-		}
+		for(ParseTree tree : ctx.children) {
 
-		for(ConditionContext c : ctx.condition()) {
+			Node node = (Node) tree.accept(this);
 			
-			Condition ifStmnt = (Condition) c.accept(this);
-			ifStmnt.setParent(block);
-			block.add(ifStmnt);
+			if (node != null) {
+				node.setParent(block);
+				block.add(node);
+			}
 		}
 		
 		return block;
@@ -274,7 +270,7 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public Values<Integer> visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
+	public Value<Integer> visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
 		
 		Token token = ctx.getStart();
 		int line = token.getLine();
@@ -291,7 +287,7 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public Values<Boolean> visitExpBool( @NotNull QLParser.ExpBoolContext ctx ) {
+	public Value<Boolean> visitExpBool( @NotNull QLParser.ExpBoolContext ctx ) {
 		
 		Token token = ctx.getStart();
 		int line = token.getLine();
