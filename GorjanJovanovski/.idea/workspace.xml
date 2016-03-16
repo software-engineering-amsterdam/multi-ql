@@ -2,347 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cd652696-3ee0-4e96-b125-62e87dc87f46" name="Default" comment="reorganize">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/lib/jquery.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/main.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/ql/antlr/parse.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ace.js" afterPath="$PROJECT_DIR$/js/lib/ace/ace.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-beautify.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-beautify.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-chromevox.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-chromevox.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-elastic_tabstops_lite.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-elastic_tabstops_lite.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-emmet.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-emmet.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-error_marker.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-error_marker.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-keybinding_menu.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-keybinding_menu.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-language_tools.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-language_tools.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-linking.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-linking.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-modelist.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-modelist.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-old_ie.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-old_ie.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-searchbox.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-searchbox.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-settings_menu.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-settings_menu.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-spellcheck.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-spellcheck.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-split.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-split.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-static_highlight.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-static_highlight.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-statusbar.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-statusbar.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-textarea.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-textarea.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-themelist.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-themelist.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/ext-whitespace.js" afterPath="$PROJECT_DIR$/js/lib/ace/ext-whitespace.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/keybinding-emacs.js" afterPath="$PROJECT_DIR$/js/lib/ace/keybinding-emacs.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/keybinding-vim.js" afterPath="$PROJECT_DIR$/js/lib/ace/keybinding-vim.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-abap.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-abap.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-abc.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-abc.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-actionscript.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-actionscript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-ada.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-ada.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-apache_conf.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-apache_conf.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-applescript.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-applescript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-asciidoc.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-asciidoc.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-assembly_x86.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-assembly_x86.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-autohotkey.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-autohotkey.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-batchfile.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-batchfile.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-c9search.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-c9search.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-c_cpp.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-c_cpp.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-cirru.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-cirru.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-clojure.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-clojure.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-cobol.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-cobol.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-coffee.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-coffee.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-coldfusion.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-coldfusion.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-csharp.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-csharp.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-css.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-css.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-curly.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-curly.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-d.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-d.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-dart.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-dart.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-diff.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-diff.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-django.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-django.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-dockerfile.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-dockerfile.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-dot.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-dot.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-eiffel.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-eiffel.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-ejs.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-ejs.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-elixir.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-elixir.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-elm.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-elm.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-erlang.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-erlang.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-forth.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-forth.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-ftl.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-ftl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-gcode.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-gcode.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-gherkin.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-gherkin.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-gitignore.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-gitignore.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-glsl.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-glsl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-gobstones.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-gobstones.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-golang.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-golang.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-groovy.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-groovy.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-haml.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-haml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-handlebars.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-handlebars.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-haskell.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-haskell.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-haxe.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-haxe.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-html.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-html.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-html_elixir.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-html_elixir.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-html_ruby.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-html_ruby.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-ini.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-ini.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-io.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-io.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-jack.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-jack.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-jade.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-jade.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-java.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-java.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-javascript.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-javascript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-json.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-json.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-jsoniq.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-jsoniq.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-jsp.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-jsp.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-jsx.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-jsx.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-julia.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-julia.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-latex.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-latex.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-lean.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-lean.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-less.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-less.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-liquid.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-liquid.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-lisp.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-lisp.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-live_script.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-live_script.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-livescript.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-livescript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-logiql.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-logiql.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-lsl.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-lsl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-lua.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-lua.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-luapage.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-luapage.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-lucene.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-lucene.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-makefile.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-makefile.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-markdown.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-markdown.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-mask.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-mask.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-matlab.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-matlab.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-maze.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-maze.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-mel.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-mel.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-mips_assembler.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-mips_assembler.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-mipsassembler.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-mipsassembler.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-mushcode.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-mushcode.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-mysql.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-mysql.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-nix.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-nix.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-nsis.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-nsis.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-objectivec.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-objectivec.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-ocaml.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-ocaml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-pascal.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-pascal.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-perl.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-perl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-pgsql.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-pgsql.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-php.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-php.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-plain_text.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-plain_text.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-powershell.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-powershell.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-praat.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-praat.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-prolog.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-prolog.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-properties.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-properties.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-protobuf.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-protobuf.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-python.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-python.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-r.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-r.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-razor.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-razor.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-rdoc.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-rdoc.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-rhtml.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-rhtml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-rst.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-rst.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-ruby.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-ruby.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-rust.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-rust.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-sass.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-sass.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-scad.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-scad.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-scala.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-scala.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-scheme.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-scheme.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-scss.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-scss.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-sh.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-sh.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-sjs.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-sjs.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-smarty.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-smarty.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-snippets.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-snippets.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-soy_template.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-soy_template.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-space.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-space.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-sql.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-sql.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-sqlserver.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-sqlserver.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-stylus.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-stylus.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-svg.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-svg.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-swift.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-swift.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-swig.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-swig.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-tcl.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-tcl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-tex.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-tex.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-text.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-text.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-textile.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-textile.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-toml.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-toml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-twig.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-twig.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-typescript.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-typescript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-vala.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-vala.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-vbscript.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-vbscript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-velocity.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-velocity.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-verilog.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-verilog.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-vhdl.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-vhdl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-wollok.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-wollok.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-xml.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-xml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-xquery.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-xquery.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/mode-yaml.js" afterPath="$PROJECT_DIR$/js/lib/ace/mode-yaml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/abap.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/abap.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/abc.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/abc.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/actionscript.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/actionscript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/ada.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/ada.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/apache_conf.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/apache_conf.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/applescript.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/applescript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/asciidoc.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/asciidoc.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/assembly_x86.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/assembly_x86.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/autohotkey.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/autohotkey.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/batchfile.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/batchfile.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/c9search.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/c9search.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/c_cpp.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/c_cpp.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/cirru.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/cirru.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/clojure.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/clojure.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/cobol.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/cobol.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/coffee.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/coffee.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/coldfusion.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/coldfusion.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/csharp.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/csharp.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/css.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/css.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/curly.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/curly.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/d.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/d.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/dart.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/dart.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/diff.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/diff.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/django.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/django.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/dockerfile.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/dockerfile.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/dot.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/dot.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/eiffel.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/eiffel.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/ejs.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/ejs.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/elixir.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/elixir.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/elm.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/elm.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/erlang.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/erlang.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/forth.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/forth.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/ftl.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/ftl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/gcode.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/gcode.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/gherkin.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/gherkin.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/gitignore.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/gitignore.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/glsl.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/glsl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/gobstones.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/gobstones.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/golang.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/golang.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/groovy.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/groovy.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/haml.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/haml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/handlebars.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/handlebars.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/haskell.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/haskell.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/haxe.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/haxe.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/html.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/html.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/html_elixir.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/html_elixir.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/html_ruby.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/html_ruby.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/ini.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/ini.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/io.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/io.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/jack.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/jack.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/jade.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/jade.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/java.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/java.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/javascript.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/javascript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/json.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/json.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/jsoniq.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/jsoniq.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/jsp.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/jsp.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/jsx.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/jsx.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/julia.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/julia.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/latex.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/latex.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/lean.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/lean.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/less.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/less.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/liquid.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/liquid.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/lisp.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/lisp.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/live_script.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/live_script.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/livescript.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/livescript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/logiql.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/logiql.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/lsl.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/lsl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/lua.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/lua.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/luapage.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/luapage.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/lucene.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/lucene.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/makefile.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/makefile.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/markdown.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/markdown.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/mask.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/mask.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/matlab.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/matlab.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/maze.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/maze.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/mel.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/mel.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/mips_assembler.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/mips_assembler.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/mipsassembler.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/mipsassembler.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/mushcode.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/mushcode.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/mysql.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/mysql.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/nix.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/nix.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/nsis.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/nsis.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/objectivec.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/objectivec.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/ocaml.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/ocaml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/pascal.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/pascal.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/perl.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/perl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/pgsql.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/pgsql.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/php.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/php.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/plain_text.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/plain_text.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/powershell.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/powershell.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/praat.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/praat.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/prolog.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/prolog.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/properties.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/properties.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/protobuf.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/protobuf.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/python.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/python.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/r.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/r.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/razor.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/razor.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/rdoc.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/rdoc.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/rhtml.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/rhtml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/rst.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/rst.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/ruby.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/ruby.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/rust.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/rust.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/sass.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/sass.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/scad.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/scad.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/scala.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/scala.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/scheme.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/scheme.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/scss.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/scss.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/sh.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/sh.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/sjs.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/sjs.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/smarty.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/smarty.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/snippets.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/snippets.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/soy_template.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/soy_template.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/space.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/space.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/sql.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/sql.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/sqlserver.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/sqlserver.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/stylus.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/stylus.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/svg.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/svg.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/swift.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/swift.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/swig.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/swig.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/tcl.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/tcl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/tex.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/tex.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/text.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/text.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/textile.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/textile.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/toml.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/toml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/twig.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/twig.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/typescript.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/typescript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/vala.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/vala.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/vbscript.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/vbscript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/velocity.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/velocity.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/verilog.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/verilog.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/vhdl.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/vhdl.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/wollok.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/wollok.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/xml.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/xml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/xquery.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/xquery.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/snippets/yaml.js" afterPath="$PROJECT_DIR$/js/lib/ace/snippets/yaml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-ambiance.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-ambiance.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-chaos.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-chaos.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-chrome.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-chrome.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-clouds.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-clouds.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-clouds_midnight.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-clouds_midnight.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-cobalt.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-cobalt.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-crimson_editor.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-crimson_editor.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-dawn.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-dawn.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-dreamweaver.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-dreamweaver.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-eclipse.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-eclipse.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-github.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-github.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-idle_fingers.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-idle_fingers.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-iplastic.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-iplastic.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-katzenmilch.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-katzenmilch.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-kr_theme.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-kr_theme.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-kuroir.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-kuroir.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-merbivore.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-merbivore.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-merbivore_soft.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-merbivore_soft.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-mono_industrial.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-mono_industrial.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-monokai.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-monokai.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-pastel_on_dark.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-pastel_on_dark.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-solarized_dark.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-solarized_dark.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-solarized_light.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-solarized_light.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-sqlserver.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-sqlserver.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-terminal.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-terminal.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-textmate.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-textmate.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-tomorrow.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-tomorrow.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-tomorrow_night.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-tomorrow_night.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-tomorrow_night_blue.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-tomorrow_night_blue.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-tomorrow_night_bright.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-tomorrow_night_bright.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-tomorrow_night_eighties.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-tomorrow_night_eighties.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-twilight.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-twilight.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-vibrant_ink.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-vibrant_ink.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/theme-xcode.js" afterPath="$PROJECT_DIR$/js/lib/ace/theme-xcode.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-coffee.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-coffee.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-css.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-css.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-html.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-html.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-javascript.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-javascript.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-json.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-json.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-lua.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-lua.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-php.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-php.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-xml.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-xml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ace/worker-xquery.js" afterPath="$PROJECT_DIR$/js/lib/ace/worker-xquery.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/ast/main.js" afterPath="$PROJECT_DIR$/js/ql/ast/main.js" />
     </list>
     <ignored path="GorjanJovanovski.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -368,8 +28,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7307692">
-              <caret line="105" column="43" selection-start-line="105" selection-start-column="43" selection-end-line="105" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.42307693">
+              <caret line="97" column="61" selection-start-line="97" selection-start-column="61" selection-end-line="97" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -546,45 +206,44 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/AcceptQuestionVisitor.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/QuestionVisitor.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/expr/TopDownExprVisitor.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/form/Body.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/form/Form.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/stat/ComputedQuestion.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/stat/ElseStatement.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/stat/IFStatement.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/stat/NormalQuestion.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/gui/widgets/QuestionBuilder.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/interpreter/Interpreter.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/typechecker/analytics/DependancyAnalyzer.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/typechecker/analytics/TypeChecker.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/main.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/ql/rendering.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/ql/widgets.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/QLS.g4</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/ast.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/generated_parser/QLS.tokens</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/generated_parser/QLSLexer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/generated_parser/QLSLexer.tokens</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/generated_parser/QLSListener.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/generated_parser/QLSParser.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/generated_parser/QLSVisitor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/parser.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Merijn/src/qls/rendering.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/.classpath</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/bin/.gitignore</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/bin/Questionaire.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/resources/Questionaire.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/FormEvaluation.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/FormParser.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/Program.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/ast/literal/Literal.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/ast/visitor/BasicVisitor.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/ast/visitor/Evaluation.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/gui/ComputedQuestionWidget.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/gui/InputQuestionWidget.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/src/ql/gui/QLFrame.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/.gitignore</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/README.md</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/acceptexpr.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/add.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/evalexpr.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/intlit.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/leq.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/typecheckexpr.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/unaryoperator.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/unaryoperator_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/node/node.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/acceptstmt.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/computedquestion.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/form.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/ifelse.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/typecheckstmt.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/vari/vardecl.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/vari/varid.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/visitor/basevisitor.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/example.ql</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/grammar/ql.bnf</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/gui/gui.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/gui/guiquestion.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/expr.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/stmt.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/typechecker.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/lexer/lexer.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/main.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/makefile</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/parser/actiontable.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/parser/productionstable.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift.xcodeproj/project.xcworkspace/xcuserdata/Julian.xcuserdatad/UserInterfaceState.xcuserstate</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/AppDelegate.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLNodes.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLParser.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLSymbolTable.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLTypeChecker.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/Streams/questionsAndIfStatement.ql</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -592,17 +251,16 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/TopDownQuestionVisitor.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/typechecker/analytics/DependancyAnalyzer2.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/bin/CyclicExampleA.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/bin/CyclicExampleB.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/bin/CyclicExampleC.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/bin/CyclicExampleD.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/bin/testPrecedence.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/test/qlTests/ExpressionEvaluation.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/test/qlTests/TestAllOperands.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/testResources/testAllOperands.ql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wstikkelorum/testResources/testPrecedence.ql</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/glide.lock</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/glide.yaml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/astnode.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/symbols.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/libui.A.dylib</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symbols/symbols.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symbols/symbols_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/typechecker/typechecker.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/typechecker/typechecker_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/vendor/golang.org/x/sys</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -610,7 +268,11 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../KevinBankersen/ql/src/main/java/eu/bankersen/kevin/ql/ast/TopDownVisitor.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/typechecker/typechecker.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/typechecker/typechecker_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/symboltable.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symboltable/symboltable.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symboltable/symboltable_test.go</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Restored" />
@@ -857,18 +519,24 @@
       <option name="project" value="LOCAL" />
       <updated>1458125825961</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="reorganize">
+      <created>1458127019534</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1458127019534</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16410257" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15213676" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15213676" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2065053" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1351,8 +1019,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7307692">
-          <caret line="105" column="43" selection-start-line="105" selection-start-column="43" selection-end-line="105" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.42307693">
+          <caret line="97" column="61" selection-start-line="97" selection-start-column="61" selection-end-line="97" selection-end-column="61" />
           <folding />
         </state>
       </provider>
