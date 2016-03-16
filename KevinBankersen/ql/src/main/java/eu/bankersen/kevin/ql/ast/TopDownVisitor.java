@@ -8,7 +8,7 @@ import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
 import eu.bankersen.kevin.ql.ast.stat.IFStatement;
 import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
 
-public class ASTVisitor<T> implements BaseVisitor<T> {
+public class TopDownVisitor<T> implements QuestionVisitor<T> {
 
     @Override
     public T visit(Form o, T empty) {

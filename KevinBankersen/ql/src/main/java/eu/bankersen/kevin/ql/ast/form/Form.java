@@ -1,10 +1,10 @@
 package eu.bankersen.kevin.ql.ast.form;
 
-import eu.bankersen.kevin.ql.ast.BaseVisitor;
-import eu.bankersen.kevin.ql.ast.BaseVisitorAccept;
+import eu.bankersen.kevin.ql.ast.QuestionVisitor;
+import eu.bankersen.kevin.ql.ast.AcceptQuestionVisitor;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
-public class Form implements BaseVisitorAccept {
+public class Form implements AcceptQuestionVisitor {
 
     private final String name;
     private final Body body;
@@ -27,7 +27,7 @@ public class Form implements BaseVisitorAccept {
     }
 
     @Override
-    public <T> T accept(BaseVisitor<T> v, T context) {
+    public <T> T accept(QuestionVisitor<T> v, T context) {
 	return v.visit(this, context);
     }
 

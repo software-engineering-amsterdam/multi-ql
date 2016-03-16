@@ -3,7 +3,7 @@ package eu.bankersen.kevin.ql.interpreter;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.bankersen.kevin.ql.ast.ASTVisitor;
+import eu.bankersen.kevin.ql.ast.TopDownVisitor;
 import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
 import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
@@ -22,7 +22,7 @@ public class Interpreter implements ViewListener {
 	this.environment = new Environment();
 
 	// Construct the environment
-	form.accept(new ASTVisitor<Void>() {
+	form.accept(new TopDownVisitor<Void>() {
 
 	    @Override
 	    public Void visit(NormalQuestion o, Void empty) {

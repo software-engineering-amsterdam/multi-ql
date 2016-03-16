@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import eu.bankersen.kevin.ql.ast.BaseVisitor;
+import eu.bankersen.kevin.ql.ast.QuestionVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Identifier;
@@ -34,7 +34,7 @@ import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
 import eu.bankersen.kevin.ql.typechecker.analytics.dependancies.DependancyChecker;
 import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
 
-public class DependancyAnalyzer implements BaseVisitor<DependancyChecker>, ExprVisitor<Set<String>, Void> {
+public class DependancyAnalyzer implements QuestionVisitor<DependancyChecker>, ExprVisitor<Set<String>, Void> {
 
     private final List<TypeCheckError> errorList;
 
