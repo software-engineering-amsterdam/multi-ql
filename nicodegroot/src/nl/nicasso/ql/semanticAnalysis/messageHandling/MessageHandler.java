@@ -15,8 +15,14 @@ public class MessageHandler {
 		messages.add(message);
 	}
 	
+	// This one can go I guess?
 	public void displayMessages() {
-		
+		for (Message message: messages) {
+			System.out.println(message.getMessage());
+		}
 	}
 	
+	public List<Message> getMessages() {
+		return messages;
+	}
 }

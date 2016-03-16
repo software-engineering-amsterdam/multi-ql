@@ -18,22 +18,22 @@ pageBlock
 	;
 
 pageStatement
-	: 'section' STRING_LITERAL pageBlock        # sectionPageStatement
-	| 'question' IDENTIFIER ';'                 # questionPageStatement
-	| 'question' IDENTIFIER widgetConfiguration # configuredQuestionPageStatement
-	| typeDefaultStatement                      # typeDefaultPageStatement
+	: 'section' STRING_LITERAL pageBlock    # sectionPageStatement
+	| 'question' IDENTIFIER styleBlock      # questionPageStatement
+	| typeDefaultStatement                  # typeDefaultPageStatement
 	;
 
 typeDefaultStatement
-	: 'default' type widgetConfiguration
+	: 'default' type styleBlock
 	;
 
-widgetConfiguration
-	: '{' widgetArg* 'widget' widgetType '}'
+styleBlock
+	: '{' styleStatement* '}'
 	;
 
-widgetArg
-	: IDENTIFIER ':' literal ';'
+styleStatement
+	: 'widget' widgetType ';'       # widgetStyleStatement
+	| IDENTIFIER ':' literal ';'    # argStyleStatement
 	;
 
 widgetType

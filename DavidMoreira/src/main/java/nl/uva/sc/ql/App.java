@@ -2,15 +2,17 @@ package nl.uva.sc.ql;
 
 import java.io.IOException;
 
-import nl.uva.sc.ql.compiler.QLCompiler;
-import nl.uva.sc.ql.compiler.parser.ast.Node;
+import nl.uva.sc.ql.errorwarning.CompilerException;
+import nl.uva.sc.ql.errorwarning.MessagesHandler;
 import nl.uva.sc.ql.gui.QLGui;
-import nl.uva.sc.ql.messages.MessagesHandler;
-import nl.uva.sc.ql.messages.exceptions.CompilerException;
+import nl.uva.sc.ql.parser.QLCompiler;
+import nl.uva.sc.ql.parser.ast.Node;
 
 public class App {
 	
 	public static void main(String[] args) throws IOException {
+        System.out.println("Start...");
+
         MessagesHandler messagesHandler = new MessagesHandler();
 		QLCompiler compiler = new QLCompiler(messagesHandler);
 		
@@ -26,6 +28,8 @@ public class App {
         
         if(messagesHandler.asWarning()){
         	System.err.println(messagesHandler.toString());
-        }        
+        }
+        
+		System.out.println("Finished");
 	}
 }

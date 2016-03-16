@@ -6,8 +6,7 @@ public class CodeLocation {
 	private final int startColumn;
 	
 	public CodeLocation(int startLine, int startColumn) {
-		// @TODO Not sure if correct, but seems like the startline is one off. 
-		this.startLine = startLine+1;
+		this.startLine = startLine;
 		this.startColumn = startColumn;
 	}
 	

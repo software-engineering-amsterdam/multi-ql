@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.values.abstracts.Values;
+import uva.ql.ast.values.abstracts.Value;
 import uva.ql.ast.values.types.Money;
 
-public class ValueMoney extends Values<Integer> {
+public class ValueMoney extends Value<Integer> {
 
 	private Money type = new Money();
 	private int value;

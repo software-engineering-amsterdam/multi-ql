@@ -3,7 +3,6 @@ package nl.nicasso.ql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -16,9 +15,7 @@ import nl.nicasso.ql.ast.nodes.structures.Form;
 import nl.nicasso.ql.gui.Gui;
 import nl.nicasso.ql.gui.MainFrame;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
-import nl.nicasso.ql.semanticAnalysis.CollectIdentifiers;
-import nl.nicasso.ql.semanticAnalysis.QuestionIndexer;
-import nl.nicasso.ql.semanticAnalysis.TypeChecker;
+import nl.nicasso.ql.semanticAnalysis.SemanticAnalysis;
 import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 
 public class QL {
@@ -39,50 +36,14 @@ public class QL {
         
         CreateAST astVisitor = new CreateAST();
         Form ast = (Form) tree.accept(astVisitor);
+        
+        SemanticAnalysis semantics = new SemanticAnalysis(ast, symbolTable, stateTable);
+        semantics.initializeAnalysis();        
 
-        CollectIdentifiers collectIdentifiers = new CollectIdentifiers();
+        MainFrame main = new MainFrame(stateTable, semantics.getMessages());
         
-        QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, stateTable, collectIdentifiers);
-        ast.accept(questionVisitor, null);
-        
-        //symbolTable.displaySymbolTable(symbolTable);
-        
-        displayMessages("QuestionVisitor Warnings", questionVisitor.getWarnings());
-        displayMessages("QuestionVisitor Errors", questionVisitor.getErrors());
-    
-    	TypeChecker typeChecker = new TypeChecker(symbolTable);
-    	ast.accept(typeChecker, null);
-        
-        displayMessages("TypeChecker Warnings", typeChecker.getWarnings());
-        displayMessages("TypeChecker Errors", typeChecker.getErrors());
-        
-        //symbolTable.displaySymbolTable(symbolTable);
-        
-        //@TODO DO I STILL NEED TO BUILD AN EVALUATOR HERE?
-        //Evaluator evaluator = new Evaluator(stateTable);
-        // Get all initial values
-        //ast.accept(evaluator, null);
-
-        // Use values to evaluate expressions (NOT NEEDED ANYMORE? HUH!)
-        //ast.accept(evaluator);
-        
-        //symbolTable.displaySymbolTable(symbolTable);
-
-        MainFrame main = new MainFrame(stateTable);
-        
-        // Does the GUI need a stateTable?
         Gui guiVisitor = new Gui(stateTable, main);
         ast.accept(guiVisitor, null);
-        //ex.setVisible(true);
-	}
-	
-	private void displayMessages(String title, List<String> messages) {
-		if (!messages.isEmpty()) {
-        	System.out.println("-------------------------------"+title+"--------------------------------------------");
-        	for (String message : messages) {
-        		System.out.println(message);
-        	}
-        }
 	}
 	
 	private ANTLRInputStream readInputDSL() {

@@ -1,6 +1,6 @@
 package eu.bankersen.kevin.ql.ast.stat;
 
-import eu.bankersen.kevin.ql.ast.QuestionVisitor;
+import eu.bankersen.kevin.ql.ast.BaseVisitor;
 import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
@@ -35,7 +35,7 @@ public class NormalQuestion extends AbstractStatement {
     }
 
     @Override
-    public <T> void accept(QuestionVisitor<T> v, T context) {
-	v.visit(this, context);
+    public <T> T accept(BaseVisitor<T> v, T context) {
+	return v.visit(this, context);
     }
 }

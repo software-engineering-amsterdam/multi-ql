@@ -1,8 +1,8 @@
 package sc.qls.ast.literal;
 
-import sc.ql.value.NumberValue;
+import sc.ql.ast.value.NumberValue;
 
-public final class IntegerLiteral extends Literal {
+public final class IntegerLiteral extends QLSLiteral {
 
 	private final NumberValue value;
 

@@ -6,7 +6,7 @@ import nl.uva.sea.ql.answerTable.*;
  * Representation of inverse equality comparisons in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mrt-2016
+ * @version 16-mar-2016
  */
 public class NEq extends ComparisonExpr {
     
@@ -35,7 +35,8 @@ public class NEq extends ComparisonExpr {
     public BooleanValue eval(AnswerTable answerTable) {
         Value firstValue = getFirstExpr().eval(answerTable);
         Value secondValue = getSecondExpr().eval(answerTable);
-        return firstValue.ternaryEquals(secondValue);
+        BooleanValue equals = firstValue.ternaryEquals(secondValue);
+        return equals.negate();
     }
     
 }

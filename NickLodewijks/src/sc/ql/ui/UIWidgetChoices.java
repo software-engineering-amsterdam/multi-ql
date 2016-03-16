@@ -3,7 +3,7 @@ package sc.ql.ui;
 import java.util.Collections;
 import java.util.List;
 
-import sc.ql.value.Value;
+import sc.ql.ast.value.Value;
 
 public class UIWidgetChoices {
 

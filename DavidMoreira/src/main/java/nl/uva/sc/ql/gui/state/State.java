@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.uva.sc.ql.compiler.parser.ast.ExpressionNode;
-import nl.uva.sc.ql.compiler.parser.ast.IdentifierNode;
-import nl.uva.sc.ql.compiler.parser.value.Value;
+import nl.uva.sc.ql.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.parser.ast.IdentifierNode;
+import nl.uva.sc.ql.parser.value.Value;
 
 public class State {
 	private Map<IdentifierNode, ElementMap> map;

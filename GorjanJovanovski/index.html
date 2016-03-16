@@ -37,6 +37,7 @@
 		else{
 		"How much do you earn per month?"
 		earningPM: money
+
 		if(earningPM < 800){
 		"Tax is 20% of earnings"
 		taxEarningPM20: money = (earningPM * 0.2)
@@ -81,27 +82,21 @@
 </div>
 
 
-<script type="text/javascript" src="js/lib/jquery.js"></script>
-<script type="text/javascript" src="js/lib/bootstrap.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="js/lib/bootstrap.js"></script>
 <script type="text/javascript" src="js/lib/require.js"></script>
 <script type="text/javascript" src="js/lib/FileSaver.js"></script>
-<script type="text/javascript" src="js/lib/ace/ace.js"></script>
 
-<script type="text/javascript" src="js/ql/classes/answers.js"></script>
-<script type="text/javascript" src="js/ql/classes/environment.js"></script>
-<script type="text/javascript" src="js/ql/classes/listener.js"></script>
-<script type="text/javascript" src="js/ql/classes/nodes.js"></script>
-<script type="text/javascript" src="js/ql/classes/types.js"></script>
-<script type="text/javascript" src="js/ql/antlr/parse.js"></script>
-<script type="text/javascript" src="js/ql/ast/main.js"></script>
-<script type="text/javascript" src="js/ql/ast/astChecker.js"></script>
-<script type="text/javascript" src="js/ql/ast/cyclicChecker.js"></script>
-<script type="text/javascript" src="js/ql/ast/errorHandlers.js"></script>
-<script type="text/javascript" src="js/ql/html/initialize.js"></script>
-<script type="text/javascript" src="js/ql/html/events.js"></script>
-<script type="text/javascript" src="js/ql/html/update.js"></script>
+<script type="text/javascript" src="js/ace/ace.js"></script>
 
+<script type="text/javascript" src="js/allClasses.js"></script>
+<script type="text/javascript" src="js/htmlFunctions.js"></script>
+<script type="text/javascript" src="js/astFunctions.js"></script>
+<script type="text/javascript" src="js/eventHandlingFunctions.js"></script>
 
-<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript">
+	initiate(ace.edit("input").getValue());
+</script>
+
 </body>
 </html>

@@ -9,7 +9,7 @@ import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.questions.abstracts.Question;
-import uva.ql.ast.values.abstracts.Values;
+import uva.ql.ast.values.abstracts.Value;
 import uva.ql.ast.variables.abstracts.Variable;
 
 public interface INodeVisitor {
@@ -27,5 +27,5 @@ public interface INodeVisitor {
 	public void visitIfElseCondition(CondIfElseStatement condIfElseStatement);
 	
 	public void visitVar(Variable variable);
-	public void visitVal(Values<?> values);
+	public void visitVal(Value<?> values);
 }

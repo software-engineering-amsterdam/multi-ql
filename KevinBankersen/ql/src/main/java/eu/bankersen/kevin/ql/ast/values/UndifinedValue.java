@@ -3,7 +3,7 @@ package eu.bankersen.kevin.ql.ast.values;
 import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.ast.types.UndifinedType;
 
-public class UndifinedValue extends QLValue {
+public class UndifinedValue extends AbstractValue {
 
     @Override
     public Object value() {

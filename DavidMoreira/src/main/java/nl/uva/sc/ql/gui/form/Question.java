@@ -6,11 +6,11 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import nl.uva.sc.ql.compiler.parser.ast.ExpressionNode;
 import nl.uva.sc.ql.gui.state.Observer;
 import nl.uva.sc.ql.gui.state.State;
+import nl.uva.sc.ql.parser.ast.ExpressionNode;
 
-public abstract class Question extends JPanel implements Gui, Observer {
+public abstract class Question extends JPanel implements GuiRepresentation, Observer {
 
 	private static final long serialVersionUID = 1L;
 		

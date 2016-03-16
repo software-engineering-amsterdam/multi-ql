@@ -1,6 +1,7 @@
 package sc.ql.ui.widget;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedHashMap;
@@ -12,23 +13,38 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
+import sc.ql.ast.value.Value;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIWidgetChoice;
 import sc.ql.ui.UIWidgetChoices;
 import sc.ql.ui.UIWidgetStyle;
-import sc.ql.value.Value;
 
-public class RadioButtonWidget extends AbstractUIWidget implements ActionListener {
+public class RadioButtonWidget extends AbstractWidgetImpl implements ActionListener {
 
 	private final Map<UIWidgetChoice, JRadioButton> choiceToButton;
 	private final UIWidgetChoices choices;
 	private final JPanel panel;
 
-	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JRadioButton.font"),
-			new Dimension(150, 30));
+	private UIWidgetStyle style = new UIWidgetStyle() {
 
-	public RadioButtonWidget(Environment env, String variableName, UIWidgetChoices choices) {
-		super(env, variableName, choices.getDefaultChoice().getValue());
+		@Override
+		public Font getFont() {
+			return UIManager.getDefaults().getFont("JRadioButton.font");
+		}
+
+		@Override
+		public int getWidth() {
+			return 150;
+		}
+
+		@Override
+		public int getHeight() {
+			return 30;
+		}
+	};
+
+	public RadioButtonWidget(Environment context, String variableName, UIWidgetChoices choices) {
+		super(context, variableName, choices.getDefaultChoice().getValue());
 		ButtonGroup bg;
 
 		this.choiceToButton = new LinkedHashMap<>();

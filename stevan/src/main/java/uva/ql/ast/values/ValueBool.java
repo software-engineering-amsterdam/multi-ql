@@ -1,11 +1,14 @@
 package uva.ql.ast.values;
 
+import javax.swing.JPanel;
+
 import uva.ql.ast.EnumType;
 import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.values.abstracts.Values;
+import uva.ql.ast.values.abstracts.Value;
 import uva.ql.ast.values.types.Bool;
+import uva.ql.gui.visitors.IGUIVisitor;
 
-public class ValueBool extends Values<Boolean> {
+public class ValueBool extends Value<Boolean> {
 
 	private Bool type = new Bool();
 	private boolean value;
@@ -28,5 +31,10 @@ public class ValueBool extends Values<Boolean> {
 	@Override
 	public Boolean getValue() {
 		return this.value;
+	}
+	
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitValueBool(this, panel);
 	}
 }
