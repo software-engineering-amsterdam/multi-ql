@@ -4,12 +4,13 @@ import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.ast.values.StringValue;
 import eu.bankersen.kevin.ql.gui.widgets.BoxWidget;
 import eu.bankersen.kevin.ql.gui.widgets.InputWidget;
+import eu.bankersen.kevin.ql.gui.widgets.Widget;
 
-public class StringType extends AbstractType {
+public class StringType extends QLType {
 
     @Override
-    public InputWidget defaultWidget() {
-	return new BoxWidget(new StringType());
+    public InputWidget defaultWidget(Widget parentWidget) {
+	return new BoxWidget(new StringType(), parentWidget);
     }
 
     @Override

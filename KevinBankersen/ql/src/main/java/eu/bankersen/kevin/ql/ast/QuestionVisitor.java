@@ -7,7 +7,7 @@ import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
 import eu.bankersen.kevin.ql.ast.stat.IFStatement;
 import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
 
-public interface BaseVisitor<T> {
+public interface QuestionVisitor<T> {
 
     T visit(Form o, T context);
 

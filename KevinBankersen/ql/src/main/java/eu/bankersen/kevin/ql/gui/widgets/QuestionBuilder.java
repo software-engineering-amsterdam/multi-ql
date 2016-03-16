@@ -3,7 +3,7 @@ package eu.bankersen.kevin.ql.gui.widgets;
 import java.util.LinkedList;
 import java.util.List;
 
-import eu.bankersen.kevin.ql.ast.BaseVisitor;
+import eu.bankersen.kevin.ql.ast.QuestionVisitor;
 import eu.bankersen.kevin.ql.ast.form.Body;
 import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
@@ -12,7 +12,7 @@ import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
 import eu.bankersen.kevin.ql.ast.stat.IFStatement;
 import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
 
-public class QuestionBuilder implements BaseVisitor<Void> {
+public class QuestionBuilder implements QuestionVisitor<Void> {
 
     private final List<QuestionWidget> questionWidgets;
 

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.bankersen.kevin.ql.ast.ASTVisitor;
+import eu.bankersen.kevin.ql.ast.TopDownVisitor;
 import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Identifier;
 import eu.bankersen.kevin.ql.ast.expr.Literal;
@@ -51,7 +51,7 @@ public class TypeChecker {
 	this.symbolTable = new HashMap<>();
 
 	// Build a table mapping questions and types.
-	form.accept(new ASTVisitor<Void>() {
+	form.accept(new TopDownVisitor<Void>() {
 
 	    @Override
 	    public Void visit(NormalQuestion o, Void empty) {
@@ -75,7 +75,7 @@ public class TypeChecker {
 	}, null);
 
 	// TypeCheck the form.
-	form.accept(new ASTVisitor<Void>() {
+	form.accept(new TopDownVisitor<Void>() {
 
 	    @Override
 	    public Void visit(IFStatement o, Void context) {
