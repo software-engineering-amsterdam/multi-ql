@@ -1,10 +1,12 @@
 package nl.uva.sea.ql.ast.expr;
 
+import nl.uva.sea.ql.answerTable.*;
+
 /**
  * Representation of "greater than or equal to" comparisons in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 16-mar-2016
  */
 public class GEq extends OrderedComparisonExpr {
     
@@ -16,6 +18,26 @@ public class GEq extends OrderedComparisonExpr {
      */
     public GEq(Expr firstExpr, Expr secondExpr) {
         super(firstExpr, secondExpr);
+    }
+    
+    /**
+     * Evaluate <code>this GEq</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping all <code>Ident</code>s
+     *                      that might appear in <code>Expr</code>s in
+     *                      <code>this GEq</code> to the <code>Value</code> of
+     *                      the <code>Question</code> they represent
+     * @return a <code>BooleanValue</code> representing the result of checking
+     *          whether <code>this GEq</code>'s <code>firstExpr</code> is greater
+     *          than or equal to its <code>secondExpr</code>
+     */
+    @Override
+    public BooleanValue eval(AnswerTable answerTable) {
+        NumericValue firstValue = (NumericValue) getFirstExpr().eval(answerTable);
+        NumericValue secondValue = (NumericValue) getSecondExpr().eval(answerTable);
+        BooleanValue equalValues = firstValue.ternaryEquals(secondValue);
+        BooleanValue greaterThan = firstValue.ternaryGreaterThan(secondValue);
+        return equalValues.disjunct(greaterThan);
     }
     
 }
