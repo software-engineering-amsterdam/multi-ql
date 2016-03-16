@@ -7,7 +7,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Form</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 25-feb-2016
  */
 public class Form extends ASTNode {
     
@@ -39,18 +39,17 @@ public class Form extends ASTNode {
     
     /**
      * Has the <code>identifier</code> and <code>questions</code> of
-     * <code>this Form accept visitor</code> and then has
-     * <code>visitor visit this Form</code>.
+     * <code>this Form accept v</code> and then has <code>v visit this Form</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *                  <code>visit this Form</code> and its children
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this Form</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
-        identifier.accept(visitor);
-        questions.accept(visitor);
+    public void accept(ASTVisitor v) {
+        identifier.accept(v);
+        questions.accept(v);
         
-        visitor.visit(this);
+        v.visit(this);
     }
     
     /**

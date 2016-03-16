@@ -3,14 +3,9 @@ package org.uva.sea.ql.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import net.miginfocom.swing.MigLayout;
-
 import org.uva.sea.ql.ast.block.Block;
-import org.uva.sea.ql.ast.expression.Literal.Identifier;
 import org.uva.sea.ql.ast.form.Form;
 import org.uva.sea.ql.ast.form.FormVisitor;
 import org.uva.sea.ql.ast.statement.ComputedQuestion;
@@ -21,46 +16,28 @@ import org.uva.sea.ql.ast.statement.Statement;
 import org.uva.sea.ql.ast.statement.StatementVisitor;
 import org.uva.sea.ql.ast.type.BoolType;
 import org.uva.sea.ql.ast.type.IntType;
-import org.uva.sea.ql.ast.type.StrType;
 import org.uva.sea.ql.ast.type.Type;
-import org.uva.sea.ql.ast.type.TypeVisitor;
-import org.uva.sea.ql.ast.type.UndefinedType;
-import org.uva.sea.ql.evaluator.Evaluator;
 import org.uva.sea.ql.gui.questionItems.BoolQuestionItem;
 import org.uva.sea.ql.gui.questionItems.IntQuestionItem;
 import org.uva.sea.ql.gui.questionItems.QuestionItem;
 import org.uva.sea.ql.gui.questionItems.StrQuestionItem;
 import org.uva.sea.ql.gui.widgets.CheckBox;
 import org.uva.sea.ql.gui.widgets.TextField;
-import org.uva.sea.ql.gui.widgets.Widget;
 
 // typevisitor not used so far . . .
 
 
-public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor {
+public class QlGUIBuilder implements FormVisitor, StatementVisitor {
 	
 	private JFrame frame;
-	private GUIPanel panel;		// do i need this?
+	private GUIPanel panel;		// fix this, settings not on frame...
 	private List<QuestionItem> questionItems;
-	private CollectIdentifiersAndDependencies identifiers;		// needed?
-	private CollectIdentifiersInConditions identifiersInCOnditions;
-	//private Evaluator evaluator;
-	
-	//private Map
 	
 	
 	public QlGUIBuilder(Form form) {
 		
 		this.panel = new GUIPanel();
 		this.questionItems = new ArrayList<>();
-		
-		this.identifiers = new CollectIdentifiersAndDependencies(form);
-		this.identifiersInCOnditions = new CollectIdentifiersInConditions(form);
-		
-//		for(Identifier id: identifiers.getIdentifiers())
-//			System.out.println("Exw ton identifier" + id.getValue());
-		
-		
 		
 		collectQuestions(form);	// maybe collectQuestionsAndIfConditions		
 		
@@ -69,16 +46,10 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 		
 		for (QuestionItem item: questionItems)
 			addItem(item);			// mallon de xreiazetai...add sto GUIPanel...
-			//addWidget(item.getWidget());
 		
-		//frame.add(panel.getPanel());
 		frame.setSize(550,550);
 		frame.setVisible(true);
 		
-	}
-	
-	public void addWidget (Widget widget) {
-		this.panel.add(widget);
 	}
 
 	
@@ -88,17 +59,8 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 
 
 	private void addItem (QuestionItem item) {
-		
-		// add sto frame h kainourio Panel? -- klasi GUIPanel?
-		
-		JPanel panel = new JPanel();
-		panel.add(item.getWidget().getLabel());
-		panel.add(item.getWidget().getComponent());
-		//panel.setLayout(new MigLayout());
-		this.frame.add(panel,"wrap");
-		
-//		this.frame.add(item.getWidget().getLabel());
-//		this.frame.add(item.getWidget().getComponent(),"wrap");
+		this.frame.add(item.getWidget().getLabel());
+		this.frame.add(item.getWidget().getWidget(),"wrap");
 	}
 
 
@@ -125,29 +87,37 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 	@Override
 	public void visitComputedQuestion(ComputedQuestion computedQuestion) {
 		
-		// not the functionality i want
-		
 		System.out.println("Visiting computed question...");
+		
 		Type type = computedQuestion.getType();
-		
-		QuestionItem questionItem = type.accept(this,computedQuestion);	// rename : accept--> collectItems?
-		// add sti lista me ta QuestionItem?
-		
-		questionItems.add(questionItem);
+		//Widget widget = widgetAccordingToType(type);
+//		QuestionPanel questionPanel = new QuestionPanel(computedQuestion,widget);
+//		panels.add(questionPanel.getPanel());
 	}
 
 	@Override
 	public void visitQuestion(Question question) {
 		
 		System.out.println("Visiting question...");
+		
 		Type type = question.getType();
 		
-		QuestionItem questionItem = type.accept(this,question);	// rename : accept--> collectItems?
+		QuestionItem questionItem = questionItemAccordingToType(type,question);	// de mou aresei... na ginei me visitor...
 		// add sti lista me ta QuestionItem?
 		
 		//this.panel.addToPanel(questionItem);
+		
 		questionItems.add(questionItem);
 		
+	}
+	
+	private QuestionItem questionItemAccordingToType(Type type,Question question) {
+		if (type instanceof BoolType)
+			return new BoolQuestionItem(question,new CheckBox(question.getLabel()));
+		else if (type instanceof IntType)
+			return new IntQuestionItem(question,new TextField(question.getLabel()));	
+		else
+			return new StrQuestionItem(question,new TextField(question.getLabel()));
 	}
 
 
@@ -162,20 +132,25 @@ public class QlGUIBuilder implements FormVisitor, StatementVisitor, TypeVisitor 
 		// TODO Auto-generated method stub
 		
 	}
-	
-	@Override
-	public QuestionItem visit(IntType intType, Question question) {
-		return new IntQuestionItem(question,new TextField(question.getLabel()));
-	}
 
-	@Override
-	public QuestionItem visit(BoolType boolType, Question question) {
-		return new BoolQuestionItem(question,new CheckBox(question.getLabel()));
-	}
-
-	@Override
-	public QuestionItem visit(StrType strType, Question question) {
-		return new StrQuestionItem(question,new TextField(question.getLabel()));
-	}
+//	@Override
+//	public Widget visit(IntType intType) {
+//		return new TextField();
+//	}
+//
+//	@Override
+//	public Widget visit(BoolType boolType) {
+//		return new CheckBox();
+//	}
+//
+//	@Override
+//	public Widget visit(StrType strType) {
+//		return new TextField();
+//	}
+//
+//	@Override
+//	public Widget visit(UndefinedType undefinedType) {
+//		return null;
+//	}
 
 }

@@ -14,7 +14,7 @@ import org.jgrapht.graph.DefaultEdge;
  * Visitor to check the dependencies between <code>Question</code>s in an ast.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 10-mrt-2016
  */
 public class DependencyChecker extends GeneralizedASTVisitor {
     
@@ -55,21 +55,21 @@ public class DependencyChecker extends GeneralizedASTVisitor {
     }
     
     /**
-     * Add edges from the <code>identifier</code> of <code>question</code> to
-     * the <code>identifier</code>s of <code>Question</code>s <code>question</code>
+     * Add edges from the <code>identifier</code> of <code>q</code> to the
+     * <code>identifier</code>s of <code>Question</code>s <code>q</code>
      * depends on to <code>this DependencyChecker</code>'s
      * <code>dependencyGraph</code> and add an error if a <code>Question</code>
      * was found that depends on an undefined <code>Question</code>.
      * 
-     * @param question the <code>Question</code> to check
+     * @param q the <code>Question</code> to check
      */
     @Override
-    public void visit(Question question) {
-        Ident startIdentifier = question.getIdentifier();
+    public void visit(Question q) {
+        Ident startIdentifier = q.getIdentifier();
         assert dependencyGraph.containsVertex(startIdentifier);
         IdentCollector collector = new IdentCollector();
-        if (question.isComputed()) {
-            question.calculationAccept(collector);
+        if (q.isComputed()) {
+            q.calculationAccept(collector);
             Iterable<Ident> identifiersInCalculation = collector.getIdentifiers();
             addEdges(startIdentifier, identifiersInCalculation);
         }
@@ -82,16 +82,16 @@ public class DependencyChecker extends GeneralizedASTVisitor {
      * <code>ConditionalStatement</code> was found which <code>condition</code>
      * refers to an undefined <code>Question</code>.
      * 
-     * @param statement the <code>ConditionalStatement</code> to check
+     * @param s the <code>ConditionalStatement</code> to check
      */
     @Override
-    public void visit(ConditionalStatement statement) {
+    public void visit(ConditionalStatement s) {
         IdentCollector dependenciesCollector = new IdentCollector();
-        statement.conditionAccept(dependenciesCollector);
+        s.conditionAccept(dependenciesCollector);
         Iterable<Ident> dependencies = dependenciesCollector.getIdentifiers();
         
         QuestionIdentCollector containedQuestionsCollector = new QuestionIdentCollector();
-        statement.accept(containedQuestionsCollector);
+        s.accept(containedQuestionsCollector);
         Iterable<Ident> containedQuestions = containedQuestionsCollector.obtainIdentifiers();
         
         for(Ident startIdentifier : containedQuestions) {

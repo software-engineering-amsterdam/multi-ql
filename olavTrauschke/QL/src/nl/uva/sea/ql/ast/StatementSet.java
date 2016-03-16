@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of the contents of a block in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 10-mrt-2016
  */
 public class StatementSet extends ASTNode {
     
@@ -30,32 +30,32 @@ public class StatementSet extends ASTNode {
      * Adds an <code>ASTNode</code> to <code>this StatementSet</code>, if no
      * equal <code>ASTNode</code> is already in it.
      * 
-     * @param node the <code>ASTNode</code> to add to <code>this StatementSet</code>
+     * @param n the <code>ASTNode</code> to add to <code>this StatementSet</code>
      * @return <code>this StatementSet</code>, unlike a <code>java.util.Set</code>
      */
-    public ASTNode add(ASTNode node) {
-        set.add(node);
+    public ASTNode add(ASTNode n) {
+        set.add(n);
         return this;
     }
     
     /**
      * Has all the <code>Statement</code>s in
-     * <code>this StatementSet accept visitor</code> and then has
-     * <code>visitor visit this StatementSet</code>. The <code>Statement</code>s
-     * are visited in reverse order, to process them in the same order as they
-     * were in a ql-file that was analyzed by a
+     * <code>this StatementSet accept v</code> and then has
+     * <code>v visit this StatementSet</code>. The <code>Statement</code>s are
+     * visited in reverse order, to process them in the same order as they were
+     * in a ql-file that was analyzed by a
      * {@link nl.uva.sea.ql.parser.ParserWrapper Parser(Wrapper)}
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *                  <code>visit this StatementSet</code> and its children
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this StatementSet</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(ASTVisitor v) {
         ASTNode[] nodes = set.toArray(new ASTNode[0]);
         for (int i = nodes.length - 1; i >= 0; i--) {
-            nodes[i].accept(visitor);
+            nodes[i].accept(v);
         }
-        visitor.visit(this);
+        v.visit(this);
     }
     
     /**

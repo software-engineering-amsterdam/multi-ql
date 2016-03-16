@@ -21,6 +21,7 @@ public class DateSpinner extends JSpinner {
         format.applyPattern("dd-MM-yyyy");
         
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(this, "dd-MM-yyyy");
+        this.setName(var.getName());
         this.setEditor(dateEditor);
         this.setValue(new Date(-1));
 		this.addChangeListener(new ChangeListener() {

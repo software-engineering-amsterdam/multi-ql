@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.function.Function;
 
 import nl.uva.sc.ql.gui.form.Form;
-import nl.uva.sc.ql.gui.form.ConditionBlock;
-import nl.uva.sc.ql.gui.form.IfStatement;
+import nl.uva.sc.ql.gui.form.ConditionBlockForm;
+import nl.uva.sc.ql.gui.form.IfForm;
 import nl.uva.sc.ql.gui.form.Question;
 import nl.uva.sc.ql.gui.form.QuestionBoolean;
 import nl.uva.sc.ql.gui.form.QuestionInteger;
@@ -44,8 +44,8 @@ import nl.uva.sc.ql.parser.value.Value;
 public class CreateForm implements Visitor {
 
 	private Form form = null;
-	private IfStatement ifForm = null;
-	private ConditionBlock conditionBlockForm = null;
+	private IfForm ifForm = null;
+	private ConditionBlockForm conditionBlockForm = null;
 	private State state;
 		
 	public CreateForm(State state) {
@@ -87,7 +87,7 @@ public class CreateForm implements Visitor {
 		ExpressionNode expression = conditionBlockNode.getExpression();
 		BlockNode block = conditionBlockNode.getBlock();
 		
-		conditionBlockForm = new ConditionBlock(form, state, expression);
+		conditionBlockForm = new ConditionBlockForm(form, state, expression);
 		
 		block.accept(this);
 		
@@ -130,7 +130,7 @@ public class CreateForm implements Visitor {
 		List<ConditionBlockNode> conditions = ifNode.getConditions();
 		BlockNode elseBlock = ifNode.getElseBlock();
 		
-		ifForm = new IfStatement(form);
+		ifForm = new IfForm(form);
 	
 		for(ConditionBlockNode cbn : conditions){
 			cbn.accept(this);

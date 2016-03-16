@@ -5,7 +5,7 @@ import uva.ql.ast.abstracts.Node;
 import uva.ql.ast.values.abstracts.Values;
 import uva.ql.ast.values.types.Int;
 
-public class ValueInt extends Values {
+public class ValueInt extends Values<Integer> {
 
 	private Int type = new Int();
 	private int value;
@@ -25,7 +25,8 @@ public class ValueInt extends Values {
 		return this.type.getType();
 	}
 	
-	public int getValue() {
+	@Override
+	public Integer getValue() {
 		return this.value;
 	}
 

@@ -2,7 +2,7 @@ package nl.uva.sc.ql.gui.state;
 
 import java.util.List;
 
-import nl.uva.sc.ql.gui.VisitorExpression;
+import nl.uva.sc.ql.parser.VisitorExpression;
 import nl.uva.sc.ql.parser.ast.AdditionNode;
 import nl.uva.sc.ql.parser.ast.AndNode;
 import nl.uva.sc.ql.parser.ast.BooleanNode;

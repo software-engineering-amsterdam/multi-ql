@@ -2,7 +2,8 @@ package uva.ql;
 
 import uva.ql.ast.Form;
 import uva.ql.gui.GUI;
-import uva.ql.visitors.VisitorToGUI;
+import uva.ql.visitors.VisitorActionListenersToGUI;
+import uva.ql.visitors.VisitorASTToGUI;
 
 public class App {
 	
@@ -32,14 +33,12 @@ public class App {
 		
 		//Visit AST and build GUI
 		gui = new GUI(form);
-		VisitorToGUI astToGUI = new VisitorToGUI(gui);
-		astToGUI.visitForm(form);
+		VisitorASTToGUI astToGUI = new VisitorASTToGUI();
+		astToGUI.visitForm(form, gui.getPanel());
 		
-		/*
 		// Add Action/DocumentListeners to update computed fields.
-		ASTVisitorToGUIListeners astToGUIListeners = new ASTVisitorToGUIListeners(gui);
-		astToGUIListeners.visit(root);
-		*/
+		/*VisitorToActionListeners astToGUIListeners = new VisitorToActionListeners(gui);
+		astToGUIListeners.visitForm(form);*/
 	}
 
 }

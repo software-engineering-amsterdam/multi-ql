@@ -7,7 +7,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * in some way in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 4-mrt-2016
  */
 public abstract class ComparisonExpr extends BooleanExpr {
     
@@ -52,38 +52,38 @@ public abstract class ComparisonExpr extends BooleanExpr {
     
     /**
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
-     * <code>this ComparisonExpr accept visitor</code> and then has
-     * <code>visitor visit this ComparisonExpr</code>.
+     * <code>this ComparisonExpr accept v</code> and then has
+     * <code>v visit this ComparisonExpr</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *                  <code>visit this ComparisonExpr</code> and its children
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this ComparisonExpr</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
-        firstExprAccept(visitor);
-        secondExprAccept(visitor);
+    public void accept(ASTVisitor v) {
+        firstExprAccept(v);
+        secondExprAccept(v);
         
-        visitor.visit(this);
+        v.visit(this);
     }
     
     /**
-     * Has the <code>firstExpr</code> of <code>this Question accept visitor</code>.
+     * Has the <code>firstExpr</code> of <code>this Question accept v</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>firstExpr</code>
-     *                  of <code>this Question</code> should <code>accept</code>
-     */
-    protected void firstExprAccept(ASTVisitor visitor) {
-        firstExpr.accept(visitor);
-    }
-    
-    /**
-     * Has the <code>secondExpr</code> of <code>this Question accept visitor</code>.
-     * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>secondExpr</code> of
+     * @param v an <code>ASTVisitor</code> that the <code>firstExpr</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    protected void secondExprAccept(ASTVisitor visitor) {
-        secondExpr.accept(visitor);
+    protected void firstExprAccept(ASTVisitor v) {
+        firstExpr.accept(v);
+    }
+    
+    /**
+     * Has the <code>secondExpr</code> of <code>this Question accept v</code>.
+     * 
+     * @param v an <code>ASTVisitor</code> that the <code>secondExpr</code> of
+     *          <code>this Question</code> should <code>accept</code>
+     */
+    protected void secondExprAccept(ASTVisitor v) {
+        secondExpr.accept(v);
     }
     
     /**

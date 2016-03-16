@@ -7,7 +7,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * in some way for which these operands need to be ordered in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 25-feb-2016
  */
 public abstract class OrderedComparisonExpr extends ComparisonExpr {
     
@@ -23,19 +23,18 @@ public abstract class OrderedComparisonExpr extends ComparisonExpr {
     
     /**
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
-     * <code>this OrderedComparisonExpr accept visitor</code> and then has
-     * <code>visitor visit this OrderedComparisonExpr</code>.
+     * <code>this OrderedComparisonExpr accept v</code> and then has
+     * <code>v visit this OrderedComparisonExpr</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *                  <code>visit this OrderedComparisonExpr</code> and its
-     *                  children
+     * @param v an <code>ASTVisitor</code> that should
+     *          <code>visit this OrderedComparisonExpr</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
-        firstExprAccept(visitor);
-        secondExprAccept(visitor);
+    public void accept(ASTVisitor v) {
+        firstExprAccept(v);
+        secondExprAccept(v);
         
-        visitor.visit(this);
+        v.visit(this);
     }
     
 }

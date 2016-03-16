@@ -1,10 +1,10 @@
 package nl.uva.sc.ql.parser;
 
-import nl.uva.sc.ql.messages.MessagesHandler;
-import nl.uva.sc.ql.messages.errors.CyclicError;
-import nl.uva.sc.ql.messages.errors.TypeError;
-import nl.uva.sc.ql.messages.errors.VariableError;
-import nl.uva.sc.ql.messages.warnings.QuestionWarning;
+import nl.uva.sc.ql.errorwarning.CyclicError;
+import nl.uva.sc.ql.errorwarning.MessagesHandler;
+import nl.uva.sc.ql.errorwarning.QuestionWarning;
+import nl.uva.sc.ql.errorwarning.TypeError;
+import nl.uva.sc.ql.errorwarning.VariableError;
 import nl.uva.sc.ql.parser.ast.AdditionNode;
 import nl.uva.sc.ql.parser.ast.AndNode;
 import nl.uva.sc.ql.parser.ast.AssignedQuestionNode;

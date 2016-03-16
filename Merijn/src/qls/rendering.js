@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { NodeVisitor, RecursingVisitor } from 'src/qls/ast';
-import { QuestionConditionComputer, QuestionRenderer, WidgetFactory } from 'src/ql/rendering';
+import { QuestionCollector, QuestionRenderer, WidgetFactory } from 'src/ql/rendering';
 
 class TypeDefaults {
 	constructor() {
@@ -53,13 +53,13 @@ class ScopedWidgetFactoryFactory {
 	}
 }
 
-class ManualRenderingStrategy {
+class QuestionManager {
 	constructor(elementFactory, questionRenderer) {
 		this.elementFactory = elementFactory;
 		this.questionRenderer = questionRenderer;
 		this._questions = {};
 	}
-	handleQuestion(questionNode, condition) {
+	addQuestion(questionNode, condition) {
 		let name = questionNode.name;
 
 		if (!_.has(this._questions, name)) {
@@ -84,20 +84,20 @@ export class Renderer extends RecursingVisitor {
 		super();
 		this.elementFactory = elementFactory;
 		this.widgetFactory = widgetFactory;
-		this.questionConditionComputer = new QuestionConditionComputer();
+		this.questionCollector = new QuestionCollector();
 		this.scopedWidgetFactoryFactory = new ScopedWidgetFactoryFactory();
 		this.typeDefaultsCollector = new TypeDefaultsCollector();
 	}
 	render(qlNode, qlsNode, containerElement) {
-		let manualRenderingStrategy = new ManualRenderingStrategy(this.elementFactory, new QuestionRenderer(this.elementFactory));
+		let questionManager = new QuestionManager(this.elementFactory, new QuestionRenderer(this.elementFactory));
 
-		this.questionConditionComputer.computeQuestionConditions(qlNode, manualRenderingStrategy);
-		return qlsNode.accept(this, containerElement, manualRenderingStrategy, this.widgetFactory);
+		this.questionCollector.collect(qlNode, questionManager);
+		return qlsNode.accept(this, containerElement, questionManager, this.widgetFactory);
 	}
 	createScopedWidgetFactory(pageBlockNode, widgetFactory) {
 		//return this.scopedWidgetFactoryFactory.createTypeDefaultScopedWidgetFactory(widgetFactory, this.typeDefaultsCollector.collect(pageBlockNode, new TypeDefaults()));
 	}
-	visitPageNode(pageNode, containerElement, manualRenderingStrategy, widgetFactory) {
+	visitPageNode(pageNode, containerElement, questionManager, widgetFactory) {
 		let pageContainer = this.elementFactory.createElement('fieldset'),
 			legendElement = this.elementFactory.createElement('legend'),
 			scopedWidgetFactory = this.createScopedWidgetFactory(pageNode.block, widgetFactory);
@@ -105,10 +105,10 @@ export class Renderer extends RecursingVisitor {
 		pageContainer.classList.add('page');
 		legendElement.textContent = 'page: ' + pageNode.name;
 		pageContainer.appendChild(legendElement);
-		pageNode.block.accept(this, pageContainer, manualRenderingStrategy, widgetFactory);
+		pageNode.block.accept(this, pageContainer, questionManager, widgetFactory);
 		containerElement.appendChild(pageContainer);
 	}
-	visitSectionNode(sectionNode, containerElement, manualRenderingStrategy, widgetFactory) {
+	visitSectionNode(sectionNode, containerElement, questionManager, widgetFactory) {
 		let sectionContainer = this.elementFactory.createElement('fieldset'),
 			legendElement = this.elementFactory.createElement('legend'),
 			scopedWidgetFactory = this.createScopedWidgetFactory(sectionNode.block, widgetFactory);
@@ -116,10 +116,10 @@ export class Renderer extends RecursingVisitor {
 		sectionContainer.classList.add('section');
 		legendElement.textContent = 'section: ' + sectionNode.description;
 		sectionContainer.appendChild(legendElement);
-		sectionNode.block.accept(this, sectionContainer, manualRenderingStrategy, widgetFactory);
+		sectionNode.block.accept(this, sectionContainer, questionManager, widgetFactory);
 		containerElement.appendChild(sectionContainer);
 	}
-	visitQuestionNode(questionNode, containerElement, manualRenderingStrategy, widgetFactory) {
-		manualRenderingStrategy.renderQuestions(questionNode.name, containerElement, widgetFactory);
+	visitQuestionNode(questionNode, containerElement, questionManager, widgetFactory) {
+		questionManager.renderQuestions(questionNode.name, containerElement, widgetFactory);
 	}
 }

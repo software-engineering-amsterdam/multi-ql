@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	log "github.com/Sirupsen/logrus"
 	"io/ioutil"
-	"ql/ast"
 	"ql/ast/stmt"
 	"ql/ast/typechecker"
 	"ql/ast/visitor"
@@ -12,7 +10,7 @@ import (
 	"ql/interfaces"
 	"ql/lexer"
 	"ql/parser"
-	"ql/symbols"
+	"ql/symboltable"
 )
 
 func main() {
@@ -40,13 +38,13 @@ func main() {
 		log.Panic("Parse result is not form")
 	} else {
 		log.WithFields(log.Fields{"Result": parsedForm}).Info("Form parsed")
-		fmt.Println(ast.SourcePosInformation)
+
 		visitor := SymbolTableFillerVisitor{}
-		symbols := symbols.NewSymbols()
-		parsedForm.Accept(&visitor, symbols)
+		symbolTable := symboltable.NewSymbolTable()
+		parsedForm.Accept(visitor, symbolTable)
 
 		typeChecker := typechecker.NewTypeChecker()
-		parsedForm.TypeCheck(&typeChecker, symbols)
+		parsedForm.TypeCheck(&typeChecker, symbolTable)
 
 		errors := make([]error, 0)
 		warnings := make([]error, 0)
@@ -58,7 +56,7 @@ func main() {
 		errors = append(errors, typeChecker.GetEncountedErrorsForCheckType("NonBoolConditionals")...)
 
 		log.WithFields(log.Fields{"errors": errors, "warnings": warnings}).Error("Type checking finished")
-		gui.CreateGUI(parsedForm, symbols, errors)
+		gui.CreateGUI(parsedForm, symbolTable, errors)
 	}
 }
 
@@ -70,6 +68,6 @@ type SymbolTableFillerVisitor struct {
 	visitor.BaseVisitor
 }
 
-func (this *SymbolTableFillerVisitor) VisitVarDecl(v interfaces.VarDecl, s interfaces.Symbols) {
-	s.SetNodeForIdentifier(v.GetType().GetDefaultValue(), v.GetIdent())
+func (s SymbolTableFillerVisitor) VisitVarDecl(va interfaces.VarDecl, sy interface{}) {
+	sy.(symboltable.SymbolTable).SetNodeForIdentifier(va.GetType().GetDefaultValue(), va.GetIdent())
 }
