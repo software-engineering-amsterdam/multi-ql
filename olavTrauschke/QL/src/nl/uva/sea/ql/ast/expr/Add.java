@@ -58,17 +58,17 @@ public class Add extends Expr {
     
     /**
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
-     * <code>this Add accept v</code> and then has <code>v visit this Add</code>.
+     * <code>this Add accept visitor</code> and then has <code>visitor visit this Add</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should
+     * @param visitor an <code>ASTVisitor</code> that should
      *          <code>visit this Add</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
-        firstExpr.accept(v);
-        secondExpr.accept(v);
+    public void accept(ASTVisitor visitor) {
+        firstExpr.accept(visitor);
+        secondExpr.accept(visitor);
         
-        v.visit(this);
+        visitor.visit(this);
     }
     
     /**

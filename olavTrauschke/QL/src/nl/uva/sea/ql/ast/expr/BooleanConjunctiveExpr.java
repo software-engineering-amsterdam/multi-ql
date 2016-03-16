@@ -51,18 +51,18 @@ public abstract class BooleanConjunctiveExpr extends BooleanExpr {
     
     /**
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
-     * <code>this BooleanConjunctiveExpr accept v</code> and then has
-     * <code>v visit this BooleanConjunctiveExpr</code>.
+     * <code>this BooleanConjunctiveExpr accept visitor</code> and then has
+     * <code>visitor visit this BooleanConjunctiveExpr</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should
+     * @param visitor an <code>ASTVisitor</code> that should
      *          <code>visit this BooleanConjunctiveExpr</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
-        firstExpr.accept(v);
-        secondExpr.accept(v);
+    public void accept(ASTVisitor visitor) {
+        firstExpr.accept(visitor);
+        secondExpr.accept(visitor);
         
-        v.visit(this);
+        visitor.visit(this);
     }
     
     /**

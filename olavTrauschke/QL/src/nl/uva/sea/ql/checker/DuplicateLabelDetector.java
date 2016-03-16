@@ -36,19 +36,19 @@ public class DuplicateLabelDetector extends GeneralizedASTVisitor {
      * used for another <code>Question</code> with a different <code>type</code>
      * before.
      * 
-     * @param q the <code>Question</code> to check
+     * @param question the <code>Question</code> to check
      */
     @Override
-    public void visit(Question q) {
-        Label label = q.getLabel();
+    public void visit(Question question) {
+        Label label = question.getLabel();
         if (firstQuestionsForLabels.containsKey(label)) {
             Question firstQuestionWithLabel = firstQuestionsForLabels.get(label);
-            if (!q.equals(firstQuestionWithLabel)) {
+            if (!question.equals(firstQuestionWithLabel)) {
                warnings.add(DUPLICATE_LABEL_ERROR + "\"" + label + "\"");
             }
         }
         else {
-            firstQuestionsForLabels.put(label, q);
+            firstQuestionsForLabels.put(label, question);
         }
     }
     

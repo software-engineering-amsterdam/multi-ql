@@ -43,16 +43,16 @@ public class DateQuestion extends Question {
     }
     
     /**
-     * Has the children of <code>this Question accept v</code> and then
-     * has <code>v visit this Question</code>.
+     * Has the children of <code>this Question accept visitor</code> and then
+     * has <code>visitor visit this Question</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should
+     * @param visitor an <code>ASTVisitor</code> that should
      *          <code>visit this Question</code> and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
-        childrenAccept(v);
-        v.visit(this);
+    public void accept(ASTVisitor visitor) {
+        childrenAccept(visitor);
+        visitor.visit(this);
     }
     
 }

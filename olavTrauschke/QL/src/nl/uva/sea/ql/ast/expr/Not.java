@@ -38,17 +38,17 @@ public class Not extends BooleanExpr {
     }
     
     /**
-     * Has <code>theContent</code> of <code>this Not accept v</code> and then
-     * has <code>v visit this Not</code>.
+     * Has <code>theContent</code> of <code>this Not accept visitor</code> and then
+     * has <code>visitor visit this Not</code>.
      * 
-     * @param v an <code>ASTVisitor</code> that should <code>visit this Not</code>
+     * @param visitor an <code>ASTVisitor</code> that should <code>visit this Not</code>
      *          and its children
      */
     @Override
-    public void accept(ASTVisitor v) {
-        content.accept(v);
+    public void accept(ASTVisitor visitor) {
+        content.accept(visitor);
         
-        v.visit(this);
+        visitor.visit(this);
     }
     
     /**
