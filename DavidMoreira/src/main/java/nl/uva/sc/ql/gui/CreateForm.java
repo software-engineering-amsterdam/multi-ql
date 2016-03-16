@@ -3,49 +3,49 @@ package nl.uva.sc.ql.gui;
 import java.util.List;
 import java.util.function.Function;
 
+import nl.uva.sc.ql.compiler.parser.ast.AdditionNode;
+import nl.uva.sc.ql.compiler.parser.ast.AndNode;
+import nl.uva.sc.ql.compiler.parser.ast.AssignedQuestionNode;
+import nl.uva.sc.ql.compiler.parser.ast.BlockNode;
+import nl.uva.sc.ql.compiler.parser.ast.BooleanNode;
+import nl.uva.sc.ql.compiler.parser.ast.ConditionBlockNode;
+import nl.uva.sc.ql.compiler.parser.ast.DifferentNode;
+import nl.uva.sc.ql.compiler.parser.ast.DivisionNode;
+import nl.uva.sc.ql.compiler.parser.ast.EqualsNode;
+import nl.uva.sc.ql.compiler.parser.ast.ExpressionNode;
+import nl.uva.sc.ql.compiler.parser.ast.FormNode;
+import nl.uva.sc.ql.compiler.parser.ast.GreatEqualsThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.GreatThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.IdentifierNode;
+import nl.uva.sc.ql.compiler.parser.ast.IfNode;
+import nl.uva.sc.ql.compiler.parser.ast.IntegerNode;
+import nl.uva.sc.ql.compiler.parser.ast.LessEqualsThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.LessThanNode;
+import nl.uva.sc.ql.compiler.parser.ast.ListStatementsNode;
+import nl.uva.sc.ql.compiler.parser.ast.MultiplicationNode;
+import nl.uva.sc.ql.compiler.parser.ast.Node;
+import nl.uva.sc.ql.compiler.parser.ast.NotNode;
+import nl.uva.sc.ql.compiler.parser.ast.OrNode;
+import nl.uva.sc.ql.compiler.parser.ast.QuestionNode;
+import nl.uva.sc.ql.compiler.parser.ast.StatementNode;
+import nl.uva.sc.ql.compiler.parser.ast.StringNode;
+import nl.uva.sc.ql.compiler.parser.ast.SubtractionNode;
+import nl.uva.sc.ql.compiler.parser.value.Value;
+import nl.uva.sc.ql.compiler.typechecker.Visitor;
 import nl.uva.sc.ql.gui.form.Form;
-import nl.uva.sc.ql.gui.form.ConditionBlockForm;
-import nl.uva.sc.ql.gui.form.IfForm;
+import nl.uva.sc.ql.gui.form.ConditionBlock;
+import nl.uva.sc.ql.gui.form.IfStatement;
 import nl.uva.sc.ql.gui.form.Question;
 import nl.uva.sc.ql.gui.form.QuestionBoolean;
 import nl.uva.sc.ql.gui.form.QuestionInteger;
 import nl.uva.sc.ql.gui.form.QuestionString;
 import nl.uva.sc.ql.gui.state.State;
-import nl.uva.sc.ql.parser.Visitor;
-import nl.uva.sc.ql.parser.ast.AdditionNode;
-import nl.uva.sc.ql.parser.ast.AndNode;
-import nl.uva.sc.ql.parser.ast.AssignedQuestionNode;
-import nl.uva.sc.ql.parser.ast.BlockNode;
-import nl.uva.sc.ql.parser.ast.BooleanNode;
-import nl.uva.sc.ql.parser.ast.ConditionBlockNode;
-import nl.uva.sc.ql.parser.ast.DifferentNode;
-import nl.uva.sc.ql.parser.ast.DivisionNode;
-import nl.uva.sc.ql.parser.ast.EqualsNode;
-import nl.uva.sc.ql.parser.ast.ExpressionNode;
-import nl.uva.sc.ql.parser.ast.FormNode;
-import nl.uva.sc.ql.parser.ast.GreatEqualsThanNode;
-import nl.uva.sc.ql.parser.ast.GreatThanNode;
-import nl.uva.sc.ql.parser.ast.IdentifierNode;
-import nl.uva.sc.ql.parser.ast.IfNode;
-import nl.uva.sc.ql.parser.ast.IntegerNode;
-import nl.uva.sc.ql.parser.ast.LessEqualsThanNode;
-import nl.uva.sc.ql.parser.ast.LessThanNode;
-import nl.uva.sc.ql.parser.ast.ListStatementsNode;
-import nl.uva.sc.ql.parser.ast.MultiplicationNode;
-import nl.uva.sc.ql.parser.ast.Node;
-import nl.uva.sc.ql.parser.ast.NotNode;
-import nl.uva.sc.ql.parser.ast.OrNode;
-import nl.uva.sc.ql.parser.ast.StatementNode;
-import nl.uva.sc.ql.parser.ast.StringNode;
-import nl.uva.sc.ql.parser.ast.SubtractionNode;
-import nl.uva.sc.ql.parser.ast.QuestionNode;
-import nl.uva.sc.ql.parser.value.Value;
 
 public class CreateForm implements Visitor {
 
 	private Form form = null;
-	private IfForm ifForm = null;
-	private ConditionBlockForm conditionBlockForm = null;
+	private IfStatement ifForm = null;
+	private ConditionBlock conditionBlockForm = null;
 	private State state;
 		
 	public CreateForm(State state) {
@@ -87,7 +87,7 @@ public class CreateForm implements Visitor {
 		ExpressionNode expression = conditionBlockNode.getExpression();
 		BlockNode block = conditionBlockNode.getBlock();
 		
-		conditionBlockForm = new ConditionBlockForm(form, state, expression);
+		conditionBlockForm = new ConditionBlock(form, state, expression);
 		
 		block.accept(this);
 		
@@ -130,7 +130,7 @@ public class CreateForm implements Visitor {
 		List<ConditionBlockNode> conditions = ifNode.getConditions();
 		BlockNode elseBlock = ifNode.getElseBlock();
 		
-		ifForm = new IfForm(form);
+		ifForm = new IfStatement(form);
 	
 		for(ConditionBlockNode cbn : conditions){
 			cbn.accept(this);

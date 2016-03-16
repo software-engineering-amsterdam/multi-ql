@@ -73,22 +73,22 @@ class IntegerInputWidget extends InputWidget {
 	}
 }
 
-export class WidgetFactory extends TypeReceiver {
+export class WidgetRenderer extends TypeReceiver {
 	constructor(elementFactory) {
 		super();
 		this.elementFactory = elementFactory;
 	}
-	render(type, containerElement) {
-		return type.dispatch(this, containerElement);
+	render(type, containerElement, disabled) {
+		return type.dispatch(this, containerElement, disabled);
 	}
-	receiveBoolean(type, containerElement) {
-		return BooleanCheckboxWidget.render(this.elementFactory, containerElement);
+	receiveBoolean(type, containerElement, disabled) {
+		return BooleanCheckboxWidget.render(this.elementFactory, containerElement, disabled);
 	}
-	receiveString(type, containerElement) {
-		return StringInputWidget.render(this.elementFactory, containerElement);
+	receiveString(type, containerElement, disabled) {
+		return StringInputWidget.render(this.elementFactory, containerElement, disabled);
 	}
-	receiveInteger(type, containerElement) {
-		return IntegerInputWidget.render(this.elementFactory, containerElement);
+	receiveInteger(type, containerElement, disabled) {
+		return IntegerInputWidget.render(this.elementFactory, containerElement, disabled);
 	}
 	receiveFloat() {
 		throw new Error("TODO");

@@ -1,9 +1,9 @@
 package nl.nicasso.ql.visitors;
 
-import nl.nicasso.ql.ast.statements.ComputedQuestion;
-import nl.nicasso.ql.ast.statements.IfElseStatement;
-import nl.nicasso.ql.ast.statements.IfStatement;
-import nl.nicasso.ql.ast.statements.Question;
+import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
+import nl.nicasso.ql.ast.nodes.statements.IfElseStatement;
+import nl.nicasso.ql.ast.nodes.statements.IfStatement;
+import nl.nicasso.ql.ast.nodes.statements.Question;
 
 public interface StatementVisitor<T, U> {
 

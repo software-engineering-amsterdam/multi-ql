@@ -4,9 +4,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import nl.uva.sc.ql.compiler.parser.ast.Node;
 import nl.uva.sc.ql.gui.form.Form;
 import nl.uva.sc.ql.gui.state.State;
-import nl.uva.sc.ql.parser.ast.Node;
 
 public class QLGui extends JFrame {
 
@@ -21,13 +21,10 @@ public class QLGui extends JFrame {
 	}
 	
 	public void start(){
-    	CreateForm cf = new CreateForm(state);
-    	Form form = cf.getForm(ast);
-	    
+    	CreateForm createForm = new CreateForm(state);
+    	Form form = createForm.getForm(ast);
     	form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
-	    
-        System.out.println("Starting gui...");
-        
+    	
     	form.createGui();
     	form.updateGui();
     	     
@@ -36,7 +33,7 @@ public class QLGui extends JFrame {
     	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle(form.getName());
-		setSize(550, 500);  // sets initial size frame
+		setSize(560, 400);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

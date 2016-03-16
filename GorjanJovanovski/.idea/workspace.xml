@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cd652696-3ee0-4e96-b125-62e87dc87f46" name="Default" comment="fixed dumb error" />
+    <list default="true" id="cd652696-3ee0-4e96-b125-62e87dc87f46" name="Default" comment="reorganize">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/ast/astChecker.js" afterPath="$PROJECT_DIR$/js/ql/ast/astChecker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/ast/main.js" afterPath="$PROJECT_DIR$/js/ql/ast/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/classes/nodes.js" afterPath="$PROJECT_DIR$/js/ql/classes/nodes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/html/initialize.js" afterPath="$PROJECT_DIR$/js/ql/html/initialize.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ql/html/update.js" afterPath="$PROJECT_DIR$/js/ql/html/update.js" />
+    </list>
     <ignored path="GorjanJovanovski.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -26,228 +34,51 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="49" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="astFunctions.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/astFunctions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2164009">
-              <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QLGrammar.g4" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/QLGrammar.g4">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="htmlFunctions.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/htmlFunctions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+            <state vertical-scroll-proportion="-11.769231">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding>
-                <element signature="n#!!block;n#refreshGUI#0" expanded="false" />
-                <element signature="e#104#269#0" expanded="false" />
-                <element signature="n#!!block;n#generateQuestionHTML#0" expanded="false" />
-                <element signature="e#630#654#0" expanded="false" />
-                <element signature="e#707#733#0" expanded="false" />
-                <element signature="e#740#762#0" expanded="false" />
-                <element signature="e#831#858#0" expanded="false" />
-                <element signature="n#!!block;n#renderQuestions#0" expanded="false" />
-                <element signature="e#989#1065#0" expanded="false" />
-                <element signature="n#!!block;n#resetGUI#0" expanded="false" />
-                <element signature="n#!!block;n#saveAnswers#0" expanded="false" />
-                <element signature="n#!!block;n#renderDebugMessage#0" expanded="false" />
-                <element signature="e#1744#1856#0" expanded="false" />
-                <element signature="e#1863#1921#0" expanded="false" />
-                <element signature="e#2071#2103#0" expanded="false" />
-                <element signature="e#2131#2182#0" expanded="false" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="eventHandlingFunctions.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/eventHandlingFunctions.js">
+      <file leaf-file-name="astChecker.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ql/ast/astChecker.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
-              <folding>
-                <element signature="n#!!block;n#goToLine#0" expanded="false" />
-                <element signature="n#!!block;n#registerQuestionChangeListeners#0" expanded="false" />
-                <element signature="e#178#247#0" expanded="false" />
-                <element signature="n#!!block;n#notifyListeners#0" expanded="false" />
-                <element signature="e#364#402#0" expanded="false" />
-                <element signature="n#!!block;n#setOnClickListeners#0" expanded="false" />
-                <element signature="e#515#539#0" expanded="false" />
-                <element signature="e#580#773#0" expanded="false" />
-                <element signature="e#812#878#0" expanded="false" />
-              </folding>
+              <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="allClasses.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/allClasses.js">
+      <file leaf-file-name="nodes.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ql/classes/nodes.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="418" column="0" selection-start-line="418" selection-start-column="0" selection-end-line="418" selection-end-column="0" />
-              <folding>
-                <element signature="n#Listener#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-                <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-                <element signature="e#165#217#0" expanded="false" />
-                <element signature="e#225#275#0" expanded="false" />
-                <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-                <element signature="e#342#520#0" expanded="false" />
-                <element signature="e#404#516#0" expanded="false" />
-                <element signature="e#527#554#0" expanded="false" />
-                <element signature="n#Environment#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-                <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-                <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-                <element signature="e#738#759#0" expanded="false" />
-                <element signature="n#NumberType#0" expanded="false" />
-                <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
-                <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#NumberType#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#NumberType#0" expanded="false" />
-                <element signature="n#DecimalType#0" expanded="false" />
-                <element signature="n#!!block;n#parseValue#0;n#DecimalType#0" expanded="false" />
-                <element signature="n#!!block;n#defaultValue#0;n#DecimalType#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#DecimalType#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#DecimalType#0" expanded="false" />
-                <element signature="n#MoneyType#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#MoneyType#0" expanded="false" />
-                <element signature="n#CurrencyType#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#CurrencyType#0" expanded="false" />
-                <element signature="n#FloatType#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#FloatType#0" expanded="false" />
-                <element signature="n#BooleanType#0" expanded="false" />
-                <element signature="n#!!block;n#parseValue#0;n#BooleanType#0" expanded="false" />
-                <element signature="n#!!block;n#defaultValue#0;n#BooleanType#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#BooleanType#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#BooleanType#0" expanded="false" />
-                <element signature="n#StringType#0" expanded="false" />
-                <element signature="n#!!block;n#parseValue#0;n#StringType#0" expanded="false" />
-                <element signature="n#!!block;n#defaultValue#0;n#StringType#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#StringType#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
-                <element signature="n#DateType#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-                <element signature="e#1871#1892#0" expanded="false" />
-                <element signature="n#FormNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-                <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-                <element signature="e#2158#2210#0" expanded="false" />
-                <element signature="e#2234#2287#0" expanded="false" />
-                <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-                <element signature="e#2362#2536#0" expanded="false" />
-                <element signature="e#2467#2532#0" expanded="false" />
-                <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-                <element signature="e#2638#2702#0" expanded="false" />
-                <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-                <element signature="e#2861#2897#0" expanded="false" />
-                <element signature="e#2963#2998#0" expanded="false" />
-                <element signature="e#3026#4016#0" expanded="false" />
-                <element signature="e#3157#3265#0" expanded="false" />
-                <element signature="e#3233#3260#0" expanded="false" />
-                <element signature="e#3316#4012#0" expanded="false" />
-                <element signature="e#3359#3473#0" expanded="false" />
-                <element signature="e#3438#3467#0" expanded="false" />
-                <element signature="e#3605#3717#0" expanded="false" />
-                <element signature="e#3661#3711#0" expanded="false" />
-                <element signature="e#3891#4007#0" expanded="false" />
-                <element signature="e#3949#4001#0" expanded="false" />
-                <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-                <element signature="e#4084#4165#0" expanded="false" />
-                <element signature="e#4123#4161#0" expanded="false" />
-                <element signature="n#QuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-                <element signature="n#ComputedQuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-                <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-                <element signature="n#ConditionNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-                <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-                <element signature="n#NotExpression#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-                <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-                <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-                <element signature="e#5809#5857#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-                <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-                <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-                <element signature="e#6079#6101#0" expanded="false" />
-                <element signature="n#OperatorExpressionNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-                <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-                <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-                <element signature="e#6412#6452#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-                <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-                <element signature="n#OperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-                <element signature="e#7043#7064#0" expanded="false" />
-                <element signature="e#7072#7314#0" expanded="false" />
-                <element signature="n#NumOperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-                <element signature="e#7549#8277#0" expanded="false" />
-                <element signature="e#7554#8273#0" expanded="false" />
-                <element signature="n#BoolOperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-                <element signature="e#8513#8749#0" expanded="false" />
-                <element signature="e#8518#8745#0" expanded="false" />
-                <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-                <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-                <element signature="e#9001#9239#0" expanded="false" />
-                <element signature="e#9006#9235#0" expanded="false" />
-                <element signature="n#LabelNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-                <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-                <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-                <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-                <element signature="n#LiteralNode#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-                <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-                <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-                <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-                <element signature="e#9767#9790#0" expanded="false" />
-                <element signature="n#AnswerList#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-                <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-                <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-                <element signature="n#AnswerListQuestion#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
-              </folding>
+              <caret line="270" column="248" selection-start-line="270" selection-start-column="248" selection-end-line="270" selection-end-column="248" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/ql/ast/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.39957264">
+              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="errorHandlers.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ql/ast/errorHandlers.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -267,14 +98,29 @@
         <option value="$PROJECT_DIR$/js/htmlGeneration.js" />
         <option value="$PROJECT_DIR$/js/classes.js" />
         <option value="$PROJECT_DIR$/js/classes/formnode.js" />
-        <option value="$PROJECT_DIR$/js/main.js" />
-        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/QLGrammar.g4" />
+        <option value="$PROJECT_DIR$/js/vesna.woman" />
+        <option value="$PROJECT_DIR$/astChecker.js" />
+        <option value="$PROJECT_DIR$/js/ql/ast/cyclicChecker.js" />
+        <option value="$PROJECT_DIR$/js/ql/ast/errorHandlers.js" />
+        <option value="$PROJECT_DIR$/js/astFunctions.js" />
         <option value="$PROJECT_DIR$/js/htmlFunctions.js" />
         <option value="$PROJECT_DIR$/js/eventHandlingFunctions.js" />
-        <option value="$PROJECT_DIR$/QLGrammar.g4" />
+        <option value="$PROJECT_DIR$/js/ql/classes/answers.js" />
+        <option value="$PROJECT_DIR$/js/ql/classes/types.js" />
+        <option value="$PROJECT_DIR$/js/ql/classes/environment.js" />
         <option value="$PROJECT_DIR$/js/allClasses.js" />
-        <option value="$PROJECT_DIR$/js/vesna.woman" />
-        <option value="$PROJECT_DIR$/js/astFunctions.js" />
+        <option value="$PROJECT_DIR$/js/ql/classes/listener.js" />
+        <option value="$PROJECT_DIR$/js/ql/html/events.js" />
+        <option value="$PROJECT_DIR$/js/ql/antlr/parse.js" />
+        <option value="$PROJECT_DIR$/js/lib/jquery.js" />
+        <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/js/ql/html/initialize.js" />
+        <option value="$PROJECT_DIR$/js/ql/html/update.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/ql/ast/astChecker.js" />
+        <option value="$PROJECT_DIR$/js/ql/classes/nodes.js" />
+        <option value="$PROJECT_DIR$/js/ql/ast/main.js" />
       </list>
     </option>
   </component>
@@ -342,6 +188,104 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="classes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ast" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GorjanJovanovski" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antlr" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -365,6 +309,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\Software Construction\multi-ql\GorjanJovanovski\js\lib" />
+      <recent name="C:\xampp\htdocs\Software Construction\multi-ql\GorjanJovanovski\js\ql\ast" />
       <recent name="C:\xampp\htdocs\Software Construction\multi-ql\GorjanJovanovski\js" />
     </key>
   </component>
@@ -382,7 +328,44 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../olavTrauschke/QL/src/nl/uva/sea/ql/ast/expr/Ident.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/.gitignore</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/README.md</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/acceptexpr.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/add.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/evalexpr.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/intlit.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/leq.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/typecheckexpr.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/unaryoperator.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/expr/unaryoperator_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/node/node.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/acceptstmt.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/computedquestion.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/form.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/ifelse.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/stmt/typecheckstmt.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/vari/vardecl.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/vari/varid.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/visitor/basevisitor.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/example.ql</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/grammar/ql.bnf</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/gui/gui.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/gui/guiquestion.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/expr.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/stmt.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/typechecker.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/lexer/lexer.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/main.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/makefile</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/parser/actiontable.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/parser/productionstable.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift.xcodeproj/project.xcworkspace/xcuserdata/Julian.xcuserdatad/UserInterfaceState.xcuserstate</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/AppDelegate.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLNodes.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLParser.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLSymbolTable.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/QL/QLTypeChecker.swift</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../JulianJansen/QLSwift/QLSwift/Streams/questionsAndIfStatement.ql</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -390,6 +373,16 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/glide.lock</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/glide.yaml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/astnode.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/symbols.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/libui.A.dylib</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symbols/symbols.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symbols/symbols_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/typechecker/typechecker.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/typechecker/typechecker_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/vendor/golang.org/x/sys</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -397,6 +390,11 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/typechecker/typechecker.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/ast/typechecker/typechecker_test.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/interfaces/symboltable.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symboltable/symboltable.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../Edward Poot/src/ql/symboltable/symboltable_test.go</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Restored" />
@@ -631,7 +629,31 @@
       <option name="project" value="LOCAL" />
       <updated>1458120204036</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="file restructuring">
+      <created>1458122959026</created>
+      <option name="number" value="00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1458122959026</updated>
+    </task>
+    <task id="LOCAL-00020" summary="removing symbol table from ast">
+      <created>1458125825961</created>
+      <option name="number" value="00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1458125825961</updated>
+    </task>
+    <task id="LOCAL-00021" summary="reorganize">
+      <created>1458127019534</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1458127019534</updated>
+    </task>
+    <task id="LOCAL-00022" summary="reorganize">
+      <created>1458128896688</created>
+      <option name="number" value="00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1458128896688</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -714,781 +736,32 @@
     <MESSAGE value="multiple dependacy level added" />
     <MESSAGE value="bool typecheck added" />
     <MESSAGE value="fixed dumb error" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed dumb error" />
+    <MESSAGE value="file restructuring" />
+    <MESSAGE value="removing symbol table from ast" />
+    <MESSAGE value="reorganize" />
+    <option name="LAST_COMMIT_MESSAGE" value="reorganize" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="40" />
+      <option name="time" value="45" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/allClasses.js">
+    <entry file="file://$PROJECT_DIR$/QLGrammar.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-            <element signature="e#165#217#0" expanded="false" />
-            <element signature="e#225#275#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-            <element signature="e#342#520#0" expanded="false" />
-            <element signature="e#404#516#0" expanded="false" />
-            <element signature="e#527#554#0" expanded="false" />
-            <element signature="n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-            <element signature="e#738#759#0" expanded="false" />
-            <element signature="n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#MoneyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#MoneyType#0" expanded="false" />
-            <element signature="n#CurrencyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#CurrencyType#0" expanded="false" />
-            <element signature="n#FloatType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#FloatType#0" expanded="false" />
-            <element signature="n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
-            <element signature="n#DateType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-            <element signature="e#1871#1892#0" expanded="false" />
-            <element signature="n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2158#2210#0" expanded="false" />
-            <element signature="e#2234#2287#0" expanded="false" />
-            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2362#2536#0" expanded="false" />
-            <element signature="e#2467#2532#0" expanded="false" />
-            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2638#2702#0" expanded="false" />
-            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2861#2897#0" expanded="false" />
-            <element signature="e#2963#2998#0" expanded="false" />
-            <element signature="e#3026#4016#0" expanded="false" />
-            <element signature="e#3157#3265#0" expanded="false" />
-            <element signature="e#3233#3260#0" expanded="false" />
-            <element signature="e#3316#4012#0" expanded="false" />
-            <element signature="e#3359#3473#0" expanded="false" />
-            <element signature="e#3438#3467#0" expanded="false" />
-            <element signature="e#3605#3717#0" expanded="false" />
-            <element signature="e#3661#3711#0" expanded="false" />
-            <element signature="e#3891#4007#0" expanded="false" />
-            <element signature="e#3949#4001#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-            <element signature="e#4084#4165#0" expanded="false" />
-            <element signature="e#4123#4161#0" expanded="false" />
-            <element signature="n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#5809#5857#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#6079#6101#0" expanded="false" />
-            <element signature="n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="e#6412#6452#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-            <element signature="e#7043#7064#0" expanded="false" />
-            <element signature="e#7072#7314#0" expanded="false" />
-            <element signature="n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="e#7549#8277#0" expanded="false" />
-            <element signature="e#7554#8273#0" expanded="false" />
-            <element signature="n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="e#8513#8749#0" expanded="false" />
-            <element signature="e#8518#8745#0" expanded="false" />
-            <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="e#9001#9239#0" expanded="false" />
-            <element signature="e#9006#9235#0" expanded="false" />
-            <element signature="n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-            <element signature="e#9767#9790#0" expanded="false" />
-            <element signature="n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#AnswerListQuestion#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
-          </folding>
+          <caret line="46" column="82" selection-start-line="46" selection-start-column="82" selection-end-line="46" selection-end-column="82" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="93" column="50" selection-start-line="93" selection-start-column="50" selection-end-line="93" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/astFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="108" column="34" selection-start-line="108" selection-start-column="31" selection-end-line="108" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/htmlFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="31" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="31" />
+          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#refreshGUI#0" expanded="false" />
-            <element signature="e#104#269#0" expanded="false" />
-            <element signature="n#!!block;n#generateQuestionHTML#0" expanded="false" />
-            <element signature="e#630#654#0" expanded="false" />
-            <element signature="e#707#733#0" expanded="false" />
-            <element signature="e#740#762#0" expanded="false" />
-            <element signature="e#831#858#0" expanded="false" />
-            <element signature="n#!!block;n#renderQuestions#0" expanded="false" />
-            <element signature="e#989#1065#0" expanded="false" />
-            <element signature="n#!!block;n#resetGUI#0" expanded="false" />
-            <element signature="n#!!block;n#saveAnswers#0" expanded="false" />
-            <element signature="n#!!block;n#renderDebugMessage#0" expanded="false" />
-            <element signature="e#1744#1856#0" expanded="false" />
-            <element signature="e#1863#1921#0" expanded="false" />
-            <element signature="e#2071#2103#0" expanded="false" />
-            <element signature="e#2131#2182#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/eventHandlingFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="23" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="23" />
-          <folding>
-            <element signature="n#!!block;n#goToLine#0" expanded="false" />
-            <element signature="n#!!block;n#registerQuestionChangeListeners#0" expanded="false" />
-            <element signature="e#178#247#0" expanded="false" />
-            <element signature="n#!!block;n#notifyListeners#0" expanded="false" />
-            <element signature="e#364#402#0" expanded="false" />
-            <element signature="n#!!block;n#setOnClickListeners#0" expanded="false" />
-            <element signature="e#515#539#0" expanded="false" />
-            <element signature="e#580#773#0" expanded="false" />
-            <element signature="e#812#878#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/allClasses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-            <element signature="e#165#217#0" expanded="false" />
-            <element signature="e#225#275#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-            <element signature="e#342#520#0" expanded="false" />
-            <element signature="e#404#516#0" expanded="false" />
-            <element signature="e#527#554#0" expanded="false" />
-            <element signature="n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-            <element signature="e#738#759#0" expanded="false" />
-            <element signature="n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#MoneyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#MoneyType#0" expanded="false" />
-            <element signature="n#CurrencyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#CurrencyType#0" expanded="false" />
-            <element signature="n#FloatType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#FloatType#0" expanded="false" />
-            <element signature="n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
-            <element signature="n#DateType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-            <element signature="e#1871#1892#0" expanded="false" />
-            <element signature="n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2158#2210#0" expanded="false" />
-            <element signature="e#2234#2287#0" expanded="false" />
-            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2362#2536#0" expanded="false" />
-            <element signature="e#2467#2532#0" expanded="false" />
-            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2638#2702#0" expanded="false" />
-            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2861#2897#0" expanded="false" />
-            <element signature="e#2963#2998#0" expanded="false" />
-            <element signature="e#3026#4016#0" expanded="false" />
-            <element signature="e#3157#3265#0" expanded="false" />
-            <element signature="e#3233#3260#0" expanded="false" />
-            <element signature="e#3316#4012#0" expanded="false" />
-            <element signature="e#3359#3473#0" expanded="false" />
-            <element signature="e#3438#3467#0" expanded="false" />
-            <element signature="e#3605#3717#0" expanded="false" />
-            <element signature="e#3661#3711#0" expanded="false" />
-            <element signature="e#3891#4007#0" expanded="false" />
-            <element signature="e#3949#4001#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-            <element signature="e#4084#4165#0" expanded="false" />
-            <element signature="e#4123#4161#0" expanded="false" />
-            <element signature="n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#5809#5857#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#6079#6101#0" expanded="false" />
-            <element signature="n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="e#6412#6452#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-            <element signature="e#7043#7064#0" expanded="false" />
-            <element signature="e#7072#7314#0" expanded="false" />
-            <element signature="n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="e#7549#8277#0" expanded="false" />
-            <element signature="e#7554#8273#0" expanded="false" />
-            <element signature="n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="e#8513#8749#0" expanded="false" />
-            <element signature="e#8518#8745#0" expanded="false" />
-            <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="e#9001#9239#0" expanded="false" />
-            <element signature="e#9006#9235#0" expanded="false" />
-            <element signature="n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-            <element signature="e#9767#9790#0" expanded="false" />
-            <element signature="n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#AnswerListQuestion#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/astFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/htmlFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!block;n#refreshGUI#0" expanded="false" />
-            <element signature="e#104#269#0" expanded="false" />
-            <element signature="n#!!block;n#generateQuestionHTML#0" expanded="false" />
-            <element signature="e#630#654#0" expanded="false" />
-            <element signature="e#707#733#0" expanded="false" />
-            <element signature="e#740#762#0" expanded="false" />
-            <element signature="e#831#858#0" expanded="false" />
-            <element signature="n#!!block;n#renderQuestions#0" expanded="false" />
-            <element signature="e#989#1065#0" expanded="false" />
-            <element signature="n#!!block;n#resetGUI#0" expanded="false" />
-            <element signature="n#!!block;n#saveAnswers#0" expanded="false" />
-            <element signature="n#!!block;n#renderDebugMessage#0" expanded="false" />
-            <element signature="e#1744#1856#0" expanded="false" />
-            <element signature="e#1863#1921#0" expanded="false" />
-            <element signature="e#2071#2103#0" expanded="false" />
-            <element signature="e#2131#2182#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/eventHandlingFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#goToLine#0" expanded="false" />
-            <element signature="n#!!block;n#registerQuestionChangeListeners#0" expanded="false" />
-            <element signature="e#178#247#0" expanded="false" />
-            <element signature="n#!!block;n#notifyListeners#0" expanded="false" />
-            <element signature="e#364#402#0" expanded="false" />
-            <element signature="n#!!block;n#setOnClickListeners#0" expanded="false" />
-            <element signature="e#515#539#0" expanded="false" />
-            <element signature="e#580#773#0" expanded="false" />
-            <element signature="e#812#878#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/allClasses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-            <element signature="e#165#217#0" expanded="false" />
-            <element signature="e#225#275#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-            <element signature="e#342#520#0" expanded="false" />
-            <element signature="e#404#516#0" expanded="false" />
-            <element signature="e#527#554#0" expanded="false" />
-            <element signature="n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-            <element signature="e#738#759#0" expanded="false" />
-            <element signature="n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#MoneyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#MoneyType#0" expanded="false" />
-            <element signature="n#CurrencyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#CurrencyType#0" expanded="false" />
-            <element signature="n#FloatType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#FloatType#0" expanded="false" />
-            <element signature="n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
-            <element signature="n#DateType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-            <element signature="e#1871#1892#0" expanded="false" />
-            <element signature="n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2158#2210#0" expanded="false" />
-            <element signature="e#2234#2287#0" expanded="false" />
-            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2362#2536#0" expanded="false" />
-            <element signature="e#2467#2532#0" expanded="false" />
-            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2638#2702#0" expanded="false" />
-            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2861#2897#0" expanded="false" />
-            <element signature="e#2963#2998#0" expanded="false" />
-            <element signature="e#3026#4016#0" expanded="false" />
-            <element signature="e#3157#3265#0" expanded="false" />
-            <element signature="e#3233#3260#0" expanded="false" />
-            <element signature="e#3316#4012#0" expanded="false" />
-            <element signature="e#3359#3473#0" expanded="false" />
-            <element signature="e#3438#3467#0" expanded="false" />
-            <element signature="e#3605#3717#0" expanded="false" />
-            <element signature="e#3661#3711#0" expanded="false" />
-            <element signature="e#3891#4007#0" expanded="false" />
-            <element signature="e#3949#4001#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-            <element signature="e#4084#4165#0" expanded="false" />
-            <element signature="e#4123#4161#0" expanded="false" />
-            <element signature="n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#5809#5857#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#6079#6101#0" expanded="false" />
-            <element signature="n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="e#6412#6452#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-            <element signature="e#7043#7064#0" expanded="false" />
-            <element signature="e#7072#7314#0" expanded="false" />
-            <element signature="n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="e#7549#8277#0" expanded="false" />
-            <element signature="e#7554#8273#0" expanded="false" />
-            <element signature="n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="e#8513#8749#0" expanded="false" />
-            <element signature="e#8518#8745#0" expanded="false" />
-            <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="e#9001#9239#0" expanded="false" />
-            <element signature="e#9006#9235#0" expanded="false" />
-            <element signature="n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-            <element signature="e#9767#9790#0" expanded="false" />
-            <element signature="n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#AnswerListQuestion#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/astFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/htmlFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="59" selection-start-line="79" selection-start-column="59" selection-end-line="79" selection-end-column="59" />
-          <folding>
-            <element signature="n#!!block;n#refreshGUI#0" expanded="false" />
-            <element signature="e#104#269#0" expanded="false" />
-            <element signature="n#!!block;n#generateQuestionHTML#0" expanded="false" />
-            <element signature="e#630#654#0" expanded="false" />
-            <element signature="e#707#733#0" expanded="false" />
-            <element signature="e#740#762#0" expanded="false" />
-            <element signature="e#831#858#0" expanded="false" />
-            <element signature="n#!!block;n#renderQuestions#0" expanded="false" />
-            <element signature="e#989#1065#0" expanded="false" />
-            <element signature="n#!!block;n#resetGUI#0" expanded="false" />
-            <element signature="n#!!block;n#saveAnswers#0" expanded="false" />
-            <element signature="n#!!block;n#renderDebugMessage#0" expanded="false" />
-            <element signature="e#1744#1856#0" expanded="false" />
-            <element signature="e#1863#1921#0" expanded="false" />
-            <element signature="e#2071#2103#0" expanded="false" />
-            <element signature="e#2131#2182#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/eventHandlingFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!block;n#goToLine#0" expanded="false" />
-            <element signature="n#!!block;n#registerQuestionChangeListeners#0" expanded="false" />
-            <element signature="e#178#247#0" expanded="false" />
-            <element signature="n#!!block;n#notifyListeners#0" expanded="false" />
-            <element signature="e#364#402#0" expanded="false" />
-            <element signature="n#!!block;n#setOnClickListeners#0" expanded="false" />
-            <element signature="e#515#539#0" expanded="false" />
-            <element signature="e#580#773#0" expanded="false" />
-            <element signature="e#812#878#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/allClasses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="259" column="49" selection-start-line="259" selection-start-column="49" selection-end-line="259" selection-end-column="49" />
-          <folding>
-            <element signature="n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-            <element signature="e#165#217#0" expanded="false" />
-            <element signature="e#225#275#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-            <element signature="e#342#520#0" expanded="false" />
-            <element signature="e#404#516#0" expanded="false" />
-            <element signature="e#527#554#0" expanded="false" />
-            <element signature="n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-            <element signature="e#738#759#0" expanded="false" />
-            <element signature="n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#MoneyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#MoneyType#0" expanded="false" />
-            <element signature="n#CurrencyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#CurrencyType#0" expanded="false" />
-            <element signature="n#FloatType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#FloatType#0" expanded="false" />
-            <element signature="n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
-            <element signature="n#DateType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-            <element signature="e#1871#1892#0" expanded="false" />
-            <element signature="n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2158#2210#0" expanded="false" />
-            <element signature="e#2234#2287#0" expanded="false" />
-            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2362#2536#0" expanded="false" />
-            <element signature="e#2467#2532#0" expanded="false" />
-            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2638#2702#0" expanded="false" />
-            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2861#2897#0" expanded="false" />
-            <element signature="e#2963#2998#0" expanded="false" />
-            <element signature="e#3026#4016#0" expanded="false" />
-            <element signature="e#3157#3265#0" expanded="false" />
-            <element signature="e#3233#3260#0" expanded="false" />
-            <element signature="e#3316#4012#0" expanded="false" />
-            <element signature="e#3359#3473#0" expanded="false" />
-            <element signature="e#3438#3467#0" expanded="false" />
-            <element signature="e#3605#3717#0" expanded="false" />
-            <element signature="e#3661#3711#0" expanded="false" />
-            <element signature="e#3891#4007#0" expanded="false" />
-            <element signature="e#3949#4001#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-            <element signature="e#4084#4165#0" expanded="false" />
-            <element signature="e#4123#4161#0" expanded="false" />
-            <element signature="n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#5809#5857#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#6079#6101#0" expanded="false" />
-            <element signature="n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="e#6412#6452#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-            <element signature="e#7043#7064#0" expanded="false" />
-            <element signature="e#7072#7314#0" expanded="false" />
-            <element signature="n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="e#7549#8277#0" expanded="false" />
-            <element signature="e#7554#8273#0" expanded="false" />
-            <element signature="n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="e#8513#8749#0" expanded="false" />
-            <element signature="e#8518#8745#0" expanded="false" />
-            <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="e#9001#9239#0" expanded="false" />
-            <element signature="e#9006#9235#0" expanded="false" />
-            <element signature="n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-            <element signature="e#9767#9790#0" expanded="false" />
-            <element signature="n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#AnswerListQuestion#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1504,423 +777,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/astFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/htmlFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#refreshGUI#0" expanded="false" />
-            <element signature="e#104#269#0" expanded="false" />
-            <element signature="n#!!block;n#generateQuestionHTML#0" expanded="false" />
-            <element signature="e#630#654#0" expanded="false" />
-            <element signature="e#707#733#0" expanded="false" />
-            <element signature="e#740#762#0" expanded="false" />
-            <element signature="e#831#858#0" expanded="false" />
-            <element signature="n#!!block;n#renderQuestions#0" expanded="false" />
-            <element signature="e#989#1065#0" expanded="false" />
-            <element signature="n#!!block;n#resetGUI#0" expanded="false" />
-            <element signature="n#!!block;n#saveAnswers#0" expanded="false" />
-            <element signature="n#!!block;n#renderDebugMessage#0" expanded="false" />
-            <element signature="e#1744#1856#0" expanded="false" />
-            <element signature="e#1863#1921#0" expanded="false" />
-            <element signature="e#2071#2103#0" expanded="false" />
-            <element signature="e#2131#2182#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/eventHandlingFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!block;n#goToLine#0" expanded="false" />
-            <element signature="n#!!block;n#registerQuestionChangeListeners#0" expanded="false" />
-            <element signature="e#178#247#0" expanded="false" />
-            <element signature="n#!!block;n#notifyListeners#0" expanded="false" />
-            <element signature="e#364#402#0" expanded="false" />
-            <element signature="n#!!block;n#setOnClickListeners#0" expanded="false" />
-            <element signature="e#515#539#0" expanded="false" />
-            <element signature="e#580#773#0" expanded="false" />
-            <element signature="e#812#878#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/allClasses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="259" column="49" selection-start-line="259" selection-start-column="49" selection-end-line="259" selection-end-column="49" />
-          <folding>
-            <element signature="n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-            <element signature="e#165#217#0" expanded="false" />
-            <element signature="e#225#275#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-            <element signature="e#342#520#0" expanded="false" />
-            <element signature="e#404#516#0" expanded="false" />
-            <element signature="e#527#554#0" expanded="false" />
-            <element signature="n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-            <element signature="e#738#759#0" expanded="false" />
-            <element signature="n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#MoneyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#MoneyType#0" expanded="false" />
-            <element signature="n#CurrencyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#CurrencyType#0" expanded="false" />
-            <element signature="n#FloatType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#FloatType#0" expanded="false" />
-            <element signature="n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
-            <element signature="n#DateType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-            <element signature="e#1871#1892#0" expanded="false" />
-            <element signature="n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2158#2210#0" expanded="false" />
-            <element signature="e#2234#2287#0" expanded="false" />
-            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2362#2536#0" expanded="false" />
-            <element signature="e#2467#2532#0" expanded="false" />
-            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2638#2702#0" expanded="false" />
-            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2861#2897#0" expanded="false" />
-            <element signature="e#2963#2998#0" expanded="false" />
-            <element signature="e#3026#4016#0" expanded="false" />
-            <element signature="e#3157#3265#0" expanded="false" />
-            <element signature="e#3233#3260#0" expanded="false" />
-            <element signature="e#3316#4012#0" expanded="false" />
-            <element signature="e#3359#3473#0" expanded="false" />
-            <element signature="e#3438#3467#0" expanded="false" />
-            <element signature="e#3605#3717#0" expanded="false" />
-            <element signature="e#3661#3711#0" expanded="false" />
-            <element signature="e#3891#4007#0" expanded="false" />
-            <element signature="e#3949#4001#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-            <element signature="e#4084#4165#0" expanded="false" />
-            <element signature="e#4123#4161#0" expanded="false" />
-            <element signature="n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#5809#5857#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#6079#6101#0" expanded="false" />
-            <element signature="n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="e#6412#6452#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-            <element signature="e#7043#7064#0" expanded="false" />
-            <element signature="e#7072#7314#0" expanded="false" />
-            <element signature="n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="e#7549#8277#0" expanded="false" />
-            <element signature="e#7554#8273#0" expanded="false" />
-            <element signature="n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="e#8513#8749#0" expanded="false" />
-            <element signature="e#8518#8745#0" expanded="false" />
-            <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="e#9001#9239#0" expanded="false" />
-            <element signature="e#9006#9235#0" expanded="false" />
-            <element signature="n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-            <element signature="e#9767#9790#0" expanded="false" />
-            <element signature="n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#AnswerListQuestion#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QLGrammar.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="82" selection-start-line="46" selection-start-column="82" selection-end-line="46" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/astFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/htmlFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="35" selection-start-line="53" selection-start-column="35" selection-end-line="53" selection-end-column="35" />
-          <folding>
-            <element signature="n#!!block;n#refreshGUI#0" expanded="false" />
-            <element signature="e#104#269#0" expanded="false" />
-            <element signature="n#!!block;n#generateQuestionHTML#0" expanded="false" />
-            <element signature="e#630#654#0" expanded="false" />
-            <element signature="e#707#733#0" expanded="false" />
-            <element signature="e#740#762#0" expanded="false" />
-            <element signature="e#831#858#0" expanded="false" />
-            <element signature="n#!!block;n#renderQuestions#0" expanded="false" />
-            <element signature="e#989#1065#0" expanded="false" />
-            <element signature="n#!!block;n#resetGUI#0" expanded="false" />
-            <element signature="n#!!block;n#saveAnswers#0" expanded="false" />
-            <element signature="n#!!block;n#renderDebugMessage#0" expanded="false" />
-            <element signature="e#1744#1856#0" expanded="false" />
-            <element signature="e#1863#1921#0" expanded="false" />
-            <element signature="e#2071#2103#0" expanded="false" />
-            <element signature="e#2131#2182#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/eventHandlingFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#goToLine#0" expanded="false" />
-            <element signature="n#!!block;n#registerQuestionChangeListeners#0" expanded="false" />
-            <element signature="e#178#247#0" expanded="false" />
-            <element signature="n#!!block;n#notifyListeners#0" expanded="false" />
-            <element signature="e#364#402#0" expanded="false" />
-            <element signature="n#!!block;n#setOnClickListeners#0" expanded="false" />
-            <element signature="e#515#539#0" expanded="false" />
-            <element signature="e#580#773#0" expanded="false" />
-            <element signature="e#812#878#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/allClasses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="297" column="27" selection-start-line="297" selection-start-column="27" selection-end-line="297" selection-end-column="27" />
-          <folding>
-            <element signature="n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-            <element signature="e#165#217#0" expanded="false" />
-            <element signature="e#225#275#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-            <element signature="e#342#520#0" expanded="false" />
-            <element signature="e#404#516#0" expanded="false" />
-            <element signature="e#527#554#0" expanded="false" />
-            <element signature="n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-            <element signature="e#738#759#0" expanded="false" />
-            <element signature="n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#MoneyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#MoneyType#0" expanded="false" />
-            <element signature="n#CurrencyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#CurrencyType#0" expanded="false" />
-            <element signature="n#FloatType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#FloatType#0" expanded="false" />
-            <element signature="n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
-            <element signature="n#DateType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-            <element signature="e#1871#1892#0" expanded="false" />
-            <element signature="n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2158#2210#0" expanded="false" />
-            <element signature="e#2234#2287#0" expanded="false" />
-            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2362#2536#0" expanded="false" />
-            <element signature="e#2467#2532#0" expanded="false" />
-            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2638#2702#0" expanded="false" />
-            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2861#2897#0" expanded="false" />
-            <element signature="e#2963#2998#0" expanded="false" />
-            <element signature="e#3026#4016#0" expanded="false" />
-            <element signature="e#3157#3265#0" expanded="false" />
-            <element signature="e#3233#3260#0" expanded="false" />
-            <element signature="e#3316#4012#0" expanded="false" />
-            <element signature="e#3359#3473#0" expanded="false" />
-            <element signature="e#3438#3467#0" expanded="false" />
-            <element signature="e#3605#3717#0" expanded="false" />
-            <element signature="e#3661#3711#0" expanded="false" />
-            <element signature="e#3891#4007#0" expanded="false" />
-            <element signature="e#3949#4001#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-            <element signature="e#4084#4165#0" expanded="false" />
-            <element signature="e#4123#4161#0" expanded="false" />
-            <element signature="n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#5809#5857#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#6079#6101#0" expanded="false" />
-            <element signature="n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="e#6412#6452#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-            <element signature="e#7043#7064#0" expanded="false" />
-            <element signature="e#7072#7314#0" expanded="false" />
-            <element signature="n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="e#7549#8277#0" expanded="false" />
-            <element signature="e#7554#8273#0" expanded="false" />
-            <element signature="n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="e#8513#8749#0" expanded="false" />
-            <element signature="e#8518#8745#0" expanded="false" />
-            <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="e#9001#9239#0" expanded="false" />
-            <element signature="e#9006#9235#0" expanded="false" />
-            <element signature="n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-            <element signature="e#9767#9790#0" expanded="false" />
-            <element signature="n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#AnswerListQuestion#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1936,189 +794,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/astFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="90" column="60" selection-start-line="90" selection-start-column="60" selection-end-line="90" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/htmlFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#refreshGUI#0" expanded="false" />
-            <element signature="e#104#269#0" expanded="false" />
-            <element signature="n#!!block;n#generateQuestionHTML#0" expanded="false" />
-            <element signature="e#630#654#0" expanded="false" />
-            <element signature="e#707#733#0" expanded="false" />
-            <element signature="e#740#762#0" expanded="false" />
-            <element signature="e#831#858#0" expanded="false" />
-            <element signature="n#!!block;n#renderQuestions#0" expanded="false" />
-            <element signature="e#989#1065#0" expanded="false" />
-            <element signature="n#!!block;n#resetGUI#0" expanded="false" />
-            <element signature="n#!!block;n#saveAnswers#0" expanded="false" />
-            <element signature="n#!!block;n#renderDebugMessage#0" expanded="false" />
-            <element signature="e#1744#1856#0" expanded="false" />
-            <element signature="e#1863#1921#0" expanded="false" />
-            <element signature="e#2071#2103#0" expanded="false" />
-            <element signature="e#2131#2182#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/allClasses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="122" column="12" selection-start-line="122" selection-start-column="12" selection-end-line="122" selection-end-column="12" />
-          <folding>
-            <element signature="n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-            <element signature="e#165#217#0" expanded="false" />
-            <element signature="e#225#275#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-            <element signature="e#342#520#0" expanded="false" />
-            <element signature="e#404#516#0" expanded="false" />
-            <element signature="e#527#554#0" expanded="false" />
-            <element signature="n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-            <element signature="e#738#759#0" expanded="false" />
-            <element signature="n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#NumberType#0" expanded="false" />
-            <element signature="n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DecimalType#0" expanded="false" />
-            <element signature="n#MoneyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#MoneyType#0" expanded="false" />
-            <element signature="n#CurrencyType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#CurrencyType#0" expanded="false" />
-            <element signature="n#FloatType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#FloatType#0" expanded="false" />
-            <element signature="n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#BooleanType#0" expanded="false" />
-            <element signature="n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#parseValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#defaultValue#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#StringType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
-            <element signature="n#DateType#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-            <element signature="e#1871#1892#0" expanded="false" />
-            <element signature="n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2158#2210#0" expanded="false" />
-            <element signature="e#2234#2287#0" expanded="false" />
-            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2362#2536#0" expanded="false" />
-            <element signature="e#2467#2532#0" expanded="false" />
-            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2638#2702#0" expanded="false" />
-            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2861#2897#0" expanded="false" />
-            <element signature="e#2963#2998#0" expanded="false" />
-            <element signature="e#3026#4016#0" expanded="false" />
-            <element signature="e#3157#3265#0" expanded="false" />
-            <element signature="e#3233#3260#0" expanded="false" />
-            <element signature="e#3316#4012#0" expanded="false" />
-            <element signature="e#3359#3473#0" expanded="false" />
-            <element signature="e#3438#3467#0" expanded="false" />
-            <element signature="e#3605#3717#0" expanded="false" />
-            <element signature="e#3661#3711#0" expanded="false" />
-            <element signature="e#3891#4007#0" expanded="false" />
-            <element signature="e#3949#4001#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-            <element signature="e#4084#4165#0" expanded="false" />
-            <element signature="e#4123#4161#0" expanded="false" />
-            <element signature="n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#5809#5857#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#6079#6101#0" expanded="false" />
-            <element signature="n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="e#6412#6452#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-            <element signature="e#7043#7064#0" expanded="false" />
-            <element signature="e#7072#7314#0" expanded="false" />
-            <element signature="n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="e#7549#8277#0" expanded="false" />
-            <element signature="e#7554#8273#0" expanded="false" />
-            <element signature="n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="e#8513#8749#0" expanded="false" />
-            <element signature="e#8518#8745#0" expanded="false" />
-            <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="e#9001#9239#0" expanded="false" />
-            <element signature="e#9006#9235#0" expanded="false" />
-            <element signature="n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-            <element signature="e#9767#9790#0" expanded="false" />
-            <element signature="n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#AnswerListQuestion#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2127,7 +804,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="65" selection-start-line="14" selection-start-column="65" selection-end-line="50" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2142,7 +821,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="65" selection-start-line="14" selection-start-column="65" selection-end-line="50" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2157,7 +838,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="53" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2189,25 +872,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/ace/ace.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/antlr4/FileStream.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.7060932">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="49" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2218,68 +886,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/htmlFunctions.js">
+    <entry file="file://$PROJECT_DIR$/QLGrammar.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#refreshGUI#0" expanded="false" />
-            <element signature="e#104#269#0" expanded="false" />
-            <element signature="n#!!block;n#generateQuestionHTML#0" expanded="false" />
-            <element signature="e#630#654#0" expanded="false" />
-            <element signature="e#707#733#0" expanded="false" />
-            <element signature="e#740#762#0" expanded="false" />
-            <element signature="e#831#858#0" expanded="false" />
-            <element signature="n#!!block;n#renderQuestions#0" expanded="false" />
-            <element signature="e#989#1065#0" expanded="false" />
-            <element signature="n#!!block;n#resetGUI#0" expanded="false" />
-            <element signature="n#!!block;n#saveAnswers#0" expanded="false" />
-            <element signature="n#!!block;n#renderDebugMessage#0" expanded="false" />
-            <element signature="e#1744#1856#0" expanded="false" />
-            <element signature="e#1863#1921#0" expanded="false" />
-            <element signature="e#2071#2103#0" expanded="false" />
-            <element signature="e#2131#2182#0" expanded="false" />
-          </folding>
+          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/eventHandlingFunctions.js">
+    <entry file="file://$PROJECT_DIR$/js/ql/classes/types.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#goToLine#0" expanded="false" />
-            <element signature="n#!!block;n#registerQuestionChangeListeners#0" expanded="false" />
-            <element signature="e#178#247#0" expanded="false" />
-            <element signature="n#!!block;n#notifyListeners#0" expanded="false" />
-            <element signature="e#364#402#0" expanded="false" />
-            <element signature="n#!!block;n#setOnClickListeners#0" expanded="false" />
-            <element signature="e#515#539#0" expanded="false" />
-            <element signature="e#580#773#0" expanded="false" />
-            <element signature="e#812#878#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/allClasses.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="418" column="0" selection-start-line="418" selection-start-column="0" selection-end-line="418" selection-end-column="0" />
-          <folding>
-            <element signature="n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Listener#0" expanded="false" />
-            <element signature="n#!!block;n#register#0;n#Listener#0" expanded="false" />
-            <element signature="e#165#217#0" expanded="false" />
-            <element signature="e#225#275#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#Listener#0" expanded="false" />
-            <element signature="e#342#520#0" expanded="false" />
-            <element signature="e#404#516#0" expanded="false" />
-            <element signature="e#527#554#0" expanded="false" />
-            <element signature="n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
-            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
-            <element signature="e#738#759#0" expanded="false" />
             <element signature="n#NumberType#0" expanded="false" />
             <element signature="n#!!block;n#parseValue#0;n#NumberType#0" expanded="false" />
             <element signature="n#!!block;n#defaultValue#0;n#NumberType#0" expanded="false" />
@@ -2308,121 +927,228 @@
             <element signature="n#!!block;n#getTypeString#0;n#StringType#0" expanded="false" />
             <element signature="n#DateType#0" expanded="false" />
             <element signature="n#!!block;n#getTypeString#0;n#DateType#0" expanded="false" />
-            <element signature="e#1871#1892#0" expanded="false" />
-            <element signature="n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#FormNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2158#2210#0" expanded="false" />
-            <element signature="e#2234#2287#0" expanded="false" />
-            <element signature="n#!!block;n#setQuestionListeners#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2362#2536#0" expanded="false" />
-            <element signature="e#2467#2532#0" expanded="false" />
-            <element signature="n#!!block;n#getAnswerList#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2638#2702#0" expanded="false" />
-            <element signature="n#!!block;n#transverseAST#0;n#FormNode#0" expanded="false" />
-            <element signature="e#2861#2897#0" expanded="false" />
-            <element signature="e#2963#2998#0" expanded="false" />
-            <element signature="e#3026#4016#0" expanded="false" />
-            <element signature="e#3157#3265#0" expanded="false" />
-            <element signature="e#3233#3260#0" expanded="false" />
-            <element signature="e#3316#4012#0" expanded="false" />
-            <element signature="e#3359#3473#0" expanded="false" />
-            <element signature="e#3438#3467#0" expanded="false" />
-            <element signature="e#3605#3717#0" expanded="false" />
-            <element signature="e#3661#3711#0" expanded="false" />
-            <element signature="e#3891#4007#0" expanded="false" />
-            <element signature="e#3949#4001#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#FormNode#0" expanded="false" />
-            <element signature="e#4084#4165#0" expanded="false" />
-            <element signature="e#4123#4161#0" expanded="false" />
-            <element signature="n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getTypeString#0;n#QuestionNode#0" expanded="false" />
-            <element signature="n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getDependencies#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#notify#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ComputedQuestionNode#0" expanded="false" />
-            <element signature="n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#ConditionNode#0" expanded="false" />
-            <element signature="n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#5809#5857#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#NotExpression#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#NotExpression#0" expanded="false" />
-            <element signature="e#6079#6101#0" expanded="false" />
-            <element signature="n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="e#6412#6452#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#OperatorExpressionNode#0" expanded="false" />
-            <element signature="n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#OperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#validateArguments#0;n#OperatorNode#0" expanded="false" />
-            <element signature="e#7043#7064#0" expanded="false" />
-            <element signature="e#7072#7314#0" expanded="false" />
-            <element signature="n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOperatorNode#0" expanded="false" />
-            <element signature="e#7549#8277#0" expanded="false" />
-            <element signature="e#7554#8273#0" expanded="false" />
-            <element signature="n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#BoolOperatorNode#0" expanded="false" />
-            <element signature="e#8513#8749#0" expanded="false" />
-            <element signature="e#8518#8745#0" expanded="false" />
-            <element signature="n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#NumOrBoolOperatorNode#0" expanded="false" />
-            <element signature="e#9001#9239#0" expanded="false" />
-            <element signature="e#9006#9235#0" expanded="false" />
-            <element signature="n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LabelNode#0" expanded="false" />
-            <element signature="n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#compute#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#setEnvironment#0;n#LiteralNode#0" expanded="false" />
-            <element signature="n#!!block;n#getLabelsInExpression#0;n#LiteralNode#0" expanded="false" />
-            <element signature="e#9767#9790#0" expanded="false" />
-            <element signature="n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#addQuestion#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#!!block;n#toString#0;n#AnswerList#0" expanded="false" />
-            <element signature="n#AnswerListQuestion#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#AnswerListQuestion#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QLGrammar.g4">
+    <entry file="file://$PROJECT_DIR$/js/ql/classes/environment.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#Environment#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#Environment#0" expanded="false" />
+            <element signature="n#!!block;n#setValue#0;n#Environment#0" expanded="false" />
+            <element signature="n#!!block;n#getValue#0;n#Environment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/antlrGen/QLGrammarParser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="226" column="4" selection-start-line="226" selection-start-column="4" selection-end-line="226" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/astFunctions.js">
+    <entry file="file://$PROJECT_DIR$/js/ql/classes/listener.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2164009">
-          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+        <state vertical-scroll-proportion="-6.3448277">
+          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/jquery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="9.405895">
+          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/r.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/io.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/sh.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/abc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/ada.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/ejs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="41" selection-start-line="0" selection-start-column="41" selection-end-line="0" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/dot.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/css.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/snippets/d.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/ace/ace.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="39" selection-start-line="0" selection-start-column="39" selection-end-line="0" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/antlr/parse.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.78205127">
+          <caret line="38" column="1" selection-start-line="38" selection-start-column="1" selection-end-line="38" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!block;n#getAntlrVisitor#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/classes/answers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/html/initialize.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.72649574">
+          <caret line="20" column="31" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/html/update.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74572647">
+          <caret line="38" column="29" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+          <folding>
+            <element signature="e#478#590#0" expanded="false" />
+            <element signature="e#597#655#0" expanded="false" />
+            <element signature="e#805#837#0" expanded="false" />
+            <element signature="e#865#916#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/html/events.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.053418804">
+          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/ast/cyclicChecker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/ast/errorHandlers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/ast/astChecker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/classes/nodes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="270" column="248" selection-start-line="270" selection-start-column="248" selection-end-line="270" selection-end-column="248" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ql/ast/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39957264">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
           <folding />
         </state>
       </provider>

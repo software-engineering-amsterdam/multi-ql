@@ -11,7 +11,9 @@ import Foundation
 protocol ASTNode: Visitable {}
 protocol QLLiteral: ASTNode {}
 protocol QLStatement: ASTNode {}
-protocol QLExpression: QLStatement {}
+protocol QLExpression: QLStatement {
+    var identifier:Int { get }
+}
 protocol QLOperator {}
 
 class QLForm: ASTNode, Visitable {
@@ -62,11 +64,27 @@ class QLIfStatement: QLStatement, Visitable {
 
 // MARK: Expressions.
 
+extension QLExpression {
+    func getID() -> Int {
+        return self.identifier
+    }
+}
+
 class QLVariable: QLExpression {
-    let identifier: String
+    let identifier: Int
+    let name: String
+    let type: QLLiteral
     
-    init(identifier: String) {
+    init(name: String, identifier: Int) {
         self.identifier = identifier
+        self.name = name
+        self.type = QLUnknownLiteral()
+    }
+    
+    init(name: String, type: QLLiteral, identifier: Int) {
+        self.identifier = identifier
+        self.name = name
+        self.type = type
     }
     
     func accept(visitor: Visitor) {
@@ -75,10 +93,12 @@ class QLVariable: QLExpression {
 }
 
 class QLUnaryExpression: QLExpression {
-    let expression: QLLiteral
+    let identifier: Int
+    let literal: QLLiteral
     
-    init(expression: QLLiteral) {
-        self.expression = expression
+    init(literal: QLLiteral, identifier: Int) {
+        self.identifier = identifier
+        self.literal = literal
     }
     
     func accept(visitor: Visitor) {
@@ -87,9 +107,11 @@ class QLUnaryExpression: QLExpression {
 }
 
 class QLNotExpression: QLExpression {
+    let identifier: Int
     let expression: QLExpression
     
-    init(expression: QLExpression) {
+    init(expression: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.expression = expression
     }
     
@@ -99,15 +121,17 @@ class QLNotExpression: QLExpression {
 }
 
 protocol QLBinaryExpression: QLExpression {
-    var lhs: QLExpression { set get }
-    var rhs: QLExpression { set get }
+    var lhs: QLExpression { get }
+    var rhs: QLExpression { get }
 }
 
 class QLGreaterThanExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -118,10 +142,12 @@ class QLGreaterThanExpression: QLBinaryExpression {
 }
 
 class QLSmallerThanExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -132,10 +158,12 @@ class QLSmallerThanExpression: QLBinaryExpression {
 }
 
 class QLGreaterOrIsExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -146,10 +174,12 @@ class QLGreaterOrIsExpression: QLBinaryExpression {
 }
 
 class QLSmallerOrISExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -160,10 +190,12 @@ class QLSmallerOrISExpression: QLBinaryExpression {
 }
 
 class QLIsNotExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -174,10 +206,12 @@ class QLIsNotExpression: QLBinaryExpression {
 }
 
 class QLIsExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -188,10 +222,12 @@ class QLIsExpression: QLBinaryExpression {
 }
 
 class QLMultiplyExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -202,10 +238,12 @@ class QLMultiplyExpression: QLBinaryExpression {
 }
 
 class QLDivideExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -216,10 +254,12 @@ class QLDivideExpression: QLBinaryExpression {
 }
 
 class QLAddExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -230,10 +270,12 @@ class QLAddExpression: QLBinaryExpression {
 }
 
 class QLSubtractExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -244,10 +286,12 @@ class QLSubtractExpression: QLBinaryExpression {
 }
 
 class QLAndExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -258,10 +302,12 @@ class QLAndExpression: QLBinaryExpression {
 }
 
 class QLOrExpression: QLBinaryExpression {
-    var lhs: QLExpression
-    var rhs: QLExpression
+    let identifier: Int
+    let lhs: QLExpression
+    let rhs: QLExpression
     
-    init(lhs: QLExpression, rhs: QLExpression) {
+    init(lhs: QLExpression, rhs: QLExpression, identifier: Int) {
+        self.identifier = identifier
         self.lhs = lhs
         self.rhs = rhs
     }
@@ -270,7 +316,6 @@ class QLOrExpression: QLBinaryExpression {
         visitor.visit(self)
     }
 }
-
 
 // MARK: Literals.
 

@@ -2,175 +2,332 @@ package eu.bankersen.kevin.ql.ast.values;
 
 import eu.bankersen.kevin.ql.ast.types.QLType;
 
-public interface QLValue {
+public abstract class QLValue {
 
-    Object value();
+    public abstract Object value();
 
-    QLType getType();
+    public abstract QLType getType();
 
-    // Equality
-    Boolean equals(QLValue type);
+    public abstract Boolean equals(QLValue value);
 
-    Boolean equals(UndifinedValue type);
+    public Boolean equals(UndifinedValue type) {
+	return false;
+    }
 
-    Boolean equals(IntegerValue type);
+    public Boolean equals(IntegerValue type) {
+	return false;
+    }
 
-    Boolean equals(MoneyValue type);
+    public Boolean equals(MoneyValue type) {
+	return false;
+    }
 
-    Boolean equals(BooleanValue type);
+    public Boolean equals(BooleanValue type) {
+	return false;
+    }
 
-    Boolean equals(StringValue type);
+    public Boolean equals(StringValue type) {
+	return false;
+    }
 
-    // Math operations
-    QLValue subtract(QLValue value);
+    public QLValue subtract(QLValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue subtract(UndifinedValue value);
+    public QLValue subtract(UndifinedValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue subtract(IntegerValue value);
+    public QLValue subtract(IntegerValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue subtract(MoneyValue value);
+    public QLValue subtract(MoneyValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue subtract(BooleanValue value);
+    public QLValue subtract(BooleanValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue subtract(StringValue value);
+    public QLValue subtract(StringValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue add(QLValue value);
+    public QLValue add(QLValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue add(UndifinedValue value);
+    public QLValue add(UndifinedValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue add(IntegerValue value);
+    public QLValue add(IntegerValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue add(MoneyValue value);
+    public QLValue add(MoneyValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue add(BooleanValue value);
+    public QLValue add(BooleanValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue add(StringValue value);
+    public QLValue add(StringValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue divide(QLValue value);
+    public QLValue divide(QLValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue divide(UndifinedValue value);
+    public QLValue divide(UndifinedValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue divide(IntegerValue value);
+    public QLValue divide(IntegerValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue divide(MoneyValue value);
+    public QLValue divide(MoneyValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue divide(BooleanValue value);
+    public QLValue divide(BooleanValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue divide(StringValue value);
+    public QLValue divide(StringValue value) {
+	return new UndifinedValue();
+    }
 
-    QLValue multiply(QLValue value);
-
-    QLValue multiply(UndifinedValue value);
-
-    QLValue multiply(IntegerValue value);
-
-    QLValue multiply(MoneyValue value);
-
-    QLValue multiply(BooleanValue value);
-
-    QLValue multiply(StringValue value);
-
-    QLValue absolute();
-
-    QLValue negate();
-
-    // Boolean operations
-    QLValue or(QLValue value);
-
-    QLValue or(UndifinedValue value);
-
-    QLValue or(IntegerValue value);
-
-    QLValue or(MoneyValue value);
-
-    QLValue or(BooleanValue value);
-
-    QLValue or(StringValue value);
-
-    QLValue and(QLValue value);
-
-    QLValue and(UndifinedValue value);
-
-    QLValue and(IntegerValue value);
-
-    QLValue and(MoneyValue value);
-
-    QLValue and(BooleanValue value);
-
-    QLValue and(StringValue value);
-
-    QLValue equal(QLValue value);
-
-    QLValue equal(UndifinedValue value);
-
-    QLValue equal(IntegerValue value);
-
-    QLValue equal(MoneyValue value);
-
-    QLValue equal(BooleanValue value);
-
-    QLValue equal(StringValue value);
-
-    QLValue greaterOrEqual(QLValue value);
-
-    QLValue greaterOrEqual(UndifinedValue value);
-
-    QLValue greaterOrEqual(IntegerValue value);
-
-    QLValue greaterOrEqual(MoneyValue value);
-
-    QLValue greaterOrEqual(BooleanValue value);
-
-    QLValue greaterOrEqual(StringValue value);
-
-    QLValue greater(QLValue value);
-
-    QLValue greater(UndifinedValue value);
-
-    QLValue greater(IntegerValue value);
-
-    QLValue greater(MoneyValue value);
-
-    QLValue greater(BooleanValue value);
-
-    QLValue greater(StringValue value);
-
-    QLValue lowerOrEqual(QLValue value);
-
-    QLValue lowerOrEqual(UndifinedValue value);
-
-    QLValue lowerOrEqual(IntegerValue value);
-
-    QLValue lowerOrEqual(MoneyValue value);
-
-    QLValue lowerOrEqual(BooleanValue value);
-
-    QLValue lowerOrEqual(StringValue value);
-
-    QLValue lower(QLValue value);
-
-    QLValue lower(UndifinedValue value);
-
-    QLValue lower(IntegerValue value);
-
-    QLValue lower(MoneyValue value);
-
-    QLValue lower(BooleanValue value);
-
-    QLValue lower(StringValue value);
-
-    QLValue notEqual(QLValue value);
-
-    QLValue notEqual(UndifinedValue value);
-
-    QLValue notEqual(IntegerValue value);
-
-    QLValue notEqual(MoneyValue value);
-
-    QLValue notEqual(BooleanValue value);
-
-    QLValue notEqual(StringValue value);
-
-    QLValue not();
+    public QLValue multiply(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue multiply(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue multiply(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue multiply(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue multiply(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue multiply(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue absolute() {
+	return new UndifinedValue();
+    }
+
+    public QLValue negate() {
+	return new UndifinedValue();
+    }
+
+    public QLValue or(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue or(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue or(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue or(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue or(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue or(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue and(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue and(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue and(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue and(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue and(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue and(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue equal(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue equal(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue equal(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue equal(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue equal(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue equal(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greaterOrEqual(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greaterOrEqual(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greaterOrEqual(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greaterOrEqual(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greaterOrEqual(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greaterOrEqual(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greater(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greater(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greater(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greater(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greater(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue greater(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lowerOrEqual(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lowerOrEqual(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lowerOrEqual(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lowerOrEqual(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lowerOrEqual(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lowerOrEqual(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lower(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lower(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lower(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lower(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lower(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue lower(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue notEqual(QLValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue notEqual(UndifinedValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue notEqual(IntegerValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue notEqual(MoneyValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue notEqual(BooleanValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue notEqual(StringValue value) {
+	return new UndifinedValue();
+    }
+
+    public QLValue not() {
+	return new UndifinedValue();
+    }
 
 }
