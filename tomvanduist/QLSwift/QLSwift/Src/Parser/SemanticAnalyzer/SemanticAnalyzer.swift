@@ -38,7 +38,7 @@ class SemanticAnalyzer {
     private func retrieveErrors(semanticResults: [SemanticAnalysisResult]) -> [SemanticError] {
         var errors: [SemanticError] = []
         
-        semanticResults.forEach { errors += $0.errors }
+        semanticResults.forEach { errors += $0.getErrors() }
         
         return errors
     }
@@ -46,7 +46,7 @@ class SemanticAnalyzer {
     private func retrieveWarnings(semanticResults: [SemanticAnalysisResult]) -> [SemanticWarning] {
         var warnings: [SemanticWarning] = []
         
-        semanticResults.forEach { warnings += $0.warnings }
+        semanticResults.forEach { warnings += $0.getWarnings() }
         
         return warnings
     }

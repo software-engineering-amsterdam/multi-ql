@@ -28,8 +28,7 @@ private class ScopedMap: Map<QLType> {
 
 internal class ScopeChecker: SemanticAnalysisRule, QLStatementVisitor, QLExpressionVisitor {
     private var scopedMap: ScopedMap = ScopedMap(parent: nil)
-    private var errors: [SemanticError] = []
-    private var warnings: [SemanticWarning] = []
+    private var analysisResult: SemanticAnalysisResult = SemanticAnalysisResult()
     
     
     func run(form: QLForm, context: Context) -> SemanticAnalysisResult {
@@ -37,7 +36,7 @@ internal class ScopeChecker: SemanticAnalysisRule, QLStatementVisitor, QLExpress
         
         checkScopes(form, context: context)
         
-        return SemanticAnalysisResult(success: errors.isEmpty, warnings: warnings, errors: errors)
+        return analysisResult
     }
 }
 
@@ -172,8 +171,7 @@ extension ScopeChecker {
     
     private func resetInternals() {
         scopedMap = ScopedMap(parent: nil)
-        errors = []
-        warnings = []
+        analysisResult = SemanticAnalysisResult()
     }
     
     private func checkScopes(form: QLForm, context: Context) {
@@ -191,11 +189,11 @@ extension ScopeChecker {
             // Collect any errors or warnings
             if let currentType = scopedMap.retrieve(question.identifier.id) {
                 if currentType === newType  {
-                    collectWarning(
+                    analysisResult.collectWarning(
                         OverridingVariable(description: "The variable \'\(question.identifier.id)\' overrides an earlier instance.")
                     )
                 } else if currentType !== QLUnknownType.self {
-                    collectError(
+                    analysisResult.collectError(
                         MultipleDeclarations(description: "The variable \'\(question.identifier.id)\' is multiply declared as both \'\(currentType.toString())\' and \'\(newType.toString())\'")
                     )
                 }
@@ -205,19 +203,7 @@ extension ScopeChecker {
     
     private func retrieveType(identifier: String) {
         if scopedMap.retrieve(identifier) == nil {
-            collectError(UndefinedVariableError(description: "Variable \"\(identifier)\" is not defined at this scope"))
+            analysisResult.collectError(UndefinedVariableError(description: "Variable \"\(identifier)\" is not defined at this scope"))
         }
-    }
-    
-    private func collectError(error: SemanticError) {
-        self.errors.append(error)
-    }
-    
-    private func collectError(error: ErrorType) {
-        self.errors.append(SystemError(error: error))
-    }
-    
-    private func collectWarning(warning: SemanticWarning) {
-        self.warnings.append(warning)
     }
 }

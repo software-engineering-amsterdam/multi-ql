@@ -8,18 +8,59 @@
 
 import Foundation
 
-struct SemanticAnalysisResult {
-    let success: Bool
-    let errors: [SemanticError]
-    let warnings: [SemanticWarning]
+protocol SemanticAnalysisRule {
+    func run(form: QLForm, context: Context) -> SemanticAnalysisResult
+}
+
+
+class SemanticAnalysisResult {
+    private var success: Bool
+    private var errors: [SemanticError]
+    private var warnings: [SemanticWarning]
+    
+    init() {
+        self.success = true
+        self.warnings = []
+        self.errors = []
+    }
     
     init(success: Bool, warnings: [SemanticWarning], errors: [SemanticError]) {
         self.success = success
         self.warnings = warnings
         self.errors = errors
     }
-}
-
-protocol SemanticAnalysisRule {
-    func run(form: QLForm, context: Context) -> SemanticAnalysisResult
+    
+    func didSucceed() -> Bool {
+        return success
+    }
+    
+    func hasWarnings() -> Bool {
+        return !warnings.isEmpty
+    }
+    
+    func hasErrors() -> Bool {
+        return !errors.isEmpty
+    }
+    
+    func getWarnings() -> [SemanticWarning] {
+        return warnings
+    }
+    
+    func getErrors() -> [SemanticError] {
+        return errors
+    }
+    
+    internal func collectWarning(warning: SemanticWarning) {
+        self.warnings.append(warning)
+    }
+    
+    internal func collectError(error: SemanticError) {
+        success = false
+        errors.append(error)
+    }
+    
+    internal func collectError(error: ErrorType) {
+        success = false
+        errors.append(SystemError(error: error))
+    }
 }

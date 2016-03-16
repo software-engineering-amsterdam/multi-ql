@@ -10,8 +10,7 @@ import Foundation
 
 
 internal class TypeChecker: SemanticAnalysisRule, QLNodeVisitor {
-//    private var symbolTable: SymbolTable!
-    private var errors: [SemanticError] = []
+    private var analysisResult: SemanticAnalysisResult = SemanticAnalysisResult()
     
     
     func run(form: QLForm, context: Context) -> SemanticAnalysisResult {
@@ -19,7 +18,7 @@ internal class TypeChecker: SemanticAnalysisRule, QLNodeVisitor {
         
         checkTypes(form, context: context)
         
-        return SemanticAnalysisResult(success: errors.isEmpty, warnings: [], errors: errors)
+        return analysisResult
     }
 }
 
@@ -41,7 +40,7 @@ extension TypeChecker {
         node.ifBlock.accept(self, param: context)
         
         if (node.condition.accept(self, param: context) !== QLBooleanType.self) {
-            collectError(TypeMismatchError(description: "If statement condition must be of type Bool: \(node.condition.toString())"))
+            analysisResult.collectError(TypeMismatchError(description: "If statement condition must be of type Bool: \(node.condition.toString())"))
         }
         
         return QLVoidType()
@@ -71,7 +70,7 @@ extension TypeChecker {
     
     private func collectUnaryTypeError(node: QLUnary, context: Context) {
         let type = node.rhs.accept(self, param: context)
-        collectError(TypeMismatchError(description: "Unary operator '\(node.toString())' cannot be applied to operand of type '\(type.toString())'!"))
+        analysisResult.collectError(TypeMismatchError(description: "Unary operator '\(node.toString())' cannot be applied to operand of type '\(type.toString())'!"))
     }
     
     private func performUnaryPropagator(node: QLUnary, allower: AbstractAllowType, context: Context) {
@@ -98,7 +97,7 @@ extension TypeChecker {
         let leftType = node.lhs.accept(self, param: context)
         let rightType = node.rhs.accept(self, param: context)
         
-        collectError(TypeMismatchError(description: "Binary operator '\(node.toString())' cannot be applied to operands of type '\(leftType.toString())' and '\(rightType.toString())'!"))
+        analysisResult.collectError(TypeMismatchError(description: "Binary operator '\(node.toString())' cannot be applied to operands of type '\(leftType.toString())' and '\(rightType.toString())'!"))
     }
     
     private func performBinaryPropagator(node: QLBinary, propagator: AbstractPropagator, context: Context) {
@@ -245,7 +244,7 @@ extension TypeChecker {
 extension TypeChecker {
     
     private func resetInternals() {
-        errors = []
+        analysisResult = SemanticAnalysisResult()
     }
     
     private func checkTypes(form: QLForm, context: Context) {
@@ -257,14 +256,6 @@ extension TypeChecker {
             else { return QLUnknownType() }
         
         return type
-    }
-    
-    private func collectError(error: SemanticError) {
-        self.errors.append(error)
-    }
-    
-    private func collectError(error: ErrorType) {
-        self.errors.append(SystemError(error: error))
     }
 }
 
