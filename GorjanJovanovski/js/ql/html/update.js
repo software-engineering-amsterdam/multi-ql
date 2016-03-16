@@ -3,7 +3,7 @@ function refreshGUI(ast, environment) {
 	ast.transverseAST((questionNode) => {
 		$(".questionDiv[qllabel='" + questionNode.label + "']").show();
 		$("input[name='" + questionNode.label + "']").val(environment.getValue(questionNode.label));
-	}, undefined, true);
+	}, undefined, true, environment);
 }
 
 
