@@ -13,7 +13,7 @@ import nl.uva.sea.ql.ast.question.*;
  * actually need to handle (in addition to just passing them in an AST).
  * 
  * @author Olav Trauschke
- * @version 3-mrt-2016
+ * @version 3-mar-2016
  */
 public interface ASTVisitor {
     

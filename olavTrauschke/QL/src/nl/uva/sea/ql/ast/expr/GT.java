@@ -4,7 +4,7 @@ package nl.uva.sea.ql.ast.expr;
  * Representation of "greater than" comparisons in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-feb-2016
+ * @version 16-mar-2016
  */
 public class GT extends OrderedComparisonExpr {
     

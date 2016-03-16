@@ -9,7 +9,7 @@ import nl.uva.sea.ql.ast.expr.Ident;
  * <code>Ident</code>s to <code>Value</code>s.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 10-mar-2016
  */
 public class AnswerTable {
     

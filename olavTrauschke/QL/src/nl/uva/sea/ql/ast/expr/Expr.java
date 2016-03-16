@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * Representation of expression in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mrt-2016
+ * @version 16-mar-2016
  */
 public abstract class Expr extends ASTNode {
     

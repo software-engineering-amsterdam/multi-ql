@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
  * package-access.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 9-mar-2016
  */
 public class ParserWrapper extends Parser {
     

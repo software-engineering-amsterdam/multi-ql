@@ -6,7 +6,7 @@ package nl.uva.sea.ql.checker;
  * {@link nl.uva.sea.ql.checker.ASTVisitor ASTVisitor}.
  * 
  * @author Olav Trauschke
- * @version 1-mrt-2016
+ * @version 1-mar-2016
  */
 public interface VisitableASTNode {
     

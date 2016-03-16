@@ -9,7 +9,7 @@ import nl.uva.sea.ql.answerTable.AnswerTable;
  * Class for interpretating ast's.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 10-mar-2016
  */
 public class Interpreter {
     

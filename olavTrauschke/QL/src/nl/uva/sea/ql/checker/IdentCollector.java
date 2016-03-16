@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.expr.Ident;
  * Visitor to collect all <code>Ident</code>s in a part of an ast.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 14-mar-2016
  */
 public class IdentCollector implements ASTVisitor {
     

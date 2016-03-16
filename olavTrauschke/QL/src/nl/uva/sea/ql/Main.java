@@ -13,7 +13,7 @@ import nl.uva.sea.ql.parser.ParserWrapper;
  * Main class to type check and run questionairs.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 10-mar-2016
  */
 public class Main {
     

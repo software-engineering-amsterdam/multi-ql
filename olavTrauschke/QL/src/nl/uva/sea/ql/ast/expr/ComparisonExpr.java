@@ -7,7 +7,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * in some way in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 4-mar-2016
  */
 public abstract class ComparisonExpr extends BooleanExpr {
     

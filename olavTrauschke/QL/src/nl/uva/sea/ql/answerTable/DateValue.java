@@ -5,7 +5,7 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.question.DateQuestion DateQuestion}s.
  * 
  * @author Olav Trauschke
- * @version 16-mrt-2016
+ * @version 16-mar-2016
  */
 public class DateValue extends Value {
     

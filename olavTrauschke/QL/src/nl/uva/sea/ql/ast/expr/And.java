@@ -7,7 +7,7 @@ import nl.uva.sea.ql.answerTable.BooleanValue;
  * Representation of boolean conjunction in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mrt-2016
+ * @version 16-mar-2016
  */
 public class And extends BooleanConjunctiveExpr {
     
