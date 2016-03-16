@@ -21,4 +21,34 @@ public class StringValue extends Value {
     public StringValue(String theValue) {
         value = theValue;
     }
+    
+    /**
+     * Test whether <code>this StringValue</code> equals another <code>Value</code>
+     * according to ternary logic.
+     * 
+     * @param o a <code>Value</code> to compare to this one
+     * @return a <code>BooleanValue</code> representing <code>false</code> if
+     *          <code>other</code> is not a <code>StringValue</code>, an unknown
+     *          value if this is not the case and <code>this StringValue</code>
+     *          or <code>other</code> represents an unkonwn value and the result
+     *          of comparing <code>theValue</code> of <code>this StringValue</code>
+     *          to <code>theValue</code> of <code>other</code> otherwise
+     */
+    @Override
+    public BooleanValue ternaryEquals(Value o) {
+        if (o instanceof StringValue) {
+            StringValue other = (StringValue) o;
+            if (value == null || other.value == null) {
+                return new BooleanValue(null);
+            }
+            else {
+                boolean equalValues = value.equals(other.value);
+                return new BooleanValue(equalValues);
+            }
+        }
+        else {
+            return new BooleanValue(false);
+        }
+    }
+    
 }
