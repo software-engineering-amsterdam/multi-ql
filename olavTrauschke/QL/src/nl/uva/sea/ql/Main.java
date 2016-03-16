@@ -6,15 +6,14 @@ import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.*;
-import nl.uva.sea.ql.interpreter.Interpreter;
-import nl.uva.sea.ql.symbolTable.SymbolTable;
+import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.parser.ParserWrapper;
 
 /**
  * Main class to type check and run questionairs.
  * 
  * @author Olav Trauschke
- * @version 10-mrt-2016
+ * @version 10-mar-2016
  */
 public class Main {
     
@@ -58,7 +57,7 @@ public class Main {
             if (run) {
                 Interpreter interpreter = new Interpreter(form);
                 interpreter.run();
-                SymbolTable answers = interpreter.getSymbolTable();
+                AnswerTable answers = interpreter.getSymbolTable();
                 String destinationPath = ioManager.selectSaveLocation();
                 ioManager.writeToXml(answers, destinationPath);
                 System.exit(0);

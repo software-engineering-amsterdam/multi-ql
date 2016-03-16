@@ -3,7 +3,7 @@ import { SemanticAnalyser } from 'src/ql/ast_semantic_analysis';
 import { Parser as QlsParser } from 'src/qls/parser';
 import { Log } from 'src/log';
 import { Renderer as QlRenderer} from 'src/ql/rendering';
-import { WidgetFactory as QlWidgetFactory } from 'src/ql/widgets';
+import { WidgetRenderer as QlWidgetRenderer } from 'src/ql/widgets';
 import { Renderer as QlsRenderer } from 'src/qls/rendering';
 import * as ace from 'ace';
 
@@ -19,7 +19,7 @@ let LOCALSTORAGE_KEY = 'uva-software-process-ql-merijn-last-input',
 	qlsParser = new QlsParser(),
 	renderElement = document.getElementById('render'),
 	qlRenderer = new QlRenderer(document),
-	qlsRenderer = new QlsRenderer(document, new QlWidgetFactory(document )),
+	qlsRenderer = new QlsRenderer(document, new QlWidgetRenderer(document)),
 	qlAst,
 	qlsAst;
 

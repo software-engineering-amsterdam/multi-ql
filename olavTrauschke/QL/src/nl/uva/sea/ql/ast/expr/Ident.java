@@ -1,6 +1,8 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.Value;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.ASTVisitor;
 
@@ -8,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 4-mrt-2016
+ * @version 16-mar-2016
  */
 public class Ident extends Expr {
     
@@ -138,6 +140,21 @@ public class Ident extends Expr {
         
         Question q = questionTypes.get(this);
         return q.isString();
+    }
+    
+    /**
+     * Obtain the <code>Value</code> for <code>this Ident</code> from a
+     * <code>answerTable</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping <code>this Ident</code>
+     *                      to the answer to the corresponding <code>Question</code>
+     *                      if it is known and to <code>null</code> otherwise
+     * @return the answer to the <code>Question this Ident</code> refers to,
+     *          according to <code>answerTable</code>
+     */
+    @Override
+    public Value eval(AnswerTable answerTable) {
+        return answerTable.get(this);
     }
     
     /**

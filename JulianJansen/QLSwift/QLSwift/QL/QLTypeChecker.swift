@@ -8,18 +8,35 @@
 
 import Foundation
 
+class QLExpressionTable {
+    private var table = Dictionary<Int, QLLiteral.Type>()
+    
+    func storeExpression(expression: QLExpression, type: QLLiteral.Type) {
+ 
+        table[expression.getID()] = type
+        
+        print(table.description)
+    }
+    
+    func getExpressionType(expression: QLExpression) -> QLLiteral.Type? {
+
+        
+        if let type = table[expression.getID()] {
+            return type
+        } else {
+            return nil
+        }
+    }
+}
+
+
 class QLTypeChecker: Visitor {
     
+    var expressionTable = QLExpressionTable()
     let symbolTable: QLSymbolTable
     
     init(symbolTable: QLSymbolTable) {
         self.symbolTable = symbolTable
-    }
-    
-    let testCase = false
-    
-    enum TypeError: ErrorType {
-        case A
     }
     
     func visit(qlform: QLForm) {
@@ -50,115 +67,123 @@ class QLTypeChecker: Visitor {
     
     // MARK: Expressions.
     func visit(qlunaryexpression: QLUnaryExpression) {
-        print("-> Unary expression")
-        qlunaryexpression.expression.accept(self)
+        print("-> Unary expression: \(qlunaryexpression.getID())")
+        
+        expressionTable.storeExpression(qlunaryexpression, type: qlunaryexpression.literal.dynamicType)
+        
+        qlunaryexpression.literal.accept(self)
+    }
+    
+    func visit(qlbinaryexpression: QLBinaryExpression) {
+        print("-> Binary expression: \(qlbinaryexpression.getID())")
+        qlbinaryexpression.lhs.accept(self)
+        qlbinaryexpression.rhs.accept(self)
     }
     
     func visit(qlnotexpression: QLNotExpression) {
-        print("-> Not expression")
+        print("-> Not expression: \(qlnotexpression.getID())")
         qlnotexpression.accept(self)
     }
-    
-    
+        
     func visit(qlgreaterthanexpression: QLGreaterThanExpression) {
-        print("Greater than")
+        print("Greater than: \(qlgreaterthanexpression.getID())")
         qlgreaterthanexpression.lhs.accept(self)
         qlgreaterthanexpression.rhs.accept(self)
     }
     
     func visit(qlsmallerthanexpression: QLSmallerThanExpression) {
-        print("Smaller than")
+        print("Smaller than: \(qlsmallerthanexpression.getID())")
         qlsmallerthanexpression.lhs.accept(self)
         qlsmallerthanexpression.rhs.accept(self)
     }
     
     func visit(qlgreaterorisexpression: QLGreaterOrIsExpression) {
-        print("Greater or is")
+        print("----------------------")
+        print("Greater or is: \(qlgreaterorisexpression.getID())")
+        
+        print(qlgreaterorisexpression.lhs.getID())
+
+        
         qlgreaterorisexpression.lhs.accept(self)
         qlgreaterorisexpression.rhs.accept(self)
+        
+        print("Get types")
+        print(expressionTable.getExpressionType(qlgreaterorisexpression.lhs))
+        print(expressionTable.getExpressionType(qlgreaterorisexpression.rhs))
+
+
+        
+        print("----------------------")
+
     }
     
     func visit(qlsmallerorisexpression: QLSmallerOrISExpression) {
-        print("Smaller or is")
+        print("Smaller or is: \(qlsmallerorisexpression.getID())")
         qlsmallerorisexpression.lhs.accept(self)
         qlsmallerorisexpression.rhs.accept(self)
     }
     
     func visit(qlisnotexpression: QLIsNotExpression) {
-        print("Is not")
+        print("Is not: \(qlisnotexpression.getID())")
         qlisnotexpression.lhs.accept(self)
         qlisnotexpression.rhs.accept(self)
     }
     
     func visit(qlisexpression: QLIsExpression) {
-        print("Is")
+        print("Is: \(qlisexpression.getID())")
         qlisexpression.lhs.accept(self)
         qlisexpression.rhs.accept(self)
     }
     
     func visit(qlmultiplyexpression: QLMultiplyExpression) {
-        print("Multiply")
+        print("Multiply: \(qlmultiplyexpression.getID())")
         qlmultiplyexpression.lhs.accept(self)
         qlmultiplyexpression.rhs.accept(self)
     }
     
     func visit(qldivideexpression: QLDivideExpression) {
-        print("Divide")
+        print("Divide: \(qldivideexpression.getID())")
         qldivideexpression.lhs.accept(self)
         qldivideexpression.rhs.accept(self)
     }
     
     func visit(qladdexpression: QLAddExpression) {
-        print("Add")
+        print("Add: \(qladdexpression.getID())")
         qladdexpression.lhs.accept(self)
         qladdexpression.rhs.accept(self)
     }
     
     func visit(qlsubtractexpression: QLSubtractExpression) {
-        print("Substract")
+        print("Substract: \(qlsubtractexpression.getID())")
         qlsubtractexpression.lhs.accept(self)
         qlsubtractexpression.rhs.accept(self)
     }
     
     func visit(qlandexpression: QLAndExpression) {
-        print("And")
+        print("And: \(qlandexpression.getID())")
         qlandexpression.lhs.accept(self)
         qlandexpression.rhs.accept(self)
     }
     
     func visit(qlorexpression: QLOrExpression) {
-        print("Or")
+        print("Or: \(qlorexpression.getID())")
         qlorexpression.lhs.accept(self)
         qlorexpression.rhs.accept(self)
     }
     
     // MARK: Literals.
-    func visit(qlunknownliteral: QLUnknownLiteral) {
-        print("-> Unknown literal")
-    }
+    func visit(qlunknownliteral: QLUnknownLiteral) { }
     
-    func visit(qlbool: QLBool) {
-        print("-> Boolean")
-    }
+    func visit(qlbool: QLBool) { }
     
-    func visit(qlstring: QLString) {
-        print("-> String")
-    }
+    func visit(qlstring: QLString) { }
     
-    func visit(qlinteger: QLInteger) {
-        print("-> Integer")
-    }
+    func visit(qlinteger: QLInteger) { }
     
-    func visit(qldate: QLDate) {
-        print("-> Date")
-    }
+    func visit(qldate: QLDate) { }
     
-    func visit(qldecimal: QLDecimal) {
-        print("-> Decimal")
-    }
+    func visit(qldecimal: QLDecimal) { }
     
-    func visit(qlmoney: QLMoney) {
-        print("-> Money")
-    }
+    func visit(qlmoney: QLMoney) { }
     
 }

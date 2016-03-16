@@ -8,7 +8,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>ConditionalStatement</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mrt-2016
+ * @version 14-mar-2016
  */
 public class ConditionalStatement extends ASTNode {
     

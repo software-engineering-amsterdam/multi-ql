@@ -10,7 +10,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 9-mrt-2016
+ * @version 9-mar-2016
  */
 public abstract class Question extends ASTNode {
     

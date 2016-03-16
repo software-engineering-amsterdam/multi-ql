@@ -12,6 +12,7 @@ public class FormEvaluation {
 	}
 
 	public void evaluateForm(Form form) {
+		assert(context != null);
 		Evaluation eval = new Evaluation(context);
 		eval.visit(form);
 	}

@@ -5,11 +5,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 
-import nl.nicasso.ql.ast.expressions.Identifier;
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.gui.widgets.Label;
-import nl.nicasso.ql.values.IntegerValue;
 
 public class IntegerQuestionField extends QuestionField {
 
