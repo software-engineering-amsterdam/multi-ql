@@ -1,4 +1,4 @@
-package symboltable
+package symbols
 
 import (
 	"encoding/json"
@@ -7,29 +7,44 @@ import (
 	"ql/interfaces"
 )
 
+type Symbols struct {
+	Table               SymbolTable
+	RegisteredCallbacks []func(interfaces.Symbols)
+}
+
+func NewSymbols() *Symbols {
+	return &Symbols{Table: newSymbolTable(), RegisteredCallbacks: make([]func(interfaces.Symbols), 0)}
+}
+
 type SymbolTable map[interfaces.VarId]interface{}
 
-func NewSymbolTable() SymbolTable {
+func newSymbolTable() SymbolTable {
 	log.Debug("Creating new symbol table")
 	return make(SymbolTable)
 }
 
-func (s SymbolTable) GetNodeForIdentifier(v interfaces.VarId) interface{} {
-	return s[v]
+func (this *Symbols) RegisterCallback(callback func(interfaces.Symbols)) {
+	this.RegisteredCallbacks = append(this.RegisteredCallbacks, callback)
 }
 
-func (s SymbolTable) SetNodeForIdentifier(e interface{}, v interfaces.VarId) {
-	if previousValue, keyExists := s[v]; keyExists {
-		s[v] = e
-		log.WithFields(log.Fields{"Identifier": v, "Current": s[v], "Previous": previousValue}).Debug("Set node for identifier")
-	} else {
-		s[v] = e
-		log.WithFields(log.Fields{"Identifier": v, "Current": s[v]}).Debug("Set node for identifier")
+func (this *Symbols) GetNodeForIdentifier(v interfaces.VarId) interface{} {
+	value := this.Table[v]
+	log.WithFields(log.Fields{"Identifier": v, "Value": value}).Debug("Looking up identifier in SymbolTable")
+
+	return value
+}
+
+func (this *Symbols) SetNodeForIdentifier(e interface{}, v interfaces.VarId) {
+	this.Table[v] = e
+	log.WithFields(log.Fields{"Identifier": v, "Current": this.Table[v]}).Debug("Set node for identifier")
+
+	for _, registeredCallback := range this.RegisteredCallbacks {
+		registeredCallback(this)
 	}
 }
 
-func (s SymbolTable) SaveToDisk() (interface{}, error) {
-	formDataAsJSON, _ := convertSymbolTableToJSON(convertSymbolTableKeysToStrings(s))
+func (this *Symbols) SaveToDisk() (interface{}, error) {
+	formDataAsJSON, _ := convertSymbolTableToJSON(convertSymbolTableKeysToStrings(this.Table))
 
 	writeErr := ioutil.WriteFile("savedForm.json", formDataAsJSON, 0644)
 

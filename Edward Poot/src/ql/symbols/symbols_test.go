@@ -1,4 +1,4 @@
-package symboltable
+package symbols
 
 import (
 	"io/ioutil"
@@ -8,8 +8,8 @@ import (
 	"testing"
 )
 
-func testSymbolTableAdd(t *testing.T) {
-	newSymbolTable := NewSymbolTable()
+func TestSymbolTableAdd(t *testing.T) {
+	newSymbolTable := NewSymbols()
 	exampleVarId := vari.NewVarIdNoSourceInfo("testIdentifier")
 	newSymbolTable.SetNodeForIdentifier("testValue", exampleVarId)
 
@@ -18,8 +18,8 @@ func testSymbolTableAdd(t *testing.T) {
 	}
 }
 
-func testSaveToDisk(t *testing.T) {
-	newSymbolTable := NewSymbolTable()
+func TestSaveToDisk(t *testing.T) {
+	newSymbolTable := NewSymbols()
 	exampleVarId := vari.NewVarIdNoSourceInfo("testIdentifier")
 	newSymbolTable.SetNodeForIdentifier("testValue", exampleVarId)
 

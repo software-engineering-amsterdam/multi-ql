@@ -3,14 +3,13 @@ package main
 import (
 	log "github.com/Sirupsen/logrus"
 	"io/ioutil"
-	"ql/ast/stmt"
-	"ql/ast/typechecker"
 	"ql/ast/visitor"
 	"ql/gui"
 	"ql/interfaces"
 	"ql/lexer"
 	"ql/parser"
-	"ql/symboltable"
+	"ql/symbols"
+	"ql/typechecker"
 )
 
 func main() {
@@ -34,29 +33,23 @@ func main() {
 		log.WithFields(log.Fields{"err": parseErr}).Panic("Could not parse")
 	}
 
-	if parsedForm, ok := parseResult.(stmt.Form); !ok {
+	if parsedForm, ok := parseResult.(interfaces.Form); !ok {
 		log.Panic("Parse result is not form")
 	} else {
 		log.WithFields(log.Fields{"Result": parsedForm}).Info("Form parsed")
 
 		visitor := SymbolTableFillerVisitor{}
-		symbolTable := symboltable.NewSymbolTable()
-		parsedForm.Accept(visitor, symbolTable)
+		symbols := symbols.NewSymbols()
+		parsedForm.Accept(&visitor, symbols)
 
 		typeChecker := typechecker.NewTypeChecker()
-		parsedForm.TypeCheck(&typeChecker, symbolTable)
+		parsedForm.TypeCheck(&typeChecker, symbols)
 
-		errors := make([]error, 0)
-		warnings := make([]error, 0)
-
-		warnings = append(warnings, typeChecker.GetEncountedErrorsForCheckType("DuplicateLabels")...)
-		errors = append(errors, typeChecker.GetEncountedErrorsForCheckType("InvalidOperandsDifferentTypes")...)
-		errors = append(errors, typeChecker.GetEncountedErrorsForCheckType("ReferenceToUndefinedQuestion")...)
-		errors = append(errors, typeChecker.GetEncountedErrorsForCheckType("InvalidOperationOnOperands")...)
-		errors = append(errors, typeChecker.GetEncountedErrorsForCheckType("NonBoolConditionals")...)
+		warnings := typeChecker.GetEncountedWarnings()
+		errors := typeChecker.GetEncountedErrors()
 
 		log.WithFields(log.Fields{"errors": errors, "warnings": warnings}).Error("Type checking finished")
-		gui.CreateGUI(parsedForm, symbolTable, errors)
+		gui.CreateGUI(parsedForm, symbols, errors)
 	}
 }
 
@@ -68,6 +61,6 @@ type SymbolTableFillerVisitor struct {
 	visitor.BaseVisitor
 }
 
-func (s SymbolTableFillerVisitor) VisitVarDecl(va interfaces.VarDecl, sy interface{}) {
-	sy.(symboltable.SymbolTable).SetNodeForIdentifier(va.GetType().GetDefaultValue(), va.GetIdent())
+func (this *SymbolTableFillerVisitor) VisitVarDecl(v interfaces.VarDecl, s interfaces.Symbols) {
+	s.SetNodeForIdentifier(v.GetType().GetDefaultValue(), v.GetIdent())
 }
