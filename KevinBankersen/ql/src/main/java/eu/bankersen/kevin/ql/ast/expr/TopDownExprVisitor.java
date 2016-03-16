@@ -16,107 +16,98 @@ import eu.bankersen.kevin.ql.ast.expr.math.Neg;
 import eu.bankersen.kevin.ql.ast.expr.math.Pos;
 import eu.bankersen.kevin.ql.ast.expr.math.Sub;
 
-public class TopDownExprVisitor<T, U> implements ExprVisitor<T, U> {
+public abstract class TopDownExprVisitor<T, U> implements ExprVisitor<T, U> {
+
+    public T visitDoubleExpression(Expr lhs, Expr rhs, U context) {
+
+	lhs.accept(this, context);
+	rhs.accept(this, context);
+
+	return null;
+    }
 
     @Override
     public T visit(Sub o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(Add o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(Div o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(Mul o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(Pos o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return o.expr().accept(this, context);
     }
 
     @Override
     public T visit(Neg o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return o.expr().accept(this, context);
     }
 
     @Override
     public T visit(Or o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(And o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(Eq o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(GEq o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(GT o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(LEq o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(LT o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(NEq o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return visitDoubleExpression(o.lhs(), o.rhs(), context);
     }
 
     @Override
     public T visit(Not o, U context) {
-	// TODO Auto-generated method stub
-	return null;
+	return o.expr().accept(this, context);
     }
 
     @Override
     public T visit(Literal o, U context) {
-	// TODO Auto-generated method stub
 	return null;
     }
 
     @Override
     public T visit(Identifier o, U context) {
-	// TODO Auto-generated method stub
 	return null;
     }
 

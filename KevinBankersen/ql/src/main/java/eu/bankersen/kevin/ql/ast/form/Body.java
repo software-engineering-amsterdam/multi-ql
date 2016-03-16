@@ -2,8 +2,8 @@ package eu.bankersen.kevin.ql.ast.form;
 
 import java.util.List;
 
-import eu.bankersen.kevin.ql.ast.QuestionVisitor;
 import eu.bankersen.kevin.ql.ast.AcceptQuestionVisitor;
+import eu.bankersen.kevin.ql.ast.QuestionVisitor;
 import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
 import eu.bankersen.kevin.ql.interpreter.Environment;
 
@@ -28,7 +28,7 @@ public class Body implements AcceptQuestionVisitor {
     }
 
     @Override
-    public <T> T accept(QuestionVisitor<T> v, T context) {
-	return v.visit(this, context);
+    public <T> void accept(QuestionVisitor<T> v, T context) {
+	v.visit(this, context);
     }
 }
