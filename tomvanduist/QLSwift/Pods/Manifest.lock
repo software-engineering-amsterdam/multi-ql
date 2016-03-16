@@ -1,25 +1,13 @@
 PODS:
   - DTAlertView (1.4.2)
   - SnapKit (0.19.1)
-  - SwiftParsec (1.0)
 
 DEPENDENCIES:
   - DTAlertView
   - SnapKit (~> 0.19)
-  - SwiftParsec (from `https://github.com/tomvanduist/SwiftParsec.git`)
-
-EXTERNAL SOURCES:
-  SwiftParsec:
-    :git: https://github.com/tomvanduist/SwiftParsec.git
-
-CHECKOUT OPTIONS:
-  SwiftParsec:
-    :commit: e08d1ea4a0076c7a42fc9df64504f5c1331fc41a
-    :git: https://github.com/tomvanduist/SwiftParsec.git
 
 SPEC CHECKSUMS:
   DTAlertView: 5c415c75fb6be2e1093be652dfc469a428b30cf4
   SnapKit: eff58d6e3451bf2f482db2eccf86aecf371dc62d
-  SwiftParsec: f7fd0ffc12c7ca09219b971c1fc29553f782bbed
 
 COCOAPODS: 0.39.0

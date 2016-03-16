@@ -3,15 +3,12 @@ use_frameworks!
 
 target 'QLSwift' do
 
-    pod 'SwiftParsec', :git => 'https://github.com/tomvanduist/SwiftParsec.git'
-    pod 'SnapKit', '~> 0.19'
-    pod 'DTAlertView'
+pod 'SnapKit', '~> 0.19'
+pod 'DTAlertView'
 
 end
 
 target 'QLSwiftTests' do
-    
-    pod 'SwiftParsec', :git => 'https://github.com/tomvanduist/SwiftParsec.git'
 
 end
 

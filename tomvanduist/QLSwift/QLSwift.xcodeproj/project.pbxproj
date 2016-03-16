@@ -1,0 +1,1120 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0FA83CA2CB0E7E618D71379C /* Pods_QLSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4D07FDC44ABEC2E420B51C /* Pods_QLSwift.framework */; };
+		E20B2B081C884FD00096BA51 /* QLStatementVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B071C884FD00096BA51 /* QLStatementVisitor.swift */; };
+		E20B2B0E1C884FEF0096BA51 /* QLTypeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B0B1C884FEF0096BA51 /* QLTypeVisitor.swift */; };
+		E20B2B0F1C884FEF0096BA51 /* QLTypeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B0B1C884FEF0096BA51 /* QLTypeVisitor.swift */; };
+		E20B2B101C884FF60096BA51 /* QLStatementVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B071C884FD00096BA51 /* QLStatementVisitor.swift */; };
+		E20B2B121C8851950096BA51 /* QLExpressionVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */; };
+		E20B2B131C8851950096BA51 /* QLExpressionVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */; };
+		E20B2B181C8881C20096BA51 /* QLIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B171C8881C20096BA51 /* QLIdentifier.swift */; };
+		E20B2B191C8881C20096BA51 /* QLIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B171C8881C20096BA51 /* QLIdentifier.swift */; };
+		E20B2B211C888F660096BA51 /* QLLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B201C888F660096BA51 /* QLLiteral.swift */; };
+		E20B2B221C888F660096BA51 /* QLLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B201C888F660096BA51 /* QLLiteral.swift */; };
+		E20B2B241C8891080096BA51 /* QLLiteralVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */; };
+		E20B2B251C8891080096BA51 /* QLLiteralVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */; };
+		E21DC3EF1C6CE095005564FE /* ChooseFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3EE1C6CE095005564FE /* ChooseFormView.xib */; };
+		E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3F21C6CE127005564FE /* BaseViewController.swift */; };
+		E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21DC3F61C6CE6C3005564FE /* FormViewController.swift */; };
+		E21DC3F91C6CE6E8005564FE /* FormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21DC3F81C6CE6E8005564FE /* FormView.xib */; };
+		E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */ = {isa = PBXBuildFile; fileRef = E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */; };
+		E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */; };
+		E21F69111C747CBE00EB9E09 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21F69101C747CBE00EB9E09 /* Utils.swift */; };
+		E2270DB51C73C1B400E5FC2A /* SemanticAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */; };
+		E2270DB91C73C22800E5FC2A /* FormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2270DB81C73C22800E5FC2A /* FormTests.swift */; };
+		E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */; };
+		E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
+		E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
+		E23493121C6CD59F00B40020 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493111C6CD59F00B40020 /* Parser.swift */; };
+		E24CCE911C90498600ACA633 /* QLNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */; };
+		E24CCE931C9049CC00ACA633 /* QLNodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */; };
+		E24CCE961C9062A700ACA633 /* SemanticAnalysisRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */; };
+		E24CCE981C90631E00ACA633 /* TypeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE971C90631E00ACA633 /* TypeChecker.swift */; };
+		E24CCE9C1C90633900ACA633 /* TypeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE971C90631E00ACA633 /* TypeChecker.swift */; };
+		E24CCE9E1C90635000ACA633 /* ScopeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */; };
+		E24CCE9F1C90635000ACA633 /* ScopeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */; };
+		E24CCEA11C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */; };
+		E24CCEA21C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */; };
+		E24CCEA31C906F7600ACA633 /* SemanticAnalysisRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */; };
+		E24CCEA51C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
+		E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */; };
+		E24CCEA81C90B10900ACA633 /* ValidTypeInference.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */; };
+		E24CCEA91C90B10900ACA633 /* ValidTypeInference.ql in Resources */ = {isa = PBXBuildFile; fileRef = E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */; };
+		E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2591D401C7EFB8F00AC42ED /* EvalTests.swift */; };
+		E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
+		E2591D461C7EFD7900AC42ED /* EvalPow.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D451C7EFD7900AC42ED /* EvalPow.ql */; };
+		E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */; };
+		E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D491C7F024400AC42ED /* EvalBool.ql */; };
+		E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */; };
+		E26CC92E1C6B8A260042B5FF /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92D1C6B8A260042B5FF /* QLForm.swift */; };
+		E26CC9341C6B8B030042B5FF /* QLStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* QLStatement.swift */; };
+		E26CC93A1C6B8C8C0042B5FF /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */; };
+		E29A237E1C6D6C6500281E49 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E29A237D1C6D6C6500281E49 /* Podfile */; };
+		E29D0BE71C72766800AB3BCF /* FailQuestion.ql in Resources */ = {isa = PBXBuildFile; fileRef = E29D0BE61C72766800AB3BCF /* FailQuestion.ql */; };
+		E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */ = {isa = PBXBuildFile; fileRef = E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */; };
+		E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */; };
+		E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */; };
+		E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAB01C6CDF350009E869 /* StringExtension.swift */; };
+		E2C4E6291C92E04900F8191F /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E6281C92E04900F8191F /* Context.swift */; };
+		E2C4E62B1C92E06F00F8191F /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */; };
+		E2C4E62D1C92E09A00F8191F /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62C1C92E09A00F8191F /* Interpreter.swift */; };
+		E2C4E62F1C92F56900F8191F /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62C1C92E09A00F8191F /* Interpreter.swift */; };
+		E2C4E6301C92F56C00F8191F /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E6281C92E04900F8191F /* Context.swift */; };
+		E2C4E6311C92F56F00F8191F /* TypeInferer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */; };
+		E2C4E6331C931D2700F8191F /* EvalNeg.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6321C931D2700F8191F /* EvalNeg.ql */; };
+		E2C4E6351C93214500F8191F /* EvalNot.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6341C93214500F8191F /* EvalNot.ql */; };
+		E2C4E6371C93273C00F8191F /* EvalSub.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2C4E6361C93273C00F8191F /* EvalSub.ql */; };
+		E2C4E6391C932C0900F8191F /* FloatWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E6381C932C0900F8191F /* FloatWidget.swift */; };
+		E2C4E63B1C934BB800F8191F /* NSNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */; };
+		E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
+		E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
+		E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CE05FF1C621A1600F2B43B /* Assets.xcassets */; };
+		E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06011C621A1D00F2B43B /* AppDelegate.swift */; };
+		E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE06091C621A6400F2B43B /* LaunchScreen.xib */; };
+		E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE060C1C621C4800F2B43B /* RootView.xib */; };
+		E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D5188E1C6D6F19008030C4 /* UIView.swift */; };
+		E2D5189D1C700215008030C4 /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF30FD1C62380600F5227B /* QLParser.swift */; };
+		E2D518A71C700252008030C4 /* QLExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */; };
+		E2D518A81C700252008030C4 /* QLForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92D1C6B8A260042B5FF /* QLForm.swift */; };
+		E2D518AA1C700252008030C4 /* QLStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CC92F1C6B8B030042B5FF /* QLStatement.swift */; };
+		E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */; };
+		E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E234930D1C6CCE6700B40020 /* SemanticError.swift */; };
+		E2D518AE1C700270008030C4 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23493111C6CD59F00B40020 /* Parser.swift */; };
+		E2D518AF1C700287008030C4 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A5AAB01C6CDF350009E869 /* StringExtension.swift */; };
+		E2D518B01C700292008030C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
+		E2D518B11C7002BE008030C4 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
+		E2D518BD1C70115C008030C4 /* QLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D518BC1C70115C008030C4 /* QLParserTests.swift */; };
+		E2D518C21C701177008030C4 /* IfStatement.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2D518BE1C701177008030C4 /* IfStatement.ql */; };
+		E2D518C31C701177008030C4 /* Binary.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2D518BF1C701177008030C4 /* Binary.ql */; };
+		E2D518C41C701177008030C4 /* Literals.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2D518C01C701177008030C4 /* Literals.ql */; };
+		E2D518C51C701177008030C4 /* Unary.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2D518C11C701177008030C4 /* Unary.ql */; };
+		E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF30FD1C62380600F5227B /* QLParser.swift */; };
+		E2DF31001C6240F800F5227B /* form.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2DF30FF1C6240F800F5227B /* form.ql */; };
+		E2DF31051C62481A00F5227B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31041C62481A00F5227B /* Constants.swift */; };
+		E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */; };
+		E2E3FE0D1C919A8B0007E894 /* Questionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE0C1C919A8B0007E894 /* Questionnaire.swift */; };
+		E2E3FE0F1C919A980007E894 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE0E1C919A980007E894 /* Question.swift */; };
+		E2E3FE111C919AA70007E894 /* QuestionnaireBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */; };
+		E2E3FE271C91A18D0007E894 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1A1C91A18D0007E894 /* BaseView.swift */; };
+		E2E3FE2A1C91A18D0007E894 /* QuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */; };
+		E2E3FE2B1C91A18D0007E894 /* QuestionnaireViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */; };
+		E2E3FE2D1C91A18D0007E894 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE211C91A18D0007E894 /* QuestionView.swift */; };
+		E2E3FE2E1C91A18D0007E894 /* BooleanWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */; };
+		E2E3FE2F1C91A18D0007E894 /* IntegerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */; };
+		E2E3FE301C91A18D0007E894 /* TextWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE251C91A18D0007E894 /* TextWidget.swift */; };
+		E2E3FE311C91A18D0007E894 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE261C91A18D0007E894 /* Widget.swift */; };
+		E2E3FE331C91BD7B0007E894 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3FE321C91BD7B0007E894 /* UITextField.swift */; };
+		E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */; };
+		E2F0A2FA1C75CE5900D0C1AB /* QLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* QLType.swift */; };
+		E2F149A81C75DF88009BB7BC /* QLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F0A2F91C75CE5900D0C1AB /* QLType.swift */; };
+		E2FB4E041C8842DF00BDC988 /* QLNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FB4E031C8842DF00BDC988 /* QLNode.swift */; };
+		E2FB4E051C8843D100BDC988 /* QLNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FB4E031C8842DF00BDC988 /* QLNode.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E2C8D9F41C761813005F1C41 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 57167F011B99E66800F35A29;
+			remoteInfo = SwiftParsec;
+		};
+		E2CE05EB1C62191F00F2B43B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2CE05CE1C62191F00F2B43B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E2CE05D51C62191F00F2B43B;
+			remoteInfo = QLSwift;
+		};
+		E2DF30F21C62315D00F5227B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57167F021B99E66800F35A29;
+			remoteInfo = SwiftParsec;
+		};
+		E2DF30F41C62315D00F5227B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57167F0C1B99E66800F35A29;
+			remoteInfo = SwiftParsecTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E2C8D9F61C761814005F1C41 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1D015104EEC687B30D114585 /* Pods-QLSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QLSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-QLSwift/Pods-QLSwift.release.xcconfig"; sourceTree = "<group>"; };
+		47AD227412EA3A792D5B5DE7 /* Pods-QLSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QLSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QLSwift/Pods-QLSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		4A4D07FDC44ABEC2E420B51C /* Pods_QLSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QLSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E20B2B071C884FD00096BA51 /* QLStatementVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLStatementVisitor.swift; path = Src/Parser/AST/Visitors/QLStatementVisitor.swift; sourceTree = "<group>"; };
+		E20B2B0B1C884FEF0096BA51 /* QLTypeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLTypeVisitor.swift; path = Src/Parser/AST/Visitors/QLTypeVisitor.swift; sourceTree = "<group>"; };
+		E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpressionVisitor.swift; path = Src/Parser/AST/Visitors/QLExpressionVisitor.swift; sourceTree = "<group>"; };
+		E20B2B171C8881C20096BA51 /* QLIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLIdentifier.swift; path = Src/Parser/AST/QLIdentifier.swift; sourceTree = "<group>"; };
+		E20B2B201C888F660096BA51 /* QLLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteral.swift; path = Src/Parser/AST/QLLiteral.swift; sourceTree = "<group>"; };
+		E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLiteralVisitor.swift; path = Src/Parser/AST/Visitors/QLLiteralVisitor.swift; sourceTree = "<group>"; };
+		E21DC3EE1C6CE095005564FE /* ChooseFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChooseFormView.xib; path = Views/ChooseFormView.xib; sourceTree = "<group>"; };
+		E21DC3F21C6CE127005564FE /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = Src/ViewControllers/BaseViewController.swift; sourceTree = "<group>"; };
+		E21DC3F61C6CE6C3005564FE /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewController.swift; path = Src/ViewControllers/FormViewController.swift; sourceTree = "<group>"; };
+		E21DC3F81C6CE6E8005564FE /* FormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FormView.xib; path = Views/FormView.xib; sourceTree = "<group>"; };
+		E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypedValidForm.ql; path = Resources/QL/SemanticAnalyzerTests/TypedValidForm.ql; sourceTree = "<group>"; };
+		E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypedInvalidForms.ql; path = Resources/QL/SemanticAnalyzerTests/TypedInvalidForms.ql; sourceTree = "<group>"; };
+		E21F69101C747CBE00EB9E09 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "Supporting Files/Utils.swift"; sourceTree = "<group>"; };
+		E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalyzerTests.swift; path = Src/Parser/SemanticAnalyzerTests.swift; sourceTree = "<group>"; };
+		E2270DB81C73C22800E5FC2A /* FormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormTests.swift; path = Src/Parser/FormTests.swift; sourceTree = "<group>"; };
+		E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleForms.ql; path = Resources/QL/FormTests/SimpleForms.ql; sourceTree = "<group>"; };
+		E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalyzer.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalyzer.swift; sourceTree = "<group>"; };
+		E234930D1C6CCE6700B40020 /* SemanticError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticError.swift; path = Src/Parser/SemanticAnalyzer/SemanticError.swift; sourceTree = "<group>"; };
+		E23493111C6CD59F00B40020 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Src/Parser/Parser.swift; sourceTree = "<group>"; };
+		E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLNodeVisitor.swift; path = Src/Parser/AST/Visitors/QLNodeVisitor.swift; sourceTree = "<group>"; };
+		E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SemanticAnalysisRule.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/SemanticAnalysisRule.swift; sourceTree = "<group>"; };
+		E24CCE971C90631E00ACA633 /* TypeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/TypeChecker.swift; sourceTree = "<group>"; };
+		E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScopeChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/ScopeChecker.swift; sourceTree = "<group>"; };
+		E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CyclicDependencyChecker.swift; path = Src/Parser/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift; sourceTree = "<group>"; };
+		E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ScopedInvalid.ql; path = Resources/QL/SemanticAnalyzerTests/ScopedInvalid.ql; sourceTree = "<group>"; };
+		E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ValidTypeInference.ql; path = Resources/QL/SemanticAnalyzerTests/ValidTypeInference.ql; sourceTree = "<group>"; };
+		E2591D401C7EFB8F00AC42ED /* EvalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EvalTests.swift; path = Src/Parser/EvalTests.swift; sourceTree = "<group>"; };
+		E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalAdd.ql; path = Resources/QL/EvalTests/EvalAdd.ql; sourceTree = "<group>"; };
+		E2591D451C7EFD7900AC42ED /* EvalPow.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalPow.ql; path = Resources/QL/EvalTests/EvalPow.ql; sourceTree = "<group>"; };
+		E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalPrec.ql; path = Resources/QL/EvalTests/EvalPrec.ql; sourceTree = "<group>"; };
+		E2591D491C7F024400AC42ED /* EvalBool.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalBool.ql; path = Resources/QL/EvalTests/EvalBool.ql; sourceTree = "<group>"; };
+		E26CC92D1C6B8A260042B5FF /* QLForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLForm.swift; path = Src/Parser/AST/QLForm.swift; sourceTree = "<group>"; };
+		E26CC92F1C6B8B030042B5FF /* QLStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLStatement.swift; path = Src/Parser/AST/QLStatement.swift; sourceTree = "<group>"; };
+		E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExpression.swift; path = Src/Parser/AST/QLExpression.swift; sourceTree = "<group>"; };
+		E29A237D1C6D6C6500281E49 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E29D0BE61C72766800AB3BCF /* FailQuestion.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FailQuestion.ql; path = Resources/QL/QLParserTests/FailQuestion.ql; sourceTree = "<group>"; };
+		E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ParseMultiple.ql; path = Resources/QL/QLParserTests/ParseMultiple.ql; sourceTree = "<group>"; };
+		E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseFormViewController.swift; path = Src/ViewControllers/ChooseFormViewController.swift; sourceTree = "<group>"; };
+		E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootViewController.swift; path = Src/ViewControllers/RootViewController.swift; sourceTree = "<group>"; };
+		E2A5AAB01C6CDF350009E869 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Src/Extensions/StringExtension.swift; sourceTree = "<group>"; };
+		E2C4E6281C92E04900F8191F /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Context.swift; path = Src/Parser/Interpreter/Context.swift; sourceTree = "<group>"; };
+		E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypeInferer.swift; path = Src/Parser/Interpreter/TypeInferer.swift; sourceTree = "<group>"; };
+		E2C4E62C1C92E09A00F8191F /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Interpreter.swift; path = Src/Parser/Interpreter/Interpreter.swift; sourceTree = "<group>"; };
+		E2C4E6321C931D2700F8191F /* EvalNeg.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalNeg.ql; path = Resources/QL/EvalTests/EvalNeg.ql; sourceTree = "<group>"; };
+		E2C4E6341C93214500F8191F /* EvalNot.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalNot.ql; path = Resources/QL/EvalTests/EvalNot.ql; sourceTree = "<group>"; };
+		E2C4E6361C93273C00F8191F /* EvalSub.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EvalSub.ql; path = Resources/QL/EvalTests/EvalSub.ql; sourceTree = "<group>"; };
+		E2C4E6381C932C0900F8191F /* FloatWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatWidget.swift; sourceTree = "<group>"; };
+		E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSNumberFormatter.swift; path = Src/Extensions/NSNumberFormatter.swift; sourceTree = "<group>"; };
+		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
+		E2CE05F01C62191F00F2B43B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2CE05FF1C621A1600F2B43B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
+		E2CE06011C621A1D00F2B43B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Src/AppDelegate.swift; sourceTree = "<group>"; };
+		E2CE06051C621A2200F2B43B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
+		E2CE06091C621A6400F2B43B /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = Views/LaunchScreen.xib; sourceTree = "<group>"; };
+		E2CE060C1C621C4800F2B43B /* RootView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RootView.xib; path = Views/RootView.xib; sourceTree = "<group>"; };
+		E2D5188E1C6D6F19008030C4 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIView.swift; path = Src/Extensions/UIView.swift; sourceTree = "<group>"; };
+		E2D518BC1C70115C008030C4 /* QLParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLParserTests.swift; path = Src/Parser/QLParserTests.swift; sourceTree = "<group>"; };
+		E2D518BE1C701177008030C4 /* IfStatement.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = IfStatement.ql; path = Resources/QL/QLParserTests/IfStatement.ql; sourceTree = "<group>"; };
+		E2D518BF1C701177008030C4 /* Binary.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Binary.ql; path = Resources/QL/QLParserTests/Binary.ql; sourceTree = "<group>"; };
+		E2D518C01C701177008030C4 /* Literals.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Literals.ql; path = Resources/QL/QLParserTests/Literals.ql; sourceTree = "<group>"; };
+		E2D518C11C701177008030C4 /* Unary.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Unary.ql; path = Resources/QL/QLParserTests/Unary.ql; sourceTree = "<group>"; };
+		E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftParsec.xcodeproj; path = QLSwift/Resources/Frameworks/SwiftParsec/SwiftParsec.xcodeproj; sourceTree = SOURCE_ROOT; };
+		E2DF30FD1C62380600F5227B /* QLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLParser.swift; path = Src/Parser/QLParser/QLParser.swift; sourceTree = "<group>"; };
+		E2DF30FF1C6240F800F5227B /* form.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = form.ql; path = Resources/form.ql; sourceTree = "<group>"; };
+		E2DF31041C62481A00F5227B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = "Supporting Files/Constants.swift"; sourceTree = "<group>"; };
+		E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLLanguageDefinition.swift; path = Src/Parser/QLParser/QLLanguageDefinition.swift; sourceTree = "<group>"; };
+		E2E3FE0C1C919A8B0007E894 /* Questionnaire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Questionnaire.swift; path = Src/Questionnaire/Questionnaire.swift; sourceTree = "<group>"; };
+		E2E3FE0E1C919A980007E894 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Question.swift; path = Src/Questionnaire/Question.swift; sourceTree = "<group>"; };
+		E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionnaireBuilder.swift; path = Src/Questionnaire/QuestionnaireBuilder.swift; sourceTree = "<group>"; };
+		E2E3FE1A1C91A18D0007E894 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireView.swift; sourceTree = "<group>"; };
+		E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionnaireViewBuilder.swift; sourceTree = "<group>"; };
+		E2E3FE211C91A18D0007E894 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanWidget.swift; sourceTree = "<group>"; };
+		E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerWidget.swift; sourceTree = "<group>"; };
+		E2E3FE251C91A18D0007E894 /* TextWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWidget.swift; sourceTree = "<group>"; };
+		E2E3FE261C91A18D0007E894 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
+		E2E3FE321C91BD7B0007E894 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITextField.swift; path = Src/Extensions/UITextField.swift; sourceTree = "<group>"; };
+		E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CyclicDependency.ql; path = Resources/QL/SemanticAnalyzerTests/CyclicDependency.ql; sourceTree = "<group>"; };
+		E2F0A2F91C75CE5900D0C1AB /* QLType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLType.swift; path = Src/Parser/AST/QLType.swift; sourceTree = "<group>"; };
+		E2FB4E031C8842DF00BDC988 /* QLNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLNode.swift; path = Src/Parser/AST/QLNode.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E2CE05D31C62191F00F2B43B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */,
+				0FA83CA2CB0E7E618D71379C /* Pods_QLSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2CE05E71C62191F00F2B43B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2D518B11C7002BE008030C4 /* SwiftParsec.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2C81E8430F9FDC528D90C99C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A4D07FDC44ABEC2E420B51C /* Pods_QLSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4174DF93E29B400C1CC791AE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				47AD227412EA3A792D5B5DE7 /* Pods-QLSwift.debug.xcconfig */,
+				1D015104EEC687B30D114585 /* Pods-QLSwift.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E21F69081C73CEEB00EB9E09 /* SemanticAnalyzerTests */ = {
+			isa = PBXGroup;
+			children = (
+				E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */,
+				E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */,
+				E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */,
+				E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */,
+				E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */,
+			);
+			name = SemanticAnalyzerTests;
+			sourceTree = "<group>";
+		};
+		E2270DBA1C73C27A00E5FC2A /* FormTests */ = {
+			isa = PBXGroup;
+			children = (
+				E2270DBB1C73C2CC00E5FC2A /* SimpleForms.ql */,
+			);
+			name = FormTests;
+			sourceTree = "<group>";
+		};
+		E234930A1C6CB70F00B40020 /* SemanticAnalyzer */ = {
+			isa = PBXGroup;
+			children = (
+				E24CCE941C9060F800ACA633 /* SemanticAnalysisRules */,
+				E234930B1C6CB73000B40020 /* SemanticAnalyzer.swift */,
+				E234930D1C6CCE6700B40020 /* SemanticError.swift */,
+			);
+			name = SemanticAnalyzer;
+			sourceTree = "<group>";
+		};
+		E24CCE941C9060F800ACA633 /* SemanticAnalysisRules */ = {
+			isa = PBXGroup;
+			children = (
+				E24CCEA01C90636800ACA633 /* CyclicDependencyChecker.swift */,
+				E24CCE9D1C90635000ACA633 /* ScopeChecker.swift */,
+				E24CCE951C9062A700ACA633 /* SemanticAnalysisRule.swift */,
+				E24CCE971C90631E00ACA633 /* TypeChecker.swift */,
+			);
+			name = SemanticAnalysisRules;
+			sourceTree = "<group>";
+		};
+		E2591D421C7EFBDB00AC42ED /* EvalTests */ = {
+			isa = PBXGroup;
+			children = (
+				E2591D431C7EFBFE00AC42ED /* EvalAdd.ql */,
+				E2591D491C7F024400AC42ED /* EvalBool.ql */,
+				E2C4E6321C931D2700F8191F /* EvalNeg.ql */,
+				E2C4E6341C93214500F8191F /* EvalNot.ql */,
+				E2591D451C7EFD7900AC42ED /* EvalPow.ql */,
+				E2591D471C7EFFEF00AC42ED /* EvalPrec.ql */,
+				E2C4E6361C93273C00F8191F /* EvalSub.ql */,
+			);
+			name = EvalTests;
+			sourceTree = "<group>";
+		};
+		E264170A1C622BD3006F9056 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */,
+			);
+			name = Frameworks;
+			path = Resources/Libraries;
+			sourceTree = "<group>";
+		};
+		E26CC92A1C6B7CF40042B5FF /* AST */ = {
+			isa = PBXGroup;
+			children = (
+				E2FB4E061C88472C00BDC988 /* Visitors */,
+				E26CC9391C6B8C8C0042B5FF /* QLExpression.swift */,
+				E26CC92D1C6B8A260042B5FF /* QLForm.swift */,
+				E20B2B171C8881C20096BA51 /* QLIdentifier.swift */,
+				E20B2B201C888F660096BA51 /* QLLiteral.swift */,
+				E2FB4E031C8842DF00BDC988 /* QLNode.swift */,
+				E26CC92F1C6B8B030042B5FF /* QLStatement.swift */,
+				E2F0A2F91C75CE5900D0C1AB /* QLType.swift */,
+			);
+			name = AST;
+			sourceTree = "<group>";
+		};
+		E2A5AAAB1C6CDEBF0009E869 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E21DC3F21C6CE127005564FE /* BaseViewController.swift */,
+				E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */,
+				E21DC3F61C6CE6C3005564FE /* FormViewController.swift */,
+				E2A5AAAD1C6CDF010009E869 /* RootViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		E2C4E6261C92DFCD00F8191F /* Interpreter */ = {
+			isa = PBXGroup;
+			children = (
+				E2C4E6281C92E04900F8191F /* Context.swift */,
+				E2C4E62C1C92E09A00F8191F /* Interpreter.swift */,
+				E2C4E62A1C92E06F00F8191F /* TypeInferer.swift */,
+			);
+			name = Interpreter;
+			sourceTree = "<group>";
+		};
+		E2CE05CD1C62191F00F2B43B = {
+			isa = PBXGroup;
+			children = (
+				E2CE05D81C62191F00F2B43B /* QLSwift */,
+				E2CE05ED1C62191F00F2B43B /* QLSwiftTests */,
+				E2CE05D71C62191F00F2B43B /* Products */,
+				4174DF93E29B400C1CC791AE /* Pods */,
+				2C81E8430F9FDC528D90C99C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E2CE05D71C62191F00F2B43B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2CE05D61C62191F00F2B43B /* QLSwift.app */,
+				E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E2CE05D81C62191F00F2B43B /* QLSwift */ = {
+			isa = PBXGroup;
+			children = (
+				E2CE05FB1C62196500F2B43B /* Src */,
+				E2CE05FC1C62199200F2B43B /* Views */,
+				E2CE05FA1C62195800F2B43B /* Supporting Files */,
+				E2CE05F91C62194A00F2B43B /* Resources */,
+				E29A237D1C6D6C6500281E49 /* Podfile */,
+			);
+			path = QLSwift;
+			sourceTree = "<group>";
+		};
+		E2CE05ED1C62191F00F2B43B /* QLSwiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				E2D518941C6FF9E1008030C4 /* Src */,
+				E2D518B21C700782008030C4 /* Supporting Files */,
+				E2D518991C6FFB94008030C4 /* Resources */,
+				E2CE05F01C62191F00F2B43B /* Info.plist */,
+				E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */,
+			);
+			path = QLSwiftTests;
+			sourceTree = "<group>";
+		};
+		E2CE05F91C62194A00F2B43B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E264170A1C622BD3006F9056 /* Frameworks */,
+				E2CE05FF1C621A1600F2B43B /* Assets.xcassets */,
+				E2DF30FF1C6240F800F5227B /* form.ql */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		E2CE05FA1C62195800F2B43B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E2CE06051C621A2200F2B43B /* Info.plist */,
+				E2DF31041C62481A00F5227B /* Constants.swift */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E2CE05FB1C62196500F2B43B /* Src */ = {
+			isa = PBXGroup;
+			children = (
+				E2CE06011C621A1D00F2B43B /* AppDelegate.swift */,
+				E2DF31011C62448900F5227B /* Extensions */,
+				E2E3FE191C91A18D0007E894 /* GUI */,
+				E2DF30F91C6237E600F5227B /* Parser */,
+				E2E3FE0B1C919A650007E894 /* Questionnaire */,
+				E2A5AAAB1C6CDEBF0009E869 /* ViewControllers */,
+			);
+			name = Src;
+			sourceTree = "<group>";
+		};
+		E2CE05FC1C62199200F2B43B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E21DC3EE1C6CE095005564FE /* ChooseFormView.xib */,
+				E2CE06091C621A6400F2B43B /* LaunchScreen.xib */,
+				E2CE060C1C621C4800F2B43B /* RootView.xib */,
+				E21DC3F81C6CE6E8005564FE /* FormView.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		E2D518941C6FF9E1008030C4 /* Src */ = {
+			isa = PBXGroup;
+			children = (
+				E2D518951C6FF9ED008030C4 /* Parser */,
+			);
+			name = Src;
+			sourceTree = "<group>";
+		};
+		E2D518951C6FF9ED008030C4 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				E2591D401C7EFB8F00AC42ED /* EvalTests.swift */,
+				E2270DB81C73C22800E5FC2A /* FormTests.swift */,
+				E2D518BC1C70115C008030C4 /* QLParserTests.swift */,
+				E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
+		E2D518991C6FFB94008030C4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E2D5189A1C6FFBB0008030C4 /* QL */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		E2D5189A1C6FFBB0008030C4 /* QL */ = {
+			isa = PBXGroup;
+			children = (
+				E2591D421C7EFBDB00AC42ED /* EvalTests */,
+				E2270DBA1C73C27A00E5FC2A /* FormTests */,
+				E2D518BB1C70112A008030C4 /* QLParserTests */,
+				E21F69081C73CEEB00EB9E09 /* SemanticAnalyzerTests */,
+			);
+			name = QL;
+			sourceTree = "<group>";
+		};
+		E2D518B21C700782008030C4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E21F69101C747CBE00EB9E09 /* Utils.swift */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E2D518BB1C70112A008030C4 /* QLParserTests */ = {
+			isa = PBXGroup;
+			children = (
+				E29D0BE61C72766800AB3BCF /* FailQuestion.ql */,
+				E2D518BE1C701177008030C4 /* IfStatement.ql */,
+				E2D518BF1C701177008030C4 /* Binary.ql */,
+				E2D518C01C701177008030C4 /* Literals.ql */,
+				E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */,
+				E2D518C11C701177008030C4 /* Unary.ql */,
+			);
+			name = QLParserTests;
+			sourceTree = "<group>";
+		};
+		E2DF30EE1C62315D00F5227B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF30F31C62315D00F5227B /* SwiftParsec.framework */,
+				E2DF30F51C62315D00F5227B /* SwiftParsecTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E2DF30F91C6237E600F5227B /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				E23493111C6CD59F00B40020 /* Parser.swift */,
+				E26CC92A1C6B7CF40042B5FF /* AST */,
+				E2C4E6261C92DFCD00F8191F /* Interpreter */,
+				E2DF30FC1C6237EB00F5227B /* QLParser */,
+				E234930A1C6CB70F00B40020 /* SemanticAnalyzer */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
+		E2DF30FC1C6237EB00F5227B /* QLParser */ = {
+			isa = PBXGroup;
+			children = (
+				E2DF30FD1C62380600F5227B /* QLParser.swift */,
+				E2DF31061C62771D00F5227B /* QLLanguageDefinition.swift */,
+			);
+			name = QLParser;
+			sourceTree = "<group>";
+		};
+		E2DF31011C62448900F5227B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E2A5AAB01C6CDF350009E869 /* StringExtension.swift */,
+				E2D5188E1C6D6F19008030C4 /* UIView.swift */,
+				E2E3FE321C91BD7B0007E894 /* UITextField.swift */,
+				E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		E2E3FE0B1C919A650007E894 /* Questionnaire */ = {
+			isa = PBXGroup;
+			children = (
+				E2E3FE0E1C919A980007E894 /* Question.swift */,
+				E2E3FE0C1C919A8B0007E894 /* Questionnaire.swift */,
+				E2E3FE101C919AA70007E894 /* QuestionnaireBuilder.swift */,
+			);
+			name = Questionnaire;
+			sourceTree = "<group>";
+		};
+		E2E3FE191C91A18D0007E894 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				E2E3FE1B1C91A18D0007E894 /* Form */,
+				E2E3FE1A1C91A18D0007E894 /* BaseView.swift */,
+			);
+			name = GUI;
+			path = Src/GUI;
+			sourceTree = "<group>";
+		};
+		E2E3FE1B1C91A18D0007E894 /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				E2E3FE221C91A18D0007E894 /* Widgets */,
+				E2E3FE1E1C91A18D0007E894 /* QuestionnaireView.swift */,
+				E2E3FE1F1C91A18D0007E894 /* QuestionnaireViewBuilder.swift */,
+				E2E3FE211C91A18D0007E894 /* QuestionView.swift */,
+			);
+			path = Form;
+			sourceTree = "<group>";
+		};
+		E2E3FE221C91A18D0007E894 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				E2E3FE231C91A18D0007E894 /* BooleanWidget.swift */,
+				E2C4E6381C932C0900F8191F /* FloatWidget.swift */,
+				E2E3FE241C91A18D0007E894 /* IntegerWidget.swift */,
+				E2E3FE251C91A18D0007E894 /* TextWidget.swift */,
+				E2E3FE261C91A18D0007E894 /* Widget.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		E2FB4E061C88472C00BDC988 /* Visitors */ = {
+			isa = PBXGroup;
+			children = (
+				E20B2B111C8851950096BA51 /* QLExpressionVisitor.swift */,
+				E20B2B231C8891080096BA51 /* QLLiteralVisitor.swift */,
+				E24CCE901C90498600ACA633 /* QLNodeVisitor.swift */,
+				E20B2B071C884FD00096BA51 /* QLStatementVisitor.swift */,
+				E20B2B0B1C884FEF0096BA51 /* QLTypeVisitor.swift */,
+			);
+			name = Visitors;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E2CE05D51C62191F00F2B43B /* QLSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2CE05F31C62191F00F2B43B /* Build configuration list for PBXNativeTarget "QLSwift" */;
+			buildPhases = (
+				9CA4650924F24ACF2B8C9ACE /* Check Pods Manifest.lock */,
+				E2CE05D21C62191F00F2B43B /* Sources */,
+				E2CE05D31C62191F00F2B43B /* Frameworks */,
+				E2CE05D41C62191F00F2B43B /* Resources */,
+				B07A052DA8AFFCC2903B6A4C /* Embed Pods Frameworks */,
+				E3A29C4A9E774C21A2BDAEF5 /* Copy Pods Resources */,
+				E2C8D9F61C761814005F1C41 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E2C8D9F51C761813005F1C41 /* PBXTargetDependency */,
+			);
+			name = QLSwift;
+			productName = QLSwift;
+			productReference = E2CE05D61C62191F00F2B43B /* QLSwift.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E2CE05E91C62191F00F2B43B /* QLSwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2CE05F61C62191F00F2B43B /* Build configuration list for PBXNativeTarget "QLSwiftTests" */;
+			buildPhases = (
+				E2CE05E61C62191F00F2B43B /* Sources */,
+				E2CE05E71C62191F00F2B43B /* Frameworks */,
+				E2CE05E81C62191F00F2B43B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E2CE05EC1C62191F00F2B43B /* PBXTargetDependency */,
+			);
+			name = QLSwiftTests;
+			productName = QLSwiftTests;
+			productReference = E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E2CE05CE1C62191F00F2B43B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				TargetAttributes = {
+					E2CE05D51C62191F00F2B43B = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 6463X5VW9T;
+					};
+					E2CE05E91C62191F00F2B43B = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = E2CE05D51C62191F00F2B43B;
+					};
+				};
+			};
+			buildConfigurationList = E2CE05D11C62191F00F2B43B /* Build configuration list for PBXProject "QLSwift" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E2CE05CD1C62191F00F2B43B;
+			productRefGroup = E2CE05D71C62191F00F2B43B /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E2DF30EE1C62315D00F5227B /* Products */;
+					ProjectRef = E2DF30ED1C62315D00F5227B /* SwiftParsec.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				E2CE05D51C62191F00F2B43B /* QLSwift */,
+				E2CE05E91C62191F00F2B43B /* QLSwiftTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E2DF30F31C62315D00F5227B /* SwiftParsec.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftParsec.framework;
+			remoteRef = E2DF30F21C62315D00F5227B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E2DF30F51C62315D00F5227B /* SwiftParsecTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwiftParsecTests.xctest;
+			remoteRef = E2DF30F41C62315D00F5227B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E2CE05D41C62191F00F2B43B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */,
+				E24CCEA51C90AD0100ACA633 /* ScopedInvalid.ql in Resources */,
+				E2591D4B1C7F20A800AC42ED /* EvalAdd.ql in Resources */,
+				E24CCEA81C90B10900ACA633 /* ValidTypeInference.ql in Resources */,
+				E2DF31001C6240F800F5227B /* form.ql in Resources */,
+				E29A237E1C6D6C6500281E49 /* Podfile in Resources */,
+				E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */,
+				E21DC3EF1C6CE095005564FE /* ChooseFormView.xib in Resources */,
+				E21DC3F91C6CE6E8005564FE /* FormView.xib in Resources */,
+				E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2CE05E81C62191F00F2B43B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2591D4A1C7F024400AC42ED /* EvalBool.ql in Resources */,
+				E24CCEA91C90B10900ACA633 /* ValidTypeInference.ql in Resources */,
+				E2C4E6351C93214500F8191F /* EvalNot.ql in Resources */,
+				E2F0A2F61C74CBC900D0C1AB /* CyclicDependency.ql in Resources */,
+				E2591D441C7EFBFE00AC42ED /* EvalAdd.ql in Resources */,
+				E2D518C51C701177008030C4 /* Unary.ql in Resources */,
+				E2591D481C7EFFEF00AC42ED /* EvalPrec.ql in Resources */,
+				E2D518C31C701177008030C4 /* Binary.ql in Resources */,
+				E2C4E6371C93273C00F8191F /* EvalSub.ql in Resources */,
+				E21F690C1C73D19C00EB9E09 /* TypedInvalidForms.ql in Resources */,
+				E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */,
+				E2D518C41C701177008030C4 /* Literals.ql in Resources */,
+				E2591D461C7EFD7900AC42ED /* EvalPow.ql in Resources */,
+				E2270DBC1C73C2CC00E5FC2A /* SimpleForms.ql in Resources */,
+				E2C4E6331C931D2700F8191F /* EvalNeg.ql in Resources */,
+				E21F690A1C73CF1300EB9E09 /* TypedValidForm.ql in Resources */,
+				E2D518C21C701177008030C4 /* IfStatement.ql in Resources */,
+				E24CCEA61C90AD0100ACA633 /* ScopedInvalid.ql in Resources */,
+				E29D0BE71C72766800AB3BCF /* FailQuestion.ql in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9CA4650924F24ACF2B8C9ACE /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B07A052DA8AFFCC2903B6A4C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QLSwift/Pods-QLSwift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E3A29C4A9E774C21A2BDAEF5 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QLSwift/Pods-QLSwift-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E2CE05D21C62191F00F2B43B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E26CC9341C6B8B030042B5FF /* QLStatement.swift in Sources */,
+				E26CC93A1C6B8C8C0042B5FF /* QLExpression.swift in Sources */,
+				E2E3FE301C91A18D0007E894 /* TextWidget.swift in Sources */,
+				E2FB4E041C8842DF00BDC988 /* QLNode.swift in Sources */,
+				E2E3FE2B1C91A18D0007E894 /* QuestionnaireViewBuilder.swift in Sources */,
+				E20B2B241C8891080096BA51 /* QLLiteralVisitor.swift in Sources */,
+				E2E3FE2D1C91A18D0007E894 /* QuestionView.swift in Sources */,
+				E2E3FE311C91A18D0007E894 /* Widget.swift in Sources */,
+				E24CCE9E1C90635000ACA633 /* ScopeChecker.swift in Sources */,
+				E21DC3F31C6CE127005564FE /* BaseViewController.swift in Sources */,
+				E24CCEA11C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */,
+				E2DF31051C62481A00F5227B /* Constants.swift in Sources */,
+				E2D5188F1C6D6F19008030C4 /* UIView.swift in Sources */,
+				E20B2B211C888F660096BA51 /* QLLiteral.swift in Sources */,
+				E2A5AAB11C6CDF350009E869 /* StringExtension.swift in Sources */,
+				E2E3FE271C91A18D0007E894 /* BaseView.swift in Sources */,
+				E2F0A2FA1C75CE5900D0C1AB /* QLType.swift in Sources */,
+				E2DF31071C62771D00F5227B /* QLLanguageDefinition.swift in Sources */,
+				E2E3FE111C919AA70007E894 /* QuestionnaireBuilder.swift in Sources */,
+				E26CC92E1C6B8A260042B5FF /* QLForm.swift in Sources */,
+				E20B2B081C884FD00096BA51 /* QLStatementVisitor.swift in Sources */,
+				E2A5AAAF1C6CDF010009E869 /* RootViewController.swift in Sources */,
+				E2E3FE331C91BD7B0007E894 /* UITextField.swift in Sources */,
+				E20B2B121C8851950096BA51 /* QLExpressionVisitor.swift in Sources */,
+				E234930E1C6CCE6700B40020 /* SemanticError.swift in Sources */,
+				E234930C1C6CB73000B40020 /* SemanticAnalyzer.swift in Sources */,
+				E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */,
+				E24CCE961C9062A700ACA633 /* SemanticAnalysisRule.swift in Sources */,
+				E24CCE981C90631E00ACA633 /* TypeChecker.swift in Sources */,
+				E2DF30FE1C62380600F5227B /* QLParser.swift in Sources */,
+				E2E3FE0D1C919A8B0007E894 /* Questionnaire.swift in Sources */,
+				E2C4E63B1C934BB800F8191F /* NSNumberFormatter.swift in Sources */,
+				E2C4E6291C92E04900F8191F /* Context.swift in Sources */,
+				E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */,
+				E21DC3F71C6CE6C3005564FE /* FormViewController.swift in Sources */,
+				E2E3FE2A1C91A18D0007E894 /* QuestionnaireView.swift in Sources */,
+				E23493121C6CD59F00B40020 /* Parser.swift in Sources */,
+				E2E3FE0F1C919A980007E894 /* Question.swift in Sources */,
+				E2C4E62D1C92E09A00F8191F /* Interpreter.swift in Sources */,
+				E2E3FE2F1C91A18D0007E894 /* IntegerWidget.swift in Sources */,
+				E20B2B181C8881C20096BA51 /* QLIdentifier.swift in Sources */,
+				E20B2B0E1C884FEF0096BA51 /* QLTypeVisitor.swift in Sources */,
+				E2C4E62B1C92E06F00F8191F /* TypeInferer.swift in Sources */,
+				E2E3FE2E1C91A18D0007E894 /* BooleanWidget.swift in Sources */,
+				E2C4E6391C932C0900F8191F /* FloatWidget.swift in Sources */,
+				E24CCE911C90498600ACA633 /* QLNodeVisitor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2CE05E61C62191F00F2B43B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2D518A71C700252008030C4 /* QLExpression.swift in Sources */,
+				E20B2B0F1C884FEF0096BA51 /* QLTypeVisitor.swift in Sources */,
+				E2D518B01C700292008030C4 /* Constants.swift in Sources */,
+				E2FB4E051C8843D100BDC988 /* QLNode.swift in Sources */,
+				E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */,
+				E2C4E6301C92F56C00F8191F /* Context.swift in Sources */,
+				E2D518AB1C70025E008030C4 /* SemanticAnalyzer.swift in Sources */,
+				E24CCEA21C90636800ACA633 /* CyclicDependencyChecker.swift in Sources */,
+				E2D518AF1C700287008030C4 /* StringExtension.swift in Sources */,
+				E2270DB51C73C1B400E5FC2A /* SemanticAnalyzerTests.swift in Sources */,
+				E24CCE9F1C90635000ACA633 /* ScopeChecker.swift in Sources */,
+				E2D518A81C700252008030C4 /* QLForm.swift in Sources */,
+				E2D518BD1C70115C008030C4 /* QLParserTests.swift in Sources */,
+				E20B2B101C884FF60096BA51 /* QLStatementVisitor.swift in Sources */,
+				E2D5189D1C700215008030C4 /* QLParser.swift in Sources */,
+				E2F149A81C75DF88009BB7BC /* QLType.swift in Sources */,
+				E2270DB91C73C22800E5FC2A /* FormTests.swift in Sources */,
+				E2591D411C7EFB8F00AC42ED /* EvalTests.swift in Sources */,
+				E2D518AE1C700270008030C4 /* Parser.swift in Sources */,
+				E20B2B251C8891080096BA51 /* QLLiteralVisitor.swift in Sources */,
+				E24CCE931C9049CC00ACA633 /* QLNodeVisitor.swift in Sources */,
+				E24CCEA31C906F7600ACA633 /* SemanticAnalysisRule.swift in Sources */,
+				E2D518AC1C70025E008030C4 /* SemanticError.swift in Sources */,
+				E20B2B191C8881C20096BA51 /* QLIdentifier.swift in Sources */,
+				E2C4E6311C92F56F00F8191F /* TypeInferer.swift in Sources */,
+				E2C4E62F1C92F56900F8191F /* Interpreter.swift in Sources */,
+				E20B2B221C888F660096BA51 /* QLLiteral.swift in Sources */,
+				E2D518AA1C700252008030C4 /* QLStatement.swift in Sources */,
+				E21F69111C747CBE00EB9E09 /* Utils.swift in Sources */,
+				E20B2B131C8851950096BA51 /* QLExpressionVisitor.swift in Sources */,
+				E24CCE9C1C90633900ACA633 /* TypeChecker.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E2C8D9F51C761813005F1C41 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftParsec;
+			targetProxy = E2C8D9F41C761813005F1C41 /* PBXContainerItemProxy */;
+		};
+		E2CE05EC1C62191F00F2B43B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E2CE05D51C62191F00F2B43B /* QLSwift */;
+			targetProxy = E2CE05EB1C62191F00F2B43B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E2CE05F11C62191F00F2B43B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E2CE05F21C62191F00F2B43B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E2CE05F41C62191F00F2B43B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47AD227412EA3A792D5B5DE7 /* Pods-QLSwift.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/QLSwift/Resources/Frameworks",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/QLSwift/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nl.tomvanduist.QLSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E2CE05F51C62191F00F2B43B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D015104EEC687B30D114585 /* Pods-QLSwift.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/QLSwift/Resources/Frameworks",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/QLSwift/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nl.tomvanduist.QLSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E2CE05F71C62191F00F2B43B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = QLSwiftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nl.tomvanduist.QLSwiftTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QLSwift.app/QLSwift";
+			};
+			name = Debug;
+		};
+		E2CE05F81C62191F00F2B43B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = QLSwiftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = nl.tomvanduist.QLSwiftTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QLSwift.app/QLSwift";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E2CE05D11C62191F00F2B43B /* Build configuration list for PBXProject "QLSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2CE05F11C62191F00F2B43B /* Debug */,
+				E2CE05F21C62191F00F2B43B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2CE05F31C62191F00F2B43B /* Build configuration list for PBXNativeTarget "QLSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2CE05F41C62191F00F2B43B /* Debug */,
+				E2CE05F51C62191F00F2B43B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2CE05F61C62191F00F2B43B /* Build configuration list for PBXNativeTarget "QLSwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2CE05F71C62191F00F2B43B /* Debug */,
+				E2CE05F81C62191F00F2B43B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E2CE05CE1C62191F00F2B43B /* Project object */;
+}
