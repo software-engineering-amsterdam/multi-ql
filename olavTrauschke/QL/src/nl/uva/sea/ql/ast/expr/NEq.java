@@ -35,7 +35,8 @@ public class NEq extends ComparisonExpr {
     public BooleanValue eval(AnswerTable answerTable) {
         Value firstValue = getFirstExpr().eval(answerTable);
         Value secondValue = getSecondExpr().eval(answerTable);
-        return firstValue.ternaryEquals(secondValue);
+        BooleanValue equals = firstValue.ternaryEquals(secondValue);
+        return equals.negate();
     }
     
 }
