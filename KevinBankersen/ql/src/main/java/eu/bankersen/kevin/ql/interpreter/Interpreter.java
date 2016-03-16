@@ -37,12 +37,10 @@ public class Interpreter implements ViewListener {
     }
 
     private void evalForm() {
-	Environment previousEnv;
 
 	do {
-	    previousEnv = environment;
 	    form.evalForm(environment);
-	} while (!previousEnv.equals(environment));
+	} while (environment.isUpdated());
 
 	System.out.println(environment);
 	dataUpdate();

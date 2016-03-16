@@ -10,10 +10,12 @@ public class Environment {
 
     private final Map<String, QuestionData> environment;
     private Boolean active;
+    private Boolean updates;
 
     public Environment() {
 	this.environment = new LinkedHashMap<>();
 	this.active = true;
+	this.updates = false;
     }
 
     @Override
@@ -26,6 +28,15 @@ public class Environment {
 	    }
 	}
 	return sb.toString();
+    }
+
+    public Boolean isUpdated() {
+	if (updates) {
+	    updates = false;
+	    return true;
+	} else {
+	    return false;
+	}
     }
 
     public Boolean isEnvironmentActive() {
@@ -45,11 +56,15 @@ public class Environment {
     }
 
     public void updateQuestion(String name, QLValue value) {
-	if (active) {
-	    environment.put(name, new QuestionData(value, active));
-	} else {
-	    environment.put(name, new QuestionData(new UndifinedValue(), active));
+
+	if (!active) {
+	    value = new UndifinedValue();
 	}
+
+	if (!getValue(name).equals(value)) {
+	    updates = true;
+	}
+	environment.put(name, new QuestionData(value, active));
     }
 
     public QLValue getValue(String name) {
