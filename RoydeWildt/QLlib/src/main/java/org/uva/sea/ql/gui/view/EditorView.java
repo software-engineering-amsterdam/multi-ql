@@ -1,28 +1,23 @@
 package org.uva.sea.ql.gui.view;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
-import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.evaluator.value.Value;
-
-import java.util.List;
+import org.uva.sea.ql.gui.observer.Observable;
 
 /**
  * Created by roy on 3/17/16.
  */
 public class EditorView {
     private GridPane rootPane;
+    private Observable<String> observableString;
 
     public EditorView() {
         this.rootPane = buildEditorView();
+        this.observableString = new Observable<>();
     }
 
     private GridPane buildEditorView(){
@@ -43,6 +38,8 @@ public class EditorView {
 
         TextArea editorField = new TextArea();
         editorField.setWrapText(true);
+        editorField.textProperty().addListener((observable, oldValue, newValue) ->
+                handleEditorFieldAction(editorField));
         editorUI.add(editorField,0,0);
 
         TextArea logField = new TextArea();
@@ -52,7 +49,15 @@ public class EditorView {
         return editorUI;
     }
 
+    private void handleEditorFieldAction(TextArea f) {
+        observableString.setValue(f.getText());
+    }
+
     public GridPane getRootPane() {
         return rootPane;
+    }
+
+    public Observable<String> getObservableString() {
+        return observableString;
     }
 }

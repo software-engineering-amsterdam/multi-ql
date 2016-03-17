@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class QLRunner {
 
-    public static Form ParseFromPath(String path) throws Throwable {
+    public static Form parseFromPath(String path) throws Throwable {
         QLLexer lex = null;
 
         try {
@@ -20,6 +20,22 @@ public class QLRunner {
             e.printStackTrace();
             e.getCause();
         }
+
+        CommonTokenStream tok = new CommonTokenStream(lex);
+        QLParser par = new QLParser(tok);
+
+        try{
+            return par.form().result;
+        } catch (RecognitionException e) {
+            e.printStackTrace();
+            throw e.getCause();
+        }
+    }
+
+    public static Form parseString(String str) throws Throwable {
+        QLLexer lex = null;
+
+        lex = new QLLexer(new ANTLRInputStream(str));
 
         CommonTokenStream tok = new CommonTokenStream(lex);
         QLParser par = new QLParser(tok);

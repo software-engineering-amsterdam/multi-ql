@@ -97,7 +97,8 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
     public Control visit(Bool val, EvaluatedQuestion parent) {
         BooleanFieldWidget b = new BooleanFieldWidget(parent, parent.isComputed());
         b.setSelected(val.getValue());
-        b.setOnAction(this::handleCheckBoxAction);
+        b.selectedProperty().addListener((observable, oldValue, newValue) ->
+                handleCheckBoxAction(b));
         return b;
     }
 
@@ -144,16 +145,15 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         }
     }
 
-    private void handleCheckBoxAction(ActionEvent actionEvent) {
-        BooleanFieldWidget b = (BooleanFieldWidget) actionEvent.getSource();
+    private void handleCheckBoxAction(BooleanFieldWidget f) {
         try {
-            b.unSetInvalid();
-            Value newExpr = new Bool(b.isSelected());
-            updateSymbolTable(b.getParentQuestion(), newExpr);
+            f.unSetInvalid();
+            Value newExpr = new Bool(f.isSelected());
+            updateSymbolTable(f.getParentQuestion(), newExpr);
         }
         catch (Exception e) {
-            b.setInvalid();
-            removeFromSymbolTable(b.getParentQuestion());
+            f.setInvalid();
+            removeFromSymbolTable(f.getParentQuestion());
         }
     }
 

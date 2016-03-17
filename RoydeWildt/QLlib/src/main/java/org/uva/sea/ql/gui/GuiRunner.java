@@ -5,17 +5,23 @@ package org.uva.sea.ql.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.checker.Checker;
 import org.uva.sea.ql.checker.message.Message;
+import org.uva.sea.ql.gui.observer.ObjectObserver;
+import org.uva.sea.ql.gui.observer.Observable;
 import org.uva.sea.ql.gui.view.EditorView;
 import org.uva.sea.ql.gui.view.PreviewView;
 import org.uva.sea.ql.parser.QLRunner;
 
 import java.util.List;
 
-public class GuiRunner extends Application {
+public class GuiRunner extends Application implements ObjectObserver {
+
+    private Stage preview;
+    private Observable<String> editorText;
 
     public static void main(String[] args) {
         launch(args);
@@ -23,32 +29,24 @@ public class GuiRunner extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Stage preview = PreviewStage();
-        preview.show();
-
         Stage editor = EditorStage();
-        editor.setX(preview.getX() - 510);
-        editor.setY(preview.getY() - 14);
         editor.show();
 
+        preview = new Stage();
+        preview.setWidth(editor.getWidth());
+        preview.setHeight(editor.getHeight());
+        preview.setX(editor.getX() - editor.getWidth() - 10);
+        preview.setY(editor.getY() - 14);
+        preview.show();
     }
 
-    public Stage PreviewStage() {
-
-        Form f = parseFromPath("src/test/resources/example1.ql");
-        PreviewView preview = new PreviewView(f);
-
-        List<Message> messages = new Checker(f).getMessages();
-
-        Scene scene = new Scene(preview.getRootPane());
-        scene.getStylesheets().add("customStylesheet.css");
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        return stage;
-    }
 
     public Stage EditorStage() {
+        //List<Message> messages = new Checker(f).getMessages();
+
         EditorView editor = new EditorView();
+        editorText = editor.getObservableString();
+        editorText.addObserver(this);
         Scene scene = new Scene(editor.getRootPane());
         scene.getStylesheets().add("customStylesheet.css");
         Stage stage = new Stage();
@@ -56,12 +54,29 @@ public class GuiRunner extends Application {
         return stage;
     }
 
-    private Form parseFromPath(String path){
+    private Form parseString(String path){
         try {
-            return QLRunner.ParseFromPath(path);
+            return QLRunner.parseString(path);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             return null;
+        }
+    }
+
+
+    @Override
+    public void update() {
+        try {
+            Form form = parseString(editorText.getValue());
+            Pane previewPane = new PreviewView(form).getRootPane();
+
+            Scene scene = new Scene(previewPane);
+            scene.getStylesheets().add("customStylesheet.css");
+            preview.setScene(scene);
+
+        }
+        catch (Exception e) {
+
         }
     }
 }
