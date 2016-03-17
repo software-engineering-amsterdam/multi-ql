@@ -12,17 +12,26 @@ stylesheet taxOfficeExample {
                     fontStyle : "bolditalic"
                 }
             question hasBoughtHouse
-                widget radio("Yes", "No") default "No" {
+                widget radio("No") default "No" {
                     color : "255,0,0"
                     fontStyle : "bold"
+                    fontSize: 20
+                    height:20
+                    width:180
                 }
         }
         
         section "You sold a house" {
             question sellingPrice
-                widget text
+                widget text {
+                    color : "255,0,0"
+                    fontStyle : "bold"
+                }
             question privateDebt
-                widget text
+                widget text {
+                    color : "0,255,0"
+                    fontSize: 20
+                }
         }
         
         section "What?" {

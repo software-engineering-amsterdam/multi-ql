@@ -14,13 +14,24 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import sc.ql.ast.Statement.Question;
+import sc.ql.ast.ValueType;
+import sc.ql.ast.ValueType.BooleanType;
+import sc.ql.ast.ValueType.IntegerType;
+import sc.ql.ast.ValueType.StringType;
+import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIForm;
 import sc.ql.ui.UIQuestion;
 import sc.ql.ui.UIWidget;
+import sc.ql.ui.UIWidgetChoice;
+import sc.ql.ui.UIWidgetChoices;
 import sc.ql.ui.UIWidgetStyle;
 import sc.ql.ui.widget.RadioButtonWidget;
+import sc.ql.value.BooleanValue;
+import sc.ql.value.NumberValue;
+import sc.ql.value.StringValue;
+import sc.ql.value.Value;
 import sc.qls.ast.Page;
 import sc.qls.ast.Property;
 import sc.qls.ast.Property.ColorProperty;
@@ -37,6 +48,7 @@ import sc.qls.ast.StyleSheet;
 import sc.qls.ast.Widget;
 import sc.qls.ast.Widget.CheckBox;
 import sc.qls.ast.Widget.DropDown;
+import sc.qls.ast.Widget.ListWidget;
 import sc.qls.ast.Widget.RadioButton;
 import sc.qls.ast.Widget.Slider;
 import sc.qls.ast.Widget.Spinbox;
@@ -80,17 +92,20 @@ public class QLSUIFactory extends UIFactory {
 
 	private UIWidget createWidget(Rule rule, Environment env, Question question) {
 		Widget widget;
+		ValueType type;
 
 		widget = rule.widget();
 		if (widget == null) {
 			return null;
 		}
 
+		type = question.type();
+
 		return widget.accept(new WidgetVisitor<UIWidget, Void>() {
 
 			@Override
 			public UIWidget visit(RadioButton widget, Void unused) {
-				return new RadioButtonWidget(env, question.name(), widget.getChoices());
+				return new RadioButtonWidget(env, question.name(), createChoices(type, widget));
 			}
 
 			@Override
@@ -118,6 +133,43 @@ public class QLSUIFactory extends UIFactory {
 				return null;
 			}
 
+		}, null);
+	}
+
+	private UIWidgetChoices createChoices(ValueType type, ListWidget widget) {
+		List<UIWidgetChoice> uiChoices;
+		UIWidgetChoice defaultUiChoice;
+
+		uiChoices = new ArrayList<>();
+		for (String value : widget.values()) {
+			uiChoices.add(new UIWidgetChoice(value, createValue(type, value)));
+		}
+
+		defaultUiChoice = null;
+		if (widget.defaultValue() != null) {
+			defaultUiChoice = new UIWidgetChoice(widget.defaultValue(), createValue(type, widget.defaultValue()));
+		}
+
+		return new UIWidgetChoices(uiChoices, defaultUiChoice);
+	}
+
+	private Value createValue(ValueType type, String text) {
+		return type.accept(new ValueTypeVisitor<Value, Void>() {
+
+			@Override
+			public Value visit(BooleanType type, Void context) {
+				return new BooleanValue(text);
+			}
+
+			@Override
+			public Value visit(IntegerType type, Void context) {
+				return new NumberValue(text);
+			}
+
+			@Override
+			public Value visit(StringType type, Void context) {
+				return new StringValue(text);
+			}
 		}, null);
 	}
 
