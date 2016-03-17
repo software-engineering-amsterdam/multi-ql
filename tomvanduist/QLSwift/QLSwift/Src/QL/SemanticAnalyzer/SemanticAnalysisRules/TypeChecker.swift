@@ -326,7 +326,16 @@ private class OrderOperationPropagator: NumericOperationPropagator {
 }
 private class BoolOperationPropagator: AbstractPropagator {
     override private func visit(node: QLBooleanType, param context: Context) -> AbstractAllowType {
-        return BoolAllowed()
+        return BoolAndNullableAllowed()
+    }
+    override private func visit(node: QLStringType, param context: Context) -> AbstractAllowType {
+        return BoolAndNullableAllowed()
+    }
+    override private func visit(node: QLIntegerType, param context: Context) -> AbstractAllowType {
+        return BoolAndNullableAllowed()
+    }
+    override private func visit(node: QLFloatType, param context: Context) -> AbstractAllowType {
+        return BoolAndNullableAllowed()
     }
 }
 private class EqualityOperationPropagator: AbstractPropagator {
@@ -359,6 +368,17 @@ private class StringAllowed: AbstractAllowType {
 }
 private class BoolAllowed: AbstractAllowType {
     override private func visit(node: QLBooleanType, param context: Context) -> Bool {
+        return true
+    }
+}
+private class BoolAndNullableAllowed: BoolAllowed {
+    override private func visit(node: QLFloatType, param context: Context) -> Bool {
+        return true
+    }
+    override private func visit(node: QLIntegerType, param context: Context) -> Bool {
+        return true
+    }
+    override private func visit(node: QLStringType, param context: Context) -> Bool {
         return true
     }
 }

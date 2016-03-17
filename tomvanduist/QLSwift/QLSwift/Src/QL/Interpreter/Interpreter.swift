@@ -51,8 +51,8 @@ extension Interpreter {
     
     private func resolveBinary(binary: QLBinary, context: Context, resolver: BinaryResolver) -> NSObject? {
         guard let
-            lVal = binary.lhs.accept(self, param: context),
-            rVal = binary.rhs.accept(self, param: context)
+            lVal = resolver.resolveValue(TypeInferer.sharedInstance.inferType(binary.lhs, context: context), expression: binary.lhs, context: context),
+            rVal = resolver.resolveValue(TypeInferer.sharedInstance.inferType(binary.rhs, context: context), expression: binary.rhs, context: context)
             else { return defaultReturn(binary, param: context) }
         
         let type = TypeInferer.sharedInstance.inferType(binary, context: context)
@@ -138,6 +138,7 @@ private protocol Resolver {
     typealias GenericParam
     
     func resolve(type: QLType, value: GenericParam?) -> NSObject?
+    func resolveValue(type: QLType, expression: QLExpression, context: Context) -> NSObject?
 }
 
 private class AbstractResolver<T>: Resolver, TopDownType {
@@ -146,6 +147,10 @@ private class AbstractResolver<T>: Resolver, TopDownType {
             else { return nil }
         
         return type.accept(self, param: value!)
+    }
+    
+    func resolveValue(type: QLType, expression: QLExpression, context: Context) -> NSObject? {
+        return expression.accept(Interpreter.sharedInstance, param: context)
     }
     
     func visit(node: QLStringType, param value: T) -> NSObject? {
@@ -304,7 +309,12 @@ private class LowerThanResolver: BinaryResolver {
         return nil
     }
 }
-private class AndResolver: BinaryResolver {
+private class BoolAndNullableResolver: BinaryResolver {
+    override func resolveValue(type: QLType, expression: QLExpression, context: Context) -> NSObject? {
+        return BoolAndNullable().resolve(type, expression: expression, context: context)
+    }
+}
+private class AndResolver: BoolAndNullableResolver {
     override func visit(node: QLBooleanType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
         if let lVal = value.left as? QLBoolean, rVal = value.right as? QLBoolean {
             return lVal && rVal
@@ -312,11 +322,39 @@ private class AndResolver: BinaryResolver {
         return nil
     }
 }
-private class OrResolver: BinaryResolver {
+private class OrResolver: BoolAndNullableResolver {
     override func visit(node: QLBooleanType, param value: (left: NSObject, right: NSObject)) -> NSObject? {
         if let lVal = value.left as? QLBoolean, rVal = value.right as? QLBoolean {
             return lVal || rVal
         }
+        return nil
+    }
+}
+
+private class BoolAndNullable: TopDownType {
+    func resolve(type: QLType, expression: QLExpression, context: Context) -> NSObject? {
+        return type.accept(self, param: (expression, context))
+    }
+    
+    func visit(node: QLStringType, param: (expression: QLExpression, context: Context)) -> NSObject? {
+        return param.expression.accept(Interpreter.sharedInstance, param: param.context) != nil
+    }
+    func visit(node: QLIntegerType, param: (expression: QLExpression, context: Context)) -> NSObject? {
+        return param.expression.accept(Interpreter.sharedInstance, param: param.context) != nil
+    }
+    func visit(node: QLFloatType, param: (expression: QLExpression, context: Context)) -> NSObject? {
+        return param.expression.accept(Interpreter.sharedInstance, param: param.context) != nil
+    }
+    func visit(node: QLBooleanType, param: (expression: QLExpression, context: Context)) -> NSObject? {
+        return param.expression.accept(Interpreter.sharedInstance, param: param.context)
+    }
+    func visit(node: QLVoidType, param: (expression: QLExpression, context: Context)) -> NSObject? {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLUnknownType, param: (expression: QLExpression, context: Context)) -> NSObject? {
+        return defaultReturn(node, param: param)
+    }
+    func defaultReturn(type: QLType, param: (expression: QLExpression, context: Context)) -> NSObject? {
         return nil
     }
 }
