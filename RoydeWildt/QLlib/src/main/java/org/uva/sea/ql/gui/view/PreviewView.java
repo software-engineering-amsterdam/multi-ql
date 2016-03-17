@@ -14,6 +14,7 @@ import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 import org.uva.sea.ql.evaluator.FormEvaluator;
+import org.uva.sea.ql.evaluator.value.Value;
 import org.uva.sea.ql.gui.builder.QuestionListBuilder;
 import org.uva.sea.ql.gui.widget.QuestionWidget;
 
@@ -31,8 +32,7 @@ public class PreviewView {
         this.form = form;
 
         FormEvaluator evaluator = new FormEvaluator(this.form);
-        List<EvaluatedQuestion> questions = evaluator.getQuestions();
-        QuestionListBuilder visitor = new QuestionListBuilder(questions, evaluator.getSymbolTable());
+        QuestionListBuilder visitor = new QuestionListBuilder(evaluator.getEvaluatedQuestions(), evaluator.getSymbolTable());
 
         addFormListener(evaluator);
 
@@ -60,21 +60,19 @@ public class PreviewView {
     }
 
     private void addFormListener(FormEvaluator evaluator) {
-        ObservableMap<Var,Question> symbolTable = (ObservableMap<Var, Question>) evaluator.getSymbolTable();
-        symbolTable.addListener((MapChangeListener<Var,Question>) c -> {
-            //System.out.println("Changed " + c.toString());
-            Question changedQuestion = c.getValueAdded();
+        ObservableMap<Var,Value> symbolTable = (ObservableMap<Var, Value>) evaluator.getSymbolTable();
+        symbolTable.addListener((MapChangeListener<Var,Value>) c -> {
+            Var changedQuestion = c.getKey();
 
-            FormEvaluator fe = new FormEvaluator(this.form, (ObservableMap<Var, Question>) c.getMap());
-            List<EvaluatedQuestion> questions = fe.getQuestions();
+            FormEvaluator fe = new FormEvaluator(this.form, c.getMap());
 
-            QuestionListBuilder visitor = new QuestionListBuilder(questions,  fe.getSymbolTable());
+            QuestionListBuilder visitor = new QuestionListBuilder(fe.getEvaluatedQuestions(),  fe.getSymbolTable());
             List<QuestionWidget> UIElements = visitor.getUiElements();
             updateFormUI(changedQuestion, UIElements);
         });
     }
 
-    public void updateFormUI(Question changedQuestion, List<QuestionWidget> UIElements){
+    public void updateFormUI(Var changedQuestion, List<QuestionWidget> UIElements){
         QuestionWidget currentQuestionWidget = null;
 
         //get question ui-element of changed question
@@ -99,8 +97,8 @@ public class PreviewView {
         }
     }
 
-    public boolean isQuestion(QuestionWidget p, Question q){
-        if(p.getParentQuestion().getVarname().equals(q.getVarname())){
+    public boolean isQuestion(QuestionWidget p, Var q){
+        if(p.getParentQuestion().getVarname().equals(q)){
             return true;
         }
         return false;

@@ -7,6 +7,7 @@ import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.evaluator.value.Value;
 import org.uva.sea.ql.parser.QLRunner;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class FormEvaluatorTest {
 
         Form f = parseFromPath("src/test/resources/gui1.ql");
         FormEvaluator fe = new FormEvaluator(f);
-        List<Question> questions = fe.getQuestions();
+        List<EvaluatedQuestion> questions = fe.getEvaluatedQuestions();
 
         compareQuestionVars(questions, checkListVars);
     }
@@ -38,7 +39,7 @@ public class FormEvaluatorTest {
 
         Form f = parseFromPath("src/test/resources/gui2.ql");
         FormEvaluator fe = new FormEvaluator(f);
-        List<Question> questions = fe.getQuestions();
+        List<EvaluatedQuestion> questions = fe.getEvaluatedQuestions();
 
         compareQuestionVars(questions, checkListVars);
     }
@@ -52,7 +53,7 @@ public class FormEvaluatorTest {
 
         Form f = parseFromPath("src/test/resources/gui3.ql");
         FormEvaluator fe = new FormEvaluator(f);
-        List<Question> questions = fe.getQuestions();
+        List<EvaluatedQuestion> questions = fe.getEvaluatedQuestions();
 
         compareQuestionVars(questions, checkListVars);
     }
@@ -69,29 +70,26 @@ public class FormEvaluatorTest {
 
         Form f = parseFromPath("src/test/resources/gui4.ql");
         FormEvaluator fe = new FormEvaluator(f);
-        List<Question> questions = fe.getQuestions();
+        List<EvaluatedQuestion> questions = fe.getEvaluatedQuestions();
 
         compareQuestionVals(questions, checkListVars);
     }
 
-    private void compareQuestionVars(List<Question> questions, List<String> checkList){
+    private void compareQuestionVars(List<EvaluatedQuestion> questions, List<String> checkList){
 
         List<String> testList = new ArrayList<>();
-        for (Question q : questions)
+        for (EvaluatedQuestion q : questions)
             testList.add(q.getVarname().toString());
 
         Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));
     }
 
-    private void compareQuestionVals(List<Question> questions, List<String> checkList){
+    private void compareQuestionVals(List<EvaluatedQuestion> questions, List<String> checkList){
 
         List<String> testList = new ArrayList<>();
-        for (Question q : questions){
-            Expr e = q.getExpr();
-            if (e instanceof Primary){
-                Literal v = ((Primary) e).getValue();
-                testList.add(v.toString());
-            }
+        for (EvaluatedQuestion q : questions){
+            Value v = q.getValue();
+            testList.add(v.getValue().toString());
         }
 
         Assert.assertThat(testList, IsIterableContainingInAnyOrder.containsInAnyOrder(checkList.toArray()));

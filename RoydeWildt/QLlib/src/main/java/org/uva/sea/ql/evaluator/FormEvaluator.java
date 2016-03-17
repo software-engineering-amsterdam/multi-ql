@@ -1,11 +1,14 @@
 package org.uva.sea.ql.evaluator;
 
-import javafx.collections.ObservableMap;
-import org.uva.sea.ql.ast.tree.expr.Expr;
-import org.uva.sea.ql.ast.tree.form.Form;
+import javafx.collections.FXCollections;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.ast.tree.stat.If;
+import org.uva.sea.ql.ast.tree.stat.IfElse;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.visitor.EvalVisitor;
+import org.uva.sea.ql.ast.tree.stat.Stat;
+import org.uva.sea.ql.ast.visitor.BaseVisitor;
+import org.uva.sea.ql.evaluator.value.Bool;
 import org.uva.sea.ql.evaluator.value.Value;
 
 import java.util.ArrayList;
@@ -13,48 +16,83 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by roy on 29-2-16.
+ * Created by roydewildt on 22/02/16.
  */
-public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
-    private List<EvaluatedQuestion> questions;
+public class FormEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,Value,Map<Var, Value>> {
+
+    private final Map<Var,Value> symbolTable;
+    private final List<EvaluatedQuestion> evaluatedQuestions;
+    private final ExprEvaluator exprEvaluator;
 
     public FormEvaluator(Form f) {
-        super(f);
-        this.questions = new ArrayList<>();
-        f.accept(this, this.getSymbolTable());
+        this.exprEvaluator = new ExprEvaluator();
+        this.evaluatedQuestions = new ArrayList<>();
+        this.symbolTable = new SymbolTable(f, FXCollections.observableHashMap()).getSymbolTable();
+        f.accept(this, symbolTable);
     }
 
-    public FormEvaluator(Form f, ObservableMap<Var, Question> symbolTable) {
-        super(f, symbolTable);
-        this.questions = new ArrayList<>();
-        f.accept(this, this.getSymbolTable());
+    public FormEvaluator(Form f, Map<Var, Value> symbolTable) {
+        this.exprEvaluator = new ExprEvaluator();
+        this.evaluatedQuestions = new ArrayList<>();
+        this.symbolTable = new SymbolTable(f, symbolTable).getSymbolTable();
+        f.accept(this, symbolTable);
     }
 
     @Override
-    public Void visit(Question stat, Map<Var,Question> symbolTable) {
+    public Void visit(Question stat, Map<Var,Value> symbolTable) {
 
-        Expr expr;
-        if(symbolTable.containsKey(stat.getVarname())){
-            expr = symbolTable.get(stat.getVarname()).getExpr();
-        }
-        else {
-            expr = stat.getExpr();
-        }
+        Value value = symbolTable.get(stat.getVarname());
 
-        Value computedValue = expr.accept(this,symbolTable);
-
-        questions.add(new EvaluatedQuestion(
-                                        stat.getLabel(),
-                                        stat.getVarname(),
-                                        stat.getType(),
-                                        computedValue,
-                                        stat.isComputed()));
+        evaluatedQuestions.add(new EvaluatedQuestion(
+                stat.getLabel(),
+                stat.getVarname(),
+                stat.getType(),
+                value,
+                stat.isComputed()));
 
         return null;
     }
 
-    public List<EvaluatedQuestion> getQuestions() {
-        return questions;
+
+    @Override
+    public Void visit(If stat, Map<Var, Value> symbolTable) {
+        Bool bool = (Bool) stat.getCond().accept(exprEvaluator, symbolTable);
+
+        if(bool.getValue() == null){
+            return null;
+        }
+
+        if(bool.getValue()){
+            for(Stat s : stat.getStms())
+                s.accept(this, symbolTable);
+        }
+        return null;
     }
 
+    @Override
+    public Void visit(IfElse stat, Map<Var, Value> symbolTable) {
+        Bool bool = (Bool) stat.getCond().accept(exprEvaluator, symbolTable);
+
+        if(bool.getValue() == null){
+            return null;
+        }
+
+        if(bool.getValue()){
+            for(Stat s : stat.getIfStms())
+                s.accept(this, symbolTable);
+        }
+        else {
+            for(Stat s : stat.getElseStms())
+                s.accept(this, symbolTable);
+        }
+        return null;
+    }
+
+    public List<EvaluatedQuestion> getEvaluatedQuestions() {
+        return evaluatedQuestions;
+    }
+
+    public Map<Var, Value> getSymbolTable() {
+        return symbolTable;
+    }
 }

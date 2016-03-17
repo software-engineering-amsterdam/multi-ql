@@ -14,7 +14,7 @@ public class Bool extends Value {
 
     @Override
     public Boolean getValue() {
-        return null;
+        return this.value;
     }
 
     public Bool And(Bool x){
@@ -23,6 +23,10 @@ public class Bool extends Value {
 
     public Bool Or(Bool x){
         return new Bool(this.value || x.getValue());
+    }
+
+    public Bool Not(){
+        return new Bool(!this.value);
     }
 
     @Override

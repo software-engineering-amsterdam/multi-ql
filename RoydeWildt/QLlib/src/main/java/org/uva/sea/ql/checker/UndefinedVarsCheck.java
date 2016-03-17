@@ -6,36 +6,32 @@ import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.ast.visitor.DeclVisitor;
+import org.uva.sea.ql.evaluator.SymbolTable;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
+import org.uva.sea.ql.evaluator.value.Value;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by roy on 5-2-16.
  */
-public class UndefinedVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Void> {
+public class UndefinedVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Map<Var,Value>> {
 
-    private final List<Node> undefined;
-    private final Map<Var,Expr> decls;
+    private List<Node> undefined;
 
     public UndefinedVarsCheck(Form f) {
-        undefined = new ArrayList<>();
-
-        DeclVisitor dv = new DeclVisitor();
-        f.accept(dv, FXCollections.observableHashMap());
-        this.decls = dv.getDecls();
-
-        f.accept(this, null);
+        this.undefined = new ArrayList<>();
+        f.accept(this, new SymbolTable(f, new HashMap<>()).getSymbolTable());
     }
 
 
     @Override
-    public Void visit(Var var, Void context) {
-        if (!decls.containsKey(var)) {
+    public Void visit(Var var, Map<Var,Value> symbolTable) {
+        if (!symbolTable.containsKey(var)) {
             undefined.add(var);
         }
         return null;

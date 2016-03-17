@@ -1,6 +1,5 @@
 package org.uva.sea.ql.gui.builder;
 
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -10,7 +9,6 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
-import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 import org.uva.sea.ql.evaluator.value.Bool;
 import org.uva.sea.ql.evaluator.value.String;
@@ -31,9 +29,9 @@ import java.util.Map;
 public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestion> {
     private List<QuestionWidget> uiElements;
     private List<EvaluatedQuestion> questions;
-    private Map<Var, EvaluatedQuestion> symbolTable;
+    private Map<Var, Value> symbolTable;
 
-    public QuestionListBuilder(List<EvaluatedQuestion> questions, Map<Var, EvaluatedQuestion> symbolTable) {
+    public QuestionListBuilder(List<EvaluatedQuestion> questions, Map<Var, Value> symbolTable) {
         this.uiElements = new ArrayList<>();
         this.questions = questions;
         this.symbolTable = symbolTable;
@@ -162,18 +160,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
     }
 
     private void updateSymbolTable(EvaluatedQuestion changedQuestion, Value newValue){
-        EvaluatedQuestion update = updateQuestionExpr(changedQuestion, newValue);
-        this.symbolTable.put(changedQuestion.getVarname(), update);
-    }
-
-    private EvaluatedQuestion updateQuestionExpr(EvaluatedQuestion q, Value atom){
-        return new EvaluatedQuestion(
-                        q.getLabel(),
-                        q.getVarname(),
-                        q.getType(),
-                        atom,
-                        q.isComputed()
-                    );
+        this.symbolTable.put(changedQuestion.getVarname(), newValue);
     }
 
     public List<QuestionWidget> getUiElements() {

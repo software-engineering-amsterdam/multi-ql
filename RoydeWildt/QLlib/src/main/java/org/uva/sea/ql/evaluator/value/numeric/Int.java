@@ -20,42 +20,75 @@ public class Int extends Numeric {
 
     @Override
     public Int Add(Numeric x) {
-        return new Int(this.value + (int) x.getValue());
+
+        if(x instanceof Int)
+            return new Int(this.value + (Integer) x.getValue());
+        else
+            return null;
     }
 
     @Override
     public Int Div(Numeric x) {
-        return new Int(this.value / (int) x.getValue());
+
+
+        if(x instanceof Int)
+            return new Int(this.value / (Integer) x.getValue());
+        else
+            return null;
     }
 
     @Override
     public Int Mul(Numeric x) {
-        return new Int(this.value * (int) x.getValue());
+
+
+        if(x instanceof Int)
+            return new Int(this.value * (Integer) x.getValue());
+        else
+            return null;
     }
 
     @Override
     public Int Sub(Numeric x) {
-        return new Int(this.value - (int) x.getValue());
+
+        if(x instanceof Int)
+            return new Int(this.value - (Integer) x.getValue());
+        else
+            return null;
     }
 
     @Override
     public Bool LT(Numeric x) {
-        return new Bool(this.value < (int) x.getValue());
+        if(x instanceof Int)
+            return new Bool(this.value < (Integer) x.getValue());
+        else
+            return null;
     }
 
     @Override
     public Bool LEq(Numeric x) {
-        return new Bool(this.value <= (int) x.getValue());
+
+        if(x instanceof Int)
+            return new Bool(this.value <= (Integer) x.getValue());
+        else
+            return null;
     }
 
     @Override
     public Bool GEq(Numeric x) {
-        return new Bool(this.value >= (int) x.getValue());
+
+        if(x instanceof Int)
+            return new Bool(this.value >= (Integer) x.getValue());
+        else
+            return null;
     }
 
     @Override
     public Bool GT(Numeric x) {
-        return new Bool(this.value > (int) x.getValue());
+
+        if(x instanceof Int)
+            return new Bool(this.value > (Integer) x.getValue());
+        else
+            return null;
     }
 
     @Override
