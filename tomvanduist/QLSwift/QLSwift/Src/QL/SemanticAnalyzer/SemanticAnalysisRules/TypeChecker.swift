@@ -36,7 +36,6 @@ extension TypeChecker {
     }
     
     func visit(node: QLConditional, param context: Context) -> QLType {
-        node.condition.accept(self, param: context)
         node.ifBlock.accept(self, param: context)
         
         if (node.condition.accept(self, param: context) !== QLBooleanType.self) {
