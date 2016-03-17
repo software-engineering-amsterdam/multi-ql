@@ -14,12 +14,9 @@ import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
 import sc.ql.eval.Environment;
-import sc.ql.ui.UIWidgetChoice;
-import sc.ql.ui.UIWidgetChoices;
-import sc.ql.ui.UIWidgetStyle;
 import sc.ql.value.Value;
 
-public class UIRadioButtonWidget extends AbstractUIWidget implements ActionListener {
+public class UIRadioButton extends AbstractUIWidget implements ActionListener {
 
 	private final Map<UIWidgetChoice, JRadioButton> choiceToButton;
 	private final UIWidgetChoices choices;
@@ -28,7 +25,7 @@ public class UIRadioButtonWidget extends AbstractUIWidget implements ActionListe
 	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JRadioButton.font"),
 			new Dimension(150, 30), Color.BLACK);
 
-	public UIRadioButtonWidget(Environment env, String variableName, UIWidgetChoices choices) {
+	public UIRadioButton(Environment env, String variableName, UIWidgetChoices choices) {
 		super(env, variableName, choices.defaultValue().getValue());
 		ButtonGroup bg;
 

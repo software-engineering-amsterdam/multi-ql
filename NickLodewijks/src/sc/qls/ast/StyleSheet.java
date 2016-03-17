@@ -32,7 +32,7 @@ public class StyleSheet extends ASTNode {
 
 	public QuestionRule getQLSQuestion(Question question) {
 		for (Page page : pages) {
-			for (Section section : page.getSections()) {
+			for (Section section : page.sections()) {
 				QuestionRule rule;
 
 				rule = section.getById(question.name());

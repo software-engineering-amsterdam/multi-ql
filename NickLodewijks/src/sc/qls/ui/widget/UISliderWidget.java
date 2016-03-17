@@ -14,10 +14,10 @@ import javax.swing.JSlider;
 import javax.swing.UIManager;
 
 import sc.ql.eval.Environment;
-import sc.ql.ui.UIWidgetChoice;
-import sc.ql.ui.UIWidgetChoices;
-import sc.ql.ui.UIWidgetStyle;
 import sc.ql.ui.widget.AbstractUIWidget;
+import sc.ql.ui.widget.UIWidgetChoice;
+import sc.ql.ui.widget.UIWidgetChoices;
+import sc.ql.ui.widget.UIWidgetStyle;
 import sc.ql.value.Value;
 
 public class UISliderWidget extends AbstractUIWidget {

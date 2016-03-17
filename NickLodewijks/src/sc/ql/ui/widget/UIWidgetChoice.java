@@ -1,4 +1,4 @@
-package sc.ql.ui;
+package sc.ql.ui.widget;
 
 import sc.ql.value.Value;
 

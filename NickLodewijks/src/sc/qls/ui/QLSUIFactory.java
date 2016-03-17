@@ -1,17 +1,7 @@
 package sc.qls.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import sc.ql.ast.Statement.Question;
 import sc.ql.ast.ValueType;
@@ -21,18 +11,17 @@ import sc.ql.ast.ValueType.StringType;
 import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIFactory;
-import sc.ql.ui.UIForm;
 import sc.ql.ui.UIQuestion;
-import sc.ql.ui.UIWidget;
-import sc.ql.ui.UIWidgetChoice;
-import sc.ql.ui.UIWidgetChoices;
-import sc.ql.ui.UIWidgetStyle;
-import sc.ql.ui.widget.UIRadioButtonWidget;
+import sc.ql.ui.UIQuestionnaire;
+import sc.ql.ui.widget.UIRadioButton;
+import sc.ql.ui.widget.UIWidget;
+import sc.ql.ui.widget.UIWidgetChoice;
+import sc.ql.ui.widget.UIWidgetChoices;
+import sc.ql.ui.widget.UIWidgetStyle;
 import sc.ql.value.BooleanValue;
 import sc.ql.value.NumberValue;
 import sc.ql.value.StringValue;
 import sc.ql.value.Value;
-import sc.qls.ast.Page;
 import sc.qls.ast.Property;
 import sc.qls.ast.Property.ColorProperty;
 import sc.qls.ast.Property.FontNameProperty;
@@ -43,7 +32,6 @@ import sc.qls.ast.Property.WidthProperty;
 import sc.qls.ast.PropertyVisitor;
 import sc.qls.ast.Rule;
 import sc.qls.ast.Rule.QuestionRule;
-import sc.qls.ast.Section;
 import sc.qls.ast.StyleSheet;
 import sc.qls.ast.Widget;
 import sc.qls.ast.Widget.CheckBox;
@@ -65,8 +53,8 @@ public class QLSUIFactory extends UIFactory {
 	}
 
 	@Override
-	protected UIForm createForm() {
-		return new QLSUIForm(styleSheet);
+	protected UIQuestionnaire createQuestionnaire(List<UIQuestion> questions) {
+		return new StyledUIQuestionnaire(questions, styleSheet);
 	}
 
 	@Override
@@ -106,7 +94,7 @@ public class QLSUIFactory extends UIFactory {
 
 			@Override
 			public UIWidget visit(RadioButton widget, Void unused) {
-				return new UIRadioButtonWidget(env, question.name(), createChoices(type, widget));
+				return new UIRadioButton(env, question.name(), createChoices(type, widget));
 			}
 
 			@Override
@@ -221,153 +209,5 @@ public class QLSUIFactory extends UIFactory {
 		}
 
 		return styleBuilder.build();
-	}
-
-	private static class QLSUIForm implements UIForm {
-
-		private final StyleSheet styleSheet;
-		private final List<UIPage> pages = new ArrayList<>();
-
-		private JPanel panel;
-
-		public QLSUIForm(StyleSheet styleSheet) {
-			this.styleSheet = styleSheet;
-
-			panel = new JPanel();
-			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-
-			for (Page page : styleSheet.getPages()) {
-				UIPage uiPage;
-
-				uiPage = new UIPage(page);
-				pages.add(uiPage);
-				panel.add(uiPage.getComponent());
-				panel.add(Box.createRigidArea(new Dimension(0, 2)));
-			}
-		}
-
-		@Override
-		public void addQuestion(UIQuestion question) {
-			for (UIPage page : pages) {
-				if (page.shouldContain(question)) {
-					page.addQuestion(question);
-				}
-			}
-		}
-
-		@Override
-		public JComponent getComponent() {
-			return panel;
-		}
-	}
-
-	private static class UIPage implements UIForm {
-
-		private final List<UISection> sections = new ArrayList<>();
-
-		private final Page page;
-		private JPanel panel;
-
-		public UIPage(Page page) {
-			this.page = page;
-
-			panel = new JPanel();
-			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-
-			for (Section section : page.getSections()) {
-				UISection uiSection;
-
-				uiSection = new UISection(section);
-				sections.add(uiSection);
-
-				panel.add(uiSection.getComponent());
-				panel.add(Box.createRigidArea(new Dimension(0, 2)));
-			}
-		}
-
-		public boolean shouldContain(UIQuestion question) {
-			for (UISection section : sections) {
-				if (section.shouldContain(question)) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		@Override
-		public void addQuestion(UIQuestion question) {
-			for (UISection section : sections) {
-				if (section.shouldContain(question)) {
-					section.addQuestion(question);
-				}
-			}
-		}
-
-		@Override
-		public JComponent getComponent() {
-			return panel;
-		}
-	}
-
-	private static class UISection implements UIForm {
-
-		private final ArrayList<UIQuestion> questions;
-		private final Section section;
-
-		private JPanel panel;
-
-		public UISection(Section section) {
-			TitledBorder title;
-
-			this.section = section;
-			this.questions = new ArrayList<>();
-
-			panel = new JPanel();
-			panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-
-			title = BorderFactory.createTitledBorder(section.name());
-			title.setTitleJustification(TitledBorder.LEFT);
-			panel.setBorder(title);
-		}
-
-		public boolean shouldContain(UIQuestion question) {
-			return section.contains(question.getId());
-		}
-
-		@Override
-		public void addQuestion(UIQuestion question) {
-
-			questions.add(question);
-
-			questions.sort(new Comparator<UIQuestion>() {
-
-				@Override
-				public int compare(UIQuestion o1, UIQuestion o2) {
-					return Integer.compare(section.indexOf(o1.getId()), section.indexOf(o2.getId()));
-				}
-			});
-
-			panel.removeAll();
-
-			for (UIQuestion uiQuestion : questions) {
-				JPanel qPanel;
-
-				qPanel = new JPanel(new BorderLayout());
-				qPanel.add(uiQuestion.getLabelWidget().getComponent(), BorderLayout.CENTER);
-				qPanel.add(uiQuestion.getValueWidget().getComponent(), BorderLayout.EAST);
-				qPanel.setPreferredSize(new Dimension(400, 40));
-
-				panel.add(qPanel);
-				panel.add(Box.createRigidArea(new Dimension(0, 2)));
-			}
-
-			panel.revalidate();
-		}
-
-		@Override
-		public JComponent getComponent() {
-			return panel;
-		}
 	}
 }

@@ -12,10 +12,9 @@ import javax.swing.UIManager;
 
 import sc.ql.ast.Statement.Question;
 import sc.ql.eval.Environment;
-import sc.ql.ui.UIWidgetStyle;
 import sc.ql.value.Value;
 
-public class UITextFieldWidget extends AbstractUIWidget {
+public class UITextField extends AbstractUIWidget {
 
 	private final JTextField textField;
 	private final JPanel panel;
@@ -23,7 +22,7 @@ public class UITextFieldWidget extends AbstractUIWidget {
 	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JTextField.font"),
 			new Dimension(130, 30), Color.BLACK);
 
-	public UITextFieldWidget(Environment env, Question q, Value defaultValue) {
+	public UITextField(Environment env, Question q, Value defaultValue) {
 		super(env, q.name(), defaultValue);
 
 		panel = new JPanel();

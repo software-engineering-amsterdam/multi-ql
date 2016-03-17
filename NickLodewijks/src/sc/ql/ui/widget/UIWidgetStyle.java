@@ -1,4 +1,4 @@
-package sc.ql.ui;
+package sc.ql.ui.widget;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,10 +12,6 @@ public class UIWidgetStyle {
 	private final Integer height;
 
 	public UIWidgetStyle(Font font, Dimension dimension, Color color) {
-		this(null, font, dimension, color);
-	}
-
-	public UIWidgetStyle(UIWidgetStyle parent, Font font, Dimension dimension, Color color) {
 		this.font = font;
 		this.width = dimension.width;
 		this.height = dimension.height;
