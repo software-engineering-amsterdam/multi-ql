@@ -1,5 +1,7 @@
 package org.uva.sea.ql.evaluator.value;
 
+import org.uva.sea.ql.evaluator.value.visitor.ValueVisitor;
+
 /**
  * Created by roydewildt on 16/03/16.
  */
@@ -21,5 +23,10 @@ public class Bool extends Value {
 
     public Bool Or(Bool x){
         return new Bool(this.value || x.getValue());
+    }
+
+    @Override
+    public <ATOM, CONTEXT> ATOM accept(ValueVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
+        return visitor.visit(this, context);
     }
 }

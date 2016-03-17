@@ -9,44 +9,43 @@ import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import org.uva.sea.ql.ast.tree.atom.Literal;
-import org.uva.sea.ql.ast.tree.atom.val.Float;
-import org.uva.sea.ql.ast.tree.expr.unary.Primary;
-import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.atom.val.Bool;
-import org.uva.sea.ql.ast.tree.atom.val.Int;
-import org.uva.sea.ql.ast.tree.atom.val.Str;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
-import org.uva.sea.ql.ast.visitor.BaseVisitor;
+import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
+import org.uva.sea.ql.evaluator.value.Bool;
+import org.uva.sea.ql.evaluator.value.String;
+import org.uva.sea.ql.evaluator.value.Value;
+import org.uva.sea.ql.evaluator.value.numeric.Double;
+import org.uva.sea.ql.evaluator.value.numeric.Int;
+import org.uva.sea.ql.evaluator.value.visitor.ValueVisitor;
 import org.uva.sea.ql.gui.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
  * Created by roy on 25-2-16.
  */
-public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void, Void, Control, Question> {
+public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestion> {
     private List<QuestionWidget> uiElements;
     private List<EvaluatedQuestion> questions;
-    private ObservableMap<Var, EvaluatedQuestion> symbolTable;
+    private Map<Var, EvaluatedQuestion> symbolTable;
 
-    public QuestionListBuilder(List<EvaluatedQuestion> questions, ObservableMap<Var, EvaluatedQuestion> symbolTable) {
+    public QuestionListBuilder(List<EvaluatedQuestion> questions, Map<Var, EvaluatedQuestion> symbolTable) {
         this.uiElements = new ArrayList<>();
         this.questions = questions;
         this.symbolTable = symbolTable;
 
         for (EvaluatedQuestion question : this.questions){
-            QuestionWidget UiElem = this.visit(question, null);
+            QuestionWidget UiElem = genQuestionUI(question);
             uiElements.add(UiElem);
         }
     }
 
-    @Override
-    public QuestionWidget visit(Question stat, Question parent) {
-        QuestionWidget box = new QuestionWidget(stat);
+    public QuestionWidget genQuestionUI(EvaluatedQuestion q) {
+        QuestionWidget box = new QuestionWidget(q);
         box.setHgap(5);
         box.setPadding(new Insets(5,20,5,20));
 
@@ -61,19 +60,19 @@ public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void,
 
         box.getColumnConstraints().addAll(col1, col2);
 
-        Label label = new Label(stat.getLabel());
+        Label label = new Label(q.getLabel());
         label.setWrapText(true);
         box.add(label, 0, 0);
 
-        Primary primary = (Primary) stat.getExpr();
-        Parent valueUI = primary.getValue().accept(this, stat);
+        Value value = q.getValue();
+        Parent valueUI = value.accept(this, q);
         box.add(valueUI, 1, 0);
 
         return box;
     }
 
     @Override
-    public Control visit(Int val, Question parent) {
+    public Control visit(Int val, EvaluatedQuestion parent) {
         NumberFieldWidget f = new NumberFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
@@ -85,7 +84,7 @@ public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void,
     }
 
     @Override
-    public Control visit(Float val, Question parent) {
+    public Control visit(Double val, EvaluatedQuestion parent) {
         MoneyFieldWidget f = new MoneyFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
@@ -97,7 +96,7 @@ public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void,
     }
 
     @Override
-    public Control visit(Bool val, Question parent) {
+    public Control visit(Bool val, EvaluatedQuestion parent) {
         BooleanFieldWidget b = new BooleanFieldWidget(parent, parent.isComputed());
         b.setSelected(val.getValue());
         b.setOnAction(this::handleCheckBoxAction);
@@ -105,7 +104,7 @@ public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void,
     }
 
     @Override
-    public Control visit(Str val, Question parent) {
+    public Control visit(String val, EvaluatedQuestion parent) {
         TextFieldWidget f = new TextFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
@@ -125,7 +124,7 @@ public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void,
         try {
             f.unSetInvalid();
             Integer value  = Integer.parseInt(f.getText());
-            Literal newExpr = new Int(value);
+            Value newExpr = new Int(value);
             updateSymbolTable(f.getParentQuestion(), newExpr);
         }
         catch (Exception e) {
@@ -136,8 +135,8 @@ public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void,
     private void handleMoneyFieldAction(MoneyFieldWidget f) {
         try {
             f.unSetInvalid();
-            Double value  = Double.parseDouble(f.getText());
-            Literal newExpr = new Float(value);
+            double value  = java.lang.Double.parseDouble(f.getText());
+            Value newExpr = new Double(value);
             updateSymbolTable(f.getParentQuestion(), newExpr);
         }
         catch (Exception e) {
@@ -149,7 +148,7 @@ public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void,
         BooleanFieldWidget b = (BooleanFieldWidget) actionEvent.getSource();
         try {
             b.unSetInvalid();
-            Literal newExpr = new Bool(b.isSelected());
+            Value newExpr = new Bool(b.isSelected());
             updateSymbolTable(b.getParentQuestion(), newExpr);
         }
         catch (Exception e) {
@@ -158,21 +157,21 @@ public class QuestionListBuilder extends BaseVisitor<Void, QuestionWidget, Void,
     }
 
     private void handleTextFieldAction(TextFieldWidget f) {
-        Literal newExpr = new Str(f.getText());
+        Value newExpr = new String(f.getText());
         updateSymbolTable(f.getParentQuestion(), newExpr);
     }
 
-    private void updateSymbolTable(Question changedQuestion, Literal newValue){
-        Question update = updateQuestionExpr(changedQuestion, newValue);
+    private void updateSymbolTable(EvaluatedQuestion changedQuestion, Value newValue){
+        EvaluatedQuestion update = updateQuestionExpr(changedQuestion, newValue);
         this.symbolTable.put(changedQuestion.getVarname(), update);
     }
 
-    private Question updateQuestionExpr(Question q, Literal atom){
-        return new Question(q.getLine(),
+    private EvaluatedQuestion updateQuestionExpr(EvaluatedQuestion q, Value atom){
+        return new EvaluatedQuestion(
                         q.getLabel(),
                         q.getVarname(),
                         q.getType(),
-                        new Primary(atom),
+                        atom,
                         q.isComputed()
                     );
     }

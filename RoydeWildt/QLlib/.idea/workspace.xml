@@ -2,89 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2fe6509e-12ac-42b3-a403-b4582894835f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Float.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Int.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/QuestionsView.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/org/uva/sea/ql/parser/QL.g4" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/org/uva/sea/ql/parser/QL.tokens" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/main/org/uva/sea/ql/parser/QLLexer.tokens" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/numeric/Float.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/numeric/Int.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/numeric/Numeric.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/QuestionsView.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionListBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.5/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Bool.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Bool.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Float.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Float.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Int.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Int.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Str.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Str.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Val.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/Val.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/numeric/Float.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/numeric/Float.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/numeric/Int.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/numeric/Int.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/numeric/Numeric.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/atom/val/numeric/Numeric.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/type/Boolean.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/type/Boolean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/type/Money.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/type/Money.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/type/Number.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/type/Number.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/type/Text.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/tree/type/Text.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/visitor/EvalVisitor.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/ast/visitor/EvalVisitor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/GuiRunner.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/GuiRunner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/view/PreviewView.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/view/PreviewView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/BooleanFieldWidget.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/BooleanFieldWidget.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/MoneyFieldWidget.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/MoneyFieldWidget.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/NumberFieldWidget.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/NumberFieldWidget.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/QuestionWidget.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/QuestionWidget.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/TextFieldWidget.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/gui/widget/TextFieldWidget.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLBaseListener.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLBaseListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$BoolContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$BoolContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$ExprContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$ExprContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$FormContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$FormContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$IdContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$IdContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$NumContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$NumContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$PrimaryContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$PrimaryContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$QuestionContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$QuestionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$StatContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$StatContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$StatsContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$StatsContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$StrContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$StrContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$TypeContext.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser$TypeContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser.class" afterPath="$PROJECT_DIR$/build/classes/main/org/uva/sea/ql/parser/QLParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/binary/test/results.bin" afterPath="$PROJECT_DIR$/build/test-results/binary/test/results.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/classes/org.uva.sea.ql.ast.checker.CheckerTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/classes/org.uva.sea.ql.ast.checker.CheckerTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/classes/org.uva.sea.ql.evaluator.FormEvaluatorTest.html" afterPath="$PROJECT_DIR$/build/reports/tests/classes/org.uva.sea.ql.evaluator.FormEvaluatorTest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/index.html" afterPath="$PROJECT_DIR$/build/reports/tests/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/packages/org.uva.sea.ql.ast.checker.html" afterPath="$PROJECT_DIR$/build/reports/tests/packages/org.uva.sea.ql.ast.checker.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/reports/tests/packages/org.uva.sea.ql.evaluator.html" afterPath="$PROJECT_DIR$/build/reports/tests/packages/org.uva.sea.ql.evaluator.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/resources/test/example1.ql" afterPath="$PROJECT_DIR$/build/resources/test/example1.ql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/TEST-org.uva.sea.ql.ast.checker.CheckerTest.xml" afterPath="$PROJECT_DIR$/build/test-results/TEST-org.uva.sea.ql.ast.checker.CheckerTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/test-results/TEST-org.uva.sea.ql.evaluator.FormEvaluatorTest.xml" afterPath="$PROJECT_DIR$/build/test-results/TEST-org.uva.sea.ql.evaluator.FormEvaluatorTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Bool.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Bool.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Str.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Str.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Val.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Val.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/stat/Question.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/stat/Question.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Boolean.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Boolean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Money.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Money.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Number.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Number.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Text.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Text.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/BaseVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/BaseVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/DeclVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/DeclVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/TypeVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/TypeVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/interfaces/AtomVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/interfaces/AtomVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionsCheck.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/CyclicQuestionsCheck.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/DuplicateLabelsCheck.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/checker/DuplicateLabelsCheck.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/EvaluatedQuestion.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/EvaluatedQuestion.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/FormEvaluator.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/FormEvaluator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/GuiRunner.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/GuiRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Bool.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Bool.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/String.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/String.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Value.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Value.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Double.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Double.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Int.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Int.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionListBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionListBuilder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/view/PreviewView.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/view/PreviewView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/BooleanFieldWidget.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/BooleanFieldWidget.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/MoneyFieldWidget.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/MoneyFieldWidget.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/NumberFieldWidget.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/NumberFieldWidget.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/QuestionWidget.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/QuestionWidget.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/TextFieldWidget.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/TextFieldWidget.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/parser/QLBaseListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/parser/QLBaseListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/parser/QLListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/parser/QLListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/parser/QLParser.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/parser/QLParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/Widget.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/Widget.java" />
     </list>
     <ignored path="QLlib.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -161,23 +95,35 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="174" column="39" selection-start-line="174" selection-start-column="39" selection-end-line="174" selection-end-column="39" />
+              <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6732#6733#0" expanded="true" />
-                <element signature="e#6782#6783#0" expanded="true" />
-                <element signature="e#6870#6871#0" expanded="true" />
-                <element signature="e#6920#6921#0" expanded="true" />
+                <element signature="e#2494#2495#0" expanded="true" />
+                <element signature="e#2547#2548#0" expanded="true" />
+                <element signature="e#6728#6729#0" expanded="true" />
+                <element signature="e#6778#6779#0" expanded="true" />
+                <element signature="e#6865#6866#0" expanded="true" />
+                <element signature="e#6915#6916#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FormEvaluator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/FormEvaluator.java">
+      <file leaf-file-name="DeclVisitor.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/DeclVisitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6164383">
+              <caret line="30" column="57" selection-start-line="30" selection-start-column="57" selection-end-line="30" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QuestionListBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionListBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+              <caret line="35" column="92" selection-start-line="35" selection-start-column="92" selection-end-line="35" selection-end-column="92" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -189,18 +135,20 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/view/PreviewView.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="34" column="61" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="61" />
+              <caret line="32" column="18" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuestionListBuilder.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionListBuilder.java">
+      <file leaf-file-name="FormEvaluator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/FormEvaluator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.1682973">
-              <caret line="165" column="16" selection-start-line="165" selection-start-column="8" selection-end-line="165" selection-end-column="16" />
-              <folding />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="18" column="34" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="34" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -209,37 +157,12 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/EvaluatedQuestion.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+              <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#947#948#0" expanded="true" />
+                <element signature="e#978#979#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Bool.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Bool.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="52" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
-              <folding>
-                <element signature="e#180#181#0" expanded="true" />
-                <element signature="e#214#215#0" expanded="true" />
-                <element signature="e#318#319#0" expanded="true" />
-                <element signature="e#377#378#0" expanded="true" />
-                <element signature="e#406#407#0" expanded="true" />
-                <element signature="e#465#466#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Question.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/stat/Question.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="34" selection-end-column="5" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -248,75 +171,11 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Value.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding>
-                <element signature="e#234#235#0" expanded="true" />
-                <element signature="e#265#266#0" expanded="true" />
-                <element signature="e#313#314#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Double.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Double.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
-              <folding>
-                <element signature="e#257#258#0" expanded="true" />
-                <element signature="e#291#292#0" expanded="true" />
-                <element signature="e#425#426#0" expanded="true" />
-                <element signature="e#494#495#0" expanded="true" />
-                <element signature="e#544#545#0" expanded="true" />
-                <element signature="e#613#614#0" expanded="true" />
-                <element signature="e#663#664#0" expanded="true" />
-                <element signature="e#732#733#0" expanded="true" />
-                <element signature="e#782#783#0" expanded="true" />
-                <element signature="e#851#852#0" expanded="true" />
-                <element signature="e#898#899#0" expanded="true" />
-                <element signature="e#965#966#0" expanded="true" />
-                <element signature="e#1013#1014#0" expanded="true" />
-                <element signature="e#1081#1082#0" expanded="true" />
-                <element signature="e#1129#1130#0" expanded="true" />
-                <element signature="e#1197#1198#0" expanded="true" />
-                <element signature="e#1244#1245#0" expanded="true" />
-                <element signature="e#1311#1312#0" expanded="true" />
-                <element signature="e#1352#1353#0" expanded="true" />
-                <element signature="e#1397#1398#0" expanded="true" />
-                <element signature="e#1438#1439#0" expanded="true" />
-                <element signature="e#1484#1485#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Int.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Int.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
-              <folding>
-                <element signature="e#389#390#0" expanded="true" />
-                <element signature="e#452#453#0" expanded="true" />
-                <element signature="e#499#500#0" expanded="true" />
-                <element signature="e#562#563#0" expanded="true" />
-                <element signature="e#609#610#0" expanded="true" />
-                <element signature="e#672#673#0" expanded="true" />
-                <element signature="e#719#720#0" expanded="true" />
-                <element signature="e#782#783#0" expanded="true" />
-                <element signature="e#829#830#0" expanded="true" />
-                <element signature="e#893#894#0" expanded="true" />
-                <element signature="e#941#942#0" expanded="true" />
-                <element signature="e#1006#1007#0" expanded="true" />
-                <element signature="e#1054#1055#0" expanded="true" />
-                <element signature="e#1119#1120#0" expanded="true" />
-                <element signature="e#1166#1167#0" expanded="true" />
-                <element signature="e#1230#1231#0" expanded="true" />
-                <element signature="e#1268#1269#0" expanded="true" />
-                <element signature="e#1310#1311#0" expanded="true" />
-                <element signature="e#1348#1349#0" expanded="true" />
-                <element signature="e#1391#1392#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#336#337#0" expanded="true" />
+                <element signature="e#383#384#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -329,8 +188,8 @@
       <list>
         <option value="JUnit4 Test Class" />
         <option value="JavaFXApplication" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -758,9 +617,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/expr/binary/GT.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/var/Var.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Float.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/interfaces/AtomVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/interfaces/TypeVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/BaseVisitor.java" />
@@ -773,18 +629,12 @@
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionsBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/customStyleSheet.css" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/GuiRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/BooleanFieldWidget.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/MoneyFieldWidget.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/NumberFieldWidget.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/Widget.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/QuestionWidget.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Bool.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Boolean.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Money.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Number.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Text.java" />
         <option value="$PROJECT_DIR$/src/main/resources/customStylesheet.css" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/TextFieldWidget.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/numeric/Numeric.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/Operator.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/CalcVisitor.java" />
@@ -793,22 +643,31 @@
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Int.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Int.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Double.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/String.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Str.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/StringValue.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Val.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/IntValue.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Numeric.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Value.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Bool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/Question.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/Widget.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/QuestionWidget.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/NumberFieldWidget.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/MoneyFieldWidget.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/BooleanFieldWidget.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/TextFieldWidget.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/visitor/ValueVisitable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/String.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/visitor/ValueVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Int.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Double.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/Question.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Bool.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Value.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/EvaluatedQuestion.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/FormEvaluator.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/view/PreviewView.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionListBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/FormEvaluator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/DeclVisitor.java" />
       </list>
     </option>
   </component>
@@ -1006,7 +865,367 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="widget" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="view" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="builder" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="evaluator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="value" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="value" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="visitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="value" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="numeric" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ast" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="visitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ast" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tree" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ast" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tree" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="atom" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SE-QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="QLlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ast" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tree" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="atom" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="val" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1633,7 +1852,7 @@
       <workItem from="1457540679375" duration="3145000" />
       <workItem from="1457543833279" duration="1022000" />
       <workItem from="1457600229008" duration="18568000" />
-      <workItem from="1458120451707" duration="15187000" />
+      <workItem from="1458120451707" duration="17770000" />
     </task>
     <servers />
   </component>
@@ -1670,7 +1889,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="196407000" />
+    <option name="totallyTimeSpent" value="198990000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1683,7 +1902,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32069972" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1695,7 +1914,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26164383" sideWeight="0.49676898" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32739726" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22617124" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22617124" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32465753" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1738,22 +1957,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/expr/binary/NEq.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4417178">
-          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/expr/binary/Mul.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46932516">
-          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/expr/binary/LT.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4417178">
@@ -1782,29 +1985,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.83435583">
           <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/DeclVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38650307">
-          <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/interfaces/AtomVisitable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1380368">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/interfaces/AtomVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.082822084">
-          <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -1930,61 +2110,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/BooleanFieldWidget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47162426">
-          <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
-          <folding>
-            <element signature="e#717#718#0" expanded="true" />
-            <element signature="e#761#762#0" expanded="true" />
-            <element signature="e#809#810#0" expanded="true" />
-            <element signature="e#856#857#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/QuestionWidget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32289627">
-          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/NumberFieldWidget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20547946">
-          <caret line="8" column="67" selection-start-line="8" selection-start-column="67" selection-end-line="8" selection-end-column="67" />
-          <folding>
-            <element signature="e#723#724#0" expanded="true" />
-            <element signature="e#767#768#0" expanded="true" />
-            <element signature="e#815#816#0" expanded="true" />
-            <element signature="e#862#863#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/MoneyFieldWidget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20547946">
-          <caret line="8" column="65" selection-start-line="8" selection-start-column="65" selection-end-line="8" selection-end-column="65" />
-          <folding>
-            <element signature="e#720#721#0" expanded="true" />
-            <element signature="e#764#765#0" expanded="true" />
-            <element signature="e#812#813#0" expanded="true" />
-            <element signature="e#859#860#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/Widget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23483366">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/type/Boolean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2025,26 +2150,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/TextFieldWidget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Float.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Int.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2064,25 +2169,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14677104">
-          <caret line="5" column="39" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Bool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20547946">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding>
-            <element signature="e#543#544#0" expanded="true" />
-            <element signature="e#581#582#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Val.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2096,108 +2182,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Value.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
-          <folding>
-            <element signature="e#234#235#0" expanded="true" />
-            <element signature="e#265#266#0" expanded="true" />
-            <element signature="e#313#314#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Bool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="52" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
-          <folding>
-            <element signature="e#180#181#0" expanded="true" />
-            <element signature="e#214#215#0" expanded="true" />
-            <element signature="e#318#319#0" expanded="true" />
-            <element signature="e#377#378#0" expanded="true" />
-            <element signature="e#406#407#0" expanded="true" />
-            <element signature="e#465#466#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="174" column="39" selection-start-line="174" selection-start-column="39" selection-end-line="174" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6732#6733#0" expanded="true" />
-            <element signature="e#6782#6783#0" expanded="true" />
-            <element signature="e#6870#6871#0" expanded="true" />
-            <element signature="e#6920#6921#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Int.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
-          <folding>
-            <element signature="e#389#390#0" expanded="true" />
-            <element signature="e#452#453#0" expanded="true" />
-            <element signature="e#499#500#0" expanded="true" />
-            <element signature="e#562#563#0" expanded="true" />
-            <element signature="e#609#610#0" expanded="true" />
-            <element signature="e#672#673#0" expanded="true" />
-            <element signature="e#719#720#0" expanded="true" />
-            <element signature="e#782#783#0" expanded="true" />
-            <element signature="e#829#830#0" expanded="true" />
-            <element signature="e#893#894#0" expanded="true" />
-            <element signature="e#941#942#0" expanded="true" />
-            <element signature="e#1006#1007#0" expanded="true" />
-            <element signature="e#1054#1055#0" expanded="true" />
-            <element signature="e#1119#1120#0" expanded="true" />
-            <element signature="e#1166#1167#0" expanded="true" />
-            <element signature="e#1230#1231#0" expanded="true" />
-            <element signature="e#1268#1269#0" expanded="true" />
-            <element signature="e#1310#1311#0" expanded="true" />
-            <element signature="e#1348#1349#0" expanded="true" />
-            <element signature="e#1391#1392#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Double.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
-          <folding>
-            <element signature="e#257#258#0" expanded="true" />
-            <element signature="e#291#292#0" expanded="true" />
-            <element signature="e#425#426#0" expanded="true" />
-            <element signature="e#494#495#0" expanded="true" />
-            <element signature="e#544#545#0" expanded="true" />
-            <element signature="e#613#614#0" expanded="true" />
-            <element signature="e#663#664#0" expanded="true" />
-            <element signature="e#732#733#0" expanded="true" />
-            <element signature="e#782#783#0" expanded="true" />
-            <element signature="e#851#852#0" expanded="true" />
-            <element signature="e#898#899#0" expanded="true" />
-            <element signature="e#965#966#0" expanded="true" />
-            <element signature="e#1013#1014#0" expanded="true" />
-            <element signature="e#1081#1082#0" expanded="true" />
-            <element signature="e#1129#1130#0" expanded="true" />
-            <element signature="e#1197#1198#0" expanded="true" />
-            <element signature="e#1244#1245#0" expanded="true" />
-            <element signature="e#1311#1312#0" expanded="true" />
-            <element signature="e#1352#1353#0" expanded="true" />
-            <element signature="e#1397#1398#0" expanded="true" />
-            <element signature="e#1438#1439#0" expanded="true" />
-            <element signature="e#1484#1485#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2210,10 +2195,183 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/QuestionWidget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32289627">
+          <caret line="13" column="38" selection-start-line="13" selection-start-column="38" selection-end-line="13" selection-end-column="38" />
+          <folding>
+            <element signature="e#400#401#0" expanded="true" />
+            <element signature="e#446#447#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/NumberFieldWidget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4403131">
+          <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/MoneyFieldWidget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2935421">
+          <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/BooleanFieldWidget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1780822">
+          <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+          <folding>
+            <element signature="e#721#722#0" expanded="false" />
+            <element signature="e#758#759#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/TextFieldWidget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23483366">
+          <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/interfaces/AtomVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="14" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/interfaces/AtomVisitable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17612524">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="7" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/widget/Widget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26418787">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="10" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/visitor/ValueVisitable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="47" selection-start-line="0" selection-start-column="47" selection-end-line="0" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Bool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41095892">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="21" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/tree/atom/val/Float.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2074364">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Int.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1001#1002#0" expanded="true" />
+            <element signature="e#1066#1067#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Bool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.704501">
+          <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
+          <folding>
+            <element signature="e#467#468#0" expanded="true" />
+            <element signature="e#526#527#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/numeric/Double.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.91193736">
+          <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1073#1074#0" expanded="true" />
+            <element signature="e#1141#1142#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/visitor/ValueVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08806262">
+          <caret line="3" column="43" selection-start-line="3" selection-start-column="43" selection-end-line="3" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/value/Value.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#336#337#0" expanded="true" />
+            <element signature="e#383#384#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/EvaluatedQuestion.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+          <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#947#948#0" expanded="true" />
+            <element signature="e#978#979#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionListBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="92" selection-start-line="35" selection-start-column="92" selection-end-line="35" selection-end-column="92" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -2223,7 +2381,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/view/PreviewView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="61" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="61" />
+          <caret line="32" column="18" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -2231,17 +2389,33 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/evaluator/FormEvaluator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <caret line="18" column="34" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/gui/builder/QuestionListBuilder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/EvalVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.1682973">
-          <caret line="165" column="16" selection-start-line="165" selection-start-column="8" selection-end-line="165" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2494#2495#0" expanded="true" />
+            <element signature="e#2547#2548#0" expanded="true" />
+            <element signature="e#6728#6729#0" expanded="true" />
+            <element signature="e#6778#6779#0" expanded="true" />
+            <element signature="e#6865#6866#0" expanded="true" />
+            <element signature="e#6915#6916#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/sea/ql/ast/visitor/DeclVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6164383">
+          <caret line="30" column="57" selection-start-line="30" selection-start-column="57" selection-end-line="30" selection-end-column="57" />
           <folding />
         </state>
       </provider>

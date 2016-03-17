@@ -2,26 +2,27 @@ package org.uva.sea.ql.gui.widget;
 
 import javafx.scene.control.TextField;
 import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 
 /**
  * Created by roy on 28-2-16.
  */
 public class TextFieldWidget extends TextField implements Widget{
-    private Question parentQuestion;
+    private EvaluatedQuestion parentQuestion;
 
-    public TextFieldWidget(Question parent, boolean readOnly) {
+    public TextFieldWidget(EvaluatedQuestion parent, boolean readOnly) {
         this.parentQuestion = parent;
         this.setDisable(readOnly);
 
     }
 
-    public TextFieldWidget(String text, Question parent, boolean readOnly) {
+    public TextFieldWidget(String text, EvaluatedQuestion parent, boolean readOnly) {
         super(text);
         this.parentQuestion = parent;
         this.setDisable(readOnly);
     }
 
-    public Question getParentQuestion() {
+    public EvaluatedQuestion getParentQuestion() {
         return parentQuestion;
     }
 

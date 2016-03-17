@@ -32,7 +32,7 @@ public class PreviewView {
 
         FormEvaluator evaluator = new FormEvaluator(this.form);
         List<EvaluatedQuestion> questions = evaluator.getQuestions();
-        QuestionListBuilder visitor = new QuestionListBuilder(questions, (ObservableMap<Var, Question>) evaluator.getSymbolTable());
+        QuestionListBuilder visitor = new QuestionListBuilder(questions, evaluator.getSymbolTable());
 
         addFormListener(evaluator);
 
@@ -68,7 +68,7 @@ public class PreviewView {
             FormEvaluator fe = new FormEvaluator(this.form, (ObservableMap<Var, Question>) c.getMap());
             List<EvaluatedQuestion> questions = fe.getQuestions();
 
-            QuestionListBuilder visitor = new QuestionListBuilder(questions, (ObservableMap<Var, Question>) fe.getSymbolTable());
+            QuestionListBuilder visitor = new QuestionListBuilder(questions,  fe.getSymbolTable());
             List<QuestionWidget> UIElements = visitor.getUiElements();
             updateFormUI(changedQuestion, UIElements);
         });
@@ -100,7 +100,7 @@ public class PreviewView {
     }
 
     public boolean isQuestion(QuestionWidget p, Question q){
-        if(p.getQuestion().getVarname().equals(q.getVarname())){
+        if(p.getParentQuestion().getVarname().equals(q.getVarname())){
             return true;
         }
         return false;

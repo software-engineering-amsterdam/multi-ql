@@ -10,6 +10,7 @@ import org.uva.sea.ql.evaluator.value.Value;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by roy on 29-2-16.
@@ -20,19 +21,19 @@ public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
     public FormEvaluator(Form f) {
         super(f);
         this.questions = new ArrayList<>();
-        f.accept(this, (ObservableMap) this.getSymbolTable());
+        f.accept(this, this.getSymbolTable());
     }
 
     public FormEvaluator(Form f, ObservableMap<Var, Question> symbolTable) {
         super(f, symbolTable);
         this.questions = new ArrayList<>();
-        f.accept(this, (ObservableMap) this.getSymbolTable());
+        f.accept(this, this.getSymbolTable());
     }
 
     @Override
-    public Void visit(Question stat, ObservableMap<Var,Question> symbolTable) {
-        Expr expr;
+    public Void visit(Question stat, Map<Var,Question> symbolTable) {
 
+        Expr expr;
         if(symbolTable.containsKey(stat.getVarname())){
             expr = symbolTable.get(stat.getVarname()).getExpr();
         }
@@ -46,7 +47,8 @@ public class FormEvaluator extends EvalVisitor <Void, Void, Void> {
                                         stat.getLabel(),
                                         stat.getVarname(),
                                         stat.getType(),
-                                        computedValue));
+                                        computedValue,
+                                        stat.isComputed()));
 
         return null;
     }

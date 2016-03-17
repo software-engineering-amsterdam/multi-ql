@@ -3,6 +3,8 @@ package org.uva.sea.ql.ast.visitor;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.evaluator.EvaluatedQuestion;
+import org.uva.sea.ql.evaluator.value.Value;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,19 +12,19 @@ import java.util.Map;
 /**
  * Created by roy on 25-2-16.
  */
-public class DeclVisitor extends BaseVisitor <Void,Void,Void,Void,Void,Map<Var, Question>> {
+public class DeclVisitor extends BaseVisitor <Void,Void,Void,Void,Void,Map<Var, EvaluatedQuestion>> {
 
-    private final Map<Var,Expr> decls;
+    private final Map<Var,Value> decls;
 
     public DeclVisitor() {
         decls = new HashMap<>();
     }
 
     @Override
-    public Void visit(Question stat, Map<Var, Question> symbolTable) {
+    public Void visit(Question stat, Map<Var, EvaluatedQuestion> symbolTable) {
         if(symbolTable.containsKey(stat.getVarname())){
-            Question q = symbolTable.get(stat.getVarname());
-            decls.put(q.getVarname(), q.getExpr());
+            EvaluatedQuestion q = symbolTable.get(stat.getVarname());
+            decls.put(q.getVarname(), q.getValue());
             return super.visit(q, null);
         }
         else {
@@ -31,7 +33,7 @@ public class DeclVisitor extends BaseVisitor <Void,Void,Void,Void,Void,Map<Var, 
         }
     }
 
-    public Map<Var,Expr> getDecls() {
+    public Map<Var,Value> getDecls() {
         return decls;
     }
 }

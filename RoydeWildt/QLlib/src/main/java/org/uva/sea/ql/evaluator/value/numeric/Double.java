@@ -1,6 +1,7 @@
 package org.uva.sea.ql.evaluator.value.numeric;
 
 import org.uva.sea.ql.evaluator.value.Bool;
+import org.uva.sea.ql.evaluator.value.visitor.ValueVisitor;
 
 /**
  * Created by roydewildt on 16/03/16.
@@ -65,5 +66,10 @@ public class Double extends Numeric {
     @Override
     public Double Neg() {
         return new Double(-this.value);
+    }
+
+    @Override
+    public <ATOM, CONTEXT> ATOM accept(ValueVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
+        return visitor.visit(this, context);
     }
 }

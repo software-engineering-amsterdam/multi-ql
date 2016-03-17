@@ -1,6 +1,6 @@
 package org.uva.sea.ql.gui.widget;
 
-import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 
 /**
  * Created by roydewildt on 16/03/16.
@@ -8,5 +8,5 @@ import org.uva.sea.ql.ast.tree.stat.Question;
 public interface Widget {
     void setInvalid();
     void unSetInvalid();
-    Question getParentQuestion();
+    EvaluatedQuestion getParentQuestion();
 }

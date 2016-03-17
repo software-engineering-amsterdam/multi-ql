@@ -2,25 +2,26 @@ package org.uva.sea.ql.gui.widget;
 
 import javafx.scene.control.TextField;
 import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 
 /**
  * Created by roy on 3-3-16.
  */
 public class NumberFieldWidget extends TextField implements Widget {
-    private Question parentQuestion;
+    private EvaluatedQuestion parentQuestion;
 
-    public NumberFieldWidget(Question question, boolean readOnly) {
+    public NumberFieldWidget(EvaluatedQuestion question, boolean readOnly) {
         this.parentQuestion = question;
         this.setDisable(readOnly);
     }
 
-    public NumberFieldWidget(String text, Question question, boolean readOnly) {
+    public NumberFieldWidget(String text, EvaluatedQuestion question, boolean readOnly) {
         super(text);
         this.parentQuestion = question;
         this.setDisable(readOnly);
     }
 
-    public Question getParentQuestion() {
+    public EvaluatedQuestion getParentQuestion() {
         return parentQuestion;
     }
 

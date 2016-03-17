@@ -2,19 +2,30 @@ package org.uva.sea.ql.gui.widget;
 
 import javafx.scene.layout.GridPane;
 import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 
 /**
  * Created by roy on 3-3-16.
  */
 //TODO: Is this a widget?
-public class QuestionWidget extends GridPane {
-    private Question question;
+public class QuestionWidget extends GridPane implements Widget {
+    private EvaluatedQuestion parentQuestion;
 
-    public QuestionWidget(Question question) {
-        this.question = question;
+    public QuestionWidget(EvaluatedQuestion question) {
+        this.parentQuestion = question;
     }
 
-    public Question getQuestion() {
-        return question;
+    @Override
+    public void setInvalid() {
+
+    }
+
+    @Override
+    public void unSetInvalid() {
+
+    }
+
+    public EvaluatedQuestion getParentQuestion() {
+        return parentQuestion;
     }
 }
