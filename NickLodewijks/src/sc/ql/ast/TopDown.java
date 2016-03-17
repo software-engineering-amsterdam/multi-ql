@@ -3,24 +3,25 @@ package sc.ql.ast;
 import sc.ql.ast.Expression.Add;
 import sc.ql.ast.Expression.And;
 import sc.ql.ast.Expression.BinaryExpr;
-import sc.ql.ast.Expression.BooleanLiteral;
 import sc.ql.ast.Expression.Divide;
-import sc.ql.ast.Expression.Equals;
-import sc.ql.ast.Expression.EqualsNot;
+import sc.ql.ast.Expression.Equal;
 import sc.ql.ast.Expression.GreaterThan;
 import sc.ql.ast.Expression.GreaterThanOrEqual;
-import sc.ql.ast.Expression.IntegerLiteral;
 import sc.ql.ast.Expression.LessThan;
 import sc.ql.ast.Expression.LessThanOrEqual;
+import sc.ql.ast.Expression.LiteralExpr;
 import sc.ql.ast.Expression.Multiply;
 import sc.ql.ast.Expression.Negative;
 import sc.ql.ast.Expression.Not;
+import sc.ql.ast.Expression.NotEqual;
 import sc.ql.ast.Expression.Or;
 import sc.ql.ast.Expression.Positive;
-import sc.ql.ast.Expression.StringLiteral;
 import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.UnaryExpr;
 import sc.ql.ast.Expression.VariableExpr;
+import sc.ql.ast.Literal.BooleanLiteral;
+import sc.ql.ast.Literal.IntegerLiteral;
+import sc.ql.ast.Literal.StringLiteral;
 import sc.ql.ast.Statement.Block;
 import sc.ql.ast.Statement.ComputedQuestion;
 import sc.ql.ast.Statement.IfThen;
@@ -29,8 +30,8 @@ import sc.ql.ast.ValueType.BooleanType;
 import sc.ql.ast.ValueType.IntegerType;
 import sc.ql.ast.ValueType.StringType;
 
-public class TopDown<T, U>
-		implements ExpressionVisitor<T, U>, FormVisitor<T, U>, StatementVisitor<T, U>, ValueTypeVisitor<T, U> {
+public class TopDown<T, U> implements ExpressionVisitor<T, U>, FormVisitor<T, U>, StatementVisitor<T, U>,
+		ValueTypeVisitor<T, U>, LiteralVisitor<T, U> {
 
 	public T visit(BinaryExpr node, U context) {
 		node.left().accept(this, context);
@@ -66,7 +67,7 @@ public class TopDown<T, U>
 	}
 
 	@Override
-	public T visit(Equals node, U context) {
+	public T visit(Equal node, U context) {
 		return visit((BinaryExpr) node, context);
 	}
 
@@ -91,7 +92,7 @@ public class TopDown<T, U>
 	}
 
 	@Override
-	public T visit(EqualsNot node, U context) {
+	public T visit(NotEqual node, U context) {
 		return visit((BinaryExpr) node, context);
 	}
 
@@ -145,6 +146,13 @@ public class TopDown<T, U>
 	public T visit(IfThen node, U context) {
 		node.condition().accept(this, context);
 		node.then().accept(this, context);
+
+		return null;
+	}
+
+	@Override
+	public T visit(LiteralExpr node, U context) {
+		node.literal().accept(this, context);
 
 		return null;
 	}

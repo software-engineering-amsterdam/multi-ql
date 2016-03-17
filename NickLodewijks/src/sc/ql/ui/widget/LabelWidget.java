@@ -1,5 +1,6 @@
 package sc.ql.ui.widget;
 
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 
@@ -17,11 +18,9 @@ public class LabelWidget implements UIWidget {
 	private final JLabel label;
 
 	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JLabel.font"),
-			new Dimension(150, 20));
+			new Dimension(150, 20), Color.BLACK);
 
-	public LabelWidget(String text)
-
-	{
+	public LabelWidget(String text) {
 		label = new JLabel(text);
 		label.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
@@ -37,6 +36,7 @@ public class LabelWidget implements UIWidget {
 	public void setStyle(UIWidgetStyle style) {
 		label.setFont(style.getFont());
 		label.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
+		label.setForeground(style.getColor());
 	}
 
 	@Override
