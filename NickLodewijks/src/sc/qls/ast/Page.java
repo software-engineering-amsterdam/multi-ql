@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import sc.ql.ast.ASTNode;
-import sc.qls.ast.Rule.QuestionRule;
-import sc.qls.ast.Rule.ValueTypeRule;
+import sc.ql.ui.UIQuestion;
 
 public class Page extends ASTNode {
 
@@ -18,7 +17,7 @@ public class Page extends ASTNode {
 		this.sections = sections;
 	}
 
-	public String getName() {
+	public String name() {
 		return name;
 	}
 
@@ -26,42 +25,14 @@ public class Page extends ASTNode {
 		return Collections.unmodifiableList(sections);
 	}
 
-	public List<QuestionRule> questionRules() {
-		List<QuestionRule> questions;
+	public List<UIQuestion> filter(List<UIQuestion> questions) {
+		List<UIQuestion> filteredList;
 
-		questions = new ArrayList<>();
-
+		filteredList = new ArrayList<>();
 		for (Section section : sections) {
-			section.rules()
-					.forEach(r -> {
-						r.accept(new RuleVisitor<Void, Void>() {
-
-							@Override
-							public Void visit(QuestionRule rule, Void context) {
-								questions.add(rule);
-								return null;
-							}
-
-							@Override
-							public Void visit(ValueTypeRule rule, Void context) {
-								return null;
-							}
-
-						}, null);
-					});
+			filteredList.addAll(section.filter(questions));
 		}
 
-		return Collections.unmodifiableList(questions);
+		return Collections.unmodifiableList(filteredList);
 	}
-
-	public boolean containsQuestions(String id) {
-		for (Section section : sections) {
-			if (section.contains(id)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 }

@@ -30,7 +30,7 @@ public class StyleSheet extends ASTNode {
 		return Collections.unmodifiableList(pages);
 	}
 
-	public QuestionRule getQLSQuestion(Question question) {
+	public QuestionRule ruleFor(Question question) {
 		for (Page page : pages) {
 			for (Section section : page.sections()) {
 				QuestionRule rule;

@@ -66,15 +66,10 @@ public class QLSUIFactory extends UIFactory {
 		UIWidget uiWidget;
 		UIWidgetStyle style;
 
-		rule = styleSheet.getQLSQuestion(question);
+		rule = styleSheet.ruleFor(question);
+		assert rule != null;
 
-		uiWidget = createWidget(rule, env, question);
-
-		// Use default widget
-		if (uiWidget == null) {
-			uiWidget = super.createValueWidget(question, env);
-		}
-
+		uiWidget = createWidget(question, env, rule);
 		style = createStyle(rule, uiWidget.getStyle());
 
 		uiWidget.setStyle(style);
@@ -82,13 +77,15 @@ public class QLSUIFactory extends UIFactory {
 		return uiWidget;
 	}
 
-	private UIWidget createWidget(Rule rule, Environment env, Question question) {
+	private UIWidget createWidget(Question question, Environment env, Rule rule) {
 		Widget widget;
 		ValueType type;
 
 		widget = rule.widget();
+
+		// Use default widget
 		if (widget == null) {
-			return null;
+			return super.createValueWidget(question, env);
 		}
 
 		type = question.type();

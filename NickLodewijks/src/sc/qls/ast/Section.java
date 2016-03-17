@@ -3,8 +3,10 @@ package sc.qls.ast;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import sc.ql.ast.ASTNode;
+import sc.ql.ui.UIQuestion;
 import sc.qls.ast.Rule.QuestionRule;
 import sc.qls.ast.Rule.ValueTypeRule;
 
@@ -24,6 +26,10 @@ public class Section extends ASTNode {
 
 	public boolean contains(String id) {
 		return getById(id) != null;
+	}
+
+	public List<UIQuestion> filter(List<UIQuestion> questions) {
+		return questions.stream().filter(q -> contains(q.name())).collect(Collectors.toList());
 	}
 
 	public QuestionRule getById(String id) {

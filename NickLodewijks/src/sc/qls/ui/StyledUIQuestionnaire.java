@@ -23,17 +23,7 @@ public class StyledUIQuestionnaire extends UIQuestionnaire {
 		super(questions);
 
 		for (Page page : styleSheet.getPages()) {
-			List<UIQuestion> questionsOnPage;
-
-			questionsOnPage = new ArrayList<>();
-
-			for (UIQuestion question : questions) {
-				if (page.containsQuestions(question.getName())) {
-					questionsOnPage.add(question);
-				}
-			}
-
-			pages.add(new UIPage(page, questionsOnPage));
+			pages.add(new UIPage(page, page.filter(questions)));
 		}
 	}
 

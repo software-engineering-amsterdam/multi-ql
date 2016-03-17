@@ -16,24 +16,16 @@ import sc.qls.ast.Section;
 public class UIPage {
 
 	private final List<UISection> sections = new ArrayList<>();
-	private JPanel panel;
+	private final JPanel panel;
 
 	public UIPage(Page page, List<UIQuestion> questions) {
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
 		for (Section section : page.sections()) {
-			List<UIQuestion> questionsInSection;
 			UISection uiSection;
 
-			questionsInSection = new ArrayList<>();
-			for (UIQuestion question : questions) {
-				if (section.contains(question.getName())) {
-					questionsInSection.add(question);
-				}
-			}
-
-			uiSection = new UISection(section, questionsInSection);
+			uiSection = new UISection(section, section.filter(questions));
 			sections.add(uiSection);
 
 			panel.add(uiSection.getComponent());

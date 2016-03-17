@@ -17,19 +17,17 @@ import sc.qls.ast.Section;
 
 public class UISection {
 
-	private final List<UIQuestion> questions;
 	private final Section section;
 	private final JPanel panel;
 
 	public UISection(Section section, List<UIQuestion> questions) {
 		this.section = section;
-		this.questions = sort(questions);
 
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(createBorder());
 
-		for (UIQuestion question : this.questions) {
+		for (UIQuestion question : sort(questions)) {
 			panel.add(question.getComponent());
 			panel.add(Box.createRigidArea(new Dimension(0, 2)));
 		}
@@ -40,7 +38,7 @@ public class UISection {
 
 		sortedQuestions = new ArrayList<>(questions);
 		sortedQuestions.sort((q1, q2) -> {
-			return Integer.compare(section.indexOf(q1.getName()), section.indexOf(q2.getName()));
+			return Integer.compare(section.indexOf(q1.name()), section.indexOf(q2.name()));
 		});
 
 		return sortedQuestions;
