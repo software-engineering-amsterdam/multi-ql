@@ -55,18 +55,18 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 	
 	@Override
 	public Form visitForm(QLParser.FormContext ctx) {
-		Identifier id = new Identifier(ctx.identifier.getText(), getCodeLocation(ctx));
+		Identifier identifier = new Identifier(ctx.identifier.getText(), getCodeLocation(ctx));
 		Block block = (Block) ctx.block().accept(this);
 
-		return new Form(id, block, getCodeLocation(ctx));
+		return new Form(identifier, block, getCodeLocation(ctx));
 	}
 
 	@Override
 	public Block visitBlock(QLParser.BlockContext ctx) {
 		List<Statement> statements = new ArrayList<Statement>();
 		
-		for (StatementContext st : ctx.statement()) {
-			statements.add((Statement) st.accept(this));
+		for (StatementContext curentStatement : ctx.statement()) {
+			statements.add((Statement) curentStatement.accept(this));
 		}
 
 		return new Block(statements, getCodeLocation(ctx));
@@ -75,37 +75,37 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 	@Override
 	public Question visitQuestionStatement(QLParser.QuestionStatementContext ctx) {
 		Type type = (Type) ctx.type.accept(this);
-		Identifier id = new Identifier(ctx.identifier.getText(), getCodeLocation(ctx));
+		Identifier identifier = new Identifier(ctx.identifier.getText(), getCodeLocation(ctx));
 		String label = removeStringQuotes(ctx.label.getText());
 
-		return new Question(id, label, type, getCodeLocation(ctx));
+		return new Question(identifier, label, type, getCodeLocation(ctx));
 	}
 
 	@Override
 	public ComputedQuestion visitComputedQuestionStatement(QLParser.ComputedQuestionStatementContext ctx) {
 		Type type = (Type) ctx.type.accept(this);
-		Identifier id = new Identifier(ctx.identifier.getText(), getCodeLocation(ctx));
+		Identifier identifier = new Identifier(ctx.identifier.getText(), getCodeLocation(ctx));
 		String label = removeStringQuotes(ctx.label.getText());
-		Expression expr = (Expression) ctx.expr.accept(this);
+		Expression expression = (Expression) ctx.expr.accept(this);
 
-		return new ComputedQuestion(id, label, type, expr, getCodeLocation(ctx));
+		return new ComputedQuestion(identifier, label, type, expression, getCodeLocation(ctx));
 	}
 
 	@Override
 	public IfStatement visitIfStatement(QLParser.IfStatementContext ctx) {
-		Expression expr = (Expression) ctx.expr.accept(this);
+		Expression expression = (Expression) ctx.expr.accept(this);
 		Block block = (Block) ctx.ifBody.accept(this);
 
-		return new IfStatement(expr, block, getCodeLocation(ctx));
+		return new IfStatement(expression, block, getCodeLocation(ctx));
 	}
 
 	@Override
 	public IfElseStatement visitIfElseStatement(QLParser.IfElseStatementContext ctx) {
-		Expression expr = (Expression) ctx.expr.accept(this);
+		Expression expression = (Expression) ctx.expr.accept(this);
 		Block blockIf = (Block) ctx.ifBody.accept(this);
 		Block blockElse = (Block) ctx.elseBody.accept(this);
 
-		return new IfElseStatement(expr, blockIf, blockElse, getCodeLocation(ctx));
+		return new IfElseStatement(expression, blockIf, blockElse, getCodeLocation(ctx));
 	}
 
 	@Override
@@ -184,23 +184,23 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 
 	@Override
 	public Parenthesis visitParenthesisExpression(QLParser.ParenthesisExpressionContext ctx) {
-		Expression expr = (Expression) ctx.expr.accept(this);
+		Expression expression = (Expression) ctx.expr.accept(this);
 		
-		return new Parenthesis(expr, getCodeLocation(ctx));
+		return new Parenthesis(expression, getCodeLocation(ctx));
 	}
 
 	@Override
 	public Not visitNotExpression(QLParser.NotExpressionContext ctx) {
-		Expression expr = (Expression) ctx.expr.accept(this);
+		Expression expression = (Expression) ctx.expr.accept(this);
 		
-		return new Not(expr, getCodeLocation(ctx));
+		return new Not(expression, getCodeLocation(ctx));
 	}
 
 	@Override
 	public Literal visitLiteralExpression(QLParser.LiteralExpressionContext ctx) {
-		Literal lit = (Literal) ctx.literalValue.accept(this);
+		Literal literal = (Literal) ctx.literalValue.accept(this);
 		
-		return lit;
+		return literal;
 	}
 
 	@Override
@@ -263,8 +263,8 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 		return new CodeLocation(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
 	}
 	
-	private String removeStringQuotes(String str) {
-		return str.substring(1, str.length()-1);
+	private String removeStringQuotes(String targetString) {
+		return targetString.substring(1, targetString.length()-1);
 	}
 
 }

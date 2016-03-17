@@ -5,11 +5,11 @@ import nl.nicasso.ql.ast.nodes.types.Type;
 
 public abstract class Unary extends Expression {
 
+	private Expression expr;
+	
 	public Unary(CodeLocation location) {
 		super(location);
 	}
-
-	Expression expr;
 
 	public Expression getExpr() {
 		return expr;
