@@ -3,12 +3,11 @@ package eu.bankersen.kevin.ql.ast.types;
 import java.math.BigDecimal;
 
 import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.gui.widgets.InputWidget;
-import eu.bankersen.kevin.ql.gui.widgets.Widget;
+import eu.bankersen.kevin.ql.gui.widgets.input.InputWidget;
 
 public abstract class QLType {
 
-    public abstract InputWidget defaultWidget(Widget parentWidget);
+    public abstract InputWidget defaultWidget();
 
     public abstract QLValue createQLValueFrom(String string);
 

@@ -2,7 +2,6 @@ package eu.bankersen.kevin.ql.ast.expr;
 
 import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class Literal extends Expr {
 
@@ -15,16 +14,11 @@ public class Literal extends Expr {
 	this.value = value;
     }
 
-    @Override
-    public QLValue eval(Environment context) {
-	return value;
-    }
-
-    public QLType getType() {
+    public QLType type() {
 	return type;
     }
 
-    public QLValue getValue() {
+    public QLValue value() {
 	return value;
     }
 

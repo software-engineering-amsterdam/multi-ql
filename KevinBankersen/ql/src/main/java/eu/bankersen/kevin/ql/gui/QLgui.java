@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,10 +19,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.gui.widgets.QuestionBuilder;
 import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
-import eu.bankersen.kevin.ql.interpreter.DataListener;
-import eu.bankersen.kevin.ql.interpreter.Environment;
+import eu.bankersen.kevin.ql.interperter.DataListener;
 
 public class QLgui extends JFrame implements DataListener, ViewListener {
 
@@ -49,7 +48,7 @@ public class QLgui extends JFrame implements DataListener, ViewListener {
 	gbc.fill = GridBagConstraints.HORIZONTAL;
 	gbc.weightx = 1;
 
-	QuestionBuilder builder = new QuestionBuilder(form);
+	GuiBuilder builder = new GuiBuilder(form);
 
 	for (QuestionWidget question : builder.getWidgets()) {
 	    // Register listeners.
@@ -105,7 +104,7 @@ public class QLgui extends JFrame implements DataListener, ViewListener {
     }
 
     @Override
-    public void dataUpdate(Environment context) {
+    public void dataUpdate(Map<String, QLValue> context) {
 	listeners.forEach(listener -> listener.dataUpdate(context));
     }
 

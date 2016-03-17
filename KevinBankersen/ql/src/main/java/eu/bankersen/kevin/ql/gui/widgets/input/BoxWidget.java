@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.gui.widgets;
+package eu.bankersen.kevin.ql.gui.widgets.input;
 
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -7,23 +7,19 @@ import java.awt.event.KeyListener;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
+import eu.bankersen.kevin.ql.gui.widgets.Widget;
 
 public class BoxWidget implements InputWidget {
 
-    private Widget parentWidget;
+    private Widget parent;
     private final JPanel panel;
-    private final QLType type;
     private final JFormattedTextField inputField;
 
-    public BoxWidget(QLType type, Widget parentWidget) {
-	this.type = type;
+    public BoxWidget() {
 	this.panel = new JPanel();
-	this.parentWidget = parentWidget;
 	inputField = new JFormattedTextField();
-	inputField.setEditable(!parentWidget.isComputed());
 	inputField.setPreferredSize(new Dimension(120, 20));
 	inputField.addKeyListener(new BoxListener());
 	panel.add(inputField);
@@ -32,6 +28,12 @@ public class BoxWidget implements InputWidget {
     @Override
     public JPanel build() {
 	return panel;
+    }
+
+    @Override
+    public void setParent(Widget parent) {
+	this.parent = parent;
+	inputField.setEditable(!parent.isComputed());
     }
 
     @Override
@@ -46,8 +48,8 @@ public class BoxWidget implements InputWidget {
     }
 
     @Override
-    public void notifyParentWidget(QLValue value) {
-	parentWidget.widgetUpdated(value);
+    public void updateParentWidget(String value) {
+	parent.widgetUpdated(value);
     }
 
     class BoxListener implements KeyListener {
@@ -59,8 +61,8 @@ public class BoxWidget implements InputWidget {
 	@Override
 	public void keyReleased(KeyEvent e) {
 	    JFormattedTextField field = (JFormattedTextField) e.getSource();
-	    QLValue value = type.createQLValueFrom(field.getText());
-	    notifyParentWidget(value);
+	    String value = field.getText();
+	    updateParentWidget(value);
 	}
 
 	@Override

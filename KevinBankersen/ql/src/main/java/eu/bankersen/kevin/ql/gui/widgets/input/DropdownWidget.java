@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.gui.widgets;
+package eu.bankersen.kevin.ql.gui.widgets.input;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -7,25 +7,21 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
+import eu.bankersen.kevin.ql.gui.widgets.Widget;
 
 public class DropdownWidget implements InputWidget {
 
     private final JPanel panel;
-    private final QLType type;
     private final JComboBox inputField;
-    private final Widget parentWidget;
+    private Widget parent;
 
-    DropdownWidget(QLType type, Widget parentWidget) {
-	this.type = type;
+    DropdownWidget() {
 	this.panel = new JPanel();
-	this.parentWidget = parentWidget;
 
 	String[] params = { "True", "False" };
 	inputField = new JComboBox(params);
-	inputField.setEditable(parentWidget.isComputed());
 	inputField.setSelectedIndex(-1);
 	inputField.setPreferredSize(new Dimension(120, 20));
 	inputField.addActionListener(new ComboListener());
@@ -36,6 +32,12 @@ public class DropdownWidget implements InputWidget {
     @Override
     public JPanel build() {
 	return panel;
+    }
+
+    @Override
+    public void setParent(Widget parent) {
+	this.parent = parent;
+	inputField.setEditable(parent.isComputed());
     }
 
     @Override
@@ -51,8 +53,8 @@ public class DropdownWidget implements InputWidget {
     }
 
     @Override
-    public void notifyParentWidget(QLValue value) {
-	parentWidget.widgetUpdated(value);
+    public void updateParentWidget(String value) {
+	parent.widgetUpdated(value);
     }
 
     class ComboListener implements ActionListener {
@@ -60,8 +62,8 @@ public class DropdownWidget implements InputWidget {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    JComboBox cb = (JComboBox) e.getSource();
-	    QLValue value = type.createQLValueFrom(cb.getSelectedItem().toString());
-	    notifyParentWidget(value);
+	    String value = cb.getSelectedItem().toString();
+	    updateParentWidget(value);
 	}
     }
 }

@@ -2,7 +2,6 @@ package eu.bankersen.kevin.ql.ast.stat;
 
 import eu.bankersen.kevin.ql.ast.QuestionVisitor;
 import eu.bankersen.kevin.ql.ast.types.QLType;
-import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class NormalQuestion extends AbstractStatement {
     private final String name;
@@ -26,12 +25,6 @@ public class NormalQuestion extends AbstractStatement {
 
     public QLType type() {
 	return type;
-    }
-
-    @Override
-    public Environment evalStatement(Environment context) {
-	context.updateQuestion(name());
-	return context;
     }
 
     @Override
