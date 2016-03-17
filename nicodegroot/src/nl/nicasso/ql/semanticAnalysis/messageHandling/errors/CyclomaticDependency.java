@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 import nl.nicasso.ql.ast.nodes.CodeLocation;
 
-public class CyclomaticDependency extends Error {
+public class CyclomaticDependency extends ErrorMessage {
 	
 	private static final String MESSAGE = "Cyclomatic dependency detected. {0}";
 	

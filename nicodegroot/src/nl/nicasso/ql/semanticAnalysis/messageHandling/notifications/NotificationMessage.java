@@ -2,9 +2,9 @@ package nl.nicasso.ql.semanticAnalysis.messageHandling.notifications;
 
 import nl.nicasso.ql.semanticAnalysis.messageHandling.Message;
 
-public abstract class Notification extends Message {
+public abstract class NotificationMessage extends Message {
 		
-	public Notification() {
+	public NotificationMessage() {
 		this.messageType = "Notification";
 	}
 	

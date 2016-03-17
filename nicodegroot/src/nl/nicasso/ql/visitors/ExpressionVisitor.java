@@ -22,26 +22,26 @@ import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 
 public interface ExpressionVisitor<T> {
 	
-	public T visit(Addition value);
-	public T visit(Subtraction value);
-	public T visit(And value);
-	public T visit(Or value);
-	public T visit(Not value);
-	public T visit(Parenthesis value);
-	public T visit(Equal value);
-	public T visit(NotEqual value);
-	public T visit(Division value);
-	public T visit(Multiplication value);
-	public T visit(Greater value);
-	public T visit(GreaterEqual value);
-	public T visit(Less value);
-	public T visit(LessEqual value);
+	public T visit(Addition expression);
+	public T visit(Subtraction expression);
+	public T visit(And expression);
+	public T visit(Or expression);
+	public T visit(Not expression);
+	public T visit(Parenthesis expression);
+	public T visit(Equal expression);
+	public T visit(NotEqual expression);
+	public T visit(Division expression);
+	public T visit(Multiplication expression);
+	public T visit(Greater expression);
+	public T visit(GreaterEqual expression);
+	public T visit(Less expression);
+	public T visit(LessEqual expression);
 	
-	public T visit(Identifier value);
+	public T visit(Identifier identifier);
 	
-	public T visit(BooleanLiteral value);
-	public T visit(IntegerLiteral value);
-	public T visit(StringLiteral value);
-	public T visit(MoneyLiteral value);
+	public T visit(BooleanLiteral literal);
+	public T visit(IntegerLiteral literal);
+	public T visit(StringLiteral literal);
+	public T visit(MoneyLiteral literal);
 
 }

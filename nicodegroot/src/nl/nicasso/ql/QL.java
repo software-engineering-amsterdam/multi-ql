@@ -29,20 +29,20 @@ public class QL {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		
 		QLParser parser = new QLParser(tokens);		
-		ParseTree tree = parser.form();
+		ParseTree parseTree = parser.form();
 				
 		SymbolTable symbolTable = new SymbolTable();
 		StateTable stateTable = new StateTable();
         
         CreateAST astVisitor = new CreateAST();
-        Form ast = (Form) tree.accept(astVisitor);
+        Form ast = (Form) parseTree.accept(astVisitor);
         
         SemanticAnalysis semantics = new SemanticAnalysis(ast, symbolTable, stateTable);        
 
-        MainFrame main = new MainFrame(stateTable, semantics.getMessages());
+        MainFrame window = new MainFrame(stateTable, semantics.getMessages());
         
-        if (!semantics.isContainsErrors()) {
-	        Gui guiVisitor = new Gui(stateTable, main);
+        if (!semantics.containsErrors()) {
+	        Gui guiVisitor = new Gui(stateTable, window);
 	        ast.accept(guiVisitor, null);
         }
 	}

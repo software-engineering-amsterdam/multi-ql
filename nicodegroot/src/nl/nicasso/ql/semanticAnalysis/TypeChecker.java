@@ -52,107 +52,107 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	private Identifier currentIdentifier;
 
 	private SymbolTable symbolTable;
-	private MessageHandler messages;
+	private MessageHandler messageHandler;
 	
 	public TypeChecker(SymbolTable symbolTable, MessageHandler messages) {
 		this.symbolTable = symbolTable;
-		this.messages = messages;
+		this.messageHandler = messages;
 		
 		this.dependencies = new ArrayList<Pair<Identifier>>();
 	}
 	
-	private Type binaryExpressionTraversal(Binary expr) {
-		Type leftType = expr.getLeft().accept(this);
-		Type rightType = expr.getRight().accept(this);
+	private Type binaryExpressionTraversal(Binary expression) {
+		Type leftType = expression.getLeft().accept(this);
+		Type rightType = expression.getRight().accept(this);
 		
-		Type type = expr.inferType(leftType, rightType);
+		Type type = expression.inferType(leftType, rightType);
 		
 		return type;
 	}
 	
-	private Type unaryExpressionTraversal(Unary expr) {
-		Type exprType = expr.getExpr().accept(this);
+	private Type unaryExpressionTraversal(Unary expression) {
+		Type exprType = expression.getExpr().accept(this);
 		
-		Type type = expr.inferType(exprType);
+		Type type = expression.inferType(exprType);
 		
 		return type;
 	}
 		
 	@Override
-	public Type visit(And expr) {	
-		return binaryExpressionTraversal(expr);
+	public Type visit(And expression) {	
+		return binaryExpressionTraversal(expression);
 	}
 	
 	@Override
-	public Type visit(Addition expr) {		
-		return binaryExpressionTraversal(expr);
+	public Type visit(Addition expression) {		
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Subtraction expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(Subtraction expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Or expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(Or expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Not expr) {
-		return unaryExpressionTraversal(expr);
+	public Type visit(Not expression) {
+		return unaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Parenthesis expr) {		
-		return unaryExpressionTraversal(expr);
+	public Type visit(Parenthesis expression) {		
+		return unaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Equal expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(Equal expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(NotEqual expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(NotEqual expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Division expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(Division expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Multiplication expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(Multiplication expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Greater expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(Greater expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(GreaterEqual expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(GreaterEqual expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(Less expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(Less expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
-	public Type visit(LessEqual expr) {
-		return binaryExpressionTraversal(expr);
+	public Type visit(LessEqual expression) {
+		return binaryExpressionTraversal(expression);
 	}
 
 	@Override
 	public Void visit(Form value, Void ignore) {
 		value.getBlock().accept(this, null);
 		
-		// @TODO This here?
+		// @TODO This here? (SEE COMMENT TOP QUESTIONINDEXER)
 		detectCyclicDependencies();
 		
 		return null;
@@ -160,8 +160,8 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 
 	@Override
 	public Void visit(Block value, Void ignore) {
-		for (Statement cur : value.getStatements()) {
-			cur.accept(this, null);
+		for (Statement currentStatement : value.getStatements()) {
+			currentStatement.accept(this, null);
 		}
 		
 		return null;
@@ -175,14 +175,14 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	@Override
 	public Void visit(ComputedQuestion value, Identifier context) {
 		// @TODO: Temp variable smell! Pass it on as a parameter!
-		currentIdentifier = value.getId();
+		currentIdentifier = value.getIdentifier();
 		
-		Type expr = value.getExpr().accept(this);
+		Type type = value.getExpr().accept(this);
 		
 		currentIdentifier = null;
 		
-		if (!expr.equals(value.getType())) {
-			messages.addMessage(new IncompatibleTypes(value.getLocation(), value.getType()));
+		if (!type.equals(value.getType())) {
+			messageHandler.addErrorMessage(new IncompatibleTypes(value.getLocation(), value.getType()));
 		}
 		
 		return null;
@@ -196,7 +196,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type type = value.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			messages.addMessage(new IncompatibleTypes(value.getLocation(), new BooleanType()));
+			messageHandler.addErrorMessage(new IncompatibleTypes(value.getLocation(), new BooleanType()));
 		}
 		
 		return null;
@@ -211,7 +211,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type type = value.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			messages.addMessage(new IncompatibleTypes(value.getLocation(), new BooleanType()));
+			messageHandler.addErrorMessage(new IncompatibleTypes(value.getLocation(), new BooleanType()));
 		}
 		
 		return null;
@@ -254,27 +254,28 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 	
 	public boolean detectCyclicDependencies() {
-		
 		makePairsTransitive(dependencies);
 		
 		int size = dependencies.size();
 		for (int i = 0; i < size; i++) {
-			Pair<Identifier> tmp = new Pair<Identifier>(dependencies.get(i).getRight(), dependencies.get(i).getLeft());
-			if (checkPairExistance(tmp)) {
-				messages.addMessage(new CyclomaticDependency(tmp.getLeft().getLocation()));
+			Pair<Identifier> currentPair = new Pair<Identifier>(dependencies.get(i).getRight(), dependencies.get(i).getLeft());
+			if (checkPairExistance(currentPair)) {
+				messageHandler.addErrorMessage(new CyclomaticDependency(currentPair.getLeft().getLocation()));
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	// @TODO Look again at this method, it does receive the dependencies, but does not return anything.
+	// Seems a bit strange, not clear.
 	private void makePairsTransitive(List<Pair<Identifier>> tmpDependencies) {	
 		boolean keepRunning = true;
 		
 		while (keepRunning) {
-			int size = dependencies.size();
+			int amountOfDependencies = dependencies.size();
 			
-			for (int i = 0; i < size; i++) {
+			for (int i = 0; i < amountOfDependencies; i++) {
 				Pair<Identifier> transitivePair = checkPairDependencyExistance(dependencies.get(i));
 				if (transitivePair != null) {
 					if (!checkPairExistance(transitivePair)) {
@@ -291,18 +292,18 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		}
 	}
 	
-	private Pair<Identifier> checkPairDependencyExistance(Pair<Identifier> p) {
-		for (Pair<Identifier> tmp : dependencies) {
-			if (tmp.getLeft().getValue().equals(p.getRight().getValue())) {
-				return new Pair<Identifier>(p.getLeft(), tmp.getRight());
+	private Pair<Identifier> checkPairDependencyExistance(Pair<Identifier> pair) {
+		for (Pair<Identifier> currentPair : dependencies) {
+			if (currentPair.getLeft().getIdentifier().equals(pair.getRight().getIdentifier())) {
+				return new Pair<Identifier>(pair.getLeft(), currentPair.getRight());
 			}
 		}
 		return null;
 	}
 	
-	private boolean checkPairExistance(Pair<Identifier> p) {
-		for (Pair<Identifier> tmp : dependencies) {
-			if (tmp.equals(p)) {
+	private boolean checkPairExistance(Pair<Identifier> pair) {
+		for (Pair<Identifier> currentPair : dependencies) {
+			if (currentPair.equals(pair)) {
 				return true;
 			}
 		}

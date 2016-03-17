@@ -40,7 +40,7 @@ public class ComputedQuestionPanel extends Panel {
 		Value questionValue = question.getExpr().accept(evaluator);
 		System.out.println("UpDATE: "+questionValue.getValue());
 		if (!field.equalValues(questionValue)) {
-			main.fieldValueChanged(question.getId(), questionValue);
+			main.fieldValueChanged(question.getIdentifier(), questionValue);
 			updated = true;
 		}
 		

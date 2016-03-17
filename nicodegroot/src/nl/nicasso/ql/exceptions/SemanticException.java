@@ -1,5 +1,6 @@
 package nl.nicasso.ql.exceptions;
 
+// CAN THIS GO?!
 public class SemanticException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;

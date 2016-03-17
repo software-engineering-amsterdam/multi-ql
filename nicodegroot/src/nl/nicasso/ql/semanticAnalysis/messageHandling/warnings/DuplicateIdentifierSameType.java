@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 
-public class DuplicateIdentifierSameType extends Warning {
+public class DuplicateIdentifierSameType extends WarningMessage {
 
 	private static final String MESSAGE = "\"{0}\" already exists with the same type. {1}";
 	
@@ -20,7 +20,7 @@ public class DuplicateIdentifierSameType extends Warning {
 	}
 	
 	public String getMessage() {
-		return MessageFormat.format(DuplicateIdentifierSameType.MESSAGE, identifier.getValue(), identifier.getLocation());
+		return MessageFormat.format(DuplicateIdentifierSameType.MESSAGE, identifier.getIdentifier(), identifier.getLocation());
 	}
 
 }

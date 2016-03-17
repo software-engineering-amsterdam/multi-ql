@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import nl.nicasso.ql.ast.nodes.CodeLocation;
 import nl.nicasso.ql.ast.nodes.types.Type;
 
-public class IncompatibleTypes extends Error {
+public class IncompatibleTypes extends ErrorMessage {
 	
 	private static final String MESSAGE = "The types in the expression are not compatible, a {0} type is expected but not given. {1}";
 	

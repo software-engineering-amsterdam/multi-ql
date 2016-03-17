@@ -39,8 +39,6 @@ import nl.nicasso.ql.visitors.StructureVisitor;
 
 public class Evaluator implements StructureVisitor<Value, Void>, StatementVisitor<Value, Void>, ExpressionVisitor<Value> {
 	
-	private boolean debug = false;
-	
 	private StateTable stateTable;
 	
 	public Evaluator(StateTable stateTable) {
@@ -52,10 +50,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 				
-		if (debug) {
-			System.out.println("And");
-		}
-		
 		return left.equal(right);
 	}
 	
@@ -63,10 +57,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	public Value visit(Addition value) {		
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
-		
-		if (debug) {
-			System.out.println("Addition");
-		}
 		
 		return left.addition(right);
 	}
@@ -76,10 +66,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 		
-		if (debug) {
-			System.out.println("Subtraction");
-		}
-		
 		return left.subtraction(right);
 	}
 
@@ -88,10 +74,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 		
-		if (debug) {
-			System.out.println("Or");
-		}
-		
 		return left.or(right);
 	}
 
@@ -99,20 +81,12 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	public Value visit(Not value) {
 		Value exprValue = value.getExpr().accept(this);
 		
-		if (debug) {
-			System.out.println("Not");
-		}
-		
 		return exprValue.not();
 	}
 
 	@Override
 	public Value visit(Parenthesis value) {		
 		Value exprValue = value.getExpr().accept(this);
-		
-		if (debug) {
-			System.out.println("Parenthesis");
-		}
 		
 		return exprValue;
 	}
@@ -122,10 +96,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 		
-		if (debug) {
-			System.out.println("Equal");
-		}
-		
 		return left.equal(right);
 	}
 
@@ -133,10 +103,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	public Value visit(NotEqual value) {
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);	
-		
-		if (debug) {
-			System.out.println("NotEqual");
-		}
 		
 		return left.notEqual(right);
 	}
@@ -146,10 +112,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 		
-		if (debug) {
-			System.out.println("Division");
-		}
-		
 		return left.division(right);
 	}
 
@@ -157,10 +119,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	public Value visit(Multiplication value) {
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
-		
-		if (debug) {
-			System.out.println("Multiplication: "+left.getValue()+"*"+right.getValue());
-		}
 		
 		return left.multiplication(right);
 	}
@@ -170,10 +128,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 		
-		if (debug) {
-			System.out.println("Greater");
-		}
-		
 		return left.greater(right);
 	}
 
@@ -182,10 +136,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 		
-		if (debug) {
-			System.out.println("GreaterEqual");
-		}
-		
 		return left.greaterEqual(right);
 	}
 
@@ -193,10 +143,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	public Value visit(Less value) {
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
-
-		if (debug) {
-			System.out.println("Less");
-		}
 		
 		return left.less(right);
 	}
@@ -206,20 +152,12 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		Value left = value.getLeft().accept(this);
 		Value right = value.getRight().accept(this);
 		
-		if (debug) {
-			System.out.println("LessEqual");
-		}
-		
 		return left.lessEqual(right);
 	}
 
 	@Override
 	public Value visit(Form value, Void ignore) {
 		value.getBlock().accept(this, null);
-		
-		if (debug) {
-			System.out.println("Form");
-		}
 		
 		return null;
 	}
@@ -230,26 +168,14 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 			cur.accept(this, ignore);
 		}
 		
-		if (debug) {
-			System.out.println("Block");
-		}
-		
 		return null;
 	}
 
 	@Override
 	public Value visit(Question value, Void context) {
-		if (debug) {
-			System.out.println("Question");
-		}
-		
-		//SymbolTableEntry ste = symbolTable.getEntry(value.getId());
-		//ste.setValue(exprValue);
-		//symbolTable.addSymbol(value.getId(), ste);
-		
 		// getDefaultValue? Is this ugly?!
 		StateTableEntry ste = new StateTableEntry(value.getType().getDefaultValue());
-		stateTable.addState(value.getId(), ste);
+		stateTable.addState(value.getIdentifier(), ste);
 		
 		return null;
 	}
@@ -257,15 +183,9 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	@Override
 	public Value visit(ComputedQuestion value, Void context) {
 		Value exprValue = value.getExpr().accept(this);
-		
-		if (debug) {
-			System.out.println("ComputedQuestion");
-		}
-		
-		//StateTableEntry ste = stateTable.getEntry(value.getId());
-		//ste.setValue(exprValue);
+
 		StateTableEntry ste = new StateTableEntry(exprValue);
-		stateTable.addState(value.getId(), ste);                                                             
+		stateTable.addState(value.getIdentifier(), ste);                                                             
 
 		return null;
 	}
@@ -274,10 +194,6 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	public Value visit(IfStatement value, Void context) {
 		value.getExpr().accept(this);
 		value.getBlock_if().accept(this, null);
-		
-		if (debug) {
-			System.out.println("ifStatement");
-		}
 		
 		return null;
 	}
@@ -288,53 +204,33 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 		value.getBlock_if().accept(this, null);
 		value.getBlock_else().accept(this, null);
 		
-		if (debug) {
-			System.out.println("IfElseStatement");
-		}
 		return null;
 	}
 
 	@Override
 	public Value visit(BooleanLiteral value) {
-		if (debug) {
-			System.out.println("BooleanLit: "+value.getValue());
-		}
-		
 		return new BooleanValue(value.getValue());
 	}
 
 	@Override
 	public Value visit(Identifier value) {		
 		StateTableEntry entry = stateTable.getEntry(value);
-		
-		if (debug) {
-			System.out.println("IdentifierLit: "+value.getValue() + " = " + entry.getValue().getValue());
-		}
 						
 		return entry.getValue();
 	}
 
 	@Override
 	public Value visit(IntegerLiteral value) {
-		if (debug) {
-			System.out.println("IntegerLit: "+value.getValue());
-		}
 		return new IntegerValue((Integer) value.getValue());
 	}
 
 	@Override
 	public Value visit(StringLiteral value) {
-		if (debug) {
-			System.out.println("StringLit: "+value.getValue());
-		}
 		return new StringValue(value.getValue());
 	}
 
 	@Override
 	public Value visit(MoneyLiteral value) {
-		if (debug) {
-			System.out.println("MoneyLit: "+value.getValue());
-		}
 		return new MoneyValue(value.getValue());
 	}
 
