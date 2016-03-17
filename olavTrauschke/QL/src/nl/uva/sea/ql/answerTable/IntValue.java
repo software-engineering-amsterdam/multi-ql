@@ -6,7 +6,7 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with an integer value.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 17-mar-2016
  */
 public class IntValue extends NumericValue {
     
@@ -163,6 +163,70 @@ public class IntValue extends NumericValue {
     @Override
     public BooleanValue ternaryGreaterThan(MoneyValue other) {
         return other.ternaryGreaterThan(this);
+    }
+    
+    /**
+     * Multiply <code>this IntValue</code> by a specified
+     * <code>NumericValue</code>. Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to multiply this
+     *              <code>IntValue</code> by
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this IntValue</code> or <code>other</code> represents
+     *          an unknown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    @Override
+    public NumericValue multiply(NumericValue other) {
+        return other.multiply(this); //double dispatch to a more specific case
+    }
+    
+    /**
+     * Multiply <code>this IntValue</code> by a specified <code>DecimalValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to multiply
+     *              <code>this IntValue</code> by
+     * @return a <code>DecimalValue</code> representing an unkonwn value if
+     *          <code>this IntValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    @Override
+    protected DecimalValue multiply(DecimalValue other) {
+        return other.multiply(this);
+    }
+    
+    /**
+     * Multiply <code>this IntValue</code> by another.
+     * 
+     * @param other an <code>IntValue</code> to multiply this one by
+     * @return an <code>IntValue</code> representing an unkonwn value if
+     *          <code>this IntValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>IntValue</code>s otherwise
+     */
+    @Override
+    protected IntValue multiply(IntValue other) {
+        if (value == null || other.value == null) {
+            return new IntValue(null);
+        }
+        int result = value * other.value;
+        return new IntValue(result);
+    }
+    
+    /**
+     * Multiply <code>this IntValue</code> by a specified <code>MoneyValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to multiply
+     *              <code>this IntValue</code> by
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this IntValue</code> or <code>other</code> represents
+     *          an unkown value or the result of multiplying these
+     *          <code>Value</code>s otherwise
+     */
+    @Override
+    protected MoneyValue multiply(MoneyValue other) {
+        return (MoneyValue) other.multiply(this);
     }
     
     /**

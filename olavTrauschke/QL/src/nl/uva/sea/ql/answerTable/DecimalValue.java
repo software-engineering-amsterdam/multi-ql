@@ -5,7 +5,7 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.question.DecimalQuestion DecimalQuestion}s.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 17-mar-2016
  */
 public class DecimalValue extends NumericValue {
     
@@ -168,9 +168,10 @@ public class DecimalValue extends NumericValue {
      * Multiply <code>this DecimalValue</code> by a specified
      * <code>NumericValue</code>. Dispatches to a more specific case.
      * 
-     * @param other a <code>NumericValue</code> to multiply this one by
+     * @param other a <code>NumericValue</code> to multiply this
+     *              <code>DecimalValue</code> by
      * @return a <code>NumericValue</code> representing an unknown value if
-     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          <code>this DecimalValue</code> or <code>other</code> represents
      *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
