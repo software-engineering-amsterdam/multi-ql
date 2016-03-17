@@ -20,10 +20,10 @@ import nl.nicasso.ql.ast.nodes.expressions.relational.Greater;
 import nl.nicasso.ql.ast.nodes.expressions.relational.GreaterEqual;
 import nl.nicasso.ql.ast.nodes.expressions.relational.Less;
 import nl.nicasso.ql.ast.nodes.expressions.relational.LessEqual;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
-import nl.nicasso.ql.ast.nodes.literals.IntegerLit;
-import nl.nicasso.ql.ast.nodes.literals.MoneyLit;
-import nl.nicasso.ql.ast.nodes.literals.StringLit;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
+import nl.nicasso.ql.ast.nodes.literals.IntegerLiteral;
+import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
+import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
 import nl.nicasso.ql.ast.nodes.statements.IfElseStatement;
 import nl.nicasso.ql.ast.nodes.statements.IfStatement;
@@ -218,7 +218,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 
 	@Override
-	public Type visit(BooleanLit value) {
+	public Type visit(BooleanLiteral value) {
 		return new BooleanType();
 	}
 
@@ -232,17 +232,17 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 
 	@Override
-	public Type visit(IntegerLit value) {
+	public Type visit(IntegerLiteral value) {
 		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(StringLit value) {
+	public Type visit(StringLiteral value) {
 		return new StringType();
 	}
 	
 	@Override
-	public Type visit(MoneyLit value) {
+	public Type visit(MoneyLiteral value) {
 		return new MoneyType();
 	}
 	

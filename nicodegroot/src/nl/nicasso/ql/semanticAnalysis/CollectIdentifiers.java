@@ -20,10 +20,10 @@ import nl.nicasso.ql.ast.nodes.expressions.relational.Greater;
 import nl.nicasso.ql.ast.nodes.expressions.relational.GreaterEqual;
 import nl.nicasso.ql.ast.nodes.expressions.relational.Less;
 import nl.nicasso.ql.ast.nodes.expressions.relational.LessEqual;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
-import nl.nicasso.ql.ast.nodes.literals.IntegerLit;
-import nl.nicasso.ql.ast.nodes.literals.MoneyLit;
-import nl.nicasso.ql.ast.nodes.literals.StringLit;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
+import nl.nicasso.ql.ast.nodes.literals.IntegerLiteral;
+import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
+import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public class CollectIdentifiers implements ExpressionVisitor<Void> {
@@ -125,22 +125,22 @@ public class CollectIdentifiers implements ExpressionVisitor<Void> {
 	}
 
 	@Override
-	public Void visit(BooleanLit expr) {
+	public Void visit(BooleanLiteral expr) {
 		return null;
 	}
 
 	@Override
-	public Void visit(IntegerLit expr) {
+	public Void visit(IntegerLiteral expr) {
 		return null;
 	}
 
 	@Override
-	public Void visit(StringLit expr) {
+	public Void visit(StringLiteral expr) {
 		return null;
 	}
 
 	@Override
-	public Void visit(MoneyLit expr) {
+	public Void visit(MoneyLiteral expr) {
 		return null;
 	}
 	

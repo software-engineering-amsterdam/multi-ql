@@ -33,11 +33,11 @@ import nl.nicasso.ql.ast.nodes.expressions.relational.GreaterEqual;
 import nl.nicasso.ql.ast.nodes.expressions.relational.Less;
 import nl.nicasso.ql.ast.nodes.expressions.relational.LessEqual;
 import nl.nicasso.ql.ast.nodes.expressions.relational.Relational;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
-import nl.nicasso.ql.ast.nodes.literals.IntegerLit;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
+import nl.nicasso.ql.ast.nodes.literals.IntegerLiteral;
 import nl.nicasso.ql.ast.nodes.literals.Literal;
-import nl.nicasso.ql.ast.nodes.literals.MoneyLit;
-import nl.nicasso.ql.ast.nodes.literals.StringLit;
+import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
+import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
 import nl.nicasso.ql.ast.nodes.statements.IfElseStatement;
 import nl.nicasso.ql.ast.nodes.statements.IfStatement;
@@ -220,23 +220,23 @@ public class CreateAST extends QLBaseVisitor<ASTNode> implements QLVisitor<ASTNo
 	}
 
 	@Override
-	public IntegerLit visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) {
-		return new IntegerLit(Integer.parseInt(ctx.getText()), getCodeLocation(ctx));
+	public IntegerLiteral visitIntegerLiteral(QLParser.IntegerLiteralContext ctx) {
+		return new IntegerLiteral(Integer.parseInt(ctx.getText()), getCodeLocation(ctx));
 	}
 	
 	@Override 
-	public MoneyLit visitMoneyLiteral(QLParser.MoneyLiteralContext ctx) {
-		return new MoneyLit(BigDecimal.valueOf(Double.parseDouble(ctx.getText())), getCodeLocation(ctx));
+	public MoneyLiteral visitMoneyLiteral(QLParser.MoneyLiteralContext ctx) {
+		return new MoneyLiteral(BigDecimal.valueOf(Double.parseDouble(ctx.getText())), getCodeLocation(ctx));
 	}
 
 	@Override
-	public BooleanLit visitBooleanliteral(QLParser.BooleanliteralContext ctx) {
-		return new BooleanLit(Boolean.parseBoolean(ctx.getText()), getCodeLocation(ctx));
+	public BooleanLiteral visitBooleanliteral(QLParser.BooleanliteralContext ctx) {
+		return new BooleanLiteral(Boolean.parseBoolean(ctx.getText()), getCodeLocation(ctx));
 	}
 
 	@Override
-	public StringLit visitStringLiteral(QLParser.StringLiteralContext ctx) {
-		return new StringLit(removeStringQuotes(ctx.getText()), getCodeLocation(ctx));
+	public StringLiteral visitStringLiteral(QLParser.StringLiteralContext ctx) {
+		return new StringLiteral(removeStringQuotes(ctx.getText()), getCodeLocation(ctx));
 	}
 	
 	@Override

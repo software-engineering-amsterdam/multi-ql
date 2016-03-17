@@ -1,36 +1,36 @@
 package nl.nicasso.ql.ast.nodes.literals;
 
 import nl.nicasso.ql.ast.nodes.CodeLocation;
-import nl.nicasso.ql.ast.nodes.types.BooleanType;
+import nl.nicasso.ql.ast.nodes.types.StringType;
 import nl.nicasso.ql.ast.nodes.types.Type;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
-public class BooleanLit extends Literal {
+public class StringLiteral extends Literal {
 
 	private final Type type;
-	private final Boolean lit;
-	
-	public BooleanLit(Boolean lit) {
+	private final String lit;
+
+	public StringLiteral(String lit) {
 		super(null);
 		this.lit = lit;
-		this.type = new BooleanType();
+		this.type = new StringType();
 	}
-
-	public BooleanLit(Boolean lit, CodeLocation location) {
+	
+	public StringLiteral(String lit, CodeLocation location) {
 		super(location);
 		this.lit = lit;
-		this.type = new BooleanType(location);
+		this.type = new StringType(location);
 	}
 
 	@Override
-	public Boolean getValue() {
+	public String getValue() {
 		return lit;
 	}
 	
 	public Type getType() {
 		return type;
 	}
-
+	
 	@Override
 	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
@@ -38,10 +38,10 @@ public class BooleanLit extends Literal {
 	
 	@Override
 	public boolean equals(Object ob) {
-		if (!(ob instanceof BooleanLit)) {
+		if (!(ob instanceof StringLiteral)) {
 			return false;
 		}
-		BooleanLit lit2 = (BooleanLit) ob;
+		StringLiteral lit2 = (StringLiteral) ob;
 		return lit.equals(lit2.getValue());
 	}
 	
@@ -49,4 +49,5 @@ public class BooleanLit extends Literal {
 	public int hashCode(){
 	    return lit.hashCode();
     }
+	
 }

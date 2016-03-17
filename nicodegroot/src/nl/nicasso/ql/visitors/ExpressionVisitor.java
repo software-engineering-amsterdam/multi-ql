@@ -15,10 +15,10 @@ import nl.nicasso.ql.ast.nodes.expressions.relational.Greater;
 import nl.nicasso.ql.ast.nodes.expressions.relational.GreaterEqual;
 import nl.nicasso.ql.ast.nodes.expressions.relational.Less;
 import nl.nicasso.ql.ast.nodes.expressions.relational.LessEqual;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
-import nl.nicasso.ql.ast.nodes.literals.IntegerLit;
-import nl.nicasso.ql.ast.nodes.literals.MoneyLit;
-import nl.nicasso.ql.ast.nodes.literals.StringLit;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
+import nl.nicasso.ql.ast.nodes.literals.IntegerLiteral;
+import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
+import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 
 public interface ExpressionVisitor<T> {
 	
@@ -39,9 +39,9 @@ public interface ExpressionVisitor<T> {
 	
 	public T visit(Identifier value);
 	
-	public T visit(BooleanLit value);
-	public T visit(IntegerLit value);
-	public T visit(StringLit value);
-	public T visit(MoneyLit value);
+	public T visit(BooleanLiteral value);
+	public T visit(IntegerLiteral value);
+	public T visit(StringLiteral value);
+	public T visit(MoneyLiteral value);
 
 }

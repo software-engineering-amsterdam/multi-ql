@@ -5,7 +5,7 @@ import java.util.List;
 
 import nl.nicasso.ql.ast.nodes.expressions.Expression;
 import nl.nicasso.ql.ast.nodes.expressions.conditional.Not;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
 import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
 import nl.nicasso.ql.ast.nodes.statements.IfElseStatement;
 import nl.nicasso.ql.ast.nodes.statements.IfStatement;
@@ -49,7 +49,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("Form");
 		}
 
-		List<Panel> blockPanel = value.getBlock().accept(this, new BooleanLit(true));
+		List<Panel> blockPanel = value.getBlock().accept(this, new BooleanLiteral(true));
 		
 		for (Panel p : blockPanel) {
 			main.addPanel(p);
