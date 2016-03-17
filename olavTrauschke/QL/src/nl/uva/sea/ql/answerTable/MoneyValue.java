@@ -271,9 +271,10 @@ public class MoneyValue extends NumericValue {
      *          an unknown value or the result of dividing
      *          <code>this MoneyValue</code> by <code>other</code> otherwise
      */
-    protected DecimalValue divide(DecimalValue other) {
+    protected MoneyValue divide(DecimalValue other) {
         DecimalValue decimalValue = castDecimal();
-        return other.inverseDivide(decimalValue);
+        DecimalValue result = other.inverseDivide(decimalValue);
+        return result.castMoney();
     }
     
     /**

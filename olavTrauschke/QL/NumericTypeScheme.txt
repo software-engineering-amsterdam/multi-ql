@@ -1,0 +1,3 @@
+		D-D	D-I	D-M	I-D	I-I	I-M	M-D	M-I	M-M
+Add/Sub/Mul	D	D	M	D	I	M	M	M	M
+Div		D	D	D	D	D	D	M	M	D

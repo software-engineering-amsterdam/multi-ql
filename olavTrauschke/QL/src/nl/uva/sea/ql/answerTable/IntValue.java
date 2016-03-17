@@ -241,7 +241,7 @@ public class IntValue extends NumericValue {
      *          by <code>other</code> otherwise
      */
     @Override
-    public NumericValue divide(NumericValue other) {
+    public DecimalValue divide(NumericValue other) {
         return other.inverseDivide(this); //double dispatch to a more specific case
     }
     
@@ -290,7 +290,7 @@ public class IntValue extends NumericValue {
      *          <code>this IntValue</code> otherwise
      */
     @Override
-    protected DecimalValue inverseDivide(MoneyValue other) {
+    protected MoneyValue inverseDivide(MoneyValue other) {
         DecimalValue decimalValue = castDecimal();
         return other.divide(decimalValue);
     }

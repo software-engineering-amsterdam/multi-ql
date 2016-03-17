@@ -229,7 +229,7 @@ public abstract class NumericValue extends Value {
      *          an unknown value or the result of dividing
      *          <code>other</code> by <code>this NumericValue</code> otherwise
      */
-    protected abstract NumericValue inverseDivide(IntValue other);
+    protected abstract DecimalValue inverseDivide(IntValue other);
     
     /**
      * Divide a specified <code>MoneyValue</code> by <code>this NumericValue</code>.

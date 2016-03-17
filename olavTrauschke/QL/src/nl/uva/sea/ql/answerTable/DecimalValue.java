@@ -290,7 +290,7 @@ public class DecimalValue extends NumericValue {
      *          <code>this DecimalValue</code> otherwise
      */
     @Override
-    protected DecimalValue inverseDivide(MoneyValue other) {
+    protected MoneyValue inverseDivide(MoneyValue other) {
         return other.divide(this);
     }
     
