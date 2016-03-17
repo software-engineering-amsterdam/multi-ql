@@ -58,7 +58,7 @@
                   moduleName = "QLSwift"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/QL/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift"
-                  timestampString = "479914227.233893"
+                  timestampString = "479915499.925473"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "76"
@@ -73,7 +73,7 @@
                   moduleName = "QLSwiftTests"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/QL/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift"
-                  timestampString = "479914227.56638"
+                  timestampString = "479915500.410725"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "76"
@@ -90,44 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-            timestampString = "479910372.661797"
+            timestampString = "479915213.600523"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "runInvalidForms(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-            timestampString = "479910404.339778"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "runInvalidForms(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
-            timestampString = "479910494.122589"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "runInvalidForms(_:)"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "runInvalidForms(_:semanticRules:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

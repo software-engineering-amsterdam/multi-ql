@@ -296,10 +296,10 @@
 		E21F69081C73CEEB00EB9E09 /* SemanticAnalyzerTests */ = {
 			isa = PBXGroup;
 			children = (
-				E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */,
 				E2F0A2F51C74CBC900D0C1AB /* CyclicDependency.ql */,
-				E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */,
 				E24CCEA41C90AD0100ACA633 /* ScopedInvalid.ql */,
+				E21F690B1C73D19C00EB9E09 /* TypedInvalidForms.ql */,
+				E21F69091C73CF1300EB9E09 /* TypedValidForm.ql */,
 				E24CCEA71C90B10900ACA633 /* ValidTypeInference.ql */,
 			);
 			name = SemanticAnalyzerTests;

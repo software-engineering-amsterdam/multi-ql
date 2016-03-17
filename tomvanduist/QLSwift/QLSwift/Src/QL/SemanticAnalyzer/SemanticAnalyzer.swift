@@ -12,17 +12,18 @@ import Foundation
 class SemanticAnalyzer {
     
     func analyze(form: QLForm) throws -> [SemanticWarning] {
-        
+        return try analyze(form,
+            rules: [
+                TypeChecker(),
+                ScopeChecker(),
+                CyclicDependencyChecker()
+            ])
+    }
+    
+    internal func analyze(form: QLForm, rules: [SemanticAnalysisRule]) throws -> [SemanticWarning] {
         let context = try Context(form: form)
         
-        // Perform remaining rules
-        let semanticRules: [SemanticAnalysisRule] = [
-            TypeChecker(),
-            ScopeChecker(),
-            CyclicDependencyChecker()
-        ]
-        
-        let result = semanticRules.reduce(SemanticAnalysisResult(), combine: { result, rule in
+        let result = rules.reduce(SemanticAnalysisResult(), combine: { result, rule in
             result.combine(rule.run(form, context: context))
         })
         
