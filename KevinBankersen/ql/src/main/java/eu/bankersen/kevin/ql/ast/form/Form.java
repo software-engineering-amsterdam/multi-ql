@@ -2,7 +2,6 @@ package eu.bankersen.kevin.ql.ast.form;
 
 import eu.bankersen.kevin.ql.ast.AcceptQuestionVisitor;
 import eu.bankersen.kevin.ql.ast.QuestionVisitor;
-import eu.bankersen.kevin.ql.interpreter.Environment;
 
 public class Form implements AcceptQuestionVisitor {
 
@@ -20,10 +19,6 @@ public class Form implements AcceptQuestionVisitor {
 
     public String name() {
 	return name;
-    }
-
-    public Environment evalForm(Environment context) {
-	return body.evalBody(context);
     }
 
     @Override

@@ -146,6 +146,7 @@ public class IntegerValue extends QLValue {
 
     @Override
     public QLValue greater(IntegerValue value) {
+	System.out.println("in value, result is " + value.value() + " > " + this.value);
 	return new BooleanValue(value.value().compareTo(this.value) > 0 ? true : false);
     }
 

@@ -7,8 +7,8 @@ import java.util.Set;
 import eu.bankersen.kevin.ql.ast.TopDownQuestionVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Expr;
 import eu.bankersen.kevin.ql.ast.expr.Identifier;
+import eu.bankersen.kevin.ql.ast.expr.IdentifierVisitor;
 import eu.bankersen.kevin.ql.ast.expr.Literal;
-import eu.bankersen.kevin.ql.ast.expr.TopDownExprVisitor;
 import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
 import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
@@ -82,7 +82,7 @@ public class DependancyAnalyzer {
 	    context.registerQuestion(o.name(), identifiers);
 	}
 
-	public class ExprDependancyVisitor extends TopDownExprVisitor<Set<String>, Void> {
+	public class ExprDependancyVisitor extends IdentifierVisitor<Set<String>, Void> {
 
 	    @Override
 	    public Set<String> visitDoubleExpression(Expr lhs, Expr rhs, Void context) {

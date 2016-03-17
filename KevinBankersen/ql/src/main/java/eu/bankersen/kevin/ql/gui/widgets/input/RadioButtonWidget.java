@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.gui.widgets;
+package eu.bankersen.kevin.ql.gui.widgets.input;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,29 +8,23 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import eu.bankersen.kevin.ql.ast.types.QLType;
 import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
+import eu.bankersen.kevin.ql.gui.widgets.Widget;
 
 public class RadioButtonWidget implements InputWidget {
 
     private final JPanel panel;
-    private final QLType type;
     private final JRadioButton trueToggle;
     private final JRadioButton falseToggle;
-    private final Widget parentWidget;
+    private Widget parent;
     private final ButtonGroup group;
 
-    public RadioButtonWidget(QLType type, Widget parentWidget) {
-	this.type = type;
+    public RadioButtonWidget() {
 	this.panel = new JPanel();
-	this.parentWidget = parentWidget;
 
 	trueToggle = new JRadioButton("True");
-	trueToggle.setEnabled(!parentWidget.isComputed());
-
 	falseToggle = new JRadioButton("False");
-	falseToggle.setEnabled(!parentWidget.isComputed());
 
 	group = new ButtonGroup();
 	group.add(trueToggle);
@@ -49,6 +43,13 @@ public class RadioButtonWidget implements InputWidget {
     }
 
     @Override
+    public void setParent(Widget parent) {
+	this.parent = parent;
+	trueToggle.setEnabled(!parent.isComputed());
+	falseToggle.setEnabled(!parent.isComputed());
+    }
+
+    @Override
     public void updateWidgetValue(QLValue value) {
 
 	if (!value.equals(new UndifinedValue())) {
@@ -63,8 +64,8 @@ public class RadioButtonWidget implements InputWidget {
     }
 
     @Override
-    public void notifyParentWidget(QLValue value) {
-	parentWidget.widgetUpdated(value);
+    public void updateParentWidget(String value) {
+	parent.widgetUpdated(value);
     }
 
     class ToggleListerner implements ActionListener {
@@ -72,8 +73,8 @@ public class RadioButtonWidget implements InputWidget {
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 	    AbstractButton aButton = (AbstractButton) actionEvent.getSource();
-	    QLValue value = type.createQLValueFrom(aButton.getText());
-	    notifyParentWidget(value);
+	    String value = aButton.getText();
+	    updateParentWidget(value);
 	}
     }
 
