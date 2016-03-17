@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
+import sc.ql.ast.Statement.Question;
 import sc.ql.eval.Environment;
 import sc.ql.value.Value;
 
@@ -23,10 +24,10 @@ public class UIRadioButton extends AbstractUIWidget implements ActionListener {
 	private final JPanel panel;
 
 	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JRadioButton.font"),
-			new Dimension(150, 30), Color.BLACK);
+			new Dimension(50, 30), Color.BLACK);
 
-	public UIRadioButton(Environment env, String variableName, UIWidgetChoices choices) {
-		super(env, variableName, choices.defaultValue().getValue());
+	public UIRadioButton(Environment env, Question question, UIWidgetChoices choices) {
+		super(env, question.name(), choices.defaultValue().getValue());
 		ButtonGroup bg;
 
 		this.choiceToButton = new LinkedHashMap<>();
@@ -35,6 +36,7 @@ public class UIRadioButton extends AbstractUIWidget implements ActionListener {
 		bg = new ButtonGroup();
 
 		panel = new JPanel();
+		panel.setPreferredSize(new Dimension(150, 30));
 
 		for (UIWidgetChoice choice : choices.values()) {
 			JRadioButton rb;
@@ -66,9 +68,8 @@ public class UIRadioButton extends AbstractUIWidget implements ActionListener {
 		for (JRadioButton rb : choiceToButton.values()) {
 			rb.setFont(style.getFont());
 			rb.setForeground(style.getColor());
+			rb.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
 		}
-
-		panel.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
 	}
 
 	@Override

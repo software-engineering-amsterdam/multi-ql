@@ -80,6 +80,7 @@ public class UIFactory {
 	protected UIQuestionnaire createQuestionnaire(List<UIQuestion> questions) {
 		return new UIQuestionnaire(questions);
 	}
+	// Object algebra?
 
 	protected UIWidget createLabelWidget(Question question) {
 		return new UILabel(question.label());
@@ -99,7 +100,7 @@ public class UIFactory {
 
 				choices = new UIWidgetChoices(Arrays.asList(YES, NO), NO);
 
-				return new UIRadioButton(env, question.name(), choices);
+				return new UIRadioButton(env, question, choices);
 			}
 
 			@Override

@@ -3,7 +3,6 @@ package sc.qls.ui;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,8 +26,12 @@ public class UIPage {
 			List<UIQuestion> questionsInSection;
 			UISection uiSection;
 
-			questionsInSection = questions.stream().filter(q -> section.contains(q.getId()))
-					.collect(Collectors.toList());
+			questionsInSection = new ArrayList<>();
+			for (UIQuestion question : questions) {
+				if (section.contains(question.getName())) {
+					questionsInSection.add(question);
+				}
+			}
 
 			uiSection = new UISection(section, questionsInSection);
 			sections.add(uiSection);

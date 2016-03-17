@@ -1,10 +1,10 @@
 package sc.ql.eval;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import sc.ql.ast.Expression;
 import sc.ql.value.Value;
@@ -18,7 +18,7 @@ public class Environment {
 	public Environment() {
 		valueMap = new HashMap<String, Value>();
 		computedValueMap = new HashMap<String, Expression>();
-		contextListeners = new ArrayList<ContextListener>();
+		contextListeners = new CopyOnWriteArrayList<>();
 	}
 
 	public void addComputedValue(String key, Expression computation) {

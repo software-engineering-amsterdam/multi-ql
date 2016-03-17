@@ -49,7 +49,7 @@ public class UIQuestion implements ContextListener {
 		panel.setPreferredSize(new Dimension(400, 40));
 	}
 
-	public String getId() {
+	public String getName() {
 		return question.name();
 	}
 

@@ -86,7 +86,7 @@ question returns [Rule result]
 
 widgetType returns [Widget result]
     : 'slider' '(' widgetOptions ')' 'default' STR   { $result = addSource($ctx, new Slider($widgetOptions.result, unQuote($STR.text)));    }
-    | 'spinbox' '(' widgetOptions ')' 'default' STR   { $result = addSource($ctx, new Spinbox($widgetOptions.result, unQuote($STR.text)));   }
+    | 'spinner' '(' widgetOptions ')' 'default' STR   { $result = addSource($ctx, new Spinbox($widgetOptions.result, unQuote($STR.text)));   }
     | 'text'                                          { $result = addSource($ctx, new TextField()); }
     | 'checkbox' '(' widgetOptions ')' 'default' STR  { $result = addSource($ctx, new CheckBox($widgetOptions.result, unQuote($STR.text))); }
     | 'radio' '(' widgetOptions ')' 'default' STR     { $result = addSource($ctx, new RadioButton($widgetOptions.result, unQuote($STR.text))); }

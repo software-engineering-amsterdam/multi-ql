@@ -28,7 +28,7 @@ public class StyledUIQuestionnaire extends UIQuestionnaire {
 			questionsOnPage = new ArrayList<>();
 
 			for (UIQuestion question : questions) {
-				if (page.containsQuestions(question.getId())) {
+				if (page.containsQuestions(question.getName())) {
 					questionsOnPage.add(question);
 				}
 			}

@@ -14,6 +14,7 @@ import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIQuestion;
 import sc.ql.ui.UIQuestionnaire;
 import sc.ql.ui.widget.UIRadioButton;
+import sc.ql.ui.widget.UITextField;
 import sc.ql.ui.widget.UIWidget;
 import sc.ql.ui.widget.UIWidgetChoice;
 import sc.ql.ui.widget.UIWidgetChoices;
@@ -42,7 +43,9 @@ import sc.qls.ast.Widget.Slider;
 import sc.qls.ast.Widget.Spinbox;
 import sc.qls.ast.Widget.TextField;
 import sc.qls.ast.WidgetVisitor;
-import sc.qls.ui.widget.UISliderWidget;
+import sc.qls.ui.widget.UIDropDown;
+import sc.qls.ui.widget.UISlider;
+import sc.qls.ui.widget.UISpinner;
 
 public class QLSUIFactory extends UIFactory {
 
@@ -94,27 +97,43 @@ public class QLSUIFactory extends UIFactory {
 
 			@Override
 			public UIWidget visit(RadioButton widget, Void unused) {
-				return new UIRadioButton(env, question.name(), createChoices(type, widget));
+				return new UIRadioButton(env, question, createChoices(type, widget));
 			}
 
 			@Override
 			public UIWidget visit(DropDown widget, Void unused) {
-				return null;
+				return new UIDropDown(env, question, createChoices(type, widget));
 			}
 
 			@Override
 			public UIWidget visit(Slider widget, Void unused) {
-				return new UISliderWidget(env, question.name(), createChoices(type, widget));
+				return new UISlider(env, question, createChoices(type, widget));
 			}
 
 			@Override
 			public UIWidget visit(Spinbox widget, Void unused) {
-				return null;
+				return new UISpinner(env, question, createChoices(type, widget));
 			}
 
 			@Override
 			public UIWidget visit(TextField widget, Void unused) {
-				return null;
+				return type.accept(new ValueTypeVisitor<UIWidget, Void>() {
+
+					@Override
+					public UIWidget visit(BooleanType type, Void unused) {
+						return new UITextField(env, question, BooleanValue.FALSE);
+					}
+
+					@Override
+					public UIWidget visit(StringType type, Void unused) {
+						return new UITextField(env, question, new StringValue(""));
+					}
+
+					@Override
+					public UIWidget visit(IntegerType type, Void unused) {
+						return new UITextField(env, question, new NumberValue(0));
+					}
+				}, null);
 			}
 
 			@Override

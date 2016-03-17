@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.UIManager;
 
+import sc.ql.ast.Statement.Question;
 import sc.ql.eval.Environment;
 import sc.ql.ui.widget.AbstractUIWidget;
 import sc.ql.ui.widget.UIWidgetChoice;
@@ -20,7 +21,7 @@ import sc.ql.ui.widget.UIWidgetChoices;
 import sc.ql.ui.widget.UIWidgetStyle;
 import sc.ql.value.Value;
 
-public class UISliderWidget extends AbstractUIWidget {
+public class UISlider extends AbstractUIWidget {
 
 	private final Map<Integer, UIWidgetChoice> indexToChoiceMap;
 	private final UIWidgetChoices choices;
@@ -31,8 +32,8 @@ public class UISliderWidget extends AbstractUIWidget {
 	private final UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JLabel.font"),
 			new Dimension(140, 20), Color.BLACK);
 
-	public UISliderWidget(Environment env, String variableName, UIWidgetChoices choices) {
-		super(env, variableName, choices.defaultValue().getValue());
+	public UISlider(Environment env, Question question, UIWidgetChoices choices) {
+		super(env, question.name(), choices.defaultValue().getValue());
 
 		this.choices = choices;
 
@@ -63,6 +64,7 @@ public class UISliderWidget extends AbstractUIWidget {
 
 		panel = new JPanel(new BorderLayout());
 		panel.add(slider, BorderLayout.CENTER);
+		panel.setPreferredSize(new Dimension(150, 30));
 
 		setStyle(style);
 	}
@@ -79,7 +81,7 @@ public class UISliderWidget extends AbstractUIWidget {
 
 	@Override
 	public void setStyle(UIWidgetStyle style) {
-		panel.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
+		slider.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
 		slider.setFont(style.getFont());
 
 		for (JLabel label : labelTable.values()) {

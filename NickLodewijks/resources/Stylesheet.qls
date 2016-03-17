@@ -12,7 +12,7 @@ stylesheet taxOfficeExample {
                     fontStyle : "bolditalic"
                 }
             question hasBoughtHouse
-                widget radio("No") default "No" {
+                widget dropdown("Yes", "No") default "No" {
                     color : "255,0,0"
                     fontStyle : "bold"
                     fontSize: 20
@@ -34,6 +34,7 @@ stylesheet taxOfficeExample {
         
         section "What?" {
             question areYouSure
+                widget spinner("Yes", "No") default "No"
             question enterAnumber
         }
     
