@@ -13,26 +13,28 @@ import sc.ql.ast.Expression;
 import sc.ql.ast.Expression.Add;
 import sc.ql.ast.Expression.And;
 import sc.ql.ast.Expression.BinaryExpr;
-import sc.ql.ast.Expression.BooleanLiteral;
 import sc.ql.ast.Expression.Divide;
-import sc.ql.ast.Expression.Equals;
-import sc.ql.ast.Expression.EqualsNot;
+import sc.ql.ast.Expression.Equal;
 import sc.ql.ast.Expression.GreaterThan;
 import sc.ql.ast.Expression.GreaterThanOrEqual;
-import sc.ql.ast.Expression.IntegerLiteral;
 import sc.ql.ast.Expression.LessThan;
 import sc.ql.ast.Expression.LessThanOrEqual;
+import sc.ql.ast.Expression.LiteralExpr;
 import sc.ql.ast.Expression.Multiply;
 import sc.ql.ast.Expression.Negative;
 import sc.ql.ast.Expression.Not;
+import sc.ql.ast.Expression.NotEqual;
 import sc.ql.ast.Expression.Or;
 import sc.ql.ast.Expression.Positive;
-import sc.ql.ast.Expression.StringLiteral;
 import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.VariableExpr;
 import sc.ql.ast.ExpressionVisitor;
 import sc.ql.ast.Form;
 import sc.ql.ast.FormVisitor;
+import sc.ql.ast.Literal.BooleanLiteral;
+import sc.ql.ast.Literal.IntegerLiteral;
+import sc.ql.ast.Literal.StringLiteral;
+import sc.ql.ast.LiteralVisitor;
 import sc.ql.ast.Statement;
 import sc.ql.ast.Statement.Block;
 import sc.ql.ast.Statement.ComputedQuestion;
@@ -185,8 +187,9 @@ public class SemanticAnalyser {
 		return result;
 	}
 
-	private static class TypeCheckVisitor implements ExpressionVisitor<ValueType, SymbolTable>,
-			FormVisitor<Void, SymbolTable>, StatementVisitor<Void, SymbolTable> {
+	private static class TypeCheckVisitor
+			implements ExpressionVisitor<ValueType, SymbolTable>, FormVisitor<Void, SymbolTable>,
+			StatementVisitor<Void, SymbolTable>, LiteralVisitor<ValueType, SymbolTable> {
 
 		private SemanticErrors result;
 
@@ -315,6 +318,11 @@ public class SemanticAnalyser {
 			return type;
 		}
 
+		@Override
+		public ValueType visit(LiteralExpr node, SymbolTable st) {
+			return node.literal().accept(this, st);
+		}
+
 		// Literals
 		@Override
 		public ValueType visit(BooleanLiteral node, SymbolTable st) {
@@ -370,7 +378,7 @@ public class SemanticAnalyser {
 
 		// Equality relations
 		@Override
-		public ValueType visit(Equals node, SymbolTable st) {
+		public ValueType visit(Equal node, SymbolTable st) {
 			ValueType lhsType;
 			ValueType rhsType;
 
@@ -384,7 +392,7 @@ public class SemanticAnalyser {
 		}
 
 		@Override
-		public ValueType visit(EqualsNot node, SymbolTable st) {
+		public ValueType visit(NotEqual node, SymbolTable st) {
 			ValueType lhsType;
 			ValueType rhsType;
 

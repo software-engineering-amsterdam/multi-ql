@@ -2,7 +2,7 @@ package sc.ql.ui;
 
 import javax.swing.JComponent;
 
-import sc.ql.ast.value.Value;
+import sc.ql.value.Value;
 
 /**
  * A QLWidget represents the GUI component for an input field, or computed value

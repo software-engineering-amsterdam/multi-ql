@@ -2,11 +2,20 @@ stylesheet taxOfficeExample {
     page "Housing" {
         section "House" {
             question hasMaintLoan
-                widget radio("Yes", "No") default "No"
+                widget radio("Yes", "No") default "No"{
+                    color : "0,0,255"
+                    fontStyle : "italic"
+                }
             question hasSoldHouse
-                widget radio("Yes", "No") default "Yes"
+                widget radio("Yes", "No") default "Yes" {
+                    color : "0,255,0"
+                    fontStyle : "bolditalic"
+                }
             question hasBoughtHouse
-                widget radio("Yes", "No") default "No" 
+                widget radio("Yes", "No") default "No" {
+                    color : "255,0,0"
+                    fontStyle : "bold"
+                }
         }
         
         section "You sold a house" {
