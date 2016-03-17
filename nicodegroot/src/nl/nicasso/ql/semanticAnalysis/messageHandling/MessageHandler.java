@@ -6,23 +6,25 @@ import java.util.List;
 public class MessageHandler {
 
 	List<Message> messages;
+	boolean containsErrors;
 	
 	public MessageHandler() {
 		messages = new ArrayList<Message>();
 	}
 	
 	public void addMessage(Message message) {
-		messages.add(message);
-	}
-	
-	// This one can go I guess?
-	public void displayMessages() {
-		for (Message message: messages) {
-			System.out.println(message.getMessage());
+		if (message.getMessageType().equals("Error")) {
+			containsErrors = true;
 		}
+		messages.add(message);
 	}
 	
 	public List<Message> getMessages() {
 		return messages;
 	}
+	
+	public boolean isContainsErrors() {
+		return containsErrors;
+	}
+	
 }

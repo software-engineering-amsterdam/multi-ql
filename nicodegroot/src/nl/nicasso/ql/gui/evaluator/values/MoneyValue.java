@@ -1,13 +1,14 @@
 package nl.nicasso.ql.gui.evaluator.values;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class MoneyValue extends Value {
 	
 	private final BigDecimal value;
 	
 	public MoneyValue(BigDecimal value) {
-		this.value = value;
+		this.value = value.setScale(2, RoundingMode.HALF_UP);
 	}
 	
 	@Override
@@ -79,7 +80,18 @@ public class MoneyValue extends Value {
 	// DOUBLE DISPATCHING
 	
 	public Value multiplicationToInteger(IntegerValue v) {
-		return new MoneyValue(value.multiply(BigDecimal.valueOf(Double.parseDouble(Integer.toString(v.getValue())))));
+		return new MoneyValue(value.multiply(MoneyValue.integerToBigDecimal(v.getValue())).setScale(2, RoundingMode.HALF_UP));
+		//return new MoneyValue(value.multiply(BigDecimal.valueOf(Double.parseDouble(Integer.toString(v.getValue())))));
+	}
+	
+	// PARSING
+	
+	public static BigDecimal integerToBigDecimal(Integer integer) {
+		return MoneyValue.stringToBigDecimal(integer.toString());
+	}
+	
+	public static BigDecimal stringToBigDecimal(String value) {
+		return BigDecimal.valueOf(Double.parseDouble(value)).setScale(2, RoundingMode.HALF_UP);
 	}
 	
 }

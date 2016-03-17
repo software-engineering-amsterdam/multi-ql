@@ -6,7 +6,7 @@ import eu.bankersen.kevin.ql.ast.form.Form;
 import eu.bankersen.kevin.ql.gui.QLgui;
 import eu.bankersen.kevin.ql.gui.dialog.ErrorDialog;
 import eu.bankersen.kevin.ql.gui.dialog.WarningDialog;
-import eu.bankersen.kevin.ql.interpreter.Interpreter;
+import eu.bankersen.kevin.ql.interperter.Evaluator;
 import eu.bankersen.kevin.ql.parser.ANTLRParseException;
 import eu.bankersen.kevin.ql.parser.FormParser;
 import eu.bankersen.kevin.ql.typechecker.FormChecker;
@@ -51,12 +51,13 @@ public final class App {
 	}
 
 	// Create the GUI
-	Interpreter interp = new Interpreter(form);
+	// Interpreter interp = new Interpreter(form);
+	Evaluator evaluator = new Evaluator(form);
 	QLgui ui = new QLgui(form);
 
 	// Link Listeners
-	ui.addViewListener(interp);
-	interp.addDataListener(ui);
+	ui.addViewListener(evaluator);
+	evaluator.addDataListener(ui);
 
 	ui.setVisible(true);
     }

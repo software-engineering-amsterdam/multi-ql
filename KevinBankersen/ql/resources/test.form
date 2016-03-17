@@ -4,13 +4,13 @@ form test {
 "Test question 1"
 q1: boolean = q2
 
-"Test question 1"
+"Test question 6"
 q6: integer
 
-"Test question 2"
+"Test question 3"
 q3: boolean
 
-if(q3) {
+if(q6 > 48) {
 "Test question 2"
 q2: boolean = true
 

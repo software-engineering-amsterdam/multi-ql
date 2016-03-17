@@ -9,9 +9,11 @@
 import Foundation
 
 class Questionnaire: NSObject {
+    let title: String
     let questions: [Question]
     
-    init(questions: [Question]) {
+    init(title: String, questions: [Question]) {
+        self.title = title
         self.questions = questions
     }
 }

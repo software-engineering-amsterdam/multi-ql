@@ -182,7 +182,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		currentIdentifier = null;
 		
 		if (!expr.equals(value.getType())) {
-			messages.addMessage(new IncompatibleTypes(value.getLocation()));
+			messages.addMessage(new IncompatibleTypes(value.getLocation(), value.getType()));
 		}
 		
 		return null;
@@ -196,7 +196,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type type = value.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			messages.addMessage(new IncompatibleTypes(value.getLocation()));
+			messages.addMessage(new IncompatibleTypes(value.getLocation(), new BooleanType()));
 		}
 		
 		return null;
@@ -211,7 +211,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		Type type = value.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			messages.addMessage(new IncompatibleTypes(value.getLocation()));
+			messages.addMessage(new IncompatibleTypes(value.getLocation(), new BooleanType()));
 		}
 		
 		return null;

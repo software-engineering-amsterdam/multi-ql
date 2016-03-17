@@ -9,6 +9,7 @@ public abstract class Warning extends Message {
 	
 	public Warning(CodeLocation location) {
 		this.location = location;
+		this.messageType = "Warning";
 	}
 	
 	public CodeLocation getLocation() {

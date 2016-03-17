@@ -9,6 +9,7 @@ public abstract class Error extends Message {
 	
 	public Error(CodeLocation location) {
 		this.location = location;
+		this.messageType = "Error";
 	}
 	
 	public CodeLocation getLocation() {

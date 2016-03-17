@@ -42,8 +42,10 @@ public class QL {
 
         MainFrame main = new MainFrame(stateTable, semantics.getMessages());
         
-        Gui guiVisitor = new Gui(stateTable, main);
-        ast.accept(guiVisitor, null);
+        if (!semantics.isContainsErrors()) {
+	        Gui guiVisitor = new Gui(stateTable, main);
+	        ast.accept(guiVisitor, null);
+        }
 	}
 	
 	private ANTLRInputStream readInputDSL() {
