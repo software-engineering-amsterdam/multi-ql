@@ -9,18 +9,18 @@
 import UIKit
 import SnapKit
 
-class FormViewController: BaseViewController {
+class QuestionnaireViewController: BaseViewController {
     @IBOutlet weak var contentView: UIView!
     
-    let form: QLForm
+    let questionnaire: Questionnaire
     
     
-    init(form: QLForm) {
-        self.form = form
+    init(questionnaire: Questionnaire) {
+        self.questionnaire = questionnaire
         
         super.init(nibName: "FormView", bundle: nil)
         
-        self.title = "\(form.identifier.id)"
+        self.title = "\(questionnaire.title)"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,16 +28,10 @@ class FormViewController: BaseViewController {
     }
 }
 
-extension FormViewController {
+extension QuestionnaireViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //TODO:
-        guard let context = try? Context(form: form)
-            else { return }
-        
-        let questionnaire = QuestionnaireBuilder().build(form, context: context)
         
         let view = QuestionnaireViewBuilder().build(questionnaire)
         

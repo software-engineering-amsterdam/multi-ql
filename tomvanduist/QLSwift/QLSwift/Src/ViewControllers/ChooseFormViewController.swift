@@ -17,15 +17,15 @@ class ChooseFormViewController: BaseViewController {
     func showForm(formName: String) {
         do {
             let ql = try QL(qlFromFileNamed: formName)
-            let parser = Parser()
             
-            let (form, warnings) = try parser.parse(ql) // TODO: do Something with context
+            let (questionnaire, warnings) = try ql.toQuestionnaire() // TODO: do Something with context
+            
             if warnings.isEmpty {
-                self.displayForm(form)
+                self.display(questionnaire)
             } else {
                 print(warnings)
                 showAlerts(arg: warnings, cancelBlock: nil, confirmBlock: { [unowned self] in
-                    self.displayForm(form)
+                    self.display(questionnaire)
                 })
             }
         }
@@ -42,8 +42,8 @@ class ChooseFormViewController: BaseViewController {
         }
     }
     
-    private func displayForm(form: QLForm) {
-        self.navigationController?.pushViewController(FormViewController(form: form), animated: true)
+    private func display(questionnaire: Questionnaire) {
+        self.navigationController?.pushViewController(QuestionnaireViewController(questionnaire: questionnaire), animated: true)
     }
     
     private func displayErrors(error: SemanticErrorCollection) {
@@ -90,14 +90,6 @@ extension ChooseFormViewController {
     
     private func showAlerts(arg error: SemanticError, confirmBlock: (() -> Void)? = nil) -> Bool {
         return showAlerts(arg: [error], confirmBlock: confirmBlock)
-//        iXf case SemanticError.None = error {
-//            return false
-//        }
-//        
-//        switch error {
-//            case .Collection(let errors): return showAlerts("Error", message: errors.map { "\($0)" }, cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
-//            default: return showAlert("Error", message: "'\(error)'", cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
-//        }
     }
     
     private func showAlerts(arg warnings: [SemanticWarning], cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {

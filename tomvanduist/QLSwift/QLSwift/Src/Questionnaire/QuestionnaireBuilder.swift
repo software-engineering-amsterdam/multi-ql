@@ -11,17 +11,9 @@ import Foundation
 class QuestionnaireBuilder: NSObject, QLStatementVisitor {
     
     func build(form: QLForm, context: Context) -> Questionnaire {
-        return build([(form, context)])
-    }
-    
-    func build(multiple: [(form: QLForm, context: Context)]) -> Questionnaire {
-        var questions = [Question]()
+        let questions = form.block.accept(self, param: (conditions: [], context: context))
         
-        for (form, context) in multiple {
-            questions += form.block.accept(self, param: (conditions: [], context: context))
-        }
-        
-        return Questionnaire(questions: questions)
+        return Questionnaire(title: form.identifier.id, questions: questions)
     }
 }
 
