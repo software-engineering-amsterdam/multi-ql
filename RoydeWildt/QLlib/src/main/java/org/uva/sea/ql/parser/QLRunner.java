@@ -1,50 +1,41 @@
 package org.uva.sea.ql.parser;
 
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.uva.sea.ql.ast.tree.form.Form;
-
-import java.io.IOException;
-import java.util.List;
+import org.uva.sea.ql.parser.listener.ThrowingErrorListener;
 
 /**
  * Created by roy on 12-2-16.
  */
 public class QLRunner {
 
-    public static Form parseFromPath(String path) throws Throwable {
-        QLLexer lex = null;
+    public static Form parseFromPath(String path) throws Exception {
 
-        try {
-            lex = new QLLexer(new ANTLRFileStream(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-            e.getCause();
-        }
+        QLLexer lexer = new QLLexer(new ANTLRFileStream(path));
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(ThrowingErrorListener.INSTANCE);
 
-        CommonTokenStream tok = new CommonTokenStream(lex);
+        CommonTokenStream tok = new CommonTokenStream(lexer);
+
         QLParser par = new QLParser(tok);
 
-        try{
-            return par.form().result;
-        } catch (RecognitionException e) {
-            e.printStackTrace();
-            throw e.getCause();
-        }
+        return par.form().result;
     }
 
-    public static Form parseString(String str) throws Throwable {
-        QLLexer lex = null;
+    public static Form parseString(String str) throws ParseCancellationException {
+        QLLexer lexer = new QLLexer(new ANTLRInputStream(str));
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(ThrowingErrorListener.INSTANCE);
 
-        lex = new QLLexer(new ANTLRInputStream(str));
+        CommonTokenStream tok = new CommonTokenStream(lexer);
 
-        CommonTokenStream tok = new CommonTokenStream(lex);
-        QLParser par = new QLParser(tok);
+        QLParser parser = new QLParser(tok);
+        parser.removeErrorListeners();
+        parser.addErrorListener(ThrowingErrorListener.INSTANCE);
 
-        try{
-            return par.form().result;
-        } catch (RecognitionException e) {
-            e.printStackTrace();
-            throw e.getCause();
-        }
+        return parser.form().result;
     }
 }

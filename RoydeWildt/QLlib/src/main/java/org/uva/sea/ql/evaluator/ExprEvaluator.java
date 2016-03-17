@@ -1,14 +1,17 @@
 package org.uva.sea.ql.evaluator;
 
-import org.uva.sea.ql.ast.tree.atom.val.*;
 import org.uva.sea.ql.ast.tree.atom.val.Float;
-import org.uva.sea.ql.ast.tree.expr.binary.*;
-import org.uva.sea.ql.ast.tree.expr.unary.*;
+import org.uva.sea.ql.ast.tree.atom.val.Str;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.expr.binary.*;
+import org.uva.sea.ql.ast.tree.expr.unary.Neg;
+import org.uva.sea.ql.ast.tree.expr.unary.Not;
+import org.uva.sea.ql.ast.tree.expr.unary.Pos;
+import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.evaluator.value.*;
 import org.uva.sea.ql.evaluator.value.Bool;
 import org.uva.sea.ql.evaluator.value.String;
+import org.uva.sea.ql.evaluator.value.Value;
 import org.uva.sea.ql.evaluator.value.numeric.Double;
 import org.uva.sea.ql.evaluator.value.numeric.Int;
 import org.uva.sea.ql.evaluator.value.numeric.Numeric;

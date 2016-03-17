@@ -1,14 +1,12 @@
 package org.uva.sea.ql.checker;
 
-import javafx.collections.FXCollections;
 import org.uva.sea.ql.ast.tree.Node;
-import org.uva.sea.ql.ast.tree.expr.Expr;
-import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.evaluator.SymbolTable;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
+import org.uva.sea.ql.evaluator.SymbolTable;
 import org.uva.sea.ql.evaluator.value.Value;
 
 import java.util.ArrayList;

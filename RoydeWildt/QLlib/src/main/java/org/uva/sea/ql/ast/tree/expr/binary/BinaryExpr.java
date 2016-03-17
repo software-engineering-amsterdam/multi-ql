@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.expr.binary;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 
 /**
@@ -9,8 +10,8 @@ public abstract class BinaryExpr extends Expr {
     private final Expr lhs;
     private final Expr rhs;
 
-    public BinaryExpr(int line, Expr lhs, Expr rhs) {
-        super(line);
+    public BinaryExpr(Token token, Expr lhs, Expr rhs) {
+        super(token);
         this.lhs = lhs;
         this.rhs = rhs;
     }

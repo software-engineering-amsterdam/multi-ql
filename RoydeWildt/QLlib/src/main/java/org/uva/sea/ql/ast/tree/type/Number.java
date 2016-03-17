@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.type;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
@@ -7,21 +8,9 @@ import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
  * Created by roydewildt on 11/02/16.
  */
 public class Number extends Type {
-    private Int defaultValue;
 
-    public Number(){
-        super(0);
-    }
-
-    public Number(int line) {
-        super(line);
-        this.defaultValue = new Int().getDefaultValue();
-    }
-
-    public Type getType(){return new Number();}
-
-    public Int getDefaultValue() {
-        return defaultValue;
+    public Number(Token token) {
+        super(token);
     }
 
     @Override

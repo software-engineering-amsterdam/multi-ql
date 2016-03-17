@@ -1,7 +1,6 @@
 package org.uva.sea.ql.gui.widget;
 
 import javafx.scene.layout.GridPane;
-import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 
 /**

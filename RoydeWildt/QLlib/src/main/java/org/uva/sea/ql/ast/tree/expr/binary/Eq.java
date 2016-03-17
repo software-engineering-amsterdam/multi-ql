@@ -7,8 +7,8 @@ import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class Eq extends BinaryExpr {
-    public Eq (int line, Expr lhs, Expr rhs){
-        super(line, lhs, rhs);
+    public Eq (Token token, Expr lhs, Expr rhs){
+        super(token, lhs, rhs);
     }
 
     @Override

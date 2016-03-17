@@ -10,17 +10,20 @@ import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 /**
  * Created by roydewildt on 04/02/16.
  */
-public class Question extends Stat {
+public class Computed extends Stat {
     private final String label;
     private final Var varname;
     private final Type type;
+    private final Expr expr;
 
-    public Question(Token token, String label, Var varname, Type type){
+    public Computed(Token token, String label, Var varname, Type type, Expr expr){
         super(token);
         this.label = label.replace("\"", "");
         this.varname = varname;
         this.type = type;
+        this.expr = expr;
     }
+
 
     public String getLabel() {
         return label;
@@ -32,6 +35,10 @@ public class Question extends Stat {
 
     public Type getType() {
         return type;
+    }
+
+    public Expr getExpr() {
+        return expr;
     }
 
     @Override

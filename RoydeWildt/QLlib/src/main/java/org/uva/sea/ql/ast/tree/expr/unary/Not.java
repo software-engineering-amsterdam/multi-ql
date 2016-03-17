@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.expr.unary;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
 
@@ -9,8 +10,8 @@ import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
 public class Not extends UnaryExpr {
     private final Expr value;
 
-    public Not (int line, Expr lhs){
-        super(line);
+    public Not (Token token, Expr lhs){
+        super(token);
         this.value = lhs;
     }
 

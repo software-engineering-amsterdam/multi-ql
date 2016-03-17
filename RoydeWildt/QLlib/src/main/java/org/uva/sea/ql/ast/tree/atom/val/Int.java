@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.atom.val;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 
 /**
@@ -8,28 +9,14 @@ import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 public class Int extends Val {
     private Integer value;
 
-    public Int(){
-        super(0);
-    }
-
-    public Int(Integer i){
-        super(0);
-        this.value = i;
-    }
-
-    public Int(int line, String x){
-        super(line);
+    public Int(Token token, String x){
+        super(token);
         this.value = Integer.valueOf(x);
     }
 
     @Override
     public Integer getValue() {
         return value;
-    }
-
-    @Override
-    public Int getDefaultValue(){
-        return new Int(0);
     }
 
     @Override

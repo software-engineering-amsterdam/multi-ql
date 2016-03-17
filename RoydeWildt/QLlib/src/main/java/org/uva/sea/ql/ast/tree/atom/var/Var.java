@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.atom.var;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.atom.Literal;
 import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 
@@ -9,8 +10,8 @@ import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 public class  Var extends Literal {
     private final String name;
 
-    public Var(int line, String value) {
-        super(line);
+    public Var(Token token, String value) {
+        super(token);
         this.name = value;
     }
 

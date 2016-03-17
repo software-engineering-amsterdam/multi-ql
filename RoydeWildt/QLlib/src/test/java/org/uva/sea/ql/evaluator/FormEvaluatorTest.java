@@ -97,7 +97,7 @@ public class FormEvaluatorTest {
 
     private Form parseFromPath(String path){
         try {
-            return QLRunner.ParseFromPath(path);
+            return QLRunner.parseFromPath(path);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             return null;

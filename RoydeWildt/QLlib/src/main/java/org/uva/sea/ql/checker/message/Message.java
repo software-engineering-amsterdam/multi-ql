@@ -7,23 +7,22 @@ import org.uva.sea.ql.ast.tree.Node;
  */
 public abstract class Message {
 
-    public enum Type{ERROR, WARNING}
+    private String message;
+    private Node node;
 
-    private String msgStr;
-    private Node msgNode;
-
-    public Message(String msgStr, Node msgNode){
-        this.msgStr = msgStr;
-        this.msgNode = msgNode;
+    public Message(String message, Node node){
+        this.message = message;
+        this.node = node;
     }
 
-    public abstract Type getType();
-
-    public String getMsg() {
-        return msgStr;
+    public String getMessage() {
+        return message;
     }
 
     public Node getNode() {
-        return msgNode;
+        return node;
     }
+
+    @Override
+    public abstract String toString();
 }

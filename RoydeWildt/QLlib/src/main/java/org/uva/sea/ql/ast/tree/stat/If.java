@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.stat;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 
@@ -13,8 +14,8 @@ public class If extends Stat{
     private final Expr cond;
     private final List<Stat> stms;
 
-    public If (int line, Expr cond, List<Stat> stms){
-        super(line);
+    public If (Token token, Expr cond, List<Stat> stms){
+        super(token);
         this.cond = cond;
         this.stms = stms;
     }

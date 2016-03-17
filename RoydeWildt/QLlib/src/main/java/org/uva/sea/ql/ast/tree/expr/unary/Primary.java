@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.expr.unary;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.atom.Literal;
 import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
 
@@ -10,13 +11,8 @@ public class Primary extends UnaryExpr {
 
     private final Literal value;
 
-    public Primary (Literal value){
-        super(0);
-        this.value = value;
-    }
-
-    public Primary(int line, Literal value) {
-        super(line);
+    public Primary(Token token, Literal value) {
+        super(token);
         this.value = value;
     }
 

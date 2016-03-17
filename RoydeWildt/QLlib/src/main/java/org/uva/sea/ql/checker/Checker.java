@@ -25,4 +25,14 @@ public class Checker {
     public List<Message> getMessages() {
         return messages;
     }
+
+    public List<String> getMessageStrings(){
+        List<String> messageStrings = new ArrayList<>();
+
+        for(Message message : messages){
+            messageStrings.add(message.toString());
+        }
+
+        return messageStrings;
+    }
 }

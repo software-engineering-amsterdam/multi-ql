@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.type;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.atom.val.Val;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitable;
@@ -9,13 +10,9 @@ import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitable;
  */
 public abstract class Type extends Node implements TypeVisitable {
 
-    public Type(int line) {
-        super(line);
+    public Type(Token token) {
+        super(token);
     }
-
-    public abstract Type getType();
-
-    public abstract Val getDefaultValue();
 
     @Override
     public String toString() {

@@ -1,9 +1,9 @@
 package org.uva.sea.ql.checker;
 
 import org.uva.sea.ql.ast.tree.Node;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.checker.message.WarningMessage;

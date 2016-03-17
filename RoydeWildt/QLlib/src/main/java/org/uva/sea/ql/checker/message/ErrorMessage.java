@@ -7,13 +7,13 @@ import org.uva.sea.ql.ast.tree.Node;
  */
 public class ErrorMessage extends Message {
 
-    public ErrorMessage(String msgStr, Node msgNode) {
-        super(msgStr, msgNode);
+    public ErrorMessage(String message, Node node) {
+        super(message, node);
     }
 
     @Override
-    public Type getType() {
-        return Type.ERROR;
+    public String toString() {
+        return "Error: " + this.getMessage();
     }
 
 

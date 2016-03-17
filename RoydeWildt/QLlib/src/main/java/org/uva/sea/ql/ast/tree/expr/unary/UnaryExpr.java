@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.expr.unary;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 
 /**
@@ -7,8 +8,8 @@ import org.uva.sea.ql.ast.tree.expr.Expr;
  */
 public abstract class UnaryExpr extends Expr {
 
-    public UnaryExpr(int line) {
-        super(line);
+    public UnaryExpr(Token token) {
+        super(token);
     }
 
     public abstract <T> T getValue();

@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.type;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.atom.val.Float;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
@@ -7,21 +8,9 @@ import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
  * Created by roydewildt on 11/02/16.
  */
 public class Money extends Type {
-    private Float defaultValue;
 
-    public Money(){
-        super(0);
-    }
-
-    public Money(int line) {
-        super(line);
-        this.defaultValue = new Float().getDefaultValue();
-    }
-
-    public Type getType(){return new Money();}
-
-    public Float getDefaultValue() {
-        return defaultValue;
+    public Money(Token token) {
+        super(token);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.expr.binary;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
 
@@ -7,8 +8,8 @@ import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
  * Created by roydewildt on 04/02/16.
  */
 public class LT extends BinaryExpr {
-    public LT (int line, Expr lhs, Expr rhs){
-        super(line, lhs, rhs);
+    public LT (Token token, Expr lhs, Expr rhs){
+        super(token, lhs, rhs);
     }
 
     @Override

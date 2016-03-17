@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.atom.val;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 
 /**
@@ -8,28 +9,14 @@ import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 public class Float extends Val {
     private Double value;
 
-    public Float(){
-        super(0);
-    }
-
-    public Float(Double i){
-        super(0);
-        this.value = i;
-    }
-
-    public Float(int line, String x){
-        super(line);
+    public Float(Token token, String x){
+        super(token);
         this.value = Double.valueOf(x);
     }
 
     @Override
     public Double getValue() {
         return value;
-    }
-
-    @Override
-    public Float getDefaultValue(){
-        return new Float(0.0);
     }
 
     @Override

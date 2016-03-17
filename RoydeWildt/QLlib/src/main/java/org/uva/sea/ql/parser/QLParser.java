@@ -1,29 +1,30 @@
-// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /home/roy/Workspace/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 
-import java.util.List;
+    import java.util.List;
 
-import org.uva.sea.ql.ast.tree.form.*;
-import org.uva.sea.ql.ast.tree.stat.*;
-import org.uva.sea.ql.ast.tree.expr.Expr;
-import org.uva.sea.ql.ast.tree.expr.binary.*;
-import org.uva.sea.ql.ast.tree.expr.unary.*;
-import org.uva.sea.ql.ast.tree.type.Boolean;
-import org.uva.sea.ql.ast.tree.type.Money;
-import org.uva.sea.ql.ast.tree.type.Number;
-import org.uva.sea.ql.ast.tree.type.Text;
-import org.uva.sea.ql.ast.tree.type.Type;
-import org.uva.sea.ql.ast.tree.atom.var.*;
-import org.uva.sea.ql.ast.tree.atom.val.*;
-import org.uva.sea.ql.ast.tree.atom.val.Float;
-import org.uva.sea.ql.ast.tree.atom.val.Int;
+    import org.uva.sea.ql.ast.tree.form.*;
+    import org.uva.sea.ql.ast.tree.stat.*;
+    import org.uva.sea.ql.ast.tree.expr.Expr;
+    import org.uva.sea.ql.ast.tree.expr.binary.*;
+    import org.uva.sea.ql.ast.tree.expr.unary.*;
+    import org.uva.sea.ql.ast.tree.type.Boolean;
+    import org.uva.sea.ql.ast.tree.type.Money;
+    import org.uva.sea.ql.ast.tree.type.Number;
+    import org.uva.sea.ql.ast.tree.type.Text;
+    import org.uva.sea.ql.ast.tree.type.Type;
+    import org.uva.sea.ql.ast.tree.atom.var.*;
+    import org.uva.sea.ql.ast.tree.atom.val.*;
+    import org.uva.sea.ql.ast.tree.atom.val.Float;
+    import org.uva.sea.ql.ast.tree.atom.val.Int;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
-
+import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
@@ -105,9 +106,6 @@ public class QLParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-
-
-
 	public QLParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
@@ -151,7 +149,7 @@ public class QLParser extends Parser {
 			setState(26);
 			match(T__2);
 
-			            ((FormContext)_localctx).result =  new Form(((FormContext)_localctx).i.getLine(), (((FormContext)_localctx).i!=null?((FormContext)_localctx).i.getText():null), ((FormContext)_localctx).s.result);
+			            ((FormContext)_localctx).result =  new Form(((FormContext)_localctx).i, (((FormContext)_localctx).i!=null?((FormContext)_localctx).i.getText():null), ((FormContext)_localctx).s.result);
 			        
 			}
 		}
@@ -296,7 +294,7 @@ public class QLParser extends Parser {
 				setState(45);
 				match(T__2);
 
-				            ((StatContext)_localctx).result =  new If((((StatContext)_localctx).c!=null?(((StatContext)_localctx).c.start):null).getLine(), ((StatContext)_localctx).c.result, ((StatContext)_localctx).s.result);
+				            ((StatContext)_localctx).result =  new If((((StatContext)_localctx).c!=null?(((StatContext)_localctx).c.start):null), ((StatContext)_localctx).c.result, ((StatContext)_localctx).s.result);
 				        
 				}
 				break;
@@ -326,7 +324,7 @@ public class QLParser extends Parser {
 				setState(58);
 				match(T__2);
 
-				            ((StatContext)_localctx).result =  new IfElse((((StatContext)_localctx).c!=null?(((StatContext)_localctx).c.start):null).getLine(), ((StatContext)_localctx).c.result, ((StatContext)_localctx).i.result, ((StatContext)_localctx).e.result);
+				            ((StatContext)_localctx).result =  new IfElse((((StatContext)_localctx).c!=null?(((StatContext)_localctx).c.start):null), ((StatContext)_localctx).c.result, ((StatContext)_localctx).i.result, ((StatContext)_localctx).e.result);
 				        
 				}
 				break;
@@ -389,7 +387,7 @@ public class QLParser extends Parser {
 				setState(66);
 				((QuestionContext)_localctx).typ = type();
 
-				            ((QuestionContext)_localctx).result =  new Question(((QuestionContext)_localctx).label.getLine(), (((QuestionContext)_localctx).label!=null?((QuestionContext)_localctx).label.getText():null), new Var(((QuestionContext)_localctx).decl.getLine(), (((QuestionContext)_localctx).decl!=null?((QuestionContext)_localctx).decl.getText():null)), ((QuestionContext)_localctx).typ.result);
+				            ((QuestionContext)_localctx).result =  new Question(((QuestionContext)_localctx).label, (((QuestionContext)_localctx).label!=null?((QuestionContext)_localctx).label.getText():null), new Var(((QuestionContext)_localctx).decl, (((QuestionContext)_localctx).decl!=null?((QuestionContext)_localctx).decl.getText():null)), ((QuestionContext)_localctx).typ.result);
 				        
 				}
 				break;
@@ -409,7 +407,7 @@ public class QLParser extends Parser {
 				setState(74);
 				((QuestionContext)_localctx).exp = expr(0);
 
-				            ((QuestionContext)_localctx).result =  new Question(((QuestionContext)_localctx).label.getLine(), (((QuestionContext)_localctx).label!=null?((QuestionContext)_localctx).label.getText():null), new Var(((QuestionContext)_localctx).decl.getLine(), (((QuestionContext)_localctx).decl!=null?((QuestionContext)_localctx).decl.getText():null)), ((QuestionContext)_localctx).typ.result, ((QuestionContext)_localctx).exp.result);
+				            ((QuestionContext)_localctx).result =  new Question(((QuestionContext)_localctx).label, (((QuestionContext)_localctx).label!=null?((QuestionContext)_localctx).label.getText():null), new Var(((QuestionContext)_localctx).decl, (((QuestionContext)_localctx).decl!=null?((QuestionContext)_localctx).decl.getText():null)), ((QuestionContext)_localctx).typ.result, ((QuestionContext)_localctx).exp.result);
 				        
 				}
 				break;
@@ -489,10 +487,10 @@ public class QLParser extends Parser {
 				((ExprContext)_localctx).value = expr(9);
 
 				          if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("+")) {
-				            ((ExprContext)_localctx).result =  new Pos((((ExprContext)_localctx).value!=null?(((ExprContext)_localctx).value.start):null).getLine(), ((ExprContext)_localctx).value.result);
+				            ((ExprContext)_localctx).result =  new Pos((((ExprContext)_localctx).value!=null?(((ExprContext)_localctx).value.start):null), ((ExprContext)_localctx).value.result);
 				          }
 				          if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("-")) {
-				            ((ExprContext)_localctx).result =  new Neg((((ExprContext)_localctx).value!=null?(((ExprContext)_localctx).value.start):null).getLine(), ((ExprContext)_localctx).value.result);
+				            ((ExprContext)_localctx).result =  new Neg((((ExprContext)_localctx).value!=null?(((ExprContext)_localctx).value.start):null), ((ExprContext)_localctx).value.result);
 				          }
 				        
 				}
@@ -504,7 +502,7 @@ public class QLParser extends Parser {
 				setState(85);
 				((ExprContext)_localctx).value = expr(3);
 
-				            ((ExprContext)_localctx).result =  new Not((((ExprContext)_localctx).value!=null?(((ExprContext)_localctx).value.start):null).getLine(), ((ExprContext)_localctx).value.result);
+				            ((ExprContext)_localctx).result =  new Not((((ExprContext)_localctx).value!=null?(((ExprContext)_localctx).value.start):null), ((ExprContext)_localctx).value.result);
 				        
 				}
 				break;
@@ -569,10 +567,10 @@ public class QLParser extends Parser {
 						((ExprContext)_localctx).rhs = expr(9);
 
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("*")) {
-						                      ((ExprContext)_localctx).result =  new Mul((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new Mul((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("/")) {
-						                      ((ExprContext)_localctx).result =  new Div((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new Div((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                  
 						}
@@ -597,10 +595,10 @@ public class QLParser extends Parser {
 						((ExprContext)_localctx).rhs = expr(8);
 
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("+")) {
-						                      ((ExprContext)_localctx).result =  new Add((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new Add((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("-")) {
-						                      ((ExprContext)_localctx).result =  new Sub((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new Sub((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                  
 						}
@@ -625,22 +623,22 @@ public class QLParser extends Parser {
 						((ExprContext)_localctx).rhs = expr(7);
 
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("<")) {
-						                      ((ExprContext)_localctx).result =  new LT((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new LT((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("<=")) {
-						                      ((ExprContext)_localctx).result =  new LEq((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new LEq((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals(">")) {
-						                      ((ExprContext)_localctx).result =  new GT((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new GT((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals(">=")) {
-						                      ((ExprContext)_localctx).result =  new GEq((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new GEq((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("==")) {
-						                      ((ExprContext)_localctx).result =  new Eq((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new Eq((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                    if ((((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null).equals("!=")) {
-						                      ((ExprContext)_localctx).result =  new NEq((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new NEq((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                    }
 						                  
 						}
@@ -658,7 +656,7 @@ public class QLParser extends Parser {
 						setState(115);
 						((ExprContext)_localctx).rhs = expr(6);
 
-						                      ((ExprContext)_localctx).result =  new And((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new And((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                  
 						}
 						break;
@@ -675,7 +673,7 @@ public class QLParser extends Parser {
 						setState(120);
 						((ExprContext)_localctx).rhs = expr(5);
 
-						                      ((ExprContext)_localctx).result =  new Or((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null).getLine(), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
+						                      ((ExprContext)_localctx).result =  new Or((((ExprContext)_localctx).lhs!=null?(((ExprContext)_localctx).lhs.start):null), ((ExprContext)_localctx).lhs.result, ((ExprContext)_localctx).rhs.result);
 						                  
 						}
 						break;
@@ -744,7 +742,7 @@ public class QLParser extends Parser {
 				setState(128);
 				((PrimaryContext)_localctx).x1 = num();
 
-				            ((PrimaryContext)_localctx).result =  new Primary((((PrimaryContext)_localctx).x1!=null?(((PrimaryContext)_localctx).x1.start):null).getLine(), ((PrimaryContext)_localctx).x1.result);
+				            ((PrimaryContext)_localctx).result =  new Primary((((PrimaryContext)_localctx).x1!=null?(((PrimaryContext)_localctx).x1.start):null), ((PrimaryContext)_localctx).x1.result);
 				        
 				}
 				break;
@@ -754,7 +752,7 @@ public class QLParser extends Parser {
 				setState(131);
 				((PrimaryContext)_localctx).x2 = id();
 
-				            ((PrimaryContext)_localctx).result =  new Primary((((PrimaryContext)_localctx).x2!=null?(((PrimaryContext)_localctx).x2.start):null).getLine(), ((PrimaryContext)_localctx).x2.result);
+				            ((PrimaryContext)_localctx).result =  new Primary((((PrimaryContext)_localctx).x2!=null?(((PrimaryContext)_localctx).x2.start):null), ((PrimaryContext)_localctx).x2.result);
 				        
 				}
 				break;
@@ -764,7 +762,7 @@ public class QLParser extends Parser {
 				setState(134);
 				((PrimaryContext)_localctx).x3 = str();
 
-				            ((PrimaryContext)_localctx).result =  new Primary((((PrimaryContext)_localctx).x3!=null?(((PrimaryContext)_localctx).x3.start):null).getLine(), ((PrimaryContext)_localctx).x3.result);
+				            ((PrimaryContext)_localctx).result =  new Primary((((PrimaryContext)_localctx).x3!=null?(((PrimaryContext)_localctx).x3.start):null), ((PrimaryContext)_localctx).x3.result);
 				        
 				}
 				break;
@@ -775,7 +773,7 @@ public class QLParser extends Parser {
 				setState(137);
 				((PrimaryContext)_localctx).x4 = bool();
 
-				            ((PrimaryContext)_localctx).result =  new Primary((((PrimaryContext)_localctx).x4!=null?(((PrimaryContext)_localctx).x4.start):null).getLine(), ((PrimaryContext)_localctx).x4.result);
+				            ((PrimaryContext)_localctx).result =  new Primary((((PrimaryContext)_localctx).x4!=null?(((PrimaryContext)_localctx).x4.start):null), ((PrimaryContext)_localctx).x4.result);
 				        
 				}
 				break;
@@ -827,7 +825,7 @@ public class QLParser extends Parser {
 				setState(142);
 				((TypeContext)_localctx).x = match(BOOLEAN);
 
-				            ((TypeContext)_localctx).result =  new Boolean(((TypeContext)_localctx).x.getLine());
+				            ((TypeContext)_localctx).result =  new Boolean(((TypeContext)_localctx).x);
 				        
 				}
 				break;
@@ -837,7 +835,7 @@ public class QLParser extends Parser {
 				setState(144);
 				((TypeContext)_localctx).x = match(MONEY);
 
-				            ((TypeContext)_localctx).result =  new Money(((TypeContext)_localctx).x.getLine());
+				            ((TypeContext)_localctx).result =  new Money(((TypeContext)_localctx).x);
 				        
 				}
 				break;
@@ -847,7 +845,7 @@ public class QLParser extends Parser {
 				setState(146);
 				((TypeContext)_localctx).x = match(NUMBER);
 
-				            ((TypeContext)_localctx).result =  new Number(((TypeContext)_localctx).x.getLine());
+				            ((TypeContext)_localctx).result =  new Number(((TypeContext)_localctx).x);
 				        
 				}
 				break;
@@ -857,7 +855,7 @@ public class QLParser extends Parser {
 				setState(148);
 				((TypeContext)_localctx).x = match(TEXT);
 
-				            ((TypeContext)_localctx).result =  new Text(((TypeContext)_localctx).x.getLine());
+				            ((TypeContext)_localctx).result =  new Text(((TypeContext)_localctx).x);
 				        
 				}
 				break;
@@ -907,7 +905,7 @@ public class QLParser extends Parser {
 				setState(152);
 				((BoolContext)_localctx).value = match(TRUE);
 
-				            ((BoolContext)_localctx).result =  new Bool(((BoolContext)_localctx).value.getLine(), (((BoolContext)_localctx).value!=null?((BoolContext)_localctx).value.getText():null));
+				            ((BoolContext)_localctx).result =  new Bool(((BoolContext)_localctx).value, (((BoolContext)_localctx).value!=null?((BoolContext)_localctx).value.getText():null));
 				        
 				}
 				break;
@@ -917,7 +915,7 @@ public class QLParser extends Parser {
 				setState(154);
 				((BoolContext)_localctx).value = match(FALSE);
 
-				            ((BoolContext)_localctx).result =  new Bool(((BoolContext)_localctx).value.getLine(), (((BoolContext)_localctx).value!=null?((BoolContext)_localctx).value.getText():null));
+				            ((BoolContext)_localctx).result =  new Bool(((BoolContext)_localctx).value, (((BoolContext)_localctx).value!=null?((BoolContext)_localctx).value.getText():null));
 				        
 				}
 				break;
@@ -967,7 +965,7 @@ public class QLParser extends Parser {
 				setState(158);
 				((NumContext)_localctx).value = match(INT);
 
-				            ((NumContext)_localctx).result =  new Int(((NumContext)_localctx).value.getLine(), (((NumContext)_localctx).value!=null?((NumContext)_localctx).value.getText():null));
+				            ((NumContext)_localctx).result =  new Int(((NumContext)_localctx).value, (((NumContext)_localctx).value!=null?((NumContext)_localctx).value.getText():null));
 				        
 				}
 				break;
@@ -977,7 +975,7 @@ public class QLParser extends Parser {
 				setState(160);
 				((NumContext)_localctx).value = match(FLOAT);
 
-				            ((NumContext)_localctx).result =  new Float(((NumContext)_localctx).value.getLine(), (((NumContext)_localctx).value!=null?((NumContext)_localctx).value.getText():null));
+				            ((NumContext)_localctx).result =  new Float(((NumContext)_localctx).value, (((NumContext)_localctx).value!=null?((NumContext)_localctx).value.getText():null));
 				        
 				}
 				break;
@@ -1023,7 +1021,7 @@ public class QLParser extends Parser {
 			setState(164);
 			((StrContext)_localctx).value = match(STR);
 
-			            ((StrContext)_localctx).result =  new Str(((StrContext)_localctx).value.getLine(), (((StrContext)_localctx).value!=null?((StrContext)_localctx).value.getText():null));
+			            ((StrContext)_localctx).result =  new Str(((StrContext)_localctx).value, (((StrContext)_localctx).value!=null?((StrContext)_localctx).value.getText():null));
 			        
 			}
 		}
@@ -1065,7 +1063,7 @@ public class QLParser extends Parser {
 			setState(167);
 			((IdContext)_localctx).value = match(IDENT);
 
-			            ((IdContext)_localctx).result =  new Var(((IdContext)_localctx).value.getLine(), (((IdContext)_localctx).value!=null?((IdContext)_localctx).value.getText():null));
+			            ((IdContext)_localctx).result =  new Var(((IdContext)_localctx).value, (((IdContext)_localctx).value!=null?((IdContext)_localctx).value.getText():null));
 			        
 			}
 		}

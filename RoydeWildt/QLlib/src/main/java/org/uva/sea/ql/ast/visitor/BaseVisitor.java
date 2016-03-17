@@ -1,23 +1,26 @@
 package org.uva.sea.ql.ast.visitor;
 
-import org.uva.sea.ql.ast.tree.atom.val.Float;
-import org.uva.sea.ql.ast.tree.expr.binary.*;
-import org.uva.sea.ql.ast.tree.expr.unary.*;
-import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
+import org.uva.sea.ql.ast.tree.atom.val.Float;
 import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
-import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.expr.binary.*;
+import org.uva.sea.ql.ast.tree.expr.unary.Neg;
+import org.uva.sea.ql.ast.tree.expr.unary.Not;
+import org.uva.sea.ql.ast.tree.expr.unary.Pos;
+import org.uva.sea.ql.ast.tree.expr.unary.Primary;
+import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.ast.tree.stat.If;
+import org.uva.sea.ql.ast.tree.stat.IfElse;
+import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.ast.tree.stat.Stat;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
-import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.type.Number;
 import org.uva.sea.ql.ast.tree.type.Text;
-import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
-import org.uva.sea.ql.ast.visitor.interfaces.FormVisitor;
-import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
+import org.uva.sea.ql.ast.visitor.interfaces.*;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
-import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 
 /**
  * Created by roydewildt on 10/02/16.

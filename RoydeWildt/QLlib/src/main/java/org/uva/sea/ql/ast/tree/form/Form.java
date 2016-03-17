@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.form;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.stat.Stat;
 import org.uva.sea.ql.ast.visitor.interfaces.FormVisitable;
@@ -14,8 +15,8 @@ public class Form extends Node implements FormVisitable {
     private final String id;
     private final List<Stat> stms;
 
-    public Form(int line, String id, List<Stat> stms){
-        super(line);
+    public Form(Token token, String id, List<Stat> stms){
+        super(token);
         this.id = id;
         this.stms = stms;
     }

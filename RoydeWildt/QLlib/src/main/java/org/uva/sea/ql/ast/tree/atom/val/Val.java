@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.atom.val;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.atom.Literal;
 
 /**
@@ -7,9 +8,8 @@ import org.uva.sea.ql.ast.tree.atom.Literal;
  */
 abstract public class Val extends Literal {
 
-    public Val(int line){
-        super(line);
+    public Val(Token token){
+        super(token);
     }
     public abstract Object getValue();
-    public abstract Val getDefaultValue();
 }

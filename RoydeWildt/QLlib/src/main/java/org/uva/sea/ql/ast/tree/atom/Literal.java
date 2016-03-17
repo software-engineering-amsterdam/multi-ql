@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.atom;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitable;
 import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
@@ -9,8 +10,8 @@ import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
  */
 public abstract class Literal extends Node implements AtomVisitable{
 
-    public Literal(int line) {
-        super(line);
+    public Literal(Token token) {
+        super(token);
     }
 
     @Override

@@ -12,9 +12,7 @@ public class WarningMessage extends Message {
     }
 
     @Override
-    public Type getType() {
-        return Type.ERROR;
+    public String toString() {
+        return "Warning: " + this.getMessage();
     }
-
-
 }

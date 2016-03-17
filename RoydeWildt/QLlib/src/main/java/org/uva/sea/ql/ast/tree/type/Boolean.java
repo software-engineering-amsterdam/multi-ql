@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.type;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
@@ -7,21 +8,9 @@ import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
  * Created by roydewildt on 11/02/16.
  */
 public class Boolean extends Type {
-    public Bool defaultValue;
 
-    public Boolean() {
-        super(0);
-    }
-
-    public Boolean(int line) {
-        super(line);
-        this.defaultValue = new Bool().getDefaultValue();
-    }
-
-    public Type getType(){return new Boolean();}
-
-    public Bool getDefaultValue() {
-        return defaultValue;
+    public Boolean(Token token) {
+        super(token);
     }
 
     @Override

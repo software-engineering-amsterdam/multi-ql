@@ -1,7 +1,5 @@
 package org.uva.sea.ql.evaluator.value.visitor;
 
-import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
-
 /**
  * Created by roydewildt on 16/03/16.
  */

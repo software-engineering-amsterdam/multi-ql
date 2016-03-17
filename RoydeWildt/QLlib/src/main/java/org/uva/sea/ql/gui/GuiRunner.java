@@ -5,22 +5,26 @@ package org.uva.sea.ql.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.checker.Checker;
-import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.gui.observer.ObjectObserver;
 import org.uva.sea.ql.gui.observer.Observable;
 import org.uva.sea.ql.gui.view.EditorView;
 import org.uva.sea.ql.gui.view.PreviewView;
 import org.uva.sea.ql.parser.QLRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuiRunner extends Application implements ObjectObserver {
 
     private Stage preview;
+    private Stage editor;
     private Observable<String> editorText;
 
     public static void main(String[] args) {
@@ -29,7 +33,7 @@ public class GuiRunner extends Application implements ObjectObserver {
 
     @Override
     public void start(Stage primaryStage) {
-        Stage editor = EditorStage();
+        editor = EditorStage();
         editor.show();
 
         preview = new Stage();
@@ -42,7 +46,6 @@ public class GuiRunner extends Application implements ObjectObserver {
 
 
     public Stage EditorStage() {
-        //List<Message> messages = new Checker(f).getMessages();
 
         EditorView editor = new EditorView();
         editorText = editor.getObservableString();
@@ -54,29 +57,44 @@ public class GuiRunner extends Application implements ObjectObserver {
         return stage;
     }
 
-    private Form parseString(String path){
-        try {
-            return QLRunner.parseString(path);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-            return null;
+    public void updateLogView(List<String> messages){
+
+        GridPane editorPane = (GridPane) editor.getScene().getRoot();
+        TextArea logField = new TextArea();
+
+        if(messages.isEmpty()){
+            logField.setText("");
         }
+        else {
+            logField.setText(String.join("\n", messages));
+        }
+
+        logField.setDisable(true);
+        editorPane.add(logField,0,1);
     }
 
 
     @Override
     public void update() {
         try {
-            Form form = parseString(editorText.getValue());
-            Pane previewPane = new PreviewView(form).getRootPane();
+            Form form = QLRunner.parseString(editorText.getValue());
+            List<String> messages = new Checker(form).getMessageStrings();
 
-            Scene scene = new Scene(previewPane);
-            scene.getStylesheets().add("customStylesheet.css");
-            preview.setScene(scene);
+            if(messages.isEmpty()){
+                Pane previewPane = new PreviewView(form).getRootPane();
 
+                Scene scene = new Scene(previewPane);
+                scene.getStylesheets().add("customStylesheet.css");
+                preview.setScene(scene);
+            }
+
+            updateLogView(messages);
         }
-        catch (Exception e) {
 
+        catch (ParseCancellationException e) {
+            List<String> parseMessages = new ArrayList<>();
+            parseMessages.add(e.getMessage());
+            updateLogView(parseMessages);
         }
     }
 }

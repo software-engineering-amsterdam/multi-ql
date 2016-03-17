@@ -8,6 +8,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import org.uva.sea.ql.gui.observer.Observable;
 
+
 /**
  * Created by roy on 3/17/16.
  */

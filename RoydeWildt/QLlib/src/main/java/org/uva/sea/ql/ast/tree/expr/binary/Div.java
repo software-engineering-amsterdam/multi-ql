@@ -1,5 +1,6 @@
 package org.uva.sea.ql.ast.tree.expr.binary;
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
 
@@ -8,8 +9,8 @@ import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitor;
  */
 public class Div extends BinaryExpr {
 
-    public Div(int line, Expr lhs, Expr rhs) {
-        super(line, lhs, rhs);
+    public Div(Token token, Expr lhs, Expr rhs) {
+        super(token, lhs, rhs);
     }
 
     @Override

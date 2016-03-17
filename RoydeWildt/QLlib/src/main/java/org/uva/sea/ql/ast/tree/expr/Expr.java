@@ -1,6 +1,7 @@
 package org.uva.sea.ql.ast.tree.expr;
 
 
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitable;
 
@@ -10,7 +11,7 @@ import org.uva.sea.ql.ast.visitor.interfaces.ExprVisitable;
 abstract public class Expr extends Node implements ExprVisitable {
 
     public abstract String getSymbol();
-    public Expr(int line) {
-        super(line);
+    public Expr(Token token) {
+        super(token);
     }
 }

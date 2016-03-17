@@ -1,6 +1,7 @@
 package org.uva.sea.ql.gui.view;
 
-import javafx.collections.*;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -8,17 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-
-import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.Question;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
-import org.uva.sea.ql.evaluator.EvaluatedQuestion;
+import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.evaluator.FormEvaluator;
 import org.uva.sea.ql.evaluator.value.Value;
 import org.uva.sea.ql.gui.builder.QuestionListBuilder;
 import org.uva.sea.ql.gui.widget.QuestionWidget;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by roy on 29-2-16.
