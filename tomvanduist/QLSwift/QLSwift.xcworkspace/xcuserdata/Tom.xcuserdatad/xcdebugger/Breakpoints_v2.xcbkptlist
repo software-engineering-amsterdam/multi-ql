@@ -49,38 +49,6 @@
             endingLineNumber = "76"
             landmarkName = "visitBinary(_:identifiers:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "QLSwift.CyclicDependencyChecker.visitBinary (QLSwift.CyclicDependencyChecker)(QLSwift.QLBinary, identifiers : Swift.Array&lt;Swift.String&gt;) -&gt; Swift.Array&lt;QLSwift.SemanticError&gt;"
-                  moduleName = "QLSwift"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/QL/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift"
-                  timestampString = "479915499.925473"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "76"
-                  endingLineNumber = "76"
-                  offsetFromSymbolStart = "32">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "QLSwiftTests.CyclicDependencyChecker.visitBinary (QLSwiftTests.CyclicDependencyChecker)(QLSwiftTests.QLBinary, identifiers : Swift.Array&lt;Swift.String&gt;) -&gt; Swift.Array&lt;QLSwiftTests.SemanticError&gt;"
-                  moduleName = "QLSwiftTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Tom/Documents/Master/Projects/master-software-construction/tomvanduist/QLSwift/QLSwift/Src/QL/SemanticAnalyzer/SemanticAnalysisRules/CyclicDependencyChecker.swift"
-                  timestampString = "479915500.410725"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "76"
-                  endingLineNumber = "76"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -224,6 +192,54 @@
             startingLineNumber = "97"
             endingLineNumber = "97"
             landmarkName = "eval(_:expectedValues:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QLSwiftTests/Src/Parser/SemanticAnalyzerTests.swift"
+            timestampString = "479915936.988732"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "runInvalidForms(_:semanticRules:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QLSwift/Src/QL/Interpreter/Interpreter.swift"
+            timestampString = "479917944.196348"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "resolve(_:context:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QLSwift/Src/QL/Interpreter/Interpreter.swift"
+            timestampString = "479919337.436644"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "visit(_:param:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

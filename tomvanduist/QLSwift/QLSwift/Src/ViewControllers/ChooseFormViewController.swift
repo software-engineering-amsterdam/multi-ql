@@ -9,21 +9,27 @@
 import UIKit
 
 
-let kForm1 = "form"
-let kForm2 = "form2"
+let kSimpleForm = "SimpleForm"
+let kComplexForm = "ComplexForm"
+
 
 class ChooseFormViewController: BaseViewController {
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        self.showForm(kForm1)
+    }
     
     func showForm(formName: String) {
         do {
             let ql = try QL(qlFromFileNamed: formName)
             
-            let (questionnaire, warnings) = try ql.toQuestionnaire() // TODO: do Something with context
+            let (questionnaire, warnings) = try ql.toQuestionnaire()
             
             if warnings.isEmpty {
                 self.display(questionnaire)
             } else {
-                print(warnings)
                 showAlerts(arg: warnings, cancelBlock: nil, confirmBlock: { [unowned self] in
                     self.display(questionnaire)
                 })
@@ -33,11 +39,9 @@ class ChooseFormViewController: BaseViewController {
             displayErrors(error)
         }
         catch let error as SemanticError {
-            print("\(error)")
             displayErrors(error)
         }
         catch let error {
-            print(error)
             displayErrors(error)
         }
     }
@@ -57,12 +61,6 @@ class ChooseFormViewController: BaseViewController {
     private func displayErrors(error: ErrorType) {
         showAlert("Error", message: "\(error)", cancelButton: nil, confirmButton: "Ok")
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        self.showForm(kForm1)
-    }
 }
 
 
@@ -70,11 +68,11 @@ class ChooseFormViewController: BaseViewController {
 
 extension ChooseFormViewController {
     @IBAction func form1Pressed(sender: UIButton) {
-        self.showForm(kForm1)
+        self.showForm(kSimpleForm)
     }
     
     @IBAction func form2Pressed(sender: UIButton) {
-        self.showForm(kForm2)
+        self.showForm(kComplexForm)
     }
 }
 
