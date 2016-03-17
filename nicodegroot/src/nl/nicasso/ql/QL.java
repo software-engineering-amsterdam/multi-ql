@@ -37,8 +37,7 @@ public class QL {
         CreateAST astVisitor = new CreateAST();
         Form ast = (Form) tree.accept(astVisitor);
         
-        SemanticAnalysis semantics = new SemanticAnalysis(ast, symbolTable, stateTable);
-        semantics.initializeAnalysis();        
+        SemanticAnalysis semantics = new SemanticAnalysis(ast, symbolTable, stateTable);        
 
         MainFrame main = new MainFrame(stateTable, semantics.getMessages());
         

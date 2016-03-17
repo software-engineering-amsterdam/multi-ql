@@ -9,7 +9,6 @@ MUST
 - Remove the "getDefaultValue" thingy from the AST types? Seems a bit weird.
 
 SHOULD
-- Fix line numbers in error messages
 - Acknowledge also 2 as money instead of only 2.00?
 - Dependency based evaluating may be very cool, so the fixpoint loop is not needed anymore.
 - Memento for resetting the stateTable?

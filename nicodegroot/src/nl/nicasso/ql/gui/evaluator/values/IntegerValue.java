@@ -1,6 +1,5 @@
 package nl.nicasso.ql.gui.evaluator.values;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class IntegerValue extends Value {

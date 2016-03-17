@@ -21,15 +21,13 @@ public class SemanticAnalysis {
 		this.stateTable = stateTable;
 		
 		messages = new MessageHandler();
-	}
-	
-	public void initializeAnalysis() {        
-        QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, stateTable, messages);
+		
+		QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, stateTable, messages);
         ast.accept(questionVisitor, null);
         
     	TypeChecker typeChecker = new TypeChecker(symbolTable, messages);
     	ast.accept(typeChecker, null);
-   	}
+	}
 	
 	public List<Message> getMessages() {
 		return messages.getMessages();

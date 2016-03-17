@@ -85,8 +85,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("Question: "+question.getId().getValue());
 		}
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, true, question.getType().getDefaultValue());
-		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
+		QuestionField field = question.getType().accept(this, new QuestionFieldParameter(question.getId(), main, true, question.getType().getDefaultValue()));
 		
 		QuestionPanel qp = new QuestionPanel(question, field, expr, stateTable);
 		
