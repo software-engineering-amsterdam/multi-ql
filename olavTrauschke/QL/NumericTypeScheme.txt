@@ -1,3 +1,14 @@
 		D-D	D-I	D-M	I-D	I-I	I-M	M-D	M-I	M-M
 Add/Sub/Mul	D	D	M	D	I	M	M	M	M
 Div		D	D	D	D	D	D	M	M	D
+
+Add/Sub/Mul
+1. A money argument -> money
+2. A decimal argument -> decimal
+3. (No money or decimal argument) -> integer
+
+Div
+1. First argument money
+	-> Second argument money -> decimal
+	-> (Second argument not money) -> money
+2. (First argument not money) -> decimal
