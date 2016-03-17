@@ -230,9 +230,74 @@ public class IntValue extends NumericValue {
     }
     
     /**
-     * Obtain a <code>DecimalValue</code> representing the value closest to
-     * <code>theValue</code> of <code>this IntValue</code> that can be
-     * represented by a <code>DecimalValue</code>.
+     * Divide <code>this IntValue</code> by a specified
+     * <code>NumericValue</code>. Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to divide this
+     *              <code>IntValue</code> by
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this IntValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing <code>this IntValue</code>
+     *          by <code>other</code> otherwise
+     */
+    @Override
+    public NumericValue divide(NumericValue other) {
+        return other.inverseDivide(this);
+    }
+    
+    /**
+     * Divide a specified <code>DecimalValue</code> by <code>this IntValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to divide by
+     *              <code>this IntValue</code>
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this IntValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing <code>other</code> by
+     *          <code>this IntValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue inverseDivide(DecimalValue other) {
+        DecimalValue decimalValue = castDecimal();
+        return decimalValue.inverseDivide(other);
+    }
+    
+    /**
+     * Divide a specified <code>IntValue</code> by this one.
+     * 
+     * @param other an <code>IntValue</code> to divide
+     *              <code>this IntValue</code> by
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this IntValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this IntValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue inverseDivide(IntValue other) {
+        if (value == null || other.value == null) {
+            return new DecimalValue(null);
+        }
+        double result = other.value / (double) value;
+        return new DecimalValue(result);
+    }
+    
+    /**
+     * Divide a specified <code>MoneyValue</code> by <code>this IntValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to divide by <code>this IntValue</code>
+     * @return a <code>DecimalValue</code> reprenting an unkonw value if
+     *          <code>this IntValue</code> or <code>other</code> represents an
+     *          unknown value or the result of dividing <code>other</code> by
+     *          <code>this IntValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue inverseDivide(MoneyValue other) {
+        DecimalValue decimalValue = castDecimal();
+        return other.divide(decimalValue);
+    }
+    
+    /**
+     * Obtain a <code>DecimalValue</code> representing <code>theValue</code> of
+     * <code>this IntValue</code>.
      * 
      * @return a <code>DecimalValue</code> representing approximatly the same
      *          value as <code>this IntValue</code>
