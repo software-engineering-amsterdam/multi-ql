@@ -1,5 +1,5 @@
 //
-//  QLStatementVisitor.swift
+//  QLTypeVisitor.swift
 //  QLSwift
 //
 //  Created by Tom van Duist on 03/03/16.
@@ -24,4 +24,30 @@ protocol QLTypeVisitor {
     func visit(node: QLBooleanType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
     func visit(node: QLVoidType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
     func visit(node: QLUnknownType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
+    
+    func defaultReturn(type: QLType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
+}
+
+
+protocol TopDownType: QLTypeVisitor {
+}
+extension TopDownType {
+    func visit(node: QLStringType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLIntegerType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLFloatType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLBooleanType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLVoidType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLUnknownType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
 }

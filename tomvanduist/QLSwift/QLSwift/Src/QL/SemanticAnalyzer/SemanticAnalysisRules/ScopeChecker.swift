@@ -26,7 +26,7 @@ private class ScopedMap: Map<QLType> {
 }
 
 
-internal class ScopeChecker: SemanticAnalysisRule, QLStatementVisitor, QLExpressionVisitor {
+internal class ScopeChecker: SemanticAnalysisRule, TopDownStatement, TopDownExpression {
     private var scopedMap: ScopedMap = ScopedMap(parent: nil)
     private var analysisResult: SemanticAnalysisResult = SemanticAnalysisResult()
     
@@ -40,14 +40,10 @@ internal class ScopeChecker: SemanticAnalysisRule, QLStatementVisitor, QLExpress
     }
 }
 
-
+    
 // MARK: - QLStatementVisitor conformance
 
 extension ScopeChecker {
-    
-    func visit(node: QLVariableQuestion, param context: Context) {
-        // no-op
-    }
     
     func visit(node: QLComputedQuestion, param context: Context) {
         node.expression.accept(self, param: context)
@@ -80,6 +76,10 @@ extension ScopeChecker {
             scopedMap = parentScope
         }
     }
+    
+    func defaultReturn(statement: QLStatement?, param context: Context) {
+        return
+    }
 }
 
 
@@ -91,76 +91,8 @@ extension ScopeChecker {
         return retrieveType(node.id)
     }
     
-    func visit(node: QLLiteralExpression, param context: Context) {
-    }
-    
-    private func processUnary(unary: QLUnary, context: Context) {
-        unary.rhs.accept(self, param: context)
-    }
-    
-    func visit(node: QLNeg, param context: Context) {
-        processUnary(node, context: context)
-    }
-    
-    func visit(node: QLNot, param context: Context) {
-        processUnary(node, context: context)
-    }
-    
-    private func processBinary(binary: QLBinary, context: Context) {
-        binary.lhs.accept(self, param: context)
-        binary.rhs.accept(self, param: context)
-    }
-    
-    func visit(node: QLAdd, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLSub, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLMul, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLDiv, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLPow, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLGe, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLGt, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLLe, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLLt, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLEq, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLNe, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLAnd, param context: Context) {
-        processBinary(node, context: context)
-    }
-    
-    func visit(node: QLOr, param context: Context) {
-        processBinary(node, context: context)
+    func defaultReturn(node: QLExpression, param: Context) {
+        return
     }
 }
 

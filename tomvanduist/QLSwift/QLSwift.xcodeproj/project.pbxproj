@@ -90,7 +90,6 @@
 		E2C4E63B1C934BB800F8191F /* NSNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */; };
 		E2C8D9F21C761813005F1C41 /* SwiftParsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; };
 		E2C8D9F31C761813005F1C41 /* SwiftParsec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2DF30F31C62315D00F5227B /* SwiftParsec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */; };
 		E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2CE05FF1C621A1600F2B43B /* Assets.xcassets */; };
 		E2CE06031C621A1D00F2B43B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CE06011C621A1D00F2B43B /* AppDelegate.swift */; };
 		E2CE060A1C621A6400F2B43B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE06091C621A6400F2B43B /* LaunchScreen.xib */; };
@@ -226,7 +225,6 @@
 		E2C4E63A1C934BB800F8191F /* NSNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSNumberFormatter.swift; path = Src/Extensions/NSNumberFormatter.swift; sourceTree = "<group>"; };
 		E2CE05D61C62191F00F2B43B /* QLSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2CE05EA1C62191F00F2B43B /* QLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLSwiftTests.swift; sourceTree = "<group>"; };
 		E2CE05F01C62191F00F2B43B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2CE05FF1C621A1600F2B43B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		E2CE06011C621A1D00F2B43B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Src/AppDelegate.swift; sourceTree = "<group>"; };
@@ -355,6 +353,7 @@
 		E2643BE11C9ABE7D009EAFD8 /* AST */ = {
 			isa = PBXGroup;
 			children = (
+				E2643BE91C9ABE7D009EAFD8 /* Visitors */,
 				E2643BE21C9ABE7D009EAFD8 /* QLExpression.swift */,
 				E2643BE31C9ABE7D009EAFD8 /* QLForm.swift */,
 				E2643BE41C9ABE7D009EAFD8 /* QLIdentifier.swift */,
@@ -362,7 +361,6 @@
 				E2643BE61C9ABE7D009EAFD8 /* QLNode.swift */,
 				E2643BE71C9ABE7D009EAFD8 /* QLStatement.swift */,
 				E2643BE81C9ABE7D009EAFD8 /* QLType.swift */,
-				E2643BE91C9ABE7D009EAFD8 /* Visitors */,
 			);
 			path = AST;
 			sourceTree = "<group>";
@@ -469,7 +467,6 @@
 				E2D518B21C700782008030C4 /* Supporting Files */,
 				E2D518991C6FFB94008030C4 /* Resources */,
 				E2CE05F01C62191F00F2B43B /* Info.plist */,
-				E2CE05EE1C62191F00F2B43B /* QLSwiftTests.swift */,
 			);
 			path = QLSwiftTests;
 			sourceTree = "<group>";
@@ -520,12 +517,12 @@
 		E2D518941C6FF9E1008030C4 /* Src */ = {
 			isa = PBXGroup;
 			children = (
-				E2D518951C6FF9ED008030C4 /* Parser */,
+				E2D518951C6FF9ED008030C4 /* QL */,
 			);
 			name = Src;
 			sourceTree = "<group>";
 		};
-		E2D518951C6FF9ED008030C4 /* Parser */ = {
+		E2D518951C6FF9ED008030C4 /* QL */ = {
 			isa = PBXGroup;
 			children = (
 				E2591D401C7EFB8F00AC42ED /* EvalTests.swift */,
@@ -533,7 +530,7 @@
 				E2D518BC1C70115C008030C4 /* QLParserTests.swift */,
 				E2270DB41C73C1B400E5FC2A /* SemanticAnalyzerTests.swift */,
 			);
-			name = Parser;
+			name = QL;
 			sourceTree = "<group>";
 		};
 		E2D518991C6FFB94008030C4 /* Resources */ = {
@@ -903,7 +900,6 @@
 				E2643C221C9ABFD8009EAFD8 /* QLStatementVisitor.swift in Sources */,
 				E2643C231C9ABFD8009EAFD8 /* QLTypeVisitor.swift in Sources */,
 				E2D518B01C700292008030C4 /* Constants.swift in Sources */,
-				E2CE05EF1C62191F00F2B43B /* QLSwiftTests.swift in Sources */,
 				E2643C201C9ABFD8009EAFD8 /* QLLiteralVisitor.swift in Sources */,
 				E2643C1D1C9ABFD4009EAFD8 /* QLStatement.swift in Sources */,
 				E2643C211C9ABFD8009EAFD8 /* QLNodeVisitor.swift in Sources */,

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class QuestionnaireBuilder: NSObject, QLStatementVisitor {
+class QuestionnaireBuilder: NSObject, TopDownStatement {
     
     func build(form: QLForm, context: Context) -> Questionnaire {
         let questions = form.block.accept(self, param: (conditions: [], context: context))
@@ -47,5 +47,9 @@ extension QuestionnaireBuilder {
         }
         
         return questions
+    }
+    
+    func defaultReturn(statement: QLStatement?, param: (conditions: [QLExpression], context: Context)) -> [Question] {
+        return []
     }
 }

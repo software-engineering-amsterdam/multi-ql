@@ -22,4 +22,24 @@ protocol QLLiteralVisitor {
     func visit(node: QLIntegerLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
     func visit(node: QLFloatLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
     func visit(node: QLBooleanLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
+    
+    func defaultReturn(literal: QLLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
+}
+
+
+protocol TopDownLiteral: QLLiteralVisitor {
+}
+extension TopDownLiteral {
+    func visit(node: QLStringLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLIntegerLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLFloatLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLBooleanLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
 }

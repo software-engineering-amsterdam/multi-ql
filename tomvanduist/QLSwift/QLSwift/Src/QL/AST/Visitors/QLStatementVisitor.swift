@@ -14,7 +14,6 @@ protocol QLStatementVisitable {
 }
 
 
-
 protocol QLStatementVisitor {
     typealias QLStatementVisitorParam
     typealias QLStatementVisitorReturn
@@ -23,4 +22,28 @@ protocol QLStatementVisitor {
     func visit(node: QLComputedQuestion, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
     func visit(node: QLConditional, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
     func visit(node: QLBlock, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
+    
+    func defaultReturn(statement: QLStatement?, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
+}
+
+
+protocol TopDownStatement: QLStatementVisitor {
+}
+extension TopDownStatement {
+    func visit(node: QLVariableQuestion, param: QLStatementVisitorParam) -> QLStatementVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLComputedQuestion, param: QLStatementVisitorParam) -> QLStatementVisitorReturn {
+        return defaultReturn(node, param: param)
+    }
+    func visit(node: QLConditional, param: QLStatementVisitorParam) -> QLStatementVisitorReturn {
+        return node.ifBlock.accept(self, param: param)
+    }
+    func visit(node: QLBlock, param: QLStatementVisitorParam) -> QLStatementVisitorReturn {
+        for statement in node.block {
+            statement.accept(self, param: param)
+        }
+        
+        return defaultReturn(nil, param: param)
+    }
 }

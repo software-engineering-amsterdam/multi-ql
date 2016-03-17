@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class Interpreter: QLExpressionVisitor, QLLiteralVisitor {
+class Interpreter: TopDownExpression, TopDownLiteral {
     static let sharedInstance = Interpreter()
     
     func resolve(expression: QLExpression, context: Context) -> NSObject? {
@@ -31,12 +31,12 @@ extension Interpreter {
             return expression.accept(self, param: context)
         }
         
-        return nil
+        return defaultReturn(node, param: context)
     }
     
     private func resolveUnary(unary: QLUnary, context: Context, resolver: UnaryResolver) -> NSObject? {
         guard let value = unary.rhs.accept(self, param: context)
-            else { return nil }
+            else { return defaultReturn(unary, param: context) }
         
         let type = TypeInferer.sharedInstance.inferType(unary, context: context)
         
@@ -53,7 +53,7 @@ extension Interpreter {
         guard let
             lVal = binary.lhs.accept(self, param: context),
             rVal = binary.rhs.accept(self, param: context)
-            else { return nil }
+            else { return defaultReturn(binary, param: context) }
         
         let type = TypeInferer.sharedInstance.inferType(binary, context: context)
         
@@ -98,8 +98,13 @@ extension Interpreter {
     func visit(node: QLOr, param context: Context) -> NSObject? {
         return resolveBinary(node, context: context, resolver: OrResolver())
     }
+    
     func visit(node: QLLiteralExpression, param context: Context) -> NSObject? {
         return node.literal.accept(self, param: context)
+    }
+    
+    func defaultReturn(node: QLExpression, param: Context) -> NSObject? {
+        return nil
     }
 }
 
@@ -120,6 +125,10 @@ extension Interpreter {
     func visit(node: QLBooleanLiteral, param context: Context) -> NSObject? {
         return node.value
     }
+    
+    func defaultReturn(literal: QLLiteral, param: Context) -> NSObject? {
+        fatalError("No generic default value - Visit literal node instead")
+    }
 }
 
 
@@ -131,7 +140,7 @@ private protocol Resolver {
     func resolve(type: QLType, value: GenericParam?) -> NSObject?
 }
 
-private class AbstractResolver<T>: Resolver, QLTypeVisitor {
+private class AbstractResolver<T>: Resolver, TopDownType {
     func resolve(type: QLType, value: T?) -> NSObject? {
         guard value != nil
             else { return nil }
@@ -140,21 +149,24 @@ private class AbstractResolver<T>: Resolver, QLTypeVisitor {
     }
     
     func visit(node: QLStringType, param value: T) -> NSObject? {
-        return nil
+        return defaultReturn(node, param: value)
     }
     func visit(node: QLIntegerType, param value: T) -> NSObject? {
-        return nil
+        return defaultReturn(node, param: value)
     }
     func visit(node: QLFloatType, param value: T) -> NSObject? {
-        return nil
+        return defaultReturn(node, param: value)
     }
     func visit(node: QLBooleanType, param value: T) -> NSObject? {
-        return nil
+        return defaultReturn(node, param: value)
     }
     func visit(node: QLVoidType, param value: T) -> NSObject? {
-        return nil
+        return defaultReturn(node, param: value)
     }
     func visit(node: QLUnknownType, param value: T) -> NSObject? {
+        return defaultReturn(node, param: value)
+    }
+    func defaultReturn(type: QLType, param value: T) -> NSObject? {
         return nil
     }
 }

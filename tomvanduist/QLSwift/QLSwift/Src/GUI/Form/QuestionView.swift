@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QuestionView: BaseView, WidgetDelegate, ContextDelegate, QLTypeVisitor {
+class QuestionView: BaseView, WidgetDelegate, ContextDelegate, TopDownType {
     private let heightConstraint: NSLayoutConstraint
 
     private let contentView = BaseView()
@@ -98,6 +98,10 @@ extension QuestionView {
     }
     
     func visit(node: QLVoidType, param: WidgetDelegate) -> ViewWidget {
+        fatalError()
+    }
+    
+    func defaultReturn(type: QLType, param: WidgetDelegate) -> ViewWidget {
         fatalError()
     }
 }
