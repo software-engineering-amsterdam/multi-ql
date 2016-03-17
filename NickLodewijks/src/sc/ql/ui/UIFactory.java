@@ -31,9 +31,9 @@ import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.eval.Environment;
 import sc.ql.eval.Environment.ContextListener;
 import sc.ql.eval.Evaluator;
-import sc.ql.ui.widget.LabelWidget;
-import sc.ql.ui.widget.RadioButtonWidget;
-import sc.ql.ui.widget.TextFieldWidget;
+import sc.ql.ui.widget.UILabelWidget;
+import sc.ql.ui.widget.UIRadioButtonWidget;
+import sc.ql.ui.widget.UITextFieldWidget;
 import sc.ql.value.BooleanValue;
 import sc.ql.value.NumberValue;
 import sc.ql.value.StringValue;
@@ -117,7 +117,7 @@ public class UIFactory {
 	}
 
 	protected UIWidget createLabelWidget(Question question) {
-		return new LabelWidget(question.label());
+		return new UILabelWidget(question.label());
 	}
 
 	protected UIWidget createValueWidget(Question question, Environment env) {
@@ -134,17 +134,17 @@ public class UIFactory {
 
 				choices = new UIWidgetChoices(Arrays.asList(YES, NO), NO);
 
-				return new RadioButtonWidget(env, question.name(), choices);
+				return new UIRadioButtonWidget(env, question.name(), choices);
 			}
 
 			@Override
 			public UIWidget visit(StringType type, Void unused) {
-				return new TextFieldWidget(env, question, new StringValue(""));
+				return new UITextFieldWidget(env, question, new StringValue(""));
 			}
 
 			@Override
 			public UIWidget visit(IntegerType type, Void unused) {
-				return new TextFieldWidget(env, question, new NumberValue(0));
+				return new UITextFieldWidget(env, question, new NumberValue(0));
 			}
 		}, null);
 	}
@@ -177,7 +177,7 @@ public class UIFactory {
 			root.add(Box.createGlue());
 
 			jframe.setContentPane(root);
-			jframe.setSize(400, 600);
+			jframe.setSize(450, 600);
 			jframe.setLocationRelativeTo(null);
 		}
 

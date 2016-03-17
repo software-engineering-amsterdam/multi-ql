@@ -19,7 +19,7 @@ import sc.ql.ui.UIWidgetChoices;
 import sc.ql.ui.UIWidgetStyle;
 import sc.ql.value.Value;
 
-public class RadioButtonWidget extends AbstractUIWidget implements ActionListener {
+public class UIRadioButtonWidget extends AbstractUIWidget implements ActionListener {
 
 	private final Map<UIWidgetChoice, JRadioButton> choiceToButton;
 	private final UIWidgetChoices choices;
@@ -28,8 +28,8 @@ public class RadioButtonWidget extends AbstractUIWidget implements ActionListene
 	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JRadioButton.font"),
 			new Dimension(150, 30), Color.BLACK);
 
-	public RadioButtonWidget(Environment env, String variableName, UIWidgetChoices choices) {
-		super(env, variableName, choices.getDefaultChoice().getValue());
+	public UIRadioButtonWidget(Environment env, String variableName, UIWidgetChoices choices) {
+		super(env, variableName, choices.defaultValue().getValue());
 		ButtonGroup bg;
 
 		this.choiceToButton = new LinkedHashMap<>();
@@ -39,7 +39,7 @@ public class RadioButtonWidget extends AbstractUIWidget implements ActionListene
 
 		panel = new JPanel();
 
-		for (UIWidgetChoice choice : choices.getChoices()) {
+		for (UIWidgetChoice choice : choices.values()) {
 			JRadioButton rb;
 			String name;
 
@@ -80,7 +80,7 @@ public class RadioButtonWidget extends AbstractUIWidget implements ActionListene
 	}
 
 	private UIWidgetChoice getCurrentChoice() {
-		for (UIWidgetChoice choice : choices.getChoices()) {
+		for (UIWidgetChoice choice : choices.values()) {
 			if (choiceToButton.get(choice).isSelected()) {
 				return choice;
 			}

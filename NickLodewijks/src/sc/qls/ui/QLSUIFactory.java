@@ -27,7 +27,7 @@ import sc.ql.ui.UIWidget;
 import sc.ql.ui.UIWidgetChoice;
 import sc.ql.ui.UIWidgetChoices;
 import sc.ql.ui.UIWidgetStyle;
-import sc.ql.ui.widget.RadioButtonWidget;
+import sc.ql.ui.widget.UIRadioButtonWidget;
 import sc.ql.value.BooleanValue;
 import sc.ql.value.NumberValue;
 import sc.ql.value.StringValue;
@@ -54,6 +54,7 @@ import sc.qls.ast.Widget.Slider;
 import sc.qls.ast.Widget.Spinbox;
 import sc.qls.ast.Widget.TextField;
 import sc.qls.ast.WidgetVisitor;
+import sc.qls.ui.widget.UISliderWidget;
 
 public class QLSUIFactory extends UIFactory {
 
@@ -105,7 +106,7 @@ public class QLSUIFactory extends UIFactory {
 
 			@Override
 			public UIWidget visit(RadioButton widget, Void unused) {
-				return new RadioButtonWidget(env, question.name(), createChoices(type, widget));
+				return new UIRadioButtonWidget(env, question.name(), createChoices(type, widget));
 			}
 
 			@Override
@@ -115,7 +116,7 @@ public class QLSUIFactory extends UIFactory {
 
 			@Override
 			public UIWidget visit(Slider widget, Void unused) {
-				return null;
+				return new UISliderWidget(env, question.name(), createChoices(type, widget));
 			}
 
 			@Override
@@ -355,8 +356,7 @@ public class QLSUIFactory extends UIFactory {
 				qPanel = new JPanel(new BorderLayout());
 				qPanel.add(uiQuestion.getLabelWidget().getComponent(), BorderLayout.CENTER);
 				qPanel.add(uiQuestion.getValueWidget().getComponent(), BorderLayout.EAST);
-				qPanel.setMaximumSize(new Dimension(400, 40));
-				qPanel.setMinimumSize(new Dimension(200, 40));
+				qPanel.setPreferredSize(new Dimension(400, 40));
 
 				panel.add(qPanel);
 				panel.add(Box.createRigidArea(new Dimension(0, 2)));

@@ -15,12 +15,16 @@ public class UIWidgetChoices {
 		this.defaultChoice = defaultValue;
 	}
 
-	public List<UIWidgetChoice> getChoices() {
+	public List<UIWidgetChoice> values() {
 		return Collections.unmodifiableList(choices);
 	}
 
-	public UIWidgetChoice getDefaultChoice() {
+	public UIWidgetChoice defaultValue() {
 		return defaultChoice;
+	}
+
+	public int indexOf(UIWidgetChoice choice) {
+		return choices.indexOf(choice);
 	}
 
 	public UIWidgetChoice getByName(String name) {

@@ -15,15 +15,15 @@ import sc.ql.eval.Environment;
 import sc.ql.ui.UIWidgetStyle;
 import sc.ql.value.Value;
 
-public class TextFieldWidget extends AbstractUIWidget {
+public class UITextFieldWidget extends AbstractUIWidget {
 
 	private final JTextField textField;
 	private final JPanel panel;
 
 	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JTextField.font"),
-			new Dimension(100, 20), Color.BLACK);
+			new Dimension(130, 30), Color.BLACK);
 
-	public TextFieldWidget(Environment env, Question q, Value defaultValue) {
+	public UITextFieldWidget(Environment env, Question q, Value defaultValue) {
 		super(env, q.name(), defaultValue);
 
 		panel = new JPanel();
@@ -71,6 +71,8 @@ public class TextFieldWidget extends AbstractUIWidget {
 	@Override
 	public void setVisible(boolean visible) {
 		textField.setVisible(visible);
+		textField.invalidate();
+		panel.repaint();
 	}
 
 	@Override

@@ -13,14 +13,14 @@ import sc.ql.ui.UIWidgetStyle;
 import sc.ql.value.StringValue;
 import sc.ql.value.Value;
 
-public class LabelWidget implements UIWidget {
+public class UILabelWidget implements UIWidget {
 
 	private final JLabel label;
 
 	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JLabel.font"),
-			new Dimension(150, 20), Color.BLACK);
+			new Dimension(150, 50), Color.BLACK);
 
-	public LabelWidget(String text) {
+	public UILabelWidget(String text) {
 		label = new JLabel(text);
 		label.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
