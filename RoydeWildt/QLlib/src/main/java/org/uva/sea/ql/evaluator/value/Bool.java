@@ -30,6 +30,16 @@ public class Bool extends Value {
     }
 
     @Override
+    public Bool Eq(Object x) {
+        if(x instanceof Bool){
+            boolean ybool = this.getValue();
+            boolean xbool = ((Bool) x).getValue();
+            return new Bool(ybool == xbool);
+        }
+        return new Bool(false);
+    }
+
+    @Override
     public <ATOM, CONTEXT> ATOM accept(ValueVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
         return visitor.visit(this, context);
     }

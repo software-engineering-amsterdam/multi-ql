@@ -102,6 +102,16 @@ public class Int extends Numeric {
     }
 
     @Override
+    public Bool Eq(Object x) {
+        if(x instanceof Int){
+            int yint = this.getValue();
+            int xint = ((Int) x).getValue();
+            return new Bool(yint == xint);
+        }
+        return new Bool(false);
+    }
+
+    @Override
     public <ATOM, CONTEXT> ATOM accept(ValueVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
         return visitor.visit(this, context);
     }

@@ -11,11 +11,10 @@ public abstract class Value implements ValueVisitable {
     public abstract Object getValue();
 
 
-    public Bool Eq(Object x){
-        return new Bool(this.equals(x));
-    }
+    public abstract Bool Eq(Object x);
     public Bool NEq(Object x){
-        return new Bool(!this.equals(x));
+        Bool b = this.Eq(x);
+        return new Bool(!b.getValue());
     }
 
     public abstract <ATOM, CONTEXT> ATOM accept(ValueVisitor<ATOM, CONTEXT> visitor, CONTEXT context);

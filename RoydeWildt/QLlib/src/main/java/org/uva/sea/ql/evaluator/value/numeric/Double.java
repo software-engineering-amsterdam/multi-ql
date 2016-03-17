@@ -116,6 +116,16 @@ public class Double extends Numeric {
     }
 
     @Override
+    public Bool Eq(Object x) {
+        if(x instanceof Double){
+            double ydouble = this.getValue();
+            double xdouble = ((Double) x).getValue();
+            return new Bool(ydouble == xdouble);
+        }
+        return new Bool(false);
+    }
+
+    @Override
     public <ATOM, CONTEXT> ATOM accept(ValueVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
         return visitor.visit(this, context);
     }

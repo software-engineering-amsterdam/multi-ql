@@ -17,6 +17,16 @@ public class String extends Value {
     }
 
     @Override
+    public Bool Eq(Object x) {
+        if(x instanceof String){
+            java.lang.String ystr = this.getValue();
+            java.lang.String xstr = ((String) x).getValue();
+            return new Bool(ystr.equals(xstr));
+        }
+        return new Bool(false);
+    }
+
+    @Override
     public <ATOM, CONTEXT> ATOM accept(ValueVisitor<ATOM, CONTEXT> visitor, CONTEXT context) {
         return visitor.visit(this, context);
     }
