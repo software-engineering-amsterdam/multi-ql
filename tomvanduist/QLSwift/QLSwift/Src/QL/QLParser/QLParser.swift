@@ -99,21 +99,9 @@ class QLParser: NSObject {
         let precExpr: GenericParser<String, (), QLExpression> =
             lexer.parentheses(expr)
         
-        
-        // Need to use 2 operator tables to properly parse '<=' and '<' etc
-        let _expr0: GenericParser<String, (), QLExpression> =
-            opTable0().expressionParser { e in
+        return opTable().expressionParser { e in
                 (e.between(openingParen, closingParen) <* lexer.whiteSpace) <|> precExpr <|> expr
             }
-        let _expr: GenericParser<String, (), QLExpression> =
-            opTable().expressionParser { e in
-                (e.between(openingParen, closingParen) <* lexer.whiteSpace) <|> precExpr <|> expr
-            }
-        
-        
-        // Attempt to find normal' operator table first, '<=' operator table last
-        // Using .attempt will ignore errors when '<' is exptected but '<=' is found, last expr will pick that up
-        return lexer.whiteSpace *> (_expr.attempt <|> _expr0)
     }
     
     private func literalExpr() -> GenericParser<String, (), QLExpression> {
@@ -158,23 +146,24 @@ class QLParser: NSObject {
     }
     
     private func binary(name: String, function: (QLExpression, QLExpression) -> QLExpression, assoc: Associativity) -> Operator<String, (), QLExpression> {
-        let opParser = lexer.symbol(name) *> GenericParser(result: function)
+        let opParser = (lexer.symbol(name + "=").attempt <|> lexer.symbol(name)) *> GenericParser(result: function)
+        return .Infix(opParser, assoc)
+    }
+    
+    private func binary(first: (name: String, function: (QLExpression, QLExpression) -> QLExpression),
+                  alternative: (name: String, function: (QLExpression, QLExpression) -> QLExpression),
+                        assoc: Associativity) -> Operator<String, (), QLExpression> {
+                            
+        let opParser =  (lexer.symbol(first.name) *> GenericParser(result: first.function)).attempt
+                            <|>
+                        (lexer.symbol(alternative.name) *> GenericParser(result: alternative.function))
+                            
         return .Infix(opParser, assoc)
     }
     
     private func prefix(name: String, function: QLExpression -> QLExpression) -> Operator<String, (), QLExpression> {
         let opParser = lexer.symbol(name) *> GenericParser(result: function)
         return .Prefix(opParser)
-    }
-    
-    private func opTable0() -> OperatorTable<String, (), QLExpression> {
-        return
-            [
-                [
-                    binary("<=", function: le, assoc: .Left),
-                    binary(">=", function: ge, assoc: .Left),
-                ],
-        ]
     }
     
     private func opTable() -> OperatorTable<String, (), QLExpression> {
@@ -196,8 +185,8 @@ class QLParser: NSObject {
                     binary("-", function: sub, assoc: .Left),
                 ],
                 [
-                    binary("<", function: lt, assoc: .Left),
-                    binary(">", function: gt, assoc: .Left),
+                    binary(("<=", le), alternative: ("<", lt), assoc: .Left),
+                    binary((">=", ge), alternative: (">", gt), assoc: .Left),
                     binary("==", function: eq, assoc: .Left),
                     binary("!=", function: ne, assoc: .Left),
                 ],

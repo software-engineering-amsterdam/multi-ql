@@ -39,6 +39,17 @@ class EvalTests: XCTestCase {
         )
     }
     
+    func testCombination() {
+        eval("EvalCombination", expectedValues: [
+            "q1": 1,
+            "q2": 2,
+            "q3": 12,
+            "q4": true,
+            "q5": QLFloat(120),
+            ]
+        )
+    }
+    
     func testSub() {
         eval("EvalSub", expectedValues: [
             "q1": 0,

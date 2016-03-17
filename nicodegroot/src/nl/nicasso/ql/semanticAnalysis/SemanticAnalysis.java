@@ -29,14 +29,14 @@ public class SemanticAnalysis {
         
     	TypeChecker typeChecker = new TypeChecker(symbolTable, messages);
     	ast.accept(typeChecker, null);
-    	
-        messages.displayMessages();
-	}
+   	}
 	
 	public List<Message> getMessages() {
 		return messages.getMessages();
 	}
 	
-	
+	public boolean isContainsErrors() {
+		return messages.isContainsErrors();
+	}
 	
 }

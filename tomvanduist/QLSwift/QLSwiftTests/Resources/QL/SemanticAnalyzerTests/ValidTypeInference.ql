@@ -17,5 +17,5 @@ form form1 {
 
     _float_inferred_0: "f" 1.0 + 1
     _float_inferred_1: "f" _float_inferred_0
-    _float_inferred_2: "f" 1 + float
+    _float_inferred_2: "f" 1 + _float
 }

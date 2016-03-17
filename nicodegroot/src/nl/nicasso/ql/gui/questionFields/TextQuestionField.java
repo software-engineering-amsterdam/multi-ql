@@ -8,7 +8,9 @@ import javax.swing.JTextField;
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.evaluator.values.BooleanValue;
 import nl.nicasso.ql.gui.evaluator.values.StringValue;
+import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.Label;
 
 public class TextQuestionField extends QuestionField {
@@ -17,20 +19,25 @@ public class TextQuestionField extends QuestionField {
 	private JTextField field;
 	private Label label;
 	private Observer main;
+	private StringValue value;
 
 	public TextQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
 		this.main = params.getMain();
 		
-		setupField(params.isEnabled());
+		setupField(params.isEnabled(), (StringValue) params.getValue());
 	}
 	
-	private void setupField(boolean enabled) {
+	private void setupField(boolean enabled, StringValue value) {
 		field = new JTextField();
 		field.setColumns(20);
 		field.setEnabled(enabled);
 		
-		addListenerToField();
+		setValue(value);
+		
+		if (enabled) {
+			addListenerToField();
+		}
 	}
 	
 	private void addListenerToField() {
@@ -46,13 +53,17 @@ public class TextQuestionField extends QuestionField {
 		});
 	}
 	
-	public void setValue(Object value) {
-		field.setText((String) value);
+	public void setValue(Value value) {
+		this.value = (StringValue) value;
+		field.setText(value.getValue().toString());
 	}
 	
-	public boolean equalValues(Object value) {
-		//System.out.println(value+" - "+field.getText() + " EQUALS? "+ value.equals((field.getText())));
-		return value.equals(field.getText());
+	public StringValue getValue() {
+		return value;
+	}
+	
+	public boolean equalValues(Value value) {
+		return value.equals(this.value);
 	}
 	
 	public void setFeedbackLabel(Label label) {

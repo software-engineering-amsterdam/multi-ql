@@ -36,7 +36,7 @@ class Question: NSObject {
     
     func enabled() -> Bool {
         for condition in conditions {
-            guard let value = Interpreter.sharedInstance.resolve(condition, context: context) as? Bool // TODO: fix this plox
+            guard let value = Interpreter.sharedInstance.resolve(condition, context: context) as? Bool
                 else { return false }
             
             if !value {
