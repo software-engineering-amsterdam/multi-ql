@@ -1,9 +1,5 @@
 package sc.ql.ast;
 
-import sc.ql.value.BooleanValue;
-import sc.ql.value.NumberValue;
-import sc.ql.value.StringValue;
-
 public abstract class Expression extends ASTNode {
 
 	public abstract <T, U> T accept(ExpressionVisitor<T, U> visitor, U context);
@@ -39,9 +35,45 @@ public abstract class Expression extends ASTNode {
 		}
 	}
 
+	public static class Subtract extends BinaryExpr {
+
+		public Subtract(Expression lhs, Expression rhs) {
+			super(lhs, rhs);
+		}
+
+		@Override
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+			return visitor.visit(this, context);
+		}
+	}
+
 	public static class And extends BinaryExpr {
 
 		public And(Expression lhs, Expression rhs) {
+			super(lhs, rhs);
+		}
+
+		@Override
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+			return visitor.visit(this, context);
+		}
+	}
+
+	public static class Or extends BinaryExpr {
+
+		public Or(Expression lhs, Expression rhs) {
+			super(lhs, rhs);
+		}
+
+		@Override
+		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+			return visitor.visit(this, context);
+		}
+	}
+
+	public static class Multiply extends BinaryExpr {
+
+		public Multiply(Expression lhs, Expression rhs) {
 			super(lhs, rhs);
 		}
 
@@ -63,9 +95,9 @@ public abstract class Expression extends ASTNode {
 		}
 	}
 
-	public static class Equals extends BinaryExpr {
+	public static class Equal extends BinaryExpr {
 
-		public Equals(Expression lhs, Expression rhs) {
+		public Equal(Expression lhs, Expression rhs) {
 			super(lhs, rhs);
 		}
 
@@ -75,9 +107,9 @@ public abstract class Expression extends ASTNode {
 		}
 	}
 
-	public static class EqualsNot extends BinaryExpr {
+	public static class NotEqual extends BinaryExpr {
 
-		public EqualsNot(Expression lhs, Expression rhs) {
+		public NotEqual(Expression lhs, Expression rhs) {
 			super(lhs, rhs);
 		}
 
@@ -135,42 +167,6 @@ public abstract class Expression extends ASTNode {
 		}
 	}
 
-	public static class Multiply extends BinaryExpr {
-
-		public Multiply(Expression lhs, Expression rhs) {
-			super(lhs, rhs);
-		}
-
-		@Override
-		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
-
-	public static class Negative extends UnaryExpr {
-
-		public Negative(Expression expr) {
-			super(expr);
-		}
-
-		@Override
-		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
-
-	public static class Not extends UnaryExpr {
-
-		public Not(Expression expr) {
-			super(expr);
-		}
-
-		@Override
-		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
-
 	public static abstract class UnaryExpr extends Expression {
 
 		private final Expression expr;
@@ -184,10 +180,10 @@ public abstract class Expression extends ASTNode {
 		}
 	}
 
-	public static class Or extends BinaryExpr {
+	public static class Negative extends UnaryExpr {
 
-		public Or(Expression lhs, Expression rhs) {
-			super(lhs, rhs);
+		public Negative(Expression expr) {
+			super(expr);
 		}
 
 		@Override
@@ -208,10 +204,10 @@ public abstract class Expression extends ASTNode {
 		}
 	}
 
-	public static class Subtract extends BinaryExpr {
+	public static class Not extends UnaryExpr {
 
-		public Subtract(Expression lhs, Expression rhs) {
-			super(lhs, rhs);
+		public Not(Expression expr) {
+			super(expr);
 		}
 
 		@Override
@@ -238,55 +234,16 @@ public abstract class Expression extends ASTNode {
 		}
 	}
 
-	public static final class IntegerLiteral extends Expression {
+	public static final class LiteralExpr extends Expression {
 
-		private final NumberValue value;
+		private final Literal literal;
 
-		public IntegerLiteral(Integer value) {
-			this.value = new NumberValue(value);
+		public LiteralExpr(Literal literal) {
+			this.literal = literal;
 		}
 
-		public NumberValue getValue() {
-			return value;
-		}
-
-		@Override
-		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
-
-	public static final class StringLiteral extends Expression {
-
-		private final StringValue value;
-
-		public StringLiteral(String value) {
-			this.value = new StringValue(value);
-		}
-
-		public StringValue getValue() {
-			return value;
-		}
-
-		@Override
-		public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
-
-	public static final class BooleanLiteral extends Expression {
-
-		public static final BooleanLiteral TRUE = new BooleanLiteral(true);
-		public static final BooleanLiteral FALSE = new BooleanLiteral(false);
-
-		private final BooleanValue value;
-
-		public BooleanLiteral(boolean value) {
-			this.value = new BooleanValue(value);
-		}
-
-		public BooleanValue getValue() {
-			return value;
+		public Literal literal() {
+			return literal;
 		}
 
 		@Override

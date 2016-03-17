@@ -1,30 +1,26 @@
 package sc.ql.eval;
 
 import sc.ql.ast.Expression;
-import sc.ql.ast.ExpressionVisitor;
 import sc.ql.ast.Expression.Add;
 import sc.ql.ast.Expression.And;
-import sc.ql.ast.Expression.BooleanLiteral;
 import sc.ql.ast.Expression.Divide;
-import sc.ql.ast.Expression.Equals;
-import sc.ql.ast.Expression.EqualsNot;
+import sc.ql.ast.Expression.Equal;
 import sc.ql.ast.Expression.GreaterThan;
 import sc.ql.ast.Expression.GreaterThanOrEqual;
-import sc.ql.ast.Expression.IntegerLiteral;
 import sc.ql.ast.Expression.LessThan;
 import sc.ql.ast.Expression.LessThanOrEqual;
+import sc.ql.ast.Expression.LiteralExpr;
 import sc.ql.ast.Expression.Multiply;
 import sc.ql.ast.Expression.Negative;
 import sc.ql.ast.Expression.Not;
+import sc.ql.ast.Expression.NotEqual;
 import sc.ql.ast.Expression.Or;
 import sc.ql.ast.Expression.Positive;
-import sc.ql.ast.Expression.StringLiteral;
 import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.VariableExpr;
-import sc.ql.ast.value.BooleanValue;
-import sc.ql.ast.value.NumberValue;
-import sc.ql.ast.value.StringValue;
-import sc.ql.ast.value.Value;
+import sc.ql.ast.ExpressionVisitor;
+import sc.ql.value.BooleanValue;
+import sc.ql.value.Value;
 
 public class Evaluator implements ExpressionVisitor<Value, Environment> {
 
@@ -72,12 +68,12 @@ public class Evaluator implements ExpressionVisitor<Value, Environment> {
 	}
 
 	@Override
-	public Value visit(Equals node, Environment context) {
+	public Value visit(Equal node, Environment context) {
 		return node.left().accept(this, context).equal(node.right().accept(this, context));
 	}
 
 	@Override
-	public Value visit(EqualsNot node, Environment context) {
+	public Value visit(NotEqual node, Environment context) {
 		return node.left().accept(this, context).equal(node.right().accept(this, context)).not();
 	}
 
@@ -122,17 +118,7 @@ public class Evaluator implements ExpressionVisitor<Value, Environment> {
 	}
 
 	@Override
-	public BooleanValue visit(BooleanLiteral node, Environment context) {
-		return node.getValue();
-	}
-
-	@Override
-	public NumberValue visit(IntegerLiteral node, Environment context) {
-		return node.getValue();
-	}
-
-	@Override
-	public StringValue visit(StringLiteral node, Environment context) {
-		return node.getValue();
+	public Value visit(LiteralExpr node, Environment context) {
+		return node.literal().value();
 	}
 }
