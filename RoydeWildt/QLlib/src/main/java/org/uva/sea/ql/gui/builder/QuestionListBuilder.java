@@ -127,6 +127,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         }
         catch (Exception e) {
             f.setInvalid();
+            removeFromSymbolTable(f.getParentQuestion());
         }
     }
 
@@ -139,6 +140,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         }
         catch (Exception e) {
             f.setInvalid();
+            removeFromSymbolTable(f.getParentQuestion());
         }
     }
 
@@ -151,16 +153,32 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         }
         catch (Exception e) {
             b.setInvalid();
+            removeFromSymbolTable(b.getParentQuestion());
         }
     }
 
     private void handleTextFieldAction(TextFieldWidget f) {
-        Value newExpr = new String(f.getText());
-        updateSymbolTable(f.getParentQuestion(), newExpr);
+        java.lang.String fieldvalue = f.getText();
+        if(isLetterString(fieldvalue)){
+            f.unSetInvalid();
+            Value newExpr = new String(f.getText());
+            updateSymbolTable(f.getParentQuestion(), newExpr);
+        }
+        else{
+            f.setInvalid();
+            removeFromSymbolTable(f.getParentQuestion());
+        }
     }
 
     private void updateSymbolTable(EvaluatedQuestion changedQuestion, Value newValue){
         this.symbolTable.put(changedQuestion.getVarname(), newValue);
+    }
+
+    private void removeFromSymbolTable(EvaluatedQuestion changedQuestion){
+        this.symbolTable.remove(changedQuestion.getVarname());
+    }
+    public boolean isLetterString(java.lang.String name) {
+        return name.chars().allMatch(Character::isLetter);
     }
 
     public List<QuestionWidget> getUiElements() {

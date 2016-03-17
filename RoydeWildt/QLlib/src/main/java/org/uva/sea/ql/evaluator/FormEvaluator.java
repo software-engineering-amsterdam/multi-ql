@@ -28,20 +28,25 @@ public class FormEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,V
         this.exprEvaluator = new ExprEvaluator();
         this.evaluatedQuestions = new ArrayList<>();
         this.symbolTable = new SymbolTable(f, FXCollections.observableHashMap()).getSymbolTable();
-        f.accept(this, symbolTable);
+        f.accept(this, this.symbolTable);
     }
 
     public FormEvaluator(Form f, Map<Var, Value> symbolTable) {
         this.exprEvaluator = new ExprEvaluator();
         this.evaluatedQuestions = new ArrayList<>();
         this.symbolTable = new SymbolTable(f, symbolTable).getSymbolTable();
-        f.accept(this, symbolTable);
+        f.accept(this, this.symbolTable);
     }
 
     @Override
     public Void visit(Question stat, Map<Var,Value> symbolTable) {
-
-        Value value = symbolTable.get(stat.getVarname());
+        Value value;
+        if(stat.isComputed()){
+            value = (Value) stat.getExpr().accept(exprEvaluator, symbolTable);
+        }
+        else{
+            value = symbolTable.get(stat.getVarname());
+        }
 
         evaluatedQuestions.add(new EvaluatedQuestion(
                 stat.getLabel(),
