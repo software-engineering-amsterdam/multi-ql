@@ -34,7 +34,7 @@ import nl.nicasso.ql.visitors.TypeVisitor;
 
 public class Gui implements StructureVisitor<List<Panel>, Expression>, StatementVisitor<List<Panel>, Expression>, TypeVisitor<QuestionField, QuestionFieldParameter> {
 	
-	private boolean debug = false;
+	private boolean debug = true;
 	private MainFrame main;
 	private StateTable stateTable;
 	
@@ -85,7 +85,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("Question: "+question.getId().getValue());
 		}
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, true);
+		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, true, question.getType().getDefaultValue());
 		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
 		
 		QuestionPanel qp = new QuestionPanel(question, field, expr, stateTable);
@@ -102,10 +102,12 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("ComputedQuestion: "+question.getId().getValue());
 		}
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, false);
-		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
-		
 		Value value = stateTable.getEntryValue(question.getId());
+		
+		System.out.println("VALUE CQ: "+value.getValue());
+		
+		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, false, value);
+		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
 		
 		ComputedQuestionPanel qp = new ComputedQuestionPanel(question, field, value, expr, stateTable, main);
 		

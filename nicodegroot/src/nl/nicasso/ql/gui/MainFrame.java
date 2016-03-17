@@ -3,7 +3,9 @@ package nl.nicasso.ql.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
@@ -15,6 +17,7 @@ import nl.nicasso.ql.gui.evaluator.stateTable.StateTableEntry;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.Panel;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.Message;
+import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.Error;
 
 public class MainFrame implements Observer {
 
@@ -39,6 +42,24 @@ public class MainFrame implements Observer {
 		
 		JScrollPane scrollFrame = new JScrollPane(rootPanel);
 		mainFrame.setContentPane(scrollFrame);
+		
+		displayMessages(messages);
+	}
+	
+	private void displayMessages(List<Message> messages) {
+		JPanel messagePanel = new JPanel();
+		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.PAGE_AXIS));
+		
+		JLabel header = new JLabel("Messages:");
+		messagePanel.add(header);
+		
+		for (Message message : messages) {
+			JLabel label = new JLabel(message.getMessageType()+": "+message.getMessage());
+			messagePanel.add(label);
+		}
+		
+		rootPanel.add(messagePanel, "wrap");
+		setVisible(true);
 	}
 	
 	public void setVisible(boolean visible) {

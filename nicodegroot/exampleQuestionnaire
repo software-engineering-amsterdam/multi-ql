@@ -1,36 +1,18 @@
 form taxOfficeExample {
-  "Integer with value 10"
-    cQ1: integer = (10)
+
+  "Money"
+    cQ1: money = (10.00)
     
-  "The integer from above + 6"
-    cQ11: integer = (cQ1 + true)
+  "Money 2"
+    cQ2: money = (cQ1 * 2)
     
-  "30.00 money times the above"
-    cQ3: money = (30.00 * cQ11)
+  "Money 3"
+    cQ3: money = (cQ1 / 2)
     
-  "The 300.00 money times the second from above."
-    cQ2: money = (cQ3 * cQ11)
+  "Money 4"
+    cQ4: money = (cQ5 / 3)
     
-    // Maybe a true or false check is cool? So no expression, just when a boolean is used directly. Then do a warning.
-    
-    "Toggle switch for if statement"
-	  cQ9: boolean
-    
-    if (cQ2 > 100.00) {
-    
-    "The above times 55"
-    	  cQ55: money = (cQ5)
-    
-    	"Just empty money"
-    	  cQ4: money
-    	  
-    	"The empty money times 5"
-    	  cQ5: money = (cQ4)
-    	  
-    	"Just a boolean true"
-    	  cQ6: boolean = (true)
-    	  
-    	"Just a string"
-    	  cQ7: string = ("abc")
-    }
+  "Money 5"
+    cQ5: money
+
 }

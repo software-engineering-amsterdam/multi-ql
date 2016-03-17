@@ -33,29 +33,18 @@ public class ComputedQuestionPanel extends Panel {
 	public boolean update() {
 		boolean updated = false;
 		
-		// Visibility
 		Evaluator evaluator = new Evaluator(stateTable);
 		Value visibility = condition.accept(evaluator);
-		//System.out.println("VISIBLITY: "+visibility.getValue());
 		setVisible((Boolean) visibility.getValue());
 		
-		if (panel.isVisible() != (Boolean) visibility.getValue()) {
-			//updated = true;
-		}
-		
-		// Expression
 		Value questionValue = question.getExpr().accept(evaluator);
-		
-		if (!field.equalValues(questionValue.getValue())) {
-			//updateAllPanels();
+		System.out.println("UpDATE: "+questionValue.getValue());
+		if (!field.equalValues(questionValue)) {
 			main.fieldValueChanged(question.getId(), questionValue);
 			updated = true;
 		}
 		
-		field.setValue(questionValue.getValue());
-		
-		// SET VALUE IN STATETABLE
-		//stateTable.addState();
+		field.setValue(questionValue);
 		
 		return updated;
 	}

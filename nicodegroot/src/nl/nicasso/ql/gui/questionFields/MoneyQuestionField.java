@@ -10,6 +10,8 @@ import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
 import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
+import nl.nicasso.ql.gui.evaluator.values.StringValue;
+import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.Label;
 
 public class MoneyQuestionField extends QuestionField {
@@ -18,20 +20,29 @@ public class MoneyQuestionField extends QuestionField {
 	private JTextField field;
 	private Label label;
 	private Observer main;
-
+	private MoneyValue value;
+	
 	public MoneyQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
 		this.main = params.getMain();
 		
-		setupField(params.isEnabled());	
+		System.out.println("MoneyQuestionField");
+		
+		setupField(params.isEnabled(), (MoneyValue) params.getValue());	
 	}
 	
-	private void setupField(boolean enabled) {
+	private void setupField(boolean enabled, MoneyValue value) {
 		field = new JTextField();
 		field.setColumns(20);
 		field.setEnabled(enabled);
 		
-		addListenerToField();
+		System.out.println("setupField");
+		
+		setValue(value);
+		
+		if (enabled) {
+			addListenerToField();
+		}
 	}
 	
 	private void addListenerToField() {
@@ -69,13 +80,19 @@ public class MoneyQuestionField extends QuestionField {
 		});
 	}
 	
-	public void setValue(Object value) {
-		field.setText(value.toString());
+	public void setValue(Value value) {
+		System.out.println("SETVALUE FOR MONEY: "+value.getValue().toString());
+		this.value = (MoneyValue) value;
+		field.setText(value.getValue().toString());
 	}
 	
-	public boolean equalValues(Object value) {
-		BigDecimal bd = (BigDecimal) value;
-		BigDecimal bd2 = (BigDecimal) BigDecimal.valueOf(Double.parseDouble(field.getText()));
+	public MoneyValue getValue() {
+		return value;
+	}
+	
+	public boolean equalValues(Value value) {
+		BigDecimal bd = (BigDecimal) value.getValue();
+		BigDecimal bd2 = (BigDecimal) this.value.getValue();
 
 		return bd.compareTo(bd2) == 0;
 	}
