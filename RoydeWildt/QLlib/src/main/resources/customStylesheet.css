@@ -13,3 +13,14 @@
     -fx-background-radius: 3, 2, 4, 0;
     -fx-prompt-text-fill: transparent;
 }
+
+.text-area {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+
+.text-area:disabled {
+     -fx-opacity: 1.0;
+    -fx-background-color: white;
+ }
