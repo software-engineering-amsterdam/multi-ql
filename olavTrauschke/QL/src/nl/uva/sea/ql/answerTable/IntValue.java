@@ -166,11 +166,72 @@ public class IntValue extends NumericValue {
     }
     
     /**
+     * Add a specified <code>NumericValue</code> to <code>this IntValue</code>.
+     * Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to add to <code>this IntValue</code>
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this IntValue</code> or <code>other</code> represents an
+     *          unknown value or the result of multiplying these <code>Value</code>s
+     *          otherwise
+     */
+    @Override
+    public NumericValue add(NumericValue other) {
+        return other.add(this); //double dispatch to a more specific case
+    }
+    
+    /**
+     * Add a specified <code>DecimalValue</code> to <code>this IntValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to add to <code>this IntValue</code>
+     * @return a <code>DecimalValue</code> representing an unkonwn value if
+     *          <code>this IntValue</code> or <code>other</code> represents an
+     *          unkown value or the result of adding <code>other</code> to
+     *          <code>this DecimalValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue add(DecimalValue other) {
+        return other.add(this);
+    }
+    
+    /**
+     * Add a specified <code>IntValue</code> to this one.
+     * 
+     * @param other an <code>IntValue</code> to add to this one
+     * @return an <code>IntValue</code> representing an unkonwn value if
+     *          <code>this IntValue</code> or <code>other</code> represents an
+     *          unkown value or the result of adding <code>other</code> to
+     *          <code>this IntValue</code> otherwise
+     */
+    @Override
+    protected IntValue add(IntValue other) {
+        if (value == null || other.value == null) {
+            return new IntValue(null);
+        }
+        int result = value + other.value;
+        return new IntValue(result);
+    }
+    
+    /**
+     * Add a specified <code>MoneyValue</code> to this one.
+     * 
+     * @param other a <code>MoneyValue</code> to add to this one
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this IntValue</code> or <code>other</code> represents an
+     *          unkown value or the result of adding <code>other</code> to
+     *          <code>this IntValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue add(MoneyValue other) {
+        return (MoneyValue) other.add(this);
+    }
+    
+    /**
      * Multiply <code>this IntValue</code> by a specified
      * <code>NumericValue</code>. Dispatches to a more specific case.
      * 
-     * @param other a <code>NumericValue</code> to multiply this
-     *              <code>IntValue</code> by
+     * @param other a <code>NumericValue</code> to multiply
+     *              <code>this IntValue</code> by
      * @return a <code>NumericValue</code> representing an unknown value if
      *          <code>this IntValue</code> or <code>other</code> represents
      *          an unknown value or the result of multiplying these
