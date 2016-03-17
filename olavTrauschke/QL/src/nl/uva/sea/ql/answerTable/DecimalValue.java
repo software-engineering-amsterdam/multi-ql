@@ -242,7 +242,7 @@ public class DecimalValue extends NumericValue {
      */
     @Override
     public DecimalValue divide(NumericValue other) {
-        return other.inverseDivide(this);
+        return other.inverseDivide(this); //double dispatch to a more specific case
     }
     
     /**

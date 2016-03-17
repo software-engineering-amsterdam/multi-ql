@@ -192,7 +192,7 @@ public class MoneyValue extends NumericValue {
      */
     @Override
     public MoneyValue multiply(NumericValue other) {
-        return other.multiply(this);
+        return other.multiply(this); //double dispatch to a more specific case
     }
     
     /**
@@ -258,7 +258,7 @@ public class MoneyValue extends NumericValue {
      */
     @Override
     public NumericValue divide(NumericValue other) {
-        return other.inverseDivide(this);
+        return other.inverseDivide(this); //double dispatch to a more specific case
     }
     
     /**

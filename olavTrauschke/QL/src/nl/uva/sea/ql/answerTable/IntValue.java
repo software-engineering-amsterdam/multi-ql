@@ -242,7 +242,7 @@ public class IntValue extends NumericValue {
      */
     @Override
     public NumericValue divide(NumericValue other) {
-        return other.inverseDivide(this);
+        return other.inverseDivide(this); //double dispatch to a more specific case
     }
     
     /**
