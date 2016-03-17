@@ -9,23 +9,29 @@
 import UIKit
 
 
-let kForm1 = "form"
-let kForm2 = "form2"
+let kSimpleForm = "SimpleForm"
+let kComplexForm = "ComplexForm"
+
 
 class ChooseFormViewController: BaseViewController {
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        self.showForm(kForm1)
+    }
     
     func showForm(formName: String) {
         do {
             let ql = try QL(qlFromFileNamed: formName)
-            let parser = Parser()
             
-            let (form, warnings) = try parser.parse(ql) // TODO: do Something with context
+            let (questionnaire, warnings) = try ql.toQuestionnaire()
+            
             if warnings.isEmpty {
-                self.displayForm(form)
+                self.display(questionnaire)
             } else {
-                print(warnings)
                 showAlerts(arg: warnings, cancelBlock: nil, confirmBlock: { [unowned self] in
-                    self.displayForm(form)
+                    self.display(questionnaire)
                 })
             }
         }
@@ -33,17 +39,15 @@ class ChooseFormViewController: BaseViewController {
             displayErrors(error)
         }
         catch let error as SemanticError {
-            print("\(error)")
             displayErrors(error)
         }
         catch let error {
-            print(error)
             displayErrors(error)
         }
     }
     
-    private func displayForm(form: QLForm) {
-        self.navigationController?.pushViewController(FormViewController(form: form), animated: true)
+    private func display(questionnaire: Questionnaire) {
+        self.navigationController?.pushViewController(QuestionnaireViewController(questionnaire: questionnaire), animated: true)
     }
     
     private func displayErrors(error: SemanticErrorCollection) {
@@ -57,12 +61,6 @@ class ChooseFormViewController: BaseViewController {
     private func displayErrors(error: ErrorType) {
         showAlert("Error", message: "\(error)", cancelButton: nil, confirmButton: "Ok")
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        self.showForm(kForm1)
-    }
 }
 
 
@@ -70,11 +68,11 @@ class ChooseFormViewController: BaseViewController {
 
 extension ChooseFormViewController {
     @IBAction func form1Pressed(sender: UIButton) {
-        self.showForm(kForm1)
+        self.showForm(kSimpleForm)
     }
     
     @IBAction func form2Pressed(sender: UIButton) {
-        self.showForm(kForm2)
+        self.showForm(kComplexForm)
     }
 }
 
@@ -90,14 +88,6 @@ extension ChooseFormViewController {
     
     private func showAlerts(arg error: SemanticError, confirmBlock: (() -> Void)? = nil) -> Bool {
         return showAlerts(arg: [error], confirmBlock: confirmBlock)
-//        iXf case SemanticError.None = error {
-//            return false
-//        }
-//        
-//        switch error {
-//            case .Collection(let errors): return showAlerts("Error", message: errors.map { "\($0)" }, cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
-//            default: return showAlert("Error", message: "'\(error)'", cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
-//        }
     }
     
     private func showAlerts(arg warnings: [SemanticWarning], cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {

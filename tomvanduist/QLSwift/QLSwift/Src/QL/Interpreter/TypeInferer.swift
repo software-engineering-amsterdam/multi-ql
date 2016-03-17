@@ -9,7 +9,7 @@
 import Foundation
 
 
-class TypeInferer: QLNodeVisitor {
+class TypeInferer: TopDown {
     static let sharedInstance = TypeInferer()
     
     private var symbolTable = Map<QLType>()
@@ -25,6 +25,13 @@ class TypeInferer: QLNodeVisitor {
         }
         
         form.block.accept(self, param: context)
+        
+        // Errors for unresolved types
+        for (id, type) in symbolTable.getMap() {
+            if type === QLUnknownType.self {
+                collectError(TypeInferenceError(description: "The type of \'\(id)\' is ambigious and could not be resolved."))
+            }
+        }
         
         
         if errors.isEmpty {
@@ -54,16 +61,15 @@ extension TypeInferer {
         return type
     }
     
-    func visit(node: QLConditional, param context: Context) -> QLType {
-        node.ifBlock.accept(self, param: context)
-        
-        return QLVoidType()
-    }
-    
     func visit(node: QLBlock, param context: Context) -> QLType {
         
         var unassignedQuestions = node.questions()
         var oldCount = 0
+        
+        // Dive into next scope to resolve dependent types
+        for conditional in node.conditionals() {
+            conditional.accept(self, param: context)
+        }
         
         // Until fixed point is reached assign types
         while !unassignedQuestions.isEmpty && unassignedQuestions.count != oldCount {
@@ -80,16 +86,20 @@ extension TypeInferer {
             unassignedQuestions = newUnassigned
         }
         
-        // Errors for unresolved types
+        // Assign unknown for still unresolved quesitons
         for unassignedQuestion in unassignedQuestions {
-            collectError(TypeInferenceError(description: "The type of \'\(unassignedQuestion.identifier.toString())\' is ambigious and could not be resolved."))
+            symbolTable.assign(unassignedQuestion.identifier.id, value: QLUnknownType())
         }
         
-        // Dive into next scope
+        // Dive into next scope to resolve remaining types
         for conditional in node.conditionals() {
             conditional.accept(self, param: context)
         }
         
+        return defaultReturn(nil, param: context)
+    }
+    
+    func defaultReturn(statement: QLStatement?, param: Context) -> QLType {
         return QLVoidType()
     }
 }
@@ -174,6 +184,10 @@ extension TypeInferer {
     func visit(node: QLOr, param context: Context) -> QLType {
         return QLBooleanType()
     }
+    
+    func defaultReturn(expression: QLExpression, param: Context) -> QLType {
+        return QLUnknownType()
+    }
 }
 
 
@@ -196,6 +210,10 @@ extension TypeInferer {
     func visit(node: QLBooleanLiteral, param context: Context) -> QLType {
         return QLBooleanType()
     }
+    
+    func defaultReturn(literal: QLLiteral, param: Context) -> QLType {
+        fatalError("No generic default value - Visit literal node instead")
+    }
 }
 
 
@@ -203,28 +221,8 @@ extension TypeInferer {
 
 extension TypeInferer {
     
-    func visit(node: QLFloatType, param context: Context) -> QLType {
-        return node
-    }
-    
-    func visit(node: QLIntegerType, param context: Context) -> QLType {
-        return node
-    }
-    
-    func visit(node: QLStringType, param context: Context) -> QLType {
-        return node
-    }
-    
-    func visit(node: QLBooleanType, param context: Context) -> QLType {
-        return node
-    }
-    
-    func visit(node: QLVoidType, param context: Context) -> QLType {
-        return node
-    }
-    
-    func visit(node: QLUnknownType, param context: Context) -> QLType {
-        return node
+    func defaultReturn(type: QLType,  param: Context) -> QLType {
+        return type
     }
 }
 

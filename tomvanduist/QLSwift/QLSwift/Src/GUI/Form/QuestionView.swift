@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QuestionView: BaseView, WidgetDelegate, ContextDelegate, QLTypeVisitor {
+class QuestionView: BaseView, WidgetDelegate, ContextDelegate, TopDownType {
     private let heightConstraint: NSLayoutConstraint
 
     private let contentView = BaseView()
@@ -100,6 +100,10 @@ extension QuestionView {
     func visit(node: QLVoidType, param: WidgetDelegate) -> ViewWidget {
         fatalError()
     }
+    
+    func defaultReturn(type: QLType, param: WidgetDelegate) -> ViewWidget {
+        fatalError()
+    }
 }
 
 
@@ -129,11 +133,15 @@ extension QuestionView {
         }
         
         
-        let label = UILabel()
-        label.text = question.question
+        let textView = UITextView()
+        textView.text = question.question
+        textView.scrollEnabled = false
+        textView.font = UIFont.systemFontOfSize(18)
+        textView.dataDetectorTypes = .All
+        textView.editable = false
         
-        contentView.addSubview(label)
-        label.snp_makeConstraints { [unowned contentView, widgetContainer] (make) -> Void in
+        contentView.addSubview(textView)
+        textView.snp_makeConstraints { [unowned contentView, widgetContainer] (make) -> Void in
             make.top.equalTo(contentView.snp_top).offset(20)
             make.left.equalTo(contentView.snp_left).offset(20)
             make.right.equalTo(contentView.snp_right).offset(-20)

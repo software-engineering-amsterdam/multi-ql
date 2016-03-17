@@ -18,37 +18,43 @@ class SemanticAnalyzerTests: XCTestCase {
         runValidForms("TypedValidForm")
     }
     
-    func testInvalid() {
-        runInvalidForms("TypedInvalidForms")
+    func testInvalidTyped() {
+        runInvalidForms("TypedInvalidForms", semanticRules: [TypeChecker()])
     }
-    
+
     func testCyclicDependency() {
-        runInvalidForms("CyclicDependency")
+        runInvalidForms("CyclicDependency", semanticRules: [CyclicDependencyChecker()])
     }
-    
+
     func testScoped() {
-        runInvalidForms("ScopedInvalid")
+        runInvalidForms("ScopedInvalid", semanticRules: [ScopeChecker()])
     }
-    
+
     func testValidTypeInference() {
-        runValidForms("ValidTypeInference")
+        runValidForms("ValidTypeInference", semanticRules: [])
     }
     
-    func runValidForms(file: String) {
+    private func runValidForms(file: String, semanticRules: [SemanticAnalysisRule]? = nil) {
         if let form = parseFile(file) {
             let sa = SemanticAnalyzer()
             
             do {
-                try sa.analyze(form)
+                if semanticRules != nil {
+                    try sa.analyze(form, rules: semanticRules!)
+                } else {
+                    try sa.analyze(form)
+                }
             }
             catch let error {
                 print("\(error)")
                 XCTAssertTrue(false, "\(error)")
             }
+        } else {
+            XCTFail("Parse error")
         }
     }
     
-    func runInvalidForms(file: String) {
+    private func runInvalidForms(file: String, semanticRules: [SemanticAnalysisRule]? = nil) {
         let forms = parseFileMany(file)
         
         XCTAssertNotNil(forms)
@@ -56,6 +62,7 @@ class SemanticAnalyzerTests: XCTestCase {
         
         for form in forms {
             XCTAssertNotNil(form)
+            
             guard form != nil
                 else { continue }
             
@@ -69,10 +76,15 @@ class SemanticAnalyzerTests: XCTestCase {
             
             
             do {
-                try sa.analyze(form!)
+                if semanticRules != nil {
+                    try sa.analyze(form!, rules: semanticRules!)
+                } else {
+                    try sa.analyze(form!)
+                }
                 XCTAssertTrue(false)
             }
-            catch {
+            catch let error {
+                print(error)
                 // Expected behaviour, move along!
             }
         }

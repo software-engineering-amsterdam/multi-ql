@@ -95,27 +95,17 @@ class Context {
 }
 
 
-private class ComputedContextFiller: QLStatementVisitor {
+private class ComputedContextFiller: TopDownStatement {
     
     func fill(form: QLForm, context: Context) {
         form.block.accept(self, param: context)
-    }
-    
-    func visit(node: QLVariableQuestion, param context: Context) -> Void {
-        // no-op
     }
     
     func visit(node: QLComputedQuestion, param context: Context) -> Void {
         context.assign(node.identifier.id, expression: node.expression)
     }
     
-    func visit(node: QLBlock, param: Context) -> Void {
-        for statement in node.block {
-            statement.accept(self, param: param)
-        }
-    }
-    
-    func visit(node: QLConditional, param: Context) -> Void {
-        node.ifBlock.accept(self, param: param)
+    func defaultReturn(statement: QLStatement?, param context: Context) -> Void {
+        return
     }
 }

@@ -145,6 +145,54 @@ public abstract class NumericValue extends Value {
     protected abstract BooleanValue ternaryGreaterThan(MoneyValue other);
     
     /**
+     * Add a specified <code>NumericValue</code> to <code>this NumericValue</code>.
+     * Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to add to this one
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this NumericValue</code> otherwise
+     */
+    public abstract NumericValue add(NumericValue other);
+    
+    /**
+     * Add a specified <code>DecimalValue</code> to <code>this NumericValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to add to
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this NumericValue</code> otherwise
+     */
+    protected abstract NumericValue add(DecimalValue other);
+    
+    /**
+     * Add a specified <code>IntValue</code> to <code>this NumericValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to add to
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this NumericValue</code> otherwise
+     */
+    protected abstract NumericValue add(IntValue other);
+    
+    /**
+     * Add a specified <code>MoneyValue</code> to <code>this NumericValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to add to
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this NumericValue</code> otherwise
+     */
+    protected abstract MoneyValue add(MoneyValue other);
+    
+    /**
      * Multiply <code>this NumericValue</code> by another. Dispatches to a more
      * specific case.
      * 
@@ -229,7 +277,7 @@ public abstract class NumericValue extends Value {
      *          an unknown value or the result of dividing
      *          <code>other</code> by <code>this NumericValue</code> otherwise
      */
-    protected abstract NumericValue inverseDivide(IntValue other);
+    protected abstract DecimalValue inverseDivide(IntValue other);
     
     /**
      * Divide a specified <code>MoneyValue</code> by <code>this NumericValue</code>.
