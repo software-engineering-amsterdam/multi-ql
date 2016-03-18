@@ -51,9 +51,9 @@ public class DuplicateVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Voi
             for (int i = 1; i < dups.size(); i++) {
                 Question dup = (Question) dups.get(i);
                 sb.append("Variable ");
-                sb.append(dup.getVarname().toString() + " : " + dup.getType().getClass().getSimpleName());
+                sb.append(dup.getVarname().toString()).append(" : ").append(dup.getType().getClass().getSimpleName());
                 sb.append(" is already defined as ");
-                sb.append(org.getVarname().toString() + " : " + org.getType().getClass().getSimpleName());
+                sb.append(org.getVarname().toString()).append(" : ").append(org.getType().getClass().getSimpleName());
 
                 if(dup.getType().getClass().getSimpleName() == org.getType().getClass().getSimpleName())
                     messages.add(new WarningMessage(sb.toString(), dup.getVarname()));

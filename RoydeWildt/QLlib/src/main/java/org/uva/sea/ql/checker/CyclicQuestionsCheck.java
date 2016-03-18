@@ -4,6 +4,7 @@ import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.decl.Computed;
+import org.uva.sea.ql.ast.tree.stat.decl.Declaration;
 import org.uva.sea.ql.ast.tree.stat.decl.Question;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
@@ -14,7 +15,7 @@ import java.util.*;
 /**
  * Created by roydewildt on 17/02/16.
  */
-public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Question> {
+public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Declaration> {
     private final Map<Node,List<Node>> references = new HashMap<>();
 
     public CyclicQuestionsCheck(Form f) {
@@ -22,7 +23,7 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Q
     }
 
     @Override
-    public Void visit(Question stat, Question context) {
+    public Void visit(Question stat, Declaration declaration) {
 
         if(!references.containsKey(stat.getVarname()))
             references.put(stat.getVarname(),new ArrayList<>());
@@ -31,7 +32,7 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Q
     }
 
     @Override
-    public Void visit(Computed stat, Question c) {
+    public Void visit(Computed stat, Declaration declaration) {
 
         if(!references.containsKey(stat.getVarname()))
             references.put(stat.getVarname(),new ArrayList<>());
@@ -41,12 +42,12 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Q
     }
 
     @Override
-    public Void visit(Var var, Question context) {
+    public Void visit(Var var, Declaration declaration) {
 
         Var v = null;
 
-        if(context != null)
-            v = context.getVarname();
+        if(declaration != null)
+            v = declaration.getVarname();
 
         if(references.get(v) != null){
             List<Node> l  = references.get(v);
@@ -95,12 +96,11 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Q
 
         for(Node n : cyclics){
             Var v = (Var) n;
-            StringBuilder sb = new StringBuilder();
-            sb.append("EvaluatedQuestion ");
-            sb.append(v.toString());
-            sb.append(" contains cyclic dependencies");
+            String sb = "EvaluatedQuestion " +
+                    v.toString() +
+                    " contains cyclic dependencies";
 
-            messages.add(new ErrorMessage(sb.toString(),v));
+            messages.add(new ErrorMessage(sb,v));
         }
         return messages;
     }
