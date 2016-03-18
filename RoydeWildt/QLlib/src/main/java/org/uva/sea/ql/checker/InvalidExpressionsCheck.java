@@ -9,7 +9,6 @@ import org.uva.sea.ql.ast.tree.expr.unary.Pos;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.type.Type;
-import org.uva.sea.ql.ast.visitor.TypeVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * Created by roydewildt on 11/02/16.
  */
 
-public class InvalidExpressionsCheck extends TypeVisitor {
+public class InvalidExpressionsCheck extends TypeCheck {
     private final List<Expr> invalidExpressions = new ArrayList<>();
 
     public InvalidExpressionsCheck(Form f) {

@@ -1,7 +1,8 @@
-package org.uva.sea.ql.evaluator.value;
+package org.uva.sea.ql.adt.value;
 
-import org.uva.sea.ql.evaluator.value.visitor.ValueVisitable;
-import org.uva.sea.ql.evaluator.value.visitor.ValueVisitor;
+import org.uva.sea.ql.adt.type.Type;
+import org.uva.sea.ql.adt.visitor.ValueVisitable;
+import org.uva.sea.ql.adt.visitor.ValueVisitor;
 
 /**
  * Created by roydewildt on 16/03/16.
@@ -9,6 +10,7 @@ import org.uva.sea.ql.evaluator.value.visitor.ValueVisitor;
 public abstract class Value implements ValueVisitable {
 
     public abstract Object getValue();
+    public abstract Type getType();
 
 
     public abstract Bool Eq(Object x);

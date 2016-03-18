@@ -1,7 +1,8 @@
-package org.uva.sea.ql.ast.tree.stat;
+package org.uva.sea.ql.ast.tree.stat.block;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.tree.stat.Stat;
 import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 
 import java.util.List;
@@ -9,21 +10,15 @@ import java.util.List;
 /**
  * Created by roydewildt on 04/02/16.
  */
-public class IfElse extends Stat{
+public class IfElse extends Block {
 
-    private final Expr cond;
     private final List<Stat> ifStms;
     private final List<Stat> elseStms;
 
     public IfElse (Token token, Expr cond, List<Stat> ifStms, List<Stat> elseStms){
-        super(token);
-        this.cond = cond;
+        super(token, cond);
         this.ifStms = ifStms;
         this.elseStms = elseStms;
-    }
-
-    public Expr getCond() {
-        return cond;
     }
 
     public List<Stat> getIfStms() {

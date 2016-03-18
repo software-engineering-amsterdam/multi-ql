@@ -1,20 +1,27 @@
-package org.uva.sea.ql.evaluator.value;
+package org.uva.sea.ql.adt.value;
 
-import org.uva.sea.ql.evaluator.value.visitor.ValueVisitor;
+import org.uva.sea.ql.adt.type.Boolean;
+import org.uva.sea.ql.adt.type.Type;
+import org.uva.sea.ql.adt.visitor.ValueVisitor;
 
 /**
  * Created by roydewildt on 16/03/16.
  */
 public class Bool extends Value {
-    private Boolean value;
+    private java.lang.Boolean value;
 
-    public Bool(Boolean value) {
+    public Bool(java.lang.Boolean value) {
         this.value = value;
     }
 
     @Override
-    public Boolean getValue() {
+    public java.lang.Boolean getValue() {
         return this.value;
+    }
+
+    @Override
+    public Type getType() {
+        return new Boolean();
     }
 
     public Bool And(Bool x){

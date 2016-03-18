@@ -2,7 +2,7 @@ package org.uva.sea.ql.evaluator;
 
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.type.Type;
-import org.uva.sea.ql.evaluator.value.Value;
+import org.uva.sea.ql.adt.value.Value;
 
 /**
  * Created by roydewildt on 16/03/16.

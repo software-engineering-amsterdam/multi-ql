@@ -1,4 +1,4 @@
-package org.uva.sea.ql.evaluator.value.visitor;
+package org.uva.sea.ql.adt.visitor;
 
 /**
  * Created by roydewildt on 16/03/16.

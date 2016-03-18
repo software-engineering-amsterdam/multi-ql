@@ -3,7 +3,8 @@ package org.uva.sea.ql.checker;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.ast.tree.stat.decl.Computed;
+import org.uva.sea.ql.ast.tree.stat.decl.Question;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
@@ -22,6 +23,15 @@ public class CyclicQuestionsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Q
 
     @Override
     public Void visit(Question stat, Question context) {
+
+        if(!references.containsKey(stat.getVarname()))
+            references.put(stat.getVarname(),new ArrayList<>());
+
+        return null;
+    }
+
+    @Override
+    public Void visit(Computed stat, Question c) {
 
         if(!references.containsKey(stat.getVarname()))
             references.put(stat.getVarname(),new ArrayList<>());

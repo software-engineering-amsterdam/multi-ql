@@ -1,7 +1,9 @@
-package org.uva.sea.ql.evaluator.value.numeric;
+package org.uva.sea.ql.adt.value.numeric;
 
-import org.uva.sea.ql.evaluator.value.Bool;
-import org.uva.sea.ql.evaluator.value.visitor.ValueVisitor;
+import org.uva.sea.ql.adt.type.Money;
+import org.uva.sea.ql.adt.type.Type;
+import org.uva.sea.ql.adt.value.Bool;
+import org.uva.sea.ql.adt.visitor.ValueVisitor;
 
 /**
  * Created by roydewildt on 16/03/16.
@@ -16,6 +18,11 @@ public class Double extends Numeric {
     @Override
     public java.lang.Double getValue() {
         return value;
+    }
+
+    @Override
+    public Type getType() {
+        return new Money();
     }
 
     @Override

@@ -1,18 +1,22 @@
-package org.uva.sea.ql.ast.visitor;
+package org.uva.sea.ql.checker;
 
-import org.uva.sea.ql.ast.tree.Node;
+import org.uva.sea.ql.adt.type.Boolean;
+import org.uva.sea.ql.adt.type.Money;
+import org.uva.sea.ql.adt.type.Number;
+import org.uva.sea.ql.adt.type.String;
+import org.uva.sea.ql.adt.type.Type;
+import org.uva.sea.ql.adt.value.Value;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
-import org.uva.sea.ql.ast.tree.atom.val.Float;
 import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
+import org.uva.sea.ql.ast.tree.atom.val.Double;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.*;
-import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.type.Boolean;
-import org.uva.sea.ql.ast.tree.type.*;
-import org.uva.sea.ql.ast.tree.type.Number;
+import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.ast.visitor.BaseVisitor;
+import org.uva.sea.ql.evaluator.SymbolTable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +25,11 @@ import java.util.Map;
  * Created by roydewildt on 17/02/16.
  */
 
-public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,Type,Void> {
-    private final Map<Node,Node> decls = new HashMap<>();
+public class TypeCheck<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,Type,Void> {
+    private final Map<Var, Value> symbolTable;
 
-    @Override
-    public STAT visit(Question stat, Void context) {
-        decls.put(stat.getVarname(), stat);
-        return null;
+    public TypeCheck(Form form){
+        this.symbolTable = new SymbolTable(form, new HashMap<>()).getSymbolTable();
     }
 
     @Override
@@ -149,7 +151,7 @@ public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE
     }
 
     @Override
-    public Type visit(Float atom, Void context) {
+    public Type visit(Double atom, Void context) {
         return new Number();
     }
 
@@ -160,16 +162,15 @@ public class TypeVisitor<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE
 
     @Override
     public Type visit(Str val, Void context) {
-        return new Text();
+        return new String();
     }
 
     @Override
     public Type visit(Var val, Void context) {
-        if (decls.containsKey(val)){
+        if (symbolTable.containsKey(val)){
 
-            Question q = (Question) decls.get(val);
-            Type t = q.getType();
-            return t.getType();
+            Value value = symbolTable.get(val);
+            return value.getType();
 
         }
         else

@@ -10,12 +10,12 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.Priority;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
-import org.uva.sea.ql.evaluator.value.Bool;
-import org.uva.sea.ql.evaluator.value.String;
-import org.uva.sea.ql.evaluator.value.Value;
-import org.uva.sea.ql.evaluator.value.numeric.Double;
-import org.uva.sea.ql.evaluator.value.numeric.Int;
-import org.uva.sea.ql.evaluator.value.visitor.ValueVisitor;
+import org.uva.sea.ql.adt.value.Bool;
+import org.uva.sea.ql.adt.value.Str;
+import org.uva.sea.ql.adt.value.Value;
+import org.uva.sea.ql.adt.value.numeric.Double;
+import org.uva.sea.ql.adt.value.numeric.Int;
+import org.uva.sea.ql.adt.visitor.ValueVisitor;
 import org.uva.sea.ql.gui.widget.*;
 
 import java.util.ArrayList;
@@ -103,7 +103,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
     }
 
     @Override
-    public Control visit(String val, EvaluatedQuestion parent) {
+    public Control visit(Str val, EvaluatedQuestion parent) {
         TextFieldWidget f = new TextFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
@@ -161,7 +161,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         java.lang.String fieldvalue = f.getText();
         if(isLetterString(fieldvalue)){
             f.unSetInvalid();
-            Value newExpr = new String(f.getText());
+            Value newExpr = new Str(f.getText());
             updateSymbolTable(f.getParentQuestion(), newExpr);
         }
         else{

@@ -1,7 +1,6 @@
 package org.uva.sea.ql.ast.tree.type;
 
 import org.antlr.v4.runtime.Token;
-import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
 /**

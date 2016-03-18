@@ -6,16 +6,16 @@ import org.uva.sea.ql.ast.visitor.interfaces.AtomVisitor;
 /**
  * Created by roydewildt on 04/02/16.
  */
-public class Float extends Val {
-    private Double value;
+public class Double extends Val {
+    private java.lang.Double value;
 
-    public Float(Token token, String x){
+    public Double(Token token, String x){
         super(token);
-        this.value = Double.valueOf(x);
+        this.value = java.lang.Double.valueOf(x);
     }
 
     @Override
-    public Double getValue() {
+    public java.lang.Double getValue() {
         return value;
     }
 

@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.evaluator.FormEvaluator;
-import org.uva.sea.ql.evaluator.value.Value;
+import org.uva.sea.ql.adt.value.Value;
 import org.uva.sea.ql.gui.builder.QuestionListBuilder;
 import org.uva.sea.ql.gui.widget.QuestionWidget;
 

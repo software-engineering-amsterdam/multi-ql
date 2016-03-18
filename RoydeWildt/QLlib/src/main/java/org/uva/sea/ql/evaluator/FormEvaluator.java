@@ -3,13 +3,14 @@ package org.uva.sea.ql.evaluator;
 import javafx.collections.FXCollections;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.If;
-import org.uva.sea.ql.ast.tree.stat.IfElse;
-import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.stat.Stat;
+import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.stat.block.If;
+import org.uva.sea.ql.ast.tree.stat.block.IfElse;
+import org.uva.sea.ql.ast.tree.stat.decl.Computed;
+import org.uva.sea.ql.ast.tree.stat.decl.Question;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.evaluator.value.Bool;
-import org.uva.sea.ql.evaluator.value.Value;
+import org.uva.sea.ql.adt.value.Bool;
+import org.uva.sea.ql.adt.value.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,24 +41,15 @@ public class FormEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,V
 
     @Override
     public Void visit(Question stat, Map<Var,Value> symbolTable) {
-        Value value;
-        if(stat.isComputed()){
-            value = (Value) stat.getExpr().accept(exprEvaluator, symbolTable);
-        }
-        else{
-            value = symbolTable.get(stat.getVarname());
-        }
-
-        evaluatedQuestions.add(new EvaluatedQuestion(
-                stat.getLabel(),
-                stat.getVarname(),
-                stat.getType(),
-                value,
-                stat.isComputed()));
-
+        evaluatedQuestions.add(genEvaluatedQuestion(stat));
         return null;
     }
 
+    @Override
+    public Void visit(Computed stat, Map<Var, Value> symbolTable) {
+        evaluatedQuestions.add(genEvaluatedQuestion(stat));
+        return null;
+    }
 
     @Override
     public Void visit(If stat, Map<Var, Value> symbolTable) {
@@ -91,6 +83,28 @@ public class FormEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,V
                 s.accept(this, symbolTable);
         }
         return null;
+    }
+
+    private EvaluatedQuestion genEvaluatedQuestion(Question question){
+        Value value = symbolTable.get(question.getVarname());
+        return new EvaluatedQuestion(
+                question.getLabel(),
+                question.getVarname(),
+                question.getType(),
+                value,
+                false
+        );
+    }
+
+    private EvaluatedQuestion genEvaluatedQuestion(Computed question){
+        Value value = (Value) question.getExpr().accept(exprEvaluator, symbolTable);
+        return new EvaluatedQuestion(
+                question.getLabel(),
+                question.getVarname(),
+                question.getType(),
+                value,
+                true
+        );
     }
 
     public List<EvaluatedQuestion> getEvaluatedQuestions() {

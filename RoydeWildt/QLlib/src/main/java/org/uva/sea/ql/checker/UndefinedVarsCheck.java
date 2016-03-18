@@ -7,7 +7,7 @@ import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.evaluator.SymbolTable;
-import org.uva.sea.ql.evaluator.value.Value;
+import org.uva.sea.ql.adt.value.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;

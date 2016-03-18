@@ -1,7 +1,7 @@
-package org.uva.sea.ql.evaluator.value.numeric;
+package org.uva.sea.ql.adt.value.numeric;
 
-import org.uva.sea.ql.evaluator.value.Bool;
-import org.uva.sea.ql.evaluator.value.Value;
+import org.uva.sea.ql.adt.value.Bool;
+import org.uva.sea.ql.adt.value.Value;
 
 /**
  * Created by roydewildt on 16/03/16.

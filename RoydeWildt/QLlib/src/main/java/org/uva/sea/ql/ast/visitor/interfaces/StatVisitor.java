@@ -1,9 +1,9 @@
 package org.uva.sea.ql.ast.visitor.interfaces;
 
-import org.uva.sea.ql.ast.tree.stat.Computed;
-import org.uva.sea.ql.ast.tree.stat.If;
-import org.uva.sea.ql.ast.tree.stat.IfElse;
-import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.ast.tree.stat.decl.Computed;
+import org.uva.sea.ql.ast.tree.stat.block.If;
+import org.uva.sea.ql.ast.tree.stat.block.IfElse;
+import org.uva.sea.ql.ast.tree.stat.decl.Question;
 
 
 /**

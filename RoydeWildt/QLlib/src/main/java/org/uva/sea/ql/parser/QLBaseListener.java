@@ -15,7 +15,7 @@ package org.uva.sea.ql.parser;
     import org.uva.sea.ql.ast.tree.type.Type;
     import org.uva.sea.ql.ast.tree.atom.var.*;
     import org.uva.sea.ql.ast.tree.atom.val.*;
-    import org.uva.sea.ql.ast.tree.atom.val.Float;
+    import org.uva.sea.ql.ast.tree.atom.val.Double;
     import org.uva.sea.ql.ast.tree.atom.val.Int;
 
 

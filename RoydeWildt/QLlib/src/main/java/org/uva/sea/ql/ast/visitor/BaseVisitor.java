@@ -1,7 +1,7 @@
 package org.uva.sea.ql.ast.visitor;
 
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
-import org.uva.sea.ql.ast.tree.atom.val.Float;
+import org.uva.sea.ql.ast.tree.atom.val.Double;
 import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
@@ -11,10 +11,11 @@ import org.uva.sea.ql.ast.tree.expr.unary.Not;
 import org.uva.sea.ql.ast.tree.expr.unary.Pos;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.If;
-import org.uva.sea.ql.ast.tree.stat.IfElse;
-import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.ast.tree.stat.Stat;
+import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.stat.block.If;
+import org.uva.sea.ql.ast.tree.stat.block.IfElse;
+import org.uva.sea.ql.ast.tree.stat.decl.Computed;
+import org.uva.sea.ql.ast.tree.stat.decl.Question;
 import org.uva.sea.ql.ast.tree.type.Boolean;
 import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.type.Number;
@@ -66,6 +67,15 @@ public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,ATOM,CONTEXT> implements
 
     @Override
     public STAT visit(Question stat, CONTEXT c) {
+
+        stat.getType().accept(this,c);
+        stat.getVarname().accept(this,c);
+
+        return null;
+    }
+
+    @Override
+    public STAT visit(Computed stat, CONTEXT c) {
 
         stat.getType().accept(this,c);
         stat.getVarname().accept(this,c);
@@ -245,7 +255,7 @@ public abstract class BaseVisitor<FORM,STAT,EXPR,TYPE,ATOM,CONTEXT> implements
     }
 
     @Override
-    public ATOM visit(Float atom, CONTEXT context) {
+    public ATOM visit(Double atom, CONTEXT context) {
         return null;
     }
 

@@ -2,9 +2,9 @@ package org.uva.sea.ql.evaluator;
 
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.Question;
+import org.uva.sea.ql.ast.tree.stat.decl.Question;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.evaluator.value.Value;
+import org.uva.sea.ql.adt.value.Value;
 
 import java.util.Map;
 

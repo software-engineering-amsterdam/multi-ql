@@ -16,7 +16,7 @@ grammar QL;
     import org.uva.sea.ql.ast.tree.type.Type;
     import org.uva.sea.ql.ast.tree.atom.var.*;
     import org.uva.sea.ql.ast.tree.atom.val.*;
-    import org.uva.sea.ql.ast.tree.atom.val.Float;
+    import org.uva.sea.ql.ast.tree.atom.val.Double;
     import org.uva.sea.ql.ast.tree.atom.val.Int;
 }
 
@@ -203,7 +203,7 @@ num returns [Val result]
         }
     | value=FLOAT
         {
-            $result = new Float($value, $value.text);
+            $result = new Double($value, $value.text);
         }
     ;
 

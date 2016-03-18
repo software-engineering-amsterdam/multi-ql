@@ -1,7 +1,6 @@
 package org.uva.sea.ql.evaluator;
 
-import org.uva.sea.ql.ast.tree.atom.val.Float;
-import org.uva.sea.ql.ast.tree.atom.val.Str;
+import org.uva.sea.ql.ast.tree.atom.val.Double;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
 import org.uva.sea.ql.ast.tree.expr.unary.Neg;
@@ -9,12 +8,11 @@ import org.uva.sea.ql.ast.tree.expr.unary.Not;
 import org.uva.sea.ql.ast.tree.expr.unary.Pos;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
-import org.uva.sea.ql.evaluator.value.Bool;
-import org.uva.sea.ql.evaluator.value.String;
-import org.uva.sea.ql.evaluator.value.Value;
-import org.uva.sea.ql.evaluator.value.numeric.Double;
-import org.uva.sea.ql.evaluator.value.numeric.Int;
-import org.uva.sea.ql.evaluator.value.numeric.Numeric;
+import org.uva.sea.ql.adt.value.Bool;
+import org.uva.sea.ql.adt.value.Str;
+import org.uva.sea.ql.adt.value.Value;
+import org.uva.sea.ql.adt.value.numeric.Int;
+import org.uva.sea.ql.adt.value.numeric.Numeric;
 
 import java.util.Map;
 
@@ -145,13 +143,13 @@ public class ExprEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,V
     }
 
     @Override
-    public Value visit(Float atom, Map<Var, Value> symbolTable) {
-        return new Double(atom.getValue());
+    public Value visit(Double atom, Map<Var, Value> symbolTable) {
+        return new org.uva.sea.ql.adt.value.numeric.Double(atom.getValue());
     }
 
     @Override
-    public Value visit(Str atom, Map<Var, Value> context) {
-        return new String(atom.getValue());
+    public Value visit(org.uva.sea.ql.ast.tree.atom.val.Str atom, Map<Var, Value> context) {
+        return new Str(atom.getValue());
     }
 
 
