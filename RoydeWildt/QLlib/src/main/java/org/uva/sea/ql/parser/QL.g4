@@ -6,6 +6,8 @@ grammar QL;
 
     import org.uva.sea.ql.ast.tree.form.*;
     import org.uva.sea.ql.ast.tree.stat.*;
+	import org.uva.sea.ql.ast.tree.stat.block.*;
+	import org.uva.sea.ql.ast.tree.stat.decl.*;
     import org.uva.sea.ql.ast.tree.expr.Expr;
     import org.uva.sea.ql.ast.tree.expr.binary.*;
     import org.uva.sea.ql.ast.tree.expr.unary.*;
@@ -69,7 +71,7 @@ question returns [Stat result]
         }
     | label=STR decl=IDENT ':' typ=type '=' exp=expr
         {
-            $result = new Question($label, $label.text, new Var($decl, $decl.text), $typ.result, $exp.result);
+            $result = new Computed($label, $label.text, new Var($decl, $decl.text), $typ.result, $exp.result);
         }
     ;
 

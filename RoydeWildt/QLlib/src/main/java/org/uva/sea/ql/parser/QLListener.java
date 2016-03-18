@@ -5,6 +5,8 @@ package org.uva.sea.ql.parser;
 
     import org.uva.sea.ql.ast.tree.form.*;
     import org.uva.sea.ql.ast.tree.stat.*;
+	import org.uva.sea.ql.ast.tree.stat.block.*;
+	import org.uva.sea.ql.ast.tree.stat.decl.*;
     import org.uva.sea.ql.ast.tree.expr.Expr;
     import org.uva.sea.ql.ast.tree.expr.binary.*;
     import org.uva.sea.ql.ast.tree.expr.unary.*;

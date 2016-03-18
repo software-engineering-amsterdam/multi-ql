@@ -2,12 +2,8 @@ package org.uva.sea.ql.evaluator;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.*;
-import org.uva.sea.ql.ast.tree.atom.Literal;
-import org.uva.sea.ql.ast.tree.expr.Expr;
-import org.uva.sea.ql.ast.tree.expr.unary.Primary;
+import org.uva.sea.ql.adt.value.Value;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.Question;
-import org.uva.sea.ql.evaluator.value.Value;
 import org.uva.sea.ql.parser.QLRunner;
 
 import java.util.ArrayList;

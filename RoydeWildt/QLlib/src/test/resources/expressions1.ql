@@ -20,7 +20,7 @@ form conditions1 {
   "Q4"
     Q4_boolean: boolean
 
-  //OK
+  //Fail
   if (1){
       "Q5"
         Q5: money

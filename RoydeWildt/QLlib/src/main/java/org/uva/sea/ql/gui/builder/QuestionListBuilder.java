@@ -28,15 +28,13 @@ import java.util.Map;
  */
 public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestion> {
     private List<QuestionWidget> uiElements;
-    private List<EvaluatedQuestion> questions;
     private Map<Var, Value> symbolTable;
 
     public QuestionListBuilder(List<EvaluatedQuestion> questions, Map<Var, Value> symbolTable) {
         this.uiElements = new ArrayList<>();
-        this.questions = questions;
         this.symbolTable = symbolTable;
 
-        for (EvaluatedQuestion question : this.questions){
+        for (EvaluatedQuestion question : questions){
             QuestionWidget UiElem = genQuestionUI(question);
             uiElements.add(UiElem);
         }
@@ -107,7 +105,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         TextFieldWidget f = new TextFieldWidget(parent, parent.isComputed());
         f.setAlignment(Pos.BASELINE_RIGHT);
 
-        f.setText(val.getValue().toString());
+        f.setText(val.getValue());
 
         f.textProperty().addListener((observable, oldValue, newValue) ->
                 handleTextFieldAction(f));

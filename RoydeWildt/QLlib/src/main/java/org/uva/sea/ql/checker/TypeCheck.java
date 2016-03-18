@@ -1,10 +1,9 @@
 package org.uva.sea.ql.checker;
 
+import org.uva.sea.ql.adt.type.*;
 import org.uva.sea.ql.adt.type.Boolean;
-import org.uva.sea.ql.adt.type.Money;
 import org.uva.sea.ql.adt.type.Number;
 import org.uva.sea.ql.adt.type.String;
-import org.uva.sea.ql.adt.type.Type;
 import org.uva.sea.ql.adt.value.Value;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
 import org.uva.sea.ql.ast.tree.atom.val.Int;
@@ -35,21 +34,21 @@ public class TypeCheck<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,T
     @Override
     public Type visit(Add expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Money();
     }
 
     @Override
     public Type visit(And expr, Void context) {
         if(incompatibleTypes(expr, new Boolean()))
-            return null;
+            return new Null();
         return new Boolean();
     }
 
     @Override
     public Type visit(Div expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Money();
     }
 
@@ -58,41 +57,41 @@ public class TypeCheck<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,T
         if(equalTypes(expr)){
             return new Boolean();
         }
-        return null;
+        return new Null();
     }
 
     @Override
     public Type visit(GEq expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Boolean();
     }
 
     @Override
     public Type visit(GT expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Boolean();
     }
 
     @Override
     public Type visit(LEq expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Boolean();
     }
 
     @Override
     public Type visit(LT expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Boolean();
     }
 
     @Override
     public Type visit(Mul expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Money();
     }
 
@@ -101,42 +100,42 @@ public class TypeCheck<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,T
         if(equalTypes(expr)){
             return new Boolean();
         }
-        return null;
+        return new Null();
 
     }
 
     @Override
     public Type visit(Or expr, Void context) {
         if(incompatibleTypes(expr, new Boolean()))
-            return null;
+            return new Null();
         return new Boolean();
     }
 
     @Override
     public Type visit(Sub expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Money();
     }
 
     @Override
     public Type visit(Neg expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Money();
     }
 
     @Override
     public Type visit(Not expr, Void context) {
         if(incompatibleTypes(expr, new Boolean()))
-            return null;
+            return new Null();
         return new Boolean();
     }
 
     @Override
     public Type visit(Pos expr, Void context) {
         if(incompatibleTypes(expr, new Money()))
-            return null;
+            return new Null();
         return new Money();
     }
 
@@ -174,7 +173,7 @@ public class TypeCheck<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,T
 
         }
         else
-            return null;
+            return new Null();
     }
 
     private boolean incompatibleTypes(BinaryExpr expr, Type type){

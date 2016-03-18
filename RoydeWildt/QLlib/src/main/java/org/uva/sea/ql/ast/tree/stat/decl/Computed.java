@@ -24,13 +24,11 @@ public class Computed extends Declaration {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("EvaluatedQuestion(");
-        sb.append(this.getLabel() + ",");
-        sb.append(this.getVarname() + ",");
-        sb.append(this.getType() + ",");
-        sb.append(")");
-        return sb.toString();
+        return "EvaluatedQuestion(" +
+                this.getLabel() + "," +
+                this.getVarname() + "," +
+                this.getType() + "," +
+                ")";
     }
 
     @Override

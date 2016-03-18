@@ -5,13 +5,12 @@ package org.uva.sea.ql.parser;
 
     import org.uva.sea.ql.ast.tree.form.*;
     import org.uva.sea.ql.ast.tree.stat.*;
+	import org.uva.sea.ql.ast.tree.stat.block.*;
+	import org.uva.sea.ql.ast.tree.stat.decl.*;
     import org.uva.sea.ql.ast.tree.expr.Expr;
     import org.uva.sea.ql.ast.tree.expr.binary.*;
     import org.uva.sea.ql.ast.tree.expr.unary.*;
-	import org.uva.sea.ql.ast.tree.stat.block.If;
-	import org.uva.sea.ql.ast.tree.stat.block.IfElse;
-	import org.uva.sea.ql.ast.tree.stat.decl.Question;
-	import org.uva.sea.ql.ast.tree.type.Boolean;
+    import org.uva.sea.ql.ast.tree.type.Boolean;
     import org.uva.sea.ql.ast.tree.type.Money;
     import org.uva.sea.ql.ast.tree.type.Number;
     import org.uva.sea.ql.ast.tree.type.Text;
@@ -24,9 +23,11 @@ package org.uva.sea.ql.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-	import org.antlr.v4.runtime.tree.*;
-
-	import java.util.ArrayList;
+import org.antlr.v4.runtime.misc.*;
+import org.antlr.v4.runtime.tree.*;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {
@@ -408,7 +409,7 @@ public class QLParser extends Parser {
 				setState(74);
 				((QuestionContext)_localctx).exp = expr(0);
 
-				            ((QuestionContext)_localctx).result =  new Question(((QuestionContext)_localctx).label, (((QuestionContext)_localctx).label!=null?((QuestionContext)_localctx).label.getText():null), new Var(((QuestionContext)_localctx).decl, (((QuestionContext)_localctx).decl!=null?((QuestionContext)_localctx).decl.getText():null)), ((QuestionContext)_localctx).typ.result, ((QuestionContext)_localctx).exp.result);
+				            ((QuestionContext)_localctx).result =  new Computed(((QuestionContext)_localctx).label, (((QuestionContext)_localctx).label!=null?((QuestionContext)_localctx).label.getText():null), new Var(((QuestionContext)_localctx).decl, (((QuestionContext)_localctx).decl!=null?((QuestionContext)_localctx).decl.getText():null)), ((QuestionContext)_localctx).typ.result, ((QuestionContext)_localctx).exp.result);
 				        
 				}
 				break;

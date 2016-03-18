@@ -23,17 +23,14 @@ public class FormEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,V
 
     private final Map<Var,Value> symbolTable;
     private final List<EvaluatedQuestion> evaluatedQuestions;
-    private final ExprEvaluator exprEvaluator;
 
     public FormEvaluator(Form f) {
-        this.exprEvaluator = new ExprEvaluator();
         this.evaluatedQuestions = new ArrayList<>();
         this.symbolTable = new SymbolTable(f, FXCollections.observableHashMap()).getSymbolTable();
         f.accept(this, this.symbolTable);
     }
 
     public FormEvaluator(Form f, Map<Var, Value> symbolTable) {
-        this.exprEvaluator = new ExprEvaluator();
         this.evaluatedQuestions = new ArrayList<>();
         this.symbolTable = new SymbolTable(f, symbolTable).getSymbolTable();
         f.accept(this, this.symbolTable);
@@ -53,7 +50,7 @@ public class FormEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,V
 
     @Override
     public Void visit(If stat, Map<Var, Value> symbolTable) {
-        Bool bool = (Bool) stat.getCond().accept(exprEvaluator, symbolTable);
+        Bool bool = (Bool) stat.getCond().accept(new ExprEvaluator<>(), symbolTable);
 
         if(bool.getValue() == null){
             return null;
@@ -68,7 +65,7 @@ public class FormEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,V
 
     @Override
     public Void visit(IfElse stat, Map<Var, Value> symbolTable) {
-        Bool bool = (Bool) stat.getCond().accept(exprEvaluator, symbolTable);
+        Bool bool = (Bool) stat.getCond().accept(new ExprEvaluator<>(), symbolTable);
 
         if(bool.getValue() == null){
             return null;
@@ -97,7 +94,7 @@ public class FormEvaluator<FORM,TYPE> extends BaseVisitor<FORM,Void,Value,TYPE,V
     }
 
     private EvaluatedQuestion genEvaluatedQuestion(Computed question){
-        Value value = (Value) question.getExpr().accept(exprEvaluator, symbolTable);
+        Value value = question.getExpr().accept(new ExprEvaluator<>(), symbolTable);
         return new EvaluatedQuestion(
                 question.getLabel(),
                 question.getVarname(),
