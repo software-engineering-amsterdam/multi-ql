@@ -13,6 +13,8 @@ public class WarningMessage extends Message {
 
     @Override
     public String toString() {
-        return "Warning: " + this.getMessage();
+        String line = "(" + getNode().getToken().getLine() + ":"
+                + getNode().getToken().getCharPositionInLine() + ")";
+        return line + " Warning: " + this.getMessage();
     }
 }

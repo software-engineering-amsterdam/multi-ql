@@ -44,7 +44,7 @@ public class EditorView {
         editorUI.add(editorField,0,0);
 
         TextArea logField = new TextArea();
-        logField.setDisable(true);
+        logField.setEditable(false);
         editorUI.add(logField,0,1);
 
         return editorUI;

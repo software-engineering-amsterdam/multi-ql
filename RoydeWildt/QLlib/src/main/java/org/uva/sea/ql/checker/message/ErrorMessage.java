@@ -13,7 +13,9 @@ public class ErrorMessage extends Message {
 
     @Override
     public String toString() {
-        return "Error: " + this.getMessage();
+        String line = "(" + getNode().getToken().getLine() + ":"
+                    + getNode().getToken().getCharPositionInLine() + ")";
+        return line + " Error: " + this.getMessage();
     }
 
 

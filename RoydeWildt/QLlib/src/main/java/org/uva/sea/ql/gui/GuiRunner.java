@@ -69,7 +69,7 @@ public class GuiRunner extends Application implements ObjectObserver {
             logField.setText(String.join("\n", messages));
         }
 
-        logField.setDisable(true);
+        logField.setEditable(false);
         editorPane.add(logField,0,1);
     }
 
