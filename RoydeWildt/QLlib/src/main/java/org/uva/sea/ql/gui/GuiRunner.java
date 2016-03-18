@@ -5,6 +5,7 @@ package org.uva.sea.ql.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -14,6 +15,7 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.checker.Checker;
 import org.uva.sea.ql.gui.observer.ObjectObserver;
 import org.uva.sea.ql.gui.observer.Observable;
+import org.uva.sea.ql.gui.observer.Position;
 import org.uva.sea.ql.gui.view.EditorView;
 import org.uva.sea.ql.gui.view.PreviewView;
 import org.uva.sea.ql.parser.QLRunner;
@@ -26,6 +28,7 @@ public class GuiRunner extends Application implements ObjectObserver {
     private Stage preview;
     private Stage editor;
     private Observable<String> editorText;
+    private Observable<Position> infoText;
 
     public static void main(String[] args) {
         launch(args);
@@ -48,8 +51,13 @@ public class GuiRunner extends Application implements ObjectObserver {
     public Stage EditorStage() {
 
         EditorView editor = new EditorView();
+
         editorText = editor.getObservableString();
         editorText.addObserver(this);
+
+        infoText = editor.getObservablePosition();
+        infoText.addObserver(this);
+
         Scene scene = new Scene(editor.getRootPane());
         scene.getStylesheets().add("customStylesheet.css");
         Stage stage = new Stage();
@@ -73,6 +81,21 @@ public class GuiRunner extends Application implements ObjectObserver {
         editorPane.add(logField,0,1);
     }
 
+    public void updateInfoView(Position position){
+
+        GridPane editorPane = (GridPane) editor.getScene().getRoot();
+        Label infoField = new Label();
+
+        if(position == null){
+            infoField.setText("");
+        }
+        else {
+            infoField.setText(position.positionString());
+        }
+
+        editorPane.add(infoField,0,2);
+    }
+
 
     @Override
     public void update() {
@@ -88,6 +111,7 @@ public class GuiRunner extends Application implements ObjectObserver {
                 preview.setScene(scene);
             }
 
+            updateInfoView(infoText.getValue());
             updateLogView(messages);
         }
 

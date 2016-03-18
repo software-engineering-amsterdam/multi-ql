@@ -2,11 +2,17 @@ package org.uva.sea.ql.gui.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import org.uva.sea.ql.gui.observer.Observable;
+import org.uva.sea.ql.gui.observer.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -14,11 +20,13 @@ import org.uva.sea.ql.gui.observer.Observable;
  */
 public class EditorView {
     private GridPane rootPane;
-    private Observable<String> observableString;
+    private final Observable<String> observableString;
+    private final Observable<Position> observablePosition;
 
     public EditorView() {
         this.rootPane = buildEditorView();
         this.observableString = new Observable<>();
+        this.observablePosition = new Observable<>();
     }
 
     private GridPane buildEditorView(){
@@ -33,9 +41,12 @@ public class EditorView {
         row1.setPrefHeight(300);
 
         RowConstraints row2 = new RowConstraints();
-        row2.setMinHeight(200);
+        row2.setMinHeight(180);
 
-        editorUI.getRowConstraints().addAll(row1, row2);
+        RowConstraints row3 = new RowConstraints();
+        row2.setMinHeight(20);
+
+        editorUI.getRowConstraints().addAll(row1, row2, row3);
 
         TextArea editorField = new TextArea();
         editorField.setWrapText(true);
@@ -47,11 +58,38 @@ public class EditorView {
         logField.setEditable(false);
         editorUI.add(logField,0,1);
 
+        Label infoField = new Label();
+        infoField.setText("(0,0)");
+        editorUI.add(infoField,0,2);
+
         return editorUI;
     }
 
     private void handleEditorFieldAction(TextArea f) {
+        observablePosition.setValue(getLineFromOffset(f));
         observableString.setValue(f.getText());
+    }
+
+    private Position getLineFromOffset(TextArea textArea){
+        String[] stringList = textArea.getText().split("\n");
+
+        int line = 0;
+        int currentOffset = 0;
+        int caretOffset = textArea.getCaretPosition();
+
+        for(String str : stringList){
+
+            currentOffset += str.length();
+
+            if(caretOffset < currentOffset + str.length()){
+                return new Position(line, caretOffset - currentOffset);
+            }
+
+            currentOffset += str.length();
+            line++;
+        }
+
+        return null;
     }
 
     public GridPane getRootPane() {
@@ -60,5 +98,9 @@ public class EditorView {
 
     public Observable<String> getObservableString() {
         return observableString;
+    }
+
+    public Observable<Position> getObservablePosition() {
+        return observablePosition;
     }
 }
