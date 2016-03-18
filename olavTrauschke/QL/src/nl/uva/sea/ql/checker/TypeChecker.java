@@ -9,7 +9,7 @@ import nl.uva.sea.ql.ast.question.*;
  * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 7-mar-2016
+ * @version 17-mar-2016
  */
 public class TypeChecker implements ASTVisitor {
     
@@ -260,20 +260,49 @@ public class TypeChecker implements ASTVisitor {
         Expr firstExpr = expression.getFirstExpr();
         Expr secondExpr = expression.getSecondExpr();
         if (!isNumeric(firstExpr) || !isNumeric(secondExpr)) {
-            errors.add(NUMERIC_OPERATOR_WITH_NON_NUMERIC_OPERAND_ERROR);
-            expression.setIsDecimal(true);
-            expression.setIsInt(true);
-            expression.setIsMoney(true);
+            handleNonNumericOperandOfNumericOperator(expression);
         }
         else if (isMoney(firstExpr) || isMoney(secondExpr)) {
             expression.setIsMoney(true);
         }
-        else if (isInt(firstExpr) && isInt(secondExpr)) {
-            expression.setIsInt(true);
-        }
-        else {
+        else if (isDecimal(firstExpr) && isDecimal(secondExpr)) {
             expression.setIsDecimal(true);
         }
+        else {
+            expression.setIsInt(true);
+        }
+    }
+    
+    /**
+     * Add an error if a <code>Division</code> containing a non-numeric value
+     * was found and set the type of the <code>Division</code>. Sets the
+     * <code>Division</code> to be decimal, integer and money
+     * when an error was added, to avoid unnecessary errors.
+     * 
+     * @param division the <code>Div</code> to check and set the type of
+     */
+    @Override
+    public void visit(Div division) {
+        Expr firstExpr = division.getFirstExpr();
+        Expr secondExpr = division.getSecondExpr();
+        if (!isNumeric(firstExpr) || !isNumeric(secondExpr)) {
+            handleNonNumericOperandOfNumericOperator(division);
+        }
+    }
+    
+    /**
+     * Add an error to signal a <code>BinaryNumericOperatorExpr</code> was found
+     * to have a non-numeric operand and set the <code>expression</code> to be
+     * decimal, int and money to avoid unnecessary errors.
+     * 
+     * @param expression the <code>BinaryNumericOperatorExpr</code> to set the
+     *                      type of to avoid unnecessary errors
+     */
+    private void handleNonNumericOperandOfNumericOperator(BinaryNumericOperatorExpr expression) {
+        errors.add(NUMERIC_OPERATOR_WITH_NON_NUMERIC_OPERAND_ERROR);
+        expression.setIsDecimal(true);
+        expression.setIsInt(true);
+        expression.setIsMoney(true);
     }
     
     /**

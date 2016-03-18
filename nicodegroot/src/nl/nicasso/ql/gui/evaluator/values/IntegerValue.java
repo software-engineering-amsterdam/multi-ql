@@ -1,6 +1,6 @@
 package nl.nicasso.ql.gui.evaluator.values;
 
-import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class IntegerValue extends Value {
 	
@@ -12,7 +12,6 @@ public class IntegerValue extends Value {
 	
 	@Override
 	public boolean equals(Object ob) {
-		System.out.println(ob.getClass());
 		IntegerValue value = (IntegerValue) ob;
 		return value.equals(value.getValue());
 	}
@@ -81,11 +80,11 @@ public class IntegerValue extends Value {
 	
 	@Override
 	public Value divisionToMoney(MoneyValue v) {
-		return new MoneyValue(v.getValue().divide(BigDecimal.valueOf(Double.parseDouble(Integer.toString(value)))));
+		return new MoneyValue(v.getValue().divide(MoneyValue.integerToBigDecimal(value), 2, RoundingMode.HALF_UP));
 	}
 	
 	@Override
 	public Value multiplicationToMoney(MoneyValue v) {
-		return new MoneyValue(v.getValue().multiply(BigDecimal.valueOf(Double.parseDouble(Integer.toString(value)))));
+		return new MoneyValue(v.getValue().multiply(MoneyValue.integerToBigDecimal(value)));
 	}
 }

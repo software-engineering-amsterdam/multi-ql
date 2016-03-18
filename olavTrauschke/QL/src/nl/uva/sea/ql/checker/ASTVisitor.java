@@ -13,7 +13,7 @@ import nl.uva.sea.ql.ast.question.*;
  * actually need to handle (in addition to just passing them in an AST).
  * 
  * @author Olav Trauschke
- * @version 3-mar-2016
+ * @version 17-mar-2016
  */
 public interface ASTVisitor {
     
@@ -46,6 +46,10 @@ public interface ASTVisitor {
     default void visit(Bool bool) {}
     
     default void visit(ComparisonExpr expression) {}
+    
+    default void visit(Div division) {
+        visit((BinaryNumericOperatorExpr) division);
+    }
     
     default void visit(Ident identifier) {}
     

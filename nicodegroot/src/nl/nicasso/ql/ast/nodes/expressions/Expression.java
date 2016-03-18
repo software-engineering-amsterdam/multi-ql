@@ -7,7 +7,7 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public abstract class Expression extends ASTNode {
 
-	protected Type currentType;
+	private Type currentType;
 	
 	public Expression(CodeLocation location) {
 		super(location);

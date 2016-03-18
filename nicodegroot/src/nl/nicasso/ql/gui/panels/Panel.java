@@ -26,7 +26,7 @@ public abstract class Panel {
 	}
 	
 	protected void addQuestionLabel(Question q) {
-		Label questionLabel = new Label("CQ: "+q.getLabel());
+		Label questionLabel = new Label(q.getLabel());
 		questionLabel.setFont(new Font("Arial", 0, 100));
 		panel.add(questionLabel.getWidget());
 	}
@@ -43,25 +43,16 @@ public abstract class Panel {
 	protected void addQuestionField(Question q, QuestionField field, Value value) {
 		this.field = field;
 		
-		field.setValue(value.getValue());
+		field.setValue(value);
 		panel.add(field.getField());
 	}
 	
-	public boolean update() {
-		boolean updated = false;
-		
-		// Visibility
+	public boolean update() {	
 		Evaluator evaluator = new Evaluator(stateTable);
 		Value visibility = condition.accept(evaluator);
-		
-		if (panel.isVisible() != (Boolean) visibility.getValue()) {
-			//updated = true;
-		}
-		
-		//System.out.println("VISIBILITY: "+visibility.getValue());
 		setVisible((Boolean) visibility.getValue());
 		
-		return updated;
+		return false;
 	}
 	
 }

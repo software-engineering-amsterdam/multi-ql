@@ -6,7 +6,7 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a string value.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 17-mar-2016
  */
 public class StringValue extends Value {
     
@@ -49,6 +49,23 @@ public class StringValue extends Value {
         else {
             return new BooleanValue(false);
         }
+    }
+    
+    /**
+     * Concatenate another <code>StringValue</code> to this one.
+     * 
+     * @param other a <code>StringValue</code> to concatenate to this one
+     * @return a <code>StringValue</code> representing an unkonwn value if
+     *          <code>this StringValue</code> or <code>other</code> represents
+     *          an uknown value and the result of concatenating <code>other</code>
+     *          to <code>this StringValue</code> otherwise
+     */
+    public StringValue concat(StringValue other) {
+        if (value == null || other.value == null) {
+            return new StringValue(null);
+        }
+        String result = value + other.value;
+        return new StringValue(result);
     }
     
 }

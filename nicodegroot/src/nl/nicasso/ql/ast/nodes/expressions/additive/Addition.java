@@ -30,7 +30,7 @@ public class Addition extends Additive {
 	
 	@Override
 	public String toString() {
-		return left.toString() + "+" + right.toString();
+		return left + "+" + right;
 	}
 	
 }
