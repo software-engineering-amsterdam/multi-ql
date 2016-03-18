@@ -1,29 +1,29 @@
 package nl.nicasso.ql.ast.nodes.literals;
 
 import nl.nicasso.ql.ast.nodes.CodeLocation;
-import nl.nicasso.ql.ast.nodes.types.StringType;
+import nl.nicasso.ql.ast.nodes.types.IntegerType;
 import nl.nicasso.ql.ast.nodes.types.Type;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
-public class StringLit extends Literal {
+public class IntegerLiteral extends Literal {
 
 	private final Type type;
-	private final String lit;
+	private final Integer lit;
 
-	public StringLit(String lit) {
+	public IntegerLiteral(Integer lit) {
 		super(null);
 		this.lit = lit;
-		this.type = new StringType();
+		this.type = new IntegerType();
 	}
 	
-	public StringLit(String lit, CodeLocation location) {
+	public IntegerLiteral(Integer lit, CodeLocation location) {
 		super(location);
 		this.lit = lit;
-		this.type = new StringType(location);
+		this.type = new IntegerType(location);
 	}
 
 	@Override
-	public String getValue() {
+	public Integer getValue() {
 		return lit;
 	}
 	
@@ -38,10 +38,10 @@ public class StringLit extends Literal {
 	
 	@Override
 	public boolean equals(Object ob) {
-		if (!(ob instanceof StringLit)) {
+		if (!(ob instanceof IntegerLiteral)) {
 			return false;
 		}
-		StringLit lit2 = (StringLit) ob;
+		IntegerLiteral lit2 = (IntegerLiteral) ob;
 		return lit.equals(lit2.getValue());
 	}
 	
@@ -49,5 +49,5 @@ public class StringLit extends Literal {
 	public int hashCode(){
 	    return lit.hashCode();
     }
-	
+
 }

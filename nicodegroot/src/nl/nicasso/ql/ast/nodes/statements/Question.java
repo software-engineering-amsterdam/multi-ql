@@ -7,19 +7,19 @@ import nl.nicasso.ql.visitors.StatementVisitor;
 
 public class Question extends Statement {
 
-	private final Identifier id;
+	private final Identifier identifier;
 	private final String label;
 	private final Type type;
 
-	public Question(Identifier id, String label, Type type, CodeLocation location) {
+	public Question(Identifier identifier, String label, Type type, CodeLocation location) {
 		super(location);
-		this.id = id;
+		this.identifier = identifier;
 		this.label = label;
 		this.type = type;
 	}
 
-	public Identifier getId() {
-		return id;
+	public Identifier getIdentifier() {
+		return identifier;
 	}
 
 	public String getLabel() {
@@ -41,12 +41,12 @@ public class Question extends Statement {
 			return false;
 		}
 		Question q2 = (ComputedQuestion) ob;
-		return id.equals(q2.getId());
+		return identifier.equals(q2.getIdentifier());
 	}
 	
 	@Override
 	public int hashCode(){
-	    return id.hashCode();
+	    return identifier.hashCode();
     }
 		
 }

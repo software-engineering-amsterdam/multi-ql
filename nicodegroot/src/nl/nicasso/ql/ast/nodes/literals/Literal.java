@@ -6,7 +6,7 @@ import nl.nicasso.ql.ast.nodes.types.Type;
 
 public abstract class Literal extends Expression {
 
-	Type type;
+	private Type type;
 	
 	public Literal(CodeLocation location) {
 		super(location);

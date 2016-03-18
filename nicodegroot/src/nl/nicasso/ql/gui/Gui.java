@@ -5,7 +5,7 @@ import java.util.List;
 
 import nl.nicasso.ql.ast.nodes.expressions.Expression;
 import nl.nicasso.ql.ast.nodes.expressions.conditional.Not;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
 import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
 import nl.nicasso.ql.ast.nodes.statements.IfElseStatement;
 import nl.nicasso.ql.ast.nodes.statements.IfStatement;
@@ -49,7 +49,7 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 			System.out.println("Form");
 		}
 
-		List<Panel> blockPanel = value.getBlock().accept(this, new BooleanLit(true));
+		List<Panel> blockPanel = value.getBlock().accept(this, new BooleanLiteral(true));
 		
 		for (Panel p : blockPanel) {
 			main.addPanel(p);
@@ -82,11 +82,10 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 	@Override
 	public List<Panel> visit(Question question, Expression expr) {
 		if (debug) {
-			System.out.println("Question: "+question.getId().getValue());
+			System.out.println("Question: "+question.getIdentifier().getIdentifier());
 		}
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, true, question.getType().getDefaultValue());
-		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
+		QuestionField field = question.getType().accept(this, new QuestionFieldParameter(question.getIdentifier(), main, true, question.getType().getDefaultValue()));
 		
 		QuestionPanel qp = new QuestionPanel(question, field, expr, stateTable);
 		
@@ -99,14 +98,14 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 	@Override
 	public List<Panel> visit(ComputedQuestion question, Expression expr) {
 		if (debug) {
-			System.out.println("ComputedQuestion: "+question.getId().getValue());
+			System.out.println("ComputedQuestion: "+question.getIdentifier().getIdentifier());
 		}
 		
-		Value value = stateTable.getEntryValue(question.getId());
+		Value value = stateTable.getEntryValue(question.getIdentifier());
 		
 		System.out.println("VALUE CQ: "+value.getValue());
 		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getId(), main, false, value);
+		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getIdentifier(), main, false, value);
 		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
 		
 		ComputedQuestionPanel qp = new ComputedQuestionPanel(question, field, value, expr, stateTable, main);

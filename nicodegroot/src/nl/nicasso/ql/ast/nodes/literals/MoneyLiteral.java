@@ -7,18 +7,18 @@ import nl.nicasso.ql.ast.nodes.types.MoneyType;
 import nl.nicasso.ql.ast.nodes.types.Type;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
-public class MoneyLit extends Literal {
+public class MoneyLiteral extends Literal {
 
 	private final Type type;
 	private final BigDecimal value;
 	
-	public MoneyLit(BigDecimal value) {
+	public MoneyLiteral(BigDecimal value) {
 		super(null);
 		this.type = new MoneyType();
 		this.value = value;
 	}
 	
-	public MoneyLit(BigDecimal value, CodeLocation location) {
+	public MoneyLiteral(BigDecimal value, CodeLocation location) {
 		super(location);
 		this.type = new MoneyType(location);
 		this.value = value;
@@ -40,10 +40,10 @@ public class MoneyLit extends Literal {
 	
 	@Override
 	public boolean equals(Object ob) {
-		if (!(ob instanceof MoneyLit)) {
+		if (!(ob instanceof MoneyLiteral)) {
 			return false;
 		}
-		MoneyLit lit = (MoneyLit) ob;
+		MoneyLiteral lit = (MoneyLiteral) ob;
 		return value.equals(lit.getValue());
 	}
 	

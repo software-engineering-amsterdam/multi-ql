@@ -17,7 +17,6 @@ import nl.nicasso.ql.gui.evaluator.stateTable.StateTableEntry;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.Panel;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.Message;
-import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.Error;
 
 public class MainFrame implements Observer {
 

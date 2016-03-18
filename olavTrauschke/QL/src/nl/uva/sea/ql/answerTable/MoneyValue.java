@@ -180,6 +180,67 @@ public class MoneyValue extends NumericValue {
     }
     
     /**
+     * Add a specified <code>NumericValue</code> to <code>this MoneyValue</code>.
+     * 
+     * @param other a <code>NumericValue</code> to add to
+     *              <code>this MoneyValue</code>
+     * @return a <code>MoneyValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    public MoneyValue add(NumericValue other) {
+        return other.add(this);
+    }
+    
+    /**
+     * Add a specified <code>DecimalValue</code> to <code>this MoneyValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to add to <code>this MoneyValue</code>
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkonwn value or the result of adding <code>other</code> to
+     *          <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue add(DecimalValue other) {
+        return add(other.castMoney());
+    }
+    
+    /**
+     * Add a specified <code>IntValue</code> to <code>this MoneyValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to add to <code>this MoneyValue</code>
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkonwn value or the result of adding <code>other</code> to
+     *          <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue add(IntValue other) {
+        return add(other.castMoney());
+    }
+    
+    /**
+     * Add a specified <code>MoneyValue</code> to this one.
+     * 
+     * @param other a <code>MoneyValue</code> to add to this one
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkonwn value or the result of adding <code>other</code> to
+     *          <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue add(MoneyValue other) {
+        if (value == null || other.value == null) {
+            return new MoneyValue(null);
+        }
+        BigDecimal result = value.add(other.value);
+        return new MoneyValue(result.toString());
+    }
+    
+    /**
      * Multiply <code>this MoneyValue</code> by a specified
      * <code>MoneyValue</code>. Dispatches to a more specific case.
      * 
@@ -192,7 +253,7 @@ public class MoneyValue extends NumericValue {
      */
     @Override
     public MoneyValue multiply(NumericValue other) {
-        return other.multiply(this);
+        return other.multiply(this); //double dispatch to a more specific case
     }
     
     /**
@@ -258,7 +319,7 @@ public class MoneyValue extends NumericValue {
      */
     @Override
     public NumericValue divide(NumericValue other) {
-        return other.inverseDivide(this);
+        return other.inverseDivide(this); //double dispatch to a more specific case
     }
     
     /**
@@ -271,9 +332,10 @@ public class MoneyValue extends NumericValue {
      *          an unknown value or the result of dividing
      *          <code>this MoneyValue</code> by <code>other</code> otherwise
      */
-    protected DecimalValue divide(DecimalValue other) {
+    protected MoneyValue divide(DecimalValue other) {
         DecimalValue decimalValue = castDecimal();
-        return other.inverseDivide(decimalValue);
+        DecimalValue result = other.inverseDivide(decimalValue);
+        return result.castMoney();
     }
     
     /**
