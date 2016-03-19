@@ -1,10 +1,10 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.answerTable.StringValue;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of (literals of) the type string in an AST.

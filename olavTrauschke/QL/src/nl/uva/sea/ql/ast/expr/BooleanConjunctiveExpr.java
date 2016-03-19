@@ -1,6 +1,6 @@
 package nl.uva.sea.ql.ast.expr;
 
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.ASTVisitor;
 
 /**
  * Representation of a conjunction or disjunction of booleans in an AST.

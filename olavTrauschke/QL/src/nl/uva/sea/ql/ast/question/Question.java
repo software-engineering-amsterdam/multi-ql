@@ -1,10 +1,10 @@
 package nl.uva.sea.ql.ast.question;
 
 import java.util.Objects;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.*;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s in an AST.

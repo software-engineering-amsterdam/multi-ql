@@ -1,9 +1,9 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of the + operator in an AST, that can either mean addition or

@@ -1,8 +1,8 @@
 package nl.uva.sea.ql.ast;
 
 import java.util.Objects;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.expr.Expr;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>ConditionalStatement</code>s in an AST.

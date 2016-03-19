@@ -2,7 +2,7 @@ package nl.uva.sea.ql.ast;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.ASTVisitor;
 
 /**
  * Representation of the contents of a block in an AST.

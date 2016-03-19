@@ -1,4 +1,4 @@
-package nl.uva.sea.ql.checker;
+package nl.uva.sea.ql;
 
 import nl.uva.sea.ql.ast.question.*;
 

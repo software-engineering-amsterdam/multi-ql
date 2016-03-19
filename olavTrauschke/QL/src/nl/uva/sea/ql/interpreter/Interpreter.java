@@ -1,5 +1,6 @@
-package nl.uva.sea.ql;
+package nl.uva.sea.ql.interpreter;
 
+import nl.uva.sea.ql.QuestionIdentCollector;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.answerTable.AnswerTable;
@@ -8,7 +9,7 @@ import nl.uva.sea.ql.answerTable.AnswerTable;
  * Class for interpretating ast's.
  * 
  * @author Olav Trauschke
- * @version 10-mar-2016
+ * @version 19-mar-2016
  */
 public class Interpreter {
     
@@ -25,6 +26,10 @@ public class Interpreter {
         form.accept(identCollector);
         Iterable<Ident> identifiers = identCollector.obtainIdentifiers();
         symbolTable = new AnswerTable(identifiers);
+        /*TODO create GeneralizedASTVisitor that keeps track of dependencies in
+        ConditionalStatements and have it visit form top-down to create objects
+        for all Questions, then have it return these objects. Make these objects
+        observe the AnswerTable*/
         //TODO create GUI
     }
     

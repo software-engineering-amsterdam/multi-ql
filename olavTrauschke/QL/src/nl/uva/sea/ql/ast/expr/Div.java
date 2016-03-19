@@ -1,8 +1,8 @@
 package nl.uva.sea.ql.ast.expr;
 
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.answerTable.NumericValue;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of division in an AST.
