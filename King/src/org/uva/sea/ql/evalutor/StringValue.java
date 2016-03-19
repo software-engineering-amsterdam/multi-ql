@@ -8,7 +8,8 @@ public class StringValue extends Value {
 		this.string = string;
 	}
 	
-	public String getValue(){
+	@Override
+	public String getStringValue(){
 		return this.string;
 	}
 

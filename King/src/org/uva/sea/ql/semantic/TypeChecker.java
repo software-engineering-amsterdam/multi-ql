@@ -16,6 +16,9 @@ import org.uva.sea.ql.ast.expr.type.*;
 import org.uva.sea.ql.ast.expr.unary.*;
 import org.uva.sea.ql.ast.visitors.QLDomainVisitor;
 import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
+import org.uva.sea.ql.gui.QLControllerNew;
+import org.uva.sea.ql.gui.QLView;
+//import org.uva.sea.ql.gui.QLController;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.antlr.QLParser.FileContext;
@@ -354,7 +357,12 @@ public class TypeChecker implements QLNodeVisitor<Type>,QLDomainVisitor {
 	    Form ast = fileContext.form(0).result;
 	    TypeChecker typeChecker = new TypeChecker(ast);
 	    typeChecker.messages.print();
-		
+		/*QLController qc = new QLController(ast);
+		qc.showQL();*/
+	    QLView qLView = new QLView();
+	    QLControllerNew qcn = new QLControllerNew(ast, qLView);
+	    qLView.addQLSelectedQuesionListener(qcn);
+	    qLView.showQL();
 	}
 	
 

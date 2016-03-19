@@ -8,7 +8,8 @@ public class IntegerValue extends Value {
 		this.value = integer;
 	}
 	
-	public int getValue(){
+	@Override
+	public Integer getIntegerValue(){
 		return this.value;
 	}
 
@@ -34,7 +35,7 @@ public class IntegerValue extends Value {
 
 	@Override
 	public Value addMoney(MoneyValue money) {
-		return new MoneyValue(money.getValue().plus(this.value, RoundingMode.DOWN));
+		return new MoneyValue(money.getMoneyValue().plus(this.value, RoundingMode.DOWN));
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class IntegerValue extends Value {
 
 	@Override
 	public Value subMoney(MoneyValue money) {
-		return new MoneyValue(money.getValue().minus(this.value));
+		return new MoneyValue(money.getMoneyValue().minus(this.value));
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class IntegerValue extends Value {
 
 	@Override
 	public Value divMoney(MoneyValue money) {
-		return new MoneyValue(money.getValue().dividedBy(this.value, RoundingMode.DOWN));
+		return new MoneyValue(money.getMoneyValue().dividedBy(this.value, RoundingMode.DOWN));
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class IntegerValue extends Value {
 	
 	@Override
 	public Value mulMoney(MoneyValue money) {
-		return new MoneyValue(money.getValue().multipliedBy(this.value));
+		return new MoneyValue(money.getMoneyValue().multipliedBy(this.value));
 	}
 
 	@Override

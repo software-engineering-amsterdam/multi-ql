@@ -1,6 +1,23 @@
 package org.uva.sea.ql.evalutor;
 
+import org.joda.money.Money;
+
 public abstract class Value {
+	
+	public Money getMoneyValue() {
+		throw new UnsupportedOperationException();
+	}
+	
+	public String getStringValue() {
+		throw new UnsupportedOperationException();
+	}
+	public Integer getIntegerValue() {
+		throw new UnsupportedOperationException();
+	}
+	
+	public Boolean getBooleanValue() {
+		throw new UnsupportedOperationException();
+	}
 	
 	public Value not() {
 		throw new UnsupportedOperationException();

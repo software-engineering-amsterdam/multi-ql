@@ -8,7 +8,8 @@ public class BooleanValue extends Value{
 		this.value = value;
 	}
 
-	public boolean getValue() {
+	@Override
+	public Boolean getBooleanValue() {
 		return this.value;
 	}
 
@@ -47,7 +48,10 @@ public class BooleanValue extends Value{
 		return new BooleanValue(bool.value == this.value);
 	}
 	
-
+@Override
+public String toString() {
+	return "[ "+value+" ]";
+}
 
 
 }

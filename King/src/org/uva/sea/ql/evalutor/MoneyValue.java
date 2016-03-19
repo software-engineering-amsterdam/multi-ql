@@ -9,7 +9,8 @@ public class MoneyValue extends Value {
 		this.value = money;
 	}
 	
-	public Money getValue(){
+	@Override
+	public Money getMoneyValue(){
 		return this.value;
 	}
 	
@@ -106,7 +107,10 @@ public class MoneyValue extends Value {
 	}
 	
 	
-	
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 	
 	
 	

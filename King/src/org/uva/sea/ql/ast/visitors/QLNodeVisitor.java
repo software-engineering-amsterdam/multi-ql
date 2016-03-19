@@ -2,7 +2,6 @@ package org.uva.sea.ql.ast.visitors;
 
 import org.uva.sea.ql.ast.expr.VarExpr;
 import org.uva.sea.ql.ast.expr.binary.AND;
-import org.uva.sea.ql.ast.expr.binary.BinaryExpression;
 import org.uva.sea.ql.ast.expr.binary.Equal;
 import org.uva.sea.ql.ast.expr.binary.GreaterOrEqual;
 import org.uva.sea.ql.ast.expr.binary.GreaterThan;
@@ -21,7 +20,6 @@ import org.uva.sea.ql.ast.expr.math.Sub;
 import org.uva.sea.ql.ast.expr.unary.NOT;
 import org.uva.sea.ql.ast.expr.unary.Negative;
 import org.uva.sea.ql.ast.expr.unary.Positive;
-import org.uva.sea.ql.ast.expr.unary.UnaryExpression;
 
 public interface QLNodeVisitor<T> {
 	
