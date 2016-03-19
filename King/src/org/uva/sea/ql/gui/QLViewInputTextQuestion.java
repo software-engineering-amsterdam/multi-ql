@@ -22,9 +22,7 @@ public class QLViewInputTextQuestion extends JPanel{
 	}
 	
 	public void lockQLViewInputTextQuestion() {
-		if(this.editable){
-			qLQuestionTextFeild.setEnabled(false);
-		}
+			qLQuestionTextFeild.getQlComponent().setEditable(false);
 	}
 
 	public boolean isEditable() {

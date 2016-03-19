@@ -3,6 +3,10 @@ package org.uva.sea.ql.gui;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,16 +14,20 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentListener;
 
-import org.uva.sea.ql.gui.widget.QLRadioButton;
 
-public class QLView extends JFrame implements ItemListener {
+public class QLView extends JFrame implements ItemListener, KeyListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6108360954460035261L;
 	private JFrame viewFrame;
-	private List<QLSelectedQuesionListener> listeners = new ArrayList<QLSelectedQuesionListener>();
+	private List<QLSelectedQuesionListener> radioBtnListeners = new ArrayList<QLSelectedQuesionListener>();
+	private List<QLTextFeildQuesionListener> textInputListeners = new ArrayList<QLTextFeildQuesionListener>();
 	private JPanel block;
 	public QLView(){
 		block = new JPanel();
@@ -45,6 +53,7 @@ public class QLView extends JFrame implements ItemListener {
 			textQuestionView.lockQLViewInputTextQuestion();
 		}
 		JPanel blockInner = new JPanel();
+		textQuestionView.getqLQuestionTextFeild().getQlComponent().addKeyListener(this);;
 		blockInner.add(textQuestionView.getqLQuestionText().getQlComponent());
 		blockInner.add(textQuestionView.getqLQuestionTextFeild().getQlComponent());
 		
@@ -68,7 +77,7 @@ public class QLView extends JFrame implements ItemListener {
 	
 
 	public void addQLSelectedQuesionListener(QLSelectedQuesionListener listener) {
-		listeners.add(listener);
+		radioBtnListeners.add(listener);
 		
 	}
 
@@ -89,11 +98,50 @@ public class QLView extends JFrame implements ItemListener {
 
 
 	private void fireQLSelectedQuestion(JRadioButton btn, boolean isSelected) {
-		if(!listeners.isEmpty()){
-			for (QLSelectedQuesionListener qlSelectedQuesionListener : listeners) {
+		if(!radioBtnListeners.isEmpty()){
+			for (QLSelectedQuesionListener qlSelectedQuesionListener : radioBtnListeners) {
 				qlSelectedQuesionListener.QLQuesionSelected(btn,isSelected);
 			}
 		}
 	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		JTextField textField = (JTextField) e.getSource();
+        fireQLTextInputQuestion(textField);
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void addQLTextFeildQuesionListener(QLTextFeildQuesionListener textInputListener) {
+		textInputListeners.add(textInputListener);
+		
+	}
+	
+	private void fireQLTextInputQuestion(JTextField text) {
+		if(!textInputListeners.isEmpty()){
+			for (QLTextFeildQuesionListener qLTextFeildQuesionListener : textInputListeners) {
+				qLTextFeildQuesionListener.QLQuesionTextFeildInput(text);
+			}
+		}
+	}
+
+
+
 
 }

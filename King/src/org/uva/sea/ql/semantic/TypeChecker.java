@@ -362,6 +362,7 @@ public class TypeChecker implements QLNodeVisitor<Type>,QLDomainVisitor {
 	    QLView qLView = new QLView();
 	    QLControllerNew qcn = new QLControllerNew(ast, qLView);
 	    qLView.addQLSelectedQuesionListener(qcn);
+	    qLView.addQLTextFeildQuesionListener(qcn);
 	    qLView.showQL();
 	}
 	

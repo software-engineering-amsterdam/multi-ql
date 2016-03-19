@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 import org.joda.money.Money;
 import org.uva.sea.ql.ast.domain.Block;
@@ -46,7 +47,7 @@ import org.uva.sea.ql.gui.widget.QLQuestionText;
 import org.uva.sea.ql.gui.widget.QLQuestionTextFeild;
 import org.uva.sea.ql.gui.widget.QLRadioButton;
 
-public class QLControllerNew implements QLNodeVisitor<Value>,QLDomainVisitor, QLSelectedQuesionListener {
+public class QLControllerNew implements QLNodeVisitor<Value>,QLDomainVisitor, QLSelectedQuesionListener,QLTextFeildQuesionListener {
 	private QLView qLView;
 	private Map<String, Value> identifierValues;
 	private Map<String, Value> identifierValuesCopy;
@@ -63,7 +64,6 @@ public class QLControllerNew implements QLNodeVisitor<Value>,QLDomainVisitor, QL
 
 	@Override
 	public void visit(Form form) {
-		//isInCondition = false;
 		form.getBody().accept(this);
 		
 	}
@@ -116,9 +116,13 @@ public class QLControllerNew implements QLNodeVisitor<Value>,QLDomainVisitor, QL
 				
 				addValue(identifier,new BooleanValue(btnState));
 			}else{
-				QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(text), new QLQuestionTextFeild(identifier), true);
+				Value currentVal = new MoneyValue(Money.parse("USD 0.00"));
+				if(identifierValuesCopy.containsKey(identifier)){
+					currentVal = identifierValuesCopy.get(identifier);
+				}
+				QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(text), new QLQuestionTextFeild(identifier,currentVal.getMoneyValue().toString()), true);
 				qLView.addQuestionView(qLViewInputTextQuestion);
-				addValue(identifier,new MoneyValue(Money.parse("USD 0.00")));
+				addValue(identifier,currentVal);
 			}
 		}
 			
@@ -131,7 +135,7 @@ public class QLControllerNew implements QLNodeVisitor<Value>,QLDomainVisitor, QL
 		if(!this.questionAlreadyInView(identifier)){
 			Value computed = readOnlyQuestion.getExpression().accept(this);
 			addValue(identifier,computed);
-			QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(text), new QLQuestionTextFeild(identifier), false);
+			QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(text), new QLQuestionTextFeild(identifier,computed.getMoneyValue().toString()), false);
 			qLView.addQuestionView(qLViewInputTextQuestion);
 		}
 		
@@ -302,6 +306,25 @@ public class QLControllerNew implements QLNodeVisitor<Value>,QLDomainVisitor, QL
 	        	qLView.showQL();
         	}
 		}
+		
+	}
+
+	@Override
+	public void QLQuesionTextFeildInput(JTextField textInput) {
+		System.out.println(textInput.getText());
+		Value inputVal = new MoneyValue(Money.parse(textInput.getText()));
+		addValue(textInput.getName(), inputVal);
+		System.out.println(identifierValues);
+    		qLView.cleanQLView();
+    		if(!identifierValues.isEmpty()){
+    			identifierValuesCopy.clear();
+    			identifierValuesCopy = new HashMap<>(identifierValues);
+    		}
+    		this.identifierValues.clear();
+    		
+    		form.accept(this);
+        	qLView.showQL();
+    	
 		
 	}
 
