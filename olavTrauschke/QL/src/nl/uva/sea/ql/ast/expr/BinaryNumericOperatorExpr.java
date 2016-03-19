@@ -9,7 +9,7 @@ import nl.uva.sea.ql.checker.ASTVisitor;
  * and have two arguments in an AST.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 19-mar-2016
  */
 public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
@@ -123,36 +123,27 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     }
     
     /**
-     * Set whether <code>this BinaryNumericOperatorExpr</code> represents a
+     * Set <code>this BinaryNumericOperatorExpr</code> to represent a
      * decimal value.
-     * 
-     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
-     *                  represents a decimal value
      */
-    public void setIsDecimal(boolean newValue) {
-        isDecimal = newValue;
+    public void setIsDecimal() {
+        isDecimal = true;
     }
     
     /**
-     * Set whether <code>this BinaryNumericOperatorExpr</code> represents an int
+     * Set <code>this BinaryNumericOperatorExpr</code> to represent an int
      * value.
-     * 
-     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
-     *                  represents an integer value
      */
-    public void setIsInt(boolean newValue) {
-        isInt = newValue;
+    public void setIsInt() {
+        isInt = true;
     }
     
     /**
-     * Set whether <code>this BinaryNumericOperatorExpr</code> represents a money
+     * Set <code>this BinaryNumericOperatorExpr</code> to represent a money
      * value.
-     * 
-     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
-     *                  reprsents a money value
      */
-    public void setIsMoney(boolean newValue) {
-        isMoney = newValue;
+    public void setIsMoney() {
+        isMoney = true;
     }
     
     /**
