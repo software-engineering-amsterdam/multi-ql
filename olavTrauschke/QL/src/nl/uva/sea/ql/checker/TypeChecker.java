@@ -288,6 +288,17 @@ public class TypeChecker implements ASTVisitor {
         if (!isNumeric(firstExpr) || !isNumeric(secondExpr)) {
             handleNonNumericOperandOfNumericOperator(division);
         }
+        else if (isMoney(firstExpr)) {
+            if (isMoney(secondExpr)) {
+                division.setIsDecimal();
+            }
+            else {
+                division.setIsMoney();
+            }
+        }
+        else {
+            division.setIsDecimal();
+        }
     }
     
     /**
