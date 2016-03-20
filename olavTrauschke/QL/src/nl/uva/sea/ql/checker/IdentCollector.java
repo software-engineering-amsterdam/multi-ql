@@ -2,6 +2,7 @@ package nl.uva.sea.ql.checker;
 
 import java.util.HashSet;
 import java.util.Set;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.expr.Ident;
 
 /**

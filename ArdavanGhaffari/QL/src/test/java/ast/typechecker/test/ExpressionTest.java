@@ -1,24 +1,26 @@
 package ast.typechecker.test;
 
+import java.math.BigDecimal;
+
+import nl.uva.ql.ast.expression.Expression;
+import nl.uva.ql.ast.expression.binaryexpression.Addition;
+import nl.uva.ql.ast.expression.binaryexpression.Division;
+import nl.uva.ql.ast.expression.binaryexpression.Equal;
+import nl.uva.ql.ast.expression.binaryexpression.GreaterThan;
+import nl.uva.ql.ast.expression.binaryexpression.LessThan;
+import nl.uva.ql.ast.expression.binaryexpression.Multiplication;
+import nl.uva.ql.ast.expression.binaryexpression.Subtraction;
+import nl.uva.ql.ast.expression.unaryexpression.Negation;
+import nl.uva.ql.ast.literal.BooleanLiteral;
+import nl.uva.ql.ast.literal.IntegerLiteral;
+import nl.uva.ql.ast.literal.MoneyLiteral;
+import nl.uva.ql.ast.literal.StringLiteral;
+import nl.uva.ql.ast.type.Type;
+import nl.uva.ql.typechecker.TypeChecker;
+import nl.uva.ql.typechecker.errorhandler.ErrorHandler;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import ast.model.Expression;
-import ast.model.binaryexpression.Addition;
-import ast.model.binaryexpression.Division;
-import ast.model.binaryexpression.Equal;
-import ast.model.binaryexpression.GreaterThan;
-import ast.model.binaryexpression.LessThan;
-import ast.model.binaryexpression.Multiplication;
-import ast.model.binaryexpression.Subtraction;
-import ast.model.literal.BooleanLiteral;
-import ast.model.literal.DecimalLiteral;
-import ast.model.literal.IntegerLiteral;
-import ast.model.literal.StringLiteral;
-import ast.model.type.Type;
-import ast.model.unaryexpression.Negation;
-import ast.typechecker.TypeChecker;
-import ast.typechecker.errorhandler.ErrorHandler;
 
 public class ExpressionTest {
 	ErrorHandler errorHandler = new ErrorHandler();
@@ -50,13 +52,13 @@ public class ExpressionTest {
 	}
 	
 	@Test
-	public void testBinaryMathExpressionTypeDecimal() {
-		Expression leftExpr = new Subtraction(new DecimalLiteral(2.3, 2), new IntegerLiteral(2, 2), 2);
+	public void testBinaryMathExpressionTypeMoney() {
+		Expression leftExpr = new Subtraction(new MoneyLiteral(new BigDecimal(2.3), 2), new IntegerLiteral(2, 2), 2);
 		Expression rightExpr = new Multiplication(new IntegerLiteral(6, 2), new IntegerLiteral(5, 2), 2);
 		Addition addition = new Addition(leftExpr, rightExpr, 2);
 		
 		Type type = typeChecker.visit(addition);
-		Assert.assertEquals(type.getName(), "Decimal");
+		Assert.assertEquals(type.getName(), "Money");
 	}
 	
 	@Test
@@ -73,7 +75,7 @@ public class ExpressionTest {
 		Equal equal = new Equal(new StringLiteral("test string", 2), new StringLiteral("test string2", 2), 2);
 		Assert.assertEquals(typeChecker.visit(equal).getName(), "Boolean");
 		
-		equal = new Equal(new IntegerLiteral(100, 2), new DecimalLiteral(90.99, 2), 2);
+		equal = new Equal(new IntegerLiteral(100, 2), new MoneyLiteral(new BigDecimal(90.99), 2), 2);
 		Assert.assertEquals(typeChecker.visit(equal).getName(), "Boolean");
 		
 		equal = new Equal(new BooleanLiteral(true, 2), new BooleanLiteral(false, 2), 2);
@@ -91,7 +93,7 @@ public class ExpressionTest {
 	
 	@Test
 	public void testComparisonOperationValidOperands() {
-		LessThan lessThan = new LessThan(new IntegerLiteral(100, 2), new DecimalLiteral(2.89, 2), 2);
+		LessThan lessThan = new LessThan(new IntegerLiteral(100, 2), new MoneyLiteral(new BigDecimal(2.89), 2), 2);
 		Assert.assertEquals(typeChecker.visit(lessThan).getName(), "Boolean");
 	}
 	

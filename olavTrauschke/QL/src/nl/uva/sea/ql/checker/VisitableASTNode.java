@@ -1,5 +1,7 @@
 package nl.uva.sea.ql.checker;
 
+import nl.uva.sea.ql.ASTVisitor;
+
 /**
  * Interface declaring that objects of a class can accept <code>ASTVisitor</code>s.
  * This interface implements the visitor-pattern together with

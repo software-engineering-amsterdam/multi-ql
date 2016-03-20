@@ -2,11 +2,12 @@ package nl.uva.sea.ql;
 
 import java.io.*;
 import java.util.*;
+import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.*;
-import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.interpreter.Interpreter;
 import nl.uva.sea.ql.parser.ParserWrapper;
 
 /**

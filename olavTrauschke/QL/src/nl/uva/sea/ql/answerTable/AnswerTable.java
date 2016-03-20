@@ -1,7 +1,6 @@
 package nl.uva.sea.ql.answerTable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import nl.uva.sea.ql.ast.expr.Ident;
 
 /**
@@ -9,9 +8,9 @@ import nl.uva.sea.ql.ast.expr.Ident;
  * <code>Ident</code>s to <code>Value</code>s.
  * 
  * @author Olav Trauschke
- * @version 10-mar-2016
+ * @version 19-mar-2016
  */
-public class AnswerTable {
+public class AnswerTable extends Observable {
     
     private final Map<Ident,Value> answerTable;
     
@@ -40,6 +39,8 @@ public class AnswerTable {
     public void update(Ident identifier, Value newValue) {
         assert answerTable.containsKey(identifier);
         answerTable.put(identifier, newValue);
+        setChanged();
+        notifyObservers();
     }
     
     /**
