@@ -14,7 +14,6 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.evaluator.FormEvaluator;
 import org.uva.sea.ql.adt.value.Value;
 import org.uva.sea.ql.gui.builder.QuestionListBuilder;
-import org.uva.sea.ql.gui.widget.QuestionWidget;
 
 import java.util.List;
 

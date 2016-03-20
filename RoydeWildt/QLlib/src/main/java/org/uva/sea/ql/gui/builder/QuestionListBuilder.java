@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
@@ -17,6 +19,15 @@ import org.uva.sea.ql.adt.value.numeric.Double;
 import org.uva.sea.ql.adt.value.numeric.Int;
 import org.uva.sea.ql.adt.visitor.ValueVisitor;
 import org.uva.sea.ql.gui.widget.*;
+import org.uva.sea.ql.gui.widget.binary.BooleanWidget;
+import org.uva.sea.ql.gui.widget.binary.CheckboxWidget;
+import org.uva.sea.ql.gui.widget.factory.DefaultWidgets;
+import org.uva.sea.ql.gui.widget.factory.WidgetFactory;
+import org.uva.sea.ql.gui.widget.number.MoneyFieldWidget;
+import org.uva.sea.ql.gui.widget.number.NumberFieldWidget;
+import org.uva.sea.ql.gui.widget.number.NumberWidget;
+import org.uva.sea.ql.gui.widget.string.StringWidget;
+import org.uva.sea.ql.gui.widget.string.TextFieldWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,22 +37,24 @@ import java.util.Map;
 /**
  * Created by roy on 25-2-16.
  */
-public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestion> {
-    private List<QuestionWidget> uiElements;
+public class QuestionListBuilder implements ValueVisitor<Widget,EvaluatedQuestion> {
+    private List<Parent> uiElements;
+    private WidgetFactory widgetFactory;
     private Map<Var, Value> symbolTable;
 
     public QuestionListBuilder(List<EvaluatedQuestion> questions, Map<Var, Value> symbolTable) {
         this.uiElements = new ArrayList<>();
+        this.widgetFactory = new DefaultWidgets();
         this.symbolTable = symbolTable;
 
         for (EvaluatedQuestion question : questions){
-            QuestionWidget UiElem = genQuestionUI(question);
+            Parent UiElem = genQuestionUI(question);
             uiElements.add(UiElem);
         }
     }
 
-    public QuestionWidget genQuestionUI(EvaluatedQuestion q) {
-        QuestionWidget box = new QuestionWidget(q);
+    public Parent genQuestionUI(EvaluatedQuestion q) {
+        GridPane box = new GridPane();
         box.setHgap(5);
         box.setPadding(new Insets(5,20,5,20));
 
@@ -61,55 +74,46 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         box.add(label, 0, 0);
 
         Value value = q.getValue();
-        Parent valueUI = value.accept(this, q);
-        box.add(valueUI, 1, 0);
+        Widget valueWidget = value.accept(this, q);
+        box.add(valueWidget.getUiElement(), 1, 0);
 
         return box;
     }
 
     @Override
-    public Control visit(Int val, EvaluatedQuestion parent) {
-        NumberFieldWidget f = new NumberFieldWidget(parent, parent.isComputed());
-        f.setAlignment(Pos.BASELINE_RIGHT);
-
-        f.setText(val.getValue().toString());
-
-        f.textProperty().addListener((observable, oldValue, newValue) ->
-                handleNumberFieldAction(f));
-        return f;
+    public Widget visit(Int val, EvaluatedQuestion parent) {
+        NumberWidget widget = widgetFactory.getNumberWidget(parent);
+        widget.setValue(val.getValue());
+        widget.addListener((observable, oldValue, newValue) ->
+                handleNumberWidgetAction(widget));
+        return widget;
     }
 
     @Override
-    public Control visit(Double val, EvaluatedQuestion parent) {
-        MoneyFieldWidget f = new MoneyFieldWidget(parent, parent.isComputed());
-        f.setAlignment(Pos.BASELINE_RIGHT);
-
-        f.setText(val.getValue().toString());
-
-        f.textProperty().addListener((observable, oldValue, newValue) ->
-                handleMoneyFieldAction(f));
-        return f;
+    public Widget visit(Double val, EvaluatedQuestion parent) {
+        NumberWidget widget = widgetFactory.getNumberWidget(parent);
+        widget.setValue(val.getValue());
+        widget.addListener((observable, oldValue, newValue) ->
+                handleNumberWidgetAction(widget));
+        return widget;
     }
 
     @Override
-    public Control visit(Bool val, EvaluatedQuestion parent) {
-        BooleanFieldWidget b = new BooleanFieldWidget(parent, parent.isComputed());
-        b.setSelected(val.getValue());
-        b.selectedProperty().addListener((observable, oldValue, newValue) ->
-                handleCheckBoxAction(b));
-        return b;
+    public Widget visit(Bool val, EvaluatedQuestion parent) {
+        BooleanWidget widget = widgetFactory.getBooleanWidget(parent);
+        widget.setValue(val.getValue());
+        widget.addListener((observable, oldValue, newValue) ->
+                handleBooleanWidgetAction(widget));
+        return widget;
     }
 
     @Override
-    public Control visit(Str val, EvaluatedQuestion parent) {
-        TextFieldWidget f = new TextFieldWidget(parent, parent.isComputed());
-        f.setAlignment(Pos.BASELINE_RIGHT);
-
-        f.setText(val.getValue());
-
-        f.textProperty().addListener((observable, oldValue, newValue) ->
-                handleTextFieldAction(f));
-        return f;
+    public Widget visit(Str val, EvaluatedQuestion parent) {
+        StringWidget widget = widgetFactory.getStringWidget(parent);
+        widget.setValue(val.getValue());
+        widget.addListener((observable, oldValue, newValue) ->
+                handleStringAction(widget));
+        return widget;
     }
 
 
@@ -117,11 +121,11 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
      *  Event Handlers
      */
 
-    private void handleNumberFieldAction(NumberFieldWidget f) {
+    private void handleNumberWidgetAction(NumberWidget f) {
         try {
             f.unSetInvalid();
-            Integer value  = Integer.parseInt(f.getText());
-            Value newExpr = new Int(value);
+            Integer value  = Integer.parseInt(f);
+            Value newExpr = new Int(f.getUiElement().getTe);
             updateSymbolTable(f.getParentQuestion(), newExpr);
         }
         catch (Exception e) {
@@ -130,20 +134,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         }
     }
 
-    private void handleMoneyFieldAction(MoneyFieldWidget f) {
-        try {
-            f.unSetInvalid();
-            double value  = java.lang.Double.parseDouble(f.getText());
-            Value newExpr = new Double(value);
-            updateSymbolTable(f.getParentQuestion(), newExpr);
-        }
-        catch (Exception e) {
-            f.setInvalid();
-            removeFromSymbolTable(f.getParentQuestion());
-        }
-    }
-
-    private void handleCheckBoxAction(BooleanFieldWidget f) {
+    private void handleBooleanWidgetAction(Widget f) {
         try {
             f.unSetInvalid();
             Value newExpr = new Bool(f.isSelected());
@@ -155,7 +146,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         }
     }
 
-    private void handleTextFieldAction(TextFieldWidget f) {
+    private void handleStringAction(Widget f) {
         java.lang.String fieldvalue = f.getText();
         if(isLetterString(fieldvalue)){
             f.unSetInvalid();
@@ -179,7 +170,7 @@ public class QuestionListBuilder implements ValueVisitor<Parent,EvaluatedQuestio
         return name.chars().allMatch(Character::isLetter);
     }
 
-    public List<QuestionWidget> getUiElements() {
+    public List<Parent> getUiElements() {
         return uiElements;
     }
 }

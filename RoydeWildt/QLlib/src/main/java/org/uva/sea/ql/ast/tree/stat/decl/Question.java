@@ -2,7 +2,6 @@ package org.uva.sea.ql.ast.tree.stat.decl;
 
 import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
-import org.uva.sea.ql.ast.tree.stat.Stat;
 import org.uva.sea.ql.ast.tree.type.Type;
 import org.uva.sea.ql.ast.visitor.interfaces.StatVisitor;
 

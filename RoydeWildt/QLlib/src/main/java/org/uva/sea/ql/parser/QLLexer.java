@@ -1,4 +1,4 @@
-// Generated from /home/roy/Workspace/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
+// Generated from /Users/roydewildt/Workspace/UvA/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -37,7 +37,7 @@ public class QLLexer extends Lexer {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "'else'", "':'", "'='", 
 		"'+'", "'-'", "'*'", "'/'", "'<'", "'<='", "'>'", "'>='", "'=='", "'!='", 
-		"'&&'", "'||'", "'!'", null, null, "'true'", "'false'", "'boolean'", "'money'", 
+		"'&&'", "'||'", "'!'", null, null, "'true'", "'false'", "'binary'", "'money'",
 		"'number'", "'text'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
