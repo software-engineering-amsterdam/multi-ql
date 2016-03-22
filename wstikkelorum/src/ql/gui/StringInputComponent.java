@@ -1,5 +1,6 @@
 package ql.gui;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,7 +24,7 @@ public class StringInputComponent implements UserInputElement{
 
 	@Override
 	public JPanel getDrawableItem() {
-		JPanel inputComponentPanel = new JPanel();
+		JPanel inputComponentPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		inputComponentPanel.add(textField);
 		inputComponentPanel.setVisible(true);
 		return inputComponentPanel;

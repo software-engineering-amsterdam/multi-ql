@@ -1,5 +1,7 @@
 package ql.gui;
 
+import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -37,7 +39,7 @@ public class InputQuestionWidget implements UserInputElement{
 
 	@Override
 	public JPanel getDrawableItem() {
-		JPanel jPanel = new JPanel();
+		JPanel jPanel = new JPanel(new GridLayout(1,1));
 		jPanel.add(questionString);
 		jPanel.add(inputComponent.getDrawableItem());
 		jPanel.setVisible(true);

@@ -1,8 +1,11 @@
 package ql.gui;
 
+import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import ql.ast.statement.ComputedQuestion;
 
@@ -16,12 +19,13 @@ public class ComputedQuestionWidget implements UIElement{
 		this.computedQuestion = computedQuestion;
 		questionString = new JLabel(computedQuestion.getQuestionString());
 		textField = new JTextField(6);
+		textField.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField.setEditable(false);
 	}
 	
 	@Override
 	public JPanel getDrawableItem() {
-		JPanel jPanel = new JPanel();
+		JPanel jPanel = new JPanel(new GridLayout(1, 1));
 		jPanel.add(questionString);
 		jPanel.add(textField);
 		jPanel.setVisible(true);

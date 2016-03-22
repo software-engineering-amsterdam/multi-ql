@@ -23,8 +23,7 @@ public class FormParser {
 			FileContext fileContext = parser.file();
 
 			if (viewTree) {
-				TreeViewer viewer = new TreeViewer(Arrays.asList(parser
-						.getRuleNames()), fileContext);
+				TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), fileContext);
 				viewer.open();
 			}
 

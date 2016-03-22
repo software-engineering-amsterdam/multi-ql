@@ -81,6 +81,7 @@ public class UserInterface extends JFrame{
 		drawVisibleQuestions();
 		setValues();
 		
+		//For debugging
 		System.out.println("Identifier - value");
 		context.getIdentifierToValueMap().forEach((identifier, value) -> System.out.println(identifier + ' ' + value));
 		System.out.println();

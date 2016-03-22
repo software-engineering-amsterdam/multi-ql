@@ -1,6 +1,7 @@
 package ql.gui;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,7 +25,7 @@ public class IntegerInputComponent implements UserInputElement{
 
 	@Override
 	public JPanel getDrawableItem() {
-		JPanel jPanel = new JPanel();
+		JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		jPanel.add(textField);
 		jPanel.setVisible(true);
 		return jPanel;

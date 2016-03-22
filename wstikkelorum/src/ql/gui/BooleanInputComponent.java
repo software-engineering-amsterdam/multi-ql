@@ -1,5 +1,6 @@
 package ql.gui;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,7 +25,7 @@ public class BooleanInputComponent implements UserInputElement{
 	
 	@Override
 	public JPanel getDrawableItem() {
-		JPanel jPanel = new JPanel();
+		JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		jPanel.add(checkBox);
 		jPanel.setVisible(true);
 		return jPanel;

@@ -19,9 +19,7 @@ public class Program {
 		SemanticAnalyser semanticAnalyser = analyseForm(form);
 
 		if (semanticAnalyser.noIssues()) {
-			//TODO: evaluation is done in drawing so this does not need to be done before drawing....
-			FormEvaluation formEval = evaluateForm(form, semanticAnalyser.getContext());
-			drawForm(form, formEval.getContext());
+			drawForm(form, semanticAnalyser.getContext());
 		} else {
 			printIssues(semanticAnalyser.getContext());
 		}
@@ -47,6 +45,7 @@ public class Program {
 		return semanticAnalyser;
 	}
 
+	//TODO: only used in test and should be moved to the GUI
 	public static FormEvaluation evaluateForm(Form form, Context context) {
 		FormEvaluation formEval = new FormEvaluation(context);
 		formEval.evaluateForm(form);
