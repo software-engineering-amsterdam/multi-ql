@@ -2,29 +2,42 @@ package ql.gui;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import ql.ast.statement.ComputedQuestion;
 
-public class ComputedQuestionWidget extends UIElement {
-	private JLabel valueLabel;
-
-	public ComputedQuestionWidget(ComputedQuestion computedQuestion, String value) {
-		super(new JLabel(computedQuestion.getVariable().getIdentifier()), new JLabel(computedQuestion.getQuestionString()));
-
-		if (value == null) {
-			valueLabel = new JLabel("No value");
-		} else {
-			valueLabel = new JLabel(value);
-		}
+public class ComputedQuestionWidget implements UIElement{
+	private JLabel questionString;
+	private JTextField textField;
+	private final ComputedQuestion computedQuestion;
+	
+	
+	public ComputedQuestionWidget(ComputedQuestion computedQuestion){
+		this.computedQuestion = computedQuestion;
+		questionString = new JLabel(computedQuestion.getQuestionString());
+		textField = new JTextField(6);
+		textField.setEditable(false);
+	}
+	
+	@Override
+	public JPanel getDrawableItem() {
+		JPanel jPanel = new JPanel();
+		jPanel.add(questionString);
+		jPanel.add(textField);
+		jPanel.setVisible(true);
+		return jPanel;
 	}
 
 	@Override
-	public JPanel getPanel() {
-		JPanel panel = new JPanel();
-		// panel.add(this.getVariableLabel());
-		panel.add(this.getQuestionStringLabel());
-		panel.add(valueLabel);
-		panel.setVisible(true);
-		return panel;
+	public void updateValueLabel(Object newValue) {
+		if(newValue == null){
+			textField.setText("");
+		}else{
+			textField.setText(newValue.toString());
+		}	
+	}
+	
+	public ComputedQuestion getQuestion(){
+		return computedQuestion;
 	}
 }

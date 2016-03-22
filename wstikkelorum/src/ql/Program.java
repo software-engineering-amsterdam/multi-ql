@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
+import ql.gui.UserInterface;
 import ql.issue.Issue;
 
 public class Program {
@@ -54,8 +55,6 @@ public class Program {
 	}
 
 	public static void drawForm(Form form, Context context) {
-		Context currentContext = context;
-		QLdrawer qld = new QLdrawer(form, currentContext);
-		qld.drawForm();
+		new UserInterface(form, context);
 	}
 }
