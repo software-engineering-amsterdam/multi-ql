@@ -1,13 +1,9 @@
 package sc.qls.ast;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import sc.ql.ast.ASTNode;
-import sc.ql.ui.UIWidgetChoice;
-import sc.ql.ui.UIWidgetChoices;
-import sc.ql.value.BooleanValue;
 
 public abstract class Widget extends ASTNode {
 
@@ -24,10 +20,29 @@ public abstract class Widget extends ASTNode {
 		}
 	}
 
-	public static class Spinbox extends Widget {
+	public abstract static class ListWidget extends Widget {
 
-		public Spinbox() {
+		private final List<String> values;
+		private final String defaultValue;
 
+		public ListWidget(List<String> values, String defaultValue) {
+			this.values = values;
+			this.defaultValue = defaultValue;
+		}
+
+		public List<String> values() {
+			return Collections.unmodifiableList(values);
+		}
+
+		public String defaultValue() {
+			return defaultValue;
+		}
+	}
+
+	public static class Spinbox extends ListWidget {
+
+		public Spinbox(List<String> values, String defaultValue) {
+			super(values, defaultValue);
 		}
 
 		@Override
@@ -36,10 +51,10 @@ public abstract class Widget extends ASTNode {
 		}
 	}
 
-	public static class Slider extends Widget {
+	public static class Slider extends ListWidget {
 
-		public Slider() {
-
+		public Slider(List<String> values, String defaultValue) {
+			super(values, defaultValue);
 		}
 
 		@Override
@@ -48,33 +63,10 @@ public abstract class Widget extends ASTNode {
 		}
 	}
 
-	public static class RadioButton extends Widget {
+	public static class RadioButton extends ListWidget {
 
-		private final List<String> options;
-		private final String defaultOption;
-
-		public RadioButton(List<String> options, String defaultOption) {
-			this.options = options;
-			this.defaultOption = defaultOption;
-		}
-
-		public List<String> getOptions() {
-			return Collections.unmodifiableList(options);
-		}
-
-		public UIWidgetChoices getChoices() {
-			List<UIWidgetChoice> choices;
-			UIWidgetChoice defaultChoice;
-
-			choices = new ArrayList<>();
-
-			for (String option : options) {
-				choices.add(new UIWidgetChoice(option, new BooleanValue(option)));
-			}
-
-			defaultChoice = new UIWidgetChoice(defaultOption, new BooleanValue(defaultOption));
-
-			return new UIWidgetChoices(choices, defaultChoice);
+		public RadioButton(List<String> values, String defaultValue) {
+			super(values, defaultValue);
 		}
 
 		@Override
@@ -83,18 +75,10 @@ public abstract class Widget extends ASTNode {
 		}
 	}
 
-	public static class DropDown extends Widget {
+	public static class DropDown extends ListWidget {
 
-		private final List<String> options;
-		private final String defaultOption;
-
-		public DropDown(List<String> options, String defaultOption) {
-			this.options = options;
-			this.defaultOption = defaultOption;
-		}
-
-		public List<String> getOptions() {
-			return Collections.unmodifiableList(options);
+		public DropDown(List<String> values, String defaultValue) {
+			super(values, defaultValue);
 		}
 
 		@Override
@@ -103,18 +87,10 @@ public abstract class Widget extends ASTNode {
 		}
 	}
 
-	public static class CheckBox extends Widget {
+	public static class CheckBox extends ListWidget {
 
-		private final List<String> options;
-		private final String defaultOption;
-
-		public CheckBox(List<String> options, String defaultOption) {
-			this.options = options;
-			this.defaultOption = defaultOption;
-		}
-
-		public List<String> getOptions() {
-			return Collections.unmodifiableList(options);
+		public CheckBox(List<String> values, String defaultValue) {
+			super(values, defaultValue);
 		}
 
 		@Override
@@ -122,5 +98,4 @@ public abstract class Widget extends ASTNode {
 			return visitor.visit(this, context);
 		}
 	}
-
 }

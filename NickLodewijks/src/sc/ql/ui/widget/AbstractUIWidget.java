@@ -3,7 +3,6 @@ package sc.ql.ui.widget;
 import javax.swing.SwingUtilities;
 
 import sc.ql.eval.Environment;
-import sc.ql.ui.UIWidget;
 import sc.ql.value.Value;
 
 public abstract class AbstractUIWidget implements UIWidget {

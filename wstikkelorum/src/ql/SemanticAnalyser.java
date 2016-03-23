@@ -26,7 +26,7 @@ public class SemanticAnalyser {
 	// Only for debugging
 	public void printData() {
 		System.out.println("Identifier - Type:");
-		context.getIdentifierToTypeMap().forEach((k, t) -> System.out.println(String.format("%s: %s", k, t)));
+		context.getIdentifierToTypeMap().forEach((identifier, type) -> System.out.println(identifier + ' ' + type));
 		System.out.println();
 	}
 

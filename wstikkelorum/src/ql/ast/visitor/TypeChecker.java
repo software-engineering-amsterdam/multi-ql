@@ -22,10 +22,14 @@ import ql.ast.literal.IntLiteral;
 import ql.ast.literal.StringLiteral;
 import ql.ast.literal.VariableExpression;
 import ql.ast.statement.IfStatement;
+import ql.ast.types.BooleanType;
+import ql.ast.types.IntegerType;
+import ql.ast.types.StringType;
+import ql.ast.types.ValueType;
 import ql.issue.ConditionNonBoolean;
 import ql.issue.InvalidTypeForOperant;
 
-public class TypeChecker<T> extends BasicVisitor<Type> {
+public class TypeChecker<T> extends BasicVisitor<ValueType> {
 	private Context context;
 
 	public TypeChecker(Context context) {
@@ -33,137 +37,137 @@ public class TypeChecker<T> extends BasicVisitor<Type> {
 	}
 
 	@Override
-	public Type visit(IfStatement ifStatement) {
-		checkTypesCon(ifStatement.getCondition(), Type.BOOLEAN);
+	public ValueType visit(IfStatement ifStatement) {
+		checkTypesCon(ifStatement.getCondition(), new BooleanType());
 		ifStatement.getBody().accept(this);
 		return null;
 	}
 
 	@Override
-	public Type visit(OrExpression orExpression) {
-		checkTypesBinaryExpression(orExpression, Type.BOOLEAN);
-		return Type.BOOLEAN;
+	public ValueType visit(OrExpression orExpression) {
+		checkTypesBinaryExpression(orExpression, new BooleanType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(AndExpression andExpression) {
-		checkTypesBinaryExpression(andExpression, Type.BOOLEAN);
-		return Type.BOOLEAN;
+	public ValueType visit(AndExpression andExpression) {
+		checkTypesBinaryExpression(andExpression, new BooleanType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(LT lt) {
-		checkTypesBinaryExpression(lt, Type.INT);
-		return Type.BOOLEAN;
+	public ValueType visit(LT lt) {
+		checkTypesBinaryExpression(lt, new IntegerType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(LEq leq) {
-		checkTypesBinaryExpression(leq, Type.INT);
-		return Type.BOOLEAN;
+	public ValueType visit(LEq leq) {
+		checkTypesBinaryExpression(leq, new IntegerType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(GT gt) {
-		checkTypesBinaryExpression(gt, Type.INT);
-		return Type.BOOLEAN;
+	public ValueType visit(GT gt) {
+		checkTypesBinaryExpression(gt, new IntegerType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(GEq GEq) {
-		checkTypesBinaryExpression(GEq, Type.INT);
-		return Type.BOOLEAN;
+	public ValueType visit(GEq GEq) {
+		checkTypesBinaryExpression(GEq, new IntegerType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(Eq eq) {
-		checkTypesBinaryExpression(eq, Type.INT);
-		return Type.BOOLEAN;
+	public ValueType visit(Eq eq) {
+		checkTypesBinaryExpression(eq, new IntegerType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(NEq neq) {
-		checkTypesBinaryExpression(neq, Type.INT);
-		return Type.BOOLEAN;
+	public ValueType visit(NEq neq) {
+		checkTypesBinaryExpression(neq, new IntegerType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(Add add) {
-		checkTypesBinaryExpression(add, Type.INT);
-		return Type.INT;
+	public ValueType visit(Add add) {
+		checkTypesBinaryExpression(add, new IntegerType());
+		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(Sub sub) {
-		checkTypesBinaryExpression(sub, Type.INT);
-		return Type.INT;
+	public ValueType visit(Sub sub) {
+		checkTypesBinaryExpression(sub, new IntegerType());
+		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(Mul mul) {
-		checkTypesBinaryExpression(mul, Type.INT);
-		return Type.INT;
+	public ValueType visit(Mul mul) {
+		checkTypesBinaryExpression(mul, new IntegerType());
+		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(Div div) {
-		checkTypesBinaryExpression(div, Type.INT);
-		return Type.INT;
+	public ValueType visit(Div div) {
+		checkTypesBinaryExpression(div, new IntegerType());
+		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(Pos pos) {
-		checkTypes(pos.getExpression(), Type.INT);
-		return Type.INT;
+	public ValueType visit(Pos pos) {
+		checkTypes(pos.getExpression(), new IntegerType());
+		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(Neg neg) {
-		checkTypes(neg.getExpression(), Type.INT);
-		return Type.INT;
+	public ValueType visit(Neg neg) {
+		checkTypes(neg.getExpression(), new IntegerType());
+		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(Not not) {
-		checkTypes(not.getExpression(), Type.BOOLEAN);
-		return Type.BOOLEAN;
+	public ValueType visit(Not not) {
+		checkTypes(not.getExpression(), new BooleanType());
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(IntLiteral intLiteral) {
-		return Type.INT;
+	public ValueType visit(IntLiteral intLiteral) {
+		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(BoolLiteral boolLiteral) {
-		return Type.BOOLEAN;
+	public ValueType visit(BoolLiteral boolLiteral) {
+		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(StringLiteral stringLiteral) {
-		return Type.STRING;
+	public ValueType visit(StringLiteral stringLiteral) {
+		return new StringType();
 	}
 
 	@Override
-	public Type visit(VariableExpression variableExpression) {
+	public ValueType visit(VariableExpression variableExpression) {
 		return context.getType(variableExpression.getIdentifier(), variableExpression.getLineNumber());
 	}
 
-	private void checkTypesBinaryExpression(BinaryExpression binaryExpression, Type expectedType) {
+	private void checkTypesBinaryExpression(BinaryExpression binaryExpression, ValueType expectedType) {
 		checkTypes(binaryExpression.getLhs(), expectedType);
 		checkTypes(binaryExpression.getRhs(), expectedType);
 	}
 
-	private void checkTypes(Expression expression, Type expectedType) {
-		Type actualType = expression.accept(this);
-		if (actualType != expectedType) {
+	private void checkTypes(Expression expression, ValueType expectedType) {
+		ValueType actualType = expression.accept(this);
+		if (!actualType.equals(expectedType)) {
 			context.addIssue(new InvalidTypeForOperant(expression, expectedType, actualType));
 		}
 	}
 
-	private void checkTypesCon(Expression expression, Type expectedType) {
-		Type actualType = expression.accept(this);
-		if (actualType != expectedType) {
+	private void checkTypesCon(Expression expression, ValueType expectedType) {
+		ValueType actualType = expression.accept(this);
+		if (!actualType.equals(expectedType)) {
 			context.addIssue(new ConditionNonBoolean(expression, expectedType, actualType));
 		}
 	}

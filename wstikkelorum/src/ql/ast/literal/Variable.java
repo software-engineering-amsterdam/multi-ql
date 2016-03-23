@@ -1,7 +1,7 @@
 package ql.ast.literal;
 
 import ql.ast.expression.Expression;
-import ql.ast.visitor.Type;
+import ql.ast.types.ValueType;
 import ql.ast.visitor.Visitor;
 
 public class Variable extends Expression {
@@ -18,7 +18,7 @@ public class Variable extends Expression {
 		return identifier;
 	}
 
-	public Type getType() {
+	public ValueType getType() {
 		return type.getType();
 	}
 

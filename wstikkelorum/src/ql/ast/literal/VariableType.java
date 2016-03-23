@@ -1,35 +1,33 @@
 package ql.ast.literal;
 
 import ql.ast.TreeNode;
-import ql.ast.visitor.Type;
+import ql.ast.types.BooleanType;
+import ql.ast.types.IntegerType;
+import ql.ast.types.StringType;
+import ql.ast.types.ValueType;
 
 public class VariableType extends TreeNode {
-	private String type;
+	private ValueType type;
 
 	public VariableType(int lineNumber, String type) {
 		super(lineNumber);
-		this.type = type;
-	}
-
-	public Type getType() {
-		if (type.equals("boolean")) {
-			return Type.BOOLEAN;
-		}
-		if (type.equals("int")) {
-			return Type.INT;
-		}
-		return Type.STRING;
+		createTypeFromString(type);
 	}
 	
-	//TODO: dit kan misschien weg...???
-	@Override
-	public String toString() {
-		if (type.equals("boolean")) {
-			return "boolean";
+	private void createTypeFromString(String type){
+		if(type.equals("boolean")){
+			this.type = new BooleanType();
+			return;
 		}
-		if (type.equals("int")) {
-			return "int";
+		if(type.equals("int")){
+			this.type = new IntegerType();
+			return;
 		}
-		return "string";
+		//else type equals "string"
+		this.type = new StringType();
+	}
+
+	public ValueType getType() {
+		return type;
 	}
 }

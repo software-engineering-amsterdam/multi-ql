@@ -25,7 +25,7 @@ public class Main {
 	private static void createUI(Form form) {
 		UIQuestionnaire uiForm;
 
-		uiForm = UIFactory.get().create(form);
+		uiForm = new UIFactory().create(form);
 		uiForm.show();
 	}
 }

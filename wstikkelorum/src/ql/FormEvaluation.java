@@ -20,8 +20,7 @@ public class FormEvaluation {
 	// Only for debugging
 	public void printData() {
 		System.out.println("Identifier - value");
-		context.getIdentifierToValueMap().forEach(
-				(i, v) -> System.out.println(String.format("%s: %s", i, v)));
+		context.getIdentifierToValueMap().forEach((identifier, value) -> System.out.println(identifier + ' ' + value));
 		System.out.println();
 	}
 

@@ -1,19 +1,55 @@
 // Generated from QL.g4 by ANTLR 4.5.2
 
 	package ql.antlr;
-	import ql.ast.expression.*;
-	import ql.ast.form.*;
-	import ql.ast.literal.*;
-	import ql.ast.statement.*;
+	import java.util.List;
 
-import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.NoViableAltException;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.RuntimeMetaData;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.VocabularyImpl;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
-import org.antlr.v4.runtime.tree.*;
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import ql.ast.expression.Add;
+import ql.ast.expression.AndExpression;
+import ql.ast.expression.Div;
+import ql.ast.expression.Eq;
+import ql.ast.expression.Expression;
+import ql.ast.expression.GEq;
+import ql.ast.expression.GT;
+import ql.ast.expression.LEq;
+import ql.ast.expression.LT;
+import ql.ast.expression.Mul;
+import ql.ast.expression.NEq;
+import ql.ast.expression.Neg;
+import ql.ast.expression.Not;
+import ql.ast.expression.OrExpression;
+import ql.ast.expression.Pos;
+import ql.ast.expression.Sub;
+import ql.ast.form.Body;
+import ql.ast.form.Form;
+import ql.ast.literal.BoolLiteral;
+import ql.ast.literal.IntLiteral;
+import ql.ast.literal.Literal;
+import ql.ast.literal.StringLiteral;
+import ql.ast.literal.Variable;
+import ql.ast.literal.VariableExpression;
+import ql.ast.literal.VariableType;
+import ql.ast.statement.ComputedQuestion;
+import ql.ast.statement.IfStatement;
+import ql.ast.statement.InputQuestion;
+import ql.ast.statement.Question;
+import ql.ast.statement.Statement;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {
