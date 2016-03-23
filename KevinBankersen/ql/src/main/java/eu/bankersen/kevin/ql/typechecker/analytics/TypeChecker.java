@@ -73,14 +73,14 @@ public class TypeChecker {
 	}, null);
 
 	// TypeCheck the form.
-	form.accept(new TopDownQuestionVisitor<Void>() {
+	form.accept(new TopDownQuestionVisitor<Map<String, QLType>>() {
 
 	    @Override
-	    public void visit(IFStatement o, Void context) {
+	    public void visit(IFStatement o, Map<String, QLType> context) {
 
 		o.body().accept(this, context);
 
-		QLType expr = o.condition().accept(new ExprTypeChecker(), symbolTable);
+		QLType expr = o.condition().accept(new ExprTypeChecker(), context);
 
 		if (!expr.equals(new BooleanType())) {
 		    errorList.add(new ExprTypeError(o, expr));
@@ -88,12 +88,12 @@ public class TypeChecker {
 	    }
 
 	    @Override
-	    public void visit(ElseStatement o, Void context) {
+	    public void visit(ElseStatement o, Map<String, QLType> context) {
 
 		o.body().accept(this, context);
 		o.elseBody().accept(this, context);
 
-		QLType expr = o.condition().accept(new ExprTypeChecker(), symbolTable);
+		QLType expr = o.condition().accept(new ExprTypeChecker(), context);
 
 		if (!expr.equals(new BooleanType())) {
 		    errorList.add(new ExprTypeError(o, expr));
@@ -101,10 +101,10 @@ public class TypeChecker {
 	    }
 
 	    @Override
-	    public void visit(ComputedQuestion o, Void context) {
+	    public void visit(ComputedQuestion o, Map<String, QLType> context) {
 
 		QLType question = o.type();
-		QLType expr = o.computation().accept(new ExprTypeChecker(), symbolTable);
+		QLType expr = o.computation().accept(new ExprTypeChecker(), context);
 
 		if (!question.equals(expr) && !expr.equals(new UndifinedType())) {
 		    errorList.add(new ExprTypeError(o, question, expr));
@@ -112,9 +112,9 @@ public class TypeChecker {
 	    }
 
 	    @Override
-	    public void visit(NormalQuestion o, Void context) {
+	    public void visit(NormalQuestion o, Map<String, QLType> context) {
 	    }
-	}, null);
+	}, symbolTable);
 
     }
 
@@ -323,7 +323,7 @@ public class TypeChecker {
 
 	@Override
 	public QLType visit(Literal o, Map<String, QLType> context) {
-	    return o.getType();
+	    return o.type();
 	}
 
 	@Override

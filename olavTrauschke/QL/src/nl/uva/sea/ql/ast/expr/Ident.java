@@ -1,10 +1,10 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.answerTable.Value;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Ident</code>s for questions in an AST.

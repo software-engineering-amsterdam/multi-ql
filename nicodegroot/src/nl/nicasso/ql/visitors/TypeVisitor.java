@@ -7,9 +7,9 @@ import nl.nicasso.ql.ast.nodes.types.StringType;
 
 public interface TypeVisitor<T, U> {
 
-	public T visit(BooleanType value, U context);
-	public T visit(MoneyType value, U context);
-	public T visit(StringType value, U context);
-	public T visit(IntegerType value, U context);
+	public T visit(BooleanType type, U context);
+	public T visit(MoneyType type, U context);
+	public T visit(StringType type, U context);
+	public T visit(IntegerType type, U context);
 	
 }

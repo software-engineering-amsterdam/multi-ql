@@ -1,6 +1,7 @@
 package nl.uva.sea.ql.checker;
 
 import java.util.*;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;
@@ -9,7 +10,7 @@ import nl.uva.sea.ql.ast.question.*;
  * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 7-mar-2016
+ * @version 19-mar-2016
  */
 public class TypeChecker implements ASTVisitor {
     
@@ -232,16 +233,16 @@ public class TypeChecker implements ASTVisitor {
             errors.add(ADDITION_TYPE_ERROR);
         }
         else if (bothString) {
-            addition.setIsString(true);
+            addition.setIsString();
         }
         else if (isMoney(firstExpr) || isMoney(secondExpr)) {
-            addition.setIsMoney(true);
+            addition.setIsMoney();
         }
         else if (isDecimal(firstExpr) || isDecimal(secondExpr)) {
-            addition.setIsDecimal(true);
+            addition.setIsDecimal();
         }
         else {
-            addition.setIsInt(true);
+            addition.setIsInt();
         }
     }
     
@@ -260,20 +261,60 @@ public class TypeChecker implements ASTVisitor {
         Expr firstExpr = expression.getFirstExpr();
         Expr secondExpr = expression.getSecondExpr();
         if (!isNumeric(firstExpr) || !isNumeric(secondExpr)) {
-            errors.add(NUMERIC_OPERATOR_WITH_NON_NUMERIC_OPERAND_ERROR);
-            expression.setIsDecimal(true);
-            expression.setIsInt(true);
-            expression.setIsMoney(true);
+            handleNonNumericOperandOfNumericOperator(expression);
         }
         else if (isMoney(firstExpr) || isMoney(secondExpr)) {
-            expression.setIsMoney(true);
+            expression.setIsMoney();
         }
-        else if (isInt(firstExpr) && isInt(secondExpr)) {
-            expression.setIsInt(true);
+        else if (isDecimal(firstExpr) || isDecimal(secondExpr)) {
+            expression.setIsDecimal();
         }
         else {
-            expression.setIsDecimal(true);
+            expression.setIsInt();
         }
+    }
+    
+    /**
+     * Add an error if a <code>Division</code> containing a non-numeric value
+     * was found and set the type of the <code>Division</code>. Sets the
+     * <code>Division</code> to be decimal, integer and money
+     * when an error was added, to avoid unnecessary errors.
+     * 
+     * @param division the <code>Div</code> to check and set the type of
+     */
+    @Override
+    public void visit(Div division) {
+        Expr firstExpr = division.getFirstExpr();
+        Expr secondExpr = division.getSecondExpr();
+        if (!isNumeric(firstExpr) || !isNumeric(secondExpr)) {
+            handleNonNumericOperandOfNumericOperator(division);
+        }
+        else if (isMoney(firstExpr)) {
+            if (isMoney(secondExpr)) {
+                division.setIsDecimal();
+            }
+            else {
+                division.setIsMoney();
+            }
+        }
+        else {
+            division.setIsDecimal();
+        }
+    }
+    
+    /**
+     * Add an error to signal a <code>BinaryNumericOperatorExpr</code> was found
+     * to have a non-numeric operand and set the <code>expression</code> to be
+     * decimal, int and money to avoid unnecessary errors.
+     * 
+     * @param expression the <code>BinaryNumericOperatorExpr</code> to set the
+     *                      type of to avoid unnecessary errors
+     */
+    private void handleNonNumericOperandOfNumericOperator(BinaryNumericOperatorExpr expression) {
+        errors.add(NUMERIC_OPERATOR_WITH_NON_NUMERIC_OPERAND_ERROR);
+        expression.setIsDecimal();
+        expression.setIsInt();
+        expression.setIsMoney();
     }
     
     /**

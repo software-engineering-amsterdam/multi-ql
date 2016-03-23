@@ -165,6 +165,68 @@ public class DecimalValue extends NumericValue {
     }
     
     /**
+     * Add a specified <code>NumericValue</code> to <code>this DecimalValue</code>.
+     * Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to add to
+     *              <code>this DecimalValue</code>
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this DecimalValue</code> otherwise
+     */
+    @Override
+    public NumericValue add(NumericValue other) {
+        return other.multiply(this); //double dispatch to a more specific case
+    }
+    
+    /**
+     * Add another <code>DecimalValue</code> to <code>this DecimalValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to add to this one
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this DecimalValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue add(DecimalValue other) {
+        if (value == null || other.value == null) {
+            return new DecimalValue(null);
+        }
+        double result = value + other.value;
+        return new DecimalValue(result);
+    }
+    
+    /**
+     * Add a specified <code>IntValue</code> to <code>this DecimalValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to add to <code>this DecimalValue</code>
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this DecimalValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue add(IntValue other) {
+        return add(other.castDecimal());
+    }
+    
+    /**
+     * Add a specified <code>MoneyValue</code> to <code>this DecimalValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to add to <code>this DecimalValue</code>
+     * @return a <code>MoneyValue</code> representing an unknown value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this DecimalValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue add(MoneyValue other) {
+        return (MoneyValue) other.add(this);
+    }
+    
+    /**
      * Multiply <code>this DecimalValue</code> by a specified
      * <code>NumericValue</code>. Dispatches to a more specific case.
      * 
@@ -230,6 +292,71 @@ public class DecimalValue extends NumericValue {
     }
     
     /**
+     * Divide <code>this DecimalValue</code> by a specified <code>NumericValue</code>.
+     * Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to divide
+     *              <code>this DecimalValue</code> by
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>this DecimalValue</code> by <code>other</code> otherwise
+     */
+    @Override
+    public DecimalValue divide(NumericValue other) {
+        return other.inverseDivide(this); //double dispatch to a more specific case
+    }
+    
+    /**
+     * Divide a specified <code>DecimalValue</code> by this one.
+     * 
+     * @param other a <code>DecimalValue</code> to divide by
+     *              <code>this DecimalValue</code>
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this DecimalValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue inverseDivide(DecimalValue other) {
+        if (value == null || other.value == null) {
+            return new DecimalValue(null);
+        }
+        double result = other.value / value;
+        return new DecimalValue(result);
+    }
+    
+    /**
+     * Divide a specified <code>IntValue</code> by <code>this DecimalValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to divide by
+     *              <code>this DecimalValue</code>
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this DecimalValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue inverseDivide(IntValue other) {
+        return inverseDivide(other.castDecimal());
+    }
+    
+    /**
+     * Divide a specified <code>MoneyValue</code> by <code>this DecimalValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to divide by
+     *              <code>this DecimalValue</code>
+     * @return a <code>DecimalValue</code> representing an unkonwn value if
+     *          <code>this DecimalValue</code> or <code>other</code> represents
+     *          an unkonwn value or the result of dividing <code>other</code> by
+     *          <code>this DecimalValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue inverseDivide(MoneyValue other) {
+        return other.divide(this);
+    }
+    
+    /**
      * Obtain a <code>MoneyValue</code> representing <code>theValue</code>
      * of <code>this DecimalValue</code>.
      * 
@@ -237,9 +364,6 @@ public class DecimalValue extends NumericValue {
      *          <code>this DecimalValue</code>
      */
     protected MoneyValue castMoney() {
-        if (value == null) {
-            return new MoneyValue(null);
-        }
         return new MoneyValue(value);
     }
 }

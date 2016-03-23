@@ -9,6 +9,7 @@ import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
+import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.Label;
 
 public class IntegerQuestionField extends QuestionField {
@@ -17,20 +18,25 @@ public class IntegerQuestionField extends QuestionField {
 	private JTextField field;
 	private Label label;
 	private Observer main;
+	private IntegerValue value;
 
 	public IntegerQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
 		this.main = params.getMain();
 		
-		setupField(params.isEnabled());
+		setupField(params.isEnabled(), (IntegerValue) params.getValue());
 	}
 	
-	private void setupField(boolean enabled) {
+	private void setupField(boolean enabled, IntegerValue value) {
 		field = new JTextField();
 		field.setColumns(20);
 		field.setEnabled(enabled);
 		
-		addListenerToField();
+		setValue(value);
+		
+		if (enabled) {
+			addListenerToField();
+		}
 	}
 	
 	private void addListenerToField() {
@@ -62,13 +68,17 @@ public class IntegerQuestionField extends QuestionField {
 		});
 	}
 	
-	public void setValue(Object value) {
-		field.setText(value.toString());
+	public void setValue(Value value) {
+		this.value = (IntegerValue) value;
+		field.setText(value.getValue().toString());
 	}
 	
-	public boolean equalValues(Object value) {
-		//System.out.println(value+" - "+field.getText() + " EQUALS? "+ value.equals(Integer.parseInt(field.getText())));
-		return value.equals(Integer.parseInt(field.getText()));
+	public IntegerValue getValue() {
+		return value;
+	}
+	
+	public boolean equalValues(Value value) {
+		return value.equals(this.value);
 	}
 	
 	public void setFeedbackLabel(Label label) {

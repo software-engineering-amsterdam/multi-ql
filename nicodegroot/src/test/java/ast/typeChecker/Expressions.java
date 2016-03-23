@@ -14,9 +14,9 @@ import nl.nicasso.ql.ast.nodes.expressions.equality.Equal;
 import nl.nicasso.ql.ast.nodes.expressions.equality.NotEqual;
 import nl.nicasso.ql.ast.nodes.expressions.multiplicative.Division;
 import nl.nicasso.ql.ast.nodes.expressions.multiplicative.Multiplication;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
-import nl.nicasso.ql.ast.nodes.literals.IntegerLit;
-import nl.nicasso.ql.ast.nodes.literals.MoneyLit;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
+import nl.nicasso.ql.ast.nodes.literals.IntegerLiteral;
+import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
 import nl.nicasso.ql.ast.nodes.types.IntegerType;
 import nl.nicasso.ql.ast.nodes.types.MoneyType;
 import nl.nicasso.ql.ast.nodes.types.Type;
@@ -26,7 +26,7 @@ public class Expressions {
 	
 	@Test
 	public void testAddition() {
-		Addition addition = new Addition(new IntegerLit(1), new IntegerLit(1), null);
+		Addition addition = new Addition(new IntegerLiteral(1), new IntegerLiteral(1), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -37,7 +37,7 @@ public class Expressions {
 	
 	@Test
 	public void testAdditionMoney() {
-		Addition addition = new Addition(new MoneyLit(BigDecimal.valueOf(1.00)), new MoneyLit(BigDecimal.valueOf(1.00)), null);
+		Addition addition = new Addition(new MoneyLiteral(BigDecimal.valueOf(1.00)), new MoneyLiteral(BigDecimal.valueOf(1.00)), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -48,7 +48,7 @@ public class Expressions {
 	
 	@Test
 	public void testSubtraction() {
-		Subtraction subtraction = new Subtraction(new IntegerLit(1), new IntegerLit(1), null);
+		Subtraction subtraction = new Subtraction(new IntegerLiteral(1), new IntegerLiteral(1), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -59,7 +59,7 @@ public class Expressions {
 	
 	@Test
 	public void testNot() {
-		Not negation = new Not(new BooleanLit(true), null);
+		Not negation = new Not(new BooleanLiteral(true), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -70,7 +70,7 @@ public class Expressions {
 	
 	@Test
 	public void testAnd() {
-		And and = new And(new BooleanLit(true), new BooleanLit(true), null);
+		And and = new And(new BooleanLiteral(true), new BooleanLiteral(true), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -81,7 +81,7 @@ public class Expressions {
 	
 	@Test
 	public void testOr() {
-		Or or = new Or(new BooleanLit(true), new BooleanLit(true), null);
+		Or or = new Or(new BooleanLiteral(true), new BooleanLiteral(true), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -92,7 +92,7 @@ public class Expressions {
 	
 	@Test
 	public void testEqual() {
-		Equal equal = new Equal(new BooleanLit(true), new BooleanLit(true), null);
+		Equal equal = new Equal(new BooleanLiteral(true), new BooleanLiteral(true), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -103,7 +103,7 @@ public class Expressions {
 	
 	@Test
 	public void testNotEqual() {
-		NotEqual notEqual = new NotEqual(new BooleanLit(true), new BooleanLit(true), null);
+		NotEqual notEqual = new NotEqual(new BooleanLiteral(true), new BooleanLiteral(true), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -114,7 +114,7 @@ public class Expressions {
 	
 	@Test
 	public void testDivision() {
-		Division division = new Division(new IntegerLit(10), new IntegerLit(2), null);
+		Division division = new Division(new IntegerLiteral(10), new IntegerLiteral(2), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -125,7 +125,7 @@ public class Expressions {
 	
 	@Test
 	public void testMultiplication() {
-		Multiplication multiplication = new Multiplication(new IntegerLit(10), new IntegerLit(2), null);
+		Multiplication multiplication = new Multiplication(new IntegerLiteral(10), new IntegerLiteral(2), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
@@ -136,7 +136,7 @@ public class Expressions {
 	
 	@Test
 	public void testMultiplicationCombined() {
-		Multiplication multiplication = new Multiplication(new IntegerLit(2), new MoneyLit(BigDecimal.valueOf(3.00)), null);
+		Multiplication multiplication = new Multiplication(new IntegerLiteral(2), new MoneyLiteral(BigDecimal.valueOf(3.00)), null);
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		

@@ -7,7 +7,7 @@ package nl.uva.sea.ql.answerTable;
  * decimal) value.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 17-mar-2016
  */
 public abstract class NumericValue extends Value {
     
@@ -145,6 +145,54 @@ public abstract class NumericValue extends Value {
     protected abstract BooleanValue ternaryGreaterThan(MoneyValue other);
     
     /**
+     * Add a specified <code>NumericValue</code> to <code>this NumericValue</code>.
+     * Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to add to this one
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this NumericValue</code> otherwise
+     */
+    public abstract NumericValue add(NumericValue other);
+    
+    /**
+     * Add a specified <code>DecimalValue</code> to <code>this NumericValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to add to
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this NumericValue</code> otherwise
+     */
+    protected abstract NumericValue add(DecimalValue other);
+    
+    /**
+     * Add a specified <code>IntValue</code> to <code>this NumericValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to add to
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this NumericValue</code> otherwise
+     */
+    protected abstract NumericValue add(IntValue other);
+    
+    /**
+     * Add a specified <code>MoneyValue</code> to <code>this NumericValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to add to
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unkonwn value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this NumericValue</code> otherwise
+     */
+    protected abstract MoneyValue add(MoneyValue other);
+    
+    /**
      * Multiply <code>this NumericValue</code> by another. Dispatches to a more
      * specific case.
      * 
@@ -194,5 +242,53 @@ public abstract class NumericValue extends Value {
      *          <code>Value</code>s otherwise
      */
     protected abstract MoneyValue multiply(MoneyValue other);
+    
+    /**
+     * Divide <code>this NumericValue</code> by another. Dispatches to a more
+     * specific case.
+     * 
+     * @param other a <code>NumericValue</code> to divide this one by
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>this NumericValue</code> by <code>other</code> otherwise
+     */
+    public abstract NumericValue divide(NumericValue other);
+    
+    /**
+     * Divide a specified <code>DecimalValue</code> by <code>this NumericValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to divide by
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this NumericValue</code> otherwise
+     */
+    protected abstract DecimalValue inverseDivide(DecimalValue other);
+    
+    /**
+     * Divide a specified <code>IntValue</code> by <code>this NumericValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to divide by
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this NumericValue</code> otherwise
+     */
+    protected abstract DecimalValue inverseDivide(IntValue other);
+    
+    /**
+     * Divide a specified <code>MoneyValue</code> by <code>this NumericValue</code>.
+     * 
+     * @param other a <code>MoneyValue</code> to divide by
+     *              <code>this NumericValue</code>
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this NumericValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this NumericValue</code> otherwise
+     */
+    protected abstract NumericValue inverseDivide(MoneyValue other);
     
 }

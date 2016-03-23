@@ -1,15 +1,16 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.ASTVisitor;
+import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of the + operator in an AST, that can either mean addition or
  * (string) concatenation.
  * 
  * @author Olav Trauschke
- * @version 4-mar-2016
+ * @version 19-mar-2016
  */
 public class Add extends Expr {
     
@@ -116,41 +117,97 @@ public class Add extends Expr {
     }
     
     /**
-     * Set whether <code>this Add</code> represents a decimal value.
-     * 
-     * @param newValue whether or not <code>this Add</code> represents a decimal
-     *                  value
+     * Set <code>this Add</code> to represent a decimal value.
      */
-    public void setIsDecimal(boolean newValue) {
-        isDecimal = newValue;
+    public void setIsDecimal() {
+        isDecimal = true;
     }
     
     /**
-     * Set wheter <code>this Add</code> represents an integer value.
-     * 
-     * @param newValue whether or not <code>this Add</code> represents an int value
+     * Set <code>this Add</code> to represent an integer value.
      */
-    public void setIsInt(boolean newValue) {
-        isInt = newValue;
+    public void setIsInt() {
+        isInt = true;
     }
     
     /**
-     * Set whether <code>this Add</code> repersents a money value.
-     * 
-     * @param newValue whether or not <code>this Add</code> represents a money value
+     * Set <code>this Add</code> to repersent a money value.
      */
-    public void setIsMoney(boolean newValue) {
-        isMoney = newValue;
+    public void setIsMoney() {
+        isMoney = true;
     }
     
     /**
-     * Set whether <code>this Add</code> represents a string value.
-     * 
-     * @param newValue whether or not <code>this Add</code> represents a string
-     *                  value
+     * Set <code>this Add</code> to represent a string value.
      */
-    public void setIsString(boolean newValue) {
-        isString = newValue;
+    public void setIsString() {
+        isString = true;
+    }
+    
+    /**
+     * Evaluate <code>this Add</code>. Assumes either one or more of
+     * <code>isDecimal</code>, <code>isInt</code> and <code>isMoney</code>, or
+     * <code>isString</code> was set, but not both.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping all <code>Ident</code>s
+     *                      that might appear in <code>Expr</code>s in
+     *                      <code>this Add</code> to the <code>Value</code> of
+     *                      the <code>Question</code> they represent
+     * @return a <code>Value</code> representing the result of adding
+     *          <code>this Add</code>'s <code>secondExpr</code> to its
+     *          <code>firstExpr</code> if <code>this Add isDecimal</code>,
+     *          <code>isInt</code> or <code>isMoney</code> or the result of
+     *          concatenating its <code>secondExpr</code> to its
+     *          <code>firstExpr</code> otherwise (if it <code>isString</code>)
+     */
+    @Override
+    public Value eval(AnswerTable answerTable) {
+        boolean isNumeric = isDecimal || isInt || isMoney;
+        assert (isNumeric && !isString) || (!isNumeric && isString);
+        if (isNumeric) {
+            return evalNumeric(answerTable);
+        }
+        else {
+            return evalString(answerTable);
+        }
+    }
+    
+    /**
+     * Evaluate <code>this Add</code> interpreting it as addition of
+     * <code>NumericValue</code>s. Assumes <code>theFirstExpr</code> and
+     * <code>theSecondExpr</code> evaluate to <code>NumericValue</code>s.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping all <code>Ident</code>s
+     *                      that might appear in <code>Expr</code>s in
+     *                      <code>this Add</code> to the <code>Value</code> of
+     *                      the <code>Question</code> they represent
+     * @return a <code>NumericValue</code> representing the result of adding
+     *          <code>this Add</code>'s <code>secondExpr</code> to its
+     *          <code>firstExpr</code>
+     */
+    private NumericValue evalNumeric(AnswerTable answerTable) {
+        NumericValue firstValue = (NumericValue) firstExpr.eval(answerTable);
+        NumericValue secondValue = (NumericValue) secondExpr.eval(answerTable);
+        return firstValue.add(secondValue);
+    }
+    
+    /**
+     * Evaluate <code>this Add</code> interpreting it as concatenation of
+     * <code>StringValue</code>s. Assumes <code>theFirstExpr</code> and
+     * <code>theSecondExpr</code> evaluate to <code>StringValue</code>s.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping all <code>Ident</code>s
+     *                      that might appear in <code>Expr</code>s in
+     *                      <code>this Add</code> to the <code>Value</code> of
+     *                      the <code>Question</code> they represent
+     * @return a <code>StringValue</code> representing the result of concatenating
+     *          <code>this Add</code>'s <code>secondExpr</code> to its
+     *          <code>firstExpr</code>
+     */
+    private StringValue evalString(AnswerTable answerTable) {
+        StringValue firstValue = (StringValue) firstExpr.eval(answerTable);
+        StringValue secondValue = (StringValue) secondExpr.eval(answerTable);
+        return firstValue.concat(secondValue);
     }
     
     /**

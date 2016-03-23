@@ -20,10 +20,10 @@ import nl.nicasso.ql.ast.nodes.expressions.relational.Greater;
 import nl.nicasso.ql.ast.nodes.expressions.relational.GreaterEqual;
 import nl.nicasso.ql.ast.nodes.expressions.relational.Less;
 import nl.nicasso.ql.ast.nodes.expressions.relational.LessEqual;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLit;
-import nl.nicasso.ql.ast.nodes.literals.IntegerLit;
-import nl.nicasso.ql.ast.nodes.literals.MoneyLit;
-import nl.nicasso.ql.ast.nodes.literals.StringLit;
+import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
+import nl.nicasso.ql.ast.nodes.literals.IntegerLiteral;
+import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
+import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public class CollectIdentifiers implements ExpressionVisitor<Void> {
@@ -35,122 +35,122 @@ public class CollectIdentifiers implements ExpressionVisitor<Void> {
 	}
 
 	@Override
-	public Void visit(Addition expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(Addition expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Subtraction expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(Subtraction expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(And expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(And expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Or expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(Or expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Not expr) {
-		unaryExpressionTraversal(expr);
+	public Void visit(Not expression) {
+		unaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Parenthesis expr) {
-		unaryExpressionTraversal(expr);
+	public Void visit(Parenthesis expression) {
+		unaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Equal expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(Equal expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(NotEqual expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(NotEqual expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Division expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(Division expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Multiplication expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(Multiplication expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Greater expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(Greater expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(GreaterEqual expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(GreaterEqual expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Less expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(Less expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(LessEqual expr) {
-		binaryExpressionTraversal(expr);
+	public Void visit(LessEqual expression) {
+		binaryExpressionTraversal(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(Identifier expr) {
-		identifiers.add(expr);
+	public Void visit(Identifier expression) {
+		identifiers.add(expression);
 		return null;
 	}
 
 	@Override
-	public Void visit(BooleanLit expr) {
+	public Void visit(BooleanLiteral expression) {
 		return null;
 	}
 
 	@Override
-	public Void visit(IntegerLit expr) {
+	public Void visit(IntegerLiteral expression) {
 		return null;
 	}
 
 	@Override
-	public Void visit(StringLit expr) {
+	public Void visit(StringLiteral expression) {
 		return null;
 	}
 
 	@Override
-	public Void visit(MoneyLit expr) {
+	public Void visit(MoneyLiteral expression) {
 		return null;
 	}
 	
-	private void binaryExpressionTraversal(Binary expr) {
-		expr.getLeft().accept(this);
-		expr.getRight().accept(this);
+	private void binaryExpressionTraversal(Binary expression) {
+		expression.getLeft().accept(this);
+		expression.getRight().accept(this);
 	}
 	
-	private void unaryExpressionTraversal(Unary expr) {
-		expr.getExpr().accept(this);
+	private void unaryExpressionTraversal(Unary expression) {
+		expression.getExpr().accept(this);
 	}
 	
 	public Set<Identifier> getIdentifiers() {

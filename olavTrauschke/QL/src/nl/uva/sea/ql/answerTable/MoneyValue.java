@@ -180,6 +180,67 @@ public class MoneyValue extends NumericValue {
     }
     
     /**
+     * Add a specified <code>NumericValue</code> to <code>this MoneyValue</code>.
+     * 
+     * @param other a <code>NumericValue</code> to add to
+     *              <code>this MoneyValue</code>
+     * @return a <code>MoneyValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents
+     *          an unknown value or the result of adding <code>other</code> to
+     *          <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    public MoneyValue add(NumericValue other) {
+        return other.add(this);
+    }
+    
+    /**
+     * Add a specified <code>DecimalValue</code> to <code>this MoneyValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to add to <code>this MoneyValue</code>
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkonwn value or the result of adding <code>other</code> to
+     *          <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue add(DecimalValue other) {
+        return add(other.castMoney());
+    }
+    
+    /**
+     * Add a specified <code>IntValue</code> to <code>this MoneyValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to add to <code>this MoneyValue</code>
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkonwn value or the result of adding <code>other</code> to
+     *          <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue add(IntValue other) {
+        return add(other.castMoney());
+    }
+    
+    /**
+     * Add a specified <code>MoneyValue</code> to this one.
+     * 
+     * @param other a <code>MoneyValue</code> to add to this one
+     * @return a <code>MoneyValue</code> representing an unkonwn value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents an
+     *          unkonwn value or the result of adding <code>other</code> to
+     *          <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected MoneyValue add(MoneyValue other) {
+        if (value == null || other.value == null) {
+            return new MoneyValue(null);
+        }
+        BigDecimal result = value.add(other.value);
+        return new MoneyValue(result.toString());
+    }
+    
+    /**
      * Multiply <code>this MoneyValue</code> by a specified
      * <code>MoneyValue</code>. Dispatches to a more specific case.
      * 
@@ -192,7 +253,7 @@ public class MoneyValue extends NumericValue {
      */
     @Override
     public MoneyValue multiply(NumericValue other) {
-        return other.multiply(this);
+        return other.multiply(this); //double dispatch to a more specific case
     }
     
     /**
@@ -243,6 +304,97 @@ public class MoneyValue extends NumericValue {
         }
         BigDecimal result = value.multiply(other.value);
         return new MoneyValue(result.toString());
+    }
+    
+    /**
+     * Divide <code>this MoneyValue</code> by a specified <code>NumericValue</code>.
+     * Dispatches to a more specific case.
+     * 
+     * @param other a <code>NumericValue</code> to divide
+     *              <code>this MoneyValue</code> by
+     * @return a <code>NumericValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>this MoneyValue</code> by <code>other</code> otherwise
+     */
+    @Override
+    public NumericValue divide(NumericValue other) {
+        return other.inverseDivide(this); //double dispatch to a more specific case
+    }
+    
+    /**
+     * Divide <code>this MoneyValue</code> by a specified <code>DecimalValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to divide
+     *              <code>this MoneyValue</code> by
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>this MoneyValue</code> by <code>other</code> otherwise
+     */
+    protected MoneyValue divide(DecimalValue other) {
+        DecimalValue decimalValue = castDecimal();
+        DecimalValue result = other.inverseDivide(decimalValue);
+        return result.castMoney();
+    }
+    
+    /**
+     * Divide a specified <code>DecimalValue</code> by <code>this MoneyValue</code>.
+     * 
+     * @param other a <code>DecimalValue</code> to divide by
+     *              <code>this MoneyValue</code>
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue inverseDivide(DecimalValue other) {
+        return inverseDivide(other.castMoney());
+    }
+    
+    /**
+     * Divide a specified <code>IntValue</code> by <code>this MoneyValue</code>.
+     * 
+     * @param other an <code>IntValue</code> to divide by
+     *              <code>this MoneyValue</code>
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue inverseDivide(IntValue other) {
+        return inverseDivide(other.castMoney());
+    }
+    
+    /**
+     * Divide a specified <code>MoneyValue</code> by this one.
+     * 
+     * @param other a <code>MoneyValue</code> to divide by this one
+     * @return a <code>DecimalValue</code> representing an unknown value if
+     *          <code>this MoneyValue</code> or <code>other</code> represents
+     *          an unknown value or the result of dividing
+     *          <code>other</code> by <code>this MoneyValue</code> otherwise
+     */
+    @Override
+    protected DecimalValue inverseDivide(MoneyValue other) {
+        BigDecimal result = other.value.divide(value);
+        return new DecimalValue(result.doubleValue());
+    }
+    
+    /**
+     * Obtain a <code>DecimalValue</code> representing <code>theValue</code> of
+     * <code>this MoneyValue</code>.
+     * 
+     * @return a <code>DecimalValue</code> representing approximatly the same
+     *          value as <code>this MoneyValue</code>
+     */
+    protected DecimalValue castDecimal() {
+        if (value == null) {
+            return new DecimalValue(null);
+        }
+        return new DecimalValue(value.doubleValue());
     }
     
 }

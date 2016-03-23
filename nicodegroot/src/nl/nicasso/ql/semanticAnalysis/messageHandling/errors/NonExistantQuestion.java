@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 
-public class NonExistantQuestion extends Error {
+public class NonExistantQuestion extends ErrorMessage {
 	
 	private static final String MESSAGE = "Identifer \"{0}\" does not exist. {1}";
 
@@ -20,7 +20,7 @@ public class NonExistantQuestion extends Error {
 	}
 	
 	public String getMessage() {
-		return MessageFormat.format(NonExistantQuestion.MESSAGE, identifier.getValue(), identifier.getLocation());
+		return MessageFormat.format(NonExistantQuestion.MESSAGE, identifier.getIdentifier(), identifier.getLocation());
 	}
 
 }

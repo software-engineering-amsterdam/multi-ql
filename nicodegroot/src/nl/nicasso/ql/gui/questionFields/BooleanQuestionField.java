@@ -9,6 +9,7 @@ import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldParameter;
 import nl.nicasso.ql.gui.evaluator.values.BooleanValue;
+import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.Label;
 
 public class BooleanQuestionField extends QuestionField {
@@ -17,19 +18,24 @@ public class BooleanQuestionField extends QuestionField {
 	private JCheckBox field;
 	private Label label;
 	private Observer main;
+	private BooleanValue value;
 
 	public BooleanQuestionField(QuestionFieldParameter params) {
 		this.identifier = params.getIdentifier();
 		this.main = params.getMain();
 		
-		setupField(params.isEnabled());
+		setupField(params.isEnabled(), params.getValue());
 	}
 	
-	private void setupField(boolean enabled) {
+	private void setupField(boolean enabled, Value value) {
 		field = new JCheckBox();
 		field.setEnabled(enabled);
 		
-		addListenerToField();
+		setValue(value);
+		
+		if (enabled) {
+			addListenerToField();
+		}
 	}
 	
 	private void addListenerToField() {
@@ -51,13 +57,17 @@ public class BooleanQuestionField extends QuestionField {
 		});
 	}
 	
-	public void setValue(Object value) {
-		field.setSelected((Boolean) value);
+	public void setValue(Value value) {
+		this.value = (BooleanValue) value;
+		field.setSelected((Boolean) value.getValue());
 	}
 	
-	public boolean equalValues(Object value) {
-		//System.out.println(value+" - "+field.isSelected() + " EQUALS? "+ value.equals((field.isSelected())));
-		return value.equals(field.isSelected());
+	public BooleanValue getValue() {
+		return value;
+	}
+	
+	public boolean equalValues(Value value) {
+		return value.equals(this.value);
 	}
 	
 	public void setFeedbackLabel(Label label) {

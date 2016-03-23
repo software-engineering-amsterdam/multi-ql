@@ -5,8 +5,8 @@ import nl.nicasso.ql.ast.nodes.types.Type;
 
 public abstract class Binary extends Expression {
 
-	Expression left;
-	Expression right;
+	private Expression left;
+	private Expression right;
 	
 	public Binary(CodeLocation location) {
 		super(location);

@@ -4,7 +4,7 @@ import nl.nicasso.ql.ast.nodes.CodeLocation;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.visitors.TypeVisitor;
 
-public class IntegerType extends NumericType {
+public class IntegerType extends Type {
 
 	private final String type;
 

@@ -1,9 +1,6 @@
 package stmt
 
-import (
-	"fmt"
-	"ql/interfaces"
-)
+import "ql/interfaces"
 
 type If struct {
 	Cond interfaces.Expr
@@ -11,12 +8,8 @@ type If struct {
 	Stmt
 }
 
-func NewIf(condition interfaces.Expr, body StmtList, sourceInfo interface{}) If {
-	return If{condition, body, NewStmt(sourceInfo)}
-}
-
-func NewIfNoSourceInfo(condition interfaces.Expr, body StmtList) If {
-	return NewIf(condition, body, nil)
+func NewIf(condition interfaces.Expr, body StmtList) If {
+	return If{condition, body, NewStmt()}
 }
 
 func (this If) GetBody() interfaces.StmtList {
@@ -25,10 +18,6 @@ func (this If) GetBody() interfaces.StmtList {
 
 func (this If) GetCondition() interfaces.Expr {
 	return this.Cond
-}
-
-func (this If) String() string {
-	return fmt.Sprintf("An if statement with condition %s and statement list %s", this.Cond, this.Body)
 }
 
 func (this If) EvalCondition(symbolTable interfaces.VarIdValueSymbols) bool {

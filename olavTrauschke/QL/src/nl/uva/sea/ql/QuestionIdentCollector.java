@@ -3,7 +3,6 @@ package nl.uva.sea.ql;
 import java.util.*;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.GeneralizedASTVisitor;
 
 /**
  * Visitor to obtain a map from all <code>Ident</code>s in an <code>ast</code>

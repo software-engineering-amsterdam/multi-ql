@@ -1,15 +1,15 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of a a minus in front of a number in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 17-mar-2016
  */
 public class Neg extends NumericExpr {
     
@@ -97,13 +97,24 @@ public class Neg extends NumericExpr {
      *                      that might appear in <code>theContent</code> of
      *                      <code>this Neg</code> to the <code>Value</code> of
      *                      the <code>Question</code> they represent
-     * @return a <code>NumericValue</code> representing the result of multiplying
-     *          <code>theContent</code> by the
-     *          {@link #MULTIPLICATION_FACTOR MULTIPLICATION_FACTOR}
+     * @return a <code>NumericValue</code> representing the negative of
+     *          <code>theContent</code>
      */
     @Override
     public NumericValue eval(AnswerTable answerTable) {
         NumericValue value = (NumericValue) content.eval(answerTable);
+        return negate(value);
+    }
+    
+    /**
+     * Obtain the negative of a <code>NumericValue</code>. The negative variant
+     * of a <code>NumericValue</code> is calculated by multiplying it by
+     * {@link #MULTIPLICATION_FACTOR MULTIPLICATION_FACTOR}.
+     * 
+     * @param value a <code>NumericValue</code> to get the negative variant of
+     * @return the negative variant of <code>value</code>
+     */
+    public static NumericValue negate(NumericValue value) {
         return value.multiply(MULTIPLICATION_FACTOR);
     }
     

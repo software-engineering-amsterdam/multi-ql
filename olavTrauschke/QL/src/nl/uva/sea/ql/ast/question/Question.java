@@ -1,16 +1,16 @@
 package nl.uva.sea.ql.ast.question;
 
 import java.util.Objects;
+import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.*;
-import nl.uva.sea.ql.checker.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 9-mar-2016
+ * @version 17-mar-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -116,7 +116,7 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * Tells whether this <code>Question</code> is computed (or should be
+     * Tells whether <code>this Question</code> is computed (or should be
      * anwered by the user.
      * 
      * @return <code>true</code> if and only if <code>calculation != null</code>

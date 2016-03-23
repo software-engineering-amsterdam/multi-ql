@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 
-public class DuplicateLabels extends Warning {
+public class DuplicateLabels extends WarningMessage {
 
 	private static final String MESSAGE = "Question \"{0}\" has a duplicate label: \"{1}\". {2}";
 	
@@ -22,7 +22,7 @@ public class DuplicateLabels extends Warning {
 	}
 	
 	public String getMessage() {
-		return MessageFormat.format(DuplicateLabels.MESSAGE, identifier.getValue(), label, identifier.getLocation());
+		return MessageFormat.format(DuplicateLabels.MESSAGE, identifier.getIdentifier(), label, identifier.getLocation());
 	}
 
 }

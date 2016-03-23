@@ -12,7 +12,8 @@ public class Identifier extends Expression {
 		this.lit = lit;
 	}
 
-	public String getValue() {
+	// @TODO ADD TOSTRING HERE SO WE DONT HAVE TO CALL THIS THING ALL THE TIME?
+	public String getIdentifier() {
 		return lit;
 	}
 	
@@ -24,7 +25,7 @@ public class Identifier extends Expression {
 	@Override
 	public boolean equals(Object ob) {
 		Identifier id = (Identifier) ob;
-		return lit.equals(id.getValue());
+		return lit.equals(id.getIdentifier());
 	}
 	
 	@Override

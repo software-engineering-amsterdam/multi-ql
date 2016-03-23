@@ -1,72 +1,78 @@
 package expr
 
+import "ql/interfaces"
+
 type ValueType struct {
 	Expr
-}
-
-func NewValueType(sourceInfo interface{}) ValueType {
-	return ValueType{NewExpr(sourceInfo)}
-}
-
-type IntType struct {
-	ValueType
 	TypeString string
 }
 
-func NewIntType(sourceInfo interface{}) IntType {
-	return IntType{NewValueType(sourceInfo), "Integer"}
+func NewValueType(typeString string) ValueType {
+	return ValueType{NewExpr(), typeString}
 }
 
-func NewIntTypeNoSourceInfo() IntType {
-	return NewIntType(nil)
-}
-
-func (this IntType) GetDefaultValue() interface{} {
-	return NewIntLitNoSourceInfo(0)
-}
-
-func (this IntType) String() string {
+func (this ValueType) String() string {
 	return this.TypeString
 }
 
+/* UnknownType */
+
+type UnknownType struct {
+	ValueType
+}
+
+func NewUnknownType() UnknownType {
+	return UnknownType{NewValueType("Unknown")}
+}
+
+func (this UnknownType) GetDefaultValue() interfaces.LitExpr {
+	panic("UnknownType has no default value")
+
+	return nil
+}
+
+/* IntType */
+
+type IntType struct {
+	ValueType
+}
+
+func NewIntType() IntType {
+	return IntType{NewValueType("Integer")}
+}
+
+func (this IntType) GetDefaultValue() interfaces.LitExpr {
+	return NewIntLit(0)
+}
+
+/* StringType */
+
 type StringType struct {
 	ValueType
-	TypeString string
 }
 
-func NewStringType(sourceInfo interface{}) StringType {
-	return StringType{NewValueType(sourceInfo), "String"}
+func NewStringType() StringType {
+	return StringType{NewValueType("String")}
 }
 
-func NewStringTypeNoSourceInfo() StringType {
-	return NewStringType(nil)
-}
-
-func (this StringType) GetDefaultValue() interface{} {
-	return NewStrLitNoSourceInfo("")
+func (this StringType) GetDefaultValue() interfaces.LitExpr {
+	return NewStrLit("")
 }
 
 func (this StringType) String() string {
 	return this.TypeString
 }
 
+/* BoolType */
+
 type BoolType struct {
 	ValueType
-	TypeString string
 }
 
-func NewBoolType(sourceInfo interface{}) BoolType {
-	return BoolType{NewValueType(sourceInfo), "Boolean"}
+func NewBoolType() BoolType {
+	return BoolType{NewValueType("Boolean")}
 }
 
-func NewBoolTypeNoSourceInfo() BoolType {
-	return NewBoolType(nil)
-}
-
-func (this BoolType) GetDefaultValue() interface{} {
-	return NewBoolLitNoSourceInfo(false)
-}
-
-func (this BoolType) String() string {
-	return this.TypeString
+func (this BoolType) GetDefaultValue() interfaces.LitExpr {
+	return NewBoolLit(false)
 }

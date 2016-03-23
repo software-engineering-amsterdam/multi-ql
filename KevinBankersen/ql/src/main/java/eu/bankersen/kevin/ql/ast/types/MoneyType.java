@@ -5,15 +5,14 @@ import java.math.BigDecimal;
 import eu.bankersen.kevin.ql.ast.values.MoneyValue;
 import eu.bankersen.kevin.ql.ast.values.QLValue;
 import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
-import eu.bankersen.kevin.ql.gui.widgets.BoxWidget;
-import eu.bankersen.kevin.ql.gui.widgets.InputWidget;
-import eu.bankersen.kevin.ql.gui.widgets.Widget;
+import eu.bankersen.kevin.ql.gui.widgets.input.BoxWidget;
+import eu.bankersen.kevin.ql.gui.widgets.input.InputWidget;
 
 public class MoneyType extends QLType {
 
     @Override
-    public InputWidget defaultWidget(Widget parentWidget) {
-	return new BoxWidget(new MoneyType(), parentWidget);
+    public InputWidget defaultWidget() {
+	return new BoxWidget();
     }
 
     @Override

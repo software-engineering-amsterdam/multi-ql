@@ -1,9 +1,6 @@
 package stmt
 
-import (
-	"fmt"
-	"ql/interfaces"
-)
+import "ql/interfaces"
 
 type InputQuestion struct {
 	Label   interfaces.StrLit
@@ -11,16 +8,8 @@ type InputQuestion struct {
 	Stmt
 }
 
-func NewInputQuestion(label interfaces.StrLit, varDecl interfaces.VarDecl, sourceInfo interface{}) InputQuestion {
-	return InputQuestion{label, varDecl, NewStmt(sourceInfo)}
-}
-
-func NewInputQuestionNoSourceInfo(label interfaces.StrLit, varDecl interfaces.VarDecl) InputQuestion {
-	return NewInputQuestion(label, varDecl, nil)
-}
-
-func (this InputQuestion) String() string {
-	return fmt.Sprintf("A question with label %s, var decl %s", this.Label, this.VarDecl)
+func NewInputQuestion(label interfaces.StrLit, varDecl interfaces.VarDecl) InputQuestion {
+	return InputQuestion{label, varDecl, NewStmt()}
 }
 
 func (this InputQuestion) GetLabel() interfaces.StrLit {

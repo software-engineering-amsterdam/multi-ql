@@ -6,7 +6,7 @@ import nl.nicasso.ql.ast.nodes.CodeLocation;
 import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
 import nl.nicasso.ql.visitors.TypeVisitor;
 
-public class MoneyType extends NumericType {
+public class MoneyType extends Type {
 
 	private final String type;
 

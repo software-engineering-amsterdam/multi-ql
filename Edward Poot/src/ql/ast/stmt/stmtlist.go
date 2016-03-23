@@ -11,20 +11,12 @@ type StmtList struct {
 	Stmt
 }
 
-func NewStmtList(questions []interfaces.Question, conditionals []interfaces.Conditional, sourceInfo interface{}) StmtList {
-	return StmtList{questions, conditionals, NewStmt(sourceInfo)}
+func NewStmtList(questions []interfaces.Question, conditionals []interfaces.Conditional) StmtList {
+	return StmtList{questions, conditionals, NewStmt()}
 }
 
-func NewStmtListNoSourceInfo(questions []interfaces.Question, conditionals []interfaces.Conditional) StmtList {
-	return NewStmtList(questions, conditionals, nil)
-}
-
-func NewEmptyStmtList(sourceInfo interface{}) StmtList {
-	return StmtList{Stmt: NewStmt(sourceInfo)}
-}
-
-func NewEmptyStmtListNoSourceInfo() StmtList {
-	return NewEmptyStmtList(nil)
+func NewEmptyStmtList() StmtList {
+	return NewStmtList(nil, nil)
 }
 
 func (this StmtList) GetQuestions() []interfaces.Question {
@@ -35,21 +27,15 @@ func (this StmtList) GetConditionals() []interfaces.Conditional {
 	return this.Conditionals
 }
 
-func (this StmtList) AddToCorrectSlice(i interface{}) StmtList {
-	switch t := i.(type) {
+func (this StmtList) AddToCorrectSlice(questionOrConditional interface{}) StmtList {
+	switch assertedStmt := questionOrConditional.(type) {
 	default:
-		panic(fmt.Sprintf("Unexpected StmtList type passed %T\n", t))
+		panic(fmt.Errorf("Unexpected StmtList type passed to AddToCorrectSlice %T\n", assertedStmt))
 	case interfaces.Question:
-		this.Questions = append(this.Questions, i.(interfaces.Question))
-	case If:
-		this.Conditionals = append(this.Conditionals, i.(If))
-	case IfElse:
-		this.Conditionals = append(this.Conditionals, i.(IfElse))
+		this.Questions = append(this.Questions, assertedStmt)
+	case interfaces.Conditional:
+		this.Conditionals = append(this.Conditionals, assertedStmt)
 	}
 
 	return this
-}
-
-func (this StmtList) String() string {
-	return fmt.Sprintf("A statement list with %d questions and %d conditionals", len(this.Questions), len(this.Conditionals))
 }

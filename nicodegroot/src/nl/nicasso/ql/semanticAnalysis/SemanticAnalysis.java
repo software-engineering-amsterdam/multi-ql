@@ -10,33 +10,24 @@ import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 
 public class SemanticAnalysis {
 
-	private Form ast;
-	private SymbolTable symbolTable;
-	private StateTable stateTable;
-	private MessageHandler messages;
+	private MessageHandler messageHandler;
 	
 	public SemanticAnalysis(Form ast, SymbolTable symbolTable, StateTable stateTable) {
-		this.ast = ast;
-		this.symbolTable = symbolTable;
-		this.stateTable = stateTable;
+		messageHandler = new MessageHandler();
 		
-		messages = new MessageHandler();
-	}
-	
-	public void initializeAnalysis() {        
-        QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, stateTable, messages);
+		QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, stateTable, messageHandler);
         ast.accept(questionVisitor, null);
         
-    	TypeChecker typeChecker = new TypeChecker(symbolTable, messages);
+    	TypeChecker typeChecker = new TypeChecker(symbolTable, messageHandler);
     	ast.accept(typeChecker, null);
-    	
-        messages.displayMessages();
 	}
 	
 	public List<Message> getMessages() {
-		return messages.getMessages();
+		return messageHandler.getAllMessages();
 	}
 	
-	
+	public boolean containsErrors() {
+		return messageHandler.containsErrors();
+	}
 	
 }
