@@ -1,7 +1,6 @@
 package sc.qls.ui;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -27,21 +26,10 @@ public class UISection {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(createBorder());
 
-		for (UIQuestion question : sort(questions)) {
+		for (UIQuestion question : section.sort(questions)) {
 			panel.add(question.getComponent());
 			panel.add(Box.createRigidArea(new Dimension(0, 2)));
 		}
-	}
-
-	private List<UIQuestion> sort(List<UIQuestion> questions) {
-		List<UIQuestion> sortedQuestions;
-
-		sortedQuestions = new ArrayList<>(questions);
-		sortedQuestions.sort((q1, q2) -> {
-			return Integer.compare(section.indexOf(q1.name()), section.indexOf(q2.name()));
-		});
-
-		return sortedQuestions;
 	}
 
 	private Border createBorder() {

@@ -29,9 +29,8 @@ public class Page extends ASTNode {
 		List<UIQuestion> filteredList;
 
 		filteredList = new ArrayList<>();
-		for (Section section : sections) {
-			filteredList.addAll(section.filter(questions));
-		}
+
+		sections.stream().forEach(s -> filteredList.addAll(s.filter(questions)));
 
 		return Collections.unmodifiableList(filteredList);
 	}
