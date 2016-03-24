@@ -1,6 +1,10 @@
 package nl.uva.sea.ql.interpreter;
 
+import java.util.Observable;
+import java.util.Observer;
+import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.expr.Expr;
+import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 
 /**
@@ -11,10 +15,13 @@ import nl.uva.sea.ql.ast.question.Question;
  * @author Olav Trauschke
  * @version 24-mar-2016
  */
-public class DisplayableQuestion {
+public class DisplayableQuestion implements Observer {
     
-    private final Expr isToDisplay;
+    private final Expr displayCondition;
     private final Question question;
+    private final boolean isComputedQuestion;
+    private boolean toDisplay;
+    private Value value;
     
     /**
      * Constructor for objects of this class.
@@ -26,8 +33,30 @@ public class DisplayableQuestion {
      *                      <code>conditionToDisplay</code> evaluates to true
      */
     public DisplayableQuestion(Expr conditionToDisplay, Question theQuestion) {
-        isToDisplay = conditionToDisplay;
+        displayCondition = conditionToDisplay;
         question = theQuestion;
+        isComputedQuestion = theQuestion.isComputed();
+        //TODO set toDisplay
+        value = isComputedQuestion ? theQuestion.evalCalculation() : null;
+    }
+    
+    //TODO document
+    @Override
+    public void update(Observable observable, Object argument) {
+        assert observable instanceof AnswerTable;
+        assert argument instanceof Ident;
+        
+        AnswerTable answerTable = (AnswerTable) observable;
+        Ident identifier = (Ident) argument;
+        
+        if (identifiersInDisplayCondition.contains(identifier)) {
+            BooleanValue toDisplayValue = (BooleanValue) displayCondition.eval(answerTable);
+            toDisplay = toDisplayValue == null ? false : toDisplayValue.getValue();
+        }
+        
+        if (isComputedQuestion && identifiersInCalculation.contains(identifier)) {
+            value = question.evalCalculation(); 
+        }
     }
     
 }

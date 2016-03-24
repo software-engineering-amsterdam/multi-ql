@@ -6,7 +6,7 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a boolean value.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 24-mar-2016
  */
 public class BooleanValue extends Value {
     
@@ -20,6 +20,14 @@ public class BooleanValue extends Value {
      */
     public BooleanValue(Boolean theValue) {
         value = theValue;
+    }
+    
+    /**
+     * @return a <code>boolean</code> with the <code>value this BooleanValue</code>
+     *          represents
+     */
+    public boolean getValue() {
+        return value;
     }
     
     /**

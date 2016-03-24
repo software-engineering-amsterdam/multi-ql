@@ -30,7 +30,8 @@ public class Interpreter {
         DisplayableQuestionGenerator generator = new DisplayableQuestionGenerator();
         form.accept(generator);
         List<DisplayableQuestion> questions = generator.getResult();
-        //TODO Make questions observe the AnswerTable
+        questions.forEach((DisplayableQuestion q) -> symbolTable.addObserver(q));
+        //TODO create GUI
     }
     
     /**

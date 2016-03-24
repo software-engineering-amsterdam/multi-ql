@@ -118,7 +118,7 @@ public abstract class Question extends ASTNode {
     
     /**
      * Tells whether <code>this Question</code> is computed (or should be
-     * anwered by the user.
+     * anwered by the user).
      * 
      * @return <code>true</code> if and only if <code>calculation != null</code>
      */
