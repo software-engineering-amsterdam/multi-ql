@@ -79,6 +79,9 @@
 		E2643C301C9AC036009EAFD8 /* QLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2643C2F1C9AC036009EAFD8 /* QLExtension.swift */; };
 		E2643C391C9AF387009EAFD8 /* ComplexForm.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2643C371C9AF387009EAFD8 /* ComplexForm.ql */; };
 		E2643C3A1C9AF387009EAFD8 /* SimpleForm.ql in Resources */ = {isa = PBXBuildFile; fileRef = E2643C381C9AF387009EAFD8 /* SimpleForm.ql */; };
+		E26CDD631CA43FFF0043EAEA /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26CDD621CA43FFF0043EAEA /* Alert.swift */; };
+		E26CDD671CA4433D0043EAEA /* ErrorForm.ql in Resources */ = {isa = PBXBuildFile; fileRef = E26CDD651CA4433D0043EAEA /* ErrorForm.ql */; };
+		E26CDD681CA4433D0043EAEA /* WarningForm.ql in Resources */ = {isa = PBXBuildFile; fileRef = E26CDD661CA4433D0043EAEA /* WarningForm.ql */; };
 		E29A237E1C6D6C6500281E49 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E29A237D1C6D6C6500281E49 /* Podfile */; };
 		E29D0BE71C72766800AB3BCF /* FailQuestion.ql in Resources */ = {isa = PBXBuildFile; fileRef = E29D0BE61C72766800AB3BCF /* FailQuestion.ql */; };
 		E29D0BEC1C727B3000AB3BCF /* ParseMultiple.ql in Resources */ = {isa = PBXBuildFile; fileRef = E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */; };
@@ -215,6 +218,9 @@
 		E2643C2F1C9AC036009EAFD8 /* QLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QLExtension.swift; path = Src/Questionnaire/QLExtension.swift; sourceTree = "<group>"; };
 		E2643C371C9AF387009EAFD8 /* ComplexForm.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ComplexForm.ql; path = Resources/ComplexForm.ql; sourceTree = "<group>"; };
 		E2643C381C9AF387009EAFD8 /* SimpleForm.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleForm.ql; path = Resources/SimpleForm.ql; sourceTree = "<group>"; };
+		E26CDD621CA43FFF0043EAEA /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alert.swift; path = Src/ViewControllers/Alert.swift; sourceTree = "<group>"; };
+		E26CDD651CA4433D0043EAEA /* ErrorForm.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ErrorForm.ql; path = Resources/ErrorForm.ql; sourceTree = "<group>"; };
+		E26CDD661CA4433D0043EAEA /* WarningForm.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WarningForm.ql; path = Resources/WarningForm.ql; sourceTree = "<group>"; };
 		E29A237D1C6D6C6500281E49 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E29D0BE61C72766800AB3BCF /* FailQuestion.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FailQuestion.ql; path = Resources/QL/QLParserTests/FailQuestion.ql; sourceTree = "<group>"; };
 		E29D0BEB1C727B3000AB3BCF /* ParseMultiple.ql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ParseMultiple.ql; path = Resources/QL/QLParserTests/ParseMultiple.ql; sourceTree = "<group>"; };
@@ -422,6 +428,7 @@
 		E2A5AAAB1C6CDEBF0009E869 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E26CDD621CA43FFF0043EAEA /* Alert.swift */,
 				E21DC3F21C6CE127005564FE /* BaseViewController.swift */,
 				E2A5AAAC1C6CDF010009E869 /* ChooseFormViewController.swift */,
 				E21DC3F61C6CE6C3005564FE /* QuestionnaireViewController.swift */,
@@ -480,6 +487,8 @@
 				E2CE05FF1C621A1600F2B43B /* Assets.xcassets */,
 				E2643C371C9AF387009EAFD8 /* ComplexForm.ql */,
 				E2643C381C9AF387009EAFD8 /* SimpleForm.ql */,
+				E26CDD651CA4433D0043EAEA /* ErrorForm.ql */,
+				E26CDD661CA4433D0043EAEA /* WarningForm.ql */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -758,6 +767,8 @@
 				E2643C3A1C9AF387009EAFD8 /* SimpleForm.ql in Resources */,
 				E2CE060D1C621C4800F2B43B /* RootView.xib in Resources */,
 				E21DC3EF1C6CE095005564FE /* ChooseFormView.xib in Resources */,
+				E26CDD671CA4433D0043EAEA /* ErrorForm.ql in Resources */,
+				E26CDD681CA4433D0043EAEA /* WarningForm.ql in Resources */,
 				E21DC3F91C6CE6E8005564FE /* FormView.xib in Resources */,
 				E2CE06001C621A1600F2B43B /* Assets.xcassets in Resources */,
 			);
@@ -875,6 +886,7 @@
 				E2643C131C9ABE7D009EAFD8 /* SemanticAnalysisRule.swift in Sources */,
 				E2E3FE0D1C919A8B0007E894 /* Questionnaire.swift in Sources */,
 				E2C4E63B1C934BB800F8191F /* NSNumberFormatter.swift in Sources */,
+				E26CDD631CA43FFF0043EAEA /* Alert.swift in Sources */,
 				E2643C031C9ABE7D009EAFD8 /* QLNode.swift in Sources */,
 				E2A5AAAE1C6CDF010009E869 /* ChooseFormViewController.swift in Sources */,
 				E21DC3F71C6CE6C3005564FE /* QuestionnaireViewController.swift in Sources */,
