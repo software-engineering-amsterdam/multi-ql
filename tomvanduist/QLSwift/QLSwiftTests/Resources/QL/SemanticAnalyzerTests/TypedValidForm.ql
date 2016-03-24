@@ -1,14 +1,4 @@
-
 form form1 {
-    if (1 >= 1 && 1 > 1) {
-        if (1 > 1) {
-        }
-    }
-    if (1 > 1 && 1){
-    }
-}
-
-/*form form1 {
     q1: "q1" boolean
     q2: "q2" true
     q4: "q4" (q3 * 2)
@@ -23,4 +13,4 @@ form form1 {
         q6: "q6" q4 > q3
         q7: "q7" q6 != q2
     }
-}*/
+}
