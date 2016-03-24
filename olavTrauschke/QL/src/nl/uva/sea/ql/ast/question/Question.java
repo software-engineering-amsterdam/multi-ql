@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.expr.*;
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 24-mar-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -218,7 +218,10 @@ public abstract class Question extends ASTNode {
                && label.equals(other.label)
                && (calculation == null ? other.calculation == null : calculation.equals(other.calculation));
     }
-
+    
+    /**
+     * @return an <code>int</code> containing a hash for <code>this Question</code>
+     */
     @Override
     public int hashCode() {
         int hash = HASH_ORIGIN;

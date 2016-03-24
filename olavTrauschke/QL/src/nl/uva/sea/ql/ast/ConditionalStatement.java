@@ -4,7 +4,7 @@ import java.util.Objects;
 import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Not;
-import nl.uva.sea.ql.interpreter.QuestionGeneratingVisitor;
+import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
 
 /**
  * Representation of <code>ConditionalStatement</code>s in an AST.
@@ -81,13 +81,13 @@ public class ConditionalStatement extends ASTNode {
      * finally has <code>visitor</code> remove the negation of the
      * <code>condition</code> of <code>this ConditionalStatement</code> again.
      * 
-     * @param visitor a <code>QuestionGeneratingVisitor</code> that should
+     * @param visitor a <code>DisplayableQuestionGenerator</code> that should
      *                  <code>visit this ConditionalStatement</code>'s
      *                  <code>toDoIf</code> and <code>toDoElse</code> with the
      *                  right conditions added
      */
     @Override
-    public void accept(QuestionGeneratingVisitor visitor) {
+    public void accept(DisplayableQuestionGenerator visitor) {
         visitor.addCondition(condition);
         toDoIf.accept(visitor);
         visitor.removeLastCondition();

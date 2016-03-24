@@ -27,10 +27,10 @@ public class Interpreter {
         form.accept(identCollector);
         Iterable<Ident> identifiers = identCollector.obtainIdentifiers();
         symbolTable = new AnswerTable(identifiers);
-        QuestionGeneratingVisitor generator = new QuestionGeneratingVisitor();
+        DisplayableQuestionGenerator generator = new DisplayableQuestionGenerator();
         form.accept(generator);
-        List<Question> questions = generator.getResult();
-        //TODO Make these objects observe the AnswerTable
+        List<DisplayableQuestion> questions = generator.getResult();
+        //TODO Make questions observe the AnswerTable
     }
     
     /**
