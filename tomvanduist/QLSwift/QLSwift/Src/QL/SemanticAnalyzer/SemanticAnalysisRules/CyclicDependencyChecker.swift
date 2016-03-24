@@ -72,11 +72,12 @@ extension CyclicDependencyChecker {
         }
     }
     
-    func visitBinary(binary: QLBinary, identifiers: [String]) -> [SemanticError] {
-        let lhs = binary.lhs.accept(self, param: identifiers)
-        let rhs = binary.rhs.accept(self, param: identifiers)
+
+    func visitBinary(binary: QLBinary, param identifiers: [String]) -> [SemanticError] {
+        let lhsErrors = binary.lhs.accept(self, param: identifiers)
+        let rhsErrors = binary.rhs.accept(self, param: identifiers)
         
-        return lhs + rhs
+        return lhsErrors + rhsErrors
     }
     
     func defaultReturn(expression: QLExpression, param: [String]) -> [SemanticError] {
