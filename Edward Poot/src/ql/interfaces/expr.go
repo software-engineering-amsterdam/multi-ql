@@ -3,13 +3,13 @@ package interfaces
 type Expr interface {
 	ASTNode
 	Eval(s VarIdValueSymbols) interface{}
-	TypeCheck(TypeChecker, TypeCheckSymbols) ValueType
+	TypeCheck(TypeCheckArgs) ValueType
 }
 
 type BinaryOperatorExpr interface {
 	Expr
-	GetLhs() Expr
-	GetRhs() Expr
+	Lhs() Expr
+	Rhs() Expr
 }
 
 type Add interface {
@@ -66,22 +66,22 @@ type LitExpr interface {
 
 type StrLit interface {
 	LitExpr
-	GetValue() string
+	Value() string
 }
 
 type BoolLit interface {
 	LitExpr
-	GetValue() bool
+	Value() bool
 }
 
 type IntLit interface {
 	LitExpr
-	GetValue() int
+	Value() int
 }
 
 type UnaryOperatorExpr interface {
 	Expr
-	GetValue() Expr
+	Value() Expr
 }
 
 type Neg interface {
@@ -102,7 +102,7 @@ type VarExpr interface {
 
 type ValueType interface {
 	Expr
-	GetDefaultValue() LitExpr
+	DefaultValue() LitExpr
 }
 
 type UnknownType interface {

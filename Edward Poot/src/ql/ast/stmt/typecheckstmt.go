@@ -6,146 +6,135 @@ import (
 	"ql/interfaces"
 )
 
-func (this Form) TypeCheck(typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	this.Content.TypeCheck(typeChecker, symbols)
+func (this Form) TypeCheck(typeCheckArgs interfaces.TypeCheckArgs) {
+	this.Content().TypeCheck(typeCheckArgs)
 
-	// If at the end of the form we still have undefined references, they will be added as errors
-	// Only at the end of the form we truly know the question is not declared anywhere
-	this.checkForUndefinedReferences(typeChecker)
+	// Only at the end of the form we truly know the question is not declared anywhere (since QL is not a sequential program)
+	this.checkForUndefinedReferences(typeCheckArgs.TypeChecker())
 }
 
-func (this If) TypeCheck(typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	checkForNonBoolCondition(this.GetCondition(), typeChecker, symbols)
+func (this If) TypeCheck(typeCheckArgs interfaces.TypeCheckArgs) {
+	checkForNonBoolCondition(this.Condition(), typeCheckArgs)
 
-	typeChecker.AddConditionDependentOn(this.Cond)
+	this.Condition().TypeCheck(typeCheckArgs)
+	typeCheckArgs = typeCheckArgs.AddConditionDependentOn(this.Condition())
 
-	this.Body.TypeCheck(typeChecker, symbols)
-	this.Cond.TypeCheck(typeChecker, symbols)
-
-	typeChecker.PopLastConditionDependentOn()
+	this.Body().TypeCheck(typeCheckArgs)
 }
 
-func (this IfElse) TypeCheck(typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	checkForNonBoolCondition(this.GetCondition(), typeChecker, symbols)
+func (this IfElse) TypeCheck(typeCheckArgs interfaces.TypeCheckArgs) {
+	checkForNonBoolCondition(this.Condition(), typeCheckArgs)
 
-	typeChecker.AddConditionDependentOn(this.Cond)
+	this.Condition().TypeCheck(typeCheckArgs)
+	typeCheckArgs = typeCheckArgs.AddConditionDependentOn(this.Condition())
 
-	this.Cond.TypeCheck(typeChecker, symbols)
-	this.IfBody.TypeCheck(typeChecker, symbols)
-	this.ElseBody.TypeCheck(typeChecker, symbols)
-
-	typeChecker.PopLastConditionDependentOn()
+	this.IfBody().TypeCheck(typeCheckArgs)
+	this.ElseBody().TypeCheck(typeCheckArgs)
 }
 
-func (this ComputedQuestion) TypeCheck(typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	checkQuestionForDuplicateLabels(this, typeChecker)
-	checkQuestionForRedeclaration(this, typeChecker, symbols)
-	typeChecker.SetCurrentVarIdVisited(this.VarDecl)
+func (this ComputedQuestion) TypeCheck(typeCheckArgs interfaces.TypeCheckArgs) {
+	checkQuestionForDuplicateLabels(this, typeCheckArgs.TypeChecker())
+	checkQuestionForRedeclarationWithDifferentTypes(this, typeCheckArgs)
 
-	this.checkIfQuestionTypeMatchesComputationType(typeChecker, symbols)
+	typeCheckArgs = typeCheckArgs.SetCurrentVarDeclVisited(this.VarDecl())
 
-	this.VarDecl.TypeCheck(typeChecker, symbols)
+	this.checkIfQuestionTypeMatchesComputationType(typeCheckArgs)
 
-	for _, conditionDependentOn := range typeChecker.GetConditionsDependentOn() {
-		conditionDependentOn.TypeCheck(typeChecker, symbols)
+	this.VarDecl().TypeCheck(typeCheckArgs)
+
+	collectVarIdsInExpressions(typeCheckArgs)
+
+	checkForCyclicDependencies(this, typeCheckArgs.TypeChecker())
+}
+
+func (this InputQuestion) TypeCheck(typeCheckArgs interfaces.TypeCheckArgs) {
+	checkQuestionForDuplicateLabels(this, typeCheckArgs.TypeChecker())
+	checkQuestionForRedeclarationWithDifferentTypes(this, typeCheckArgs)
+
+	typeCheckArgs = typeCheckArgs.SetCurrentVarDeclVisited(this.VarDecl())
+
+	this.VarDecl().TypeCheck(typeCheckArgs)
+
+	collectVarIdsInExpressions(typeCheckArgs)
+
+	checkForCyclicDependencies(this, typeCheckArgs.TypeChecker())
+}
+
+func (this StmtList) TypeCheck(typeCheckArgs interfaces.TypeCheckArgs) {
+	for _, question := range this.Questions() {
+		question.TypeCheck(typeCheckArgs)
 	}
 
-	checkForCyclicDependencies(this, typeChecker, symbols)
-
-	typeChecker.UnsetCurrentVarIdVisited()
-}
-
-func (this InputQuestion) TypeCheck(typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	checkQuestionForDuplicateLabels(this, typeChecker)
-	checkQuestionForRedeclaration(this, typeChecker, symbols)
-
-	typeChecker.SetCurrentVarIdVisited(this.VarDecl)
-
-	this.VarDecl.TypeCheck(typeChecker, symbols)
-
-	// for these condition expressions, running TypeCheck will collect VarIds in them
-	for _, conditionDependentOn := range typeChecker.GetConditionsDependentOn() {
-		conditionDependentOn.TypeCheck(typeChecker, symbols)
-	}
-
-	checkForCyclicDependencies(this, typeChecker, symbols)
-
-	typeChecker.UnsetCurrentVarIdVisited()
-}
-
-func (this StmtList) TypeCheck(typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	for _, question := range this.Questions {
-		question.TypeCheck(typeChecker, symbols)
-	}
-
-	for _, conditional := range this.Conditionals {
-		conditional.TypeCheck(typeChecker, symbols)
+	for _, conditional := range this.Conditionals() {
+		conditional.TypeCheck(typeCheckArgs)
 	}
 }
 
-func (this Stmt) TypeCheck(typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
+func (this Stmt) TypeCheck(typeCheckArgs interfaces.TypeCheckArgs) {
 	panic("Stmt TypeCheck method not overridden")
 }
 
-// checkForUndefinedReferences looks at all identifiers encountered to see if they have been marked as known
-// It should only run at the end of a form (when all identifiers) are collected, hence it's an instance method on Form
+// checkIfQuestionTypeMatchesComputationType checks if the declared computed question type and its actual type match, and if not, adds an error to the typechecker
+func (this ComputedQuestion) checkIfQuestionTypeMatchesComputationType(typeCheckArgs interfaces.TypeCheckArgs) {
+	actualType := this.Computation().TypeCheck(typeCheckArgs)
+	expectedType := this.VarDecl().Type()
+
+	// check if question declaration type matches the type of the computation
+	if actualType != expr.NewUnknownType() && actualType != expectedType {
+		typeCheckArgs.TypeChecker().AddEncounteredError(fmt.Errorf("Encountered computed question with mismatch between declared type (%s) and actual computation type (%s)", expectedType, actualType))
+	}
+}
+
+// checkForUndefinedReferences seeks to confirm that all identifiers encountered have been marked as known (being declared)
 func (this Form) checkForUndefinedReferences(typeChecker interfaces.TypeChecker) {
-	for identifier, identifierKnown := range typeChecker.GetIdentifiersEncountered() {
+	for identifier, identifierKnown := range typeChecker.IdentifiersEncountered() {
 		if !identifierKnown {
 			typeChecker.AddEncounteredError(fmt.Errorf("Reference to unknown question identifier: %s", identifier))
 		}
 	}
 }
 
-func checkForNonBoolCondition(condition interfaces.Expr, typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	typeOfCondition := condition.TypeCheck(typeChecker, symbols)
+// FIXME side-effect
+func collectVarIdsInExpressions(typeCheckArgs interfaces.TypeCheckArgs) {
+	// for these condition expressions, running TypeCheck will collect VarIds in them and add them as dependencies
+	for _, conditionDependentOn := range typeCheckArgs.ConditionsDependentOn() {
+		conditionDependentOn.TypeCheck(typeCheckArgs)
+	}
+}
+
+// checkForNonBoolCondition checks if the condition is of a boolean type, and if not, adds an error to the typechecker
+func checkForNonBoolCondition(condition interfaces.Expr, typeCheckArgs interfaces.TypeCheckArgs) {
+	typeOfCondition := condition.TypeCheck(typeCheckArgs)
 
 	if typeOfCondition != expr.NewBoolType() && typeOfCondition != expr.NewUnknownType() {
-		typeChecker.AddEncounteredError(fmt.Errorf("Non-boolean type used as condition: %s", typeOfCondition))
+		typeCheckArgs.TypeChecker().AddEncounteredError(fmt.Errorf("Non-boolean type used as condition: %s", typeOfCondition))
 	}
 }
 
-func checkForCyclicDependencies(question interfaces.Question, typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	varIdOfCurrentlyVisitingQuestion := question.GetVarDecl().GetIdent()
-
-	numOfTimesQuestionIdFound := 0
-	depencyChainForQuestionId := typeChecker.GetDependencyChainForVarId(varIdOfCurrentlyVisitingQuestion)
-	for _, dependingVarId := range depencyChainForQuestionId {
-		if dependingVarId == varIdOfCurrentlyVisitingQuestion {
-			numOfTimesQuestionIdFound++
-		}
-	}
-
-	// if we find our own var id more than once, the dependencyChain is cyclic
-	if numOfTimesQuestionIdFound >= 2 {
-		typeChecker.AddEncounteredError(fmt.Errorf("Found cyclic dependency: %s", depencyChainForQuestionId))
+// checkForCyclicDependencies checks if the this question depends on itself, and if so, adds an error to the typechecker
+func checkForCyclicDependencies(question interfaces.Question, typeChecker interfaces.TypeChecker) {
+	// if we find our own VarId as a dependency at least once, the dependencyChain is cyclic
+	if typeChecker.DependencyListForVarDeclContainsReferenceToSelf(question.VarDecl()) {
+		typeChecker.AddEncounteredError(fmt.Errorf("Found cyclic dependency"))
 	}
 }
 
+// checkQuestionForDuplicateLabels checks if there are multiple questions with the same label, and if so, adds an warning to the typechecker
 func checkQuestionForDuplicateLabels(question interfaces.Question, typeChecker interfaces.TypeChecker) {
-	labelKnown := typeChecker.IsLabelUsed(question.GetLabel())
+	labelKnown := typeChecker.IsLabelUsed(question.Label())
 
 	if labelKnown {
-		typeChecker.AddEncounteredWarning(fmt.Errorf("Label \"%s\" already used for question with identifier %s, using again for question with identifier %s", question.GetLabel(), typeChecker.VarIdForLabel(question.GetLabel()), question.GetVarDecl().GetIdent()))
+		typeChecker.AddEncounteredWarning(fmt.Errorf("Label \"%s\" already used for question with identifier %s, using again for question with identifier %s", question.Label(), typeChecker.VarIdForLabel(question.Label()), question.VarDecl().Identifier()))
 	} else {
-		typeChecker.MarkLabelAsUsed(question.GetLabel(), question.GetVarDecl())
+		typeChecker.MarkLabelAsUsed(question.Label(), question.VarDecl())
 	}
 }
 
-func checkQuestionForRedeclaration(question interfaces.Question, typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	varDecl := question.GetVarDecl()
+// checkQuestionForRedeclaration checks if the passed question has been declared before with a different type, and if so, adds an error to the typechecker
+func checkQuestionForRedeclarationWithDifferentTypes(question interfaces.Question, typeCheckArgs interfaces.TypeCheckArgs) {
+	varDecl := question.VarDecl()
 
-	if symbols.IsTypeSetForVarId(varDecl.GetIdent()) && symbols.GetTypeForVarId(varDecl.GetIdent()) != varDecl.GetType() {
-		typeChecker.AddEncounteredError(fmt.Errorf("Question redeclared with different types: %s and %s", varDecl.GetType(), symbols.GetTypeForVarId(varDecl.GetIdent())))
-	}
-}
-
-func (this ComputedQuestion) checkIfQuestionTypeMatchesComputationType(typeChecker interfaces.TypeChecker, symbols interfaces.TypeCheckSymbols) {
-	actualType := this.Computation.TypeCheck(typeChecker, symbols)
-	expectedType := this.GetVarDecl().GetType()
-
-	// check if question declaration type matches the type of the computation
-	if actualType != expr.NewUnknownType() && actualType != expectedType {
-		typeChecker.AddEncounteredError(fmt.Errorf("Encountered computed question with mismatch between declared type (%s) and actual computation type (%s)", expectedType, actualType))
+	if typeCheckArgs.Symbols().IsTypeSetForVarId(varDecl.Identifier()) && typeCheckArgs.Symbols().TypeForVarId(varDecl.Identifier()) != varDecl.Type() {
+		typeCheckArgs.TypeChecker().AddEncounteredError(fmt.Errorf("Question redeclared with different types: %s and %s", varDecl.Type(), typeCheckArgs.Symbols().TypeForVarId(varDecl.Identifier())))
 	}
 }
