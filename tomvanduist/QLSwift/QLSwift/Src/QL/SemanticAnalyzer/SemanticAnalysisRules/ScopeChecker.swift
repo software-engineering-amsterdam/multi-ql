@@ -111,24 +111,23 @@ extension ScopeChecker {
     }
     
     private func assignScope(question: QLQuestion, context: Context) {
-        if let newType = context.retrieveType(question.identifier.id) {
+        let newType = TypeInferer.sharedInstance.inferType(question, context: context)
             
-            // assign
-            defer {
-                scopedMap.assign(question.identifier.id, value: newType)
-            }
-            
-            // Collect any errors or warnings
-            if let currentType = scopedMap.retrieve(question.identifier.id) {
-                if currentType === newType  {
-                    analysisResult.collectWarning(
-                        OverridingVariable(description: "The variable \'\(question.identifier.id)\' overrides an earlier instance.")
-                    )
-                } else if currentType !== QLUnknownType.self {
-                    analysisResult.collectError(
-                        MultipleDeclarations(description: "The variable \'\(question.identifier.id)\' is multiply declared as both \'\(currentType.toString())\' and \'\(newType.toString())\'")
-                    )
-                }
+        // assign
+        defer {
+            scopedMap.assign(question.identifier.id, value: newType)
+        }
+        
+        // Collect any errors or warnings
+        if let currentType = scopedMap.retrieve(question.identifier.id) {
+            if currentType === newType  {
+                analysisResult.collectWarning(
+                    OverridingVariable(description: "The variable \'\(question.identifier.id)\' overrides a different instance.")
+                )
+            } else if currentType !== QLUnknownType.self {
+                analysisResult.collectError(
+                    MultipleDeclarations(description: "The variable \'\(question.identifier.id)\' is multiply declared as both \'\(currentType.toString())\' and \'\(newType.toString())\'")
+                )
             }
         }
     }

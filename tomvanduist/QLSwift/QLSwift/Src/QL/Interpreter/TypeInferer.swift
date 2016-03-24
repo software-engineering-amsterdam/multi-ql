@@ -15,6 +15,10 @@ class TypeInferer: TopDown {
     private var symbolTable = Map<QLType>()
     private var errors: [SemanticError] = []
     
+    func inferType(statement: QLStatement, context: Context) -> QLType {
+        return statement.accept(self, param: context)
+    }
+    
     func inferType(expression: QLExpression, context: Context) -> QLType {
         return expression.accept(self, param: context)
     }
