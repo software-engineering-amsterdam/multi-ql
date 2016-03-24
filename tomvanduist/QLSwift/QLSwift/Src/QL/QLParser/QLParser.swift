@@ -53,7 +53,7 @@ class QLParser: NSObject {
     }
     
     private func statement() -> GenericParser<String, (), QLStatement> {
-        return ifStatement() <|> question()
+        return ifStatement().attempt <|> question()
     }
     
     private func question() -> GenericParser<String, (), QLStatement> {
