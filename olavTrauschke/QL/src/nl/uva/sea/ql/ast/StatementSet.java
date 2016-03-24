@@ -39,9 +39,9 @@ public class StatementSet extends ASTNode {
     }
     
     /**
-     * Has all the <code>Statement</code>s in
+     * Has all the <code>ASTNode</code>s in
      * <code>this StatementSet accept visitor</code> and then has
-     * <code>visitor visit this StatementSet</code>. The <code>Statement</code>s are
+     * <code>visitor visit this StatementSet</code>. The <code>ASTNode</code>s are
      * visited in reverse order, to process them in the same order as they were
      * in a ql-file that was analyzed by a
      * {@link nl.uva.sea.ql.parser.ParserWrapper Parser(Wrapper)}

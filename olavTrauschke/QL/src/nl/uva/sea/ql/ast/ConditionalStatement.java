@@ -3,12 +3,14 @@ package nl.uva.sea.ql.ast;
 import java.util.Objects;
 import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.expr.Expr;
+import nl.uva.sea.ql.ast.expr.Not;
+import nl.uva.sea.ql.interpreter.QuestionGeneratingVisitor;
 
 /**
  * Representation of <code>ConditionalStatement</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mar-2016
+ * @version 24-mar-2016
  */
 public class ConditionalStatement extends ASTNode {
     
@@ -68,6 +70,31 @@ public class ConditionalStatement extends ASTNode {
         toDoElse.accept(visitor);
         
         visitor.visit(this);
+    }
+    
+    /**
+     * Has <code>visitor</code> add the <code>condition</code> of
+     * <code>this ConditionalStatement</code>, has
+     * <code>toDoIf accept visitor</code>, has <code>visitor</code> remove the
+     * <code>condition</code> of <code>this ConditionalStatement</code> again
+     * and adds its negation, has <code>toDoElse accept visitor</code> and
+     * finally has <code>visitor</code> remove the negation of the
+     * <code>condition</code> of <code>this ConditionalStatement</code> again.
+     * 
+     * @param visitor a <code>QuestionGeneratingVisitor</code> that should
+     *                  <code>visit this ConditionalStatement</code>'s
+     *                  <code>toDoIf</code> and <code>toDoElse</code> with the
+     *                  right conditions added
+     */
+    @Override
+    public void accept(QuestionGeneratingVisitor visitor) {
+        visitor.addCondition(condition);
+        toDoIf.accept(visitor);
+        visitor.removeLastCondition();
+        Expr inverseCondition = new Not(condition);
+        visitor.addCondition(inverseCondition);
+        toDoElse.accept(visitor);
+        visitor.removeLastCondition();
     }
     
     /**

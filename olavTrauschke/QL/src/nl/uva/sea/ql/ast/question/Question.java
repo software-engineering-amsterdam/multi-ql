@@ -72,7 +72,8 @@ public abstract class Question extends ASTNode {
     
     /**
      * Has the children of <code>this Question accept visitor</code> and then has
-     * <code>visitor visit this Question</code>.
+     * <code>visitor visit this Question</code>. Not implemented here for more
+     * specific dispatch.
      * 
      * @param visitor an <code>ASTVisitor</code> that should
      *          <code>visit this Question</code> and its children
