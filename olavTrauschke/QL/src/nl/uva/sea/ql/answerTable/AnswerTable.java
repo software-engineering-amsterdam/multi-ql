@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.expr.Ident;
  * <code>Ident</code>s to <code>Value</code>s.
  * 
  * @author Olav Trauschke
- * @version 19-mar-2016
+ * @version 24-mar-2016
  */
 public class AnswerTable extends Observable {
     
@@ -40,7 +40,7 @@ public class AnswerTable extends Observable {
         assert answerTable.containsKey(identifier);
         answerTable.put(identifier, newValue);
         setChanged();
-        notifyObservers();
+        notifyObservers(identifier);
     }
     
     /**

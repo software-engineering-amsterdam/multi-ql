@@ -1,7 +1,7 @@
 package nl.uva.sea.ql.ast;
 
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.expr.Ident;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of <code>Form</code>s in an AST.

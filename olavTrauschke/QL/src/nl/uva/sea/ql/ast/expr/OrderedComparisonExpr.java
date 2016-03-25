@@ -1,6 +1,6 @@
 package nl.uva.sea.ql.ast.expr;
 
-import nl.uva.sea.ql.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of <code>Expr</code>s which compare two other <code>Expr</code>s

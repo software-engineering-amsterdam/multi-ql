@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * Representation of expression in an AST.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 25-mar-2016
  */
 public abstract class Expr extends ASTNode {
     
@@ -97,6 +97,15 @@ public abstract class Expr extends ASTNode {
                 || isMoney(questionTypes);
     }
     
+    /**
+     * Evaluate <code>this Expr</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping all <code>Ident</code>s
+     *                      that might appear in <code>this Expr</code> to the
+     *                      <code>Value</code> of the <code>Question</code> they
+     *                      represent
+     * @return the <code>Value</code> of <code>this Expr</code>
+     */
     public abstract Value eval(AnswerTable answerTable);
     
     /**

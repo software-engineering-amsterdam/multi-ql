@@ -2,13 +2,13 @@ package nl.uva.sea.ql.ast;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import nl.uva.sea.ql.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of the contents of a block in an AST.
  * 
  * @author Olav Trauschke
- * @version 10-mar-2016
+ * @version 25-mar-2016
  */
 public class StatementSet extends ASTNode {
     
@@ -39,9 +39,9 @@ public class StatementSet extends ASTNode {
     }
     
     /**
-     * Has all the <code>Statement</code>s in
+     * Has all the <code>ASTNode</code>s in
      * <code>this StatementSet accept visitor</code> and then has
-     * <code>visitor visit this StatementSet</code>. The <code>Statement</code>s are
+     * <code>visitor visit this StatementSet</code>. The <code>ASTNode</code>s are
      * visited in reverse order, to process them in the same order as they were
      * in a ql-file that was analyzed by a
      * {@link nl.uva.sea.ql.parser.ParserWrapper Parser(Wrapper)}
@@ -51,7 +51,7 @@ public class StatementSet extends ASTNode {
      */
     @Override
     public void accept(ASTVisitor visitor) {
-        ASTNode[] nodes = set.toArray(new ASTNode[0]);
+        ASTNode[] nodes = set.toArray(new ASTNode[set.size()]);
         for (int i = nodes.length - 1; i >= 0; i--) {
             nodes[i].accept(visitor);
         }

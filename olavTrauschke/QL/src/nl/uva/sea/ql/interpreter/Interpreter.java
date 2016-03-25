@@ -1,19 +1,20 @@
 package nl.uva.sea.ql.interpreter;
 
-import nl.uva.sea.ql.QuestionIdentCollector;
+import java.util.List;
+import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.generalPurposeVisitors.QuestionIdentCollector;
 
 /**
  * Class for interpretating ast's.
  * 
  * @author Olav Trauschke
- * @version 19-mar-2016
+ * @version 25-mar-2016
  */
 public class Interpreter {
     
-    private final AnswerTable symbolTable;
+    private final AnswerTable answerTable;
     
     /**
      * Constructor for objects of this class.
@@ -25,11 +26,12 @@ public class Interpreter {
         QuestionIdentCollector identCollector = new QuestionIdentCollector();
         form.accept(identCollector);
         Iterable<Ident> identifiers = identCollector.obtainIdentifiers();
-        symbolTable = new AnswerTable(identifiers);
-        /*TODO create GeneralizedASTVisitor that keeps track of dependencies in
-        ConditionalStatements and have it visit form top-down to create objects
-        for all Questions, then have it return these objects. Make these objects
-        observe the AnswerTable*/
+        answerTable = new AnswerTable(identifiers);
+        DisplayableQuestionGenerator generator
+                = new DisplayableQuestionGenerator(answerTable);
+        form.accept(generator);
+        List<DisplayableQuestion> questions = generator.getResult();
+        questions.forEach((DisplayableQuestion q) -> answerTable.addObserver(q));
         //TODO create GUI
     }
     
@@ -41,10 +43,10 @@ public class Interpreter {
     }
     
     /**
-     * @return the <code>SymbolTable</code> used by <code>this Interpreter</code>
+     * @return the <code>AnswerTable</code> used by <code>this Interpreter</code>
      */
-    public AnswerTable getSymbolTable() {
-        return symbolTable;
+    public AnswerTable getAnswerTable() {
+        return answerTable;
     }
     
 }

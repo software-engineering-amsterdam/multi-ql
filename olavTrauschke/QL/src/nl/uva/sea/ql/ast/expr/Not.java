@@ -1,8 +1,8 @@
 package nl.uva.sea.ql.ast.expr;
 
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.answerTable.BooleanValue;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of a (boolean) negation in an AST.

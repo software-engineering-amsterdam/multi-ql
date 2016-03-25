@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  * {@link nl.uva.sea.ql.ast.question.MoneyQuestion DecimalQuestion}s.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 25-mar-2016
  */
 public class MoneyValue extends NumericValue {
     
@@ -20,7 +20,12 @@ public class MoneyValue extends NumericValue {
      *                  <code>null</code> to represent an unknown value
      */
     public MoneyValue(String theValue) {
-        value = new BigDecimal(theValue);
+        if (theValue == null) {
+            value = null;
+        }
+        else {
+            value = new BigDecimal(theValue);
+        }
     }
     
     /**
