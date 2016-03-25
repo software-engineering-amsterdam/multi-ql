@@ -2,6 +2,8 @@ package nl.uva.sea.ql.ast.question;
 
 import java.util.Objects;
 import nl.uva.sea.ql.ASTVisitor;
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.Value;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.*;
@@ -10,7 +12,7 @@ import nl.uva.sea.ql.ast.expr.*;
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 24-mar-2016
+ * @version 25-mar-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -45,6 +47,23 @@ public abstract class Question extends ASTNode {
         identifier = theIdentifier;
         label = theLabel;
         calculation = theCalculation;
+    }
+    
+    /**
+     * Evaluate <code>theCalculation</code> of <code>this Question</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping each
+     *                      <code>Ident theCalculation</code> of
+     *                      <code>thisQuestion</code> may contain to its current
+     *                      <code>Value</code> or to <code>null</code> if its
+     *                      <code>Value</code> is currently unknonwn
+     * @return the <code>Value theCalculation</code> currently has, or
+     *          <code>null</code> if that is unknown
+     */
+    public Value evalCalculation(AnswerTable answerTable) {
+        if (calculation == null) return null;
+        
+        return calculation.eval(answerTable);
     }
     
     /**
@@ -91,9 +110,7 @@ public abstract class Question extends ASTNode {
     protected void childrenAccept(ASTVisitor visitor) {
         identifierAccept(visitor);
         labelAccept(visitor);
-        if (calculation != null) {
-            calculationAccept(visitor);
-        }
+        calculationAccept(visitor);
     }
     
     /**
@@ -127,13 +144,16 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * Has the <code>calculation</code> of <code>this Question accept visitor</code>.
+     * Has the <code>calculation</code> of <code>this Question accept visitor</code>
+     * iff. it is not <code>null</code>.
      * 
      * @param visitor an <code>ASTVisitor</code> that the <code>calculation</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
     public void calculationAccept(ASTVisitor visitor) {
-        calculation.accept(visitor);
+        if (calculation != null) {
+            calculation.accept(visitor);
+        }
     }
     
     /**

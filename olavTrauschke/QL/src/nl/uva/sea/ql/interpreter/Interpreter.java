@@ -10,11 +10,11 @@ import nl.uva.sea.ql.answerTable.AnswerTable;
  * Class for interpretating ast's.
  * 
  * @author Olav Trauschke
- * @version 24-mar-2016
+ * @version 25-mar-2016
  */
 public class Interpreter {
     
-    private final AnswerTable symbolTable;
+    private final AnswerTable answerTable;
     
     /**
      * Constructor for objects of this class.
@@ -26,11 +26,12 @@ public class Interpreter {
         QuestionIdentCollector identCollector = new QuestionIdentCollector();
         form.accept(identCollector);
         Iterable<Ident> identifiers = identCollector.obtainIdentifiers();
-        symbolTable = new AnswerTable(identifiers);
-        DisplayableQuestionGenerator generator = new DisplayableQuestionGenerator();
+        answerTable = new AnswerTable(identifiers);
+        DisplayableQuestionGenerator generator
+                = new DisplayableQuestionGenerator(answerTable);
         form.accept(generator);
         List<DisplayableQuestion> questions = generator.getResult();
-        questions.forEach((DisplayableQuestion q) -> symbolTable.addObserver(q));
+        questions.forEach((DisplayableQuestion q) -> answerTable.addObserver(q));
         //TODO create GUI
     }
     
@@ -42,10 +43,10 @@ public class Interpreter {
     }
     
     /**
-     * @return the <code>SymbolTable</code> used by <code>this Interpreter</code>
+     * @return the <code>AnswerTable</code> used by <code>this Interpreter</code>
      */
     public AnswerTable getSymbolTable() {
-        return symbolTable;
+        return answerTable;
     }
     
 }

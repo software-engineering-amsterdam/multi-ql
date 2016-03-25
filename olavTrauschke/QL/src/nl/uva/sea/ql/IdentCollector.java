@@ -1,15 +1,14 @@
-package nl.uva.sea.ql.checker;
+package nl.uva.sea.ql;
 
 import java.util.HashSet;
 import java.util.Set;
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.expr.Ident;
 
 /**
  * Visitor to collect all <code>Ident</code>s in a part of an ast.
  * 
  * @author Olav Trauschke
- * @version 14-mar-2016
+ * @version 25-mar-2016
  */
 public class IdentCollector implements ASTVisitor {
     
@@ -37,7 +36,7 @@ public class IdentCollector implements ASTVisitor {
      * @return an <code>Iterable</code> containing the <code>Ident</code>s that
      *          were <code>visit</code>ed by <code>this IdentCollector</code>
      */
-    public Iterable<Ident> getIdentifiers() {
+    public Set<Ident> getIdentifiers() {
         return identifiers;
     }
     

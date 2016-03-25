@@ -3,6 +3,7 @@ package nl.uva.sea.ql.interpreter;
 import java.util.*;
 import java.util.function.BinaryOperator;
 import nl.uva.sea.ql.GeneralizedASTVisitor;
+import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.Question;
 
@@ -12,17 +13,25 @@ import nl.uva.sea.ql.ast.question.Question;
  * with these conditions for each <code>Question</code> they <code>visit</code>.
  * 
  * @author Olav Trauschke
- * @version 24-mar-2016
+ * @version 25-mar-2016
  */
 public class DisplayableQuestionGenerator extends GeneralizedASTVisitor {
     
+    private final AnswerTable answerTable;
     private final Stack<Expr> conditions;
     private final List<DisplayableQuestion> result;
     
     /**
      * Constructor for objects of this class.
+     * 
+     * @param theAnswerTable an <code>AnswerTable</code> mapping all
+     *                      <code>Ident</code>s <code>Question</code>s or
+     *                      <code>ConditionalStatement</code>s
+     *                      <code>this DisplayableQuestionGenerator</code> may
+     *                      visit may contain
      */
-    public DisplayableQuestionGenerator() {
+    public DisplayableQuestionGenerator(AnswerTable theAnswerTable) {
+        answerTable = theAnswerTable;
         conditions = new Stack<>();
         result = new ArrayList<>();
     }
@@ -39,7 +48,7 @@ public class DisplayableQuestionGenerator extends GeneralizedASTVisitor {
     public void visit(Question question) {
         Expr condition = createConjunctionOfConditions();
         DisplayableQuestion displayableQuestion
-                = new DisplayableQuestion(condition, question);
+                = new DisplayableQuestion(condition, question, answerTable);
         result.add(displayableQuestion);
     }
     

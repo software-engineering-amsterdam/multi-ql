@@ -1,8 +1,7 @@
 package nl.uva.sea.ql.checker;
 
 import java.util.*;
-import nl.uva.sea.ql.GeneralizedASTVisitor;
-import nl.uva.sea.ql.QuestionIdentCollector;
+import nl.uva.sea.ql.*;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
