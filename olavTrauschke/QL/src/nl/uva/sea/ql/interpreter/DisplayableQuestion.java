@@ -39,7 +39,7 @@ public class DisplayableQuestion implements Observer {
      *                      <code>Ident</code>s <code>conditionToDisplay</code>
      *                      or <code>theCalculation</code> of <code>theQuestion</code>
      *                      could contain to their current <code>Value</code>s,
-     *                      or <code>null</code> when these are unkown
+     *                      or <code>null</code> when these are unknown
      */
     public DisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
             AnswerTable answerTable) {

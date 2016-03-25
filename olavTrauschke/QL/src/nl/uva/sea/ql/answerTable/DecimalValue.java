@@ -248,7 +248,7 @@ public class DecimalValue extends NumericValue {
      * @param other a <code>DecimalValue</code> to multiply this one by
      * @return a <code>DecimalValue</code> representing an unkonwn value if
      *          <code>this DecimalValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>DecimalValue</code>s otherwise
      */
     @Override
@@ -267,7 +267,7 @@ public class DecimalValue extends NumericValue {
      *              <code>this DecimalValue</code> by
      * @return a <code>DecimalValue</code> representing an unkonwn value if
      *          <code>this DecimalValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     @Override
@@ -283,7 +283,7 @@ public class DecimalValue extends NumericValue {
      *              <code>this DecimalValue</code> by
      * @return a <code>MoneyValue</code> representing an unkonwn value if
      *          <code>this DecimalValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     @Override

@@ -212,7 +212,7 @@ public abstract class NumericValue extends Value {
      *              <code>this NumericValue</code> by
      * @return a <code>NumericValue</code> representing an unkonwn value if
      *          <code>this NumericValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     protected abstract NumericValue multiply(DecimalValue other);
@@ -225,7 +225,7 @@ public abstract class NumericValue extends Value {
      *              <code>this NumericValue</code> by
      * @return a <code>NumericValue</code> representing an unkonwn value if
      *          <code>this NumericValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     protected abstract NumericValue multiply(IntValue other);
@@ -238,7 +238,7 @@ public abstract class NumericValue extends Value {
      *              <code>this NumericValue</code> by
      * @return a <code>NumericValue</code> representing an unkonwn value if
      *          <code>this NumericValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     protected abstract MoneyValue multiply(MoneyValue other);

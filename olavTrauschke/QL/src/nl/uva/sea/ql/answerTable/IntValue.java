@@ -186,7 +186,7 @@ public class IntValue extends NumericValue {
      * @param other a <code>DecimalValue</code> to add to <code>this IntValue</code>
      * @return a <code>DecimalValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents an
-     *          unkown value or the result of adding <code>other</code> to
+     *          unknown value or the result of adding <code>other</code> to
      *          <code>this DecimalValue</code> otherwise
      */
     @Override
@@ -200,7 +200,7 @@ public class IntValue extends NumericValue {
      * @param other an <code>IntValue</code> to add to this one
      * @return an <code>IntValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents an
-     *          unkown value or the result of adding <code>other</code> to
+     *          unknown value or the result of adding <code>other</code> to
      *          <code>this IntValue</code> otherwise
      */
     @Override
@@ -218,7 +218,7 @@ public class IntValue extends NumericValue {
      * @param other a <code>MoneyValue</code> to add to this one
      * @return a <code>MoneyValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents an
-     *          unkown value or the result of adding <code>other</code> to
+     *          unknown value or the result of adding <code>other</code> to
      *          <code>this IntValue</code> otherwise
      */
     @Override
@@ -249,7 +249,7 @@ public class IntValue extends NumericValue {
      *              <code>this IntValue</code> by
      * @return a <code>DecimalValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     @Override
@@ -263,7 +263,7 @@ public class IntValue extends NumericValue {
      * @param other an <code>IntValue</code> to multiply this one by
      * @return an <code>IntValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>IntValue</code>s otherwise
      */
     @Override
@@ -282,7 +282,7 @@ public class IntValue extends NumericValue {
      *              <code>this IntValue</code> by
      * @return a <code>MoneyValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     @Override
