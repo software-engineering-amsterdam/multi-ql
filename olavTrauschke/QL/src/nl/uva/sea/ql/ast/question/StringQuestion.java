@@ -1,9 +1,9 @@
 package nl.uva.sea.ql.ast.question;
 
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of <code>Question</code>s that return strings in an AST.

@@ -1,8 +1,8 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of <code>Expr</code>s which are sure to have a numeric value

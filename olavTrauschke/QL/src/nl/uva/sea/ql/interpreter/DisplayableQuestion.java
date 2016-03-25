@@ -1,11 +1,11 @@
 package nl.uva.sea.ql.interpreter;
 
 import java.util.*;
-import nl.uva.sea.ql.IdentCollector;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.generalPurposeVisitors.IdentCollector;
 
 /**
  * Objects of this class represent

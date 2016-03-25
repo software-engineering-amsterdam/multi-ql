@@ -1,9 +1,9 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of the + operator in an AST, that can either mean addition or
@@ -38,7 +38,7 @@ public class Add extends Expr {
      * @param theSecondExpr the <code>Expr</code> on the right hand side of the operator
      */
     public Add(Expr theFirstExpr, Expr theSecondExpr) {
-        assert theFirstExpr != null & theSecondExpr != null;
+        assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
     }

@@ -2,10 +2,10 @@ package nl.uva.sea.ql.interpreter;
 
 import java.util.*;
 import java.util.function.BinaryOperator;
-import nl.uva.sea.ql.GeneralizedASTVisitor;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.generalPurposeVisitors.GeneralizedASTVisitor;
 
 /**
  * Objects of this class keep track of conditions for each

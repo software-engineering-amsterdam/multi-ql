@@ -1,10 +1,10 @@
 package nl.uva.sea.ql.interpreter;
 
 import java.util.List;
-import nl.uva.sea.ql.QuestionIdentCollector;
+import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.generalPurposeVisitors.QuestionIdentCollector;
 
 /**
  * Class for interpretating ast's.
@@ -45,7 +45,7 @@ public class Interpreter {
     /**
      * @return the <code>AnswerTable</code> used by <code>this Interpreter</code>
      */
-    public AnswerTable getSymbolTable() {
+    public AnswerTable getAnswerTable() {
         return answerTable;
     }
     

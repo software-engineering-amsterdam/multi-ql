@@ -2,11 +2,11 @@ package nl.uva.sea.ql.checker;
 
 import java.io.FileNotFoundException;
 import java.util.*;
-import nl.uva.sea.ql.QuestionIdentCollector;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;
+import nl.uva.sea.ql.generalPurposeVisitors.QuestionIdentCollector;
 import nl.uva.sea.ql.parser.ParserWrapper;
 import static org.junit.Assert.*;
 import org.junit.Before;

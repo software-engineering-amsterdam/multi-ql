@@ -1,9 +1,9 @@
 package nl.uva.sea.ql.ast;
 
 import java.util.Objects;
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Not;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
 
 /**

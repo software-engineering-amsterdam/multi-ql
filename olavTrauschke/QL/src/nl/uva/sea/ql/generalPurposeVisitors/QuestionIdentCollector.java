@@ -1,4 +1,4 @@
-package nl.uva.sea.ql;
+package nl.uva.sea.ql.generalPurposeVisitors;
 
 import java.util.*;
 import nl.uva.sea.ql.ast.expr.Ident;

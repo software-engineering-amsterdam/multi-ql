@@ -6,7 +6,7 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a boolean value.
  * 
  * @author Olav Trauschke
- * @version 24-mar-2016
+ * @version 25-mar-2016
  */
 public class BooleanValue extends Value {
     
@@ -44,7 +44,9 @@ public class BooleanValue extends Value {
      *          <code>true</code> otherwise
      */
     public BooleanValue conjunct(BooleanValue other) {
-        if (value == false || other.value == false) {
+        boolean valueFalse = value == null ? false : !value;
+        boolean otherValueFalse = other.value == null ? false : !other.value;
+        if (valueFalse || otherValueFalse) {
             return new BooleanValue(false);
         }
         if (value == null || other.value == null) {
@@ -67,7 +69,9 @@ public class BooleanValue extends Value {
      *          <code>false</code> otherwise
      */
     public BooleanValue disjunct(BooleanValue other) {
-        if (value == true || other.value == true ) {
+        boolean valueTrue = value == null ? false : value;
+        boolean otherValueTrue = other.value == null ? false : other.value;
+        if (valueTrue || otherValueTrue) {
             return new BooleanValue(true);
         }
         if (value == null || other.value == null) {

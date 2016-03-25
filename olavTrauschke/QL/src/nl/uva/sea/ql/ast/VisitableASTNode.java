@@ -1,6 +1,6 @@
 package nl.uva.sea.ql.ast;
 
-import nl.uva.sea.ql.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
 
 /**

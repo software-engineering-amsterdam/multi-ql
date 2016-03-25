@@ -1,7 +1,7 @@
 package nl.uva.sea.ql.ast;
 
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.expr.Str;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of <code>Label</code>s for questions in an AST.

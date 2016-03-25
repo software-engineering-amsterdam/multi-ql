@@ -7,7 +7,7 @@ import nl.uva.sea.ql.answerTable.NumericValue;
  * Representation of substraction in an AST.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 25-mar-2016
  */
 public class Sub extends BinaryNumericOperatorExpr {
     
@@ -37,6 +37,6 @@ public class Sub extends BinaryNumericOperatorExpr {
         NumericValue firstValue = (NumericValue) getFirstExpr().eval(answerTable);
         NumericValue secondValue = (NumericValue) getSecondExpr().eval(answerTable);
         NumericValue secondValueNegative = Neg.negate(secondValue);
-        return firstValue.add(secondValue);
+        return firstValue.add(secondValueNegative);
     }
 }

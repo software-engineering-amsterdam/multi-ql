@@ -15,7 +15,7 @@ import nl.uva.sea.ql.parser.ParserWrapper;
  * Class to present various dialogs to the user.
  * 
  * @author Olav Trauschke
- * @version 10-mar-2016
+ * @version 25-mar-2016
  */
 public class IOManager {
     
@@ -27,8 +27,9 @@ public class IOManager {
     
     /**
      * Extensions of files the user is allowed to select when running the program.
+     * Private to avoid accidental change.
      */
-    public static final String[] ACCEPTED_EXTENSIONS = {"ql"};
+    private static final String[] ACCEPTED_EXTENSIONS = {"ql"};
     
     /**
      * Extension of files the results of a questionnaire can be saved to.
@@ -272,15 +273,15 @@ public class IOManager {
      */
     private static String toMultiLineString(Iterable message) {
         Iterator iterator = message.iterator();
-        String messageString = "";
+        StringBuilder messageStringBuilder = new StringBuilder();
         if (iterator.hasNext()) {
-            messageString += iterator.next();
+            messageStringBuilder.append(iterator.next());
             while (iterator.hasNext()) {
-                messageString += "\n";
-                messageString += iterator.next();
+                messageStringBuilder.append("\n");
+                messageStringBuilder.append(iterator.next());
             }
         }
-        return messageString;
+        return messageStringBuilder.toString();
     }
     
 }

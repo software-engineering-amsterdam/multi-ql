@@ -1,4 +1,4 @@
-package nl.uva.sea.ql;
+package nl.uva.sea.ql.generalPurposeVisitors;
 
 import java.util.HashSet;
 import java.util.Set;
