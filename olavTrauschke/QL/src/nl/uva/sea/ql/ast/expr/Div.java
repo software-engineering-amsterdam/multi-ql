@@ -24,7 +24,7 @@ public class Div extends BinaryNumericOperatorExpr {
     
     /**
      * Overrides
-     * {@link nl.uva.sea.ql.ast.expr.BinaryNumericOperatorExpr#accept(nl.uva.sea.ql.checker.ASTVisitor)
+     * {@link nl.uva.sea.ql.ast.expr.BinaryNumericOperatorExpr#accept(nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor)
      * BinaryNumericOperatorExpr.accept(ASTVisitor)} for local dynamic dispatch
      * only.
      * 
