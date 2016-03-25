@@ -7,4 +7,5 @@ import org.uva.sea.ql.gui.widget.Widget;
  */
 public abstract class BooleanWidget extends Widget {
     public abstract void setValue(Boolean bool);
+    public abstract Boolean isSelected();
 }

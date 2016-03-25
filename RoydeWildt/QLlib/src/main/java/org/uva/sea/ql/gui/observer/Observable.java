@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Observable<T> {
     private List<ObjectObserver> observers;
-    private T value;
+    protected T value;
 
     public Observable(){
         this.observers = new ArrayList<>();

@@ -8,4 +8,5 @@ import org.uva.sea.ql.gui.widget.Widget;
 public abstract class NumberWidget extends Widget {
 
     public abstract void setValue(Number value);
+    public abstract String getValue();
 }

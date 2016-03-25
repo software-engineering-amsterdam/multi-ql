@@ -48,7 +48,7 @@ public class GuiRunner extends Application implements ObjectObserver {
     }
 
 
-    public Stage EditorStage() {
+    private Stage EditorStage() {
 
         EditorView editor = new EditorView();
 
@@ -65,7 +65,7 @@ public class GuiRunner extends Application implements ObjectObserver {
         return stage;
     }
 
-    public void updateLogView(List<String> messages){
+    private void updateLogView(List<String> messages){
 
         GridPane editorPane = (GridPane) editor.getScene().getRoot();
         TextArea logField = new TextArea();
@@ -81,7 +81,7 @@ public class GuiRunner extends Application implements ObjectObserver {
         editorPane.add(logField,0,1);
     }
 
-    public void updateInfoView(Position position){
+    private void updateInfoView(Position position){
 
         GridPane editorPane = (GridPane) editor.getScene().getRoot();
         Label infoField = new Label();
@@ -92,7 +92,6 @@ public class GuiRunner extends Application implements ObjectObserver {
         else {
             infoField.setText(position.positionString());
         }
-
         editorPane.add(infoField,0,2);
     }
 

@@ -50,8 +50,7 @@ public class EditorView {
 
         TextArea editorField = new TextArea();
         editorField.setWrapText(true);
-        editorField.textProperty().addListener((observable, oldValue, newValue) ->
-                handleEditorFieldAction(editorField));
+        editorField.textProperty().addListener((observable, oldValue, newValue) -> handleEditorFieldAction(editorField));
         editorUI.add(editorField,0,0);
 
         TextArea logField = new TextArea();
@@ -66,8 +65,8 @@ public class EditorView {
     }
 
     private void handleEditorFieldAction(TextArea f) {
-        observablePosition.setValue(getLineFromOffset(f));
         observableString.setValue(f.getText());
+        observablePosition.setValue(getLineFromOffset(f));
     }
 
     private Position getLineFromOffset(TextArea textArea){

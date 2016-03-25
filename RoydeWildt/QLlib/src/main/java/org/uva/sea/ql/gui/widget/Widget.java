@@ -18,7 +18,6 @@ public abstract class Widget {
     }
 
     public void unSetInvalid() {
-
         uiElement.getStyleClass().remove("error");
     }
 

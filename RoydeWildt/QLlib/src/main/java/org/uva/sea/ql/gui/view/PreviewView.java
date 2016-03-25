@@ -5,6 +5,7 @@ import javafx.collections.ObservableMap;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -14,8 +15,10 @@ import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.evaluator.FormEvaluator;
 import org.uva.sea.ql.adt.value.Value;
 import org.uva.sea.ql.gui.builder.QuestionListBuilder;
+import org.uva.sea.ql.gui.builder.QuestionUIElement;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by roy on 29-2-16.
@@ -28,16 +31,16 @@ public class PreviewView {
     public PreviewView(Form form) {
         this.form = form;
 
-        FormEvaluator evaluator = new FormEvaluator(this.form);
+        FormEvaluator<Void,Void> evaluator = new FormEvaluator<>(this.form);
         QuestionListBuilder visitor = new QuestionListBuilder(evaluator.getEvaluatedQuestions(), evaluator.getSymbolTable());
 
         addFormListener(evaluator);
 
-        List<QuestionWidget> UIElements = visitor.getUiElements();
+        List<QuestionUIElement> UIElements = visitor.getUiElements();
         this.rootPane = buildFormUI(form.getId(), UIElements);
     }
 
-    private GridPane buildFormUI(String name, List<QuestionWidget> questions){
+    private GridPane buildFormUI(String name, List<QuestionUIElement> questions){
         GridPane formUI = new GridPane();
         formUI.setPrefSize(500,600);
         formUI.setVgap(10);
@@ -56,49 +59,37 @@ public class PreviewView {
         return formUI;
     }
 
-    private void addFormListener(FormEvaluator evaluator) {
+    private void addFormListener(FormEvaluator<Void,Void> evaluator) {
         ObservableMap<Var,Value> symbolTable = (ObservableMap<Var, Value>) evaluator.getSymbolTable();
         symbolTable.addListener((MapChangeListener<Var,Value>) c -> {
             Var changedQuestion = c.getKey();
 
-            FormEvaluator fe = new FormEvaluator(this.form, c.getMap());
+            FormEvaluator<Void,Void> fe = new FormEvaluator<>(this.form, (Map<Var, Value>) c.getMap());
 
             QuestionListBuilder visitor = new QuestionListBuilder(fe.getEvaluatedQuestions(),  fe.getSymbolTable());
-            List<QuestionWidget> UIElements = visitor.getUiElements();
+            List<QuestionUIElement> UIElements = visitor.getUiElements();
             updateFormUI(changedQuestion, UIElements);
         });
     }
 
-    public void updateFormUI(Var changedQuestion, List<QuestionWidget> UIElements){
-        QuestionWidget currentQuestionWidget = null;
-
-        //get question ui-element of changed question
-        for(Node n: this.vbox.getChildren()){
-            if (n instanceof QuestionWidget){
-                if(isQuestion((QuestionWidget) n, changedQuestion)){
-                    currentQuestionWidget = (QuestionWidget) n;
-                }
+    private void updateFormUI(Var changedQuestion, List<QuestionUIElement> UIElements){
+        QuestionUIElement changedQuestionUI = null;
+        for(QuestionUIElement questionUI : UIElements){
+            if(questionUI.getVarName().equals(changedQuestion)){
+                changedQuestionUI = questionUI;
             }
         }
 
         this.vbox.getChildren().clear();
 
-        //add ui-elements except for the changed question (to keep it focused)
-        for(QuestionWidget qw : UIElements){
-            if(isQuestion(qw, changedQuestion)){
-                this.vbox.getChildren().add(currentQuestionWidget);
+        for(QuestionUIElement questionUI : UIElements){
+            if(questionUI.getVarName().equals(changedQuestion)){
+                this.vbox.getChildren().add(changedQuestionUI);
             }
             else {
-                this.vbox.getChildren().add(qw);
+                this.vbox.getChildren().add(questionUI);
             }
         }
-    }
-
-    public boolean isQuestion(QuestionWidget p, Var q){
-        if(p.getParentQuestion().getVarname().equals(q)){
-            return true;
-        }
-        return false;
     }
 
     public GridPane getRootPane() {

@@ -17,8 +17,13 @@ public class TextFieldWidget extends StringWidget {
     }
 
     @Override
-    public void setValue(String str) {
-        ((TextField) uiElement).setText(str);
+    public void setValue(String string) {
+        ((TextField) uiElement).setText(string);
+    }
+
+    @Override
+    public String getText() {
+        return ((TextField) uiElement).getText();
     }
 
     @Override

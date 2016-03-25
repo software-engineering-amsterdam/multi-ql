@@ -25,6 +25,11 @@ public class CheckboxWidget extends BooleanWidget {
     }
 
     @Override
+    public Boolean isSelected() {
+        return ((CheckBox)uiElement).isSelected();
+    }
+
+    @Override
     public void addListener(ChangeListener listener) {
         ((CheckBox)uiElement).selectedProperty().addListener(listener);
     }

@@ -2,13 +2,10 @@ package org.uva.sea.ql.gui.builder;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
@@ -20,14 +17,10 @@ import org.uva.sea.ql.adt.value.numeric.Int;
 import org.uva.sea.ql.adt.visitor.ValueVisitor;
 import org.uva.sea.ql.gui.widget.*;
 import org.uva.sea.ql.gui.widget.binary.BooleanWidget;
-import org.uva.sea.ql.gui.widget.binary.CheckboxWidget;
 import org.uva.sea.ql.gui.widget.factory.DefaultWidgets;
 import org.uva.sea.ql.gui.widget.factory.WidgetFactory;
-import org.uva.sea.ql.gui.widget.number.MoneyFieldWidget;
-import org.uva.sea.ql.gui.widget.number.NumberFieldWidget;
 import org.uva.sea.ql.gui.widget.number.NumberWidget;
 import org.uva.sea.ql.gui.widget.string.StringWidget;
-import org.uva.sea.ql.gui.widget.string.TextFieldWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +31,7 @@ import java.util.Map;
  * Created by roy on 25-2-16.
  */
 public class QuestionListBuilder implements ValueVisitor<Widget,EvaluatedQuestion> {
-    private List<Parent> uiElements;
+    private List<QuestionUIElement> uiElements;
     private WidgetFactory widgetFactory;
     private Map<Var, Value> symbolTable;
 
@@ -48,13 +41,13 @@ public class QuestionListBuilder implements ValueVisitor<Widget,EvaluatedQuestio
         this.symbolTable = symbolTable;
 
         for (EvaluatedQuestion question : questions){
-            Parent UiElem = genQuestionUI(question);
+            QuestionUIElement UiElem = genQuestionUI(question);
             uiElements.add(UiElem);
         }
     }
 
-    public Parent genQuestionUI(EvaluatedQuestion q) {
-        GridPane box = new GridPane();
+    private QuestionUIElement genQuestionUI(EvaluatedQuestion q) {
+        QuestionUIElement box = new QuestionUIElement(q.getVarname());
         box.setHgap(5);
         box.setPadding(new Insets(5,20,5,20));
 
@@ -124,8 +117,7 @@ public class QuestionListBuilder implements ValueVisitor<Widget,EvaluatedQuestio
     private void handleNumberWidgetAction(NumberWidget f) {
         try {
             f.unSetInvalid();
-            Integer value  = Integer.parseInt(f);
-            Value newExpr = new Int(f.getUiElement().getTe);
+            Value newExpr = new Int(Integer.parseInt(f.getValue()));
             updateSymbolTable(f.getParentQuestion(), newExpr);
         }
         catch (Exception e) {
@@ -134,7 +126,7 @@ public class QuestionListBuilder implements ValueVisitor<Widget,EvaluatedQuestio
         }
     }
 
-    private void handleBooleanWidgetAction(Widget f) {
+    private void handleBooleanWidgetAction(BooleanWidget f) {
         try {
             f.unSetInvalid();
             Value newExpr = new Bool(f.isSelected());
@@ -146,7 +138,7 @@ public class QuestionListBuilder implements ValueVisitor<Widget,EvaluatedQuestio
         }
     }
 
-    private void handleStringAction(Widget f) {
+    private void handleStringAction(StringWidget f) {
         java.lang.String fieldvalue = f.getText();
         if(isLetterString(fieldvalue)){
             f.unSetInvalid();
@@ -166,11 +158,11 @@ public class QuestionListBuilder implements ValueVisitor<Widget,EvaluatedQuestio
     private void removeFromSymbolTable(EvaluatedQuestion changedQuestion){
         this.symbolTable.remove(changedQuestion.getVarname());
     }
-    public boolean isLetterString(java.lang.String name) {
+    private boolean isLetterString(java.lang.String name) {
         return name.chars().allMatch(Character::isLetter);
     }
 
-    public List<Parent> getUiElements() {
+    public List<QuestionUIElement> getUiElements() {
         return uiElements;
     }
 }

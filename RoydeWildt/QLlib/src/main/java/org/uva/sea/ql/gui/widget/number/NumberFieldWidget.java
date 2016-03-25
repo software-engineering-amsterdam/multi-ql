@@ -28,6 +28,11 @@ public class NumberFieldWidget extends NumberWidget {
     }
 
     @Override
+    public String getValue() {
+        return ((TextField)(this.uiElement)).getText();
+    }
+
+    @Override
     public void addListener(ChangeListener listener) {
         ((TextField)(this.uiElement)).textProperty().addListener(listener);
     }
