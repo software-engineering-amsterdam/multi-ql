@@ -1,13 +1,13 @@
 package uva.ql.ast.variables;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.ast.variables.types.Date;
+import uva.ql.ast.Node;
+import uva.ql.ast.types.Date;
 
-public class VarDate extends Variable {
+public class VarDate extends Variable<Date> {
 
 	private Date type = new Date();
+	private Date value; 
 	
 	public VarDate(Node parent, String name, int startLine, int startColumn) {
 		super(parent, name, startLine, startColumn);
@@ -21,5 +21,21 @@ public class VarDate extends Variable {
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
+	}
+
+	@Override
+	public Date getValue() {
+		return this.value;
+	}
+	
+	@Override
+	public void setValue(Date date) {
+		this.value = date;
+	}
+
+	@Override
+	public Date eval() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -10,7 +10,7 @@ import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.questions.abstracts.Question;
+import uva.ql.ast.questions.Question;
 import uva.ql.gui.GUI;
 import uva.ql.gui.visitors.IActionListenerVisitor;
 

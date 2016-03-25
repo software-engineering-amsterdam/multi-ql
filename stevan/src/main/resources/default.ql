@@ -37,7 +37,7 @@ form taxOfficeExample {
      "Did you steal in 2010?"
           hasStolen: boolean
           
-     if (hasStolen && true) {
+     if (hasStolen && false) {
           "How much did you steal?"
                stealingAmount: money
           "Did you hurt anyone in the process?"

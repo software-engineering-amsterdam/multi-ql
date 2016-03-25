@@ -4,13 +4,13 @@ import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.conditionals.abstracts.Condition;
+import uva.ql.ast.conditionals.Condition;
 import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.questions.Question;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.questions.abstracts.Question;
-import uva.ql.ast.values.abstracts.Value;
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.values.Value;
+import uva.ql.ast.variables.Variable;
 
 public interface INodeVisitor {
 

@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
 import uva.ql.ast.Form;
-import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.Node;
 import uva.ql.typechecker.TypeChecker;
 import uva.ql.visitors.VisitorAntlrToAST;
 

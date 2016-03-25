@@ -7,12 +7,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.PlainDocument;
 
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.gui.fields.documentfilters.MoneyFilter;
 
-public class MoneyTextField extends JTextField {
+public class MoneyTextField<T> extends JTextField {
 	
-    public MoneyTextField(final Variable var) {
+    public MoneyTextField(final Variable<T> var) {
     	super();
     	this.setName(var.getName());
     	this.setText("0.00");

@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.gui.fields.documentfilters.DateFilter;
 
 public class DateSpinnerImproved extends JSpinner {

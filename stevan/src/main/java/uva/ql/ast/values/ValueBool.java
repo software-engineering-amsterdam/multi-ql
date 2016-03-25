@@ -3,9 +3,8 @@ package uva.ql.ast.values;
 import javax.swing.JPanel;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.values.abstracts.Value;
-import uva.ql.ast.values.types.Bool;
+import uva.ql.ast.Node;
+import uva.ql.ast.types.Bool;
 import uva.ql.gui.visitors.IGUIVisitor;
 
 public class ValueBool extends Value<Boolean> {
@@ -36,5 +35,10 @@ public class ValueBool extends Value<Boolean> {
 	@Override
 	public void accept(IGUIVisitor visitor, JPanel panel) {
 		visitor.visitValueBool(this, panel);
+	}
+
+	@Override
+	public Boolean eval() {
+		return this.value;
 	}
 }

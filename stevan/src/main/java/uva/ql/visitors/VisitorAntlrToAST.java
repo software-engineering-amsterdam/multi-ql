@@ -12,10 +12,10 @@ import uva.ql.antlr4.QLParser;
 import uva.ql.antlr4.QLParser.QuestionContext;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.Node;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.conditionals.abstracts.Condition;
+import uva.ql.ast.conditionals.Condition;
 import uva.ql.ast.expressions.ExpAdd;
 import uva.ql.ast.expressions.ExpAnd;
 import uva.ql.ast.expressions.ExpDivide;
@@ -30,20 +30,20 @@ import uva.ql.ast.expressions.ExpNot;
 import uva.ql.ast.expressions.ExpNotEqualTo;
 import uva.ql.ast.expressions.ExpOr;
 import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.questions.Question;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.questions.abstracts.Question;
+import uva.ql.ast.values.Value;
 import uva.ql.ast.values.ValueBool;
 import uva.ql.ast.values.ValueInt;
 import uva.ql.ast.values.ValueMoney;
-import uva.ql.ast.values.abstracts.Value;
 import uva.ql.ast.variables.VarBool;
 import uva.ql.ast.variables.VarDate;
 import uva.ql.ast.variables.VarGeneric;
 import uva.ql.ast.variables.VarInt;
 import uva.ql.ast.variables.VarMoney;
 import uva.ql.ast.variables.VarStr;
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 
 public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 

@@ -1,11 +1,14 @@
 package uva.ql.ast.values;
 
-import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.values.abstracts.Value;
-import uva.ql.ast.values.types.Int;
+import javax.swing.JPanel;
 
-public class ValueInt extends Value<Integer> {
+import uva.ql.ast.EnumType;
+import uva.ql.ast.Node;
+import uva.ql.ast.interfaces.IntEval;
+import uva.ql.ast.types.Int;
+import uva.ql.gui.visitors.IGUIVisitor;
+
+public class ValueInt extends Value<Integer> implements IntEval<Integer> {
 
 	private Int type = new Int();
 	private int value;
@@ -29,5 +32,14 @@ public class ValueInt extends Value<Integer> {
 	public Integer getValue() {
 		return this.value;
 	}
+	
+	@Override
+	public Integer eval() {
+		return getValue();
+	}
 
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitValueInt(this, panel);
+	}
 }

@@ -16,7 +16,7 @@ import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.variables.VarGeneric;
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.typechecker.abstracts.AbstractTypeChecker;
 import uva.ql.typechecker.errors.ErrorUndefinedQuestion;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;

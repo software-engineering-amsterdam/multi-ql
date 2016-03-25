@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import uva.ql.ast.abstracts.Node;
 import uva.ql.gui.visitors.IActionListenerVisitor;
 import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;

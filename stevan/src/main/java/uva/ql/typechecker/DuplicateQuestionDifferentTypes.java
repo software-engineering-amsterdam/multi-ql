@@ -17,7 +17,7 @@ import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.typechecker.abstracts.AbstractTypeChecker;
 import uva.ql.typechecker.errors.ErrorDuplicateQuestion;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;

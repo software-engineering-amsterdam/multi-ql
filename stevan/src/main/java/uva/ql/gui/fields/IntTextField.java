@@ -7,12 +7,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.PlainDocument;
 
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.gui.fields.documentfilters.IntFilter;
 
-public class IntTextField  extends JTextField {
+public class IntTextField<T>  extends JTextField {
 	
-    public IntTextField(final Variable var) {
+    public IntTextField(final Variable<T> var) {
     	super();
     	this.setName(var.getName());
     	this.setText("0");
