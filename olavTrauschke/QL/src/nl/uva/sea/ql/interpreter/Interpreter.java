@@ -10,11 +10,12 @@ import nl.uva.sea.ql.generalPurposeVisitors.QuestionIdentCollector;
  * Class for interpretating ast's.
  * 
  * @author Olav Trauschke
- * @version 25-mar-2016
+ * @version 26-mar-2016
  */
 public class Interpreter {
     
     private final AnswerTable answerTable;
+    private final GUI gui;
     
     /**
      * Constructor for objects of this class.
@@ -32,14 +33,15 @@ public class Interpreter {
         form.accept(generator);
         List<DisplayableQuestion> questions = generator.getResult();
         questions.forEach((DisplayableQuestion q) -> answerTable.addObserver(q));
-        //TODO create GUI
+        gui = new GUI(form.obtainIdentifier(), questions);
     }
     
     /**
      * Display the GUI to the user.
      */
     public void run() {
-        //TODO run GUI
+        gui.run();
+        //Do not return until GUI is close
     }
     
     /**

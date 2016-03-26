@@ -38,6 +38,14 @@ public class Form extends ASTNode {
     }
     
     /**
+     * @return a <code>String</code> representing <code>theIdentifier</code> of
+     *          <code>this Form</code>
+     */
+    public String obtainIdentifier() {
+        return identifier.toString();
+    }
+    
+    /**
      * Has the <code>identifier</code> and <code>questions</code> of
      * <code>this Form accept visitor</code> and then has <code>visitor visit this Form</code>.
      * 

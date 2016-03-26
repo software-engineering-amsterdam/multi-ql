@@ -6,6 +6,7 @@ import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.generalPurposeVisitors.IdentCollector;
+import nl.uva.sea.ql.interpreter.listener.*;
 
 /**
  * Objects of this class represent
@@ -13,7 +14,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.IdentCollector;
  * conditions under which they should be displayed.
  * 
  * @author Olav Trauschke
- * @version 25-mar-2016
+ * @version 26-mar-2016
  */
 public class DisplayableQuestion implements Observer {
     
@@ -24,7 +25,11 @@ public class DisplayableQuestion implements Observer {
     private final Set<Ident> identifiersInDisplayCondition;
     private final Set<Ident> identifiersInCalculation;
     
-    private boolean toDisplay;
+    private final AnswerTable answerTable;
+    
+    private final List<DisplayableQuestionListener> listeners;
+    
+    private boolean isToDisplay;
     private Value value;
     
     /**
@@ -35,18 +40,22 @@ public class DisplayableQuestion implements Observer {
      *                              displayed
      * @param theQuestion a <code>Question</code> that should be displayed when
      *                      <code>conditionToDisplay</code> evaluates to true
-     * @param answerTable an <code>AnswerTable</code> mapping all
+     * @param theAnswerTable an <code>AnswerTable</code> mapping all
      *                      <code>Ident</code>s <code>conditionToDisplay</code>
      *                      or <code>theCalculation</code> of <code>theQuestion</code>
      *                      could contain to their current <code>Value</code>s,
      *                      or <code>null</code> when these are unknown
      */
     public DisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
-            AnswerTable answerTable) {
+            AnswerTable theAnswerTable) {
         assert conditionForDisplay != null;
+        assert theQuestion != null;
+        assert theAnswerTable != null;
+        
         displayCondition = conditionForDisplay;
         question = theQuestion;
         isComputedQuestion = theQuestion.isComputed();
+        answerTable = theAnswerTable;
         
         IdentCollector displayConditionidentifierCollector = new IdentCollector();
         displayCondition.accept(displayConditionidentifierCollector);
@@ -56,8 +65,10 @@ public class DisplayableQuestion implements Observer {
         question.calculationAccept(calculationIdentifierCollector);
         identifiersInCalculation = calculationIdentifierCollector.getIdentifiers();
         
-        toDisplay = ((BooleanValue) displayCondition.eval(answerTable)).getValue();
-        value = isComputedQuestion ? question.evalCalculation(answerTable) : null;
+        listeners = new ArrayList<>();
+        
+        isToDisplay = ((BooleanValue) displayCondition.eval(theAnswerTable)).getValue();
+        value = isComputedQuestion ? question.evalCalculation(theAnswerTable) : null;
     }
     
     /**
@@ -68,33 +79,77 @@ public class DisplayableQuestion implements Observer {
      * <code>AnswerTable</code> and cannot be executed only once for multiple
      * changes.
      * 
-     * @param observable an <code>Observable</code> that should be an
-     *                      <code>AnswerTable</code>. More specifically, the
-     *                      new or updated
-     *                      <code>AnswerTable this DisplayableQuestion</code>'s
-     *                      status should comply to
+     * @param observable the <code>Observable</code> that was changed so that
+     *                      this method was called, unused
      * @param argument an <code>Ident</code> indicating which <code>Value</code>
-     *                  in <code>observable</code> has changed as compared to
-     *                  the <code>SymbolTable</code> that was provided on the
-     *                  last <code>update</code> or at construction if this is
-     *                  the first call to <code>update</code> on
-     *                  <code>this DisplayableQuestion</code>
+     *                  in <code>answerTable</code> was changed
      */
     @Override
     public void update(Observable observable, Object argument) {
-        assert observable instanceof AnswerTable;
         assert argument instanceof Ident;
         
-        AnswerTable answerTable = (AnswerTable) observable;
         Ident identifier = (Ident) argument;
         
         if (identifiersInDisplayCondition.contains(identifier)) {
             BooleanValue toDisplayValue = (BooleanValue) displayCondition.eval(answerTable);
-            toDisplay = toDisplayValue == null ? false : toDisplayValue.getValue();
+            boolean wasToDisplay = isToDisplay;
+            isToDisplay = toDisplayValue == null ? false : toDisplayValue.getValue();
+            if (isToDisplay != wasToDisplay) {
+                notifyListeners(true);
+            }
         }
         
         if (isComputedQuestion && identifiersInCalculation.contains(identifier)) {
-            value = question.evalCalculation(answerTable); 
+            setValue(question.evalCalculation(answerTable)); 
+        }
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @return 
+     */
+    public boolean isToDisplay() {
+        return isToDisplay;
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param listener 
+     */
+    public void addListener(DisplayableQuestionListener listener) {
+        listeners.add(listener);
+    }
+    
+    /**
+     * TODO document
+     */
+    private void notifyListeners(boolean toDisplayChanged) {
+        DisplayableQuestionChangeEvent event
+                = new DisplayableQuestionChangeEvent(this, toDisplayChanged);
+        listeners.forEach((DisplayableQuestionListener listener) -> listener.questionChanged(event));
+    }
+    
+    /**
+     * Set the <code>value</code> of <code>this DisplayableQuestion</code> and
+     * update its <code>answerTable</code> if and only if <code>newValue</code>
+     * is not equal to <code>value</code>.
+     * 
+     * @param newValue the <code>Value</code> to set as the <code>value</code>
+     *                  of <code>this DisplayableQuestion</code>. The type of
+     *                  this <code>Value</code> must match the type of
+     *                  <code>this DisplayableQuestion</code>'s
+     *                  <code>question</code> and in case this is a computed
+     *                  question (i.e. its <code>calculation != null</code>) it
+     *                  must be the <code>Value</code> this <code>Expr</code>
+     *                  currently evaluates to
+     */
+    private void setValue(Value newValue) {
+        if (!newValue.equals(value)) {
+            value = newValue;
+            answerTable.update(question.getIdentifier(), newValue);
+            notifyListeners(false);
         }
     }
     
