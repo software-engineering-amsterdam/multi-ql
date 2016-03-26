@@ -46,8 +46,8 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	}
 
 	@Override
-	public Identifier visit(Form value, Void ignore) {
-		value.getBlock().accept(this, null);
+	public Identifier visit(Form structure, Void ignore) {
+		structure.getBlock().accept(this, null);
 		
 		// @TODO Move the accept method to the constructor of this class, and call this one right after.
 		checkUndefinedIdentifiers();
@@ -56,8 +56,8 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	}
 
 	@Override
-	public Identifier visit(Block value, Void ignore) {
-		for (Statement currentStatement : value.getStatements()) {
+	public Identifier visit(Block structure, Void ignore) {
+		for (Statement currentStatement : structure.getStatements()) {
 			currentStatement.accept(this, ignore);
 		}
 
@@ -65,45 +65,45 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	}
 
 	@Override
-	public Identifier visit(Question value, Void context) {
-		if (checkIfUniqueQuestion(value)) {
-			symbolTable.addSymbol(value.getIdentifier(), new SymbolTableEntry(value.getType()));
-			stateTable.addState(value.getIdentifier(), new StateTableEntry(value.getType().getDefaultValue()));
-			labels.add(value.getLabel());
+	public Identifier visit(Question statement, Void context) {
+		if (checkIfUniqueQuestion(statement)) {
+			symbolTable.addSymbol(statement.getIdentifier(), new SymbolTableEntry(statement.getType()));
+			stateTable.add(statement.getIdentifier(), new StateTableEntry(statement.getType().getDefaultValue()));
+			labels.add(statement.getLabel());
 		}
 				
 		return null;
 	}
 
 	@Override
-	public Identifier visit(ComputedQuestion value, Void context) {
-		if (checkIfUniqueQuestion(value)) {
-			symbolTable.addSymbol(value.getIdentifier(), new SymbolTableEntry(value.getType()));
-			stateTable.addState(value.getIdentifier(), new StateTableEntry(value.getType().getDefaultValue()));
-			labels.add(value.getLabel());
+	public Identifier visit(ComputedQuestion statement, Void context) {
+		if (checkIfUniqueQuestion(statement)) {
+			symbolTable.addSymbol(statement.getIdentifier(), new SymbolTableEntry(statement.getType()));
+			stateTable.add(statement.getIdentifier(), new StateTableEntry(statement.getType().getDefaultValue()));
+			labels.add(statement.getLabel());
 		}
 		
-		value.getExpr().accept(collectIdentifiers);
+		statement.getExpr().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		return null;
 	}
 
 	@Override
-	public Identifier visit(IfStatement value, Void context) {
-		value.getExpr().accept(collectIdentifiers);
+	public Identifier visit(IfStatement statement, Void context) {
+		statement.getExpr().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		
-		value.getBlock_if().accept(this, null);
+		statement.getBlock_if().accept(this, null);
 		return null;
 	}
 
 	@Override
-	public Identifier visit(IfElseStatement value, Void context) {
-		value.getExpr().accept(collectIdentifiers);
+	public Identifier visit(IfElseStatement statement, Void context) {
+		statement.getExpr().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		
-		value.getBlock_if().accept(this, null);
-		value.getBlock_else().accept(this, null);
+		statement.getBlock_if().accept(this, null);
+		statement.getBlock_else().accept(this, null);
 		return null;
 	}
 	

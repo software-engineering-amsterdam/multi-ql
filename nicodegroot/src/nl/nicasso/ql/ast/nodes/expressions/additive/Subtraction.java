@@ -24,8 +24,8 @@ public class Subtraction extends Additive {
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
+	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 	
 	@Override

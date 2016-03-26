@@ -10,8 +10,11 @@ public class BooleanValue extends Value {
 	
 	@Override
 	public boolean equals(Object ob) {
+		if (!(ob instanceof BooleanValue)) {
+			return false;
+		}
 		BooleanValue value = (BooleanValue) ob;
-		return value.equals(value.getValue());
+		return this.value.equals(value.getValue());
 	}
 	
 	@Override

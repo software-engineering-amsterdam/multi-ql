@@ -46,10 +46,9 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisitor<Void, Identifier>, ExpressionVisitor<Type> {
+public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisitor<Void, Identifier>, ExpressionVisitor<Type, Identifier> {
 	
 	private List<Pair<Identifier>> dependencies;
-	private Identifier currentIdentifier;
 
 	private SymbolTable symbolTable;
 	private MessageHandler messageHandler;
@@ -61,17 +60,17 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		this.dependencies = new ArrayList<Pair<Identifier>>();
 	}
 	
-	private Type binaryExpressionTraversal(Binary expression) {
-		Type leftType = expression.getLeft().accept(this);
-		Type rightType = expression.getRight().accept(this);
+	private Type binaryExpressionTraversal(Binary expression, Identifier context) {
+		Type leftType = expression.getLeft().accept(this, context);
+		Type rightType = expression.getRight().accept(this, context);
 		
 		Type type = expression.inferType(leftType, rightType);
 		
 		return type;
 	}
 	
-	private Type unaryExpressionTraversal(Unary expression) {
-		Type exprType = expression.getExpr().accept(this);
+	private Type unaryExpressionTraversal(Unary expression, Identifier context) {
+		Type exprType = expression.getExpr().accept(this, context);
 		
 		Type type = expression.inferType(exprType);
 		
@@ -79,78 +78,78 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 		
 	@Override
-	public Type visit(And expression) {	
-		return binaryExpressionTraversal(expression);
+	public Type visit(And expression, Identifier context) {	
+		return binaryExpressionTraversal(expression, context);
 	}
 	
 	@Override
-	public Type visit(Addition expression) {		
-		return binaryExpressionTraversal(expression);
+	public Type visit(Addition expression, Identifier context) {		
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Subtraction expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(Subtraction expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Or expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(Or expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Not expression) {
-		return unaryExpressionTraversal(expression);
+	public Type visit(Not expression, Identifier context) {
+		return unaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Parenthesis expression) {		
-		return unaryExpressionTraversal(expression);
+	public Type visit(Parenthesis expression, Identifier context) {		
+		return unaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Equal expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(Equal expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(NotEqual expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(NotEqual expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Division expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(Division expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Multiplication expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(Multiplication expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Greater expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(Greater expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(GreaterEqual expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(GreaterEqual expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(Less expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(Less expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Type visit(LessEqual expression) {
-		return binaryExpressionTraversal(expression);
+	public Type visit(LessEqual expression, Identifier context) {
+		return binaryExpressionTraversal(expression, context);
 	}
 
 	@Override
-	public Void visit(Form value, Void ignore) {
-		value.getBlock().accept(this, null);
+	public Void visit(Form structure, Void ignore) {
+		structure.getBlock().accept(this, null);
 		
 		// @TODO This here? (SEE COMMENT TOP QUESTIONINDEXER)
 		detectCyclicDependencies();
@@ -159,8 +158,8 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 
 	@Override
-	public Void visit(Block value, Void ignore) {
-		for (Statement currentStatement : value.getStatements()) {
+	public Void visit(Block structure, Void ignore) {
+		for (Statement currentStatement : structure.getStatements()) {
 			currentStatement.accept(this, null);
 		}
 		
@@ -168,86 +167,84 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 
 	@Override
-	public Void visit(Question value, Identifier context) {
+	public Void visit(Question statement, Identifier context) {
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestion value, Identifier context) {
+	public Void visit(ComputedQuestion statement, Identifier context) {
 		// @TODO: Temp variable smell! Pass it on as a parameter!
-		currentIdentifier = value.getIdentifier();
 		
-		Type type = value.getExpr().accept(this);
+		Type type = statement.getExpr().accept(this, statement.getIdentifier());
 		
-		currentIdentifier = null;
-		
-		if (!type.equals(value.getType())) {
-			messageHandler.addErrorMessage(new IncompatibleTypes(value.getLocation(), value.getType()));
+		if (!type.equals(statement.getType())) {
+			messageHandler.addErrorMessage(new IncompatibleTypes(statement.getLocation(), statement.getType()));
 		}
 		
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStatement value, Identifier context) {
-		Type expr = value.getExpr().accept(this);
-		value.getBlock_if().accept(this, null);
+	public Void visit(IfStatement statement, Identifier context) {
+		Type expr = statement.getExpr().accept(this, context);
+		statement.getBlock_if().accept(this, null);
 		
-		Type type = value.checkAllowedTypes(expr);
+		Type type = statement.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			messageHandler.addErrorMessage(new IncompatibleTypes(value.getLocation(), new BooleanType()));
+			messageHandler.addErrorMessage(new IncompatibleTypes(statement.getLocation(), new BooleanType()));
 		}
 		
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStatement value, Identifier context) {
-		Type expr = value.getExpr().accept(this);
-		value.getBlock_if().accept(this, null);
-		value.getBlock_else().accept(this, null);
+	public Void visit(IfElseStatement statement, Identifier context) {
+		Type expr = statement.getExpr().accept(this, context);
+		statement.getBlock_if().accept(this, null);
+		statement.getBlock_else().accept(this, null);
 		
-		Type type = value.checkAllowedTypes(expr);
+		Type type = statement.checkAllowedTypes(expr);
 		
 		if (type.equals(new UnknownType())) {
-			messageHandler.addErrorMessage(new IncompatibleTypes(value.getLocation(), new BooleanType()));
+			messageHandler.addErrorMessage(new IncompatibleTypes(statement.getLocation(), new BooleanType()));
 		}
 		
 		return null;
 	}
 
 	@Override
-	public Type visit(BooleanLiteral value) {
+	public Type visit(BooleanLiteral literal, Identifier context) {
 		return new BooleanType();
 	}
 
 	@Override
-	public Type visit(Identifier value) {		
-		Type entryType = symbolTable.getEntryType(value);
+	public Type visit(Identifier identifier, Identifier context) {		
+		Type entryType = symbolTable.getEntryType(identifier);
 		
-		addQuestionDependency(value);
+		addQuestionDependency(identifier, context);
 		
 		return entryType;
 	}
 
 	@Override
-	public Type visit(IntegerLiteral value) {
+	public Type visit(IntegerLiteral literal, Identifier context) {
 		return new IntegerType();
 	}
 
 	@Override
-	public Type visit(StringLiteral value) {
+	public Type visit(StringLiteral literal, Identifier context) {
 		return new StringType();
 	}
 	
 	@Override
-	public Type visit(MoneyLiteral value) {
+	public Type visit(MoneyLiteral literal, Identifier context) {
 		return new MoneyType();
 	}
 	
-	private void addQuestionDependency(Identifier currentId) {
-		// UGLY!
+	// @TODO LOOK AT THE NAMING OF THE PARAMS HERE 
+	private void addQuestionDependency(Identifier currentId, Identifier currentIdentifier) {
+		// Otherwise it is a ifstatement
 		if (currentIdentifier != null) {
 			dependencies.add(new Pair<Identifier>(currentIdentifier, currentId));
 		}

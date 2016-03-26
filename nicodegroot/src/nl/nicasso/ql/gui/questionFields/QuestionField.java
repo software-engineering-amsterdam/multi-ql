@@ -5,6 +5,7 @@ import java.awt.Component;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.Label;
 
+// @TODO CHANGE TO INTERFACE
 public abstract class QuestionField {
 		
 	public QuestionField() {
