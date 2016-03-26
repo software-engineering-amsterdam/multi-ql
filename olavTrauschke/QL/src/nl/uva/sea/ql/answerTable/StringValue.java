@@ -1,14 +1,21 @@
 package nl.uva.sea.ql.answerTable;
 
+import java.util.Objects;
+
 /**
  * Objects of this class represent values of QL
  * {@link nl.uva.sea.ql.ast.question.StringQuestion StringQuestion}s and
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a string value.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 26-mar-2016
  */
 public class StringValue extends Value {
+    
+    /**
+     * Start value used to calculate hashes for objects of this class.
+     */
+    public static final int HASH_ORIGIN = 485;
     
     private final String value;
     
@@ -66,6 +73,30 @@ public class StringValue extends Value {
         }
         String result = value + other.value;
         return new StringValue(result);
+    }
+    
+    /**
+     * Compares <code>this StringValue</code> to another <code>Object</code>.
+     * 
+     * @param o the <code>Object</code> to compare to <code>this StringValue</code>
+     * @return <code>true</code> if and only if <code>o</code> is a
+     *          <code>StringValue</code> with the same <code>value</code> as
+     *          <code>this StringValue</code> 
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        StringValue other = (StringValue) o;
+        return value == null ? other.value == null : value.equals(other.value);
+    }
+
+    /**
+     * @return an <code>int</code> containing a hash for <code>this StringValue</code> 
+     */
+    @Override
+    public int hashCode() {
+        return HASH_ORIGIN + Objects.hashCode(this.value);
     }
     
 }

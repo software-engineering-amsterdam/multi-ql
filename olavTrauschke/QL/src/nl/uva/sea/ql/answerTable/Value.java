@@ -6,7 +6,7 @@ package nl.uva.sea.ql.answerTable;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 6-mar-2016
  */
 public abstract class Value {
     
@@ -24,5 +24,27 @@ public abstract class Value {
      *          <code>this Value</code> to <code>other</code> otherwise
      */
     public abstract BooleanValue ternaryEquals(Value other);
+    
+    /**
+     * Compares <code>this Value</code> to another <code>Object</code>.
+     * Implemented to force subclasses to overwrite
+     * {@link java.lang.Object#equals(java.lang.Object) Object.equals(Object)},
+     * which should be done in a semantic way.
+     * 
+     * @param o the <code>Object</code> to compare to <code>this Value</code>
+     * @return <code>true</code> if and only if <code>o</code> is equal to
+     *          <code>this Value</code> 
+     */
+    @Override
+    public abstract boolean equals(Object o);
+    
+    /**
+     * Overwrites {@link java.lang.Object#hashCode() Object.hashCode()} to force
+     * subclasses to overwrite it, to keep it consistent with <code>equals()</code>.
+     * 
+     * @return an <code>int</code> containing a hash for <code>this Value</code> 
+     */
+    @Override
+    public abstract int hashCode();
     
 }
