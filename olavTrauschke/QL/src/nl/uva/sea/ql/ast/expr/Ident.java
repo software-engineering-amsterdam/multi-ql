@@ -1,8 +1,7 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
-import nl.uva.sea.ql.answerTable.AnswerTable;
-import nl.uva.sea.ql.answerTable.Value;
+import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
@@ -10,7 +9,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 26-mar-2016
  */
 public class Ident extends Expr {
     
@@ -154,7 +153,8 @@ public class Ident extends Expr {
      */
     @Override
     public Value eval(AnswerTable answerTable) {
-        return answerTable.get(this);
+        Value result = answerTable.get(this);
+        return result == null ? new UnknownValue() : result;
     }
     
     /**

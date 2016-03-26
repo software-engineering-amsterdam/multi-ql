@@ -10,7 +10,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
  * (string) concatenation.
  * 
  * @author Olav Trauschke
- * @version 19-mar-2016
+ * @version 26-mar-2016
  */
 public class Add extends Expr {
     
@@ -186,8 +186,8 @@ public class Add extends Expr {
      *          <code>firstExpr</code>
      */
     private NumericValue evalNumeric(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) firstExpr.eval(answerTable);
-        NumericValue secondValue = (NumericValue) secondExpr.eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(firstExpr.eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(secondExpr.eval(answerTable));
         return firstValue.add(secondValue);
     }
     

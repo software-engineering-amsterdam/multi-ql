@@ -53,4 +53,12 @@ public class AnswerTable extends Observable {
         return answerTable.get(identifier);
     }
     
+    /**
+     * @return a {@link java.util.Map Map} performing the same mapping as
+     * <code>this AnswerTable</code>
+     */
+    public Map<Ident,Value> toMap() {
+        return answerTable;
+    }
+    
 }

@@ -1,6 +1,7 @@
 package nl.uva.sea.ql.interpreter;
 
 import java.util.*;
+import javax.swing.JComponent;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
@@ -16,7 +17,7 @@ import nl.uva.sea.ql.interpreter.listener.*;
  * @author Olav Trauschke
  * @version 26-mar-2016
  */
-public class DisplayableQuestion implements Observer {
+public class DisplayableQuestion extends JComponent implements Observer {
     
     private final Expr displayCondition;
     private final Question question;

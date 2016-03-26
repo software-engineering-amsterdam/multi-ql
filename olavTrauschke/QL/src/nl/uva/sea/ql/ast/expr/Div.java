@@ -8,7 +8,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
  * Representation of division in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-mrt-2016
+ * @version 26-mrt-2016
  */
 public class Div extends BinaryNumericOperatorExpr {
     
@@ -52,8 +52,8 @@ public class Div extends BinaryNumericOperatorExpr {
      */
     @Override
     public NumericValue eval(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) getFirstExpr().eval(answerTable);
-        NumericValue secondValue = (NumericValue) getSecondExpr().eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(getFirstExpr().eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(getSecondExpr().eval(answerTable));
         return firstValue.divide(secondValue);
     }
 }

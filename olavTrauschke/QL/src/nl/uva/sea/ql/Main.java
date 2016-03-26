@@ -15,7 +15,7 @@ import nl.uva.sea.ql.parser.ParserWrapper;
  * Main class to type check and run questionairs.
  * 
  * @author Olav Trauschke
- * @version 25-mar-2016
+ * @version 26-mar-2016
  */
 public class Main {
     
@@ -68,7 +68,7 @@ public class Main {
                 interpreter.run();
                 AnswerTable answers = interpreter.getAnswerTable();
                 String destinationPath = ioManager.selectSaveLocation();
-                ioManager.writeToXml(answers, destinationPath);
+                ioManager.writeToXml(answers.toMap(), destinationPath);
                 System.exit(0);
             }
             else {
