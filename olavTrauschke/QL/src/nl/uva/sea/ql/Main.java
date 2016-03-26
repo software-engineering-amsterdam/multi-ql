@@ -65,16 +65,24 @@ public class Main {
             boolean run = check(form);
             if (run) {
                 Interpreter interpreter = new Interpreter(form);
-                interpreter.run();
-                AnswerTable answers = interpreter.getAnswerTable();
-                String destinationPath = ioManager.selectSaveLocation();
-                ioManager.writeToXml(answers.toMap(), destinationPath);
-                System.exit(0);
+                interpreter.run(this::save);
             }
             else {
                 System.exit(SEMANTICS_ERROR);
             }
         }
+    }
+    
+    /**
+     * Save the result of running a questionnaire and exit.
+     * 
+     * @param answerTable an <code>AnswerTable</code> containing the results
+     *                      to be saved
+     */
+    public void save(AnswerTable answerTable) {
+        String destinationPath = ioManager.selectSaveLocation();
+        ioManager.writeToXml(answerTable.toMap(), destinationPath);
+        System.exit(0);
     }
     
     /**

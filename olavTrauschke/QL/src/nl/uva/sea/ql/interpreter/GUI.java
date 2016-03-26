@@ -1,8 +1,11 @@
 package nl.uva.sea.ql.interpreter;
 
+//java.awt cannot be imported in total because of a naming conflict with java.util
+import java.awt.AWTEvent;
 import java.awt.Container;
 import java.awt.LayoutManager;
 import java.util.*;
+import java.util.function.Consumer;
 import javax.swing.*;
 import nl.uva.sea.ql.interpreter.listener.*;
 
@@ -38,19 +41,25 @@ public class GUI implements DisplayableQuestionListener {
         isDisplayedPerQuestion = new LinkedHashMap<>(theQuestions.size());
         theQuestions.forEach((DisplayableQuestion question) -> isDisplayedPerQuestion.put(question, false));
         theQuestions.forEach((DisplayableQuestion question) -> question.addListener(this));
-        
-        //TODO add save button and close operation
     }
     
     /**
      * Show <code>this GUI</code> to the user.
+     * 
+     * @param callback a <code>Consumer</code> of <code>AWTEvent</code>s to call
+     *                  when the user has closed <code>this GUI</code>, should
+     *                  at least properly shutdown the application
      */
-    public void run() {
+    public void run(Consumer<AWTEvent> callback) {
+        frame.addWindowListener((WindowClosingListener) callback::accept);
+        
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(callback::accept);
+        frame.getContentPane().add(saveButton);
+        
         addQuestionsToDisplay();
         frame.pack();
         frame.setVisible(true);
-        
-        //TODO wait until questionnaire was finished
     }
     
     /**

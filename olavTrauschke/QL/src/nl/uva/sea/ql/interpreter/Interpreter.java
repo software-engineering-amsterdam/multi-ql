@@ -1,6 +1,8 @@
 package nl.uva.sea.ql.interpreter;
 
+import java.awt.AWTEvent;
 import java.util.List;
+import java.util.function.Consumer;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
@@ -16,6 +18,8 @@ public class Interpreter {
     
     private final AnswerTable answerTable;
     private final GUI gui;
+    
+    private Consumer<AnswerTable> callback;
     
     /**
      * Constructor for objects of this class.
@@ -38,10 +42,29 @@ public class Interpreter {
     
     /**
      * Display the GUI to the user.
+     * 
+     * @param theCallback a <code>Consumer</code> of <code>AnswerTable</code>s that
+     *                      should be called with the resulting <code>AnswerTable</code>
+     *                      as argument when the questionnaire has finished, should
+     *                      at least properly shutdown the application
      */
-    public void run() {
-        gui.run();
-        //Do not return until GUI is close
+    public void run(Consumer<AnswerTable> theCallback) {
+        assert theCallback != null;
+        callback = theCallback;
+        gui.run(this::callback);
+    }
+    
+    /**
+     * Call <code>theCallback</code> that was provided to the last call to
+     * {@link #run(java.util.function.Consumer) run(Consumer)} with the
+     * <code>AnswerTable</code> used by <code>this Interpreter</code> as argument.
+     * 
+     * @param event the <code>AWTEvent</code> that was the reason for calling this
+     *              method, unused
+     */
+    public void callback(AWTEvent event) {
+        assert callback != null;
+        callback.accept(answerTable);
     }
     
     /**
