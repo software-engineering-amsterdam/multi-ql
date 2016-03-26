@@ -45,7 +45,7 @@ public class StatementSet extends ASTNode {
      * <code>visitor visit this StatementSet</code>. The <code>ASTNode</code>s are
      * visited in reverse order, to process them in the same order as they were
      * in a ql-file that was analyzed by a
-     * {@link nl.uva.sea.ql.parser.ParserWrapper Parser(Wrapper)}
+     * {@link nl.uva.sea.ql.parser.ParserWrapper Parser(Wrapper)}.
      * 
      * @param visitor an <code>ASTVisitor</code> that should
      *          <code>visit this StatementSet</code> and its children
