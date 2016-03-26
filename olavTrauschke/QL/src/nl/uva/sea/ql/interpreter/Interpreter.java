@@ -32,7 +32,7 @@ public class Interpreter {
                 = new DisplayableQuestionGenerator(answerTable);
         form.accept(generator);
         List<DisplayableQuestion> questions = generator.getResult();
-        questions.forEach((DisplayableQuestion q) -> answerTable.addObserver(q));
+        questions.forEach(answerTable::addObserver);
         gui = new GUI(form.obtainIdentifier(), questions);
     }
     

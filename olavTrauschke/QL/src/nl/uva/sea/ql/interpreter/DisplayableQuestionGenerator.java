@@ -13,7 +13,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.GeneralizedASTVisitor;
  * with these conditions for each <code>Question</code> they <code>visit</code>.
  * 
  * @author Olav Trauschke
- * @version 25-mar-2016
+ * @version 26-mar-2016
  */
 public class DisplayableQuestionGenerator extends GeneralizedASTVisitor {
     
@@ -88,9 +88,7 @@ public class DisplayableQuestionGenerator extends GeneralizedASTVisitor {
      */
     private Expr createConjunctionOfConditions() {
         Expr top = new Bool(true);
-        BinaryOperator<Expr> conjunct = (Expr firstCondition, Expr secondCondition)
-                -> new And(firstCondition, secondCondition);
-        return conditions.stream().reduce(top, conjunct);
+        return conditions.stream().reduce(top, And::new);
     }
     
 }

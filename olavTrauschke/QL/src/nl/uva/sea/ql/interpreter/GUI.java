@@ -65,7 +65,7 @@ public class GUI implements DisplayableQuestionListener {
     private void addQuestionsToDisplay() {
         Container contentPane = frame.getContentPane();
         isDisplayedPerQuestion.keySet().stream()
-                .filter((DisplayableQuestion question) -> question.isToDisplay())
+                .filter(DisplayableQuestion::isToDisplay)
                 .forEach((DisplayableQuestion question) -> contentPane.add(question));
     }
     

@@ -134,7 +134,7 @@ public class DependencyChecker extends GeneralizedASTVisitor {
      *                      <code>Ident</code>s to add
      */
     private void addVertrices(Iterable<Ident> identifiers) {
-        identifiers.forEach((Ident identifier) -> dependencyGraph.addVertex(identifier));
+        identifiers.forEach(dependencyGraph::addVertex);
     }
     
     /**
