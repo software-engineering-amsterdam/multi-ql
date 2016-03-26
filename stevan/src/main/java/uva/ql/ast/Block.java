@@ -80,7 +80,7 @@ public class Block extends Node {
 	}
 
 	@Override
-	public void accept(IActionListenerVisitor visitor, JPanel panel) {
-		visitor.visitBlock(this, panel);
+	public void accept(IActionListenerVisitor visitor) {
+		visitor.visitBlock(this);
 	}
 }

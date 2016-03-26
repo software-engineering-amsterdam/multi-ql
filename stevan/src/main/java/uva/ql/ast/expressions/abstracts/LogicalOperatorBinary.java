@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
+import uva.ql.gui.visitors.IActionListenerVisitor;
 import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
@@ -64,5 +65,10 @@ public abstract class LogicalOperatorBinary extends Expression<Boolean> {
 	@Override
 	public void accept(IGUIVisitor visitor, JPanel panel) {
 		visitor.visitLogicalOperatorBinary(this, panel);
+	}
+	
+	@Override
+	public void accept(IActionListenerVisitor visitor) {
+		visitor.visitLogicalOperatorBinary(this);
 	}
 }

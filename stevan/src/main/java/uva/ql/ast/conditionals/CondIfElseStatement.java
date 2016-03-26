@@ -95,7 +95,7 @@ public class CondIfElseStatement<T> extends Condition<T> {
 	}
 	
 	@Override
-	public void accept(IActionListenerVisitor visitor, JPanel panel) {
-		visitor.visitCondIfElseStatement(this, panel);
+	public void accept(IActionListenerVisitor visitor) {
+		visitor.visitCondIfElseStatement(this);
 	}
 }

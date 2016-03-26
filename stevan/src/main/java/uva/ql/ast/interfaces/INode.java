@@ -23,5 +23,5 @@ public interface INode {
 	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor);
 	
 	public void accept(IGUIVisitor visitor, JPanel panel);
-	public void accept(IActionListenerVisitor visitor, JPanel panel);
+	public void accept(IActionListenerVisitor visitor);
 }

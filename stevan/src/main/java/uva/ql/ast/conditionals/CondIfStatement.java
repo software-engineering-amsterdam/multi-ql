@@ -85,7 +85,7 @@ public class CondIfStatement<T> extends Condition<T> {
 	}
 	
 	@Override
-	public void accept(IActionListenerVisitor visitor, JPanel panel) {
-		visitor.visitCondIfStatement(this, panel);
+	public void accept(IActionListenerVisitor visitor) {
+		visitor.visitCondIfStatement(this);
 	}
 }

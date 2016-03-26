@@ -67,6 +67,6 @@ public abstract class Node implements INode {
 	public void accept(IGUIVisitor visitor, JPanel panel) {}
 	
 	@Override
-	public void accept(IActionListenerVisitor visitor, JPanel panel) {}
+	public void accept(IActionListenerVisitor visitor) {}
 	
 }

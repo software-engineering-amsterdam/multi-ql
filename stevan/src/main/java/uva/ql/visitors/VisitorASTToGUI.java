@@ -72,6 +72,7 @@ public class VisitorASTToGUI implements IGUIVisitor {
 		Question q = new Question(question.getLabel(), var);
 		
 		//q.setPreferredSize(new Dimension(parentPanel.getWidth()-30, 20));
+		parentPanel.setName(var.getName());
 		parentPanel.add(q);
 		parentPanel.revalidate();
 		
@@ -85,6 +86,7 @@ public class VisitorASTToGUI implements IGUIVisitor {
 		Question q = new Question(question.getLabel(), var);
 		
 		//q.setPreferredSize(new Dimension(parentPanel.getWidth()-30, 20));
+		parentPanel.setName(var.getName());
 		parentPanel.add(q);
 		parentPanel.revalidate();
 		
@@ -99,11 +101,12 @@ public class VisitorASTToGUI implements IGUIVisitor {
 		panelLhs.setLayout(new BoxLayout(panelLhs, BoxLayout.PAGE_AXIS));
 		
 		condition.getLhs().accept(this, panelLhs);
+		parentPanel.setName("condition");
 		parentPanel.add(panelLhs);
 		parentPanel.revalidate();
 		
-		System.out.println("condition: " + condition.getExpression());
-		System.out.println("componentStore: " + componentStore.entrySet());
+		//System.out.println("condition: " + condition.getExpression());
+		//System.out.println("componentStore: " + componentStore.entrySet());
 		condition.getExpression().accept(this, panelLhs);
 		
 	}
@@ -129,39 +132,39 @@ public class VisitorASTToGUI implements IGUIVisitor {
 	
 	@Override
 	public void visitVariables(Variable var) {
-		System.out.println(var.getName());
+		//System.out.println(var.getName());
 	}
 	
 	@Override
 	public void visitVarInt(Variable var, JPanel panel) {
-		System.out.println("Int: " + var.getName());
+		//System.out.println("Int: " + var.getName());
 	}
 
 	@Override
 	public void visitVarMoney(Variable var, JPanel panel) {
-		System.out.println("Money: " + var.getName());
+		//System.out.println("Money: " + var.getName());
 	}
 	
 	@Override
 	public void visitVarBool(Variable var, JPanel panel) {
-		System.out.println("Bool: " + var.getName());
+		//System.out.println("Bool: " + var.getName());
 		JCheckBox checkBox = (JCheckBox) componentStore.get(var.getName());
 		//checkBox.addActionListener(new JCheckBoxActionListener(checkBox, exp, panel));
 	}
 
 	@Override
 	public void visitValueBool(ValueBool val, JPanel panel) {
-		System.out.println(val.getType() + ": " + val.getValue());
+		//System.out.println(val.getType() + ": " + val.getValue());
 	}
 	
 	@Override
 	public void visitValueInt(ValueInt val, JPanel panel) {
-		System.out.println(val.getType() + ": " + val.getValue());
+		//System.out.println(val.getType() + ": " + val.getValue());
 	}
 	
 	@Override
 	public void visitValueMoney(ValueMoney val, JPanel panel) {
-		System.out.println(val.getType() + ": " + val.getValue());
+		//System.out.println(val.getType() + ": " + val.getValue());
 	}
 
 	@Override
@@ -174,8 +177,8 @@ public class VisitorASTToGUI implements IGUIVisitor {
 
 	@Override
 	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp, JPanel panel) {
-		System.out.println("Lhs LogicalOperatorBinary: " + exp.getLhs().toString());
-		System.out.println("Rhs LogicalOperatorBinary: " + exp.getRhs().toString());
+		//System.out.println("Lhs LogicalOperatorBinary: " + exp.getLhs().toString());
+		//System.out.println("Rhs LogicalOperatorBinary: " + exp.getRhs().toString());
 		exp.getLhs().accept(this, panel);
 		exp.getRhs().accept(this, panel);
 	}
