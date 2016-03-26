@@ -80,7 +80,6 @@ public class MoneyQuestionField extends QuestionField {
 	}
 	
 	public void setValue(Value value) {
-		System.out.println("SETVALUE FOR MONEY: "+value.getValue().toString());
 		this.value = (MoneyValue) value;
 		field.setText(value.getValue().toString());
 	}

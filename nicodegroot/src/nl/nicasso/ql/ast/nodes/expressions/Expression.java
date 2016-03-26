@@ -17,6 +17,6 @@ public abstract class Expression extends ASTNode {
 		return this.currentType; 
 	}
 	
-	public abstract <T> T accept(ExpressionVisitor<T> visitor);
+	public abstract <T, U> T accept(ExpressionVisitor<T, U> visitor, U context);
 	
 }

@@ -34,11 +34,6 @@ public class MoneyLiteral extends Literal {
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-	
-	@Override
 	public boolean equals(Object ob) {
 		if (!(ob instanceof MoneyLiteral)) {
 			return false;
@@ -51,5 +46,10 @@ public class MoneyLiteral extends Literal {
 	public int hashCode(){
 	    return value.hashCode();
     }
+	
+	@Override
+	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
 
 }

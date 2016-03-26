@@ -1,5 +1,6 @@
 package nl.nicasso.ql.gui.evaluator.values;
 
+// TODO INTERFACE?!
 public abstract class Value {
 	
 	// THIS HAS TO GO, BUT CONFLICTS WITH THE DISPLAY SYMBOLTABLE

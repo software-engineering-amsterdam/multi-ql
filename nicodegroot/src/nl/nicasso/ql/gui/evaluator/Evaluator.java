@@ -37,7 +37,7 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class Evaluator implements StructureVisitor<Value, Void>, StatementVisitor<Value, Void>, ExpressionVisitor<Value> {
+public class Evaluator implements StructureVisitor<Value, Void>, StatementVisitor<Value, Void>, ExpressionVisitor<Value, Void> {
 	
 	private StateTable stateTable;
 	
@@ -46,125 +46,125 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	}
 
 	@Override
-	public Value visit(And value) {	
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(And expression, Void context) {	
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 				
 		return left.equal(right);
 	}
 	
 	@Override
-	public Value visit(Addition value) {		
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Addition expression, Void context) {		
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.addition(right);
 	}
 
 	@Override
-	public Value visit(Subtraction value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Subtraction expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.subtraction(right);
 	}
 
 	@Override
-	public Value visit(Or value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Or expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.or(right);
 	}
 
 	@Override
-	public Value visit(Not value) {
-		Value exprValue = value.getExpr().accept(this);
+	public Value visit(Not expression, Void context) {
+		Value exprValue = expression.getExpr().accept(this, null);
 		
 		return exprValue.not();
 	}
 
 	@Override
-	public Value visit(Parenthesis value) {		
-		Value exprValue = value.getExpr().accept(this);
+	public Value visit(Parenthesis expression, Void context) {		
+		Value exprValue = expression.getExpr().accept(this, null);
 		
 		return exprValue;
 	}
 
 	@Override
-	public Value visit(Equal value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Equal expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.equal(right);
 	}
 
 	@Override
-	public Value visit(NotEqual value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);	
+	public Value visit(NotEqual expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);	
 		
 		return left.notEqual(right);
 	}
 
 	@Override
-	public Value visit(Division value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Division expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.division(right);
 	}
 
 	@Override
-	public Value visit(Multiplication value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Multiplication expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.multiplication(right);
 	}
 
 	@Override
-	public Value visit(Greater value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Greater expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.greater(right);
 	}
 
 	@Override
-	public Value visit(GreaterEqual value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(GreaterEqual expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.greaterEqual(right);
 	}
 
 	@Override
-	public Value visit(Less value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Less expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.less(right);
 	}
 
 	@Override
-	public Value visit(LessEqual value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(LessEqual expression, Void context) {
+		Value left = expression.getLeft().accept(this, null);
+		Value right = expression.getRight().accept(this, null);
 		
 		return left.lessEqual(right);
 	}
 
 	@Override
-	public Value visit(Form value, Void ignore) {
-		value.getBlock().accept(this, null);
+	public Value visit(Form structure, Void ignore) {
+		structure.getBlock().accept(this, null);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(Block value, Void ignore) {
-		for (Statement cur : value.getStatements()) {
+	public Value visit(Block structure, Void ignore) {
+		for (Statement cur : structure.getStatements()) {
 			cur.accept(this, ignore);
 		}
 		
@@ -172,66 +172,66 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	}
 
 	@Override
-	public Value visit(Question value, Void context) {
+	public Value visit(Question statement, Void context) {
 		// getDefaultValue? Is this ugly?!
-		StateTableEntry ste = new StateTableEntry(value.getType().getDefaultValue());
-		stateTable.addState(value.getIdentifier(), ste);
+		StateTableEntry ste = new StateTableEntry(statement.getType().getDefaultValue());
+		stateTable.add(statement.getIdentifier(), ste);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(ComputedQuestion value, Void context) {
-		Value exprValue = value.getExpr().accept(this);
+	public Value visit(ComputedQuestion statement, Void context) {
+		Value exprValue = statement.getExpr().accept(this, null);
 
 		StateTableEntry ste = new StateTableEntry(exprValue);
-		stateTable.addState(value.getIdentifier(), ste);                                                             
+		stateTable.add(statement.getIdentifier(), ste);                                                             
 
 		return null;
 	}
 
 	@Override
-	public Value visit(IfStatement value, Void context) {
-		value.getExpr().accept(this);
-		value.getBlock_if().accept(this, null);
+	public Value visit(IfStatement statement, Void context) {
+		statement.getExpr().accept(this, null);
+		statement.getBlock_if().accept(this, null);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(IfElseStatement value, Void context) {
-		value.getExpr().accept(this);
-		value.getBlock_if().accept(this, null);
-		value.getBlock_else().accept(this, null);
+	public Value visit(IfElseStatement statement, Void context) {
+		statement.getExpr().accept(this, null);
+		statement.getBlock_if().accept(this, null);
+		statement.getBlock_else().accept(this, null);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(BooleanLiteral value) {
-		return new BooleanValue(value.getValue());
+	public Value visit(BooleanLiteral expression, Void context) {
+		return new BooleanValue(expression.getValue());
 	}
 
 	@Override
-	public Value visit(Identifier value) {		
-		StateTableEntry entry = stateTable.getEntry(value);
+	public Value visit(Identifier expression, Void context) {		
+		StateTableEntry entry = stateTable.getEntry(expression);
 						
 		return entry.getValue();
 	}
 
 	@Override
-	public Value visit(IntegerLiteral value) {
-		return new IntegerValue((Integer) value.getValue());
+	public Value visit(IntegerLiteral expression, Void context) {
+		return new IntegerValue((Integer) expression.getValue());
 	}
 
 	@Override
-	public Value visit(StringLiteral value) {
-		return new StringValue(value.getValue());
+	public Value visit(StringLiteral expression, Void context) {
+		return new StringValue(expression.getValue());
 	}
 
 	@Override
-	public Value visit(MoneyLiteral value) {
-		return new MoneyValue(value.getValue());
+	public Value visit(MoneyLiteral expression, Void context) {
+		return new MoneyValue(expression.getValue());
 	}
 
 }

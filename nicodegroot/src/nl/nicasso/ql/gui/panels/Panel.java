@@ -49,7 +49,7 @@ public abstract class Panel {
 	
 	public boolean update() {	
 		Evaluator evaluator = new Evaluator(stateTable);
-		Value visibility = condition.accept(evaluator);
+		Value visibility = condition.accept(evaluator, null);
 		setVisible((Boolean) visibility.getValue());
 		
 		return false;
