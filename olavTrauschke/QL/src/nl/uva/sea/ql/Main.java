@@ -7,6 +7,7 @@ import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.checker.*;
+import nl.uva.sea.ql.generalPurposeVisitors.QuestionIdentCollector;
 import nl.uva.sea.ql.interpreter.Interpreter;
 import nl.uva.sea.ql.parser.ParserWrapper;
 
@@ -14,7 +15,7 @@ import nl.uva.sea.ql.parser.ParserWrapper;
  * Main class to type check and run questionairs.
  * 
  * @author Olav Trauschke
- * @version 10-mar-2016
+ * @version 26-mar-2016
  */
 public class Main {
     
@@ -44,6 +45,13 @@ public class Main {
     
     private final IOManager ioManager;
     
+    /**
+     * Constructor for objects of this class that asks the user to select a
+     * ql-file, type checks it and reports any errors or warnings or creates and
+     * runs the questionnaire when there are no errors and there are no warnings
+     * or the users chooses to continue despite the warnings and saves the
+     * results.
+     */
     public Main() {
         ioManager = new IOManager();
         File file = ioManager.selectFileToOpen();
@@ -57,11 +65,7 @@ public class Main {
             boolean run = check(form);
             if (run) {
                 Interpreter interpreter = new Interpreter(form);
-                interpreter.run();
-                AnswerTable answers = interpreter.getSymbolTable();
-                String destinationPath = ioManager.selectSaveLocation();
-                ioManager.writeToXml(answers, destinationPath);
-                System.exit(0);
+                interpreter.run(this::save);
             }
             else {
                 System.exit(SEMANTICS_ERROR);
@@ -70,15 +74,24 @@ public class Main {
     }
     
     /**
-     * Main method that asks the user to select a ql-file, type checks it and
-     * reports any errors or warnings or creates and runs the questionnaire whe
-     * there are no errors and there are no warnings or the users chooses to
-     * continue despite the warnings.
+     * Save the result of running a questionnaire and exit.
+     * 
+     * @param answerTable an <code>AnswerTable</code> containing the results
+     *                      to be saved
+     */
+    public void save(AnswerTable answerTable) {
+        String destinationPath = ioManager.selectSaveLocation();
+        ioManager.writeToXml(answerTable.toMap(), destinationPath);
+        System.exit(0);
+    }
+    
+    /**
+     * Main method that constructs a new Main.
      * 
      * @param args the command line arguments, which are ignored
      */
     public static void main(String[] args) {
-        Main main = new Main();
+        new Main();
     }
     
     /**

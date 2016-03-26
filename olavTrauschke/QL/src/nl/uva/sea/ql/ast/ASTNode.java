@@ -1,7 +1,5 @@
 package nl.uva.sea.ql.ast;
 
-import nl.uva.sea.ql.checker.VisitableASTNode;
-
 /**
  * Root class for the AST hierarchy.
  * 

@@ -1,9 +1,9 @@
 package nl.uva.sea.ql.checker;
 
 import java.util.*;
-import nl.uva.sea.ql.GeneralizedASTVisitor;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.question.*;
+import nl.uva.sea.ql.generalPurposeVisitors.GeneralizedASTVisitor;
 
 /**
  * Visitor to detect identical labels that were used for different questions.

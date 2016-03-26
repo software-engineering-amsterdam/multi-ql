@@ -30,11 +30,6 @@ public class BooleanLiteral extends Literal {
 	public Type getType() {
 		return type;
 	}
-
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
 	
 	@Override
 	public boolean equals(Object ob) {
@@ -49,4 +44,9 @@ public class BooleanLiteral extends Literal {
 	public int hashCode(){
 	    return lit.hashCode();
     }
+	
+	@Override
+	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
 }

@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.gui.fields.DateSpinner;
 import uva.ql.gui.fields.IntTextField;
 import uva.ql.gui.fields.MoneyTextField;

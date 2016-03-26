@@ -1,6 +1,6 @@
 package uva.ql.gui.fields.documentfilters;
 
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 
 public class MoneyFilter extends Filter {
 

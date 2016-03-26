@@ -1,13 +1,20 @@
 package nl.uva.sea.ql.answerTable;
 
+import java.util.Objects;
+
 /**
  * Objects of this class represent values of QL
  * {@link nl.uva.sea.ql.ast.question.DecimalQuestion DecimalQuestion}s.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 26-mar-2016
  */
 public class DecimalValue extends NumericValue {
+    
+    /**
+     * Start value used to calculate hashes for objects of this class.
+     */
+    public static final int HASH_ORIGIN = 623;
     
     private final Double value;
     
@@ -248,7 +255,7 @@ public class DecimalValue extends NumericValue {
      * @param other a <code>DecimalValue</code> to multiply this one by
      * @return a <code>DecimalValue</code> representing an unkonwn value if
      *          <code>this DecimalValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>DecimalValue</code>s otherwise
      */
     @Override
@@ -267,7 +274,7 @@ public class DecimalValue extends NumericValue {
      *              <code>this DecimalValue</code> by
      * @return a <code>DecimalValue</code> representing an unkonwn value if
      *          <code>this DecimalValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     @Override
@@ -283,7 +290,7 @@ public class DecimalValue extends NumericValue {
      *              <code>this DecimalValue</code> by
      * @return a <code>MoneyValue</code> representing an unkonwn value if
      *          <code>this DecimalValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     @Override
@@ -366,4 +373,29 @@ public class DecimalValue extends NumericValue {
     protected MoneyValue castMoney() {
         return new MoneyValue(value);
     }
+    
+    /**
+     * Compares <code>this DecimalValue</code> to another <code>Object</code>.
+     * 
+     * @param o the <code>Object</code> to compare to <code>this DecimalValue</code>
+     * @return <code>true</code> if and only if <code>o</code> is a
+     *          <code>DecimalValue</code> with the same <code>value</code> as
+     *          <code>this DecimalValue</code> 
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        DecimalValue other = (DecimalValue) o;
+        return value == null ? other.value == null : value.equals(other.value);
+    }
+
+    /**
+     * @return an <code>int</code> containing a hash for <code>this DecimalValue</code> 
+     */
+    @Override
+    public int hashCode() {
+        return HASH_ORIGIN + Objects.hashCode(this.value);
+    }
+    
 }

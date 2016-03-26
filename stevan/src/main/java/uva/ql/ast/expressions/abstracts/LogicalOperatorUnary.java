@@ -2,7 +2,7 @@ package uva.ql.ast.expressions.abstracts;
 
 import javax.swing.JPanel;
 
-import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.Node;
 import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
@@ -10,18 +10,18 @@ import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
 
-public abstract class LogicalOperatorUnary extends Expression {
+public abstract class LogicalOperatorUnary extends Expression<Boolean> {
 
-	private Expression lhs;
+	private Expression<Boolean> lhs;
 	
-	public LogicalOperatorUnary(Node parent, int startLine, int startColumn, Expression lhs) {
+	public LogicalOperatorUnary(Node parent, int startLine, int startColumn, Expression<Boolean> lhs) {
 		
 		super(parent, startLine, startColumn);
 		
 		this.lhs = lhs;
 	}
 
-	public Expression getLhs() {
+	public Expression<Boolean> getLhs() {
 		
 		return this.lhs;
 	}

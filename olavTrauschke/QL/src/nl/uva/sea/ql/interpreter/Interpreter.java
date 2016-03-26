@@ -1,19 +1,25 @@
 package nl.uva.sea.ql.interpreter;
 
-import nl.uva.sea.ql.QuestionIdentCollector;
+import java.awt.AWTEvent;
+import java.util.List;
+import java.util.function.Consumer;
+import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.Form;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.generalPurposeVisitors.QuestionIdentCollector;
 
 /**
  * Class for interpretating ast's.
  * 
  * @author Olav Trauschke
- * @version 19-mar-2016
+ * @version 26-mar-2016
  */
 public class Interpreter {
     
-    private final AnswerTable symbolTable;
+    private final AnswerTable answerTable;
+    private final GUI gui;
+    
+    private Consumer<AnswerTable> callback;
     
     /**
      * Constructor for objects of this class.
@@ -25,26 +31,47 @@ public class Interpreter {
         QuestionIdentCollector identCollector = new QuestionIdentCollector();
         form.accept(identCollector);
         Iterable<Ident> identifiers = identCollector.obtainIdentifiers();
-        symbolTable = new AnswerTable(identifiers);
-        /*TODO create GeneralizedASTVisitor that keeps track of dependencies in
-        ConditionalStatements and have it visit form top-down to create objects
-        for all Questions, then have it return these objects. Make these objects
-        observe the AnswerTable*/
-        //TODO create GUI
+        answerTable = new AnswerTable(identifiers);
+        DisplayableQuestionGenerator generator
+                = new DisplayableQuestionGenerator(answerTable);
+        form.accept(generator);
+        List<DisplayableQuestion> questions = generator.getResult();
+        questions.forEach(answerTable::addObserver);
+        gui = new GUI(form.obtainIdentifier(), questions);
     }
     
     /**
      * Display the GUI to the user.
+     * 
+     * @param theCallback a <code>Consumer</code> of <code>AnswerTable</code>s that
+     *                      should be called with the resulting <code>AnswerTable</code>
+     *                      as argument when the questionnaire has finished, should
+     *                      at least properly shutdown the application
      */
-    public void run() {
-        //TODO run GUI
+    public void run(Consumer<AnswerTable> theCallback) {
+        assert theCallback != null;
+        callback = theCallback;
+        gui.run(this::callback);
     }
     
     /**
-     * @return the <code>SymbolTable</code> used by <code>this Interpreter</code>
+     * Call <code>theCallback</code> that was provided to the last call to
+     * {@link #run(java.util.function.Consumer) run(Consumer)} with the
+     * <code>AnswerTable</code> used by <code>this Interpreter</code> as argument.
+     * 
+     * @param event the <code>AWTEvent</code> that was the reason for calling this
+     *              method, unused
      */
-    public AnswerTable getSymbolTable() {
-        return symbolTable;
+    public void callback(AWTEvent event) {
+        assert callback != null;
+        callback.accept(answerTable);
+    }
+    
+    /**
+     * @return the <code>AnswerTable</code> used by <code>this Interpreter</code>
+     */
+    public AnswerTable getAnswerTable() {
+        return answerTable;
     }
     
 }

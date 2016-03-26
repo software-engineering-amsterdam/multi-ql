@@ -10,8 +10,11 @@ public class UnknownValue extends Value {
 	
 	@Override
 	public boolean equals(Object ob) {
-		StringValue value = (StringValue) ob;
-		return value.equals(value.getValue());
+		if (!(ob instanceof UnknownValue)) {
+			return false;
+		}
+		UnknownValue value = (UnknownValue) ob;
+		return this.value.equals(value.getValue());
 	}
 	
 	@Override

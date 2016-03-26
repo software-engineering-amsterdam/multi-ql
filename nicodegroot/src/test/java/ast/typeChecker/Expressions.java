@@ -30,7 +30,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(addition);
+		Type type = visitor.visit(addition, null);
 		
 		Assert.assertEquals(type.getType(), "Integer");
 	}
@@ -41,7 +41,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(addition);
+		Type type = visitor.visit(addition, null);
 		
 		Assert.assertEquals(type.getType(), "Money");
 	}
@@ -52,7 +52,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(subtraction);
+		Type type = visitor.visit(subtraction, null);
 		
 		Assert.assertEquals(type.getType(), "Integer");
 	}
@@ -63,7 +63,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(negation);
+		Type type = visitor.visit(negation, null);
 		
 		Assert.assertEquals(type.getType(), "Boolean");
 	}
@@ -74,7 +74,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(and);
+		Type type = visitor.visit(and, null);
 		
 		Assert.assertEquals(type.getType(), "Boolean");
 	}
@@ -85,7 +85,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(or);
+		Type type = visitor.visit(or, null);
 		
 		Assert.assertEquals(type.getType(), "Boolean");
 	}
@@ -96,7 +96,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(equal);
+		Type type = visitor.visit(equal, null);
 		
 		Assert.assertEquals(type.getType(), "Boolean");
 	}
@@ -107,7 +107,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(notEqual);
+		Type type = visitor.visit(notEqual, null);
 		
 		Assert.assertEquals(type.getType(), "Boolean");
 	}
@@ -118,7 +118,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(division);
+		Type type = visitor.visit(division, null);
 		
 		Assert.assertEquals(type, new IntegerType());
 	}
@@ -129,7 +129,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(multiplication);
+		Type type = visitor.visit(multiplication, null);
 				
 		Assert.assertEquals(type, new IntegerType());
 	}
@@ -140,7 +140,7 @@ public class Expressions {
 
 		TypeChecker visitor = new TypeChecker(null, null);
 		
-		Type type = visitor.visit(multiplication);
+		Type type = visitor.visit(multiplication, null);
 				
 		Assert.assertEquals(type, new MoneyType());
 	}

@@ -1,15 +1,15 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of a a minus in front of a number in an AST.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 26-mar-2016
  */
 public class Neg extends NumericExpr {
     
@@ -102,7 +102,7 @@ public class Neg extends NumericExpr {
      */
     @Override
     public NumericValue eval(AnswerTable answerTable) {
-        NumericValue value = (NumericValue) content.eval(answerTable);
+        NumericValue value = NumericValue.cast(content.eval(answerTable));
         return negate(value);
     }
     
@@ -115,6 +115,7 @@ public class Neg extends NumericExpr {
      * @return the negative variant of <code>value</code>
      */
     public static NumericValue negate(NumericValue value) {
+        if (value == null) return new UnknownNumericValue();
         return value.multiply(MULTIPLICATION_FACTOR);
     }
     

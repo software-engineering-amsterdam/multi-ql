@@ -1,13 +1,16 @@
 package uva.ql.ast.variables;
 
-import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.ast.variables.types.Bool;
+import javax.swing.JPanel;
 
-public class VarBool extends Variable {
+import uva.ql.ast.EnumType;
+import uva.ql.ast.Node;
+import uva.ql.ast.types.Bool;
+import uva.ql.gui.visitors.IGUIVisitor;
+
+public class VarBool extends Variable<Boolean> {
 
 	private Bool type = new Bool();
+	private Boolean value = false;
 	
 	public VarBool(Node parent, String name, int startLine, int startColumn) {
 		super(parent, name, startLine, startColumn);
@@ -22,4 +25,25 @@ public class VarBool extends Variable {
 	public EnumType getType() {
 		return this.type.getType();
 	}
+	
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitVarBool(this, panel);
+	}
+	
+	@Override
+	public Boolean getValue() {
+		return this.value;
+	}
+	
+	@Override
+	public void setValue(Boolean value) {
+		this.value = value;
+	}
+
+	@Override
+	public Boolean eval() {
+		return this.getValue();
+	}
+
 }

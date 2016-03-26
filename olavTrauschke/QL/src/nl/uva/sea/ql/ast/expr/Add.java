@@ -1,16 +1,16 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Representation of the + operator in an AST, that can either mean addition or
  * (string) concatenation.
  * 
  * @author Olav Trauschke
- * @version 19-mar-2016
+ * @version 26-mar-2016
  */
 public class Add extends Expr {
     
@@ -38,7 +38,7 @@ public class Add extends Expr {
      * @param theSecondExpr the <code>Expr</code> on the right hand side of the operator
      */
     public Add(Expr theFirstExpr, Expr theSecondExpr) {
-        assert theFirstExpr != null & theSecondExpr != null;
+        assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
     }
@@ -186,8 +186,8 @@ public class Add extends Expr {
      *          <code>firstExpr</code>
      */
     private NumericValue evalNumeric(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) firstExpr.eval(answerTable);
-        NumericValue secondValue = (NumericValue) secondExpr.eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(firstExpr.eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(secondExpr.eval(answerTable));
         return firstValue.add(secondValue);
     }
     
@@ -205,8 +205,8 @@ public class Add extends Expr {
      *          <code>firstExpr</code>
      */
     private StringValue evalString(AnswerTable answerTable) {
-        StringValue firstValue = (StringValue) firstExpr.eval(answerTable);
-        StringValue secondValue = (StringValue) secondExpr.eval(answerTable);
+        StringValue firstValue = StringValue.cast(firstExpr.eval(answerTable));
+        StringValue secondValue = StringValue.cast(secondExpr.eval(answerTable));
         return firstValue.concat(secondValue);
     }
     

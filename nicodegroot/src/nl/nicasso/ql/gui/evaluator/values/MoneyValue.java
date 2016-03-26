@@ -13,8 +13,11 @@ public class MoneyValue extends Value {
 	
 	@Override
 	public boolean equals(Object ob) {
+		if (!(ob instanceof MoneyValue)) {
+			return false;
+		}
 		MoneyValue value = (MoneyValue) ob;
-		return value.equals(value.getValue());
+		return this.value.equals(value.getValue());
 	}
 	
 	@Override

@@ -1,16 +1,16 @@
 package nl.uva.sea.ql.checker;
 
 import java.util.*;
-import nl.uva.sea.ql.ASTVisitor;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;
+import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 
 /**
  * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 19-mar-2016
+ * @version 25-mar-2016
  */
 public class TypeChecker implements ASTVisitor {
     
@@ -67,6 +67,10 @@ public class TypeChecker implements ASTVisitor {
     public static final String NEGATION_OF_NON_BOOLEAN_ERROR
             = "Negation of non-boolean value found";
     
+    /**
+     * Error presented to the user when a <code>Neg</code> has a non-numeric
+     * content.
+     */
     public static final String NEGATIVE_OF_NON_NUMERIC_ERROR
             = "Negative of a non-numeric value found";
     
