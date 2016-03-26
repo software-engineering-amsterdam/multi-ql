@@ -14,7 +14,7 @@ import org.jgrapht.graph.DefaultEdge;
  * Visitor to check the dependencies between <code>Question</code>s in an ast.
  * 
  * @author Olav Trauschke
- * @version 25-mar-2016
+ * @version 26-mar-2016
  */
 public class DependencyChecker extends GeneralizedASTVisitor {
     
@@ -93,10 +93,7 @@ public class DependencyChecker extends GeneralizedASTVisitor {
         QuestionIdentCollector containedQuestionsCollector = new QuestionIdentCollector();
         statement.accept(containedQuestionsCollector);
         Iterable<Ident> containedQuestions = containedQuestionsCollector.obtainIdentifiers();
-        
-        for(Ident startIdentifier : containedQuestions) {
-            addEdges(startIdentifier, dependencies);
-        }
+        containedQuestions.forEach((Ident startIdentifier) -> addEdges(startIdentifier, dependencies));
     }
     
     /**
@@ -137,9 +134,7 @@ public class DependencyChecker extends GeneralizedASTVisitor {
      *                      <code>Ident</code>s to add
      */
     private void addVertrices(Iterable<Ident> identifiers) {
-        for (Ident identifier : identifiers) {
-            dependencyGraph.addVertex(identifier);
-        }
+        identifiers.forEach((Ident identifier) -> dependencyGraph.addVertex(identifier));
     }
     
     /**

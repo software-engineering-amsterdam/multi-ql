@@ -8,7 +8,7 @@ import nl.uva.sea.ql.ast.expr.Ident;
  * <code>Ident</code>s to <code>Value</code>s.
  * 
  * @author Olav Trauschke
- * @version 24-mar-2016
+ * @version 26-mar-2016
  */
 public class AnswerTable extends Observable {
     
@@ -22,9 +22,7 @@ public class AnswerTable extends Observable {
      */
     public AnswerTable(Iterable<Ident> identifiers) {
         answerTable = new HashMap<>();
-        for (Ident identifier : identifiers) {
-            answerTable.put(identifier, null);
-        }
+        identifiers.forEach((Ident identifier) -> answerTable.put(identifier, null));
     }
     
     /**
