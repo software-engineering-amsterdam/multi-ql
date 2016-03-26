@@ -6,13 +6,7 @@ import java.util.Stack;
 import javax.swing.JFrame;
 import javax.swing.event.DocumentEvent;
 
-import uva.ql.deprecated.ASTExpression;
-import uva.ql.deprecated.ASTNode;
-import uva.ql.deprecated.ASTVariable;
-import uva.ql.deprecated.ASTVisitorToGUIUtils;
-import uva.ql.gui.fields.MoneyTextField;
-
-public class MoneyDocumentListener  extends AbstractDocumentListener {
+/*public class MoneyDocumentListener  extends AbstractDocumentListener {
 	
 	private Stack<ASTNode> treeNodeStack;
 	private Stack<ASTExpression> operatorExpStack;
@@ -81,4 +75,4 @@ public class MoneyDocumentListener  extends AbstractDocumentListener {
 	@Override
 	public void changedUpdate(DocumentEvent e) {}
 	
-}
+}*/

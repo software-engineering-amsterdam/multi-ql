@@ -9,7 +9,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import uva.ql.ast.Form;
-import uva.ql.deprecated.ASTVisitorToJSON;
 
 public class SaveMenu implements ActionListener {
 

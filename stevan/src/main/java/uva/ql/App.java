@@ -37,8 +37,8 @@ public class App {
 		astToGUI.visitForm(form, gui.getPanel());
 		
 		// Add Action/DocumentListeners to update computed fields.
-		/*VisitorActionListenersToGUI actionListenersToGUI = new VisitorActionListenersToGUI(gui);
-		actionListenersToGUI.visitForm(form);*/
+		VisitorActionListenersToGUI actionListenersToGUI = new VisitorActionListenersToGUI(gui);
+		actionListenersToGUI.visitForm(form);
 	}
 
 }
