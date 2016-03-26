@@ -205,8 +205,8 @@ public class Add extends Expr {
      *          <code>firstExpr</code>
      */
     private StringValue evalString(AnswerTable answerTable) {
-        StringValue firstValue = (StringValue) firstExpr.eval(answerTable);
-        StringValue secondValue = (StringValue) secondExpr.eval(answerTable);
+        StringValue firstValue = StringValue.cast(firstExpr.eval(answerTable));
+        StringValue secondValue = StringValue.cast(secondExpr.eval(answerTable));
         return firstValue.concat(secondValue);
     }
     

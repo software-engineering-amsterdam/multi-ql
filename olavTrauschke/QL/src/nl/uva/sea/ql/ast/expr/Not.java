@@ -8,7 +8,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
  * Representation of a (boolean) negation in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 26-mar-2016
  */
 public class Not extends BooleanExpr {
     
@@ -63,7 +63,7 @@ public class Not extends BooleanExpr {
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {
-        BooleanValue value = (BooleanValue) content.eval(answerTable);
+        BooleanValue value = BooleanValue.cast(content.eval(answerTable));
         return value.negate();
     }
     

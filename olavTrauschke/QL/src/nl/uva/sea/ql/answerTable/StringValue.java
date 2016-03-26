@@ -30,6 +30,24 @@ public class StringValue extends Value {
     }
     
     /**
+     * Cast a <code>Value</code> that is certain to be either string or unknown
+     * to a <code>StringValue</code>.
+     * 
+     * @param toCast a <code>Value</code> to cast to a <code>StringValue</code>
+     * @return <code>toCast</code> as a <code>StringValue</code> or a new
+     *          <code>StringValue</code> representing an unknown value if
+     *          <code>toCast</code> equals a (new) <code>UnknownValue</code>
+     */
+    public static StringValue cast(Value toCast) {
+        if (toCast.equals(new UnknownValue())) {
+            return new StringValue(null);
+        }
+        else {
+            return (StringValue) toCast;
+        }
+    }
+    
+    /**
      * Test whether <code>this StringValue</code> equals another <code>Value</code>
      * according to ternary logic.
      * 

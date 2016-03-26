@@ -30,10 +30,28 @@ public class BooleanValue extends Value {
     }
     
     /**
+     * Cast a <code>Value</code> that is certain to be either boolean or unknown
+     * to a <code>BooleanValue</code>.
+     * 
+     * @param toCast a <code>Value</code> to cast to a <code>BooleanValue</code>
+     * @return <code>toCast</code> as a <code>BooleanValue</code> or a new
+     *          <code>BooleanValue</code> representing an unknown value if
+     *          <code>toCast</code> equals a (new) <code>UnknownValue</code>
+     */
+    public static BooleanValue cast(Value toCast) {
+        if (toCast.equals(new UnknownValue())) {
+            return new BooleanValue(null);
+        }
+        else {
+            return (BooleanValue) toCast;
+        }
+    }
+    
+    /**
      * @return a <code>boolean</code> with the <code>value this BooleanValue</code>
      *          represents
      */
-    public boolean getValue() {
+    public Boolean getValue() {
         return value;
     }
     

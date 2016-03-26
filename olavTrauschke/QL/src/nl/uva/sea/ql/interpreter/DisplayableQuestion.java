@@ -68,7 +68,9 @@ public class DisplayableQuestion extends JComponent implements Observer {
         
         listeners = new ArrayList<>();
         
-        isToDisplay = ((BooleanValue) displayCondition.eval(theAnswerTable)).getValue();
+        BooleanValue isToDisplayValue = BooleanValue.cast(displayCondition.eval(theAnswerTable));
+        Boolean isToDisplayBoolean = isToDisplayValue.getValue();
+        isToDisplay = isToDisplayBoolean == null ? false : isToDisplayBoolean;
         value = isComputedQuestion ? question.evalCalculation(theAnswerTable) : null;
     }
     
