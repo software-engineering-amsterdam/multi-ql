@@ -105,25 +105,34 @@ public class DisplayableQuestion implements Observer {
     }
     
     /**
-     * TODO document
-     * 
-     * @return 
+     * @return whether or not <code>this DisplayableQuestion</code> should
+     *          currently be displayed
      */
     public boolean isToDisplay() {
         return isToDisplay;
     }
     
     /**
-     * TODO document
+     * Have a specified <code>DisplayableQeustionListener</code> be notified
+     * when <code>this DisplayableQuestion</code> changes. 
      * 
-     * @param listener 
+     * @param listener a <code>DisplayableQuestionListener</code> that needs to
+     *                  know when <code>this DisplayableQuestion</code> changes
      */
     public void addListener(DisplayableQuestionListener listener) {
         listeners.add(listener);
     }
     
     /**
-     * TODO document
+     * Notify all <code>DisplayableQuestionListeners</code> that were added to
+     * <code>thisDisplayableQuestion</code> that
+     * <code>this DisplayableQuestion</code> has changed by calling their
+     * {@link nl.uva.sea.ql.interpreter.listener.DisplayableQuestionListener#questionChanged(nl.uva.sea.ql.interpreter.listener.DisplayableQuestionChangeEvent)
+     * questionChanged(DisplayableQuestionChangeEvent)} methods.
+     * 
+     * @param toDisplayChanged a <code>boolean</code> telling whether or not
+     *                          whether <code>this DisplayableQuestion</code>
+     *                          should be displayed changed
      */
     private void notifyListeners(boolean toDisplayChanged) {
         DisplayableQuestionChangeEvent event

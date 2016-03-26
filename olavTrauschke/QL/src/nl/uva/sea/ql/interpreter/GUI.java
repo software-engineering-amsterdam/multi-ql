@@ -7,7 +7,7 @@ import javax.swing.*;
 import nl.uva.sea.ql.interpreter.listener.*;
 
 /**
- * TODO document
+ * Objects of this class are graphical representations of questionnaires.
  * 
  * @author Olav Trauschke
  * @version 26-mrt-2016
@@ -20,10 +20,13 @@ public class GUI implements DisplayableQuestionListener {
     private final Map<DisplayableQuestion,Boolean> isDisplayedPerQuestion;
     
     /**
-     * TODO document
+     * Constructor for objects of this class.
      * 
-     * @param name
-     * @param theQuestions
+     * @param name a <code>String</code> containing the name of the questionnaire
+     *              the constructed <code>GUI</code> will represent
+     * @param theQuestions a <code>List</code> of the questions in the questionnaire
+     *                      the constructed <code>GUI</code> will represent,
+     *                      represented by <code>DisplayableQuestion</code>s
      */
     public GUI(String name, List<DisplayableQuestion> theQuestions) {
         frame = new JFrame(name);
@@ -35,22 +38,29 @@ public class GUI implements DisplayableQuestionListener {
         isDisplayedPerQuestion = new LinkedHashMap<>(theQuestions.size());
         theQuestions.forEach((DisplayableQuestion question) -> isDisplayedPerQuestion.put(question, false));
         theQuestions.forEach((DisplayableQuestion question) -> question.addListener(this));
-        //TODO make questions notify on change
         
         //TODO add save button and close operation
     }
     
     /**
-     * TODO document
+     * Show <code>this GUI</code> to the user.
      */
     public void run() {
         addQuestionsToDisplay();
         frame.pack();
         frame.setVisible(true);
+        
+        //TODO wait until questionnaire was finished
     }
     
     /**
-     * TODO document
+     * Add all <code>DisplayableQuestions</code> from <code>theQuestions</code>
+     * provided to the constructor when <code>this GUI</code> was constructed
+     * that are to be displayed (for which
+     * {@link nl.uva.sea.ql.interpreter.DisplayableQuestion#isToDisplay() isToDisplay()}
+     * returns <code>true</code>) to the <code>JFrame</code> that will be
+     * displayed to the user when <code>this GUI</code> is
+     * {@link nl.uva.sea.ql.interpreter.GUI#run() run}.
      */
     private void addQuestionsToDisplay() {
         Container contentPane = frame.getContentPane();
@@ -60,7 +70,11 @@ public class GUI implements DisplayableQuestionListener {
     }
     
     /**
-     * TODO document
+     * Handle a <code>DisplayableQuestionChangeEvent</code> that was passed to
+     * this method to signal a <code>DisplayableQuestion</code>
+     * (the <code>source</code> of the <code>event</code>) that was provided to
+     * the constructor when <code>this GUI</code> was constructed was changed
+     * and adapt <code>this GUI</code> to the specified change
      * 
      * @param event a <code>DisplayableQuestionChangeEvent</code> describing which
      *              <code>DisplayableQuestion</code> changed (the source of the
@@ -86,9 +100,12 @@ public class GUI implements DisplayableQuestionListener {
     }
     
     /**
-     * TODO document
+     * Calculate the index at which a specified <code>DisplayableQuestion</code>
+     * should be added to <code>this GUI</code>'s <code>frame</code> to perceive
+     * the order of the <code>questions</code> in which they were passed to the
+     * constructor when <code>this GUI</code> was constructed.
      * 
-     * @param question
+     * @param question a <code>DisplayableQuestion</code> to find an index for
      */
     private int calculateIndex(DisplayableQuestion questionToIndex) {
         Set<DisplayableQuestion> questions = isDisplayedPerQuestion.keySet();
