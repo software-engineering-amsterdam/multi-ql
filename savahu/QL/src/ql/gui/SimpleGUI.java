@@ -1,4 +1,4 @@
-package gui;
+package ql.gui;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -9,6 +9,14 @@ import javax.swing.JFrame;
  */
 public class SimpleGUI extends JFrame {
 
+    public static void main(String[] args) {
+
+        EventQueue.invokeLater(() -> {
+            SimpleGUI ex = new SimpleGUI();
+            ex.setVisible(true);
+        });
+    }
+
     public SimpleGUI() {
         initUI();
     }
@@ -18,13 +26,5 @@ public class SimpleGUI extends JFrame {
         setSize(800, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-
-    public static void main(String[] args) {
-
-        EventQueue.invokeLater(() -> {
-            SimpleGUI ex = new SimpleGUI();
-            ex.setVisible(true);
-        });
     }
 }

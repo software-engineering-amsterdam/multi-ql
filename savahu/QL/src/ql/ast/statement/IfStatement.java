@@ -5,6 +5,7 @@
  */
 package ql.ast.statement;
 
+import ql.ast.IVisitor;
 import ql.ast.expression.Expr;
 import ql.ast.form.Block;
 
@@ -18,7 +19,15 @@ public class IfStatement extends Statement {
         super(ifCondition, thenStatement);
     }
 
+    @Override
+    public void accept(IVisitor visitor) {
+        visitor.visit(this);
+    }
 
-
+    @Override
+    public void visitChildren(IVisitor visitor) {
+        this.getCondition().accept(visitor);
+        this.getThenStatement().accept(visitor);
+    }
 
 }

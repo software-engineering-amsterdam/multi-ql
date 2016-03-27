@@ -11,6 +11,16 @@ import ql.ast.expression.Expr;
  *
  * @author sander
  */
-public class Literal extends Expr {
-    
+public abstract class Literal extends Expr {
+
+    private Boolean isLiteral = true;
+
+    public void setLiteral() {
+        this.isLiteral = true;
+    }
+
+    public Boolean isLiteral() {
+        return this.isLiteral;
+    }
+
 }

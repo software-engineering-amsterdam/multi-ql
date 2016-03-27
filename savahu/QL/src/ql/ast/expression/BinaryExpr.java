@@ -4,7 +4,7 @@ package ql.ast.expression;
  *
  * @author sander
  */
-public class BinaryExpr extends Expr {
+public abstract class BinaryExpr extends Expr {
 
     private final Expr _Lhs, _Rhs;
 

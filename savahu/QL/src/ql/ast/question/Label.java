@@ -3,20 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ql.ast.expression;
+package ql.ast.question;
 
+import ql.ast.ASTNode;
 import ql.ast.IVisitor;
-import ql.ast.type.BoolType;
-import ql.ast.type.Type;
 
 /**
  *
  * @author sander
  */
-public class And extends BinaryExpr {
+public class Label extends ASTNode {
 
-    public And(Expr lhs, Expr rhs) {
-        super(lhs, rhs);
+    private final String _LabelText;
+
+    public Label(String labelText) {
+        this._LabelText = labelText;
+    }
+
+    public String getLabelText() {
+        return this._LabelText;
     }
 
     @Override
@@ -26,13 +31,6 @@ public class And extends BinaryExpr {
 
     @Override
     public void visitChildren(IVisitor visitor) {
-        this.getLhs().accept(visitor);
-        this.getRhs().accept(visitor);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public Type getType() {
-        return new BoolType();
-    }
-
 }

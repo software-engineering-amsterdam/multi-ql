@@ -1,5 +1,8 @@
 package ql.ast;
 
-public interface ASTNode {
+public abstract class ASTNode {
 
+    public abstract void accept(IVisitor visitor);
+
+    public abstract void visitChildren(IVisitor visitor);
 }

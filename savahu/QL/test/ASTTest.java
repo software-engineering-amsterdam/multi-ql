@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
-import ql.antlr.generatedcode.QLLexer;
+import ql.antlr.ParserWrapper;
 import ql.antlr.generatedcode.QLParser;
+import ql.ast.ASTLogger;
 
 /**
  *
@@ -23,16 +21,11 @@ public class ASTTest {
     }
 
     @Test
-    public void BuildAST() throws FileNotFoundException, IOException {
-        Reader input = new FileReader("A:\\Users\\sander\\Documents\\NetBeansProjects\\multi-ql\\savahu\\QL\\src\\examples\\house.ql");
-        ANTLRInputStream chars = new ANTLRInputStream(input);
-        QLLexer lexer = new QLLexer(chars);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokens);
-        parser.setBuildParseTree(true);
-        String tree = parser.form().toStringTree();
-        System.out.println(tree);
-                //QLParser.FormContext r = parser.form();
-        //assertEquals(r.Ident().getText(), "Box1HouseOwning");
+    public void BuildAST() throws IOException {
+        QLParser parser = ParserWrapper.initializeParser("house.ql");
+        ParseTree tree = parser.form();
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(new ASTLogger(), tree);
+        System.out.println("Test complete");
     }
 }

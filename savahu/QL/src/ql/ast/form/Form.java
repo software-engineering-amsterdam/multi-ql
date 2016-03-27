@@ -6,13 +6,14 @@
 package ql.ast.form;
 
 import ql.ast.ASTNode;
+import ql.ast.IVisitor;
 import ql.ast.expression.Ident;
 
 /**
  *
  * @author sander
  */
-public class Form implements ASTNode {
+public class Form extends ASTNode {
 
     private final Ident _Identifier;
     private final Block _Block;
@@ -24,5 +25,20 @@ public class Form implements ASTNode {
 
     public Ident getIdentifier() {
         return this._Identifier;
+    }
+
+    public Block getBlock() {
+        return this._Block;
+    }
+
+    @Override
+    public void accept(IVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void visitChildren(IVisitor visitor) {
+        this._Identifier.accept(visitor);
+        this._Block.accept(visitor);
     }
 }

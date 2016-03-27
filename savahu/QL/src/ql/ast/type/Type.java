@@ -3,40 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ql.ast.literal;
+package ql.ast.type;
 
+import ql.ast.ASTNode;
 import ql.ast.IVisitor;
-import ql.ast.type.IntType;
-import ql.ast.type.Type;
 
 /**
  *
  * @author sander
  */
-public class IntegerLiteral extends Literal {
+public abstract class Type extends ASTNode {
 
-    private final Integer value;
+    public Type() {
 
-    public IntegerLiteral(Integer value) {
-        this.value = value;
     }
 
-    public Integer getValue() {
-        return this.value;
-    }
+    public abstract Boolean isCompatibleToString();
 
-    @Override
-    public Type getType() {
-        return new IntType();
-    }
+    public abstract Boolean isCompatibleToInteger();
+
+    public abstract Boolean isCompatibleToBoolean();
 
     @Override
     public void visitChildren(IVisitor visitor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void accept(IVisitor visitor) {
-        visitor.visit(this);
-    }
 }

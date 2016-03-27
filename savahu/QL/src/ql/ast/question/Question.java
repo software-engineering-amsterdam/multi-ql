@@ -7,23 +7,34 @@ package ql.ast.question;
 
 import ql.ast.ASTNode;
 import ql.ast.expression.Ident;
-import ql.ast.form.Label;
-import ql.ast.type.QuestionType;
+import ql.ast.type.Type;
 
 /**
  *
  * @author sander
  */
-public class Question implements ASTNode {
+public abstract class Question extends ASTNode {
 
     private final Ident _QuestionId;
     private final Label _QuestionLabel;
-    private final QuestionType _QuestionType;
+    private final Type _QuestionType;
 
-    public Question(Ident questionId, Label questionLabel, QuestionType questionType) {
+    public Question(Ident questionId, Label questionLabel, Type questionType) {
         this._QuestionId = questionId;
         this._QuestionLabel = questionLabel;
         this._QuestionType = questionType;
+        setType();
+    }
+
+    public void setType() {
+        if (_QuestionType.isCompatibleToBoolean()) {
+            _QuestionId.setBoolType();
+        } else if (_QuestionType.isCompatibleToInteger()) {
+            _QuestionId.setIntType();
+        } else if (_QuestionType.isCompatibleToString()) {
+            _QuestionId.setStringType();
+        }
+
     }
 
     public Ident getId() {
@@ -33,9 +44,8 @@ public class Question implements ASTNode {
     public Label getLabel() {
         return this._QuestionLabel;
     }
-    
-    public QuestionType getType() {
+
+    public Type getType() {
         return this._QuestionType;
     }
-
 }
