@@ -1,9 +1,13 @@
 package ql;
 
+import typechecker.TypecheckInterface;
+
+
+
 /**
  *
  * @author Dominique
  */
-public interface ASTNode {
-    
+public abstract class ASTNode {
+    public abstract <T> T accept (TypecheckInterface<T> visitor);
 }

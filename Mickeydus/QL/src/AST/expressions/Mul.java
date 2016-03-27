@@ -5,7 +5,7 @@
  */
 package AST.expressions;
 
-import ql.Expr;
+import AST.types.Type;
 
 /**
  *
@@ -16,6 +16,11 @@ public class Mul extends BinaryExpr {
     
     public Mul(Expr left, Expr right) {
         super(left, right);
+    }
+
+    @Override
+    public Type getType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

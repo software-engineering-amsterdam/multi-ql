@@ -5,7 +5,8 @@
  */
 package AST.expressions;
 
-import ql.Expr;
+import AST.types.Type;
+import typechecker.TypecheckInterface;
 
 /**
  *
@@ -15,8 +16,18 @@ public class OneExpr extends Expr{
     
     private final Expr onevar;
     
-    public OneExpr(Expr onevar) {
+    public OneExpr(Expr theVariable) {
         
-        this.onevar = onevar;
+        this.onevar = theVariable;
   }
+
+    @Override
+    public <T> T accept(TypecheckInterface<T> visitor) {
+     return visitor.visit(this);
+    }
+
+    @Override
+    public Type getType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -5,6 +5,8 @@
  */
 package AST.types;
 
+import typechecker.TypecheckInterface;
+
 
 /**
  *
@@ -18,14 +20,34 @@ package AST.types;
 
 public class Int extends Type {
 
-	private final int value;
+//	private final int value;
 
-	public Int(int n) {
-		this.value = n;
+	public Int() {
+            super();
 	}
 
-	public int getValue() {
-		return value;
-	}
+        public Boolean isInt(){
+            return true;
+        }
+        
+        @Override
+        public Boolean isString(){
+            return false;
+        }
+        
+        @Override
+        public Boolean isBoolean(){
+            return false;
+        }
+        
+        @Override
+        public Boolean isMoney(){
+            return false;
+        }
+
+    @Override
+    public <T> T accept(TypecheckInterface<T> visitor) {
+        return visitor.visit(this);
+    }
 	
 }

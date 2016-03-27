@@ -5,7 +5,7 @@
  */
 package AST.expressions;
 
-import ql.Expr;
+import AST.types.Type;
 
 /**
  *
@@ -23,4 +23,9 @@ public class GEq extends BinaryExpr {
 //        }
 //        else return left>right;
 //}
+
+    @Override
+    public Type getType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

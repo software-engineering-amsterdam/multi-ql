@@ -4,6 +4,8 @@ package antlr;
 import AST.expressions.*;
 import AST.types.*;
 import ql.*;
+import AST.form.*;
+import AST.literals.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -12,6 +14,126 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * {@link FormulierParser}.
  */
 public interface FormulierListener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#form}.
+	 * @param ctx the parse tree
+	 */
+	void enterForm(FormulierParser.FormContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#form}.
+	 * @param ctx the parse tree
+	 */
+	void exitForm(FormulierParser.FormContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#formName}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormName(FormulierParser.FormNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#formName}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormName(FormulierParser.FormNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(FormulierParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(FormulierParser.BlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(FormulierParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(FormulierParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#ifstatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfstatement(FormulierParser.IfstatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#ifstatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfstatement(FormulierParser.IfstatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#ifelsestatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfelsestatement(FormulierParser.IfelsestatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#ifelsestatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfelsestatement(FormulierParser.IfelsestatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestion(FormulierParser.QuestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestion(FormulierParser.QuestionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#normalquestion}.
+	 * @param ctx the parse tree
+	 */
+	void enterNormalquestion(FormulierParser.NormalquestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#normalquestion}.
+	 * @param ctx the parse tree
+	 */
+	void exitNormalquestion(FormulierParser.NormalquestionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#computedquestion}.
+	 * @param ctx the parse tree
+	 */
+	void enterComputedquestion(FormulierParser.ComputedquestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#computedquestion}.
+	 * @param ctx the parse tree
+	 */
+	void exitComputedquestion(FormulierParser.ComputedquestionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable(FormulierParser.VariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable(FormulierParser.VariableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#label}.
+	 * @param ctx the parse tree
+	 */
+	void enterLabel(FormulierParser.LabelContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#label}.
+	 * @param ctx the parse tree
+	 */
+	void exitLabel(FormulierParser.LabelContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link FormulierParser#questiontype}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestiontype(FormulierParser.QuestiontypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link FormulierParser#questiontype}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestiontype(FormulierParser.QuestiontypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link FormulierParser#primary}.
 	 * @param ctx the parse tree

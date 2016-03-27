@@ -5,7 +5,8 @@
  */
 package AST.expressions;
 
-import ql.Expr;
+import AST.types.Type;
+import typechecker.TypecheckInterface;
 
 /**
  *
@@ -13,9 +14,19 @@ import ql.Expr;
  */
 public class Sub extends BinaryExpr {
 
+    private Type type;
     
     public Sub(Expr left, Expr right) {
         super(left, right);
     }
-    
+
+    @Override
+    public <T> T accept(TypecheckInterface<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public Type getType() {
+        return this.type;
+    }
 }
