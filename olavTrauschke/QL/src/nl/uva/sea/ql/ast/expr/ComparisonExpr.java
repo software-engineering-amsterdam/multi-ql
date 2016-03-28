@@ -1,6 +1,6 @@
 package nl.uva.sea.ql.ast.expr;
 
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Expr</code>s which compare two other <code>Expr</code>s
@@ -55,11 +55,11 @@ public abstract class ComparisonExpr extends BooleanExpr {
      * <code>this ComparisonExpr accept visitor</code> and then has
      * <code>visitor visit this ComparisonExpr</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *          <code>visit this ComparisonExpr</code> and its children
+     * @param visitor a <code>Visitor</code> that should
+     *                  <code>visit this ComparisonExpr</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         firstExprAccept(visitor);
         secondExprAccept(visitor);
         
@@ -69,20 +69,20 @@ public abstract class ComparisonExpr extends BooleanExpr {
     /**
      * Has the <code>firstExpr</code> of <code>this Question accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>firstExpr</code> of
+     * @param visitor a <code>Visitor</code> that the <code>firstExpr</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    protected void firstExprAccept(ASTVisitor visitor) {
+    protected void firstExprAccept(Visitor visitor) {
         firstExpr.accept(visitor);
     }
     
     /**
      * Has the <code>secondExpr</code> of <code>this Question accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>secondExpr</code> of
+     * @param visitor a <code>Visitor</code> that the <code>secondExpr</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    protected void secondExprAccept(ASTVisitor visitor) {
+    protected void secondExprAccept(Visitor visitor) {
         secondExpr.accept(visitor);
     }
     

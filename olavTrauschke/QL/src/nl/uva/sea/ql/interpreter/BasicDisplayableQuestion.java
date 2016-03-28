@@ -15,9 +15,10 @@ import nl.uva.sea.ql.interpreter.listener.*;
  * conditions under which they should be displayed.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 28-mar-2016
  */
-public class DisplayableQuestion extends JComponent implements Observer {
+public abstract class BasicDisplayableQuestion extends JComponent
+        implements DisplayableQuestion, Observer {
     
     private final Expr displayCondition;
     private final Question question;
@@ -47,7 +48,7 @@ public class DisplayableQuestion extends JComponent implements Observer {
      *                      could contain to their current <code>Value</code>s,
      *                      or <code>null</code> when these are unknown
      */
-    public DisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
+    public BasicDisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
             AnswerTable theAnswerTable) {
         assert conditionForDisplay != null;
         assert theQuestion != null;
@@ -75,7 +76,7 @@ public class DisplayableQuestion extends JComponent implements Observer {
     }
     
     /**
-     * Update the status of <code>this DisplayableQuestion</code> - i.e. whether
+     * Update the status of <code>this BasicDisplayableQuestion</code> - i.e. whether
      * it is <code>toDisplay</code> and its <code>value</code> to correspond to
      * a new, or - more likely - updated, <code>AnswerTable</code>. Note that
      * this method should be called for each change to the
@@ -108,7 +109,7 @@ public class DisplayableQuestion extends JComponent implements Observer {
     }
     
     /**
-     * @return whether or not <code>this DisplayableQuestion</code> should
+     * @return whether or not <code>this BasicDisplayableQuestion</code> should
      *          currently be displayed
      */
     public boolean isToDisplay() {
@@ -117,10 +118,10 @@ public class DisplayableQuestion extends JComponent implements Observer {
     
     /**
      * Have a specified <code>DisplayableQeustionListener</code> be notified
-     * when <code>this DisplayableQuestion</code> changes. 
+     * when <code>this BasicDisplayableQuestion</code> changes. 
      * 
      * @param listener a <code>DisplayableQuestionListener</code> that needs to
-     *                  know when <code>this DisplayableQuestion</code> changes
+     *                  know when <code>this BasicDisplayableQuestion</code> changes
      */
     public void addListener(DisplayableQuestionListener listener) {
         listeners.add(listener);
@@ -129,12 +130,12 @@ public class DisplayableQuestion extends JComponent implements Observer {
     /**
      * Notify all <code>DisplayableQuestionListeners</code> that were added to
      * <code>thisDisplayableQuestion</code> that
-     * <code>this DisplayableQuestion</code> has changed by calling their
+     * <code>this BasicDisplayableQuestion</code> has changed by calling their
      * {@link nl.uva.sea.ql.interpreter.listener.DisplayableQuestionListener#questionChanged(nl.uva.sea.ql.interpreter.listener.DisplayableQuestionChangeEvent)
      * questionChanged(DisplayableQuestionChangeEvent)} methods.
      * 
      * @param toDisplayChanged a <code>boolean</code> telling whether or not
-     *                          whether <code>this DisplayableQuestion</code>
+     *                          whether <code>this BasicDisplayableQuestion</code>
      *                          should be displayed changed
      */
     private void notifyListeners(boolean toDisplayChanged) {
@@ -144,14 +145,14 @@ public class DisplayableQuestion extends JComponent implements Observer {
     }
     
     /**
-     * Set the <code>value</code> of <code>this DisplayableQuestion</code> and
+     * Set the <code>value</code> of <code>this BasicDisplayableQuestion</code> and
      * update its <code>answerTable</code> if and only if <code>newValue</code>
      * is not equal to <code>value</code>.
      * 
      * @param newValue the <code>Value</code> to set as the <code>value</code>
-     *                  of <code>this DisplayableQuestion</code>. The type of
+     *                  of <code>this BasicDisplayableQuestion</code>. The type of
      *                  this <code>Value</code> must match the type of
-     *                  <code>this DisplayableQuestion</code>'s
+     *                  <code>this BasicDisplayableQuestion</code>'s
      *                  <code>question</code> and in case this is a computed
      *                  question (i.e. its <code>calculation != null</code>) it
      *                  must be the <code>Value</code> this <code>Expr</code>

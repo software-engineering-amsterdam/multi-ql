@@ -3,7 +3,7 @@ package nl.uva.sea.ql.ast.expr;
 import java.util.Map;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of the + operator in an AST, that can either mean addition or
@@ -61,11 +61,11 @@ public class Add extends Expr {
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
      * <code>this Add accept visitor</code> and then has <code>visitor visit this Add</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *          <code>visit this Add</code> and its children
+     * @param visitor a <code>Visitor</code> that should
+     *                  <code>visit this Add</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         firstExpr.accept(visitor);
         secondExpr.accept(visitor);
         

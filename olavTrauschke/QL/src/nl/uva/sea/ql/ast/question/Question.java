@@ -6,7 +6,7 @@ import nl.uva.sea.ql.answerTable.Value;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.*;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Question</code>s in an AST.
@@ -94,20 +94,20 @@ public abstract class Question extends ASTNode {
      * <code>visitor visit this Question</code>. Not implemented here for more
      * specific dispatch.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *          <code>visit this Question</code> and its children
      */
     @Override
-    public abstract void accept(ASTVisitor visitor);
+    public abstract void accept(Visitor visitor);
     
     /**
      * Has the <code>identifier</code>, the <code>label</code> and the
      * <code>calculation</code> of <code>this Question accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should <code>visit</code> the
+     * @param visitor a <code>Visitor</code> that should <code>visit</code> the
      *          children of <code>this Question</code>
      */
-    protected void childrenAccept(ASTVisitor visitor) {
+    protected void childrenAccept(Visitor visitor) {
         identifierAccept(visitor);
         labelAccept(visitor);
         calculationAccept(visitor);
@@ -116,20 +116,20 @@ public abstract class Question extends ASTNode {
     /**
      * Has the <code>identifier</code> of <code>this Question accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>identifier</code> of
+     * @param visitor a <code>Visitor</code> that the <code>identifier</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    protected void identifierAccept(ASTVisitor visitor) {
+    protected void identifierAccept(Visitor visitor) {
         identifier.accept(visitor);
     }
     
     /**
      * Has the <code>label</code> of <code>this Question accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>label</code> of
+     * @param visitor a <code>Visitor</code> that the <code>label</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    protected void labelAccept(ASTVisitor visitor) {
+    protected void labelAccept(Visitor visitor) {
         label.accept(visitor);
     }
     
@@ -147,10 +147,10 @@ public abstract class Question extends ASTNode {
      * Has the <code>calculation</code> of <code>this Question accept visitor</code>
      * iff. it is not <code>null</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>calculation</code> of
+     * @param visitor a <code>Visitor</code> that the <code>calculation</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    public void calculationAccept(ASTVisitor visitor) {
+    public void calculationAccept(Visitor visitor) {
         if (calculation != null) {
             calculation.accept(visitor);
         }

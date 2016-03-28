@@ -3,13 +3,13 @@ package nl.uva.sea.ql.generalPurposeVisitors;
 import nl.uva.sea.ql.ast.question.*;
 
 /**
- * Class that generalizes the interface specified in {@link ASTVisitor ASTVisitor}
+ * Class that generalizes the interface specified in {@link Visitor Visitor}
  * to do the same for all types of <code>Question</code>s.
  * 
  * @author Olav Trauschke
  * @version 14-mar-2016
  */
-public abstract class GeneralizedASTVisitor implements ASTVisitor {
+public abstract class GeneralizedASTVisitor implements Visitor {
     
         /**
      * Forwards calls to this method (specified in the interface) to

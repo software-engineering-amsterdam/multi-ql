@@ -3,7 +3,7 @@ package nl.uva.sea.ql.ast.question;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Question</code>s that return booleans in an AST.
@@ -45,11 +45,11 @@ public class BooleanQuestion extends Question {
      * Has the children of <code>this Question accept visitor</code> and then
      * has <code>visitor visit this Question</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this Question</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         childrenAccept(visitor);
         visitor.visit(this);
     }

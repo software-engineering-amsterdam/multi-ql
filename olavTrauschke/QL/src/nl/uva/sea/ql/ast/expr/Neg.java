@@ -3,7 +3,7 @@ package nl.uva.sea.ql.ast.expr;
 import java.util.Map;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of a a minus in front of a number in an AST.
@@ -47,11 +47,11 @@ public class Neg extends NumericExpr {
      * Has <code>theContent</code> of <code>this ComparisonExpr accept visitor</code>
      * and then has <code>visitor visit this Neg</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this Neg</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         content.accept(visitor);
         
         visitor.visit(this);

@@ -2,8 +2,8 @@ package nl.uva.sea.ql.ast;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of the contents of a block in an AST.
@@ -47,11 +47,11 @@ public class StatementSet extends ASTNode {
      * in a ql-file that was analyzed by a
      * {@link nl.uva.sea.ql.parser.ParserWrapper Parser(Wrapper)}.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *          <code>visit this StatementSet</code> and its children
+     * @param visitor a <code>Visitor</code> that should
+     *                  <code>visit this StatementSet</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         ASTNode[] nodes = set.toArray(new ASTNode[set.size()]);
         for (int i = nodes.length - 1; i >= 0; i--) {
             nodes[i].accept(visitor);

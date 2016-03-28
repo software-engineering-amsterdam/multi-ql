@@ -1,8 +1,8 @@
 package nl.uva.sea.ql.ast;
 
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
 import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Form</code>s in an AST.
@@ -50,11 +50,11 @@ public class Form extends ASTNode {
      * Has the <code>identifier</code> and <code>questions</code> of
      * <code>this Form accept visitor</code> and then has <code>visitor visit this Form</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *          <code>visit this Form</code> and its children
+     * @param visitor a <code>Visitor</code> that should
+     *                  <code>visit this Form</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         identifier.accept(visitor);
         questions.accept(visitor);
         

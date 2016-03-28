@@ -4,7 +4,7 @@ import java.util.*;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Visitor to check the types of objects in an AST.
@@ -12,7 +12,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
  * @author Olav Trauschke
  * @version 25-mar-2016
  */
-public class TypeChecker implements ASTVisitor {
+public class TypeChecker implements Visitor {
     
     /**
      * Description of the type boolean.
