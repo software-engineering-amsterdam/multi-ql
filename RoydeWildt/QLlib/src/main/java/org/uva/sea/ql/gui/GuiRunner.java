@@ -24,11 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiRunner extends Application {
-
-    private Stage preview;
     private Stage editor;
-    private Observable<String> editorText;
-    private Observable<Position> infoText;
 
     public static void main(String[] args) {
         launch(args);
@@ -38,9 +34,6 @@ public class GuiRunner extends Application {
     public void start(Stage primaryStage) {
         editor = editorStage();
         editor.show();
-
-        preview = previewStage();
-        preview.show();
     }
 
     private Stage editorStage() {
@@ -53,47 +46,14 @@ public class GuiRunner extends Application {
         stage.setScene(scene);
         return stage;
     }
-
-    private Stage previewStage() {
-        preview = new Stage();
-        preview.setWidth(editor.getWidth());
-        preview.setHeight(editor.getHeight());
-        preview.setX(editor.getX() - editor.getWidth() - 10);
-        preview.setY(editor.getY() - 14);
-        return preview;
-    }
 /*
-    private void updateLogView(List<String> messages){
+Pane previewPane = new PreviewView(form).getRootPane();
 
-        GridPane editorPane = (GridPane) editor.getScene().getRoot();
-        TextArea logField = new TextArea();
-
-        if(messages.isEmpty()){
-            logField.setText("");
-        }
-        else {
-            logField.setText(String.join("\n", messages));
-        }
-
-        logField.setEditable(false);
-        editorPane.add(logField,0,1);
-    }
-
-    private void updateInfoView(Position position){
-
-        GridPane editorPane = (GridPane) editor.getScene().getRoot();
-        Label infoField = new Label();
-
-        if(position == null){
-            infoField.setText("");
-        }
-        else {
-            infoField.setText(position.positionString());
-        }
-        editorPane.add(infoField,0,2);
-    }
-
-
+                Scene scene = new Scene(previewPane);
+                scene.getStylesheets().add("customStylesheet.css");
+                Stage preview = new Stage();
+                preview.setScene(scene);
+                preview.show();
     @Override
     public void update() {
         try {

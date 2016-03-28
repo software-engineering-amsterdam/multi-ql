@@ -1,4 +1,4 @@
-package org.uva.sea.ql.gui.view.editor;
+package org.uva.sea.ql.gui.view.editor.pane;
 
 import javafx.scene.control.TextArea;
 

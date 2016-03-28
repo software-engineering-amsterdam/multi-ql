@@ -1,4 +1,4 @@
-package org.uva.sea.ql.gui.view.editor;
+package org.uva.sea.ql.gui.view.editor.pane;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,10 +9,10 @@ import org.uva.sea.ql.gui.observer.Position;
 /**
  * Created by roy on 3/28/16.
  */
-class InfoPane {
+public class InfoPane {
     private final Label infoPane;
 
-    InfoPane() {
+    public InfoPane() {
         Position position = new Position(1, 0);
         this.infoPane = new Label();
         this.infoPane.setAlignment(Pos.TOP_LEFT);
@@ -46,7 +46,7 @@ class InfoPane {
         return new Position(0,0);
     }
 
-    Label getInfoPane() {
+    public Label getInfoPane() {
         return infoPane;
     }
 

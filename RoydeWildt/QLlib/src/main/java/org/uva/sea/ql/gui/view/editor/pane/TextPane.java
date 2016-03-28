@@ -1,4 +1,4 @@
-package org.uva.sea.ql.gui.view.editor;
+package org.uva.sea.ql.gui.view.editor.pane;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.TextArea;
@@ -6,19 +6,23 @@ import javafx.scene.control.TextArea;
 /**
  * Created by roy on 3/28/16.
  */
-class TextPane {
+public class TextPane {
     private final TextArea textPane;
 
-    TextPane() {
+    public TextPane() {
         textPane = new TextArea();
         textPane.setWrapText(true);
     }
 
-    void addCaretChangedListener(ChangeListener<Number> listener){
+    public void addCaretChangedListener(ChangeListener<Number> listener){
         textPane.caretPositionProperty().addListener(listener);
     }
 
-    TextArea getTextPane() {
+    public void addTextChangedListener(ChangeListener<String> listener){
+        textPane.textProperty().addListener(listener);
+    }
+
+    public TextArea getTextPane() {
         return textPane;
     }
 }
