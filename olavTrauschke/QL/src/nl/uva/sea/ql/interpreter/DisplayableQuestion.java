@@ -41,7 +41,8 @@ public abstract class DisplayableQuestion extends JComponent
      *                              <code>DisplayableQuestion</code> should be
      *                              displayed
      * @param theQuestion a <code>Question</code> that should be displayed when
-     *                      <code>conditionToDisplay</code> evaluates to true
+     *                      <code>conditionToDisplay</code> evaluates to
+     *                      <code>true</code>
      * @param theAnswerTable an <code>AnswerTable</code> mapping all
      *                      <code>Ident</code>s <code>conditionToDisplay</code>
      *                      or <code>theCalculation</code> of <code>theQuestion</code>

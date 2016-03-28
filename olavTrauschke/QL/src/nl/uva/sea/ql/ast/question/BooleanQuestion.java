@@ -4,6 +4,8 @@ import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
+import nl.uva.sea.ql.interpreter.DisplayableBooleanQuestion;
+import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
 
 /**
  * Representation of <code>Question</code>s that return booleans in an AST.
@@ -64,4 +66,25 @@ public class BooleanQuestion extends Question {
     public boolean isBoolean() {
         return true;
     }
+    
+    /**
+     * Make a specified <code>DisplayableQuestionGenerator</code> create a
+     * <code>DisplayableQuestion</code> for <code>this BooleanQuestion</code>.
+     * 
+     * @param generator a <code>DisplayableQuestionGenerator</code> that should
+     *                  create a <code>DisplayableQuestion</code> for
+     *                  <code>this BooleanQuestion</code>
+     * @return a <code>DisplayableQuestion</code> representing
+     *          <code>this BooleanQuestion</code>, as created by a call to
+     *          <code>generator</code>'s <code>createDisplayableQuestion</code>
+     *          method for the type of <code>Question</code>
+     *          <code>this Question</code> is of
+     */
+    @Override
+    public DisplayableBooleanQuestion createDisplayableQuestion(
+            DisplayableQuestionGenerator generator) {
+        assert generator != null;
+        return generator.createDisplayableQuestion(this);
+    }
+    
 }

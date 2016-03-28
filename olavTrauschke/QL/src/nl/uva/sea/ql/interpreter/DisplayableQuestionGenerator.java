@@ -3,7 +3,7 @@ package nl.uva.sea.ql.interpreter;
 import java.util.*;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.expr.*;
-import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.ast.question.*;
 import nl.uva.sea.ql.generalPurposeVisitors.GeneralizedASTVisitor;
 
 /**
@@ -29,11 +29,32 @@ public class DisplayableQuestionGenerator extends GeneralizedASTVisitor {
      *                      <code>this DisplayableQuestionGenerator</code> may
      *                      visit may contain
      */
-    public DisplayableQuestionGenerator(AnswerTable theAnswerTable) {
+    protected DisplayableQuestionGenerator(AnswerTable theAnswerTable) {
         answerTable = theAnswerTable;
         conditions = new Stack<>();
         result = new ArrayList<>();
     }
+    
+    /**
+     * Create a <code>DisplayableQuestion</code> for a specified
+     * <code>BooleanQuestion</code>.
+     * 
+     * @param question a <code>BooleanQuestion</code> to create a
+     * <code>DisplayableQuestion</code> for
+     * @return a <code>new DisplayableQuestion</code> representing
+     *          <code>theQuestion</code> to be displayed only when all
+     *          conditions in <code>this DisplayableQuestionGenerator</code> are
+     *          met and using <code>theAnswerTable</code> that was given to the
+     *          constructor when constructing
+     *          <code>this DisplayableQuestionGenerator</code>
+     */
+    public DisplayableBooleanQuestion createDisplayableQuestion(
+            BooleanQuestion question) {
+        Expr condition = createConjunctionOfConditions();
+        return new DisplayableBooleanQuestion(condition, question, answerTable);
+    }
+    
+    
     
     /**
      * Create a <code>DisplayableQuestion</code> for a specified
@@ -45,9 +66,8 @@ public class DisplayableQuestionGenerator extends GeneralizedASTVisitor {
      */
     @Override
     public void visit(Question question) {
-        Expr condition = createConjunctionOfConditions();
         DisplayableQuestion displayableQuestion
-                = new DisplayableQuestion(condition, question, answerTable);
+                = question.createDisplayableQuestion(this);
         result.add(displayableQuestion);
     }
     
