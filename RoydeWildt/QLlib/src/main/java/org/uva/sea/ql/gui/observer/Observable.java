@@ -7,7 +7,7 @@ import java.util.List;
  * Created by roy on 3/17/16.
  */
 public class Observable<T> {
-    private List<ObjectObserver> observers;
+    private List<Observer> observers;
     protected T value;
 
     public Observable(){
@@ -20,10 +20,10 @@ public class Observable<T> {
 
     public void setValue(T value){
         this.value = value;
-        observers.forEach(ObjectObserver::update);
+        observers.forEach(Observer::update);
     }
 
-    public void addObserver(ObjectObserver observer){
+    public void addObserver(Observer observer){
         observers.add(observer);
     }
 }

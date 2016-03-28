@@ -12,7 +12,8 @@ public class Position {
         this.column = column;
     }
 
-    public String positionString(){
+    @Override
+    public String toString(){
         return "(" + line + ":"  + column + ")";
     }
 }

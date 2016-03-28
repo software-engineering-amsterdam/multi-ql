@@ -13,17 +13,17 @@ import javafx.stage.Stage;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.checker.Checker;
-import org.uva.sea.ql.gui.observer.ObjectObserver;
+import org.uva.sea.ql.gui.observer.Observer;
 import org.uva.sea.ql.gui.observer.Observable;
 import org.uva.sea.ql.gui.observer.Position;
-import org.uva.sea.ql.gui.view.EditorView;
-import org.uva.sea.ql.gui.view.PreviewView;
+import org.uva.sea.ql.gui.view.editor.EditorView;
+import org.uva.sea.ql.gui.view.preview.PreviewView;
 import org.uva.sea.ql.parser.QLRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiRunner extends Application implements ObjectObserver {
+public class GuiRunner extends Application {
 
     private Stage preview;
     private Stage editor;
@@ -36,27 +36,16 @@ public class GuiRunner extends Application implements ObjectObserver {
 
     @Override
     public void start(Stage primaryStage) {
-        editor = EditorStage();
+        editor = editorStage();
         editor.show();
 
-        preview = new Stage();
-        preview.setWidth(editor.getWidth());
-        preview.setHeight(editor.getHeight());
-        preview.setX(editor.getX() - editor.getWidth() - 10);
-        preview.setY(editor.getY() - 14);
+        preview = previewStage();
         preview.show();
     }
 
-
-    private Stage EditorStage() {
+    private Stage editorStage() {
 
         EditorView editor = new EditorView();
-
-        editorText = editor.getObservableString();
-        editorText.addObserver(this);
-
-        infoText = editor.getObservablePosition();
-        infoText.addObserver(this);
 
         Scene scene = new Scene(editor.getRootPane());
         scene.getStylesheets().add("customStylesheet.css");
@@ -65,6 +54,15 @@ public class GuiRunner extends Application implements ObjectObserver {
         return stage;
     }
 
+    private Stage previewStage() {
+        preview = new Stage();
+        preview.setWidth(editor.getWidth());
+        preview.setHeight(editor.getHeight());
+        preview.setX(editor.getX() - editor.getWidth() - 10);
+        preview.setY(editor.getY() - 14);
+        return preview;
+    }
+/*
     private void updateLogView(List<String> messages){
 
         GridPane editorPane = (GridPane) editor.getScene().getRoot();
@@ -120,4 +118,5 @@ public class GuiRunner extends Application implements ObjectObserver {
             updateLogView(parseMessages);
         }
     }
+    */
 }

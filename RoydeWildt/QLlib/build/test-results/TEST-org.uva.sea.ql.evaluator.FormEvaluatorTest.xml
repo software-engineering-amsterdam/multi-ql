@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.uva.sea.ql.evaluator.FormEvaluatorTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2016-03-18T12:35:45" hostname="rdewildt-desktop" time="0.013">
+<testsuite name="org.uva.sea.ql.evaluator.FormEvaluatorTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2016-03-28T10:50:31" hostname="rdewildt-desktop" time="0.01">
   <properties/>
   <testcase name="FormEvaluatorTest1" classname="org.uva.sea.ql.evaluator.FormEvaluatorTest" time="0.006"/>
   <testcase name="FormEvaluatorTest2" classname="org.uva.sea.ql.evaluator.FormEvaluatorTest" time="0.001"/>
-  <testcase name="FormEvaluatorTest3" classname="org.uva.sea.ql.evaluator.FormEvaluatorTest" time="0.004"/>
-  <testcase name="FormEvaluatorTest4" classname="org.uva.sea.ql.evaluator.FormEvaluatorTest" time="0.002"/>
+  <testcase name="FormEvaluatorTest3" classname="org.uva.sea.ql.evaluator.FormEvaluatorTest" time="0.001"/>
+  <testcase name="FormEvaluatorTest4" classname="org.uva.sea.ql.evaluator.FormEvaluatorTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

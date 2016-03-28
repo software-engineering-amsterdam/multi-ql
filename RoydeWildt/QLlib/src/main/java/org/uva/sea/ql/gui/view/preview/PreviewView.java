@@ -1,4 +1,4 @@
-package org.uva.sea.ql.gui.view;
+package org.uva.sea.ql.gui.view.preview;
 
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
