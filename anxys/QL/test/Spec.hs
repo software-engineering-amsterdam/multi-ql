@@ -101,7 +101,7 @@ main = hspec $
       tParse' calculatedField "\"Display Text One\" idTest1: money = 10.00" `shouldSatisfy` canParse
 
     it "can parse a calculated field with a boolean condition" $
-      tParse' calculatedField "\"Display Text One\" idTest1: bool = true or true" `shouldSatisfy` canParse
+      tParse' calculatedField "\"Display Text One\" idTest1: boolean = true or true" `shouldSatisfy` canParse
 
     it "can parse a calculated field with a money addition" $
       tParse' calculatedField "\"Display Text One\" idTest1: money = 11.00 + 12.00" `shouldSatisfy` canParse
@@ -124,13 +124,12 @@ main = hspec $
      getType [] (typeCheckHelper $ tParse' expr "\"hel\" ++ \"lo\"") `shouldBe` Right A.String
 
     it "can determine the type of this expression (Money + Integer = Integer)" $
-     getType [] (typeCheckHelper $ tParse' expr "22.00 + 1") `shouldBe` Right A.Integer
+     getType [] (typeCheckHelper $ tParse' expr "22.00 + 1") `shouldBe` Right A.Money
 
     it "should not be able determine the type of this expression (Money + Boolean)" $
-     show  (getType [] (typeCheckHelper $ tParse' expr "22.00 + true")) `shouldBe` "Left [TypeMismatch Boolean Money (Location {start = \"ql\" (line 1, column 7), end = \"ql\" (line 1, column 9)})]"
+     show  (getType [] (typeCheckHelper $ tParse' expr "22.00 + true")) `shouldBe ` "Left [TypeMismatch Boolean Money (Location {start = Position {line = 1, column = 7}, end = Position {line = 1, column = 9}})]"
     it "should not be able determine the type of this expression (Interger && Boolean)" $
-     show  (getType [] (typeCheckHelper $ tParse' expr "1 and 1")) `shouldBe` "Left [TypeMismatch Integer Integer (Location {start = \"ql\" (line 1, column 3), end = \"ql\" (line 1, column 7)})]"
-
+     show  (getType [] (typeCheckHelper $ tParse' expr "1 and 1")) `shouldBe` "Left [TypeMismatch Integer Integer (Location {start = Position {line = 1, column = 3}, end = Position {line = 1, column = 7}})]"
     it "finds no type errors" $
      analyze (ttParse "form taxOfficeExample { \"Display Text One\" idTest1: money \"DisplayText2\" \t idTest2: integer}")  `shouldSatisfy` null.typeErrors
 
@@ -138,7 +137,7 @@ main = hspec $
      analyze (ttParse "form taxOfficeExample { \"DisplayText1\" idTest1: money \"DisplayText1\" \t idTest1: integer}")  `shouldSatisfy` not.null.duplicationErrors
 
     it "finds duplication identifier warnings" $
-     analyze (ttParse "form taxOfficeExample { \"DisplayText1\" idTest1: integer \"DisplayText1\" \t idTest1: integer}")  `shouldSatisfy` not.null.duplicationErrors
+     analyze (ttParse "form taxOfficeExample { \"DisplayText1\" idTest1: integer \"DisplayText1\" \t idTest1: integer}")  `shouldSatisfy` not.null.duplicationWarnings
 
     it "finds type errors" $
      analyze (ttParse "form taxOfficeExample { \"DisplayText1\" idTest1: money = 1 + true}")  `shouldSatisfy` not.null.typeErrors
