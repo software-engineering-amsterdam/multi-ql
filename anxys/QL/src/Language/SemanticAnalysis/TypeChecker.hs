@@ -1,7 +1,3 @@
--- TODO: If statements must be booleans
--- a calculated field cannot depend on something below it
--- From a client point of view, duplication warnings should not be the same as errors
--- Errors Look into the use of {-# LANGUAGE PatternSynonyms #-}
 module TypeChecker where
 
 import           AnnotatedAst as A
