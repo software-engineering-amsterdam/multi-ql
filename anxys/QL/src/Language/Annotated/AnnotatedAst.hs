@@ -3,7 +3,7 @@ module AnnotatedAst where
 import Data.Decimal
 import Prelude hiding (id)
 import Identifier
---Todo use special datatype for this. Or at the very least don't do arithmethic with it
+
 type Money = Decimal
 
 
