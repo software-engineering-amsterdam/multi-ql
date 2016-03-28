@@ -11,28 +11,29 @@ import ql.gui.ComputedQuestionWidget;
 import ql.gui.InputQuestionWidget;
 import ql.gui.UIElement;
 import ql.gui.UserInterface;
+import ql.gui.VisibleQuestions;
 
 public class GuiVisitor<T> extends Evaluation {
-	private List<UIElement> visibleQuestions;
+	private VisibleQuestions visibleQuestions;
 	private UserInterface parent;
 
 	public GuiVisitor(Context context, UserInterface parent) {
 		super(context);
 		this.parent = parent;
-		visibleQuestions = new ArrayList<UIElement>();
+		visibleQuestions = new VisibleQuestions();
 	}
 
 	@Override
 	public T visit(ComputedQuestion computedQuestion) {
 		context.putValueForQuestion(computedQuestion, computedQuestion.getExpression().accept(this));
-		visibleQuestions.add(new ComputedQuestionWidget(computedQuestion));
+		visibleQuestions.addQuestion(computedQuestion);
 		return null;
 	}
 
 	@Override
 	public T visit(InputQuestion inputQuestion) {
 		inputQuestion.getVariable().accept(this);
-		visibleQuestions.add(new InputQuestionWidget(inputQuestion, parent));
+		visibleQuestions.addQuestion(inputQuestion, parent);
 		return null;
 	}
 
@@ -48,7 +49,7 @@ public class GuiVisitor<T> extends Evaluation {
 		return null;
 	}
 
-	public List<UIElement> getVisibleQuestions(Form form, Context newContext) {
+	public VisibleQuestions getVisibleQuestions(Form form, Context newContext) {
 		this.context = newContext;
 		this.visit(form);
 		return visibleQuestions;

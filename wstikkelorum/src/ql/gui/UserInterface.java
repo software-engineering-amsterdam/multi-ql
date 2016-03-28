@@ -6,8 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -26,7 +25,8 @@ import ql.issue.Issue;
 
 public class UserInterface extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private List<UIElement> visibleQuestions;
+	private VisibleQuestions visibleQuestions;
+	
 	private Context context;
 	private GuiVisitor<Object> guiVisitor;
 	private Form form;
@@ -36,7 +36,7 @@ public class UserInterface extends JFrame{
 	
 	public UserInterface(){
 		createMainWindow();
-		visibleQuestions = new ArrayList<UIElement>();
+		visibleQuestions = new VisibleQuestions();
 	}
 	
 	private void ParseAndAnalyseForm(){
@@ -125,35 +125,36 @@ public class UserInterface extends JFrame{
 	}
 	
 	private void renewVisibleQuestion(){
-		visibleQuestions.clear();
+		visibleQuestions.removeAllQuestions();
 		visibleQuestions = guiVisitor.getVisibleQuestions(form, context);
 	}
 	
 	private void updateContext(){
-		for(UIElement question : visibleQuestions){
+		Iterator<UIElement> questions = visibleQuestions.getIterator();
+		while(questions.hasNext()){
+			UIElement question = questions.next();
 			if(question instanceof InputQuestionWidget){
 				Object value = ((UserInputElement) question).getInput();
-				if(value == null){
-					continue;
-				}else{
-					context.putValueForQuestion(((InputQuestionWidget) question).getQuestion(), value);
-				}
+				context.putValueForQuestion(((InputQuestionWidget) question).getQuestion(), value);
 			}
 		}
 	}
 	
 	private void drawVisibleQuestions(){
 		mainPanel.removeAll();
-		mainPanel.setLayout(new GridLayout(visibleQuestions.size(), 1));
-		for(UIElement question : visibleQuestions){
-			mainPanel.add(question.getDrawableItem());
+		mainPanel.setLayout(new GridLayout(visibleQuestions.numberOfQuestions(), 1));
+		Iterator<UIElement> iterator = visibleQuestions.getIterator();
+		while(iterator.hasNext()){
+			mainPanel.add(iterator.next().getDrawableItem());
 		}
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
 	
 	private void setValues(){
-		for(UIElement question : visibleQuestions){
+		Iterator<UIElement> iterator = visibleQuestions.getIterator();
+		while(iterator.hasNext()){
+			UIElement question = iterator.next();
 			if(question instanceof InputQuestionWidget){
 				question.updateValueLabel(context.getValueForVariable(((InputQuestionWidget) question).getQuestion().getVariable()));
 			}

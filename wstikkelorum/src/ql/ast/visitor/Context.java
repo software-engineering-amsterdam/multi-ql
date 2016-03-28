@@ -29,7 +29,9 @@ public class Context {
 	}
 
 	public void putValueForQuestion(Question question, Object value) {
-		nameToValue.put(question.getVariable().getIdentifier(), value);
+		if(value != null){
+			nameToValue.put(question.getVariable().getIdentifier(), value);
+		}
 	}
 
 	public Object getValueForVariable(VariableExpression variableExpression) {
