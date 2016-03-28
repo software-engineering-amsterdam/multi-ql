@@ -2,7 +2,6 @@ package nl.uva.sea.ql.interpreter;
 
 //java.awt cannot be imported in total because of a naming conflict with java.util
 import java.awt.AWTEvent;
-import java.awt.Container;
 import java.awt.LayoutManager;
 import java.util.*;
 import java.util.function.Consumer;
@@ -13,11 +12,12 @@ import nl.uva.sea.ql.interpreter.listener.*;
  * Objects of this class are graphical representations of questionnaires.
  * 
  * @author Olav Trauschke
- * @version 26-mrt-2016
+ * @version 28-mrt-2016
  */
 public class GUI implements DisplayableQuestionListener {
     
     private final JFrame frame;
+    private final QuestionPanel contentPane;
     //Map from all DisplayableQuestions this GUI can display to whether or not
     //they are currently displayed
     private final Map<DisplayableQuestion,Boolean> isDisplayedPerQuestion;
@@ -33,7 +33,7 @@ public class GUI implements DisplayableQuestionListener {
      */
     public GUI(String name, List<DisplayableQuestion> theQuestions) {
         frame = new JFrame(name);
-        JPanel contentPane = new JPanel(true);
+        contentPane = new QuestionPanel();
         LayoutManager layoutManager = new BoxLayout(contentPane, BoxLayout.Y_AXIS);
         contentPane.setLayout(layoutManager);
         frame.setContentPane(contentPane);
@@ -51,13 +51,13 @@ public class GUI implements DisplayableQuestionListener {
      *                  at least properly shutdown the application
      */
     public void run(Consumer<AWTEvent> callback) {
-        frame.addWindowListener((WindowClosingListener) callback::accept);
+        addQuestionsToDisplay();
         
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(callback::accept);
-        frame.getContentPane().add(saveButton);
+        contentPane.add(saveButton);
         
-        addQuestionsToDisplay();
+        frame.addWindowListener((WindowClosingListener) callback::accept);
         frame.pack();
         frame.setVisible(true);
     }
@@ -72,27 +72,30 @@ public class GUI implements DisplayableQuestionListener {
      * {@link nl.uva.sea.ql.interpreter.GUI#run() run}.
      */
     private void addQuestionsToDisplay() {
-        Container contentPane = frame.getContentPane();
         isDisplayedPerQuestion.keySet().stream()
                 .filter(DisplayableQuestion::isToDisplay)
-                .forEach((DisplayableQuestion question) -> contentPane.add(question));
+                .forEach((DisplayableQuestion question) -> {
+                    contentPane.add(question);
+                    isDisplayedPerQuestion.put(question, true);
+                });
     }
     
     /**
      * Handle a <code>DisplayableQuestionChangeEvent</code> that was passed to
-     * this method to signal a <code>DisplayableQuestion</code>
+     * this method to signal a <code>BasicDisplayableQuestion</code>
      * (the <code>source</code> of the <code>event</code>) that was provided to
      * the constructor when <code>this GUI</code> was constructed was changed
      * and adapt <code>this GUI</code> to the specified change
      * 
      * @param event a <code>DisplayableQuestionChangeEvent</code> describing which
-     *              <code>DisplayableQuestion</code> changed (the source of the
+     *              <code>BasicDisplayableQuestion</code> changed (the source of the
      *              event) and whether it changed with respect to having to be
      *              displayed
      */
     @Override
     public void questionChanged(DisplayableQuestionChangeEvent event) {
-        DisplayableQuestion question = (DisplayableQuestion) event.getSource();
+        BasicDisplayableQuestion question = (BasicDisplayableQuestion) event.getSource();
+        //TODO find (not Basic)DisplayableQuestion containing question
         if (event.toDisplayChanged()) {
             if (isDisplayedPerQuestion.get(question)) {
                 frame.getContentPane().remove(question);
@@ -103,7 +106,8 @@ public class GUI implements DisplayableQuestionListener {
                 frame.getContentPane().add(question, index);
                 isDisplayedPerQuestion.put(question, true);
             }
-            frame.revalidate();
+            frame.invalidate();
+            frame.pack();
         }
         frame.repaint();
     }

@@ -1,8 +1,10 @@
 package nl.uva.sea.ql.interpreter;
 
+import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
 import lombok.experimental.Delegate;
-import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.question.Question;
 
@@ -12,10 +14,11 @@ import nl.uva.sea.ql.ast.question.Question;
  * @author Olav Trauschke
  * @version 28-mrt-2016
  */
-public class DisplayableBooleanQuestion extends DisplayableQuestion {
+public class DisplayableBooleanQuestion extends JCheckBox
+        implements DisplayableQuestion{
     
-    @Delegate
-    private final JCheckBox widget;
+    @Delegate(types=DisplayableQuestion.class)
+    private final BasicDisplayableQuestion basicQuestion;
     
     /**
      * Constructor for objects of this class.
@@ -34,8 +37,30 @@ public class DisplayableBooleanQuestion extends DisplayableQuestion {
      */
     public DisplayableBooleanQuestion(Expr conditionForDisplay,
             Question theQuestion, AnswerTable theAnswerTable) {
-        super(conditionForDisplay, theQuestion, theAnswerTable);
-        widget = new JCheckBox(theQuestion.obtainLabelString());
+        super(theQuestion.obtainLabelString());
+        addActionListener(this::setValue);
+        basicQuestion = new BasicDisplayableQuestion(conditionForDisplay, theQuestion, theAnswerTable);
+        setHorizontalTextPosition(SwingConstants.LEFT);
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param e 
+     */
+    public void setValue(ActionEvent e) {
+        boolean selected = ((JCheckBox) e.getSource()).isSelected();
+        setValue(new BooleanValue(selected));
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param newValue
+     */
+    private void setValue(BooleanValue newValue) {
+        basicQuestion.setValue(newValue);
+        setSelected(newValue == null ? false : newValue.getValue());
     }
     
 }
