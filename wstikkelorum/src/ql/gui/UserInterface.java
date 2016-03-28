@@ -51,9 +51,7 @@ public class UserInterface extends JFrame{
 			} else {
 				printIssues(semanticAnalyser.getContext());
 			}
-
 		} catch (IOException e) {
-			// TODO print error!!
 			e.printStackTrace();
 		}
 	}
@@ -65,10 +63,14 @@ public class UserInterface extends JFrame{
 		return semanticAnalyser;
 	}
 	
-	private static void printIssues(Context context) {
+	private void printIssues(Context context) {
+		mainPanel.removeAll();
+		mainPanel.setLayout(new GridLayout(context.getIssues().size(), 1));
 		for (Issue issue : context.getIssues()) {
-			issue.print();
+			mainPanel.add(issue.getDrawableItem());
 		}
+		mainPanel.revalidate();
+		mainPanel.repaint();
 	}
 	
 	private void createMainWindow(){
