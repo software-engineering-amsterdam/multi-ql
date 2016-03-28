@@ -30,7 +30,6 @@ public class SymbolTable {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return symTable.toString();
 	}
 

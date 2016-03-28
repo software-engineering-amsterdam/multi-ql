@@ -2,9 +2,7 @@ package org.uva.sea.ql.ast.domain;
 
 import org.uva.sea.ql.ast.VarDeclaration;
 import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitors.QLDomainVisitor;
-import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class ReadOnlyQuestion extends Question {
 	private Expr expression;

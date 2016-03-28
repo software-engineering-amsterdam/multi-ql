@@ -1,9 +1,7 @@
 package org.uva.sea.ql.ast.domain;
 
 import org.uva.sea.ql.ast.ASTNode;
-import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitors.QLDomainVisitor;
-import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class Form extends ASTNode {
 	private String id;

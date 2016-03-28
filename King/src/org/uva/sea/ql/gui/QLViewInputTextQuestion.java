@@ -1,11 +1,8 @@
 package org.uva.sea.ql.gui;
 
 import javax.swing.JPanel;
-import org.uva.sea.ql.ast.domain.Question;
-import org.uva.sea.ql.ast.expr.type.BooleanType;
 import org.uva.sea.ql.gui.widget.QLQuestionText;
 import org.uva.sea.ql.gui.widget.QLQuestionTextFeild;
-import org.uva.sea.ql.gui.widget.QLRadioButton;
 
 public class QLViewInputTextQuestion extends JPanel {
 

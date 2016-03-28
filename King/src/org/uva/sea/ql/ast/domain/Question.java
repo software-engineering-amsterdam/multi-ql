@@ -2,9 +2,9 @@ package org.uva.sea.ql.ast.domain;
 
 import org.uva.sea.ql.ast.ASTNode;
 import org.uva.sea.ql.ast.VarDeclaration;
+import org.uva.sea.ql.ast.VarIdentifier;
 import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.visitors.QLDomainVisitor;
-import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class Question extends ASTNode {
 	private final VarDeclaration varDeclaration;
@@ -17,6 +17,18 @@ public class Question extends ASTNode {
 
 	public VarDeclaration getVariableId() {
 		return varDeclaration;
+	}
+	
+	public VarIdentifier getVarIdentifier() {
+		return varDeclaration.getIdentifier();
+	}
+	
+	public String getVarIdentifierName() {
+		return varDeclaration.getIdentifierName();
+	}
+	
+	public Type getVarType() {
+		return varDeclaration.getType();
 	}
 
 	public String getText() {

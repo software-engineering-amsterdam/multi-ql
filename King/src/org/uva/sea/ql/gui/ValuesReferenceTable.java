@@ -18,11 +18,12 @@ public class ValuesReferenceTable {
 	}
 	
 	public Value getQLValue(String qidentifier){
-		Value qValue = identifierValues.get(qidentifier);
-		if(!identifierValuesCopy.isEmpty()){
-			qValue = identifierValuesCopy.get(qidentifier);
-		}
-		return qValue;
+		return identifierValues.get(qidentifier);
+	}
+	
+	public Value getQLValueClone(String qidentifier){
+		
+		return identifierValuesCopy.get(qidentifier);
 	}
 	
 	public Boolean questionAlreadyInReferenceTable(String identifier) {
@@ -39,6 +40,10 @@ public class ValuesReferenceTable {
 	
 	public void clearIdentifierValues() {
 		identifierValues.clear();
+	}
+	@Override
+	public String toString() {
+		return identifierValues.toString()+" :-> "+identifierValuesCopy.toString();
 	}
 
 }

@@ -58,7 +58,7 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 		}
 
 		if (!isBlockConditionBoolean(statement)) {
-			String msg = statement.toString() + " condition is not of the type boolean";
+			String msg = statement + " condition is not of the type boolean";
 			messages.addError(msg);
 		}
 
@@ -68,11 +68,11 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 	public void visit(Question question) {
 
 		if (hasDuplicateVarDeclaration(question)) {
-			String msg = question.getVariableId().toString()
+			String msg = question.getVariableId()
 					+ " The question has been declared multiple time with different type";
 			messages.addError(msg);
 		} else {
-			symTable.add(question.getVariableId().getIdentifier().getName(), question.getVariableId().getType());
+			symTable.add(question.getVarIdentifierName(), question.getVarType());
 		}
 
 		if (hasDuplicateLablesWarning(question)) {
@@ -86,12 +86,11 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 	@Override
 	public void visit(ReadOnlyQuestion computedQuestion) {
 		if (hasDuplicateVarDeclaration(computedQuestion)) {
-			String msg = "The question '" + computedQuestion.getVariableId().toString()
+			String msg = "The question '" + computedQuestion.getVariableId()
 					+ "' has been declared multiple time with different type";
 			messages.addError(msg);
 		} else {
-			symTable.add(computedQuestion.getVariableId().getIdentifier().getName(),
-					computedQuestion.getVariableId().getType());
+			symTable.add(computedQuestion.getVarIdentifierName(),computedQuestion.getVarType());
 		}
 
 		if (hasDuplicateLablesWarning(computedQuestion)) {
@@ -101,13 +100,13 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 		lableNames.add(computedQuestion.getText());
 
 		if (!hasExpectedType(computedQuestion)) {
-			String msg = "The question variable '" + computedQuestion.getVariableId().toString()
+			String msg = "The question variable '" + computedQuestion.getVariableId()
 					+ "' in the computed question references to different type.";
 			messages.addError(msg);
 		}
 
 		if (hasCyclicDependency(computedQuestion)) {
-			String msg = "The question variable '" + computedQuestion.getVariableId().toString()
+			String msg = "The question variable '" + computedQuestion.getVariableId()
 					+ "' in the computed question has a cyclic dependency.";
 			messages.addError(msg);
 		}
@@ -252,7 +251,7 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 	}
 
 	private boolean hasExpectedType(ReadOnlyQuestion question) {
-		Type expected = question.getVariableId().getType();
+		Type expected = question.getVarType();
 		Type expr = question.getExpression().accept(this);
 		return checkExprEquality(expr, expected);
 	}
@@ -279,8 +278,8 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 
 	private boolean hasDuplicateVarDeclaration(Question question) {
 		boolean isDuplicateVariable = false;
-		String variableName = question.getVariableId().getIdentifier().getName();
-		Type type = question.getVariableId().getType();
+		String variableName = question.getVarIdentifierName();
+		Type type = question.getVarType();
 		if (symTable.contains(variableName)) {
 			if (type.equals(symTable.lookupType(variableName)) == false) {
 				isDuplicateVariable = true;
@@ -338,8 +337,8 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 
 	private Type getVarExpressionType(VarExpr varExpr) {
 		Type typeToReturn = new UnknownType();
-		if (symTable.lookupType(varExpr.getIdentifier().getName()) != null) {
-			typeToReturn = symTable.lookupType(varExpr.getIdentifier().getName());
+		if (symTable.lookupType(varExpr.getIdentifierName()) != null) {
+			typeToReturn = symTable.lookupType(varExpr.getIdentifierName());
 			varExpr.getIdentifier().setType(typeToReturn);
 		}
 		return typeToReturn;

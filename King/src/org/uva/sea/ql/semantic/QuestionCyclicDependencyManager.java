@@ -18,8 +18,8 @@ public class QuestionCyclicDependencyManager {
 
 	public void addQuestionDependency(Question question, Set<String> dependencies) {
 		this.dependencies = dependencies;
-		this.identifier = question.getVariableId().getIdentifier().getName();
-		questionReferenceList.put(question.getVariableId().getIdentifier().getName(), dependencies);
+		this.identifier = question.getVariableId().getIdentifierName();
+		questionReferenceList.put(question.getVarIdentifierName(), dependencies);
 	}
 
 	public boolean hasCyclicDepency() {

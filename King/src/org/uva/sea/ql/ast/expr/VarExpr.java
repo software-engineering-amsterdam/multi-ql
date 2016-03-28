@@ -14,6 +14,10 @@ public class VarExpr extends Expr {
 	public VarIdentifier getIdentifier() {
 		return identifier;
 	}
+	
+	public String getIdentifierName() {
+		return identifier.getName();
+	}
 
 	public Type type() {
 		return identifier.getType();

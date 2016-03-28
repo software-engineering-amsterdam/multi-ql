@@ -1,8 +1,6 @@
 package org.uva.sea.ql.ast.expr.binary;
 
 import org.uva.sea.ql.ast.expr.Expr;
-import org.uva.sea.ql.ast.expr.type.Type;
-import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public abstract class BinaryExpression extends Expr {
 	protected final Expr e1;

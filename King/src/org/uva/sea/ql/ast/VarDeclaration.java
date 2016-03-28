@@ -14,6 +14,10 @@ public class VarDeclaration {
 	public VarIdentifier getIdentifier() {
 		return identifier;
 	}
+	
+	public String getIdentifierName() {
+		return identifier.getName();
+	}
 
 	public Type getType() {
 		return type;
