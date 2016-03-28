@@ -22,9 +22,9 @@ import org.uva.sea.ql.ast.expr.unary.Negative;
 import org.uva.sea.ql.ast.expr.unary.Positive;
 
 public interface QLNodeVisitor<T> {
-	
+
 	public T visit(Add add);
-	
+
 	public T visit(AND and);
 
 	public T visit(Div div);
@@ -58,10 +58,9 @@ public interface QLNodeVisitor<T> {
 	public T visit(BooleanLiteral boolLiteral);
 
 	public T visit(StringLiteral stringLiteral);
-	
-	public T visit(MoneyLiteral moneyLiteral);
-	
-	public T visit(VarExpr varExpr);
 
+	public T visit(MoneyLiteral moneyLiteral);
+
+	public T visit(VarExpr varExpr);
 
 }

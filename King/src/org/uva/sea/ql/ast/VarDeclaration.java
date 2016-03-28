@@ -2,7 +2,7 @@ package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.type.Type;
 
-public class VarDeclaration{
+public class VarDeclaration {
 	private final Type type;
 	private final VarIdentifier identifier;
 
@@ -21,7 +21,7 @@ public class VarDeclaration{
 
 	@Override
 	public String toString() {
-		return "[ "+identifier.toString()+" ]";
+		return "[ " + identifier.toString() + " ]";
 	}
-	
+
 }

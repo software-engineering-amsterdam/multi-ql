@@ -9,7 +9,7 @@ public class NotEqual extends BinaryExpression {
 	public NotEqual(Expr e1, Expr e2) {
 		super(e1, e2);
 	}
-	
+
 	@Override
 	public <T> T accept(QLNodeVisitor<T> visitor) {
 		return visitor.visit(this);

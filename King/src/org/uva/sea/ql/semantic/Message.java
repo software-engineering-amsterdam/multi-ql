@@ -13,7 +13,7 @@ public class Message {
 	}
 
 	public void addWarning(String msg) {
-		warnings.add( msg);
+		warnings.add(msg);
 	}
 
 	public void addError(String msg) {
@@ -40,22 +40,18 @@ public class Message {
 		return hasErrors() || hasWarnings();
 	}
 
-	
-
 	public void print() {
-		if(hasErrors()){
-			for (String error : errors)
-			{
-			    System.err.println(error);
-			    
+		if (hasErrors()) {
+			for (String error : errors) {
+				System.err.println(error);
+
 			}
 		}
 		System.out.println("\n");
-		if(hasWarnings()){
-		for (String warning : warnings)
-			{
-			    System.out.println(warning);
-			    
+		if (hasWarnings()) {
+			for (String warning : warnings) {
+				System.out.println(warning);
+
 			}
 		}
 	}

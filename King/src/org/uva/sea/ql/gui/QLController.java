@@ -1,13 +1,12 @@
-/*package org.uva.sea.ql.gui;
+package org.uva.sea.ql.gui;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 import org.joda.money.Money;
 import org.uva.sea.ql.ast.domain.Block;
@@ -32,6 +31,9 @@ import org.uva.sea.ql.ast.expr.math.Add;
 import org.uva.sea.ql.ast.expr.math.Div;
 import org.uva.sea.ql.ast.expr.math.Mul;
 import org.uva.sea.ql.ast.expr.math.Sub;
+import org.uva.sea.ql.ast.expr.type.BooleanType;
+import org.uva.sea.ql.ast.expr.type.MoneyType;
+import org.uva.sea.ql.ast.expr.type.Type;
 import org.uva.sea.ql.ast.expr.unary.NOT;
 import org.uva.sea.ql.ast.expr.unary.Negative;
 import org.uva.sea.ql.ast.expr.unary.Positive;
@@ -42,107 +44,125 @@ import org.uva.sea.ql.evalutor.IntegerValue;
 import org.uva.sea.ql.evalutor.MoneyValue;
 import org.uva.sea.ql.evalutor.StringValue;
 import org.uva.sea.ql.evalutor.Value;
+import org.uva.sea.ql.gui.widget.QLQuestionText;
+import org.uva.sea.ql.gui.widget.QLQuestionTextFeild;
+import org.uva.sea.ql.gui.widget.QLRadioButton;
 
-public class QLController implements QLNodeVisitor<Value>,QLDomainVisitor,ItemListener {
-	private QLBlockView qLBlockView;
+public class QLController
+		implements QLNodeVisitor<Value>, QLDomainVisitor, QLSelectedQuesionListener, QLTextFeildQuesionListener {
 	private QLView qLView;
 	private Map<String, Value> identifierValues;
-	IFblock statement;
-	QLViewQuestion aQLViewQuestion;
-	Form form;
+	private Map<String, Value> identifierValuesCopy;
+	private final Form qlAst;
 	private Set<String> conditionId = new HashSet<String>();
 	private boolean isInCondition = false;
-	public QLController(Form form) {
-		this.form = form;
+
+	public QLController(Form qlAst, QLView qLView) {
+		this.qlAst = qlAst;
 		identifierValues = new HashMap<>();
-		qLBlockView = new QLBlockView();
-		qLView = new QLView();
-		form.accept(this);
+		identifierValuesCopy = new HashMap<>(identifierValues);
+		this.qLView = qLView;
+		qlAst.accept(this);
 	}
 
 	@Override
 	public void visit(Form form) {
-		System.out.println("<----------------->");
-		//System.out.println("I'm in form");
-		//System.out.println(identifierValues);
 		form.getBody().accept(this);
-		
+
 	}
 
 	@Override
 	public void visit(Block block) {
-		//System.out.println("I'm in block");
-		//System.out.println(identifierValues);
 		for (Question q : block.getQuestions()) {
 			q.accept(this);
 		}
-		
-		for (IFblock ib: block.getStatements()) {
+
+		for (IFblock ib : block.getStatements()) {
 			ib.accept(this);
 		}
-		
+
 	}
 
 	@Override
 	public void visit(IFblock statement) {
 		isInCondition = true;
-		//System.out.println("I'm in statement");
-		//System.out.println(identifierValues);
 		Value condition = statement.getCondition().accept(this);
+		isInCondition = false;
 		Value trueCondition = new BooleanValue(true);
-		this.statement = statement;
-		//System.out.println(conditionId.toString());
-		//System.out.println(condition+" "+trueCondition);
-		if(condition.equal(trueCondition).getBooleanValue()){
-			
-			
-			System.out.println(isInCondition);
+		if (condition.equal(trueCondition).getBooleanValue()) {
 			for (Question ibq : statement.getBody().getQuestions()) {
-				
+
 				ibq.accept(this);
 			}
-		
+
 		}
+
 	}
 
 	@Override
 	public void visit(Question question) {
-		//System.out.println("I'm in question");
-		//System.out.println(identifierValues);
-		String identifier = question.getVariableId().getIdentifier().getName();
-		if(!this.questionAlreadyInView(identifier)){
-		    aQLViewQuestion = new QLViewQuestion(question);
-			
-			
-			if(!aQLViewQuestion.isComputedQuestion()){
-				aQLViewQuestion.getqIdentifier().addItemListener(this);
-				addValue(identifier,new BooleanValue(false));
-			}else{
-				//sysout
-				aQLViewQuestion.getqComputed().setText(Money.parse("USD 0").toString());
-				addValue(identifier,new MoneyValue(Money.parse("USD 0")));
+		String qIdentifier = question.getVariableId().getIdentifier().getName();
+		Type qType = question.getVariableId().getIdentifier().getType();
+		String qLable = question.getText();
+		if (!this.questionAlreadyInView(qIdentifier)) {
+			if (qType.equals(new BooleanType())) {
+				addBooleanQuestionToQLView(qLable, qIdentifier);
 			}
-			qLBlockView.addQuestionView(aQLViewQuestion);
-			qLView.addBlockToFrame(qLBlockView);
+			if (qType.equals(new MoneyType())) {
+				addMoneyQuestionToQLView(qLable, qIdentifier);
+			}
 		}
-		//System.out.println(aQLViewQuestion.getqIdentifier().getName());
+
 	}
 
 	@Override
 	public void visit(ReadOnlyQuestion readOnlyQuestion) {
-		//System.out.println("I'm in read only question");
-		//System.out.println(identifierValues);
 		String identifier = readOnlyQuestion.getVariableId().getIdentifier().getName();
-		if(!this.questionAlreadyInView(identifier)){
+		String text = readOnlyQuestion.getText();
+		if (!this.questionAlreadyInView(identifier)) {
 			Value computed = readOnlyQuestion.getExpression().accept(this);
-			addValue(identifier,computed);
-			QLViewReadOnlyQuestion readOnlyQLViewQuestion = new QLViewReadOnlyQuestion(readOnlyQuestion);
-			readOnlyQLViewQuestion.getqComputed().setText(computed.getMoneyValue().toString());
-			qLBlockView.addQuestionView(readOnlyQLViewQuestion);
-			qLView.addBlockToFrame(qLBlockView);
+			addReadOnlyQuestionToQLView(identifier, text, computed);
 		}
-		//readOnlyQuestion.getExpression().accept(this);
-		
+
+	}
+
+	private void addReadOnlyQuestionToQLView(String identifier, String text, Value computed) {
+		addValue(identifier, computed);
+		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(text),
+				new QLQuestionTextFeild(identifier, computed.getMoneyValue().toString()), false);
+		qLView.addQuestionView(qLViewInputTextQuestion);
+	}
+
+	private void addBooleanQuestionToQLView(String qLable, String qIdentifier) {
+		boolean btnState = getQLSelectedState(qIdentifier);
+		QLViewSelectQuestion qLViewSelectQuestion = new QLViewSelectQuestion(new QLQuestionText(qLable),
+				new QLRadioButton(qIdentifier, btnState));
+		qLView.addQuestionView(qLViewSelectQuestion);
+		addValue(qIdentifier, new BooleanValue(btnState));
+	}
+
+	private void addMoneyQuestionToQLView(String qLable, String qIdentifier) {
+		Value currentVal = getQLMoneyValue(qIdentifier);
+		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(qLable),
+				new QLQuestionTextFeild(qIdentifier, currentVal.getMoneyValue().toString()), true);
+		qLView.addQuestionView(qLViewInputTextQuestion);
+		addValue(qIdentifier, currentVal);
+	}
+
+	private Value getQLMoneyValue(String identifier) {
+		Value currentVal = new MoneyValue(Money.parse("USD 0.00"));
+		if (identifierValuesCopy.containsKey(identifier)) {
+			currentVal = identifierValuesCopy.get(identifier);
+		}
+		return currentVal;
+	}
+
+	private boolean getQLSelectedState(String identifier) {
+		boolean btnState = false;
+		if (identifierValuesCopy.containsKey(identifier)) {
+			btnState = identifierValuesCopy.get(identifier).getBooleanValue();
+		}
+		return btnState;
 	}
 
 	@Override
@@ -224,6 +244,7 @@ public class QLController implements QLNodeVisitor<Value>,QLDomainVisitor,ItemLi
 	@Override
 	public Value visit(NOT not) {
 		Value e = not.getExpression().accept(this);
+		System.out.println("not: " + e.not());
 		return e.not();
 	}
 
@@ -269,58 +290,59 @@ public class QLController implements QLNodeVisitor<Value>,QLDomainVisitor,ItemLi
 
 	@Override
 	public Value visit(VarExpr varExpr) {
-		
-		if(isInCondition){
+
+		if (isInCondition) {
 			conditionId.add(varExpr.getIdentifier().getName());
-			System.out.println(conditionId);
 		}
 		return getValue(varExpr.getIdentifier().getName());
 	}
-	
+
 	public void addValue(String identifier, Value value) {
 		identifierValues.put(identifier, value);
 	}
+
 	public boolean questionAlreadyInView(String identifier) {
 		return identifierValues.containsKey(identifier);
 	}
-	
+
 	public Value getValue(String identifier) {
 		assert !identifier.isEmpty();
 		return identifierValues.get(identifier);
 	}
-	
-	public void showQL() {
-		qLView.showQL();
+
+	@Override
+	public void QLQuesionSelected(JRadioButton btn, boolean isSelected) {
+		addValue(btn.getName(), new BooleanValue(isSelected));
+		if (conditionId.contains(btn.getName())) {
+			identifierValuesCopy = new HashMap<>(identifierValues);
+			updateQLView();
+		}
+
 	}
 
 	@Override
-	public void itemStateChanged(ItemEvent event) {
-		int state = event.getStateChange();
-		JRadioButton btn = (JRadioButton) event.getSource();
-        if (state == ItemEvent.SELECTED) {
-        	addValue(btn.getName(),new BooleanValue(true));
-        	//this.qLView.resetQL();
-        	btn.setSelected(true);
-        	//statement.accept(this);
-        	form.accept(this);
-        	this.showQL();
- 
-        } else if (state == ItemEvent.DESELECTED) {
-        	
-        	
-        	btn.setSelected(false);
-        	if(conditionId.contains(btn.getName())){
-	    		this.qLBlockView.getqlBlock().removeAll();
-	    		this.identifierValues.clear();
-	    		
-	    		form.accept(this);
-	        	this.showQL();
-        	}
-        	//statement.accept(this);
-        }
-        
+	public void QLQuesionTextFeildInput(JTextField textInput) {
+		System.out.println(textInput.getText());
+		Value inputVal = new MoneyValue(Money.parse(textInput.getText()));
+		addValue(textInput.getName(), inputVal);
+		identifierValuesCopy = new HashMap<>(identifierValues);
+		updateQLView();
+
 	}
 
+	private void updateQLView() {
+		removeDataFromQLView();
+		redrawQLview();
+	}
+
+	private void redrawQLview() {
+		qlAst.accept(this);
+		qLView.showQL();
+	}
+
+	private void removeDataFromQLView() {
+		qLView.cleanQLView();
+		identifierValues.clear();
+	}
 
 }
-*/

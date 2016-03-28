@@ -1,4 +1,4 @@
-package org.uva.sea.ql.gui; 
+package org.uva.sea.ql.gui;
 
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -19,7 +19,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentListener;
 
-
 public class QLView extends JFrame implements ItemListener, KeyListener {
 	/**
 	 * 
@@ -29,7 +28,8 @@ public class QLView extends JFrame implements ItemListener, KeyListener {
 	private List<QLSelectedQuesionListener> radioBtnListeners = new ArrayList<QLSelectedQuesionListener>();
 	private List<QLTextFeildQuesionListener> textInputListeners = new ArrayList<QLTextFeildQuesionListener>();
 	private JPanel block;
-	public QLView(){
+
+	public QLView() {
 		block = new JPanel();
 		block.setBackground(Color.YELLOW);
 		block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
@@ -37,8 +37,7 @@ public class QLView extends JFrame implements ItemListener, KeyListener {
 		viewFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		viewFrame.setSize(600, 400);
 	}
-	
-	
+
 	public void addQuestionView(QLViewSelectQuestion questionView) {
 		JPanel blockInner = new JPanel();
 		questionView.getqLRadioButton().getQlComponent().addItemListener(this);
@@ -47,101 +46,89 @@ public class QLView extends JFrame implements ItemListener, KeyListener {
 		block.add(blockInner);
 		viewFrame.add(block);
 	}
-	
+
 	public void addQuestionView(QLViewInputTextQuestion textQuestionView) {
-		if(!textQuestionView.isEditable()){
+		if (!textQuestionView.isEditable()) {
 			textQuestionView.lockQLViewInputTextQuestion();
 		}
 		JPanel blockInner = new JPanel();
-		textQuestionView.getqLQuestionTextFeild().getQlComponent().addKeyListener(this);;
+		textQuestionView.getqLQuestionTextFeild().getQlComponent().addKeyListener(this);
+		;
 		blockInner.add(textQuestionView.getqLQuestionText().getQlComponent());
 		blockInner.add(textQuestionView.getqLQuestionTextFeild().getQlComponent());
-		
+
 		block.add(blockInner);
 		viewFrame.add(block);
 	}
-	
 
 	public void showQL() {
 		viewFrame.setVisible(true);
 	}
-	
+
 	public JFrame getQLFrame() {
 		return viewFrame;
 	}
-	
+
 	public void cleanQLView() {
 		block.removeAll();
 	}
-	
-	
 
 	public void addQLSelectedQuesionListener(QLSelectedQuesionListener listener) {
 		radioBtnListeners.add(listener);
-		
-	}
 
+	}
 
 	@Override
 	public void itemStateChanged(ItemEvent event) {
-			
-			int state = event.getStateChange();
-			JRadioButton btn = (JRadioButton) event.getSource();
-	        if (state == ItemEvent.SELECTED) {
-	        	fireQLSelectedQuestion(btn,true);
-	 
-	        } else if (state == ItemEvent.DESELECTED) {
-	        	fireQLSelectedQuestion(btn,false);
-	        }
-		
+
+		int state = event.getStateChange();
+		JRadioButton btn = (JRadioButton) event.getSource();
+		if (state == ItemEvent.SELECTED) {
+			fireQLSelectedQuestion(btn, true);
+
+		} else if (state == ItemEvent.DESELECTED) {
+			fireQLSelectedQuestion(btn, false);
+		}
+
 	}
 
-
 	private void fireQLSelectedQuestion(JRadioButton btn, boolean isSelected) {
-		if(!radioBtnListeners.isEmpty()){
+		if (!radioBtnListeners.isEmpty()) {
 			for (QLSelectedQuesionListener qlSelectedQuesionListener : radioBtnListeners) {
-				qlSelectedQuesionListener.QLQuesionSelected(btn,isSelected);
+				qlSelectedQuesionListener.QLQuesionSelected(btn, isSelected);
 			}
 		}
 	}
 
-
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
-		
-	}
 
+	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		JTextField textField = (JTextField) e.getSource();
-        fireQLTextInputQuestion(textField);
-		
-	}
+		fireQLTextInputQuestion(textField);
 
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	public void addQLTextFeildQuesionListener(QLTextFeildQuesionListener textInputListener) {
 		textInputListeners.add(textInputListener);
-		
+
 	}
-	
+
 	private void fireQLTextInputQuestion(JTextField text) {
-		if(!textInputListeners.isEmpty()){
+		if (!textInputListeners.isEmpty()) {
 			for (QLTextFeildQuesionListener qLTextFeildQuesionListener : textInputListeners) {
 				qLTextFeildQuesionListener.QLQuesionTextFeildInput(text);
 			}
 		}
 	}
-
-
-
 
 }

@@ -1,6 +1,6 @@
 package org.uva.sea.ql.ast;
 
-public class VarType{
+public class VarType {
 	private final String name;
 
 	public VarType(String name) {
@@ -10,6 +10,5 @@ public class VarType{
 	public String getName() {
 		return name;
 	}
-
 
 }

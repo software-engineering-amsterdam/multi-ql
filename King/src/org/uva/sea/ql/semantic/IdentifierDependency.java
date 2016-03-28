@@ -28,7 +28,7 @@ import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class IdentifierDependency implements QLNodeVisitor<Set<String>> {
 	private Set<String> identifiers;
-	
+
 	public IdentifierDependency() {
 		identifiers = new HashSet<>();
 	}
@@ -134,14 +134,12 @@ public class IdentifierDependency implements QLNodeVisitor<Set<String>> {
 		return identifiers;
 	}
 
-	
 	public Set<String> visitBinaryExpression(BinaryExpression binaryExpression) {
 		binaryExpression.getFirstExpression().accept(this);
 		binaryExpression.getSecondExpression().accept(this);
 		return identifiers;
 	}
 
-	
 	public Set<String> visitUnaryExpression(UnaryExpression unaryExpression) {
 		unaryExpression.getExpression().accept(this);
 		return identifiers;

@@ -14,18 +14,19 @@ public class IFblock extends ASTNode {
 	}
 
 	public void accept(QLDomainVisitor qlPartVisitor) {
-		 qlPartVisitor.visit(this);
+		qlPartVisitor.visit(this);
 	}
 
 	public Block getBody() {
 		return body;
 	}
+
 	public Expr getCondition() {
 		return condition;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "[ "+condition.toString()+" ]";
+		return "[ " + condition.toString() + " ]";
 	}
 }

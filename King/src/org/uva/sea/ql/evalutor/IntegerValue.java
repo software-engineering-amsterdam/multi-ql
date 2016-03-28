@@ -4,12 +4,13 @@ import java.math.RoundingMode;
 
 public class IntegerValue extends Value {
 	private final int value;
-	public IntegerValue(int integer){
+
+	public IntegerValue(int integer) {
 		this.value = integer;
 	}
-	
+
 	@Override
-	public Integer getIntegerValue(){
+	public Integer getIntegerValue() {
 		return this.value;
 	}
 
@@ -78,7 +79,6 @@ public class IntegerValue extends Value {
 		return new IntegerValue(integer.value * this.value);
 	}
 
-	
 	@Override
 	public Value mulMoney(MoneyValue money) {
 		return new MoneyValue(money.getMoneyValue().multipliedBy(this.value));
@@ -133,7 +133,5 @@ public class IntegerValue extends Value {
 	public Value greaterOrEqualInteger(IntegerValue integer) {
 		return new BooleanValue(integer.value >= this.value);
 	}
-		
-
 
 }

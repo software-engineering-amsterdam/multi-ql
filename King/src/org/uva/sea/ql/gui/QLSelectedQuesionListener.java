@@ -1,6 +1,5 @@
 package org.uva.sea.ql.gui;
 
-
 import javax.swing.JRadioButton;
 
 public interface QLSelectedQuesionListener {

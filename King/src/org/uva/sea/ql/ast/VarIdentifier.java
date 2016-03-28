@@ -1,17 +1,18 @@
 package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.type.Type;
+
 //Remove the get types
-public class VarIdentifier{
+public class VarIdentifier {
 	private final String name;
-	
+
 	private Type type;
 
 	public VarIdentifier(String name) {
 		this.name = name;
 	}
-	
-	public VarIdentifier(String name,Type type) {
+
+	public VarIdentifier(String name, Type type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -27,10 +28,10 @@ public class VarIdentifier{
 	public void setType(Type type) {
 		this.type = type;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "[ name: "+name+" -> type: "+type+" ]";
+		return "[ name: " + name + " -> type: " + type + " ]";
 	}
 
 }

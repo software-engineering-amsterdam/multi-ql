@@ -4,40 +4,41 @@ import org.joda.money.Money;
 
 public class MoneyValue extends Value {
 	private final Money value;
-	
-	public MoneyValue(Money money){
+
+	public MoneyValue(Money money) {
 		this.value = money;
 	}
-	
+
 	@Override
-	public Money getMoneyValue(){
+	public Money getMoneyValue() {
 		return this.value;
 	}
-	
+
 	@Override
-	public Value add(Value val){
+	public Value add(Value val) {
 		return val.addMoney(this);
 	}
-	
+
 	@Override
 	public Value addMoney(MoneyValue money) {
 		return new MoneyValue(money.value.plus(this.value));
 	}
+
 	@Override
-	public Value sub(Value money){
+	public Value sub(Value money) {
 		return money.subMoney(this);
 	}
-	
+
 	@Override
 	public Value subMoney(MoneyValue money) {
 		return new MoneyValue(money.value.minus(this.value));
 	}
-	
+
 	@Override
-	public Value greaterThan(Value bool){
+	public Value greaterThan(Value bool) {
 		return bool.greaterThanMoney(this);
 	}
-	
+
 	@Override
 	public Value greaterThanMoney(MoneyValue money) {
 		return new BooleanValue(money.value.isGreaterThan(this.value));
@@ -52,9 +53,7 @@ public class MoneyValue extends Value {
 	public Value greaterOrEqualMoney(MoneyValue money) {
 		return new BooleanValue(money.value.isEqual(this.value) || money.value.isGreaterThan(this.value));
 	}
-	
 
-	
 	@Override
 	public Value lessThan(Value value) {
 		return value.lessthanMoney(this);
@@ -65,7 +64,6 @@ public class MoneyValue extends Value {
 		return new BooleanValue(money.value.isLessThan(this.value));
 	}
 
-	
 	@Override
 	public Value lessOrEqual(Value value) {
 		return value.lessOrEqualMoney(this);
@@ -105,14 +103,10 @@ public class MoneyValue extends Value {
 	public Value positive() {
 		return new MoneyValue(value.abs());
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return value.toString();
 	}
-	
-	
-	
 
 }

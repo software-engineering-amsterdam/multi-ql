@@ -14,5 +14,4 @@ public class Add extends MathExpression {
 		return visitor.visit(this);
 	}
 
-	
 }

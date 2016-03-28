@@ -9,17 +9,19 @@ import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 public class MoneyLiteral extends Expr {
 
 	private final Money value;
+
 	public MoneyLiteral(Money value) {
 		this.value = value;
 	}
-	
+
 	public Money getValue() {
 		return value;
 	}
-	
+
 	public MoneyType getType() {
 		return new MoneyType();
 	}
+
 	@Override
 	public <T> T accept(QLNodeVisitor<T> visitor) {
 		return visitor.visit(this);

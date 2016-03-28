@@ -17,27 +17,27 @@ public class Form extends ASTNode {
 	public String getName() {
 		return id;
 	}
-	
+
 	public Block getBody() {
 		return body;
 	}
 
 	public void accept(QLDomainVisitor qlPartVisitor) {
-		 qlPartVisitor.visit(this);
+		qlPartVisitor.visit(this);
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		for (Question q : body.getQuestions()) {
-		    builder.append(q);
-		    builder.append(":");
+			builder.append(q);
+			builder.append(":");
 		}
 		builder.setLength(builder.length() - 1);
 		builder.append(":::");
 		for (IFblock b : body.getStatements()) {
-		    builder.append(b);
-		    builder.append(":");
+			builder.append(b);
+			builder.append(":");
 		}
 		builder.setLength(builder.length() - 1);
 		return builder.toString();

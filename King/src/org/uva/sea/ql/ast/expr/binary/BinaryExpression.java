@@ -20,10 +20,10 @@ public abstract class BinaryExpression extends Expr {
 	public Expr getSecondExpression() {
 		return e2;
 	}
+
 	@Override
 	public String toString() {
-		return "[ "+e1.toString()+" and "+e2.toString()+" ]";
+		return "[ " + e1.toString() + " and " + e2.toString() + " ]";
 	}
 
-	
 }

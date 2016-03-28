@@ -22,13 +22,13 @@ public class Question extends ASTNode {
 	public String getText() {
 		return text;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "[ "+varDeclaration.toString()+" -> Lable "+text+" ]";
+		return "[ " + varDeclaration.toString() + " -> Lable " + text + " ]";
 	}
 
 	public void accept(QLDomainVisitor qlPartVisitor) {
-		 qlPartVisitor.visit(this);
+		qlPartVisitor.visit(this);
 	}
 }

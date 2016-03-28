@@ -9,7 +9,7 @@ public class NOT extends UnaryExpression {
 	public NOT(Expr expr) {
 		super(expr);
 	}
-	
+
 	@Override
 	public <T> T accept(QLNodeVisitor<T> visitor) {
 		return visitor.visit(this);

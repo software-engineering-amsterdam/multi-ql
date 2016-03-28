@@ -26,7 +26,7 @@ import org.uva.sea.ql.ast.expr.unary.Positive;
 import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class Intepreter implements QLNodeVisitor<Value> {
-	
+
 	private Map<String, Value> identifierValues;
 
 	public Intepreter() {
@@ -159,11 +159,11 @@ public class Intepreter implements QLNodeVisitor<Value> {
 	public Value visit(VarExpr varExpr) {
 		return getValue(varExpr.getIdentifier().getName());
 	}
-	
+
 	public void addValue(String identifier, Value value) {
 		identifierValues.put(identifier, value);
 	}
-	
+
 	public Value getValue(String identifier) {
 		assert !identifier.isEmpty();
 		return identifierValues.get(identifier);

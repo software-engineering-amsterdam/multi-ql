@@ -3,13 +3,13 @@ package org.uva.sea.ql.evalutor;
 public class StringValue extends Value {
 
 	private final String string;
-	
-	public StringValue(String string){
+
+	public StringValue(String string) {
 		this.string = string;
 	}
-	
+
 	@Override
-	public String getStringValue(){
+	public String getStringValue() {
 		return this.string;
 	}
 
@@ -42,6 +42,5 @@ public class StringValue extends Value {
 	public Value addString(StringValue str) {
 		return new StringValue(str.string.concat(this.string));
 	}
-	
 
 }

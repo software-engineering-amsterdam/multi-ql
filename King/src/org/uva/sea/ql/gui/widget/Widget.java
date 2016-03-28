@@ -2,7 +2,7 @@ package org.uva.sea.ql.gui.widget;
 
 import javax.swing.JComponent;
 
-public abstract class Widget extends JComponent{
+public abstract class Widget extends JComponent {
 
 	/**
 	 * 

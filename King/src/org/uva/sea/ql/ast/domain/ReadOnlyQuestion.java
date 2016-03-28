@@ -8,17 +8,18 @@ import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public class ReadOnlyQuestion extends Question {
 	private Expr expression;
+
 	public ReadOnlyQuestion(VarDeclaration var, String text, Expr expression) {
 		super(var, text);
 		this.expression = expression;
 	}
-	
+
 	public Expr getExpression() {
 		return expression;
 	}
-	
+
 	public void accept(QLDomainVisitor qlPartVisitor) {
-		 qlPartVisitor.visit(this);
+		qlPartVisitor.visit(this);
 	}
 
 }

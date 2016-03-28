@@ -1,9 +1,9 @@
 package org.uva.sea.ql.evalutor;
 
-public class BooleanValue extends Value{
+public class BooleanValue extends Value {
 
 	private final boolean value;
-	
+
 	public BooleanValue(boolean value) {
 		this.value = value;
 	}
@@ -47,11 +47,10 @@ public class BooleanValue extends Value{
 	public Value equalBoolean(BooleanValue bool) {
 		return new BooleanValue(bool.value == this.value);
 	}
-	
-@Override
-public String toString() {
-	return "[ "+value+" ]";
-}
 
+	@Override
+	public String toString() {
+		return "[ " + value + " ]";
+	}
 
 }

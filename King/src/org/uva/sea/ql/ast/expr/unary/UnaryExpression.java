@@ -7,7 +7,6 @@ import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 public abstract class UnaryExpression extends Expr {
 	protected final Expr expr;
 
-	
 	public UnaryExpression(Expr expr) {
 		this.expr = expr;
 	}
@@ -15,10 +14,10 @@ public abstract class UnaryExpression extends Expr {
 	public Expr getExpression() {
 		return expr;
 	}
+
 	@Override
 	public String toString() {
-		return "[ "+expr.toString()+" ]";
+		return "[ " + expr.toString() + " ]";
 	}
-	
 
 }
