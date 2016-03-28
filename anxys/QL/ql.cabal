@@ -26,10 +26,17 @@ library
                        Location
                        Environment
                        Value
+                       QL
+                       Identifier
+                       Interpreter
+--  other-modules:       Identifier
   build-depends:       base >= 4.7 && < 5
                      , parsec
                      , syb
                      , containers
+                     , Decimal
+                     , uniplate
+                     , mtl
   default-language:    Haskell2010
 
 executable ql-exe
@@ -40,6 +47,7 @@ executable ql-exe
                      , ql
                      , parsec
                      , wx
+                     , wxcore
   default-language:    Haskell2010
 
 test-suite ql-test
