@@ -20,7 +20,6 @@ public class BooleanInputComponent implements UserInputElement{
 				onAction();
 			}
 		});
-		
 	}
 	
 	@Override
@@ -58,5 +57,4 @@ public class BooleanInputComponent implements UserInputElement{
 	public void onAction() {
 		parent.onAction();
 	}
-
 }

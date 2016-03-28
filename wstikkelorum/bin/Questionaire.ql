@@ -7,7 +7,8 @@ form Box1HouseOwning {
 	}
 	
 	if(soldhouse){
-		var: int "2 time 5 equals: " (2*5)
+		house: int "how much was the house?"
+		var: int "house including taxes: " (2*house)
 		if(boolA){
 			name: string "what is your name?"
 		}
