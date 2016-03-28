@@ -35,7 +35,7 @@ public class Interpreter {
         DisplayableQuestionGenerator generator
                 = new DisplayableQuestionGenerator(answerTable);
         form.accept(generator);
-        List<BasicDisplayableQuestion> questions = generator.getResult();
+        List<DisplayableQuestion> questions = generator.getResult();
         questions.forEach(answerTable::addObserver);
         gui = new GUI(form.obtainIdentifier(), questions);
     }

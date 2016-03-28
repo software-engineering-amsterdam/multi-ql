@@ -17,8 +17,8 @@ import nl.uva.sea.ql.interpreter.listener.*;
  * @author Olav Trauschke
  * @version 28-mar-2016
  */
-public abstract class BasicDisplayableQuestion extends JComponent
-        implements DisplayableQuestion, Observer {
+public abstract class DisplayableQuestion extends JComponent
+        implements Observer {
     
     private final Expr displayCondition;
     private final Question question;
@@ -48,7 +48,7 @@ public abstract class BasicDisplayableQuestion extends JComponent
      *                      could contain to their current <code>Value</code>s,
      *                      or <code>null</code> when these are unknown
      */
-    public BasicDisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
+    public DisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
             AnswerTable theAnswerTable) {
         assert conditionForDisplay != null;
         assert theQuestion != null;
@@ -76,17 +76,16 @@ public abstract class BasicDisplayableQuestion extends JComponent
     }
     
     /**
-     * Update the status of <code>this BasicDisplayableQuestion</code> - i.e. whether
-     * it is <code>toDisplay</code> and its <code>value</code> to correspond to
-     * a new, or - more likely - updated, <code>AnswerTable</code>. Note that
-     * this method should be called for each change to the
-     * <code>AnswerTable</code> and cannot be executed only once for multiple
-     * changes.
+     * Update the status of <code>this DisplayableQuestion</code> - i.e.
+     * whether it is <code>toDisplay</code> and its <code>value</code> to
+     * reflect a change in <code>theAnswerTable</code>. Note that this method
+     * should be called for each change to the <code>AnswerTable</code> and
+     * cannot be executed only once for multiple changes.
      * 
      * @param observable the <code>Observable</code> that was changed so that
      *                      this method was called, unused
      * @param argument an <code>Ident</code> indicating which <code>Value</code>
-     *                  in <code>answerTable</code> was changed
+     *                  in <code>theAnswerTable</code> was changed
      */
     @Override
     public void update(Observable observable, Object argument) {
@@ -109,7 +108,7 @@ public abstract class BasicDisplayableQuestion extends JComponent
     }
     
     /**
-     * @return whether or not <code>this BasicDisplayableQuestion</code> should
+     * @return whether or not <code>this DisplayableQuestion</code> should
      *          currently be displayed
      */
     public boolean isToDisplay() {
@@ -118,10 +117,11 @@ public abstract class BasicDisplayableQuestion extends JComponent
     
     /**
      * Have a specified <code>DisplayableQeustionListener</code> be notified
-     * when <code>this BasicDisplayableQuestion</code> changes. 
+     * when <code>this DisplayableQuestion</code> changes. 
      * 
      * @param listener a <code>DisplayableQuestionListener</code> that needs to
-     *                  know when <code>this BasicDisplayableQuestion</code> changes
+     *                  know when <code>this DisplayableQuestion</code>
+     *                  changes
      */
     public void addListener(DisplayableQuestionListener listener) {
         listeners.add(listener);
@@ -130,12 +130,12 @@ public abstract class BasicDisplayableQuestion extends JComponent
     /**
      * Notify all <code>DisplayableQuestionListeners</code> that were added to
      * <code>thisDisplayableQuestion</code> that
-     * <code>this BasicDisplayableQuestion</code> has changed by calling their
+     * <code>this DisplayableQuestion</code> has changed by calling their
      * {@link nl.uva.sea.ql.interpreter.listener.DisplayableQuestionListener#questionChanged(nl.uva.sea.ql.interpreter.listener.DisplayableQuestionChangeEvent)
      * questionChanged(DisplayableQuestionChangeEvent)} methods.
      * 
      * @param toDisplayChanged a <code>boolean</code> telling whether or not
-     *                          whether <code>this BasicDisplayableQuestion</code>
+     *                          whether <code>this DisplayableQuestion</code>
      *                          should be displayed changed
      */
     private void notifyListeners(boolean toDisplayChanged) {
@@ -145,14 +145,14 @@ public abstract class BasicDisplayableQuestion extends JComponent
     }
     
     /**
-     * Set the <code>value</code> of <code>this BasicDisplayableQuestion</code> and
+     * Set the <code>value</code> of <code>this DisplayableQuestion</code> and
      * update its <code>answerTable</code> if and only if <code>newValue</code>
      * is not equal to <code>value</code>.
      * 
      * @param newValue the <code>Value</code> to set as the <code>value</code>
-     *                  of <code>this BasicDisplayableQuestion</code>. The type of
+     *                  of <code>this DisplayableQuestion</code>. The type of
      *                  this <code>Value</code> must match the type of
-     *                  <code>this BasicDisplayableQuestion</code>'s
+     *                  <code>this DisplayableQuestion</code>'s
      *                  <code>question</code> and in case this is a computed
      *                  question (i.e. its <code>calculation != null</code>) it
      *                  must be the <code>Value</code> this <code>Expr</code>
