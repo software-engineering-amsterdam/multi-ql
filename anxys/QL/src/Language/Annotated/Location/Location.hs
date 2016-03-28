@@ -8,7 +8,10 @@ module Location (
     ) where
 
 data Position = Position { line :: Int, column :: Int }
-  deriving (Eq, Show)
+  deriving (Eq)
+
+instance Show Position
+ where show x = "(line: " ++ show (line x) ++ ", column: " ++ show (column x)  ++ ")"
 
 data Location = Location { start :: Position, end :: Position }
   deriving (Eq, Show)
