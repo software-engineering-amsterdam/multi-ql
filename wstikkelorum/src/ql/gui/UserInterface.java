@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +15,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import ql.FormParser;
+import ql.SemanticAnalyser;
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
 import ql.ast.visitor.GuiVisitor;
+import ql.issue.Issue;
 
 public class UserInterface extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -26,28 +32,58 @@ public class UserInterface extends JFrame{
 	private Form form;
 	private JFrame mainWindow;
 	private JPanel mainPanel;
+	private String currentPath;
 	
-	public UserInterface(Form form, Context context){
-		this.form = form;
-		this.context = context;
-		this.guiVisitor = new GuiVisitor<>(context, this);
-		visibleQuestions = new ArrayList<UIElement>();
-		
+	public UserInterface(){
 		createMainWindow();
-		drawContent();
+		visibleQuestions = new ArrayList<UIElement>();
+	}
+	
+	private void ParseAndAnalyseForm(){
+		try {
+			form = FormParser.parseForm(currentPath, false);
+			SemanticAnalyser semanticAnalyser = analyseForm(form);
+			context = semanticAnalyser.getContext();
+			this.guiVisitor = new GuiVisitor<>(context, this);
+			
+			if (semanticAnalyser.noIssues()) {
+				drawContent();
+			} else {
+				printIssues(semanticAnalyser.getContext());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static SemanticAnalyser analyseForm(Form form) {
+		SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
+		semanticAnalyser.analyseForm(form);
+		semanticAnalyser.printData();
+		return semanticAnalyser;
+	}
+	
+	private void printIssues(Context context) {
+		mainPanel.removeAll();
+		mainPanel.setLayout(new GridLayout(context.getIssues().size(), 1));
+		for (Issue issue : context.getIssues()) {
+			mainPanel.add(issue.getDrawableItem());
+		}
+		mainPanel.revalidate();
+		mainPanel.repaint();
 	}
 	
 	private void createMainWindow(){
 		mainWindow = new JFrame();
 		mainWindow.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
-		mainWindow.setSize(600, 800);
-		mainWindow.setTitle(form.getIdentifier());
+		mainWindow.setSize(400, 600);
 		mainWindow.setLayout(new FlowLayout());
 		JMenuBar menubar = createMenuBar();
 		mainWindow.setJMenuBar(menubar);
 		mainPanel = new JPanel();
 		mainWindow.add(mainPanel);
+		mainPanel.revalidate();
 	}
 	
 	private JMenuBar createMenuBar() {
@@ -57,9 +93,14 @@ public class UserInterface extends JFrame{
 		menuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				JFileChooser jfc = new JFileChooser();
-				jfc.showOpenDialog(mainWindow);
+				JFileChooser jfc = new JFileChooser(new File("resources").getAbsolutePath());
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Question Language Forms", "ql");
+				jfc.setFileFilter(filter);			
+				int returnVal = jfc.showOpenDialog(menuBar);
+				if(returnVal == JFileChooser.APPROVE_OPTION){
+					currentPath = jfc.getSelectedFile().getAbsolutePath();
+					ParseAndAnalyseForm();
+				}
 			}
 		});
 		menu.add(menuItem);
@@ -76,15 +117,11 @@ public class UserInterface extends JFrame{
 	}
 	
 	public void drawContent(){
+		mainWindow.setTitle(form.getIdentifier());
 		updateContext();
 		renewVisibleQuestion();
 		drawVisibleQuestions();
 		setValues();
-		
-		//For debugging
-		System.out.println("Identifier - value");
-		context.getIdentifierToValueMap().forEach((identifier, value) -> System.out.println(identifier + ' ' + value));
-		System.out.println();
 	}
 	
 	private void renewVisibleQuestion(){

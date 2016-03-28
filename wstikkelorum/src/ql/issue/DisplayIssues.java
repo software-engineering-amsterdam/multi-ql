@@ -10,7 +10,7 @@ public class DisplayIssues {
 		issue.print();
 	}
 	
-	public List<JPanel> getIssues(List<Issue> issues){
+	public static List<JPanel> createGUIElementsForIssues(List<Issue> issues){
 		List<JPanel> issueList = new ArrayList<JPanel>();
 		for(Issue issue : issues){
 			issueList.add(issue.getUIElement());

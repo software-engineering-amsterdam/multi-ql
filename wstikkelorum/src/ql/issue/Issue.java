@@ -3,7 +3,9 @@ package ql.issue;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public abstract class Issue {
+import ql.gui.UIElement;
+
+public abstract class Issue implements UIElement{
 	protected String errorMessage;
 
 	public void print() {
@@ -15,5 +17,18 @@ public abstract class Issue {
 		jPanel.add(new JLabel(errorMessage));
 		jPanel.setVisible(true);
 		return jPanel;
+	}
+	
+	public JPanel getDrawableItem() {
+		JPanel jPanel = new JPanel();
+		JLabel jLabel = new JLabel(errorMessage);
+		jPanel.add(jLabel);
+		jPanel.setVisible(true);
+		return jPanel;
+	}
+
+	@Override
+	public void updateValueLabel(Object newValue) {
+		errorMessage = newValue.toString();
 	}
 }
