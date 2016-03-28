@@ -1,19 +1,22 @@
 package org.uva.sea.ql.semantic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Message {
 
-	private final List<String> warnings = new ArrayList<>();
-	private final List<String> errors = new ArrayList<>();
+	private final Map<String,String> warnings;
+	private final List<String> errors;
 
 	public Message() {
-
+		warnings = new HashMap<>();
+		errors = new ArrayList<>();
 	}
 
-	public void addWarning(String msg) {
-		warnings.add(msg);
+	public void addWarning(String identifier,String msg) {
+		warnings.put(identifier,msg);
 	}
 
 	public void addError(String msg) {
@@ -22,6 +25,10 @@ public class Message {
 
 	public boolean hasErrors() {
 		return !errors.isEmpty();
+	}
+	
+	public boolean hasQuestion(String questionText) {
+		return warnings.containsKey(questionText);
 	}
 
 	public List<String> getErrors() {
@@ -32,7 +39,7 @@ public class Message {
 		return !warnings.isEmpty();
 	}
 
-	public List<String> getWarnings() {
+	public Map<String,String> getWarnings() {
 		return warnings;
 	}
 
@@ -49,9 +56,9 @@ public class Message {
 		}
 		System.out.println("\n");
 		if (hasWarnings()) {
-			for (String warning : warnings) {
-				System.out.println(warning);
-
+			for (Map.Entry<String, String> warning : warnings.entrySet())
+			{
+			    System.out.println(warning.getValue());
 			}
 		}
 	}

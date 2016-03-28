@@ -43,6 +43,7 @@ import org.uva.sea.ql.evalutor.Value;
 import org.uva.sea.ql.gui.widget.QLQuestionText;
 import org.uva.sea.ql.gui.widget.QLQuestionTextFeild;
 import org.uva.sea.ql.gui.widget.QLRadioButton;
+import org.uva.sea.ql.semantic.Message;
 
 public class QLController
 		implements QLNodeVisitor<Value>, QLDomainVisitor, QLSelectedQuesionListener, QLTextFeildQuesionListener {
@@ -51,8 +52,10 @@ public class QLController
 	private final Form qlAst;
 	private Set<String> conditionId = new HashSet<String>();
 	private boolean isInCondition = false;
+	private final Message qlSemanticErrors;
 
-	public QLController(Form qlAst, QLView qLView) {
+	public QLController(Form qlAst, QLView qLView, Message qlSemanticErrors) {
+		this.qlSemanticErrors = qlSemanticErrors;
 		this.qlAst = qlAst;
 		this.identifierValues = new ValuesReferenceTable();
 		this.qLView = qLView;
@@ -120,16 +123,16 @@ public class QLController
 
 	}
 
-	private void addReadOnlyQuestionToQLView(String identifier, String text, Value computed) {
+	private void addReadOnlyQuestionToQLView(String identifier, String qLable, Value computed) {
 		identifierValues.addQLIdentifier(identifier, computed);
-		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(text),
+		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(qLable, qlSemanticErrors.hasQuestion(qLable)),
 				new QLQuestionTextFeild(identifier, computed.getMoneyValue().toString()), false);
 		qLView.addQuestionView(qLViewInputTextQuestion);
 	}
-
+	
 	private void addBooleanQuestionToQLView(String qLable, String qIdentifier) {
 		boolean btnState = getQLSelectedState(qIdentifier);
-		QLViewSelectQuestion qLViewSelectQuestion = new QLViewSelectQuestion(new QLQuestionText(qLable),
+		QLViewSelectQuestion qLViewSelectQuestion = new QLViewSelectQuestion(new QLQuestionText(qLable,qlSemanticErrors.hasQuestion(qLable)),
 				new QLRadioButton(qIdentifier, btnState));
 		qLView.addQuestionView(qLViewSelectQuestion);
 		identifierValues.addQLIdentifier(qIdentifier, new BooleanValue(btnState));
@@ -137,7 +140,7 @@ public class QLController
 
 	private void addMoneyQuestionToQLView(String qLable, String qIdentifier) {
 		Value currentVal = getQLMoneyValue(qIdentifier);
-		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(qLable),
+		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(new QLQuestionText(qLable,qlSemanticErrors.hasQuestion(qLable)),
 				new QLQuestionTextFeild(qIdentifier, currentVal.getMoneyValue().toString()), true);
 		qLView.addQuestionView(qLViewInputTextQuestion);
 		identifierValues.addQLIdentifier(qIdentifier, currentVal);
@@ -321,5 +324,6 @@ public class QLController
 		qLView.cleanQLView();
 		identifierValues.clearIdentifierValues();
 	}
+
 
 }

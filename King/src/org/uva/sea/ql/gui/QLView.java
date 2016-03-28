@@ -1,13 +1,12 @@
 package org.uva.sea.ql.gui;
 
-import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -25,8 +24,7 @@ public class QLView extends JFrame implements ItemListener, KeyListener {
 
 	public QLView() {
 		block = new JPanel();
-		block.setBackground(Color.YELLOW);
-		block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
+		block.setLayout(new GridLayout(0, 1));
 		viewFrame = new JFrame("QL");
 		viewFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		viewFrame.setSize(600, 400);
@@ -34,6 +32,7 @@ public class QLView extends JFrame implements ItemListener, KeyListener {
 
 	public void addQuestionView(QLViewSelectQuestion questionView) {
 		JPanel blockInner = new JPanel();
+		blockInner.setLayout(new GridLayout(0, 2));
 		questionView.getqLRadioButton().getQlComponent().addItemListener(this);
 		blockInner.add(questionView.getqLQuestionText().getQlComponent());
 		blockInner.add(questionView.getqLRadioButton().getQlComponent());
@@ -46,8 +45,8 @@ public class QLView extends JFrame implements ItemListener, KeyListener {
 			textQuestionView.lockQLViewInputTextQuestion();
 		}
 		JPanel blockInner = new JPanel();
+		blockInner.setLayout(new GridLayout(0, 2));
 		textQuestionView.getqLQuestionTextFeild().getQlComponent().addKeyListener(this);
-		;
 		blockInner.add(textQuestionView.getqLQuestionText().getQlComponent());
 		blockInner.add(textQuestionView.getqLQuestionTextFeild().getQlComponent());
 
@@ -108,7 +107,7 @@ public class QLView extends JFrame implements ItemListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// Here we do really need this at the moment
 
 	}
 

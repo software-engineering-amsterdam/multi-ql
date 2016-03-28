@@ -29,7 +29,7 @@ public class VarExpr extends Expr {
 
 	@Override
 	public String toString() {
-		return "[ " + identifier.toString() + " ]";
+		return identifier.toString();
 	}
 
 	@Override

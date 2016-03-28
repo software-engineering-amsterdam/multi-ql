@@ -1,12 +1,7 @@
 package org.uva.sea.ql.semantic;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.sea.ql.ast.domain.*;
 import org.uva.sea.ql.ast.expr.VarExpr;
 import org.uva.sea.ql.ast.expr.binary.*;
@@ -16,12 +11,6 @@ import org.uva.sea.ql.ast.expr.type.*;
 import org.uva.sea.ql.ast.expr.unary.*;
 import org.uva.sea.ql.ast.visitors.QLDomainVisitor;
 import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
-import org.uva.sea.ql.gui.QLController;
-import org.uva.sea.ql.gui.QLView;
-//import org.uva.sea.ql.gui.QLController;
-import org.uva.sea.ql.parser.antlr.QLLexer;
-import org.uva.sea.ql.parser.antlr.QLParser;
-import org.uva.sea.ql.parser.antlr.QLParser.FileContext;
 
 public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 	private SymbolTable symTable;
@@ -77,7 +66,7 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 
 		if (hasDuplicateLablesWarning(question)) {
 			String msg = "The question lable '" + question.getText() + "' has been used more than once";
-			messages.addWarning(msg);
+			messages.addWarning(question.getText(),msg);
 		}
 		lableNames.add(question.getText());
 
@@ -95,7 +84,7 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 
 		if (hasDuplicateLablesWarning(computedQuestion)) {
 			String msg = "The question lable '" + computedQuestion.getText() + "' has been used more than once";
-			messages.addWarning(msg);
+			messages.addWarning(computedQuestion.getText(),msg);
 		}
 		lableNames.add(computedQuestion.getText());
 
@@ -236,7 +225,10 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 	@Override
 	public Type visit(VarExpr varExpr) {
 		Type typeToReturn = getVarExpressionType(varExpr);
-
+		if (checkExprEquality(typeToReturn, new UnknownType())) {
+			String msg = varExpr.getIdentifierName() + " reference to undefined question";
+			messages.addError(msg);
+		}
 		return typeToReturn;
 
 	}
@@ -343,31 +335,13 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 		}
 		return typeToReturn;
 	}
-
-	public static void main(String[] args) throws IOException {
-		// Loading the DSL script into the ANTLR stream.
-		ANTLRInputStream input = new ANTLRFileStream(new File("resources/questionaire.gr").getPath());
-
-		// Passing the input to the lexer to create tokens
-		QLLexer lexer = new QLLexer(input);
-
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-		// Passing the tokens to the parser to create the parse tree.
-		QLParser parser = new QLParser(tokens);
-
-		FileContext fileContext = parser.file();
-		Form ast = fileContext.form(0).result;
-		TypeChecker typeChecker = new TypeChecker(ast);
-		typeChecker.messages.print();
-		/*
-		 * QLController qc = new QLController(ast); qc.showQL();
-		 */
-		QLView qLView = new QLView();
-		QLController qcn = new QLController(ast, qLView);
-		qLView.addQLSelectedQuesionListener(qcn);
-		qLView.addQLTextFeildQuesionListener(qcn);
-		qLView.showQL();
+	
+	public Message getQLAllSemanticMessages() {
+		return messages;
+	}
+	
+	public Boolean hasErrorMessages() {
+		return messages.hasErrors();
 	}
 
 }

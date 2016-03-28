@@ -27,6 +27,6 @@ public class IFblock extends ASTNode {
 
 	@Override
 	public String toString() {
-		return "[ " + condition.toString() + " ]";
+		return condition.toString();
 	}
 }

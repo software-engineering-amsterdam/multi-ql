@@ -25,7 +25,7 @@ public class VarDeclaration {
 
 	@Override
 	public String toString() {
-		return "[ " + identifier.toString() + " ]";
+		return identifier.toString();
 	}
 
 }

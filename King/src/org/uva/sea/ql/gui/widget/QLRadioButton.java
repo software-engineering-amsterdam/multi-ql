@@ -11,7 +11,7 @@ public class QLRadioButton extends Widget {
 	private JRadioButton qlBtnIdentifier;
 
 	public QLRadioButton(String variable, boolean btnState) {
-		qlBtnIdentifier = new JRadioButton("", btnState);
+		qlBtnIdentifier = new JRadioButton("Yes", btnState);
 		qlBtnIdentifier.setName(variable);
 	}
 

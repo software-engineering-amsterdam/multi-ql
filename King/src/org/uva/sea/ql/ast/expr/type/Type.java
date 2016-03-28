@@ -19,7 +19,7 @@ public class Type {
 
 	@Override
 	public String toString() {
-		return "[ " + name + " ]";
+		return name;
 	}
 
 }
