@@ -1,5 +1,7 @@
 package org.uva.sea.ql.gui.view.editor;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import org.uva.sea.ql.gui.observer.Position;
@@ -9,12 +11,13 @@ import org.uva.sea.ql.gui.observer.Position;
  */
 class InfoPane {
     private final Label infoPane;
-    private final Position position;
 
     InfoPane() {
-        this.position = new Position(1,0);
+        Position position = new Position(1, 0);
         this.infoPane = new Label();
-        this.infoPane.setText(this.position.toString());
+        this.infoPane.setAlignment(Pos.TOP_LEFT);
+        this.infoPane.setPadding(new Insets(0,0,0,5));
+        this.infoPane.setText(position.toString());
     }
 
     public void setPosition(TextArea textArea) {

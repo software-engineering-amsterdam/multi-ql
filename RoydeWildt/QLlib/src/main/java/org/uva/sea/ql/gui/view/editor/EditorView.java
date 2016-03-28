@@ -27,6 +27,7 @@ public class EditorView {
         textPane.addCaretChangedListener((observableValue, cursor, t1) -> infoPane.setPosition(textPane.getTextPane()));
 
         RowConstraints row1 = getRowConstraints(300);
+        row1.setVgrow(Priority.ALWAYS);
         RowConstraints row2 = getRowConstraints(180);
         RowConstraints row3 = getRowConstraints(20);
         editorUI.getRowConstraints().addAll(row1, row2, row3);
@@ -40,14 +41,13 @@ public class EditorView {
 
     private RowConstraints getRowConstraints(int prefHeight) {
         RowConstraints row1 = new RowConstraints();
-        row1.setVgrow(Priority.ALWAYS);
         row1.setPrefHeight(prefHeight);
         return row1;
     }
 
     private GridPane getEditorPane() {
         GridPane editorUI = new GridPane();
-        editorUI.setPrefSize(500,600);
+        editorUI.setPrefSize(500,560);
         editorUI.setVgap(10);
         editorUI.setPadding(new Insets(0, 0, 0, 0));
         editorUI.setAlignment(Pos.TOP_CENTER);
