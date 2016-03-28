@@ -88,7 +88,7 @@ semanticCheck = analyze
 analyze :: Form Location -> SemanticResult
 analyze x = uncurry (SemanticResult tErrors depErrors) dIssues
   where
-    tErrors = typecheckForm (collectFormTypeMap x) x
+    tErrors = typecheckForm x
     depErrors = cErrors ++ checkForPostDependencies x
     cErrors = findCycles ((transitiveClosure . getIdentifierRelation) calcFields) calcFields
     calcFields = collectCalculatedFields x
@@ -175,10 +175,11 @@ toIdentifierExpr (SimpleField _ _) = error "Attempted to get values for SimpleFi
 getIdentifierRelation :: [Field Location] -> [(Identifier, Identifier)]
 getIdentifierRelation  = foldr ((++) . dependencyRelation .toIdentifierExpr) []  
 
-typecheckForm :: [TypeMap] -> Form Location -> [TypeError]
-typecheckForm types (Form _ _ ss) =
+typecheckForm :: Form Location -> [TypeError]
+typecheckForm form@(Form _ _ ss) =
   typeCheckStatement ss
   where
+    types = collectFormTypeMap form 
     typeCheckStatement =
       concatMap typeCheckStatement'
     typeCheckStatement' (If loc expr ifblock) =
@@ -241,7 +242,7 @@ getBinType _ _ (Left rhs) =
   Left rhs
 getBinType (BinaryOperation loc op _ _) (Right lhs) (Right rhs) =
   if isValidBinOp op lhs rhs
-    then Right rhs -- TODO: This depends on the subexpressions
+    then Right rhs 
     else Left [TypeMismatch lhs rhs loc]
 getBinType _ (Right _) (Right _) = error "Called with something that isn't a binary expression"
 
