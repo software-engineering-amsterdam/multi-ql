@@ -14,4 +14,18 @@ public class BooleanType extends Type{
 		return typeVisitor.visit(this);
 	}
 	
+	@Override
+	public boolean isCompatible(Type arg){
+		return arg.isCompatibleWithBoolean(this);
+	}
+	
+	@Override
+	public boolean isBooleanCompatible(Type arg){
+		return arg.isCompatibleWithBoolean(this);
+	}
+	
+	@Override
+	public boolean isCompatibleWithBoolean(BooleanType arg){
+		return true;
+	}
 }

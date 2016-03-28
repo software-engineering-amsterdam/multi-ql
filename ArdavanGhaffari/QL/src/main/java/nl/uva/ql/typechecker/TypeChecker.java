@@ -50,9 +50,9 @@ import nl.uva.ql.visitors.FormVisitor;
 import nl.uva.ql.visitors.StatementVisitor;
 
 public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Void>, FormVisitor{
+	
 	private HashMap<String, IdentifierInfo> identifierInfoMap;
 	private List<String> labels;
-	
 	private ErrorHandler errorHandler;
 
 	public TypeChecker(ErrorHandler errorHandler) {
@@ -86,22 +86,10 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		Expression expression = computedQuestion.getExpression();
 		Type expressionType = expression.accept(this);
 		Type computedQuestionType = computedQuestion.getType();
-		// if question type is money, then integer type would be acceptable as well for the expression type
-		Boolean isMatched;
-		if (computedQuestion.getType().equals(new MoneyType())) {
-			isMatched = matchTypes(expressionType, computedQuestionType, new IntegerType());
-		} else {
-			isMatched = matchTypes(expressionType, computedQuestionType);
-		}
-		if(!isMatched){
+		if(!computedQuestionType.isCompatible(expressionType)){
 			errorHandler.addError(new TypeMissmatchError(computedQuestion.getLine(),
-					computedQuestionType.getName(), "Computed Question Expression"));
+					"Computed Question Expression", computedQuestionType.getName()));
 		}
-		
-//		if (!computedQuestionType.isCompatible(expressionType)) {
-//			errorHandler.addError(new TypeMissmatchError(computedQuestion.getLine(),
-//					computedQuestionType.getName(), "Computed Question Expression"));
-//		}
 		
 		checkForRedeclaration(computedQuestion);
 		checkDuplicateLabel(computedQuestion);
@@ -132,23 +120,15 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 
 	@Override
 	public Void visit(IfStatement ifStatement) {
-		// check the if-condition to match boolean type
-		checkIfCondition(ifStatement);
-		
-		// type-check the if block
+		checkConditionType(ifStatement);
 		ifStatement.getIfBox().accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStatement ifElseStatement) {
-		// check the if-condition to match boolean type
-		checkIfCondition(ifElseStatement);
-		
-		// type-check the if block
+		checkConditionType(ifElseStatement);
 		ifElseStatement.getIfBox().accept(this);
-		
-		// type-check the else block
 		ifElseStatement.getElseBox().accept(this);
 		return null;
 	}
@@ -156,9 +136,8 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	@Override
 	public Type visit(Negation negation) {
 		Type type = negation.getExpression().accept(this);
-		Boolean isMatched = matchTypes(type, new BooleanType());
-		if(!isMatched){
-			errorHandler.addError(new TypeMissmatchError(negation.getLine(), "Boolean", "Negation operation"));
+		if(!type.isBooleanCompatible(new BooleanType())){
+			errorHandler.addError(new TypeMissmatchError(negation.getLine(), "Negation operation", "Boolean"));
 			return new UnknownType();
 		}
 		return type;
@@ -166,17 +145,13 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 
 	@Override
 	public Type visit(Addition addition) {
-		// check if addition operation is to concatenate two Strings
 		Type leftType = addition.getLeftExpression().accept(this);
 		Type rightType = addition.getRightExpression().accept(this);
-		Type expectedString = new StringType();
-		
-		if (matchTypes(leftType, expectedString) && matchTypes(rightType, expectedString)) {
-			return expectedString;
+		if(leftType.isStringCompatible(rightType)){
+			return new StringType();
 		}
 		
-		// if addition is not a String-concatenation, check for Math addition
-		Type expressionType = getTypeForMathExpression(leftType, rightType);
+		Type expressionType = getTypeForNumericExpression(leftType, rightType);
 		if (expressionType.equals(new UnknownType())) {
 			errorHandler.addError(new OperationTypeMissmatchError(addition.getLine(), "Add"));
 		}
@@ -187,7 +162,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(Subtraction subtraction) {
 		Type leftType = subtraction.getLeftExpression().accept(this);
 		Type rightType = subtraction.getRightExpression().accept(this);
-		Type expressionType = getTypeForMathExpression(leftType, rightType);
+		Type expressionType = getTypeForNumericExpression(leftType, rightType);
 		if (expressionType.equals(new UnknownType())) {
 			errorHandler.addError(new OperationTypeMissmatchError(subtraction.getLine(), "Subtraction"));
 		}
@@ -198,7 +173,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(Multiplication multiplication) {
 		Type leftType = multiplication.getLeftExpression().accept(this);
 		Type rightType = multiplication.getRightExpression().accept(this);
-		Type expressionType = getTypeForMathExpression(leftType, rightType);
+		Type expressionType = getTypeForNumericExpression(leftType, rightType);
 		if (expressionType.equals(new UnknownType())) {
 			errorHandler.addError(new OperationTypeMissmatchError(multiplication.getLine(), "Multiply"));
 		}
@@ -209,7 +184,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(Division division) {
 		Type leftType = division.getLeftExpression().accept(this);
 		Type rightType = division.getRightExpression().accept(this);
-		Type expressionType = getTypeForMathExpression(leftType, rightType);
+		Type expressionType = getTypeForNumericExpression(leftType, rightType);
 		if (expressionType.equals(new UnknownType())) {
 			errorHandler.addError(new OperationTypeMissmatchError(division.getLine(), "Divide"));
 		}
@@ -220,10 +195,8 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(Conjunction conjunction) {
 		Type leftType = conjunction.getLeftExpression().accept(this);
 		Type rightType = conjunction.getRightExpression().accept(this);
-		Type expectedBoolean = new BooleanType();
-		
-		if (matchTypes(leftType, expectedBoolean) && matchTypes(rightType, expectedBoolean)) {
-			return expectedBoolean;
+		if(leftType.isBooleanCompatible(rightType)){
+			return new BooleanType();
 		}
 		errorHandler.addError(new OperationTypeMissmatchError(conjunction.getLine(), "And"));
 		return new UnknownType();
@@ -233,10 +206,8 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(Disjunction disjunction) {
 		Type leftType = disjunction.getLeftExpression().accept(this);
 		Type rightType = disjunction.getRightExpression().accept(this);
-		Type expectedBoolean = new BooleanType();
-		
-		if (matchTypes(leftType, expectedBoolean) && matchTypes(rightType, expectedBoolean)) {
-			return expectedBoolean;
+		if(leftType.isBooleanCompatible(rightType)){
+			return new BooleanType();
 		}
 		errorHandler.addError(new OperationTypeMissmatchError(disjunction.getLine(), "Or"));
 		return new UnknownType();
@@ -246,10 +217,9 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(Equal equal) {
 		Type leftType = equal.getLeftExpression().accept(this);
 		Type rightType = equal.getRightExpression().accept(this);
-		if(matchNumericType(leftType, rightType)){
-			return new BooleanType();
-		}
-		if(matchStringORBooleanType(leftType, rightType)){
+		if(leftType.isStringCompatible(rightType) ||
+				leftType.isBooleanCompatible(rightType) ||
+					leftType.isNumericCompatible(rightType)){
 			return new BooleanType();
 		}
 		errorHandler.addError(new OperationTypeMissmatchError(equal.getLine(), "Equal"));
@@ -260,13 +230,12 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(NotEqual notEqual) {
 		Type leftType = notEqual.getLeftExpression().accept(this);
 		Type rightType = notEqual.getRightExpression().accept(this);
-		if(matchNumericType(leftType, rightType)){
+		if(leftType.isStringCompatible(rightType) ||
+				leftType.isBooleanCompatible(rightType) ||
+					leftType.isNumericCompatible(rightType)){
 			return new BooleanType();
 		}
-		if(matchStringORBooleanType(leftType, rightType)){
-			return new BooleanType();
-		}
-		errorHandler.addError(new OperationTypeMissmatchError(notEqual.getLine(), "Not equal"));
+		errorHandler.addError(new OperationTypeMissmatchError(notEqual.getLine(), "NotEqual"));
 		return new UnknownType();
 	}
 
@@ -274,7 +243,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(GreaterThan greaterThan) {
 		Type leftType = greaterThan.getLeftExpression().accept(this);
 		Type rightType = greaterThan.getRightExpression().accept(this);
-		if(matchNumericType(leftType, rightType)){
+		if(leftType.isNumericCompatible(rightType)){
 			return new BooleanType();
 		}
 		errorHandler.addError(new OperationTypeMissmatchError(greaterThan.getLine(), "Greater than"));
@@ -285,7 +254,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(GreaterThanEqual greaterThanEqual) {
 		Type leftType = greaterThanEqual.getLeftExpression().accept(this);
 		Type rightType = greaterThanEqual.getRightExpression().accept(this);
-		if(matchNumericType(leftType, rightType)){
+		if(leftType.isNumericCompatible(rightType)){
 			return new BooleanType();
 		}
 		errorHandler.addError(new OperationTypeMissmatchError(greaterThanEqual.getLine(), "Greater than equal"));
@@ -296,12 +265,9 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(LessThan lessThan) {
 		Type leftType = lessThan.getLeftExpression().accept(this);
 		Type rightType = lessThan.getRightExpression().accept(this);
-		if(matchNumericType(leftType, rightType)){
+		if(leftType.isNumericCompatible(rightType)){
 			return new BooleanType();
 		}
-//		if(leftType.isCompatible(new NumericType())){
-//			return new BooleanType();
-//		}
 		errorHandler.addError(new OperationTypeMissmatchError(lessThan.getLine(), "Less than"));
 		return new UnknownType();
 	}
@@ -310,7 +276,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(LessThanEqual lessThanEqual) {
 		Type leftType = lessThanEqual.getLeftExpression().accept(this);
 		Type rightType = lessThanEqual.getRightExpression().accept(this);
-		if(matchNumericType(leftType, rightType)){
+		if(leftType.isNumericCompatible(rightType)){
 			return new BooleanType();
 		}
 		errorHandler.addError(new OperationTypeMissmatchError(lessThanEqual.getLine(), "Less than equal"));
@@ -331,6 +297,11 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	public Type visit(IntegerLiteral integerLiteral) {
 		return new IntegerType();
 	}
+	
+	@Override
+	public Type visit(MoneyLiteral moneyLiteral) {
+		return new MoneyType();
+	}
 
 	@Override
 	public Type visit(Identifier identifier) {
@@ -341,42 +312,6 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 			errorHandler.addError(new NoDeclarationError(identifier.getLine(), identifier.getName()));
 			return new UnknownType();
 		}
-	}
-	
-	@Override
-	public Type visit(MoneyLiteral moneyLiteral) {
-		return new MoneyType();
-	}
-	
-
-	private boolean matchTypes(Type type, Type... expectedTypes) {
-		for (Type expectedType: expectedTypes) {
-			if(type.equals(expectedType)){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private Boolean matchNumericType(Type leftType, Type rightType) {
-		Type expectedInteger = new IntegerType();
-		Type expectedMoney = new MoneyType();
-		if(matchTypes(leftType, expectedInteger, expectedMoney)
-				&& matchTypes(rightType, expectedInteger, expectedMoney)){
-			return true;
-		}
-		return false;
-	}
-	
-	private Boolean matchStringORBooleanType(Type leftType,Type rightType){
-		Type expectedString = new StringType();
-		Type expectedBoolean = new BooleanType();
-		if(leftType.equals(rightType)){
-			if(matchTypes(leftType, expectedString, expectedBoolean)){
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	private void checkForRedeclaration(Question question) {
@@ -397,22 +332,19 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		}
 	}
 	
-	private void checkIfCondition(IfStatement ifStatement) {
-		Expression expression = ifStatement.getExpression();
-		Type type = expression.accept(this);
-		boolean isMatched = matchTypes(type, new BooleanType());
-		if (!isMatched) {
-			errorHandler.addError(new TypeMissmatchError(ifStatement.getLine(), "Boolean", "If condition"));
+	private void checkConditionType(IfStatement ifStatement) {
+		Expression condition = ifStatement.getExpression();
+		Type conditionType = condition.accept(this);
+		if(!conditionType.isBooleanCompatible(new BooleanType())){
+			errorHandler.addError(new TypeMissmatchError(ifStatement.getLine(), "If condition", "Boolean"));
 		}
 	}
 	
-	private Type getTypeForMathExpression(Type leftType, Type rightType) {
-		// both operands should be of valid types (either integer or money)
-		// if at least one of the operands are of type money, the result type would be money
+	private Type getTypeForNumericExpression(Type leftType, Type rightType) {
 		Type priorityType = new MoneyType();
 		Type baseType = new IntegerType();
 		
-		if (matchTypes(leftType, priorityType, baseType) && matchTypes(rightType, priorityType, baseType)) {
+		if(leftType.isNumericCompatible(rightType)){
 			if (leftType.equals(priorityType) || rightType.equals(priorityType)) {
 				return priorityType;
 			} else {
