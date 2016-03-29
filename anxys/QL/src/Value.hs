@@ -7,8 +7,8 @@ import           Data.Decimal
 import           Text.ParserCombinators.Parsec          as P
 import           Text.ParserCombinators.Parsec.Language
 import qualified Text.ParserCombinators.Parsec.Token    as Token
-import Data.Typeable
-import Data.Data
+import           Data.Typeable
+import           Data.Data
 
 data Value = IntValue Integer
            | BoolValue Bool
@@ -33,8 +33,9 @@ toDisplay (MoneyValue x) = show x
 toDisplay (BoolValue x) = show x 
 toDisplay Undefined = "Undefined"
 
-fromDisplay :: String -> Value
-fromDisplay = parseValue 
+fromDisplay :: FieldType -> String -> Value
+fromDisplay String = parseStringValue 
+fromDisplay _  = parseValue 
 
 intValue :: Parser Value
 intValue = do
@@ -43,13 +44,13 @@ intValue = do
 
 moneyValue :: Parser Value
 moneyValue = do
-   val <- dec
-   return (MoneyValue val) <?> "money val"
+  val <- dec
+  return (MoneyValue val) <?> "money val"
 
 stringValue :: Parser Value
 stringValue = do
-    val <- Value.string
-    return (StringValue val) <?> "string val"
+  val <- Value.string
+  return (StringValue val) <?> "string val"
 
 value :: Parser Value
 value = P.try moneyValue <|> intValue  <?> "value"
@@ -65,7 +66,6 @@ parseValue = parse' value
 parseStringValue :: String -> Value
 parseStringValue = parse' stringValue 
 
-
 languageDef :: LanguageDef st
 languageDef = emptyDef
 
@@ -79,11 +79,9 @@ float :: Parser Double
 float = Token.float lexer
 
 string :: Parser String
-string = do
-      val <- many anyChar
-      return val
+string = many anyChar
 
 dec :: Parser Decimal
 dec = do
-       val <- float
-       return (realFracToDecimal (decimalMantissa 2) val) <?> "decimal"
+  val <- float
+  return (realFracToDecimal (decimalMantissa 2) val) <?> "decimal"

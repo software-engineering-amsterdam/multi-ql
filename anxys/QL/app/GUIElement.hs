@@ -41,10 +41,12 @@ setReadOnly b (Checkbox info sText control)  = return (Checkbox newInfo sText co
 getElementValue :: GUIElement -> IO (Either UserInputError Value)
 getElementValue (Text info _ control) = do
   val <- get control text
-  if validate (valueType info) (fromDisplay val)
-    then return (Right (fromDisplay val))
+  if validate vType (fromDisplay' val)
+    then return (Right (fromDisplay' val))
   else
-   return (Left (UserInputError (valueType info)))
+   return (Left (UserInputError vType))
+     where fromDisplay' = fromDisplay (valueType info) 
+           vType = valueType info
 getElementValue (Checkbox _ _ control) = do
   val <- get control checked
   return (Right (BoolValue val))
