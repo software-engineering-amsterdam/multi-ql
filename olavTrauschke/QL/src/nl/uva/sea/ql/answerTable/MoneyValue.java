@@ -1,15 +1,21 @@
 package nl.uva.sea.ql.answerTable;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * Objects of this class represent values of QL
  * {@link nl.uva.sea.ql.ast.question.MoneyQuestion DecimalQuestion}s.
  * 
  * @author Olav Trauschke
- * @version 25-mar-2016
+ * @version 26-mar-2016
  */
 public class MoneyValue extends NumericValue {
+    
+    /**
+     * Start value used to calculate hashes for objects of this class.
+     */
+    public static final int HASH_ORIGIN = 203;
     
     private final BigDecimal value;
     
@@ -400,6 +406,30 @@ public class MoneyValue extends NumericValue {
             return new DecimalValue(null);
         }
         return new DecimalValue(value.doubleValue());
+    }
+    
+    /**
+     * Compares <code>this MoneyValue</code> to another <code>Object</code>.
+     * 
+     * @param o the <code>Object</code> to compare to <code>this MoneyValue</code>
+     * @return <code>true</code> if and only if <code>o</code> is a
+     *          <code>MoneyValue</code> with the same <code>value</code> as
+     *          <code>this MoneyValue</code> 
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        MoneyValue other = (MoneyValue) o;
+        return value == null ? other.value == null : value.equals(other.value);
+    }
+
+    /**
+     * @return an <code>int</code> containing a hash for <code>this MoneyValue</code> 
+     */
+    @Override
+    public int hashCode() {
+        return HASH_ORIGIN + Objects.hashCode(this.value);
     }
     
 }

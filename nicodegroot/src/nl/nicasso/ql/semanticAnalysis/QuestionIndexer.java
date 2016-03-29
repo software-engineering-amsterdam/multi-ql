@@ -35,7 +35,8 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	private Set<String> labels;
 	private CollectIdentifiers collectIdentifiers;
 
-	public QuestionIndexer(SymbolTable symbolTable, StateTable stateTable, MessageHandler messageHandler) {		
+	//@TODO THINK FOR A BETTER NAME, IT ALSO CHECKS FOR DUPLICATE LABELS AND STUFF
+	public QuestionIndexer(Form ast, SymbolTable symbolTable, StateTable stateTable, MessageHandler messageHandler) {		
 		this.symbolTable = symbolTable;
 		this.stateTable = stateTable;
 		this.messageHandler = messageHandler;
@@ -43,82 +44,80 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		this.identifiers = new HashSet<Identifier>();		
 		this.labels = new HashSet<String>();		
 		this.collectIdentifiers = new CollectIdentifiers();
+		
+		ast.accept(this, null);
+		
+		checkForUndefinedIdentifiers();
 	}
 
 	@Override
-	public Identifier visit(Form value, Void ignore) {
-		value.getBlock().accept(this, null);
-		
-		// @TODO Move the accept method to the constructor of this class, and call this one right after.
-		checkUndefinedIdentifiers();
-		
+	public Identifier visit(Form structure, Void ignore) {
+		structure.getBlock().accept(this, null);
 		return null;
 	}
 
 	@Override
-	public Identifier visit(Block value, Void ignore) {
-		for (Statement currentStatement : value.getStatements()) {
+	public Identifier visit(Block structure, Void ignore) {
+		for (Statement currentStatement : structure.getStatements()) {
 			currentStatement.accept(this, ignore);
 		}
-
 		return null;
 	}
 
 	@Override
-	public Identifier visit(Question value, Void context) {
-		if (checkIfUniqueQuestion(value)) {
-			symbolTable.addSymbol(value.getIdentifier(), new SymbolTableEntry(value.getType()));
-			stateTable.addState(value.getIdentifier(), new StateTableEntry(value.getType().getDefaultValue()));
-			labels.add(value.getLabel());
+	public Identifier visit(Question statement, Void context) {
+		if (checkIfUniqueQuestion(statement)) {
+			symbolTable.addSymbol(statement.getIdentifier(), new SymbolTableEntry(statement.getType()));
+			stateTable.add(statement.getIdentifier(), new StateTableEntry(statement.getType().getDefaultValue()));
+			labels.add(statement.getLabel());
 		}
-				
 		return null;
 	}
 
 	@Override
-	public Identifier visit(ComputedQuestion value, Void context) {
-		if (checkIfUniqueQuestion(value)) {
-			symbolTable.addSymbol(value.getIdentifier(), new SymbolTableEntry(value.getType()));
-			stateTable.addState(value.getIdentifier(), new StateTableEntry(value.getType().getDefaultValue()));
-			labels.add(value.getLabel());
+	public Identifier visit(ComputedQuestion statement, Void context) {
+		if (checkIfUniqueQuestion(statement)) {
+			symbolTable.addSymbol(statement.getIdentifier(), new SymbolTableEntry(statement.getType()));
+			stateTable.add(statement.getIdentifier(), new StateTableEntry(statement.getType().getDefaultValue()));
+			labels.add(statement.getLabel());
 		}
 		
-		value.getExpr().accept(collectIdentifiers);
+		statement.getExpr().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		return null;
 	}
 
 	@Override
-	public Identifier visit(IfStatement value, Void context) {
-		value.getExpr().accept(collectIdentifiers);
+	public Identifier visit(IfStatement statement, Void context) {
+		statement.getExpr().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		
-		value.getBlock_if().accept(this, null);
+		statement.getBlock_if().accept(this, null);
 		return null;
 	}
 
 	@Override
-	public Identifier visit(IfElseStatement value, Void context) {
-		value.getExpr().accept(collectIdentifiers);
+	public Identifier visit(IfElseStatement statement, Void context) {
+		statement.getExpr().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		
-		value.getBlock_if().accept(this, null);
-		value.getBlock_else().accept(this, null);
+		statement.getBlock_if().accept(this, null);
+		statement.getBlock_else().accept(this, null);
 		return null;
 	}
 	
-	public void checkUndefinedIdentifiers() {
-		for (Identifier id : identifiers) {
-			if (!checkExistanceIdentifier(id)) {
-				messageHandler.addErrorMessage(new NonExistantQuestion(id));
+	public void checkForUndefinedIdentifiers() {
+		for (Identifier identifier : identifiers) {
+			if (!checkForDuplicateIdentifier(identifier)) {
+				messageHandler.addErrorMessage(new NonExistantQuestion(identifier));
 			}
 		}
 	}
 
 	public boolean checkIfUniqueQuestion(Question question) {
-		checkExistanceLabel(question);
+		checkForDuplicateLabel(question);
 		
-		if (checkExistanceIdentifier(question.getIdentifier())) {
+		if (checkForDuplicateIdentifier(question.getIdentifier())) {
 			if (symbolTable.getEntryType(question.getIdentifier()).equals(question.getType())) {
 				messageHandler.addWarningMessage(new DuplicateIdentifierSameType(question.getIdentifier()));
 			} else {
@@ -126,17 +125,18 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 	
-	private boolean checkExistanceIdentifier(Identifier identifier) {
-		Iterator<Entry<Identifier, SymbolTableEntry>> iterator = symbolTable.getSymbols().entrySet().iterator();
+	private boolean checkForDuplicateIdentifier(Identifier identifier) {
+		Iterator<Entry<Identifier, SymbolTableEntry>> iterator = symbolTable.getIterator();
+		
 	    while (iterator.hasNext()) {
 	    	Entry<Identifier, SymbolTableEntry> pair = iterator.next();
 	    	Identifier pairKey = (Identifier) pair.getKey();
 
-	    	if (pairKey.getIdentifier().equals(identifier.getIdentifier())) {
+	    	if (pairKey.equals(identifier)) {
 				return true;
 			}
 
@@ -145,7 +145,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		return false;
 	}
 	
-	private boolean checkExistanceLabel(Question question) {
+	private boolean checkForDuplicateLabel(Question question) {
 		for (String currentLabel : labels) {
 			if (currentLabel.equals(question.getLabel())) {
 				messageHandler.addWarningMessage(new DuplicateLabels(question.getIdentifier(), question.getLabel()));

@@ -68,11 +68,11 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComputedquestion(QLParser.ComputedquestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#questiontype}.
+	 * Visit a parse tree produced by {@link QLParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestiontype(QLParser.QuestiontypeContext ctx);
+	T visitType(QLParser.TypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#label}.
 	 * @param ctx the parse tree

@@ -12,25 +12,29 @@ public class Identifier extends Expression {
 		this.lit = lit;
 	}
 
-	// @TODO ADD TOSTRING HERE SO WE DONT HAVE TO CALL THIS THING ALL THE TIME?
 	public String getIdentifier() {
 		return lit;
 	}
-	
+
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
+	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
-	
+
 	@Override
 	public boolean equals(Object ob) {
 		Identifier id = (Identifier) ob;
 		return lit.equals(id.getIdentifier());
 	}
-	
+
 	@Override
-	public int hashCode(){
-	    return lit.hashCode();
-    }
-	
+	public int hashCode() {
+		return lit.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return lit;
+	}
+
 }

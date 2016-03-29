@@ -2,8 +2,8 @@ package ql;
 
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
-import ql.ast.visitor.CyclicDependencyChecker;
-import ql.ast.visitor.FindAllDeclaredQuestions;
+import ql.ast.visitor.DependencyChecker;
+import ql.ast.visitor.DeclaredQuestionVisitor;
 import ql.ast.visitor.TypeChecker;
 
 public class SemanticAnalyser {
@@ -31,7 +31,7 @@ public class SemanticAnalyser {
 	}
 
 	private void findVariables(Form form) {
-		FindAllDeclaredQuestions<Object> fadq = new FindAllDeclaredQuestions<>(context);
+		DeclaredQuestionVisitor<Object> fadq = new DeclaredQuestionVisitor<>(context);
 		fadq.visit(form);
 		context = fadq.getContext();
 	}
@@ -43,7 +43,7 @@ public class SemanticAnalyser {
 	}
 
 	private void cyclicDependenciesCheck(Form form) {
-		CyclicDependencyChecker<Object> cdc = new CyclicDependencyChecker<>(context);
+		DependencyChecker<Object> cdc = new DependencyChecker<>(context);
 		cdc.visit(form);
 		cdc.findCyclicDependencies();
 		context = cdc.getContext();

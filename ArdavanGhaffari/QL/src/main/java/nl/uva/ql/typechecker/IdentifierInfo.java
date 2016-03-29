@@ -22,7 +22,7 @@ public class IdentifierInfo {
 		return dependencies;
 	}
 	
-	public void updateDependencies(Set<String> dependencies) {
+	public void setDependencies(Set<String> dependencies) {
 		/* TODO: Use this
 		 * initialize your your dependencies either at line 9 or in the constructor
 		assert dependencies != null;		

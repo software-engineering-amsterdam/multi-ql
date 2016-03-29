@@ -1,7 +1,7 @@
 package ql.ast.statement;
 
 import ql.ast.literal.Variable;
-import ql.ast.types.ValueType;
+import ql.ast.type.ValueType;
 import ql.ast.visitor.Visitor;
 
 public class InputQuestion extends Question {

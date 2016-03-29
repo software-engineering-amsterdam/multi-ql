@@ -6,7 +6,7 @@ import nl.uva.sea.ql.answerTable.*;
  * Representation of "greater than" comparisons in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 26-mar-2016
  */
 public class GT extends OrderedComparisonExpr {
     
@@ -33,8 +33,8 @@ public class GT extends OrderedComparisonExpr {
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) getFirstExpr().eval(answerTable);
-        NumericValue secondValue = (NumericValue) getSecondExpr().eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(getFirstExpr().eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(getSecondExpr().eval(answerTable));
         return firstValue.ternaryGreaterThan(secondValue);
     }
     

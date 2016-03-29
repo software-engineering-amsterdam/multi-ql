@@ -7,20 +7,18 @@ import javax.swing.JTextField;
 
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
-import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.StringValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
 
 public class TextQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JTextField field;
-	private Label label;
 	private Observer main;
 	private StringValue value;
 
-	public TextQuestionField(QuestionFieldParameter params) {
+	public TextQuestionField(QuestionFieldArguments params) {
 		this.identifier = params.getIdentifier();
 		this.main = params.getMain();
 		
@@ -45,8 +43,8 @@ public class TextQuestionField extends QuestionField {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				StringValue value = new StringValue(field.getText());
-				main.fieldValueChanged(identifier, value);
-				main.updateAllPanels();
+				main.updateValueInStateTable(identifier, value);
+				main.updateGUIPanels();
 			}
 			
 		});
@@ -63,10 +61,6 @@ public class TextQuestionField extends QuestionField {
 	
 	public boolean equalValues(Value value) {
 		return value.equals(this.value);
-	}
-	
-	public void setFeedbackLabel(Label label) {
-		this.label = label;
 	}
 	
 	public JTextField getField() {

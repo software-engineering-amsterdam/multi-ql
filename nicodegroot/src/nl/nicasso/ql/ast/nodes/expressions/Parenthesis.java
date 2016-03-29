@@ -21,23 +21,24 @@ public class Parenthesis extends Unary {
 	public Expression getExpr() {
 		return expr;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "(" + expr + ")";
 	}
-	
+
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
+	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 
 	@Override
 	public Type inferType(Type exprType) {
-		if (exprType.equals(new BooleanType()) || exprType.equals(new IntegerType()) || exprType.equals(new MoneyType()) || exprType.equals(new StringType())) {
+		if (exprType.equals(new BooleanType()) || exprType.equals(new IntegerType()) || exprType.equals(new MoneyType())
+				|| exprType.equals(new StringType())) {
 			return exprType;
 		}
 
-		return new UnknownType();		
+		return new UnknownType();
 	}
 }

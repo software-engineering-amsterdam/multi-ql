@@ -6,7 +6,7 @@ import nl.nicasso.ql.ast.nodes.types.Type;
 public abstract class Unary extends Expression {
 
 	private Expression expr;
-	
+
 	public Unary(CodeLocation location) {
 		super(location);
 	}
@@ -14,6 +14,6 @@ public abstract class Unary extends Expression {
 	public Expression getExpr() {
 		return expr;
 	}
-	
+
 	public abstract Type inferType(Type exprType);
 }

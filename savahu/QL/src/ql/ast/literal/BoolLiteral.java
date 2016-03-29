@@ -5,7 +5,9 @@
  */
 package ql.ast.literal;
 
-import ql.ast.expression.Expr;
+import ql.ast.IVisitor;
+import ql.ast.type.BoolType;
+import ql.ast.type.Type;
 
 /**
  *
@@ -21,6 +23,21 @@ public class BoolLiteral extends Literal {
 
     public Boolean getValue() {
         return this.value;
+    }
+
+    @Override
+    public Type getType() {
+        return new BoolType();
+    }
+
+    @Override
+    public void visitChildren(IVisitor visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void accept(IVisitor visitor) {
+        visitor.visit(this);
     }
 
 }

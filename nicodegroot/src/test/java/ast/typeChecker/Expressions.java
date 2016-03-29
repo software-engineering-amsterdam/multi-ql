@@ -17,131 +17,139 @@ import nl.nicasso.ql.ast.nodes.expressions.multiplicative.Multiplication;
 import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
 import nl.nicasso.ql.ast.nodes.literals.IntegerLiteral;
 import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
+import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
+import nl.nicasso.ql.ast.nodes.types.BooleanType;
 import nl.nicasso.ql.ast.nodes.types.IntegerType;
 import nl.nicasso.ql.ast.nodes.types.MoneyType;
+import nl.nicasso.ql.ast.nodes.types.StringType;
 import nl.nicasso.ql.ast.nodes.types.Type;
 import nl.nicasso.ql.semanticAnalysis.TypeChecker;
 
 public class Expressions {
 	
+	private final TypeChecker typeChecker = new TypeChecker();
+	
+	private final IntegerLiteral testInteger = new IntegerLiteral(1);
+	private final MoneyLiteral testMoney = new MoneyLiteral(BigDecimal.valueOf(1.00));
+	private final BooleanLiteral testBoolean = new BooleanLiteral(true);
+	private final StringLiteral testString = new StringLiteral("a");
+	
 	@Test
-	public void testAddition() {
-		Addition addition = new Addition(new IntegerLiteral(1), new IntegerLiteral(1), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(addition);
-		
-		Assert.assertEquals(type.getType(), "Integer");
+	public void testInteger() {
+		IntegerLiteral integerLiteral = testInteger;
+		Type type = typeChecker.visit(integerLiteral, null);
+		Assert.assertEquals(type, new IntegerType());
 	}
 	
 	@Test
-	public void testAdditionMoney() {
-		Addition addition = new Addition(new MoneyLiteral(BigDecimal.valueOf(1.00)), new MoneyLiteral(BigDecimal.valueOf(1.00)), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(addition);
-		
-		Assert.assertEquals(type.getType(), "Money");
+	public void testMoney() {
+		MoneyLiteral moneyLiteral = testMoney;
+		Type type = typeChecker.visit(moneyLiteral, null);
+		Assert.assertEquals(type, new MoneyType());
 	}
 	
 	@Test
-	public void testSubtraction() {
-		Subtraction subtraction = new Subtraction(new IntegerLiteral(1), new IntegerLiteral(1), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(subtraction);
-		
-		Assert.assertEquals(type.getType(), "Integer");
+	public void testString() {
+		StringLiteral stringLiteral = testString;
+		Type type = typeChecker.visit(stringLiteral, null);
+		Assert.assertEquals(type, new StringType());
+	}
+	
+	@Test
+	public void testBoolean() {
+		BooleanLiteral booleanLiteral = testBoolean;
+		Type type = typeChecker.visit(booleanLiteral, null);
+		Assert.assertEquals(type, new BooleanType());
+	}
+	
+	@Test
+	public void testAdditionWithInteger() {
+		Addition addition = new Addition(testInteger, testInteger, null);
+		Type type = typeChecker.visit(addition, null);
+		Assert.assertEquals(type, new IntegerType());
+	}
+	
+	@Test
+	public void testAdditionWithMoney() {
+		Addition addition = new Addition(testMoney, testMoney, null);
+		Type type = typeChecker.visit(addition, null);
+		Assert.assertEquals(type, new MoneyType());
+	}
+	
+	@Test
+	public void testSubtractionWithInteger() {
+		Subtraction subtraction = new Subtraction(testInteger, testInteger, null);
+		Type type = typeChecker.visit(subtraction, null);
+		Assert.assertEquals(type, new IntegerType());
+	}
+	
+	@Test
+	public void testSubtractionWithMoney() {
+		Subtraction subtraction = new Subtraction(testMoney, testMoney, null);
+		Type type = typeChecker.visit(subtraction, null);
+		Assert.assertEquals(type, new MoneyType());
 	}
 	
 	@Test
 	public void testNot() {
-		Not negation = new Not(new BooleanLiteral(true), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(negation);
-		
-		Assert.assertEquals(type.getType(), "Boolean");
+		Not negation = new Not(testBoolean, null);
+		Type type = typeChecker.visit(negation, null);
+		Assert.assertEquals(type, new BooleanType());
 	}
 	
 	@Test
 	public void testAnd() {
-		And and = new And(new BooleanLiteral(true), new BooleanLiteral(true), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(and);
-		
-		Assert.assertEquals(type.getType(), "Boolean");
+		And and = new And(testBoolean, testBoolean, null);
+		Type type = typeChecker.visit(and, null);
+		Assert.assertEquals(type, new BooleanType());
 	}
 	
 	@Test
 	public void testOr() {
-		Or or = new Or(new BooleanLiteral(true), new BooleanLiteral(true), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(or);
-		
-		Assert.assertEquals(type.getType(), "Boolean");
+		Or or = new Or(testBoolean, testBoolean, null);
+		Type type = typeChecker.visit(or, null);
+		Assert.assertEquals(type, new BooleanType());
 	}
 	
 	@Test
 	public void testEqual() {
-		Equal equal = new Equal(new BooleanLiteral(true), new BooleanLiteral(true), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(equal);
-		
-		Assert.assertEquals(type.getType(), "Boolean");
+		Equal equal = new Equal(testBoolean, testBoolean, null);
+		Type type = typeChecker.visit(equal, null);
+		Assert.assertEquals(type, new BooleanType());
 	}
 	
 	@Test
 	public void testNotEqual() {
-		NotEqual notEqual = new NotEqual(new BooleanLiteral(true), new BooleanLiteral(true), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(notEqual);
-		
-		Assert.assertEquals(type.getType(), "Boolean");
+		NotEqual notEqual = new NotEqual(testBoolean, testBoolean, null);
+		Type type = typeChecker.visit(notEqual, null);
+		Assert.assertEquals(type, new BooleanType());
 	}
-	
-	@Test
-	public void testDivision() {
-		Division division = new Division(new IntegerLiteral(10), new IntegerLiteral(2), null);
 
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(division);
-		
+	@Test
+	public void testDivisionWithInteger() {
+		Division division = new Division(testInteger, testInteger, null);
+		Type type = typeChecker.visit(division, null);
 		Assert.assertEquals(type, new IntegerType());
 	}
 	
 	@Test
-	public void testMultiplication() {
-		Multiplication multiplication = new Multiplication(new IntegerLiteral(10), new IntegerLiteral(2), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(multiplication);
-				
+	public void testDivisionWithIntegerAndMoney() {
+		Division division = new Division(testMoney, testInteger, null);
+		Type type = typeChecker.visit(division, null);
+		Assert.assertEquals(type, new MoneyType());
+	}
+	
+	@Test
+	public void testMultiplicationWithInteger() {
+		Multiplication multiplication = new Multiplication(testInteger, testInteger, null);
+		Type type = typeChecker.visit(multiplication, null);
 		Assert.assertEquals(type, new IntegerType());
 	}
 	
 	@Test
-	public void testMultiplicationCombined() {
-		Multiplication multiplication = new Multiplication(new IntegerLiteral(2), new MoneyLiteral(BigDecimal.valueOf(3.00)), null);
-
-		TypeChecker visitor = new TypeChecker(null, null);
-		
-		Type type = visitor.visit(multiplication);
-				
+	public void testMultiplicationWitIntegerAndhMoney() {
+		Multiplication multiplication = new Multiplication(testMoney, testInteger, null);
+		Type type = typeChecker.visit(multiplication, null);
 		Assert.assertEquals(type, new MoneyType());
 	}
 }

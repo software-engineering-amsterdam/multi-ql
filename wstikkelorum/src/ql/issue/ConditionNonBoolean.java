@@ -1,7 +1,7 @@
 package ql.issue;
 
 import ql.ast.expression.Expression;
-import ql.ast.types.ValueType;
+import ql.ast.type.ValueType;
 
 public class ConditionNonBoolean extends Issue {
 	public ConditionNonBoolean(Expression expression, ValueType expectedType, ValueType actualType) {

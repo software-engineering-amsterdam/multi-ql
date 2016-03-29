@@ -1,4 +1,4 @@
-module Simplify (simplify)
+module Simplify (simplify, S.Form)
        where
 
 import AnnotatedAst as A
@@ -54,7 +54,7 @@ sBlock (x:xs) = sStmnt x: sBlock xs
 sStmnt :: Statement a -> Stmnt
 sStmnt (A.Field _ x) = S.Field $ sField x
 sStmnt (A.If _ expr block) = S.If ( sExpr expr) (sBlock block)
-sStmnt (A.IfElse{}) = error "Not supported"
+sStmnt A.IfElse{} = error "Not supported"
 
 sField :: A.Field a -> S.Field
 sField (A.SimpleField _ info) = S.SimpField $ sFieldInfo info

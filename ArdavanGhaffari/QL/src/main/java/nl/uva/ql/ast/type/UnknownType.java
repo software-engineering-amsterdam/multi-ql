@@ -10,6 +10,19 @@ public class UnknownType extends Type{
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof UnknownType){
+			return this.getName().equals(((UnknownType)obj).getName());
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isUnknownType(){
+		return true;
+	}
+	
+	@Override
 	public Widget accept(TypeVisitor typeVisitor) {
 		return typeVisitor.visit(this);
 	}

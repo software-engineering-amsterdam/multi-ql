@@ -7,7 +7,6 @@ public class SymbolTableEntry {
 	private Type type;
 	
 	public SymbolTableEntry(Type type) {
-		super();
 		this.type = type;
 	}
 

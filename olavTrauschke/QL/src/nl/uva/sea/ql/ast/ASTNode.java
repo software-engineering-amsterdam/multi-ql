@@ -6,4 +6,4 @@ package nl.uva.sea.ql.ast;
  * @author Olav Trauschke
  * @version 24-feb-2016
  */
-public abstract class ASTNode implements VisitableASTNode {}
+public abstract class ASTNode implements Visitable {}

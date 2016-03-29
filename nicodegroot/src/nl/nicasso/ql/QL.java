@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import nl.nicasso.ql.antlr.QLLexer;
 import nl.nicasso.ql.antlr.QLParser;
-import nl.nicasso.ql.ast.CreateAST;
+import nl.nicasso.ql.ast.CreateAbstractSyntaxTree;
 import nl.nicasso.ql.ast.nodes.structures.Form;
 import nl.nicasso.ql.gui.Gui;
 import nl.nicasso.ql.gui.MainFrame;
@@ -23,47 +23,40 @@ public class QL {
 	public final static String DSLFILE = "exampleQuestionnaire";
 	
 	public void start() {
-		ANTLRInputStream input = readInputDSL();
-		
-		QLLexer lexer = new QLLexer(input);
+		QLLexer lexer = new QLLexer(readInputDSL());
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		
-		QLParser parser = new QLParser(tokens);		
-		ParseTree parseTree = parser.form();
-				
-		SymbolTable symbolTable = new SymbolTable();
-		StateTable stateTable = new StateTable();
+		ParseTree parseTree =  new QLParser(tokens).form();
         
-        CreateAST astVisitor = new CreateAST();
-        Form ast = (Form) parseTree.accept(astVisitor);
+        Form abstractSyntaxTree = new CreateAbstractSyntaxTree(parseTree).getAbstractSyntaxTree();
         
-        SemanticAnalysis semantics = new SemanticAnalysis(ast, symbolTable, stateTable);        
+        StateTable stateTable = new StateTable();
+        
+        SemanticAnalysis semantics = new SemanticAnalysis(abstractSyntaxTree, new SymbolTable(), stateTable);        
 
         MainFrame window = new MainFrame(stateTable, semantics.getMessages());
         
         if (!semantics.containsErrors()) {
-	        Gui guiVisitor = new Gui(stateTable, window);
-	        ast.accept(guiVisitor, null);
+			new Gui(abstractSyntaxTree, stateTable, window);
         }
 	}
 	
 	private ANTLRInputStream readInputDSL() {
-		File file = new File(DSLFILE);
-	    FileInputStream fis;
+		File dslFile = new File(DSLFILE);
+	    FileInputStream inputStream;
 	    ANTLRInputStream input = null;
 	    
 		try {
-			fis = new FileInputStream(file);
-			input = new ANTLRInputStream(fis);
-			fis.close();
+			inputStream = new FileInputStream(dslFile);
+			input = new ANTLRInputStream(inputStream);
+			inputStream.close();
 			return input;
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+			exception.printStackTrace();
 			return null;
 		}
 	}
 	
-	public static void main( String[] args) throws Exception {
+	public static void main( String[] arguments) throws Exception {
 		System.out.print("LET'S GO!\n");
 		
 		QL ql = new QL();

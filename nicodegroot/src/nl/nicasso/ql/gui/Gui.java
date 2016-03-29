@@ -17,7 +17,6 @@ import nl.nicasso.ql.ast.nodes.types.BooleanType;
 import nl.nicasso.ql.ast.nodes.types.IntegerType;
 import nl.nicasso.ql.ast.nodes.types.MoneyType;
 import nl.nicasso.ql.ast.nodes.types.StringType;
-import nl.nicasso.ql.gui.evaluator.Evaluator;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.ComputedQuestionPanel;
@@ -32,24 +31,21 @@ import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 import nl.nicasso.ql.visitors.TypeVisitor;
 
-public class Gui implements StructureVisitor<List<Panel>, Expression>, StatementVisitor<List<Panel>, Expression>, TypeVisitor<QuestionField, QuestionFieldParameter> {
+public class Gui implements StructureVisitor<List<Panel>, Expression>, StatementVisitor<List<Panel>, Expression>, TypeVisitor<QuestionField, QuestionFieldArguments> {
 	
-	private boolean debug = true;
 	private MainFrame main;
 	private StateTable stateTable;
 	
-	public Gui(StateTable stateTable, MainFrame main) {
+	public Gui(Form ast, StateTable stateTable, MainFrame main) {
 		this.stateTable = stateTable;
 		this.main = main;
+		
+		ast.accept(this, null);
 	}
 	
 	@Override
-	public List<Panel> visit(Form value, Expression ignore) {
-		if (debug) {
-			System.out.println("Form");
-		}
-
-		List<Panel> blockPanel = value.getBlock().accept(this, new BooleanLiteral(true));
+	public List<Panel> visit(Form structure, Expression ignore) {
+		List<Panel> blockPanel = structure.getBlock().accept(this, new BooleanLiteral(true));
 		
 		for (Panel p : blockPanel) {
 			main.addPanel(p);
@@ -61,33 +57,22 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 	}
 
 	@Override
-	public List<Panel> visit(Block value, Expression expr) {
-		if (debug) {
-			System.out.println("Block");
-		}
-		
+	public List<Panel> visit(Block structure, Expression expr) {
 		List<Panel> panelList = new ArrayList<Panel>();
 
-		// @TODO Improve
-		for (Statement cur : value.getStatements()) {
+		for (Statement cur : structure.getStatements()) {
 			List<Panel> panels = cur.accept(this, expr);
-			for (Panel p : panels) {
-				panelList.add(p);	
-			}
+			panelList.addAll(panels);	
 		}
 
 		return panelList;
 	}
 
 	@Override
-	public List<Panel> visit(Question question, Expression expr) {
-		if (debug) {
-			System.out.println("Question: "+question.getIdentifier().getIdentifier());
-		}
+	public List<Panel> visit(Question statement, Expression expression) {
+		QuestionField field = statement.getType().accept(this, new QuestionFieldArguments(statement.getIdentifier(), main, true, statement.getType().getDefaultValue()));
 		
-		QuestionField field = question.getType().accept(this, new QuestionFieldParameter(question.getIdentifier(), main, true, question.getType().getDefaultValue()));
-		
-		QuestionPanel qp = new QuestionPanel(question, field, expr, stateTable);
+		QuestionPanel qp = new QuestionPanel(statement, field, expression, stateTable);
 		
 		List<Panel> panels = new ArrayList<Panel>();
 		panels.add(qp);
@@ -96,48 +81,31 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 	}
 
 	@Override
-	public List<Panel> visit(ComputedQuestion question, Expression expr) {
-		if (debug) {
-			System.out.println("ComputedQuestion: "+question.getIdentifier().getIdentifier());
-		}
-		
-		Value value = stateTable.getEntryValue(question.getIdentifier());
-		
-		System.out.println("VALUE CQ: "+value.getValue());
-		
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(question.getIdentifier(), main, false, value);
-		QuestionField field = question.getType().accept(this, questionFieldParameterObject);
-		
-		ComputedQuestionPanel qp = new ComputedQuestionPanel(question, field, value, expr, stateTable, main);
-		
-		List<Panel> panels = new ArrayList<Panel>();
-		panels.add(qp);
-
-		return panels;
-	}
-
-	@Override
-	public List<Panel> visit(IfStatement value, Expression expr) {
-		if (debug) {
-			System.out.println("IfStatement");
-		}
+	public List<Panel> visit(ComputedQuestion statement, Expression expression) {
+		Value value = stateTable.getEntryValue(statement.getIdentifier());
 				
-		Evaluator evaluator = new Evaluator(stateTable);
-		value.getExpr().accept(evaluator);
+		QuestionFieldArguments questionFieldParameterObject = new QuestionFieldArguments(statement.getIdentifier(), main, false, value);
 		
-		List<Panel> ifBlockPanel = value.getBlock_if().accept(this, value.getExpr());
+		QuestionField field = statement.getType().accept(this, questionFieldParameterObject);
+		
+		List<Panel> panels = new ArrayList<Panel>();
+		ComputedQuestionPanel qp = new ComputedQuestionPanel(statement, field, value, expression, stateTable, main);
+		panels.add(qp);
+
+		return panels;
+	}
+
+	@Override
+	public List<Panel> visit(IfStatement statement, Expression expression) {
+		List<Panel> ifBlockPanel = statement.getBlock_if().accept(this, statement.getExpr());
 		
 		return ifBlockPanel;
 	}
 
 	@Override
-	public List<Panel> visit(IfElseStatement value, Expression expr) {
-		if (debug) {
-			System.out.println("IfElseStatement");
-		}
-		
-		List<Panel> ifBlockPanel = value.getBlock_if().accept(this, value.getExpr());
-		List<Panel> elseBlockPanel = value.getBlock_else().accept(this, new Not(value.getExpr(), null));
+	public List<Panel> visit(IfElseStatement statement, Expression expression) {
+		List<Panel> ifBlockPanel = statement.getBlock_if().accept(this, statement.getExpr());
+		List<Panel> elseBlockPanel = statement.getBlock_else().accept(this, new Not(statement.getExpr(), null));
 		
 		ifBlockPanel.addAll(elseBlockPanel);
 		
@@ -145,23 +113,23 @@ public class Gui implements StructureVisitor<List<Panel>, Expression>, Statement
 	}
 
 	@Override
-	public QuestionField visit(BooleanType value, QuestionFieldParameter params) {
-		return new BooleanQuestionField(params);
+	public QuestionField visit(BooleanType type, QuestionFieldArguments context) {
+		return new BooleanQuestionField(context);
 	}
 
 	@Override
-	public QuestionField visit(MoneyType value, QuestionFieldParameter params) {
-		return new MoneyQuestionField(params);
+	public QuestionField visit(MoneyType type, QuestionFieldArguments context) {
+		return new MoneyQuestionField(context);
 	}
 
 	@Override
-	public QuestionField visit(StringType value, QuestionFieldParameter params) {
-		return new TextQuestionField(params);
+	public QuestionField visit(StringType type, QuestionFieldArguments context) {
+		return new TextQuestionField(context);
 	}
 
 	@Override
-	public QuestionField visit(IntegerType value, QuestionFieldParameter params) {
-		return new IntegerQuestionField(params);
+	public QuestionField visit(IntegerType type, QuestionFieldArguments context) {
+		return new IntegerQuestionField(context);
 	}
 
 }

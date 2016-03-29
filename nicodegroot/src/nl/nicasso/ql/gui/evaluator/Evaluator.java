@@ -37,201 +37,194 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class Evaluator implements StructureVisitor<Value, Void>, StatementVisitor<Value, Void>, ExpressionVisitor<Value> {
+public class Evaluator implements StructureVisitor<Void, StateTable>, StatementVisitor<Void, StateTable>, ExpressionVisitor<Value, StateTable> {
 	
-	private StateTable stateTable;
-	
-	public Evaluator(StateTable stateTable) {
-		this.stateTable = stateTable;
-	}
-
 	@Override
-	public Value visit(And value) {	
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
-				
+	public Value visit(And expression, StateTable stateTable) {	
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
+
 		return left.equal(right);
 	}
 	
 	@Override
-	public Value visit(Addition value) {		
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Addition expression, StateTable stateTable) {		
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.addition(right);
 	}
 
 	@Override
-	public Value visit(Subtraction value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Subtraction expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.subtraction(right);
 	}
 
 	@Override
-	public Value visit(Or value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Or expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.or(right);
 	}
 
 	@Override
-	public Value visit(Not value) {
-		Value exprValue = value.getExpr().accept(this);
+	public Value visit(Not expression, StateTable stateTable) {
+		Value exprValue = expression.getExpr().accept(this, stateTable);
 		
 		return exprValue.not();
 	}
 
 	@Override
-	public Value visit(Parenthesis value) {		
-		Value exprValue = value.getExpr().accept(this);
+	public Value visit(Parenthesis expression, StateTable stateTable) {		
+		Value exprValue = expression.getExpr().accept(this, stateTable);
 		
 		return exprValue;
 	}
 
 	@Override
-	public Value visit(Equal value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Equal expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.equal(right);
 	}
 
 	@Override
-	public Value visit(NotEqual value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);	
+	public Value visit(NotEqual expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);	
 		
 		return left.notEqual(right);
 	}
 
 	@Override
-	public Value visit(Division value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Division expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.division(right);
 	}
 
 	@Override
-	public Value visit(Multiplication value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Multiplication expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.multiplication(right);
 	}
 
 	@Override
-	public Value visit(Greater value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Greater expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.greater(right);
 	}
 
 	@Override
-	public Value visit(GreaterEqual value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(GreaterEqual expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.greaterEqual(right);
 	}
 
 	@Override
-	public Value visit(Less value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(Less expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.less(right);
 	}
 
 	@Override
-	public Value visit(LessEqual value) {
-		Value left = value.getLeft().accept(this);
-		Value right = value.getRight().accept(this);
+	public Value visit(LessEqual expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.lessEqual(right);
 	}
 
 	@Override
-	public Value visit(Form value, Void ignore) {
-		value.getBlock().accept(this, null);
+	public Void visit(Form structure, StateTable stateTable) {
+		structure.getBlock().accept(this, stateTable);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(Block value, Void ignore) {
-		for (Statement cur : value.getStatements()) {
-			cur.accept(this, ignore);
+	public Void visit(Block structure, StateTable stateTable) {
+		for (Statement cur : structure.getStatements()) {
+			cur.accept(this, stateTable);
 		}
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(Question value, Void context) {
-		// getDefaultValue? Is this ugly?!
-		StateTableEntry ste = new StateTableEntry(value.getType().getDefaultValue());
-		stateTable.addState(value.getIdentifier(), ste);
+	public Void visit(Question statement, StateTable stateTable) {
+		StateTableEntry ste = new StateTableEntry(statement.getDefaultValue());
+		stateTable.add(statement.getIdentifier(), ste);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(ComputedQuestion value, Void context) {
-		Value exprValue = value.getExpr().accept(this);
+	public Void visit(ComputedQuestion statement, StateTable stateTable) {
+		Value exprValue = statement.getExpr().accept(this, stateTable);
 
 		StateTableEntry ste = new StateTableEntry(exprValue);
-		stateTable.addState(value.getIdentifier(), ste);                                                             
+		stateTable.add(statement.getIdentifier(), ste);                                                             
 
 		return null;
 	}
 
 	@Override
-	public Value visit(IfStatement value, Void context) {
-		value.getExpr().accept(this);
-		value.getBlock_if().accept(this, null);
+	public Void visit(IfStatement statement, StateTable stateTable) {
+		statement.getExpr().accept(this, stateTable);
+		statement.getBlock_if().accept(this, stateTable);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(IfElseStatement value, Void context) {
-		value.getExpr().accept(this);
-		value.getBlock_if().accept(this, null);
-		value.getBlock_else().accept(this, null);
+	public Void visit(IfElseStatement statement, StateTable stateTable) {
+		statement.getExpr().accept(this, stateTable);
+		statement.getBlock_if().accept(this, stateTable);
+		statement.getBlock_else().accept(this, stateTable);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(BooleanLiteral value) {
-		return new BooleanValue(value.getValue());
+	public Value visit(BooleanLiteral expression, StateTable stateTable) {
+		return new BooleanValue(expression.getValue());
 	}
 
 	@Override
-	public Value visit(Identifier value) {		
-		StateTableEntry entry = stateTable.getEntry(value);
+	public Value visit(Identifier expression, StateTable stateTable) {		
+		StateTableEntry entry = stateTable.getEntry(expression);
 						
 		return entry.getValue();
 	}
 
 	@Override
-	public Value visit(IntegerLiteral value) {
-		return new IntegerValue((Integer) value.getValue());
+	public Value visit(IntegerLiteral expression, StateTable stateTable) {
+		return new IntegerValue((Integer) expression.getValue());
 	}
 
 	@Override
-	public Value visit(StringLiteral value) {
-		return new StringValue(value.getValue());
+	public Value visit(StringLiteral expression, StateTable stateTable) {
+		return new StringValue(expression.getValue());
 	}
 
 	@Override
-	public Value visit(MoneyLiteral value) {
-		return new MoneyValue(value.getValue());
+	public Value visit(MoneyLiteral expression, StateTable stateTable) {
+		return new MoneyValue(expression.getValue());
 	}
 
 }

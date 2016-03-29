@@ -20,7 +20,7 @@ public class DuplicateIdentifier extends ErrorMessage {
 	}
 	
 	public String getMessage() {
-		return MessageFormat.format(DuplicateIdentifier.MESSAGE, identifier.getIdentifier(), identifier.getLocation());
+		return MessageFormat.format(DuplicateIdentifier.MESSAGE, identifier, identifier.getLocation());
 	}
 
 }
