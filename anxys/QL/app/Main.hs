@@ -13,32 +13,33 @@ import System.Environment
 import System.IO
 import System.Exit
 import Control.Monad as C
+import GUIError
 
-displayError :: Show a => a -> IO () 
-displayError = hPrint stderr
-
-gui :: A.Form -> IO ()
-gui astForm = do
-  f <- frame [text := formName astForm, visible:= True]
+gui :: Show a => [a] -> A.Form -> IO ()
+gui warnings astForm = do
+  f <- frame [text:= formName astForm, visible:= True]
+  unless (null warnings) $ showWarningDialog f (show warnings)
   context <- initializeGUIContext f astForm
   _ <- addToLayout f (guiElements context)
   return ()
     where formName (A.Form name _) = name
 
+-- For some reason wx tries to consumes the args supplied at the command line so we have to clear them first
+loadUI :: IO a -> IO ()
+loadUI = (withArgs []). start
+
 main :: IO ()
 main = do
   arg <- getArgs
   C.when (length arg /= 1) $ do
-    displayError "Incorrect number of arguments. Must provide a fileName"
-    exitFailure
+    loadUI (showFatalErrorDialog argumentErrorTitle argumentErrorMsg)
   result <- parseFile (getFileName arg) 
   case result of
     Left e -> do
-      displayError  e
+      loadUI (showFatalErrorDialog loadingErrorTitle (show e))
       exitFailure
     Right (x,y) -> do
-      mapM_ displayError x
-      withArgs [] (start (gui y)) -- For some reason wx tries to consumes the args so we have to clear them first
+      loadUI $ gui x y 
   return ()
     where getFileName = head
 

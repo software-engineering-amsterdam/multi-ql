@@ -4,6 +4,7 @@ import Graphics.UI.WX
 import Value
 import Identifier
 import GUIElement
+import GUIError
 import Ast as A
 import Data.Maybe
 import Interpreter
@@ -21,7 +22,7 @@ initializeGUIContext f astForm = do
   envRef <- varCreate initialEnv
   elems <- mapM (createElem (ctx [] envRef)) questionFields
   context <- createContext elems envRef
-  _ <- mapM_ (addHandler context) elems
+  mapM_ (addHandler context) elems
   updateGUI context
   return context
   where initialEnv = case exec astForm E.emptyEnv of
@@ -98,38 +99,51 @@ createElem' ctx info isNotReadOnly = case fieldType info of
            configureReadOnly = setReadOnly isReadOnly
            isReadOnly = not isNotReadOnly
 
+updateGUIContext :: GUIContext -> Identifier -> Value -> IO ()
+updateGUIContext ctx fieldIdentifier newValue = do
+   oldEnv <- varGet envRef 
+   varSet envRef (getNewEnv astForm (E.declare oldEnv fieldIdentifier newValue))
+   return ()
+ where astForm = form ctx
+       envRef = environment ctx
+
+handleNewValue :: GUIContext -> Bool -> Identifier -> Value -> IO ()
+handleNewValue ctx isReadOnly fieldIdentifier newValue = do
+  unless isReadOnly $ updateGUIContext ctx fieldIdentifier newValue 
+  updateGUI ctx
+  return ()
+
 addHandler :: GUIContext -> GUIElement -> IO ()
 addHandler ctx elem@(Checkbox info _ cBox) = do
-     _ <- set cBox [ on command := (do
-                         result <- getElementValue elem 
-                         env <- varGet (environment ctx)
-                         case result of
-                           Left e -> error (show e) -- This should not happen with checkboxes
-                           Right newValue -> do 
-                             unless (readOnly info) $ varSet (environment ctx) (getNewEnv astForm (E.declare env fieldIdentifier newValue))
-                             updateGUI ctx
-                             return ())
-                      ]
-     return ()
+    set cBox [ on command := 
+                    (
+                     do
+                       result <- getElementValue elem 
+                       env <- varGet (environment ctx)
+                       case result of
+                         Left e -> error (show e) -- This should not happen with checkboxes
+                         Right newValue -> handleNewValue ctx (readOnly info)  fieldIdentifier newValue 
+                    )
+             ]
+    return ()
     where fieldIdentifier = identifier info
           astForm = form ctx
-          
 addHandler ctx elem@(Text info _ textField) = do
-  set textField [ on leave := (\_ -> do
-                                           env <- varGet (environment ctx)
-                                           result <- getElementValue elem 
-                                           case result of
-                                             Left err -> do
-                                               print err
-                                               unless (readOnly info) $ do
-                                                 setValueFromEnv env elem
-                                                 errorDialog (appFrame ctx) "Input Error" (show err)
-                                               return ()
-                                             Right newValue -> do 
-                                               print (readOnly info)
-                                               unless (readOnly info) $  varSet (environment ctx) (getNewEnv astForm (E.declare env fieldIdentifier newValue))
-                                               updateGUI ctx
-                                               return ())]
+  set textField [ on leave := 
+                 (
+                  \_ -> 
+                    do
+                      env <- varGet (environment ctx)
+                      result <- getElementValue elem 
+                      case result of
+                        Left err -> 
+                          unless (readOnly info) $ do
+                            setValueFromEnv env elem
+                            showUserInputErrorDialog (appFrame ctx) (show err)
+                            return ()
+                        Right newValue -> handleNewValue ctx (readOnly info)  fieldIdentifier newValue 
+                  )
+                 ]
   return ()
-   where fieldIdentifier = identifier info
-         astForm = form ctx
+  where fieldIdentifier = identifier info
+        astForm = form ctx
