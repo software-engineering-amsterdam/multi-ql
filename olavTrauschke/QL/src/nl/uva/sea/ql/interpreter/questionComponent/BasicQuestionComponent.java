@@ -32,7 +32,7 @@ public class BasicQuestionComponent extends JComponent
     
     private final List<QuestionComponentListener> listeners;
     
-    private final QuestionComponent concreteQuestion;
+    private final ConcreteQuestionComponent concreteQuestion;
     
     private boolean isToDisplay;
     private Value value;
@@ -62,7 +62,7 @@ public class BasicQuestionComponent extends JComponent
      *                              <code>BasicQuestion</code> for concistency
      */
     BasicQuestionComponent(Expr conditionForDisplay, Question theQuestion,
-            AnswerTable theAnswerTable, QuestionComponent theConcreteQuestion) {
+            AnswerTable theAnswerTable, ConcreteQuestionComponent theConcreteQuestion) {
         assert conditionForDisplay != null;
         assert theQuestion != null;
         assert theAnswerTable != null;
@@ -119,7 +119,7 @@ public class BasicQuestionComponent extends JComponent
         }
         
         if (isComputedQuestion && identifiersInCalculation.contains(identifier)) {
-            setValue(question.evalCalculation(answerTable)); 
+            setValue(question.evalCalculation(answerTable), true); 
         }
     }
     
@@ -192,11 +192,17 @@ public class BasicQuestionComponent extends JComponent
      *                  question (i.e. its <code>calculation != null</code>) it
      *                  must be the <code>Value</code> this <code>Expr</code>
      *                  currently evaluates to
+     * @param changeDisplay a <code>boolean</code> telling whether the display
+     *                      still needs to be changed (or a display change was
+     *                      the reason for this call)
      */
-    void setValue(Value newValue) {
+    void setValue(Value newValue, boolean changeDisplay) {
         if (!newValue.equals(value)) {
             value = newValue;
             answerTable.update(question.getIdentifier(), newValue);
+            if (changeDisplay) {
+                concreteQuestion.displayValue(value);
+            }
             notifyListeners(false);
         }
     }

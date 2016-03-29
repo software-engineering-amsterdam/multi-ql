@@ -69,16 +69,15 @@ public class BooleanQuestion extends Question {
     
     /**
      * Make a specified <code>QuestionComponentGenerator</code> create a
-     * <code>QuestionComponent</code> for <code>this BooleanQuestion</code>.
+     * <code>BooleanQuestionComponent</code> for <code>this BooleanQuestion</code>.
      * 
      * @param generator a <code>QuestionComponentGenerator</code> that should
-     *                  create a <code>QuestionComponent</code> for
+     *                  create a <code>BooleanQuestionComponent</code> for
      *                  <code>this BooleanQuestion</code>
-     * @return a <code>QuestionComponent</code> representing
+     * @return a <code>BooleanQuestionComponent</code> representing
      *          <code>this BooleanQuestion</code>, as created by a call to
-     *          <code>generator.createQuestionComponent</code>
-     *          method for the type of <code>Question</code>
-     *          <code>this Question</code> is of
+     *          {@link nl.uva.sea.ql.interpreter.QuestionComponentGenerator#createQuestionComponent(nl.uva.sea.ql.ast.question.BooleanQuestion)
+     *          generator.createQuestionComponent(BooleanQuestion)}
      */
     @Override
     public BooleanQuestionComponent createQuestionComponent(
