@@ -6,8 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -26,7 +25,8 @@ import ql.issue.Issue;
 
 public class UserInterface extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private List<UIElement> visibleQuestions;
+	private VisibleQuestions visibleQuestions;
+	
 	private Context context;
 	private GuiVisitor<Object> guiVisitor;
 	private Form form;
@@ -36,7 +36,7 @@ public class UserInterface extends JFrame{
 	
 	public UserInterface(){
 		createMainWindow();
-		visibleQuestions = new ArrayList<UIElement>();
+		visibleQuestions = new VisibleQuestions();
 	}
 	
 	private void ParseAndAnalyseForm(){
@@ -90,30 +90,40 @@ public class UserInterface extends JFrame{
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
 		JMenuItem menuItem = new JMenuItem("Open Questionaire");
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc = new JFileChooser(new File("resources").getAbsolutePath());
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Question Language Forms", "ql");
-				jfc.setFileFilter(filter);			
-				int returnVal = jfc.showOpenDialog(menuBar);
-				if(returnVal == JFileChooser.APPROVE_OPTION){
-					currentPath = jfc.getSelectedFile().getAbsolutePath();
-					ParseAndAnalyseForm();
-				}
-			}
-		});
+		menuItem.addActionListener(new FileChooserActionListener(menuBar));
 		menu.add(menuItem);
 		JMenuItem closeItem = new JMenuItem("Exit");
-		closeItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.dispose();
-			}
-		});
+		closeItem.addActionListener(new CloseWindowActionListener());
 		menu.add(closeItem);
 		menuBar.add(menu);
 		return menuBar;
+	}
+	
+	class CloseWindowActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			mainWindow.dispose();
+		}
+	}
+	
+	class FileChooserActionListener implements ActionListener{
+		private JMenuBar parent;
+		
+		public FileChooserActionListener(JMenuBar parent) {
+			this.parent = parent;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser jfc = new JFileChooser(new File("resources").getAbsolutePath());
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Question Language Forms", "ql");
+			jfc.setFileFilter(filter);			
+			int returnVal = jfc.showOpenDialog(parent);
+			if(returnVal == JFileChooser.APPROVE_OPTION){
+				currentPath = jfc.getSelectedFile().getAbsolutePath();
+				ParseAndAnalyseForm();
+			}
+		}
 	}
 	
 	public void drawContent(){
@@ -125,41 +135,42 @@ public class UserInterface extends JFrame{
 	}
 	
 	private void renewVisibleQuestion(){
-		visibleQuestions.clear();
+		visibleQuestions.removeAllQuestions();
 		visibleQuestions = guiVisitor.getVisibleQuestions(form, context);
 	}
 	
 	private void updateContext(){
-		for(UIElement question : visibleQuestions){
-			if(question instanceof InputQuestionWidget){
-				Object value = ((UserInputElement) question).getInput();
-				if(value == null){
-					continue;
-				}else{
-					context.putValueForQuestion(((InputQuestionWidget) question).getQuestion(), value);
-				}
-			}
+		Iterator<InputQuestionWidget> inputQuestions = visibleQuestions.getInputQuestionsIterator();
+		while(inputQuestions.hasNext()){
+			InputQuestionWidget inputQuestion = inputQuestions.next();
+			Object value = inputQuestion.getInput();
+			context.putValueForQuestion(inputQuestion.getQuestion(), value);
 		}
 	}
 	
 	private void drawVisibleQuestions(){
 		mainPanel.removeAll();
-		mainPanel.setLayout(new GridLayout(visibleQuestions.size(), 1));
-		for(UIElement question : visibleQuestions){
-			mainPanel.add(question.getDrawableItem());
+		mainPanel.setLayout(new GridLayout(visibleQuestions.numberOfQuestions(), 1));
+		Iterator<UIElement> iterator = visibleQuestions.getIterator();
+		while(iterator.hasNext()){
+			mainPanel.add(iterator.next().getDrawableItem());
 		}
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
 	
+	//TODO: duplicated code..
 	private void setValues(){
-		for(UIElement question : visibleQuestions){
-			if(question instanceof InputQuestionWidget){
-				question.updateValueLabel(context.getValueForVariable(((InputQuestionWidget) question).getQuestion().getVariable()));
-			}
-			if(question instanceof ComputedQuestionWidget){
-				question.updateValueLabel(context.getValueForVariable(((ComputedQuestionWidget) question).getQuestion().getVariable()));
-			}
+		Iterator<InputQuestionWidget> inputQuestionIterator = visibleQuestions.getInputQuestionsIterator();
+		while(inputQuestionIterator.hasNext()){
+			InputQuestionWidget inputQuestionWidget = inputQuestionIterator.next();
+			inputQuestionWidget.updateValueLabel(context.getValueForVariable(inputQuestionWidget.getQuestion().getVariable()));
+		}
+		
+		Iterator<ComputedQuestionWidget> computedQuestionIterator = visibleQuestions.getComputedQuestionsIterator();
+		while(computedQuestionIterator.hasNext()){
+			ComputedQuestionWidget computedQuestionWidget = computedQuestionIterator.next();
+			computedQuestionWidget.updateValueLabel(context.getValueForVariable(computedQuestionWidget.getQuestion().getVariable()));
 		}
 	}
 }

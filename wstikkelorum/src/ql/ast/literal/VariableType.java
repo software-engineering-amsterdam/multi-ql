@@ -1,10 +1,10 @@
 package ql.ast.literal;
 
 import ql.ast.TreeNode;
-import ql.ast.types.BooleanType;
-import ql.ast.types.IntegerType;
-import ql.ast.types.StringType;
-import ql.ast.types.ValueType;
+import ql.ast.type.BooleanType;
+import ql.ast.type.IntegerType;
+import ql.ast.type.StringType;
+import ql.ast.type.ValueType;
 
 public class VariableType extends TreeNode {
 	private ValueType type;

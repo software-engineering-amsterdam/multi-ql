@@ -1,5 +1,6 @@
-module Environment where
+module Environment (Environment,assocs, emptyEnv, declare, lookup, map, get) where
 
+import Prelude hiding (id, lookup, map)
 import qualified Data.Map as M
 import Identifier
 

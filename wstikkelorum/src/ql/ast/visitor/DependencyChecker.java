@@ -8,12 +8,12 @@ import ql.ast.literal.VariableExpression;
 import ql.ast.statement.ComputedQuestion;
 import ql.issue.CyclicDependency;
 
-public class CyclicDependencyChecker<T> extends BasicVisitor<T> {
+public class DependencyChecker<T> extends BasicVisitor<T> {
 	private HashMap<String, List<String>> directDependencies;
 	private String currentQuestionIdentifier;
 	private Context context;
 
-	public CyclicDependencyChecker(Context context) {
+	public DependencyChecker(Context context) {
 		directDependencies = new HashMap<String, List<String>>();
 		this.context = context;
 	}
