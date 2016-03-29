@@ -1,14 +1,9 @@
 package org.uva.sea.ql.checker;
 
-import org.uva.sea.ql.evaluator.adt.type.*;
-import org.uva.sea.ql.evaluator.adt.type.Boolean;
-import org.uva.sea.ql.evaluator.adt.type.Number;
-import org.uva.sea.ql.evaluator.adt.type.String;
-import org.uva.sea.ql.evaluator.adt.value.Value;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
+import org.uva.sea.ql.ast.tree.atom.val.Double;
 import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
-import org.uva.sea.ql.ast.tree.atom.val.Double;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
@@ -16,8 +11,12 @@ import org.uva.sea.ql.ast.tree.expr.unary.*;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.evaluator.SymbolTable;
+import org.uva.sea.ql.evaluator.adt.type.Boolean;
+import org.uva.sea.ql.evaluator.adt.type.*;
+import org.uva.sea.ql.evaluator.adt.type.Number;
+import org.uva.sea.ql.evaluator.adt.type.String;
+import org.uva.sea.ql.evaluator.adt.value.Value;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

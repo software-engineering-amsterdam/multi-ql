@@ -1,12 +1,12 @@
 package org.uva.sea.ql.ast.checker;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
+import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.checker.*;
 import org.uva.sea.ql.checker.message.Message;
-import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.parser.QLRunner;
-
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,6 @@
 package org.uva.sea.ql.gui.widget.factory;
 
-import javafx.scene.Parent;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
-import org.uva.sea.ql.gui.widget.Widget;
 import org.uva.sea.ql.gui.widget.binary.BooleanWidget;
 import org.uva.sea.ql.gui.widget.binary.CheckboxWidget;
 import org.uva.sea.ql.gui.widget.number.NumberFieldWidget;

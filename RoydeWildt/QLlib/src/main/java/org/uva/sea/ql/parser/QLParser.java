@@ -1,33 +1,35 @@
 // Generated from /home/roy/Workspace/SC/multi-ql/RoydeWildt/QLlib/src/main/java/org/uva/sea/ql/parser/QL.g4 by ANTLR 4.5.1
 package org.uva.sea.ql.parser;
 
-    import java.util.List;
-
-    import org.uva.sea.ql.ast.tree.form.*;
-    import org.uva.sea.ql.ast.tree.stat.*;
-	import org.uva.sea.ql.ast.tree.stat.block.*;
-	import org.uva.sea.ql.ast.tree.stat.decl.*;
-    import org.uva.sea.ql.ast.tree.expr.Expr;
-    import org.uva.sea.ql.ast.tree.expr.binary.*;
-    import org.uva.sea.ql.ast.tree.expr.unary.*;
-    import org.uva.sea.ql.ast.tree.type.Boolean;
-    import org.uva.sea.ql.ast.tree.type.Money;
-    import org.uva.sea.ql.ast.tree.type.Number;
-    import org.uva.sea.ql.ast.tree.type.Text;
-    import org.uva.sea.ql.ast.tree.type.Type;
-    import org.uva.sea.ql.ast.tree.atom.var.*;
-    import org.uva.sea.ql.ast.tree.atom.val.*;
-    import org.uva.sea.ql.ast.tree.atom.val.Double;
-    import org.uva.sea.ql.ast.tree.atom.val.Int;
-
-import org.antlr.v4.runtime.atn.*;
-import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
-import org.antlr.v4.runtime.tree.*;
-import java.util.List;
-import java.util.Iterator;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.TerminalNode;
+import org.uva.sea.ql.ast.tree.atom.val.*;
+import org.uva.sea.ql.ast.tree.atom.val.Double;
+import org.uva.sea.ql.ast.tree.atom.var.Var;
+import org.uva.sea.ql.ast.tree.expr.Expr;
+import org.uva.sea.ql.ast.tree.expr.binary.*;
+import org.uva.sea.ql.ast.tree.expr.unary.Neg;
+import org.uva.sea.ql.ast.tree.expr.unary.Not;
+import org.uva.sea.ql.ast.tree.expr.unary.Pos;
+import org.uva.sea.ql.ast.tree.expr.unary.Primary;
+import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.ast.tree.stat.Stat;
+import org.uva.sea.ql.ast.tree.stat.block.If;
+import org.uva.sea.ql.ast.tree.stat.block.IfElse;
+import org.uva.sea.ql.ast.tree.stat.decl.Computed;
+import org.uva.sea.ql.ast.tree.stat.decl.Question;
+import org.uva.sea.ql.ast.tree.type.Boolean;
+import org.uva.sea.ql.ast.tree.type.*;
+import org.uva.sea.ql.ast.tree.type.Number;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {

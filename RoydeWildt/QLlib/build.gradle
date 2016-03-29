@@ -30,6 +30,4 @@ javafx {
     jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
     systemProperties = ['prism.disableRegionCaching':'true']
     arguments = ['-l', '--fast']
-
-
 }

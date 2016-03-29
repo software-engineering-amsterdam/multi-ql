@@ -1,7 +1,5 @@
 package org.uva.sea.ql.checker;
 
-import org.uva.sea.ql.evaluator.adt.type.Null;
-import org.uva.sea.ql.evaluator.adt.type.Type;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.expr.binary.*;
@@ -11,6 +9,8 @@ import org.uva.sea.ql.ast.tree.expr.unary.Pos;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
+import org.uva.sea.ql.evaluator.adt.type.Null;
+import org.uva.sea.ql.evaluator.adt.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;

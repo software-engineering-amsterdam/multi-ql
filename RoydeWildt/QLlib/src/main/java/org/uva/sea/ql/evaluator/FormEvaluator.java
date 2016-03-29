@@ -1,9 +1,8 @@
 package org.uva.sea.ql.evaluator;
 
-import javafx.collections.FXCollections;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.stat.Stat;
 import org.uva.sea.ql.ast.tree.stat.block.If;
 import org.uva.sea.ql.ast.tree.stat.block.IfElse;
 import org.uva.sea.ql.ast.tree.stat.decl.Computed;

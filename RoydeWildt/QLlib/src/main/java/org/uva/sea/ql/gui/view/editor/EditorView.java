@@ -1,19 +1,11 @@
 package org.uva.sea.ql.gui.view.editor;
 
 
-import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
-import javafx.stage.Stage;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.checker.Checker;

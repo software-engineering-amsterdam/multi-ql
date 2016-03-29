@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SE-QLlib.iml" filepath="$PROJECT_DIR$/SE-QLlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SE-QLlib.iml" filepath="$PROJECT_DIR$/.idea/modules/SE-QLlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SE-QLlib_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SE-QLlib_main.iml" group="SE-QLlib" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SE-QLlib_package.iml" filepath="$PROJECT_DIR$/.idea/modules/SE-QLlib_package.iml" group="SE-QLlib" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SE-QLlib_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SE-QLlib_test.iml" group="SE-QLlib" />
       <module fileurl="file://$PROJECT_DIR$/src/main/main.iml" filepath="$PROJECT_DIR$/src/main/main.iml" />
     </modules>
   </component>

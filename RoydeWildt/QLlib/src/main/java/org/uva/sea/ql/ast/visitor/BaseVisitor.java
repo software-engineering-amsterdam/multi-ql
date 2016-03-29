@@ -11,7 +11,7 @@ import org.uva.sea.ql.ast.tree.expr.unary.Not;
 import org.uva.sea.ql.ast.tree.expr.unary.Pos;
 import org.uva.sea.ql.ast.tree.expr.unary.Primary;
 import org.uva.sea.ql.ast.tree.form.Form;
-import org.uva.sea.ql.ast.tree.stat.*;
+import org.uva.sea.ql.ast.tree.stat.Stat;
 import org.uva.sea.ql.ast.tree.stat.block.If;
 import org.uva.sea.ql.ast.tree.stat.block.IfElse;
 import org.uva.sea.ql.ast.tree.stat.decl.Computed;
@@ -21,7 +21,6 @@ import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.type.Number;
 import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.visitor.interfaces.*;
-import org.uva.sea.ql.ast.visitor.interfaces.TypeVisitor;
 
 /**
  * Created by roydewildt on 10/02/16.

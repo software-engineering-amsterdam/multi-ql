@@ -2,7 +2,6 @@ package org.uva.sea.ql.gui.widget;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Parent;
-import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 
 /**

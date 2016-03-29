@@ -1,11 +1,8 @@
 package org.uva.sea.ql.gui.widget.binary;
 
 import javafx.beans.value.ChangeListener;
-import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
-import org.uva.sea.ql.gui.widget.Widget;
 
 /**
  * Created by roy on 28-2-16.

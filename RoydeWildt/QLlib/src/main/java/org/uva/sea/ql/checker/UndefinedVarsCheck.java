@@ -10,7 +10,6 @@ import org.uva.sea.ql.evaluator.SymbolTable;
 import org.uva.sea.ql.evaluator.adt.value.Value;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

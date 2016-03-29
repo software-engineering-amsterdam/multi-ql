@@ -1,13 +1,9 @@
 package org.uva.sea.ql.gui.view.editor.pane;
 
-import com.sun.javafx.stage.StageHelper;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 import org.uva.sea.ql.gui.view.editor.EditorView;
 import org.uva.sea.ql.gui.view.preview.PreviewView;
 

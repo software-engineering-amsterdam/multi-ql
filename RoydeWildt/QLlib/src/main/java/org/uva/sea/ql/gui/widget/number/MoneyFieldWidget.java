@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
-import org.uva.sea.ql.gui.widget.Widget;
 
 /**
  * Created by roy on 3-3-16.

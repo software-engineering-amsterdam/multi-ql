@@ -18,5 +18,10 @@
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SE-QLlib_main" target="1.8" />
+      <module name="SE-QLlib_package" target="1.8" />
+      <module name="SE-QLlib_test" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,9 +1,5 @@
 package org.uva.sea.ql.evaluator;
 
-import org.uva.sea.ql.evaluator.adt.value.Bool;
-import org.uva.sea.ql.evaluator.adt.value.Str;
-import org.uva.sea.ql.evaluator.adt.value.numeric.Double;
-import org.uva.sea.ql.evaluator.adt.value.numeric.Int;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.ast.tree.stat.decl.Computed;
@@ -13,7 +9,11 @@ import org.uva.sea.ql.ast.tree.type.Money;
 import org.uva.sea.ql.ast.tree.type.Number;
 import org.uva.sea.ql.ast.tree.type.Text;
 import org.uva.sea.ql.ast.visitor.BaseVisitor;
+import org.uva.sea.ql.evaluator.adt.value.Bool;
+import org.uva.sea.ql.evaluator.adt.value.Str;
 import org.uva.sea.ql.evaluator.adt.value.Value;
+import org.uva.sea.ql.evaluator.adt.value.numeric.Double;
+import org.uva.sea.ql.evaluator.adt.value.numeric.Int;
 
 import java.util.HashMap;
 import java.util.Map;
