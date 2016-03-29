@@ -35,6 +35,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	private Set<String> labels;
 	private CollectIdentifiers collectIdentifiers;
 
+	//@TODO THINK FOR A BETTER NAME, IT ALSO CHECKS FOR DUPLICATE LABELS AND STUFF
 	public QuestionIndexer(Form ast, SymbolTable symbolTable, StateTable stateTable, MessageHandler messageHandler) {		
 		this.symbolTable = symbolTable;
 		this.stateTable = stateTable;
@@ -45,14 +46,13 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		this.collectIdentifiers = new CollectIdentifiers();
 		
 		ast.accept(this, null);
+		
+		checkForUndefinedIdentifiers();
 	}
 
 	@Override
 	public Identifier visit(Form structure, Void ignore) {
 		structure.getBlock().accept(this, null);
-		
-		checkForUndefinedIdentifiers();
-		
 		return null;
 	}
 
@@ -61,7 +61,6 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		for (Statement currentStatement : structure.getStatements()) {
 			currentStatement.accept(this, ignore);
 		}
-
 		return null;
 	}
 
@@ -72,7 +71,6 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 			stateTable.add(statement.getIdentifier(), new StateTableEntry(statement.getType().getDefaultValue()));
 			labels.add(statement.getLabel());
 		}
-				
 		return null;
 	}
 
@@ -127,12 +125,13 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 	
 	private boolean checkForDuplicateIdentifier(Identifier identifier) {
-		Iterator<Entry<Identifier, SymbolTableEntry>> iterator = symbolTable.getSymbols().entrySet().iterator();
+		Iterator<Entry<Identifier, SymbolTableEntry>> iterator = symbolTable.getIterator();
+		
 	    while (iterator.hasNext()) {
 	    	Entry<Identifier, SymbolTableEntry> pair = iterator.next();
 	    	Identifier pairKey = (Identifier) pair.getKey();

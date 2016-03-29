@@ -73,7 +73,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	
 	private Type unaryExpressionTraversal(Unary expression, Identifier context) {
 		Type exprType = expression.getExpr().accept(this, context);
-		
 		return expression.inferType(exprType);
 	}
 		
@@ -150,7 +149,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	@Override
 	public Void visit(Form structure, Void ignore) {
 		structure.getBlock().accept(this, null);
-		
 		return null;
 	}
 
@@ -159,7 +157,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		for (Statement currentStatement : structure.getStatements()) {
 			currentStatement.accept(this, null);
 		}
-		
 		return null;
 	}
 
@@ -248,7 +245,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 	
 	public boolean detectCyclicDependencies() {
-		makePairsTransitive(dependencies);
+		transitiveOnDependencyPairs(dependencies);
 		
 		int size = dependencies.size();
 		for (int i = 0; i < size; i++) {
@@ -263,7 +260,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	
 	// @TODO Look again at this method, it does receive the dependencies, but does not return anything.
 	// Seems a bit strange, not clear.
-	private void makePairsTransitive(List<Pair<Identifier>> tmpDependencies) {	
+	private void transitiveOnDependencyPairs(List<Pair<Identifier>> tmpDependencies) {	
 		boolean keepRunning = true;
 		
 		while (keepRunning) {
