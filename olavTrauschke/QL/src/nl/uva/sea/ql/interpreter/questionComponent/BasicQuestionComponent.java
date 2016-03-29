@@ -1,5 +1,7 @@
-package nl.uva.sea.ql.interpreter;
+package nl.uva.sea.ql.interpreter.questionComponent;
 
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponentListener;
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponentChangeEvent;
 import java.util.*;
 import javax.swing.JComponent;
 import nl.uva.sea.ql.answerTable.*;
@@ -7,7 +9,6 @@ import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
 import nl.uva.sea.ql.generalPurposeVisitors.IdentCollector;
-import nl.uva.sea.ql.interpreter.listener.*;
 
 /**
  * Objects of this class represent
@@ -17,8 +18,8 @@ import nl.uva.sea.ql.interpreter.listener.*;
  * @author Olav Trauschke
  * @version 29-mar-2016
  */
-public class BasicDisplayableQuestion extends JComponent
-        implements DisplayableQuestion {
+public class BasicQuestionComponent extends JComponent
+        implements QuestionComponent {
     
     private final Expr displayCondition;
     private final Question question;
@@ -29,9 +30,9 @@ public class BasicDisplayableQuestion extends JComponent
     
     private final AnswerTable answerTable;
     
-    private final List<DisplayableQuestionListener> listeners;
+    private final List<QuestionComponentListener> listeners;
     
-    private final DisplayableQuestion concreteQuestion;
+    private final QuestionComponent concreteQuestion;
     
     private boolean isToDisplay;
     private Value value;
@@ -40,7 +41,7 @@ public class BasicDisplayableQuestion extends JComponent
      * Constructor for objects of this class.
      * 
      * @param conditionForDisplay an <code>Expr</code> defining when the constructed
-     *                              <code>DisplayableQuestion</code> should be
+     *                              <code>QuestionComponent</code> should be
      *                              displayed
      * @param theQuestion a <code>Question</code> that should be displayed when
      *                      <code>conditionToDisplay</code> evaluates to
@@ -50,20 +51,22 @@ public class BasicDisplayableQuestion extends JComponent
      *                      or <code>theCalculation</code> of <code>theQuestion</code>
      *                      could contain to their current <code>Value</code>s,
      *                      or <code>null</code> when these are unknown
-     * @param theConcreteQuestion a <code>DisplayableQuestion</code> that is not
-     *                              a <code>BasicDisplayableQuestion</code> but
+     * @param theConcreteQuestion a <code>QuestionComponent</code> that is not
+     *                              a <code>BasicQuestionComponent</code> but
      *                              represents the same <code>Question</code> as
      *                              the constructed
-     *                              <code>BasicDisplayableQuestion</code>, the
-     *                              constructed <code>BasicDisplayableQuestion</code>
-     *                              must become <code>theConcreteQuestion</code>'s
+     *                              <code>BasicQuestionComponent</code>,
+     *                              the constructed
+     *                              <code>BasicQuestionComponent</code> must
+     *                              become <code>theConcreteQuestion</code>'s
      *                              <code>BasicQuestion</code> for concistency
      */
-    BasicDisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
-            AnswerTable theAnswerTable, DisplayableQuestion theConcreteQuestion) {
+    BasicQuestionComponent(Expr conditionForDisplay, Question theQuestion,
+            AnswerTable theAnswerTable, QuestionComponent theConcreteQuestion) {
         assert conditionForDisplay != null;
         assert theQuestion != null;
         assert theAnswerTable != null;
+        assert theConcreteQuestion != null;
         
         displayCondition = conditionForDisplay;
         question = theQuestion;
@@ -89,7 +92,7 @@ public class BasicDisplayableQuestion extends JComponent
     }
     
     /**
-     * Update the status of <code>this BasicDisplayableQuestion</code> - i.e.
+     * Update the status of <code>this BasicQuestionComponent</code> - i.e.
      * whether it is <code>toDisplay</code> and its <code>value</code> to
      * reflect a change in <code>theAnswerTable</code>. Note that this method
      * should be called for each change to the <code>AnswerTable</code> and
@@ -121,7 +124,7 @@ public class BasicDisplayableQuestion extends JComponent
     }
     
     /**
-     * @return whether or not <code>this BasicDisplayableQuestion</code> should
+     * @return whether or not <code>this BasicQuestionComponent</code> should
      *          currently be displayed
      */
     @Override
@@ -131,21 +134,21 @@ public class BasicDisplayableQuestion extends JComponent
     
     /**
      * Have a specified <code>DisplayableQeustionListener</code> be notified
-     * when <code>this BasicDisplayableQuestion</code> changes. 
+     * when <code>this BasicQuestionComponent</code> changes. 
      * 
-     * @param listener a <code>DisplayableQuestionListener</code> that needs to
-     *                  know when <code>this BasicDisplayableQuestion</code>
+     * @param listener a <code>QuestionComponentListener</code> that needs to
+     *                  know when <code>this BasicQuestionComponent</code>
      *                  changes
      */
     @Override
-    public void addListener(DisplayableQuestionListener listener) {
+    public void addListener(QuestionComponentListener listener) {
+        assert listener != null;
         listeners.add(listener);
     }
     
     /**
-     * TODO document
-     * 
-     * @return 
+     * @return the <code>Ident</code> that is <code>theIdentifier</code> of
+     *          <code>theQuestion this BasicQuestionComponent</code> represents
      */
     @Override
     public Ident getIdentifier() {
@@ -153,35 +156,38 @@ public class BasicDisplayableQuestion extends JComponent
     }
     
     /**
-     * TODO document
+     * Evaluate <code>theCalculation</code> of
+     * <code>theQuestion this BasicQuestionComponent</code> represents.
      * 
-     * @return 
+     * @return a <code>Value</code> representing the current value of
+     *          <code>theCalculation</code> of <code>theQuestion</code> of
+     *          <code>this BasicQuestionComponent</code>
      */
     @Override
-    public Value eval() {
+    public Value evalCalculation() {
         return question.evalCalculation(answerTable);
     }
     
     /**
-     * @return the <code>DisplayableQuestion</code> that was passed to the
+     * @return the <code>QuestionComponent</code> that was passed to the
      *          constructor as <code>theConcreteQuestion</code> that set
-     *          <code>this BasicDisplayableQuestion</code> as its
+     *          <code>this BasicQuestionComponent</code> as its
      *          <code>basicQuestion</code> when
-     *          <code>this BasicDisplayableQuestion</code> was constructed
+     *          <code>this BasicQuestionComponent</code> was constructed
      */
-    public DisplayableQuestion getConcreteQuestion() {
+    public QuestionComponent getConcreteQuestion() {
         return concreteQuestion;
     }
     
     /**
-     * Set the <code>value</code> of <code>this BasicDisplayableQuestion</code> and
+     * Set the <code>value</code> of <code>this BasicQuestionComponent</code> and
      * update its <code>answerTable</code> if and only if <code>newValue</code>
      * is not equal to <code>value</code>.
      * 
      * @param newValue the <code>Value</code> to set as the <code>value</code>
-     *                  of <code>this BasicDisplayableQuestion</code>. The type of
+     *                  of <code>this BasicQuestionComponent</code>. The type of
      *                  this <code>Value</code> must match the type of
-     *                  <code>this BasicDisplayableQuestion</code>'s
+     *                  <code>this BasicQuestionComponent</code>'s
      *                  <code>question</code> and in case this is a computed
      *                  question (i.e. its <code>calculation != null</code>) it
      *                  must be the <code>Value</code> this <code>Expr</code>
@@ -196,20 +202,20 @@ public class BasicDisplayableQuestion extends JComponent
     }
     
     /**
-     * Notify all <code>DisplayableQuestionListeners</code> that were added to
-     * <code>thisDisplayableQuestion</code> that
-     * <code>this BasicDisplayableQuestion</code> has changed by calling their
-     * {@link nl.uva.sea.ql.interpreter.listener.DisplayableQuestionListener#questionChanged(nl.uva.sea.ql.interpreter.listener.DisplayableQuestionChangeEvent)
-     * questionChanged(DisplayableQuestionChangeEvent)} methods.
+     * Notify all <code>QuestionComponentListener</code>s that were added to
+     * <code>this BasicQuestionComponent</code> that
+     * <code>this BasicQuestionComponent</code> has changed by calling their
+     * {@link nl.uva.sea.ql.interpreter.listener.QuestionComponentListener#questionChanged(nl.uva.sea.ql.interpreter.listener.QuestionComponentChangeEvent)
+     * questionChanged(QuestionComponentChangeEvent)} methods.
      * 
      * @param toDisplayChanged a <code>boolean</code> telling whether or not
-     *                          whether <code>this BasicDisplayableQuestion</code>
+     *                          whether <code>this BasicQuestionComponent</code>
      *                          should be displayed changed
      */
     void notifyListeners(boolean toDisplayChanged) {
-        DisplayableQuestionChangeEvent event
-                = new DisplayableQuestionChangeEvent(this, toDisplayChanged);
-        listeners.forEach((DisplayableQuestionListener listener) -> listener.questionChanged(event));
+        QuestionComponentChangeEvent event
+                = new QuestionComponentChangeEvent(this, toDisplayChanged);
+        listeners.forEach((QuestionComponentListener listener) -> listener.questionChanged(event));
     }
     
 }

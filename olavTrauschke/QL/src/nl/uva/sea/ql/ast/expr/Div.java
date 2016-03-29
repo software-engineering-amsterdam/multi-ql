@@ -8,7 +8,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
  * Representation of division in an AST.
  * 
  * @author Olav Trauschke
- * @version 26-mrt-2016
+ * @version 26-mar-2016
  */
 public class Div extends BinaryNumericOperatorExpr {
     

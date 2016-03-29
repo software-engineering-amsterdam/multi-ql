@@ -1,24 +1,28 @@
 package nl.uva.sea.ql.interpreter;
 
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
+import nl.uva.sea.ql.interpreter.questionComponent.BooleanQuestionComponent;
 import java.util.*;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;
 import nl.uva.sea.ql.generalPurposeVisitors.GeneralizedASTVisitor;
+import nl.uva.sea.ql.interpreter.questionComponent.BooleanQuestionComponent;
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
 
 /**
  * Objects of this class keep track of conditions for each
- * <code>ConditionalStatement</code> and create <code>BasicDisplayableQuestion</code>s
+ * <code>ConditionalStatement</code> and create <code>QuestionComponent</code>s
  * with these conditions for each <code>Question</code> they <code>visit</code>.
  * 
  * @author Olav Trauschke
  * @version 28-mar-2016
  */
-public class DisplayableQuestionGenerator extends GeneralizedASTVisitor {
+public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     
     private final AnswerTable answerTable;
     private final Stack<Expr> conditions;
-    private final List<DisplayableQuestion> result;
+    private final List<QuestionComponent> result;
     
     /**
      * Constructor for objects of this class.
@@ -26,84 +30,86 @@ public class DisplayableQuestionGenerator extends GeneralizedASTVisitor {
      * @param theAnswerTable an <code>AnswerTable</code> mapping all
      *                      <code>Ident</code>s <code>Question</code>s or
      *                      <code>ConditionalStatement</code>s
-     *                      <code>this DisplayableQuestionGenerator</code> may
+     *                      <code>this QuestionComponentGenerator</code> may
      *                      visit may contain
      */
-    protected DisplayableQuestionGenerator(AnswerTable theAnswerTable) {
+    protected QuestionComponentGenerator(AnswerTable theAnswerTable) {
+        assert theAnswerTable != null;
         answerTable = theAnswerTable;
         conditions = new Stack<>();
         result = new ArrayList<>();
     }
     
     /**
-     * Create a <code>BasicDisplayableQuestion</code> for a specified
+     * Create a <code>QuestionComponent</code> for a specified
      * <code>BooleanQuestion</code>.
      * 
      * @param question a <code>BooleanQuestion</code> to create a
-     * <code>BasicDisplayableQuestion</code> for
-     * @return a <code>new BasicDisplayableQuestion</code> representing
+     * <code>QuestionComponent</code> for
+     * @return a <code>new BooleanQuestionComponent</code> representing
      *          <code>theQuestion</code> to be displayed only when all
-     *          conditions in <code>this DisplayableQuestionGenerator</code> are
+     *          conditions in <code>this QuestionComponentGenerator</code> are
      *          met and using <code>theAnswerTable</code> that was given to the
      *          constructor when constructing
-     *          <code>this DisplayableQuestionGenerator</code>
+     *          <code>this QuestionComponentGenerator</code>
      */
-    public DisplayableBooleanQuestion createDisplayableQuestion(
+    public BooleanQuestionComponent createQuestionComponent(
             BooleanQuestion question) {
         Expr condition = createConjunctionOfConditions();
-        return new DisplayableBooleanQuestion(condition, question, answerTable);
+        return new BooleanQuestionComponent(condition, question, answerTable);
     }
     
     
     
     /**
-     * Create a <code>BasicDisplayableQuestion</code> for a specified
-     * <code>Question</code> with the conjuction of all available conditions as
-     * condition.
+     * Create a <code>QuestionComponent</code> for a specified <code>Question</code>
+     * with the conjuction of all available conditions as
+     * <code>displayCondition</code>.
      * 
      * @param question a <code>Question</code> to create a
-     *                  <code>BasicDisplayableQuestion</code> for
+     *                  <code>BasicQuestionComponent</code> for
      */
     @Override
     public void visit(Question question) {
-        DisplayableQuestion displayableQuestion
-                = question.createDisplayableQuestion(this);
-        result.add(displayableQuestion);
+        QuestionComponent questionComponent
+                = question.createQuestionComponent(this);
+        result.add(questionComponent);
     }
     
     /**
-     * Add a condition to <code>this DisplayableQuestionGenerator</code>.
+     * Add a condition to <code>this QuestionComponentGenerator</code>.
      * 
      * @param condition an <code>Expr</code> representing the condition to add
      */
     public void addCondition(Expr condition) {
+        assert condition != null;
         conditions.push(condition);
     }
     
     /**
      * Remove the last condition that was added to it from
-     * <code>this DisplayableQuestionGenerator</code>.
+     * <code>this QuestionComponentGenerator</code>.
      */
     public void removeLastCondition() {
         conditions.pop();
     }
     
     /**
-     * Returns <code>DisplayableQuestions</code> representing all
-     * <code>Question</code>s <code>this DisplayableQuestionGenerator</code> has
-     * <code>visit</code>ed.
+     * Returns a <code>List</code> of <code>QuestionComponent</code>s representing
+     * all <code>Question</code>s <code>this QuestionComponentGenerator</code>
+     * has <code>visit</code>ed.
      * 
-     * @return a <code>List</code> of all <code>BasicDisplayableQuestion</code>
-     *          generated by <code>this DisplayableQuestionGenerator</code>
+     * @return a <code>List</code> of all <code>QuestionComponents</code>
+     *          generated by <code>this QuestionComponentGenerator</code>
      */
-    public List<DisplayableQuestion> getResult() {
+    public List<QuestionComponent> getResult() {
         return result;
     }
     
     /**
      * @return an <code>Expr</code> representing the conjunction of all
      *          conditions that were add to (and not removed from)
-     *          <code>this DisplayableQuestionGenerator</code>
+     *          <code>this QuestionComponentGenerator</code>
      */
     private Expr createConjunctionOfConditions() {
         Expr top = new Bool(true);

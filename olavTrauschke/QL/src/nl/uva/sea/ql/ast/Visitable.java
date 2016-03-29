@@ -1,6 +1,6 @@
 package nl.uva.sea.ql.ast;
 
-import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
 import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
@@ -23,16 +23,16 @@ public interface Visitable {
     void accept(Visitor visitor);
     
     /**
-     * Accept a <code>DisplayableQuestionGenerator</code> and have it <code>visit</code>
+     * Accept a <code>QuestionComponentGenerator</code> and have it <code>visit</code>
      * the children of <code>this Visitable</code> and
      * <code>this Visitable</code> itself. Dispatches to
      * {@link #accept(nl.uva.sea.ql.generalPurposeVisitors.Visitor)  accept(Visitor)}
      * by default.
      * 
-     * @param visitor the <code>DisplayableQuestionGenerator</code> visiting
+     * @param visitor the <code>QuestionComponentGenerator</code> visiting
      *                  <code>this Visitable</code>
      */
-    default void accept(DisplayableQuestionGenerator visitor) {
+    default void accept(QuestionComponentGenerator visitor) {
         accept((Visitor) visitor);
     }
     

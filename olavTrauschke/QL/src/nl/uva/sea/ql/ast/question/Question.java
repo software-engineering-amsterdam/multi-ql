@@ -7,8 +7,8 @@ import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
-import nl.uva.sea.ql.interpreter.DisplayableQuestion;
-import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
 
 /**
  * Representation of <code>Question</code>s in an AST.
@@ -230,20 +230,20 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * Make a specified <code>DisplayableQuestionGenerator</code> create a
-     * <code>DisplayableQuestion</code> for <code>this Question</code>.
+     * Make a specified <code>QuestionComponentGenerator</code> create a
+     * <code>QuestionComponent</code> for <code>this Question</code>.
      * 
-     * @param generator a <code>DisplayableQuestionGenerator</code> that should
-     *                  create a <code>DisplayableQuestion</code> for
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create a <code>QuestionComponent</code> for
      *                  <code>this Question</code>
-     * @return a <code>DisplayableQuestion</code> representing
+     * @return a <code>QuestionComponent</code> representing
      *          <code>this Question</code>, as created by a call to
-     *          <code>generator</code>'s <code>createDisplayableQuestion</code>
+     *          <code>generator</code>'s <code>createQuestionComponent</code>
      *          method for the type of <code>Question</code>
      *          <code>this Question</code> is of
      */
-    public abstract DisplayableQuestion createDisplayableQuestion(
-            DisplayableQuestionGenerator generator);
+    public abstract QuestionComponent createQuestionComponent(
+            QuestionComponentGenerator generator);
     
     /**
      * Compares <code>this Question</code> to another <code>Object</code>. A

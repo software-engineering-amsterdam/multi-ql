@@ -1,7 +1,7 @@
 package nl.uva.sea.ql.ast;
 
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
 import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
@@ -64,12 +64,12 @@ public class Form extends ASTNode {
     /**
      * Has the <code>questions</code> of <code>this Form accept Visitor</code>.
      * 
-     * @param visitor a <code>DisplayableQuestionGenerator</code> that should
+     * @param visitor a <code>QuestionComponentGenerator</code> that should
      *                  <code>visit</code> the <code>questions</code> of
      *                  <code>this Form</code>
      */
     @Override
-    public void accept(DisplayableQuestionGenerator visitor) {
+    public void accept(QuestionComponentGenerator visitor) {
         questions.accept(visitor);
     }
     
