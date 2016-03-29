@@ -9,8 +9,8 @@ import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
 import uva.ql.ast.expressions.abstracts.LogicalOperatorBinary;
-import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
+import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.questions.Question;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
@@ -84,7 +84,7 @@ public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateL
 	}
 
 	@Override
-	public void visitLogicalOperator(LogicalOperatorBinary exp) {
+	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
@@ -96,7 +96,7 @@ public class DuplicateLabels extends AbstractTypeChecker implements IDupllicateL
 	}
 
 	@Override
-	public void visitSingleLogicalOperator(LogicalOperatorUnary exp) {
+	public void visitLogicalOperatorUnary(LogicalOperatorUnary exp) {
 		exp.getLhs().accept(this);
 	}
 }

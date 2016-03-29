@@ -4,13 +4,12 @@ import javax.swing.JPanel;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
-import uva.ql.gui.visitors.IActionListenerVisitor;
-import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
 import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.IGUIVisitor;
 
 public abstract class LogicalOperatorBinary extends Expression<Boolean> {
 
@@ -39,36 +38,31 @@ public abstract class LogicalOperatorBinary extends Expression<Boolean> {
 
 	@Override
 	public void accept(IUndefinedQuestionVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 	
 	@Override
 	public void accept(ICyclicDependencyVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 
 	@Override
 	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 
 	@Override
 	public void accept(IBinaryOperatorVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 	
 	@Override
 	public void accept(IGUIVisitor visitor, JPanel panel) {
 		visitor.visitLogicalOperatorBinary(this, panel);
-	}
-	
-	@Override
-	public void accept(IActionListenerVisitor visitor) {
-		visitor.visitLogicalOperatorBinary(this);
 	}
 }

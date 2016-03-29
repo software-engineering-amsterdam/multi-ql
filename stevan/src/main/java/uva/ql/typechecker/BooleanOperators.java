@@ -47,7 +47,7 @@ public class BooleanOperators extends AbstractTypeChecker implements IBinaryOper
 	}
 
 	@Override
-	public void visitLogicalOperator(LogicalOperatorBinary exp) {
+	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 		
@@ -67,7 +67,7 @@ public class BooleanOperators extends AbstractTypeChecker implements IBinaryOper
 	}
 
 	@Override
-	public void visitSingleLogicalOperator(LogicalOperatorUnary exp) {
+	public void visitLogicalOperatorUnary(LogicalOperatorUnary exp) {
 		exp.getLhs().accept(this);
 		
 		if(!exp.evalType().equals(EnumType.BOOLEAN)) {

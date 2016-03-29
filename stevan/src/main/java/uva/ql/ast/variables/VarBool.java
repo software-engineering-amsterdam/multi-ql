@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
 import uva.ql.ast.types.Bool;
-import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.visitors.IGUIVisitor;
 
 public class VarBool extends Variable<Boolean> {
 
@@ -27,23 +27,24 @@ public class VarBool extends Variable<Boolean> {
 	}
 	
 	@Override
-	public void accept(IGUIVisitor visitor, JPanel panel) {
-		visitor.visitVarBool(this, panel);
-	}
-	
-	@Override
 	public Boolean getValue() {
 		return this.value;
-	}
-	
-	@Override
-	public void setValue(Boolean value) {
-		this.value = value;
 	}
 
 	@Override
 	public Boolean eval() {
 		return this.getValue();
 	}
-
+	
+	@Override
+	public void setValue(Boolean value) {
+		this.value = value;
+		this.setChanged();
+		this.notifyObservers(value);
+	}
+	
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitVarBool(this, panel);
+	}
 }

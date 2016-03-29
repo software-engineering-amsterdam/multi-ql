@@ -4,12 +4,12 @@ import javax.swing.JPanel;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
-import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
 import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.IGUIVisitor;
 
 public abstract class RelationalOperatorBinary extends Expression<Boolean> {
 

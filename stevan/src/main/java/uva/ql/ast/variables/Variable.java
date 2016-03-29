@@ -1,5 +1,7 @@
 package uva.ql.ast.variables;
 
+import java.util.Observable;
+
 import uva.ql.ast.Node;
 import uva.ql.ast.expressions.abstracts.Expression;
 
@@ -30,4 +32,7 @@ public abstract class Variable<T> extends Expression<T> {
 	public void setColumn(int col) {
 		this.startColumn = col;
 	}
+	
+	@Override
+	public void update(Observable o, Object arg) {}
 }

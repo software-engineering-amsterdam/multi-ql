@@ -20,9 +20,9 @@ public interface IDupllicateQuestionDifferentTypesVisitor {
 	public void visitQuestionComputed(QuestionComputed questionComputed);
 	
 	public void visitArithmeticOperator(ArithmeticOperatorBinary exp);
-	public void visitLogicalOperator(LogicalOperatorBinary exp);
+	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp);
 	public void visitRelationalOperator(RelationalOperatorBinary exp);
-	public void visitSingleLogicalOperator(LogicalOperatorUnary exp);
+	public void visitLogicalOperatorUnary(LogicalOperatorUnary exp);
 	
 	public void visitCondIfElseStatement(CondIfElseStatement condIfElseStatement);
 	public void visitCondIfStatement(CondIfStatement condIfStatement);
