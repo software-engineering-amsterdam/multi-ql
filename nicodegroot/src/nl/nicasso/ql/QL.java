@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import nl.nicasso.ql.antlr.QLLexer;
 import nl.nicasso.ql.antlr.QLParser;
-import nl.nicasso.ql.ast.CreateAST;
+import nl.nicasso.ql.ast.CreateAbstractSyntaxTree;
 import nl.nicasso.ql.ast.nodes.structures.Form;
 import nl.nicasso.ql.gui.Gui;
 import nl.nicasso.ql.gui.MainFrame;
@@ -34,16 +34,16 @@ public class QL {
 		SymbolTable symbolTable = new SymbolTable();
 		StateTable stateTable = new StateTable();
         
-        CreateAST astVisitor = new CreateAST();
-        Form ast = (Form) parseTree.accept(astVisitor);
+        CreateAbstractSyntaxTree astVisitor = new CreateAbstractSyntaxTree(parseTree);
+        Form ast = astVisitor.getAbstractSyntaxTree();
         
         SemanticAnalysis semantics = new SemanticAnalysis(ast, symbolTable, stateTable);        
 
         MainFrame window = new MainFrame(stateTable, semantics.getMessages());
         
         if (!semantics.containsErrors()) {
-	        Gui guiVisitor = new Gui(stateTable, window);
-	        ast.accept(guiVisitor, null);
+	        @SuppressWarnings("unused")
+			Gui userInterface = new Gui(ast, stateTable, window);
         }
 	}
 	

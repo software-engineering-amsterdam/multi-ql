@@ -15,11 +15,9 @@ public class SemanticAnalysis {
 	public SemanticAnalysis(Form ast, SymbolTable symbolTable, StateTable stateTable) {
 		messageHandler = new MessageHandler();
 		
-		QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, stateTable, messageHandler);
-        ast.accept(questionVisitor, null);
-        
-    	TypeChecker typeChecker = new TypeChecker(symbolTable, messageHandler);
-    	ast.accept(typeChecker, null);
+		new QuestionIndexer(ast ,symbolTable, stateTable, messageHandler);
+		
+		new TypeChecker(ast, symbolTable, messageHandler);
 	}
 	
 	public List<Message> getMessages() {

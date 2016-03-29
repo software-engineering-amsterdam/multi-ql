@@ -35,7 +35,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 	private Set<String> labels;
 	private CollectIdentifiers collectIdentifiers;
 
-	public QuestionIndexer(SymbolTable symbolTable, StateTable stateTable, MessageHandler messageHandler) {		
+	public QuestionIndexer(Form ast, SymbolTable symbolTable, StateTable stateTable, MessageHandler messageHandler) {		
 		this.symbolTable = symbolTable;
 		this.stateTable = stateTable;
 		this.messageHandler = messageHandler;
@@ -43,14 +43,15 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		this.identifiers = new HashSet<Identifier>();		
 		this.labels = new HashSet<String>();		
 		this.collectIdentifiers = new CollectIdentifiers();
+		
+		ast.accept(this, null);
 	}
 
 	@Override
 	public Identifier visit(Form structure, Void ignore) {
 		structure.getBlock().accept(this, null);
 		
-		// @TODO Move the accept method to the constructor of this class, and call this one right after.
-		checkUndefinedIdentifiers();
+		checkForUndefinedIdentifiers();
 		
 		return null;
 	}
@@ -107,18 +108,18 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		return null;
 	}
 	
-	public void checkUndefinedIdentifiers() {
-		for (Identifier id : identifiers) {
-			if (!checkExistanceIdentifier(id)) {
-				messageHandler.addErrorMessage(new NonExistantQuestion(id));
+	public void checkForUndefinedIdentifiers() {
+		for (Identifier identifier : identifiers) {
+			if (!checkForDuplicateIdentifier(identifier)) {
+				messageHandler.addErrorMessage(new NonExistantQuestion(identifier));
 			}
 		}
 	}
 
 	public boolean checkIfUniqueQuestion(Question question) {
-		checkExistanceLabel(question);
+		checkForDuplicateLabel(question);
 		
-		if (checkExistanceIdentifier(question.getIdentifier())) {
+		if (checkForDuplicateIdentifier(question.getIdentifier())) {
 			if (symbolTable.getEntryType(question.getIdentifier()).equals(question.getType())) {
 				messageHandler.addWarningMessage(new DuplicateIdentifierSameType(question.getIdentifier()));
 			} else {
@@ -130,13 +131,13 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		return true;
 	}
 	
-	private boolean checkExistanceIdentifier(Identifier identifier) {
+	private boolean checkForDuplicateIdentifier(Identifier identifier) {
 		Iterator<Entry<Identifier, SymbolTableEntry>> iterator = symbolTable.getSymbols().entrySet().iterator();
 	    while (iterator.hasNext()) {
 	    	Entry<Identifier, SymbolTableEntry> pair = iterator.next();
 	    	Identifier pairKey = (Identifier) pair.getKey();
 
-	    	if (pairKey.getIdentifier().equals(identifier.getIdentifier())) {
+	    	if (pairKey.equals(identifier)) {
 				return true;
 			}
 
@@ -145,7 +146,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 		return false;
 	}
 	
-	private boolean checkExistanceLabel(Question question) {
+	private boolean checkForDuplicateLabel(Question question) {
 		for (String currentLabel : labels) {
 			if (currentLabel.equals(question.getLabel())) {
 				messageHandler.addWarningMessage(new DuplicateLabels(question.getIdentifier(), question.getLabel()));

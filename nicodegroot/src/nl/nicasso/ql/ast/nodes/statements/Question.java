@@ -3,6 +3,7 @@ package nl.nicasso.ql.ast.nodes.statements;
 import nl.nicasso.ql.ast.nodes.CodeLocation;
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.ast.nodes.types.Type;
+import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.visitors.StatementVisitor;
 
 public class Question extends Statement {
@@ -28,6 +29,10 @@ public class Question extends Statement {
 
 	public Type getType() {
 		return type;
+	}
+	
+	public Value getDefaultValue() {
+		return type.getDefaultValue();
 	}
 	
 	@Override

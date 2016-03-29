@@ -20,7 +20,7 @@ public class NonExistantQuestion extends ErrorMessage {
 	}
 	
 	public String getMessage() {
-		return MessageFormat.format(NonExistantQuestion.MESSAGE, identifier.getIdentifier(), identifier.getLocation());
+		return MessageFormat.format(NonExistantQuestion.MESSAGE, identifier, identifier.getLocation());
 	}
 
 }

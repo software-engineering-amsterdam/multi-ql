@@ -4,30 +4,33 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
-import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
+import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
 
 public class MoneyQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JTextField field;
-	private Label label;
+	private JLabel feedback;
 	private Observer main;
 	private MoneyValue value;
 	
-	public MoneyQuestionField(QuestionFieldParameter params) {
+	public MoneyQuestionField(QuestionFieldArguments params) {
 		this.identifier = params.getIdentifier();
 		this.main = params.getMain();
 		
-		System.out.println("MoneyQuestionField");
-		
 		setupField(params.isEnabled(), (MoneyValue) params.getValue());	
+	}
+	
+	public void setFeedbackField(JLabel feedback) {
+		this.feedback = feedback;
 	}
 	
 	private void setupField(boolean enabled, MoneyValue value) {
@@ -57,7 +60,7 @@ public class MoneyQuestionField extends QuestionField {
 					try {
 						value = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(field.getText())));
 					} catch (Exception ex) {
-						label.setLabelText("This is not a valid decimal number.");
+						feedback.setText("This is not a valid decimal number.");
 						parseSuccess = false;
 					}
 				}
@@ -65,13 +68,13 @@ public class MoneyQuestionField extends QuestionField {
 				if (parseSuccess) {
 					// Does too much?!
 					if (getNumberOfDecimalPlaces(BigDecimal.valueOf(Double.parseDouble(field.getText()))) > 2) {
-						label.setLabelText("No more than 2 decimals allowed.");
+						feedback.setText("No more than 2 decimals allowed.");
 						parseSuccess = false;
 					} else {
-						label.setLabelText("");
+						feedback.setText("");
 						
-						main.fieldValueChanged(identifier, value);
-						main.updateAllPanels();
+						main.updateValueInStateTable(identifier, value);
+						main.updateGUIPanels();
 					}
 				}
 			}
@@ -80,6 +83,11 @@ public class MoneyQuestionField extends QuestionField {
 	}
 	
 	public void setValue(Value value) {
+
+		if (value instanceof IntegerValue) {
+			value = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(value.getValue().toString())));
+		}
+		
 		this.value = (MoneyValue) value;
 		field.setText(value.getValue().toString());
 	}
@@ -89,14 +97,15 @@ public class MoneyQuestionField extends QuestionField {
 	}
 	
 	public boolean equalValues(Value value) {
+		
+		if (value instanceof IntegerValue) {
+			value = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(value.getValue().toString())));
+		}
+		
 		BigDecimal bd = (BigDecimal) value.getValue();
 		BigDecimal bd2 = (BigDecimal) this.value.getValue();
 
 		return bd.compareTo(bd2) == 0;
-	}
-	
-	public void setFeedbackLabel(Label label) {
-		this.label = label;
 	}
 	
 	public JTextField getField() {

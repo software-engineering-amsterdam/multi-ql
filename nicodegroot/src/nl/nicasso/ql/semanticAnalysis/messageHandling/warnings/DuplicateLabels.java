@@ -22,7 +22,7 @@ public class DuplicateLabels extends WarningMessage {
 	}
 	
 	public String getMessage() {
-		return MessageFormat.format(DuplicateLabels.MESSAGE, identifier.getIdentifier(), label, identifier.getLocation());
+		return MessageFormat.format(DuplicateLabels.MESSAGE, identifier, label, identifier.getLocation());
 	}
 
 }

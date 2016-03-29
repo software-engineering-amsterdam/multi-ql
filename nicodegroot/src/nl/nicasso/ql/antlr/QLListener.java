@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package nl.nicasso.ql.antlr;
 
@@ -186,18 +186,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitConditionalExpressions(QLParser.ConditionalExpressionsContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code integerLiteral}
-	 * labeled alternative in {@link QLParser#literal}.
-	 * @param ctx the parse tree
-	 */
-	void enterIntegerLiteral(QLParser.IntegerLiteralContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code integerLiteral}
-	 * labeled alternative in {@link QLParser#literal}.
-	 * @param ctx the parse tree
-	 */
-	void exitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code moneyLiteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
@@ -209,6 +197,18 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code integerLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntegerLiteral(QLParser.IntegerLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code integerLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.

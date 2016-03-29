@@ -20,7 +20,7 @@ public class DuplicateIdentifierSameType extends WarningMessage {
 	}
 	
 	public String getMessage() {
-		return MessageFormat.format(DuplicateIdentifierSameType.MESSAGE, identifier.getIdentifier(), identifier.getLocation());
+		return MessageFormat.format(DuplicateIdentifierSameType.MESSAGE, identifier, identifier.getLocation());
 	}
 
 }

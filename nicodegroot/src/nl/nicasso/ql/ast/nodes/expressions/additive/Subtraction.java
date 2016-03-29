@@ -5,7 +5,7 @@ import nl.nicasso.ql.ast.nodes.expressions.Expression;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public class Subtraction extends Additive {
-	
+
 	private final Expression left;
 	private final Expression right;
 
@@ -14,7 +14,7 @@ public class Subtraction extends Additive {
 		this.left = left;
 		this.right = right;
 	}
-	
+
 	public Expression getLeft() {
 		return left;
 	}
@@ -22,15 +22,15 @@ public class Subtraction extends Additive {
 	public Expression getRight() {
 		return right;
 	}
-	
+
 	@Override
 	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
-	
+
 	@Override
 	public String toString() {
 		return left + "-" + right;
 	}
-	
+
 }

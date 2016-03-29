@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package nl.nicasso.ql.antlr;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -326,7 +326,6 @@ public class QLParser extends Parser {
 		enterRule(_localctx, 4, RULE_statement);
 		try {
 			setState(52);
-			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				_localctx = new QuestionStatementContext(_localctx);
@@ -705,7 +704,6 @@ public class QLParser extends Parser {
 					_prevctx = _localctx;
 					{
 					setState(80);
-					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
@@ -908,20 +906,20 @@ public class QLParser extends Parser {
 		try {
 			setState(89);
 			switch (_input.LA(1)) {
-			case INTEGER:
-				_localctx = new IntegerLiteralContext(_localctx);
+			case MONEY:
+				_localctx = new MoneyLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(85);
-				match(INTEGER);
+				match(MONEY);
 				}
 				break;
-			case MONEY:
-				_localctx = new MoneyLiteralContext(_localctx);
+			case INTEGER:
+				_localctx = new IntegerLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(86);
-				match(MONEY);
+				match(INTEGER);
 				}
 				break;
 			case BOOLEAN:
@@ -1130,7 +1128,7 @@ public class QLParser extends Parser {
 		"\3\2\2\2CD\f\t\2\2DE\t\2\2\2ES\5\b\5\nFG\f\b\2\2GH\t\3\2\2HS\5\b\5\tI"+
 		"J\f\7\2\2JK\t\4\2\2KS\5\b\5\bLM\f\6\2\2MN\t\5\2\2NS\5\b\5\7OP\f\5\2\2"+
 		"PQ\t\6\2\2QS\5\b\5\6RC\3\2\2\2RF\3\2\2\2RI\3\2\2\2RL\3\2\2\2RO\3\2\2\2"+
-		"SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\t\3\2\2\2VT\3\2\2\2W\\\7\"\2\2X\\\7#\2"+
+		"SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\t\3\2\2\2VT\3\2\2\2W\\\7#\2\2X\\\7\"\2"+
 		"\2Y\\\7 \2\2Z\\\7$\2\2[W\3\2\2\2[X\3\2\2\2[Y\3\2\2\2[Z\3\2\2\2\\\13\3"+
 		"\2\2\2]b\7\31\2\2^b\7\32\2\2_b\7\33\2\2`b\7\34\2\2a]\3\2\2\2a^\3\2\2\2"+
 		"a_\3\2\2\2a`\3\2\2\2b\r\3\2\2\2\t\26\66ART[a";

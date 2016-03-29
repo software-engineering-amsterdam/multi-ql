@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.5.2
+// Generated from QL.g4 by ANTLR 4.5
 
 	package nl.nicasso.ql.antlr;
 
@@ -116,19 +116,19 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConditionalExpressions(QLParser.ConditionalExpressionsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code integerLiteral}
-	 * labeled alternative in {@link QLParser#literal}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code moneyLiteral}
 	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMoneyLiteral(QLParser.MoneyLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code integerLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntegerLiteral(QLParser.IntegerLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code booleanliteral}
 	 * labeled alternative in {@link QLParser#literal}.

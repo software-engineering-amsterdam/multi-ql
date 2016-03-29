@@ -79,16 +79,11 @@ public class MoneyValue extends Value {
 	public Value lessEqual(Value arg) {
 		return new BooleanValue(value.compareTo((BigDecimal) arg.getValue()) <= 0);
 	}
-	
-	// DOUBLE DISPATCHING
-	
+		
 	public Value multiplicationToInteger(IntegerValue v) {
 		return new MoneyValue(value.multiply(MoneyValue.integerToBigDecimal(v.getValue())).setScale(2, RoundingMode.HALF_UP));
-		//return new MoneyValue(value.multiply(BigDecimal.valueOf(Double.parseDouble(Integer.toString(v.getValue())))));
 	}
-	
-	// PARSING
-	
+		
 	public static BigDecimal integerToBigDecimal(Integer integer) {
 		return MoneyValue.stringToBigDecimal(integer.toString());
 	}

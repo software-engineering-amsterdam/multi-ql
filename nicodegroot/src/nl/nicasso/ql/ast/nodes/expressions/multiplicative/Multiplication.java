@@ -9,7 +9,7 @@ import nl.nicasso.ql.ast.nodes.types.UnknownType;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public class Multiplication extends Multiplicative {
-	
+
 	private final Expression left;
 	private final Expression right;
 
@@ -18,7 +18,7 @@ public class Multiplication extends Multiplicative {
 		this.left = left;
 		this.right = right;
 	}
-	
+
 	public Expression getLeft() {
 		return left;
 	}
@@ -26,20 +26,20 @@ public class Multiplication extends Multiplicative {
 	public Expression getRight() {
 		return right;
 	}
-	
+
 	@Override
 	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
-	
+
 	@Override
 	public String toString() {
 		return left + "*" + right;
 	}
-	
+
 	@Override
 	public Type inferType(Type left, Type right) {
-		
+
 		if (left.equals(right)) {
 			if (left.equals(new IntegerType())) {
 				return left;
@@ -51,8 +51,8 @@ public class Multiplication extends Multiplicative {
 				return left;
 			}
 		}
-	
-		return new UnknownType();		
+
+		return new UnknownType();
 	}
-	
+
 }

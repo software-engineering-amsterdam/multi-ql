@@ -7,20 +7,18 @@ import javax.swing.JCheckBox;
 
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
-import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.BooleanValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
 
 public class BooleanQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JCheckBox field;
-	private Label label;
 	private Observer main;
 	private BooleanValue value;
 
-	public BooleanQuestionField(QuestionFieldParameter params) {
+	public BooleanQuestionField(QuestionFieldArguments params) {
 		this.identifier = params.getIdentifier();
 		this.main = params.getMain();
 		
@@ -51,8 +49,8 @@ public class BooleanQuestionField extends QuestionField {
 					value = new BooleanValue(false);
 				}
 				
-				main.fieldValueChanged(identifier, value);
-				main.updateAllPanels();
+				main.updateValueInStateTable(identifier, value);
+				main.updateGUIPanels();
 			}
 		});
 	}
@@ -68,10 +66,6 @@ public class BooleanQuestionField extends QuestionField {
 	
 	public boolean equalValues(Value value) {
 		return value.equals(this.value);
-	}
-	
-	public void setFeedbackLabel(Label label) {
-		this.label = label;
 	}
 	
 	public JCheckBox getField() {

@@ -20,7 +20,6 @@ import nl.nicasso.ql.semanticAnalysis.messageHandling.Message;
 
 public class MainFrame implements Observer {
 
-	// Do these need to be global?
 	private List<Panel> panels;
 	private JFrame mainFrame;
 	private JPanel rootPanel;
@@ -30,6 +29,12 @@ public class MainFrame implements Observer {
 		this.stateTable = stateTable;
 		panels = new ArrayList<Panel>();
 		
+		setupScrollableMainFrame();
+		
+		displayPossibleMessages(messages);
+	}
+	
+	private void setupScrollableMainFrame() {
 		mainFrame = new JFrame("Questionnaire");
 		mainFrame.setSize(800, 600);
 		mainFrame.setLocationRelativeTo(null);
@@ -41,17 +46,21 @@ public class MainFrame implements Observer {
 		
 		JScrollPane scrollFrame = new JScrollPane(rootPanel);
 		mainFrame.setContentPane(scrollFrame);
-		
-		displayMessages(messages);
+	}
+	
+	private void displayPossibleMessages(List<Message> messages){
+		if (messages.size() > 0) {
+			displayMessages(messages);
+		}
 	}
 	
 	private void displayMessages(List<Message> messages) {
 		JPanel messagePanel = new JPanel();
 		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.PAGE_AXIS));
-		
+			
 		JLabel header = new JLabel("Messages:");
 		messagePanel.add(header);
-		
+	
 		for (Message message : messages) {
 			JLabel label = new JLabel(message.getMessageType()+": "+message.getMessage());
 			messagePanel.add(label);
@@ -74,24 +83,18 @@ public class MainFrame implements Observer {
 			rootPanel.add(p.getPanel(), "wrap");
 		}
 		
-		updateAllPanels();
+		updateGUIPanels();
 		setVisible(true);
 	}
 
-	// WHY THE FUCKING BOOLEAN RETURN VALUE?!
 	@Override
-	public boolean fieldValueChanged(Identifier identifier, Value value) {
+	public void updateValueInStateTable(Identifier identifier, Value value) {
 		StateTableEntry entry = new StateTableEntry(value);
 		stateTable.add(identifier, entry);
-		
-		return true;
 	}
 	
-	public void updateAllPanels() {
+	public void updateGUIPanels() {
 		boolean runAgain = false;
-		
-		System.out.println("RUN UPDATES");
-		System.out.println("");
 		
 		for (Panel p : panels) {
 			boolean updatedPanel = p.update();
@@ -101,7 +104,7 @@ public class MainFrame implements Observer {
 		}
 		
 		if (runAgain) {
-			updateAllPanels();
+			updateGUIPanels();
 		}
 	
 	}

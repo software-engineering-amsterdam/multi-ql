@@ -1,7 +1,18 @@
 form taxOfficeExample {
-
-    
+      
   "MONEY!"
-    cQ1: money  = (10)
-  
+    cQ1: money// = (cQ22)
+    
+  "INTEGER!"
+    cQ2: integer
+    
+  "MONEY * 2!"
+    cQ22: money = (cQ1*2)
+    
+    "STRING!"
+    cQ3: string
+    
+    "BOOLEAN!"
+    cQ4: boolean
+   
 }

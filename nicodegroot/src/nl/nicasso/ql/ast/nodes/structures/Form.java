@@ -10,10 +10,10 @@ public class Form extends ASTNode {
 	private final Identifier id;
 	private final Block block;
 	
-	public Form(Identifier id, Block block2, CodeLocation location) {
+	public Form(Identifier id, Block block, CodeLocation location) {
 		super(location);
 		this.id = id;
-		this.block = block2;
+		this.block = block;
 	}
 
 	public Identifier getId() {
