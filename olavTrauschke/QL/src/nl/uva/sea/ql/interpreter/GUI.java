@@ -12,7 +12,7 @@ import nl.uva.sea.ql.interpreter.listener.*;
  * Objects of this class are graphical representations of questionnaires.
  * 
  * @author Olav Trauschke
- * @version 28-mrt-2016
+ * @version 29-mrt-2016
  */
 public class GUI implements DisplayableQuestionListener {
     
@@ -94,16 +94,17 @@ public class GUI implements DisplayableQuestionListener {
      */
     @Override
     public void questionChanged(DisplayableQuestionChangeEvent event) {
-        BasicDisplayableQuestion question = (BasicDisplayableQuestion) event.getSource();
-        //TODO find (not Basic)DisplayableQuestion containing question
+        BasicDisplayableQuestion basicQuestion
+                = (BasicDisplayableQuestion) event.getSource();
+        DisplayableQuestion question = basicQuestion.getConcreteQuestion();
         if (event.toDisplayChanged()) {
             if (isDisplayedPerQuestion.get(question)) {
-                frame.getContentPane().remove(question);
+                frame.getContentPane().remove((JComponent) question);
                 isDisplayedPerQuestion.put(question, false);
             }
             else {
                 int index = calculateIndex(question);
-                frame.getContentPane().add(question, index);
+                frame.getContentPane().add((JComponent) question, index);
                 isDisplayedPerQuestion.put(question, true);
             }
             frame.invalidate();

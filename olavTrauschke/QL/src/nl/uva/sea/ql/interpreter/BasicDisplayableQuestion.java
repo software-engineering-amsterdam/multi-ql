@@ -15,7 +15,7 @@ import nl.uva.sea.ql.interpreter.listener.*;
  * conditions under which they should be displayed.
  * 
  * @author Olav Trauschke
- * @version 28-mar-2016
+ * @version 29-mar-2016
  */
 public class BasicDisplayableQuestion extends JComponent
         implements DisplayableQuestion {
@@ -30,6 +30,8 @@ public class BasicDisplayableQuestion extends JComponent
     private final AnswerTable answerTable;
     
     private final List<DisplayableQuestionListener> listeners;
+    
+    private final DisplayableQuestion concreteQuestion;
     
     private boolean isToDisplay;
     private Value value;
@@ -48,9 +50,17 @@ public class BasicDisplayableQuestion extends JComponent
      *                      or <code>theCalculation</code> of <code>theQuestion</code>
      *                      could contain to their current <code>Value</code>s,
      *                      or <code>null</code> when these are unknown
+     * @param theConcreteQuestion a <code>DisplayableQuestion</code> that is not
+     *                              a <code>BasicDisplayableQuestion</code> but
+     *                              represents the same <code>Question</code> as
+     *                              the constructed
+     *                              <code>BasicDisplayableQuestion</code>, the
+     *                              constructed <code>BasicDisplayableQuestion</code>
+     *                              must become <code>theConcreteQuestion</code>'s
+     *                              <code>BasicQuestion</code> for concistency
      */
-    public BasicDisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
-            AnswerTable theAnswerTable) {
+    BasicDisplayableQuestion(Expr conditionForDisplay, Question theQuestion,
+            AnswerTable theAnswerTable, DisplayableQuestion theConcreteQuestion) {
         assert conditionForDisplay != null;
         assert theQuestion != null;
         assert theAnswerTable != null;
@@ -74,6 +84,8 @@ public class BasicDisplayableQuestion extends JComponent
         Boolean isToDisplayBoolean = isToDisplayValue.getValue();
         isToDisplay = isToDisplayBoolean == null ? false : isToDisplayBoolean;
         value = isComputedQuestion ? question.evalCalculation(theAnswerTable) : null;
+        
+        concreteQuestion = theConcreteQuestion;
     }
     
     /**
@@ -148,6 +160,17 @@ public class BasicDisplayableQuestion extends JComponent
     @Override
     public Value eval() {
         return question.evalCalculation(answerTable);
+    }
+    
+    /**
+     * @return the <code>DisplayableQuestion</code> that was passed to the
+     *          constructor as <code>theConcreteQuestion</code> that set
+     *          <code>this BasicDisplayableQuestion</code> as its
+     *          <code>basicQuestion</code> when
+     *          <code>this BasicDisplayableQuestion</code> was constructed
+     */
+    public DisplayableQuestion getConcreteQuestion() {
+        return concreteQuestion;
     }
     
     /**

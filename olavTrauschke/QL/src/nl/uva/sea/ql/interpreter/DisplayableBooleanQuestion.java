@@ -1,6 +1,7 @@
 package nl.uva.sea.ql.interpreter;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 import lombok.experimental.Delegate;
@@ -12,7 +13,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * TODO document
  * 
  * @author Olav Trauschke
- * @version 28-mrt-2016
+ * @version 29-mrt-2016
  */
 public class DisplayableBooleanQuestion extends JCheckBox
         implements DisplayableQuestion{
@@ -39,7 +40,8 @@ public class DisplayableBooleanQuestion extends JCheckBox
             Question theQuestion, AnswerTable theAnswerTable) {
         super(theQuestion.obtainLabelString());
         addActionListener(this::setValue);
-        basicQuestion = new BasicDisplayableQuestion(conditionForDisplay, theQuestion, theAnswerTable);
+        basicQuestion = new BasicDisplayableQuestion(conditionForDisplay,
+                theQuestion, theAnswerTable, this);
         setHorizontalTextPosition(SwingConstants.LEFT);
     }
     
@@ -51,6 +53,37 @@ public class DisplayableBooleanQuestion extends JCheckBox
     public void setValue(ActionEvent e) {
         boolean selected = ((JCheckBox) e.getSource()).isSelected();
         setValue(new BooleanValue(selected));
+    }
+    
+    /**
+     * Defined by {@link javax.swing.AbstractButton#addActionListener(java.awt.event.ActionListener)
+     * AbstractButton.addActionListener(ActionListener)}, declared as final here
+     * for use in constructor.
+     * 
+     * @param l an <code>ActionListener</code> that needs to listen to
+     *          <code>this DisplayableBooleanQuestion</code>
+     */
+    @Override
+    public final void addActionListener(ActionListener l) {
+        super.addActionListener(l);
+    }
+    
+    /**
+     * Defined by {@link javax.swing.AbstractButton#setHorizontalTextPosition(int)
+     * AbstractButton.setHorizontalTextPosition(int)}, declared as final here for
+     * use in constructor.
+     * 
+     * @param newPosition an <code>int</code> representing the new position of
+     *                      the text, one of the following:
+     *                      <code>SwingConstants.RIGHT</code>,
+     *                      <code>SwingConstants.LEFT</code>,
+     *                      <code>SwingConstants.CENTER</code>,
+     *                      <code>SwingConstants.LEADING</code> or
+     *                      <code>SwingConstants.TRAILING</code> (default)
+     */
+    @Override
+    public final void setHorizontalTextPosition(int newPosition) {
+        super.setHorizontalTextPosition(newPosition);
     }
     
     /**
