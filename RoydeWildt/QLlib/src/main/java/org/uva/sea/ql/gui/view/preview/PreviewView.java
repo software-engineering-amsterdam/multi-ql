@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -69,19 +70,24 @@ public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
         label.setPadding(new Insets(10,0,5,20));
         rootPane.add(label, 0, 0, 2, 1);
 
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(genQuestionUiFromList(questionList, null));
-        rootPane.add(vbox, 0, 1);
+        rootPane.add(makeQuestionPane(questionList, null), 0, 1);
     }
 
     private void updatePreview(Widget widget){
         List<EvaluatedQuestion> questionList = new FormEvaluator(this.form, this.symbolTable).getEvaluatedQuestions();
-
         rootPane.getChildren().remove(1);
+        rootPane.add(makeQuestionPane(questionList, widget), 0, 1);
+    }
+
+    private ScrollPane makeQuestionPane(List<EvaluatedQuestion> questionList, Widget widget){
+        ScrollPane questionPane = new ScrollPane();
+        questionPane.setFitToWidth(true);
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(genQuestionUiFromList(questionList, widget));
-        rootPane.add(vbox, 0, 1);
+
+        questionPane.setContent(vbox);
+        return questionPane;
     }
 
     private List<Parent> genQuestionUiFromList(List<EvaluatedQuestion> questions, Widget changed){
