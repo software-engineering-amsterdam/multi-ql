@@ -111,15 +111,15 @@ public class IdentifierVisitor implements ExpressionVisitor<Set<String>> {
 	public Set<String> visit(IntegerLiteral integerLiteral) {
 		return identifiers;
 	}
+	
+	@Override 
+	public Set<String> visit(MoneyLiteral moneyLiteral) {
+		return identifiers;
+	}
 
 	@Override
 	public Set<String> visit(Identifier identifier) {
 		identifiers.add(identifier.getName());
-		return identifiers;
-	}
-	
-	@Override 
-	public Set<String> visit(MoneyLiteral moneyLiteral) {
 		return identifiers;
 	}
 	

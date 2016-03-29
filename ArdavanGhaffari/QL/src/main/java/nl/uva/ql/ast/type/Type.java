@@ -14,15 +14,7 @@ public abstract class Type {
 		return name;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null || obj.getClass() != this.getClass()) {
-			return false;
-		}
-		
-		if (this.name.equals(((Type) obj).getName())) {
-			return true;
-		}
+	public boolean isUnknownType(){
 		return false;
 	}
 	

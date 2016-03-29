@@ -3,9 +3,9 @@ package nl.uva.ql.typechecker.errorhandler.error;
 import java.text.MessageFormat;
 
 public class CyclicDependencyError extends Error {
-	private static final String ERROR_MESSAGE = "Cyclic dependency error at line {0}: there is cyclic dependency between the two identifiers ''{1}'' and ''{2}''";
+	private static final String ERROR_MESSAGE = "There is cyclic dependency between two identifiers: ''{0}'' and ''{1}''";
 	
-	public CyclicDependencyError(int line, String identifier1, String identifier2) {
-		super(MessageFormat.format(ERROR_MESSAGE, Integer.toString(line), identifier1, identifier2));
+	public CyclicDependencyError(String firstIdentifier, String secondIdentifier) {
+		super(MessageFormat.format(ERROR_MESSAGE, firstIdentifier, secondIdentifier));
 	}
 }

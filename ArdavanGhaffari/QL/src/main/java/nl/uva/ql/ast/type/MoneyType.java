@@ -9,6 +9,14 @@ public class MoneyType extends Type {
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof MoneyType){
+			return this.getName().equals(((MoneyType)obj).getName());
+		}
+		return false;
+	}
+	
+	@Override
 	public Widget accept(TypeVisitor typeVisitor) {
 		return typeVisitor.visit(this);
 	}

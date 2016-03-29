@@ -10,6 +10,14 @@ public class StringType extends Type{
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof StringType){
+			return this.getName().equals(((StringType)obj).getName());
+		}
+		return false;
+	}
+	
+	@Override
 	public Widget accept(TypeVisitor typeVisitor) {
 		return typeVisitor.visit(this);
 	}

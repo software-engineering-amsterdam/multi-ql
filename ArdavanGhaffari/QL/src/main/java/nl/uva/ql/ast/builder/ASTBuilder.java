@@ -1,6 +1,8 @@
 package nl.uva.ql.ast.builder;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
 import nl.uva.ql.ast.AbstractNode;
 import nl.uva.ql.ast.Box;
@@ -72,11 +74,11 @@ public class ASTBuilder extends QLBaseVisitor<AbstractNode> {
 
 	@Override
 	public AbstractNode visitBox(BoxContext ctx) {
-		Box box = new Box(getStartLine(ctx));
+		List<Statement> statements = new LinkedList<>();
 		for (StatementContext statementContext: ctx.statement()) {
-			box.addStatement((Statement) statementContext.accept(this));
+			statements.add((Statement) statementContext.accept(this));
 		}
-		return box;
+		return new Box(getStartLine(ctx), statements);
 	}
 
 	@Override

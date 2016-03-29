@@ -6,5 +6,4 @@ public class UnknownValue extends Value{
 	public Boolean isUnknownValue(){
 		return true;
 	}
-
 }

@@ -16,7 +16,7 @@ import antlrsources.QLParser;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		ANTLRFileStream input = new ANTLRFileStream("src/main/resources/quest2.ql");
+		ANTLRFileStream input = new ANTLRFileStream("src/main/resources/questionnaire7.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);

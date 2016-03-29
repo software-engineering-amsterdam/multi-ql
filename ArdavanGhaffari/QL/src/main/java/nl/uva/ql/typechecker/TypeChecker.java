@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 import nl.uva.ql.ast.Box;
 import nl.uva.ql.ast.Form;
 import nl.uva.ql.ast.expression.Expression;
@@ -93,28 +92,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		
 		checkForRedeclaration(computedQuestion);
 		checkDuplicateLabel(computedQuestion);
-		
-		// adds dependencies if any + check for cyclic dependencies
-		Identifier identifier = computedQuestion.getIdentifier();
-		IdentifierVisitor identifierVisitor = new IdentifierVisitor();
-		Set<String> directDependencies = expression.accept(identifierVisitor);
-		Set<String> dependencySet = new HashSet<>(directDependencies);
-		for (String dependency: directDependencies) {
-			addDependencies(identifier, dependencySet, dependency);
-		}
-		identifierInfoMap.get(identifier.getName()).updateDependencies(dependencySet);
-		
-//		Identifier identifier = computedQuestion.getIdentifier();
-//		IdentifierVisitor identifierVisitor = new IdentifierVisitor();
-//		Set<String> directDependencies = expression.accept(identifierVisitor);
-//		Set<String> transitiveDependencies = transitiveClosure(directDependencies));
-//		if (hasCycle(transitiveDepedencies, identifier)) {
-//			errorHandler.addError();
-//		}
-//		for (String dependency: directDependencies) {
-//			addDependencies(identifier, transitiveDependencies, dependency);
-//		}
-//		identifierInfoMap.get(identifier.getIdentifier()).updateDependencies(transitiveDependencies);
+		checkCyclicDependecy(computedQuestion);
 		return null;
 	}
 
@@ -152,7 +130,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		}
 		
 		Type expressionType = getTypeForNumericExpression(leftType, rightType);
-		if (expressionType.equals(new UnknownType())) {
+		if (expressionType.isUnknownType()) {
 			errorHandler.addError(new OperationTypeMissmatchError(addition.getLine(), "Add"));
 		}
 		return expressionType;
@@ -163,7 +141,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		Type leftType = subtraction.getLeftExpression().accept(this);
 		Type rightType = subtraction.getRightExpression().accept(this);
 		Type expressionType = getTypeForNumericExpression(leftType, rightType);
-		if (expressionType.equals(new UnknownType())) {
+		if (expressionType.isUnknownType()) {
 			errorHandler.addError(new OperationTypeMissmatchError(subtraction.getLine(), "Subtraction"));
 		}
 		return expressionType;
@@ -174,7 +152,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		Type leftType = multiplication.getLeftExpression().accept(this);
 		Type rightType = multiplication.getRightExpression().accept(this);
 		Type expressionType = getTypeForNumericExpression(leftType, rightType);
-		if (expressionType.equals(new UnknownType())) {
+		if (expressionType.isUnknownType()) {
 			errorHandler.addError(new OperationTypeMissmatchError(multiplication.getLine(), "Multiply"));
 		}
 		return expressionType;
@@ -185,7 +163,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		Type leftType = division.getLeftExpression().accept(this);
 		Type rightType = division.getRightExpression().accept(this);
 		Type expressionType = getTypeForNumericExpression(leftType, rightType);
-		if (expressionType.equals(new UnknownType())) {
+		if (expressionType.isUnknownType()) {
 			errorHandler.addError(new OperationTypeMissmatchError(division.getLine(), "Divide"));
 		}
 		return expressionType;
@@ -316,19 +294,28 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 	
 	private void checkForRedeclaration(Question question) {
 		Identifier identifier = question.getIdentifier();
-		String identifierString = identifier.getName();
+		String identifierName = identifier.getName();
 		Type type = question.getType();
-		if(identifierInfoMap.containsKey(identifierString)){
-			IdentifierInfo identifierInfo = identifierInfoMap.get(identifierString);
+		if(identifierInfoMap.containsKey(identifierName)){
+			IdentifierInfo identifierInfo = identifierInfoMap.get(identifierName);
 			if(!identifierInfo.getType().equals(type)){
 				errorHandler.addError(new DuplicateDeclarationError(question.getLine(),
-						identifierString, identifierInfoMap.get(identifierString).getType().getName()));
+						identifierName, identifierInfoMap.get(identifierName).getType().getName()));
 			}
 		}
 		else {
 			IdentifierInfo identifierInfo = new IdentifierInfo();
 			identifierInfo.setType(type);
-			identifierInfoMap.put(identifierString, identifierInfo);
+			identifierInfoMap.put(identifierName, identifierInfo);
+		}
+	}
+	
+	private void checkDuplicateLabel(Question question) {
+		String label = question.getLabel();
+		if (labels.contains(label.toLowerCase())) {
+			errorHandler.addWarning(new DuplicateLabelWarning(label, question.getLine()));
+		} else {
+			labels.add(label.toLowerCase());
 		}
 	}
 	
@@ -337,6 +324,40 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		Type conditionType = condition.accept(this);
 		if(!conditionType.isBooleanCompatible(new BooleanType())){
 			errorHandler.addError(new TypeMissmatchError(ifStatement.getLine(), "If condition", "Boolean"));
+		}
+	}
+	
+	private void checkCyclicDependecy(ComputedQuestion computedQuestion) {
+		Expression expression = computedQuestion.getExpression();
+		Identifier identifier = computedQuestion.getIdentifier();
+		IdentifierVisitor identifierVisitor = new IdentifierVisitor();
+		Set<String> directDependencies = expression.accept(identifierVisitor);
+		Set<String> dependencySet = new HashSet<>(directDependencies);
+		List<DependencyPair> dependencyPairs = new LinkedList<>();
+		for (String directDependency: directDependencies) {
+			addIndirectDependencies(identifier, dependencySet, dependencyPairs, directDependency);
+		}
+		identifierInfoMap.get(identifier.getName()).setDependencies(dependencySet);
+		for(DependencyPair dependencyPair: dependencyPairs){
+			errorHandler.addError(new CyclicDependencyError(
+					dependencyPair.getFirstIdentifier(), dependencyPair.getSecondIdentifier()));
+		}
+	}
+	
+	private void addIndirectDependencies(Identifier identifier, Set<String> dependencySet,
+			List<DependencyPair> dependencyPairs, String dependency) {
+		if (identifierInfoMap.containsKey(dependency)) {
+			Set<String> indirectDependencies = identifierInfoMap.get(dependency).getDependencies();
+			dependencySet.addAll(indirectDependencies);
+			
+			for (String indirectDependency: indirectDependencies) {
+				if (indirectDependency.equals(identifier.getName())) {
+					dependencyPairs.add(new DependencyPair(identifier.getName(), dependency));
+				} 
+				else {
+					addIndirectDependencies(identifier, dependencySet, dependencyPairs, indirectDependency);
+				}
+			}
 		}
 	}
 	
@@ -353,34 +374,4 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Vo
 		}
 		return new UnknownType();
 	}
-	
-	private void addDependencies(Identifier identifier, Set<String> dependencySet, String dependency) {
-		if (identifierInfoMap.containsKey(dependency)) {
-			Set<String> dependencies = identifierInfoMap.get(dependency).getDependencies();
-			
-			if (dependencies != null && dependencies.size() > 0) {
-				dependencySet.addAll(dependencies);
-				
-				for (String newDependency: dependencies) {
-					if (newDependency.equals(identifier.getName())) {
-						errorHandler.addError(new CyclicDependencyError(
-								identifier.getLine(), identifier.getName(), dependency));
-					} 
-					else {
-						addDependencies(identifier, dependencySet, newDependency);
-					}
-				}
-			}
-		}
-	}
-	
-	private void checkDuplicateLabel(Question question) {
-		String label = question.getLabel();
-		if (labels.contains(label.toLowerCase())) {
-			errorHandler.addWarning(new DuplicateLabelWarning(label, question.getLine()));
-		} else {
-			labels.add(label.toLowerCase());
-		}
-	}
-
 }

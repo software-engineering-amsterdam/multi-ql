@@ -17,12 +17,8 @@ public class Identifier extends Expression {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || obj.getClass() != this.getClass()) {
-			return false;
-		}
-		
-		if (this.name.equals(((Identifier) obj).getName())) {
-			return true;
+		if(obj instanceof Identifier){
+			return name.equals(((Identifier)obj).getName());
 		}
 		return false;
 	}

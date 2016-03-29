@@ -10,6 +10,14 @@ public class IntegerType extends Type{
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof IntegerType){
+			return this.getName().equals(((IntegerType)obj).getName());
+		}
+		return false;
+	}
+	
+	@Override
 	public Widget accept(TypeVisitor typeVisitor) {
 		return typeVisitor.visit(this);
 	}
