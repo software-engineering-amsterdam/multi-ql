@@ -1,10 +1,15 @@
 package org.uva.sea.ql.gui.view.editor;
 
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -16,8 +21,8 @@ import org.uva.sea.ql.gui.view.editor.listener.EditorChangedEvent;
 import org.uva.sea.ql.gui.view.editor.listener.EditorChangedListener;
 import org.uva.sea.ql.gui.view.editor.pane.InfoPane;
 import org.uva.sea.ql.gui.view.editor.pane.LogPane;
+import org.uva.sea.ql.gui.view.editor.pane.MenuPane;
 import org.uva.sea.ql.gui.view.editor.pane.TextPane;
-import org.uva.sea.ql.gui.view.preview.PreviewView;
 import org.uva.sea.ql.parser.QLRunner;
 
 import java.util.ArrayList;
@@ -28,44 +33,31 @@ import java.util.List;
  * Created by roy on 3/17/16.
  */
 public class EditorView {
-    private GridPane rootPane;
+    private BorderPane rootPane;
+    private TextPane textPane;
+    private LogPane logPane;
+    private InfoPane infoPane;
     private List<EditorChangedListener> listenerList;
 
     public EditorView() {
         this.listenerList = new ArrayList<>();
         this.rootPane = buildEditorView();
-
-        Stage preview = previewStage();
-        preview.show();
     }
 
-    private Stage previewStage() {
 
-        PreviewView preview = new PreviewView(this);
 
-        Scene scene = new Scene(preview.getRootPane());
-        scene.getStylesheets().add("customStylesheet.css");
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        return stage;
+    private BorderPane buildEditorView(){
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(new MenuPane(this));
+        borderPane.setCenter(buildEditorGrid());
+        return borderPane;
     }
 
-    private GridPane buildEditorView(){
+    private GridPane buildEditorGrid(){
+        setupEditorPanes();
+
         GridPane editorUI = new GridPane();
-        editorUI.setPrefSize(500,560);
-        editorUI.setVgap(10);
-        editorUI.setPadding(new Insets(0, 0, 0, 0));
         editorUI.setAlignment(Pos.TOP_CENTER);
-
-        TextPane textPane = new TextPane();
-        LogPane logPane = new LogPane();
-        InfoPane infoPane = new InfoPane();
-
-        textPane.addCaretChangedListener((observableValue, cursor, t1) ->
-                infoPane.setPosition(textPane.getTextPane()));
-
-        textPane.addTextChangedListener((observableValue, s, t1) ->
-                updatePreview(textPane.getTextPane(), logPane.getLogPane()));
 
         RowConstraints row1 = new RowConstraints(300);
         row1.setVgrow(Priority.ALWAYS);
@@ -73,14 +65,27 @@ public class EditorView {
         RowConstraints row3 = new RowConstraints(20);
         editorUI.getRowConstraints().addAll(row1, row2, row3);
 
-        editorUI.add(textPane.getTextPane(), 0, 0);
-        editorUI.add(logPane.getLogPane(), 0, 1);
-        editorUI.add(infoPane.getInfoPane(), 0, 2);
+        editorUI.add(textPane, 0, 0);
+        editorUI.add(logPane, 0, 1);
+        editorUI.add(infoPane, 0, 2);
 
         return editorUI;
     }
 
-    private void updatePreview(TextArea textPane, TextArea logPane) {
+    private void setupEditorPanes(){
+        this.textPane = new TextPane();
+        this.logPane = new LogPane();
+        this.infoPane = new InfoPane();
+
+        textPane.addCaretChangedListener((observableValue, cursor, t1) ->
+                infoPane.setPosition(textPane));
+
+        textPane.addTextChangedListener((observableValue, s, t1) ->
+                updatePreview());
+    }
+
+
+    public void updatePreview() {
         logPane.setText("");
 
         try {
@@ -111,7 +116,7 @@ public class EditorView {
         listenerList.add(listener);
     }
 
-    public GridPane getRootPane() {
+    public BorderPane getRootPane() {
         return rootPane;
     }
 }

@@ -9,20 +9,18 @@ import org.uva.sea.ql.gui.observer.Position;
 /**
  * Created by roy on 3/28/16.
  */
-public class InfoPane {
-    private final Label infoPane;
+public class InfoPane extends Label{
 
     public InfoPane() {
         Position position = new Position(1, 0);
-        this.infoPane = new Label();
-        this.infoPane.setAlignment(Pos.TOP_LEFT);
-        this.infoPane.setPadding(new Insets(0,0,0,5));
-        this.infoPane.setText(position.toString());
+        this.setAlignment(Pos.TOP_LEFT);
+        this.setPadding(new Insets(0,0,0,5));
+        this.setText(position.toString());
     }
 
     public void setPosition(TextArea textArea) {
         Position pos = getLineFromOffset(textArea);
-        this.infoPane.setText(pos.toString());
+        this.setText(pos.toString());
     }
 
     private Position getLineFromOffset(TextArea textArea){
@@ -44,10 +42,6 @@ public class InfoPane {
         }
 
         return new Position(0,0);
-    }
-
-    public Label getInfoPane() {
-        return infoPane;
     }
 
 

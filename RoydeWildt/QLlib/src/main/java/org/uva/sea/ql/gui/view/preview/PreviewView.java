@@ -3,7 +3,9 @@ package org.uva.sea.ql.gui.view.preview;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -11,8 +13,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
 import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.ast.tree.stat.decl.Question;
 import org.uva.sea.ql.evaluator.EvaluatedQuestion;
 import org.uva.sea.ql.evaluator.FormEvaluator;
 import org.uva.sea.ql.evaluator.SymbolTable;
@@ -39,7 +43,11 @@ import java.util.Map;
  * Created by roy on 25-2-16.
  */
 public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
+    private EditorView editor;
+    private Stage previewStage;
+
     private GridPane rootPane;
+    private VBox questionsBox;
     private WidgetFactory widgetFactory;
 
     private Form form;
@@ -52,7 +60,8 @@ public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
         rootPane.setPadding(new Insets(0, 0, 0, 0));
         rootPane.setAlignment(Pos.TOP_CENTER);
 
-        editor.addEditorChangedEventListener(editorChangedEvent -> buildPreviewFromSource(editorChangedEvent.getSource()));
+        this.editor = editor;
+        this.editor.addEditorChangedEventListener(editorChangedEvent -> buildPreviewFromSource(editorChangedEvent.getSource()));
 
         this.widgetFactory = new DefaultWidgets();
     }
@@ -70,41 +79,48 @@ public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
         label.setPadding(new Insets(10,0,5,20));
         rootPane.add(label, 0, 0, 2, 1);
 
-        rootPane.add(makeQuestionPane(questionList, null), 0, 1);
+        rootPane.add(makeQuestionPane(questionList), 0, 1);
+    }
+
+    private ScrollPane makeQuestionPane(List<EvaluatedQuestion> questionList){
+        ScrollPane questionPane = new ScrollPane();
+        questionPane.setFitToWidth(true);
+
+        questionsBox = new VBox();
+        List<QuestionBox> questionBoxList = buildQuestionUiFromList(questionList);
+        questionsBox.getChildren().addAll(questionBoxList);
+
+        questionPane.setContent(questionsBox);
+        return questionPane;
     }
 
     private void updatePreview(Widget widget){
         List<EvaluatedQuestion> questionList = new FormEvaluator(this.form, this.symbolTable).getEvaluatedQuestions();
-        rootPane.getChildren().remove(1);
-        rootPane.add(makeQuestionPane(questionList, widget), 0, 1);
+        List<QuestionBox> questionBoxList = buildQuestionUiFromList(questionList);
+        insertActiveQuestionControl(questionBoxList, widget);
+
+        this.questionsBox.getChildren().clear();
+        this.questionsBox.getChildren().addAll(questionBoxList);
     }
 
-    private ScrollPane makeQuestionPane(List<EvaluatedQuestion> questionList, Widget widget){
-        ScrollPane questionPane = new ScrollPane();
-        questionPane.setFitToWidth(true);
-
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(genQuestionUiFromList(questionList, widget));
-
-        questionPane.setContent(vbox);
-        return questionPane;
+    private void insertActiveQuestionControl(List<QuestionBox> questionBoxList, Widget widget){
+        for (QuestionBox questionBox : questionBoxList){
+            if(widget.getQuestionName().equals(questionBox.getQuestionName())){
+                questionBox.getChildren().set(1, widget.getUiElement());
+            }
+        }
     }
 
-    private List<Parent> genQuestionUiFromList(List<EvaluatedQuestion> questions, Widget changed){
-        List<Parent> uiElements = new ArrayList<>();
+    private List<QuestionBox> buildQuestionUiFromList(List<EvaluatedQuestion> questions){
+        List<QuestionBox> uiElements = new ArrayList<>();
         for (EvaluatedQuestion question : questions){
-            if (changed != null && question.getVarname().equals(changed.getParentQuestion().getVarname())){
-                uiElements.add(genQuestionUI(question,changed.getUiElement()));
-            }
-            else{
-                uiElements.add(genQuestionUI(question));
-            }
+            uiElements.add(genQuestionUI(question));
         }
         return uiElements;
     }
 
-    private Parent genQuestionUI(EvaluatedQuestion q) {
-        GridPane box = buildQuestionBox();
+    private QuestionBox genQuestionUI(EvaluatedQuestion q) {
+        QuestionBox box = buildQuestionBox(q);
 
         Label label = new Label(q.getLabel());
         label.setWrapText(true);
@@ -117,20 +133,8 @@ public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
         return box;
     }
 
-    private Parent genQuestionUI(EvaluatedQuestion q, Parent changedValueControl) {
-        GridPane box = buildQuestionBox();
-
-        Label label = new Label(q.getLabel());
-        label.setWrapText(true);
-        box.add(label, 0, 0);
-
-        box.add(changedValueControl, 1, 0);
-
-        return box;
-    }
-
-    private GridPane buildQuestionBox(){
-        GridPane box = new GridPane();
+    private QuestionBox buildQuestionBox(EvaluatedQuestion q){
+        QuestionBox box = new QuestionBox(q.getVarname().toString());
         box.setHgap(5);
         box.setPadding(new Insets(5,20,5,20));
 
@@ -230,7 +234,18 @@ public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
         return name.chars().allMatch(Character::isLetter);
     }
 
-    public GridPane getRootPane() {
-        return rootPane;
+    public void showPreviewStage(){
+        if(previewStage == null){
+            Scene scene = new Scene(this.rootPane);
+            scene.getStylesheets().add("customStylesheet.css");
+            previewStage = new Stage();
+            previewStage.setScene(scene);
+            //previewStage.setOnCloseRequest(windowEvent -> previewStage = null);
+            editor.updatePreview();
+        }
+
+        if(!previewStage.isShowing()){
+            previewStage.show();
+        }
     }
 }

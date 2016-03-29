@@ -5,16 +5,11 @@ import javafx.scene.control.TextArea;
 /**
  * Created by roy on 3/28/16.
  */
-public class LogPane {
-    private final TextArea logPane;
+public class LogPane extends TextArea{
 
     public LogPane() {
-        logPane = new TextArea();
-        logPane.setEditable(false);
+        this.setEditable(false);
     }
 
-    public TextArea getLogPane() {
-        return logPane;
-    }
 
 }
