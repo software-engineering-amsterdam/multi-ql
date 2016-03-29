@@ -2,7 +2,7 @@ package org.uva.sea.ql.evaluator;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.*;
-import org.uva.sea.ql.adt.value.Value;
+import org.uva.sea.ql.evaluator.adt.value.Value;
 import org.uva.sea.ql.ast.tree.form.Form;
 import org.uva.sea.ql.parser.QLRunner;
 

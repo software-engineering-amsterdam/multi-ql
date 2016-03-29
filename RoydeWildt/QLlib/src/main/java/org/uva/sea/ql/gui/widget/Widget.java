@@ -14,7 +14,7 @@ public abstract class Widget {
     public abstract void addListener(ChangeListener listener);
 
     public void setInvalid() {
-        uiElement.getStyleClass().remove("error");
+        uiElement.getStyleClass().add("error");
     }
 
     public void unSetInvalid() {

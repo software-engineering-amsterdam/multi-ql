@@ -1,10 +1,10 @@
 package org.uva.sea.ql.checker;
 
-import org.uva.sea.ql.adt.type.*;
-import org.uva.sea.ql.adt.type.Boolean;
-import org.uva.sea.ql.adt.type.Number;
-import org.uva.sea.ql.adt.type.String;
-import org.uva.sea.ql.adt.value.Value;
+import org.uva.sea.ql.evaluator.adt.type.*;
+import org.uva.sea.ql.evaluator.adt.type.Boolean;
+import org.uva.sea.ql.evaluator.adt.type.Number;
+import org.uva.sea.ql.evaluator.adt.type.String;
+import org.uva.sea.ql.evaluator.adt.value.Value;
 import org.uva.sea.ql.ast.tree.atom.val.Bool;
 import org.uva.sea.ql.ast.tree.atom.val.Int;
 import org.uva.sea.ql.ast.tree.atom.val.Str;
@@ -28,7 +28,7 @@ public class TypeCheck<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,T
     private final Map<Var, Value> symbolTable;
 
     public TypeCheck(Form form){
-        this.symbolTable = new SymbolTable(form, new HashMap<>()).getSymbolTable();
+        this.symbolTable = new SymbolTable(form).getSymbolTable();
     }
 
     @Override

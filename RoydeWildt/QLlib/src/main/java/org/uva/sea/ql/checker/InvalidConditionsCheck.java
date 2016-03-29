@@ -1,7 +1,7 @@
 package org.uva.sea.ql.checker;
 
-import org.uva.sea.ql.adt.type.Type;
-import org.uva.sea.ql.adt.type.Boolean;
+import org.uva.sea.ql.evaluator.adt.type.Type;
+import org.uva.sea.ql.evaluator.adt.type.Boolean;
 import org.uva.sea.ql.ast.tree.Node;
 import org.uva.sea.ql.ast.tree.expr.Expr;
 import org.uva.sea.ql.ast.tree.form.Form;

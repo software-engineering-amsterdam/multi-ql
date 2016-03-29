@@ -7,7 +7,7 @@ import org.uva.sea.ql.ast.visitor.BaseVisitor;
 import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
 import org.uva.sea.ql.evaluator.SymbolTable;
-import org.uva.sea.ql.adt.value.Value;
+import org.uva.sea.ql.evaluator.adt.value.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class UndefinedVarsCheck extends BaseVisitor<Void,Void,Void,Void,Void,Map
 
     public UndefinedVarsCheck(Form f) {
         this.undefined = new ArrayList<>();
-        f.accept(this, new SymbolTable(f, new HashMap<>()).getSymbolTable());
+        f.accept(this, new SymbolTable(f).getSymbolTable());
     }
 
 
