@@ -22,10 +22,10 @@ import ql.ast.literal.IntLiteral;
 import ql.ast.literal.StringLiteral;
 import ql.ast.literal.VariableExpression;
 import ql.ast.statement.IfStatement;
-import ql.ast.types.BooleanType;
-import ql.ast.types.IntegerType;
-import ql.ast.types.StringType;
-import ql.ast.types.ValueType;
+import ql.ast.type.BooleanType;
+import ql.ast.type.IntegerType;
+import ql.ast.type.StringType;
+import ql.ast.type.ValueType;
 import ql.issue.ConditionNonBoolean;
 import ql.issue.InvalidTypeForOperant;
 

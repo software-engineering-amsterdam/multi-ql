@@ -2,7 +2,7 @@ package ql;
 
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
-import ql.ast.visitor.Evaluation;
+import ql.ast.visitor.Evaluator;
 
 public class FormEvaluation {
 	private Context context;
@@ -13,7 +13,7 @@ public class FormEvaluation {
 
 	public void evaluateForm(Form form) {
 		assert(context != null);
-		Evaluation eval = new Evaluation(context);
+		Evaluator eval = new Evaluator(context);
 		eval.visit(form);
 	}
 

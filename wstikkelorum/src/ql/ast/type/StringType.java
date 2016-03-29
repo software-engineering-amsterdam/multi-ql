@@ -1,4 +1,4 @@
-package ql.ast.types;
+package ql.ast.type;
 
 public class StringType extends ValueType{
 	

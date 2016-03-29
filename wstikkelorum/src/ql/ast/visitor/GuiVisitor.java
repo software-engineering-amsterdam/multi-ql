@@ -1,19 +1,13 @@
 package ql.ast.visitor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ql.ast.form.Form;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
 import ql.ast.statement.InputQuestion;
-import ql.gui.ComputedQuestionWidget;
-import ql.gui.InputQuestionWidget;
-import ql.gui.UIElement;
 import ql.gui.UserInterface;
 import ql.gui.VisibleQuestions;
 
-public class GuiVisitor<T> extends Evaluation {
+public class GuiVisitor<T> extends Evaluator {
 	private VisibleQuestions visibleQuestions;
 	private UserInterface parent;
 

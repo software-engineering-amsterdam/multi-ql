@@ -12,13 +12,6 @@ public abstract class Issue implements UIElement{
 		System.out.println(errorMessage);
 	}
 	
-	JPanel getUIElement() {
-		JPanel jPanel = new JPanel();
-		jPanel.add(new JLabel(errorMessage));
-		jPanel.setVisible(true);
-		return jPanel;
-	}
-	
 	public JPanel getDrawableItem() {
 		JPanel jPanel = new JPanel();
 		JLabel jLabel = new JLabel(errorMessage);

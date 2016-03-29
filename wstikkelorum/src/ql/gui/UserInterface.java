@@ -90,30 +90,40 @@ public class UserInterface extends JFrame{
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
 		JMenuItem menuItem = new JMenuItem("Open Questionaire");
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc = new JFileChooser(new File("resources").getAbsolutePath());
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Question Language Forms", "ql");
-				jfc.setFileFilter(filter);			
-				int returnVal = jfc.showOpenDialog(menuBar);
-				if(returnVal == JFileChooser.APPROVE_OPTION){
-					currentPath = jfc.getSelectedFile().getAbsolutePath();
-					ParseAndAnalyseForm();
-				}
-			}
-		});
+		menuItem.addActionListener(new FileChooserActionListener(menuBar));
 		menu.add(menuItem);
 		JMenuItem closeItem = new JMenuItem("Exit");
-		closeItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.dispose();
-			}
-		});
+		closeItem.addActionListener(new CloseWindowActionListener());
 		menu.add(closeItem);
 		menuBar.add(menu);
 		return menuBar;
+	}
+	
+	class CloseWindowActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			mainWindow.dispose();
+		}
+	}
+	
+	class FileChooserActionListener implements ActionListener{
+		private JMenuBar parent;
+		
+		public FileChooserActionListener(JMenuBar parent) {
+			this.parent = parent;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser jfc = new JFileChooser(new File("resources").getAbsolutePath());
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Question Language Forms", "ql");
+			jfc.setFileFilter(filter);			
+			int returnVal = jfc.showOpenDialog(parent);
+			if(returnVal == JFileChooser.APPROVE_OPTION){
+				currentPath = jfc.getSelectedFile().getAbsolutePath();
+				ParseAndAnalyseForm();
+			}
+		}
 	}
 	
 	public void drawContent(){
@@ -130,13 +140,11 @@ public class UserInterface extends JFrame{
 	}
 	
 	private void updateContext(){
-		Iterator<UIElement> questions = visibleQuestions.getIterator();
-		while(questions.hasNext()){
-			UIElement question = questions.next();
-			if(question instanceof InputQuestionWidget){
-				Object value = ((UserInputElement) question).getInput();
-				context.putValueForQuestion(((InputQuestionWidget) question).getQuestion(), value);
-			}
+		Iterator<InputQuestionWidget> inputQuestions = visibleQuestions.getInputQuestionsIterator();
+		while(inputQuestions.hasNext()){
+			InputQuestionWidget inputQuestion = inputQuestions.next();
+			Object value = inputQuestion.getInput();
+			context.putValueForQuestion(inputQuestion.getQuestion(), value);
 		}
 	}
 	
@@ -151,16 +159,18 @@ public class UserInterface extends JFrame{
 		mainPanel.repaint();
 	}
 	
+	//TODO: duplicated code..
 	private void setValues(){
-		Iterator<UIElement> iterator = visibleQuestions.getIterator();
-		while(iterator.hasNext()){
-			UIElement question = iterator.next();
-			if(question instanceof InputQuestionWidget){
-				question.updateValueLabel(context.getValueForVariable(((InputQuestionWidget) question).getQuestion().getVariable()));
-			}
-			if(question instanceof ComputedQuestionWidget){
-				question.updateValueLabel(context.getValueForVariable(((ComputedQuestionWidget) question).getQuestion().getVariable()));
-			}
+		Iterator<InputQuestionWidget> inputQuestionIterator = visibleQuestions.getInputQuestionsIterator();
+		while(inputQuestionIterator.hasNext()){
+			InputQuestionWidget inputQuestionWidget = inputQuestionIterator.next();
+			inputQuestionWidget.updateValueLabel(context.getValueForVariable(inputQuestionWidget.getQuestion().getVariable()));
+		}
+		
+		Iterator<ComputedQuestionWidget> computedQuestionIterator = visibleQuestions.getComputedQuestionsIterator();
+		while(computedQuestionIterator.hasNext()){
+			ComputedQuestionWidget computedQuestionWidget = computedQuestionIterator.next();
+			computedQuestionWidget.updateValueLabel(context.getValueForVariable(computedQuestionWidget.getQuestion().getVariable()));
 		}
 	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import ql.ast.literal.Variable;
 import ql.ast.literal.VariableExpression;
 import ql.ast.statement.Question;
-import ql.ast.types.ValueType;
+import ql.ast.type.ValueType;
 import ql.issue.DuplicateLabel;
 import ql.issue.DuplicateQuestionWithDifferentType;
 import ql.issue.Issue;
