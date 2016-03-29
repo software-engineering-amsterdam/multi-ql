@@ -1,14 +1,11 @@
 package nl.uva.sea.ql.interpreter;
 
-import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
-import nl.uva.sea.ql.interpreter.questionComponent.BooleanQuestionComponent;
 import java.util.*;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;
 import nl.uva.sea.ql.generalPurposeVisitors.GeneralizedASTVisitor;
-import nl.uva.sea.ql.interpreter.questionComponent.BooleanQuestionComponent;
-import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
+import nl.uva.sea.ql.interpreter.questionComponent.*;
 
 /**
  * Objects of this class keep track of conditions for each
@@ -46,20 +43,34 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
      * 
      * @param question a <code>BooleanQuestion</code> to create a
      * <code>QuestionComponent</code> for
-     * @return a <code>new BooleanQuestionComponent</code> representing
-     *          <code>theQuestion</code> to be displayed only when all
+     * @return a <code>new BooleanQuestionComponent</code> representing the
+     *          <code>question</code> to be displayed only when all
      *          conditions in <code>this QuestionComponentGenerator</code> are
      *          met and using <code>theAnswerTable</code> that was given to the
      *          constructor when constructing
      *          <code>this QuestionComponentGenerator</code>
      */
-    public BooleanQuestionComponent createQuestionComponent(
-            BooleanQuestion question) {
+    public BooleanQuestionComponent createQuestionComponent(BooleanQuestion question) {
         Expr condition = createConjunctionOfConditions();
         return new BooleanQuestionComponent(condition, question, answerTable);
     }
     
-    
+    /**
+     * Create a <code>QuestionComponent</code> for a specified
+     * <code>StringQuestion</code>.
+     * 
+     * @param question a <code>StringQuestion</code> to create a
+     *                  <code>QuestionComponent</code> for
+     * @return a <code>new StringQuestionComponent</code> representing
+     *          the <code>question</code> to be displayed only when all conditions
+     *          in <code>this QuestionComponentGenerator</code> are met and using
+     *          <code>theAnswerTable</code> that was given to the constructor
+     *          when constructing <code>this QuestionComponentGenerator</code>
+     */
+    public StringQuestionComponent createQuestionComponent(StringQuestion question) {
+        Expr condition = createConjunctionOfConditions();
+        return new StringQuestionComponent(condition, question, answerTable);
+    }
     
     /**
      * Create a <code>QuestionComponent</code> for a specified <code>Question</code>

@@ -1,6 +1,5 @@
 package nl.uva.sea.ql.interpreter.questionComponent;
 
-import nl.uva.sea.ql.interpreter.questionComponent.BasicQuestionComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
@@ -8,7 +7,7 @@ import javax.swing.SwingConstants;
 import lombok.experimental.Delegate;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.expr.Expr;
-import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.ast.question.BooleanQuestion;
 
 /**
  * Objects of this class are <code>JCheckBox</code>es that are used to display
@@ -18,7 +17,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * @version 29-mar-2016
  */
 public class BooleanQuestionComponent extends JCheckBox
-        implements QuestionComponent{
+        implements ConcreteQuestionComponent{
     
     @Delegate(types=QuestionComponent.class)
     private final BasicQuestionComponent basicQuestion;
@@ -29,8 +28,8 @@ public class BooleanQuestionComponent extends JCheckBox
      * @param conditionForDisplay an <code>Expr</code> defining when the constructed
      *                              <code>BooleanQuestionComponent</code>
      *                              should be displayed
-     * @param theQuestion a <code>Question</code> that should be displayed when
-     *                      <code>conditionToDisplay</code> evaluates to
+     * @param theQuestion a <code>BooleanQuestion</code> that should be displayed
+     *                      when <code>conditionToDisplay</code> evaluates to
      *                      <code>true</code>
      * @param theAnswerTable an <code>AnswerTable</code> mapping all
      *                      <code>Ident</code>s <code>conditionToDisplay</code>
@@ -39,13 +38,16 @@ public class BooleanQuestionComponent extends JCheckBox
      *                      or <code>null</code> when these are unknown
      */
     public BooleanQuestionComponent(Expr conditionForDisplay,
-            Question theQuestion, AnswerTable theAnswerTable) {
+            BooleanQuestion theQuestion, AnswerTable theAnswerTable) {
         super(theQuestion.obtainLabelString());
         assert conditionForDisplay != null;
         assert theAnswerTable != null;
         addActionListener(this::setValue);
         basicQuestion = new BasicQuestionComponent(conditionForDisplay,
                 theQuestion, theAnswerTable, this);
+        if (theQuestion.isComputed()) {
+            setEnabled(false);
+        }
         setHorizontalTextPosition(SwingConstants.LEFT);
     }
     
@@ -60,7 +62,31 @@ public class BooleanQuestionComponent extends JCheckBox
     public void setValue(ActionEvent e) {
         assert e != null;
         boolean selected = ((JCheckBox) e.getSource()).isSelected();
-        setValue(new BooleanValue(selected));
+        basicQuestion.setValue(new BooleanValue(selected), false);
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param newValue 
+     */
+    @Override
+    public void displayValue(Value newValue) {
+        assert newValue instanceof BooleanValue;
+        BooleanValue booleanValue = (BooleanValue) newValue;
+        Boolean valueAsBoolean = booleanValue.getValue();
+        boolean selected = valueAsBoolean == null ? false : valueAsBoolean;
+        setSelected(selected);
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param b 
+     */
+    @Override
+    public final void setEnabled(boolean b) {
+        super.setEnabled(b);
     }
     
     /**
@@ -92,19 +118,6 @@ public class BooleanQuestionComponent extends JCheckBox
     @Override
     public final void setHorizontalTextPosition(int newPosition) {
         super.setHorizontalTextPosition(newPosition);
-    }
-    
-    /**
-     * Set the value of <code>this BooleanQuestionComponent</code>.
-     * 
-     * @param newValue a <code>BooleanValue</code> repersenting a new
-     *                  <code>Value</code> for
-     *                  <code>this BooleanQuestionComponent</code>
-     */
-    private void setValue(BooleanValue newValue) {
-        assert newValue != null;
-        basicQuestion.setValue(newValue);
-        setSelected(newValue == null ? false : newValue.getValue());
     }
     
 }

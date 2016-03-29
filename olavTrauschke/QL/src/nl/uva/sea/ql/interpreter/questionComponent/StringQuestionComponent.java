@@ -73,6 +73,9 @@ public class StringQuestionComponent extends JPanel
         });
         basicQuestion = new BasicQuestionComponent(conditionForDisplay,
                 theQuestion, theAnswerTable, this);
+        if (theQuestion.isComputed()) {
+            textField.setEnabled(false);
+        }
     }
     
     /**

@@ -3,6 +3,7 @@ form Box1HouseOwning {
     nameFeedback: "Your name is:" string(name);
     hasSoldHouse: "Did you sell a house in 2010?" boolean;
     hasBoughtHouse: "Did you buy a house in 2010?" boolean;
+    hasSoldOrBoughtHouse: "You bought or sold a house in 2010:" boolean(hasSoldHouse || hasBoughtHouse);
     if (hasSoldHouse) {
         sellingPrice: "Price the house was sold for higher than 1000000 USD?" boolean;
     }
