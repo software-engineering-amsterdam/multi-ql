@@ -1,4 +1,4 @@
-package qlTests;
+package qlTest;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,7 +10,7 @@ import ql.ast.literal.IntLiteral;
 import ql.ast.visitor.Context;
 import ql.ast.visitor.Evaluator;
 
-public class ExpressionEvaluation {
+public class Precedence {
 	private Evaluator evalVisitor;
 	
 	@Test

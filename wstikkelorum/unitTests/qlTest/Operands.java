@@ -1,4 +1,4 @@
-package qlTests;
+package qlTest;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import ql.FormParser;
 import ql.SemanticAnalyser;
 import ql.ast.form.Form;
 
-public class TestAllOperands {
+public class Operands {
 
 	@Test
 	public void test() throws IOException {
