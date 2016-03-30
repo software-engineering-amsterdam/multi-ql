@@ -127,11 +127,11 @@ main = hspec $
      getType [] (typeCheckHelper $ tParse' expr "22.00 + 1") `shouldBe` Right A.Money
 
     it "should not be able determine the type of this expression (Money + Boolean)" $
-     show  (getType [] (typeCheckHelper $ tParse' expr "22.00 + true")) `shouldBe` "Left [TypeMismatch Boolean Money (Location {start = (line: 1, column: 7), end = (line: 1, column: 9)})]"
+     show  (getType [] (typeCheckHelper $ tParse' expr "22.00 + true")) `shouldBe` "Left [TypeMismatch Boolean Money (location {(line: 1, column: 7) - (line: 1, column: 9)})]"
 
     it "should not be able determine the type of this expression (Integer && Boolean)" $
-     show  (getType [] (typeCheckHelper $ tParse' expr "1 and 1")) `shouldBe` "Left [TypeMismatch Integer Integer (Location {start = (line: 1, column: 3), end = (line: 1, column: 7)})]"
-
+     show  (getType [] (typeCheckHelper $ tParse' expr "1 and 1")) `shouldBe` "Left [TypeMismatch Integer Integer (location {(line: 1, column: 3) - (line: 1, column: 7)})]"
+     
     it "finds no type errors" $
      analyze (ttParse "form taxOfficeExample { \"Display Text One\" idTest1: money \"DisplayText2\" \t idTest2: integer}")  `shouldSatisfy` null.typeErrors
 
