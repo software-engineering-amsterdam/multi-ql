@@ -6,21 +6,22 @@ import java.util.HashMap;
 import org.junit.Test;
 
 import ql.FormEvaluator;
-import ql.Program;
+import ql.FormParser;
 import ql.SemanticAnalyser;
 import ql.ast.form.Form;
 
 public class TestAllOperands {
 
 	@Test
-	//TODO: exception handling
 	public void test() throws IOException {
-		Form form = Program.parseForm("testResources/testAllOperands.ql");
-		SemanticAnalyser semanticAnalyser = Program.analyseForm(form);
+		Form form = FormParser.parseForm("testResources/testAllOperands.ql");
+		SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
+		semanticAnalyser.analyseForm(form);
 		
 		assert(semanticAnalyser.noIssues());
 		if(semanticAnalyser.noIssues()){
-			FormEvaluator formEval = Program.evaluateForm(form, semanticAnalyser.getContext());
+			FormEvaluator formEval = new FormEvaluator(semanticAnalyser.getContext());
+			formEval.evaluateForm(form);
 			HashMap<String, Object> values = formEval.getContext().getIdentifierToValueMap();
 			
 			assert((int) values.get("summation") == 6);
