@@ -24,8 +24,8 @@ public class Or extends Conditional {
 	}
 	
 	@Override
-	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
-		return visitor.visit(this, context);
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 	
 	@Override

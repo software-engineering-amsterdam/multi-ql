@@ -10,11 +10,8 @@ public class StringValue extends Value {
 	
 	@Override
 	public boolean equals(Object ob) {
-		if (!(ob instanceof StringValue)) {
-			return false;
-		}
 		StringValue value = (StringValue) ob;
-		return this.value.equals(value.getValue());
+		return value.equals(value.getValue());
 	}
 	
 	@Override

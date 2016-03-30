@@ -5,9 +5,6 @@
  */
 package ql.ast.expression;
 
-import ql.ast.IVisitor;
-import ql.ast.type.Type;
-
 /**
  *
  * @author sander
@@ -16,22 +13,6 @@ public class Mul extends BinaryExpr {
 
     public Mul(Expr lhs, Expr rhs) {
         super(lhs, rhs);
-    }
-
-    @Override
-    public void accept(IVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public void visitChildren(IVisitor visitor) {
-        this.getLhs().accept(visitor);
-        this.getRhs().accept(visitor);
-    }
-
-    @Override
-    public Type getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -7,7 +7,7 @@ import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.interfaces.EqualsEval;
 import uva.ql.ast.types.expression.LessThen;
 
-public class ExpLessThen extends RelationalOperatorBinary implements EqualsEval<Boolean> {
+public class ExpLessThen extends RelationalOperatorBinary<Integer> implements EqualsEval<Boolean> {
 
 	private LessThen type = new LessThen();
 	

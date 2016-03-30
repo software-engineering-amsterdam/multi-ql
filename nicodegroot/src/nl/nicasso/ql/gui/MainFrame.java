@@ -78,20 +78,17 @@ public class MainFrame implements Observer {
 		setVisible(true);
 	}
 
-	// WHY THE FUCKING BOOLEAN RETURN VALUE?!
 	@Override
 	public boolean fieldValueChanged(Identifier identifier, Value value) {
+		
 		StateTableEntry entry = new StateTableEntry(value);
-		stateTable.add(identifier, entry);
+		stateTable.addState(identifier, entry);
 		
 		return true;
 	}
 	
 	public void updateAllPanels() {
 		boolean runAgain = false;
-		
-		System.out.println("RUN UPDATES");
-		System.out.println("");
 		
 		for (Panel p : panels) {
 			boolean updatedPanel = p.update();

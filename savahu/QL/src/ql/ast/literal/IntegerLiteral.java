@@ -5,9 +5,7 @@
  */
 package ql.ast.literal;
 
-import ql.ast.IVisitor;
-import ql.ast.type.IntType;
-import ql.ast.type.Type;
+import ql.ast.expression.Expr;
 
 /**
  *
@@ -23,20 +21,5 @@ public class IntegerLiteral extends Literal {
 
     public Integer getValue() {
         return this.value;
-    }
-
-    @Override
-    public Type getType() {
-        return new IntType();
-    }
-
-    @Override
-    public void visitChildren(IVisitor visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void accept(IVisitor visitor) {
-        visitor.visit(this);
     }
 }

@@ -8,7 +8,7 @@ import java.util.Objects;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a string value.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 29-mar-2016
  */
 public class StringValue extends Value {
     
@@ -27,6 +27,14 @@ public class StringValue extends Value {
      */
     public StringValue(String theValue) {
         value = theValue;
+    }
+    
+    /**
+     * @return a <code>String</code> with the <code>value this StringValue</code>
+     *          represents
+     */
+    public String getValue() {
+        return value;
     }
     
     /**

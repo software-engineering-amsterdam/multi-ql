@@ -2,16 +2,17 @@ package ql.ast.visitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import ql.ast.literal.Variable;
 import ql.ast.literal.VariableExpression;
-import ql.ast.statement.Question;
-import ql.ast.types.ValueType;
-import ql.issue.DuplicateLabel;
-import ql.issue.DuplicateQuestionWithDifferentType;
+import ql.ast.statement.question.Question;
+import ql.ast.type.ValueType;
 import ql.issue.Issue;
-import ql.issue.ReferenceToUndefinedQuestion;
+import ql.issue.problem.DuplicateQuestionWithDifferentType;
+import ql.issue.problem.ReferenceToUndefinedQuestion;
+import ql.issue.warning.DuplicateLabel;
 
 public class Context {
 	private List<Question> declaredQuestions;
@@ -98,7 +99,26 @@ public class Context {
 		return nameToValue;
 	}
 
-	public List<Issue> getIssues() {
-		return issues;
+	public Iterator<Issue> getIssueIterator() {
+		return issues.iterator();
+	}
+	
+	public int numberOfIssues(){
+		return issues.size();
+	}
+	
+	public boolean onlyWarnings(){
+		return issues.size() > 0 && noIssues();
+	}
+	
+	private boolean noIssues(){
+		for(Issue issue : issues){
+			if(issue instanceof DuplicateLabel){
+				continue;
+			}else{
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -16,7 +16,7 @@ public interface IBinaryOperatorVisitor {
 	public void visitCondIfElseStatement(CondIfElseStatement condition);
 	public void visitCondIfStatement(CondIfStatement condition);
 
-	public void visitLogicalOperator(LogicalOperatorBinary exp);
+	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp);
 	public void visitRelationalOperator(RelationalOperatorBinary exp);
-	public void visitSingleLogicalOperator(LogicalOperatorUnary exp);
+	public void visitLogicalOperatorUnary(LogicalOperatorUnary exp);
 }

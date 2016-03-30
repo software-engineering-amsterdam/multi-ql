@@ -19,7 +19,7 @@ public class StateTable {
 		return symbols;
 	}
 	
-	public void add(Identifier key, StateTableEntry value) {
+	public void addState(Identifier key, StateTableEntry value) {
 		symbols.put(key, value);
 	}
 	

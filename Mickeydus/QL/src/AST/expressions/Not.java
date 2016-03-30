@@ -5,6 +5,8 @@
  */
 package AST.expressions;
 
+import ql.Expr;
+
 /**
  *
  * @author Dominique

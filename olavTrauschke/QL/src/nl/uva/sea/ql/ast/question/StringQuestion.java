@@ -4,12 +4,14 @@ import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
+import nl.uva.sea.ql.interpreter.questionComponent.StringQuestionComponent;
 
 /**
  * Representation of <code>Question</code>s that return strings in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mar-2016
+ * @version 29-mar-2016
  */
 public class StringQuestion extends Question {
     
@@ -64,4 +66,24 @@ public class StringQuestion extends Question {
         childrenAccept(visitor);
         visitor.visit(this);
     }
+    
+    /**
+     * Make a specified <code>QuestionComponentGenerator</code> create a
+     * <code>StringQuestionComponent</code> for <code>this StringQuestion</code>.
+     * 
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create a <code>StringQuestionComponent</code> for
+     *                  <code>this StringQuestion</code>
+     * @return a <code>StringQuestionComponent</code> representing
+     *          <code>this StringQuestion</code>, as created by a call to
+     *          {@link nl.uva.sea.ql.interpreter.QuestionComponentGenerator#createQuestionComponent(nl.uva.sea.ql.ast.question.StringQuestion)
+     *          generator.createQuestionComponent(StringQuestion)}
+     */
+    @Override
+    public StringQuestionComponent createQuestionComponent(
+            QuestionComponentGenerator generator) {
+        assert generator != null;
+        return generator.createQuestionComponent(this);
+    }
+    
 }

@@ -1,12 +1,9 @@
 package uva.ql.ast.values;
 
-import javax.swing.JPanel;
-
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
 import uva.ql.ast.interfaces.IntEval;
 import uva.ql.ast.types.Int;
-import uva.ql.gui.visitors.IGUIVisitor;
 
 public class ValueInt extends Value<Integer> implements IntEval<Integer> {
 
@@ -36,10 +33,5 @@ public class ValueInt extends Value<Integer> implements IntEval<Integer> {
 	@Override
 	public Integer eval() {
 		return getValue();
-	}
-
-	@Override
-	public void accept(IGUIVisitor visitor, JPanel panel) {
-		visitor.visitValueInt(this, panel);
 	}
 }

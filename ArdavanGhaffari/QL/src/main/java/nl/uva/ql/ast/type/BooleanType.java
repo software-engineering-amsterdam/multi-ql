@@ -8,6 +8,14 @@ public class BooleanType extends Type{
 	public BooleanType() {
 		super("Boolean");
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof BooleanType){
+			return this.getName().equals(((BooleanType)obj).getName());
+		}
+		return false;
+	}
 
 	@Override
 	public Widget accept(TypeVisitor typeVisitor) {

@@ -1,2 +1,4 @@
+/qlTest/
+/DuplicateLabel.ql
+/UndefinedQuestion.ql
 /ql/
-/qlTests/

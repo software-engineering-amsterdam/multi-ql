@@ -4,10 +4,10 @@ import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
 import uva.ql.ast.types.Date;
 
-public class VarDate extends Variable<Date> {
+public class VarDate extends Variable<String> {
 
 	private Date type = new Date();
-	private Date value; 
+	private String value; 
 	
 	public VarDate(Node parent, String name, int startLine, int startColumn) {
 		super(parent, name, startLine, startColumn);
@@ -24,18 +24,17 @@ public class VarDate extends Variable<Date> {
 	}
 
 	@Override
-	public Date getValue() {
+	public String getValue() {
 		return this.value;
 	}
 	
 	@Override
-	public void setValue(Date date) {
+	public void setValue(String date) {
 		this.value = date;
 	}
 
 	@Override
-	public Date eval() {
-		// TODO Auto-generated method stub
-		return null;
+	public String eval() {
+		return this.value;
 	}
 }

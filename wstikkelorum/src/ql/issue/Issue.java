@@ -3,20 +3,13 @@ package ql.issue;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ql.gui.UIElement;
+import ql.gui.DrawableElement;
 
-public abstract class Issue implements UIElement{
+public abstract class Issue implements DrawableElement{
 	protected String errorMessage;
 
 	public void print() {
 		System.out.println(errorMessage);
-	}
-	
-	JPanel getUIElement() {
-		JPanel jPanel = new JPanel();
-		jPanel.add(new JLabel(errorMessage));
-		jPanel.setVisible(true);
-		return jPanel;
 	}
 	
 	public JPanel getDrawableItem() {

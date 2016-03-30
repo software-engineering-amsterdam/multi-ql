@@ -1,29 +1,35 @@
 package nl.uva.sea.ql.interpreter;
 
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
- * TODO document
+ * Objects of this class are <code>JPanel</code>s that can be used to display
+ * <code>QuestionComponent</code>s.
  * 
  * @author Olav Trauschke
- * @version 28-mrt-2016
+ * @version 28-mar-2016
  */
 public class QuestionPanel extends JPanel {
     
     /**
-     * TODO document
+     * Constructor for objects of this class. Creates a new <code>JPanel</code>
+     * that <code>isDoubleBuffered</code>, because it may be updated often.
      */
     public QuestionPanel() {
         super(true);
     }
     
     /**
-     * TODO document
+     * Add a specified <code>QuestionComponent</code> to
+     * <code>this QuestionPanel</code>.
      * 
-     * @param toAdd
+     * @param toAdd a <code>QuestionComponent</code> to add to
+     *              <code>this QuestionPanel</code>
      */
-    public void add(DisplayableQuestion toAdd) {
+    public void add(QuestionComponent toAdd) {
+        assert toAdd != null;
         add((JComponent) toAdd);
     }
     

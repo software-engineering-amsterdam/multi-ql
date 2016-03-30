@@ -6,11 +6,11 @@ import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
 import uva.ql.ast.types.question.Vanilla;
 import uva.ql.ast.variables.Variable;
-import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
 import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.IGUIVisitor;
 
 public class QuestionVanilla<T> extends Question<T> {
 

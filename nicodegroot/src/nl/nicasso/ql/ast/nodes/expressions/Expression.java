@@ -8,15 +8,15 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 public abstract class Expression extends ASTNode {
 
 	private Type currentType;
-	
+
 	public Expression(CodeLocation location) {
 		super(location);
 	}
-	
+
 	public Type getType() {
-		return this.currentType; 
+		return this.currentType;
 	}
-	
+
 	public abstract <T, U> T accept(ExpressionVisitor<T, U> visitor, U context);
-	
+
 }

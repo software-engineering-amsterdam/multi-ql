@@ -1,10 +1,9 @@
 package ql;
 
-import ql.gui.UserInterface;
+import ql.gui.QLWindow;
 
 public class Program {
-
 	public static void main(String[] args){
-		new UserInterface();
+		new QLWindow();
 	}
 }

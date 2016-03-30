@@ -7,11 +7,15 @@ import nl.uva.ql.ast.builder.ASTBuilder;
 import nl.uva.ql.gui.GuiBuilder;
 import nl.uva.ql.typechecker.TypeChecker;
 import nl.uva.ql.typechecker.errorhandler.ErrorHandler;
+
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+
 import antlrsources.QLLexer;
 import antlrsources.QLParser;
+
+
 
 public class Main {
 
@@ -35,5 +39,7 @@ public class Main {
 			GuiBuilder guiBuilder = new GuiBuilder();
 			form.accept(guiBuilder);
 		}
+		
 	}
+
 }

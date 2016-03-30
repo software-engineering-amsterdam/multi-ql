@@ -67,7 +67,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>eu.bankersen.kevin.ql.App</mainClass>
+							<mainClass>eu.bankersen.kevin.ql.Program</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

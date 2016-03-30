@@ -5,23 +5,12 @@
  */
 package AST.types;
 
-import ql.ASTNode;
+import ql.Expr;
 
 /**
  *
  * @author Dominique
  */
-public abstract class Type extends ASTNode {
-
-    public Type() {
-    }
-
-    public abstract Boolean isString();
-
-    public abstract Boolean isBoolean();
-
-    public abstract Boolean isMoney();
-
-    public abstract Boolean isInt();
-
+public abstract class Type extends Expr {
+    
 }

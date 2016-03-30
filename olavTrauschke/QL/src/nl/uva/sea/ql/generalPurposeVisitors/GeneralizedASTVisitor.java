@@ -11,7 +11,7 @@ import nl.uva.sea.ql.ast.question.*;
  */
 public abstract class GeneralizedASTVisitor implements Visitor {
     
-        /**
+    /**
      * Forwards calls to this method (specified in the interface) to
      * {@link #visit(Question) visit(Question)}.
      * 

@@ -4,12 +4,12 @@ import javax.swing.JPanel;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
-import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
 import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.IGUIVisitor;
 
 public abstract class ArithmeticOperatorBinary extends Expression<Integer> {
 
@@ -29,7 +29,8 @@ public abstract class ArithmeticOperatorBinary extends Expression<Integer> {
 		return this.rhs;
 	}
 	
-	protected EnumType getEnumTypeEvaluation() {
+	@Override
+	public EnumType getEnumTypeEvaluation() {
 		EnumType tlhs = this.getLhs().evalType();
 		EnumType trhs = this.getRhs().evalType();
 		
@@ -41,8 +42,31 @@ public abstract class ArithmeticOperatorBinary extends Expression<Integer> {
 			return tlhs;	
 		}
 		else {
-			return trhs;
+			return null;
 		}
+	}
+	
+	@Override
+	public boolean isValid() {
+		boolean valid = false;
+		EnumType tlhs = this.getLhs().getType();
+		EnumType trhs = this.getRhs().getType();
+		
+		if (tlhs.equals(trhs)) {
+			if (tlhs.equals(EnumType.INTEGER) || tlhs.equals(EnumType.MONEY)) {
+				valid = true;
+			}
+			else {
+				valid = false;
+			}
+		}
+		
+		return valid;
+	}
+	
+	@Override
+	public boolean isInValid() {
+		return !this.isValid();
 	}
 	
 	@Override

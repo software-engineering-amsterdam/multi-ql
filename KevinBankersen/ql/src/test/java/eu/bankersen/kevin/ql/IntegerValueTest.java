@@ -1,16 +1,16 @@
 package eu.bankersen.kevin.ql;
 
-import eu.bankersen.kevin.ql.ast.values.BooleanValue;
-import eu.bankersen.kevin.ql.ast.values.IntegerValue;
-import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.form.ast.values.BooleanValue;
+import eu.bankersen.kevin.ql.form.ast.values.IntegerValue;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
 import junit.framework.TestCase;
 
 public class IntegerValueTest extends TestCase {
 
     public void test() {
 
-	QLValue int8 = new IntegerValue(8);
-	QLValue int5 = new IntegerValue(5);
+	Value int8 = new IntegerValue(8);
+	Value int5 = new IntegerValue(5);
 
 	assertTrue(int8.add(int5).equals(new IntegerValue(13)));
 	assertTrue(int8.subtract(int5).equals(new IntegerValue(3)));

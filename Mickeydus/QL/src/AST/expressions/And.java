@@ -5,7 +5,7 @@
  */
 package AST.expressions;
 
-import AST.types.Type;
+import ql.Expr;
 
 /**
  *
@@ -15,11 +15,6 @@ public class And extends BinaryExpr {
     
     public And(Expr left, Expr right) {
         super(left, right);
-    }
-
-    @Override
-    public Type getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

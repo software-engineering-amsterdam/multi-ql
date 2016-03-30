@@ -2,7 +2,8 @@ package eu.bankersen.kevin.ql.gui.dialog;
 
 import java.util.List;
 
-import javax.swing.JOptionPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class ErrorDialog<T> {
 
@@ -17,7 +18,11 @@ public class ErrorDialog<T> {
     }
 
     private void showError(String errorType, String message) {
-	JOptionPane.showMessageDialog(null, message, errorType, JOptionPane.ERROR_MESSAGE);
-	System.exit(1);
+	Alert alert = new Alert(AlertType.ERROR);
+	alert.setTitle(errorType);
+	alert.setHeaderText(null);
+	alert.setContentText(message);
+	alert.showAndWait();
+	throw new IllegalStateException();
     }
 }

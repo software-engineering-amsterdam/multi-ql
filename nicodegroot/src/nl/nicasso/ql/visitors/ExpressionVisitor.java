@@ -20,28 +20,28 @@ import nl.nicasso.ql.ast.nodes.literals.IntegerLiteral;
 import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
 import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 
-public interface ExpressionVisitor<T, U> {
+public interface ExpressionVisitor<T> {
 	
-	public T visit(Addition expression, U context);
-	public T visit(Subtraction expression, U context);
-	public T visit(And expression, U context);
-	public T visit(Or expression, U context);
-	public T visit(Not expression, U context);
-	public T visit(Parenthesis expression, U context);
-	public T visit(Equal expression, U context);
-	public T visit(NotEqual expression, U context);
-	public T visit(Division expression, U context);
-	public T visit(Multiplication expression, U context);
-	public T visit(Greater expression, U context);
-	public T visit(GreaterEqual expression, U context);
-	public T visit(Less expression, U context);
-	public T visit(LessEqual expression, U context);
+	public T visit(Addition expression);
+	public T visit(Subtraction expression);
+	public T visit(And expression);
+	public T visit(Or expression);
+	public T visit(Not expression);
+	public T visit(Parenthesis expression);
+	public T visit(Equal expression);
+	public T visit(NotEqual expression);
+	public T visit(Division expression);
+	public T visit(Multiplication expression);
+	public T visit(Greater expression);
+	public T visit(GreaterEqual expression);
+	public T visit(Less expression);
+	public T visit(LessEqual expression);
 	
-	public T visit(Identifier identifier, U context);
+	public T visit(Identifier identifier);
 	
-	public T visit(BooleanLiteral literal, U context);
-	public T visit(IntegerLiteral literal, U context);
-	public T visit(StringLiteral literal, U context);
-	public T visit(MoneyLiteral literal, U context);
+	public T visit(BooleanLiteral literal);
+	public T visit(IntegerLiteral literal);
+	public T visit(StringLiteral literal);
+	public T visit(MoneyLiteral literal);
 
 }

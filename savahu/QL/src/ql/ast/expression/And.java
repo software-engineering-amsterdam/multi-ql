@@ -5,10 +5,6 @@
  */
 package ql.ast.expression;
 
-import ql.ast.IVisitor;
-import ql.ast.type.BoolType;
-import ql.ast.type.Type;
-
 /**
  *
  * @author sander
@@ -17,22 +13,6 @@ public class And extends BinaryExpr {
 
     public And(Expr lhs, Expr rhs) {
         super(lhs, rhs);
-    }
-
-    @Override
-    public void accept(IVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public void visitChildren(IVisitor visitor) {
-        this.getLhs().accept(visitor);
-        this.getRhs().accept(visitor);
-    }
-
-    @Override
-    public Type getType() {
-        return new BoolType();
     }
 
 }

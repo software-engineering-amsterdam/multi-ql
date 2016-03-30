@@ -53,28 +53,27 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	private SymbolTable symbolTable;
 	private MessageHandler messageHandler;
 	
-	public TypeChecker(SymbolTable symbolTable, MessageHandler messages) {
+	public TypeChecker(Form ast, SymbolTable symbolTable, MessageHandler messages) {
 		this.symbolTable = symbolTable;
 		this.messageHandler = messages;
 		
 		this.dependencies = new ArrayList<Pair<Identifier>>();
+		
+		ast.accept(this, null);
+		
+		detectCyclicDependencies();
 	}
 	
 	private Type binaryExpressionTraversal(Binary expression, Identifier context) {
 		Type leftType = expression.getLeft().accept(this, context);
 		Type rightType = expression.getRight().accept(this, context);
 		
-		Type type = expression.inferType(leftType, rightType);
-		
-		return type;
+		return expression.inferType(leftType, rightType);
 	}
 	
 	private Type unaryExpressionTraversal(Unary expression, Identifier context) {
 		Type exprType = expression.getExpr().accept(this, context);
-		
-		Type type = expression.inferType(exprType);
-		
-		return type;
+		return expression.inferType(exprType);
 	}
 		
 	@Override
@@ -150,10 +149,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	@Override
 	public Void visit(Form structure, Void ignore) {
 		structure.getBlock().accept(this, null);
-		
-		// @TODO This here? (SEE COMMENT TOP QUESTIONINDEXER)
-		detectCyclicDependencies();
-		
 		return null;
 	}
 
@@ -162,7 +157,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		for (Statement currentStatement : structure.getStatements()) {
 			currentStatement.accept(this, null);
 		}
-		
 		return null;
 	}
 
@@ -173,11 +167,12 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 
 	@Override
 	public Void visit(ComputedQuestion statement, Identifier context) {
-		// @TODO: Temp variable smell! Pass it on as a parameter!
-		
 		Type type = statement.getExpr().accept(this, statement.getIdentifier());
 		
-		if (!type.equals(statement.getType())) {
+		// @TODO IMPROVE!
+		if (type.equals(new IntegerType()) && statement.getType().equals(new MoneyType())) {
+			return null;
+		} else if (!type.equals(statement.getType())) {
 			messageHandler.addErrorMessage(new IncompatibleTypes(statement.getLocation(), statement.getType()));
 		}
 		
@@ -242,16 +237,15 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 		return new MoneyType();
 	}
 	
-	// @TODO LOOK AT THE NAMING OF THE PARAMS HERE 
-	private void addQuestionDependency(Identifier currentId, Identifier currentIdentifier) {
+	private void addQuestionDependency(Identifier identifier, Identifier context) {
 		// Otherwise it is a ifstatement
-		if (currentIdentifier != null) {
-			dependencies.add(new Pair<Identifier>(currentIdentifier, currentId));
+		if (context != null) {
+			dependencies.add(new Pair<Identifier>(context, identifier));
 		}
 	}
 	
 	public boolean detectCyclicDependencies() {
-		makePairsTransitive(dependencies);
+		transitiveOnDependencyPairs(dependencies);
 		
 		int size = dependencies.size();
 		for (int i = 0; i < size; i++) {
@@ -266,7 +260,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	
 	// @TODO Look again at this method, it does receive the dependencies, but does not return anything.
 	// Seems a bit strange, not clear.
-	private void makePairsTransitive(List<Pair<Identifier>> tmpDependencies) {	
+	private void transitiveOnDependencyPairs(List<Pair<Identifier>> tmpDependencies) {	
 		boolean keepRunning = true;
 		
 		while (keepRunning) {
@@ -291,7 +285,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	
 	private Pair<Identifier> checkPairDependencyExistance(Pair<Identifier> pair) {
 		for (Pair<Identifier> currentPair : dependencies) {
-			if (currentPair.getLeft().getIdentifier().equals(pair.getRight().getIdentifier())) {
+			if (currentPair.getLeft().equals(pair.getRight())) {
 				return new Pair<Identifier>(pair.getLeft(), currentPair.getRight());
 			}
 		}

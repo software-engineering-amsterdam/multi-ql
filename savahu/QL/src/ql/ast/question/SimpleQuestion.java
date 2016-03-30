@@ -5,9 +5,9 @@
  */
 package ql.ast.question;
 
-import ql.ast.IVisitor;
 import ql.ast.expression.Ident;
-import ql.ast.type.Type;
+import ql.ast.form.Label;
+import ql.ast.type.QuestionType;
 
 /**
  *
@@ -15,20 +15,8 @@ import ql.ast.type.Type;
  */
 public class SimpleQuestion extends Question {
 
-    public SimpleQuestion(Ident questionId, Label questionLabel, Type questionType) {
+    public SimpleQuestion(Ident questionId, Label questionLabel, QuestionType questionType) {
         super(questionId, questionLabel, questionType);
     }
-
-    @Override
-    public void accept(IVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public void visitChildren(IVisitor visitor) {
-        this.getId().accept(visitor);
-        this.getLabel().accept(visitor);
-        this.getType().accept(visitor);
-
-    }
+    
 }

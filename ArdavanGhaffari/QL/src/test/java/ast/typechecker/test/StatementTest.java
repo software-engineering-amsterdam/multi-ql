@@ -17,6 +17,9 @@ import nl.uva.ql.ast.type.MoneyType;
 import nl.uva.ql.typechecker.TypeChecker;
 import nl.uva.ql.typechecker.errorhandler.ErrorHandler;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,7 +63,7 @@ public class StatementTest {
 	public void testIfStatementWithNonBooleanCondition() {
 		ErrorHandler errorHandler = new ErrorHandler();
 		TypeChecker typeChecker = new TypeChecker(errorHandler);
-		IfStatement ifStatement = new IfStatement(new IntegerLiteral(4, 2), new Box(2), 2);
+		IfStatement ifStatement = new IfStatement(new IntegerLiteral(4, 2), new Box(2, new LinkedList<Statement>()), 2);
 		Form form = createForm(ifStatement);
 		
 		typeChecker.visit(form);
@@ -94,14 +97,15 @@ public class StatementTest {
 		Form form = createForm(question1, question2, question3);
 		
 		typeChecker.visit(form);
-		Assert.assertEquals(errorHandler.getErrors().get(0).getMessage(), "Cyclic dependency error at line 4: there is cyclic dependency between the two identifiers 'sellingPrice' and 'offeredPrice'");
+		Assert.assertEquals(errorHandler.getErrors().get(0).getMessage(), "There is cyclic dependency between two identifiers: 'sellingPrice' and 'offeredPrice'");
 	}
 	
 	private Form createForm(Statement... statements) {
-		Box box = new Box(2);
+		List<Statement> testStatements = new LinkedList<>();
 		for (Statement statement: statements) {
-			box.addStatement(statement);
+			testStatements.add(statement);
 		}
+		Box box = new Box(2, testStatements);
 		return new Form(new Identifier("test form", 1), box, 1);
 	}
 }

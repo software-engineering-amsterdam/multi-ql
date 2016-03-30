@@ -47,6 +47,15 @@ public class MoneyValue extends NumericValue {
     }
     
     /**
+     * TODO document
+     * 
+     * @return 
+     */
+    public BigDecimal getValue() {
+        return value;
+    }
+    
+    /**
      * Test whether <code>this MoneyValue</code> equals another
      * <code>NumericValue</code> according to ternary logic. Dispatches to a
      * more specific method of <code>other</code>.

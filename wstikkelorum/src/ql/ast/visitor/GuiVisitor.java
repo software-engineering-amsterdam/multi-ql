@@ -1,26 +1,20 @@
 package ql.ast.visitor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ql.ast.form.Form;
-import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
-import ql.ast.statement.InputQuestion;
-import ql.gui.ComputedQuestionWidget;
-import ql.gui.InputQuestionWidget;
-import ql.gui.UIElement;
-import ql.gui.UserInterface;
-import ql.gui.VisibleQuestions;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.statement.question.InputQuestion;
+import ql.gui.QLWindow;
+import ql.gui.VisibleElements;
 
-public class GuiVisitor<T> extends Evaluation {
-	private VisibleQuestions visibleQuestions;
-	private UserInterface parent;
+public class GuiVisitor<T> extends Evaluator {
+	private VisibleElements visibleQuestions;
+	private QLWindow parent;
 
-	public GuiVisitor(Context context, UserInterface parent) {
+	public GuiVisitor(Context context, QLWindow parent) {
 		super(context);
 		this.parent = parent;
-		visibleQuestions = new VisibleQuestions();
+		visibleQuestions = new VisibleElements();
 	}
 
 	@Override
@@ -49,7 +43,7 @@ public class GuiVisitor<T> extends Evaluation {
 		return null;
 	}
 
-	public VisibleQuestions getVisibleQuestions(Form form, Context newContext) {
+	public VisibleElements getVisibleQuestions(Form form, Context newContext) {
 		this.context = newContext;
 		this.visit(form);
 		return visibleQuestions;

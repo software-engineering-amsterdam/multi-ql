@@ -37,152 +37,145 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class Evaluator implements StructureVisitor<Value, Void>, StatementVisitor<Value, Void>, ExpressionVisitor<Value, Void> {
+public class Evaluator implements StructureVisitor<Void, StateTable>, StatementVisitor<Void, StateTable>, ExpressionVisitor<Value, StateTable> {
 	
-	private StateTable stateTable;
-	
-	public Evaluator(StateTable stateTable) {
-		this.stateTable = stateTable;
-	}
-
 	@Override
-	public Value visit(And expression, Void context) {	
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
-				
+	public Value visit(And expression, StateTable stateTable) {	
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
+
 		return left.equal(right);
 	}
 	
 	@Override
-	public Value visit(Addition expression, Void context) {		
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(Addition expression, StateTable stateTable) {		
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.addition(right);
 	}
 
 	@Override
-	public Value visit(Subtraction expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(Subtraction expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.subtraction(right);
 	}
 
 	@Override
-	public Value visit(Or expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(Or expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.or(right);
 	}
 
 	@Override
-	public Value visit(Not expression, Void context) {
-		Value exprValue = expression.getExpr().accept(this, null);
+	public Value visit(Not expression, StateTable stateTable) {
+		Value exprValue = expression.getExpr().accept(this, stateTable);
 		
 		return exprValue.not();
 	}
 
 	@Override
-	public Value visit(Parenthesis expression, Void context) {		
-		Value exprValue = expression.getExpr().accept(this, null);
+	public Value visit(Parenthesis expression, StateTable stateTable) {		
+		Value exprValue = expression.getExpr().accept(this, stateTable);
 		
 		return exprValue;
 	}
 
 	@Override
-	public Value visit(Equal expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(Equal expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.equal(right);
 	}
 
 	@Override
-	public Value visit(NotEqual expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);	
+	public Value visit(NotEqual expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);	
 		
 		return left.notEqual(right);
 	}
 
 	@Override
-	public Value visit(Division expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(Division expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.division(right);
 	}
 
 	@Override
-	public Value visit(Multiplication expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(Multiplication expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.multiplication(right);
 	}
 
 	@Override
-	public Value visit(Greater expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(Greater expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.greater(right);
 	}
 
 	@Override
-	public Value visit(GreaterEqual expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(GreaterEqual expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.greaterEqual(right);
 	}
 
 	@Override
-	public Value visit(Less expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(Less expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.less(right);
 	}
 
 	@Override
-	public Value visit(LessEqual expression, Void context) {
-		Value left = expression.getLeft().accept(this, null);
-		Value right = expression.getRight().accept(this, null);
+	public Value visit(LessEqual expression, StateTable stateTable) {
+		Value left = expression.getLeft().accept(this, stateTable);
+		Value right = expression.getRight().accept(this, stateTable);
 		
 		return left.lessEqual(right);
 	}
 
 	@Override
-	public Value visit(Form structure, Void ignore) {
-		structure.getBlock().accept(this, null);
+	public Void visit(Form structure, StateTable stateTable) {
+		structure.getBlock().accept(this, stateTable);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(Block structure, Void ignore) {
+	public Void visit(Block structure, StateTable stateTable) {
 		for (Statement cur : structure.getStatements()) {
-			cur.accept(this, ignore);
+			cur.accept(this, stateTable);
 		}
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(Question statement, Void context) {
-		// getDefaultValue? Is this ugly?!
-		StateTableEntry ste = new StateTableEntry(statement.getType().getDefaultValue());
+	public Void visit(Question statement, StateTable stateTable) {
+		StateTableEntry ste = new StateTableEntry(statement.getDefaultValue());
 		stateTable.add(statement.getIdentifier(), ste);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(ComputedQuestion statement, Void context) {
-		Value exprValue = statement.getExpr().accept(this, null);
+	public Void visit(ComputedQuestion statement, StateTable stateTable) {
+		Value exprValue = statement.getExpr().accept(this, stateTable);
 
 		StateTableEntry ste = new StateTableEntry(exprValue);
 		stateTable.add(statement.getIdentifier(), ste);                                                             
@@ -191,46 +184,46 @@ public class Evaluator implements StructureVisitor<Value, Void>, StatementVisito
 	}
 
 	@Override
-	public Value visit(IfStatement statement, Void context) {
-		statement.getExpr().accept(this, null);
-		statement.getBlock_if().accept(this, null);
+	public Void visit(IfStatement statement, StateTable stateTable) {
+		statement.getExpr().accept(this, stateTable);
+		statement.getBlock_if().accept(this, stateTable);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(IfElseStatement statement, Void context) {
-		statement.getExpr().accept(this, null);
-		statement.getBlock_if().accept(this, null);
-		statement.getBlock_else().accept(this, null);
+	public Void visit(IfElseStatement statement, StateTable stateTable) {
+		statement.getExpr().accept(this, stateTable);
+		statement.getBlock_if().accept(this, stateTable);
+		statement.getBlock_else().accept(this, stateTable);
 		
 		return null;
 	}
 
 	@Override
-	public Value visit(BooleanLiteral expression, Void context) {
+	public Value visit(BooleanLiteral expression, StateTable stateTable) {
 		return new BooleanValue(expression.getValue());
 	}
 
 	@Override
-	public Value visit(Identifier expression, Void context) {		
+	public Value visit(Identifier expression, StateTable stateTable) {		
 		StateTableEntry entry = stateTable.getEntry(expression);
 						
 		return entry.getValue();
 	}
 
 	@Override
-	public Value visit(IntegerLiteral expression, Void context) {
+	public Value visit(IntegerLiteral expression, StateTable stateTable) {
 		return new IntegerValue((Integer) expression.getValue());
 	}
 
 	@Override
-	public Value visit(StringLiteral expression, Void context) {
+	public Value visit(StringLiteral expression, StateTable stateTable) {
 		return new StringValue(expression.getValue());
 	}
 
 	@Override
-	public Value visit(MoneyLiteral expression, Void context) {
+	public Value visit(MoneyLiteral expression, StateTable stateTable) {
 		return new MoneyValue(expression.getValue());
 	}
 

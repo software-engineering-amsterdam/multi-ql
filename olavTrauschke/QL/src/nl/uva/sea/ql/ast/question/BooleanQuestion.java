@@ -4,8 +4,8 @@ import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
-import nl.uva.sea.ql.interpreter.DisplayableBooleanQuestion;
-import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
+import nl.uva.sea.ql.interpreter.questionComponent.BooleanQuestionComponent;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
 
 /**
  * Representation of <code>Question</code>s that return booleans in an AST.
@@ -68,23 +68,22 @@ public class BooleanQuestion extends Question {
     }
     
     /**
-     * Make a specified <code>DisplayableQuestionGenerator</code> create a
-     * <code>DisplayableQuestion</code> for <code>this BooleanQuestion</code>.
+     * Make a specified <code>QuestionComponentGenerator</code> create a
+     * <code>BooleanQuestionComponent</code> for <code>this BooleanQuestion</code>.
      * 
-     * @param generator a <code>DisplayableQuestionGenerator</code> that should
-     *                  create a <code>DisplayableQuestion</code> for
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create a <code>BooleanQuestionComponent</code> for
      *                  <code>this BooleanQuestion</code>
-     * @return a <code>DisplayableQuestion</code> representing
+     * @return a <code>BooleanQuestionComponent</code> representing
      *          <code>this BooleanQuestion</code>, as created by a call to
-     *          <code>generator</code>'s <code>createDisplayableQuestion</code>
-     *          method for the type of <code>Question</code>
-     *          <code>this Question</code> is of
+     *          {@link nl.uva.sea.ql.interpreter.QuestionComponentGenerator#createQuestionComponent(nl.uva.sea.ql.ast.question.BooleanQuestion)
+     *          generator.createQuestionComponent(BooleanQuestion)}
      */
     @Override
-    public DisplayableBooleanQuestion createDisplayableQuestion(
-            DisplayableQuestionGenerator generator) {
+    public BooleanQuestionComponent createQuestionComponent(
+            QuestionComponentGenerator generator) {
         assert generator != null;
-        return generator.createDisplayableQuestion(this);
+        return generator.createQuestionComponent(this);
     }
     
 }

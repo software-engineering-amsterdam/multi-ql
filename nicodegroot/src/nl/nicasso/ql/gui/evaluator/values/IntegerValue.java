@@ -12,11 +12,8 @@ public class IntegerValue extends Value {
 	
 	@Override
 	public boolean equals(Object ob) {
-		if (!(ob instanceof IntegerValue)) {
-			return false;
-		}
 		IntegerValue value = (IntegerValue) ob;
-		return this.value.equals(value.getValue());
+		return value.equals(value.getValue());
 	}
 	
 	@Override
@@ -89,15 +86,5 @@ public class IntegerValue extends Value {
 	@Override
 	public Value multiplicationToMoney(MoneyValue v) {
 		return new MoneyValue(v.getValue().multiply(MoneyValue.integerToBigDecimal(value)));
-	}
-	
-	@Override
-	public Value multiplicationToInteger(IntegerValue v) {
-		return new IntegerValue(v.getValue() * value);
-	}
-	
-	@Override
-	public Value divisionToInteger(IntegerValue v) {
-		return new IntegerValue(v.getValue() / value);
 	}
 }

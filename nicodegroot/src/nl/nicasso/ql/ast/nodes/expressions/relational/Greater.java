@@ -24,8 +24,8 @@ public class Greater extends Relational {
 	}
 	
 	@Override
-	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
-		return visitor.visit(this, context);
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 	
 	@Override
