@@ -21,7 +21,7 @@ public class ParserFormTest {
         Question question1 = new BooleanQuestion(question1Identifier, question1Label, null);
         
         Ident question2Identifier = new Ident("hasBoughtHouse");
-        Label question2Label = new Label("Did you by a house in 2010?");
+        Label question2Label = new Label("Did you buy a house in 2010?");
         Question question2 = new BooleanQuestion(question2Identifier, question2Label, null);
         
         Expr condition = question1Identifier;

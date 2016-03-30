@@ -2,13 +2,13 @@ package nl.uva.sea.ql.ast.expr;
 
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.answerTable.NumericValue;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of division in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-mrt-2016
+ * @version 26-mar-2016
  */
 public class Div extends BinaryNumericOperatorExpr {
     
@@ -24,16 +24,16 @@ public class Div extends BinaryNumericOperatorExpr {
     
     /**
      * Overrides
-     * {@link nl.uva.sea.ql.ast.expr.BinaryNumericOperatorExpr#accept(nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor)
-     * BinaryNumericOperatorExpr.accept(ASTVisitor)} for local dynamic dispatch
+     * {@link nl.uva.sea.ql.ast.expr.BinaryNumericOperatorExpr#accept(nl.uva.sea.ql.generalPurposeVisitors.Visitor)
+     * BinaryNumericOperatorExpr.accept(Visitor)} for local dynamic dispatch
      * only.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this BinaryNumericOperatorExpr</code> and
      *                  its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         childrenAccept(visitor);
         
         visitor.visit(this);
@@ -52,8 +52,8 @@ public class Div extends BinaryNumericOperatorExpr {
      */
     @Override
     public NumericValue eval(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) getFirstExpr().eval(answerTable);
-        NumericValue secondValue = (NumericValue) getSecondExpr().eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(getFirstExpr().eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(getSecondExpr().eval(answerTable));
         return firstValue.divide(secondValue);
     }
 }

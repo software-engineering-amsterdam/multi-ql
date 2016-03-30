@@ -26,7 +26,7 @@ public class IdentCollectorTest {
         expected.put(firstQuestionIdent, firstQuestion);
         
         Ident secondQuestionIdent = new Ident("hasBoughtHouse");
-        Label secondQuestionLabel = new Label("Did you by a house in 2010?");
+        Label secondQuestionLabel = new Label("Did you buy a house in 2010?");
         Question secondQuestion = new BooleanQuestion(secondQuestionIdent, secondQuestionLabel);
         expected.put(secondQuestionIdent, secondQuestion);
         

@@ -7,7 +7,7 @@ import nl.uva.sea.ql.ast.question.*;
 /**
  * Subclasses of this class can visit all all kinds of <code>ASTNode</code>s.
  * This interface implements the visitor-pattern together
- * with {@link nl.uva.sea.ql.ast.VisitableASTNode VisitableASTNode}.
+ * with {@link nl.uva.sea.ql.ast.Visitable Visitable}.
  * The methods visit have default implementations that do nothing, to allow
  * subclasses to implement this method only methods for objects of classes they
  * actually need to handle (in addition to just passing them in an AST).
@@ -15,7 +15,7 @@ import nl.uva.sea.ql.ast.question.*;
  * @author Olav Trauschke
  * @version 25-mar-2016
  */
-public interface ASTVisitor {
+public interface Visitor {
     
     default void visit(ConditionalStatement statement) {}
     
