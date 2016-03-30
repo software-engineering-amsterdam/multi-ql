@@ -1,9 +1,9 @@
-package ql.ast.types;
+package ql.ast.type;
 
-public class IntegerType extends ValueType{
+public class BooleanType extends ValueType{
 	@Override
 	public boolean equals(Object obj){
-		return obj instanceof IntegerType;
+		return obj instanceof BooleanType;
 	}
 	
 	@Override
@@ -13,7 +13,7 @@ public class IntegerType extends ValueType{
 	
 	@Override
 	public String toString(){
-		return "int";
+		return "boolean";
 	}
 
 }
