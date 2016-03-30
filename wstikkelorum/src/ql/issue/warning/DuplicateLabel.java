@@ -1,4 +1,6 @@
-package ql.issue;
+package ql.issue.warning;
+
+import ql.issue.Issue;
 
 public class DuplicateLabel extends Issue {
 	public DuplicateLabel(String label, int lineNumber) {

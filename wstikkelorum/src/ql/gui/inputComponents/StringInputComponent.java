@@ -1,6 +1,5 @@
-package ql.gui;
+package ql.gui.inputComponents;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,11 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class IntegerInputComponent implements UserInputElement{
+import ql.gui.UserInputElement;
+
+public class StringInputComponent implements UserInputElement{
 	private JTextField textField;
 	private UserInputElement parent;
 	
-	public IntegerInputComponent(UserInputElement parent){
+	public StringInputComponent(UserInputElement parent){
 		this.parent = parent;
 		textField = new JTextField(6);
 		textField.addActionListener(new ActionListener() {
@@ -25,15 +26,10 @@ public class IntegerInputComponent implements UserInputElement{
 
 	@Override
 	public JPanel getDrawableItem() {
-		JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		jPanel.add(textField);
-		jPanel.setVisible(true);
-		return jPanel;
-	}
-
-	@Override
-	public void onAction() {
-		parent.onAction();
+		JPanel inputComponentPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		inputComponentPanel.add(textField);
+		inputComponentPanel.setVisible(true);
+		return inputComponentPanel;
 	}
 
 	@Override
@@ -47,12 +43,11 @@ public class IntegerInputComponent implements UserInputElement{
 
 	@Override
 	public Object getInput() {
-		try{
-			return Integer.parseInt(textField.getText());
-		}catch(NumberFormatException nfe){
-			textField.setBackground(new Color(255, 0, 0));
-			return null;//TODO:return already stored number!
-		}
+		return textField.getText();
 	}
 
+	@Override
+	public void onAction() {
+		parent.onAction();
+	}
 }

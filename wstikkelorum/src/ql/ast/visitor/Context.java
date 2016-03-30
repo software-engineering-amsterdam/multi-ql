@@ -7,12 +7,12 @@ import java.util.List;
 
 import ql.ast.literal.Variable;
 import ql.ast.literal.VariableExpression;
-import ql.ast.statement.Question;
+import ql.ast.statement.question.Question;
 import ql.ast.type.ValueType;
-import ql.issue.DuplicateLabel;
-import ql.issue.DuplicateQuestionWithDifferentType;
 import ql.issue.Issue;
-import ql.issue.ReferenceToUndefinedQuestion;
+import ql.issue.problems.DuplicateQuestionWithDifferentType;
+import ql.issue.problems.ReferenceToUndefinedQuestion;
+import ql.issue.warning.DuplicateLabel;
 
 public class Context {
 	private List<Question> declaredQuestions;

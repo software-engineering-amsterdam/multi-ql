@@ -26,8 +26,8 @@ import ql.ast.type.BooleanType;
 import ql.ast.type.IntegerType;
 import ql.ast.type.StringType;
 import ql.ast.type.ValueType;
-import ql.issue.ConditionNonBoolean;
-import ql.issue.InvalidTypeForOperant;
+import ql.issue.problems.ConditionNonBoolean;
+import ql.issue.problems.InvalidTypeForOperant;
 
 public class TypeChecker<T> extends BasicVisitor<ValueType> {
 	private Context context;

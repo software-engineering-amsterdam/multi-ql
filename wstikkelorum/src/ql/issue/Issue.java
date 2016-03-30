@@ -3,9 +3,9 @@ package ql.issue;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ql.gui.UIElement;
+import ql.gui.DrawableElement;
 
-public abstract class Issue implements UIElement{
+public abstract class Issue implements DrawableElement{
 	protected String errorMessage;
 
 	public void print() {

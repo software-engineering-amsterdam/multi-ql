@@ -20,8 +20,8 @@ import ql.ast.literal.IntLiteral;
 import ql.ast.literal.StringLiteral;
 import ql.ast.literal.Variable;
 import ql.ast.literal.VariableExpression;
-import ql.ast.statement.ComputedQuestion;
-import ql.ast.statement.InputQuestion;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.statement.question.InputQuestion;
 
 public class Evaluator extends BasicVisitor<Object> {
 	protected Context context;

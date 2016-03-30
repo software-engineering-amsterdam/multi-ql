@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import ql.ast.literal.VariableExpression;
-import ql.ast.statement.ComputedQuestion;
-import ql.issue.CyclicDependency;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.issue.problems.CyclicDependency;
 
 public class DependencyChecker<T> extends BasicVisitor<T> {
 	private HashMap<String, List<String>> directDependencies;
