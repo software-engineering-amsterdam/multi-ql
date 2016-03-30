@@ -1,41 +1,10 @@
-{-# LANGUAGE DeriveDataTypeable #-}
-module Value
-       where
+module ParseValue where
 
-import           Ast
-import           Data.Decimal
+import ValueTypes
+import           Money 
 import           Text.ParserCombinators.Parsec          as P
 import           Text.ParserCombinators.Parsec.Language
 import qualified Text.ParserCombinators.Parsec.Token    as Token
-import           Data.Typeable
-import           Data.Data
-
-data Value = IntValue Integer
-           | BoolValue Bool
-           | StringValue String
-           | MoneyValue Decimal
-           | Undefined
-  deriving (Eq, Show, Data, Typeable)
-
-haveSameValueType :: Value -> Value -> Bool
-haveSameValueType x y = toConstr x == toConstr y
-
-defaultVal :: FieldType -> Value
-defaultVal Integer = IntValue 0
-defaultVal Boolean = BoolValue False
-defaultVal String = StringValue ""
-defaultVal Money = MoneyValue (Decimal 2 0)
-
-toDisplay :: Value -> String
-toDisplay (IntValue x) = show x
-toDisplay (StringValue x) = x
-toDisplay (MoneyValue x) = show x
-toDisplay (BoolValue x) = show x 
-toDisplay Undefined = "Undefined"
-
-fromDisplay :: FieldType -> String -> Value
-fromDisplay String = parseStringValue 
-fromDisplay _  = parseValue 
 
 intValue :: Parser Value
 intValue = do
@@ -49,7 +18,7 @@ moneyValue = do
 
 stringValue :: Parser Value
 stringValue = do
-  val <- Value.string
+  val <- ParseValue.string
   return (StringValue val) <?> "string val"
 
 value :: Parser Value
@@ -79,9 +48,9 @@ float :: Parser Double
 float = Token.float lexer
 
 string :: Parser String
-string = many anyChar
+string = many anyChar <?> "string"
 
-dec :: Parser Decimal
+dec :: Parser Money 
 dec = do
   val <- float
   return (realFracToDecimal (decimalMantissa 2) val) <?> "decimal"
