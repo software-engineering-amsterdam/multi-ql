@@ -2,7 +2,6 @@ package ast
 
 import (
 	"ql/ast/expr"
-
 	"ql/ast/stmt"
 	"ql/ast/vari"
 	"ql/interfaces"
@@ -16,160 +15,220 @@ const (
 	FALSE = false
 )
 
-var SourcePosInformation map[interfaces.Node]token.Pos = make(map[interfaces.Node]token.Pos)
+type attrib interface {
+}
 
 /** Expressions **/
 
 /* unary operator expressions */
-func NewPos(value interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	pos := expr.NewPos(value.(interfaces.Expr), sourcePosInfo)
-	SourcePosInformation[pos] = sourcePosInfo.(token.Pos)
-	return pos, nil
+func NewPosNode(value attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewPos(value.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewNeg(value interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewNeg(value.(interfaces.Expr), sourcePosInfo), nil
+func NewNegNode(value attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewNeg(value.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewNot(value interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewNot(value.(interfaces.Expr), sourcePosInfo), nil
+func NewNotNode(value attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewNot(value.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewVarExpr(identifier interface{}) (interfaces.Expr, error) {
+func NewVarExprNode(identifier attrib) (interfaces.Expr, error) {
 	varId := identifier.(vari.VarId)
-	return expr.NewVarExpr(varId, varId.GetSourceInfo()), nil
+	expr := expr.NewVarExpr(varId)
+	expr.SetSourceInfo(varId.SourceInfo())
+	return expr, nil
 }
 
-/* binary operator expressins */
-func NewMul(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewMul(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+/* binary operator expressions */
+func NewMulNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewMul(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewDiv(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewDiv(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewDivNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewDiv(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewAdd(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewAdd(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewAddNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewAdd(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewSub(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	pos := expr.NewSub(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo)
-	SourcePosInformation[pos] = sourcePosInfo.(token.Pos)
-	return pos, nil
+func NewSubNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewSub(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewEq(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewEq(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewEqNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewEq(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewNEq(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewNEq(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewNEqNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewNEq(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewGT(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewGT(lhs.(interfaces.Expr).(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewGTNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewGT(lhs.(interfaces.Expr).(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewLT(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewLT(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewLTNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewLT(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewGEq(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewGEq(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewGEqNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewGEq(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewLEq(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewLEq(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewLEqNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewLEq(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewAnd(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewAnd(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewAndNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewAnd(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewOr(lhs interface{}, rhs interface{}, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewOr(lhs.(interfaces.Expr), rhs.(interfaces.Expr), sourcePosInfo), nil
+func NewOrNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewOr(lhs.(interfaces.Expr), rhs.(interfaces.Expr))
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
 /* literals */
-func NewIntLit(litValueToken interface{}) (interfaces.Expr, error) {
+func NewIntLitNode(litValueToken attrib) (interfaces.Expr, error) {
 	sourcePosInfo := litValueToken.(*token.Token).Pos
 	value, err := util.IntValue(litValueToken.(*token.Token).Lit)
-	return expr.NewIntLit(int(value), sourcePosInfo), err
+	expr := expr.NewIntLit(int(value))
+	expr.SetSourceInfo(sourcePosInfo)
+	return expr, err
 }
 
-func NewBoolLit(value bool, sourcePosInfo interface{}) (interfaces.Expr, error) {
-	return expr.NewBoolLit(value, sourcePosInfo), nil
+func NewBoolLitNode(value bool, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewBoolLit(value)
+	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return expr, nil
 }
 
-func NewStrLit(valueToken interface{}) (interfaces.Expr, error) {
+func NewStrLitNode(valueToken attrib) (interfaces.Expr, error) {
 	sourcePosInfo := valueToken.(*token.Token).Pos
 	literalString := stringLiteralTokensToString(valueToken.(*token.Token))
-	return expr.NewStrLit(literalString, sourcePosInfo), nil
+	expr := expr.NewStrLit(literalString)
+	expr.SetSourceInfo(sourcePosInfo)
+	return expr, nil
 }
 
 /** Vari **/
 
-func NewVarDecl(ident interface{}, typeIdent interface{}, sourcePosInfo interface{}) (interfaces.VarDecl, error) {
-	return vari.NewVarDecl(ident.(interfaces.VarId), typeIdent.(interfaces.ValueType), sourcePosInfo), nil
+func NewVarDeclNode(ident attrib, typeIdent attrib, sourcePosInfo attrib) (interfaces.VarDecl, error) {
+	vari := vari.NewVarDecl(ident.(interfaces.VarId), typeIdent.(interfaces.ValueType))
+	vari.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return vari, nil
 }
 
-func NewVarId(identToken interface{}) (vari.VarId, error) {
+func NewVarIdNode(identToken attrib) (vari.VarId, error) {
 	sourcePosInfo := identToken.(*token.Token).Pos
 	identifierString := string(identToken.(*token.Token).Lit)
-	return vari.NewVarId(identifierString, sourcePosInfo), nil
+	vari := vari.NewVarId(identifierString)
+	vari.SetSourceInfo(sourcePosInfo)
+	return vari, nil
 }
 
-func NewIntType(typeTokenLit interface{}) (interfaces.IntType, error) {
+func NewIntTypeNode(typeTokenLit attrib) (interfaces.IntType, error) {
 	token := typeTokenLit.(*token.Token)
-	return expr.NewIntType(token.Pos), nil
+	expr := expr.NewIntType()
+	expr.SetSourceInfo(token.Pos)
+
+	return expr, nil
 }
 
-func NewBoolType(typeTokenLit interface{}) (interfaces.BoolType, error) {
+func NewBoolTypeNode(typeTokenLit attrib) (interfaces.BoolType, error) {
 	token := typeTokenLit.(*token.Token)
-	return expr.NewBoolType(token.Pos), nil
+	expr := expr.NewBoolType()
+	expr.SetSourceInfo(token.Pos)
+	return expr, nil
 }
 
-func NewStringType(typeTokenLit interface{}) (interfaces.StringType, error) {
+func NewStringTypeNode(typeTokenLit attrib) (interfaces.StringType, error) {
 	token := typeTokenLit.(*token.Token)
-	return expr.NewStringType(token.Pos), nil
+	expr := expr.NewStringType()
+	expr.SetSourceInfo(token.Pos)
+	return expr, nil
 }
 
 /** Statements **/
 
-func NewForm(identifier interface{}, body interface{}, sourcePosInfo interface{}) (interfaces.Form, error) {
-	return stmt.NewForm(identifier.(vari.VarId), body.(stmt.StmtList), sourcePosInfo), nil
+func NewFormNode(identifier attrib, body attrib, sourcePosInfo attrib) (interfaces.Form, error) {
+	stmt := stmt.NewForm(identifier.(vari.VarId), body.(stmt.StmtList))
+	stmt.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return stmt, nil
 }
 
-func NewInputQuestion(label interface{}, varDecl interface{}) (interfaces.InputQuestion, error) {
+func NewInputQuestionNode(label attrib, varDecl attrib) (interfaces.InputQuestion, error) {
 	labelStrLit := label.(expr.StrLit)
-	return stmt.NewInputQuestion(labelStrLit, varDecl.(vari.VarDecl), labelStrLit.GetSourceInfo()), nil
+	stmt := stmt.NewInputQuestion(labelStrLit, varDecl.(vari.VarDecl))
+	stmt.SetSourceInfo(labelStrLit.SourceInfo())
+	return stmt, nil
 }
 
-func NewComputedQuestion(label interface{}, varDecl interface{}, computation interface{}, sourcePosInfo interface{}) (interfaces.ComputedQuestion, error) {
-	return stmt.NewComputedQuestion(label.(expr.StrLit), varDecl.(vari.VarDecl), computation.(interfaces.Expr), sourcePosInfo), nil
+func NewComputedQuestionNode(label attrib, varDecl attrib, computation attrib, sourcePosInfo attrib) (interfaces.ComputedQuestion, error) {
+	stmt := stmt.NewComputedQuestion(label.(expr.StrLit), varDecl.(vari.VarDecl), computation.(interfaces.Expr))
+	stmt.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return stmt, nil
 }
 
-func NewStmtList(stmtElt interface{}) (interfaces.StmtList, error) {
+func NewStmtListNode(stmtElt attrib) (interfaces.StmtList, error) {
 	stmtEltTypeAsserted := stmtElt.(interfaces.Stmt)
-	s := stmt.NewEmptyStmtList(stmtEltTypeAsserted.GetSourceInfo())
-	return s.AddToCorrectSlice(stmtElt), nil
+	stmt := stmt.NewEmptyStmtList()
+	stmt.SetSourceInfo(stmtEltTypeAsserted.SourceInfo())
+	return stmt.AddToCorrectSlice(stmtEltTypeAsserted), nil
 }
 
-func NewEmptyStmtList(sourcePosInfo interface{}) (interfaces.StmtList, error) {
-	return stmt.NewEmptyStmtList(sourcePosInfo), nil
+func NewEmptyStmtListNode(sourcePosInfo attrib) (interfaces.StmtList, error) {
+	stmt := stmt.NewEmptyStmtList()
+	stmt.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return stmt, nil
 }
 
-func AppendStmt(stmtList, stmtElt interface{}) (interfaces.StmtList, error) {
-	return stmtList.(stmt.StmtList).AddToCorrectSlice(stmtElt), nil
+func AppendStmt(stmtList, stmtElt attrib) (interfaces.StmtList, error) {
+	stmt := stmtList.(stmt.StmtList).AddToCorrectSlice(stmtElt.(interfaces.Stmt))
+	return stmt, nil
 }
 
-func NewIf(cond interface{}, body interface{}, sourcePosInfo interface{}) (interfaces.If, error) {
-	return stmt.NewIf(cond.(interfaces.Expr), body.(stmt.StmtList), sourcePosInfo), nil
+func NewIfNode(cond attrib, body attrib, sourcePosInfo attrib) (interfaces.If, error) {
+	stmt := stmt.NewIf(cond.(interfaces.Expr), body.(stmt.StmtList))
+	stmt.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return stmt, nil
 }
 
-func NewIfElse(cond interface{}, ifBody interface{}, elseBody interface{}, sourcePosInfo interface{}) (interfaces.IfElse, error) {
-	return stmt.NewIfElse(cond.(interfaces.Expr), ifBody.(stmt.StmtList), elseBody.(stmt.StmtList), sourcePosInfo), nil
+func NewIfElseNode(cond attrib, ifBody attrib, elseBody attrib, sourcePosInfo attrib) (interfaces.IfElse, error) {
+	stmt := stmt.NewIfElse(cond.(interfaces.Expr), ifBody.(stmt.StmtList), elseBody.(stmt.StmtList))
+	stmt.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return stmt, nil
 }
 
 // TODO place in util?

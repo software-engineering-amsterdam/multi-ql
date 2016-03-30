@@ -1,45 +1,39 @@
 package expr
 
 import (
+	"github.com/stretchr/testify/assert"
 	"ql/ast/vari"
-	"ql/interfaces"
 	"ql/symbols"
 	"testing"
 )
 
-func unaryExprEval(t *testing.T, exampleInput interfaces.Expr, expectedOutput interfaces.Expr, symbols interfaces.VarIdValueSymbols) {
-	if eval, expectedOutputEval := exampleInput.Eval(symbols), expectedOutput.(interfaces.Expr).Eval(symbols); eval != expectedOutputEval {
-		t.Errorf("UnaryOperator test error: should be %v (%T) for %v but is %v (%T)", expectedOutputEval, expectedOutputEval, eval, eval)
-	}
-}
-
-/* Test for unary expressions */
+/* Tests for unary expressions */
 
 func TestNot(t *testing.T) {
-	unaryExprEval(t, NewNotNoSourceInfo(NewBoolLitNoSourceInfo(true)), NewBoolLitNoSourceInfo(false), nil)
+	assert.Equal(t, NewNot(NewBoolLit(true)).Eval(nil), false)
 }
 
 func TestPos(t *testing.T) {
-	unaryExprEval(t, NewPosNoSourceInfo(NewIntLitNoSourceInfo(-10)), NewIntLitNoSourceInfo(10), nil)
+	assert.Equal(t, NewPos(NewIntLit(-10)).Eval(nil), 10)
 }
 
 func TestNeg(t *testing.T) {
-	unaryExprEval(t, NewNegNoSourceInfo(NewIntLitNoSourceInfo(10)), NewIntLitNoSourceInfo(-10), nil)
+	assert.Equal(t, NewNeg(NewIntLit(10)).Eval(nil), -10)
 }
 
 func TestPosNeg(t *testing.T) {
-	unaryExprEval(t, NewPosNoSourceInfo(NewNegNoSourceInfo(NewIntLitNoSourceInfo(-10))), NewIntLitNoSourceInfo(10), nil)
+	assert.Equal(t, NewPos(NewNeg(NewIntLit(-10))).Eval(nil), 10)
 }
 
 func TestNegPos(t *testing.T) {
-	unaryExprEval(t, NewNegNoSourceInfo(NewPosNoSourceInfo(NewIntLitNoSourceInfo(10))), NewIntLitNoSourceInfo(-10), nil)
+	assert.Equal(t, NewNeg(NewPos(NewIntLit(10))).Eval(nil), -10)
 }
 
 func TestVarExpr(t *testing.T) {
-	exampleVarId := vari.NewVarIdNoSourceInfo("TestIdentifier")
+	exampleVarId := vari.NewVarId("TestIdentifier")
 
 	symbols := symbols.NewVarIdValueSymbols()
-	symbols.SetExprForVarId(NewIntLitNoSourceInfo(2), exampleVarId)
+	symbols.SetExprForVarId(NewIntLit(2), exampleVarId)
 
-	unaryExprEval(t, NewVarExprNoSourceInfo(exampleVarId), NewIntLitNoSourceInfo(2), symbols)
+	assert.Equal(t, NewVarExpr(exampleVarId).Eval(symbols), 2)
 }

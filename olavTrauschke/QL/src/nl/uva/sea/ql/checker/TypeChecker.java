@@ -4,14 +4,15 @@ import java.util.*;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.*;
 import nl.uva.sea.ql.ast.question.*;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Visitor to check the types of objects in an AST.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 25-mar-2016
  */
-public class TypeChecker implements ASTVisitor {
+public class TypeChecker implements Visitor {
     
     /**
      * Description of the type boolean.
@@ -66,6 +67,10 @@ public class TypeChecker implements ASTVisitor {
     public static final String NEGATION_OF_NON_BOOLEAN_ERROR
             = "Negation of non-boolean value found";
     
+    /**
+     * Error presented to the user when a <code>Neg</code> has a non-numeric
+     * content.
+     */
     public static final String NEGATIVE_OF_NON_NUMERIC_ERROR
             = "Negative of a non-numeric value found";
     
@@ -232,16 +237,16 @@ public class TypeChecker implements ASTVisitor {
             errors.add(ADDITION_TYPE_ERROR);
         }
         else if (bothString) {
-            addition.setIsString(true);
+            addition.setIsString();
         }
         else if (isMoney(firstExpr) || isMoney(secondExpr)) {
-            addition.setIsMoney(true);
+            addition.setIsMoney();
         }
         else if (isDecimal(firstExpr) || isDecimal(secondExpr)) {
-            addition.setIsDecimal(true);
+            addition.setIsDecimal();
         }
         else {
-            addition.setIsInt(true);
+            addition.setIsInt();
         }
     }
     
@@ -263,13 +268,13 @@ public class TypeChecker implements ASTVisitor {
             handleNonNumericOperandOfNumericOperator(expression);
         }
         else if (isMoney(firstExpr) || isMoney(secondExpr)) {
-            expression.setIsMoney(true);
+            expression.setIsMoney();
         }
-        else if (isDecimal(firstExpr) && isDecimal(secondExpr)) {
-            expression.setIsDecimal(true);
+        else if (isDecimal(firstExpr) || isDecimal(secondExpr)) {
+            expression.setIsDecimal();
         }
         else {
-            expression.setIsInt(true);
+            expression.setIsInt();
         }
     }
     
@@ -288,6 +293,17 @@ public class TypeChecker implements ASTVisitor {
         if (!isNumeric(firstExpr) || !isNumeric(secondExpr)) {
             handleNonNumericOperandOfNumericOperator(division);
         }
+        else if (isMoney(firstExpr)) {
+            if (isMoney(secondExpr)) {
+                division.setIsDecimal();
+            }
+            else {
+                division.setIsMoney();
+            }
+        }
+        else {
+            division.setIsDecimal();
+        }
     }
     
     /**
@@ -300,9 +316,9 @@ public class TypeChecker implements ASTVisitor {
      */
     private void handleNonNumericOperandOfNumericOperator(BinaryNumericOperatorExpr expression) {
         errors.add(NUMERIC_OPERATOR_WITH_NON_NUMERIC_OPERAND_ERROR);
-        expression.setIsDecimal(true);
-        expression.setIsInt(true);
-        expression.setIsMoney(true);
+        expression.setIsDecimal();
+        expression.setIsInt();
+        expression.setIsMoney();
     }
     
     /**

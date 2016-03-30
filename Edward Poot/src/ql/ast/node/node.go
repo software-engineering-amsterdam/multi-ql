@@ -5,18 +5,21 @@ import (
 )
 
 type Node struct {
-	SourceInfo token.Pos
+	SrcInfo token.Pos
 }
 
-func NewNode(sourceInfo interface{}) Node {
-	if sourceInfo == nil {
-		sourceInfo = token.Pos{}
-	}
-
-	return Node{}
-	//return Node{sourceInfo.(token.Pos)}
+func NewNode() Node {
+	return Node{SrcInfo: token.Pos{}}
 }
 
-func (this Node) GetSourceInfo() token.Pos {
-	return this.SourceInfo
+func (this Node) SetSourceInfo(sourceInfo token.Pos) {
+	this.SrcInfo = token.Pos{}
+}
+
+func (this Node) SourceInfo() token.Pos {
+	return this.SrcInfo
+}
+
+func (this Node) String() string {
+	return ""
 }

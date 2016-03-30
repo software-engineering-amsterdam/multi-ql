@@ -39,7 +39,7 @@ public class LoadMenu implements ActionListener {
 				e.printStackTrace();
 			}
 			
-			VisitorASTToGUI astToGUI = new VisitorASTToGUI();
+			VisitorASTToGUI astToGUI = new VisitorASTToGUI(this.frame);
 			gui.resetFrame();
 			astToGUI.visitForm(form, gui.getPanel());
 		} 

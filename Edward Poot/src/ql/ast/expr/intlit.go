@@ -3,23 +3,19 @@ package expr
 import "fmt"
 
 type IntLit struct {
-	Value int
+	value int
 	Expr
 }
 
-func NewIntLit(value int, sourceInfo interface{}) IntLit {
-	return IntLit{Value: value, Expr: NewExpr(sourceInfo)}
+func NewIntLit(value int) IntLit {
+	return IntLit{value: value, Expr: NewExpr()}
 }
 
-func NewIntLitNoSourceInfo(value int) IntLit {
-	return NewIntLit(value, nil)
-}
-
-func (this IntLit) GetValue() int {
-	return this.Value
+func (this IntLit) Value() int {
+	return this.value
 }
 
 // FIXME needed for test comparison due to strange behavior. Find better solution.
 func (this IntLit) String() string {
-	return fmt.Sprintf("%d", this.Value)
+	return fmt.Sprintf("%d", this.value)
 }

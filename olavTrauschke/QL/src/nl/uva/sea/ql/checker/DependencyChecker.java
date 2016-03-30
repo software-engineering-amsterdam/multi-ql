@@ -1,10 +1,10 @@
 package nl.uva.sea.ql.checker;
 
 import java.util.*;
-import nl.uva.sea.ql.QuestionIdentCollector;
 import nl.uva.sea.ql.ast.ConditionalStatement;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.generalPurposeVisitors.*;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.alg.CycleDetector;
 import org.jgrapht.graph.DefaultDirectedGraph;
@@ -14,7 +14,7 @@ import org.jgrapht.graph.DefaultEdge;
  * Visitor to check the dependencies between <code>Question</code>s in an ast.
  * 
  * @author Olav Trauschke
- * @version 10-mar-2016
+ * @version 26-mar-2016
  */
 public class DependencyChecker extends GeneralizedASTVisitor {
     
@@ -93,10 +93,7 @@ public class DependencyChecker extends GeneralizedASTVisitor {
         QuestionIdentCollector containedQuestionsCollector = new QuestionIdentCollector();
         statement.accept(containedQuestionsCollector);
         Iterable<Ident> containedQuestions = containedQuestionsCollector.obtainIdentifiers();
-        
-        for(Ident startIdentifier : containedQuestions) {
-            addEdges(startIdentifier, dependencies);
-        }
+        containedQuestions.forEach((Ident startIdentifier) -> addEdges(startIdentifier, dependencies));
     }
     
     /**
@@ -108,13 +105,14 @@ public class DependencyChecker extends GeneralizedASTVisitor {
         CycleDetector detector = new CycleDetector(dependencyGraph);
         Set<Ident> identifiersContributingToCycles = detector.findCycles();
         if (!identifiersContributingToCycles.isEmpty()) {
-            String error = CYCLIC_DEPENDENCIES_ERROR;
+            StringBuilder errorBuilder = new StringBuilder(CYCLIC_DEPENDENCIES_ERROR);
             Iterator iterator = identifiersContributingToCycles.iterator();
-            error += iterator.next();
+            errorBuilder.append(iterator.next());
             while (iterator.hasNext()) {
-                error += IDENT_SEPERATOR + iterator.next();
+                errorBuilder.append(IDENT_SEPERATOR);
+                errorBuilder.append(iterator.next());
             }
-            errors.add(error);
+            errors.add(errorBuilder.toString());
         }
     }
     
@@ -136,9 +134,7 @@ public class DependencyChecker extends GeneralizedASTVisitor {
      *                      <code>Ident</code>s to add
      */
     private void addVertrices(Iterable<Ident> identifiers) {
-        for (Ident identifier : identifiers) {
-            dependencyGraph.addVertex(identifier);
-        }
+        identifiers.forEach(dependencyGraph::addVertex);
     }
     
     /**

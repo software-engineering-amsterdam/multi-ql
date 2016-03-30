@@ -6,50 +6,36 @@ import (
 )
 
 type StmtList struct {
-	Questions    []interfaces.Question
-	Conditionals []interfaces.Conditional
+	questions    []interfaces.Question
+	conditionals []interfaces.Conditional
 	Stmt
 }
 
-func NewStmtList(questions []interfaces.Question, conditionals []interfaces.Conditional, sourceInfo interface{}) StmtList {
-	return StmtList{questions, conditionals, NewStmt(sourceInfo)}
+func NewStmtList(questions []interfaces.Question, conditionals []interfaces.Conditional) StmtList {
+	return StmtList{questions, conditionals, NewStmt()}
 }
 
-func NewStmtListNoSourceInfo(questions []interfaces.Question, conditionals []interfaces.Conditional) StmtList {
-	return NewStmtList(questions, conditionals, nil)
+func NewEmptyStmtList() StmtList {
+	return NewStmtList(nil, nil)
 }
 
-func NewEmptyStmtList(sourceInfo interface{}) StmtList {
-	return StmtList{Stmt: NewStmt(sourceInfo)}
+func (this StmtList) Questions() []interfaces.Question {
+	return this.questions
 }
 
-func NewEmptyStmtListNoSourceInfo() StmtList {
-	return NewEmptyStmtList(nil)
+func (this StmtList) Conditionals() []interfaces.Conditional {
+	return this.conditionals
 }
 
-func (this StmtList) GetQuestions() []interfaces.Question {
-	return this.Questions
-}
-
-func (this StmtList) GetConditionals() []interfaces.Conditional {
-	return this.Conditionals
-}
-
-func (this StmtList) AddToCorrectSlice(i interface{}) StmtList {
-	switch t := i.(type) {
+func (this StmtList) AddToCorrectSlice(questionOrConditional interfaces.Stmt) StmtList {
+	switch assertedStmt := questionOrConditional.(type) {
 	default:
-		panic(fmt.Sprintf("Unexpected StmtList type passed %T\n", t))
+		panic(fmt.Errorf("Unexpected StmtList type passed to AddToCorrectSlice %T\n", assertedStmt))
 	case interfaces.Question:
-		this.Questions = append(this.Questions, i.(interfaces.Question))
-	case If:
-		this.Conditionals = append(this.Conditionals, i.(If))
-	case IfElse:
-		this.Conditionals = append(this.Conditionals, i.(IfElse))
+		this.questions = append(this.questions, assertedStmt)
+	case interfaces.Conditional:
+		this.conditionals = append(this.conditionals, assertedStmt)
 	}
 
 	return this
-}
-
-func (this StmtList) String() string {
-	return fmt.Sprintf("A statement list with %d questions and %d conditionals", len(this.Questions), len(this.Conditionals))
 }

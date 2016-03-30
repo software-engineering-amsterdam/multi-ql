@@ -1,11 +1,11 @@
 package uva.ql.ast.values;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.values.abstracts.Value;
-import uva.ql.ast.values.types.Int;
+import uva.ql.ast.Node;
+import uva.ql.ast.interfaces.IntEval;
+import uva.ql.ast.types.Int;
 
-public class ValueInt extends Value<Integer> {
+public class ValueInt extends Value<Integer> implements IntEval<Integer> {
 
 	private Int type = new Int();
 	private int value;
@@ -29,5 +29,9 @@ public class ValueInt extends Value<Integer> {
 	public Integer getValue() {
 		return this.value;
 	}
-
+	
+	@Override
+	public Integer eval() {
+		return getValue();
+	}
 }

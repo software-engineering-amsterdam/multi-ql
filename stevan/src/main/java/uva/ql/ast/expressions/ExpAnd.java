@@ -1,16 +1,17 @@
 package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.expressions.abstracts.LogicalOperatorBinary;
+import uva.ql.ast.Node;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.expressions.types.And;
+import uva.ql.ast.expressions.abstracts.LogicalOperatorBinary;
+import uva.ql.ast.interfaces.BoolEval;
+import uva.ql.ast.types.expression.And;
 
-public class ExpAnd extends LogicalOperatorBinary {
+public class ExpAnd extends LogicalOperatorBinary implements BoolEval<Boolean> {
 
 	private And type = new And();
 	
-	public ExpAnd(Node parent, Expression lhs, Expression rhs, int startLine, int startColumn) {
+	public ExpAnd(Node parent, Expression<Boolean> lhs, Expression<Boolean> rhs, int startLine, int startColumn) {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
 	
@@ -22,5 +23,10 @@ public class ExpAnd extends LogicalOperatorBinary {
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
+	}
+
+	@Override
+	public Boolean eval() {
+		return this.getLhs().eval() && this.getRhs().eval();
 	}
 }

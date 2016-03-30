@@ -2,9 +2,11 @@ package nl.nicasso.ql.gui.questionFields;
 
 import java.awt.Component;
 
-import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
+import javax.swing.JLabel;
 
+import nl.nicasso.ql.gui.evaluator.values.Value;
+
+// @TODO CHANGE TO INTERFACE
 public abstract class QuestionField {
 		
 	public QuestionField() {
@@ -27,8 +29,8 @@ public abstract class QuestionField {
 		throw new AssertionError("QuestionField equalValues");
 	}
 	
-	public void setFeedbackLabel(Label label) {
-		throw new AssertionError("QuestionField setFeedbackLabel");
+	public void setFeedbackField(JLabel feedback) {
+		//throw new AssertionError("setFeedbackField");
 	}
 	
 }

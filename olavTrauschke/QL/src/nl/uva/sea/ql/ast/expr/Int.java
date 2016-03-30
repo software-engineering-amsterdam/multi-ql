@@ -4,13 +4,13 @@ import java.util.Map;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.answerTable.IntValue;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of (literals of) the type int in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 30-mar-2016
  */
 public class Int extends NumericExpr {
     
@@ -19,15 +19,15 @@ public class Int extends NumericExpr {
      */
     public static final int HASH_ORIGIN = 259;
     
-    private final Integer value;
+    private final Long value;
     
     /**
      * Constructor for objects of class <code>Int</code>.
      * 
-     * @param theValue an <code>Integer</code> representing the value of the
+     * @param theValue a <code>Long</code> representing the value of the
      *                  constructed <code>Int</code>
      */
-    public Int(Integer theValue) {
+    public Int(Long theValue) {
         assert theValue != null;
         value = theValue;
     }
@@ -35,26 +35,12 @@ public class Int extends NumericExpr {
     /**
      * Has <code>visitor visit this Int</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this Int</code>
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-    
-    /**
-     * Returns whether <code>this Int</code> represents a decimal value.
-     * 
-     * @param questionTypes a <code>Map</code> from <code>Ident</code>s found in
-     *                      code the ast <code>this Int</code> is part of to a
-     *                      <code>Question</code> with that <code>Ident</code>
-     * @return <code>true</code>, because an <code>Int</code> represents an int
-     *          value by definition and an int value is a decimal value by definition
-     */
-    @Override
-    public boolean isDecimal(Map<Ident,Question> questionTypes) {
-        return true;
     }
     
     /**

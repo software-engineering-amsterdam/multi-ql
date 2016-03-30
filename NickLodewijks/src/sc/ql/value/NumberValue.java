@@ -4,6 +4,10 @@ public final class NumberValue extends ValueAdapter {
 
 	private final Integer value;
 
+	public NumberValue(String text) throws NumberFormatException {
+		value = Integer.parseInt(text);
+	}
+
 	public NumberValue(int value) {
 		this.value = value;
 	}

@@ -1,27 +1,26 @@
-
 package lexer
 
 import (
-	
+
 	// "fmt"
 	// "ql/util"
-	
+
 	"io/ioutil"
-	"unicode/utf8"
 	"ql/token"
+	"unicode/utf8"
 )
 
-const(
-	NoState = -1
-	NumStates = 69
+const (
+	NoState    = -1
+	NumStates  = 69
 	NumSymbols = 87
-) 
+)
 
 type Lexer struct {
-	src             []byte
-	pos             int
-	line            int
-	column          int
+	src    []byte
+	pos    int
+	line   int
+	column int
 }
 
 func NewLexer(src []byte) *Lexer {
@@ -43,9 +42,9 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
-	
+
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-	
+
 	tok = new(token.Token)
 	if this.pos >= len(this.src) {
 		tok.Type = token.EOF
@@ -56,9 +55,9 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-	
+
 		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-	
+
 		if this.pos >= len(this.src) {
 			rune1 = -1
 		} else {
@@ -77,7 +76,6 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			this.column++
 		}
 
-	
 		// Production start
 		if rune1 != -1 {
 			state = TransTab[state](rune1)
@@ -98,7 +96,6 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		// }
 		// state = nextState
 		// Debug end
-	
 
 		if state != -1 {
 			switch {
@@ -141,65 +138,65 @@ func (this *Lexer) Reset() {
 Lexer symbols:
 0: '"'
 1: '"'
-2: 't'
-3: 'r'
-4: 'u'
-5: 'e'
-6: 'f'
-7: 'a'
-8: 'l'
-9: 's'
-10: 'e'
-11: '+'
-12: '*'
-13: '-'
-14: '/'
-15: '&'
-16: '&'
-17: '|'
-18: '|'
-19: '!'
-20: '<'
-21: '<'
-22: '='
-23: '>'
-24: '>'
-25: '='
-26: '!'
-27: '='
-28: '='
-29: '='
-30: '{'
-31: '}'
-32: '('
-33: ')'
-34: ':'
-35: '='
-36: '_'
-37: 'f'
-38: 'o'
-39: 'r'
-40: 'm'
-41: 'i'
-42: 'n'
-43: 't'
-44: 'e'
-45: 'g'
-46: 'e'
-47: 'r'
-48: 'b'
-49: 'o'
-50: 'o'
-51: 'l'
-52: 'e'
-53: 'a'
-54: 'n'
-55: 's'
-56: 't'
-57: 'r'
-58: 'i'
-59: 'n'
-60: 'g'
+2: '+'
+3: '*'
+4: '-'
+5: '/'
+6: '&'
+7: '&'
+8: '|'
+9: '|'
+10: '!'
+11: '<'
+12: '<'
+13: '='
+14: '>'
+15: '>'
+16: '='
+17: '!'
+18: '='
+19: '='
+20: '='
+21: '{'
+22: '}'
+23: '('
+24: ')'
+25: ':'
+26: '='
+27: '_'
+28: 'f'
+29: 'o'
+30: 'r'
+31: 'm'
+32: 'i'
+33: 'n'
+34: 't'
+35: 'e'
+36: 'g'
+37: 'e'
+38: 'r'
+39: 'b'
+40: 'o'
+41: 'o'
+42: 'l'
+43: 'e'
+44: 'a'
+45: 'n'
+46: 's'
+47: 't'
+48: 'r'
+49: 'i'
+50: 'n'
+51: 'g'
+52: 't'
+53: 'r'
+54: 'u'
+55: 'e'
+56: 'f'
+57: 'a'
+58: 'l'
+59: 's'
+60: 'e'
 61: 'i'
 62: 'f'
 63: 'e'
@@ -218,12 +215,12 @@ Lexer symbols:
 76: '\t'
 77: '\n'
 78: '\r'
-79: 'a'-'z'
-80: 'A'-'Z'
+79: '0'-'9'
+80: '0'-'9'
 81: 'a'-'z'
 82: 'A'-'Z'
-83: '0'-'9'
-84: '0'-'9'
+83: 'a'-'z'
+84: 'A'-'Z'
 85: '0'-'9'
 86: .
 

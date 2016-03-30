@@ -2,13 +2,13 @@ package nl.uva.sea.ql.ast.expr;
 
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.answerTable.BooleanValue;
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of a (boolean) negation in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 26-mar-2016
  */
 public class Not extends BooleanExpr {
     
@@ -41,11 +41,11 @@ public class Not extends BooleanExpr {
      * Has <code>theContent</code> of <code>this Not accept visitor</code> and then
      * has <code>visitor visit this Not</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should <code>visit this Not</code>
-     *          and its children
+     * @param visitor a <code>Visitor</code> that should <code>visit this Not</code>
+     *                  and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         content.accept(visitor);
         
         visitor.visit(this);
@@ -63,7 +63,7 @@ public class Not extends BooleanExpr {
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {
-        BooleanValue value = (BooleanValue) content.eval(answerTable);
+        BooleanValue value = BooleanValue.cast(content.eval(answerTable));
         return value.negate();
     }
     

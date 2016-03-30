@@ -1,16 +1,20 @@
 package nl.uva.sea.ql.ast.question;
 
 import java.util.Objects;
+import nl.uva.sea.ql.answerTable.AnswerTable;
+import nl.uva.sea.ql.answerTable.Value;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.*;
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
 
 /**
  * Representation of <code>Question</code>s in an AST.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 28-mar-2016
  */
 public abstract class Question extends ASTNode {
     
@@ -48,6 +52,23 @@ public abstract class Question extends ASTNode {
     }
     
     /**
+     * Evaluate <code>theCalculation</code> of <code>this Question</code>.
+     * 
+     * @param answerTable an <code>AnswerTable</code> mapping each
+     *                      <code>Ident theCalculation</code> of
+     *                      <code>thisQuestion</code> may contain to its current
+     *                      <code>Value</code> or to <code>null</code> if its
+     *                      <code>Value</code> is currently unknonwn
+     * @return the <code>Value theCalculation</code> currently has, or
+     *          <code>null</code> if that is unknown
+     */
+    public Value evalCalculation(AnswerTable answerTable) {
+        if (calculation == null) return null;
+        
+        return calculation.eval(answerTable);
+    }
+    
+    /**
      * @return the <code>Ident</code> used to identify <code>this Question</code>
      */
     public Ident getIdentifier() {
@@ -55,7 +76,7 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * @return <code>theLabel</code> to be displayed with <code>this Question</code>
+     * @return the <code>Label</code> to be displayed with <code>this Question</code>
      */
     public Label getLabel() {
         return label;
@@ -71,53 +92,60 @@ public abstract class Question extends ASTNode {
     }
     
     /**
+     * @return a <code>String</code> representing <code>theLabel</code> to be
+     *          displayed with <code>this Question</code>
+     */
+    public String obtainLabelString() {
+        return label.toString();
+    }
+    
+    /**
      * Has the children of <code>this Question accept visitor</code> and then has
-     * <code>visitor visit this Question</code>.
+     * <code>visitor visit this Question</code>. Not implemented here for more
+     * specific dispatch.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *          <code>visit this Question</code> and its children
      */
     @Override
-    public abstract void accept(ASTVisitor visitor);
+    public abstract void accept(Visitor visitor);
     
     /**
      * Has the <code>identifier</code>, the <code>label</code> and the
      * <code>calculation</code> of <code>this Question accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should <code>visit</code> the
+     * @param visitor a <code>Visitor</code> that should <code>visit</code> the
      *          children of <code>this Question</code>
      */
-    protected void childrenAccept(ASTVisitor visitor) {
+    protected void childrenAccept(Visitor visitor) {
         identifierAccept(visitor);
         labelAccept(visitor);
-        if (calculation != null) {
-            calculationAccept(visitor);
-        }
+        calculationAccept(visitor);
     }
     
     /**
      * Has the <code>identifier</code> of <code>this Question accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>identifier</code> of
+     * @param visitor a <code>Visitor</code> that the <code>identifier</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    protected void identifierAccept(ASTVisitor visitor) {
+    protected void identifierAccept(Visitor visitor) {
         identifier.accept(visitor);
     }
     
     /**
      * Has the <code>label</code> of <code>this Question accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>label</code> of
+     * @param visitor a <code>Visitor</code> that the <code>label</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    protected void labelAccept(ASTVisitor visitor) {
+    protected void labelAccept(Visitor visitor) {
         label.accept(visitor);
     }
     
     /**
      * Tells whether <code>this Question</code> is computed (or should be
-     * anwered by the user.
+     * anwered by the user).
      * 
      * @return <code>true</code> if and only if <code>calculation != null</code>
      */
@@ -126,13 +154,16 @@ public abstract class Question extends ASTNode {
     }
     
     /**
-     * Has the <code>calculation</code> of <code>this Question accept visitor</code>.
+     * Has the <code>calculation</code> of <code>this Question accept visitor</code>
+     * iff. it is not <code>null</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that the <code>calculation</code> of
+     * @param visitor a <code>Visitor</code> that the <code>calculation</code> of
      *          <code>this Question</code> should <code>accept</code>
      */
-    public void calculationAccept(ASTVisitor visitor) {
-        calculation.accept(visitor);
+    public void calculationAccept(Visitor visitor) {
+        if (calculation != null) {
+            calculation.accept(visitor);
+        }
     }
     
     /**
@@ -199,6 +230,22 @@ public abstract class Question extends ASTNode {
     }
     
     /**
+     * Make a specified <code>QuestionComponentGenerator</code> create a
+     * <code>QuestionComponent</code> for <code>this Question</code>.
+     * 
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create a <code>QuestionComponent</code> for
+     *                  <code>this Question</code>
+     * @return a <code>QuestionComponent</code> representing
+     *          <code>this Question</code>, as created by a call to
+     *          <code>generator</code>'s <code>createQuestionComponent</code>
+     *          method for the type of <code>Question</code>
+     *          <code>this Question</code> is of
+     */
+    public abstract QuestionComponent createQuestionComponent(
+            QuestionComponentGenerator generator);
+    
+    /**
      * Compares <code>this Question</code> to another <code>Object</code>. A
      * <code>Question</code> is considered equal only to other objects of the
      * same class for which <code>theIdentifier</code>, <code>theLabel</code>
@@ -217,7 +264,10 @@ public abstract class Question extends ASTNode {
                && label.equals(other.label)
                && (calculation == null ? other.calculation == null : calculation.equals(other.calculation));
     }
-
+    
+    /**
+     * @return an <code>int</code> containing a hash for <code>this Question</code>
+     */
     @Override
     public int hashCode() {
         int hash = HASH_ORIGIN;

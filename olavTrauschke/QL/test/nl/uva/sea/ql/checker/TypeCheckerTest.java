@@ -2,10 +2,10 @@ package nl.uva.sea.ql.checker;
 
 import java.io.FileNotFoundException;
 import java.util.*;
-import nl.uva.sea.ql.QuestionIdentCollector;
 import nl.uva.sea.ql.ast.ASTNode;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.ast.question.Question;
+import nl.uva.sea.ql.generalPurposeVisitors.QuestionIdentCollector;
 import nl.uva.sea.ql.parser.ParserWrapper;
 import static org.junit.Assert.*;
 import org.junit.Test;

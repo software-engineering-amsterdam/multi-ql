@@ -13,11 +13,11 @@ import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
 import uva.ql.ast.expressions.abstracts.LogicalOperatorBinary;
-import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
+import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.typechecker.abstracts.AbstractTypeChecker;
 import uva.ql.typechecker.errors.ErrorDuplicateQuestion;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
@@ -128,7 +128,7 @@ public class DuplicateQuestionDifferentTypes extends AbstractTypeChecker impleme
 	}
 
 	@Override
-	public void visitLogicalOperator(LogicalOperatorBinary exp) {
+	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
 	}
@@ -140,7 +140,7 @@ public class DuplicateQuestionDifferentTypes extends AbstractTypeChecker impleme
 	}
 
 	@Override
-	public void visitSingleLogicalOperator(LogicalOperatorUnary exp) {
+	public void visitLogicalOperatorUnary(LogicalOperatorUnary exp) {
 		exp.getLhs().accept(this);
 	}
 

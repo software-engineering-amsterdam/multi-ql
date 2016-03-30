@@ -21,7 +21,7 @@ public abstract class Relational extends Binary {
 				return new BooleanType();
 			}
 		}
-		
+
 		return new UnknownType();
 	}
 

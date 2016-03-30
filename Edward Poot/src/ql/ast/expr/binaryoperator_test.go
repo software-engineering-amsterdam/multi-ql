@@ -1,70 +1,64 @@
 package expr
 
 import (
-	"ql/interfaces"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
-
-func binaryExprEval(t *testing.T, exampleInput interfaces.Expr, expectedOutput interfaces.Expr) {
-	if eval, expectedOutputEval := exampleInput.Eval(nil), expectedOutput.(interfaces.Expr).Eval(nil); eval != expectedOutputEval {
-		t.Errorf("BinaryOperator test error: should be %v (%T) for %v but is %v (%T)", expectedOutputEval, expectedOutputEval, eval, eval)
-	}
-}
 
 /* Tests for binary expression evaluation */
 
 func TestAdd(t *testing.T) {
-	binaryExprEval(t, NewAddNoSourceInfo(NewIntLitNoSourceInfo(1), NewIntLitNoSourceInfo(2)), NewIntLitNoSourceInfo(3))
+	assert.Equal(t, NewAdd(NewIntLit(1), NewIntLit(2)).Eval(nil), 3)
 }
 
 func TestMul(t *testing.T) {
-	binaryExprEval(t, NewMulNoSourceInfo(NewIntLitNoSourceInfo(3), NewIntLitNoSourceInfo(2)), NewIntLitNoSourceInfo(6))
+	assert.Equal(t, NewMul(NewIntLit(3), NewIntLit(2)).Eval(nil), 6)
 }
 
 func TestMulAddPrecedence(t *testing.T) {
-	binaryExprEval(t, NewAddNoSourceInfo(NewMulNoSourceInfo(NewIntLitNoSourceInfo(3), NewIntLitNoSourceInfo(2)), NewIntLitNoSourceInfo(1)), NewIntLitNoSourceInfo(7))
+	assert.Equal(t, NewAdd(NewMul(NewIntLit(3), NewIntLit(2)), NewIntLit(1)).Eval(nil), 7)
 }
 
 func TestSub(t *testing.T) {
-	binaryExprEval(t, NewSubNoSourceInfo(NewIntLitNoSourceInfo(1), NewIntLitNoSourceInfo(2)), NewIntLitNoSourceInfo(-1))
+	assert.Equal(t, NewSub(NewIntLit(1), NewIntLit(2)).Eval(nil), -1)
 }
 
 func TestDiv(t *testing.T) {
-	binaryExprEval(t, NewDivNoSourceInfo(NewIntLitNoSourceInfo(9), NewIntLitNoSourceInfo(3)), NewIntLitNoSourceInfo(3))
+	assert.Equal(t, NewDiv(NewIntLit(9), NewIntLit(3)).Eval(nil), 3)
 }
 
 func TestGT(t *testing.T) {
-	binaryExprEval(t, NewGTNoSourceInfo(NewIntLitNoSourceInfo(3), NewIntLitNoSourceInfo(2)), NewBoolLitNoSourceInfo(true))
+	assert.Equal(t, NewGT(NewIntLit(3), NewIntLit(2)).Eval(nil), true)
 }
 
 func TestLT(t *testing.T) {
-	binaryExprEval(t, NewLTNoSourceInfo(NewIntLitNoSourceInfo(3), NewIntLitNoSourceInfo(2)), NewBoolLitNoSourceInfo(false))
+	assert.Equal(t, NewLT(NewIntLit(3), NewIntLit(2)).Eval(nil), false)
 }
 
 func TestGEq(t *testing.T) {
-	binaryExprEval(t, NewGEqNoSourceInfo(NewIntLitNoSourceInfo(3), NewIntLitNoSourceInfo(3)), NewBoolLitNoSourceInfo(true))
+	assert.Equal(t, NewGEq(NewIntLit(3), NewIntLit(3)).Eval(nil), true)
 }
 
 func TestLEq(t *testing.T) {
-	binaryExprEval(t, NewLEqNoSourceInfo(NewIntLitNoSourceInfo(3), NewIntLitNoSourceInfo(3)), NewBoolLitNoSourceInfo(true))
+	assert.Equal(t, NewLEq(NewIntLit(3), NewIntLit(3)).Eval(nil), true)
 }
 
 func TestAnd(t *testing.T) {
-	binaryExprEval(t, NewAndNoSourceInfo(NewBoolLitNoSourceInfo(true), NewBoolLitNoSourceInfo(false)), NewBoolLitNoSourceInfo(false))
+	assert.Equal(t, NewAnd(NewBoolLit(true), NewBoolLit(false)).Eval(nil), false)
 }
 
 func TestOr(t *testing.T) {
-	binaryExprEval(t, NewOrNoSourceInfo(NewBoolLitNoSourceInfo(true), NewBoolLitNoSourceInfo(false)), NewBoolLitNoSourceInfo(true))
+	assert.Equal(t, NewOr(NewBoolLit(true), NewBoolLit(false)).Eval(nil), true)
 }
 
 func TestAndOr(t *testing.T) {
-	binaryExprEval(t, NewAndNoSourceInfo(NewOrNoSourceInfo(NewBoolLitNoSourceInfo(true), NewBoolLitNoSourceInfo(false)), NewAndNoSourceInfo(NewBoolLitNoSourceInfo(true), NewBoolLitNoSourceInfo(false))), NewBoolLitNoSourceInfo(false))
+	assert.Equal(t, NewAnd(NewOr(NewBoolLit(true), NewBoolLit(false)), NewBoolLit(false)).Eval(nil), false)
 }
 
 func TestEq(t *testing.T) {
-	binaryExprEval(t, NewEqNoSourceInfo(NewBoolLitNoSourceInfo(true), NewBoolLitNoSourceInfo(false)), NewBoolLitNoSourceInfo(false))
+	assert.Equal(t, NewEq(NewBoolLit(true), NewBoolLit(false)).Eval(nil), false)
 }
 
 func TestNEq(t *testing.T) {
-	binaryExprEval(t, NewNEqNoSourceInfo(NewBoolLitNoSourceInfo(true), NewBoolLitNoSourceInfo(false)), NewBoolLitNoSourceInfo(true))
+	assert.Equal(t, NewNEq(NewBoolLit(true), NewBoolLit(false)).Eval(nil), true)
 }

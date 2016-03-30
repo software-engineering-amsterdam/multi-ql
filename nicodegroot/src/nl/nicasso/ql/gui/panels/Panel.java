@@ -3,6 +3,7 @@ package nl.nicasso.ql.gui.panels;
 import java.awt.Font;
 
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import nl.nicasso.ql.ast.nodes.expressions.Expression;
@@ -11,7 +12,6 @@ import nl.nicasso.ql.gui.evaluator.Evaluator;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
-import nl.nicasso.ql.gui.widgets.Label;
 
 public abstract class Panel {
 
@@ -26,9 +26,9 @@ public abstract class Panel {
 	}
 	
 	protected void addQuestionLabel(Question q) {
-		Label questionLabel = new Label(q.getLabel());
-		questionLabel.setFont(new Font("Arial", 0, 100));
-		panel.add(questionLabel.getWidget());
+		JLabel questionLabel = new JLabel(q.getLabel());
+		questionLabel.setFont(new Font("Arial", 0, 12));
+		panel.add(questionLabel);
 	}
 
 	public void setVisible(boolean visible) {
@@ -47,9 +47,9 @@ public abstract class Panel {
 		panel.add(field.getField());
 	}
 	
-	public boolean update() {	
-		Evaluator evaluator = new Evaluator(stateTable);
-		Value visibility = condition.accept(evaluator);
+	public boolean update() {
+		Evaluator evaluator = new Evaluator();
+		Value visibility = condition.accept(evaluator, stateTable);
 		setVisible((Boolean) visibility.getValue());
 		
 		return false;

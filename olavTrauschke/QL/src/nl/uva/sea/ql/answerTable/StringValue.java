@@ -1,14 +1,21 @@
 package nl.uva.sea.ql.answerTable;
 
+import java.util.Objects;
+
 /**
  * Objects of this class represent values of QL
  * {@link nl.uva.sea.ql.ast.question.StringQuestion StringQuestion}s and
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a string value.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 29-mar-2016
  */
 public class StringValue extends Value {
+    
+    /**
+     * Start value used to calculate hashes for objects of this class.
+     */
+    public static final int HASH_ORIGIN = 485;
     
     private final String value;
     
@@ -20,6 +27,32 @@ public class StringValue extends Value {
      */
     public StringValue(String theValue) {
         value = theValue;
+    }
+    
+    /**
+     * @return a <code>String</code> with the <code>value this StringValue</code>
+     *          represents
+     */
+    public String getValue() {
+        return value;
+    }
+    
+    /**
+     * Cast a <code>Value</code> that is certain to be either string or unknown
+     * to a <code>StringValue</code>.
+     * 
+     * @param toCast a <code>Value</code> to cast to a <code>StringValue</code>
+     * @return <code>toCast</code> as a <code>StringValue</code> or a new
+     *          <code>StringValue</code> representing an unknown value if
+     *          <code>toCast</code> equals a (new) <code>UnknownValue</code>
+     */
+    public static StringValue cast(Value toCast) {
+        if (toCast.equals(new UnknownValue())) {
+            return new StringValue(null);
+        }
+        else {
+            return (StringValue) toCast;
+        }
     }
     
     /**
@@ -66,6 +99,30 @@ public class StringValue extends Value {
         }
         String result = value + other.value;
         return new StringValue(result);
+    }
+    
+    /**
+     * Compares <code>this StringValue</code> to another <code>Object</code>.
+     * 
+     * @param o the <code>Object</code> to compare to <code>this StringValue</code>
+     * @return <code>true</code> if and only if <code>o</code> is a
+     *          <code>StringValue</code> with the same <code>value</code> as
+     *          <code>this StringValue</code> 
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        StringValue other = (StringValue) o;
+        return value == null ? other.value == null : value.equals(other.value);
+    }
+
+    /**
+     * @return an <code>int</code> containing a hash for <code>this StringValue</code> 
+     */
+    @Override
+    public int hashCode() {
+        return HASH_ORIGIN + Objects.hashCode(this.value);
     }
     
 }

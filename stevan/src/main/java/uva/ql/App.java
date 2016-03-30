@@ -2,7 +2,6 @@ package uva.ql;
 
 import uva.ql.ast.Form;
 import uva.ql.gui.GUI;
-import uva.ql.visitors.VisitorActionListenersToGUI;
 import uva.ql.visitors.VisitorASTToGUI;
 
 public class App {
@@ -15,7 +14,7 @@ public class App {
 		GUI gui = null;
 
 		if (args.length == 0) {
-			filePath = "resources/default.ql";
+			filePath = "resources/simpleDefault.ql";
 		} else {
 			filePath = args[0];
 			internal = false;
@@ -33,7 +32,7 @@ public class App {
 		
 		//Visit AST and build GUI
 		gui = new GUI(form);
-		VisitorASTToGUI astToGUI = new VisitorASTToGUI();
+		VisitorASTToGUI astToGUI = new VisitorASTToGUI(gui.getFrame());
 		astToGUI.visitForm(form, gui.getPanel());
 		
 		// Add Action/DocumentListeners to update computed fields.

@@ -5,10 +5,10 @@
  */
 package ql.ast.question;
 
+import ql.ast.IVisitor;
 import ql.ast.expression.Expr;
 import ql.ast.expression.Ident;
-import ql.ast.form.Label;
-import ql.ast.type.QuestionType;
+import ql.ast.type.Type;
 
 /**
  *
@@ -18,16 +18,29 @@ public class ComputedQuestion extends Question {
 
     private Expr _Expression;
 
-    public ComputedQuestion(Ident questionId, Label questionLabel, QuestionType questionType) {
+    public ComputedQuestion(Ident questionId, Label questionLabel, Type questionType) {
         super(questionId, questionLabel, questionType);
     }
 
-    public ComputedQuestion(Ident questionId, Label questionLabel, QuestionType questionType, Expr expression) {
+    public ComputedQuestion(Ident questionId, Label questionLabel, Type questionType, Expr expression) {
         super(questionId, questionLabel, questionType);
         this._Expression = expression;
     }
 
     public Expr GetExpression() {
         return this._Expression;
+    }
+
+    @Override
+    public void accept(IVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void visitChildren(IVisitor visitor) {
+        this.getId().accept(visitor);
+        this.getLabel().accept(visitor);
+        this.getType().accept(visitor);
+        this._Expression.accept(visitor);
     }
 }

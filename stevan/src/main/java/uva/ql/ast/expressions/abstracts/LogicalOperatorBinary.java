@@ -3,29 +3,29 @@ package uva.ql.ast.expressions.abstracts;
 import javax.swing.JPanel;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
-import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.ast.Node;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
 import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.IGUIVisitor;
 
-public abstract class LogicalOperatorBinary extends Expression {
+public abstract class LogicalOperatorBinary extends Expression<Boolean> {
 
-	private Expression lhs, rhs;
+	private Expression<Boolean> lhs, rhs;
 	
-	public LogicalOperatorBinary(Node parent, int startLine, int startColumn, Expression lhs, Expression rhs) {
+	public LogicalOperatorBinary(Node parent, int startLine, int startColumn, Expression<Boolean> lhs, Expression<Boolean> rhs) {
 		super(parent, startLine, startColumn);
 		this.lhs = lhs;
 		this.rhs = rhs;
 	}
 
-	public Expression getLhs() {
+	public Expression<Boolean> getLhs() {
 		return this.lhs;
 	}
 	
-	public Expression getRhs() {
+	public Expression<Boolean> getRhs() {
 		return this.rhs;
 	}
 	
@@ -38,27 +38,27 @@ public abstract class LogicalOperatorBinary extends Expression {
 
 	@Override
 	public void accept(IUndefinedQuestionVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 	
 	@Override
 	public void accept(ICyclicDependencyVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 	
 	@Override
 	public void accept(IDupllicateLabelsVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 
 	@Override
 	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 
 	@Override
 	public void accept(IBinaryOperatorVisitor visitor) {
-		visitor.visitLogicalOperator(this);
+		visitor.visitLogicalOperatorBinary(this);
 	}
 	
 	@Override

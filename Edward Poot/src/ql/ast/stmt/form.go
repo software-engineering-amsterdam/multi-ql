@@ -1,32 +1,25 @@
 package stmt
 
-import (
-	"fmt"
-	"ql/interfaces"
-)
+import "ql/interfaces"
 
 type Form struct {
-	Identifier interfaces.VarId
-	Content    StmtList
+	identifier interfaces.VarId
+	content    StmtList
 	Stmt
 }
 
-func NewForm(identifier interfaces.VarId, content StmtList, sourceInfo interface{}) Form {
-	return Form{identifier, content, NewStmt(sourceInfo)}
+func NewForm(identifier interfaces.VarId, content StmtList) Form {
+	return Form{identifier, content, NewStmt()}
 }
 
-func NewFormNoSourceInfo(identifier interfaces.VarId, content StmtList) Form {
-	return NewForm(identifier, content, nil)
+func (this Form) Content() interfaces.StmtList {
+	return this.content
 }
 
-func (this Form) GetQuestions() []interfaces.Question {
-	return this.Content.Questions
+func (this Form) Questions() []interfaces.Question {
+	return this.content.Questions()
 }
 
-func (this Form) GetIdentifier() interfaces.VarId {
-	return this.Identifier
-}
-
-func (f Form) String() string {
-	return fmt.Sprintf("A form with identifier %s, statement list %v\n", f.Identifier, f.Content)
+func (this Form) Identifier() interfaces.VarId {
+	return this.identifier
 }

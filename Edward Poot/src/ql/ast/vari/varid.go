@@ -1,22 +1,18 @@
 package vari
 
 type VarId struct {
-	Ident string
-	Var
+	identifier string
+	Vari
 }
 
-func NewVarId(ident string, sourceInfo interface{}) VarId {
-	return VarId{ident, NewVar(sourceInfo)}
+func NewVarId(ident string) VarId {
+	return VarId{ident, NewVari()}
 }
 
-func NewVarIdNoSourceInfo(ident string) VarId {
-	return NewVarId(ident, nil)
-}
-
-func (this VarId) GetIdent() string {
-	return this.Ident
+func (this VarId) Identifier() string {
+	return this.identifier
 }
 
 func (this VarId) String() string {
-	return this.Ident
+	return this.identifier
 }

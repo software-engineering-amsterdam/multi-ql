@@ -1,42 +1,33 @@
 package ql.ast.visitor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ql.QLdrawer;
+import ql.ast.form.Form;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
 import ql.ast.statement.InputQuestion;
-import ql.gui.ComputedQuestionWidget;
-import ql.gui.InputQuestionWidget;
-import ql.gui.UIElement;
+import ql.gui.UserInterface;
+import ql.gui.VisibleUIElements;
 
-public class GuiVisitor<T> extends Evaluation {
-	private List<UIElement> visibleQuestions;
-	private QLdrawer qlDrawer;
+public class GuiVisitor<T> extends Evaluator {
+	private VisibleUIElements visibleQuestions;
+	private UserInterface parent;
 
-	public GuiVisitor(Context context, QLdrawer qlDrawer) {
+	public GuiVisitor(Context context, UserInterface parent) {
 		super(context);
-		this.qlDrawer = qlDrawer;
-		visibleQuestions = new ArrayList<UIElement>();
+		this.parent = parent;
+		visibleQuestions = new VisibleUIElements();
 	}
 
 	@Override
 	public T visit(ComputedQuestion computedQuestion) {
-		Object value = computedQuestion.getExpression().accept(this);
-		super.addValueForQuestion(computedQuestion, value);
-		if (value == null) {
-			visibleQuestions.add(new ComputedQuestionWidget(computedQuestion, null));
-		} else {
-			visibleQuestions.add(new ComputedQuestionWidget(computedQuestion, value.toString()));
-		}
+		context.putValueForQuestion(computedQuestion, computedQuestion.getExpression().accept(this));
+		visibleQuestions.addQuestion(computedQuestion);
 		return null;
 	}
 
 	@Override
 	public T visit(InputQuestion inputQuestion) {
-		Object value = inputQuestion.getVariable().accept(this);
-		visibleQuestions.add(new InputQuestionWidget(inputQuestion, value, qlDrawer));
+		inputQuestion.getVariable().accept(this);
+		visibleQuestions.addQuestion(inputQuestion, parent);
 		return null;
 	}
 
@@ -52,12 +43,13 @@ public class GuiVisitor<T> extends Evaluation {
 		return null;
 	}
 
-	public List<UIElement> getVisibleQuestions() {
+	public VisibleUIElements getVisibleQuestions(Form form, Context newContext) {
+		this.context = newContext;
+		this.visit(form);
 		return visibleQuestions;
 	}
 
 	public void setNewContext(Context newContext) {
 		context = newContext;
 	}
-
 }

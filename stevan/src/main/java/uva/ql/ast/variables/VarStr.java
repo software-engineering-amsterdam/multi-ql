@@ -1,13 +1,13 @@
 package uva.ql.ast.variables;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
-import uva.ql.ast.variables.abstracts.Variable;
-import uva.ql.ast.variables.types.Str;
+import uva.ql.ast.Node;
+import uva.ql.ast.types.Str;
 
-public class VarStr extends Variable {
+public class VarStr extends Variable<String> {
 
 	private Str type = new Str();
+	private String value = "";
 	
 	public VarStr(Node parent, String name, int startLine, int startColumn) {
 		super(parent, name, startLine, startColumn);
@@ -21,5 +21,20 @@ public class VarStr extends Variable {
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
+	}
+
+	@Override
+	public String getValue() {
+		return this.value;
+	}
+
+	@Override
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	@Override
+	public String eval() {
+		return this.getValue();
 	}
 }

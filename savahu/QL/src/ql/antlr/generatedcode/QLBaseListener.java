@@ -121,13 +121,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestiontype(QLParser.QuestiontypeContext ctx) { }
+	@Override public void enterType(QLParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestiontype(QLParser.QuestiontypeContext ctx) { }
+	@Override public void exitType(QLParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

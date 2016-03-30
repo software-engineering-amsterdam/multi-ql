@@ -4,26 +4,24 @@ import javax.swing.JPanel;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.EnumType;
-import uva.ql.ast.conditionals.abstracts.Condition;
-import uva.ql.ast.conditionals.types.IfElseStatement;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.gui.visitors.IActionListenerVisitor;
-import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.ast.types.conditional.IfElseStatement;
 import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
 import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.IGUIVisitor;
 import uva.ql.visitors.INodeVisitor;
 
-public class CondIfElseStatement extends Condition {
+public class CondIfElseStatement<T> extends Condition<T> {
 
 	private IfElseStatement type = new IfElseStatement();
 	private Block lhs;
 	private Block rhs;
 	
-	public CondIfElseStatement(Expression expression, Block lhsBlock, Block rhsBlock, int startLine, int startColumn) {
+	public CondIfElseStatement(Expression<T> expression, Block lhsBlock, Block rhsBlock, int startLine, int startColumn) {
 		super(null, expression, startLine, startColumn);
 		this.lhs = lhsBlock;
 		this.rhs = rhsBlock;
@@ -92,11 +90,6 @@ public class CondIfElseStatement extends Condition {
 	
 	@Override
 	public void accept(IGUIVisitor visitor, JPanel panel) {
-		visitor.visitCondIfElseStatement(this, panel);
-	}
-	
-	@Override
-	public void accept(IActionListenerVisitor visitor, JPanel panel) {
 		visitor.visitCondIfElseStatement(this, panel);
 	}
 }

@@ -11,30 +11,30 @@ import (
 
 func TestTypeCheckSymbolsAdd(t *testing.T) {
 	symbols := NewTypeCheckSymbols()
-	exampleVarId := vari.NewVarIdNoSourceInfo("testIdentifier")
-	symbols.SetTypeForVarId(expr.NewBoolTypeNoSourceInfo(), exampleVarId)
-	valueTypeExample := expr.NewBoolTypeNoSourceInfo()
+	exampleVarId := vari.NewVarId("testIdentifier")
+	symbols.SetTypeForVarId(expr.NewBoolType(), exampleVarId)
+	valueTypeExample := expr.NewBoolType()
 
-	if lookupValue := symbols.GetTypeForVarId(exampleVarId); lookupValue != valueTypeExample {
+	if lookupValue := symbols.TypeForVarId(exampleVarId); lookupValue != valueTypeExample {
 		t.Errorf("TypeCheckSymbols not updated correctly, expected value %s for key %s, is %s", valueTypeExample, exampleVarId, lookupValue)
 	}
 }
 
 func TestVarIdValueSymbolsAdd(t *testing.T) {
 	symbols := NewVarIdValueSymbols()
-	exampleVarId := vari.NewVarIdNoSourceInfo("testIdentifier")
-	exprExample := expr.NewSubNoSourceInfo(expr.NewIntLitNoSourceInfo(1), expr.NewIntLitNoSourceInfo(2))
+	exampleVarId := vari.NewVarId("testIdentifier")
+	exprExample := expr.NewSub(expr.NewIntLit(1), expr.NewIntLit(2))
 	symbols.SetExprForVarId(exprExample, exampleVarId)
 
-	if lookupExprValue := symbols.GetExprForVarId(exampleVarId); lookupExprValue != exprExample {
+	if lookupExprValue := symbols.ExprForVarId(exampleVarId); lookupExprValue != exprExample {
 		t.Errorf("VarIdValueSymbols not updated correctly, expected value %s for key %s, is %s", exprExample, exampleVarId, lookupExprValue)
 	}
 }
 
 func TestVarIdValueSymbolsSaveToDisk(t *testing.T) {
 	symbols := NewVarIdValueSymbols()
-	exampleVarId := vari.NewVarIdNoSourceInfo("testIdentifier")
-	symbols.SetExprForVarId(expr.NewStrLitNoSourceInfo("testValue"), exampleVarId)
+	exampleVarId := vari.NewVarId("testIdentifier")
+	symbols.SetExprForVarId(expr.NewStrLit("testValue"), exampleVarId)
 
 	symbols.SaveToDisk()
 

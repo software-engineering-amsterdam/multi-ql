@@ -69,6 +69,10 @@ public class GUI{
 		addPanel();
 	}
 	
+	public JFrame getFrame() {
+		return frame;
+	}
+	
 	public JPanel getPanel() {
 		return this.panel;
 	}

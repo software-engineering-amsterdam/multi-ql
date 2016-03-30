@@ -4,7 +4,7 @@ import java.util.Map;
 import nl.uva.sea.ql.answerTable.AnswerTable;
 import nl.uva.sea.ql.answerTable.StringValue;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of (literals of) the type string in an AST.
@@ -35,11 +35,11 @@ public class Str extends Expr {
     /**
      * Has <code>visitor visit this Str</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this Str</code>
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
     

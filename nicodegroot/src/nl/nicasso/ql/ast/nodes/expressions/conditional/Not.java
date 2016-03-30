@@ -9,7 +9,7 @@ import nl.nicasso.ql.ast.nodes.types.UnknownType;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public class Not extends Unary {
-	
+
 	private final Expression expr;
 
 	public Not(Expression expr, CodeLocation location) {
@@ -20,23 +20,23 @@ public class Not extends Unary {
 	public Expression getExpr() {
 		return expr;
 	}
-	
+
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
+	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
 	}
 
 	@Override
 	public String toString() {
 		return "!" + expr;
 	}
-	
+
 	@Override
 	public Type inferType(Type exprType) {
 		if (exprType.equals(new BooleanType())) {
 			return exprType;
 		}
 
-		return new UnknownType();		
+		return new UnknownType();
 	}
 }

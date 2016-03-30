@@ -1,17 +1,17 @@
 package interfaces
 
-type Var interface {
+type Vari interface {
 	ASTNode
 }
 
 type VarDecl interface {
-	Var
-	GetIdent() VarId
-	GetType() ValueType
-	TypeCheck(TypeChecker, TypeCheckSymbols) interface{}
+	Vari
+	VariableIdentifier() VarId
+	Type() ValueType
+	TypeCheck(TypeCheckArgs)
 }
 
 type VarId interface {
-	Var
-	GetIdent() string
+	Vari
+	Identifier() string
 }

@@ -6,7 +6,7 @@ import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
 import uva.ql.ast.questions.QuestionComputed;
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.typechecker.abstracts.AbstractTypeChecker;
 import uva.ql.typechecker.errors.ErrorOperand;
 import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;

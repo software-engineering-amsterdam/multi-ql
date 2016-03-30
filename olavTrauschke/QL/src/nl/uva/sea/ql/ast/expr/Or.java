@@ -7,7 +7,7 @@ import nl.uva.sea.ql.answerTable.BooleanValue;
  * Representation of boolean disjunction in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 26-mar-2016
  */
 public class Or extends BooleanConjunctiveExpr {
     
@@ -34,8 +34,8 @@ public class Or extends BooleanConjunctiveExpr {
      */
     @Override
     public BooleanValue eval(AnswerTable answerTable) {
-        BooleanValue firstValue = (BooleanValue) getFirstExpr().eval(answerTable);
-        BooleanValue secondValue = (BooleanValue) getSecondExpr().eval(answerTable);
+        BooleanValue firstValue = BooleanValue.cast(getFirstExpr().eval(answerTable));
+        BooleanValue secondValue = BooleanValue.cast(getSecondExpr().eval(answerTable));
         return firstValue.disjunct(secondValue);
     }
     

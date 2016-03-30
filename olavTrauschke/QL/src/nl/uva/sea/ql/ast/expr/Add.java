@@ -3,14 +3,14 @@ package nl.uva.sea.ql.ast.expr;
 import java.util.Map;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of the + operator in an AST, that can either mean addition or
  * (string) concatenation.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 26-mar-2016
  */
 public class Add extends Expr {
     
@@ -38,7 +38,7 @@ public class Add extends Expr {
      * @param theSecondExpr the <code>Expr</code> on the right hand side of the operator
      */
     public Add(Expr theFirstExpr, Expr theSecondExpr) {
-        assert theFirstExpr != null & theSecondExpr != null;
+        assert theFirstExpr != null && theSecondExpr != null;
         firstExpr = theFirstExpr;
         secondExpr = theSecondExpr;
     }
@@ -61,11 +61,11 @@ public class Add extends Expr {
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
      * <code>this Add accept visitor</code> and then has <code>visitor visit this Add</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *          <code>visit this Add</code> and its children
+     * @param visitor a <code>Visitor</code> that should
+     *                  <code>visit this Add</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         firstExpr.accept(visitor);
         secondExpr.accept(visitor);
         
@@ -117,41 +117,31 @@ public class Add extends Expr {
     }
     
     /**
-     * Set whether <code>this Add</code> represents a decimal value.
-     * 
-     * @param newValue whether or not <code>this Add</code> represents a decimal
-     *                  value
+     * Set <code>this Add</code> to represent a decimal value.
      */
-    public void setIsDecimal(boolean newValue) {
-        isDecimal = newValue;
+    public void setIsDecimal() {
+        isDecimal = true;
     }
     
     /**
-     * Set wheter <code>this Add</code> represents an integer value.
-     * 
-     * @param newValue whether or not <code>this Add</code> represents an int value
+     * Set <code>this Add</code> to represent an integer value.
      */
-    public void setIsInt(boolean newValue) {
-        isInt = newValue;
+    public void setIsInt() {
+        isInt = true;
     }
     
     /**
-     * Set whether <code>this Add</code> repersents a money value.
-     * 
-     * @param newValue whether or not <code>this Add</code> represents a money value
+     * Set <code>this Add</code> to repersent a money value.
      */
-    public void setIsMoney(boolean newValue) {
-        isMoney = newValue;
+    public void setIsMoney() {
+        isMoney = true;
     }
     
     /**
-     * Set whether <code>this Add</code> represents a string value.
-     * 
-     * @param newValue whether or not <code>this Add</code> represents a string
-     *                  value
+     * Set <code>this Add</code> to represent a string value.
      */
-    public void setIsString(boolean newValue) {
-        isString = newValue;
+    public void setIsString() {
+        isString = true;
     }
     
     /**
@@ -196,8 +186,8 @@ public class Add extends Expr {
      *          <code>firstExpr</code>
      */
     private NumericValue evalNumeric(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) firstExpr.eval(answerTable);
-        NumericValue secondValue = (NumericValue) secondExpr.eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(firstExpr.eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(secondExpr.eval(answerTable));
         return firstValue.add(secondValue);
     }
     
@@ -215,8 +205,8 @@ public class Add extends Expr {
      *          <code>firstExpr</code>
      */
     private StringValue evalString(AnswerTable answerTable) {
-        StringValue firstValue = (StringValue) firstExpr.eval(answerTable);
-        StringValue secondValue = (StringValue) secondExpr.eval(answerTable);
+        StringValue firstValue = StringValue.cast(firstExpr.eval(answerTable));
+        StringValue secondValue = StringValue.cast(secondExpr.eval(answerTable));
         return firstValue.concat(secondValue);
     }
     

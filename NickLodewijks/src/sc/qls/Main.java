@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import sc.ql.SemanticAnalyser;
 import sc.ql.ast.Form;
-import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIQuestionnaire;
 import sc.qls.ast.StyleSheet;
 import sc.qls.ui.QLSUIFactory;
@@ -31,9 +30,7 @@ public class Main {
 	private static void createUI(Form form, StyleSheet styleSheet) {
 		UIQuestionnaire uiForm;
 
-		UIFactory.set(new QLSUIFactory(styleSheet));
-
-		uiForm = UIFactory.get().create(form);
+		uiForm = new QLSUIFactory(styleSheet).create(form);
 		uiForm.show();
 	}
 }

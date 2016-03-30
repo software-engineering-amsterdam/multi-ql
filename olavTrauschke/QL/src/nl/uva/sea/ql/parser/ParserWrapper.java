@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
  * package-access.
  * 
  * @author Olav Trauschke
- * @version 9-mar-2016
+ * @version 25-mar-2016
  */
 public class ParserWrapper extends Parser {
     
@@ -26,8 +26,15 @@ public class ParserWrapper extends Parser {
         super(filename);
     }
     
-   public ParserWrapper(File file) throws FileNotFoundException {
-       super(file);
+    /**
+     * Constructor fo objects of this class.
+     * 
+     * @param file a <code>File</code> the constructed <code>Parser</code> should
+     *              parse
+     * @throws FileNotFoundException when <code>file</code> could not be read
+     */
+    public ParserWrapper(File file) throws FileNotFoundException {
+        super(file);
    }
     
 }

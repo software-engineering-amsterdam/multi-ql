@@ -3,9 +3,12 @@ package uva.ql.visitors;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import uva.ql.ast.Block;
@@ -13,21 +16,29 @@ import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
+import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.expressions.abstracts.LogicalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.LogicalOperatorUnary;
 import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.values.abstracts.Value;
-import uva.ql.ast.variables.abstracts.Variable;
+import uva.ql.ast.variables.Variable;
 import uva.ql.gui.Question;
-import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.gui.fields.MoneyTextField;
+import uva.ql.gui.fields.actionlisteners.CheckBoxActionListener;
+import uva.ql.gui.observers.ComputedQuestionObserver;
+import uva.ql.gui.observers.DoublePanelObserver;
+import uva.ql.gui.observers.SinglePanelObserver;
 
 public class VisitorASTToGUI implements IGUIVisitor {
 
 	private final Map<String, JComponent> componentStore = new HashMap<String, JComponent>(0);
+	private final Map<String, Variable> variableStore = new HashMap<String, Variable>(0);
 	
-	public VisitorASTToGUI() {
+	private final JFrame jFrame;
+	
+	public VisitorASTToGUI(JFrame jFrame) {
+		this.jFrame = jFrame;
 	}
 	
 	@Override
@@ -66,7 +77,7 @@ public class VisitorASTToGUI implements IGUIVisitor {
 		Variable var = question.getVariable();
 		Question q = new Question(question.getLabel(), var);
 		
-		//q.setPreferredSize(new Dimension(parentPanel.getWidth()-30, 20));
+		parentPanel.setName(var.getName());
 		parentPanel.add(q);
 		parentPanel.revalidate();
 		
@@ -78,13 +89,22 @@ public class VisitorASTToGUI implements IGUIVisitor {
 	public void visitQuestionComputed(QuestionComputed question, JPanel parentPanel) {
 		Variable var = question.getVariable();
 		Question q = new Question(question.getLabel(), var);
+		Expression exp = question.getExp();
+		exp.accept(this, parentPanel);
 		
-		//q.setPreferredSize(new Dimension(parentPanel.getWidth()-30, 20));
+		parentPanel.setName(var.getName());
 		parentPanel.add(q);
 		parentPanel.revalidate();
 		
 		JComponent component = (JComponent) q.getComponent(1);
 		componentStore.put(component.getName(), component);
+		
+		ComputedQuestionObserver computedQuestionObserver = new ComputedQuestionObserver(component, exp);
+		exp.addObserver(computedQuestionObserver);
+		
+		for( Entry<String, Variable> varInStore : variableStore.entrySet() ) {
+			varInStore.getValue().addObserver(exp);
+		}
 	}
 
 	@Override
@@ -92,49 +112,20 @@ public class VisitorASTToGUI implements IGUIVisitor {
 		
 		JPanel panelLhs = new JPanel();
 		panelLhs.setLayout(new BoxLayout(panelLhs, BoxLayout.PAGE_AXIS));
-		
-		/* 
-		 * Add an ItemListener or an ActionListener?
-		 * 
-		 * For an ActionListener I need the actual JComponent like a CheckBox, and pass the JPanel to it,
-		 * so as to be able to trigger the JPanel to show/hide upon the performed action of the CheckBox...
-		 *
-		 * - How to get the CheckBox at this point in time?
-		 *   Perhaps I should store all the JComponents that are associated to Questions in a HashMap as
-		 *   HashMap<String, JComponent>, aka HashMap<varName, CheckBox/TextField/Date>
-		 *   
-		 * - From here on I should get the expression, evaluate it and if it's true it should show the 
-		 *   JPanel...
-		 * 
-		 * - If it's a unary expression (true) then the ActionListener will trigger to show the JPanel
-		 *   
-		 * - If it's a binary expression (true AND false) then the lhs will trigger the JPanel to show and
-		 *   the rhs will trigger the JPanel to hide.
-		 *   
-		 * - If it's a nested binary expression (!true AND (true OR false)) then the expression needs to 
-		 *   trigger the JPanel to show/hide
-		 *   
-		 * - So I need the ActionListener to trigger the expression evaluator. Which means that the 
-		 *   expression evaluator needs to gather the values of the expression.
-		 *   
-		 *   		public boolean expression.eval(Expression[] args) {} (Expression/Variables/Values)
-		 *   
-		 * - So I need a JCheckBox, the evaluated Expression and the JPanel to be triggered
-		 * 
-		 *			private void showHideJPanel(JCheckBox checkbox, boolean evalExp, JPanel panel);
-		 * 
-		 * - Then the actual ActionListener to attach to the CheckBox/TextField/MoneyField
-		 * 
-		 * 			
-		 * 
-		 */
+		Expression<Boolean> exp = condition.getExpression();
 		
 		condition.getLhs().accept(this, panelLhs);
+		condition.getExpression().accept(this, panelLhs);
+		
+		SinglePanelObserver singlePanelObserver = new SinglePanelObserver(panelLhs, exp);
+		exp.addObserver(singlePanelObserver);
+		
 		parentPanel.add(panelLhs);
 		parentPanel.revalidate();
 		
-		condition.getExpression().accept(this, panelLhs);
-		System.out.println(condition.getExpression());
+		for( Entry<String, Variable> var : variableStore.entrySet() ) {
+			var.getValue().addObserver(exp);
+		}
 	}
 
 	@Override
@@ -153,46 +144,67 @@ public class VisitorASTToGUI implements IGUIVisitor {
 		parentPanel.revalidate();
 		
 		condition.getExpression().accept(this, panelLhs);
-		System.out.println(condition.getExpression());
+		condition.getExpression().accept(this, panelRhs);
+				
+		Expression<Boolean> exp = condition.getExpression();
+		
+		for( Entry<String, Variable> var : variableStore.entrySet() ) {
+			var.getValue().addObserver(exp);
+		}
+		
+		DoublePanelObserver doublePanelObserver = new DoublePanelObserver(panelLhs, panelRhs, exp);
+		
+		exp.addObserver(doublePanelObserver);
 	}
 	
 	@Override
-	public void visitVariables(Variable var) {
-		System.out.println(var.getName());
+	public void visitVarMoney(Variable<Integer> var, JPanel panel) {
+		System.out.println("Money: " + var.getName());
+		variableStore.put(var.getName(), var);
 	}
-
+	
 	@Override
-	public void visitValueBool(Value val, JPanel panel) {
-		System.out.println(val.getValue() + " - " + val);
+	public void visitVarInt(Variable<Integer> var, JPanel panel) {
+		System.out.println("Integer: " + var.getName());
 	}
-
+	
 	@Override
-	public void visitArithmeticOperator(ArithmeticOperatorBinary exp, JPanel panel) {
-		System.out.println(exp.getLhs().toString());
-		System.out.println(exp.getRhs().toString());
-		exp.getLhs().accept(this, panel);
-		exp.getRhs().accept(this, panel);
+	public void visitVarBool(Variable<Boolean> var, JPanel panel) {
+		JCheckBox checkBox = (JCheckBox) componentStore.get(var.getName());
+		variableStore.put(var.getName(), var);
+		checkBox.addActionListener(new CheckBoxActionListener(checkBox, var));
 	}
 
 	@Override
 	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp, JPanel panel) {
-		System.out.println(exp.getLhs().toString());
-		System.out.println(exp.getRhs().toString());
+		System.out.println("Lhs LogicalOperatorBinary: " + exp.getLhs().toString());
+		System.out.println("Rhs LogicalOperatorBinary: " + exp.getRhs().toString());
 		exp.getLhs().accept(this, panel);
 		exp.getRhs().accept(this, panel);
 	}
 	
 	@Override
 	public void visitLogicalOperatorUnary(LogicalOperatorUnary exp, JPanel panel) {
-		System.out.println(exp.getLhs().toString());
+		System.out.println("Lhs LogicalOperatorUnary: " + exp.getLhs().toString());
 		exp.getLhs().accept(this, panel);
 	}
-	
+
 	@Override
-	public void visitRelationalOperatorBinary(RelationalOperatorBinary exp, JPanel panel) {
-		System.out.println(exp.getLhs().toString());
-		System.out.println(exp.getRhs().toString());
+	public void visitArithmeticOperator(ArithmeticOperatorBinary exp,
+			JPanel panel) {
+		System.out.println("Lhs ArithmeticOperatorBinary: " + exp.getLhs().toString());
+		System.out.println("Rhs ArithmeticOperatorBinary: " + exp.getRhs().toString());
 		exp.getLhs().accept(this, panel);
 		exp.getRhs().accept(this, panel);
 	}
+
+	@Override
+	public void visitRelationalOperatorBinary(RelationalOperatorBinary exp,
+			JPanel panel) {
+		System.out.println("Lhs RelationalOperatorBinary: " + exp.getLhs().toString());
+		System.out.println("Rhs RelationalOperatorBinary: " + exp.getRhs().toString());
+		exp.getLhs().accept(this, panel);
+		exp.getRhs().accept(this, panel);
+	}
+	
 }

@@ -14,14 +14,14 @@ public abstract class Multiplicative extends Binary {
 
 	@Override
 	public Type inferType(Type left, Type right) {
-		
+
 		if (left.equals(right)) {
 			if (left.equals(new IntegerType())) {
 				return left;
 			}
 		}
-	
-		return new UnknownType();		
+
+		return new UnknownType();
 	}
 
 }

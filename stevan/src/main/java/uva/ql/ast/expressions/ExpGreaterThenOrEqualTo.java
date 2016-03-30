@@ -1,16 +1,17 @@
 package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.Node;
 import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.expressions.types.LessThenOrEqualTo;
+import uva.ql.ast.interfaces.EqualsEval;
+import uva.ql.ast.types.expression.LessThenOrEqualTo;
 
-public class ExpGreaterThenOrEqualTo extends RelationalOperatorBinary {
+public class ExpGreaterThenOrEqualTo extends RelationalOperatorBinary implements EqualsEval<Boolean> {
 
 	private LessThenOrEqualTo type = new LessThenOrEqualTo();
 	
-	public ExpGreaterThenOrEqualTo(Node parent, Expression lhs, Expression rhs, int startLine, int startColumn) {
+	public ExpGreaterThenOrEqualTo(Node parent, Expression<Integer> lhs, Expression<Integer> rhs, int startLine, int startColumn) {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
 	
@@ -22,5 +23,10 @@ public class ExpGreaterThenOrEqualTo extends RelationalOperatorBinary {
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
+	}
+	
+	@Override
+	public Boolean eval() {
+		return this.getLhs().eval() >= this.getRhs().eval();
 	}
 }

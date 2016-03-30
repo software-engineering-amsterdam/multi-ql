@@ -2,11 +2,13 @@ package ql.ast.visitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import ql.ast.literal.Variable;
 import ql.ast.literal.VariableExpression;
 import ql.ast.statement.Question;
+import ql.ast.type.ValueType;
 import ql.issue.DuplicateLabel;
 import ql.issue.DuplicateQuestionWithDifferentType;
 import ql.issue.Issue;
@@ -15,20 +17,22 @@ import ql.issue.ReferenceToUndefinedQuestion;
 public class Context {
 	private List<Question> declaredQuestions;
 	private List<String> labels;
-	private HashMap<String, Type> nameToType;
+	private HashMap<String, ValueType> nameToType;
 	private HashMap<String, Object> nameToValue;
 	private List<Issue> issues;
 
 	public Context() {
 		declaredQuestions = new ArrayList<Question>();
 		labels = new ArrayList<String>();
-		nameToType = new HashMap<String, Type>();
+		nameToType = new HashMap<String, ValueType>();
 		nameToValue = new HashMap<String, Object>();
 		issues = new ArrayList<Issue>();
 	}
 
 	public void putValueForQuestion(Question question, Object value) {
-		nameToValue.put(question.getVariable().getIdentifier(), value);
+		if(value != null){
+			nameToValue.put(question.getVariable().getIdentifier(), value);
+		}
 	}
 
 	public Object getValueForVariable(VariableExpression variableExpression) {
@@ -49,7 +53,7 @@ public class Context {
 
 	public void addQuestion(Question question) {
 		String identifier = question.getVariable().getIdentifier();
-		Type type = question.getVariable().getType();
+		ValueType type = question.getVariable().getType();
 
 		if (nameToType.containsKey(identifier) && nameToType.get(identifier) != type) {
 			issues.add(new DuplicateQuestionWithDifferentType(question));
@@ -71,7 +75,7 @@ public class Context {
 		}
 	}
 
-	public Type getType(String identifier, int lineNumber) {
+	public ValueType getType(String identifier, int lineNumber) {
 		if (!nameToType.containsKey(identifier)) {
 			issues.add(new ReferenceToUndefinedQuestion(identifier, lineNumber));
 			return null;
@@ -87,7 +91,7 @@ public class Context {
 		return declaredQuestions;
 	}
 
-	public HashMap<String, Type> getIdentifierToTypeMap() {
+	public HashMap<String, ValueType> getIdentifierToTypeMap() {
 		return nameToType;
 	}
 
@@ -95,7 +99,26 @@ public class Context {
 		return nameToValue;
 	}
 
-	public List<Issue> getIssues() {
-		return issues;
+	public Iterator<Issue> getIssueIterator() {
+		return issues.iterator();
+	}
+	
+	public int numberOfIssues(){
+		return issues.size();
+	}
+	
+	public boolean onlyWarnings(){
+		return issues.size() > 0 && noIssues();
+	}
+	
+	private boolean noIssues(){
+		for(Issue issue : issues){
+			if(issue instanceof DuplicateLabel){
+				continue;
+			}else{
+				return false;
+			}
+		}
+		return true;
 	}
 }

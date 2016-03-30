@@ -1,190 +1,168 @@
 package typechecker
 
 import (
-	"fmt"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"ql/ast/expr"
 	"ql/ast/stmt"
 	"ql/ast/vari"
+	"ql/errors"
 	"ql/interfaces"
 	"ql/symbols"
 	"testing"
 )
 
-func TestInvalidOperandsCheckerForDifferentOperandEvalTypes(t *testing.T) {
-	exampleExpr := expr.NewSubNoSourceInfo(expr.NewBoolLitNoSourceInfo(true), expr.NewIntLitNoSourceInfo(10))
+type TypeCheckerTestSuite struct {
+	suite.Suite
+	typeCheckArgs TypeCheckArgs
+}
 
+func (suite *TypeCheckerTestSuite) SetupTest() {
 	typeChecker := NewTypeChecker()
-	exampleExpr.TypeCheck(typeChecker, nil)
-	errorsReported := typeChecker.ErrorsEncountered
+	suite.typeCheckArgs = NewTypeCheckArgs(typeChecker, symbols.NewTypeCheckSymbols())
+}
 
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Encountered invalid operand type for operator, expected type: Integer, actual type: Boolean")) {
-		t.Errorf("Invalid operands checker did not correctly report operands of different types %v", errorsReported)
+/* helper methods */
+func (suite *TypeCheckerTestSuite) testThatNumberOfErrorsOfPassedTypeArePresent(expectedType interface{}, errorsReported []error, expectedAmountOfErrors int) {
+	if assert.Equal(suite.T(), len(errorsReported), expectedAmountOfErrors) {
+		for _, reportedError := range errorsReported {
+			assert.IsType(suite.T(), expectedType, reportedError)
+		}
 	}
 }
 
-func TestInvalidOperandsCheckerForInvalidBinaryOperationWithBools(t *testing.T) {
-	exampleExpr := expr.NewSubNoSourceInfo(expr.NewBoolLitNoSourceInfo(true), expr.NewBoolLitNoSourceInfo(false))
-
-	typeChecker := NewTypeChecker()
-	exampleExpr.TypeCheck(typeChecker, nil)
-	errorsReported := typeChecker.ErrorsEncountered
-
-	expectedError := fmt.Sprintf("%v", fmt.Errorf("Encountered invalid operand type for operator, expected type: Integer, actual type: Boolean"))
-	if len(errorsReported) != 2 || fmt.Sprintf("%v", errorsReported[0]) != expectedError || fmt.Sprintf("%v", errorsReported[1]) != expectedError {
-		t.Errorf("Invalid operand operation checker did not correctly report invalid binary operation on bool types %v", errorsReported)
-	}
+func (suite *TypeCheckerTestSuite) testThatNumberOfErrorsOfPassedTypeArePresentForExpr(expr interfaces.Expr, expectedType interface{}, expectedAmountOfErrors int) {
+	errorsReported := suite.typeCheckPassedExprAndReturnErrors(expr)
+	suite.testThatNumberOfErrorsOfPassedTypeArePresent(expectedType, errorsReported, expectedAmountOfErrors)
 }
 
-func TestInvalidOperandsCheckerForInvalidBinaryOperationWithIntegers(t *testing.T) {
-	exampleExpr := expr.NewAndNoSourceInfo(expr.NewIntLitNoSourceInfo(10), expr.NewIntLitNoSourceInfo(8))
-
-	typeChecker := NewTypeChecker()
-	exampleExpr.TypeCheck(typeChecker, nil)
-	errorsReported := typeChecker.ErrorsEncountered
-
-	expectedError := fmt.Sprintf("%v", fmt.Errorf("Encountered invalid operand type for operator, expected type: Boolean, actual type: Integer"))
-
-	if len(errorsReported) != 2 || fmt.Sprintf("%v", errorsReported[0]) != expectedError || fmt.Sprintf("%v", errorsReported[1]) != expectedError {
-		t.Errorf("Invalid operand operation checker did not correctly report invalid binary operation on int types")
-	}
+func (suite *TypeCheckerTestSuite) testThatNumberOfErrorsOfPassedTypeArePresentForForm(form interfaces.Form, expectedType interface{}, expectedAmountOfErrors int) {
+	errorsReported, _ := suite.typeCheckPassedFormAndReturnErrors(form)
+	suite.testThatNumberOfErrorsOfPassedTypeArePresent(expectedType, errorsReported, expectedAmountOfErrors)
 }
 
-func TestInvalidOperandsCheckerForInvalidBinaryOperationWithStrings(t *testing.T) {
-	exampleExpr := expr.NewAndNoSourceInfo(expr.NewStrLitNoSourceInfo("Test A"), expr.NewStrLitNoSourceInfo("Test B"))
-
-	typeChecker := NewTypeChecker()
-	exampleExpr.TypeCheck(typeChecker, nil)
-	errorsReported := typeChecker.ErrorsEncountered
-
-	expectedError := fmt.Sprintf("%v", fmt.Errorf("Encountered invalid operand type for operator, expected type: Boolean, actual type: String"))
-
-	if len(errorsReported) != 2 || fmt.Sprintf("%v", errorsReported[0]) != expectedError || fmt.Sprintf("%v", errorsReported[1]) != expectedError {
-		t.Errorf("Invalid operand operation checker did not correctly report invalid binary operation on string types")
-	}
+func (suite *TypeCheckerTestSuite) testThatNumberOfWarningsOfPassedTypeArePresentForForm(form interfaces.Form, expectedType interface{}, expectedAmountOfErrors int) {
+	_, warningsReported := suite.typeCheckPassedFormAndReturnErrors(form)
+	suite.testThatNumberOfErrorsOfPassedTypeArePresent(expectedType, warningsReported, expectedAmountOfErrors)
 }
 
-func TestInvalidOperandsCheckerForInvalidUnaryOperationWithBool(t *testing.T) {
-	exampleExpr := expr.NewNegNoSourceInfo(expr.NewBoolLitNoSourceInfo(true))
-
-	typeChecker := NewTypeChecker()
-	exampleExpr.TypeCheck(typeChecker, nil)
-	errorsReported := typeChecker.ErrorsEncountered
-
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Encountered invalid operand type for operator, expected type: Integer, actual type: Boolean")) {
-		t.Errorf("Invalid operand operation checker did not correctly report invalid unary operation on bool type %v", errorsReported)
-	}
+func (suite *TypeCheckerTestSuite) typeCheckPassedExprAndReturnErrors(expr interfaces.Expr) []error {
+	expr.TypeCheck(suite.typeCheckArgs)
+	return suite.typeCheckArgs.TypeChecker().EncounteredErrors()
 }
 
-func TestInvalidOperandsCheckerForInvalidUnaryOperationWithInt(t *testing.T) {
-	exampleExpr := expr.NewNotNoSourceInfo(expr.NewIntLitNoSourceInfo(3))
-
-	typeChecker := NewTypeChecker()
-	exampleExpr.TypeCheck(typeChecker, nil)
-	errorsReported := typeChecker.ErrorsEncountered
-
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Encountered invalid operand type for operator, expected type: Boolean, actual type: Integer")) {
-		t.Errorf("Invalid operand operation checker did not correctly report invalid unary operation on int type %v", errorsReported)
-	}
+func (suite *TypeCheckerTestSuite) typeCheckPassedFormAndReturnErrors(form interfaces.Form) ([]error, []error) {
+	form.TypeCheck(suite.typeCheckArgs)
+	return suite.typeCheckArgs.TypeChecker().EncounteredErrors(), suite.typeCheckArgs.TypeChecker().EncounteredWarnings()
 }
 
-func TestInvalidOperandsCheckerForInvalidUnaryOperationWithString(t *testing.T) {
-	exampleExpr := expr.NewNotNoSourceInfo(expr.NewStrLitNoSourceInfo("Test"))
-
-	typeChecker := NewTypeChecker()
-	exampleExpr.TypeCheck(typeChecker, nil)
-	errorsReported := typeChecker.ErrorsEncountered
-
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Encountered invalid operand type for operator, expected type: Boolean, actual type: String")) {
-		t.Errorf("Invalid operand operation checker did not correctly report invalid unary operation on string type")
-	}
+func TestExampleTestSuite(t *testing.T) {
+	suite.Run(t, new(TypeCheckerTestSuite))
 }
 
-func TestUndefinedQuestionReferenceChecker(t *testing.T) {
-	computedQuestion := stmt.NewComputedQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Value residue:"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("valueResidue"), expr.NewIntTypeNoSourceInfo()), expr.NewSubNoSourceInfo(expr.NewIntLitNoSourceInfo(100), expr.NewVarExprNoSourceInfo(vari.NewVarIdNoSourceInfo("hasMaintLoan"))))
-	exampleBody := stmt.NewStmtListNoSourceInfo([]interfaces.Question{computedQuestion}, []interfaces.Conditional{})
-	exampleForm := stmt.NewFormNoSourceInfo(vari.NewVarIdNoSourceInfo("TestForm"), exampleBody)
+/* actual tests */
 
-	typeChecker := NewTypeChecker()
-	exampleForm.TypeCheck(typeChecker, symbols.NewTypeCheckSymbols())
-	errorsReported := typeChecker.ErrorsEncountered
+func (suite *TypeCheckerTestSuite) TestInvalidOperandsCheckerForDifferentOperandEvalTypes() {
+	exampleExpr := expr.NewSub(expr.NewBoolLit(true), expr.NewIntLit(10))
 
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Reference to unknown question identifier: hasMaintLoan")) {
-		t.Errorf("Undefined questions references not reported correctly by type checker %v", errorsReported)
-	}
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForExpr(exampleExpr, errors.OperandWithUnexpectedTypeError{}, 1)
 }
 
-func TestNonBoolConditionalChecker(t *testing.T) {
-	exampleQuestion := stmt.NewInputQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Did you sell a house in 2010?"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("hasSoldHouse"), expr.NewBoolTypeNoSourceInfo()))
-	exampleIf := stmt.NewIfNoSourceInfo(expr.NewIntLitNoSourceInfo(10), stmt.NewStmtListNoSourceInfo([]interfaces.Question{exampleQuestion}, []interfaces.Conditional{}))
-	exampleBody := stmt.NewStmtListNoSourceInfo([]interfaces.Question{}, []interfaces.Conditional{exampleIf})
-	exampleForm := stmt.NewFormNoSourceInfo(vari.NewVarIdNoSourceInfo("TestForm"), exampleBody)
-
-	typeChecker := NewTypeChecker()
-	exampleForm.TypeCheck(typeChecker, symbols.NewTypeCheckSymbols())
-	errorsReported := typeChecker.ErrorsEncountered
-
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Non-boolean type used as condition: Integer")) {
-		t.Errorf("Non bool condition type checker did not correctly report condition of invalid type %v", errorsReported)
-	}
+func (suite *TypeCheckerTestSuite) TestInvalidOperandsCheckerForInvalidBinaryOperationWithIntegers() {
+	exampleExpr := expr.NewAnd(expr.NewIntLit(10), expr.NewIntLit(8))
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForExpr(exampleExpr, errors.OperandWithUnexpectedTypeError{}, 2)
 }
 
-func TestDuplicateLabelChecker(t *testing.T) {
-	firstQuestion := stmt.NewInputQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Did you sell a house in 2010?"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("hasSoldHouse"), expr.NewBoolTypeNoSourceInfo()))
-	secondQuestion := stmt.NewInputQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Did you sell a house in 2010?"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("hasMaintLoan"), expr.NewBoolTypeNoSourceInfo()))
-	exampleBody := stmt.NewStmtListNoSourceInfo([]interfaces.Question{firstQuestion, secondQuestion}, []interfaces.Conditional{})
-	exampleForm := stmt.NewFormNoSourceInfo(vari.NewVarIdNoSourceInfo("TestForm"), exampleBody)
-
-	typeChecker := NewTypeChecker()
-	exampleForm.TypeCheck(typeChecker, symbols.NewTypeCheckSymbols())
-	warningsReported := typeChecker.WarningsEncountered
-
-	if len(warningsReported) != 1 || fmt.Sprintf("%v", warningsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Label \"Did you sell a house in 2010?\" already used for question with identifier hasSoldHouse, using again for question with identifier hasMaintLoan")) {
-		t.Errorf("Duplicate label not reported correctly by type checker %v", warningsReported)
-	}
+func (suite *TypeCheckerTestSuite) TestInvalidOperandsCheckerForInvalidBinaryOperationWithStrings() {
+	exampleExpr := expr.NewAnd(expr.NewStrLit("Test A"), expr.NewStrLit("Test B"))
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForExpr(exampleExpr, errors.OperandWithUnexpectedTypeError{}, 2)
 }
 
-func TestDuplicateVarDeclChecker(t *testing.T) {
-	firstQuestion := stmt.NewInputQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Did you sell a house in 2010?"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("hasSoldHouse"), expr.NewBoolTypeNoSourceInfo()))
-	secondQuestion := stmt.NewInputQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Did you sell a house in 2010?"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("hasSoldHouse"), expr.NewIntTypeNoSourceInfo()))
-	exampleBody := stmt.NewStmtListNoSourceInfo([]interfaces.Question{firstQuestion, secondQuestion}, []interfaces.Conditional{})
-	exampleForm := stmt.NewFormNoSourceInfo(vari.NewVarIdNoSourceInfo("TestForm"), exampleBody)
-
-	typeChecker := NewTypeChecker()
-	exampleForm.TypeCheck(typeChecker, symbols.NewTypeCheckSymbols())
-	errorsReported := typeChecker.ErrorsEncountered
-
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Question redeclared with different types: Integer and Boolean")) {
-		t.Errorf("Duplicate var decl not reported correctly by type checker %v", errorsReported)
-	}
+func (suite *TypeCheckerTestSuite) TestInvalidOperandsCheckerForInvalidUnaryOperationWithBool() {
+	exampleExpr := expr.NewNeg(expr.NewBoolLit(true))
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForExpr(exampleExpr, errors.OperandWithUnexpectedTypeError{}, 1)
 }
 
-func TestCyclicReferenceCheckerReferenceToEachOther(t *testing.T) {
-	questionPointingToSecondQuestion := stmt.NewComputedQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Did you sell a house in 2010?"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("hasSoldHouse"), expr.NewBoolTypeNoSourceInfo()), expr.NewVarExprNoSourceInfo(vari.NewVarIdNoSourceInfo("hasBoughtHouse")))
-	questionPointingToFirstQuestion := stmt.NewComputedQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Did you buy a house in 2010?"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("hasBoughtHouse"), expr.NewBoolTypeNoSourceInfo()), expr.NewVarExprNoSourceInfo(vari.NewVarIdNoSourceInfo("hasSoldHouse")))
-	exampleBody := stmt.NewStmtListNoSourceInfo([]interfaces.Question{questionPointingToFirstQuestion, questionPointingToSecondQuestion}, []interfaces.Conditional{})
-	exampleForm := stmt.NewFormNoSourceInfo(vari.NewVarIdNoSourceInfo("TestForm"), exampleBody)
-
-	typeChecker := NewTypeChecker()
-	exampleForm.TypeCheck(typeChecker, symbols.NewTypeCheckSymbols())
-	errorsReported := typeChecker.ErrorsEncountered
-
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Found cyclic dependency: [hasSoldHouse hasBoughtHouse hasSoldHouse]")) {
-		t.Errorf("Cyclic reference to self not reported correctly by type checker")
-	}
+func (suite *TypeCheckerTestSuite) TestInvalidOperandsCheckerForInvalidUnaryOperationWithInt() {
+	exampleExpr := expr.NewNeg(expr.NewBoolLit(true))
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForExpr(exampleExpr, errors.OperandWithUnexpectedTypeError{}, 1)
 }
 
-func TestCyclicReferenceCheckerIfConditionRefersToBody(t *testing.T) {
-	questionExample := stmt.NewInputQuestionNoSourceInfo(expr.NewStrLitNoSourceInfo("Did you sell a house in 2010?"), vari.NewVarDeclNoSourceInfo(vari.NewVarIdNoSourceInfo("hasSoldHouse"), expr.NewBoolTypeNoSourceInfo()))
-	ifBodyExample := stmt.NewStmtListNoSourceInfo([]interfaces.Question{questionExample}, []interfaces.Conditional{})
-	ifExample := stmt.NewIfNoSourceInfo(expr.NewVarExprNoSourceInfo(vari.NewVarIdNoSourceInfo("hasSoldHouse")), ifBodyExample)
-	exampleFormBody := stmt.NewStmtListNoSourceInfo([]interfaces.Question{}, []interfaces.Conditional{ifExample})
-	exampleForm := stmt.NewFormNoSourceInfo(vari.NewVarIdNoSourceInfo("TestForm"), exampleFormBody)
+func (suite *TypeCheckerTestSuite) TestInvalidOperandsCheckerForInvalidUnaryOperationWithString() {
+	exampleExpr := expr.NewNot(expr.NewStrLit("Test"))
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForExpr(exampleExpr, errors.OperandWithUnexpectedTypeError{}, 1)
+}
 
-	typeChecker := NewTypeChecker()
-	exampleForm.TypeCheck(typeChecker, symbols.NewTypeCheckSymbols())
-	errorsReported := typeChecker.ErrorsEncountered
+func (suite *TypeCheckerTestSuite) TestUndefinedQuestionReferenceChecker() {
+	computedQuestion := stmt.NewComputedQuestion(expr.NewStrLit("Value residue:"), vari.NewVarDecl(vari.NewVarId("valueResidue"), expr.NewIntType()), expr.NewSub(expr.NewIntLit(100), expr.NewVarExpr(vari.NewVarId("hasMaintLoan"))))
+	exampleBody := stmt.NewStmtList([]interfaces.Question{computedQuestion}, []interfaces.Conditional{})
+	exampleForm := stmt.NewForm(vari.NewVarId("TestForm"), exampleBody)
 
-	if len(errorsReported) != 1 || fmt.Sprintf("%v", errorsReported[0]) != fmt.Sprintf("%v", fmt.Errorf("Found cyclic dependency: [hasSoldHouse hasSoldHouse]")) {
-		t.Errorf("Cyclic reference not reported correctly by type checker %v", errorsReported)
-	}
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForForm(exampleForm, errors.UndefinedQuestionReferenceError{}, 1)
+}
+
+func (suite *TypeCheckerTestSuite) TestNonBoolConditionalChecker() {
+	exampleQuestion := stmt.NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
+	exampleIf := stmt.NewIf(expr.NewIntLit(10), stmt.NewStmtList([]interfaces.Question{exampleQuestion}, []interfaces.Conditional{}))
+	exampleBody := stmt.NewStmtList([]interfaces.Question{}, []interfaces.Conditional{exampleIf})
+	exampleForm := stmt.NewForm(vari.NewVarId("TestForm"), exampleBody)
+
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForForm(exampleForm, errors.NonBooleanConditionError{}, 1)
+}
+
+func (suite *TypeCheckerTestSuite) TestDuplicateLabelChecker() {
+	firstQuestion := stmt.NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
+	secondQuestion := stmt.NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasMaintLoan"), expr.NewBoolType()))
+	exampleBody := stmt.NewStmtList([]interfaces.Question{firstQuestion, secondQuestion}, []interfaces.Conditional{})
+	exampleForm := stmt.NewForm(vari.NewVarId("TestForm"), exampleBody)
+
+	suite.testThatNumberOfWarningsOfPassedTypeArePresentForForm(exampleForm, errors.DuplicateLabelWarning{}, 1)
+}
+
+func (suite *TypeCheckerTestSuite) TestDuplicateVarDeclChecker() {
+	firstQuestion := stmt.NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
+	secondQuestion := stmt.NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewIntType()))
+	exampleBody := stmt.NewStmtList([]interfaces.Question{firstQuestion, secondQuestion}, []interfaces.Conditional{})
+	exampleForm := stmt.NewForm(vari.NewVarId("TestForm"), exampleBody)
+
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForForm(exampleForm, errors.QuestionRedeclaredWithDifferentTypesError{}, 1)
+}
+
+func (suite *TypeCheckerTestSuite) TestCyclicReferenceCheckerReferenceToEachOther() {
+	questionPointingToSecondQuestion := stmt.NewComputedQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()), expr.NewVarExpr(vari.NewVarId("hasBoughtHouse")))
+	questionPointingToFirstQuestion := stmt.NewComputedQuestion(expr.NewStrLit("Did you buy a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasBoughtHouse"), expr.NewBoolType()), expr.NewVarExpr(vari.NewVarId("hasSoldHouse")))
+	exampleBody := stmt.NewStmtList([]interfaces.Question{questionPointingToFirstQuestion, questionPointingToSecondQuestion}, []interfaces.Conditional{})
+	exampleForm := stmt.NewForm(vari.NewVarId("TestForm"), exampleBody)
+
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForForm(exampleForm, errors.CyclicDependencyError{}, 1)
+}
+
+func (suite *TypeCheckerTestSuite) TestCyclicReferenceCheckerIfConditionRefersToBody() {
+	questionExample := stmt.NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
+	ifBodyExample := stmt.NewStmtList([]interfaces.Question{questionExample}, []interfaces.Conditional{})
+	ifExample := stmt.NewIf(expr.NewVarExpr(vari.NewVarId("hasSoldHouse")), ifBodyExample)
+	exampleFormBody := stmt.NewStmtList([]interfaces.Question{}, []interfaces.Conditional{ifExample})
+	exampleForm := stmt.NewForm(vari.NewVarId("TestForm"), exampleFormBody)
+
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForForm(exampleForm, errors.CyclicDependencyError{}, 1)
+}
+
+func (suite *TypeCheckerTestSuite) TestQuestionTypeAndComputationTypeMismatch() {
+	exampleQuestion := stmt.NewComputedQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()), expr.NewIntLit(11))
+	exampleBody := stmt.NewStmtList([]interfaces.Question{exampleQuestion}, []interfaces.Conditional{})
+	exampleForm := stmt.NewForm(vari.NewVarId("TestForm"), exampleBody)
+
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForForm(exampleForm, errors.DeclaratedTypeAndActualTypeDeviateError{}, 1)
+}
+
+func (suite *TypeCheckerTestSuite) TestThatCorrectFormYieldsNoErrorsOrWarnings() {
+	firstQuestion := stmt.NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
+	firstQuestionBody := stmt.NewInputQuestion(expr.NewStrLit("What was the selling price?"), vari.NewVarDecl(vari.NewVarId("sellingPrice"), expr.NewIntType()))
+	ifBody := stmt.NewStmtList([]interfaces.Question{firstQuestionBody}, []interfaces.Conditional{})
+	elseBody := stmt.NewStmtList([]interfaces.Question{firstQuestionBody}, []interfaces.Conditional{})
+	ifExample := stmt.NewIfElse(expr.NewBoolLit(true), ifBody, elseBody)
+	exampleBody := stmt.NewStmtList([]interfaces.Question{firstQuestion}, []interfaces.Conditional{ifExample})
+	exampleForm := stmt.NewForm(vari.NewVarId("TestForm"), exampleBody)
+
+	suite.testThatNumberOfErrorsOfPassedTypeArePresentForForm(exampleForm, errors.TypeCheckError{}, 0)
 }

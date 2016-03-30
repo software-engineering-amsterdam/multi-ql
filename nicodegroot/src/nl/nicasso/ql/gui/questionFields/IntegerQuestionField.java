@@ -3,28 +3,32 @@ package nl.nicasso.ql.gui.questionFields;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
-import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
 
 public class IntegerQuestionField extends QuestionField {
 
 	private Identifier identifier;
 	private JTextField field;
-	private Label label;
+	private JLabel feedback;
 	private Observer main;
 	private IntegerValue value;
 
-	public IntegerQuestionField(QuestionFieldParameter params) {
+	public IntegerQuestionField(QuestionFieldArguments params) {
 		this.identifier = params.getIdentifier();
 		this.main = params.getMain();
 		
 		setupField(params.isEnabled(), (IntegerValue) params.getValue());
+	}
+	
+	public void setFeedbackField(JLabel feedback) {
+		this.feedback = feedback;
 	}
 	
 	private void setupField(boolean enabled, IntegerValue value) {
@@ -52,16 +56,16 @@ public class IntegerQuestionField extends QuestionField {
 					try {
 						value = new IntegerValue(Integer.parseInt(field.getText()));
 					} catch (Exception ex) {
-						label.setLabelText("This is not a valid integer.");
+						feedback.setText("This is not a valid integer.");
 						parseSuccess = false;
 					}
 				}
 				
 				if (parseSuccess) {
-					label.setLabelText("");
+					feedback.setText("");
 					
-					main.fieldValueChanged(identifier, value);
-					main.updateAllPanels();
+					main.updateValueInStateTable(identifier, value);
+					main.updateGUIPanels();
 				}
 			}
 			
@@ -79,10 +83,6 @@ public class IntegerQuestionField extends QuestionField {
 	
 	public boolean equalValues(Value value) {
 		return value.equals(this.value);
-	}
-	
-	public void setFeedbackLabel(Label label) {
-		this.label = label;
 	}
 	
 	public JTextField getField() {

@@ -1,7 +1,6 @@
-
 package token
 
-import(
+import (
 	"fmt"
 )
 
@@ -13,14 +12,14 @@ type Token struct {
 
 type Type int
 
-const(
+const (
 	INVALID Type = iota
 	EOF
 )
 
 type Pos struct {
 	Offset int
-	Line int
+	Line   int
 	Column int
 }
 
@@ -29,8 +28,8 @@ func (this Pos) String() string {
 }
 
 type TokenMap struct {
-	typeMap  []string
-	idMap map[string]Type
+	typeMap []string
+	idMap   map[string]Type
 }
 
 func (this TokenMap) Id(tok Type) string {
@@ -64,17 +63,17 @@ var TokMap = TokenMap{
 		"integer",
 		"boolean",
 		"string",
-		"mulop",
-		"divop",
 		"integer_lit",
+		"true",
+		"false",
 		"str_lit",
-		"booltrue_lit",
-		"boolfalse_lit",
 		"col",
 		"ident",
 		"addop",
 		"subop",
 		"notop",
+		"mulop",
+		"divop",
 		"eqop",
 		"neqop",
 		"gtop",
@@ -92,39 +91,38 @@ var TokMap = TokenMap{
 		"rbrace",
 	},
 
-	idMap: map[string]Type {
-		"INVALID": 0,
-		"$": 1,
-		"form": 2,
-		"integer": 3,
-		"boolean": 4,
-		"string": 5,
-		"mulop": 6,
-		"divop": 7,
-		"integer_lit": 8,
-		"str_lit": 9,
-		"booltrue_lit": 10,
-		"boolfalse_lit": 11,
-		"col": 12,
-		"ident": 13,
-		"addop": 14,
-		"subop": 15,
-		"notop": 16,
-		"eqop": 17,
-		"neqop": 18,
-		"gtop": 19,
-		"ltop": 20,
-		"geqop": 21,
-		"leqop": 22,
-		"andop": 23,
-		"orop": 24,
-		"lpar": 25,
-		"rpar": 26,
-		"if": 27,
-		"else": 28,
-		"assign": 29,
-		"lbrace": 30,
-		"rbrace": 31,
+	idMap: map[string]Type{
+		"INVALID":     0,
+		"$":           1,
+		"form":        2,
+		"integer":     3,
+		"boolean":     4,
+		"string":      5,
+		"integer_lit": 6,
+		"true":        7,
+		"false":       8,
+		"str_lit":     9,
+		"col":         10,
+		"ident":       11,
+		"addop":       12,
+		"subop":       13,
+		"notop":       14,
+		"mulop":       15,
+		"divop":       16,
+		"eqop":        17,
+		"neqop":       18,
+		"gtop":        19,
+		"ltop":        20,
+		"geqop":       21,
+		"leqop":       22,
+		"andop":       23,
+		"orop":        24,
+		"lpar":        25,
+		"rpar":        26,
+		"if":          27,
+		"else":        28,
+		"assign":      29,
+		"lbrace":      30,
+		"rbrace":      31,
 	},
 }
-

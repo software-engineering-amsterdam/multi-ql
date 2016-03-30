@@ -1,7 +1,7 @@
 package nl.uva.sea.ql.ast;
 
 import nl.uva.sea.ql.ast.expr.Str;
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Label</code>s for questions in an AST.
@@ -32,11 +32,11 @@ public class Label extends ASTNode {
     /**
      * Has <code>visitor visit this Label</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this Label</code>
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
     

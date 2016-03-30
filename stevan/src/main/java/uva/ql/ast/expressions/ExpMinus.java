@@ -1,16 +1,17 @@
 package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
-import uva.ql.ast.abstracts.Node;
+import uva.ql.ast.Node;
 import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.expressions.types.Minus;
+import uva.ql.ast.interfaces.IntEval;
+import uva.ql.ast.types.expression.Minus;
 
-public class ExpMinus extends ArithmeticOperatorBinary {
+public class ExpMinus extends ArithmeticOperatorBinary implements IntEval<Integer> {
 
 	private Minus type = new Minus();
 	
-	public ExpMinus(Node parent, Expression lhs, Expression rhs, int startLine, int startColumn) {
+	public ExpMinus(Node parent, Expression<Integer> lhs, Expression<Integer> rhs, int startLine, int startColumn) {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
 	
@@ -22,5 +23,10 @@ public class ExpMinus extends ArithmeticOperatorBinary {
 	@Override
 	public EnumType getType() {
 		return this.type.getType();
+	}
+	
+	@Override
+	public Integer eval() {
+		return this.getLhs().eval() - this.getRhs().eval();
 	}
 }

@@ -1,25 +1,41 @@
 package nl.uva.sea.ql.answerTable;
 
+import java.util.Objects;
+
 /**
  * Objects of this class represent values of QL
  * {@link nl.uva.sea.ql.ast.question.IntQuestion IntQuestion}s and
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with an integer value.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 30-mar-2016
  */
 public class IntValue extends NumericValue {
     
-    private final Integer value;
+    /**
+     * Start value used to calculate hashes for objects of this class.
+     */
+    public static final int HASH_ORIGIN = 483;
+    
+    private final Long value;
     
     /**
      * Constructor for objects of this class.
      * 
-     * @param theValue an integer value or <code>null</code> to represent an
-     *                  unknown value
+     * @param theValue a <code>Long</code> value or <code>null</code> to represent
+     *                  an unknown value
      */
-    public IntValue(Integer theValue) {
+    public IntValue(Long theValue) {
         value = theValue;
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @return 
+     */
+    public Long getValue() {
+       return value; 
     }
     
     /**
@@ -186,7 +202,7 @@ public class IntValue extends NumericValue {
      * @param other a <code>DecimalValue</code> to add to <code>this IntValue</code>
      * @return a <code>DecimalValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents an
-     *          unkown value or the result of adding <code>other</code> to
+     *          unknown value or the result of adding <code>other</code> to
      *          <code>this DecimalValue</code> otherwise
      */
     @Override
@@ -200,7 +216,7 @@ public class IntValue extends NumericValue {
      * @param other an <code>IntValue</code> to add to this one
      * @return an <code>IntValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents an
-     *          unkown value or the result of adding <code>other</code> to
+     *          unknown value or the result of adding <code>other</code> to
      *          <code>this IntValue</code> otherwise
      */
     @Override
@@ -208,7 +224,7 @@ public class IntValue extends NumericValue {
         if (value == null || other.value == null) {
             return new IntValue(null);
         }
-        int result = value + other.value;
+        long result = value + other.value;
         return new IntValue(result);
     }
     
@@ -218,7 +234,7 @@ public class IntValue extends NumericValue {
      * @param other a <code>MoneyValue</code> to add to this one
      * @return a <code>MoneyValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents an
-     *          unkown value or the result of adding <code>other</code> to
+     *          unknown value or the result of adding <code>other</code> to
      *          <code>this IntValue</code> otherwise
      */
     @Override
@@ -249,7 +265,7 @@ public class IntValue extends NumericValue {
      *              <code>this IntValue</code> by
      * @return a <code>DecimalValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     @Override
@@ -263,7 +279,7 @@ public class IntValue extends NumericValue {
      * @param other an <code>IntValue</code> to multiply this one by
      * @return an <code>IntValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>IntValue</code>s otherwise
      */
     @Override
@@ -271,7 +287,7 @@ public class IntValue extends NumericValue {
         if (value == null || other.value == null) {
             return new IntValue(null);
         }
-        int result = value * other.value;
+        long result = value * other.value;
         return new IntValue(result);
     }
     
@@ -282,7 +298,7 @@ public class IntValue extends NumericValue {
      *              <code>this IntValue</code> by
      * @return a <code>MoneyValue</code> representing an unkonwn value if
      *          <code>this IntValue</code> or <code>other</code> represents
-     *          an unkown value or the result of multiplying these
+     *          an unknown value or the result of multiplying these
      *          <code>Value</code>s otherwise
      */
     @Override
@@ -382,6 +398,30 @@ public class IntValue extends NumericValue {
             return new MoneyValue(null);
         }
         return new MoneyValue(value.toString());
+    }
+    
+    /**
+     * Compares <code>this IntValue</code> to another <code>Object</code>.
+     * 
+     * @param o the <code>Object</code> to compare to <code>this IntValue</code>
+     * @return <code>true</code> if and only if <code>o</code> is a
+     *          <code>IntValue</code> with the same <code>value</code> as
+     *          <code>this IntValue</code> 
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        IntValue other = (IntValue) o;
+        return value == null ? other.value == null : value.equals(other.value);
+    }
+
+    /**
+     * @return an <code>int</code> containing a hash for <code>this IntValue</code> 
+     */
+    @Override
+    public int hashCode() {
+        return HASH_ORIGIN + Objects.hashCode(this.value);
     }
     
 }

@@ -2,14 +2,14 @@ package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.checker.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Expr</code>s which are sure to have a numeric value
  * and have two arguments in an AST.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 19-mar-2016
  */
 public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     
@@ -59,12 +59,12 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
      * Has the children of <code>this BinaryNumericOperatorExpr accept visitor</code>
      * and then has <code>visitor visit this BinaryNumericOperatorExpr</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this BinaryNumericOperatorExpr</code> and
      *                  its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         childrenAccept(visitor);
         visitor.visit(this);
     }
@@ -73,11 +73,11 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
      * <code>this BinaryNumericOperatorExpr accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit</code> the children of
      *                  <code>this BinaryNumericOperatorExpr</code>
      */
-    protected void childrenAccept(ASTVisitor visitor) {
+    protected void childrenAccept(Visitor visitor) {
         firstExpr.accept(visitor);
         secondExpr.accept(visitor);
     }
@@ -123,36 +123,27 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
     }
     
     /**
-     * Set whether <code>this BinaryNumericOperatorExpr</code> represents a
+     * Set <code>this BinaryNumericOperatorExpr</code> to represent a
      * decimal value.
-     * 
-     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
-     *                  represents a decimal value
      */
-    public void setIsDecimal(boolean newValue) {
-        isDecimal = newValue;
+    public void setIsDecimal() {
+        isDecimal = true;
     }
     
     /**
-     * Set whether <code>this BinaryNumericOperatorExpr</code> represents an int
+     * Set <code>this BinaryNumericOperatorExpr</code> to represent an int
      * value.
-     * 
-     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
-     *                  represents an integer value
      */
-    public void setIsInt(boolean newValue) {
-        isInt = newValue;
+    public void setIsInt() {
+        isInt = true;
     }
     
     /**
-     * Set whether <code>this BinaryNumericOperatorExpr</code> represents a money
+     * Set <code>this BinaryNumericOperatorExpr</code> to represent a money
      * value.
-     * 
-     * @param newValue whether or not <code>this BinaryNumericOperatorExpr</code>
-     *                  reprsents a money value
      */
-    public void setIsMoney(boolean newValue) {
-        isMoney = newValue;
+    public void setIsMoney() {
+        isMoney = true;
     }
     
     /**

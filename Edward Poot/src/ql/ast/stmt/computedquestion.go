@@ -1,41 +1,26 @@
 package stmt
 
-import (
-	"fmt"
-	"ql/interfaces"
-)
+import "ql/interfaces"
 
 type ComputedQuestion struct {
-	Label       interfaces.StrLit
-	VarDecl     interfaces.VarDecl
-	Computation interfaces.Expr
+	label       interfaces.StrLit
+	varDecl     interfaces.VarDecl
+	computation interfaces.Expr
 	Stmt
 }
 
-func NewComputedQuestion(label interfaces.StrLit, varDecl interfaces.VarDecl, computation interfaces.Expr, sourceInfo interface{}) ComputedQuestion {
-	return ComputedQuestion{label, varDecl, computation, NewStmt(sourceInfo)}
+func NewComputedQuestion(label interfaces.StrLit, varDecl interfaces.VarDecl, computation interfaces.Expr) ComputedQuestion {
+	return ComputedQuestion{label, varDecl, computation, NewStmt()}
 }
 
-func NewComputedQuestionNoSourceInfo(label interfaces.StrLit, varDecl interfaces.VarDecl, computation interfaces.Expr) ComputedQuestion {
-	return NewComputedQuestion(label, varDecl, computation, nil)
+func (this ComputedQuestion) Label() interfaces.StrLit {
+	return this.label
 }
 
-func (this ComputedQuestion) String() string {
-	return fmt.Sprintf("A question with label %s, var decl %s and computation", this.Label, this.VarDecl, this.Computation)
+func (this ComputedQuestion) Computation() interfaces.Expr {
+	return this.computation
 }
 
-func (this ComputedQuestion) GetLabel() interfaces.StrLit {
-	return this.Label
-}
-
-func (this ComputedQuestion) GetLabelAsString() string {
-	return this.Label.GetValue()
-}
-
-func (this ComputedQuestion) GetComputation() interfaces.Expr {
-	return this.Computation
-}
-
-func (this ComputedQuestion) GetVarDecl() interfaces.VarDecl {
-	return this.VarDecl
+func (this ComputedQuestion) VarDecl() interfaces.VarDecl {
+	return this.varDecl
 }
