@@ -1,11 +1,8 @@
 package nl.uva.sea.ql.interpreter.questionComponent;
 
-import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.*;
-import lombok.experimental.Delegate;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.question.DateQuestion;
@@ -14,10 +11,9 @@ import nl.uva.sea.ql.ast.question.DateQuestion;
  * TODO document
  * 
  * @author Olav Trauschke
- * @version 29-mrt-2016
+ * @version 30-mar-2016
  */
-public class DateQuestionComponent extends JPanel
-        implements ConcreteQuestionComponent {
+public class DateQuestionComponent extends FormattedTextFieldComponent {
     
     /**
      * TODO document
@@ -28,12 +24,6 @@ public class DateQuestionComponent extends JPanel
      * TODO document
      */
     public static final String DATE_FORMAT = "d-M-yyyy";
-    
-    @Delegate(types=QuestionComponent.class)
-    private final BasicQuestionComponent basicQuestion;
-    
-    private final JLabel label;
-    private final JFormattedTextField textField;
     
     /**
      * Constructor for objects of this class.
@@ -52,20 +42,8 @@ public class DateQuestionComponent extends JPanel
      */
     public DateQuestionComponent(Expr conditionForDisplay,
             DateQuestion theQuestion, AnswerTable theAnswerTable) {
-        assert conditionForDisplay != null;
-        assert theQuestion != null;
-        assert theAnswerTable != null;
-        label = new JLabel(theQuestion.obtainLabelString());
-        textField = new JFormattedTextField(new SimpleDateFormat(DATE_FORMAT));
-        textField.setColumns(NUMBER_OF_COLUMNS);
-        add(label);
-        add(textField);
-        textField.addPropertyChangeListener("value", this::setValue);
-        basicQuestion = new BasicQuestionComponent(conditionForDisplay,
-                theQuestion, theAnswerTable, this);
-        if (theQuestion.isComputed()) {
-            textField.setEnabled(false);
-        }
+        super(conditionForDisplay, theQuestion, theAnswerTable,
+                new SimpleDateFormat(DATE_FORMAT), NUMBER_OF_COLUMNS);
     }
     
     /**
@@ -73,22 +51,12 @@ public class DateQuestionComponent extends JPanel
      * 
      * @param e 
      */
+    @Override
     public void setValue(PropertyChangeEvent e) {
         assert e != null;
-        Date date = (Date) textField.getValue();
+        Date date = (Date) getTextFieldValue();
         DateValue newValue = new DateValue(date);
-        basicQuestion.setValue(newValue, false);
-    }
-    
-    /**
-     * TODO document
-     * 
-     * @param comp
-     * @return 
-     */
-    @Override
-    public final Component add(Component comp) {
-        return super.add(comp);
+        setValue(newValue);
     }
     
     /**
@@ -101,7 +69,7 @@ public class DateQuestionComponent extends JPanel
         assert newValue instanceof DateValue;
         DateValue dateValue = (DateValue) newValue;
         Date valueAsDate = dateValue.getValue();
-        textField.setValue(valueAsDate);
+        setTextFieldValue(valueAsDate);
     }
     
 }
