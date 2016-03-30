@@ -191,7 +191,7 @@ public class DecimalValue extends NumericValue {
      */
     @Override
     public NumericValue add(NumericValue other) {
-        return other.multiply(this); //double dispatch to a more specific case
+        return other.add(this); //double dispatch to a more specific case
     }
     
     /**

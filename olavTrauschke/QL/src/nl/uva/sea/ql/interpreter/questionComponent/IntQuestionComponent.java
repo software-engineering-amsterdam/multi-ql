@@ -7,7 +7,7 @@ import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.question.IntQuestion;
 
 /**
- * 
+ * TODO document
  * 
  * @author Olav Trauschke
  * @version 30-mrt-2016
