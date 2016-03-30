@@ -47,6 +47,7 @@ library
 
 executable ql-exe
   hs-source-dirs:      app
+                     , app/GUI
   main-is:             Main.hs
   other-modules:       GUIElement
                      , GUIContext

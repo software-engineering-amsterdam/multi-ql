@@ -27,15 +27,15 @@ toSemanticError x = map DuplicationIssue (duplicationErrors x)
      ++ map DependencyError (cycleErrors x)
         ++ map TypeError (typeErrors x)
 
-semanticCheck::Form Location -> SemanticResult 
+semanticCheck :: Form Location -> SemanticResult 
 semanticCheck = analyze
 
 analyze :: Form Location -> SemanticResult
 analyze x = uncurry (SemanticResult tErrors depErrors) dIssues
   where
-    tErrors = typecheckForm x
-    depErrors = cErrors ++ checkForPostDependencies x
-    cErrors = checkForCyclicDependencies ((transitiveClosure . getIdentifierRelation) calcFields) calcFields
+    tErrors = checkForTypeErrors x
+    depErrors = cErrors ++ checkForPostDependencyErrors x
+    cErrors = checkForCyclicDependencyErrors ((transitiveClosure . getIdentifierRelation) calcFields) calcFields
     calcFields = collectCalculatedFields x
     fields = collectFields x
     dErrors = checkForDuplicateFields fields
@@ -67,9 +67,9 @@ findDuplicates xs = map snd (concat (getDups group))
     group = L.groupBy sameIden idmap
     getDups = filter (\x -> length x > 1)
 
-checkForCyclicDependencies :: [(Identifier, Identifier)] -> [Field Location] -> [DependencyError]
-checkForCyclicDependencies [] _ = []
-checkForCyclicDependencies (x:xs) env = checkForCycles x ++ checkForCyclicDependencies xs env
+checkForCyclicDependencyErrors :: [(Identifier, Identifier)] -> [Field Location] -> [DependencyError]
+checkForCyclicDependencyErrors [] _ = []
+checkForCyclicDependencyErrors (x:xs) env = checkForCycles x ++ checkForCyclicDependencyErrors xs env
   where
     checkForCycles (y, z) = if (y, y) `elem` (x : xs)
                               then map (uncurry CyclicDependencyError) (findIdent (y, z))
@@ -87,8 +87,8 @@ transitiveClosure closure
                                  , (b', c) <- closure
                                  , b == b']
 
-checkForPostDependencies :: Form Location -> [DependencyError]
-checkForPostDependencies form = L.nub $ concatMap (\x -> map (PostDependencyError (getIdentifier x, head (getLocations (getIdentifier x))).getDeclarationLocations) (postDeclarations x))  calcFields
+checkForPostDependencyErrors :: Form Location -> [DependencyError]
+checkForPostDependencyErrors form = L.nub $ concatMap (\x -> map (PostDependencyError (getIdentifier x, head (getLocations (getIdentifier x))).getDeclarationLocations) (postDeclarations x))  calcFields
   where extractLocationFromField = extractAnnotationFromField
         calcFields = collectCalculatedFields form
         fields = collectFields form
@@ -115,8 +115,8 @@ toIdentifierExpr (SimpleField _ _) = error "Attempted to get values for SimpleFi
 getIdentifierRelation :: [Field Location] -> [(Identifier, Identifier)]
 getIdentifierRelation  = foldr ((++) . dependencyRelation .toIdentifierExpr) []  
 
-typecheckForm :: Form Location -> [TypeError]
-typecheckForm form@(Form _ _ ss) =
+checkForTypeErrors :: Form Location -> [TypeError]
+checkForTypeErrors form@(Form _ _ ss) =
   typeCheckStatement ss
   where
     types = collectFormTypeMap form 
