@@ -1,4 +1,4 @@
-package ql.gui.inputComponents;
+package ql.gui.inputComponent;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;

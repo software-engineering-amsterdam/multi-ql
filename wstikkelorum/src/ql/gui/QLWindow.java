@@ -23,8 +23,8 @@ import ql.SemanticAnalyser;
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
 import ql.ast.visitor.GuiVisitor;
-import ql.gui.questionWidgets.ComputedQuestionWidget;
-import ql.gui.questionWidgets.InputQuestionWidget;
+import ql.gui.questionWidget.ComputedQuestionWidget;
+import ql.gui.questionWidget.InputQuestionWidget;
 import ql.issue.Issue;
 
 public class QLWindow extends JFrame{

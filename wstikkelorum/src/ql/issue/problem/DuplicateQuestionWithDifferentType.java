@@ -1,4 +1,4 @@
-package ql.issue.problems;
+package ql.issue.problem;
 
 import ql.ast.statement.question.Question;
 import ql.issue.Issue;

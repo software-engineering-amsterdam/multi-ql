@@ -1,4 +1,4 @@
-package ql.issue.problems;
+package ql.issue.problem;
 
 import ql.ast.expression.Expression;
 import ql.ast.type.ValueType;

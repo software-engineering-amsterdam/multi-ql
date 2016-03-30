@@ -1,4 +1,4 @@
-package ql.gui.questionWidgets;
+package ql.gui.questionWidget;
 
 import java.awt.GridLayout;
 
