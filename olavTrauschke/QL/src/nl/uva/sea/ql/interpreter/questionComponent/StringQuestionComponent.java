@@ -15,7 +15,7 @@ import nl.uva.sea.ql.ast.question.StringQuestion;
  * TODO document
  * 
  * @author Olav Trauschke
- * @version 29-mrt-2016
+ * @version 29-mar-2016
  */
 public class StringQuestionComponent extends JPanel
         implements ConcreteQuestionComponent {

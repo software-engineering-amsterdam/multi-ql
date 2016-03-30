@@ -6,7 +6,7 @@ import nl.uva.sea.ql.answerTable.Value;
  * TODO document
  * 
  * @author Olav Trauschke
- * @version 29-mrt-2016
+ * @version 29-mar-2016
  */
 public interface ConcreteQuestionComponent extends QuestionComponent {
     
