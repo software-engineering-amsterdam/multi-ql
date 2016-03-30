@@ -6,8 +6,8 @@ import java.util.List;
 
 import ql.ast.statement.question.ComputedQuestion;
 import ql.ast.statement.question.InputQuestion;
-import ql.gui.questionWidgets.ComputedQuestionWidget;
-import ql.gui.questionWidgets.InputQuestionWidget;
+import ql.gui.questionWidget.ComputedQuestionWidget;
+import ql.gui.questionWidget.InputQuestionWidget;
 import ql.issue.Issue;
 
 public class VisibleElements {

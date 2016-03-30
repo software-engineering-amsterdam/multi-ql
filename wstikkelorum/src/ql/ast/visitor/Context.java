@@ -10,8 +10,8 @@ import ql.ast.literal.VariableExpression;
 import ql.ast.statement.question.Question;
 import ql.ast.type.ValueType;
 import ql.issue.Issue;
-import ql.issue.problems.DuplicateQuestionWithDifferentType;
-import ql.issue.problems.ReferenceToUndefinedQuestion;
+import ql.issue.problem.DuplicateQuestionWithDifferentType;
+import ql.issue.problem.ReferenceToUndefinedQuestion;
 import ql.issue.warning.DuplicateLabel;
 
 public class Context {
