@@ -46,7 +46,7 @@ public class UserInterface extends JFrame{
 	
 	private void ParseAndAnalyseForm(){
 		try {
-			form = FormParser.parseForm(currentPath, false);
+			form = FormParser.parseForm(currentPath);
 			SemanticAnalyser semanticAnalyser = analyseForm(form);
 			context = semanticAnalyser.getContext();
 			guiVisitor = new GuiVisitor<>(context, this);
@@ -65,15 +65,16 @@ public class UserInterface extends JFrame{
 	private static SemanticAnalyser analyseForm(Form form) {
 		SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
 		semanticAnalyser.analyseForm(form);
-		semanticAnalyser.printData();
 		return semanticAnalyser;
 	}
 	
 	private void printIssues(Context context) {
 		visibleUIElements.removeAllUIElements();
 		mainPanel.removeAll();
-		mainPanel.setLayout(new GridLayout(context.getIssues().size(), 1));
-		for (Issue issue : context.getIssues()) {
+		mainPanel.setLayout(new GridLayout(context.numberOfIssues(), 1));
+		Iterator<Issue> iterator = context.getIssueIterator();
+		while(iterator.hasNext()){
+			Issue issue = iterator.next();
 			mainPanel.add(issue.getDrawableItem());
 		}
 		mainPanel.revalidate();

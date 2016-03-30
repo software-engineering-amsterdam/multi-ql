@@ -1,11 +1,11 @@
 package ql.ast.statement;
 
-import ql.ast.TreeNode;
+import ql.ast.ASTNode;
 import ql.ast.literal.Variable;
 import ql.ast.visitor.Visitable;
 import ql.ast.visitor.Visitor;
 
-public class Question extends TreeNode implements Visitable {
+public class Question extends ASTNode implements Visitable {
 	private final Variable variable;
 	private final String questionString;
 

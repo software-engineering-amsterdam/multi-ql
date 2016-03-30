@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import ql.FormEvaluation;
+import ql.FormEvaluator;
 import ql.Program;
 import ql.SemanticAnalyser;
 import ql.ast.form.Form;
@@ -20,7 +20,7 @@ public class TestAllOperands {
 		
 		assert(semanticAnalyser.noIssues());
 		if(semanticAnalyser.noIssues()){
-			FormEvaluation formEval = Program.evaluateForm(form, semanticAnalyser.getContext());
+			FormEvaluator formEval = Program.evaluateForm(form, semanticAnalyser.getContext());
 			HashMap<String, Object> values = formEval.getContext().getIdentifierToValueMap();
 			
 			assert((int) values.get("summation") == 6);

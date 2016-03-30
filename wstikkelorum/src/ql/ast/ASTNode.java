@@ -1,9 +1,9 @@
 package ql.ast;
 
-public class TreeNode {
+public class ASTNode {
 	private final int lineNumber;
 
-	public TreeNode(int lineNumber) {
+	public ASTNode(int lineNumber) {
 		this.lineNumber = lineNumber;
 	}
 
