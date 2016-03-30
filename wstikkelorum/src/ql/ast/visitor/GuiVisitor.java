@@ -4,10 +4,11 @@ import ql.ast.form.Form;
 import ql.ast.statement.IfStatement;
 import ql.ast.statement.question.ComputedQuestion;
 import ql.ast.statement.question.InputQuestion;
+import ql.ast.value.BooleanValue;
 import ql.gui.QLWindow;
 import ql.gui.VisibleElements;
 
-public class GuiVisitor<T> extends Evaluator {
+public class GuiVisitor<Value> extends Evaluator {
 	private VisibleElements visibleQuestions;
 	private QLWindow parent;
 
@@ -18,26 +19,26 @@ public class GuiVisitor<T> extends Evaluator {
 	}
 
 	@Override
-	public T visit(ComputedQuestion computedQuestion) {
+	public ql.ast.value.Value visit(ComputedQuestion computedQuestion) {
 		context.putValueForQuestion(computedQuestion, computedQuestion.getExpression().accept(this));
 		visibleQuestions.addQuestion(computedQuestion);
 		return null;
 	}
 
 	@Override
-	public T visit(InputQuestion inputQuestion) {
+	public ql.ast.value.Value visit(InputQuestion inputQuestion) {
 		inputQuestion.getVariable().accept(this);
 		visibleQuestions.addQuestion(inputQuestion, parent);
 		return null;
 	}
 
 	@Override
-	public T visit(IfStatement ifStatement) {
-		Boolean condition = (Boolean) ifStatement.getCondition().accept(this);
+	public ql.ast.value.Value visit(IfStatement ifStatement) {
+		BooleanValue condition = (BooleanValue) ifStatement.getCondition().accept(this);
 		if (condition == null) {
 			return null;
 		}
-		if (condition) {
+		if (condition.getValue()) {
 			ifStatement.getBody().accept(this);
 		}
 		return null;

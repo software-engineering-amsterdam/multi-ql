@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ql.ast.value.IntegerValue;
+import ql.ast.value.Value;
 import ql.gui.UserInputElement;
 
 public class IntegerInputComponent implements UserInputElement{
@@ -37,20 +39,20 @@ public class IntegerInputComponent implements UserInputElement{
 	public void onAction() {
 		parent.onAction();
 	}
-
+	
 	@Override
-	public void updateValueLabel(Object newValue) {
+	public void updateValueLabel(Value newValue) {
 		if(newValue == null){
 			textField.setText("");
 		}else{
-			textField.setText(newValue.toString());
+			textField.setText(newValue.getValue().toString());
 		}
 	}
 
 	@Override
-	public Object getInput() {
+	public Value getInput() {
 		try{
-			return Integer.parseInt(textField.getText());
+			return new IntegerValue(Integer.parseInt(textField.getText()));
 		}catch(NumberFormatException nfe){
 			textField.setBackground(new Color(255, 0, 0));
 			return null;//TODO:return already stored number!

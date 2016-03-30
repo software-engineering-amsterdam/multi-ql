@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
+import ql.ast.value.BooleanValue;
+import ql.ast.value.Value;
 import ql.gui.UserInputElement;
 
 public class BooleanInputComponent implements UserInputElement{
@@ -33,13 +35,13 @@ public class BooleanInputComponent implements UserInputElement{
 	}
 
 	@Override
-	public void updateValueLabel(Object newValue) {
+	public void updateValueLabel(Value newValue) {
 		if(newValue == null){
 			checkBox.setSelected(false);
 			return;
 		}
 		
-		boolean value = (boolean)newValue;
+		boolean value = (boolean) newValue.getValue();
 		if(value){
 			checkBox.setSelected(true);
 		}else{		
@@ -48,11 +50,11 @@ public class BooleanInputComponent implements UserInputElement{
 	}
 
 	@Override
-	public Object getInput() {
+	public Value getInput() {
 		if(checkBox.isSelected()){
-			return true;
+			return new BooleanValue(true);
 		}
-		return false;
+		return new BooleanValue(false);
 	}
 
 	@Override

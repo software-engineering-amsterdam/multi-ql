@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.value.Value;
 import ql.gui.DrawableElement;
 
 public class ComputedQuestionWidget implements DrawableElement{
@@ -34,11 +35,11 @@ public class ComputedQuestionWidget implements DrawableElement{
 	}
 
 	@Override
-	public void updateValueLabel(Object newValue) {
+	public void updateValueLabel(Value newValue) {
 		if(newValue == null){
 			textField.setText("");
 		}else{
-			textField.setText(newValue.toString());
+			textField.setText(newValue.getValue().toString());
 		}	
 	}
 	

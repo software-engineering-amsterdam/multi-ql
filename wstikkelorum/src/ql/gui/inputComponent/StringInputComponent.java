@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ql.ast.value.StringValue;
+import ql.ast.value.Value;
 import ql.gui.UserInputElement;
 
 public class StringInputComponent implements UserInputElement{
@@ -33,17 +35,17 @@ public class StringInputComponent implements UserInputElement{
 	}
 
 	@Override
-	public void updateValueLabel(Object newValue) {
+	public void updateValueLabel(Value newValue) {
 		if(newValue == null){
 			textField.setText("");
 		}else{
-			textField.setText(newValue.toString());
+			textField.setText((String) newValue.getValue());
 		}
 	}
 
 	@Override
-	public Object getInput() {
-		return textField.getText();
+	public Value getInput() {
+		return new StringValue(textField.getText());
 	}
 
 	@Override

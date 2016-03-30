@@ -21,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import ql.FormParser;
 import ql.SemanticAnalyser;
 import ql.ast.form.Form;
+import ql.ast.value.Value;
 import ql.ast.visitor.Context;
 import ql.ast.visitor.GuiVisitor;
 import ql.gui.questionWidget.ComputedQuestionWidget;
@@ -171,7 +172,7 @@ public class QLWindow extends JFrame{
 		Iterator<InputQuestionWidget> inputQuestions = visibleUIElements.getInputQuestionsIterator();
 		while(inputQuestions.hasNext()){
 			InputQuestionWidget inputQuestion = inputQuestions.next();
-			Object value = inputQuestion.getInput();
+			Value value = inputQuestion.getInput();
 			context.putValueForQuestion(inputQuestion.getQuestion(), value);
 		}
 	}

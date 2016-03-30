@@ -2,7 +2,9 @@ package ql.gui;
 
 import javax.swing.JPanel;
 
+import ql.ast.value.Value;
+
 public interface DrawableElement {
 	JPanel getDrawableItem();
-	void updateValueLabel(Object newValue);
+	void updateValueLabel(Value newValue);
 }

@@ -16,18 +16,22 @@ import ql.ast.expression.Not;
 import ql.ast.expression.OrExpression;
 import ql.ast.expression.Pos;
 import ql.ast.expression.Sub;
+import ql.ast.expression.VariableExpression;
 import ql.ast.form.Body;
 import ql.ast.form.Form;
 import ql.ast.literal.BoolLiteral;
 import ql.ast.literal.IntLiteral;
 import ql.ast.literal.StringLiteral;
 import ql.ast.literal.Variable;
-import ql.ast.literal.VariableExpression;
 import ql.ast.statement.IfStatement;
 import ql.ast.statement.Statement;
 import ql.ast.statement.question.ComputedQuestion;
 import ql.ast.statement.question.InputQuestion;
 import ql.ast.statement.question.Question;
+import ql.ast.value.BooleanValue;
+import ql.ast.value.IntegerValue;
+import ql.ast.value.NullValue;
+import ql.ast.value.StringValue;
 
 public interface Visitor<T> {
 	public T visit(Form form);
@@ -85,4 +89,12 @@ public interface Visitor<T> {
 	public T visit(StringLiteral stringLiteral);
 
 	public T visit(Variable variable);
+	
+	public T visit(BooleanValue booleanValue);
+	
+	public T visit(IntegerValue integerValue);
+	
+	public T visit(StringValue stringValue);
+	
+	public T visit(NullValue nullValue);
 }

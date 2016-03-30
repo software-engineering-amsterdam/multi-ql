@@ -1,5 +1,6 @@
-package ql.ast.literal;
+package ql.ast.expression;
 
+import ql.ast.literal.Literal;
 import ql.ast.visitor.Visitor;
 
 public class VariableExpression extends Literal {

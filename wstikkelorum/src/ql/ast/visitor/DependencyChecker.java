@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ql.ast.literal.VariableExpression;
+import ql.ast.expression.VariableExpression;
 import ql.ast.statement.question.ComputedQuestion;
 import ql.issue.problem.CyclicDependency;
 

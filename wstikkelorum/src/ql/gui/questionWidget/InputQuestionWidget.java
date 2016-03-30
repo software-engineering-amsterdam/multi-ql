@@ -10,6 +10,7 @@ import ql.ast.type.BooleanType;
 import ql.ast.type.IntegerType;
 import ql.ast.type.StringType;
 import ql.ast.type.ValueType;
+import ql.ast.value.Value;
 import ql.gui.UserInputElement;
 import ql.gui.QLWindow;
 import ql.gui.inputComponent.BooleanInputComponent;
@@ -52,12 +53,12 @@ public class InputQuestionWidget implements UserInputElement{
 	}
 
 	@Override
-	public void updateValueLabel(Object newValue) {
+	public void updateValueLabel(Value newValue) {
 		inputComponent.updateValueLabel(newValue);
 	}
 
 	@Override
-	public Object getInput() {
+	public Value getInput() {
 		return inputComponent.getInput();
 	}
 
