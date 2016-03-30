@@ -7,7 +7,7 @@ import java.util.List;
 import ql.ast.literal.Variable;
 import ql.ast.literal.VariableExpression;
 import ql.ast.statement.Question;
-import ql.ast.types.ValueType;
+import ql.ast.type.ValueType;
 import ql.issue.DuplicateLabel;
 import ql.issue.DuplicateQuestionWithDifferentType;
 import ql.issue.Issue;
@@ -29,7 +29,9 @@ public class Context {
 	}
 
 	public void putValueForQuestion(Question question, Object value) {
-		nameToValue.put(question.getVariable().getIdentifier(), value);
+		if(value != null){
+			nameToValue.put(question.getVariable().getIdentifier(), value);
+		}
 	}
 
 	public Object getValueForVariable(VariableExpression variableExpression) {
@@ -98,5 +100,20 @@ public class Context {
 
 	public List<Issue> getIssues() {
 		return issues;
+	}
+	
+	public boolean onlyWarnings(){
+		return issues.size() > 0 && noIssues();
+	}
+	
+	private boolean noIssues(){
+		for(Issue issue : issues){
+			if(issue instanceof DuplicateLabel){
+				continue;
+			}else{
+				return false;
+			}
+		}
+		return true;
 	}
 }

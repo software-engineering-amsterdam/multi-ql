@@ -6,5 +6,4 @@ public class DuplicateLabel extends Issue {
 				"Warning: Duplicate label. Text: %s. At line Number: %d",
 				label, lineNumber);
 	}
-
 }

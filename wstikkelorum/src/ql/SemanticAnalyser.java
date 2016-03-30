@@ -1,10 +1,15 @@
 package ql;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
-import ql.ast.visitor.DependencyChecker;
 import ql.ast.visitor.DeclaredQuestionVisitor;
+import ql.ast.visitor.DependencyChecker;
 import ql.ast.visitor.TypeChecker;
+import ql.issue.DuplicateLabel;
+import ql.issue.Issue;
 
 public class SemanticAnalyser {
 	private Context context;
@@ -19,8 +24,24 @@ public class SemanticAnalyser {
 		cyclicDependenciesCheck(form);
 	}
 
+	//TODO: needs a refactor!
 	public boolean noIssues() {
-		return context.getIssues().isEmpty();
+		for(Issue issue : context.getIssues()){
+			if(!(issue instanceof DuplicateLabel)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public List<Issue> getWarnings(){
+		List<Issue> warnings = new ArrayList<Issue>();
+		for(Issue issue : context.getIssues()){
+			if(issue instanceof DuplicateLabel){
+				warnings.add(issue);
+			}
+		}
+		return warnings;
 	}
 
 	// Only for debugging

@@ -23,10 +23,10 @@ import ql.ast.literal.VariableExpression;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.InputQuestion;
 
-public class Evaluation extends BasicVisitor<Object> {
+public class Evaluator extends BasicVisitor<Object> {
 	protected Context context;
 
-	public Evaluation(Context context) {
+	public Evaluator(Context context) {
 		this.context = context;
 	}
 

@@ -3,17 +3,25 @@ package ql.issue;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public abstract class Issue {
+import ql.gui.UIElement;
+
+public abstract class Issue implements UIElement{
 	protected String errorMessage;
 
 	public void print() {
 		System.out.println(errorMessage);
 	}
 	
-	JPanel getUIElement() {
+	public JPanel getDrawableItem() {
 		JPanel jPanel = new JPanel();
-		jPanel.add(new JLabel(errorMessage));
+		JLabel jLabel = new JLabel(errorMessage);
+		jPanel.add(jLabel);
 		jPanel.setVisible(true);
 		return jPanel;
+	}
+
+	@Override
+	public void updateValueLabel(Object newValue) {
+		errorMessage = newValue.toString();
 	}
 }
