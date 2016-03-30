@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.expr.*;
  * Class for inerpretation of the syntax of ql-files.
  * 
  * @author Olav Trauschke
- * @version 9-mar-2016
+ * @version 30-mar-2016
  */
 public class Lexer implements Tokens {
     
@@ -296,11 +296,11 @@ public class Lexer implements Tokens {
      * Call <code>readNextCharacter</code> while the next <code>character</code>
      * contributes to a number.
      * 
-     * @return an <code>int</code> containing the number represented the by the
+     * @return an <code>long</code> containing the number represented the by the
      *          read characters
      */
-    private int readNumber() {
-        int result = 0;
+    private long readNumber() {
+        long result = 0;
         do {
             result = NUMERIC_SYSTEM_BASE * result + (character - '0');
             readNextCharacter();

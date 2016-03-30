@@ -19,6 +19,16 @@ import nl.uva.sea.ql.ast.question.Question;
 public abstract class FormattedTextFieldComponent extends JPanel
         implements ConcreteQuestionComponent{
     
+    /**
+     * TODO document
+     */
+    public static final String FORMAT_DESCRIPTION_START = " (";
+    
+    /**
+     * TODO document
+     */
+    public static final String FORMAT_DESCRIPTION_END = ")";
+    
     @Delegate(types=QuestionComponent.class)
     private final BasicQuestionComponent basicQuestion;
     
@@ -41,14 +51,18 @@ public abstract class FormattedTextFieldComponent extends JPanel
      *                      or <code>null</code> when these are unknown
      * @param format    TODO document
      * @param numberOfColumns   TODO document
+     * @param formatDescription TODO document
      */
     public FormattedTextFieldComponent(Expr conditionForDisplay,
             Question theQuestion, AnswerTable theAnswerTable, Format format,
-            int numberOfColumns) {
+            int numberOfColumns, String formatDescription) {
         assert conditionForDisplay != null;
         assert theQuestion != null;
         assert theAnswerTable != null;
-        label = new JLabel(theQuestion.obtainLabelString());
+        String labelString = theQuestion.obtainLabelString()
+                + FORMAT_DESCRIPTION_START + formatDescription
+                + FORMAT_DESCRIPTION_END;
+        label = new JLabel(labelString);
         textField = new JFormattedTextField(format);
         textField.setColumns(numberOfColumns);
         add(label);

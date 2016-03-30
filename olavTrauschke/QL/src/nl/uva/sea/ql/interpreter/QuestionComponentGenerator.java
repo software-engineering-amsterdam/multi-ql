@@ -13,7 +13,7 @@ import nl.uva.sea.ql.interpreter.questionComponent.*;
  * with these conditions for each <code>Question</code> they <code>visit</code>.
  * 
  * @author Olav Trauschke
- * @version 28-mar-2016
+ * @version 30-mar-2016
  */
 public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     
@@ -64,6 +64,17 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     public DateQuestionComponent createQuestionComponent(DateQuestion question) {
         Expr condition = createConjunctionOfConditions();
         return new DateQuestionComponent(condition, question, answerTable);
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param question
+     * @return 
+     */
+    public IntQuestionComponent createQuestionComponent(IntQuestion question) {
+        Expr condition = createConjunctionOfConditions();
+        return new IntQuestionComponent(condition, question, answerTable);
     }
     
     /**
