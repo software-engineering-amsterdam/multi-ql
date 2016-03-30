@@ -2,6 +2,7 @@ package ql.ast.visitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import ql.ast.literal.Variable;
@@ -98,8 +99,12 @@ public class Context {
 		return nameToValue;
 	}
 
-	public List<Issue> getIssues() {
-		return issues;
+	public Iterator<Issue> getIssueIterator() {
+		return issues.iterator();
+	}
+	
+	public int numberOfIssues(){
+		return issues.size();
 	}
 	
 	public boolean onlyWarnings(){

@@ -4,10 +4,10 @@ import ql.ast.form.Form;
 import ql.ast.visitor.Context;
 import ql.ast.visitor.Evaluator;
 
-public class FormEvaluation {
+public class FormEvaluator {
 	private Context context;
 
-	public FormEvaluation(Context context) {
+	public FormEvaluator(Context context) {
 		this.context = context;
 	}
 
@@ -16,16 +16,8 @@ public class FormEvaluation {
 		Evaluator eval = new Evaluator(context);
 		eval.visit(form);
 	}
-
-	// Only for debugging
-	public void printData() {
-		System.out.println("Identifier - value");
-		context.getIdentifierToValueMap().forEach((identifier, value) -> System.out.println(identifier + ' ' + value));
-		System.out.println();
-	}
-
+	
 	public Context getContext() {
 		return context;
 	}
-
 }
