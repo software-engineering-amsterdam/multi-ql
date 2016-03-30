@@ -2,13 +2,13 @@ module GUIElement where
 
 import Graphics.UI.WX
 import Ast
-import Identifier
 import Value
 
 data ElemInfo = ElemInfo { identifier   :: String
                          , label        :: String
                          , valueType    :: FieldType
                          , readOnly     :: Bool
+                         , conditions :: [Expr]
                          }
 
 data GUIElement = Text ElemInfo  (StaticText ()) (TextCtrl () )
@@ -19,8 +19,8 @@ data UserInputError = UserInputError FieldType
 instance Show UserInputError 
   where show (UserInputError x) = "Invalid value. Expected " ++ show x
 
-createElemInfo :: FieldInfo -> Bool -> ElemInfo
-createElemInfo fieldInfo  = ElemInfo (Ast.id fieldInfo) (Ast.label fieldInfo) (Ast.fieldType fieldInfo)
+createElemInfo :: FieldInfo -> Bool -> [Expr] -> ElemInfo
+createElemInfo fieldInfo = ElemInfo (Ast.id fieldInfo) (Ast.label fieldInfo) (Ast.fieldType fieldInfo)
 
 addToLayout :: Frame a -> [GUIElement] -> IO ()
 addToLayout f ls = do
@@ -34,9 +34,9 @@ defaultFont = fontFixed
 
 setReadOnly :: Bool -> GUIElement -> IO GUIElement
 setReadOnly b (Text info sText control)  = return (Text newInfo sText control)
-  where newInfo = ElemInfo (identifier info) (GUIElement.label info) (valueType info) b
+  where newInfo = ElemInfo (identifier info) (GUIElement.label info) (valueType info) b (conditions info)
 setReadOnly b (Checkbox info sText control)  = return (Checkbox newInfo sText control)
-    where newInfo = ElemInfo (identifier info) (GUIElement.label info) (valueType info) b
+    where newInfo = ElemInfo (identifier info) (GUIElement.label info) (valueType info) b (conditions info)
 
 getElementValue :: GUIElement -> IO (Either UserInputError Value)
 getElementValue (Text info _ control) = do

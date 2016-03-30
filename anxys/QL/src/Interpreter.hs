@@ -1,4 +1,4 @@
-module Interpreter (exec)
+module Interpreter (exec, evalExpr)
        where
 
 import           Ast                 as A
@@ -9,6 +9,7 @@ import           Prelude             hiding (EQ, GT, lookup)
 import           Value
 import           Identifier
 import           Data.Decimal
+import           Money
 
 type InterpreterError = String
 
@@ -49,8 +50,13 @@ eval (UnOp Not rhs) = do
   right <- eval rhs
   return (neg right)
 
-toDecimal :: Integer -> Decimal
-toDecimal = Decimal 0 
+evalExpr :: Environment Value -> Expr ->  Value
+evalExpr env expr = case runInterp (eval expr) env of
+                      Left msg -> Undefined
+                      Right (val, env) -> val 
+
+integerToMoney :: Integer -> Decimal
+integerToMoney = Decimal 0 
 
 evalBinOp :: BinOp -> Value -> Value -> Interpreter Value
 -- Undefined
@@ -65,16 +71,16 @@ evalBinOp Mul (IntValue x) (IntValue y) = return (IntValue $ x * y)
 evalBinOp GT (IntValue x) (IntValue y) =  return (BoolValue $ x > y)
 evalBinOp GTE (IntValue x) (IntValue y) =  return (BoolValue $ x >= y)
 --Money + Ints
-evalBinOp Add (IntValue x) (MoneyValue y) = return (MoneyValue $ toDecimal x + y)
-evalBinOp Add (MoneyValue x) (IntValue y) = return (MoneyValue $ x + toDecimal y)
-evalBinOp Sub (IntValue x) (MoneyValue y) = return (MoneyValue $ toDecimal x - y)
-evalBinOp Sub (MoneyValue x) (IntValue y) = return (MoneyValue $ x - toDecimal y)
-evalBinOp Mul (IntValue x) (MoneyValue y) = return (MoneyValue $ toDecimal x * y)
-evalBinOp Mul (MoneyValue x) (IntValue y) = return (MoneyValue $ x * toDecimal y)
-evalBinOp GT (IntValue x) (MoneyValue y) = return (BoolValue $ toDecimal x > y)
-evalBinOp GT (MoneyValue x) (IntValue y) = return (BoolValue $ x > toDecimal y)
-evalBinOp GTE (IntValue x) (MoneyValue y) = return (BoolValue $ toDecimal x >= y)
-evalBinOp GTE (MoneyValue x) (IntValue y) = return (BoolValue $ x >= toDecimal y)
+evalBinOp Add (IntValue x) (MoneyValue y) = return (MoneyValue $ integerToMoney x + y)
+evalBinOp Add (MoneyValue x) (IntValue y) = return (MoneyValue $ x + integerToMoney y)
+evalBinOp Sub (IntValue x) (MoneyValue y) = return (MoneyValue $ integerToMoney x - y)
+evalBinOp Sub (MoneyValue x) (IntValue y) = return (MoneyValue $ x - integerToMoney y)
+evalBinOp Mul (IntValue x) (MoneyValue y) = return (MoneyValue $ integerToMoney x * y)
+evalBinOp Mul (MoneyValue x) (IntValue y) = return (MoneyValue $ x * integerToMoney y)
+evalBinOp GT (IntValue x) (MoneyValue y) = return (BoolValue $ integerToMoney x > y)
+evalBinOp GT (MoneyValue x) (IntValue y) = return (BoolValue $ x > integerToMoney y)
+evalBinOp GTE (IntValue x) (MoneyValue y) = return (BoolValue $ integerToMoney x >= y)
+evalBinOp GTE (MoneyValue x) (IntValue y) = return (BoolValue $ x >= integerToMoney y)
 --Money
 evalBinOp Add (MoneyValue x) (MoneyValue y) = return (MoneyValue $ x + y)
 evalBinOp Sub (MoneyValue x) (MoneyValue y) = return (MoneyValue $ x - y)

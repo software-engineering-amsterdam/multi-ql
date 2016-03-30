@@ -2,16 +2,10 @@ module Main where
 
 import Graphics.UI.WX
 import GUIContext
-import Value
-import Identifier
 import GUIElement
 import Ast as A
-import Data.Maybe
-import Interpreter
 import QL
 import System.Environment
-import System.IO
-import System.Exit
 import Control.Monad as C
 import GUIError
 
@@ -26,20 +20,16 @@ gui warnings astForm = do
 
 -- For some reason wx tries to consumes the args supplied at the command line so we have to clear them first
 loadUI :: IO a -> IO ()
-loadUI = (withArgs []). start
+loadUI = withArgs []. start
 
 main :: IO ()
 main = do
   arg <- getArgs
-  C.when (length arg /= 1) $ do
-    loadUI (showFatalErrorDialog argumentErrorTitle argumentErrorMsg)
-  result <- parseFile (getFileName arg) 
+  C.when (length arg /= 1) $ loadUI (showFatalErrorDialog argumentErrorTitle argumentErrorMsg)
+  result <- parseFile (getFileName arg)
   case result of
-    Left e -> do
-      loadUI (showFatalErrorDialog loadingErrorTitle (show e))
-      exitFailure
-    Right (x,y) -> do
-      loadUI $ gui x y 
+    Left e -> loadUI (showFatalErrorDialog loadingErrorTitle (show e))
+    Right (x,y) -> loadUI $ gui x y
   return ()
     where getFileName = head
 

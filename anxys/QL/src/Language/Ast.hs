@@ -6,17 +6,11 @@
 module Ast where
 import Identifier
 import Data.Generics.Uniplate.Data
-import Data.Maybe
-import Data.Decimal
+import Money
 import Data.Typeable
 import Data.Data
 
-type Money = Decimal
-
 type Block = [Stmnt]
-
-deriving instance Data Money 
-deriving instance Typeable Money
 
 data Lit
   = ILit Integer
@@ -86,3 +80,14 @@ data Form =
 fields :: Form -> [Field]
 fields (Form _ block) = concatMap fields' block
   where fields' x = [y | Field y <- universe x]
+
+fieldConditionalDependencies :: Form -> [(Field, [Expr])]
+fieldConditionalDependencies (Form _ stmnts) =
+  getFieldStmnts stmnts []
+  where
+    getFieldStmnts stmnts deps =
+      concatMap ( flip getFieldStmnts' deps) stmnts
+    getFieldStmnts' (If expr ifblock) deps =
+      getFieldStmnts ifblock (expr:deps)
+    getFieldStmnts' (Field field) deps =
+      [(field, deps)]

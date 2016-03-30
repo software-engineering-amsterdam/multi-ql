@@ -17,8 +17,10 @@ library
   hs-source-dirs:      src
                        src/Language
                        src/Language/SemanticAnalysis
+                       src/Language/SemanticAnalysis/SemanticError
                        src/Language/Annotated
                        src/Language/Annotated/Location
+                       src/Values
   exposed-modules:     AnnotatedAst
                        Simplify
                        Ast
@@ -30,7 +32,10 @@ library
                        QL
                        Identifier
                        Interpreter
---  other-modules:       Identifier
+                       SemanticError
+  other-modules:       ValueTypes
+                     , Money
+                     , ParseValue
   build-depends:       base >= 4.7 && < 5
                      , parsec
                      , syb
@@ -52,6 +57,7 @@ executable ql-exe
                      , parsec
                      , wx
                      , wxcore
+                     , mtl
   default-language:    Haskell2010
 
 test-suite ql-test
