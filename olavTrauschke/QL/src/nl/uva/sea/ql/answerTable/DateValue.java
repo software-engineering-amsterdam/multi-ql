@@ -7,10 +7,13 @@ import java.util.Objects;
  * TODO document
  * 
  * @author Olav Trauschke
- * @version 29-mar-2016
+ * @version 30-mar-2016
  */
 public class DateValue extends Value {
     
+    /**
+     * TODO document
+     */
     public static final int HASH_ORIGIN = 497;
     
     private final Date value;
@@ -21,7 +24,7 @@ public class DateValue extends Value {
      * @param theValue 
      */
     public DateValue(Date theValue) {
-        value = theValue;
+        value = (Date) theValue.clone();
     }
     
     /**
@@ -30,7 +33,7 @@ public class DateValue extends Value {
      * @return 
      */
     public Date getValue() {
-        return value;
+        return (Date) value.clone();
     }
     
     /**

@@ -7,7 +7,7 @@ package nl.uva.sea.ql.answerTable;
  * decimal) value.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 30-mar-2016
  */
 public abstract class NumericValue extends Value {
     
@@ -25,6 +25,7 @@ public abstract class NumericValue extends Value {
             return new UnknownNumericValue();
         }
         else {
+            assert toCast instanceof NumericValue;
             return (NumericValue) toCast;
         }
     }

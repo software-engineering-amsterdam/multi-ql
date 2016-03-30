@@ -5,6 +5,7 @@ import java.util.EventObject;
 /**
  * Objects of this class represent changes to
  * {@link nl.uva.sea.ql.interpreter.questionComponent.BasicQuestionComponent BasicQuestionComponent}s.
+ * N.b. objects of this class are not {@link java.io.Serializable Serializable}.
  * 
  * @author Olav Trauschke
  * @version 26-mar-2016

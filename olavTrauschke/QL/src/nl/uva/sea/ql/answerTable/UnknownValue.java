@@ -7,7 +7,7 @@ package nl.uva.sea.ql.answerTable;
  * are unknown.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 30-mar-2016
  */
 public class UnknownValue extends Value {
     
@@ -39,7 +39,7 @@ public class UnknownValue extends Value {
      */
     @Override
     public boolean equals(Object o) {
-        return getClass() == o.getClass();
+        return o == null ? false : getClass() == o.getClass();
     }
     
     /**

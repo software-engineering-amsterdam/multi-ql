@@ -30,6 +30,8 @@ public class DecimalValue extends NumericValue {
     
     /**
      * TODO document
+     * 
+     * @return 
      */
     public Double getValue() {
         return value;
