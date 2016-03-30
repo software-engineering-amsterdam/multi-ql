@@ -11,7 +11,7 @@ module Parsing (
     ) where
 
 import           AnnotatedAst                           as A
-import           Data.Decimal
+import           Money
 import           Location
 import           Text.Parsec.Prim                       as S
 import           Text.ParserCombinators.Parsec          as P
@@ -233,8 +233,8 @@ stmnt = conditional <|> field <?> "statement"
 conditional :: Parser (Statement Location)
 conditional = P.try ifElseStmnt <|> ifStmnt <?> "conditional"
 
-if_ :: Parser (Expression Location, Block Location)
-if_ = do
+if' :: Parser (Expression Location, Block Location)
+if' = do
   reserved "if"
   cond <- parens expr
   body <- block
@@ -243,14 +243,14 @@ if_ = do
 ifStmnt :: Parser (Statement Location)
 ifStmnt = do
   s <- getPosition
-  (cond, body) <- if_
+  (cond, body) <- if'
   e <- getPosition
   return (If (newLoc s e) cond body) <?> "if statement"
 
 ifElseStmnt :: Parser (Statement Location)
 ifElseStmnt = do
   s <- getPosition
-  (cond, firstBody) <- if_
+  (cond, firstBody) <- if'
   reserved "else"
   secondBody <- block
   e <- getPosition
