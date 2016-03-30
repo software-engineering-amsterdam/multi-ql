@@ -10,17 +10,17 @@ import uva.ql.gui.EnableDisablePanel;
 
 public class SinglePanelObserver extends EnableDisablePanel implements Observer {
 
-	private final JPanel panel;
-	private final Expression<Boolean> exp;
+	protected final JPanel panelLhs;
+	protected final Expression<Boolean> exp;
 	
-	public SinglePanelObserver(JPanel panel, Expression<Boolean> exp) {
-        this.panel = panel;
+	public SinglePanelObserver(JPanel panelLhs, Expression<Boolean> exp) {
+        this.panelLhs = panelLhs;
         this.exp = exp;
-        this.enablePanel(panel, this.exp.eval());
+        this.enablePanel(panelLhs, this.exp.eval());
     }
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.enablePanel(panel, this.exp.eval());
+		this.enablePanel(panelLhs, this.exp.eval());
 	}
 }

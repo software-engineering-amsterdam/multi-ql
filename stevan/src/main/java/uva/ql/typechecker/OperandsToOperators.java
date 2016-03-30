@@ -1,10 +1,12 @@
 package uva.ql.typechecker;
 
 import uva.ql.ast.Block;
+import uva.ql.ast.EnumType;
 import uva.ql.ast.Form;
 import uva.ql.ast.conditionals.CondIfElseStatement;
 import uva.ql.ast.conditionals.CondIfStatement;
 import uva.ql.ast.expressions.abstracts.ArithmeticOperatorBinary;
+import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.variables.Variable;
 import uva.ql.typechecker.abstracts.AbstractTypeChecker;
@@ -34,9 +36,13 @@ public class OperandsToOperators extends AbstractTypeChecker implements IArithme
 
 	@Override
 	public void visitQuestionComputed(QuestionComputed questionComputed) {
-		questionComputed.getExp().accept(this);
 		Variable var = questionComputed.getVariable();
-		errorMessages.add(new ErrorOperand(var.getName(), var.getLine(), var.getColumn()));
+		Expression exp = questionComputed.getExp();
+		exp.accept(this);
+		
+		if (!var.getType().equals(exp.getEnumTypeEvaluation())) {
+			errorMessages.add(new ErrorOperand(var.getName(), var.getLine(), var.getColumn()));
+		}
 	}
 
 	@Override
@@ -54,6 +60,9 @@ public class OperandsToOperators extends AbstractTypeChecker implements IArithme
 	public void visitArithmeticOperator(ArithmeticOperatorBinary exp) {
 		exp.getLhs().accept(this);
 		exp.getRhs().accept(this);
-		errorMessages.add(new ErrorOperand(exp.getType().toString(), exp.getLine(), exp.getColumn()));
+
+		if (exp.isInValid()) {
+			errorMessages.add(new ErrorOperand(exp.getType().toString(), exp.getLine(), exp.getColumn()));
+		}
 	}
 }

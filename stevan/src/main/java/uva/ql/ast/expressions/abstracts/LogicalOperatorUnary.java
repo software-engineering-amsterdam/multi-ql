@@ -2,6 +2,7 @@ package uva.ql.ast.expressions.abstracts;
 
 import javax.swing.JPanel;
 
+import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
 import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
@@ -24,6 +25,33 @@ public abstract class LogicalOperatorUnary extends Expression<Boolean> {
 	public Expression<Boolean> getLhs() {
 		
 		return this.lhs;
+	}
+	
+	@Override
+	public EnumType getEnumTypeEvaluation() {
+		EnumType tlhs = this.getLhs().evalType();
+		
+		return tlhs;
+	}
+	
+	@Override
+	public boolean isValid() {
+		boolean valid = false;
+		EnumType tlhs = this.getLhs().getType();
+		
+		if (tlhs.equals(EnumType.BOOLEAN)) {
+			valid = true;
+		}
+		else {
+			valid = false;
+		}
+
+		return valid;
+	}
+
+	@Override
+	public boolean isInValid() {
+		return !this.isValid();
 	}
 
 	@Override

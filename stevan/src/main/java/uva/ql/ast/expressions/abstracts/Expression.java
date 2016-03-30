@@ -14,6 +14,8 @@ public abstract class Expression<T> extends Node implements Observer {
 	}
 	
 	abstract public EnumType evalType();
+	
+	abstract public EnumType getEnumTypeEvaluation();
 
 	abstract public EnumType getType();
 	
@@ -29,4 +31,9 @@ public abstract class Expression<T> extends Node implements Observer {
 		this.setChanged();
 		this.notifyObservers(arg);
 	}
+
+	abstract public boolean isValid();
+	abstract public boolean isInValid();
+
+	
 }

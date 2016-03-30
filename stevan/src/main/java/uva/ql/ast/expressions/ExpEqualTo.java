@@ -7,11 +7,11 @@ import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.interfaces.EqualsEval;
 import uva.ql.ast.types.expression.EqualTo;
 
-public class ExpEqualTo extends RelationalOperatorBinary implements EqualsEval<Boolean> {
+public class ExpEqualTo<T> extends RelationalOperatorBinary<T> implements EqualsEval<Boolean> {
 
 	private EqualTo type = new EqualTo();
 	
-	public ExpEqualTo(Node parent, Expression<Integer> lhs, Expression<Integer> rhs, int startLine, int startColumn) {
+	public ExpEqualTo(Node parent, Expression<T> lhs, Expression<T> rhs, int startLine, int startColumn) {
 		super(parent, startLine, startColumn, lhs, rhs);
 	}
 	

@@ -2,6 +2,7 @@ package uva.ql.ast.variables;
 
 import java.util.Observable;
 
+import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
 import uva.ql.ast.expressions.abstracts.Expression;
 
@@ -16,6 +17,21 @@ public abstract class Variable<T> extends Expression<T> {
 	
 	public abstract T getValue();
 	public abstract void setValue(T value);
+	
+	@Override
+	public EnumType getEnumTypeEvaluation() {
+		return null;
+	}
+	
+	@Override
+	public boolean isValid() {
+		return true;
+	}
+	
+	@Override
+	public boolean isInValid() {
+		return !this.isValid();
+	}
 	
 	public String getName() {
 		return this.name;
@@ -35,4 +51,6 @@ public abstract class Variable<T> extends Expression<T> {
 	
 	@Override
 	public void update(Observable o, Object arg) {}
+	
+	
 }

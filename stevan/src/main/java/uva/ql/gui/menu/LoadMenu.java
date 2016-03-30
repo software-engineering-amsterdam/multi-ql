@@ -1,4 +1,4 @@
-package uva.ql.gui;
+package uva.ql.gui.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,8 +8,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import uva.ql.QL;
-import uva.ql.ast.Form;
-import uva.ql.visitors.VisitorASTToGUI;
+import uva.ql.gui.GUI;
 
 public class LoadMenu implements ActionListener {
 
@@ -30,21 +29,14 @@ public class LoadMenu implements ActionListener {
 		if ( returnVal == JFileChooser.APPROVE_OPTION ) {
 			File file = fc.getSelectedFile();
 			QL ql = new QL(file.toPath().toString(), false);
-			Form form = null;
 						
 			try {
-				form = (Form) ql.start();
+				gui.disposeFrame();
+				ql.start();
 			} 
 			catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("An inexplicable error occured... " + e.getMessage());
 			}
-			
-			VisitorASTToGUI astToGUI = new VisitorASTToGUI(this.frame);
-			gui.resetFrame();
-			astToGUI.visitForm(form, gui.getPanel());
-		} 
-		else {
-			//System.out.println("Cancelled");
 		}
 	}
 }

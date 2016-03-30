@@ -29,11 +29,35 @@ public abstract class LogicalOperatorBinary extends Expression<Boolean> {
 		return this.rhs;
 	}
 	
-	protected EnumType getEnumTypeEvaluation() {
+	@Override
+	public EnumType getEnumTypeEvaluation() {
 		EnumType tlhs = this.getLhs().evalType();
 		EnumType trhs = this.getRhs().evalType();
 		
 		return (tlhs.equals(trhs))? tlhs : trhs;
+	}
+	
+	@Override
+	public boolean isValid() {
+		boolean valid = false;
+		EnumType tlhs = this.getLhs().getType();
+		EnumType trhs = this.getRhs().getType();
+		
+		if (tlhs.equals(trhs)) {
+			if (tlhs.equals(EnumType.BOOLEAN)) {
+				valid = true;
+			}
+			else {
+				valid = false;
+			}
+		}
+		
+		return valid;
+	}
+
+	@Override
+	public boolean isInValid() {
+		return !this.isValid();
 	}
 
 	@Override
