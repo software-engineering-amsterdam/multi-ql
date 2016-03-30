@@ -1,14 +1,14 @@
-{-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE FlexibleInstances #-}
 
-module Ast where
-import Identifier
-import Data.Generics.Uniplate.Data
-import Money
-import Data.Typeable
-import Data.Data
+module QL.Language.Syntax.Ast where
+
+import           Data.Data
+import           Data.Generics.Uniplate.Data
+import           Data.Typeable
+import           QL.Identifier
+import           QL.Money
 
 type Block = [Stmnt]
 
@@ -66,8 +66,8 @@ data Field
   deriving (Eq,Show,Typeable,Data)
 
 data FieldInfo =
-  FieldInfo { label :: String
-            , id :: Identifier
+  FieldInfo { label     :: String
+            , id        :: Identifier
             , fieldType :: FieldType
             }
   deriving (Eq,Show,Typeable,Data)
@@ -86,7 +86,7 @@ fieldConditionalDependencies (Form _ stmnts) =
   getFieldStmnts stmnts []
   where
     getFieldStmnts stmnts deps =
-      concatMap ( flip getFieldStmnts' deps) stmnts
+      concatMap (`getFieldStmnts'` deps) stmnts
     getFieldStmnts' (If expr ifblock) deps =
       getFieldStmnts ifblock (expr:deps)
     getFieldStmnts' (Field field) deps =

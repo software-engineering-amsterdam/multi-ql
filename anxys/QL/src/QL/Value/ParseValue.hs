@@ -1,7 +1,7 @@
-module ParseValue where
+module QL.Value.ParseValue where
 
-import ValueTypes
-import           Money 
+import           QL.Money
+import           QL.Value.ValueTypes
 import           Text.ParserCombinators.Parsec          as P
 import           Text.ParserCombinators.Parsec.Language
 import qualified Text.ParserCombinators.Parsec.Token    as Token
@@ -18,22 +18,22 @@ moneyValue = do
 
 stringValue :: Parser Value
 stringValue = do
-  val <- ParseValue.string
+  val <- QL.Value.ParseValue.string
   return (StringValue val) <?> "string val"
 
 value :: Parser Value
 value = P.try moneyValue <|> intValue  <?> "value"
 
-parse' :: Parser Value -> String -> Value 
+parse' :: Parser Value -> String -> Value
 parse' p input = case P.parse p "user input" input of
   Right val -> val
   Left  _ -> Undefined
 
 parseValue :: String -> Value
-parseValue = parse' value  
+parseValue = parse' value
 
 parseStringValue :: String -> Value
-parseStringValue = parse' stringValue 
+parseStringValue = parse' stringValue
 
 languageDef :: LanguageDef st
 languageDef = emptyDef
@@ -50,7 +50,7 @@ float = Token.float lexer
 string :: Parser String
 string = many anyChar <?> "string"
 
-dec :: Parser Money 
+dec :: Parser Money
 dec = do
   val <- float
   return (realFracToDecimal (decimalMantissa 2) val) <?> "decimal"

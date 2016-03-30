@@ -1,16 +1,16 @@
-{-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE FlexibleInstances #-}
-module AnnotatedAst where
 
-import Data.Decimal
-import Data.Generics.Uniplate.Data
-import Prelude hiding (id)
-import Data.Typeable
-import Data.Data
-import Money
-import Identifier
+module QL.Language.Syntax.Annotated.AnnotatedAst where
+
+import           Data.Data
+import           Data.Decimal
+import           Data.Generics.Uniplate.Data
+import           Data.Typeable
+import           Prelude                     hiding (id)
+import           QL.Identifier
+import           QL.Money
 
 type Block a = [Statement a]
 
@@ -61,8 +61,8 @@ data Field a = SimpleField a (FieldInformation a)
 
 data FieldInformation a =
        FieldInformation
-         { label :: String
-         , id :: Identifier
+         { label     :: String
+         , id        :: Identifier
          , fieldType :: FieldType a
          }
   deriving (Eq, Show, Typeable, Data)

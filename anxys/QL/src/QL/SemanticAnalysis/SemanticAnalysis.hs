@@ -1,20 +1,20 @@
-module SemanticAnalysis (module SemanticAnalysis, module SemanticError) where
+module QL.SemanticAnalysis.SemanticAnalysis (module QL.SemanticAnalysis.SemanticAnalysis, module QL.SemanticAnalysis.SemanticError) where
 
-import           AnnotatedAst as A
-import           Ast as S (FieldType(Integer, Money, String, Boolean))
-import qualified Data.List as L
-import           Location (Location)
-import           Identifier
-import           SemanticError
+import qualified Data.List                                 as L
+import           QL.Identifier
+import           QL.Language.Syntax.Annotated.AnnotatedAst as A
+import           QL.Language.Syntax.Ast                    as S (FieldType (Integer, Money, String, Boolean))
+import           QL.Location                               (Location)
+import           QL.SemanticAnalysis.SemanticError
 
 
 type TypeMap = (Identifier, S.FieldType)
 
 data SemanticResult =
        SemanticResult
-         { typeErrors :: [TypeError]
-         , cycleErrors :: [DependencyError]
-         , duplicationErrors :: [DuplicationIssue]
+         { typeErrors          :: [TypeError]
+         , cycleErrors         :: [DependencyError]
+         , duplicationErrors   :: [DuplicationIssue]
          , duplicationWarnings :: [DuplicationIssue]
          }
   deriving (Eq, Show)
@@ -27,7 +27,7 @@ toSemanticError x = map DuplicationIssue (duplicationErrors x)
      ++ map DependencyError (cycleErrors x)
         ++ map TypeError (typeErrors x)
 
-semanticCheck :: Form Location -> SemanticResult 
+semanticCheck :: Form Location -> SemanticResult
 semanticCheck = analyze
 
 analyze :: Form Location -> SemanticResult
@@ -42,7 +42,7 @@ analyze x = uncurry (SemanticResult tErrors depErrors) dIssues
     dIssues = L.partition (not.isWarning) dErrors
     isWarning issue = case issue of
         DuplicateIdentifier{} -> True
-        RedeclarationError{} -> False 
+        RedeclarationError{} -> False
 
 checkForDuplicateFields :: [Field Location] -> [DuplicationIssue]
 checkForDuplicateFields xs = map issue groups
@@ -93,7 +93,7 @@ checkForPostDependencyErrors form = L.nub $ concatMap (\x -> map (PostDependency
         calcFields = collectCalculatedFields form
         fields = collectFields form
         getDeclarationLocations y = (y, getLocations y)
-        getLocations x = map extractLocationFromField (filter ((x ==).getIdentifier) fields) 
+        getLocations x = map extractLocationFromField (filter ((x ==).getIdentifier) fields)
         identifiers = map getIdentifier fields
         dependencies x = map snd (dependencyRelation (toIdentifierExpr x))
         postDeclarations x = filter (isPostDeclaration (getIdentifier x)) (dependencies x)
@@ -113,13 +113,13 @@ toIdentifierExpr (CalculatedField _ info expr) = (A.id info, expr)
 toIdentifierExpr (SimpleField _ _) = error "Attempted to get values for SimpleFields"
 
 getIdentifierRelation :: [Field Location] -> [(Identifier, Identifier)]
-getIdentifierRelation  = foldr ((++) . dependencyRelation .toIdentifierExpr) []  
+getIdentifierRelation  = foldr ((++) . dependencyRelation .toIdentifierExpr) []
 
 checkForTypeErrors :: Form Location -> [TypeError]
 checkForTypeErrors form@(Form _ _ ss) =
   typeCheckStatement ss
   where
-    types = collectFormTypeMap form 
+    types = collectFormTypeMap form
     typeCheckStatement =
       concatMap typeCheckStatement'
     typeCheckStatement' (If loc expr ifblock) =
@@ -165,7 +165,7 @@ getType types (Variable loc name) =
       Right a
 getType types (UnaryOperation _ _ rhs) = getType types rhs
 getType types expr@(BinaryOperation _ _ lhs rhs) =
-  getBinType expr rType lType 
+  getBinType expr rType lType
   where
     rType =
       getType types rhs
@@ -181,7 +181,7 @@ getBinType _ _ (Left rhs) =
   Left rhs
 getBinType (BinaryOperation loc op _ _) (Right lhs) (Right rhs) =
   if isValidBinOp op lhs rhs
-    then Right rhs 
+    then Right rhs
     else Left [TypeMismatch lhs rhs loc]
 getBinType _ (Right _) (Right _) = error "Called with something that isn't a binary expression"
 

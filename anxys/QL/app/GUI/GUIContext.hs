@@ -1,17 +1,17 @@
 module GUIContext where
 
-import Graphics.UI.WX
-import Value
-import Identifier
-import GUIElement
-import GUIError
-import Ast as A
-import Data.Maybe
-import Interpreter
-import qualified Environment as E
-import Control.Monad
-import Control.Monad.Reader
-import Prelude hiding (elem)
+import           Control.Monad
+import           Control.Monad.Reader
+import           Data.Maybe
+import           Graphics.UI.WX
+import           GUIElement
+import           GUIError
+import           Prelude                hiding (elem)
+import qualified QL.Environment         as E
+import           QL.Identifier
+import           QL.Interpreter
+import           QL.Language.Syntax.Ast as A
+import           QL.Value.Value
 
 data GUIContext = GUIContext {appFrame    :: Frame (),
                               form        :: A.Form,
@@ -39,8 +39,8 @@ createElem ctx (SimpField info) deps = createElem' ctx info True deps
 createElem ctx (CalcField info _) deps = createElem' ctx info False deps
 
 setValueFromEnv :: E.Environment Value -> GUIElement -> IO ()
-setValueFromEnv env (Text info _ control) = Control.Monad.when (readOnly info) $  set control [text := toDisplay(getValue (info) env )]
-setValueFromEnv env (Checkbox info _ control) = Control.Monad.when (readOnly info) $ set control [checked := aux (getValue (info) env )]
+setValueFromEnv env (Text info _ control) = Control.Monad.when (readOnly info) $  set control [text := toDisplay(getValue info env )]
+setValueFromEnv env (Checkbox info _ control) = Control.Monad.when (readOnly info) $ set control [checked := aux (getValue info env )]
     where aux (BoolValue x) = x
           aux _ = error "None boolean value supplied"
 
@@ -58,9 +58,9 @@ setFieldsVisibility context = do
   _ <- mapM_ (setVis env) (guiElements context)
   _ <- addToLayout (appFrame context) (guiElements context)
   return ()
-  where isVisible env (Text info _ _) = evalConditions env (conditions info) 
-        isVisible env (Checkbox info _ _) = evalConditions env ( conditions info) 
-        evalConditions env conds = andValues (map (evalExpr env) conds) 
+  where isVisible env (Text info _ _) = evalConditions env (conditions info)
+        isVisible env (Checkbox info _ _) = evalConditions env ( conditions info)
+        evalConditions env conds = andValues (map (evalExpr env) conds)
         setVis env e = setVisibility e (isVisible env e)
 
 computeCalculatedFieldValues :: GUIContext -> IO ()
@@ -71,7 +71,7 @@ computeCalculatedFieldValues context = do
 
 updateGUI :: GUIContext -> IO ()
 updateGUI context = do
-    computeCalculatedFieldValues context 
+    computeCalculatedFieldValues context
     setFieldsVisibility context
     return ()
 
@@ -81,7 +81,7 @@ test :: TestCtx String
 test = do
   ctx <- asks (varGet.environment)
  -- liftIO $ print.show  ctx
-  return ("fd")
+  return "fd"
 
 createElem':: GUIContext -> A.FieldInfo -> Bool -> [A.Expr] -> IO  GUIElement
 createElem' ctx info isNotReadOnly deps = case fieldType info of
@@ -95,7 +95,7 @@ createElem' ctx info isNotReadOnly deps = case fieldType info of
         configureReadOnly $ Checkbox eInfo qLabel control
      where getVal = do
                     env <- varGet (environment ctx)
-                    return (getValue (eInfo) env)
+                    return (getValue eInfo env)
            f = appFrame ctx
            eInfo = createElemInfo info isReadOnly deps
            standardControl = do
@@ -108,7 +108,7 @@ createElem' ctx info isNotReadOnly deps = case fieldType info of
 
 updateGUIContext :: GUIContext -> Identifier -> Value -> IO ()
 updateGUIContext ctx fieldIdentifier newValue = do
-   oldEnv <- varGet envRef 
+   oldEnv <- varGet envRef
    varSet envRef (getNewEnv astForm (E.declare oldEnv fieldIdentifier newValue))
    return ()
  where astForm = form ctx
@@ -116,37 +116,37 @@ updateGUIContext ctx fieldIdentifier newValue = do
 
 handleNewValue :: GUIContext -> Bool -> Identifier -> Value -> IO ()
 handleNewValue ctx isReadOnly fieldIdentifier newValue = do
-  unless isReadOnly $ updateGUIContext ctx fieldIdentifier newValue 
+  unless isReadOnly $ updateGUIContext ctx fieldIdentifier newValue
   updateGUI ctx
   return ()
 
 addHandler :: GUIContext -> GUIElement -> IO ()
 addHandler ctx elem@(Checkbox info _ cBox) = do
-    set cBox [ on command := 
+    set cBox [ on command :=
                     (
                      do
-                       result <- getElementValue elem 
+                       result <- getElementValue elem
                        case result of
                          Left e -> error (show e) -- This should not happen with checkboxes
-                         Right newValue -> handleNewValue ctx (readOnly info)  fieldIdentifier newValue 
+                         Right newValue -> handleNewValue ctx (readOnly info)  fieldIdentifier newValue
                     )
              ]
     return ()
     where fieldIdentifier = identifier info
 addHandler ctx elem@(Text info _ textField) = do
-  set textField [ on leave := 
+  set textField [ on leave :=
                  (
-                  \_ -> 
+                  \_ ->
                     do
                       env <- varGet (environment ctx)
-                      result <- getElementValue elem 
+                      result <- getElementValue elem
                       case result of
-                        Left err -> 
+                        Left err ->
                           unless (readOnly info) $ do
                             setValueFromEnv env elem
                             showUserInputErrorDialog (appFrame ctx) (show err)
                             return ()
-                        Right newValue -> handleNewValue ctx (readOnly info)  fieldIdentifier newValue 
+                        Right newValue -> handleNewValue ctx (readOnly info)  fieldIdentifier newValue
                   )
                  ]
   return ()

@@ -1,14 +1,13 @@
-module Interpreter (exec, evalExpr) where
+module QL.Interpreter (exec, evalExpr) where
 
-import           Ast as A
+import           QL.Language.Syntax.Ast as A
 import           Control.Applicative
 import           Control.Monad
-import           Environment
+import           QL.Environment
 import           Prelude hiding (EQ, GT, lookup)
-import           Value
-import           Identifier
-import           Data.Decimal
-import           Money
+import           QL.Value.Value
+import           QL.Identifier
+import           QL.Money
 
 type InterpreterError = String
 
@@ -57,7 +56,7 @@ evalExpr env expr =
     Left msg         -> Undefined
     Right (val, env) -> val
 
-integerToMoney :: Integer -> Decimal
+integerToMoney :: Integer -> Money
 integerToMoney = Decimal 0
 
 evalBinOp :: BinOp -> Value -> Value -> Interpreter Value

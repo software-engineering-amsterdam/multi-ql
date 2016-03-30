@@ -1,5 +1,5 @@
-module Parsing (
-    Parsing.parse,
+module QL.Language.Syntax.Annotated.Parsing (
+    QL.Language.Syntax.Annotated.Parsing.parse,
     form,
     expr,
     ifStmnt,
@@ -10,14 +10,14 @@ module Parsing (
     ParseError
     ) where
 
-import           AnnotatedAst                           as A
-import           Money
-import           Location
-import           Text.Parsec.Prim                       as S
-import           Text.ParserCombinators.Parsec          as P
+import           QL.Language.Syntax.Annotated.AnnotatedAst as A
+import           QL.Location
+import           QL.Money
+import           Text.Parsec.Prim                          as S
+import           Text.ParserCombinators.Parsec             as P
 import           Text.ParserCombinators.Parsec.Expr
 import           Text.ParserCombinators.Parsec.Language
-import qualified Text.ParserCombinators.Parsec.Token    as Token
+import qualified Text.ParserCombinators.Parsec.Token       as Token
 
 languageDef :: LanguageDef st
 languageDef =

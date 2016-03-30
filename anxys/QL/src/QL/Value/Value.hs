@@ -1,9 +1,9 @@
-module Value (module Value, module ValueTypes )
+module QL.Value.Value (module QL.Value.Value, module QL.Value.ValueTypes )
        where
 
-import           Ast
-import           ParseValue
-import           ValueTypes
+import           QL.Language.Syntax.Ast
+import           QL.Value.ParseValue
+import           QL.Value.ValueTypes
 
 haveSameValueType :: Value -> Value -> Bool
 haveSameValueType x y = toConstr x == toConstr y

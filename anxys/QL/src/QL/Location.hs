@@ -1,7 +1,8 @@
-{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE FlexibleInstances #-}
-module Location (
+
+module QL.Location (
     Location(Location),
     Position(Position),
     startLine,
@@ -10,8 +11,8 @@ module Location (
     endColumn,
     ) where
 
-import Data.Typeable
-import Data.Data
+import           Data.Data
+import           Data.Typeable
 
 data Position = Position { line :: Int, column :: Int }
   deriving (Eq, Typeable, Data)

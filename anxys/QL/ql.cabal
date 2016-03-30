@@ -15,28 +15,21 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-                       src/Language
-                       src/Language/SemanticAnalysis
-                       src/Language/SemanticAnalysis/SemanticError
-                       src/Language/Syntax
-                       src/Language/Syntax/Annotated
-                       src/Language/Location/
-                       src/Values
-  exposed-modules:     AnnotatedAst
-                       Simplify
-                       Ast
-                       SemanticAnalysis
-                       Parsing
-                       Location
-                       Environment
-                       Value
-                       QL
-                       Identifier
-                       Interpreter
-  other-modules:       ValueTypes
-                     , Money
-                     , ParseValue
-                     , SemanticError
+  exposed-modules:     QL.Language.Syntax.Annotated.AnnotatedAst
+                       QL.Language.Syntax.Simplify
+                       QL.Language.Syntax.Ast
+                       QL.SemanticAnalysis.SemanticAnalysis
+                       QL.Language.Syntax.Annotated.Parsing
+                       QL.Location
+                       QL.Environment
+                       QL.Value.Value
+                       QL.Language.Parser
+                       QL.Identifier
+                       QL.Interpreter
+  other-modules:       QL.Value.ValueTypes
+                     , QL.Money
+                     , QL.Value.ParseValue
+                     , QL.SemanticAnalysis.SemanticError
   build-depends:       base >= 4.7 && < 5
                      , parsec
                      , syb

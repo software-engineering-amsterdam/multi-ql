@@ -1,10 +1,10 @@
 {-# LANGUAGE DeriveDataTypeable #-}
-module ValueTypes (module ValueTypes, toConstr)
+module QL.Value.ValueTypes (module QL.Value.ValueTypes, toConstr)
   where
 
-import           Data.Typeable
 import           Data.Data
-import Money
+import           Data.Typeable
+import           QL.Money
 
 data Value = IntValue Integer
            | BoolValue Bool

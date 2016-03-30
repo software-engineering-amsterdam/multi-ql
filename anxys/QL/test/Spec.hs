@@ -1,12 +1,12 @@
-import           Parsing
-import Ast as A
-import qualified AnnotatedAst as AA
-import           Simplify
-import           Test.Hspec
-import           Text.ParserCombinators.Parsec as P
-import           SemanticAnalysis
 import           Data.Either
-import           Location
+import qualified QL.Language.Syntax.Annotated.AnnotatedAst as AA
+import           QL.Language.Syntax.Annotated.Parsing
+import           QL.Language.Syntax.Ast                    as A
+import           QL.Language.Syntax.Simplify
+import           QL.Location
+import           QL.SemanticAnalysis.SemanticAnalysis
+import           Test.Hspec
+import           Text.ParserCombinators.Parsec             as P
 
 testParseForm :: String -> String
 testParseForm input =  case P.parse form "ql" input of
@@ -26,7 +26,7 @@ getRight (Right x) = x
 getRight (Left _) = error "Function should have returned a Right value"
 
 canParse :: Either a b -> Bool
-canParse = isRight 
+canParse = isRight
 
 main :: IO ()
 main = hspec $
@@ -127,7 +127,7 @@ main = hspec $
 
     it "should not be able determine the type of this expression (Integer && Boolean)" $
      show  (getType [] (getRight $ testParser expr "1 and 1")) `shouldBe` "Left [TypeMismatch Integer Integer (location {(line: 1, column: 3) - (line: 1, column: 7)})]"
-     
+
     it "finds no type errors" $
      analyze (testParseSemanticCheck "form taxOfficeExample { \"Display Text One\" idTest1: money \"DisplayText2\" \t idTest2: integer}")  `shouldSatisfy` null.typeErrors
 

@@ -1,15 +1,15 @@
-module SemanticError
+module QL.SemanticAnalysis.SemanticError
   where
 
-import           AnnotatedAst as A
-import           Ast as S (FieldType(Integer, Money, String, Boolean))
-import           Location (Location)
-import           Identifier
+import           QL.Identifier
+import           QL.Language.Syntax.Annotated.AnnotatedAst as A
+import           QL.Language.Syntax.Ast                    as S (FieldType (Integer, Money, String, Boolean))
+import           QL.Location                               (Location)
 
 data SemanticError = DuplicationIssue DuplicationIssue
                    | TypeError TypeError
                    | DependencyError DependencyError
-  deriving (Eq) 
+  deriving (Eq)
 
 type LeftType = S.FieldType
 
@@ -50,7 +50,7 @@ showDuplicationIssue (RedeclarationError identifier _ duplicateLocations) = "The
 
 data TypeError = UndeclaredVariable Location
                | TypeMismatch LeftType RightType Location
-  deriving (Eq, Show) 
+  deriving (Eq, Show)
 
 showTypeError :: TypeError -> String
 showTypeError (UndeclaredVariable location) = "There is a reference to an undeclared variable at " ++ show location
@@ -58,7 +58,7 @@ showTypeError (TypeMismatch lhs rhs location) = "There is a type error at " ++ s
 
 data DependencyError = CyclicDependencyError Identifier Location
                      | PostDependencyError (Identifier, Location) (Identifier, [Location])
-  deriving (Eq, Show) 
+  deriving (Eq, Show)
 
 showDependencyError :: DependencyError -> String
 showDependencyError (CyclicDependencyError identifier location) = "There is a cyclic dependency for identifier: " ++ show identifier ++ " at " ++ show location ++ "."

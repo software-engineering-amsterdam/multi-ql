@@ -1,8 +1,8 @@
-module Environment (Environment,assocs, emptyEnv, declare, lookup, map, get) where
+module QL.Environment (Environment,assocs, emptyEnv, declare, lookup, map, get) where
 
 import Prelude hiding (id, lookup, map)
 import qualified Data.Map as M
-import Identifier
+import QL.Identifier
 
 newtype Environment a = Environment (M.Map Identifier a) deriving (Show, Eq)
 

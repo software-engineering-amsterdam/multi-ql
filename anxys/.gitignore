@@ -16,4 +16,4 @@ cabal.sandbox.config
 .stack-work/
 *.swp
 .projectile
-LICENSE
+tags

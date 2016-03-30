@@ -1,13 +1,13 @@
 module Main where
 
-import Graphics.UI.WX
-import GUIContext
-import GUIElement
-import Ast as A
-import QL
-import System.Environment
 import Control.Monad as C
+import Graphics.UI.WX
+import GUIElement
 import GUIError
+import GUIContext
+import QL.Language.Syntax.Ast as A
+import QL.Language.Parser
+import System.Environment
 
 gui :: Show a => [a] -> A.Form -> IO ()
 gui warnings astForm = do

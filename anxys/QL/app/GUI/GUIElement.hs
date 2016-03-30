@@ -1,13 +1,13 @@
 module GUIElement where
 
-import Graphics.UI.WX
-import Ast
-import Value
+import           Graphics.UI.WX
+import           QL.Language.Syntax.Ast as Ast
+import           QL.Value.Value
 
-data ElemInfo = ElemInfo { identifier   :: String
-                         , label        :: String
-                         , valueType    :: FieldType
-                         , readOnly     :: Bool
+data ElemInfo = ElemInfo { identifier :: String
+                         , label      :: String
+                         , valueType  :: FieldType
+                         , readOnly   :: Bool
                          , conditions :: [Expr]
                          }
 
@@ -16,7 +16,7 @@ data GUIElement = Text ElemInfo  (StaticText ()) (TextCtrl () )
 
 data UserInputError = UserInputError FieldType
 
-instance Show UserInputError 
+instance Show UserInputError
   where show (UserInputError x) = "Invalid value. Expected " ++ show x
 
 createElemInfo :: FieldInfo -> Bool -> [Expr] -> ElemInfo
@@ -45,14 +45,14 @@ getElementValue (Text info _ control) = do
     then return (Right (fromDisplay' val))
   else
    return (Left (UserInputError vType))
-     where fromDisplay' = fromDisplay (valueType info) 
+     where fromDisplay' = fromDisplay (valueType info)
            vType = valueType info
 getElementValue (Checkbox _ _ control) = do
   val <- get control checked
   return (Right (BoolValue val))
 
 validate :: FieldType -> Value -> Bool
-validate x = haveSameValueType (defaultVal x)  
+validate x = haveSameValueType (defaultVal x)
 
 setVisibility' :: (Visible a, Visible b) => a -> b -> Bool -> IO ()
 setVisibility' c1 c2 b = do
