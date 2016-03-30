@@ -9,7 +9,7 @@ haveSameValueType :: Value -> Value -> Bool
 haveSameValueType x y = toConstr x == toConstr y
 
 andValues :: [Value] -> Bool
-andValues vs = all (map toBoolValue vs)
+andValues vs = all toBoolValue vs
   where toBoolValue (BoolValue x) = x
         toBoolValue _ = False 
 
