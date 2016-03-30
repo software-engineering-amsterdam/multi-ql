@@ -14,7 +14,7 @@ import nl.uva.sea.ql.ast.question.BooleanQuestion;
  * <code>BooleanQuestion</code>s.
  * 
  * @author Olav Trauschke
- * @version 29-mar-2016
+ * @version 30-mar-2016
  */
 public class BooleanQuestionComponent extends JCheckBox
         implements ConcreteQuestionComponent{
@@ -66,9 +66,11 @@ public class BooleanQuestionComponent extends JCheckBox
     }
     
     /**
-     * TODO document
+     * Make <code>this BooleanQuestionComponent</code> display a specified
+     * <code>Value</code>.
      * 
-     * @param newValue 
+     * @param newValue a <code>Value this BooleanQuestionComponent</code> should
+     *                  display
      */
     @Override
     public void displayValue(Value newValue) {
@@ -80,9 +82,12 @@ public class BooleanQuestionComponent extends JCheckBox
     }
     
     /**
-     * TODO document
+     * Defined in {@link javax.swing.AbstractButton#setEnabled(boolean)
+     * AbstractButton} and overwritten only to declare final for use in constructor.
      * 
-     * @param b 
+     * @param b a <code>boolean</code> that is passed to
+     *          {@link javax.swing.AbstractButton#setEnabled(boolean)
+     *          AbstractButton.setEnabled(boolean)}
      */
     @Override
     public final void setEnabled(boolean b) {

@@ -11,7 +11,7 @@ import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
  * Representation of <code>Question</code>s that return dates in an AST.
  * 
  * @author Olav Trauschke
- * @version 29-mar-2016
+ * @version 30-mar-2016
  */
 public class DateQuestion extends Question {
     
@@ -58,10 +58,16 @@ public class DateQuestion extends Question {
     }
     
     /**
-     * TODO document
+     * Make a specified <code>QuestionComponentGenerator</code> create a
+     * <code>DateQuestionComponent</code> for <code>this DateQuestion</code>.
      * 
-     * @param generator
-     * @return 
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create a <code>DateQuestionComponent</code> for
+     *                  <code>this DateQuestion</code>
+     * @return a <code>DateQuestionComponent</code> representing
+     *          <code>this DateQuestion</code>, as created by a call to
+     *          {@link nl.uva.sea.ql.interpreter.QuestionComponentGenerator#createQuestionComponent(nl.uva.sea.ql.ast.question.DateQuestion)
+     *          generator.createQuestionComponent(DateQuestion)}
      */
     @Override
     public QuestionComponent createQuestionComponent(QuestionComponentGenerator generator) {

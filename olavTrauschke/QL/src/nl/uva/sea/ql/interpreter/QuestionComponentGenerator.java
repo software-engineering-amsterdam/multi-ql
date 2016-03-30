@@ -43,7 +43,7 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
      * 
      * @param question a <code>BooleanQuestion</code> to create a
      * <code>QuestionComponent</code> for
-     * @return a <code>new BooleanQuestionComponent</code> representing the
+     * @return a <code>BooleanQuestionComponent</code> representing the
      *          <code>question</code> to be displayed only when all
      *          conditions in <code>this QuestionComponentGenerator</code> are
      *          met and using <code>theAnswerTable</code> that was given to the
@@ -56,10 +56,16 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     }
     
     /**
-     * TODO document
+     * Create a <code>DateQuestionComponent</code> to represent a specified
+     * <code>DateQuestion</code>.
      * 
-     * @param question
-     * @return 
+     * @param question a <code>DateQuestion</code> to create a
+     *                  <code>DateQuestionComponent</code> for
+     * @return a <code>DateQuestionComponent</code> representing <code>question</code>
+     *          to be displayed only when all conditions in
+     *          <code>this QuestionComponentGenerator</code> are met and using
+     *          <code>theAnswerTable</code> that was given to the constructor
+     *          when constructing <code>this QuestionComponentGenerator</code>
      */
     public DateQuestionComponent createQuestionComponent(DateQuestion question) {
         Expr condition = createConjunctionOfConditions();
@@ -67,10 +73,16 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     }
     
     /**
-     * TODO document
+     * Create a <code>DecimalQuestionComponent</code> to represent a specified
+     * <code>DecimalQuestion</code>.
      * 
-     * @param question
-     * @return 
+     * @param question a <code>DecimalQuestion</code> to create a
+     *                  <code>DecimalQuestionComponent</code> for
+     * @return a <code>DecimalQuestionComponent</code> representing <code>question</code>
+     *          to be displayed only when all conditions in
+     *          <code>this QuestionComponentGenerator</code> are met and using
+     *          <code>theAnswerTable</code> that was given to the constructor
+     *          when constructing <code>this QuestionComponentGenerator</code>
      */
     public DecimalQuestionComponent createQuestionComponent(DecimalQuestion question) {
         Expr condition = createConjunctionOfConditions();
@@ -78,10 +90,16 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     }
     
     /**
-     * TODO document
+     * Create an <code>IntQuestionComponent</code> to represent a specified
+     * <code>IntQuestion</code>.
      * 
-     * @param question
-     * @return 
+     * @param question an <code>IntQuestion</code> to create an
+     *                  <code>IntQuestionComponent</code> for
+     * @return an <code>IntQuestionComponent</code> representing <code>question</code>
+     *          to be displayed only when all conditions in
+     *          <code>this QuestionComponentGenerator</code> are met and using
+     *          <code>theAnswerTable</code> that was given to the constructor
+     *          when constructing <code>this QuestionComponentGenerator</code>
      */
     public IntQuestionComponent createQuestionComponent(IntQuestion question) {
         Expr condition = createConjunctionOfConditions();
@@ -89,10 +107,16 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     }
     
     /**
-     * TODO document
+     * Create a <code>MoneyQuestionComponent</code> to represent a specified
+     * <code>MoneyQuestion</code>.
      * 
-     * @param question
-     * @return 
+     * @param question a <code>MoneyQuestion</code> to create a
+     *                  <code>MoneyQuestionComponent</code> for
+     * @return a <code>MoneyQuestionComponent</code> representing <code>question</code>
+     *          to be displayed only when all conditions in
+     *          <code>this QuestionComponentGenerator</code> are met and using
+     *          <code>theAnswerTable</code> that was given to the constructor
+     *          when constructing <code>this QuestionComponentGenerator</code>
      */
     public MoneyQuestionComponent createQuestionComponent(MoneyQuestion question) {
         Expr condition = createConjunctionOfConditions();
@@ -106,7 +130,7 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
      * @param question a <code>StringQuestion</code> to create a
      *                  <code>QuestionComponent</code> for
      * @return a <code>new StringQuestionComponent</code> representing
-     *          the <code>question</code> to be displayed only when all conditions
+     *          <code>question</code> to be displayed only when all conditions
      *          in <code>this QuestionComponentGenerator</code> are met and using
      *          <code>theAnswerTable</code> that was given to the constructor
      *          when constructing <code>this QuestionComponentGenerator</code>

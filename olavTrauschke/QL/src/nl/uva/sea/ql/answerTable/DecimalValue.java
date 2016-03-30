@@ -29,9 +29,8 @@ public class DecimalValue extends NumericValue {
     }
     
     /**
-     * TODO document
-     * 
-     * @return 
+     * @return a <code>Double</code> with the <code>value this DecimalValue</code>
+     *          represents
      */
     public Double getValue() {
         return value;

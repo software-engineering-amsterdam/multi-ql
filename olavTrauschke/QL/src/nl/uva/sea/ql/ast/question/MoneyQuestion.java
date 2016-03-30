@@ -68,10 +68,16 @@ public class MoneyQuestion extends Question {
     }
     
     /**
-     * TODO document
+     * Make a specified <code>QuestionComponentGenerator</code> create a
+     * <code>MoneyQuestionComponent</code> for <code>this MoneyQuestion</code>.
      * 
-     * @param generator
-     * @return 
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create a <code>MoneyQuestionComponent</code> for
+     *                  <code>this MoneyQuestion</code>
+     * @return a <code>MoneyQuestionComponent</code> representing
+     *          <code>this MoneyQuestion</code>, as created by a call to
+     *          {@link nl.uva.sea.ql.interpreter.QuestionComponentGenerator#createQuestionComponent(nl.uva.sea.ql.ast.question.MoneyQuestion)
+     *          generator.createQuestionComponent(MoneyQuestion)}
      */
     @Override
     public QuestionComponent createQuestionComponent(QuestionComponentGenerator generator) {
