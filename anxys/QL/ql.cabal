@@ -24,7 +24,7 @@ library
   exposed-modules:     AnnotatedAst
                        Simplify
                        Ast
-                       TypeChecker
+                       SemanticAnalysis
                        Parsing
                        Location
                        Environment

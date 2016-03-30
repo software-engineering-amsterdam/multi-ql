@@ -4,7 +4,7 @@ import qualified AnnotatedAst as AA
 import           Simplify
 import           Test.Hspec
 import           Text.ParserCombinators.Parsec as P
-import           TypeChecker
+import           SemanticAnalysis
 import  Location
 
 tParseF :: String -> String

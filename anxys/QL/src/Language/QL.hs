@@ -3,7 +3,7 @@ module QL (parseFile) where
 import           Prelude hiding (id)
 import qualified Parsing as P (parse, ParseError)
 import           Simplify (simplify, Form)
-import           TypeChecker (SemanticError, toSemanticError, semanticCheck, hasNoErrors, duplicationWarnings, DuplicationIssue)
+import           SemanticAnalysis (SemanticError, toSemanticError, semanticCheck, hasNoErrors, duplicationWarnings, DuplicationIssue)
 import Data.List as L
 
 data Error = PError P.ParseError
