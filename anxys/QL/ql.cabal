@@ -18,8 +18,9 @@ library
                        src/Language
                        src/Language/SemanticAnalysis
                        src/Language/SemanticAnalysis/SemanticError
-                       src/Language/Annotated
-                       src/Language/Annotated/Location
+                       src/Language/Syntax
+                       src/Language/Syntax/Annotated
+                       src/Language/Location/
                        src/Values
   exposed-modules:     AnnotatedAst
                        Simplify
@@ -32,10 +33,10 @@ library
                        QL
                        Identifier
                        Interpreter
-                       SemanticError
   other-modules:       ValueTypes
                      , Money
                      , ParseValue
+                     , SemanticError
   build-depends:       base >= 4.7 && < 5
                      , parsec
                      , syb
