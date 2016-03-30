@@ -1,24 +1,24 @@
-package eu.bankersen.kevin.ql.ast.expr;
+package eu.bankersen.kevin.ql.form.ast.expr;
 
-import eu.bankersen.kevin.ql.ast.types.QLType;
-import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.form.ast.types.Type;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
 
 public class Literal extends Expr {
 
-    private final QLType type;
-    private final QLValue value;
+    private final Type type;
+    private final Value value;
 
-    public Literal(int line, QLValue value, QLType type) {
+    public Literal(int line, Value value, Type type) {
 	super(line);
 	this.type = type;
 	this.value = value;
     }
 
-    public QLType type() {
+    public Type type() {
 	return type;
     }
 
-    public QLValue value() {
+    public Value value() {
 	return value;
     }
 

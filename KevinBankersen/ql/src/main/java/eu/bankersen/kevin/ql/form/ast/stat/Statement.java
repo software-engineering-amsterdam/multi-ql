@@ -1,12 +1,12 @@
-package eu.bankersen.kevin.ql.ast.stat;
+package eu.bankersen.kevin.ql.form.ast.stat;
 
-import eu.bankersen.kevin.ql.ast.AcceptQuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.AcceptQuestionVisitor;
 
-public abstract class AbstractStatement implements AcceptQuestionVisitor {
+public abstract class Statement implements AcceptQuestionVisitor {
 
     private final int line;
 
-    public AbstractStatement(int line) {
+    public Statement(int line) {
 	this.line = line;
     }
 

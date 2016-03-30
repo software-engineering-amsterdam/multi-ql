@@ -1,10 +1,10 @@
-package eu.bankersen.kevin.ql.ast.stat;
+package eu.bankersen.kevin.ql.form.ast.stat;
 
-import eu.bankersen.kevin.ql.ast.QuestionVisitor;
-import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.form.Body;
+import eu.bankersen.kevin.ql.form.ast.QuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.Expr;
+import eu.bankersen.kevin.ql.form.ast.form.Body;
 
-public class IFStatement extends AbstractStatement {
+public class IFStatement extends Statement {
 
     private final Expr condition;
     private final Body body;

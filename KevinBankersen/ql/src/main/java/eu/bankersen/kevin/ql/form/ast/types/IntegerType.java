@@ -1,18 +1,17 @@
-package eu.bankersen.kevin.ql.ast.types;
+package eu.bankersen.kevin.ql.form.ast.types;
 
-import java.math.BigDecimal;
+import eu.bankersen.kevin.ql.form.ast.stat.Question;
+import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
+import eu.bankersen.kevin.ql.form.ast.values.IntegerValue;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
+import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
+import eu.bankersen.kevin.ql.gui.widgets.SliderInput;
 
-import eu.bankersen.kevin.ql.ast.values.IntegerValue;
-import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
-import eu.bankersen.kevin.ql.gui.widgets.input.InputWidget;
-import eu.bankersen.kevin.ql.gui.widgets.input.SliderWidget;
-
-public class IntegerType extends QLType {
+public class IntegerType extends Type {
 
     @Override
-    public InputWidget defaultWidget() {
-	return new SliderWidget();
+    public QuestionWidget defaultWidget(Question question) {
+	return new SliderInput(question);
     }
 
     @Override
@@ -21,157 +20,161 @@ public class IntegerType extends QLType {
     }
 
     @Override
-    public QLValue createQLValueFrom(String string) {
-	return isValidBigDecimal(string) ? new IntegerValue(new BigDecimal(string)) : new UndifinedValue();
+    public Value createQLValueFrom(String string) {
+	try {
+	    return new IntegerValue(string);
+	} catch (NumberFormatException e) {
+	    return new EmptyValue();
+	}
     }
 
     @Override
-    public Boolean equals(QLType type) {
-	return type.equals(this);
-    }
-
-    @Override
-    public Boolean equals(IntegerType type) {
-	return true;
-    }
-
-    @Override
-    public QLType isSubtractSupported(QLType type) {
+    public Type isSubtractSupported(Type type) {
 	return type.isSubtractSupported(this);
     }
 
     @Override
-    public QLType isSubtractSupported(IntegerType type) {
+    public Type isSubtractSupported(IntegerType type) {
 	return new IntegerType();
     }
 
     @Override
-    public QLType isAddSupported(QLType type) {
+    public Type isAddSupported(Type type) {
 	return type.isAddSupported(this);
     }
 
     @Override
-    public QLType isAddSupported(IntegerType type) {
+    public Type isAddSupported(IntegerType type) {
 	return new IntegerType();
     }
 
     @Override
-    public QLType isAddSupported(StringType type) {
+    public Type isAddSupported(StringType type) {
 	return new StringType();
     }
 
     @Override
-    public QLType isDivideSupported(QLType type) {
+    public Type isDivideSupported(Type type) {
 	return type.isDivideSupported(this);
     }
 
     @Override
-    public QLType isDivideSupported(IntegerType type) {
+    public Type isDivideSupported(IntegerType type) {
 	return new IntegerType();
     }
 
     @Override
-    public QLType isDivideSupported(MoneyType type) {
+    public Type isDivideSupported(MoneyType type) {
 	return new MoneyType();
     }
 
     @Override
-    public QLType isMultiplySupported(QLType type) {
+    public Type isMultiplySupported(Type type) {
 	return type.isMultiplySupported(this);
     }
 
     @Override
-    public QLType isMultiplySupported(IntegerType type) {
+    public Type isMultiplySupported(IntegerType type) {
 	return new IntegerType();
     }
 
     @Override
-    public QLType isMultiplySupported(MoneyType type) {
+    public Type isMultiplySupported(MoneyType type) {
 	return new MoneyType();
     }
 
     @Override
-    public QLType isAbsoluteSupported() {
+    public Type isAbsoluteSupported() {
 	return new IntegerType();
     }
 
     @Override
-    public QLType isNegateSupported() {
+    public Type isNegateSupported() {
 	return new IntegerType();
     }
 
     @Override
-    public QLType isOrSupported(QLType type) {
+    public Type isOrSupported(Type type) {
 	return type.isOrSupported(this);
     }
 
     @Override
-    public QLType isAndSupported(QLType type) {
+    public Type isAndSupported(Type type) {
 	return type.isAndSupported(this);
     }
 
     @Override
-    public QLType isEqualSupported(QLType type) {
+    public Type isEqualSupported(Type type) {
 	return type.isEqualSupported(this);
     }
 
     @Override
-    public QLType isEqualSupported(IntegerType type) {
+    public Type isEqualSupported(IntegerType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isGreaterOrEqualSupported(QLType type) {
+    public Type isGreaterOrEqualSupported(Type type) {
 	return type.isGreaterOrEqualSupported(this);
     }
 
     @Override
-    public QLType isGreaterOrEqualSupported(IntegerType type) {
+    public Type isGreaterOrEqualSupported(IntegerType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isGreaterSupported(QLType type) {
+    public Type isGreaterSupported(Type type) {
 	return type.isGreaterSupported(this);
     }
 
     @Override
-    public QLType isGreaterSupported(IntegerType type) {
+    public Type isGreaterSupported(IntegerType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isLowerOrEqualSupported(QLType type) {
+    public Type isLowerOrEqualSupported(Type type) {
 	return type.isLowerOrEqualSupported(this);
     }
 
     @Override
-    public QLType isLowerOrEqualSupported(IntegerType type) {
+    public Type isLowerOrEqualSupported(IntegerType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isLowerSupported(QLType type) {
+    public Type isLowerSupported(Type type) {
 	return type.isLowerSupported(this);
     }
 
     @Override
-    public QLType isLowerSupported(IntegerType type) {
+    public Type isLowerSupported(IntegerType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isNotEqualSupported(QLType type) {
+    public Type isNotEqualSupported(Type type) {
 	return type.isNotEqualSupported(this);
     }
 
     @Override
-    public QLType isNotEqualSupported(IntegerType type) {
+    public Type isNotEqualSupported(IntegerType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isNotSupported() {
+    public Type isNotSupported() {
 	return new UndifinedType();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	return obj instanceof IntegerType;
+    }
+
+    @Override
+    public int hashCode() {
+	return 13;
     }
 }

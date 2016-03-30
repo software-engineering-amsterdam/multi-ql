@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.typechecker.analytics.dependancies;
+package eu.bankersen.kevin.ql.form.typechecker.analytics.dependancies;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import eu.bankersen.kevin.ql.typechecker.errors.CyclicDependencyError;
-import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
+import eu.bankersen.kevin.ql.form.typechecker.errors.CyclicDependencyError;
+import eu.bankersen.kevin.ql.form.typechecker.errors.TypeCheckError;
 
 public class DependancyChecker {
 

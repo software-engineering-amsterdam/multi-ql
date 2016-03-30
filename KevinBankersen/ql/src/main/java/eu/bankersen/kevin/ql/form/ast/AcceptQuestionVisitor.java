@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.ast;
+package eu.bankersen.kevin.ql.form.ast;
 
 public interface AcceptQuestionVisitor {
 

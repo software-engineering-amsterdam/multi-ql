@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.typechecker.errors;
+package eu.bankersen.kevin.ql.form.typechecker.errors;
 
 import java.util.Set;
 

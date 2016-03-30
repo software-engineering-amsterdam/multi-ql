@@ -1,8 +1,8 @@
-package eu.bankersen.kevin.ql.ast.expr.math;
+package eu.bankersen.kevin.ql.form.ast.expr.math;
 
-import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
-import eu.bankersen.kevin.ql.ast.expr.UnaryExpr;
+import eu.bankersen.kevin.ql.form.ast.expr.Expr;
+import eu.bankersen.kevin.ql.form.ast.expr.ExprVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.UnaryExpr;
 
 public class Pos extends UnaryExpr {
 

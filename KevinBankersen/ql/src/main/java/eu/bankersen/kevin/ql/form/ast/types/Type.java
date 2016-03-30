@@ -1,304 +1,270 @@
-package eu.bankersen.kevin.ql.ast.types;
+package eu.bankersen.kevin.ql.form.ast.types;
 
-import java.math.BigDecimal;
+import eu.bankersen.kevin.ql.form.ast.stat.Question;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
+import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
 
-import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.gui.widgets.input.InputWidget;
+public abstract class Type {
 
-public abstract class QLType {
+    public abstract QuestionWidget defaultWidget(Question question);
 
-    public abstract InputWidget defaultWidget();
+    public abstract Value createQLValueFrom(String string);
 
-    public abstract QLValue createQLValueFrom(String string);
+    @Override
+    public abstract boolean equals(Object obj);
 
-    public abstract Boolean equals(QLType type);
+    @Override
+    public abstract int hashCode();
 
-    public Boolean equals(UndifinedType type) {
-	return false;
-    }
-
-    public Boolean equals(IntegerType type) {
-	return false;
-    }
-
-    public Boolean equals(MoneyType type) {
-	return false;
-    }
-
-    public Boolean equals(BooleanType type) {
-	return false;
-    }
-
-    public Boolean equals(StringType type) {
-	return false;
-    }
-
-    protected boolean isValidBigDecimal(String value) {
-	if (!value.isEmpty()) {
-	    try {
-		BigDecimal test = new BigDecimal(value);
-		return true;
-	    } catch (NumberFormatException e) {
-		return false;
-	    }
-	} else {
-	    return false;
-	}
-    }
-
-    protected boolean isValidBoolean(String value) {
-	return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
-    }
-
-    public QLType isSubtractSupported(QLType type) {
+    public Type isSubtractSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isSubtractSupported(IntegerType type) {
+    public Type isSubtractSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isSubtractSupported(MoneyType type) {
+    public Type isSubtractSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isSubtractSupported(BooleanType type) {
+    public Type isSubtractSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isSubtractSupported(StringType type) {
+    public Type isSubtractSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAddSupported(QLType type) {
+    public Type isAddSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isAddSupported(IntegerType type) {
+    public Type isAddSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAddSupported(MoneyType type) {
+    public Type isAddSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAddSupported(BooleanType type) {
+    public Type isAddSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAddSupported(StringType type) {
+    public Type isAddSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isDivideSupported(QLType type) {
+    public Type isDivideSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isDivideSupported(IntegerType type) {
+    public Type isDivideSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isDivideSupported(MoneyType type) {
+    public Type isDivideSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isDivideSupported(BooleanType type) {
+    public Type isDivideSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isDivideSupported(StringType type) {
+    public Type isDivideSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isMultiplySupported(QLType type) {
+    public Type isMultiplySupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isMultiplySupported(IntegerType type) {
+    public Type isMultiplySupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isMultiplySupported(MoneyType type) {
+    public Type isMultiplySupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isMultiplySupported(BooleanType type) {
+    public Type isMultiplySupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isMultiplySupported(StringType type) {
+    public Type isMultiplySupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAbsoluteSupported() {
+    public Type isAbsoluteSupported() {
 	return new UndifinedType();
     }
 
-    public QLType isNegateSupported() {
+    public Type isNegateSupported() {
 	return new UndifinedType();
     }
 
-    public QLType isOrSupported(QLType type) {
+    public Type isOrSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isOrSupported(IntegerType type) {
+    public Type isOrSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isOrSupported(MoneyType type) {
+    public Type isOrSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isOrSupported(BooleanType type) {
+    public Type isOrSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isOrSupported(StringType type) {
+    public Type isOrSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAndSupported(QLType type) {
+    public Type isAndSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isAndSupported(IntegerType type) {
+    public Type isAndSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAndSupported(MoneyType type) {
+    public Type isAndSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAndSupported(BooleanType type) {
+    public Type isAndSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isAndSupported(StringType type) {
+    public Type isAndSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isEqualSupported(QLType type) {
+    public Type isEqualSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isEqualSupported(IntegerType type) {
+    public Type isEqualSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isEqualSupported(MoneyType type) {
+    public Type isEqualSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isEqualSupported(BooleanType type) {
+    public Type isEqualSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isEqualSupported(StringType type) {
+    public Type isEqualSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterOrEqualSupported(QLType type) {
+    public Type isGreaterOrEqualSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterOrEqualSupported(IntegerType type) {
+    public Type isGreaterOrEqualSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterOrEqualSupported(MoneyType type) {
+    public Type isGreaterOrEqualSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterOrEqualSupported(BooleanType type) {
+    public Type isGreaterOrEqualSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterOrEqualSupported(StringType type) {
+    public Type isGreaterOrEqualSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterSupported(QLType type) {
+    public Type isGreaterSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterSupported(IntegerType type) {
+    public Type isGreaterSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterSupported(MoneyType type) {
+    public Type isGreaterSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterSupported(BooleanType type) {
+    public Type isGreaterSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isGreaterSupported(StringType type) {
+    public Type isGreaterSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerOrEqualSupported(QLType type) {
+    public Type isLowerOrEqualSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerOrEqualSupported(IntegerType type) {
+    public Type isLowerOrEqualSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerOrEqualSupported(MoneyType type) {
+    public Type isLowerOrEqualSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerOrEqualSupported(BooleanType type) {
+    public Type isLowerOrEqualSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerOrEqualSupported(StringType type) {
+    public Type isLowerOrEqualSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerSupported(QLType type) {
+    public Type isLowerSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerSupported(IntegerType type) {
+    public Type isLowerSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerSupported(MoneyType type) {
+    public Type isLowerSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerSupported(BooleanType type) {
+    public Type isLowerSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isLowerSupported(StringType type) {
+    public Type isLowerSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isNotEqualSupported(QLType type) {
+    public Type isNotEqualSupported(Type type) {
 	return new UndifinedType();
     }
 
-    public QLType isNotEqualSupported(IntegerType type) {
+    public Type isNotEqualSupported(IntegerType type) {
 	return new UndifinedType();
     }
 
-    public QLType isNotEqualSupported(MoneyType type) {
+    public Type isNotEqualSupported(MoneyType type) {
 	return new UndifinedType();
     }
 
-    public QLType isNotEqualSupported(BooleanType type) {
+    public Type isNotEqualSupported(BooleanType type) {
 	return new UndifinedType();
     }
 
-    public QLType isNotEqualSupported(StringType type) {
+    public Type isNotEqualSupported(StringType type) {
 	return new UndifinedType();
     }
 
-    public QLType isNotSupported() {
+    public Type isNotSupported() {
 	return new UndifinedType();
     }
 

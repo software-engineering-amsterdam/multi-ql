@@ -1,333 +1,313 @@
-package eu.bankersen.kevin.ql.ast.values;
+package eu.bankersen.kevin.ql.form.ast.values;
 
-import eu.bankersen.kevin.ql.ast.types.QLType;
-
-public abstract class QLValue {
+public abstract class Value {
 
     public abstract Object value();
 
-    public abstract QLType getType();
+    @Override
+    public abstract boolean equals(Object obj);
 
-    public abstract Boolean equals(QLValue value);
+    @Override
+    public abstract int hashCode();
 
-    public Boolean equals(UndifinedValue type) {
-	return false;
+    public Value subtract(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public Boolean equals(IntegerValue type) {
-	return false;
+    public Value subtract(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public Boolean equals(MoneyValue type) {
-	return false;
+    public Value subtract(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public Boolean equals(BooleanValue type) {
-	return false;
+    public Value subtract(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public Boolean equals(StringValue type) {
-	return false;
+    public Value subtract(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue subtract(QLValue value) {
-	return new UndifinedValue();
+    public Value subtract(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue subtract(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value add(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue subtract(IntegerValue value) {
-	return new UndifinedValue();
+    public Value add(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue subtract(MoneyValue value) {
-	return new UndifinedValue();
+    public Value add(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue subtract(BooleanValue value) {
-	return new UndifinedValue();
+    public Value add(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue subtract(StringValue value) {
-	return new UndifinedValue();
+    public Value add(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue add(QLValue value) {
-	return new UndifinedValue();
+    public Value add(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue add(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value divide(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue add(IntegerValue value) {
-	return new UndifinedValue();
+    public Value divide(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue add(MoneyValue value) {
-	return new UndifinedValue();
+    public Value divide(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue add(BooleanValue value) {
-	return new UndifinedValue();
+    public Value divide(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue add(StringValue value) {
-	return new UndifinedValue();
+    public Value divide(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue divide(QLValue value) {
-	return new UndifinedValue();
+    public Value divide(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue divide(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value multiply(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue divide(IntegerValue value) {
-	return new UndifinedValue();
+    public Value multiply(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue divide(MoneyValue value) {
-	return new UndifinedValue();
+    public Value multiply(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue divide(BooleanValue value) {
-	return new UndifinedValue();
+    public Value multiply(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue divide(StringValue value) {
-	return new UndifinedValue();
+    public Value multiply(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue multiply(QLValue value) {
-	return new UndifinedValue();
+    public Value multiply(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue multiply(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value absolute() {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue multiply(IntegerValue value) {
-	return new UndifinedValue();
+    public Value negate() {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue multiply(MoneyValue value) {
-	return new UndifinedValue();
+    public Value or(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue multiply(BooleanValue value) {
-	return new UndifinedValue();
+    public Value or(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue multiply(StringValue value) {
-	return new UndifinedValue();
+    public Value or(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue absolute() {
-	return new UndifinedValue();
+    public Value or(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue negate() {
-	return new UndifinedValue();
+    public Value or(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue or(QLValue value) {
-	return new UndifinedValue();
+    public Value or(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue or(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value and(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue or(IntegerValue value) {
-	return new UndifinedValue();
+    public Value and(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue or(MoneyValue value) {
-	return new UndifinedValue();
+    public Value and(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue or(BooleanValue value) {
-	return new UndifinedValue();
+    public Value and(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue or(StringValue value) {
-	return new UndifinedValue();
+    public Value and(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue and(QLValue value) {
-	return new UndifinedValue();
+    public Value and(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue and(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value equal(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue and(IntegerValue value) {
-	return new UndifinedValue();
+    public Value equal(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue and(MoneyValue value) {
-	return new UndifinedValue();
+    public Value equal(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue and(BooleanValue value) {
-	return new UndifinedValue();
+    public Value equal(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue and(StringValue value) {
-	return new UndifinedValue();
+    public Value equal(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue equal(QLValue value) {
-	return new UndifinedValue();
+    public Value equal(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue equal(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value greaterOrEqual(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue equal(IntegerValue value) {
-	return new UndifinedValue();
+    public Value greaterOrEqual(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue equal(MoneyValue value) {
-	return new UndifinedValue();
+    public Value greaterOrEqual(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue equal(BooleanValue value) {
-	return new UndifinedValue();
+    public Value greaterOrEqual(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue equal(StringValue value) {
-	return new UndifinedValue();
+    public Value greaterOrEqual(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greaterOrEqual(QLValue value) {
-	return new UndifinedValue();
+    public Value greaterOrEqual(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greaterOrEqual(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value greater(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greaterOrEqual(IntegerValue value) {
-	return new UndifinedValue();
+    public Value greater(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue greaterOrEqual(MoneyValue value) {
-	return new UndifinedValue();
+    public Value greater(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greaterOrEqual(BooleanValue value) {
-	return new UndifinedValue();
+    public Value greater(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greaterOrEqual(StringValue value) {
-	return new UndifinedValue();
+    public Value greater(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greater(QLValue value) {
-	return new UndifinedValue();
+    public Value greater(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greater(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value lowerOrEqual(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greater(IntegerValue value) {
-	return new UndifinedValue();
+    public Value lowerOrEqual(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue greater(MoneyValue value) {
-	return new UndifinedValue();
+    public Value lowerOrEqual(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greater(BooleanValue value) {
-	return new UndifinedValue();
+    public Value lowerOrEqual(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue greater(StringValue value) {
-	return new UndifinedValue();
+    public Value lowerOrEqual(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lowerOrEqual(QLValue value) {
-	return new UndifinedValue();
+    public Value lowerOrEqual(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lowerOrEqual(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value lower(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lowerOrEqual(IntegerValue value) {
-	return new UndifinedValue();
+    public Value lower(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue lowerOrEqual(MoneyValue value) {
-	return new UndifinedValue();
+    public Value lower(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lowerOrEqual(BooleanValue value) {
-	return new UndifinedValue();
+    public Value lower(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lowerOrEqual(StringValue value) {
-	return new UndifinedValue();
+    public Value lower(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lower(QLValue value) {
-	return new UndifinedValue();
+    public Value lower(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lower(UndifinedValue value) {
-	return new UndifinedValue();
+    public Value notEqual(Value rhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lower(IntegerValue value) {
-	return new UndifinedValue();
+    public Value notEqual(EmptyValue lhs) {
+	return new EmptyValue();
     }
 
-    public QLValue lower(MoneyValue value) {
-	return new UndifinedValue();
+    public Value notEqual(IntegerValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lower(BooleanValue value) {
-	return new UndifinedValue();
+    public Value notEqual(MoneyValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue lower(StringValue value) {
-	return new UndifinedValue();
+    public Value notEqual(BooleanValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue notEqual(QLValue value) {
-	return new UndifinedValue();
+    public Value notEqual(StringValue lhs) {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    public QLValue notEqual(UndifinedValue value) {
-	return new UndifinedValue();
-    }
-
-    public QLValue notEqual(IntegerValue value) {
-	return new UndifinedValue();
-    }
-
-    public QLValue notEqual(MoneyValue value) {
-	return new UndifinedValue();
-    }
-
-    public QLValue notEqual(BooleanValue value) {
-	return new UndifinedValue();
-    }
-
-    public QLValue notEqual(StringValue value) {
-	return new UndifinedValue();
-    }
-
-    public QLValue not() {
-	return new UndifinedValue();
+    public Value not() {
+	throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
 }

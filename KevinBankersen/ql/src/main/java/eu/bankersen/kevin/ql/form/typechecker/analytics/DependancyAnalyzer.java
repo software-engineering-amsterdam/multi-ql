@@ -1,21 +1,21 @@
-package eu.bankersen.kevin.ql.typechecker.analytics;
+package eu.bankersen.kevin.ql.form.typechecker.analytics;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import eu.bankersen.kevin.ql.ast.TopDownQuestionVisitor;
-import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.Identifier;
-import eu.bankersen.kevin.ql.ast.expr.IdentifierVisitor;
-import eu.bankersen.kevin.ql.ast.expr.Literal;
-import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
-import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
-import eu.bankersen.kevin.ql.ast.stat.IFStatement;
-import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
-import eu.bankersen.kevin.ql.typechecker.analytics.dependancies.DependancyChecker;
-import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
+import eu.bankersen.kevin.ql.form.ast.TopDownQuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.Expr;
+import eu.bankersen.kevin.ql.form.ast.expr.Identifier;
+import eu.bankersen.kevin.ql.form.ast.expr.IdentifierVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.Literal;
+import eu.bankersen.kevin.ql.form.ast.form.Form;
+import eu.bankersen.kevin.ql.form.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.form.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.form.typechecker.analytics.dependancies.DependancyChecker;
+import eu.bankersen.kevin.ql.form.typechecker.errors.TypeCheckError;
 
 public class DependancyAnalyzer {
 

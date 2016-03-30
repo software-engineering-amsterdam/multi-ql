@@ -1,20 +1,20 @@
-package eu.bankersen.kevin.ql.ast.form;
+package eu.bankersen.kevin.ql.form.ast.form;
 
 import java.util.List;
 
-import eu.bankersen.kevin.ql.ast.AcceptQuestionVisitor;
-import eu.bankersen.kevin.ql.ast.QuestionVisitor;
-import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
+import eu.bankersen.kevin.ql.form.ast.AcceptQuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.QuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.stat.Statement;
 
 public class Body implements AcceptQuestionVisitor {
 
-    private final List<AbstractStatement> statements;
+    private final List<Statement> statements;
 
-    public Body(List<AbstractStatement> statements) {
+    public Body(List<Statement> statements) {
 	this.statements = statements;
     }
 
-    public List<AbstractStatement> statements() {
+    public List<Statement> statements() {
 	return statements;
     }
 

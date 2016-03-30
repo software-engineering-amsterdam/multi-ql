@@ -1,41 +1,27 @@
-package eu.bankersen.kevin.ql.ast.values;
+package eu.bankersen.kevin.ql.form.ast.values;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import eu.bankersen.kevin.ql.ast.types.IntegerType;
-import eu.bankersen.kevin.ql.ast.types.QLType;
-
-public class IntegerValue extends QLValue {
+public class IntegerValue extends Value {
 
     private final BigDecimal value;
 
+    public IntegerValue(String value) throws NumberFormatException {
+	this.value = new BigDecimal(value).setScale(0, RoundingMode.HALF_DOWN);
+    }
+
     public IntegerValue(Integer value) {
-	this.value = new BigDecimal(value).setScale(0, RoundingMode.HALF_UP);
+	this.value = new BigDecimal(value).setScale(0, RoundingMode.HALF_DOWN);
     }
 
     public IntegerValue(BigDecimal value) {
-	this.value = value.setScale(0, RoundingMode.HALF_UP);
+	this.value = value.setScale(0, RoundingMode.HALF_DOWN);
     }
 
     @Override
     public BigDecimal value() {
 	return value;
-    }
-
-    @Override
-    public QLType getType() {
-	return new IntegerType();
-    }
-
-    @Override
-    public Boolean equals(QLValue value) {
-	return value.equals(this);
-    }
-
-    @Override
-    public Boolean equals(IntegerValue value) {
-	return value.value().compareTo(this.value) == 0 ? true : false;
     }
 
     @Override
@@ -45,138 +31,141 @@ public class IntegerValue extends QLValue {
 
     // Operations
     @Override
-    public QLValue subtract(QLValue value) {
-	return value.subtract(this);
+    public Value subtract(Value rhs) {
+	return rhs.subtract(this);
     }
 
     @Override
-    public QLValue subtract(IntegerValue value) {
-	return new IntegerValue(value.value().subtract(this.value));
+    public Value subtract(IntegerValue lhs) {
+	return new IntegerValue(lhs.value().subtract(this.value));
     }
 
     @Override
-    public QLValue add(QLValue value) {
-	return value.add(this);
+    public Value add(Value rhs) {
+	return rhs.add(this);
     }
 
     @Override
-    public QLValue add(IntegerValue value) {
-	return new IntegerValue(value.value().add(this.value));
+    public Value add(IntegerValue lhs) {
+	return new IntegerValue(lhs.value().add(this.value));
     }
 
     @Override
-    public QLValue add(StringValue value) {
-	return new StringValue(value.value().concat(this.value.toString()));
+    public Value add(StringValue lhs) {
+	return new StringValue(lhs.value().concat(this.value.toString()));
     }
 
     @Override
-    public QLValue divide(QLValue value) {
-	return value.divide(this);
+    public Value divide(Value rhs) {
+	return rhs.divide(this);
     }
 
     @Override
-    public QLValue divide(IntegerValue value) {
-	return new IntegerValue(value.value().divide(this.value));
+    public Value divide(IntegerValue lhs) {
+	return new IntegerValue(lhs.value().divide(this.value));
     }
 
     @Override
-    public QLValue divide(MoneyValue value) {
-	return new MoneyValue(value.value().divide(this.value));
+    public Value divide(MoneyValue lhs) {
+	return new MoneyValue(lhs.value().divide(this.value));
     }
 
     @Override
-    public QLValue multiply(QLValue value) {
-	return value.multiply(this);
+    public Value multiply(Value rhs) {
+	return rhs.multiply(this);
     }
 
     @Override
-    public QLValue multiply(IntegerValue value) {
-	return new IntegerValue(value.value().multiply(this.value));
+    public Value multiply(IntegerValue lhs) {
+	return new IntegerValue(lhs.value().multiply(this.value));
     }
 
     @Override
-    public QLValue multiply(MoneyValue value) {
-	return new MoneyValue(value.value().multiply(this.value));
+    public Value multiply(MoneyValue lhs) {
+	return new MoneyValue(lhs.value().multiply(this.value));
     }
 
     @Override
-    public QLValue absolute() {
+    public Value absolute() {
 	return new IntegerValue(this.value.abs());
     }
 
     @Override
-    public QLValue negate() {
+    public Value negate() {
 	return new IntegerValue(this.value.negate());
     }
 
     @Override
-    public QLValue or(QLValue value) {
-	return value.or(this);
+    public Value equal(Value rhs) {
+	return rhs.equal(this);
     }
 
     @Override
-    public QLValue and(QLValue value) {
-	return value.and(this);
+    public Value equal(IntegerValue lhs) {
+	return new BooleanValue(lhs.value().compareTo(this.value) == 0 ? true : false);
     }
 
     @Override
-    public QLValue equal(QLValue value) {
-	return value.equal(this);
+    public Value greaterOrEqual(Value rhs) {
+	return rhs.greaterOrEqual(this);
     }
 
     @Override
-    public QLValue equal(IntegerValue value) {
-	return new BooleanValue(value.value().compareTo(this.value) == 0 ? true : false);
+    public Value greaterOrEqual(IntegerValue lhs) {
+	return new BooleanValue(lhs.value().compareTo(this.value) >= 0 ? true : false);
     }
 
     @Override
-    public QLValue greaterOrEqual(QLValue value) {
-	return value.greaterOrEqual(this);
+    public Value greater(Value rhs) {
+	return rhs.greater(this);
     }
 
     @Override
-    public QLValue greaterOrEqual(IntegerValue value) {
-	return new BooleanValue(value.value().compareTo(this.value) >= 0 ? true : false);
+    public Value greater(IntegerValue lhs) {
+	return new BooleanValue(lhs.value().compareTo(this.value) > 0 ? true : false);
     }
 
     @Override
-    public QLValue greater(QLValue value) {
-	return value.greater(this);
+    public Value lowerOrEqual(Value rhs) {
+	return rhs.lowerOrEqual(this);
     }
 
     @Override
-    public QLValue greater(IntegerValue value) {
-	System.out.println("in value, result is " + value.value() + " > " + this.value);
-	return new BooleanValue(value.value().compareTo(this.value) > 0 ? true : false);
+    public Value lowerOrEqual(IntegerValue lhs) {
+	return new BooleanValue(lhs.value().compareTo(this.value) <= 0 ? true : false);
     }
 
     @Override
-    public QLValue lowerOrEqual(QLValue value) {
-	return value.lowerOrEqual(this);
+    public Value lower(Value rhs) {
+	return rhs.lower(this);
     }
 
     @Override
-    public QLValue lowerOrEqual(IntegerValue value) {
-	return new BooleanValue(value.value().compareTo(this.value) <= 0 ? true : false);
+    public Value lower(IntegerValue lhs) {
+	return new BooleanValue(lhs.value().compareTo(this.value) < 0 ? true : false);
     }
 
     @Override
-    public QLValue lower(QLValue value) {
-	return value.lower(this);
+    public Value notEqual(Value rhs) {
+	return rhs.notEqual(this);
     }
 
     @Override
-    public QLValue lower(IntegerValue value) {
-	return new BooleanValue(value.value().compareTo(this.value) < 0 ? true : false);
+    public Value notEqual(IntegerValue lhs) {
+	return new BooleanValue(lhs.value().compareTo(this.value) != 0 ? true : false);
     }
 
     @Override
-    public QLValue notEqual(QLValue value) {
-	return value.notEqual(this);
+    public boolean equals(Object obj) {
+	if (!(obj instanceof IntegerValue)) {
+	    return false;
+	}
+
+	return ((IntegerValue) obj).value.equals(this.value);
     }
 
     @Override
-    public QLValue notEqual(IntegerValue value) {
-	return new BooleanValue(value.value().compareTo(this.value) != 0 ? true : false);
+    public int hashCode() {
+	return value.hashCode();
     }
 }

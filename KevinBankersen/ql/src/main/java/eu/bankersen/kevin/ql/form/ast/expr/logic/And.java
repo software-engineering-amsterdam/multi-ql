@@ -1,8 +1,8 @@
-package eu.bankersen.kevin.ql.ast.expr.logic;
+package eu.bankersen.kevin.ql.form.ast.expr.logic;
 
-import eu.bankersen.kevin.ql.ast.expr.BinaryExpr;
-import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.BinaryExpr;
+import eu.bankersen.kevin.ql.form.ast.expr.Expr;
+import eu.bankersen.kevin.ql.form.ast.expr.ExprVisitor;
 
 public class And extends BinaryExpr {
 

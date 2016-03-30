@@ -1,16 +1,17 @@
-package eu.bankersen.kevin.ql.ast.types;
+package eu.bankersen.kevin.ql.form.ast.types;
 
-import eu.bankersen.kevin.ql.ast.values.BooleanValue;
-import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
-import eu.bankersen.kevin.ql.gui.widgets.input.InputWidget;
-import eu.bankersen.kevin.ql.gui.widgets.input.RadioButtonWidget;
+import eu.bankersen.kevin.ql.form.ast.stat.Question;
+import eu.bankersen.kevin.ql.form.ast.values.BooleanValue;
+import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
+import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
+import eu.bankersen.kevin.ql.gui.widgets.RadioInput;
 
-public class BooleanType extends QLType {
+public class BooleanType extends Type {
 
     @Override
-    public InputWidget defaultWidget() {
-	return new RadioButtonWidget();
+    public QuestionWidget defaultWidget(Question question) {
+	return new RadioInput(question);
     }
 
     @Override
@@ -19,113 +20,117 @@ public class BooleanType extends QLType {
     }
 
     @Override
-    public QLValue createQLValueFrom(String string) {
-	return isValidBoolean(string) ? new BooleanValue(string.equalsIgnoreCase("true")) : new UndifinedValue();
+    public Value createQLValueFrom(String string) {
+	try {
+	    return new BooleanValue(string);
+	} catch (IllegalArgumentException e) {
+	    return new EmptyValue();
+	}
     }
 
     @Override
-    public Boolean equals(QLType type) {
-	return type.equals(this);
-    }
-
-    @Override
-    public Boolean equals(BooleanType type) {
-	return true;
-    }
-
-    @Override
-    public QLType isSubtractSupported(QLType type) {
+    public Type isSubtractSupported(Type type) {
 	return type.isSubtractSupported(this);
     }
 
     @Override
-    public QLType isAddSupported(QLType type) {
+    public Type isAddSupported(Type type) {
 	return type.isAddSupported(this);
     }
 
     @Override
-    public QLType isDivideSupported(QLType type) {
+    public Type isDivideSupported(Type type) {
 	return type.isDivideSupported(this);
     }
 
     @Override
-    public QLType isMultiplySupported(QLType type) {
+    public Type isMultiplySupported(Type type) {
 	return type.isMultiplySupported(this);
     }
 
     @Override
-    public QLType isAbsoluteSupported() {
+    public Type isAbsoluteSupported() {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isNegateSupported() {
+    public Type isNegateSupported() {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isOrSupported(QLType type) {
+    public Type isOrSupported(Type type) {
 	return type.isOrSupported(this);
     }
 
     @Override
-    public QLType isOrSupported(BooleanType type) {
+    public Type isOrSupported(BooleanType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isAndSupported(QLType type) {
+    public Type isAndSupported(Type type) {
 	return type.isAndSupported(this);
     }
 
     @Override
-    public QLType isAndSupported(BooleanType type) {
+    public Type isAndSupported(BooleanType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isEqualSupported(QLType type) {
+    public Type isEqualSupported(Type type) {
 	return type.isEqualSupported(this);
     }
 
     @Override
-    public QLType isEqualSupported(BooleanType type) {
+    public Type isEqualSupported(BooleanType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isGreaterOrEqualSupported(QLType type) {
+    public Type isGreaterOrEqualSupported(Type type) {
 	return type.isGreaterOrEqualSupported(this);
     }
 
     @Override
-    public QLType isGreaterSupported(QLType type) {
+    public Type isGreaterSupported(Type type) {
 	return type.isGreaterSupported(this);
     }
 
     @Override
-    public QLType isLowerOrEqualSupported(QLType type) {
+    public Type isLowerOrEqualSupported(Type type) {
 	return type.isLowerOrEqualSupported(this);
     }
 
     @Override
-    public QLType isLowerSupported(QLType type) {
+    public Type isLowerSupported(Type type) {
 	return type.isLowerSupported(this);
     }
 
     @Override
-    public QLType isNotEqualSupported(QLType type) {
+    public Type isNotEqualSupported(Type type) {
 	return type.isNotEqualSupported(this);
     }
 
     @Override
-    public QLType isNotEqualSupported(BooleanType type) {
+    public Type isNotEqualSupported(BooleanType type) {
 	return new BooleanType();
     }
 
     @Override
-    public QLType isNotSupported() {
+    public Type isNotSupported() {
 	return new BooleanType();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	return obj instanceof BooleanType;
+    }
+
+    @Override
+    public int hashCode() {
+	return 13;
     }
 
 }

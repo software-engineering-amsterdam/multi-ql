@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.typechecker.errors;
+package eu.bankersen.kevin.ql.form.typechecker.errors;
 
 public class AllreadyDeclaredError extends TypeCheckError {
 

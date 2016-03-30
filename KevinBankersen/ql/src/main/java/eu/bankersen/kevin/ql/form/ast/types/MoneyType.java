@@ -1,18 +1,17 @@
-package eu.bankersen.kevin.ql.ast.types;
+package eu.bankersen.kevin.ql.form.ast.types;
 
-import java.math.BigDecimal;
+import eu.bankersen.kevin.ql.form.ast.stat.Question;
+import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
+import eu.bankersen.kevin.ql.form.ast.values.MoneyValue;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
+import eu.bankersen.kevin.ql.gui.widgets.BoxInput;
+import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
 
-import eu.bankersen.kevin.ql.ast.values.MoneyValue;
-import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
-import eu.bankersen.kevin.ql.gui.widgets.input.BoxWidget;
-import eu.bankersen.kevin.ql.gui.widgets.input.InputWidget;
-
-public class MoneyType extends QLType {
+public class MoneyType extends Type {
 
     @Override
-    public InputWidget defaultWidget() {
-	return new BoxWidget();
+    public QuestionWidget defaultWidget(Question question) {
+	return new BoxInput(question);
     }
 
     @Override
@@ -21,18 +20,22 @@ public class MoneyType extends QLType {
     }
 
     @Override
-    public QLValue createQLValueFrom(String string) {
-	return isValidBigDecimal(string) ? new MoneyValue(new BigDecimal(string)) : new UndifinedValue();
+    public Value createQLValueFrom(String string) {
+	try {
+	    return new MoneyValue(string);
+	} catch (NumberFormatException e) {
+	    return new EmptyValue();
+	}
     }
 
     @Override
-    public Boolean equals(QLType type) {
-	return type.equals(this);
+    public boolean equals(Object obj) {
+	return obj instanceof MoneyType;
     }
 
     @Override
-    public Boolean equals(MoneyType type) {
-	return true;
+    public int hashCode() {
+	return 13;
     }
 
 }

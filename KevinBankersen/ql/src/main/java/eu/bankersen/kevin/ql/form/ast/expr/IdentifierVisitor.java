@@ -1,20 +1,20 @@
-package eu.bankersen.kevin.ql.ast.expr;
+package eu.bankersen.kevin.ql.form.ast.expr;
 
-import eu.bankersen.kevin.ql.ast.expr.logic.And;
-import eu.bankersen.kevin.ql.ast.expr.logic.Eq;
-import eu.bankersen.kevin.ql.ast.expr.logic.GEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.GT;
-import eu.bankersen.kevin.ql.ast.expr.logic.LEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.LT;
-import eu.bankersen.kevin.ql.ast.expr.logic.NEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.Not;
-import eu.bankersen.kevin.ql.ast.expr.logic.Or;
-import eu.bankersen.kevin.ql.ast.expr.math.Add;
-import eu.bankersen.kevin.ql.ast.expr.math.Div;
-import eu.bankersen.kevin.ql.ast.expr.math.Mul;
-import eu.bankersen.kevin.ql.ast.expr.math.Neg;
-import eu.bankersen.kevin.ql.ast.expr.math.Pos;
-import eu.bankersen.kevin.ql.ast.expr.math.Sub;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.And;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Eq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.GEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.GT;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.LEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.LT;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.NEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Not;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Or;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Add;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Div;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Mul;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Neg;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Pos;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Sub;
 
 public abstract class IdentifierVisitor<T, U> implements ExprVisitor<T, U> {
 

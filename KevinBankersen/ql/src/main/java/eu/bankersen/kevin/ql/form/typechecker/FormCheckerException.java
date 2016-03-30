@@ -1,9 +1,9 @@
-package eu.bankersen.kevin.ql.typechecker;
+package eu.bankersen.kevin.ql.form.typechecker;
 
 import java.util.List;
 
-import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
-import eu.bankersen.kevin.ql.typechecker.warnings.TypeCheckWarning;
+import eu.bankersen.kevin.ql.form.typechecker.errors.TypeCheckError;
+import eu.bankersen.kevin.ql.form.typechecker.warnings.TypeCheckWarning;
 
 public class FormCheckerException extends Exception {
 

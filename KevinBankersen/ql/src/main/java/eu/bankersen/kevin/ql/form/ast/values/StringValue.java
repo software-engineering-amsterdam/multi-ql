@@ -1,9 +1,6 @@
-package eu.bankersen.kevin.ql.ast.values;
+package eu.bankersen.kevin.ql.form.ast.values;
 
-import eu.bankersen.kevin.ql.ast.types.QLType;
-import eu.bankersen.kevin.ql.ast.types.StringType;
-
-public class StringValue extends QLValue {
+public class StringValue extends Value {
 
     private final String value;
 
@@ -17,123 +14,102 @@ public class StringValue extends QLValue {
     }
 
     @Override
-    public QLType getType() {
-	return new StringType();
-    }
-
-    @Override
     public String toString() {
 	return value;
     }
 
-    @Override
-    public Boolean equals(QLValue value) {
-	return value.equals(this);
-    }
-
-    @Override
-    public Boolean equals(StringValue value) {
-	return value.value().equals(this.value);
-    }
-
     // Operations
     @Override
-    public QLValue subtract(QLValue value) {
-	return value.subtract(this);
+    public Value add(Value rhs) {
+	return rhs.add(this);
     }
 
     @Override
-    public QLValue add(QLValue value) {
-	return value.add(this);
+    public Value add(StringValue lhs) {
+	return new StringValue(lhs.value.concat(this.value));
     }
 
     @Override
-    public QLValue add(StringValue value) {
-	return new StringValue(value.value.concat(this.value));
+    public Value and(Value rhs) {
+	return rhs.and(this);
     }
 
     @Override
-    public QLValue divide(QLValue value) {
-	return value.divide(this);
+    public Value and(StringValue lhs) {
+	return new BooleanValue(lhs.value().equals(this.value));
     }
 
     @Override
-    public QLValue multiply(QLValue value) {
-	return value.multiply(this);
+    public Value equal(Value rhs) {
+	return rhs.equal(this);
     }
 
     @Override
-    public QLValue or(QLValue value) {
-	return value.or(this);
+    public Value equal(StringValue lhs) {
+	return new BooleanValue(lhs.value().length() == this.value.length());
     }
 
     @Override
-    public QLValue and(QLValue value) {
-	return value.and(this);
+    public Value greaterOrEqual(Value rhs) {
+	return rhs.greaterOrEqual(this);
     }
 
     @Override
-    public QLValue and(StringValue value) {
-	return new BooleanValue(value.value().equals(this.value));
+    public Value greaterOrEqual(StringValue lhs) {
+	return new BooleanValue(lhs.value().length() >= this.value.length());
     }
 
     @Override
-    public QLValue equal(QLValue value) {
-	return value.equal(this);
+    public Value greater(Value rhs) {
+	return rhs.greater(this);
     }
 
     @Override
-    public QLValue equal(StringValue value) {
-	return new BooleanValue(value.value().length() == this.value.length());
+    public Value greater(StringValue lhs) {
+	return new BooleanValue(lhs.value().length() > this.value.length());
     }
 
     @Override
-    public QLValue greaterOrEqual(QLValue value) {
-	return value.greaterOrEqual(this);
+    public Value lowerOrEqual(Value rhs) {
+	return rhs.lowerOrEqual(this);
     }
 
     @Override
-    public QLValue greaterOrEqual(StringValue value) {
-	return new BooleanValue(value.value().length() >= this.value.length());
+    public Value lowerOrEqual(StringValue lhs) {
+	return new BooleanValue(lhs.value().length() <= this.value.length());
     }
 
     @Override
-    public QLValue greater(QLValue value) {
-	return value.greater(this);
+    public Value lower(Value rhs) {
+	return rhs.lower(this);
     }
 
     @Override
-    public QLValue greater(StringValue value) {
-	return new BooleanValue(value.value().length() > this.value.length());
+    public Value lower(StringValue lhs) {
+	return new BooleanValue(lhs.value().length() < this.value.length());
     }
 
     @Override
-    public QLValue lowerOrEqual(QLValue value) {
-	return value.lowerOrEqual(this);
+    public Value notEqual(Value rhs) {
+	return rhs.notEqual(this);
     }
 
     @Override
-    public QLValue lowerOrEqual(StringValue value) {
-	return new BooleanValue(value.value().length() <= this.value.length());
+    public Value notEqual(StringValue lhs) {
+	return new BooleanValue(!lhs.value().equals(this.value));
     }
 
     @Override
-    public QLValue lower(QLValue value) {
-	return value.lower(this);
+    public boolean equals(Object obj) {
+	if (!(obj instanceof StringValue)) {
+	    return false;
+	}
+
+	return ((StringValue) obj).value.equals(this.value);
     }
 
     @Override
-    public QLValue lower(StringValue value) {
-	return new BooleanValue(value.value().length() < this.value.length());
-    }
-
-    @Override
-    public QLValue notEqual(QLValue value) {
-	return value.notEqual(this);
-    }
-
-    @Override
-    public QLValue notEqual(StringValue value) {
-	return new BooleanValue(!value.value().equals(this.value));
+    public int hashCode() {
+	return value.hashCode();
     }
 }

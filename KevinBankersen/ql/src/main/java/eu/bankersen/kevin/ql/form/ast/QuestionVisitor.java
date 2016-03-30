@@ -1,11 +1,11 @@
-package eu.bankersen.kevin.ql.ast;
+package eu.bankersen.kevin.ql.form.ast;
 
-import eu.bankersen.kevin.ql.ast.form.Body;
-import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
-import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
-import eu.bankersen.kevin.ql.ast.stat.IFStatement;
-import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.form.ast.form.Body;
+import eu.bankersen.kevin.ql.form.ast.form.Form;
+import eu.bankersen.kevin.ql.form.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.form.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.NormalQuestion;
 
 public interface QuestionVisitor<T> {
 

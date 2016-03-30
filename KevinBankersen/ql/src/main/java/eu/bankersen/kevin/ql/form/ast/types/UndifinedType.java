@@ -1,10 +1,11 @@
-package eu.bankersen.kevin.ql.ast.types;
+package eu.bankersen.kevin.ql.form.ast.types;
 
-import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
-import eu.bankersen.kevin.ql.gui.widgets.input.InputWidget;
+import eu.bankersen.kevin.ql.form.ast.stat.Question;
+import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
+import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
 
-public class UndifinedType extends QLType {
+public class UndifinedType extends Type {
 
     private final Object value;
 
@@ -18,22 +19,22 @@ public class UndifinedType extends QLType {
     }
 
     @Override
-    public QLValue createQLValueFrom(String string) {
-	return new UndifinedValue();
+    public Value createQLValueFrom(String string) {
+	return new EmptyValue();
     }
 
     @Override
-    public InputWidget defaultWidget() {
+    public QuestionWidget defaultWidget(Question question) {
 	return null;
     }
 
     @Override
-    public Boolean equals(QLType type) {
-	return type.equals(this);
+    public boolean equals(Object obj) {
+	return obj instanceof UndifinedType;
     }
 
     @Override
-    public Boolean equals(UndifinedType type) {
-	return true;
+    public int hashCode() {
+	return 13;
     }
 }

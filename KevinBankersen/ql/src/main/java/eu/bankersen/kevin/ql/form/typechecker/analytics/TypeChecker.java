@@ -1,45 +1,45 @@
-package eu.bankersen.kevin.ql.typechecker.analytics;
+package eu.bankersen.kevin.ql.form.typechecker.analytics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.bankersen.kevin.ql.ast.TopDownQuestionVisitor;
-import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
-import eu.bankersen.kevin.ql.ast.expr.Identifier;
-import eu.bankersen.kevin.ql.ast.expr.Literal;
-import eu.bankersen.kevin.ql.ast.expr.logic.And;
-import eu.bankersen.kevin.ql.ast.expr.logic.Eq;
-import eu.bankersen.kevin.ql.ast.expr.logic.GEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.GT;
-import eu.bankersen.kevin.ql.ast.expr.logic.LEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.LT;
-import eu.bankersen.kevin.ql.ast.expr.logic.NEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.Not;
-import eu.bankersen.kevin.ql.ast.expr.logic.Or;
-import eu.bankersen.kevin.ql.ast.expr.math.Add;
-import eu.bankersen.kevin.ql.ast.expr.math.Div;
-import eu.bankersen.kevin.ql.ast.expr.math.Mul;
-import eu.bankersen.kevin.ql.ast.expr.math.Neg;
-import eu.bankersen.kevin.ql.ast.expr.math.Pos;
-import eu.bankersen.kevin.ql.ast.expr.math.Sub;
-import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
-import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
-import eu.bankersen.kevin.ql.ast.stat.IFStatement;
-import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
-import eu.bankersen.kevin.ql.ast.types.BooleanType;
-import eu.bankersen.kevin.ql.ast.types.QLType;
-import eu.bankersen.kevin.ql.ast.types.UndifinedType;
-import eu.bankersen.kevin.ql.typechecker.errors.AllreadyDeclaredError;
-import eu.bankersen.kevin.ql.typechecker.errors.ExprTypeError;
-import eu.bankersen.kevin.ql.typechecker.errors.TypeCheckError;
-import eu.bankersen.kevin.ql.typechecker.errors.UndefinedQuestionError;
+import eu.bankersen.kevin.ql.form.ast.TopDownQuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.ExprVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.Identifier;
+import eu.bankersen.kevin.ql.form.ast.expr.Literal;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.And;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Eq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.GEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.GT;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.LEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.LT;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.NEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Not;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Or;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Add;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Div;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Mul;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Neg;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Pos;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Sub;
+import eu.bankersen.kevin.ql.form.ast.form.Form;
+import eu.bankersen.kevin.ql.form.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.form.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.form.ast.types.BooleanType;
+import eu.bankersen.kevin.ql.form.ast.types.Type;
+import eu.bankersen.kevin.ql.form.ast.types.UndifinedType;
+import eu.bankersen.kevin.ql.form.typechecker.errors.AllreadyDeclaredError;
+import eu.bankersen.kevin.ql.form.typechecker.errors.ExprTypeError;
+import eu.bankersen.kevin.ql.form.typechecker.errors.TypeCheckError;
+import eu.bankersen.kevin.ql.form.typechecker.errors.UndefinedQuestionError;
 
 public class TypeChecker {
 
-    private final Map<String, QLType> symbolTable;
+    private final Map<String, Type> symbolTable;
     private final List<TypeCheckError> errorList;
 
     public List<TypeCheckError> getErrors() {
@@ -73,14 +73,14 @@ public class TypeChecker {
 	}, null);
 
 	// TypeCheck the form.
-	form.accept(new TopDownQuestionVisitor<Map<String, QLType>>() {
+	form.accept(new TopDownQuestionVisitor<Map<String, Type>>() {
 
 	    @Override
-	    public void visit(IFStatement o, Map<String, QLType> context) {
+	    public void visit(IFStatement o, Map<String, Type> context) {
 
 		o.body().accept(this, context);
 
-		QLType expr = o.condition().accept(new ExprTypeChecker(), context);
+		Type expr = o.condition().accept(new ExprTypeChecker(), context);
 
 		if (!expr.equals(new BooleanType())) {
 		    errorList.add(new ExprTypeError(o, expr));
@@ -88,12 +88,12 @@ public class TypeChecker {
 	    }
 
 	    @Override
-	    public void visit(ElseStatement o, Map<String, QLType> context) {
+	    public void visit(ElseStatement o, Map<String, Type> context) {
 
 		o.body().accept(this, context);
 		o.elseBody().accept(this, context);
 
-		QLType expr = o.condition().accept(new ExprTypeChecker(), context);
+		Type expr = o.condition().accept(new ExprTypeChecker(), context);
 
 		if (!expr.equals(new BooleanType())) {
 		    errorList.add(new ExprTypeError(o, expr));
@@ -101,10 +101,10 @@ public class TypeChecker {
 	    }
 
 	    @Override
-	    public void visit(ComputedQuestion o, Map<String, QLType> context) {
+	    public void visit(ComputedQuestion o, Map<String, Type> context) {
 
-		QLType question = o.type();
-		QLType expr = o.computation().accept(new ExprTypeChecker(), context);
+		Type question = o.type();
+		Type expr = o.computation().accept(new ExprTypeChecker(), context);
 
 		if (!question.equals(expr) && !expr.equals(new UndifinedType())) {
 		    errorList.add(new ExprTypeError(o, question, expr));
@@ -112,42 +112,29 @@ public class TypeChecker {
 	    }
 
 	    @Override
-	    public void visit(NormalQuestion o, Map<String, QLType> context) {
+	    public void visit(NormalQuestion o, Map<String, Type> context) {
 	    }
 	}, symbolTable);
 
     }
 
     // The class responsible for type-checking expressions.
-    private class ExprTypeChecker implements ExprVisitor<QLType, Map<String, QLType>> {
+    private class ExprTypeChecker implements ExprVisitor<Type, Map<String, Type>> {
 
-	private Boolean isError(QLType result, QLType expr) {
+	private Boolean isError(Type result, Type expr) {
 	    return result.equals(new UndifinedType()) && !expr.equals(result);
 	}
 
-	private Boolean isError(QLType result, QLType lhs, QLType rhs) {
+	private Boolean isError(Type result, Type lhs, Type rhs) {
 	    return result.equals(new UndifinedType()) && !lhs.equals(result) && !rhs.equals(result);
 	}
 
 	@Override
-	public QLType visit(Sub o, Map<String, QLType> context) {
+	public Type visit(Sub o, Map<String, Type> context) {
 
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isSubtractSupported(right);
-
-	    if (isError(result, left, right)) {
-		errorList.add(new ExprTypeError(o, left, right));
-	    }
-	    return result;
-	}
-
-	@Override
-	public QLType visit(Add o, Map<String, QLType> context) {
-
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isAddSupported(right);
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isSubtractSupported(right);
 
 	    if (isError(result, left, right)) {
 		errorList.add(new ExprTypeError(o, left, right));
@@ -156,24 +143,11 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(Div o, Map<String, QLType> context) {
+	public Type visit(Add o, Map<String, Type> context) {
 
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isDivideSupported(right);
-
-	    if (isError(result, left, right)) {
-		errorList.add(new ExprTypeError(o, left, right));
-	    }
-	    return result;
-	}
-
-	@Override
-	public QLType visit(Mul o, Map<String, QLType> context) {
-
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isMultiplySupported(right);
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isAddSupported(right);
 
 	    if (isError(result, left, right)) {
 		errorList.add(new ExprTypeError(o, left, right));
@@ -182,10 +156,36 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(Pos o, Map<String, QLType> context) {
+	public Type visit(Div o, Map<String, Type> context) {
 
-	    QLType expr = o.expr().accept(this, context);
-	    QLType result = expr.isAbsoluteSupported();
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isDivideSupported(right);
+
+	    if (isError(result, left, right)) {
+		errorList.add(new ExprTypeError(o, left, right));
+	    }
+	    return result;
+	}
+
+	@Override
+	public Type visit(Mul o, Map<String, Type> context) {
+
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isMultiplySupported(right);
+
+	    if (isError(result, left, right)) {
+		errorList.add(new ExprTypeError(o, left, right));
+	    }
+	    return result;
+	}
+
+	@Override
+	public Type visit(Pos o, Map<String, Type> context) {
+
+	    Type expr = o.expr().accept(this, context);
+	    Type result = expr.isAbsoluteSupported();
 
 	    if (isError(result, expr)) {
 		errorList.add(new ExprTypeError(o, expr));
@@ -194,10 +194,10 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(Neg o, Map<String, QLType> context) {
+	public Type visit(Neg o, Map<String, Type> context) {
 
-	    QLType expr = o.expr().accept(this, context);
-	    QLType result = expr.isNegateSupported();
+	    Type expr = o.expr().accept(this, context);
+	    Type result = expr.isNegateSupported();
 
 	    if (isError(result, expr)) {
 		errorList.add(new ExprTypeError(o, expr));
@@ -206,24 +206,11 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(Or o, Map<String, QLType> context) {
+	public Type visit(Or o, Map<String, Type> context) {
 
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isOrSupported(right);
-
-	    if (isError(result, left, right)) {
-		errorList.add(new ExprTypeError(o, left, right));
-	    }
-	    return result;
-	}
-
-	@Override
-	public QLType visit(And o, Map<String, QLType> context) {
-
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isAndSupported(right);
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isOrSupported(right);
 
 	    if (isError(result, left, right)) {
 		errorList.add(new ExprTypeError(o, left, right));
@@ -232,24 +219,11 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(Eq o, Map<String, QLType> context) {
+	public Type visit(And o, Map<String, Type> context) {
 
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isEqualSupported(right);
-
-	    if (isError(result, left, right)) {
-		errorList.add(new ExprTypeError(o, left, right));
-	    }
-	    return result;
-	}
-
-	@Override
-	public QLType visit(GEq o, Map<String, QLType> context) {
-
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isGreaterOrEqualSupported(right);
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isAndSupported(right);
 
 	    if (isError(result, left, right)) {
 		errorList.add(new ExprTypeError(o, left, right));
@@ -258,24 +232,11 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(GT o, Map<String, QLType> context) {
+	public Type visit(Eq o, Map<String, Type> context) {
 
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isGreaterSupported(right);
-
-	    if (isError(result, left, right)) {
-		errorList.add(new ExprTypeError(o, left, right));
-	    }
-	    return result;
-	}
-
-	@Override
-	public QLType visit(LEq o, Map<String, QLType> context) {
-
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isLowerOrEqualSupported(right);
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isEqualSupported(right);
 
 	    if (isError(result, left, right)) {
 		errorList.add(new ExprTypeError(o, left, right));
@@ -284,24 +245,11 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(LT o, Map<String, QLType> context) {
+	public Type visit(GEq o, Map<String, Type> context) {
 
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isLowerSupported(right);
-
-	    if (isError(result, left, right)) {
-		errorList.add(new ExprTypeError(o, left, right));
-	    }
-	    return result;
-	}
-
-	@Override
-	public QLType visit(NEq o, Map<String, QLType> context) {
-
-	    QLType left = o.lhs().accept(this, context);
-	    QLType right = o.rhs().accept(this, context);
-	    QLType result = left.isNotEqualSupported(right);
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isGreaterOrEqualSupported(right);
 
 	    if (isError(result, left, right)) {
 		errorList.add(new ExprTypeError(o, left, right));
@@ -310,10 +258,62 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(Not o, Map<String, QLType> context) {
+	public Type visit(GT o, Map<String, Type> context) {
 
-	    QLType expr = o.expr().accept(this, context);
-	    QLType result = expr.isNotSupported();
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isGreaterSupported(right);
+
+	    if (isError(result, left, right)) {
+		errorList.add(new ExprTypeError(o, left, right));
+	    }
+	    return result;
+	}
+
+	@Override
+	public Type visit(LEq o, Map<String, Type> context) {
+
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isLowerOrEqualSupported(right);
+
+	    if (isError(result, left, right)) {
+		errorList.add(new ExprTypeError(o, left, right));
+	    }
+	    return result;
+	}
+
+	@Override
+	public Type visit(LT o, Map<String, Type> context) {
+
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isLowerSupported(right);
+
+	    if (isError(result, left, right)) {
+		errorList.add(new ExprTypeError(o, left, right));
+	    }
+	    return result;
+	}
+
+	@Override
+	public Type visit(NEq o, Map<String, Type> context) {
+
+	    Type left = o.lhs().accept(this, context);
+	    Type right = o.rhs().accept(this, context);
+	    Type result = left.isNotEqualSupported(right);
+
+	    if (isError(result, left, right)) {
+		errorList.add(new ExprTypeError(o, left, right));
+	    }
+	    return result;
+	}
+
+	@Override
+	public Type visit(Not o, Map<String, Type> context) {
+
+	    Type expr = o.expr().accept(this, context);
+	    Type result = expr.isNotSupported();
 
 	    if (isError(expr, result)) {
 		errorList.add(new ExprTypeError(o, expr));
@@ -322,12 +322,12 @@ public class TypeChecker {
 	}
 
 	@Override
-	public QLType visit(Literal o, Map<String, QLType> context) {
+	public Type visit(Literal o, Map<String, Type> context) {
 	    return o.type();
 	}
 
 	@Override
-	public QLType visit(Identifier o, Map<String, QLType> context) {
+	public Type visit(Identifier o, Map<String, Type> context) {
 	    if (context.containsKey(o.name())) {
 		return context.get(o.name());
 	    } else {

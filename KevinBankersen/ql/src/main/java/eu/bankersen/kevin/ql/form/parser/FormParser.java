@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.parser;
+package eu.bankersen.kevin.ql.form.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import eu.bankersen.kevin.ql.ast.form.Form;
+import eu.bankersen.kevin.ql.form.ast.form.Form;
+import eu.bankersen.kevin.ql.parser.QLLexer;
+import eu.bankersen.kevin.ql.parser.QLParser;
 import eu.bankersen.kevin.ql.parser.QLParser.FormContext;
 
 public class FormParser {

@@ -1,10 +1,10 @@
-package eu.bankersen.kevin.ql.ast;
+package eu.bankersen.kevin.ql.form.ast;
 
-import eu.bankersen.kevin.ql.ast.form.Body;
-import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.ast.stat.AbstractStatement;
-import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
-import eu.bankersen.kevin.ql.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.form.ast.form.Body;
+import eu.bankersen.kevin.ql.form.ast.form.Form;
+import eu.bankersen.kevin.ql.form.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.Statement;
 
 public abstract class TopDownQuestionVisitor<T> implements QuestionVisitor<T> {
 
@@ -15,7 +15,7 @@ public abstract class TopDownQuestionVisitor<T> implements QuestionVisitor<T> {
 
     @Override
     public void visit(Body o, T empty) {
-	for (AbstractStatement s : o.statements()) {
+	for (Statement s : o.statements()) {
 	    s.accept(this, empty);
 	}
     }

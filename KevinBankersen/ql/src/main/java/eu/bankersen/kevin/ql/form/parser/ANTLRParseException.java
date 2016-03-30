@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.parser;
+package eu.bankersen.kevin.ql.form.parser;
 
 import java.util.List;
 

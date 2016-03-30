@@ -1,16 +1,21 @@
-package eu.bankersen.kevin.ql.ast.stat;
+package eu.bankersen.kevin.ql.form.ast.stat;
 
-import eu.bankersen.kevin.ql.ast.QuestionVisitor;
-import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.types.QLType;
+import eu.bankersen.kevin.ql.form.ast.QuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.Expr;
+import eu.bankersen.kevin.ql.form.ast.types.Type;
 
-public class ComputedQuestion extends NormalQuestion {
+public class ComputedQuestion extends Question {
 
     private final Expr computation;
 
-    public ComputedQuestion(String name, String text, Expr computation, QLType type, int line) {
+    public ComputedQuestion(String name, String text, Expr computation, Type type, int line) {
 	super(name, text, type, line);
 	this.computation = computation;
+    }
+
+    @Override
+    public boolean isComputed() {
+	return true;
     }
 
     public Expr computation() {

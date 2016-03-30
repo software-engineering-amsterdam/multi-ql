@@ -1,7 +1,7 @@
-package eu.bankersen.kevin.ql.ast.form;
+package eu.bankersen.kevin.ql.form.ast.form;
 
-import eu.bankersen.kevin.ql.ast.AcceptQuestionVisitor;
-import eu.bankersen.kevin.ql.ast.QuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.AcceptQuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.QuestionVisitor;
 
 public class Form implements AcceptQuestionVisitor {
 

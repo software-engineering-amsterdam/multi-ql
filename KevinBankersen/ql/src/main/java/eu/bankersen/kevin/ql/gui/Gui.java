@@ -1,106 +1,115 @@
 package eu.bankersen.kevin.ql.gui;
 
+import java.io.File;
+import java.util.Iterator;
+
+import eu.bankersen.kevin.ql.form.FormBuilder;
+import eu.bankersen.kevin.ql.form.ast.form.Form;
+import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
+import eu.bankersen.kevin.ql.interperter.Evaluator;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class FXGui extends Application {
+public class Gui extends Application {
 
-    public static void main(String[] args) {
-	launch(args);
-    }
+	@Override
+	public void start(Stage stage) throws Exception {
 
-    @Override
-    public void start(Stage stage) throws Exception {
+		StackPane stack = new StackPane();
+		Scene scene = new Scene(stack, 500, 500);
 
-	StackPane stack = new StackPane();
-	Scene scene = new Scene(stack, 500, 500);
+		String titleText = "Welcome to QL!";
+		stage.setTitle(titleText);
 
-	String titleText = "Welcome to QL!";
-	stage.setTitle(titleText);
+		BorderPane border = new BorderPane();
+		border.setPadding(new Insets(10, 20, 10, 20));
 
-	BorderPane border = new BorderPane();
-	border.setPadding(new Insets(10, 20, 10, 20));
+		Text title = new Text(titleText);
+		title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+		title.setTextAlignment(TextAlignment.CENTER);
 
-	Text title = new Text(titleText);
-	title.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
-	title.setTextAlignment(TextAlignment.CENTER);
+		border.setTop(title);
+		border.setAlignment(title, Pos.CENTER);
 
-	border.setTop(title);
-	border.setAlignment(title, Pos.CENTER);
+		// border.setCenter(new Label("Open a form to begin!"));
+		File testFile = new File("C:\\Users\\Kevin\\Documents\\multi-ql\\KevinBankersen\\ql\\resources\\test.form");
+		border.setCenter(openForm(testFile));
 
-	VBox questions = new VBox();
-	questions.setSpacing(15);
+		Button open = new Button("Open Form");
+		open.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Open Resource File");
+				File file = fileChooser.showOpenDialog(new Stage());
+				if (file != null) {
+					border.setCenter(openForm(file));
+				}
+			}
+		});
 
-	// This is a question.
-	BorderPane grid = new BorderPane();
+		Button save = new Button("Save Results");
 
-	Label category = new Label(
-		"This is a sample question? This is a sample question? This is a sample question? This is a sample question? This is a sample question? This is a sample question? This is a sample question? This is a sample question? This is a sample question? This is a sample question?");
-	category.setWrapText(true);
-	category.setTextAlignment(TextAlignment.JUSTIFY);
-	category.setMaxWidth(325);
-	grid.setLeft(category);
+		BorderPane footer = new BorderPane();
+		footer.setLeft(open);
+		footer.setCenter(new Label("Made by Kevin Bankersen"));
+		footer.setRight(save);
 
-	HBox container = new HBox();
-	container.setSpacing(10);
-	ToggleGroup group = new ToggleGroup();
-	RadioButton button1 = new RadioButton("True");
-	button1.prefWidth(150);
-	button1.setToggleGroup(group);
-	button1.setSelected(true);
-	RadioButton button2 = new RadioButton("False");
-	button2.setToggleGroup(group);
+		border.setBottom(footer);
+		border.setAlignment(footer, Pos.CENTER);
 
-	container.getChildren().add(button1);
-	container.getChildren().add(button2);
+		stack.getChildren().add(border);
+		stage.setScene(scene);
+		stage.show();
+	}
 
-	grid.setRight(container);
-	questions.getChildren().add(grid);
-	// End of question
+	private ScrollPane openForm(File file) {
+		ScrollPane sp = new ScrollPane();
+		sp.setStyle("-fx-background-color:transparent;");
+		sp.setFitToWidth(true);
+		try {
+			Form form = new FormBuilder().createForm(file.toString());
+			sp.setContent(questionWidgets(form));
 
-	// Question 2
-	BorderPane grid2 = new BorderPane();
+		} catch (IllegalStateException e) {
+			sp.setContent(new Label("Error opening form, please select a correct form"));
+		}
+		return sp;
+	}
 
-	Label category2 = new Label("This is a sample question?");
-	grid2.setLeft(category2);
+	private VBox questionWidgets(Form form) {
 
-	HBox container2 = new HBox();
-	container2.setSpacing(10);
-	ToggleGroup group2 = new ToggleGroup();
-	RadioButton button12 = new RadioButton("True");
-	button12.prefWidth(150);
-	button12.setToggleGroup(group);
-	button12.setSelected(true);
-	RadioButton button22 = new RadioButton("False");
-	button22.setToggleGroup(group2);
+		Evaluator evaluator = new Evaluator(form);
 
-	container2.getChildren().add(button12);
-	container2.getChildren().add(button22);
+		VBox questionsWidgets = new VBox();
 
-	grid2.setRight(container2);
+		questionsWidgets.setSpacing(15);
 
-	questions.getChildren().add(grid2);
+		Iterator<QuestionWidget> itr = new GuiBuilder(form).questionIterator();
+		while (itr.hasNext()) {
+			QuestionWidget question = itr.next();
+			evaluator.addDataListener(question);
+			question.addUIListener(evaluator);
+			questionsWidgets.getChildren().add(question.widget());
+		}
 
-	border.setCenter(questions);
-	// Builds the application
-	stack.getChildren().add(border);
-	stage.setScene(scene);
-	stage.show();
-
-    }
+		return questionsWidgets;
+	}
 
 }
