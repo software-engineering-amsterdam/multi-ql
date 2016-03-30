@@ -1,20 +1,54 @@
-form test { 
+form test {
 
-
-"Test question 1"
-q1: boolean = q2
-
-"Test question 6"
+"Test Integer"
 q6: integer
 
-"Test question 3"
+"Test Integer"
+q7: integer = q6
+
+"Test Money"
+q8: money
+
+"Test Money"
+q9: money = q8
+
+"Test String"
+q10: string
+
+"Test String"
+q11: string = q10
+
+"Test if statement Q1"
+q1: boolean
+
+if(q1) {
+"If Q1"
+q2: boolean = true
+}
+
+"Test if/else statement Q3"
 q3: boolean
 
-if(q6 > 48) {
-"Test question 2"
-q2: boolean = true
+if(q3) {
+"If Q3"
+q4: boolean = true
 
+"If Q3"
+q14: boolean = true
+
+"If Q3"
+q24: boolean = true
+
+"If Q3"
+q34: boolean = true
+
+"If Q3"
+q44: boolean = true
+} else {
+"Else Q5"
+q5: boolean = true
 }
+
 
 
 }

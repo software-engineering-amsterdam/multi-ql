@@ -12,8 +12,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import uva.ql.antlr4.QLLexer;
 import uva.ql.antlr4.QLParser;
 import uva.ql.ast.Form;
-import uva.ql.ast.Node;
+import uva.ql.gui.GUI;
 import uva.ql.typechecker.TypeChecker;
+import uva.ql.visitors.VisitorASTToGUI;
 import uva.ql.visitors.VisitorAntlrToAST;
 
 public class QL {
@@ -23,7 +24,7 @@ public class QL {
     	this.filePath = filePath;
     }
     
-    public Node start() throws Exception {
+    public void start() throws Exception {
     	
     	InputStream in = getClass().getClassLoader().getResourceAsStream(filePath);
     	QLLexer lexer;
@@ -44,15 +45,18 @@ public class QL {
 		VisitorAntlrToAST visitor = new VisitorAntlrToAST();
 		Form form = (Form) visitor.visit(tree);
 		
-		/*Map<String, Integer> errorMsg = TypeChecker.checkAST(form);
+		Map<String, Integer> errorMsg = TypeChecker.checkAST(form);
 		
 		if( errorMsg.containsValue(-1) ) {
 			Iterator<String> it = errorMsg.keySet().iterator();
 			while( it.hasNext() ) {
 				System.out.println(it.next());
 			}
-		}*/
-		
-		return form;
+		}
+		else {
+			GUI gui = new GUI(form);
+			VisitorASTToGUI astToGUI = new VisitorASTToGUI();
+			astToGUI.visitForm(form, gui.getPanel());
+		}
     }
 }

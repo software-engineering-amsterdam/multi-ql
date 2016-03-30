@@ -21,12 +21,10 @@ public class Question<T> extends JPanel {
 	private JCheckBox checkBox;
 	private JTextField textField;
 	private DateSpinner spinner;
-	//private DateSpinnerImproved spinner;
 	
 	public Question(String label, Variable<T> var) {
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		//this.setBackground(new Color(0, 150, 0));
 		setLayout(new GridLayout(1,2));
 		add( new JLabel(label) );
 		
@@ -47,7 +45,6 @@ public class Question<T> extends JPanel {
 		}
 		else if (var.getType() == EnumType.DATE) {
 			spinner = new DateSpinner(var);
-			//spinner = new DateSpinnerImproved(var);
 			add(this.spinner);
 		}
 	}

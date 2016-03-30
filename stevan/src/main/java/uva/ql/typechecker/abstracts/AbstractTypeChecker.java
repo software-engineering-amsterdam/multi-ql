@@ -7,7 +7,6 @@ public abstract class AbstractTypeChecker {
 
 	protected final List<ErrorWarning> errorMessages = new ArrayList<ErrorWarning>(0);
 	
-	
 	public List<ErrorWarning> getErrors() {
 		return this.errorMessages;
 	}

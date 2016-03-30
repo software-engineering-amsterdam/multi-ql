@@ -2,12 +2,12 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
-import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.expressions.abstracts.Expression;
+import uva.ql.ast.expressions.abstracts.RelationalOperatorBinary;
 import uva.ql.ast.interfaces.EqualsEval;
 import uva.ql.ast.types.expression.GreaterThen;
 
-public class ExpGreaterThen extends RelationalOperatorBinary implements EqualsEval<Boolean> {
+public class ExpGreaterThen extends RelationalOperatorBinary<Integer> implements EqualsEval<Boolean> {
 
 	private GreaterThen type = new GreaterThen();
 	

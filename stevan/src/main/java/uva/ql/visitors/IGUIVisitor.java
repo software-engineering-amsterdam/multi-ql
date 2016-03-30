@@ -34,6 +34,7 @@ public interface IGUIVisitor {
 	public void visitVarInt(Variable<Integer> var, JPanel panel);
 	public void visitVarMoney(Variable<Integer> var, JPanel panel);
 	public void visitVarBool(Variable<Boolean> var, JPanel panel);
+	public void visitVarDate(Variable<String> var, JPanel panel);
 	
 	public void visitArithmeticOperator(ArithmeticOperatorBinary exp, JPanel panel);
 	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp, JPanel panel);
