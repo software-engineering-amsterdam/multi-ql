@@ -17,7 +17,7 @@ import nl.uva.sea.ql.ast.question.Question;
  * @version 30-mar-2016
  */
 public abstract class FormattedTextFieldComponent extends JPanel
-        implements ConcreteQuestionComponent{
+        implements ConcreteQuestionComponent {
     
     /**
      * TODO document
@@ -98,6 +98,15 @@ public abstract class FormattedTextFieldComponent extends JPanel
      */
     protected Object getTextFieldValue() {
         return textField.getValue();
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @return
+     */
+    protected String getTextFieldContents() {
+        return textField.getText();
     }
     
     /**

@@ -4,12 +4,14 @@ import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
 
 /**
  * Representation of <code>Question</code>s that return money in an AST.
  * 
  * @author Olav Trauschke
- * @version 9-mar-2016
+ * @version 30-mar-2016
  */
 public class MoneyQuestion extends Question {
     
@@ -63,5 +65,17 @@ public class MoneyQuestion extends Question {
     public void accept(Visitor visitor) {
         childrenAccept(visitor);
         visitor.visit(this);
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param generator
+     * @return 
+     */
+    @Override
+    public QuestionComponent createQuestionComponent(QuestionComponentGenerator generator) {
+        assert generator != null;
+        return generator.createQuestionComponent(this);
     }
 }

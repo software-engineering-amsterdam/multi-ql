@@ -89,6 +89,17 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     }
     
     /**
+     * TODO document
+     * 
+     * @param question
+     * @return 
+     */
+    public MoneyQuestionComponent createQuestionComponent(MoneyQuestion question) {
+        Expr condition = createConjunctionOfConditions();
+        return new MoneyQuestionComponent(condition, question, answerTable);
+    }
+    
+    /**
      * Create a <code>QuestionComponent</code> for a specified
      * <code>StringQuestion</code>.
      * 
