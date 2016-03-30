@@ -1,11 +1,10 @@
-module Interpreter (exec, evalExpr)
-       where
+module Interpreter (exec, evalExpr) where
 
-import           Ast                 as A
+import           Ast as A
 import           Control.Applicative
 import           Control.Monad
 import           Environment
-import           Prelude             hiding (EQ, GT, lookup)
+import           Prelude hiding (EQ, GT, lookup)
 import           Value
 import           Identifier
 import           Data.Decimal
@@ -13,7 +12,9 @@ import           Money
 
 type InterpreterError = String
 
-newtype Interpreter a = Interpreter { runInterp :: Environment Value -> Either InterpreterError (a, Environment Value) }
+newtype Interpreter a =
+          Interpreter
+            { runInterp :: Environment Value -> Either InterpreterError (a, Environment Value) }
 
 instance Functor Interpreter where
   fmap f p = Interpreter $ \s -> case runInterp p s of
@@ -50,53 +51,54 @@ eval (UnOp Not rhs) = do
   right <- eval rhs
   return (neg right)
 
-evalExpr :: Environment Value -> Expr ->  Value
-evalExpr env expr = case runInterp (eval expr) env of
-                      Left msg -> Undefined
-                      Right (val, env) -> val 
+evalExpr :: Environment Value -> Expr -> Value
+evalExpr env expr =
+  case runInterp (eval expr) env of
+    Left msg         -> Undefined
+    Right (val, env) -> val
 
 integerToMoney :: Integer -> Decimal
-integerToMoney = Decimal 0 
+integerToMoney = Decimal 0
 
 evalBinOp :: BinOp -> Value -> Value -> Interpreter Value
 -- Undefined
-evalBinOp _ Undefined _ = return Undefined
-evalBinOp _ _ Undefined = return Undefined
+evalBinOp _ Undefined _                           = return Undefined
+evalBinOp _ _ Undefined                           = return Undefined
 -- Ints
-evalBinOp Add (IntValue x) (IntValue y) = return (IntValue $ x + y)
-evalBinOp Sub (IntValue x) (IntValue y) = return (IntValue $ x - y)
-evalBinOp Div (IntValue _) (IntValue 0) = return Undefined -- Divide by Zero
-evalBinOp Div (IntValue x) (IntValue y) = return (IntValue $ x `div` y)
-evalBinOp Mul (IntValue x) (IntValue y) = return (IntValue $ x * y)
-evalBinOp GT (IntValue x) (IntValue y) =  return (BoolValue $ x > y)
-evalBinOp GTE (IntValue x) (IntValue y) =  return (BoolValue $ x >= y)
+evalBinOp Add (IntValue x) (IntValue y)           = return (IntValue $ x + y)
+evalBinOp Sub (IntValue x) (IntValue y)           = return (IntValue $ x - y)
+evalBinOp Div (IntValue _) (IntValue 0)           = return Undefined -- Divide by Zero
+evalBinOp Div (IntValue x) (IntValue y)           = return (IntValue $ x `div` y)
+evalBinOp Mul (IntValue x) (IntValue y)           = return (IntValue $ x * y)
+evalBinOp GT (IntValue x) (IntValue y)            = return (BoolValue $ x > y)
+evalBinOp GTE (IntValue x) (IntValue y)           = return (BoolValue $ x >= y)
 --Money + Ints
-evalBinOp Add (IntValue x) (MoneyValue y) = return (MoneyValue $ integerToMoney x + y)
-evalBinOp Add (MoneyValue x) (IntValue y) = return (MoneyValue $ x + integerToMoney y)
-evalBinOp Sub (IntValue x) (MoneyValue y) = return (MoneyValue $ integerToMoney x - y)
-evalBinOp Sub (MoneyValue x) (IntValue y) = return (MoneyValue $ x - integerToMoney y)
-evalBinOp Mul (IntValue x) (MoneyValue y) = return (MoneyValue $ integerToMoney x * y)
-evalBinOp Mul (MoneyValue x) (IntValue y) = return (MoneyValue $ x * integerToMoney y)
-evalBinOp GT (IntValue x) (MoneyValue y) = return (BoolValue $ integerToMoney x > y)
-evalBinOp GT (MoneyValue x) (IntValue y) = return (BoolValue $ x > integerToMoney y)
-evalBinOp GTE (IntValue x) (MoneyValue y) = return (BoolValue $ integerToMoney x >= y)
-evalBinOp GTE (MoneyValue x) (IntValue y) = return (BoolValue $ x >= integerToMoney y)
+evalBinOp Add (IntValue x) (MoneyValue y)         = return (MoneyValue $ integerToMoney x + y)
+evalBinOp Add (MoneyValue x) (IntValue y)         = return (MoneyValue $ x + integerToMoney y)
+evalBinOp Sub (IntValue x) (MoneyValue y)         = return (MoneyValue $ integerToMoney x - y)
+evalBinOp Sub (MoneyValue x) (IntValue y)         = return (MoneyValue $ x - integerToMoney y)
+evalBinOp Mul (IntValue x) (MoneyValue y)         = return (MoneyValue $ integerToMoney x * y)
+evalBinOp Mul (MoneyValue x) (IntValue y)         = return (MoneyValue $ x * integerToMoney y)
+evalBinOp GT (IntValue x) (MoneyValue y)          = return (BoolValue $ integerToMoney x > y)
+evalBinOp GT (MoneyValue x) (IntValue y)          = return (BoolValue $ x > integerToMoney y)
+evalBinOp GTE (IntValue x) (MoneyValue y)         = return (BoolValue $ integerToMoney x >= y)
+evalBinOp GTE (MoneyValue x) (IntValue y)         = return (BoolValue $ x >= integerToMoney y)
 --Money
-evalBinOp Add (MoneyValue x) (MoneyValue y) = return (MoneyValue $ x + y)
-evalBinOp Sub (MoneyValue x) (MoneyValue y) = return (MoneyValue $ x - y)
-evalBinOp GT (MoneyValue x) (MoneyValue y) = return (BoolValue $ x > y)
-evalBinOp GTE (MoneyValue x) (MoneyValue y) = return (BoolValue $ x >= y)
+evalBinOp Add (MoneyValue x) (MoneyValue y)       = return (MoneyValue $ x + y)
+evalBinOp Sub (MoneyValue x) (MoneyValue y)       = return (MoneyValue $ x - y)
+evalBinOp GT (MoneyValue x) (MoneyValue y)        = return (BoolValue $ x > y)
+evalBinOp GTE (MoneyValue x) (MoneyValue y)       = return (BoolValue $ x >= y)
 --String
 evalBinOp SConcat (StringValue x) (StringValue y) = return (StringValue $ x ++ y)
 --Bool
-evalBinOp And (BoolValue x) (BoolValue y) = return (BoolValue $ x && y)
-evalBinOp Or (BoolValue x) (BoolValue y) = return (BoolValue $ x || y)
+evalBinOp And (BoolValue x) (BoolValue y)         = return (BoolValue $ x && y)
+evalBinOp Or (BoolValue x) (BoolValue y)          = return (BoolValue $ x || y)
 --EQ
-evalBinOp EQ (StringValue x) (StringValue y) = return (BoolValue $ x == y)
-evalBinOp EQ (IntValue x) (IntValue y) = return (BoolValue $ x == y)
-evalBinOp EQ (MoneyValue x) (MoneyValue y) = return (BoolValue $ x == y)
-evalBinOp EQ (BoolValue x) (BoolValue y) = return (BoolValue $ x == y)
-evalBinOp _ _ _ = fail "Not supported"
+evalBinOp EQ (StringValue x) (StringValue y)      = return (BoolValue $ x == y)
+evalBinOp EQ (IntValue x) (IntValue y)            = return (BoolValue $ x == y)
+evalBinOp EQ (MoneyValue x) (MoneyValue y)        = return (BoolValue $ x == y)
+evalBinOp EQ (BoolValue x) (BoolValue y)          = return (BoolValue $ x == y)
+evalBinOp _ _ _                                   = fail "Not supported"
 
 neg :: Value -> Value
 neg (BoolValue v) = BoolValue $ not v
@@ -110,19 +112,19 @@ exec ast r =
   case runInterp (execForm ast) emptyEnv of
     Left msg      -> Left msg
     Right (_, r') -> Right r'
-    where
-        execForm (Form _ block) = mapM_ ex' block
-        ex' (If cond block) = do
-            c <- eval cond
-            when (c == BoolValue True) $ mapM_ ex' block
-            return ()
-        ex' (Field (CalcField info expr)) = do
-            res <- eval expr
-            set (A.id info) res
-            return ()
-        ex' (Field (SimpField info)) =
-            let name = A.id info
-                t = A.fieldType info
-            in Interpreter $ \c -> case lookup name r of
-                Nothing -> Right ((), declare c name (defaultVal t))
-                Just v  -> Right ((), declare c name v)
+  where
+    execForm (Form _ block) = mapM_ ex' block
+    ex' (If cond block) = do
+      c <- eval cond
+      when (c == BoolValue True) $ mapM_ ex' block
+      return ()
+    ex' (Field (CalcField info expr)) = do
+      res <- eval expr
+      set (A.id info) res
+      return ()
+    ex' (Field (SimpField info)) =
+      let name = A.id info
+          t = A.fieldType info
+      in Interpreter $ \c -> case lookup name r of
+        Nothing -> Right ((), declare c name (defaultVal t))
+        Just v  -> Right ((), declare c name v)
