@@ -41,8 +41,8 @@ public class MoneyFocusListener extends FocusAdapter {
 				temp = temp.replace(",", ".");
 				mtf.setText(temp);
 				
+				val = val.multiply(new BigDecimal("100"));
 				var.setValue(val.intValue());
-				System.out.println("MoneyTextField: " + val);
 			}
 		});
 	}

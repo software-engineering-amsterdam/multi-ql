@@ -11,11 +11,11 @@ import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
 import uva.ql.visitors.IGUIVisitor;
 
-public abstract class RelationalOperatorBinary extends Expression<Boolean> {
+public abstract class RelationalOperatorBinary<T> extends Expression<Boolean> {
 
-	private Expression<Integer> lhs, rhs;
+	private Expression<T> lhs, rhs;
 	
-	public RelationalOperatorBinary(Node parent, int startLine, int startColumn, Expression<Integer> lhs, Expression<Integer> rhs) {
+	public RelationalOperatorBinary(Node parent, int startLine, int startColumn, Expression<T> lhs, Expression<T> rhs) {
 		
 		super(parent, startLine, startColumn);
 		
@@ -23,17 +23,18 @@ public abstract class RelationalOperatorBinary extends Expression<Boolean> {
 		this.rhs = rhs;
 	}
 
-	public Expression<Integer> getLhs() {
+	public Expression<T> getLhs() {
 		
 		return this.lhs;
 	}
 	
-	public Expression<Integer> getRhs() {
+	public Expression<T> getRhs() {
 		
 		return this.rhs;
 	}
 	
-	protected EnumType getEnumTypeEvaluation() {
+	@Override
+	public EnumType getEnumTypeEvaluation() {
 		EnumType tlhs = this.getLhs().evalType();
 		EnumType trhs = this.getRhs().evalType();
 		
@@ -47,6 +48,29 @@ public abstract class RelationalOperatorBinary extends Expression<Boolean> {
 		else {
 			return trhs;
 		}
+	}
+	
+	@Override
+	public boolean isValid() {
+		boolean valid = false;
+		EnumType tlhs = this.getLhs().getType();
+		EnumType trhs = this.getRhs().getType();
+		
+		if (tlhs.equals(trhs)) {
+			if (tlhs.equals(EnumType.INTEGER) || tlhs.equals(EnumType.MONEY)) {
+				valid = true;
+			}
+			else {
+				valid = false;
+			}
+		}
+		
+		return valid;
+	}
+
+	@Override
+	public boolean isInValid() {
+		return !this.isValid();
 	}
 
 	@Override

@@ -1,14 +1,14 @@
 package eu.bankersen.kevin.ql;
 
-import eu.bankersen.kevin.ql.ast.values.BooleanValue;
-import eu.bankersen.kevin.ql.ast.values.QLValue;
+import eu.bankersen.kevin.ql.form.ast.values.BooleanValue;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
 import junit.framework.TestCase;
 
 public class BooleanValueTest extends TestCase {
 
     public void test() {
-	QLValue trueB = new BooleanValue(true);
-	QLValue falseB = new BooleanValue(false);
+	Value trueB = new BooleanValue(true);
+	Value falseB = new BooleanValue(false);
 
 	assertTrue(falseB.absolute().equals(new BooleanValue(true)));
 
@@ -33,6 +33,7 @@ public class BooleanValueTest extends TestCase {
 	assertTrue(trueB.equal(trueB).equals(new BooleanValue(true)));
 
 	assertTrue(trueB.not().equals(new BooleanValue(false)));
+
 	assertTrue(falseB.not().equals(new BooleanValue(true)));
     }
 

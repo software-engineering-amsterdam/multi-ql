@@ -1,23 +1,18 @@
 package uva.ql.gui.observers;
 
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 
 import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.gui.EnableDisablePanel;
 
-public class DoublePanelObserver extends EnableDisablePanel implements Observer {
+public class DoublePanelObserver extends SinglePanelObserver {
 
-	private final JPanel panelLhs, panelRhs;
-	private final Expression<Boolean> exp;
+	private final JPanel panelRhs;
 	
 	public DoublePanelObserver(JPanel panelLhs, JPanel panelRhs, Expression<Boolean> exp) {
-        this.panelLhs = panelLhs;
+		super(panelLhs, exp);
         this.panelRhs = panelRhs;
-        this.exp = exp;
-        this.enablePanel(panelLhs, this.exp.eval());
 		this.enablePanel(panelRhs, !this.exp.eval());
     }
 

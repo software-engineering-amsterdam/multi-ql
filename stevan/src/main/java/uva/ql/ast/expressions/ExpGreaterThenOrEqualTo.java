@@ -7,7 +7,7 @@ import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.interfaces.EqualsEval;
 import uva.ql.ast.types.expression.LessThenOrEqualTo;
 
-public class ExpGreaterThenOrEqualTo extends RelationalOperatorBinary implements EqualsEval<Boolean> {
+public class ExpGreaterThenOrEqualTo extends RelationalOperatorBinary<Integer> implements EqualsEval<Boolean> {
 
 	private LessThenOrEqualTo type = new LessThenOrEqualTo();
 	

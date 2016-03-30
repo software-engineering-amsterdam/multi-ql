@@ -1,15 +1,15 @@
 package eu.bankersen.kevin.ql;
 
-import eu.bankersen.kevin.ql.ast.values.BooleanValue;
-import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.ast.values.StringValue;
+import eu.bankersen.kevin.ql.form.ast.values.BooleanValue;
+import eu.bankersen.kevin.ql.form.ast.values.StringValue;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
 import junit.framework.TestCase;
 
 public class StringValueTest extends TestCase {
 
     public void test() {
-	QLValue blablabla = new StringValue("blablabla");
-	QLValue tralala = new StringValue("tralala");
+	Value blablabla = new StringValue("blablabla");
+	Value tralala = new StringValue("tralala");
 
 	assertTrue(blablabla.and(tralala).equals(new BooleanValue(false)));
 	assertTrue(blablabla.and(blablabla).equals(new BooleanValue(true)));

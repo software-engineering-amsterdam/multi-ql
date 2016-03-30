@@ -17,13 +17,13 @@ public class VarBool extends Variable<Boolean> {
 	}
 	
 	@Override
-	public EnumType evalType() {
-		return this.getType();
+	public EnumType getType() {
+		return this.type.getType();
 	}
 	
 	@Override
-	public EnumType getType() {
-		return this.type.getType();
+	public EnumType evalType() {
+		return this.getType();
 	}
 	
 	@Override

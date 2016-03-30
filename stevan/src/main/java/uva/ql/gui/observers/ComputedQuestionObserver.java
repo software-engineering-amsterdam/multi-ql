@@ -1,5 +1,6 @@
 package uva.ql.gui.observers;
 
+import java.math.BigDecimal;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,10 +17,16 @@ public class ComputedQuestionObserver implements Observer {
 	public ComputedQuestionObserver(JComponent component, Expression exp) {
         this.textField = (JTextField) component;
         this.exp = exp;
+        this.textField.setEditable(false);
+        this.textField.setFocusable(false);
     }
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("Computed answer: " + this.exp.eval());
+		BigDecimal val = new BigDecimal(this.exp.eval().toString());
+		val = val.divide(new BigDecimal("10000"));
+		String temp = String.format("%.2f", val);
+		temp = temp.replace(",", ".");
+		this.textField.setText(temp);
 	}
 }
