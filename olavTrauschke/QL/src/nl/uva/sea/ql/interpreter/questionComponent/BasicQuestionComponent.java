@@ -1,7 +1,5 @@
 package nl.uva.sea.ql.interpreter.questionComponent;
 
-import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponentListener;
-import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponentChangeEvent;
 import java.util.*;
 import javax.swing.JComponent;
 import nl.uva.sea.ql.answerTable.*;
@@ -13,7 +11,8 @@ import nl.uva.sea.ql.generalPurposeVisitors.IdentCollector;
 /**
  * Objects of this class represent
  * {@link nl.uva.sea.ql.ast.question.Question Question}s together with the
- * conditions under which they should be displayed.
+ * conditions under which they should be displayed. N.B. objects of this class
+ * are not {@link java.io.Serializable Serializable}.
  * 
  * @author Olav Trauschke
  * @version 29-mar-2016

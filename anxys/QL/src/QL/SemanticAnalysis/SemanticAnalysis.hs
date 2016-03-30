@@ -1,78 +1,23 @@
-module TypeChecker where
+module QL.SemanticAnalysis.SemanticAnalysis (module QL.SemanticAnalysis.SemanticAnalysis, module QL.SemanticAnalysis.SemanticError) where
 
-import           AnnotatedAst as A
-import           Ast as S (FieldType(Integer, Money, String, Boolean))
-import qualified Data.List as L
-import           Location (Location)
-import           Identifier
+import qualified Data.List                                 as L
+import           QL.Identifier
+import           QL.Language.Syntax.Annotated.AnnotatedAst as A
+import           QL.Language.Syntax.Ast                    as S (FieldType (Integer, Money, String, Boolean))
+import           QL.Location                               (Location)
+import           QL.SemanticAnalysis.SemanticError
 
-type LeftType = S.FieldType
-
-type RightType = S.FieldType
 
 type TypeMap = (Identifier, S.FieldType)
 
 data SemanticResult =
        SemanticResult
-         { typeErrors :: [TypeError]
-         , cycleErrors :: [DependencyError]
-         , duplicationErrors :: [DuplicationIssue]
+         { typeErrors          :: [TypeError]
+         , cycleErrors         :: [DependencyError]
+         , duplicationErrors   :: [DuplicationIssue]
          , duplicationWarnings :: [DuplicationIssue]
          }
   deriving (Eq, Show)
-
-data SemanticError = DuplicationIssue DuplicationIssue
-                   | TypeError TypeError
-                   | DependencyError DependencyError
-
-instance Show DuplicationIssue
- where
-   show = showDuplicationIssue
-
-instance Show SemanticError
- where
-   show (DuplicationIssue x) = show x
-   show (TypeError x) = showIssue x
-   show (DependencyError x) = showIssue x
-
-class HumanReadableIssue a
- where showIssue :: a -> String
-
-instance HumanReadableIssue DuplicationIssue
- where
-  showIssue = showDuplicationIssue
-
-instance HumanReadableIssue TypeError
- where
-  showIssue = showTypeError
-
-instance HumanReadableIssue DependencyError
-  where
-  showIssue = showDependencyError
-
-data DuplicationIssue = DuplicateIdentifier Identifier [Location]
-                      | RedeclarationError Identifier Location [Location]
-  deriving (Eq)
-
-showDuplicationIssue :: DuplicationIssue -> String
-showDuplicationIssue (DuplicateIdentifier identifier duplicateLocations) = "The identifier: " ++ show identifier ++ "," ++ " has been declared multiple times at the following locations:" ++ show duplicateLocations
-showDuplicationIssue (RedeclarationError identifier _ duplicateLocations) = "The identifier: " ++ show identifier ++ " has been redeclared with different types at the following locations: " ++ show duplicateLocations
-
-data TypeError = UndeclaredVariable Location
-               | TypeMismatch LeftType RightType Location
-  deriving (Eq, Show) --TODO: Maybe use an instance declaration for show
-
-showTypeError :: TypeError -> String
-showTypeError (UndeclaredVariable location) = "There is a reference to an undeclared variable at " ++ show location
-showTypeError (TypeMismatch lhs rhs location) = "There is a type error at " ++ show location ++ ":" ++ " (" ++ show lhs ++ " and " ++ show rhs ++ ")."
-
-data DependencyError = CyclicDependencyError Identifier Location
-                     | PostDependencyError (Identifier, Location) (Identifier, [Location])
-  deriving (Eq, Show) --TODO: Maybe use an instance declaration for show
-
-showDependencyError :: DependencyError -> String
-showDependencyError (CyclicDependencyError identifier location) = "There is a cyclic dependency for identifier: " ++ show identifier ++ " at " ++ show location ++ "."
-showDependencyError (PostDependencyError (dependant, dependantLoc) (dependency, dependencyLoc)) = "The identifier: " ++ show dependant ++ " at " ++ show dependantLoc ++ " relies on the identifier: " ++ show dependency ++ " defined after it at " ++ show dependencyLoc ++ "."
 
 hasNoErrors :: SemanticResult -> Bool
 hasNoErrors a = (null . cycleErrors) a && (null . typeErrors) a && (null . duplicationErrors) a
@@ -82,25 +27,25 @@ toSemanticError x = map DuplicationIssue (duplicationErrors x)
      ++ map DependencyError (cycleErrors x)
         ++ map TypeError (typeErrors x)
 
-semanticCheck::Form Location -> SemanticResult 
+semanticCheck :: Form Location -> SemanticResult
 semanticCheck = analyze
 
 analyze :: Form Location -> SemanticResult
 analyze x = uncurry (SemanticResult tErrors depErrors) dIssues
   where
-    tErrors = typecheckForm x
-    depErrors = cErrors ++ checkForPostDependencies x
-    cErrors = findCycles ((transitiveClosure . getIdentifierRelation) calcFields) calcFields
+    tErrors = checkForTypeErrors x
+    depErrors = cErrors ++ checkForPostDependencyErrors x
+    cErrors = checkForCyclicDependencyErrors ((transitiveClosure . getIdentifierRelation) calcFields) calcFields
     calcFields = collectCalculatedFields x
     fields = collectFields x
-    dErrors = checkDuplicates fields
+    dErrors = checkForDuplicateFields fields
     dIssues = L.partition (not.isWarning) dErrors
     isWarning issue = case issue of
         DuplicateIdentifier{} -> True
-        RedeclarationError{} -> False 
+        RedeclarationError{} -> False
 
-checkDuplicates :: [Field Location] -> [DuplicationIssue]
-checkDuplicates xs = map issue groups
+checkForDuplicateFields :: [Field Location] -> [DuplicationIssue]
+checkForDuplicateFields xs = map issue groups
   where
     dups = findDuplicates xs
     issue p = if sameType p
@@ -114,10 +59,6 @@ checkDuplicates xs = map issue groups
     getLoc (_, CalculatedField l _ _) = l
     getLoc (_, SimpleField l _) = l
 
-extractFieldInfo :: Field Location -> FieldInformation Location
-extractFieldInfo (CalculatedField _ i _) = i
-extractFieldInfo (SimpleField _ i) = i
-
 findDuplicates :: [Field Location] -> [Field Location]
 findDuplicates xs = map snd (concat (getDups group))
   where
@@ -126,9 +67,9 @@ findDuplicates xs = map snd (concat (getDups group))
     group = L.groupBy sameIden idmap
     getDups = filter (\x -> length x > 1)
 
-findCycles :: [(Identifier, Identifier)] -> [Field Location] -> [DependencyError]
-findCycles [] _ = []
-findCycles (x:xs) env = checkForCycles x ++ findCycles xs env
+checkForCyclicDependencyErrors :: [(Identifier, Identifier)] -> [Field Location] -> [DependencyError]
+checkForCyclicDependencyErrors [] _ = []
+checkForCyclicDependencyErrors (x:xs) env = checkForCycles x ++ checkForCyclicDependencyErrors xs env
   where
     checkForCycles (y, z) = if (y, y) `elem` (x : xs)
                               then map (uncurry CyclicDependencyError) (findIdent (y, z))
@@ -146,15 +87,14 @@ transitiveClosure closure
                                  , (b', c) <- closure
                                  , b == b']
 
-checkForPostDependencies :: Form Location -> [DependencyError]
-checkForPostDependencies form = L.nub $ concatMap (\x -> map (PostDependencyError (getIdentifier x, head (getLocations (getIdentifier x))).getDeclarationLocations) (postDeclarations x))  calcFields
+checkForPostDependencyErrors :: Form Location -> [DependencyError]
+checkForPostDependencyErrors form = L.nub $ concatMap (\x -> map (PostDependencyError (getIdentifier x, head (getLocations (getIdentifier x))).getDeclarationLocations) (postDeclarations x))  calcFields
   where extractLocationFromField = extractAnnotationFromField
         calcFields = collectCalculatedFields form
         fields = collectFields form
         getDeclarationLocations y = (y, getLocations y)
-        calcIdentifiers = map getIdentifier calcFields
-        getLocations x = map extractLocationFromField (filter ((x ==).getIdentifier) fields) 
-        identifiers = map getIdentifier fields 
+        getLocations x = map extractLocationFromField (filter ((x ==).getIdentifier) fields)
+        identifiers = map getIdentifier fields
         dependencies x = map snd (dependencyRelation (toIdentifierExpr x))
         postDeclarations x = filter (isPostDeclaration (getIdentifier x)) (dependencies x)
         isPostDeclaration x y = minimum (L.elemIndices x identifiers) < minimum (L.elemIndices y identifiers)
@@ -173,13 +113,13 @@ toIdentifierExpr (CalculatedField _ info expr) = (A.id info, expr)
 toIdentifierExpr (SimpleField _ _) = error "Attempted to get values for SimpleFields"
 
 getIdentifierRelation :: [Field Location] -> [(Identifier, Identifier)]
-getIdentifierRelation  = foldr ((++) . dependencyRelation .toIdentifierExpr) []  
+getIdentifierRelation  = foldr ((++) . dependencyRelation .toIdentifierExpr) []
 
-typecheckForm :: Form Location -> [TypeError]
-typecheckForm form@(Form _ _ ss) =
+checkForTypeErrors :: Form Location -> [TypeError]
+checkForTypeErrors form@(Form _ _ ss) =
   typeCheckStatement ss
   where
-    types = collectFormTypeMap form 
+    types = collectFormTypeMap form
     typeCheckStatement =
       concatMap typeCheckStatement'
     typeCheckStatement' (If loc expr ifblock) =
@@ -224,10 +164,9 @@ getType types (Variable loc name) =
     Just a ->
       Right a
 getType types (UnaryOperation _ _ rhs) = getType types rhs
-getType types exp =
-  getBinType exp rType lType 
+getType types expr@(BinaryOperation _ _ lhs rhs) =
+  getBinType expr rType lType
   where
-    (BinaryOperation _ _ lhs rhs) = exp 
     rType =
       getType types rhs
     lType =
@@ -242,7 +181,7 @@ getBinType _ _ (Left rhs) =
   Left rhs
 getBinType (BinaryOperation loc op _ _) (Right lhs) (Right rhs) =
   if isValidBinOp op lhs rhs
-    then Right rhs 
+    then Right rhs
     else Left [TypeMismatch lhs rhs loc]
 getBinType _ (Right _) (Right _) = error "Called with something that isn't a binary expression"
 

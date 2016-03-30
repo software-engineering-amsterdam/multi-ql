@@ -1,8 +1,8 @@
-module Simplify (simplify, S.Form)
+module QL.Language.Syntax.Simplify (simplify, S.Form)
        where
 
-import AnnotatedAst as A
-import Ast as S
+import QL.Language.Syntax.Annotated.AnnotatedAst as A
+import QL.Language.Syntax.Ast as S
 
 simplify :: A.Form a -> S.Form
 simplify = sForm

@@ -68,10 +68,16 @@ public class DecimalQuestion extends Question {
     }
     
     /**
-     * TODO document
+     * Make a specified <code>QuestionComponentGenerator</code> create a
+     * <code>DecimalQuestionComponent</code> for <code>this DecimalQuestion</code>.
      * 
-     * @param generator
-     * @return 
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create a <code>DecimalQuestionComponent</code> for
+     *                  <code>this DecimalQuestion</code>
+     * @return a <code>DecimalQuestionComponent</code> representing
+     *          <code>this DecimalQuestion</code>, as created by a call to
+     *          {@link nl.uva.sea.ql.interpreter.QuestionComponentGenerator#createQuestionComponent(nl.uva.sea.ql.ast.question.DecimalQuestion)
+     *          generator.createQuestionComponent(DecimalQuestion)}
      */
     @Override
     public QuestionComponent createQuestionComponent(QuestionComponentGenerator generator) {

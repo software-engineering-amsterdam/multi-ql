@@ -8,7 +8,7 @@ import java.util.Objects;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a string value.
  * 
  * @author Olav Trauschke
- * @version 29-mar-2016
+ * @version 30-mar-2016
  */
 public class StringValue extends Value {
     
@@ -51,6 +51,7 @@ public class StringValue extends Value {
             return new StringValue(null);
         }
         else {
+            assert toCast instanceof StringValue;
             return (StringValue) toCast;
         }
     }

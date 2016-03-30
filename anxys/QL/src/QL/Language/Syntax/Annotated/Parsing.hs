@@ -1,5 +1,5 @@
-module Parsing (
-    Parsing.parse,
+module QL.Language.Syntax.Annotated.Parsing (
+    QL.Language.Syntax.Annotated.Parsing.parse,
     form,
     expr,
     ifStmnt,
@@ -10,14 +10,16 @@ module Parsing (
     ParseError
     ) where
 
-import           AnnotatedAst                           as A
-import           Location
-import           Text.Parsec.Prim                       as S
-import           Text.ParserCombinators.Parsec          as P
+import           QL.Language.Syntax.Annotated.AnnotatedAst as A
+import           QL.Location
+import           QL.Money
+import           Text.Parsec.Prim                          as S
+import           Text.ParserCombinators.Parsec             as P
 import           Text.ParserCombinators.Parsec.Expr
 import           Text.ParserCombinators.Parsec.Language
-import qualified Text.ParserCombinators.Parsec.Token    as Token
+import qualified Text.ParserCombinators.Parsec.Token       as Token
 
+languageDef :: LanguageDef st
 languageDef =
   emptyDef
     { Token.commentStart = "/*"
@@ -36,7 +38,7 @@ languageDef =
                             , "money"
                             , "integer"
                             , "string"
-                            , "bool"
+                            , "boolean"
                             ]
     , Token.reservedOpNames = [ "+"
                               , "-"
@@ -57,23 +59,26 @@ languageDef =
     , Token.caseSensitive = True
     }
 
+lexer :: Token.TokenParser st
 lexer = Token.makeTokenParser languageDef
 
 identifier :: Parser String
 identifier = Token.identifier lexer
 
+reserved :: String -> Parsec String u ()
 reserved = Token.reserved lexer
 
+reservedOp :: String -> Parsec String u ()
 reservedOp = Token.reservedOp lexer
 
+parens :: Parser a -> Parser a
 parens = Token.parens lexer
 
+braces :: Parser a -> Parser a
 braces = Token.braces lexer
 
 integer :: Parser Integer
 integer = Token.integer lexer
-
-whiteSpace = Token.whiteSpace lexer
 
 float :: Parser Double
 float = Token.float lexer
@@ -88,7 +93,7 @@ integerT :: Parser (FieldType Location)
 integerT = addLoc0 Integer (reserved "integer") <?> "integer type"
 
 boolT :: Parser (FieldType Location)
-boolT = addLoc0  Boolean (reserved "bool") <?> "bool type"
+boolT = addLoc0  Boolean (reserved "boolean") <?> "bool type"
 
 stringT :: Parser (FieldType Location)
 stringT = addLoc0  String (reserved "string") <?> "string type"
@@ -103,8 +108,8 @@ addLoc0 f p = do
   e <- getPosition
   return (f (newLoc s e) )
 
-addLoc :: (Location -> a -> b Location) -> Parser a -> Parser (b Location)
-addLoc f p = do
+addLoc1 :: (Location -> a -> b Location) -> Parser a -> Parser (b Location)
+addLoc1 f p = do
   s <- getPosition
   v <- p
   e <- getPosition
@@ -119,7 +124,7 @@ addLoc2 f p1 p2 = do
   return (f (newLoc s e) v c)
 
 field :: Parser (Statement Location)
-field = addLoc Field (P.try calculatedField <|> simpleField)
+field = addLoc1 Field (P.try calculatedField <|> simpleField)
 
 fieldInfo :: Parser (FieldInformation Location)
 fieldInfo = do
@@ -130,7 +135,7 @@ fieldInfo = do
   return (FieldInformation text name t)
 
 simpleField :: Parser (Field Location)
-simpleField = addLoc SimpleField fieldInfo <?> "simple field"
+simpleField = addLoc1 SimpleField fieldInfo <?> "simple field"
 
 calculatedField :: Parser (Field Location)
 calculatedField = addLoc2 CalculatedField  (fieldInfo <* reserved "=") expr <?> "calculated field"
@@ -141,13 +146,15 @@ block = braces (many stmnt) <?> "block"
 expr :: Parser (Expression Location)
 expr = buildExpressionParser opTable term <?> "expression"
 
+-- Helper functions to make the opTable more readable
 binop_ :: Location -> (Location -> BinaryOperation Location) -> Expression Location -> Expression Location -> Expression Location
 binop_ l op = BinaryOperation l (op l)
 
+-- Helper functions to make the opTable more readable
 uop_ :: Location -> (Location -> UnaryOperation Location) -> Expression Location -> Expression Location
 uop_ l op = UnaryOperation l (op l)
 
-opTable :: [[Operator Char a (Expression Location)]]
+opTable :: [[Operator Char () (Expression Location)]]
 opTable = [
           [ unary "not" A.Not ]
         , [ binary ">=" A.GreaterThanOrEquals AssocLeft
@@ -158,43 +165,38 @@ opTable = [
         , [ binary "==" A.Equals AssocLeft
           , binary "!=" A.NotEquals AssocLeft
           ]
-        , [ binary "and" And AssocLeft
+        , [ binary "and" A.And AssocLeft
           , binary "or" A.Or AssocLeft
           ]
-        , [ binary "*" Multiplication AssocLeft
+        , [ binary "*" A.Multiplication AssocLeft
           , binary "/" A.Division AssocLeft
           ]
-        , [ binary "+" Addition AssocLeft
+        , [ binary "+" A.Addition AssocLeft
           , binary "-" A.Subtraction AssocLeft
           ]
-        , [ binary "++" StringConcatenation AssocLeft ]
+        , [ binary "++" A.StringConcatenation AssocLeft ]
         ]
   where
     binary name op = Infix
                        ( do
-                         s <- getPosition
-                         reservedOp name
-                         e <- getPosition
-                         return (binop_ (newLoc s e) op)
+                         loc <- opLocation (reservedOp name)
+                         return (binop_ loc op)
                        )
     unary name op = Prefix
                       ( do
-                        s <- getPosition
-                        reservedOp name
-                        e <- getPosition
-                        return (uop_ (newLoc s e) op)
+                        loc <- opLocation (reservedOp name)
+                        return (uop_ loc op)
                       )
 
---- Dis breaks everything
-lOp :: String -> Parser (SourcePos, SourcePos)
-lOp name = do
+opLocation :: Parser a -> Parser Location
+opLocation p = do
             s <- getPosition
-            reservedOp name
+            _ <- p
             e <- getPosition
-            return (s,e)
+            return (newLoc s e)
 
 var :: Parser (Expression Location)
-var = addLoc Variable identifier <?> "variable"
+var = addLoc1 Variable identifier <?> "variable"
 
 term :: Parser (Expression Location)
 term = parens expr
@@ -202,20 +204,25 @@ term = parens expr
        <|> lit
        <?> "term"
 
+dec :: Parser Decimal
+dec = do
+      val <- float
+      return (realFracToDecimal (decimalMantissa 2) val) <?> "decimal"
+
 lit :: Parser (Expression Location)
-lit = addLoc Literal (slit <|> P.try mlit <|> ilit <|> blit) <?> "literal"
+lit = addLoc1 Literal (slit <|> P.try mlit <|> ilit <|> blit) <?> "literal"
 
 slit :: Parser (Literal Location)
-slit = addLoc StringLiteral stringLiteral <?> "string literal"
+slit = addLoc1 StringLiteral stringLiteral <?> "string literal"
 
 mlit :: Parser (Literal Location)
-mlit = addLoc MoneyLiteral  float <?> "money literal"
+mlit = addLoc1 MoneyLiteral  dec <?> "money literal"
 
 ilit :: Parser (Literal Location)
-ilit = addLoc IntegerLiteral integer <?> "integer literal"
+ilit = addLoc1 IntegerLiteral integer <?> "integer literal"
 
 blit :: Parser (Literal Location)
-blit = addLoc BooleanLiteral (true <|> false) <?> "bool literal"
+blit = addLoc1 BooleanLiteral (true <|> false) <?> "bool literal"
   where
     true = reserved "true" >> return True
     false = reserved "false" >> return False
@@ -226,8 +233,8 @@ stmnt = conditional <|> field <?> "statement"
 conditional :: Parser (Statement Location)
 conditional = P.try ifElseStmnt <|> ifStmnt <?> "conditional"
 
-if_ :: Parser (Expression Location, Block Location)
-if_ = do
+if' :: Parser (Expression Location, Block Location)
+if' = do
   reserved "if"
   cond <- parens expr
   body <- block
@@ -236,14 +243,14 @@ if_ = do
 ifStmnt :: Parser (Statement Location)
 ifStmnt = do
   s <- getPosition
-  (cond, body) <- if_
+  (cond, body) <- if'
   e <- getPosition
   return (If (newLoc s e) cond body) <?> "if statement"
 
 ifElseStmnt :: Parser (Statement Location)
 ifElseStmnt = do
   s <- getPosition
-  (cond, firstBody) <- if_
+  (cond, firstBody) <- if'
   reserved "else"
   secondBody <- block
   e <- getPosition

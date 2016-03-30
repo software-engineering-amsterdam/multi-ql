@@ -8,7 +8,7 @@ import java.util.Objects;
  * {@link nl.uva.sea.ql.ast.question.MoneyQuestion DecimalQuestion}s.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 30-mar-2016
  */
 public class MoneyValue extends NumericValue {
     
@@ -47,9 +47,8 @@ public class MoneyValue extends NumericValue {
     }
     
     /**
-     * TODO document
-     * 
-     * @return 
+     * @return a <code>BigDecimal</code> with the <code>value this MoneyValue</code>
+     *          represents
      */
     public BigDecimal getValue() {
         return value;

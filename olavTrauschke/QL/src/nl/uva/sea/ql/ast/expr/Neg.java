@@ -22,7 +22,7 @@ public class Neg extends NumericExpr {
      * <code>IntValue</code> representing the factor <code>NumericValue</code>
      * should be multiplied by to negate them.
      */
-    public static final IntValue MULTIPLICATION_FACTOR = new IntValue(new Long(-1));
+    public static final IntValue MULTIPLICATION_FACTOR = new IntValue(Long.valueOf(-1));
     
     private final Expr content;
     

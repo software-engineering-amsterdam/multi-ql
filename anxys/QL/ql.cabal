@@ -15,22 +15,21 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-                       src/Language
-                       src/Language/SemanticAnalysis
-                       src/Language/Annotated
-                       src/Language/Annotated/Location
-  exposed-modules:     AnnotatedAst
-                       Simplify
-                       Ast
-                       TypeChecker
-                       Parsing
-                       Location
-                       Environment
-                       Value
-                       QL
-                       Identifier
-                       Interpreter
---  other-modules:       Identifier
+  exposed-modules:     QL.Language.Syntax.Annotated.AnnotatedAst
+                       QL.Language.Syntax.Simplify
+                       QL.Language.Syntax.Ast
+                       QL.SemanticAnalysis.SemanticAnalysis
+                       QL.Language.Syntax.Annotated.Parsing
+                       QL.Location
+                       QL.Environment
+                       QL.Value.Value
+                       QL.Language.Parser
+                       QL.Identifier
+                       QL.Interpreter
+  other-modules:       QL.Value.ValueTypes
+                     , QL.Money
+                     , QL.Value.ParseValue
+                     , QL.SemanticAnalysis.SemanticError
   build-depends:       base >= 4.7 && < 5
                      , parsec
                      , syb
@@ -42,15 +41,18 @@ library
 
 executable ql-exe
   hs-source-dirs:      app
+                     , app/GUI
   main-is:             Main.hs
   other-modules:       GUIElement
                      , GUIContext
+                     , GUIError
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , ql
                      , parsec
                      , wx
                      , wxcore
+                     , mtl
   default-language:    Haskell2010
 
 test-suite ql-test

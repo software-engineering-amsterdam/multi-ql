@@ -4,40 +4,51 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * TODO document
+ * Objects of this class represent values of QL
+ * {@link nl.uva.sea.ql.ast.question.DateQuestion DateQuestion}s and
+ * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a boolean value.
  * 
  * @author Olav Trauschke
- * @version 29-mar-2016
+ * @version 30-mar-2016
  */
 public class DateValue extends Value {
     
+    /**
+     * Start value used to calculate hashes for objects of this class.
+     */
     public static final int HASH_ORIGIN = 497;
     
     private final Date value;
     
     /**
-     * TODO document
+     * Constructor for objects of this class.
      * 
-     * @param theValue 
+     * @param theValue a <code>Date</code> the constructed <code>DateValue</code>
+     *                  should represent or <code>null</code> (for unknown)
      */
     public DateValue(Date theValue) {
-        value = theValue;
+        value = (Date) theValue.clone();
     }
     
     /**
-     * TODO document
-     * 
-     * @return 
+     * @return a <code>Date</code> with the <code>value this DateValue</code>
+     *          represents
      */
     public Date getValue() {
-        return value;
+        return (Date) value.clone();
     }
     
     /**
-     * TODO document
+     * Test whether <code>this DateValue</code> equals another <code>Value</code>
+     * according to ternary logic.
      * 
-     * @param o
-     * @return 
+     * @param o a <code>Value</code> to compare to this one
+     * @return a <code>BooleanValue</code> representing <code>false</code> if
+     *          <code>other</code> is not a <code>DateValue</code>, an unknown
+     *          value if this is not the case and <code>this DateValue</code>
+     *          or <code>other</code> represents an unkonwn value and the result
+     *          of comparing <code>theValue</code> of <code>this DateValue</code>
+     *          to <code>theValue</code> of <code>other</code> otherwise
      */
     @Override
     public BooleanValue ternaryEquals(Value o) {
@@ -57,10 +68,12 @@ public class DateValue extends Value {
     }
     
     /**
-     * TODO document
+     * Compares <code>this DateValue</code> to another <code>Object</code>.
      * 
-     * @param o
-     * @return 
+     * @param o the <code>Object</code> to compare to <code>this DateValue</code>
+     * @return <code>true</code> if and only if <code>o</code> is a
+     *          <code>DateValue</code> with the same <code>value</code> as
+     *          <code>this BooleanValue</code> 
      */
     @Override
     public boolean equals(Object o) {
@@ -71,9 +84,7 @@ public class DateValue extends Value {
     }
     
     /**
-     * TODO document
-     * 
-     * @return 
+     * @return an <code>int</code> containing a hash for <code>this DateValue</code> 
      */
     @Override
     public int hashCode() {

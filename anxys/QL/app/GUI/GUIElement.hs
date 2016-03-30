@@ -1,14 +1,14 @@
 module GUIElement where
 
-import Graphics.UI.WX
-import Ast
-import Identifier
-import Value
+import           Graphics.UI.WX
+import           QL.Language.Syntax.Ast as Ast
+import           QL.Value.Value
 
-data ElemInfo = ElemInfo { identifier   :: String
-                         , label        :: String
-                         , valueType    :: FieldType
-                         , readOnly     :: Bool
+data ElemInfo = ElemInfo { identifier :: String
+                         , label      :: String
+                         , valueType  :: FieldType
+                         , readOnly   :: Bool
+                         , conditions :: [Expr]
                          }
 
 data GUIElement = Text ElemInfo  (StaticText ()) (TextCtrl () )
@@ -16,11 +16,11 @@ data GUIElement = Text ElemInfo  (StaticText ()) (TextCtrl () )
 
 data UserInputError = UserInputError FieldType
 
-instance Show UserInputError 
+instance Show UserInputError
   where show (UserInputError x) = "Invalid value. Expected " ++ show x
 
-createElemInfo :: FieldInfo -> Bool -> ElemInfo
-createElemInfo fieldInfo  = ElemInfo (Ast.id fieldInfo) (Ast.label fieldInfo) (Ast.fieldType fieldInfo)
+createElemInfo :: FieldInfo -> Bool -> [Expr] -> ElemInfo
+createElemInfo fieldInfo = ElemInfo (Ast.id fieldInfo) (Ast.label fieldInfo) (Ast.fieldType fieldInfo)
 
 addToLayout :: Frame a -> [GUIElement] -> IO ()
 addToLayout f ls = do
@@ -34,23 +34,25 @@ defaultFont = fontFixed
 
 setReadOnly :: Bool -> GUIElement -> IO GUIElement
 setReadOnly b (Text info sText control)  = return (Text newInfo sText control)
-  where newInfo = ElemInfo (identifier info) (GUIElement.label info) (valueType info) b
+  where newInfo = ElemInfo (identifier info) (GUIElement.label info) (valueType info) b (conditions info)
 setReadOnly b (Checkbox info sText control)  = return (Checkbox newInfo sText control)
-    where newInfo = ElemInfo (identifier info) (GUIElement.label info) (valueType info) b
+    where newInfo = ElemInfo (identifier info) (GUIElement.label info) (valueType info) b (conditions info)
 
 getElementValue :: GUIElement -> IO (Either UserInputError Value)
 getElementValue (Text info _ control) = do
   val <- get control text
-  if validate (valueType info) (fromDisplay val)
-    then return (Right (fromDisplay val))
+  if validate vType (fromDisplay' val)
+    then return (Right (fromDisplay' val))
   else
-   return (Left (UserInputError (valueType info)))
+   return (Left (UserInputError vType))
+     where fromDisplay' = fromDisplay (valueType info)
+           vType = valueType info
 getElementValue (Checkbox _ _ control) = do
   val <- get control checked
   return (Right (BoolValue val))
 
 validate :: FieldType -> Value -> Bool
-validate x = haveSameValueType (defaultVal x)  
+validate x = haveSameValueType (defaultVal x)
 
 setVisibility' :: (Visible a, Visible b) => a -> b -> Bool -> IO ()
 setVisibility' c1 c2 b = do

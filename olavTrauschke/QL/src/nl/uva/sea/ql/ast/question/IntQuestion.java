@@ -68,10 +68,16 @@ public class IntQuestion extends Question {
     }
     
     /**
-     * TODO document
+     * Make a specified <code>QuestionComponentGenerator</code> create an
+     * <code>IntQuestionComponent</code> for <code>this IntQuestion</code>.
      * 
-     * @param generator
-     * @return 
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create an <code>IntQuestionComponent</code> for
+     *                  <code>this IntQuestion</code>
+     * @return an <code>IntQuestionComponent</code> representing
+     *          <code>this IntQuestion</code>, as created by a call to
+     *          {@link nl.uva.sea.ql.interpreter.QuestionComponentGenerator#createQuestionComponent(nl.uva.sea.ql.ast.question.IntQuestion)
+     *          generator.createQuestionComponent(IntQuestion)}
      */
     @Override
     public QuestionComponent createQuestionComponent(QuestionComponentGenerator generator) {
