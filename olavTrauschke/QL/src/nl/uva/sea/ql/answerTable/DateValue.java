@@ -7,7 +7,7 @@ import java.util.Objects;
  * TODO document
  * 
  * @author Olav Trauschke
- * @version 29-mrt-2016
+ * @version 29-mar-2016
  */
 public class DateValue extends Value {
     

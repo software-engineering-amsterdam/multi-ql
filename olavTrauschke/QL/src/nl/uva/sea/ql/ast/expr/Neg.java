@@ -9,7 +9,7 @@ import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
  * Representation of a a minus in front of a number in an AST.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 30-mar-2016
  */
 public class Neg extends NumericExpr {
     
@@ -22,7 +22,7 @@ public class Neg extends NumericExpr {
      * <code>IntValue</code> representing the factor <code>NumericValue</code>
      * should be multiplied by to negate them.
      */
-    public static final IntValue MULTIPLICATION_FACTOR = new IntValue(-1);
+    public static final IntValue MULTIPLICATION_FACTOR = new IntValue(new Long(-1));
     
     private final Expr content;
     
