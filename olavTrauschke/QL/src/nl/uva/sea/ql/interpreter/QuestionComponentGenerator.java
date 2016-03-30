@@ -72,6 +72,17 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
      * @param question
      * @return 
      */
+    public DecimalQuestionComponent createQuestionComponent(DecimalQuestion question) {
+        Expr condition = createConjunctionOfConditions();
+        return new DecimalQuestionComponent(condition, question, answerTable);
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param question
+     * @return 
+     */
     public IntQuestionComponent createQuestionComponent(IntQuestion question) {
         Expr condition = createConjunctionOfConditions();
         return new IntQuestionComponent(condition, question, answerTable);
