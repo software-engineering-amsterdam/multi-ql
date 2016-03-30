@@ -7,39 +7,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import eu.bankersen.kevin.ql.ast.TopDownQuestionVisitor;
-import eu.bankersen.kevin.ql.ast.expr.Expr;
-import eu.bankersen.kevin.ql.ast.expr.ExprVisitor;
-import eu.bankersen.kevin.ql.ast.expr.Identifier;
-import eu.bankersen.kevin.ql.ast.expr.Literal;
-import eu.bankersen.kevin.ql.ast.expr.logic.And;
-import eu.bankersen.kevin.ql.ast.expr.logic.Eq;
-import eu.bankersen.kevin.ql.ast.expr.logic.GEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.GT;
-import eu.bankersen.kevin.ql.ast.expr.logic.LEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.LT;
-import eu.bankersen.kevin.ql.ast.expr.logic.NEq;
-import eu.bankersen.kevin.ql.ast.expr.logic.Not;
-import eu.bankersen.kevin.ql.ast.expr.logic.Or;
-import eu.bankersen.kevin.ql.ast.expr.math.Add;
-import eu.bankersen.kevin.ql.ast.expr.math.Div;
-import eu.bankersen.kevin.ql.ast.expr.math.Mul;
-import eu.bankersen.kevin.ql.ast.expr.math.Neg;
-import eu.bankersen.kevin.ql.ast.expr.math.Pos;
-import eu.bankersen.kevin.ql.ast.expr.math.Sub;
-import eu.bankersen.kevin.ql.ast.form.Form;
-import eu.bankersen.kevin.ql.ast.stat.ComputedQuestion;
-import eu.bankersen.kevin.ql.ast.stat.ElseStatement;
-import eu.bankersen.kevin.ql.ast.stat.IFStatement;
-import eu.bankersen.kevin.ql.ast.stat.NormalQuestion;
-import eu.bankersen.kevin.ql.ast.values.QLValue;
-import eu.bankersen.kevin.ql.ast.values.UndifinedValue;
+import eu.bankersen.kevin.ql.form.ast.TopDownQuestionVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.Expr;
+import eu.bankersen.kevin.ql.form.ast.expr.ExprVisitor;
+import eu.bankersen.kevin.ql.form.ast.expr.Identifier;
+import eu.bankersen.kevin.ql.form.ast.expr.Literal;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.And;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Eq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.GEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.GT;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.LEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.LT;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.NEq;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Not;
+import eu.bankersen.kevin.ql.form.ast.expr.logic.Or;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Add;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Div;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Mul;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Neg;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Pos;
+import eu.bankersen.kevin.ql.form.ast.expr.math.Sub;
+import eu.bankersen.kevin.ql.form.ast.form.Form;
+import eu.bankersen.kevin.ql.form.ast.stat.ComputedQuestion;
+import eu.bankersen.kevin.ql.form.ast.stat.ElseStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.IFStatement;
+import eu.bankersen.kevin.ql.form.ast.stat.NormalQuestion;
+import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
+import eu.bankersen.kevin.ql.form.ast.values.Value;
 import eu.bankersen.kevin.ql.gui.ViewListener;
 
 public class Evaluator implements ViewListener {
 
     private final Form form;
-    private final Map<String, QLValue> environment;
+    private final Map<String, Value> environment;
     private final List<DataListener> dataListeners;
 
     public Evaluator(Form form) {
@@ -59,26 +59,26 @@ public class Evaluator implements ViewListener {
     }
 
     @Override
-    public void viewUpdate(String name, QLValue value) {
+    public void viewUpdate(String name, Value value) {
 	environment.put(name, value);
 	evaluate();
 	dataUpdate();
     }
 
     private void evaluate() {
-	Map<String, QLValue> oldEnvironment;
+	Map<String, Value> oldEnvironment;
 
 	do {
 	    oldEnvironment = new HashMap<>(environment);
 	    environment.clear();
 
-	    form.accept(new TopDownQuestionVisitor<Map<String, QLValue>>() {
+	    form.accept(new TopDownQuestionVisitor<Map<String, Value>>() {
 
-		private boolean ifCondition(Expr condition, Map<String, QLValue> context) {
+		private boolean ifCondition(Expr condition, Map<String, Value> context) {
 
-		    QLValue result = condition.accept(new ExprEvaluator(), context);
+		    Value result = condition.accept(new ExprEvaluator(), context);
 
-		    if (result.equals(new UndifinedValue())) {
+		    if (result.equals(new EmptyValue())) {
 			return false;
 		    } else {
 			return (Boolean) result.value();
@@ -86,14 +86,14 @@ public class Evaluator implements ViewListener {
 		}
 
 		@Override
-		public void visit(IFStatement o, Map<String, QLValue> context) {
+		public void visit(IFStatement o, Map<String, Value> context) {
 		    if (ifCondition(o.condition(), context)) {
 			o.body().accept(this, context);
 		    }
 		}
 
 		@Override
-		public void visit(ElseStatement o, Map<String, QLValue> context) {
+		public void visit(ElseStatement o, Map<String, Value> context) {
 		    if (ifCondition(o.condition(), context)) {
 			o.body().accept(this, context);
 		    } else {
@@ -102,15 +102,15 @@ public class Evaluator implements ViewListener {
 		}
 
 		@Override
-		public void visit(NormalQuestion o, Map<String, QLValue> context) {
-		    QLValue result = context.containsKey(o.name()) ? context.get(o.name()) : new UndifinedValue();
+		public void visit(NormalQuestion o, Map<String, Value> context) {
+		    Value result = context.containsKey(o.name()) ? context.get(o.name()) : new EmptyValue();
 
 		    environment.put(o.name(), result);
 		}
 
 		@Override
-		public void visit(ComputedQuestion o, Map<String, QLValue> context) {
-		    QLValue result = o.computation().accept(new ExprEvaluator(), context);
+		public void visit(ComputedQuestion o, Map<String, Value> context) {
+		    Value result = o.computation().accept(new ExprEvaluator(), context);
 
 		    environment.put(o.name(), result);
 		}
@@ -120,12 +120,12 @@ public class Evaluator implements ViewListener {
 	System.out.println(environment);
     }
 
-    private boolean wasEnvironmentUpdated(Map<String, QLValue> oldEnvironment) {
+    private boolean wasEnvironmentUpdated(Map<String, Value> oldEnvironment) {
 	if (environment.size() == oldEnvironment.size()) {
 	    try {
-		Iterator<Entry<String, QLValue>> i = environment.entrySet().iterator();
+		Iterator<Entry<String, Value>> i = environment.entrySet().iterator();
 		while (i.hasNext()) {
-		    Entry<String, QLValue> e = i.next();
+		    Entry<String, Value> e = i.next();
 		    if (!environment.get(e.getKey()).equals(oldEnvironment.get(e.getKey()))) {
 			return true;
 		    }
@@ -139,133 +139,132 @@ public class Evaluator implements ViewListener {
 	}
     }
 
-    private class ExprEvaluator implements ExprVisitor<QLValue, Map<String, QLValue>> {
+    private class ExprEvaluator implements ExprVisitor<Value, Map<String, Value>> {
 
 	@Override
-	public QLValue visit(Sub o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(Sub o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.subtract(right);
 	}
 
 	@Override
-	public QLValue visit(Add o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(Add o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.add(right);
 	}
 
 	@Override
-	public QLValue visit(Div o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(Div o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.divide(right);
 	}
 
 	@Override
-	public QLValue visit(Mul o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(Mul o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.multiply(right);
 	}
 
 	@Override
-	public QLValue visit(Pos o, Map<String, QLValue> context) {
-	    QLValue expr = o.expr().accept(this, context);
+	public Value visit(Pos o, Map<String, Value> context) {
+	    Value expr = o.expr().accept(this, context);
 
 	    return expr.absolute();
 	}
 
 	@Override
-	public QLValue visit(Neg o, Map<String, QLValue> context) {
-	    QLValue expr = o.expr().accept(this, context);
+	public Value visit(Neg o, Map<String, Value> context) {
+	    Value expr = o.expr().accept(this, context);
 
 	    return expr.negate();
 	}
 
 	@Override
-	public QLValue visit(Or o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(Or o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.or(right);
 	}
 
 	@Override
-	public QLValue visit(And o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(And o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.and(right);
 	}
 
 	@Override
-	public QLValue visit(Eq o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(Eq o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.equal(right);
 	}
 
 	@Override
-	public QLValue visit(GEq o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(GEq o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.greaterOrEqual(right);
 	}
 
 	@Override
-	public QLValue visit(GT o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(GT o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.greater(right);
 	}
 
 	@Override
-	public QLValue visit(LEq o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(LEq o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.lowerOrEqual(right);
 	}
 
 	@Override
-	public QLValue visit(LT o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(LT o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.lower(right);
 	}
 
 	@Override
-	public QLValue visit(NEq o, Map<String, QLValue> context) {
-	    QLValue left = o.lhs().accept(this, context);
-	    QLValue right = o.rhs().accept(this, context);
+	public Value visit(NEq o, Map<String, Value> context) {
+	    Value left = o.lhs().accept(this, context);
+	    Value right = o.rhs().accept(this, context);
 
 	    return left.notEqual(right);
 	}
 
 	@Override
-	public QLValue visit(Not o, Map<String, QLValue> context) {
-	    QLValue expr = o.expr().accept(this, context);
+	public Value visit(Not o, Map<String, Value> context) {
+	    Value expr = o.expr().accept(this, context);
 	    return expr.not();
 	}
 
 	@Override
-	public QLValue visit(Literal o, Map<String, QLValue> context) {
-	    System.out.println(o.value());
+	public Value visit(Literal o, Map<String, Value> context) {
 	    return o.value();
 	}
 
 	@Override
-	public QLValue visit(Identifier o, Map<String, QLValue> context) {
-	    return context.containsKey(o.name()) ? context.get(o.name()) : new UndifinedValue();
+	public Value visit(Identifier o, Map<String, Value> context) {
+	    return context.containsKey(o.name()) ? context.get(o.name()) : new EmptyValue();
 	}
 
     }

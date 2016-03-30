@@ -7,7 +7,7 @@ import nl.uva.sea.ql.answerTable.NumericValue;
  * Representation of multiplication in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 26-mar-2016
  */
 public class Mul extends BinaryNumericOperatorExpr {
     
@@ -34,8 +34,8 @@ public class Mul extends BinaryNumericOperatorExpr {
      */
     @Override
     public NumericValue eval(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) getFirstExpr().eval(answerTable);
-        NumericValue secondValue = (NumericValue) getSecondExpr().eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(getFirstExpr().eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(getSecondExpr().eval(answerTable));
         return firstValue.multiply(secondValue);
     }
 }

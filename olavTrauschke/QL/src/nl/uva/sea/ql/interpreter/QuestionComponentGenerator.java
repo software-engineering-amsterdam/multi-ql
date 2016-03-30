@@ -13,6 +13,7 @@ import nl.uva.sea.ql.interpreter.questionComponent.*;
  * with these conditions for each <code>Question</code> they <code>visit</code>.
  * 
  * @author Olav Trauschke
+<<<<<<< HEAD
  * @version 28-mar-2016
  */
 public class QuestionComponentGenerator extends GeneralizedASTVisitor {
@@ -64,6 +65,70 @@ public class QuestionComponentGenerator extends GeneralizedASTVisitor {
     public DateQuestionComponent createQuestionComponent(DateQuestion question) {
         Expr condition = createConjunctionOfConditions();
         return new DateQuestionComponent(condition, question, answerTable);
+=======
+ * @version 30-mar-2016
+ */
+public class QuestionComponentGenerator extends GeneralizedASTVisitor {
+    
+    private final AnswerTable answerTable;
+    private final Stack<Expr> conditions;
+    private final List<QuestionComponent> result;
+    
+    /**
+     * Constructor for objects of this class.
+     * 
+     * @param theAnswerTable an <code>AnswerTable</code> mapping all
+     *                      <code>Ident</code>s <code>Question</code>s or
+     *                      <code>ConditionalStatement</code>s
+     *                      <code>this QuestionComponentGenerator</code> may
+     *                      visit may contain
+     */
+    protected QuestionComponentGenerator(AnswerTable theAnswerTable) {
+        assert theAnswerTable != null;
+        answerTable = theAnswerTable;
+        conditions = new Stack<>();
+        result = new ArrayList<>();
+    }
+    
+    /**
+     * Create a <code>QuestionComponent</code> for a specified
+     * <code>BooleanQuestion</code>.
+     * 
+     * @param question a <code>BooleanQuestion</code> to create a
+     * <code>QuestionComponent</code> for
+     * @return a <code>new BooleanQuestionComponent</code> representing the
+     *          <code>question</code> to be displayed only when all
+     *          conditions in <code>this QuestionComponentGenerator</code> are
+     *          met and using <code>theAnswerTable</code> that was given to the
+     *          constructor when constructing
+     *          <code>this QuestionComponentGenerator</code>
+     */
+    public BooleanQuestionComponent createQuestionComponent(BooleanQuestion question) {
+        Expr condition = createConjunctionOfConditions();
+        return new BooleanQuestionComponent(condition, question, answerTable);
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param question
+     * @return 
+     */
+    public DateQuestionComponent createQuestionComponent(DateQuestion question) {
+        Expr condition = createConjunctionOfConditions();
+        return new DateQuestionComponent(condition, question, answerTable);
+    }
+    
+    /**
+     * TODO document
+     * 
+     * @param question
+     * @return 
+     */
+    public IntQuestionComponent createQuestionComponent(IntQuestion question) {
+        Expr condition = createConjunctionOfConditions();
+        return new IntQuestionComponent(condition, question, answerTable);
+>>>>>>> branch 'master' of https://github.com/software-engineering-amsterdam/multi-ql.git
     }
     
     /**

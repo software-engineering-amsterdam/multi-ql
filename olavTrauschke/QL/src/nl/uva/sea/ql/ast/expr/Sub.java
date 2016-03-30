@@ -1,13 +1,12 @@
 package nl.uva.sea.ql.ast.expr;
 
-import nl.uva.sea.ql.answerTable.AnswerTable;
-import nl.uva.sea.ql.answerTable.NumericValue;
+import nl.uva.sea.ql.answerTable.*;
 
 /**
  * Representation of substraction in an AST.
  * 
  * @author Olav Trauschke
- * @version 25-mar-2016
+ * @version 26-mar-2016
  */
 public class Sub extends BinaryNumericOperatorExpr {
     
@@ -34,8 +33,8 @@ public class Sub extends BinaryNumericOperatorExpr {
      */
     @Override
     public NumericValue eval(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) getFirstExpr().eval(answerTable);
-        NumericValue secondValue = (NumericValue) getSecondExpr().eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(getFirstExpr().eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(getFirstExpr().eval(answerTable));
         NumericValue secondValueNegative = Neg.negate(secondValue);
         return firstValue.add(secondValueNegative);
     }

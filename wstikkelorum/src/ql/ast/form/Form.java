@@ -1,10 +1,10 @@
 package ql.ast.form;
 
-import ql.ast.TreeNode;
+import ql.ast.ASTNode;
 import ql.ast.visitor.Visitable;
 import ql.ast.visitor.Visitor;
 
-public class Form extends TreeNode implements Visitable {
+public class Form extends ASTNode implements Visitable {
 	private final String identifier;
 	private final Body body;
 

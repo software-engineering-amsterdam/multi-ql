@@ -1,16 +1,15 @@
 package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
-import nl.uva.sea.ql.answerTable.AnswerTable;
-import nl.uva.sea.ql.answerTable.Value;
+import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Ident</code>s for questions in an AST.
  * 
  * @author Olav Trauschke
- * @version 16-mar-2016
+ * @version 26-mar-2016
  */
 public class Ident extends Expr {
     
@@ -35,10 +34,10 @@ public class Ident extends Expr {
     /**
      * Has <code>visitor visit this Ident</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should <code>visit this Ident</code>
+     * @param visitor a <code>Visitor</code> that should <code>visit this Ident</code>
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
     
@@ -154,7 +153,8 @@ public class Ident extends Expr {
      */
     @Override
     public Value eval(AnswerTable answerTable) {
-        return answerTable.get(this);
+        Value result = answerTable.get(this);
+        return result == null ? new UnknownValue() : result;
     }
     
     /**

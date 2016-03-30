@@ -10,7 +10,7 @@ import nl.uva.sea.ql.ast.expr.Ident;
  * @author Olav Trauschke
  * @version 25-mar-2016
  */
-public class IdentCollector implements ASTVisitor {
+public class IdentCollector implements Visitor {
     
     private final Set<Ident> identifiers;
     

@@ -3,14 +3,14 @@ package nl.uva.sea.ql.ast.expr;
 import java.util.Map;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of the + operator in an AST, that can either mean addition or
  * (string) concatenation.
  * 
  * @author Olav Trauschke
- * @version 19-mar-2016
+ * @version 26-mar-2016
  */
 public class Add extends Expr {
     
@@ -61,11 +61,11 @@ public class Add extends Expr {
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
      * <code>this Add accept visitor</code> and then has <code>visitor visit this Add</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
-     *          <code>visit this Add</code> and its children
+     * @param visitor a <code>Visitor</code> that should
+     *                  <code>visit this Add</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         firstExpr.accept(visitor);
         secondExpr.accept(visitor);
         
@@ -186,8 +186,8 @@ public class Add extends Expr {
      *          <code>firstExpr</code>
      */
     private NumericValue evalNumeric(AnswerTable answerTable) {
-        NumericValue firstValue = (NumericValue) firstExpr.eval(answerTable);
-        NumericValue secondValue = (NumericValue) secondExpr.eval(answerTable);
+        NumericValue firstValue = NumericValue.cast(firstExpr.eval(answerTable));
+        NumericValue secondValue = NumericValue.cast(secondExpr.eval(answerTable));
         return firstValue.add(secondValue);
     }
     
@@ -205,8 +205,8 @@ public class Add extends Expr {
      *          <code>firstExpr</code>
      */
     private StringValue evalString(AnswerTable answerTable) {
-        StringValue firstValue = (StringValue) firstExpr.eval(answerTable);
-        StringValue secondValue = (StringValue) secondExpr.eval(answerTable);
+        StringValue firstValue = StringValue.cast(firstExpr.eval(answerTable));
+        StringValue secondValue = StringValue.cast(secondExpr.eval(answerTable));
         return firstValue.concat(secondValue);
     }
     

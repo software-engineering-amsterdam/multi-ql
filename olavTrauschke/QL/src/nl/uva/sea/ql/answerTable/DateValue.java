@@ -7,7 +7,11 @@ import java.util.Objects;
  * TODO document
  * 
  * @author Olav Trauschke
+<<<<<<< HEAD
  * @version 29-mrt-2016
+=======
+ * @version 29-mar-2016
+>>>>>>> branch 'master' of https://github.com/software-engineering-amsterdam/multi-ql.git
  */
 public class DateValue extends Value {
     

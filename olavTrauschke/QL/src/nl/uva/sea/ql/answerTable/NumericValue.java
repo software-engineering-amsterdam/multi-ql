@@ -7,9 +7,27 @@ package nl.uva.sea.ql.answerTable;
  * decimal) value.
  * 
  * @author Olav Trauschke
- * @version 17-mar-2016
+ * @version 26-mar-2016
  */
 public abstract class NumericValue extends Value {
+    
+    /**
+     * Cast a <code>Value</code> that is certain to be either numeric or unknown
+     * to a <code>NumericValue</code>.
+     * 
+     * @param toCast a <code>Value</code> to cast to a <code>NumericValue</code>
+     * @return <code>toCast</code> as a <code>NumericValue</code> or a new
+     *          <code>UnknownNumericValue</code> if <code>toCast</code> equals a
+     *          (new) <code>UnknownValue</code>
+     */
+    public static final NumericValue cast(Value toCast) {
+        if (toCast.equals(new UnknownValue())) {
+            return new UnknownNumericValue();
+        }
+        else {
+            return (NumericValue) toCast;
+        }
+    }
     
     /**
      * Test whether <code>this NumericValue</code> equals another <code>Value</code>
