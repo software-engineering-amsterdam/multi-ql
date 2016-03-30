@@ -9,8 +9,8 @@ import ql.ast.visitor.Context;
 import ql.ast.visitor.DependencyChecker;
 import ql.ast.visitor.QuestionVisitor;
 import ql.ast.visitor.TypeChecker;
-import ql.issue.DuplicateLabel;
 import ql.issue.Issue;
+import ql.issue.warning.DuplicateLabel;
 
 public class SemanticAnalyser {
 	private Context context;

@@ -1,4 +1,4 @@
-package ql.gui;
+package ql.gui.questionWidgets;
 
 import java.awt.GridLayout;
 
@@ -10,14 +10,19 @@ import ql.ast.type.BooleanType;
 import ql.ast.type.IntegerType;
 import ql.ast.type.StringType;
 import ql.ast.type.ValueType;
+import ql.gui.UserInputElement;
+import ql.gui.QLWindow;
+import ql.gui.inputComponents.BooleanInputComponent;
+import ql.gui.inputComponents.IntegerInputComponent;
+import ql.gui.inputComponents.StringInputComponent;
 
 public class InputQuestionWidget implements UserInputElement{
 	private JLabel questionString;
-	private UserInterface parent;
+	private QLWindow parent;
 	private UserInputElement inputComponent;
 	private final InputQuestion inputQuestion;
 	
-	public InputQuestionWidget(InputQuestion inputQuestion, UserInterface parent){
+	public InputQuestionWidget(InputQuestion inputQuestion, QLWindow parent){
 		this.parent = parent;
 		this.inputQuestion = inputQuestion;
 		this.questionString = new JLabel(inputQuestion.getQuestionString());

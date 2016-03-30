@@ -1,4 +1,6 @@
-package ql.issue;
+package ql.issue.problems;
+
+import ql.issue.Issue;
 
 public class CyclicDependency extends Issue {
 	public CyclicDependency(String identifier1, String identifier2) {

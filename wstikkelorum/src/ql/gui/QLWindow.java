@@ -23,11 +23,13 @@ import ql.SemanticAnalyser;
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
 import ql.ast.visitor.GuiVisitor;
+import ql.gui.questionWidgets.ComputedQuestionWidget;
+import ql.gui.questionWidgets.InputQuestionWidget;
 import ql.issue.Issue;
 
-public class UserInterface extends JFrame{
+public class QLWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private VisibleUIElements visibleUIElements;
+	private VisibleElements visibleUIElements;
 	
 	private Context context;
 	private GuiVisitor<Object> guiVisitor;
@@ -38,9 +40,9 @@ public class UserInterface extends JFrame{
 	
 	private List<Issue> warnings;
 	
-	public UserInterface(){
+	public QLWindow(){
 		createMainWindow();
-		visibleUIElements = new VisibleUIElements();
+		visibleUIElements = new VisibleElements();
 		warnings = new ArrayList<Issue>();
 	}
 	
@@ -177,7 +179,7 @@ public class UserInterface extends JFrame{
 	private void drawVisibleQuestions(){
 		mainPanel.removeAll();
 		mainPanel.setLayout(new GridLayout(visibleUIElements.numberOfUIElements(), 1));
-		Iterator<UIElement> iterator = visibleUIElements.getIterator();
+		Iterator<DrawableElement> iterator = visibleUIElements.getIterator();
 		while(iterator.hasNext()){
 			mainPanel.add(iterator.next().getDrawableItem());
 		}

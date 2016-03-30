@@ -4,17 +4,17 @@ import ql.ast.form.Form;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
 import ql.ast.statement.InputQuestion;
-import ql.gui.UserInterface;
-import ql.gui.VisibleUIElements;
+import ql.gui.QLWindow;
+import ql.gui.VisibleElements;
 
 public class GuiVisitor<T> extends Evaluator {
-	private VisibleUIElements visibleQuestions;
-	private UserInterface parent;
+	private VisibleElements visibleQuestions;
+	private QLWindow parent;
 
-	public GuiVisitor(Context context, UserInterface parent) {
+	public GuiVisitor(Context context, QLWindow parent) {
 		super(context);
 		this.parent = parent;
-		visibleQuestions = new VisibleUIElements();
+		visibleQuestions = new VisibleElements();
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class GuiVisitor<T> extends Evaluator {
 		return null;
 	}
 
-	public VisibleUIElements getVisibleQuestions(Form form, Context newContext) {
+	public VisibleElements getVisibleQuestions(Form form, Context newContext) {
 		this.context = newContext;
 		this.visit(form);
 		return visibleQuestions;

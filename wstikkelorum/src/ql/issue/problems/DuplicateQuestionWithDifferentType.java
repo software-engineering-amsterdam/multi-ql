@@ -1,6 +1,7 @@
-package ql.issue;
+package ql.issue.problems;
 
 import ql.ast.statement.Question;
+import ql.issue.Issue;
 
 public class DuplicateQuestionWithDifferentType extends Issue {
 

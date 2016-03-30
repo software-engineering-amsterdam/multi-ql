@@ -1,4 +1,4 @@
-package ql.gui;
+package ql.gui.questionWidgets;
 
 import java.awt.GridLayout;
 
@@ -8,8 +8,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import ql.ast.statement.ComputedQuestion;
+import ql.gui.DrawableElement;
 
-public class ComputedQuestionWidget implements UIElement{
+public class ComputedQuestionWidget implements DrawableElement{
 	private JLabel questionString;
 	private JTextField textField;
 	private final ComputedQuestion computedQuestion;

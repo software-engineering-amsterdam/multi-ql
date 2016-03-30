@@ -1,4 +1,4 @@
-package ql.gui;
+package ql.gui.inputComponents;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+
+import ql.gui.UserInputElement;
 
 public class BooleanInputComponent implements UserInputElement{
 	private JCheckBox checkBox;

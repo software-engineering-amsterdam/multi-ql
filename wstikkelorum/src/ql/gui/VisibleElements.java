@@ -6,15 +6,17 @@ import java.util.List;
 
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.InputQuestion;
+import ql.gui.questionWidgets.ComputedQuestionWidget;
+import ql.gui.questionWidgets.InputQuestionWidget;
 import ql.issue.Issue;
 
-public class VisibleUIElements {
-	private List<UIElement> visibleUIElements;
+public class VisibleElements {
+	private List<DrawableElement> visibleUIElements;
 	private List<InputQuestionWidget> inputQuestions;
 	private List<ComputedQuestionWidget> computedQuestions;
 	
-	public VisibleUIElements(){
-		visibleUIElements = new ArrayList<UIElement>();
+	public VisibleElements(){
+		visibleUIElements = new ArrayList<DrawableElement>();
 		inputQuestions = new ArrayList<InputQuestionWidget>();
 		computedQuestions = new ArrayList<ComputedQuestionWidget>();
 	}
@@ -23,7 +25,7 @@ public class VisibleUIElements {
 		visibleUIElements.add(issue);
 	}
 	
-	public void addQuestion(InputQuestion inputQuestion, UserInterface parent){
+	public void addQuestion(InputQuestion inputQuestion, QLWindow parent){
 		InputQuestionWidget questionWidget = new InputQuestionWidget(inputQuestion, parent);
 		visibleUIElements.add(questionWidget);
 		inputQuestions.add(questionWidget);
@@ -45,7 +47,7 @@ public class VisibleUIElements {
 		computedQuestions.clear();
 	}
 	
-	public Iterator<UIElement> getIterator(){
+	public Iterator<DrawableElement> getIterator(){
 		return visibleUIElements.iterator();
 	}
 	
