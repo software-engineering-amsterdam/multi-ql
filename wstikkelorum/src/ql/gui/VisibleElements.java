@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ql.ast.statement.ComputedQuestion;
-import ql.ast.statement.InputQuestion;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.statement.question.InputQuestion;
 import ql.gui.questionWidgets.ComputedQuestionWidget;
 import ql.gui.questionWidgets.InputQuestionWidget;
 import ql.issue.Issue;

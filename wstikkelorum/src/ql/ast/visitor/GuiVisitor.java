@@ -1,9 +1,9 @@
 package ql.ast.visitor;
 
 import ql.ast.form.Form;
-import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
-import ql.ast.statement.InputQuestion;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.statement.question.InputQuestion;
 import ql.gui.QLWindow;
 import ql.gui.VisibleElements;
 

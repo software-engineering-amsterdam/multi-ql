@@ -1,4 +1,4 @@
-package ql.ast.statement;
+package ql.ast.statement.question;
 
 import ql.ast.literal.Variable;
 import ql.ast.type.ValueType;

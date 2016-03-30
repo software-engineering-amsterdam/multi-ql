@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ql.ast.statement.InputQuestion;
+import ql.ast.statement.question.InputQuestion;
 import ql.ast.type.BooleanType;
 import ql.ast.type.IntegerType;
 import ql.ast.type.StringType;

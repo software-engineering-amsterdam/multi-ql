@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import ql.ast.statement.ComputedQuestion;
+import ql.ast.statement.question.ComputedQuestion;
 import ql.gui.DrawableElement;
 
 public class ComputedQuestionWidget implements DrawableElement{
