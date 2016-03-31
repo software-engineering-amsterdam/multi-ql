@@ -2,8 +2,6 @@ package org.uva.sea.ql.gui;
 
 import java.util.HashSet;
 import java.util.Set;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import org.joda.money.Money;
 import org.uva.sea.ql.ast.domain.Block;
 import org.uva.sea.ql.ast.domain.Form;
@@ -56,6 +54,7 @@ public class QLController
 	private boolean isInCondition = false;
 	private final Message qlSemanticErrors;
 	private final SymbolTable symbolTable;
+	private final String currency = "USD";
 
 	public QLController(Form qlAst, QLView qLView, Message qlSemanticErrors, SymbolTable symbolTable) {
 		this.qlSemanticErrors = qlSemanticErrors;
@@ -106,18 +105,7 @@ public class QLController
 		Type qType = question.getVarType();
 		String qLable = question.getText();
 		if (!this.identifierValues.questionAlreadyInReferenceTable(qIdentifier)) {
-			if (qType.equals(new BooleanType())) {
-				addBooleanQuestionToQLView(qLable, qIdentifier);
-			}
-			if (qType.equals(new MoneyType())) {
-				addMoneyQuestionToQLView(qLable, qIdentifier);
-			}
-			
-			if (qType.equals(new IntegerType())) {
-				addIntegerQuestionToQLView(qLable, qIdentifier);
-			}
-			
-			
+			addQuestionToQLView(qIdentifier, qType, qLable);
 		}
 
 	}
@@ -128,63 +116,58 @@ public class QLController
 		String text = readOnlyQuestion.getText();
 		Type qType = readOnlyQuestion.getVarType();
 		if (!this.identifierValues.questionAlreadyInReferenceTable(identifier)) {
-			Value computed = readOnlyQuestion.getExpression().accept(this);
-			if (qType.equals(new MoneyType())) {
-				addReadOnlyMoneyQuestionToQLView(identifier, text, computed);
-			}
-			
-			if (qType.equals(new IntegerType())) {
-				addReadOnlyIntegerQuestionToQLView(identifier, text, computed);
-			}
+			addReadOnlyQuestionToQLView(readOnlyQuestion, identifier, text, qType);
 		}
 
 	}
+	
+	private void addQuestionToQLView(String qIdentifier, Type qType, String qLable) {
+		if (qType.equals(new BooleanType())) {
+			Value btnState = getQLSelectedState(qIdentifier);
+			identifierValues.addQLIdentifier(qIdentifier, btnState);
+			addBooleanQuestionToQLView(qLable, qIdentifier, btnState.getBooleanValue());
+		}
+		if (qType.equals(new MoneyType())) {
+			Value currentVal = getQLMoneyValue(qIdentifier);
+			identifierValues.addQLIdentifier(qIdentifier, currentVal);
+			addTextQuestionToQLView(qLable, qIdentifier, currentVal.toString(),true);
+		}
+		
+		if (qType.equals(new IntegerType())) {
+			Value intValue = getQLIntegerValue(qIdentifier);
+			identifierValues.addQLIdentifier(qIdentifier, intValue);
+			addTextQuestionToQLView(qLable, qIdentifier, intValue.getIntegerValue().toString(),true);
+		}
+	}
 
-	private void addReadOnlyMoneyQuestionToQLView(String identifier, String qLable, Value computed) {
+	private void addReadOnlyQuestionToQLView(ReadOnlyQuestion readOnlyQuestion, String identifier, String text,
+			Type qType) {
+		Value computed = readOnlyQuestion.getExpression().accept(this);
 		identifierValues.addQLIdentifier(identifier, computed);
+		if (qType.equals(new MoneyType())) {
+			addTextQuestionToQLView(identifier, text, computed.getMoneyValue().toString(),false);
+		}
+		
+		if (qType.equals(new IntegerType())) {
+			addTextQuestionToQLView(identifier, text, computed.getIntegerValue().toString(),false);
+		}
+	}
+	
+	private void addTextQuestionToQLView(String qLable, String qIdentifier, String value, boolean isReadOnly) {
 		QLQuestionText qLQuestionText = new QLQuestionText(qLable, qlSemanticErrors.hasQuestion(qLable));
-		QLQuestionTextFeild qLQuestionTextFeild = new QLQuestionTextFeild(identifier, computed.getMoneyValue().toString());
+		QLQuestionTextFeild qLQuestionTextFeild = new QLQuestionTextFeild(qIdentifier, value);
 		qLQuestionTextFeild.addQLTextFeildQuesionListener(this);
-		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(qLQuestionText,qLQuestionTextFeild, false);
+		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(qLQuestionText,qLQuestionTextFeild, isReadOnly);
 		qLView.addQuestionView(qLViewInputTextQuestion);
 	}
 	
-	private void addReadOnlyIntegerQuestionToQLView(String identifier, String qLable, Value computed) {
-		QLQuestionText qLQuestionText = new QLQuestionText(qLable, qlSemanticErrors.hasQuestion(qLable));
-		QLQuestionTextFeild qLQuestionTextFeild = new QLQuestionTextFeild(identifier, computed.getIntegerValue().toString());
-		qLQuestionTextFeild.addQLTextFeildQuesionListener(this);
-		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(qLQuestionText,qLQuestionTextFeild, false);
-		qLView.addQuestionView(qLViewInputTextQuestion);
-		identifierValues.addQLIdentifier(identifier, computed);
-	}
-	private void addBooleanQuestionToQLView(String qLable, String qIdentifier) {
-		boolean btnState = getQLSelectedState(qIdentifier);
+
+	private void addBooleanQuestionToQLView(String qLable, String qIdentifier, boolean btnState) {
 		QLQuestionText qLQuestionText = new QLQuestionText(qLable,qlSemanticErrors.hasQuestion(qLable));
 		QLRadioButton qLRadioButton = new QLRadioButton(qIdentifier, btnState);
 		qLRadioButton.addQLSelectedQuesionListener(this);
 		QLViewSelectQuestion qLViewSelectQuestion = new QLViewSelectQuestion(qLQuestionText,qLRadioButton);
 		qLView.addQuestionView(qLViewSelectQuestion);
-		identifierValues.addQLIdentifier(qIdentifier, new BooleanValue(btnState));
-	}
-
-	private void addMoneyQuestionToQLView(String qLable, String qIdentifier) {
-		Value currentVal = getQLMoneyValue(qIdentifier);
-		QLQuestionText qLQuestionText = new QLQuestionText(qLable, qlSemanticErrors.hasQuestion(qLable));
-		QLQuestionTextFeild qLQuestionTextFeild = new QLQuestionTextFeild(qIdentifier, currentVal.getMoneyValue().toString());
-		qLQuestionTextFeild.addQLTextFeildQuesionListener(this);
-		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(qLQuestionText,qLQuestionTextFeild, true);
-		qLView.addQuestionView(qLViewInputTextQuestion);
-		identifierValues.addQLIdentifier(qIdentifier, currentVal);
-	}
-	
-	private void addIntegerQuestionToQLView(String qLable, String qIdentifier) {
-		Value intValue = getQLIntegerValue(qIdentifier);
-		QLQuestionText qLQuestionText = new QLQuestionText(qLable, qlSemanticErrors.hasQuestion(qLable));
-		QLQuestionTextFeild qLQuestionTextFeild = new QLQuestionTextFeild(qIdentifier, intValue.getIntegerValue().toString());
-		qLQuestionTextFeild.addQLTextFeildQuesionListener(this);
-		QLViewInputTextQuestion qLViewInputTextQuestion = new QLViewInputTextQuestion(qLQuestionText,qLQuestionTextFeild, true);
-		qLView.addQuestionView(qLViewInputTextQuestion);
-		identifierValues.addQLIdentifier(qIdentifier, intValue);
 	}
 
 	private Value getQLIntegerValue(String qIdentifier) {
@@ -196,19 +179,19 @@ public class QLController
 	}
 
 	private Value getQLMoneyValue(String identifier) {
-		Value currentVal = new MoneyValue(Money.parse("USD 0.00"));
+		Value currentVal = new MoneyValue(Money.parse(currency+" 0.00"));
 		if (identifierValues.questionAlreadyInReferenceTableClone(identifier)) {
 			currentVal = identifierValues.getQLValueClone(identifier);
 		}
 		return currentVal;
 	}
 
-	private boolean getQLSelectedState(String identifier) {
-		boolean btnState = false;
+	private Value getQLSelectedState(String identifier) {
+		Value btnStateValue = new BooleanValue(false);
 		if (identifierValues.questionAlreadyInReferenceTableClone(identifier)) {
-			btnState = identifierValues.getQLValueClone(identifier).getBooleanValue();
+			btnStateValue = identifierValues.getQLValueClone(identifier);
 		}
-		return btnState;
+		return btnStateValue;
 	}
 
 	@Override
@@ -342,24 +325,24 @@ public class QLController
 	}
 
 	@Override
-	public void QLQuesionSelected(JRadioButton btn, boolean isSelected) {
-		identifierValues.addQLIdentifier(btn.getName(), new BooleanValue(isSelected));
-		if (conditionId.contains(btn.getName())) {
+	public void QLQuesionSelected(QLRadioButton qLRadioButton) {
+		identifierValues.addQLIdentifier(qLRadioButton.getQlComponentName(), new BooleanValue(qLRadioButton.getQlComponentState()));
+		if (conditionId.contains(qLRadioButton.getQlComponentName())) {
 			updateQLView();
 		}
 
 	}
 
 	@Override
-	public void QLQuesionTextFeildInput(JTextField textInput) {
-		assert symbolTable.lookupType(textInput.getName()) != null : "They symbol table should contains all the question type by now.";
-		if(symbolTable.lookupType(textInput.getName()).equals(new MoneyType())){
-			Value inputVal = new MoneyValue(Money.parse(textInput.getText()));
-			identifierValues.addQLIdentifier(textInput.getName(), inputVal);
+	public void QLQuesionTextFeildInput(QLQuestionTextFeild qLQuestionTextFeild) {
+		assert symbolTable.lookupType(qLQuestionTextFeild.getQlComponentName()) != null : "They symbol table should contains all the question type by now.";
+		if(symbolTable.lookupType(qLQuestionTextFeild.getQlComponentName()).equals(new MoneyType())){
+			Value inputVal = new MoneyValue(Money.parse(currency+" "+qLQuestionTextFeild.getQlComponentText()));
+			identifierValues.addQLIdentifier(qLQuestionTextFeild.getQlComponentName(), inputVal);
 		}
-		if(symbolTable.lookupType(textInput.getName()).equals(new IntegerType())){
-			Value inputVal = new IntegerValue(Integer.parseInt(textInput.getText()));
-			identifierValues.addQLIdentifier(textInput.getName(), inputVal);
+		if(symbolTable.lookupType(qLQuestionTextFeild.getQlComponentName()).equals(new IntegerType())){
+			Value inputVal = new IntegerValue(Integer.parseInt(qLQuestionTextFeild.getQlComponentText()));
+			identifierValues.addQLIdentifier(qLQuestionTextFeild.getQlComponentName(), inputVal);
 		}
 		
 		updateQLView();

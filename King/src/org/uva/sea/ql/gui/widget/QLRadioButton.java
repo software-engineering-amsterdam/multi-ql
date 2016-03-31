@@ -32,15 +32,26 @@ public class QLRadioButton extends Widget implements ItemListener {
 	public JRadioButton getQlComponent() {
 		return qlBtnIdentifier;
 	}
+	
+	public String getQlComponentName() {
+		return qlBtnIdentifier.getName();
+	}
+	
+	public String getQlComponentText() {
+		return qlBtnIdentifier.getText();
+	}
+	public Boolean getQlComponentState() {
+		return qlBtnIdentifier.isSelected();
+	}
 
 	@Override
 	public void itemStateChanged(ItemEvent event) {
 		int state = event.getStateChange();
 		if (state == ItemEvent.SELECTED) {
-			fireQLSelectedQuestion(this.qlBtnIdentifier, true);
+			fireQLSelectedQuestion();
 
 		} else if (state == ItemEvent.DESELECTED) {
-			fireQLSelectedQuestion(this.qlBtnIdentifier, false);
+			fireQLSelectedQuestion();
 		}
 		
 	}
@@ -49,10 +60,10 @@ public class QLRadioButton extends Widget implements ItemListener {
 
 	}
 	
-	private void fireQLSelectedQuestion(JRadioButton btn, boolean isSelected) {
+	private void fireQLSelectedQuestion() {
 		if (!radioBtnListeners.isEmpty()) {
 			for (QLSelectedQuesionListener qlSelectedQuesionListener : radioBtnListeners) {
-				qlSelectedQuesionListener.QLQuesionSelected(btn, isSelected);
+				qlSelectedQuesionListener.QLQuesionSelected(this);
 			}
 		}
 	}

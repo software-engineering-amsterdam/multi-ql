@@ -1,7 +1,7 @@
 package org.uva.sea.ql.gui;
 
-import javax.swing.JTextField;
+import org.uva.sea.ql.gui.widget.QLQuestionTextFeild;
 
 public interface QLTextFeildQuesionListener {
-	public void QLQuesionTextFeildInput(JTextField textInput);
+	public void QLQuesionTextFeildInput(QLQuestionTextFeild qlQuestionTextFeild);
 }

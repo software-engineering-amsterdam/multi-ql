@@ -33,6 +33,13 @@ public class QLQuestionTextFeild extends Widget implements KeyListener{
 	public JTextField getQlComponent() {
 		return qlQuestionTextFeild;
 	}
+	public String getQlComponentText() {
+		return qlQuestionTextFeild.getText();
+	}
+	
+	public String getQlComponentName() {
+		return qlQuestionTextFeild.getName();
+	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -41,8 +48,7 @@ public class QLQuestionTextFeild extends Widget implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		JTextField textField = (JTextField) e.getSource();
-		fireQLTextInputQuestion(textField);
+		fireQLTextInputQuestion();
 
 	}
 
@@ -57,10 +63,10 @@ public class QLQuestionTextFeild extends Widget implements KeyListener{
 
 	}
 
-	private void fireQLTextInputQuestion(JTextField text) {
+	private void fireQLTextInputQuestion() {
 		if (!textInputListeners.isEmpty()) {
 			for (QLTextFeildQuesionListener qLTextFeildQuesionListener : textInputListeners) {
-				qLTextFeildQuesionListener.QLQuesionTextFeildInput(text);
+				qLTextFeildQuesionListener.QLQuesionTextFeildInput(this);
 			}
 		}
 	}
