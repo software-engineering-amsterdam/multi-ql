@@ -36,10 +36,8 @@ public class MainQL {
 
 	private static void showQL(Form ast, TypeChecker typeChecker) {
 		QLView qLView = new QLView();
-		QLController qcn = new QLController(ast, qLView,typeChecker.getQLAllSemanticMessages());
-		qLView.addQLSelectedQuesionListener(qcn);
-		qLView.addQLTextFeildQuesionListener(qcn);
-		qLView.showQL();
+		QLController qlController = new QLController(ast, qLView,typeChecker.getQLAllSemanticMessages(),typeChecker.getQLSymbolsTbale());
+		qlController.showQLview();
 	}
 
 }

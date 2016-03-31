@@ -5,8 +5,8 @@ form taxOfficeExample {
 
   
 if (hasBoughtHouse) {
-    "What was the selling price?" sellingPrice: money
-    "Private debts for the sold house:" privateDebt: money
-    "Value residue:" valueResidue: money sellingPrice + privateDebt
+    "What was the selling price?" sellingPrice: integer
+    "Private debts for the sold house:" privateDebt: integer
+    "Value residue:" valueResidue: integer sellingPrice + privateDebt
   }
 }

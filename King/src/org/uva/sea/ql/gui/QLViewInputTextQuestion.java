@@ -15,10 +15,10 @@ public class QLViewInputTextQuestion extends JPanel {
 	private QLQuestionTextFeild qLQuestionTextFeild;
 
 	public QLViewInputTextQuestion(QLQuestionText qLQuestionText, QLQuestionTextFeild qLQuestionTextFeild,
-			boolean readOnly) {
+			boolean editable) {
 		this.qLQuestionText = qLQuestionText;
 		this.qLQuestionTextFeild = qLQuestionTextFeild;
-		this.editable = readOnly;
+		this.editable = editable;
 	}
 
 	public void lockQLViewInputTextQuestion() {

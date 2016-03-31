@@ -1,7 +1,6 @@
 package org.uva.sea.ql.gui.widget;
 
 import java.awt.Color;
-
 import javax.swing.JLabel;
 
 public class QLQuestionText extends Widget {
@@ -25,5 +24,5 @@ public class QLQuestionText extends Widget {
 	public JLabel getQlComponent() {
 		return qlQuestionText;
 	}
-
+	
 }

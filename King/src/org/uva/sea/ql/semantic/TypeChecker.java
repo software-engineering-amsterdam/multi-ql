@@ -343,5 +343,9 @@ public class TypeChecker implements QLNodeVisitor<Type>, QLDomainVisitor {
 	public Boolean hasErrorMessages() {
 		return messages.hasErrors();
 	}
+	
+	public SymbolTable getQLSymbolsTbale() {
+		return symTable;
+	}
 
 }
