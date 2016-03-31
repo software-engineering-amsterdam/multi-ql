@@ -7,20 +7,23 @@ import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.question.IntQuestion;
 
 /**
- * 
+ * Objects of this class are <code>FormattedTextFieldComponent</code>s that are
+ * used to display <code>IntQuestion</code>s.
  * 
  * @author Olav Trauschke
- * @version 30-mrt-2016
+ * @version 1-apr-2016
  */
 public class IntQuestionComponent extends FormattedTextFieldComponent {
     
     /**
-     * TODO document
+     * An <code>int</code> expressing the number of characters that fit in
+     * an <code>IntQuestionComponent</code>.
      */
     public static final int NUMBER_OF_COLUMNS = 10;
     
     /**
-     * TODO document
+     * Description of the input format <code>IntQuestionComponent</code>s
+     * expect and use, to present to users.
      */
     public static final String FORMAT_DESCRIPTION = "whole number";
     
@@ -47,22 +50,26 @@ public class IntQuestionComponent extends FormattedTextFieldComponent {
     }
     
     /**
-     * TODO document
+     * Set the value of <code>this IntQuestionComponent</code>'s
+     * <code>question</code> to the value currently written in it.
      * 
-     * @param e 
+     * @param e an <code>ActionEvent</code> that changes the value of
+     *          <code>this IntQuestionComponent</code>
      */
     @Override
     public void setValue(PropertyChangeEvent e) {
         assert e != null;
-        Long newValueAsLong = (Long) getTextFieldValue();
+        Long newValueAsLong = (Long) obtainTextFieldValue();
         IntValue newValue = new IntValue(newValueAsLong);
         setValue(newValue);
     }
     
     /**
-     * TODO document
+     * Make <code>this IntQuestionComponent</code> display a specified
+     * <code>Value</code>.
      * 
-     * @param newValue 
+     * @param newValue a <code>Value this IntQuestionComponent</code> should
+     *                  display
      */
     @Override
     public void displayValue(Value newValue) {

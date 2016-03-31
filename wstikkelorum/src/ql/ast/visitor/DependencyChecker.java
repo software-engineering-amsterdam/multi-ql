@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ql.ast.literal.VariableExpression;
-import ql.ast.statement.ComputedQuestion;
-import ql.issue.CyclicDependency;
+import ql.ast.expression.VariableExpression;
+import ql.ast.form.Form;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.issue.problem.CyclicDependency;
 
 public class DependencyChecker<T> extends BasicVisitor<T> {
 	private HashMap<String, List<String>> directDependencies;
@@ -15,6 +16,7 @@ public class DependencyChecker<T> extends BasicVisitor<T> {
 
 	public DependencyChecker(Context context) {
 		directDependencies = new HashMap<String, List<String>>();
+		assert(context != null);
 		this.context = context;
 	}
 
@@ -44,7 +46,9 @@ public class DependencyChecker<T> extends BasicVisitor<T> {
 		}
 	}
 
-	public void findCyclicDependencies() {
+	public void findCyclicDependencies(Form form) {
+		assert(form != null);
+		this.visit(form);
 		List<String> visitedVariables = new ArrayList<String>();
 		directDependencies.forEach((identifier, dependencies) -> recursiveDepencyCheck(identifier, identifier, visitedVariables));
 	}

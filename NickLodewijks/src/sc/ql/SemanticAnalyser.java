@@ -7,8 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import sc.ql.CyclicReferences.CyclicReference;
-import sc.ql.SemanticAnalyser.SemanticMessage.Level;
+import sc.ql.SemanticMessage.CyclicDependency;
+import sc.ql.SemanticMessage.DuplicateQuestionLabels;
+import sc.ql.SemanticMessage.DuplicateQuestionName;
+import sc.ql.SemanticMessage.OperandTypeMismatch;
+import sc.ql.SemanticMessage.TypeMismatch;
+import sc.ql.SemanticMessage.UndeclaredVariable;
+import sc.ql.SemanticMessage.UnknownType;
 import sc.ql.ast.Expression;
 import sc.ql.ast.Expression.Add;
 import sc.ql.ast.Expression.And;
@@ -129,43 +134,6 @@ public class SemanticAnalyser {
 		}
 
 		return result;
-	}
-
-	private static class QuestionTable {
-
-		private final Map<String, List<Question>> nameToQuestion = new HashMap<>();
-		private final Map<String, List<Question>> labelToQuestion = new HashMap<>();
-
-		public QuestionTable() {
-			// TODO Auto-generated constructor stub
-		}
-
-		public void add(Question q) {
-			List<Question> nameToQuestionsList;
-			List<Question> labelToQuestionList;
-
-			labelToQuestionList = labelToQuestion.computeIfAbsent(q.label(), f -> new ArrayList<>());
-			nameToQuestionsList = nameToQuestion.computeIfAbsent(q.name(), f -> new ArrayList<>());
-
-			labelToQuestionList.add(q);
-			nameToQuestionsList.add(q);
-		}
-
-		public Set<String> getNames() {
-			return Collections.unmodifiableSet(nameToQuestion.keySet());
-		}
-
-		public List<Question> getByName(String name) {
-			return Collections.unmodifiableList(nameToQuestion.get(name));
-		}
-
-		public Set<String> getLabels() {
-			return Collections.unmodifiableSet(labelToQuestion.keySet());
-		}
-
-		public List<Question> getByLabel(String label) {
-			return Collections.unmodifiableList(labelToQuestion.get(label));
-		}
 	}
 
 	/**
@@ -487,302 +455,40 @@ public class SemanticAnalyser {
 		}
 	}
 
-	public static abstract class SemanticMessage {
+	private static class QuestionTable {
 
-		public static enum Level {
-			ERROR("ERROR  "), WARNING("WARNING");
+		private final Map<String, List<Question>> nameToQuestion = new HashMap<>();
+		private final Map<String, List<Question>> labelToQuestion = new HashMap<>();
 
-			private final String text;
-
-			private Level(String text) {
-				this.text = text;
-			}
-
-			public String getText() {
-				return text;
-			}
-		}
-
-		private SemanticMessage() {
+		public QuestionTable() {
 
 		}
 
-		public abstract String getSourceLocation();
+		public void add(Question q) {
+			List<Question> nameToQuestionsList;
+			List<Question> labelToQuestionList;
 
-		public abstract String getMessage();
+			labelToQuestionList = labelToQuestion.computeIfAbsent(q.label(), f -> new ArrayList<>());
+			nameToQuestionsList = nameToQuestion.computeIfAbsent(q.name(), f -> new ArrayList<>());
 
-		public abstract Level getLevel();
-
-		@Override
-		public String toString() {
-			return getLevel().getText() + " " + getSourceLocation() + " " + getMessage();
-		}
-	}
-
-	private static class OperandTypeMismatch extends SemanticMessage {
-
-		private final String MESSAGE = "Type mismatch: operands of %s should be of same type. (lhs='%s', rhs='%s'";
-
-		private final String msg;
-		private final Expression expr;
-
-		public OperandTypeMismatch(BinaryExpr expr, ValueType lhsType, ValueType rhsType) {
-			msg = String.format(MESSAGE, expr.getSourceText(), lhsType, rhsType);
-			this.expr = expr;
+			labelToQuestionList.add(q);
+			nameToQuestionsList.add(q);
 		}
 
-		@Override
-		public Level getLevel() {
-			return Level.ERROR;
+		public Set<String> getNames() {
+			return Collections.unmodifiableSet(nameToQuestion.keySet());
 		}
 
-		@Override
-		public String getMessage() {
-			return msg;
+		public List<Question> getByName(String name) {
+			return Collections.unmodifiableList(nameToQuestion.get(name));
 		}
 
-		@Override
-		public String getSourceLocation() {
-			return expr.getSourceLocation();
-		}
-	}
-
-	private static class TypeMismatch extends SemanticMessage {
-
-		private final String MESSAGE = "Type mismatch: '%s' should be of type '%s' but is of type '%s'. ";
-
-		private final String msg;
-		private final Expression expr;
-
-		public TypeMismatch(Expression expr, ValueType expected, ValueType actual) {
-			msg = String.format(MESSAGE, expr.getSourceText(), expected, actual);
-			this.expr = expr;
+		public Set<String> getLabels() {
+			return Collections.unmodifiableSet(labelToQuestion.keySet());
 		}
 
-		@Override
-		public String getMessage() {
-			return msg;
-		}
-
-		@Override
-		public String getSourceLocation() {
-			return expr.getSourceLocation();
-		}
-
-		@Override
-		public Level getLevel() {
-			return Level.ERROR;
-		}
-	}
-
-	private static class UnknownType extends SemanticMessage {
-
-		private final String MESSAGE = "Unknown type for %s";
-
-		private final String msg;
-		private final Expression expr;
-
-		public UnknownType(Expression expr) {
-			msg = String.format(MESSAGE, expr);
-			this.expr = expr;
-		}
-
-		@Override
-		public Level getLevel() {
-			return Level.ERROR;
-		}
-
-		@Override
-		public String getMessage() {
-			return msg;
-		}
-
-		@Override
-		public String getSourceLocation() {
-			return expr.getSourceLocation();
-		}
-	}
-
-	private static class CyclicDependency extends SemanticMessage {
-
-		private final String MESSAGE = "Cyclic dependency for question %s: (%s)";
-
-		private final String msg;
-
-		public CyclicDependency(CyclicReference cr) {
-			msg = String.format(MESSAGE, cr.getReference(), cr.getPath());
-		}
-
-		@Override
-		public Level getLevel() {
-			return Level.ERROR;
-		}
-
-		@Override
-		public String getSourceLocation() {
-			return "";
-		}
-
-		@Override
-		public String getMessage() {
-			return msg;
-		}
-	}
-
-	private static class UndeclaredVariable extends SemanticMessage {
-
-		private static final String MESSAGE = "Undeclared variable %s, %s";
-		private final String msg;
-		private final VariableExpr node;
-
-		public UndeclaredVariable(VariableExpr node) {
-			msg = String.format(MESSAGE, node, node.getVariableName());
-			this.node = node;
-		}
-
-		@Override
-		public String getMessage() {
-			return msg;
-		}
-
-		@Override
-		public String getSourceLocation() {
-			return node.getSourceLocation();
-		}
-
-		@Override
-		public Level getLevel() {
-			return Level.ERROR;
-		}
-
-		@Override
-		public String toString() {
-			return msg;
-		}
-	}
-
-	private static class DuplicateQuestionLabels extends SemanticQuestionMessage {
-
-		private static final String MESSAGE = "Duplicate labels: %s";
-
-		public DuplicateQuestionLabels(String label, List<Question> questions) {
-			super(String.format(MESSAGE, label), questions);
-		}
-
-		@Override
-		public Level getLevel() {
-			return Level.WARNING;
-		}
-	}
-
-	private static class DuplicateQuestionName extends SemanticQuestionMessage {
-
-		private static final String MESSAGE = "Question '%s' has been declared multiple times, but with different types:";
-
-		public DuplicateQuestionName(String name, List<Question> questions) {
-			super(String.format(MESSAGE, name), questions);
-		}
-
-		@Override
-		public Level getLevel() {
-			return Level.ERROR;
-		}
-	}
-
-	private static abstract class SemanticQuestionMessage extends SemanticMessage {
-
-		private final String message;
-
-		public SemanticQuestionMessage(String msg, List<Question> questions) {
-			StringBuilder sb;
-
-			assert !questions.isEmpty() : "Question list should not be empty";
-
-			sb = new StringBuilder();
-			sb.append(msg);
-			sb.append(System.lineSeparator());
-			questions.stream().forEach(c -> {
-				sb.append("  ");
-				sb.append(c.toString());
-				sb.append(System.lineSeparator());
-			});
-
-			message = sb.toString();
-		}
-
-		@Override
-		public String getSourceLocation() {
-			return "";
-		}
-
-		@Override
-		public String getMessage() {
-			return message;
-		}
-	}
-
-	public static class SemanticErrors {
-
-		private final Map<Level, List<SemanticMessage>> levelToMessages = new HashMap<>();
-
-		public SemanticErrors() {
-
-		}
-
-		void add(SemanticMessage error) {
-			levelToMessages.computeIfAbsent(error.getLevel(), f -> new ArrayList<>()).add(error);
-		}
-
-		void addAll(SemanticErrors result) {
-			result.getAllMessages().forEach(m -> add(m));
-		}
-
-		private boolean hasMessages(Level level) {
-			return !getByLevel(level).isEmpty();
-		}
-
-		public boolean hasErrors() {
-			return hasMessages(Level.ERROR);
-		}
-
-		private List<SemanticMessage> getByLevel(Level level) {
-			return Collections.unmodifiableList(levelToMessages.getOrDefault(level, Collections.emptyList()));
-		}
-
-		public List<SemanticMessage> getErrors() {
-			return Collections.unmodifiableList(getByLevel(Level.ERROR));
-		}
-
-		public boolean hasWarnings() {
-			return hasMessages(Level.WARNING);
-		}
-
-		public List<SemanticMessage> getWarnings() {
-			return Collections.unmodifiableList(getByLevel(Level.WARNING));
-		}
-
-		public boolean hasMessages() {
-			return hasErrors() || hasWarnings();
-		}
-
-		public List<SemanticMessage> getAllMessages() {
-			List<SemanticMessage> allMessages;
-
-			allMessages = new ArrayList<>();
-			allMessages.addAll(getErrors());
-			allMessages.addAll(getWarnings());
-
-			return Collections.unmodifiableList(allMessages);
-		}
-
-		public void print() {
-			for (SemanticMessage msg : getErrors()) {
-				System.err.println(msg.toString());
-			}
-
-			for (SemanticMessage msg : getWarnings()) {
-				System.out.println(msg.toString());
-			}
+		public List<Question> getByLabel(String label) {
+			return Collections.unmodifiableList(labelToQuestion.get(label));
 		}
 	}
 }

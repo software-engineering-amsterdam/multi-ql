@@ -1,0 +1,19 @@
+form taxOfficeExample {
+	  
+	"Integer"
+	cQ1: integer
+	
+	"Integer * 2"
+	cQ1a: integer = (cQ1 * 2)
+	
+	"Integer / 2"
+	cQ1b: integer = (cQ1 / 2)
+	
+	"Integer - 2"
+	cQ1c: integer = (cQ1 - 2)
+	
+	"Integer + 2"
+	cQ1d: integer = (cQ1 + 2)
+	
+	    
+}

@@ -1,0 +1,12 @@
+form taxOfficeExample {
+	  
+	"Integer1"
+	cQ1: integer = (1)
+	
+	"Integer2"
+	cQ1: integer = (2)
+	
+	"Integer3"
+	cQ2: integer = (cQ1)
+	
+}

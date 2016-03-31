@@ -36,6 +36,7 @@ import ql.ast.expression.Not;
 import ql.ast.expression.OrExpression;
 import ql.ast.expression.Pos;
 import ql.ast.expression.Sub;
+import ql.ast.expression.VariableExpression;
 import ql.ast.form.Body;
 import ql.ast.form.Form;
 import ql.ast.literal.BoolLiteral;
@@ -43,13 +44,12 @@ import ql.ast.literal.IntLiteral;
 import ql.ast.literal.Literal;
 import ql.ast.literal.StringLiteral;
 import ql.ast.literal.Variable;
-import ql.ast.literal.VariableExpression;
 import ql.ast.literal.VariableType;
-import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
-import ql.ast.statement.InputQuestion;
-import ql.ast.statement.Question;
 import ql.ast.statement.Statement;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.statement.question.InputQuestion;
+import ql.ast.statement.question.Question;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {

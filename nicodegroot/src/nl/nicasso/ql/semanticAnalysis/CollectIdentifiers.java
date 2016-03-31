@@ -27,11 +27,24 @@ import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public class CollectIdentifiers implements ExpressionVisitor<Void, Void> {
-	
+
 	private Set<Identifier> identifiers;
-	
+
 	public CollectIdentifiers() {
 		identifiers = new HashSet<Identifier>();
+	}
+	
+	private void binaryExpressionTraversal(Binary expression, Void context) {
+		expression.getLeft().accept(this, null);
+		expression.getRight().accept(this, null);
+	}
+
+	private void unaryExpressionTraversal(Unary expression, Void context) {
+		expression.getExpression().accept(this, null);
+	}
+
+	public Set<Identifier> getIdentifiers() {
+		return identifiers;
 	}
 
 	@Override
@@ -142,19 +155,6 @@ public class CollectIdentifiers implements ExpressionVisitor<Void, Void> {
 	@Override
 	public Void visit(MoneyLiteral expression, Void context) {
 		return null;
-	}
-	
-	private void binaryExpressionTraversal(Binary expression, Void context) {
-		expression.getLeft().accept(this, null);
-		expression.getRight().accept(this, null);
-	}
-	
-	private void unaryExpressionTraversal(Unary expression, Void context) {
-		expression.getExpr().accept(this, null);
-	}
-	
-	public Set<Identifier> getIdentifiers() {
-		return identifiers;
 	}
 
 }

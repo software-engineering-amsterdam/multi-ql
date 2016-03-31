@@ -1,0 +1,18 @@
+form taxOfficeExample {
+	  
+	"Money"
+	cQ1: money
+	
+	"Money * 2"
+	cQ1a: money = (cQ1 * 2)
+	
+	"Money / 2"
+	cQ1b: money = (cQ1 / 2)
+	
+	"Money - (money / 2)"
+	cQ1c: money = (cQ1 - (cQ1 / 2))
+	
+	"Money + (money / 2)"
+	cQ1d: money = (cQ1 + (cQ1 / 2))
+	
+}

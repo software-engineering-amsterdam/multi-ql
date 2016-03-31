@@ -1,6 +1,8 @@
 package ql.gui;
 
-public interface UserInputElement extends UIElement{
-	Object getInput();
+import ql.ast.value.Value;
+
+public interface UserInputElement extends DrawableElement{
+	Value getInput();
 	void onAction();
 }

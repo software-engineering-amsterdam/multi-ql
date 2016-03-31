@@ -37,21 +37,22 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class Evaluator implements StructureVisitor<Void, StateTable>, StatementVisitor<Void, StateTable>, ExpressionVisitor<Value, StateTable> {
-	
+public class Evaluator implements StructureVisitor<Void, StateTable>, StatementVisitor<Void, StateTable>,
+		ExpressionVisitor<Value, StateTable> {
+
 	@Override
-	public Value visit(And expression, StateTable stateTable) {	
+	public Value visit(And expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
 
 		return left.equal(right);
 	}
-	
+
 	@Override
-	public Value visit(Addition expression, StateTable stateTable) {		
+	public Value visit(Addition expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.addition(right);
 	}
 
@@ -59,7 +60,7 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(Subtraction expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.subtraction(right);
 	}
 
@@ -67,21 +68,21 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(Or expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.or(right);
 	}
 
 	@Override
 	public Value visit(Not expression, StateTable stateTable) {
-		Value exprValue = expression.getExpr().accept(this, stateTable);
-		
+		Value exprValue = expression.getExpression().accept(this, stateTable);
+
 		return exprValue.not();
 	}
 
 	@Override
-	public Value visit(Parenthesis expression, StateTable stateTable) {		
-		Value exprValue = expression.getExpr().accept(this, stateTable);
-		
+	public Value visit(Parenthesis expression, StateTable stateTable) {
+		Value exprValue = expression.getExpression().accept(this, stateTable);
+
 		return exprValue;
 	}
 
@@ -89,15 +90,15 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(Equal expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.equal(right);
 	}
 
 	@Override
 	public Value visit(NotEqual expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
-		Value right = expression.getRight().accept(this, stateTable);	
-		
+		Value right = expression.getRight().accept(this, stateTable);
+
 		return left.notEqual(right);
 	}
 
@@ -105,7 +106,7 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(Division expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.division(right);
 	}
 
@@ -113,7 +114,7 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(Multiplication expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.multiplication(right);
 	}
 
@@ -121,7 +122,7 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(Greater expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.greater(right);
 	}
 
@@ -129,7 +130,7 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(GreaterEqual expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.greaterEqual(right);
 	}
 
@@ -137,7 +138,7 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(Less expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.less(right);
 	}
 
@@ -145,14 +146,14 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Value visit(LessEqual expression, StateTable stateTable) {
 		Value left = expression.getLeft().accept(this, stateTable);
 		Value right = expression.getRight().accept(this, stateTable);
-		
+
 		return left.lessEqual(right);
 	}
 
 	@Override
 	public Void visit(Form structure, StateTable stateTable) {
 		structure.getBlock().accept(this, stateTable);
-		
+
 		return null;
 	}
 
@@ -161,7 +162,7 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 		for (Statement cur : structure.getStatements()) {
 			cur.accept(this, stateTable);
 		}
-		
+
 		return null;
 	}
 
@@ -169,62 +170,62 @@ public class Evaluator implements StructureVisitor<Void, StateTable>, StatementV
 	public Void visit(Question statement, StateTable stateTable) {
 		StateTableEntry ste = new StateTableEntry(statement.getDefaultValue());
 		stateTable.add(statement.getIdentifier(), ste);
-		
+
 		return null;
 	}
 
 	@Override
 	public Void visit(ComputedQuestion statement, StateTable stateTable) {
-		Value exprValue = statement.getExpr().accept(this, stateTable);
+		Value exprValue = statement.getExpression().accept(this, stateTable);
 
 		StateTableEntry ste = new StateTableEntry(exprValue);
-		stateTable.add(statement.getIdentifier(), ste);                                                             
+		stateTable.add(statement.getIdentifier(), ste);
 
 		return null;
 	}
 
 	@Override
 	public Void visit(IfStatement statement, StateTable stateTable) {
-		statement.getExpr().accept(this, stateTable);
-		statement.getBlock_if().accept(this, stateTable);
-		
+		statement.getExpression().accept(this, stateTable);
+		statement.getBlockIf().accept(this, stateTable);
+
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStatement statement, StateTable stateTable) {
-		statement.getExpr().accept(this, stateTable);
-		statement.getBlock_if().accept(this, stateTable);
-		statement.getBlock_else().accept(this, stateTable);
-		
+		statement.getExpression().accept(this, stateTable);
+		statement.getBlockIf().accept(this, stateTable);
+		statement.getBlockElse().accept(this, stateTable);
+
 		return null;
 	}
 
 	@Override
 	public Value visit(BooleanLiteral expression, StateTable stateTable) {
-		return new BooleanValue(expression.getValue());
+		return new BooleanValue(expression.getLiteral());
 	}
 
 	@Override
-	public Value visit(Identifier expression, StateTable stateTable) {		
+	public Value visit(Identifier expression, StateTable stateTable) {
 		StateTableEntry entry = stateTable.getEntry(expression);
-						
+
 		return entry.getValue();
 	}
 
 	@Override
 	public Value visit(IntegerLiteral expression, StateTable stateTable) {
-		return new IntegerValue((Integer) expression.getValue());
+		return new IntegerValue((Integer) expression.getLiteral());
 	}
 
 	@Override
 	public Value visit(StringLiteral expression, StateTable stateTable) {
-		return new StringValue(expression.getValue());
+		return new StringValue(expression.getLiteral());
 	}
 
 	@Override
 	public Value visit(MoneyLiteral expression, StateTable stateTable) {
-		return new MoneyValue(expression.getValue());
+		return new MoneyValue(expression.getLiteral());
 	}
 
 }

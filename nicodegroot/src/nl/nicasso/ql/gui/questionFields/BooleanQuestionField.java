@@ -3,78 +3,71 @@ package nl.nicasso.ql.gui.questionFields;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.JCheckBox;
-
-import nl.nicasso.ql.ast.nodes.expressions.Identifier;
-import nl.nicasso.ql.gui.Observer;
-import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.BooleanValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
+import nl.nicasso.ql.gui.widgets.CheckboxWidget;
+import nl.nicasso.ql.gui.widgets.InterActiveWidget;
+import nl.nicasso.ql.gui.widgets.Widget;
 
 public class BooleanQuestionField extends QuestionField {
 
-	private Identifier identifier;
-	private JCheckBox field;
-	private Label label;
-	private Observer main;
-	private BooleanValue value;
+	private InterActiveWidget checkbox;
+	private Value fieldValue;
 
-	public BooleanQuestionField(QuestionFieldParameter params) {
-		this.identifier = params.getIdentifier();
-		this.main = params.getMain();
+	public BooleanQuestionField(QuestionFieldArguments params) {
+		super(params);
 		
-		setupField(params.isEnabled(), params.getValue());
-	}
-	
-	private void setupField(boolean enabled, Value value) {
-		field = new JCheckBox();
-		field.setEnabled(enabled);
-		
-		setValue(value);
-		
-		if (enabled) {
+		checkbox = new CheckboxWidget(params.isEnabled());
+
+		updateValueAndTextfield(params.getValue());
+
+		if (params.isEnabled()) {
 			addListenerToField();
 		}
 	}
-	
+
 	private void addListenerToField() {
-		field.addItemListener(new ItemListener() {
-			
+		checkbox.addListener(new ItemListener() {
+
 			@Override
-			public void itemStateChanged(ItemEvent e) {
-				BooleanValue value;
-				
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					value = new BooleanValue(true);
-				} else {
-					value = new BooleanValue(false);
+			public void itemStateChanged(ItemEvent event) {
+				BooleanValue newValue = new BooleanValue(false);
+
+				if (event.getStateChange() == ItemEvent.SELECTED) {
+					newValue = new BooleanValue(true);
 				}
-				
-				main.fieldValueChanged(identifier, value);
-				main.updateAllPanels();
+
+				updateValueAndTextfield(newValue);
+
+				getMainWindow().updateValueInStateTable(getIdentifier(), newValue);
+				getMainWindow().updateGUIPanels();
 			}
 		});
 	}
-	
-	public void setValue(Value value) {
-		this.value = (BooleanValue) value;
-		field.setSelected((Boolean) value.getValue());
+
+	public void updateValueAndTextfield(Value value) {
+		this.fieldValue = (BooleanValue) value;
+
+		checkbox.setValue(value);
 	}
-	
-	public BooleanValue getValue() {
-		return value;
-	}
-	
+
+	@Override
 	public boolean equalValues(Value value) {
-		return value.equals(this.value);
+		return value.equals(this.fieldValue);
 	}
-	
-	public void setFeedbackLabel(Label label) {
-		this.label = label;
+
+	public Widget getField() {
+		return checkbox;
 	}
-	
-	public JCheckBox getField() {
-		return this.field;
-	}	
+
+	@Override
+	public void setFeedbackField(Widget feedback) {
+		new AssertionError("BooleanQuestionField no feedback field.");
+	}
+
+	@Override
+	public Value getValue() {
+		return fieldValue;
+	}
 }

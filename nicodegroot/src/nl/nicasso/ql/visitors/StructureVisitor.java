@@ -7,5 +7,5 @@ public interface StructureVisitor<T, U> {
 
 	public T visit(Form structure, U context);
 	public T visit(Block structure, U context);
-	
+
 }

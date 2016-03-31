@@ -10,46 +10,51 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 public class MoneyLiteral extends Literal {
 
 	private final Type type;
-	private final BigDecimal value;
-	
-	public MoneyLiteral(BigDecimal value) {
+	private final BigDecimal literal;
+
+	public MoneyLiteral(BigDecimal literal) {
 		super(null);
 		this.type = new MoneyType();
-		this.value = value;
+		this.literal = literal;
 	}
-	
-	public MoneyLiteral(BigDecimal value, CodeLocation location) {
+
+	public MoneyLiteral(BigDecimal literal, CodeLocation location) {
 		super(location);
 		this.type = new MoneyType(location);
-		this.value = value;
+		this.literal = literal;
 	}
-	
+
 	@Override
-	public BigDecimal getValue() {
-		return value;
+	public BigDecimal getLiteral() {
+		return literal;
 	}
 
 	public Type getType() {
 		return type;
 	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-	
+
 	@Override
 	public boolean equals(Object ob) {
 		if (!(ob instanceof MoneyLiteral)) {
 			return false;
 		}
 		MoneyLiteral lit = (MoneyLiteral) ob;
-		return value.equals(lit.getValue());
+		return literal.equals(lit.getLiteral());
 	}
-	
+
 	@Override
-	public int hashCode(){
-	    return value.hashCode();
-    }
+	public int hashCode() {
+		return literal.hashCode();
+	}
+
+	@Override
+	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
+
+	@Override
+	public String toString() {
+		return literal.toString();
+	}
 
 }

@@ -1,85 +1,75 @@
 package nl.nicasso.ql.gui.evaluator.values;
 
-// TODO INTERFACE?!
 public abstract class Value {
-	
-	// THIS HAS TO GO, BUT CONFLICTS WITH THE DISPLAY SYMBOLTABLE
+
 	public abstract Object getValue();
-	
-	public Value multiplication(MoneyValue arg) {
-		return null;
-	}
-	
+
 	public Value addition(Value arg) {
-		return null;
-	}
-	
-	public Value subtraction(Value arg) {
-		return null;
-	}
-	
-	public Value and(Value arg) {
-		return null;
-	}
-	
-	public Value or(Value arg) {
-		return null;
-	}
-	
-	public Value not() {
-		return null;
-	}
-	
-	public Value equal(Value arg) {
-		return null;
-	}
-	
-	public Value notEqual(Value arg) {
-		return null;
-	}
-	
-	public Value division(Value arg) {
-		return null;
-	}
-	
-	public Value multiplication(Value arg) {
-		return null;
-	}
-	
-	public Value greater(Value arg) {
-		return null;
-	}
-	
-	public Value greaterEqual(Value arg) {
-		return null;
-	}
-	
-	public Value less(Value arg) {
-		return null;
-	}
-	
-	public Value lessEqual(Value arg) {
-		return null;
+		return new UnknownValue();
 	}
 
-	// INTEGER
-	
+	public Value subtraction(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value and(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value or(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value not() {
+		return new UnknownValue();
+	}
+
+	public Value equal(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value notEqual(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value division(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value multiplication(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value greater(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value greaterEqual(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value less(Value arg) {
+		return new UnknownValue();
+	}
+
+	public Value lessEqual(Value arg) {
+		return new UnknownValue();
+	}
+
 	public Value multiplicationToInteger(IntegerValue v) {
-		throw new AssertionError("KAPOT!");
+		return new UnknownValue();
 	}
-	
+
 	public Value divisionToInteger(IntegerValue v) {
-		throw new AssertionError("KAPOT!");
+		return new UnknownValue();
 	}
-	
-	// MONEY
-	
+
 	public Value multiplicationToMoney(MoneyValue v) {
-		throw new AssertionError("KAPOT!");
+		return new UnknownValue();
 	}
-	
+
 	public Value divisionToMoney(MoneyValue v) {
-		throw new AssertionError("KAPOT!");
+		return new UnknownValue();
 	}
-	
+
 }

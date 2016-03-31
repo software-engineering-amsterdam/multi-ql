@@ -4,12 +4,14 @@ import nl.uva.sea.ql.ast.Label;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Ident;
 import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
 
 /**
  * Representation of <code>Question</code>s that return decimals in an AST.
  * 
  * @author Olav Trauschke
- * @version 14-mar-2016
+ * @version 30-mar-2016
  */
 public class DecimalQuestion extends Question {
     
@@ -63,6 +65,24 @@ public class DecimalQuestion extends Question {
     public void accept(Visitor visitor) {
         childrenAccept(visitor);
         visitor.visit(this);
+    }
+    
+    /**
+     * Make a specified <code>QuestionComponentGenerator</code> create a
+     * <code>DecimalQuestionComponent</code> for <code>this DecimalQuestion</code>.
+     * 
+     * @param generator a <code>QuestionComponentGenerator</code> that should
+     *                  create a <code>DecimalQuestionComponent</code> for
+     *                  <code>this DecimalQuestion</code>
+     * @return a <code>DecimalQuestionComponent</code> representing
+     *          <code>this DecimalQuestion</code>, as created by a call to
+     *          {@link nl.uva.sea.ql.interpreter.QuestionComponentGenerator#createQuestionComponent(nl.uva.sea.ql.ast.question.DecimalQuestion)
+     *          generator.createQuestionComponent(DecimalQuestion)}
+     */
+    @Override
+    public QuestionComponent createQuestionComponent(QuestionComponentGenerator generator) {
+        assert generator != null;
+        return generator.createQuestionComponent(this);
     }
     
 }

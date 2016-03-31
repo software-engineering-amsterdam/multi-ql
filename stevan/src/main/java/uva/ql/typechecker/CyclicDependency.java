@@ -67,7 +67,6 @@ public class CyclicDependency extends AbstractTypeChecker implements ICyclicDepe
 	public void visitQuestionComputed(QuestionComputed questionComputed) {
 		Variable var = questionComputed.getVariable();
 		questionVariables.put(var.getName(), var);
-		
 		questionComputed.getExp().accept(this);
 	}
 	

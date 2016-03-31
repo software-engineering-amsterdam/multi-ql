@@ -1,8 +1,5 @@
 package nl.nicasso.ql.semanticAnalysis;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.nicasso.ql.ast.nodes.expressions.Binary;
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.ast.nodes.expressions.Parenthesis;
@@ -38,7 +35,6 @@ import nl.nicasso.ql.ast.nodes.types.StringType;
 import nl.nicasso.ql.ast.nodes.types.Type;
 import nl.nicasso.ql.ast.nodes.types.UnknownType;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.MessageHandler;
-import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.CyclomaticDependency;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.errors.IncompatibleTypes;
 import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 import nl.nicasso.ql.utils.Pair;
@@ -46,43 +42,47 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisitor<Void, Identifier>, ExpressionVisitor<Type, Identifier> {
-	
-	private List<Pair<Identifier>> dependencies;
+public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisitor<Void, Identifier>,
+		ExpressionVisitor<Type, Identifier> {
 
 	private SymbolTable symbolTable;
 	private MessageHandler messageHandler;
-	
+	private QuestionDependencies dependencies;
+
 	public TypeChecker(Form ast, SymbolTable symbolTable, MessageHandler messages) {
 		this.symbolTable = symbolTable;
 		this.messageHandler = messages;
-		
-		this.dependencies = new ArrayList<Pair<Identifier>>();
-		
+
+		this.dependencies = new QuestionDependencies(messageHandler);
+
 		ast.accept(this, null);
-		
-		detectCyclicDependencies();
+
+		dependencies.checkForCyclicDependencies();
 	}
-	
+
+	public TypeChecker(SymbolTable symbolTable, MessageHandler messages) {
+		this.symbolTable = symbolTable;
+		this.messageHandler = messages;
+	}
+
 	private Type binaryExpressionTraversal(Binary expression, Identifier context) {
 		Type leftType = expression.getLeft().accept(this, context);
 		Type rightType = expression.getRight().accept(this, context);
-		
 		return expression.inferType(leftType, rightType);
 	}
-	
+
 	private Type unaryExpressionTraversal(Unary expression, Identifier context) {
-		Type exprType = expression.getExpr().accept(this, context);
+		Type exprType = expression.getExpression().accept(this, context);
 		return expression.inferType(exprType);
 	}
-		
+
 	@Override
-	public Type visit(And expression, Identifier context) {	
+	public Type visit(And expression, Identifier context) {
 		return binaryExpressionTraversal(expression, context);
 	}
-	
+
 	@Override
-	public Type visit(Addition expression, Identifier context) {		
+	public Type visit(Addition expression, Identifier context) {
 		return binaryExpressionTraversal(expression, context);
 	}
 
@@ -102,7 +102,7 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 
 	@Override
-	public Type visit(Parenthesis expression, Identifier context) {		
+	public Type visit(Parenthesis expression, Identifier context) {
 		return unaryExpressionTraversal(expression, context);
 	}
 
@@ -167,44 +167,41 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 
 	@Override
 	public Void visit(ComputedQuestion statement, Identifier context) {
-		Type type = statement.getExpr().accept(this, statement.getIdentifier());
-		
-		// @TODO IMPROVE!
-		if (type.equals(new IntegerType()) && statement.getType().equals(new MoneyType())) {
-			return null;
-		} else if (!type.equals(statement.getType())) {
+		Type type = statement.getExpression().accept(this, statement.getIdentifier());
+
+		if (!type.equals(statement.getType())) {
 			messageHandler.addErrorMessage(new IncompatibleTypes(statement.getLocation(), statement.getType()));
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public Void visit(IfStatement statement, Identifier context) {
-		Type expr = statement.getExpr().accept(this, context);
-		statement.getBlock_if().accept(this, null);
-		
-		Type type = statement.checkAllowedTypes(expr);
-		
+		Type expr = statement.getExpression().accept(this, context);
+		statement.getBlockIf().accept(this, null);
+
+		Type type = statement.inferType(expr);
+
 		if (type.equals(new UnknownType())) {
 			messageHandler.addErrorMessage(new IncompatibleTypes(statement.getLocation(), new BooleanType()));
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public Void visit(IfElseStatement statement, Identifier context) {
-		Type expr = statement.getExpr().accept(this, context);
-		statement.getBlock_if().accept(this, null);
-		statement.getBlock_else().accept(this, null);
-		
-		Type type = statement.checkAllowedTypes(expr);
-		
+		Type expr = statement.getExpression().accept(this, context);
+		statement.getBlockIf().accept(this, null);
+		statement.getBlockElse().accept(this, null);
+
+		Type type = statement.inferType(expr);
+
 		if (type.equals(new UnknownType())) {
 			messageHandler.addErrorMessage(new IncompatibleTypes(statement.getLocation(), new BooleanType()));
 		}
-		
+
 		return null;
 	}
 
@@ -214,11 +211,13 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	}
 
 	@Override
-	public Type visit(Identifier identifier, Identifier context) {		
+	public Type visit(Identifier identifier, Identifier context) {
 		Type entryType = symbolTable.getEntryType(identifier);
-		
-		addQuestionDependency(identifier, context);
-		
+
+		if (context != null) {
+			addQuestionDependency(identifier, context);
+		}
+
 		return entryType;
 	}
 
@@ -231,74 +230,14 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	public Type visit(StringLiteral literal, Identifier context) {
 		return new StringType();
 	}
-	
+
 	@Override
 	public Type visit(MoneyLiteral literal, Identifier context) {
 		return new MoneyType();
 	}
-	
-	private void addQuestionDependency(Identifier identifier, Identifier context) {
-		// Otherwise it is a ifstatement
-		if (context != null) {
-			dependencies.add(new Pair<Identifier>(context, identifier));
-		}
-	}
-	
-	public boolean detectCyclicDependencies() {
-		transitiveOnDependencyPairs(dependencies);
-		
-		int size = dependencies.size();
-		for (int i = 0; i < size; i++) {
-			Pair<Identifier> currentPair = new Pair<Identifier>(dependencies.get(i).getRight(), dependencies.get(i).getLeft());
-			if (checkPairExistance(currentPair)) {
-				messageHandler.addErrorMessage(new CyclomaticDependency(currentPair.getLeft().getLocation()));
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	// @TODO Look again at this method, it does receive the dependencies, but does not return anything.
-	// Seems a bit strange, not clear.
-	private void transitiveOnDependencyPairs(List<Pair<Identifier>> tmpDependencies) {	
-		boolean keepRunning = true;
-		
-		while (keepRunning) {
-			int amountOfDependencies = dependencies.size();
-			
-			for (int i = 0; i < amountOfDependencies; i++) {
-				Pair<Identifier> transitivePair = checkPairDependencyExistance(dependencies.get(i));
-				if (transitivePair != null) {
-					if (!checkPairExistance(transitivePair)) {
-						dependencies.add(transitivePair);
-					}
-				}
-			}
 
-			if (tmpDependencies.size() == dependencies.size()) {
-				keepRunning = false;
-			} else {
-				tmpDependencies = dependencies;
-			}
-		}
+	private void addQuestionDependency(Identifier identifier, Identifier context) {
+		dependencies.add(new Pair<Identifier>(context, identifier));
 	}
-	
-	private Pair<Identifier> checkPairDependencyExistance(Pair<Identifier> pair) {
-		for (Pair<Identifier> currentPair : dependencies) {
-			if (currentPair.getLeft().equals(pair.getRight())) {
-				return new Pair<Identifier>(pair.getLeft(), currentPair.getRight());
-			}
-		}
-		return null;
-	}
-	
-	private boolean checkPairExistance(Pair<Identifier> pair) {
-		for (Pair<Identifier> currentPair : dependencies) {
-			if (currentPair.equals(pair)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
+
 }

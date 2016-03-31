@@ -1,16 +1,17 @@
 package ql.ast.literal;
 
+import ql.ast.value.IntegerValue;
 import ql.ast.visitor.Visitor;
 
 public class IntLiteral extends Literal {
-	private final int value;
+	private final IntegerValue value;
 
 	public IntLiteral(Integer value, int lineNumber) {
 		super(lineNumber);
-		this.value = (int) value;
+		this.value = new IntegerValue(value);
 	}
 
-	public int getValue() {
+	public IntegerValue getValue() {
 		return value;
 	}
 

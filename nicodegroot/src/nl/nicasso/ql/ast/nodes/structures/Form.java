@@ -7,24 +7,24 @@ import nl.nicasso.ql.visitors.StructureVisitor;
 
 public class Form extends ASTNode {
 
-	private final Identifier id;
+	private final Identifier identifier;
 	private final Block block;
-	
-	public Form(Identifier id, Block block2, CodeLocation location) {
+
+	public Form(Identifier identifier, Block block, CodeLocation location) {
 		super(location);
-		this.id = id;
-		this.block = block2;
+		this.identifier = identifier;
+		this.block = block;
 	}
 
-	public Identifier getId() {
-		return id;
+	public Identifier getIdentifier() {
+		return identifier;
 	}
 
 	public Block getBlock() {
 		return block;
 	}
-	
+
 	public <T, U> T accept(StructureVisitor<T, U> visitor, U context) {
-		return visitor.visit(this, null);
+		return visitor.visit(this, context);
 	}
 }

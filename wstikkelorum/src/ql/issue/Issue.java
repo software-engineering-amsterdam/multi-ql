@@ -3,9 +3,10 @@ package ql.issue;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ql.gui.UIElement;
+import ql.ast.value.Value;
+import ql.gui.DrawableElement;
 
-public abstract class Issue implements UIElement{
+public abstract class Issue implements DrawableElement{
 	protected String errorMessage;
 
 	public void print() {
@@ -20,8 +21,11 @@ public abstract class Issue implements UIElement{
 		return jPanel;
 	}
 
-	@Override
-	public void updateValueLabel(Object newValue) {
+	public void updateValueLabel(Value newValue) {
 		errorMessage = newValue.toString();
 	}
+	
+	public abstract boolean isProblem();
+	
+	public abstract boolean isWarning();
 }

@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import uva.ql.ast.Block;
@@ -24,7 +23,6 @@ import uva.ql.ast.questions.QuestionComputed;
 import uva.ql.ast.questions.QuestionVanilla;
 import uva.ql.ast.variables.Variable;
 import uva.ql.gui.Question;
-import uva.ql.gui.fields.MoneyTextField;
 import uva.ql.gui.fields.actionlisteners.CheckBoxActionListener;
 import uva.ql.gui.observers.ComputedQuestionObserver;
 import uva.ql.gui.observers.DoublePanelObserver;
@@ -34,12 +32,6 @@ public class VisitorASTToGUI implements IGUIVisitor {
 
 	private final Map<String, JComponent> componentStore = new HashMap<String, JComponent>(0);
 	private final Map<String, Variable> variableStore = new HashMap<String, Variable>(0);
-	
-	private final JFrame jFrame;
-	
-	public VisitorASTToGUI(JFrame jFrame) {
-		this.jFrame = jFrame;
-	}
 	
 	@Override
 	public void visitForm(Form form, JPanel parentPanel) {
@@ -158,14 +150,18 @@ public class VisitorASTToGUI implements IGUIVisitor {
 	}
 	
 	@Override
+	public void visitVarDate(Variable<String> var, JPanel panel) {
+		variableStore.put(var.getName(), var);
+	}
+	
+	@Override
 	public void visitVarMoney(Variable<Integer> var, JPanel panel) {
-		System.out.println("Money: " + var.getName());
 		variableStore.put(var.getName(), var);
 	}
 	
 	@Override
 	public void visitVarInt(Variable<Integer> var, JPanel panel) {
-		System.out.println("Integer: " + var.getName());
+		variableStore.put(var.getName(), var);
 	}
 	
 	@Override
@@ -177,23 +173,18 @@ public class VisitorASTToGUI implements IGUIVisitor {
 
 	@Override
 	public void visitLogicalOperatorBinary(LogicalOperatorBinary exp, JPanel panel) {
-		System.out.println("Lhs LogicalOperatorBinary: " + exp.getLhs().toString());
-		System.out.println("Rhs LogicalOperatorBinary: " + exp.getRhs().toString());
 		exp.getLhs().accept(this, panel);
 		exp.getRhs().accept(this, panel);
 	}
 	
 	@Override
 	public void visitLogicalOperatorUnary(LogicalOperatorUnary exp, JPanel panel) {
-		System.out.println("Lhs LogicalOperatorUnary: " + exp.getLhs().toString());
 		exp.getLhs().accept(this, panel);
 	}
 
 	@Override
 	public void visitArithmeticOperator(ArithmeticOperatorBinary exp,
 			JPanel panel) {
-		System.out.println("Lhs ArithmeticOperatorBinary: " + exp.getLhs().toString());
-		System.out.println("Rhs ArithmeticOperatorBinary: " + exp.getRhs().toString());
 		exp.getLhs().accept(this, panel);
 		exp.getRhs().accept(this, panel);
 	}
@@ -201,8 +192,6 @@ public class VisitorASTToGUI implements IGUIVisitor {
 	@Override
 	public void visitRelationalOperatorBinary(RelationalOperatorBinary exp,
 			JPanel panel) {
-		System.out.println("Lhs RelationalOperatorBinary: " + exp.getLhs().toString());
-		System.out.println("Rhs RelationalOperatorBinary: " + exp.getRhs().toString());
 		exp.getLhs().accept(this, panel);
 		exp.getRhs().accept(this, panel);
 	}

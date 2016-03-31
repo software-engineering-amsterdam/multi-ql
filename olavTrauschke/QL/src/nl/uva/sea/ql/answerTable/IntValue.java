@@ -30,9 +30,8 @@ public class IntValue extends NumericValue {
     }
     
     /**
-     * TODO document
-     * 
-     * @return 
+     * @return a <code>Long</code> with the <code>value this IntValue</code>
+     *          represents
      */
     public Long getValue() {
        return value; 

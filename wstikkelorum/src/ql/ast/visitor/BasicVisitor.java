@@ -16,18 +16,22 @@ import ql.ast.expression.Not;
 import ql.ast.expression.OrExpression;
 import ql.ast.expression.Pos;
 import ql.ast.expression.Sub;
+import ql.ast.expression.VariableExpression;
 import ql.ast.form.Body;
 import ql.ast.form.Form;
 import ql.ast.literal.BoolLiteral;
 import ql.ast.literal.IntLiteral;
 import ql.ast.literal.StringLiteral;
 import ql.ast.literal.Variable;
-import ql.ast.literal.VariableExpression;
-import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
-import ql.ast.statement.InputQuestion;
-import ql.ast.statement.Question;
 import ql.ast.statement.Statement;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.statement.question.InputQuestion;
+import ql.ast.statement.question.Question;
+import ql.ast.value.BooleanValue;
+import ql.ast.value.IntegerValue;
+import ql.ast.value.NullValue;
+import ql.ast.value.StringValue;
 
 public class BasicVisitor<T> implements Visitor<T> {
 	public BasicVisitor() {
@@ -58,7 +62,6 @@ public class BasicVisitor<T> implements Visitor<T> {
 		return null;
 	}
 
-	//TODO: deze bezoek je nooit....
 	@Override
 	public T visit(Question question) {
 		question.getVariable().accept(this);
@@ -188,6 +191,26 @@ public class BasicVisitor<T> implements Visitor<T> {
 
 	@Override
 	public T visit(VariableExpression variableExpression) {
+		return null;
+	}
+
+	@Override
+	public T visit(BooleanValue booleanValue) {
+		return null;
+	}
+
+	@Override
+	public T visit(IntegerValue integerValue) {
+		return null;
+	}
+
+	@Override
+	public T visit(StringValue stringValue) {
+		return null;
+	}
+
+	@Override
+	public T visit(NullValue nullValue) {
 		return null;
 	}
 }

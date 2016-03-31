@@ -1,6 +1,7 @@
 package ql.ast.statement;
 
 import ql.ast.ASTNode;
+import ql.ast.statement.question.Question;
 import ql.ast.visitor.Visitable;
 import ql.ast.visitor.Visitor;
 

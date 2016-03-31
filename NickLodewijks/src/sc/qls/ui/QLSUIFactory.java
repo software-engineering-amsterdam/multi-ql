@@ -43,6 +43,7 @@ import sc.qls.ast.Widget.Slider;
 import sc.qls.ast.Widget.Spinbox;
 import sc.qls.ast.Widget.TextField;
 import sc.qls.ast.WidgetVisitor;
+import sc.qls.ui.widget.UICheckBox;
 import sc.qls.ui.widget.UIDropDown;
 import sc.qls.ui.widget.UISlider;
 import sc.qls.ui.widget.UISpinner;
@@ -135,7 +136,7 @@ public class QLSUIFactory extends UIFactory {
 
 			@Override
 			public UIWidget visit(CheckBox widget, Void unused) {
-				return null;
+				return new UICheckBox(env, question, createChoices(type, widget));
 			}
 
 		}, null);

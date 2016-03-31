@@ -36,7 +36,6 @@ public class IntFocusListener extends FocusAdapter {
 			@Override
 			public void run() {
 				var.setValue(Integer.parseInt(mtf.getText()));
-				System.out.println("IntTextField: " + var.getValue());
 			}
 		});
 	}

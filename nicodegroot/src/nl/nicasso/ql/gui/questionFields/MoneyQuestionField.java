@@ -4,108 +4,101 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
-import javax.swing.JTextField;
-
-import nl.nicasso.ql.ast.nodes.expressions.Identifier;
-import nl.nicasso.ql.gui.Observer;
-import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
+import nl.nicasso.ql.gui.evaluator.values.StringValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
+import nl.nicasso.ql.gui.widgets.InterActiveWidget;
+import nl.nicasso.ql.gui.widgets.TextfieldWidget;
+import nl.nicasso.ql.gui.widgets.Widget;
 
 public class MoneyQuestionField extends QuestionField {
 
-	private Identifier identifier;
-	private JTextField field;
-	private Label label;
-	private Observer main;
-	private MoneyValue value;
-	
-	public MoneyQuestionField(QuestionFieldParameter params) {
-		this.identifier = params.getIdentifier();
-		this.main = params.getMain();
-		
-		System.out.println("MoneyQuestionField");
-		
-		setupField(params.isEnabled(), (MoneyValue) params.getValue());	
-	}
-	
-	private void setupField(boolean enabled, MoneyValue value) {
-		field = new JTextField();
-		field.setColumns(20);
-		field.setEnabled(enabled);
-		
-		System.out.println("setupField");
-		
-		setValue(value);
-		
-		if (enabled) {
+	private InterActiveWidget textField;
+	private Widget feedback;
+	private Value fieldValue;
+
+	public MoneyQuestionField(QuestionFieldArguments params) {
+		super(params);
+
+		textField = new TextfieldWidget(params.isEnabled());
+
+		updateValueAndTextfield(params.getValue());
+
+		if (params.isEnabled()) {
 			addListenerToField();
 		}
 	}
-	
+
+	public void setFeedbackField(Widget feedback) {
+		this.feedback = feedback;
+	}
+
 	private void addListenerToField() {
-		field.addKeyListener(new KeyAdapter() {
+		textField.addListener(new KeyAdapter() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				boolean parseSuccess = true;
+
+				MoneyValue newValue = new MoneyValue(BigDecimal.valueOf(0.00));
+
+				BigDecimal decimal = new BigDecimal(0.00);
 				
-				MoneyValue value = new MoneyValue(BigDecimal.valueOf(0.00));
-				
-				if (!field.getText().equals("")) {
+				if (!textField.getValue().equals("")) {
 					try {
-						value = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(field.getText())));
+						decimal = BigDecimal.valueOf(Double.parseDouble((String) textField.getValue()));
+						newValue = new MoneyValue(decimal);
 					} catch (Exception ex) {
-						label.setLabelText("This is not a valid decimal number.");
+						feedback.setValue(new StringValue("This is not a valid decimal number."));
 						parseSuccess = false;
 					}
 				}
 				
 				if (parseSuccess) {
-					// Does too much?!
-					if (getNumberOfDecimalPlaces(BigDecimal.valueOf(Double.parseDouble(field.getText()))) > 2) {
-						label.setLabelText("No more than 2 decimals allowed.");
-						parseSuccess = false;
+					if (getNumberOfDecimalPlaces(decimal) > 2) {
+						feedback.setValue(new StringValue("No more than 2 decimals allowed."));
 					} else {
-						label.setLabelText("");
-						
-						main.fieldValueChanged(identifier, value);
-						main.updateAllPanels();
+						feedback.setValue(new StringValue(""));
+
+						updateValue(newValue);
+
+						getMainWindow().updateValueInStateTable(getIdentifier(), newValue);
+						getMainWindow().updateGUIPanels();
 					}
 				}
 			}
-			
+
 		});
 	}
-	
-	public void setValue(Value value) {
-		System.out.println("SETVALUE FOR MONEY: "+value.getValue().toString());
-		this.value = (MoneyValue) value;
-		field.setText(value.getValue().toString());
-	}
-	
-	public MoneyValue getValue() {
-		return value;
-	}
-	
-	public boolean equalValues(Value value) {
-		BigDecimal bd = (BigDecimal) value.getValue();
-		BigDecimal bd2 = (BigDecimal) this.value.getValue();
 
-		return bd.compareTo(bd2) == 0;
+	public void updateValue(Value value) {
+		fieldValue = (MoneyValue) value;
 	}
-	
-	public void setFeedbackLabel(Label label) {
-		this.label = label;
+
+	public void updateValueAndTextfield(Value value) {
+		updateValue(value);
+		textField.setValue(value);
 	}
-	
-	public JTextField getField() {
-		return this.field;
+
+	public boolean equalValues(Value value) {
+		BigDecimal decimal1 = (BigDecimal) value.getValue();
+		BigDecimal decimal2 = (BigDecimal) this.fieldValue.getValue();
+
+		return decimal1.compareTo(decimal2) == 0;
 	}
-	
+
+	public Widget getField() {
+		return this.textField;
+	}
+
 	private int getNumberOfDecimalPlaces(BigDecimal bigDecimal) {
-	    return Math.max(0, bigDecimal.stripTrailingZeros().scale());
+		return Math.max(0, bigDecimal.stripTrailingZeros().scale());
 	}
-	
+
+	@Override
+	public Value getValue() {
+		return fieldValue;
+	}
+
 }

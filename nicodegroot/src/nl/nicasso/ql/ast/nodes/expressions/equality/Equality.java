@@ -13,12 +13,12 @@ public abstract class Equality extends Binary {
 	}
 
 	@Override
-	public Type inferType(Type left, Type right) {		
+	public Type inferType(Type left, Type right) {
 		if (left.equals(right)) {
 			return new BooleanType();
 		}
-		
-		return new UnknownType();		
+
+		return new UnknownType();
 	}
 
 }

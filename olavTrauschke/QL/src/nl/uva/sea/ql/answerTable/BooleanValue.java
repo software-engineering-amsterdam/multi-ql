@@ -43,6 +43,7 @@ public class BooleanValue extends Value {
             return new BooleanValue(null);
         }
         else {
+            assert toCast instanceof BooleanValue;
             return (BooleanValue) toCast;
         }
     }

@@ -1,7 +1,7 @@
 package ql.ast.visitor;
 
-import ql.ast.statement.ComputedQuestion;
-import ql.ast.statement.InputQuestion;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.statement.question.InputQuestion;
 
 public class QuestionVisitor<T> extends BasicVisitor<T> {
 	private Context context;

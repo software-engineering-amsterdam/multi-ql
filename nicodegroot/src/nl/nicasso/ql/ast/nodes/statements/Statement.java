@@ -9,7 +9,7 @@ public abstract class Statement extends ASTNode {
 	public Statement(CodeLocation location) {
 		super(location);
 	}
-	
+
 	public abstract <T, U> T accept(StatementVisitor<T, U> visitor, U context);
 
 }

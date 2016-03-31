@@ -1,49 +1,47 @@
 package ql.ast.visitor;
 
 import ql.ast.form.Form;
-import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfStatement;
-import ql.ast.statement.InputQuestion;
-import ql.gui.UserInterface;
-import ql.gui.VisibleUIElements;
+import ql.ast.statement.question.ComputedQuestion;
+import ql.ast.statement.question.InputQuestion;
+import ql.ast.value.BooleanValue;
+import ql.gui.QLWindow;
+import ql.gui.VisibleElements;
 
-public class GuiVisitor<T> extends Evaluator {
-	private VisibleUIElements visibleQuestions;
-	private UserInterface parent;
+public class GuiVisitor<Value> extends Evaluator {
+	private VisibleElements visibleQuestions;
+	private QLWindow parent;
 
-	public GuiVisitor(Context context, UserInterface parent) {
+	public GuiVisitor(Context context, QLWindow parent) {
 		super(context);
 		this.parent = parent;
-		visibleQuestions = new VisibleUIElements();
+		visibleQuestions = new VisibleElements();
 	}
 
 	@Override
-	public T visit(ComputedQuestion computedQuestion) {
+	public ql.ast.value.Value visit(ComputedQuestion computedQuestion) {
 		context.putValueForQuestion(computedQuestion, computedQuestion.getExpression().accept(this));
 		visibleQuestions.addQuestion(computedQuestion);
 		return null;
 	}
 
 	@Override
-	public T visit(InputQuestion inputQuestion) {
+	public ql.ast.value.Value visit(InputQuestion inputQuestion) {
 		inputQuestion.getVariable().accept(this);
 		visibleQuestions.addQuestion(inputQuestion, parent);
 		return null;
 	}
 
 	@Override
-	public T visit(IfStatement ifStatement) {
-		Boolean condition = (Boolean) ifStatement.getCondition().accept(this);
-		if (condition == null) {
-			return null;
-		}
-		if (condition) {
+	public ql.ast.value.Value visit(IfStatement ifStatement) {
+		BooleanValue condition = (BooleanValue) ifStatement.getCondition().accept(this);
+		if (condition.getValue()) {
 			ifStatement.getBody().accept(this);
 		}
 		return null;
 	}
 
-	public VisibleUIElements getVisibleQuestions(Form form, Context newContext) {
+	public VisibleElements getVisibleQuestions(Form form, Context newContext) {
 		this.context = newContext;
 		this.visit(form);
 		return visibleQuestions;

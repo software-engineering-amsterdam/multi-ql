@@ -3,7 +3,6 @@ package nl.uva.sea.ql.interpreter.questionComponent;
 import java.util.Observer;
 import nl.uva.sea.ql.answerTable.Value;
 import nl.uva.sea.ql.ast.expr.Ident;
-import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponentListener;
 
 /**
  * <code>QuestionComponent</code>s are objects that can be used to display

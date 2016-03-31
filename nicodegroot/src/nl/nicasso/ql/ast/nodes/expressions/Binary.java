@@ -7,11 +7,11 @@ public abstract class Binary extends Expression {
 
 	private Expression left;
 	private Expression right;
-	
+
 	public Binary(CodeLocation location) {
 		super(location);
 	}
-	
+
 	public Expression getLeft() {
 		return left;
 	}
@@ -19,6 +19,6 @@ public abstract class Binary extends Expression {
 	public Expression getRight() {
 		return right;
 	}
-	
+
 	public abstract Type inferType(Type left, Type right);
 }

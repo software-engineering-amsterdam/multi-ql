@@ -9,7 +9,7 @@ import ql.SemanticAnalyser;
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
 import ql.issue.Issue;
-import ql.issue.ReferenceToUndefinedQuestion;
+import ql.issue.problem.ReferenceToUndefinedQuestion;
 
 public class UndefinedQuestion {
 
