@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import nl.nicasso.ql.ast.nodes.expressions.Expression;
 import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
-import nl.nicasso.ql.gui.Observer;
+import nl.nicasso.ql.gui.NotifyAboutGuiUpdates;
 import nl.nicasso.ql.gui.evaluator.Evaluator;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.gui.evaluator.values.Value;
@@ -17,10 +17,10 @@ import nl.nicasso.ql.gui.questionFields.QuestionField;
 public class ComputedQuestionPanel extends Panel {
 
 	private ComputedQuestion question;
-	private Observer mainWindow;
+	private NotifyAboutGuiUpdates mainWindow;
 
 	public ComputedQuestionPanel(ComputedQuestion question, QuestionField field, Value value,
-			Stack<Expression> conditions, StateTable stateTable, Observer mainWindow) {
+			Stack<Expression> conditions, StateTable stateTable, NotifyAboutGuiUpdates mainWindow) {
 		this.mainWindow = mainWindow;
 		this.stateTable = stateTable;
 		this.question = question;

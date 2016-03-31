@@ -21,18 +21,19 @@ import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 public class QL {
 
 	public final static String DSLFILE = "examples/good/allTypes";
-//	public final static String DSLFILE = "examples/good/booleanType";
-//	public final static String DSLFILE = "examples/good/integerType";
-//	public final static String DSLFILE = "examples/good/moneyType";
-//	public final static String DSLFILE = "examples/good/nestedIfs";
-	
-//	public final static String DSLFILE = "examples/bad/cyclicDependency";
-//	public final static String DSLFILE = "examples/bad/duplicateIds";
-//	public final static String DSLFILE = "examples/bad/duplicateIdsDifferentType";
-//	public final static String DSLFILE = "examples/bad/duplicateLabels";
-//	public final static String DSLFILE = "examples/bad/undefinedIdentifier";
+	// public final static String DSLFILE = "examples/good/booleanType";
+	// public final static String DSLFILE = "examples/good/integerType";
+	// public final static String DSLFILE = "examples/good/moneyType";
+	// public final static String DSLFILE = "examples/good/nestedIfs";
 
-	public void start() {
+	// public final static String DSLFILE = "examples/bad/cyclicDependency";
+	// public final static String DSLFILE = "examples/bad/duplicateIds";
+	// public final static String DSLFILE =
+	// "examples/bad/duplicateIdsDifferentType";
+	// public final static String DSLFILE = "examples/bad/duplicateLabels";
+	// public final static String DSLFILE = "examples/bad/undefinedIdentifier";
+
+	public QL() {
 		QLLexer lexer = new QLLexer(readInputDSL());
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		ParseTree parseTree = new QLParser(tokens).form();
@@ -67,8 +68,7 @@ public class QL {
 	}
 
 	public static void main(String[] arguments) throws Exception {
-		QL ql = new QL();
-		ql.start();
+		new QL();
 	}
 
 }

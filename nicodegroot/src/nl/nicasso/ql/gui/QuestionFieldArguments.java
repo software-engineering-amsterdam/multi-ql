@@ -6,11 +6,11 @@ import nl.nicasso.ql.gui.evaluator.values.Value;
 public class QuestionFieldArguments {
 
 	private Identifier identifier;
-	private Observer main;
+	private NotifyAboutGuiUpdates main;
 	private boolean enabled;
 	private Value value;
 
-	public QuestionFieldArguments(Identifier identifier, Observer main, boolean enabled, Value value) {
+	public QuestionFieldArguments(Identifier identifier, NotifyAboutGuiUpdates main, boolean enabled, Value value) {
 		this.identifier = identifier;
 		this.main = main;
 		this.enabled = enabled;
@@ -21,7 +21,7 @@ public class QuestionFieldArguments {
 		this.identifier = identifier;
 	}
 
-	public void setMain(Observer main) {
+	public void setMain(NotifyAboutGuiUpdates main) {
 		this.main = main;
 	}
 
@@ -33,7 +33,7 @@ public class QuestionFieldArguments {
 		return identifier;
 	}
 
-	public Observer getMain() {
+	public NotifyAboutGuiUpdates getMain() {
 		return main;
 	}
 

@@ -18,7 +18,7 @@ import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.Panel;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.Message;
 
-public class MainWindow implements Observer {
+public class MainWindow implements NotifyAboutGuiUpdates {
 
 	private List<Panel> panels;
 	private JFrame mainFrame;

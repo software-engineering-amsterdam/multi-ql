@@ -1,7 +1,7 @@
 package nl.nicasso.ql.gui.questionFields;
 
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
-import nl.nicasso.ql.gui.Observer;
+import nl.nicasso.ql.gui.NotifyAboutGuiUpdates;
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.Widget;
@@ -9,7 +9,7 @@ import nl.nicasso.ql.gui.widgets.Widget;
 public abstract class QuestionField {
 
 	private final Identifier identifier;
-	private final Observer main;
+	private final NotifyAboutGuiUpdates main;
 
 	public QuestionField(QuestionFieldArguments params) {
 		this.identifier = params.getIdentifier();
@@ -26,7 +26,7 @@ public abstract class QuestionField {
 
 	public abstract Value getValue();
 
-	protected Observer getMainWindow() {
+	protected NotifyAboutGuiUpdates getMainWindow() {
 		return main;
 	}
 
