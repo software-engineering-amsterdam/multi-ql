@@ -8,11 +8,11 @@ public class FormEvaluator {
 	private Context context;
 
 	public FormEvaluator(Context context) {
+		assert(context != null);
 		this.context = context;
 	}
 
 	public void evaluateForm(Form form) {
-		assert(context != null);
 		Evaluator eval = new Evaluator(context);
 		eval.visit(form);
 	}

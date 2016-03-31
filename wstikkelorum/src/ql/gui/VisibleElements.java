@@ -8,54 +8,54 @@ import ql.ast.statement.question.ComputedQuestion;
 import ql.ast.statement.question.InputQuestion;
 import ql.gui.questionWidget.ComputedQuestionWidget;
 import ql.gui.questionWidget.InputQuestionWidget;
+import ql.gui.questionWidget.QuestionWidget;
 import ql.issue.Issue;
 
 public class VisibleElements {
-	private List<DrawableElement> visibleUIElements;
+	private List<DrawableElement> UIElements;
+	private List<QuestionWidget> questions;
 	private List<InputQuestionWidget> inputQuestions;
-	private List<ComputedQuestionWidget> computedQuestions;
 	
 	public VisibleElements(){
-		visibleUIElements = new ArrayList<DrawableElement>();
+		UIElements = new ArrayList<DrawableElement>();
+		questions = new ArrayList<QuestionWidget>();
 		inputQuestions = new ArrayList<InputQuestionWidget>();
-		computedQuestions = new ArrayList<ComputedQuestionWidget>();
 	}
 	
 	public void addIssue(Issue issue){
-		visibleUIElements.add(issue);
+		UIElements.add(issue);
 	}
 	
 	public void addQuestion(InputQuestion inputQuestion, QLWindow parent){
 		InputQuestionWidget questionWidget = new InputQuestionWidget(inputQuestion, parent);
-		visibleUIElements.add(questionWidget);
+		UIElements.add(questionWidget);
+		questions.add(questionWidget);
 		inputQuestions.add(questionWidget);
 	}
 	
 	public void addQuestion(ComputedQuestion computedQuestion){
 		ComputedQuestionWidget questionWidget = new ComputedQuestionWidget(computedQuestion);
-		visibleUIElements.add(questionWidget);
-		computedQuestions.add(questionWidget);
+		UIElements.add(questionWidget);
+		questions.add(questionWidget);
 	}
 	
 	public int numberOfUIElements(){
-		return visibleUIElements.size();
+		return UIElements.size();
 	}
 	
 	public void removeAllUIElements(){
-		visibleUIElements.clear();
-		inputQuestions.clear();
-		computedQuestions.clear();
+		UIElements.clear();
 	}
 	
-	public Iterator<DrawableElement> getIterator(){
-		return visibleUIElements.iterator();
+	public Iterator<DrawableElement> getUIElementIterator(){
+		return UIElements.iterator();
+	}
+
+	public Iterator<QuestionWidget> getQuestionsIterator(){
+		return questions.iterator();
 	}
 	
 	public Iterator<InputQuestionWidget> getInputQuestionsIterator(){
 		return inputQuestions.iterator();
-	}
-	
-	public Iterator<ComputedQuestionWidget> getComputedQuestionsIterator(){
-		return computedQuestions.iterator();
 	}
 }

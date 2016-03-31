@@ -8,12 +8,7 @@ import java.util.List;
 import ql.ast.expression.VariableExpression;
 import ql.ast.literal.Variable;
 import ql.ast.statement.question.Question;
-import ql.ast.type.BooleanType;
-import ql.ast.type.IntegerType;
 import ql.ast.type.ValueType;
-import ql.ast.value.BooleanValue;
-import ql.ast.value.IntegerValue;
-import ql.ast.value.StringValue;
 import ql.ast.value.Value;
 import ql.issue.Issue;
 import ql.issue.problem.DuplicateQuestionWithDifferentType;
@@ -72,16 +67,7 @@ public class Context {
 	
 	private Value defaultValue(Question question){
 		ValueType type = question.getVariable().getType();
-		if(type instanceof BooleanType){
-			return new BooleanValue(false);
-		}
-		
-		if(type instanceof IntegerType){
-			return new IntegerValue(0);
-		}
-		
-		//else type instanceof StringType
-		return new StringValue("");
+		return type.getDefaultValue();
 	}
 
 	private void addLabel(Question question) {
@@ -131,9 +117,7 @@ public class Context {
 	
 	private boolean noIssues(){
 		for(Issue issue : issues){
-			if(issue instanceof DuplicateLabel){
-				continue;
-			}else{
+			if(issue.isProblem()){
 				return false;
 			}
 		}

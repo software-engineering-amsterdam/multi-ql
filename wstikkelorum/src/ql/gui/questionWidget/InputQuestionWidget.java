@@ -5,19 +5,20 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ql.ast.literal.Variable;
 import ql.ast.statement.question.InputQuestion;
 import ql.ast.type.BooleanType;
 import ql.ast.type.IntegerType;
 import ql.ast.type.StringType;
 import ql.ast.type.ValueType;
 import ql.ast.value.Value;
-import ql.gui.UserInputElement;
 import ql.gui.QLWindow;
+import ql.gui.UserInputElement;
 import ql.gui.inputComponent.BooleanInputComponent;
 import ql.gui.inputComponent.IntegerInputComponent;
 import ql.gui.inputComponent.StringInputComponent;
 
-public class InputQuestionWidget implements UserInputElement{
+public class InputQuestionWidget extends QuestionWidget implements UserInputElement{
 	private JLabel questionString;
 	private QLWindow parent;
 	private UserInputElement inputComponent;
@@ -69,5 +70,10 @@ public class InputQuestionWidget implements UserInputElement{
 	
 	public InputQuestion getQuestion(){
 		return inputQuestion;
+	}
+
+	@Override
+	public Variable getVariable() {
+		return inputQuestion.getVariable();
 	}
 }

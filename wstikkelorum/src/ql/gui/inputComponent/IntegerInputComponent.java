@@ -42,11 +42,7 @@ public class IntegerInputComponent implements UserInputElement{
 	
 	@Override
 	public void updateValueLabel(Value newValue) {
-		if(newValue == null){
-			textField.setText("");
-		}else{
-			textField.setText(newValue.getValue().toString());
-		}
+		textField.setText(newValue.getValue().toString());
 	}
 
 	@Override

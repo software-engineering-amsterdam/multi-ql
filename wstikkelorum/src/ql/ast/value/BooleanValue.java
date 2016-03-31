@@ -3,7 +3,7 @@ package ql.ast.value;
 import ql.ast.visitor.Visitor;
 
 public class BooleanValue extends Value{
-	private Boolean value;
+	private final Boolean value;
 	
 	public BooleanValue(Boolean value) {
 		this.value = value;

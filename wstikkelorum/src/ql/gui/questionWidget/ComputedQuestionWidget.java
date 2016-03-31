@@ -7,11 +7,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import ql.ast.literal.Variable;
 import ql.ast.statement.question.ComputedQuestion;
 import ql.ast.value.Value;
 import ql.gui.DrawableElement;
 
-public class ComputedQuestionWidget implements DrawableElement{
+public class ComputedQuestionWidget extends QuestionWidget implements DrawableElement{
 	private JLabel questionString;
 	private JTextField textField;
 	private final ComputedQuestion computedQuestion;
@@ -45,5 +46,10 @@ public class ComputedQuestionWidget implements DrawableElement{
 	
 	public ComputedQuestion getQuestion(){
 		return computedQuestion;
+	}
+
+	@Override
+	public Variable getVariable() {
+		return computedQuestion.getVariable();
 	}
 }

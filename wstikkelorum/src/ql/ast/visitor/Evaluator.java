@@ -30,6 +30,7 @@ public class Evaluator extends BasicVisitor<Value> {
 	protected Context context;
 
 	public Evaluator(Context context) {
+		assert(context != null);
 		this.context = context;
 	}
 

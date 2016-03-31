@@ -10,7 +10,6 @@ import ql.ast.visitor.DependencyChecker;
 import ql.ast.visitor.QuestionVisitor;
 import ql.ast.visitor.TypeChecker;
 import ql.issue.Issue;
-import ql.issue.warning.DuplicateLabel;
 
 public class SemanticAnalyser {
 	private Context context;
@@ -25,12 +24,11 @@ public class SemanticAnalyser {
 		cyclicDependenciesCheck(form);
 	}
 
-	//TODO: needs a refactor!
 	public boolean noIssues() {
 		Iterator<Issue> iterator = context.getIssueIterator();
 		while(iterator.hasNext()){
 			Issue issue = iterator.next();
-			if(!(issue instanceof DuplicateLabel)){
+			if(issue.isProblem()){
 				return false;
 			}
 		}
@@ -42,7 +40,7 @@ public class SemanticAnalyser {
 		Iterator<Issue> iterator = context.getIssueIterator();
 		while(iterator.hasNext()){
 			Issue issue = iterator.next();
-			if(issue instanceof DuplicateLabel){
+			if(issue.isWarning()){
 				warnings.add(issue);
 			}
 		}
@@ -63,8 +61,7 @@ public class SemanticAnalyser {
 
 	private void cyclicDependenciesCheck(Form form) {
 		DependencyChecker<Object> dependencyChecker = new DependencyChecker<>(context);
-		dependencyChecker.visit(form);
-		dependencyChecker.findCyclicDependencies();
+		dependencyChecker.findCyclicDependencies(form);
 		context = dependencyChecker.getContext();
 	}
 

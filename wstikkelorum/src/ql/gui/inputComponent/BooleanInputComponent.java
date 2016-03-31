@@ -36,17 +36,12 @@ public class BooleanInputComponent implements UserInputElement{
 
 	@Override
 	public void updateValueLabel(Value newValue) {
-		if(newValue == null){
-			checkBox.setSelected(false);
-			return;
-		}
-		
 		boolean value = (boolean) newValue.getValue();
 		if(value){
 			checkBox.setSelected(true);
-		}else{		
-			checkBox.setSelected(false);
-		}
+			return;
+		}	
+		checkBox.setSelected(false);
 	}
 
 	@Override

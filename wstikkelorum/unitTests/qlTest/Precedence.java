@@ -15,7 +15,7 @@ public class Precedence {
 	
 	@Test
 	public void testPrecedence1(){
-		//expr = "3+5*2"
+		//tested expression: 3+5*2
 		Mul expr = new Mul(1, new Add(1, new IntLiteral(3, 1), new IntLiteral(5, 1)), new IntLiteral(2, 1));
 		evalVisitor = new Evaluator(new Context());
 		int resultExpression = (int) evalVisitor.visit(expr).getValue();

@@ -17,6 +17,13 @@ public class FormSaver {
 	}
 	
 	public void saveForm(){
+		if(nothingToSave()){
+			return;
+		}
+		save();
+	}
+
+	private void save() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(path + "\n");
 		builder.append("Identifier - type: \n");
@@ -35,5 +42,9 @@ public class FormSaver {
 		}
 		
 		System.out.println(builder.toString());
+	}
+	
+	private boolean nothingToSave(){
+		return (context == null || path == null);
 	}
 }
