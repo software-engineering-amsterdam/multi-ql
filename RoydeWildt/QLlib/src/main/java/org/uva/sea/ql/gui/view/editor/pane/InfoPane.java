@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import org.uva.sea.ql.gui.observer.Position;
+import org.uva.sea.ql.gui.view.editor.Position;
 
 /**
  * Created by roy on 3/28/16.

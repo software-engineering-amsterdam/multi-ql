@@ -1,6 +1,7 @@
 package org.uva.sea.ql.checker;
 
 import org.uva.sea.ql.ast.tree.form.Form;
+import org.uva.sea.ql.checker.message.ErrorMessage;
 import org.uva.sea.ql.checker.message.Message;
 
 import java.util.ArrayList;
@@ -34,5 +35,17 @@ public class Checker {
         }
 
         return messageStrings;
+    }
+
+    public List<String> getErrorMessageStrings(){
+        List<String> errorMessageStrings = new ArrayList<>();
+
+        for(Message message : messages){
+            if(message instanceof ErrorMessage){
+                errorMessageStrings.add(message.toString());
+            }
+        }
+
+        return errorMessageStrings;
     }
 }

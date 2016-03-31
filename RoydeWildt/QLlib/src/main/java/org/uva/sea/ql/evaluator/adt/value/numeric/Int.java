@@ -27,38 +27,40 @@ public class Int extends Numeric {
 
     @Override
     public Int Add(Numeric x) {
-
         if(x instanceof Int)
             return new Int(this.value + (Integer) x.getValue());
+        else if (x instanceof Double)
+            return new Int(this.value + ((java.lang.Double) x.getValue()).intValue());
         else
             return null;
     }
 
     @Override
     public Int Div(Numeric x) {
-
-
         if(x instanceof Int)
             return new Int(this.value / (Integer) x.getValue());
+        else if (x instanceof Double)
+            return new Int(this.value / ((java.lang.Double) x.getValue()).intValue());
         else
             return null;
     }
 
     @Override
     public Int Mul(Numeric x) {
-
-
         if(x instanceof Int)
             return new Int(this.value * (Integer) x.getValue());
+        else if (x instanceof Double)
+            return new Int(this.value * ((java.lang.Double) x.getValue()).intValue());
         else
             return null;
     }
 
     @Override
     public Int Sub(Numeric x) {
-
         if(x instanceof Int)
             return new Int(this.value - (Integer) x.getValue());
+        else if (x instanceof Double)
+            return new Int(this.value - ((java.lang.Double) x.getValue()).intValue());
         else
             return null;
     }
@@ -67,33 +69,38 @@ public class Int extends Numeric {
     public Bool LT(Numeric x) {
         if(x instanceof Int)
             return new Bool(this.value < (Integer) x.getValue());
+        else if (x instanceof Double)
+            return new Bool(this.value < ((java.lang.Double) x.getValue()).intValue());
         else
             return null;
     }
 
     @Override
     public Bool LEq(Numeric x) {
-
         if(x instanceof Int)
             return new Bool(this.value <= (Integer) x.getValue());
+        else if (x instanceof Double)
+            return new Bool(this.value <= ((java.lang.Double) x.getValue()).intValue());
         else
             return null;
     }
 
     @Override
     public Bool GEq(Numeric x) {
-
         if(x instanceof Int)
             return new Bool(this.value >= (Integer) x.getValue());
+        else if (x instanceof Double)
+            return new Bool(this.value >= ((java.lang.Double) x.getValue()).intValue());
         else
             return null;
     }
 
     @Override
     public Bool GT(Numeric x) {
-
         if(x instanceof Int)
             return new Bool(this.value > (Integer) x.getValue());
+        else if (x instanceof Double)
+            return new Bool(this.value > ((java.lang.Double) x.getValue()).intValue());
         else
             return null;
     }

@@ -145,12 +145,12 @@ public class TypeCheck<FORM,STAT,TYPE> extends BaseVisitor<FORM,STAT,Type,TYPE,T
 
     @Override
     public Type visit(Int val, Void context) {
-        return new Money();
+        return new Number();
     }
 
     @Override
     public Type visit(Double atom, Void context) {
-        return new Number();
+        return new Money();
     }
 
     @Override

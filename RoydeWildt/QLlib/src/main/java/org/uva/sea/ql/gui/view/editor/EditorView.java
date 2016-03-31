@@ -82,14 +82,17 @@ public class EditorView {
 
         try {
             Form form = QLRunner.parseString(textPane.getText());
-            List<String> messages = new Checker(form).getMessageStrings();
+            Checker checker = new Checker(form);
 
-            if(messages.isEmpty()){
-                fireEditorChangedEvent(form);
+            List<String> messages = checker.getMessageStrings();
+            List<String> errorMessages = checker.getErrorMessageStrings();
+
+            if(!messages.isEmpty()){
+                logPane.setText(String.join("\n", messages));
             }
 
-            else {
-                logPane.setText(String.join("\n", messages));
+            if(true){
+                fireEditorChangedEvent(form);
             }
         }
 

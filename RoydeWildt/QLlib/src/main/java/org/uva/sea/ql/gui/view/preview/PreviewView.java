@@ -6,10 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.uva.sea.ql.ast.tree.atom.var.Var;
@@ -70,6 +67,13 @@ public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
         List<EvaluatedQuestion> questionList = new FormEvaluator(this.form, this.symbolTable).getEvaluatedQuestions();
 
         rootPane.getChildren().clear();
+
+        RowConstraints row1 = new RowConstraints();
+
+        RowConstraints row2 = new RowConstraints();
+        row2.setVgrow(Priority.ALWAYS);
+
+        rootPane.getRowConstraints().addAll(row1, row2);
 
         Label label = new Label(form.getId());
         label.setFont(new Font("Arial", 30));
@@ -228,7 +232,7 @@ public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
     }
 
     private boolean isLetterString(java.lang.String name) {
-        return name.chars().allMatch(Character::isLetter);
+        return name.chars().allMatch(Character::isLetterOrDigit);
     }
 
     public void showPreviewStage(){
@@ -237,7 +241,6 @@ public class PreviewView implements ValueVisitor<Widget,EvaluatedQuestion> {
             scene.getStylesheets().add("customStylesheet.css");
             previewStage = new Stage();
             previewStage.setScene(scene);
-            //previewStage.setOnCloseRequest(windowEvent -> previewStage = null);
             editor.updatePreview();
         }
 

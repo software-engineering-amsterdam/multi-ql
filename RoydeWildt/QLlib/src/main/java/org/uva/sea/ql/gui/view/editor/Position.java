@@ -1,11 +1,11 @@
-package org.uva.sea.ql.gui.observer;
+package org.uva.sea.ql.gui.view.editor;
 
 /**
  * Created by roy on 3/18/16.
  */
 public class Position {
-    int line;
-    int column;
+    private int line;
+    private int column;
 
     public Position(int line, int column) {
         this.line = line;
