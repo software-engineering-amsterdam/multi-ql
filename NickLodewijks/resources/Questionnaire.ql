@@ -3,6 +3,13 @@ form taxOfficeExample{
     bool hasBoughtHouse "Did you buy a house in 2010?"
     bool hasMaintLoan "Did you enter a loan?"
     
+    if(hasMaintLoan){
+        bool reallyHasMaintLoan "Did you really enter a loan?"
+    }
+    
+    if(reallyHasMaintLoan && hasMaintLoan){
+        str hasMaintLoanInText "Type Yes"
+    }
     
     if(hasSoldHouse && hasMaintLoan){
         int sellingPrice "What was the selling price?"
