@@ -11,20 +11,20 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public class Parenthesis extends Unary {
 
-	private final Expression expr;
+	private final Expression expression;
 
-	public Parenthesis(Expression expr, CodeLocation location) {
+	public Parenthesis(Expression expression, CodeLocation location) {
 		super(location);
-		this.expr = expr;
+		this.expression = expression;
 	}
 
-	public Expression getExpr() {
-		return expr;
+	public Expression getExpression() {
+		return expression;
 	}
 
 	@Override
 	public String toString() {
-		return "(" + expr + ")";
+		return "(" + expression + ")";
 	}
 
 	@Override

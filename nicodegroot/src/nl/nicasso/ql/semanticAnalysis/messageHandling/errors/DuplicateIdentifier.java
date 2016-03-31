@@ -5,9 +5,9 @@ import java.text.MessageFormat;
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 
 public class DuplicateIdentifier extends ErrorMessage {
-	
+
 	private static final String MESSAGE = "\"{0}\" already exists with a different type. {1}";
-	
+
 	private final Identifier identifier;
 
 	public DuplicateIdentifier(Identifier identifier) {
@@ -18,7 +18,7 @@ public class DuplicateIdentifier extends ErrorMessage {
 	public Identifier getIdentifier() {
 		return identifier;
 	}
-	
+
 	public String getMessage() {
 		return MessageFormat.format(DuplicateIdentifier.MESSAGE, identifier, identifier.getLocation());
 	}

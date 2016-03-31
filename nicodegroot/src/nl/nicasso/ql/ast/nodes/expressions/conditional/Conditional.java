@@ -14,13 +14,13 @@ public abstract class Conditional extends Binary {
 
 	@Override
 	public Type inferType(Type left, Type right) {
-		
+
 		if (left.equals(right)) {
 			if (left.equals(new BooleanType())) {
 				return new BooleanType();
 			}
 		}
-		
+
 		return new UnknownType();
 	}
 

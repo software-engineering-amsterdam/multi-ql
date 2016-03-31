@@ -19,32 +19,32 @@ import nl.nicasso.ql.semanticAnalysis.SemanticAnalysis;
 import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 
 public class QL {
-	
+
 	public final static String DSLFILE = "exampleQuestionnaire";
-	
+
 	public void start() {
 		QLLexer lexer = new QLLexer(readInputDSL());
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		ParseTree parseTree =  new QLParser(tokens).form();
-        
-        Form abstractSyntaxTree = new CreateAbstractSyntaxTree(parseTree).getAbstractSyntaxTree();
-        
-        StateTable stateTable = new StateTable();
-        
-        SemanticAnalysis semantics = new SemanticAnalysis(abstractSyntaxTree, new SymbolTable(), stateTable);        
+		ParseTree parseTree = new QLParser(tokens).form();
 
-        MainFrame window = new MainFrame(stateTable, semantics.getMessages());
-        
-        if (!semantics.containsErrors()) {
+		Form abstractSyntaxTree = new CreateAbstractSyntaxTree(parseTree).getAbstractSyntaxTree();
+
+		StateTable stateTable = new StateTable();
+
+		SemanticAnalysis semantics = new SemanticAnalysis(abstractSyntaxTree, new SymbolTable(), stateTable);
+
+		MainFrame window = new MainFrame(stateTable, semantics.getMessages());
+
+		if (!semantics.containsErrors()) {
 			new Gui(abstractSyntaxTree, stateTable, window);
-        }
+		}
 	}
-	
+
 	private ANTLRInputStream readInputDSL() {
 		File dslFile = new File(DSLFILE);
-	    FileInputStream inputStream;
-	    ANTLRInputStream input = null;
-	    
+		FileInputStream inputStream;
+		ANTLRInputStream input = null;
+
 		try {
 			inputStream = new FileInputStream(dslFile);
 			input = new ANTLRInputStream(inputStream);
@@ -55,12 +55,12 @@ public class QL {
 			return null;
 		}
 	}
-	
-	public static void main( String[] arguments) throws Exception {
+
+	public static void main(String[] arguments) throws Exception {
 		System.out.print("LET'S GO!\n");
-		
+
 		QL ql = new QL();
 		ql.start();
-    }
+	}
 
 }

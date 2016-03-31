@@ -4,33 +4,37 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
+import nl.nicasso.ql.gui.Observer;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 
-// @TODO CHANGE TO INTERFACE
 public abstract class QuestionField {
-		
-	public QuestionField() {
-		//throw new AssertionError("QuestionField");
+
+	private final Identifier identifier;
+	private final Observer main;
+
+	public QuestionField(QuestionFieldArguments params) {
+		this.identifier = params.getIdentifier();
+		this.main = params.getMain();
 	}
-	
-	public void setValue(Value value) {
-		throw new AssertionError("QuestionField setValue");
+
+	public abstract void setValue(Value value);
+
+	public abstract Component getField();
+
+	public abstract boolean equalValues(Value value);
+
+	public abstract void setFeedbackField(JLabel feedback);
+
+	public abstract Value getValue();
+
+	protected Observer getMain() {
+		return main;
 	}
-	
-	public Value getValue() {
-		throw new AssertionError("QuestionField getValue");
+
+	protected Identifier getIdentifier() {
+		return identifier;
 	}
-	
-	public Component getField() {
-		throw new AssertionError("QuestionField getField");
-	}
-	
-	public boolean equalValues(Value value) {
-		throw new AssertionError("QuestionField equalValues");
-	}
-	
-	public void setFeedbackField(JLabel feedback) {
-		//throw new AssertionError("setFeedbackField");
-	}
-	
+
 }
