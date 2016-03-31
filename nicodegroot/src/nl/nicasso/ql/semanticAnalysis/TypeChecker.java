@@ -63,10 +63,6 @@ public class TypeChecker implements StructureVisitor<Void, Void>, StatementVisit
 	public TypeChecker(SymbolTable symbolTable, MessageHandler messages) {
 		this.symbolTable = symbolTable;
 		this.messageHandler = messages;
-
-		this.dependencies = new QuestionDependencies(messageHandler);
-
-		dependencies.checkForCyclicDependencies();
 	}
 
 	private Type binaryExpressionTraversal(Binary expression, Identifier context) {

@@ -32,6 +32,7 @@ public class QuestionDependencies {
 					dependencies.get(i).getLeft());
 			if (checkPairExistance(currentPair)) {
 				messageHandler.addErrorMessage(new CyclomaticDependency(currentPair.getLeft().getLocation()));
+				break;
 			}
 		}
 

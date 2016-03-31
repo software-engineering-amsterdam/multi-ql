@@ -22,8 +22,8 @@ public abstract class Panel {
 	protected List<Expression> conditions;
 	protected QuestionField field;
 
-	protected void addQuestionLabel(Question q) {
-		Widget questionLabel = new LabelWidget(q.getLabel());
+	protected void addQuestionLabel(Question question) {
+		Widget questionLabel = new LabelWidget(question.getLabel());
 		questionLabel.addSelfToPanel(panel);
 	}
 
@@ -59,7 +59,7 @@ public abstract class Panel {
 	protected void addQuestionField(Question q, QuestionField field, Value value) {
 		this.field = field;
 
-		field.setValue(value);
+		field.updateValueAndTextfield(value);
 		
 		addWidgetToPanel(field.getField());
 	}

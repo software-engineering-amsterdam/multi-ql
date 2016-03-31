@@ -20,7 +20,7 @@ public class TextQuestionField extends QuestionField {
 
 		textField = new TextfieldWidget(params.isEnabled());
 
-		setValue(params.getValue());
+		updateValueAndTextfield(params.getValue());
 
 		if (params.isEnabled()) {
 			addListenerToField();
@@ -35,17 +35,17 @@ public class TextQuestionField extends QuestionField {
 				StringValue newValue = new StringValue((String) textField.getValue());
 
 				if (!newValue.equals(fieldValue)) {
-					setValue(newValue);
+					updateValueAndTextfield(newValue);
 
-					getMain().updateValueInStateTable(getIdentifier(), newValue);
-					getMain().updateGUIPanels();
+					getMainWindow().updateValueInStateTable(getIdentifier(), newValue);
+					getMainWindow().updateGUIPanels();
 				}
 			}
 
 		});
 	}
 
-	public void setValue(Value value) {
+	public void updateValueAndTextfield(Value value) {
 		this.fieldValue = (StringValue) value;
 		textField.setValue(value);
 	}

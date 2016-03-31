@@ -1,0 +1,27 @@
+form taxOfficeExample {
+	  
+	"Boolean 2"
+	cQ1a: boolean = (cQ1)
+	
+	"Boolean"
+	cQ1: boolean
+	
+	"String"
+	cQ2: string
+	
+	"String 2"
+	cQ2a: string = (cQ2)
+	
+	"Integer"
+	cQ3: integer
+	
+	"Integer 2"
+	cQ3a: integer = (cQ3)
+	
+	"Money"
+	cQ4: money
+	
+	"Money 2"
+	cQ4a: money = (cQ4)
+	    
+}

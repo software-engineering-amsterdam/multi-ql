@@ -16,7 +16,10 @@ public class SemanticAnalysis {
 		messageHandler = new MessageHandler();
 
 		new QuestionSemantics(ast, symbolTable, stateTable, messageHandler);
-		new TypeChecker(ast, symbolTable, messageHandler);
+		if (!messageHandler.containsErrors()) {
+			new TypeChecker(ast, symbolTable, messageHandler);
+		}
+		
 	}
 
 	public List<Message> getMessages() {

@@ -20,7 +20,17 @@ import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 
 public class QL {
 
-	public final static String DSLFILE = "exampleQuestionnaire";
+	public final static String DSLFILE = "examples/good/allTypes";
+//	public final static String DSLFILE = "examples/good/booleanType";
+//	public final static String DSLFILE = "examples/good/integerType";
+//	public final static String DSLFILE = "examples/good/moneyType";
+//	public final static String DSLFILE = "examples/good/nestedIfs";
+	
+//	public final static String DSLFILE = "examples/bad/cyclicDependency";
+//	public final static String DSLFILE = "examples/bad/duplicateIds";
+//	public final static String DSLFILE = "examples/bad/duplicateIdsDifferentType";
+//	public final static String DSLFILE = "examples/bad/duplicateLabels";
+//	public final static String DSLFILE = "examples/bad/undefinedIdentifier";
 
 	public void start() {
 		QLLexer lexer = new QLLexer(readInputDSL());
@@ -57,8 +67,6 @@ public class QL {
 	}
 
 	public static void main(String[] arguments) throws Exception {
-		System.out.print("LET'S GO!\n");
-
 		QL ql = new QL();
 		ql.start();
 	}

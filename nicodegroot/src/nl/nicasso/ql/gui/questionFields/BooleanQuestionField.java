@@ -20,7 +20,7 @@ public class BooleanQuestionField extends QuestionField {
 		
 		checkbox = new CheckboxWidget(params.isEnabled());
 
-		setValue(params.getValue());
+		updateValueAndTextfield(params.getValue());
 
 		if (params.isEnabled()) {
 			addListenerToField();
@@ -31,22 +31,22 @@ public class BooleanQuestionField extends QuestionField {
 		checkbox.addListener(new ItemListener() {
 
 			@Override
-			public void itemStateChanged(ItemEvent e) {
+			public void itemStateChanged(ItemEvent event) {
 				BooleanValue newValue = new BooleanValue(false);
 
-				if (e.getStateChange() == ItemEvent.SELECTED) {
+				if (event.getStateChange() == ItemEvent.SELECTED) {
 					newValue = new BooleanValue(true);
 				}
 
-				setValue(newValue);
+				updateValueAndTextfield(newValue);
 
-				getMain().updateValueInStateTable(getIdentifier(), newValue);
-				getMain().updateGUIPanels();
+				getMainWindow().updateValueInStateTable(getIdentifier(), newValue);
+				getMainWindow().updateGUIPanels();
 			}
 		});
 	}
 
-	public void setValue(Value value) {
+	public void updateValueAndTextfield(Value value) {
 		this.fieldValue = (BooleanValue) value;
 
 		checkbox.setValue(value);

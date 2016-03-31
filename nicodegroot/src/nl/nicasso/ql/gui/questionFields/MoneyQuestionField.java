@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
 import nl.nicasso.ql.gui.QuestionFieldArguments;
-import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
 import nl.nicasso.ql.gui.evaluator.values.StringValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
@@ -24,7 +23,7 @@ public class MoneyQuestionField extends QuestionField {
 
 		textField = new TextfieldWidget(params.isEnabled());
 
-		setValue(params.getValue());
+		updateValueAndTextfield(params.getValue());
 
 		if (params.isEnabled()) {
 			addListenerToField();
@@ -35,7 +34,6 @@ public class MoneyQuestionField extends QuestionField {
 		this.feedback = feedback;
 	}
 
-	// THIS IS ONE BIG MESS!
 	private void addListenerToField() {
 		textField.addListener(new KeyAdapter() {
 
@@ -45,28 +43,28 @@ public class MoneyQuestionField extends QuestionField {
 
 				MoneyValue newValue = new MoneyValue(BigDecimal.valueOf(0.00));
 
+				BigDecimal decimal = new BigDecimal(0.00);
+				
 				if (!textField.getValue().equals("")) {
 					try {
-						newValue = new MoneyValue(BigDecimal.valueOf(Double.parseDouble((String) textField.getValue())));
+						decimal = BigDecimal.valueOf(Double.parseDouble((String) textField.getValue()));
+						newValue = new MoneyValue(decimal);
 					} catch (Exception ex) {
 						feedback.setValue(new StringValue("This is not a valid decimal number."));
 						parseSuccess = false;
 					}
-				} else {
-					parseSuccess = true;
 				}
-
+				
 				if (parseSuccess) {
-					// Does too much?!
-					if (getNumberOfDecimalPlaces(newValue.getValue()) > 2) {
+					if (getNumberOfDecimalPlaces(decimal) > 2) {
 						feedback.setValue(new StringValue("No more than 2 decimals allowed."));
 					} else {
 						feedback.setValue(new StringValue(""));
 
 						updateValue(newValue);
 
-						getMain().updateValueInStateTable(getIdentifier(), newValue);
-						getMain().updateGUIPanels();
+						getMainWindow().updateValueInStateTable(getIdentifier(), newValue);
+						getMainWindow().updateGUIPanels();
 					}
 				}
 			}
@@ -74,26 +72,20 @@ public class MoneyQuestionField extends QuestionField {
 		});
 	}
 
-	// DIFFERENCE WITH SETVALUE?
 	public void updateValue(Value value) {
-		if (value instanceof IntegerValue) {
-			value = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(value.getValue().toString())));
-		}
-
 		fieldValue = (MoneyValue) value;
 	}
 
-	// WTF MAN!
-	public void setValue(Value value) {
-		fieldValue = (MoneyValue) value;
+	public void updateValueAndTextfield(Value value) {
+		updateValue(value);
 		textField.setValue(value);
 	}
 
 	public boolean equalValues(Value value) {
-		BigDecimal bd = (BigDecimal) value.getValue();
-		BigDecimal bd2 = (BigDecimal) this.fieldValue.getValue();
+		BigDecimal decimal1 = (BigDecimal) value.getValue();
+		BigDecimal decimal2 = (BigDecimal) this.fieldValue.getValue();
 
-		return bd.compareTo(bd2) == 0;
+		return decimal1.compareTo(decimal2) == 0;
 	}
 
 	public Widget getField() {

@@ -1,12 +1,9 @@
 package nl.nicasso.ql.gui.panels;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import nl.nicasso.ql.ast.nodes.expressions.Expression;
@@ -52,11 +49,7 @@ public class QuestionPanel extends Panel {
 	private void setupFeedbackLabel() {
 		Widget feedback = new LabelWidget("");
 		feedback.addSelfToPanel(panel);
-		
-//		JLabel feedback = new JLabel("");
-//		feedback.setFont(new Font("Arial", 0, 12));
-//		feedback.setForeground(Color.RED);
-//		panel.add(feedback);
+
 		field.setFeedbackField(feedback);
 	}
 

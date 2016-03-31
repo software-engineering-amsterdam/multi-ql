@@ -16,7 +16,7 @@ public abstract class QuestionField {
 		this.main = params.getMain();
 	}
 
-	public abstract void setValue(Value value);
+	public abstract void updateValueAndTextfield(Value value);
 
 	public abstract Widget getField();
 
@@ -26,7 +26,7 @@ public abstract class QuestionField {
 
 	public abstract Value getValue();
 
-	protected Observer getMain() {
+	protected Observer getMainWindow() {
 		return main;
 	}
 

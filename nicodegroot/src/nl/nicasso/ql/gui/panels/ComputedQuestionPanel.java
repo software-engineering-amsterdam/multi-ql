@@ -45,13 +45,13 @@ public class ComputedQuestionPanel extends Panel {
 	public boolean update() {
 		boolean updated = false;
 		
-		boolean visible = checkPanelVisibilityConditions();
+		boolean newVisiblity = checkPanelVisibilityConditions();
 
-		if (visible == true) {
+		if (newVisiblity) {
 			Value questionValue = question.getExpression().accept(new Evaluator(), stateTable);
 
 			if (!field.equalValues(questionValue)) {
-				field.setValue(questionValue);
+				field.updateValueAndTextfield(questionValue);
 				updated = true;
 			}
 

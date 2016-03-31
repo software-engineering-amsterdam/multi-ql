@@ -22,7 +22,7 @@ public class IntegerQuestionField extends QuestionField {
 		
 		textField = new TextfieldWidget(params.isEnabled());
 
-		setValue(params.getValue());
+		updateValueAndTextfield(params.getValue());
 
 		if (params.isEnabled()) {
 			addListenerToField();
@@ -51,20 +51,20 @@ public class IntegerQuestionField extends QuestionField {
 					}
 				}
 
-				if (parseSuccess && !newValue.equals(fieldValue)) {
+				if (parseSuccess) {
 					feedback.setValue(new StringValue(""));
 
-					setValue(newValue);
+					updateValueAndTextfield(newValue);
 
-					getMain().updateValueInStateTable(getIdentifier(), newValue);
-					getMain().updateGUIPanels();
+					getMainWindow().updateValueInStateTable(getIdentifier(), newValue);
+					getMainWindow().updateGUIPanels();
 				}
 			}
 
 		});
 	}
 
-	public void setValue(Value value) {
+	public void updateValueAndTextfield(Value value) {
 		this.fieldValue = (IntegerValue) value;
 		textField.setValue(value);
 	}
