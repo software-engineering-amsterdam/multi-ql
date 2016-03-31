@@ -60,7 +60,7 @@ public class DateQuestionComponent extends FormattedTextFieldComponent {
     @Override
     public void setValue(PropertyChangeEvent e) {
         assert e != null;
-        Date date = (Date) getTextFieldValue();
+        Date date = (Date) obtainTextFieldValue();
         DateValue newValue = new DateValue(date);
         setValue(newValue);
     }

@@ -12,16 +12,18 @@ import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.question.StringQuestion;
 
 /**
- * TODO document
+ * Objects of this class are <code>JPanel</code>s containing a <code>JLabel</code>
+ * and a <code>JTextField</code> that are used to display <code>StringQuestion</code>s.
  * 
  * @author Olav Trauschke
- * @version 29-mar-2016
+ * @version 1-apr-2016
  */
 public class StringQuestionComponent extends JPanel
         implements ConcreteQuestionComponent {
     
     /**
-     * TODO document
+     * An <code>int</code> expressing the number of characters that fit in
+     * a <code>StringQuestionComponent</code>.
      */
     public static final int NUMBER_OF_COLUMNS = 30;
     
@@ -79,9 +81,12 @@ public class StringQuestionComponent extends JPanel
     }
     
     /**
-     * TODO document
+     * Set the value of <code>this StringQuestionComponent</code>'s
+     * <code>question</code> to the value currently written in its
+     * <code>textField</code>.
      * 
-     * @param e 
+     * @param e an <code>ActionEvent</code> that changes the value of
+     *          <code>this StringQuestionComponent</code>
      */
     public void setValue(DocumentEvent e) {
         assert e != null;
@@ -94,20 +99,11 @@ public class StringQuestionComponent extends JPanel
     }
     
     /**
-     * TODO document
+     * Make <code>this StringQuestionComponent</code> display a specified
+     * <code>Value</code>.
      * 
-     * @param comp
-     * @return 
-     */
-    @Override
-    public final Component add(Component comp) {
-        return super.add(comp);
-    }
-    
-    /**
-     * TODO document
-     * 
-     * @param newValue 
+     * @param newValue a <code>Value this StringQuestionComponent</code> should
+     *                  display
      */
     @Override
     public void displayValue(Value newValue) {
@@ -118,6 +114,21 @@ public class StringQuestionComponent extends JPanel
             valueAsString = "";
         }
         textField.setText(valueAsString);
+    }
+    
+    /**
+     * Defined in {@link java.awt.Container#add(java.awt.Component)
+     * Container.add(Component)} and overwritten only to declare final for use
+     * in constructor.
+     * 
+     * @param comp a <code>Component</code> that is passed to
+     *              {@link java.awt.Container#add(java.awt.Component)
+     *              Container.add(Component)}
+     * @return <code>comp</code>
+     */
+    @Override
+    public final Component add(Component comp) {
+        return super.add(comp);
     }
     
 }

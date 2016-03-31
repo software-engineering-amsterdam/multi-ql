@@ -15,7 +15,7 @@ import nl.uva.sea.ql.parser.ParserWrapper;
  * Class to present various dialogs to the user.
  * 
  * @author Olav Trauschke
- * @version 25-mar-2016
+ * @version 1-apr-2016
  */
 public class IOManager {
     
@@ -30,6 +30,24 @@ public class IOManager {
      * Private to avoid accidental change.
      */
     private static final String[] ACCEPTED_EXTENSIONS = {"ql"};
+    
+    /**
+     * A <code>String</code> that is used to signal the start of the listing of
+     * accepted extensions in the description of accepted file types.
+     */
+    public static final String FILE_EXTENSIONS_LISTING_START = " (";
+    
+    /**
+     * A <code>String</code> that is used to separate extensions in the listing
+     * of accepted extensions in the description of accepted file types.
+     */
+    public static final String FILE_EXTENSIONS_LISTING_SEPARATOR = ", ";
+    
+    /**
+     * A <code>String</code> that is used to signal the end of the listing of
+     * accepted extensions in the description of accpted file types.
+     */
+    public static final String FILE_EXTENSIONS_LISTING_END = ")";
     
     /**
      * Extension of files the results of a questionnaire can be saved to.
@@ -129,13 +147,35 @@ public class IOManager {
      */
     public File selectFileToOpen() {
         JFileChooser fileChooser = new JFileChooser();
-        FileFilter qlFilter = new FileNameExtensionFilter(ACCEPTED_FILE_TYPES_DESCRIPTION, ACCEPTED_EXTENSIONS);
+        FileFilter qlFilter = new FileNameExtensionFilter(createFileTypesDescription(), ACCEPTED_EXTENSIONS);
         fileChooser.setFileFilter(qlFilter);
         fileChooser.showOpenDialog(null);
         return fileChooser.getSelectedFile();
     }
     
-        /**
+    /**
+     * Create a description of the accepted file types.
+     * 
+     * @return a <code>String</code> consisting of
+     *          <code>ACCEPTED_FILE_TYPES_DESCRIPTION</code> and a listing of
+     *          the <code>ACCEPTED_EXTENSION</code>
+     */
+    private String createFileTypesDescription() {
+        StringBuilder fileTypeDescriptionBuilder = new StringBuilder();
+        fileTypeDescriptionBuilder.append(ACCEPTED_FILE_TYPES_DESCRIPTION);
+        fileTypeDescriptionBuilder.append(FILE_EXTENSIONS_LISTING_START);
+        fileTypeDescriptionBuilder.append(".");
+        fileTypeDescriptionBuilder.append(ACCEPTED_EXTENSIONS[0]);
+        for (int i = 1; i < ACCEPTED_EXTENSIONS.length; i++) {
+            fileTypeDescriptionBuilder.append(FILE_EXTENSIONS_LISTING_SEPARATOR);
+            fileTypeDescriptionBuilder.append(".");
+            fileTypeDescriptionBuilder.append(ACCEPTED_EXTENSIONS[i]);
+        }
+        fileTypeDescriptionBuilder.append(FILE_EXTENSIONS_LISTING_END);
+        return fileTypeDescriptionBuilder.toString();
+    }
+    
+    /**
      * Try to read a given <code>File</code> and shutdown with an error if this
      * was not possible.
      * 

@@ -9,7 +9,7 @@
             <arg value="jacc.bat" />
         </exec>
     </target>
-    
+        
     <target name="-javadoc-build">
         <taskdef
             classname="lombok.delombok.ant.Tasks$Delombok"
@@ -25,14 +25,11 @@
         >
             <format value="suppressWarnings:skip" />
         </delombok>
+        
         <javadoc
             sourcepath="build/src-delomboked"
             classpath="src;lib/*"
             destdir="dist/javadoc"
-            author="true"
-            version="true"
-            windowtitle="QL"
-            defaultexcludes="yes"
         >
             <link href="http://docs.oracle.com/javase/8/docs/api/" />
         </javadoc>
