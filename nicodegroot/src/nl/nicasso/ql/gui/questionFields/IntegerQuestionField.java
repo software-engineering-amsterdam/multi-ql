@@ -8,12 +8,13 @@ import javax.swing.JLabel;
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
+import nl.nicasso.ql.gui.widgets.InterActiveWidget;
 import nl.nicasso.ql.gui.widgets.TextfieldWidget;
 import nl.nicasso.ql.gui.widgets.Widget;
 
 public class IntegerQuestionField extends QuestionField {
 
-	private Widget textField;
+	private InterActiveWidget textField;
 	private JLabel feedback;
 	private Value fieldValue;
 

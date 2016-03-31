@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 
 import nl.nicasso.ql.gui.evaluator.values.Value;
 
-public class TextfieldWidget implements Widget {
+public class TextfieldWidget implements InterActiveWidget {
 
 	private JTextField field;
 	

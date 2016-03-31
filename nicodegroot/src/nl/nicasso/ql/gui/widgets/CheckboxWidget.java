@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import nl.nicasso.ql.gui.evaluator.values.Value;
 
-public class CheckboxWidget implements Widget {
+public class CheckboxWidget implements InterActiveWidget {
 
 	private JCheckBox field;
 	

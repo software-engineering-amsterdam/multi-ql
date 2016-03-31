@@ -9,11 +9,12 @@ import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.BooleanValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.CheckboxWidget;
+import nl.nicasso.ql.gui.widgets.InterActiveWidget;
 import nl.nicasso.ql.gui.widgets.Widget;
 
 public class BooleanQuestionField extends QuestionField {
 
-	private Widget checkbox;
+	private InterActiveWidget checkbox;
 	private Value fieldValue;
 
 	public BooleanQuestionField(QuestionFieldArguments params) {

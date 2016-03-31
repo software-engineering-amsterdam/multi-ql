@@ -16,7 +16,7 @@ form taxOfficeExample {
 			 	}
 	 	} else {
 	 		"String 3"
-		    cQ5: string = ("b")
+		    cQ2: string = ("b")
 	 	}
 	  
 
@@ -37,7 +37,7 @@ form taxOfficeExample {
        eEE: money = (10.00 / 10)
        
      "Money / 100"
-       fFF: money = (100.00 / 100)
+       fFF: money// = (100.00 / 100)
 	
 	
 }
