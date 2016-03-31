@@ -19,9 +19,9 @@ public class Block extends ASTNode {
 	public List<Statement> getStatements() {
 		return statements;
 	}
-	
+
 	public <T, U> T accept(StructureVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
-	
+
 }

@@ -1,11 +1,11 @@
 grammar QL;
 // RUN USING: java org.antlr.v4.Tool QL.g4 -visitor
 @parser::header {
-	package org.uva.sea.ql.parser.antlr;
+	package nl.nicasso.ql.antlr;
 }
 
 @lexer::header {
-	package org.uva.sea.ql.parser.antlr;
+	package nl.nicasso.ql.antlr;
 }
 
 options { 
@@ -44,12 +44,12 @@ expression
   ;
 
 literal
-  : INTEGER #integerLiteral
-  | MONEY #moneyLiteral
+  : MONEY #moneyLiteral 
+  | INTEGER #integerLiteral
   | BOOLEAN #booleanliteral
   | STRING #stringLiteral
   ;
-  
+
 questionType 
   : 'integer' #integerType
   | 'string' #stringType

@@ -8,46 +8,51 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 public class IntegerLiteral extends Literal {
 
 	private final Type type;
-	private final Integer lit;
+	private final Integer literal;
 
-	public IntegerLiteral(Integer lit) {
+	public IntegerLiteral(Integer literal) {
 		super(null);
-		this.lit = lit;
+		this.literal = literal;
 		this.type = new IntegerType();
 	}
-	
-	public IntegerLiteral(Integer lit, CodeLocation location) {
+
+	public IntegerLiteral(Integer literal, CodeLocation location) {
 		super(location);
-		this.lit = lit;
+		this.literal = literal;
 		this.type = new IntegerType(location);
 	}
 
 	@Override
-	public Integer getValue() {
-		return lit;
+	public Integer getLiteral() {
+		return literal;
 	}
-	
+
 	public Type getType() {
 		return type;
 	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-	
+
 	@Override
 	public boolean equals(Object ob) {
 		if (!(ob instanceof IntegerLiteral)) {
 			return false;
 		}
 		IntegerLiteral lit2 = (IntegerLiteral) ob;
-		return lit.equals(lit2.getValue());
+		return literal.equals(lit2.getLiteral());
 	}
-	
+
 	@Override
-	public int hashCode(){
-	    return lit.hashCode();
-    }
+	public int hashCode() {
+		return literal.hashCode();
+	}
+
+	@Override
+	public <T, U> T accept(ExpressionVisitor<T, U> visitor, U context) {
+		return visitor.visit(this, context);
+	}
+
+	@Override
+	public String toString() {
+		return literal.toString();
+	}
 
 }

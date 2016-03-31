@@ -5,8 +5,8 @@ import nl.nicasso.ql.gui.evaluator.values.Value;
 
 public interface Observer {
 
-	public boolean fieldValueChanged(Identifier identifier, Value value);
-	
-	public void updateAllPanels();
-	
+	public void updateValueInStateTable(Identifier identifier, Value value);
+
+	public void updateGUIPanels();
+
 }

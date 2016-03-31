@@ -25,28 +25,27 @@ import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTableEntry;
 import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 
-public class QuestionIndexer implements StructureVisitor<Identifier, Void>, StatementVisitor<Identifier, Void> {
-	
+public class QuestionSemantics implements StructureVisitor<Identifier, Void>, StatementVisitor<Identifier, Void> {
+
 	private SymbolTable symbolTable;
 	private StateTable stateTable;
 	private MessageHandler messageHandler;
-	
+
 	private Set<Identifier> identifiers;
 	private Set<String> labels;
 	private CollectIdentifiers collectIdentifiers;
 
-	//@TODO THINK FOR A BETTER NAME, IT ALSO CHECKS FOR DUPLICATE LABELS AND STUFF
-	public QuestionIndexer(Form ast, SymbolTable symbolTable, StateTable stateTable, MessageHandler messageHandler) {		
+	public QuestionSemantics(Form ast, SymbolTable symbolTable, StateTable stateTable, MessageHandler messageHandler) {
 		this.symbolTable = symbolTable;
 		this.stateTable = stateTable;
 		this.messageHandler = messageHandler;
-		
-		this.identifiers = new HashSet<Identifier>();		
-		this.labels = new HashSet<String>();		
+
+		this.identifiers = new HashSet<Identifier>();
+		this.labels = new HashSet<String>();
 		this.collectIdentifiers = new CollectIdentifiers();
-		
+
 		ast.accept(this, null);
-		
+
 		checkForUndefinedIdentifiers();
 	}
 
@@ -81,31 +80,31 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 			stateTable.add(statement.getIdentifier(), new StateTableEntry(statement.getType().getDefaultValue()));
 			labels.add(statement.getLabel());
 		}
-		
-		statement.getExpr().accept(collectIdentifiers, null);
+
+		statement.getExpression().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
 		return null;
 	}
 
 	@Override
 	public Identifier visit(IfStatement statement, Void context) {
-		statement.getExpr().accept(collectIdentifiers, null);
+		statement.getExpression().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
-		
-		statement.getBlock_if().accept(this, null);
+
+		statement.getBlockIf().accept(this, null);
 		return null;
 	}
 
 	@Override
 	public Identifier visit(IfElseStatement statement, Void context) {
-		statement.getExpr().accept(collectIdentifiers, null);
+		statement.getExpression().accept(collectIdentifiers, null);
 		identifiers.addAll(collectIdentifiers.getIdentifiers());
-		
-		statement.getBlock_if().accept(this, null);
-		statement.getBlock_else().accept(this, null);
+
+		statement.getBlockIf().accept(this, null);
+		statement.getBlockElse().accept(this, null);
 		return null;
 	}
-	
+
 	public void checkForUndefinedIdentifiers() {
 		for (Identifier identifier : identifiers) {
 			if (!checkForDuplicateIdentifier(identifier)) {
@@ -116,7 +115,7 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 
 	public boolean checkIfUniqueQuestion(Question question) {
 		checkForDuplicateLabel(question);
-		
+
 		if (checkForDuplicateIdentifier(question.getIdentifier())) {
 			if (symbolTable.getEntryType(question.getIdentifier()).equals(question.getType())) {
 				messageHandler.addWarningMessage(new DuplicateIdentifierSameType(question.getIdentifier()));
@@ -128,23 +127,23 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 
 		return true;
 	}
-	
+
 	private boolean checkForDuplicateIdentifier(Identifier identifier) {
 		Iterator<Entry<Identifier, SymbolTableEntry>> iterator = symbolTable.getIterator();
-		
-	    while (iterator.hasNext()) {
-	    	Entry<Identifier, SymbolTableEntry> pair = iterator.next();
-	    	Identifier pairKey = (Identifier) pair.getKey();
 
-	    	if (pairKey.equals(identifier)) {
+		while (iterator.hasNext()) {
+			Entry<Identifier, SymbolTableEntry> pair = iterator.next();
+			Identifier pairKey = (Identifier) pair.getKey();
+
+			if (pairKey.equals(identifier)) {
 				return true;
 			}
 
-	    }
+		}
 
 		return false;
 	}
-	
+
 	private boolean checkForDuplicateLabel(Question question) {
 		for (String currentLabel : labels) {
 			if (currentLabel.equals(question.getLabel())) {
@@ -155,9 +154,9 @@ public class QuestionIndexer implements StructureVisitor<Identifier, Void>, Stat
 
 		return false;
 	}
-	
+
 	public Set<Identifier> getIdentifiers() {
 		return identifiers;
 	}
-		
+
 }

@@ -4,7 +4,7 @@ public class Pair<T> {
 
 	T left;
 	T right;
-	
+
 	public Pair(T left, T right) {
 		super();
 		this.left = left;
@@ -18,7 +18,7 @@ public class Pair<T> {
 	public T getRight() {
 		return right;
 	}
-	
+
 	@Override
 	public boolean equals(Object ob) {
 		if (ob instanceof Pair<?>) {
@@ -27,10 +27,10 @@ public class Pair<T> {
 		}
 		return false;
 	}
-	
+
 	@Override
-	public int hashCode(){
-	    return left.hashCode() + right.hashCode();
-    }
-	
+	public int hashCode() {
+		return left.hashCode() + right.hashCode();
+	}
+
 }

@@ -40,10 +40,8 @@ public class Division extends Multiplicative {
 	@Override
 	public Type inferType(Type left, Type right) {
 
-		if (left.equals(right)) {
-			if (left.equals(new IntegerType())) {
-				return new IntegerType();
-			}
+		if (left.equals(right) && left.equals(new IntegerType())) {
+			return new IntegerType();
 		} else if (left.equals(new MoneyType()) && right.equals(new IntegerType())) {
 			return new MoneyType();
 		}

@@ -3,14 +3,14 @@ package nl.nicasso.ql.gui;
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 
-public class QuestionFieldParameter {
+public class QuestionFieldArguments {
 
 	private Identifier identifier;
 	private Observer main;
 	private boolean enabled;
 	private Value value;
-	
-	public QuestionFieldParameter(Identifier identifier, Observer main, boolean enabled, Value value) {
+
+	public QuestionFieldArguments(Identifier identifier, Observer main, boolean enabled, Value value) {
 		this.identifier = identifier;
 		this.main = main;
 		this.enabled = enabled;
@@ -48,5 +48,5 @@ public class QuestionFieldParameter {
 	public void setValue(Value value) {
 		this.value = value;
 	}
-	
+
 }

@@ -7,17 +7,17 @@ import nl.nicasso.ql.ast.nodes.types.Type;
 public abstract class Literal extends Expression {
 
 	private Type type;
-	
+
 	public Literal(CodeLocation location) {
 		super(location);
 	}
-	
+
 	public Type getType() {
 		return type;
 	}
-	
-	public Object getValue() {
+
+	public Object getLiteral() {
 		return null;
 	}
-	
+
 }

@@ -11,23 +11,20 @@ import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
 public class SemanticAnalysis {
 
 	private MessageHandler messageHandler;
-	
+
 	public SemanticAnalysis(Form ast, SymbolTable symbolTable, StateTable stateTable) {
 		messageHandler = new MessageHandler();
-		
-		QuestionIndexer questionVisitor = new QuestionIndexer(symbolTable, stateTable, messageHandler);
-        ast.accept(questionVisitor, null);
-        
-    	TypeChecker typeChecker = new TypeChecker(symbolTable, messageHandler);
-    	ast.accept(typeChecker, null);
+
+		new QuestionSemantics(ast, symbolTable, stateTable, messageHandler);
+		new TypeChecker(ast, symbolTable, messageHandler);
 	}
-	
+
 	public List<Message> getMessages() {
 		return messageHandler.getAllMessages();
 	}
-	
+
 	public boolean containsErrors() {
 		return messageHandler.containsErrors();
 	}
-	
+
 }

@@ -10,15 +10,15 @@ import nl.nicasso.ql.visitors.ExpressionVisitor;
 
 public class Not extends Unary {
 
-	private final Expression expr;
+	private final Expression expression;
 
-	public Not(Expression expr, CodeLocation location) {
+	public Not(Expression expression, CodeLocation location) {
 		super(location);
-		this.expr = expr;
+		this.expression = expression;
 	}
 
-	public Expression getExpr() {
-		return expr;
+	public Expression getExpression() {
+		return expression;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class Not extends Unary {
 
 	@Override
 	public String toString() {
-		return "!" + expr;
+		return "!" + expression;
 	}
 
 	@Override
