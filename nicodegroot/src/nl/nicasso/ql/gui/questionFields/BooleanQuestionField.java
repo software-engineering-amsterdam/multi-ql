@@ -3,8 +3,6 @@ package nl.nicasso.ql.gui.questionFields;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.JLabel;
-
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.BooleanValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
@@ -64,7 +62,7 @@ public class BooleanQuestionField extends QuestionField {
 	}
 
 	@Override
-	public void setFeedbackField(JLabel feedback) {
+	public void setFeedbackField(Widget feedback) {
 		new AssertionError("BooleanQuestionField no feedback field.");
 	}
 

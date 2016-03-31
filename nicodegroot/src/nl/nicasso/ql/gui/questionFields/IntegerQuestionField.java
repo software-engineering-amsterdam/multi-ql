@@ -3,10 +3,9 @@ package nl.nicasso.ql.gui.questionFields;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JLabel;
-
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
+import nl.nicasso.ql.gui.evaluator.values.StringValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.InterActiveWidget;
 import nl.nicasso.ql.gui.widgets.TextfieldWidget;
@@ -15,7 +14,7 @@ import nl.nicasso.ql.gui.widgets.Widget;
 public class IntegerQuestionField extends QuestionField {
 
 	private InterActiveWidget textField;
-	private JLabel feedback;
+	private Widget feedback;
 	private Value fieldValue;
 
 	public IntegerQuestionField(QuestionFieldArguments params) {
@@ -30,7 +29,7 @@ public class IntegerQuestionField extends QuestionField {
 		}
 	}
 
-	public void setFeedbackField(JLabel feedback) {
+	public void setFeedbackField(Widget feedback) {
 		this.feedback = feedback;
 	}
 
@@ -47,13 +46,13 @@ public class IntegerQuestionField extends QuestionField {
 					try {
 						newValue = new IntegerValue(Integer.parseInt((String) textField.getValue()));
 					} catch (Exception ex) {
-						feedback.setText("This is not a valid integer.");
+						feedback.setValue(new StringValue("This is not a valid integer."));
 						parseSuccess = false;
 					}
 				}
 
 				if (parseSuccess && !newValue.equals(fieldValue)) {
-					feedback.setText("");
+					feedback.setValue(new StringValue(""));
 
 					setValue(newValue);
 

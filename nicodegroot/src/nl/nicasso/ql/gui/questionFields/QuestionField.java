@@ -1,7 +1,5 @@
 package nl.nicasso.ql.gui.questionFields;
 
-import javax.swing.JLabel;
-
 import nl.nicasso.ql.ast.nodes.expressions.Identifier;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.QuestionFieldArguments;
@@ -24,7 +22,7 @@ public abstract class QuestionField {
 
 	public abstract boolean equalValues(Value value);
 
-	public abstract void setFeedbackField(JLabel feedback);
+	public abstract void setFeedbackField(Widget feedback);
 
 	public abstract Value getValue();
 

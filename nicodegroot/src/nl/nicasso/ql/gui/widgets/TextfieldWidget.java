@@ -18,10 +18,12 @@ public class TextfieldWidget implements InterActiveWidget {
 		field.setEnabled(enabled);
 	}
 	
+	@Override
 	public void setValue(Value text) {
 		field.setText(text.getValue().toString());
 	}
 	
+	@Override
 	public String getValue() {
 		return field.getText();
 	}
@@ -31,6 +33,7 @@ public class TextfieldWidget implements InterActiveWidget {
 		field.addKeyListener((KeyListener) listener);
 	}
 	
+	@Override
 	public void addSelfToPanel(JPanel panel) {
 		panel.add(field);
 	}

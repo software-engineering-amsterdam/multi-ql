@@ -14,6 +14,8 @@ import nl.nicasso.ql.ast.nodes.statements.Question;
 import nl.nicasso.ql.gui.Observer;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
+import nl.nicasso.ql.gui.widgets.LabelWidget;
+import nl.nicasso.ql.gui.widgets.Widget;
 
 public class QuestionPanel extends Panel {
 
@@ -48,10 +50,13 @@ public class QuestionPanel extends Panel {
 	}
 	
 	private void setupFeedbackLabel() {
-		JLabel feedback = new JLabel("");
-		feedback.setFont(new Font("Arial", 0, 12));
-		feedback.setForeground(Color.RED);
-		panel.add(feedback);
+		Widget feedback = new LabelWidget("");
+		feedback.addSelfToPanel(panel);
+		
+//		JLabel feedback = new JLabel("");
+//		feedback.setFont(new Font("Arial", 0, 12));
+//		feedback.setForeground(Color.RED);
+//		panel.add(feedback);
 		field.setFeedbackField(feedback);
 	}
 

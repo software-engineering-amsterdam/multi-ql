@@ -4,11 +4,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
-import javax.swing.JLabel;
-
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
+import nl.nicasso.ql.gui.evaluator.values.StringValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.widgets.InterActiveWidget;
 import nl.nicasso.ql.gui.widgets.TextfieldWidget;
@@ -17,7 +16,7 @@ import nl.nicasso.ql.gui.widgets.Widget;
 public class MoneyQuestionField extends QuestionField {
 
 	private InterActiveWidget textField;
-	private JLabel feedback;
+	private Widget feedback;
 	private Value fieldValue;
 
 	public MoneyQuestionField(QuestionFieldArguments params) {
@@ -32,7 +31,7 @@ public class MoneyQuestionField extends QuestionField {
 		}
 	}
 
-	public void setFeedbackField(JLabel feedback) {
+	public void setFeedbackField(Widget feedback) {
 		this.feedback = feedback;
 	}
 
@@ -50,7 +49,7 @@ public class MoneyQuestionField extends QuestionField {
 					try {
 						newValue = new MoneyValue(BigDecimal.valueOf(Double.parseDouble((String) textField.getValue())));
 					} catch (Exception ex) {
-						feedback.setText("This is not a valid decimal number.");
+						feedback.setValue(new StringValue("This is not a valid decimal number."));
 						parseSuccess = false;
 					}
 				} else {
@@ -60,9 +59,9 @@ public class MoneyQuestionField extends QuestionField {
 				if (parseSuccess) {
 					// Does too much?!
 					if (getNumberOfDecimalPlaces(newValue.getValue()) > 2) {
-						feedback.setText("No more than 2 decimals allowed.");
+						feedback.setValue(new StringValue("No more than 2 decimals allowed."));
 					} else {
-						feedback.setText("");
+						feedback.setValue(new StringValue(""));
 
 						updateValue(newValue);
 

@@ -1,7 +1,5 @@
 package nl.nicasso.ql.gui.widgets;
 
-import java.awt.Font;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -9,11 +7,10 @@ import nl.nicasso.ql.gui.evaluator.values.Value;
 
 public class LabelWidget implements Widget {
 	
-	JLabel field;
+	private JLabel field;
 	
 	public LabelWidget(String text) {
 		field = new JLabel(text);
-		field.setFont(new Font("Arial", 0, 12));
 	}
 
 	@Override

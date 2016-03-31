@@ -3,8 +3,6 @@ package nl.nicasso.ql.gui.questionFields;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JLabel;
-
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.StringValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
@@ -61,7 +59,7 @@ public class TextQuestionField extends QuestionField {
 	}
 
 	@Override
-	public void setFeedbackField(JLabel feedback) {
+	public void setFeedbackField(Widget feedback) {
 		new AssertionError("TextQuestionField has no feedback field.");
 	}
 
