@@ -10,6 +10,11 @@ public class MoneyValue extends Value {
 	public MoneyValue(BigDecimal value) {
 		this.value = value.setScale(2, RoundingMode.HALF_UP);
 	}
+	
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 
 	@Override
 	public boolean equals(Object ob) {

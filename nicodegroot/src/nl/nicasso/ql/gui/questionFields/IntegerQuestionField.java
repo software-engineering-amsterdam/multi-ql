@@ -4,42 +4,37 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
+import nl.nicasso.ql.gui.widgets.TextfieldWidget;
+import nl.nicasso.ql.gui.widgets.Widget;
 
 public class IntegerQuestionField extends QuestionField {
 
-	private JTextField field;
+	private Widget textField;
 	private JLabel feedback;
 	private Value fieldValue;
 
 	public IntegerQuestionField(QuestionFieldArguments params) {
 		super(params);
+		
+		textField = new TextfieldWidget(params.isEnabled());
 
-		setupField(params.isEnabled(), (IntegerValue) params.getValue());
+		setValue(params.getValue());
+
+		if (params.isEnabled()) {
+			addListenerToField();
+		}
 	}
 
 	public void setFeedbackField(JLabel feedback) {
 		this.feedback = feedback;
 	}
 
-	private void setupField(boolean enabled, IntegerValue value) {
-		field = new JTextField();
-		field.setColumns(20);
-		field.setEnabled(enabled);
-
-		setValue(value);
-
-		if (enabled) {
-			addListenerToField();
-		}
-	}
-
 	private void addListenerToField() {
-		field.addKeyListener(new KeyAdapter() {
+		textField.addListener(new KeyAdapter() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -47,9 +42,9 @@ public class IntegerQuestionField extends QuestionField {
 
 				IntegerValue newValue = new IntegerValue(0);
 
-				if (!field.getText().equals("")) {
+				if (!textField.getValue().equals("")) {
 					try {
-						newValue = new IntegerValue(Integer.parseInt(field.getText()));
+						newValue = new IntegerValue(Integer.parseInt((String) textField.getValue()));
 					} catch (Exception ex) {
 						feedback.setText("This is not a valid integer.");
 						parseSuccess = false;
@@ -71,15 +66,15 @@ public class IntegerQuestionField extends QuestionField {
 
 	public void setValue(Value value) {
 		this.fieldValue = (IntegerValue) value;
-		field.setText(value.getValue().toString());
+		textField.setValue(value);
 	}
 
 	public boolean equalValues(Value value) {
 		return value.equals(this.fieldValue);
 	}
 
-	public JTextField getField() {
-		return this.field;
+	public Widget getField() {
+		return this.textField;
 	}
 
 	@Override

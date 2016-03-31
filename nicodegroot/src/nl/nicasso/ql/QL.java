@@ -13,7 +13,7 @@ import nl.nicasso.ql.antlr.QLParser;
 import nl.nicasso.ql.ast.CreateAbstractSyntaxTree;
 import nl.nicasso.ql.ast.nodes.structures.Form;
 import nl.nicasso.ql.gui.Gui;
-import nl.nicasso.ql.gui.MainFrame;
+import nl.nicasso.ql.gui.MainWindow;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.semanticAnalysis.SemanticAnalysis;
 import nl.nicasso.ql.semanticAnalysis.symbolTable.SymbolTable;
@@ -33,7 +33,7 @@ public class QL {
 
 		SemanticAnalysis semantics = new SemanticAnalysis(abstractSyntaxTree, new SymbolTable(), stateTable);
 
-		MainFrame window = new MainFrame(stateTable, semantics.getMessages());
+		MainWindow window = new MainWindow(stateTable, semantics.getMessages());
 
 		if (!semantics.containsErrors()) {
 			new Gui(abstractSyntaxTree, stateTable, window);

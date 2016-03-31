@@ -18,14 +18,14 @@ import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.Panel;
 import nl.nicasso.ql.semanticAnalysis.messageHandling.Message;
 
-public class MainFrame implements Observer {
+public class MainWindow implements Observer {
 
 	private List<Panel> panels;
 	private JFrame mainFrame;
 	private JPanel rootPanel;
 	private StateTable stateTable;
 
-	public MainFrame(StateTable stateTable, List<Message> messages) {
+	public MainWindow(StateTable stateTable, List<Message> messages) {
 		this.stateTable = stateTable;
 
 		panels = new ArrayList<Panel>();

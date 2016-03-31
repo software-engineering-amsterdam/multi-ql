@@ -19,38 +19,25 @@ form taxOfficeExample {
 		    cQ5: string = ("b")
 	 	}
 	  
-	  
-	/*
-	"LOL3"
-	  cQ001: money = (cQ00) 
 
-    "Toggle"
-      cQ1: boolean
- 
- 	if (cQ1) {
-	    "String 1"
-	    cQ2: string = ("a")
- 	} else {
- 		"String 2"
-	    cQ2: string = ("b")
- 	}
  	
  	"Result"
-    cQ3: string = (cQ2)
+    aAA: string = (cQ2)
     
     "Money * 2"
-    	cQ4: money = (10.00 * 2)
+    	bBBB: money = (10.00 * 2)
     	
 	"Money * 22"
-    	cQ5: money = (10 * 22)
+    	cCC: money = (10.00 * 22)
     	
      "Integer - 2"
-     	cQ6: integer = (10 - 2)
+     	dDD: integer = (10 - 2)
      	
  	 "Money / 10"
-       cQ7: money = (10 / 10)
+       eEE: money = (10.00 / 10)
        
      "Money / 100"
-       cQ8: money = (100.00 / 100)
-	*/
+       fFF: money = (100.00 / 100)
+	
+	
 }

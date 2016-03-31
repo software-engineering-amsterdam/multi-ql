@@ -9,6 +9,11 @@ public class IntegerValue extends Value {
 	public IntegerValue(Integer value) {
 		this.value = value;
 	}
+	
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 
 	@Override
 	public boolean equals(Object ob) {

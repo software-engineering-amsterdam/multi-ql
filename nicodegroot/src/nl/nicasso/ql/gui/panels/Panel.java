@@ -12,6 +12,7 @@ import nl.nicasso.ql.ast.nodes.statements.Question;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.questionFields.QuestionField;
+import nl.nicasso.ql.gui.widgets.Widget;
 
 public abstract class Panel {
 
@@ -46,7 +47,12 @@ public abstract class Panel {
 		this.field = field;
 
 		field.setValue(value);
-		panel.add(field.getField());
+		
+		addWidgetToPanel(field.getField());
+	}
+	
+	private void addWidgetToPanel(Widget widget) {
+		widget.addSelfToPanel(panel);
 	}
 
 	abstract public boolean update();

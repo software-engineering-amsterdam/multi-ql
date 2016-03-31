@@ -7,6 +7,11 @@ public class StringValue extends Value {
 	public StringValue(String value) {
 		this.value = value;
 	}
+	
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 
 	@Override
 	public boolean equals(Object ob) {

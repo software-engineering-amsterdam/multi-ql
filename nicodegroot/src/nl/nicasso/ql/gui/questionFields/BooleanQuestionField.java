@@ -3,37 +3,33 @@ package nl.nicasso.ql.gui.questionFields;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.BooleanValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
+import nl.nicasso.ql.gui.widgets.CheckboxWidget;
+import nl.nicasso.ql.gui.widgets.Widget;
 
 public class BooleanQuestionField extends QuestionField {
 
-	private JCheckBox field;
+	private Widget checkbox;
 	private Value fieldValue;
 
 	public BooleanQuestionField(QuestionFieldArguments params) {
 		super(params);
+		
+		checkbox = new CheckboxWidget(params.isEnabled());
 
-		setupField(params.isEnabled(), params.getValue());
-	}
+		setValue(params.getValue());
 
-	private void setupField(boolean enabled, Value value) {
-		field = new JCheckBox();
-		field.setEnabled(enabled);
-
-		setValue(value);
-
-		if (enabled) {
+		if (params.isEnabled()) {
 			addListenerToField();
 		}
 	}
 
 	private void addListenerToField() {
-		field.addItemListener(new ItemListener() {
+		checkbox.addListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -53,7 +49,8 @@ public class BooleanQuestionField extends QuestionField {
 
 	public void setValue(Value value) {
 		this.fieldValue = (BooleanValue) value;
-		field.setSelected((Boolean) value.getValue());
+
+		checkbox.setValue(value);
 	}
 
 	@Override
@@ -61,8 +58,8 @@ public class BooleanQuestionField extends QuestionField {
 		return value.equals(this.fieldValue);
 	}
 
-	public JCheckBox getField() {
-		return this.field;
+	public Widget getField() {
+		return checkbox;
 	}
 
 	@Override

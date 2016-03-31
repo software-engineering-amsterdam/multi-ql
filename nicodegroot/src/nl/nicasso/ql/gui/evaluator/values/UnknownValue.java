@@ -7,6 +7,11 @@ public class UnknownValue extends Value {
 	public UnknownValue() {
 		this.value = "Unknown";
 	}
+	
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 
 	@Override
 	public boolean equals(Object ob) {

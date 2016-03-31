@@ -5,47 +5,39 @@ import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
 import nl.nicasso.ql.gui.evaluator.values.MoneyValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
+import nl.nicasso.ql.gui.widgets.TextfieldWidget;
+import nl.nicasso.ql.gui.widgets.Widget;
 
 public class MoneyQuestionField extends QuestionField {
 
-	private JTextField field;
+	private Widget textField;
 	private JLabel feedback;
 	private Value fieldValue;
 
 	public MoneyQuestionField(QuestionFieldArguments params) {
 		super(params);
 
-		setupField(params.isEnabled(), (MoneyValue) params.getValue());
+		textField = new TextfieldWidget(params.isEnabled());
+
+		setValue(params.getValue());
+
+		if (params.isEnabled()) {
+			addListenerToField();
+		}
 	}
 
 	public void setFeedbackField(JLabel feedback) {
 		this.feedback = feedback;
 	}
 
-	private void setupField(boolean enabled, MoneyValue value) {
-		field = new JTextField();
-		field.setColumns(20);
-		field.setEnabled(enabled);
-
-		System.out.println("setupField");
-
-		setValue(value);
-		field.setText(value.getValue().toString());
-
-		if (enabled) {
-			addListenerToField();
-		}
-	}
-
 	// THIS IS ONE BIG MESS!
 	private void addListenerToField() {
-		field.addKeyListener(new KeyAdapter() {
+		textField.addListener(new KeyAdapter() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -53,9 +45,9 @@ public class MoneyQuestionField extends QuestionField {
 
 				MoneyValue newValue = new MoneyValue(BigDecimal.valueOf(0.00));
 
-				if (!field.getText().equals("")) {
+				if (!textField.getValue().equals("")) {
 					try {
-						newValue = new MoneyValue(BigDecimal.valueOf(Double.parseDouble(field.getText())));
+						newValue = new MoneyValue(BigDecimal.valueOf(Double.parseDouble((String) textField.getValue())));
 					} catch (Exception ex) {
 						feedback.setText("This is not a valid decimal number.");
 						parseSuccess = false;
@@ -94,7 +86,7 @@ public class MoneyQuestionField extends QuestionField {
 	// WTF MAN!
 	public void setValue(Value value) {
 		fieldValue = (MoneyValue) value;
-		field.setText(value.getValue().toString());
+		textField.setValue(value);
 	}
 
 	public boolean equalValues(Value value) {
@@ -104,8 +96,8 @@ public class MoneyQuestionField extends QuestionField {
 		return bd.compareTo(bd2) == 0;
 	}
 
-	public JTextField getField() {
-		return this.field;
+	public Widget getField() {
+		return this.textField;
 	}
 
 	private int getNumberOfDecimalPlaces(BigDecimal bigDecimal) {
