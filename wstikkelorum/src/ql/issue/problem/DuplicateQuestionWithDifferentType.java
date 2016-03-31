@@ -1,9 +1,8 @@
 package ql.issue.problem;
 
 import ql.ast.statement.question.Question;
-import ql.issue.Issue;
 
-public class DuplicateQuestionWithDifferentType extends Issue {
+public class DuplicateQuestionWithDifferentType extends Problem {
 
 	public DuplicateQuestionWithDifferentType(Question question) {
 		super.errorMessage = String

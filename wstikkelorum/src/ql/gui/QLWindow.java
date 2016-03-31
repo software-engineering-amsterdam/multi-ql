@@ -24,8 +24,8 @@ import ql.ast.form.Form;
 import ql.ast.value.Value;
 import ql.ast.visitor.Context;
 import ql.ast.visitor.GuiVisitor;
-import ql.gui.questionWidget.ComputedQuestionWidget;
 import ql.gui.questionWidget.InputQuestionWidget;
+import ql.gui.questionWidget.QuestionWidget;
 import ql.issue.Issue;
 
 public class QLWindow extends JFrame{
@@ -88,7 +88,7 @@ public class QLWindow extends JFrame{
 		mainWindow = new JFrame();
 		mainWindow.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
-		mainWindow.setSize(600, 600);
+		mainWindow.setSize(500, 500);
 		mainWindow.setLayout(new FlowLayout());
 		JMenuBar menubar = createMenuBar();
 		mainWindow.setJMenuBar(menubar);
@@ -180,7 +180,7 @@ public class QLWindow extends JFrame{
 	private void drawVisibleQuestions(){
 		mainPanel.removeAll();
 		mainPanel.setLayout(new GridLayout(visibleUIElements.numberOfUIElements(), 1));
-		Iterator<DrawableElement> iterator = visibleUIElements.getIterator();
+		Iterator<DrawableElement> iterator = visibleUIElements.getUIElementIterator();
 		while(iterator.hasNext()){
 			mainPanel.add(iterator.next().getDrawableItem());
 		}
@@ -188,18 +188,11 @@ public class QLWindow extends JFrame{
 		mainPanel.repaint();
 	}
 	
-	//TODO: duplicated code..
 	private void setValues(){
-		Iterator<InputQuestionWidget> inputQuestionIterator = visibleUIElements.getInputQuestionsIterator();
-		while(inputQuestionIterator.hasNext()){
-			InputQuestionWidget inputQuestionWidget = inputQuestionIterator.next();
-			inputQuestionWidget.updateValueLabel(context.getValueForVariable(inputQuestionWidget.getQuestion().getVariable()));
-		}
-		
-		Iterator<ComputedQuestionWidget> computedQuestionIterator = visibleUIElements.getComputedQuestionsIterator();
-		while(computedQuestionIterator.hasNext()){
-			ComputedQuestionWidget computedQuestionWidget = computedQuestionIterator.next();
-			computedQuestionWidget.updateValueLabel(context.getValueForVariable(computedQuestionWidget.getQuestion().getVariable()));
+		Iterator<QuestionWidget> visibleQuestionsIterator = visibleUIElements.getQuestionsIterator();
+		while(visibleQuestionsIterator.hasNext()){
+			QuestionWidget visibleQuestion = visibleQuestionsIterator.next();
+			visibleQuestion.updateValueLabel(context.getValueForVariable(visibleQuestion.getVariable()));
 		}
 	}
 }

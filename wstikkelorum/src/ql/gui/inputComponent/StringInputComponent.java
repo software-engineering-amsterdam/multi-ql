@@ -36,11 +36,7 @@ public class StringInputComponent implements UserInputElement{
 
 	@Override
 	public void updateValueLabel(Value newValue) {
-		if(newValue == null){
-			textField.setText("");
-		}else{
-			textField.setText((String) newValue.getValue());
-		}
+		textField.setText((String) newValue.getValue());
 	}
 
 	@Override

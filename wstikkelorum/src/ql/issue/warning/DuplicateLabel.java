@@ -1,11 +1,7 @@
 package ql.issue.warning;
 
-import ql.issue.Issue;
-
-public class DuplicateLabel extends Issue {
+public class DuplicateLabel extends Warning {
 	public DuplicateLabel(String label, int lineNumber) {
-		super.errorMessage = String.format(
-				"Warning: Duplicate label. Text: %s. At line Number: %d",
-				label, lineNumber);
+		super.errorMessage = String.format("Warning: Duplicate label. Text: %s. At line Number: %d", label, lineNumber);
 	}
 }

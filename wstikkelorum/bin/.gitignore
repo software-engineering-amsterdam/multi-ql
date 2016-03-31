@@ -3,3 +3,8 @@
 /UndefinedQuestion.ql
 /ql/
 /EvaluationTestForm.ql
+/ConditionNotBoolean.ql
+/DuplicatedQuestionWithDifferentType.ql
+/DuplicateQuestionWithDifferentType.ql
+/InvalidTypeForOperand.ql
+/taxOfficeExample.ql

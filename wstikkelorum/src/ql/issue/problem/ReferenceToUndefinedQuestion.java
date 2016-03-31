@@ -1,8 +1,6 @@
 package ql.issue.problem;
 
-import ql.issue.Issue;
-
-public class ReferenceToUndefinedQuestion extends Issue {
+public class ReferenceToUndefinedQuestion extends Problem {
 	public ReferenceToUndefinedQuestion(String identifier, int lineNumber) {
 		super.errorMessage = String
 				.format("Reference to undifined question. Identifier: %s. On line number: %d",

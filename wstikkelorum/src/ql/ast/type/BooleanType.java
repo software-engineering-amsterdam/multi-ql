@@ -1,5 +1,7 @@
 package ql.ast.type;
 
+import ql.ast.value.BooleanValue;
+
 public class BooleanType extends ValueType{
 	@Override
 	public boolean equals(Object obj){
@@ -14,6 +16,11 @@ public class BooleanType extends ValueType{
 	@Override
 	public String toString(){
 		return "boolean";
+	}
+
+	@Override
+	public BooleanValue getDefaultValue() {
+		return new BooleanValue(false);
 	}
 
 }

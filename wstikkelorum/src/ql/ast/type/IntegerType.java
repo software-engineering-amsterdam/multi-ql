@@ -1,5 +1,7 @@
 package ql.ast.type;
 
+import ql.ast.value.IntegerValue;
+
 public class IntegerType extends ValueType{
 	@Override
 	public boolean equals(Object obj){
@@ -14,6 +16,11 @@ public class IntegerType extends ValueType{
 	@Override
 	public String toString(){
 		return "int";
+	}
+
+	@Override
+	public IntegerValue getDefaultValue() {
+		return new IntegerValue(0);
 	}
 
 }

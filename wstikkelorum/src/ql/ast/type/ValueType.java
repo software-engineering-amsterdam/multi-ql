@@ -1,5 +1,7 @@
 package ql.ast.type;
 
-public abstract class ValueType {
+import ql.ast.value.Value;
 
+public abstract class ValueType {
+	public abstract Value getDefaultValue();
 }

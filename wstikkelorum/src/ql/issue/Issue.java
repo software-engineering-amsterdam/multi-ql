@@ -24,4 +24,8 @@ public abstract class Issue implements DrawableElement{
 	public void updateValueLabel(Value newValue) {
 		errorMessage = newValue.toString();
 	}
+	
+	public abstract boolean isProblem();
+	
+	public abstract boolean isWarning();
 }

@@ -3,7 +3,7 @@ package ql.ast.value;
 import ql.ast.visitor.Visitor;
 
 public class IntegerValue extends Value{
-	private Integer value;
+	private final Integer value;
 	
 	public IntegerValue(Integer value) {
 		this.value = value;

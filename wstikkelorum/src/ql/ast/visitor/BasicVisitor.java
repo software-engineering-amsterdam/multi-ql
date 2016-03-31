@@ -62,7 +62,6 @@ public class BasicVisitor<T> implements Visitor<T> {
 		return null;
 	}
 
-	//TODO: deze bezoek je nooit....
 	@Override
 	public T visit(Question question) {
 		question.getVariable().accept(this);
