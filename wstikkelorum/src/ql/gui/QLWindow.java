@@ -88,7 +88,7 @@ public class QLWindow extends JFrame{
 		mainWindow = new JFrame();
 		mainWindow.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
-		mainWindow.setSize(600, 600);
+		mainWindow.setSize(500, 500);
 		mainWindow.setLayout(new FlowLayout());
 		JMenuBar menubar = createMenuBar();
 		mainWindow.setJMenuBar(menubar);
