@@ -41,8 +41,8 @@ form taxOfficeExample {
       if (summary){
           "Belastbaar inkomen"
             belastbaar: money = loon - arbeidskorting - loonheffing - levensloopverlofkorting
-          "Belastbaar inkomen"
-            belastbaar2: money = 700000.0
+          "Belastbaar inkomen demo"
+            belastbaar2: money = 70000.0
 
           if(belastbaar2 > 0.0 && belastbaar2 < 19922.0) {
           "Te betalen belasting"
@@ -58,8 +58,7 @@ form taxOfficeExample {
           if(belastbaar2 >= 66421.0) {
           "Te betalen belasting"
             schaal4: money = (belastbaar2 - 66421.0) * 0.52
-                              + 18785.0
-                              + 7281.0
+                              + 26066.0
           }
     }
   }
