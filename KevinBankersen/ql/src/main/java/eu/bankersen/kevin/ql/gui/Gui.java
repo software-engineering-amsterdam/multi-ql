@@ -1,11 +1,18 @@
 package eu.bankersen.kevin.ql.gui;
 
 import java.io.File;
-import java.util.Iterator;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 import eu.bankersen.kevin.ql.form.FormBuilder;
-import eu.bankersen.kevin.ql.form.ast.form.Form;
-import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
+import eu.bankersen.kevin.ql.form.ast.statements.ComputedQuestion;
+import eu.bankersen.kevin.ql.form.ast.statements.Form;
+import eu.bankersen.kevin.ql.form.ast.statements.UserQuestion;
+import eu.bankersen.kevin.ql.form.ast.visitors.TopDownVisitor;
+import eu.bankersen.kevin.ql.gui.dialog.ErrorMessage;
+import eu.bankersen.kevin.ql.gui.widgets.Widget;
 import eu.bankersen.kevin.ql.interperter.Evaluator;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -28,6 +35,8 @@ import javafx.stage.Stage;
 
 public class Gui extends Application {
 
+	private Evaluator evaluator;
+
 	@Override
 	public void start(Stage stage) throws Exception {
 
@@ -47,7 +56,6 @@ public class Gui extends Application {
 		border.setTop(title);
 		border.setAlignment(title, Pos.CENTER);
 
-		// border.setCenter(new Label("Open a form to begin!"));
 		File testFile = new File("C:\\Users\\Kevin\\Documents\\multi-ql\\KevinBankersen\\ql\\resources\\test.form");
 		border.setCenter(openForm(testFile));
 
@@ -57,7 +65,7 @@ public class Gui extends Application {
 			public void handle(ActionEvent e) {
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setTitle("Open Resource File");
-				File file = fileChooser.showOpenDialog(new Stage());
+				File file = fileChooser.showOpenDialog(stage);
 				if (file != null) {
 					border.setCenter(openForm(file));
 				}
@@ -65,6 +73,24 @@ public class Gui extends Application {
 		});
 
 		Button save = new Button("Save Results");
+		save.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Save Answers");
+				File file = fileChooser.showSaveDialog(stage);
+				if (file != null) {
+					try {
+						PrintWriter out = new PrintWriter(file);
+						out.write(evaluator.toString());
+						out.close();
+					} catch (IOException ex) {
+						new ErrorMessage<>("IO Error", "Could not save the file at location:\n" + file);
+					}
+				}
+			}
+		});
 
 		BorderPane footer = new BorderPane();
 		footer.setLeft(open);
@@ -85,31 +111,45 @@ public class Gui extends Application {
 		sp.setFitToWidth(true);
 		try {
 			Form form = new FormBuilder().createForm(file.toString());
-			sp.setContent(questionWidgets(form));
+			sp.setContent(createWidgets(form));
 
 		} catch (IllegalStateException e) {
-			sp.setContent(new Label("Error opening form, please select a correct form"));
+			sp.setContent(new Label("Error opening form"));
 		}
 		return sp;
 	}
 
-	private VBox questionWidgets(Form form) {
+	private VBox createWidgets(Form form) {
 
-		Evaluator evaluator = new Evaluator(form);
+		evaluator = new Evaluator(form);
 
-		VBox questionsWidgets = new VBox();
+		VBox widgets = new VBox();
+		widgets.setSpacing(15);
 
-		questionsWidgets.setSpacing(15);
+		form.accept(new TopDownVisitor<Set>() {
 
-		Iterator<QuestionWidget> itr = new GuiBuilder(form).questionIterator();
-		while (itr.hasNext()) {
-			QuestionWidget question = itr.next();
-			evaluator.addDataListener(question);
-			question.addUIListener(evaluator);
-			questionsWidgets.getChildren().add(question.widget());
-		}
+			@Override
+			public void visit(UserQuestion question, Set processed) {
+				createWidget(question.name(), question.widget(), processed);
+			}
 
-		return questionsWidgets;
+			@Override
+			public void visit(ComputedQuestion question, Set processed) {
+				createWidget(question.name(), question.widget(), processed);
+			}
+
+			private void createWidget(String name, Widget widget, Set processed) {
+				if (!processed.contains(name)) {
+					evaluator.addDataListener(widget);
+					widget.addViewListener(evaluator);
+					widgets.getChildren().add(widget.draw());
+					processed.add(name);
+				}
+			}
+
+		}, new HashSet<>());
+
+		return widgets;
 	}
 
 }

@@ -2,312 +2,312 @@ package eu.bankersen.kevin.ql.form.ast.values;
 
 public abstract class Value {
 
-    public abstract Object value();
+	public abstract Object value();
 
-    @Override
-    public abstract boolean equals(Object obj);
+	@Override
+	public abstract boolean equals(Object obj);
 
-    @Override
-    public abstract int hashCode();
+	@Override
+	public abstract int hashCode();
 
-    public Value subtract(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value subtract(Value rhs) {
+		return new EmptyValue();
+	}
 
-    public Value subtract(EmptyValue lhs) {
-	return new EmptyValue();
-    }
+	public Value subtract(EmptyValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value subtract(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value subtract(NumberValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value subtract(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value subtract(MoneyValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value subtract(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value subtract(BooleanValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value subtract(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value subtract(TextValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value add(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value add(Value rhs) {
+		return new EmptyValue();
+	}
 
-    public Value add(EmptyValue lhs) {
-	return new EmptyValue();
-    }
+	public Value add(EmptyValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value add(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value add(NumberValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value add(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value add(MoneyValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value add(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value add(BooleanValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value add(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value add(TextValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value divide(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value divide(Value rhs) {
+		return new EmptyValue();
+	}
 
-    public Value divide(EmptyValue lhs) {
-	return new EmptyValue();
-    }
+	public Value divide(EmptyValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value divide(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value divide(NumberValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value divide(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value divide(MoneyValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value divide(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value divide(BooleanValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value divide(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value divide(TextValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value multiply(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value multiply(Value rhs) {
+		return new EmptyValue();
+	}
 
-    public Value multiply(EmptyValue lhs) {
-	return new EmptyValue();
-    }
+	public Value multiply(EmptyValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value multiply(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value multiply(NumberValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value multiply(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value multiply(MoneyValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value multiply(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value multiply(BooleanValue lhs) {
+		return new EmptyValue();
+	}
 
-    public Value multiply(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value absolute() {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value negate() {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value or(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value or(EmptyValue lhs) {
-	return new EmptyValue();
-    }
-
-    public Value or(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value or(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value or(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value or(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value and(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value and(EmptyValue lhs) {
-	return new EmptyValue();
-    }
-
-    public Value and(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value and(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value and(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value and(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value equal(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value equal(EmptyValue lhs) {
-	return new EmptyValue();
-    }
-
-    public Value equal(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value equal(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value equal(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value equal(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greaterOrEqual(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greaterOrEqual(EmptyValue lhs) {
-	return new EmptyValue();
-    }
-
-    public Value greaterOrEqual(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greaterOrEqual(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greaterOrEqual(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greaterOrEqual(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greater(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greater(EmptyValue lhs) {
-	return new EmptyValue();
-    }
-
-    public Value greater(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greater(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greater(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value greater(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lowerOrEqual(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lowerOrEqual(EmptyValue lhs) {
-	return new EmptyValue();
-    }
-
-    public Value lowerOrEqual(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lowerOrEqual(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lowerOrEqual(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lowerOrEqual(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lower(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lower(EmptyValue lhs) {
-	return new EmptyValue();
-    }
-
-    public Value lower(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lower(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lower(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value lower(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value notEqual(Value rhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value notEqual(EmptyValue lhs) {
-	return new EmptyValue();
-    }
-
-    public Value notEqual(IntegerValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value notEqual(MoneyValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value notEqual(BooleanValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value notEqual(StringValue lhs) {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
-
-    public Value not() {
-	throw new UnsupportedOperationException(getClass().getSimpleName());
-    }
+	public Value multiply(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value absolute() {
+		return new EmptyValue();
+	}
+
+	public Value negate() {
+		return new EmptyValue();
+	}
+
+	public Value or(Value rhs) {
+		return new EmptyValue();
+	}
+
+	public Value or(EmptyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value or(NumberValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value or(MoneyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value or(BooleanValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value or(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value and(Value rhs) {
+		return new EmptyValue();
+	}
+
+	public Value and(EmptyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value and(NumberValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value and(MoneyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value and(BooleanValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value and(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value equal(Value rhs) {
+		return new EmptyValue();
+	}
+
+	public Value equal(EmptyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value equal(NumberValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value equal(MoneyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value equal(BooleanValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value equal(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greaterOrEqual(Value rhs) {
+		return new EmptyValue();
+	}
+
+	public Value greaterOrEqual(EmptyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greaterOrEqual(NumberValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greaterOrEqual(MoneyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greaterOrEqual(BooleanValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greaterOrEqual(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greater(Value rhs) {
+		return new EmptyValue();
+	}
+
+	public Value greater(EmptyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greater(NumberValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greater(MoneyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greater(BooleanValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value greater(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lowerOrEqual(Value rhs) {
+		return new EmptyValue();
+	}
+
+	public Value lowerOrEqual(EmptyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lowerOrEqual(NumberValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lowerOrEqual(MoneyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lowerOrEqual(BooleanValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lowerOrEqual(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lower(Value rhs) {
+		return new EmptyValue();
+	}
+
+	public Value lower(EmptyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lower(NumberValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lower(MoneyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lower(BooleanValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value lower(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value notEqual(Value rhs) {
+		return new EmptyValue();
+	}
+
+	public Value notEqual(EmptyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value notEqual(NumberValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value notEqual(MoneyValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value notEqual(BooleanValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value notEqual(TextValue lhs) {
+		return new EmptyValue();
+	}
+
+	public Value not() {
+		return new EmptyValue();
+	}
 
 }

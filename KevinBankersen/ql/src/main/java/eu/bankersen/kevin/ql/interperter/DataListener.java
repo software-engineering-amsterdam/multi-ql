@@ -6,6 +6,6 @@ import eu.bankersen.kevin.ql.form.ast.values.Value;
 
 public interface DataListener {
 
-    void dataUpdate(Map<String, Value> context);
+	void dataUpdate(Map<String, Value> context);
 
 }

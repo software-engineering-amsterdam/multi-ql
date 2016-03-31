@@ -1,40 +1,34 @@
 package eu.bankersen.kevin.ql.form.ast.types;
 
-import eu.bankersen.kevin.ql.form.ast.stat.Question;
+import eu.bankersen.kevin.ql.form.ast.statements.Question;
 import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
 import eu.bankersen.kevin.ql.form.ast.values.Value;
-import eu.bankersen.kevin.ql.gui.widgets.QuestionWidget;
+import eu.bankersen.kevin.ql.gui.widgets.Widget;
 
 public class UndifinedType extends Type {
 
-    private final Object value;
+	@Override
+	public String toString() {
+		return "Unknown Type";
+	}
 
-    public UndifinedType() {
-	this.value = null;
-    }
+	@Override
+	public Value value(String string) {
+		return new EmptyValue();
+	}
 
-    @Override
-    public String toString() {
-	return "Unknown Type";
-    }
+	@Override
+	public Widget prefered(Question question) {
+		return null;
+	}
 
-    @Override
-    public Value createQLValueFrom(String string) {
-	return new EmptyValue();
-    }
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof UndifinedType;
+	}
 
-    @Override
-    public QuestionWidget defaultWidget(Question question) {
-	return null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	return obj instanceof UndifinedType;
-    }
-
-    @Override
-    public int hashCode() {
-	return 13;
-    }
+	@Override
+	public int hashCode() {
+		return 13;
+	}
 }
