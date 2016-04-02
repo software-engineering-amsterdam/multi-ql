@@ -5,6 +5,8 @@
  */
 package ql.ast.statement;
 
+import ql.ast.ASTNode;
+import ql.ast.IVisitor;
 import ql.ast.expression.Expr;
 import ql.ast.form.Block;
 
@@ -12,14 +14,26 @@ import ql.ast.form.Block;
  *
  * @author sander
  */
-public class Statement {
-    
+public abstract class Statement extends ASTNode {
+
     private final Expr _IfCondition;
     private final Block _ThenStatement;
-    
-    public Statement(Expr ifCondition, Block thenStatement)
-    {
+
+    public Statement(Expr ifCondition, Block thenStatement) {
         this._IfCondition = ifCondition;
         this._ThenStatement = thenStatement;
+    }
+
+    @Override
+    public void accept(IVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public Expr getCondition() {
+        return this._IfCondition;
+    }
+
+    public Block getThenStatement() {
+        return this._ThenStatement;
     }
 }

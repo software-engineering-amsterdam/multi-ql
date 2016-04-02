@@ -1,10 +1,15 @@
 package ql;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
-import ql.ast.visitor.CyclicDependencyChecker;
-import ql.ast.visitor.FindAllDeclaredQuestions;
+import ql.ast.visitor.DependencyChecker;
+import ql.ast.visitor.QuestionVisitor;
 import ql.ast.visitor.TypeChecker;
+import ql.issue.Issue;
 
 public class SemanticAnalyser {
 	private Context context;
@@ -14,26 +19,38 @@ public class SemanticAnalyser {
 	}
 
 	public void analyseForm(Form form) {
-		findVariables(form);
+		findDeclaredQuestions(form);
 		typeCheck(form);
 		cyclicDependenciesCheck(form);
 	}
 
 	public boolean noIssues() {
-		return context.getIssues().isEmpty();
+		Iterator<Issue> iterator = context.getIssueIterator();
+		while(iterator.hasNext()){
+			Issue issue = iterator.next();
+			if(issue.isProblem()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public List<Issue> getWarnings(){
+		List<Issue> warnings = new ArrayList<Issue>();
+		Iterator<Issue> iterator = context.getIssueIterator();
+		while(iterator.hasNext()){
+			Issue issue = iterator.next();
+			if(issue.isWarning()){
+				warnings.add(issue);
+			}
+		}
+		return warnings;
 	}
 
-	// Only for debugging
-	public void printData() {
-		System.out.println("Identifier - Type:");
-		context.getIdentifierToTypeMap().forEach((identifier, type) -> System.out.println(identifier + ' ' + type));
-		System.out.println();
-	}
-
-	private void findVariables(Form form) {
-		FindAllDeclaredQuestions<Object> fadq = new FindAllDeclaredQuestions<>(context);
-		fadq.visit(form);
-		context = fadq.getContext();
+	private void findDeclaredQuestions(Form form) {
+		QuestionVisitor<Object> questionVisitor = new QuestionVisitor<>(context);
+		questionVisitor.visit(form);
+		context = questionVisitor.getContext();
 	}
 
 	private void typeCheck(Form form) {
@@ -43,10 +60,9 @@ public class SemanticAnalyser {
 	}
 
 	private void cyclicDependenciesCheck(Form form) {
-		CyclicDependencyChecker<Object> cdc = new CyclicDependencyChecker<>(context);
-		cdc.visit(form);
-		cdc.findCyclicDependencies();
-		context = cdc.getContext();
+		DependencyChecker<Object> dependencyChecker = new DependencyChecker<>(context);
+		dependencyChecker.findCyclicDependencies(form);
+		context = dependencyChecker.getContext();
 	}
 
 	public Context getContext() {

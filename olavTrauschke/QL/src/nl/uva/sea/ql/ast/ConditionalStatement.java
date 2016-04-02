@@ -3,8 +3,8 @@ package nl.uva.sea.ql.ast;
 import java.util.Objects;
 import nl.uva.sea.ql.ast.expr.Expr;
 import nl.uva.sea.ql.ast.expr.Not;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
-import nl.uva.sea.ql.interpreter.DisplayableQuestionGenerator;
+import nl.uva.sea.ql.interpreter.QuestionComponentGenerator;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>ConditionalStatement</code>s in an AST.
@@ -59,12 +59,12 @@ public class ConditionalStatement extends ASTNode {
      * <code>toDoElse</code> of <code>this ConditionalStatement accept visitor</code>
      * and then has <code>visitor visit this ConditionalStatement</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this ConditionalStatement</code> and its
      *                  children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         condition.accept(visitor);
         toDoIf.accept(visitor);
         toDoElse.accept(visitor);
@@ -81,13 +81,13 @@ public class ConditionalStatement extends ASTNode {
      * finally has <code>visitor</code> remove the negation of the
      * <code>condition</code> of <code>this ConditionalStatement</code> again.
      * 
-     * @param visitor a <code>DisplayableQuestionGenerator</code> that should
+     * @param visitor a <code>QuestionComponentGenerator</code> that should
      *                  <code>visit this ConditionalStatement</code>'s
      *                  <code>toDoIf</code> and <code>toDoElse</code> with the
      *                  right conditions added
      */
     @Override
-    public void accept(DisplayableQuestionGenerator visitor) {
+    public void accept(QuestionComponentGenerator visitor) {
         visitor.addCondition(condition);
         toDoIf.accept(visitor);
         visitor.removeLastCondition();
@@ -101,11 +101,11 @@ public class ConditionalStatement extends ASTNode {
      * Has the <code>condition</code> of
      * <code>this ConditionalStatement accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this ConditionalStatement</code>'s
      *                  <code>condition</code>
      */
-    public void conditionAccept(ASTVisitor visitor) {
+    public void conditionAccept(Visitor visitor) {
         condition.accept(visitor);
     }
     

@@ -1,35 +1,37 @@
 package nl.nicasso.ql.gui.questionFields;
 
-import java.awt.Component;
-
+import nl.nicasso.ql.ast.nodes.expressions.Identifier;
+import nl.nicasso.ql.gui.NotifyAboutGuiUpdates;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
+import nl.nicasso.ql.gui.widgets.Widget;
 
-// @TODO CHANGE TO INTERFACE
 public abstract class QuestionField {
-		
-	public QuestionField() {
-		//throw new AssertionError("QuestionField");
+
+	private final Identifier identifier;
+	private final NotifyAboutGuiUpdates main;
+
+	public QuestionField(QuestionFieldArguments params) {
+		this.identifier = params.getIdentifier();
+		this.main = params.getMain();
 	}
-	
-	public void setValue(Value value) {
-		throw new AssertionError("QuestionField setValue");
+
+	public abstract void updateValueAndTextfield(Value value);
+
+	public abstract Widget getField();
+
+	public abstract boolean equalValues(Value value);
+
+	public abstract void setFeedbackField(Widget feedback);
+
+	public abstract Value getValue();
+
+	protected NotifyAboutGuiUpdates getMainWindow() {
+		return main;
 	}
-	
-	public Value getValue() {
-		throw new AssertionError("QuestionField getValue");
+
+	protected Identifier getIdentifier() {
+		return identifier;
 	}
-	
-	public Component getField() {
-		throw new AssertionError("QuestionField getField");
-	}
-	
-	public boolean equalValues(Value value) {
-		throw new AssertionError("QuestionField equalValues");
-	}
-	
-	public void setFeedbackLabel(Label label) {
-		throw new AssertionError("QuestionField setFeedbackLabel");
-	}
-	
+
 }

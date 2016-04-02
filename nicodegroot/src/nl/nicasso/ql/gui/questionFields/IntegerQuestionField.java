@@ -3,89 +3,82 @@ package nl.nicasso.ql.gui.questionFields;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JTextField;
-
-import nl.nicasso.ql.ast.nodes.expressions.Identifier;
-import nl.nicasso.ql.gui.Observer;
-import nl.nicasso.ql.gui.QuestionFieldParameter;
+import nl.nicasso.ql.gui.QuestionFieldArguments;
 import nl.nicasso.ql.gui.evaluator.values.IntegerValue;
+import nl.nicasso.ql.gui.evaluator.values.StringValue;
 import nl.nicasso.ql.gui.evaluator.values.Value;
-import nl.nicasso.ql.gui.widgets.Label;
+import nl.nicasso.ql.gui.widgets.InterActiveWidget;
+import nl.nicasso.ql.gui.widgets.TextfieldWidget;
+import nl.nicasso.ql.gui.widgets.Widget;
 
 public class IntegerQuestionField extends QuestionField {
 
-	private Identifier identifier;
-	private JTextField field;
-	private Label label;
-	private Observer main;
-	private IntegerValue value;
+	private InterActiveWidget textField;
+	private Widget feedback;
+	private Value fieldValue;
 
-	public IntegerQuestionField(QuestionFieldParameter params) {
-		this.identifier = params.getIdentifier();
-		this.main = params.getMain();
+	public IntegerQuestionField(QuestionFieldArguments params) {
+		super(params);
 		
-		setupField(params.isEnabled(), (IntegerValue) params.getValue());
-	}
-	
-	private void setupField(boolean enabled, IntegerValue value) {
-		field = new JTextField();
-		field.setColumns(20);
-		field.setEnabled(enabled);
-		
-		setValue(value);
-		
-		if (enabled) {
+		textField = new TextfieldWidget(params.isEnabled());
+
+		updateValueAndTextfield(params.getValue());
+
+		if (params.isEnabled()) {
 			addListenerToField();
 		}
 	}
-	
+
+	public void setFeedbackField(Widget feedback) {
+		this.feedback = feedback;
+	}
+
 	private void addListenerToField() {
-		field.addKeyListener(new KeyAdapter() {
+		textField.addListener(new KeyAdapter() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				boolean parseSuccess = true;
-				
-				IntegerValue value = new IntegerValue(0);
-				
-				if (!field.getText().equals("")) {
+
+				IntegerValue newValue = new IntegerValue(0);
+
+				if (!textField.getValue().equals("")) {
 					try {
-						value = new IntegerValue(Integer.parseInt(field.getText()));
+						newValue = new IntegerValue(Integer.parseInt((String) textField.getValue()));
 					} catch (Exception ex) {
-						label.setLabelText("This is not a valid integer.");
+						feedback.setValue(new StringValue("This is not a valid integer."));
 						parseSuccess = false;
 					}
 				}
-				
+
 				if (parseSuccess) {
-					label.setLabelText("");
-					
-					main.fieldValueChanged(identifier, value);
-					main.updateAllPanels();
+					feedback.setValue(new StringValue(""));
+
+					updateValueAndTextfield(newValue);
+
+					getMainWindow().updateValueInStateTable(getIdentifier(), newValue);
+					getMainWindow().updateGUIPanels();
 				}
 			}
-			
+
 		});
 	}
-	
-	public void setValue(Value value) {
-		this.value = (IntegerValue) value;
-		field.setText(value.getValue().toString());
+
+	public void updateValueAndTextfield(Value value) {
+		this.fieldValue = (IntegerValue) value;
+		textField.setValue(value);
 	}
-	
-	public IntegerValue getValue() {
-		return value;
-	}
-	
+
 	public boolean equalValues(Value value) {
-		return value.equals(this.value);
+		return value.equals(this.fieldValue);
 	}
-	
-	public void setFeedbackLabel(Label label) {
-		this.label = label;
+
+	public Widget getField() {
+		return this.textField;
 	}
-	
-	public JTextField getField() {
-		return this.field;
+
+	@Override
+	public Value getValue() {
+		return fieldValue;
 	}
 }

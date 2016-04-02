@@ -23,14 +23,13 @@ public class DateSpinner extends JSpinner {
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(this, "dd-MM-yyyy");
         this.setName(var.getName());
         this.setEditor(dateEditor);
-        this.setValue(new Date(-1));
+        this.setValue(new Date(0));
 		this.addChangeListener(new ChangeListener() {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				Date date = (Date) ((JSpinner) e.getSource()).getValue();
-                //var.setValue(format.format(date));
-                //System.out.println(format.format(date));
+                var.setValue(format.format(date));
 			}
 			
 		});

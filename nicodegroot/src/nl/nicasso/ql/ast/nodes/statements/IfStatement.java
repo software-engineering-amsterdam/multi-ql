@@ -5,37 +5,38 @@ import nl.nicasso.ql.ast.nodes.expressions.Expression;
 import nl.nicasso.ql.ast.nodes.structures.Block;
 import nl.nicasso.ql.ast.nodes.types.BooleanType;
 import nl.nicasso.ql.ast.nodes.types.Type;
+import nl.nicasso.ql.ast.nodes.types.UnknownType;
 import nl.nicasso.ql.visitors.StatementVisitor;
 
 public class IfStatement extends Statement {
 
-	private final Expression expr;
-	private final Block block_if;
-	
-	public IfStatement(Expression expr, Block block_if, CodeLocation location) {
+	private final Expression expression;
+	private final Block blockIf;
+
+	public IfStatement(Expression expression, Block blockIf, CodeLocation location) {
 		super(location);
-		this.expr = expr;
-		this.block_if = block_if;
+		this.expression = expression;
+		this.blockIf = blockIf;
 	}
 
-	public Expression getExpr() {
-		return expr;
+	public Expression getExpression() {
+		return expression;
 	}
 
-	public Block getBlock_if() {
-		return block_if;
+	public Block getBlockIf() {
+		return blockIf;
 	}
-	
+
 	@Override
 	public <T, U> T accept(StatementVisitor<T, U> visitor, U context) {
 		return visitor.visit(this, context);
 	}
-	
-	public Type checkAllowedTypes(Type expr) {	
-		if (expr.equals(new BooleanType())) {
-			return expr;
+
+	public Type inferType(Type expression) {
+		if (expression.equals(new BooleanType())) {
+			return expression;
 		}
-		return null;
+		return new UnknownType();
 	}
 
 }

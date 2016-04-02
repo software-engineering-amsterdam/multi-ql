@@ -5,21 +5,23 @@
  */
 package AST.expressions;
 
-import ql.Expr;
+import AST.types.Type;
+import typechecker.TypecheckInterface;
 
 /**
  *
  * @author Dominique
  */
-public class BinaryExpr extends Expr{
+
+public abstract class BinaryExpr extends Expr{
     
     private final Expr lhs;
     private final Expr rhs;
     
-    public BinaryExpr(Expr lhs, Expr rhs) {
-        
-        this.lhs = lhs;
-        this.rhs = rhs;
+    public BinaryExpr(Expr theLhs, Expr theRhs) {
+       
+        this.lhs = theLhs;
+        this.rhs = theRhs;
         
   }
     
@@ -30,4 +32,12 @@ public class BinaryExpr extends Expr{
   public Expr getRhs(){
       return rhs;
   }
+
+    @Override
+    public <T> T accept(TypecheckInterface<T> visitor) {
+        return visitor.visit(this);
+    }
+    
+    @Override
+    public abstract Type getType();
 }

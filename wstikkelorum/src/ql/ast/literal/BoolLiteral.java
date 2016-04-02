@@ -1,16 +1,17 @@
 package ql.ast.literal;
 
+import ql.ast.value.BooleanValue;
 import ql.ast.visitor.Visitor;
 
 public class BoolLiteral extends Literal {
-	private final boolean value;
+	private final BooleanValue value;
 
 	public BoolLiteral(Boolean value, int lineNumber) {
 		super(lineNumber);
-		this.value = value;
+		this.value = new BooleanValue(value);
 	}
 
-	public boolean getValue() {
+	public BooleanValue getValue() {
 		return value;
 	}
 

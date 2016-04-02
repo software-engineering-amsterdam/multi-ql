@@ -5,20 +5,43 @@
  */
 package AST.types;
 
+import typechecker.TypecheckInterface;
+
 /**
  *
  * @author Dominique
  */
 public class Str extends Type {
 
-	private final String value;
+//	private final String string;
 
-	public Str(String str) {
-		this.value = str;
+	public Str() {
+		super();
 	}
 
-	public String getValue() {
-		return value;
-	}
+        @Override
+        public Boolean isInt(){
+            return false;
+        }
+        
+        @Override
+        public Boolean isString(){
+            return true;
+        }
+        
+        @Override
+        public Boolean isBoolean(){
+            return false;
+        }
+        
+        @Override
+        public Boolean isMoney(){
+            return false;
+        }
+
+    @Override
+    public <T> T accept(TypecheckInterface<T> visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

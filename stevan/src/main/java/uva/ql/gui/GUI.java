@@ -19,6 +19,8 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import uva.ql.ast.Form;
+import uva.ql.gui.menu.LoadMenu;
+import uva.ql.gui.menu.SaveMenu;
 
 public class GUI{
 
@@ -69,35 +71,32 @@ public class GUI{
 		addPanel();
 	}
 	
+	public JFrame getFrame() {
+		return frame;
+	}
+	
 	public JPanel getPanel() {
 		return this.panel;
 	}
 	
-	public GUI resetFrame () {
-		frame.getContentPane().removeAll();
-		addMenu();
-		addPanel();
-		
-		return this;
+	public void disposeFrame () {
+		frame.setVisible(false);
+		frame.dispose();
 	}
 	
 	private void addMenu() {
-		//create menu
 		JMenuBar menuBar = new JMenuBar();
 		
-		//File
 		JMenu menu = new JMenu( "File" );
 		menu.setMnemonic( KeyEvent.VK_F );
 		menu.getAccessibleContext().setAccessibleDescription( "File menu" );
 		menuBar.add(menu);
 		
-		//Load File
 		JMenuItem menuItemLoad = new JMenuItem( "Load File" );
 		menuItemLoad.setMnemonic(KeyEvent.VK_L);
 		menuItemLoad.getAccessibleContext().setAccessibleDescription( "Load a new QL file" );
 		menu.add(menuItemLoad);
 		
-		//Save File
 		JMenuItem menuItemSave = new JMenuItem( "Save File" );
 		menuItemSave.setMnemonic(KeyEvent.VK_S);
 		menuItemSave.getAccessibleContext().setAccessibleDescription( "Save QL file" );

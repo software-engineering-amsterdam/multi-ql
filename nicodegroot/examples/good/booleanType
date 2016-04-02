@@ -1,0 +1,39 @@
+form taxOfficeExample {
+	  
+	"Boolean 1"
+	cQ1: boolean
+	
+	"Boolean 2"
+	cQ2: boolean
+	
+	"Boolean 1 && Boolean 2"
+	cQ1a: boolean = (cQ1 && cQ2)
+	
+	"Boolean 1 || Boolean 2"
+	cQ1b: boolean = (cQ1 || cQ2)
+	
+	"Money 1"
+	cQ3: money
+	
+	"Money 2"
+	cQ4: money
+	
+	"Money 1 >= Money2"
+	cQ3a: boolean = (cQ3 >= cQ4)
+	
+	"Money 1 > Money2"
+	cQ3b: boolean = (cQ3 > cQ4)
+	
+	"Money 1 == Money2"
+	cQ3c: boolean = (cQ3 == cQ4)
+	
+	"Money 1 != Money2"
+	cQ3d: boolean = (cQ3 != cQ4)
+	
+	"Money 1 < Money2"
+	cQ3e: boolean = (cQ3 < cQ4)
+	
+	"Money 1 <= Money2"
+	cQ3f: boolean = (cQ3 <= cQ4)
+	
+}

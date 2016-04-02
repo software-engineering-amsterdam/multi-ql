@@ -14,34 +14,49 @@ public abstract class Type {
 		return name;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null || obj.getClass() != this.getClass()) {
-			return false;
-		}
-		
-		if (this.name.equals(((Type) obj).getName())) {
-			return true;
-		}
+	public boolean isUnknownType(){
 		return false;
 	}
 	
 	public abstract Widget accept(TypeVisitor typeVisitor);
 	
-//  if you wanted to uncomment these, make the class abstract	
-//	public abstract boolean isCompatible(Type t);
-//	public boolean isCompatibleWith(DecimalType t) {
-//		return false;
-//	}
-//	public boolean isCompatibleWith(BooleanType t)  {
-//		return false;
-//	}
-//	
-//	public boolean isCompatibleWith(StringType t) {
-//		return false;
-//	}
-//	public boolean isCompatibleWith(IntegerType t) {
-//		return false;
-//	}
+	public boolean isCompatible(Type arg){
+		return false;
+	}
 	
+	public boolean isCompatibleWithBoolean(BooleanType arg){
+		return false;
+	}
+	
+	public boolean isCompatibleWithString(StringType arg){
+		return false;
+	}
+	
+	public boolean isCompatibleWithMoney(MoneyType arg){
+		return false;
+	}
+	
+	public boolean isCompatibleWithInteger(IntegerType arg){
+		return false;
+	}
+	
+	public boolean isBooleanCompatible(Type arg){
+		return false;
+	}
+	
+	public boolean isStringCompatible(Type arg){
+		return false;
+	}
+	
+	public boolean isNumericCompatible(Type arg){
+		return false;
+	}
+	
+	public boolean isNumericCompatibleWithMoney(MoneyType arg){
+		return false;
+	}
+	
+	public boolean isNumericCompatibleWithInteger(IntegerType arg){
+		return false;
+	}
 }

@@ -3,13 +3,13 @@ package nl.uva.sea.ql.ast.expr;
 import java.util.Map;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of a a minus in front of a number in an AST.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 30-mar-2016
  */
 public class Neg extends NumericExpr {
     
@@ -22,7 +22,7 @@ public class Neg extends NumericExpr {
      * <code>IntValue</code> representing the factor <code>NumericValue</code>
      * should be multiplied by to negate them.
      */
-    public static final IntValue MULTIPLICATION_FACTOR = new IntValue(-1);
+    public static final IntValue MULTIPLICATION_FACTOR = new IntValue(Long.valueOf(-1));
     
     private final Expr content;
     
@@ -47,11 +47,11 @@ public class Neg extends NumericExpr {
      * Has <code>theContent</code> of <code>this ComparisonExpr accept visitor</code>
      * and then has <code>visitor visit this Neg</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this Neg</code> and its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         content.accept(visitor);
         
         visitor.visit(this);

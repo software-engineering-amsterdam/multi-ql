@@ -1,13 +1,15 @@
 package nl.nicasso.ql.gui.widgets;
 
-import java.awt.Component;
+import javax.swing.JPanel;
 
-public class Widget extends Component {
+import nl.nicasso.ql.gui.evaluator.values.Value;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8726784986248452154L;
+public interface Widget {
 	
-
+	public void setValue(Value value);
+	
+	public Object getValue();
+	
+	public void addSelfToPanel(JPanel panel);
+	
 }

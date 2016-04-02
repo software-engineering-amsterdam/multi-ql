@@ -1,12 +1,12 @@
 package ql.ast.statement;
 
-import ql.ast.TreeNode;
+import ql.ast.ASTNode;
 import ql.ast.expression.Expression;
 import ql.ast.form.Body;
 import ql.ast.visitor.Visitable;
 import ql.ast.visitor.Visitor;
 
-public class IfStatement extends TreeNode implements Visitable {
+public class IfStatement extends ASTNode implements Visitable {
 	private final Expression condition;
 	private final Body body;
 

@@ -6,44 +6,41 @@ import nl.nicasso.ql.visitors.TypeVisitor;
 
 public class UnknownType extends Type {
 
-	private final String type;
-
 	public UnknownType() {
-		this.type = "Unknown";
+
 	}
-	
+
+	public UnknownType(CodeLocation location) {
+		super(location);
+	}
+
 	@Override
 	public UnknownValue getDefaultValue() {
 		return new UnknownValue();
 	}
-	
-	public UnknownType(CodeLocation location) {
-		super(location);
-		this.type = "Unknown";
+
+	@Override
+	public String getTypeName() {
+		return "Unknown";
 	}
 
-	public String getType() {
-		return type;
-	}
-	
 	@Override
 	public boolean equals(Object ob) {
 		if (!(ob instanceof Type)) {
 			return false;
 		}
 		Type t2 = (Type) ob;
-		return type.equals(t2.getType());
+		return getClass().equals(t2.getClass());
 	}
-	
+
 	@Override
-	public int hashCode(){
-	    return type.hashCode();
-    }
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 
 	@Override
 	public <T, U> T accept(TypeVisitor<T, U> visitor, U context) {
-		// Make better
-		assert false;
+		new AssertionError("UnknownType does not have an accept method.");
 		return null;
 	}
 }

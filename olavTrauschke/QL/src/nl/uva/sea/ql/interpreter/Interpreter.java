@@ -1,5 +1,6 @@
 package nl.uva.sea.ql.interpreter;
 
+import nl.uva.sea.ql.interpreter.questionComponent.QuestionComponent;
 import java.awt.AWTEvent;
 import java.util.List;
 import java.util.function.Consumer;
@@ -28,15 +29,19 @@ public class Interpreter {
      *              should interpret
      */
     public Interpreter(Form form) {
+        assert form != null;
         QuestionIdentCollector identCollector = new QuestionIdentCollector();
         form.accept(identCollector);
         Iterable<Ident> identifiers = identCollector.obtainIdentifiers();
         answerTable = new AnswerTable(identifiers);
-        DisplayableQuestionGenerator generator
-                = new DisplayableQuestionGenerator(answerTable);
+        QuestionComponentGenerator generator
+                = new QuestionComponentGenerator(answerTable);
         form.accept(generator);
-        List<DisplayableQuestion> questions = generator.getResult();
-        questions.forEach(answerTable::addObserver);
+        List<QuestionComponent> questions = generator.getResult();
+        questions.stream().forEach((QuestionComponent question) -> {
+            answerTable.addObserver(question);
+            answerTable.update(question.getIdentifier(), question.evalCalculation());
+        });
         gui = new GUI(form.obtainIdentifier(), questions);
     }
     

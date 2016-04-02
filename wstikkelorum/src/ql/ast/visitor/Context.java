@@ -2,45 +2,47 @@ package ql.ast.visitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
+import ql.ast.expression.VariableExpression;
 import ql.ast.literal.Variable;
-import ql.ast.literal.VariableExpression;
-import ql.ast.statement.Question;
-import ql.ast.types.ValueType;
-import ql.issue.DuplicateLabel;
-import ql.issue.DuplicateQuestionWithDifferentType;
+import ql.ast.statement.question.Question;
+import ql.ast.type.ValueType;
+import ql.ast.value.Value;
 import ql.issue.Issue;
-import ql.issue.ReferenceToUndefinedQuestion;
+import ql.issue.problem.DuplicateQuestionWithDifferentType;
+import ql.issue.problem.ReferenceToUndefinedQuestion;
+import ql.issue.warning.DuplicateLabel;
 
 public class Context {
 	private List<Question> declaredQuestions;
 	private List<String> labels;
 	private HashMap<String, ValueType> nameToType;
-	private HashMap<String, Object> nameToValue;
+	private HashMap<String, Value> nameToValue;
 	private List<Issue> issues;
 
 	public Context() {
 		declaredQuestions = new ArrayList<Question>();
 		labels = new ArrayList<String>();
 		nameToType = new HashMap<String, ValueType>();
-		nameToValue = new HashMap<String, Object>();
+		nameToValue = new HashMap<String, Value>();
 		issues = new ArrayList<Issue>();
 	}
 
-	public void putValueForQuestion(Question question, Object value) {
+	public void putValueForQuestion(Question question, Value value) {
 		nameToValue.put(question.getVariable().getIdentifier(), value);
 	}
 
-	public Object getValueForVariable(VariableExpression variableExpression) {
+	public Value getValueForVariable(VariableExpression variableExpression) {
 		return getValue(variableExpression.getIdentifier(), variableExpression.getLineNumber());
 	}
 
-	public Object getValueForVariable(Variable variable) {
+	public Value getValueForVariable(Variable variable) {
 		return getValue(variable.getIdentifier(), variable.getLineNumber());
 	}
 
-	private Object getValue(String identifier, int lineNumber) {
+	private Value getValue(String identifier, int lineNumber) {
 		if (!nameToValue.containsKey(identifier)) {
 			issues.add(new ReferenceToUndefinedQuestion(identifier, lineNumber));
 			return null;
@@ -59,8 +61,13 @@ public class Context {
 
 		declaredQuestions.add(question);
 		nameToType.put(identifier, type);
-		nameToValue.put(identifier, null);
+		nameToValue.put(identifier, defaultValue(question));
 		addLabel(question);
+	}
+	
+	private Value defaultValue(Question question){
+		ValueType type = question.getVariable().getType();
+		return type.getDefaultValue();
 	}
 
 	private void addLabel(Question question) {
@@ -92,11 +99,28 @@ public class Context {
 		return nameToType;
 	}
 
-	public HashMap<String, Object> getIdentifierToValueMap() {
+	public HashMap<String, Value> getIdentifierToValueMap() {
 		return nameToValue;
 	}
 
-	public List<Issue> getIssues() {
-		return issues;
+	public Iterator<Issue> getIssueIterator() {
+		return issues.iterator();
+	}
+	
+	public int numberOfIssues(){
+		return issues.size();
+	}
+	
+	public boolean onlyWarnings(){
+		return issues.size() > 0 && noIssues();
+	}
+	
+	private boolean noIssues(){
+		for(Issue issue : issues){
+			if(issue.isProblem()){
+				return false;
+			}
+		}
+		return true;
 	}
 }

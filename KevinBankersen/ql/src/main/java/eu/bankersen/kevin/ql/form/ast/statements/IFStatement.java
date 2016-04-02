@@ -1,0 +1,29 @@
+package eu.bankersen.kevin.ql.form.ast.statements;
+
+import eu.bankersen.kevin.ql.form.ast.expressions.Expression;
+import eu.bankersen.kevin.ql.form.ast.visitors.Visitor;
+
+public class IFStatement extends Statement {
+
+	private final Expression condition;
+	private final Body body;
+
+	public IFStatement(Expression expr, Body body, int line) {
+		super(line);
+		this.body = body;
+		this.condition = expr;
+	}
+
+	public Expression condition() {
+		return condition;
+	}
+
+	public Body body() {
+		return body;
+	}
+
+	@Override
+	public <T> void accept(Visitor<T> visitor, T context) {
+		visitor.visit(this, context);
+	}
+}

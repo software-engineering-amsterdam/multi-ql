@@ -9,21 +9,20 @@ import nl.nicasso.ql.ast.nodes.types.UnknownType;
 
 public abstract class Additive extends Binary {
 
-	// Do we need this?! Will we really instantiate this class? TRY IT OUT!
 	public Additive(CodeLocation location) {
 		super(location);
 	}
 
 	@Override
 	public Type inferType(Type left, Type right) {
-		
+
 		if (left.equals(right)) {
 			if (left.equals(new IntegerType()) || left.equals(new MoneyType())) {
 				return left;
 			}
 		}
-		
-		return new UnknownType();		
+
+		return new UnknownType();
 	}
 
 }

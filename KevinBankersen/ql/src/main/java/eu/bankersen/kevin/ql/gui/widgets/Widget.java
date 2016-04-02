@@ -1,12 +1,13 @@
 package eu.bankersen.kevin.ql.gui.widgets;
 
-import javax.swing.JPanel;
+import eu.bankersen.kevin.ql.gui.ViewListener;
+import eu.bankersen.kevin.ql.interperter.DataListener;
+import javafx.scene.layout.Pane;
 
-public interface Widget {
+public interface Widget extends DataListener {
 
-    JPanel build();
+	Pane draw();
 
-    void widgetUpdated(String value);
+	void addViewListener(ViewListener listener);
 
-    boolean isComputed();
 }

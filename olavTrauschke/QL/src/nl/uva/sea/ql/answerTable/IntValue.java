@@ -8,7 +8,7 @@ import java.util.Objects;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with an integer value.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 30-mar-2016
  */
 public class IntValue extends NumericValue {
     
@@ -17,16 +17,24 @@ public class IntValue extends NumericValue {
      */
     public static final int HASH_ORIGIN = 483;
     
-    private final Integer value;
+    private final Long value;
     
     /**
      * Constructor for objects of this class.
      * 
-     * @param theValue an integer value or <code>null</code> to represent an
-     *                  unknown value
+     * @param theValue a <code>Long</code> value or <code>null</code> to represent
+     *                  an unknown value
      */
-    public IntValue(Integer theValue) {
+    public IntValue(Long theValue) {
         value = theValue;
+    }
+    
+    /**
+     * @return a <code>Long</code> with the <code>value this IntValue</code>
+     *          represents
+     */
+    public Long getValue() {
+       return value; 
     }
     
     /**
@@ -215,7 +223,7 @@ public class IntValue extends NumericValue {
         if (value == null || other.value == null) {
             return new IntValue(null);
         }
-        int result = value + other.value;
+        long result = value + other.value;
         return new IntValue(result);
     }
     
@@ -278,7 +286,7 @@ public class IntValue extends NumericValue {
         if (value == null || other.value == null) {
             return new IntValue(null);
         }
-        int result = value * other.value;
+        long result = value * other.value;
         return new IntValue(result);
     }
     

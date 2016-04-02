@@ -8,7 +8,7 @@ import java.util.Objects;
  * {@link nl.uva.sea.ql.ast.expr.Expr Expr}s with a string value.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 30-mar-2016
  */
 public class StringValue extends Value {
     
@@ -30,6 +30,14 @@ public class StringValue extends Value {
     }
     
     /**
+     * @return a <code>String</code> with the <code>value this StringValue</code>
+     *          represents
+     */
+    public String getValue() {
+        return value;
+    }
+    
+    /**
      * Cast a <code>Value</code> that is certain to be either string or unknown
      * to a <code>StringValue</code>.
      * 
@@ -43,6 +51,7 @@ public class StringValue extends Value {
             return new StringValue(null);
         }
         else {
+            assert toCast instanceof StringValue;
             return (StringValue) toCast;
         }
     }

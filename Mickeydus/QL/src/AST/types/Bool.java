@@ -5,20 +5,39 @@
  */
 package AST.types;
 
+import typechecker.TypecheckInterface;
+
 /**
  *
  * @author Dominique
  */
 public class Bool extends Type {
 
-	private final Boolean value;
-
-	public Bool(Boolean bool) {
-		this.value = bool;
+	public Bool() {
+            super();
 	}
-
-	public Boolean getValue() {
-		return value;
-	}
-    
+	
+        @Override
+	  public Boolean isInt(){
+            return false;
+        }
+        
+        @Override
+        public Boolean isString(){
+            return false;
+        }
+        
+        @Override
+        public Boolean isBoolean(){
+            return true;
+        }
+        
+        @Override
+        public Boolean isMoney(){
+            return false;
+        }
+ 
+        public <T> T accept(TypecheckInterface<T> visitor) {
+        return visitor.visit(this);
+        }
 }

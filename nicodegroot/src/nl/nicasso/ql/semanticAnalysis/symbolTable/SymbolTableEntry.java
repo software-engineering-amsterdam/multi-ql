@@ -4,10 +4,9 @@ import nl.nicasso.ql.ast.nodes.types.Type;
 
 public class SymbolTableEntry {
 
-	private Type type;
-	
+	private final Type type;
+
 	public SymbolTableEntry(Type type) {
-		super();
 		this.type = type;
 	}
 

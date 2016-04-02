@@ -8,7 +8,7 @@ package nl.uva.sea.ql.answerTable;
  * are unknown.
  * 
  * @author Olav Trauschke
- * @version 26-mrt-2016
+ * @version 30-mar-2016
  */
 public class UnknownNumericValue extends NumericValue {
     
@@ -289,7 +289,7 @@ public class UnknownNumericValue extends NumericValue {
      */
     @Override
     public boolean equals(Object o) {
-        return getClass() == o.getClass();
+        return o == null ? false : getClass() == o.getClass();
     }
     
     /**

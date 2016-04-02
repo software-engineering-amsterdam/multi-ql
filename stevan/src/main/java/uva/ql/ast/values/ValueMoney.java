@@ -2,13 +2,10 @@ package uva.ql.ast.values;
 
 import java.math.BigDecimal;
 
-import javax.swing.JPanel;
-
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
 import uva.ql.ast.interfaces.IntEval;
 import uva.ql.ast.types.Money;
-import uva.ql.gui.visitors.IGUIVisitor;
 
 public class ValueMoney extends Value<Integer> implements IntEval<Integer> {
 
@@ -40,10 +37,5 @@ public class ValueMoney extends Value<Integer> implements IntEval<Integer> {
 	@Override
 	public Integer eval() {
 		return getValue();
-	}
-	
-	@Override
-	public void accept(IGUIVisitor visitor, JPanel panel) {
-		visitor.visitValueMoney(this, panel);
 	}
 }

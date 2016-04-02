@@ -7,12 +7,12 @@ import uva.ql.ast.Node;
 import uva.ql.ast.expressions.abstracts.Expression;
 import uva.ql.ast.types.question.Computed;
 import uva.ql.ast.variables.Variable;
-import uva.ql.gui.visitors.IGUIVisitor;
 import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
 import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
 import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
 import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
 import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
+import uva.ql.visitors.IGUIVisitor;
 
 public class QuestionComputed<T> extends Question<T> {
 

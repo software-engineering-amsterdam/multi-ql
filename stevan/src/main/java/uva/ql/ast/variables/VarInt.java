@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import uva.ql.ast.EnumType;
 import uva.ql.ast.Node;
 import uva.ql.ast.types.Int;
-import uva.ql.gui.visitors.IGUIVisitor;
+import uva.ql.visitors.IGUIVisitor;
 
 public class VarInt extends Variable<Integer> {
 
@@ -25,11 +25,6 @@ public class VarInt extends Variable<Integer> {
 	public EnumType getType() {
 		return this.type.getType();
 	}
-	
-	@Override
-	public void accept(IGUIVisitor visitor, JPanel panel) {
-		visitor.visitVarInt(this, panel);
-	}
 
 	@Override
 	public Integer getValue() {
@@ -37,12 +32,19 @@ public class VarInt extends Variable<Integer> {
 	}
 
 	@Override
-	public void setValue(Integer value) {
-		this.value = value;
-	}
-
-	@Override
 	public Integer eval() {
 		return this.getValue();
+	}
+	
+	@Override
+	public void setValue(Integer value) {
+		this.value = value;
+		this.setChanged();
+		this.notifyObservers(value);
+	}
+	
+	@Override
+	public void accept(IGUIVisitor visitor, JPanel panel) {
+		visitor.visitVarInt(this, panel);
 	}
 }

@@ -2,10 +2,10 @@ package nl.nicasso.ql.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import nl.nicasso.ql.ast.nodes.expressions.Expression;
 import nl.nicasso.ql.ast.nodes.expressions.conditional.Not;
-import nl.nicasso.ql.ast.nodes.literals.BooleanLiteral;
 import nl.nicasso.ql.ast.nodes.statements.ComputedQuestion;
 import nl.nicasso.ql.ast.nodes.statements.IfElseStatement;
 import nl.nicasso.ql.ast.nodes.statements.IfStatement;
@@ -17,7 +17,6 @@ import nl.nicasso.ql.ast.nodes.types.BooleanType;
 import nl.nicasso.ql.ast.nodes.types.IntegerType;
 import nl.nicasso.ql.ast.nodes.types.MoneyType;
 import nl.nicasso.ql.ast.nodes.types.StringType;
-import nl.nicasso.ql.gui.evaluator.Evaluator;
 import nl.nicasso.ql.gui.evaluator.stateTable.StateTable;
 import nl.nicasso.ql.gui.evaluator.values.Value;
 import nl.nicasso.ql.gui.panels.ComputedQuestionPanel;
@@ -32,108 +31,115 @@ import nl.nicasso.ql.visitors.StatementVisitor;
 import nl.nicasso.ql.visitors.StructureVisitor;
 import nl.nicasso.ql.visitors.TypeVisitor;
 
-public class Gui implements StructureVisitor<List<Panel>, Expression>, StatementVisitor<List<Panel>, Expression>, TypeVisitor<QuestionField, QuestionFieldParameter> {
-	
-	private MainFrame main;
+public class Gui implements StructureVisitor<List<Panel>, Stack<Expression>>,
+		StatementVisitor<List<Panel>, Stack<Expression>>, TypeVisitor<QuestionField, QuestionFieldArguments> {
+
+	private MainWindow mainWindow;
 	private StateTable stateTable;
-	
-	public Gui(StateTable stateTable, MainFrame main) {
+
+	public Gui(Form ast, StateTable stateTable, MainWindow main) {
 		this.stateTable = stateTable;
-		this.main = main;
+		this.mainWindow = main;
+
+		ast.accept(this, new Stack<Expression>());
+
+		this.mainWindow.addPanelsToMainFrame();
 	}
-	
+
 	@Override
-	public List<Panel> visit(Form structure, Expression ignore) {
-		List<Panel> blockPanel = structure.getBlock().accept(this, new BooleanLiteral(true));
-		
+	public List<Panel> visit(Form structure, Stack<Expression> visibilityConditions) {
+		List<Panel> blockPanel = structure.getBlock().accept(this, visibilityConditions);
+
 		for (Panel p : blockPanel) {
-			main.addPanel(p);
+			mainWindow.add(p);
 		}
-		
-		main.addPanelsToMainFrame();
-		
+
 		return null;
 	}
 
 	@Override
-	public List<Panel> visit(Block structure, Expression expr) {
+	public List<Panel> visit(Block structure, Stack<Expression> visibilityConditions) {
 		List<Panel> panelList = new ArrayList<Panel>();
 
-		// @TODO Improve
 		for (Statement cur : structure.getStatements()) {
-			List<Panel> panels = cur.accept(this, expr);
-			for (Panel p : panels) {
-				panelList.add(p);	
-			}
+			List<Panel> panels = cur.accept(this, visibilityConditions);
+			panelList.addAll(panels);
 		}
 
 		return panelList;
 	}
 
 	@Override
-	public List<Panel> visit(Question statement, Expression expression) {
-		QuestionField field = statement.getType().accept(this, new QuestionFieldParameter(statement.getIdentifier(), main, true, statement.getType().getDefaultValue()));
-		
-		QuestionPanel qp = new QuestionPanel(statement, field, expression, stateTable);
-		
-		List<Panel> panels = new ArrayList<Panel>();
-		panels.add(qp);
+	public List<Panel> visit(Question statement, Stack<Expression> visibilityConditions) {
+		QuestionField field = statement.getType().accept(this, new QuestionFieldArguments(statement.getIdentifier(),
+				mainWindow, true, statement.getType().getDefaultValue()));
 
-		return panels;
+		QuestionPanel qp = new QuestionPanel(statement, field, visibilityConditions, stateTable, mainWindow);
+
+		List<Panel> panelList = new ArrayList<Panel>();
+		panelList.add(qp);
+
+		return panelList;
 	}
 
 	@Override
-	public List<Panel> visit(ComputedQuestion statement, Expression expression) {
+	public List<Panel> visit(ComputedQuestion statement, Stack<Expression> visibilityConditions) {
 		Value value = stateTable.getEntryValue(statement.getIdentifier());
-				
-		QuestionFieldParameter questionFieldParameterObject = new QuestionFieldParameter(statement.getIdentifier(), main, false, value);
+
+		QuestionFieldArguments questionFieldParameterObject = new QuestionFieldArguments(statement.getIdentifier(),
+				mainWindow, false, value);
+
 		QuestionField field = statement.getType().accept(this, questionFieldParameterObject);
-		
-		ComputedQuestionPanel qp = new ComputedQuestionPanel(statement, field, value, expression, stateTable, main);
-		
-		List<Panel> panels = new ArrayList<Panel>();
-		panels.add(qp);
 
-		return panels;
+		List<Panel> panelList = new ArrayList<Panel>();
+		ComputedQuestionPanel qp = new ComputedQuestionPanel(statement, field, value, visibilityConditions, stateTable,
+				mainWindow);
+		panelList.add(qp);
+
+		return panelList;
 	}
 
 	@Override
-	public List<Panel> visit(IfStatement statement, Expression expression) {
-		Evaluator evaluator = new Evaluator(stateTable);
-		statement.getExpr().accept(evaluator, null);
-		
-		List<Panel> ifBlockPanel = statement.getBlock_if().accept(this, statement.getExpr());
-		
-		return ifBlockPanel;
+	public List<Panel> visit(IfStatement statement, Stack<Expression> visibilityConditions) {
+		visibilityConditions.push(statement.getExpression());
+		List<Panel> ifBlockPanels = statement.getBlockIf().accept(this, visibilityConditions);
+		visibilityConditions.pop();
+
+		return ifBlockPanels;
 	}
 
 	@Override
-	public List<Panel> visit(IfElseStatement statement, Expression expression) {
-		List<Panel> ifBlockPanel = statement.getBlock_if().accept(this, statement.getExpr());
-		List<Panel> elseBlockPanel = statement.getBlock_else().accept(this, new Not(statement.getExpr(), null));
-		
-		ifBlockPanel.addAll(elseBlockPanel);
-		
-		return ifBlockPanel;
+	public List<Panel> visit(IfElseStatement statement, Stack<Expression> visibilityConditions) {
+		visibilityConditions.push(statement.getExpression());
+		List<Panel> ifBlockPanels = statement.getBlockIf().accept(this, visibilityConditions);
+		visibilityConditions.pop();
+
+		visibilityConditions.push(new Not(statement.getExpression(), null));
+		List<Panel> elseBlockPanels = statement.getBlockElse().accept(this, visibilityConditions);
+		visibilityConditions.pop();
+
+		ifBlockPanels.addAll(elseBlockPanels);
+
+		return ifBlockPanels;
 	}
 
 	@Override
-	public QuestionField visit(BooleanType type, QuestionFieldParameter context) {
+	public QuestionField visit(BooleanType type, QuestionFieldArguments context) {
 		return new BooleanQuestionField(context);
 	}
 
 	@Override
-	public QuestionField visit(MoneyType type, QuestionFieldParameter context) {
+	public QuestionField visit(MoneyType type, QuestionFieldArguments context) {
 		return new MoneyQuestionField(context);
 	}
 
 	@Override
-	public QuestionField visit(StringType type, QuestionFieldParameter context) {
+	public QuestionField visit(StringType type, QuestionFieldArguments context) {
 		return new TextQuestionField(context);
 	}
 
 	@Override
-	public QuestionField visit(IntegerType type, QuestionFieldParameter context) {
+	public QuestionField visit(IntegerType type, QuestionFieldArguments context) {
 		return new IntegerQuestionField(context);
 	}
 

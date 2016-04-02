@@ -5,15 +5,15 @@ import nl.nicasso.ql.ast.nodes.types.Type;
 
 public abstract class Unary extends Expression {
 
-	private Expression expr;
-	
+	private Expression expression;
+
 	public Unary(CodeLocation location) {
 		super(location);
 	}
 
-	public Expression getExpr() {
-		return expr;
+	public Expression getExpression() {
+		return expression;
 	}
-	
+
 	public abstract Type inferType(Type exprType);
 }

@@ -17,6 +17,12 @@ stylesheet taxOfficeExample {
                     fontStyle : "bold"
                     fontSize: 20
                 }
+            question reallyHasMaintLoan
+                widget checkbox("Yes", "No") default "No" {
+                    color : "255,255,0"
+                }
+                
+            question hasMaintLoanInText
         }
         
         section "You sold a house" {

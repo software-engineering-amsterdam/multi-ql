@@ -3,7 +3,7 @@ package nl.uva.sea.ql.ast.expr;
 import java.util.Map;
 import nl.uva.sea.ql.answerTable.*;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Ident</code>s for questions in an AST.
@@ -34,10 +34,10 @@ public class Ident extends Expr {
     /**
      * Has <code>visitor visit this Ident</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should <code>visit this Ident</code>
+     * @param visitor a <code>Visitor</code> that should <code>visit this Ident</code>
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
     

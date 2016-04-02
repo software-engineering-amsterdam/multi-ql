@@ -2,7 +2,7 @@ package nl.uva.sea.ql.ast.expr;
 
 import java.util.Map;
 import nl.uva.sea.ql.ast.question.Question;
-import nl.uva.sea.ql.generalPurposeVisitors.ASTVisitor;
+import nl.uva.sea.ql.generalPurposeVisitors.Visitor;
 
 /**
  * Representation of <code>Expr</code>s which are sure to have a numeric value
@@ -59,12 +59,12 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
      * Has the children of <code>this BinaryNumericOperatorExpr accept visitor</code>
      * and then has <code>visitor visit this BinaryNumericOperatorExpr</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit this BinaryNumericOperatorExpr</code> and
      *                  its children
      */
     @Override
-    public void accept(ASTVisitor visitor) {
+    public void accept(Visitor visitor) {
         childrenAccept(visitor);
         visitor.visit(this);
     }
@@ -73,11 +73,11 @@ public abstract class BinaryNumericOperatorExpr extends NumericExpr {
      * Has the <code>firstExpr</code> and the <code>secondExpr</code> of
      * <code>this BinaryNumericOperatorExpr accept visitor</code>.
      * 
-     * @param visitor an <code>ASTVisitor</code> that should
+     * @param visitor a <code>Visitor</code> that should
      *                  <code>visit</code> the children of
      *                  <code>this BinaryNumericOperatorExpr</code>
      */
-    protected void childrenAccept(ASTVisitor visitor) {
+    protected void childrenAccept(Visitor visitor) {
         firstExpr.accept(visitor);
         secondExpr.accept(visitor);
     }

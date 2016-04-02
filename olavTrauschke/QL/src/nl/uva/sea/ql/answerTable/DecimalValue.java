@@ -7,7 +7,7 @@ import java.util.Objects;
  * {@link nl.uva.sea.ql.ast.question.DecimalQuestion DecimalQuestion}s.
  * 
  * @author Olav Trauschke
- * @version 26-mar-2016
+ * @version 30-mar-2016
  */
 public class DecimalValue extends NumericValue {
     
@@ -26,6 +26,14 @@ public class DecimalValue extends NumericValue {
      */
     public DecimalValue(Double theValue) {
         value = theValue;
+    }
+    
+    /**
+     * @return a <code>Double</code> with the <code>value this DecimalValue</code>
+     *          represents
+     */
+    public Double getValue() {
+        return value;
     }
     
     /**
@@ -184,7 +192,7 @@ public class DecimalValue extends NumericValue {
      */
     @Override
     public NumericValue add(NumericValue other) {
-        return other.multiply(this); //double dispatch to a more specific case
+        return other.add(this); //double dispatch to a more specific case
     }
     
     /**

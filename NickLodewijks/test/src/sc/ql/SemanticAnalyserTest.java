@@ -2,12 +2,11 @@ package sc.ql;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import sc.ql.SemanticAnalyser;
-import sc.ql.SemanticAnalyser.SemanticErrors;
 import sc.ql.ast.Form;
 
 public class SemanticAnalyserTest {
@@ -18,7 +17,7 @@ public class SemanticAnalyserTest {
 
 		result = new SemanticAnalyser().validate(createQuestionnaire("DuplicateQuestions.ql"));
 
-		result.print();
+		print(result);
 		assertNumberOfWarnings(result, 4);
 		assertNumberOfErrors(result, 2);
 	}
@@ -29,7 +28,7 @@ public class SemanticAnalyserTest {
 
 		result = new SemanticAnalyser().validate(createQuestionnaire("DuplicateQuestionsNested.ql"));
 
-		result.print();
+		print(result);
 		assertNumberOfWarnings(result, 4);
 		assertNumberOfErrors(result, 2);
 	}
@@ -40,7 +39,7 @@ public class SemanticAnalyserTest {
 
 		result = new SemanticAnalyser().validateCyclicReferences(createQuestionnaire("CyclicReferences.ql"));
 
-		result.print();
+		print(result);
 		assertNumberOfErrors(result, 6);
 		assertNumberOfWarnings(result, 0);
 	}
@@ -51,9 +50,19 @@ public class SemanticAnalyserTest {
 
 		result = new SemanticAnalyser().validate(createQuestionnaire("ValidQuestions.ql"));
 
-		result.print();
+		print(result);
 		assertNumberOfErrors(result, 0);
 		assertNumberOfWarnings(result, 0);
+	}
+
+	private void print(SemanticErrors result) {
+		for (SemanticMessage msg : result.errors()) {
+			System.err.println(msg.toString());
+		}
+
+		for (SemanticMessage msg : result.warnings()) {
+			System.out.println(msg.toString());
+		}
 	}
 
 	private Form createQuestionnaire(String fileName) throws IOException {
@@ -61,12 +70,18 @@ public class SemanticAnalyserTest {
 	}
 
 	private void assertNumberOfWarnings(SemanticErrors result, int warnings) {
-		Assert.assertEquals("Invalid number of warnings:\n" + Arrays.toString(result.getWarnings().toArray()) + "\n",
-				warnings, result.getWarnings().size());
+		List<SemanticMessage> messages;
+
+		messages = result.warnings();
+		Assert.assertEquals("Invalid number of warnings:\n" + Arrays.toString(messages.toArray()) + "\n", warnings,
+				messages.size());
 	}
 
 	private void assertNumberOfErrors(SemanticErrors result, int errors) {
-		Assert.assertEquals("Invalid number of errors:\n" + Arrays.toString(result.getErrors().toArray()) + "\n",
-				errors, result.getErrors().size());
+		List<SemanticMessage> messages;
+
+		messages = result.errors();
+		Assert.assertEquals("Invalid number of errors:\n" + Arrays.toString(messages.toArray()) + "\n", errors,
+				messages.size());
 	}
 }

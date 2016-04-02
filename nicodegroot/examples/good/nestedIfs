@@ -1,0 +1,25 @@
+form taxOfficeExample {
+	  
+	  "Toggle"
+      cQ1: boolean
+ 
+	 	if (cQ1) {
+		    "String 1"
+		    cQ2: string = ("a")
+		   
+		    "Toggle2"
+		      cQ3: boolean
+		 
+			 	if (cQ3) {
+				    "String 2"
+				    cQ4: string = ("b")
+			 	}
+	 	} else {
+	 		"String 3"
+		    cQ2: string = ("c")
+	 	}
+ 	
+ 	"Result"
+    cQ5: string = (cQ2)
+    
+}

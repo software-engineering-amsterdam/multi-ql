@@ -11,5 +11,5 @@ public interface TypeVisitor<T, U> {
 	public T visit(MoneyType type, U context);
 	public T visit(StringType type, U context);
 	public T visit(IntegerType type, U context);
-	
+
 }

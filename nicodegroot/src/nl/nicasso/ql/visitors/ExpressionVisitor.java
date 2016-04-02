@@ -21,7 +21,7 @@ import nl.nicasso.ql.ast.nodes.literals.MoneyLiteral;
 import nl.nicasso.ql.ast.nodes.literals.StringLiteral;
 
 public interface ExpressionVisitor<T, U> {
-	
+
 	public T visit(Addition expression, U context);
 	public T visit(Subtraction expression, U context);
 	public T visit(And expression, U context);
@@ -36,9 +36,7 @@ public interface ExpressionVisitor<T, U> {
 	public T visit(GreaterEqual expression, U context);
 	public T visit(Less expression, U context);
 	public T visit(LessEqual expression, U context);
-	
 	public T visit(Identifier identifier, U context);
-	
 	public T visit(BooleanLiteral literal, U context);
 	public T visit(IntegerLiteral literal, U context);
 	public T visit(StringLiteral literal, U context);

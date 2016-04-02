@@ -18,7 +18,7 @@ grammar QL;
 }
 
 form returns [Form result]
-  : 'form' Ident body = block
+  : 'form' Ident '{' body = block '}'
   { $result = new Form(new Ident($Ident.text), $body.result); }
   ;
 
@@ -27,10 +27,10 @@ block returns [Block result]
           List<Statement> statements = new ArrayList<Statement>(); 
           List<Question> questions = new ArrayList<Question>(); 
         }
-  :  '{' (question { questions.add($question.result); } | statement { statements.add($statement.result); })* '}' { 
+:  (question { questions.add($question.result); } | statement { statements.add($statement.result); })* { 
        $result = new Block(statements, questions); 
-     }
-  ;
+    }
+;
 
 statement returns [Statement result]
   : ifstatement { $result = $ifstatement.result; }
@@ -38,11 +38,11 @@ statement returns [Statement result]
   ;
 
 ifstatement returns [Statement result]
-  : 'if' '(' condition=orExpr ')' block { $result = new IfStatement($condition.result, $block.result); }
+  : 'if' '(' condition=orExpr ')' '{' block '}' { $result = new IfStatement($condition.result, $block.result); }
   ;
 
 ifelsestatement returns [Statement result]
-  : 'if' '(' condition=orExpr ')' thenstatement=block 'else' elsestatement=block { $result = new IfElseStatement($condition.result, $thenstatement.result, $elsestatement.result); }
+  : 'if' '(' condition=orExpr ')' '{' thenstatement=block '}' 'else' '{' elsestatement=block '}' { $result = new IfElseStatement($condition.result, $thenstatement.result, $elsestatement.result); }
   ;
 
 question returns [Question result]
@@ -51,8 +51,8 @@ question returns [Question result]
   ;
 
 simplequestion returns [Question result]
-  : questionid=Ident ':' questionlabel=label questiontype { 
-    $result = new SimpleQuestion(new Ident($questionid.text), new Label($questionlabel.text), $questiontype.result); 
+  : questionid=Ident ':' questionlabel=label type { 
+    $result = new SimpleQuestion(new Ident($questionid.text), new Label($questionlabel.text), $type.result); 
     }
   ;
 
@@ -62,7 +62,7 @@ computedquestion returns [Question result]
     }
   ;
 
-questiontype returns [QuestionType result] 
+type returns [Type result] 
   : STRING_TYPE { $result = new StringType(); }
   | INTEGER_TYPE { $result = new IntType(); }
   | MONEY_TYPE { $result = new IntType(); }
@@ -74,27 +74,30 @@ label returns [Label result]
   ;
 
 primary returns [Expr result]
-  : Int   { $result = new IntegerLiteral(Integer.parseInt($Int.text)); }
+  : Int   { $result = new IntegerLiteral(Integer.parseInt($Int.text)); 
+            $result.setLiteral(); }
   | Ident { $result = new Ident($Ident.text); }
-  | Str   { $result = new StringLiteral($Str.text); }
-  | bool  { $result = $bool.result; }
+  | Str   { $result = new StringLiteral($Str.text); 
+            $result.setLiteral(); }
+  | bool  { $result = $bool.result; 
+            $result.setLiteral(); }
   | '(' x=orExpr ')'{ $result = $x.result; }
   ;
 
 bool returns [Expr result]
-  : t='true'  { $result = new BoolLiteral(true); }
-  | t='false' { $result = new BoolLiteral(false); }
+  : t=True  { $result = new BoolLiteral(true); }
+  | t=False { $result = new BoolLiteral(false); }
   ; 
     
 unaryExpr returns [Expr result]
-    :  '+' x=unaryExpr { $result = new Pos($x.result); }
-    |  '-' x=unaryExpr { $result = new Neg($x.result); }
-    |  '!' x=unaryExpr { $result = new Not($x.result); }
+    :  PlusSymbol x=unaryExpr { $result = new Pos($x.result); }
+    |  MinSymbol x=unaryExpr { $result = new Neg($x.result); }
+    |  ExclamationMark x=unaryExpr { $result = new Not($x.result); }
     |  p=primary    { $result = $p.result; }
     ;   
 
 mulExpr returns [Expr result]
-    :   lhs=unaryExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unaryExpr 
+    :   lhs=unaryExpr { $result=$lhs.result; } ( op=MulSymbol rhs=unaryExpr 
     { 
       if ($op.text.equals("*")) {
         $result = new Mul($result, $rhs.result);
@@ -107,7 +110,7 @@ mulExpr returns [Expr result]
     
   
 addExpr returns [Expr result]
-    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
+    :   lhs=mulExpr { $result=$lhs.result; } ( op=AddSymbol rhs=mulExpr
     { 
       if ($op.text.equals("+")) {
         $result = new Add($result, $rhs.result);
@@ -119,7 +122,7 @@ addExpr returns [Expr result]
     ;
   
 relExpr returns [Expr result]
-    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
+    :   lhs=addExpr { $result=$lhs.result; } ( op=RelSymbol rhs=addExpr 
     { 
       if ($op.text.equals("<")) {
         $result = new LT($result, $rhs.result);
@@ -148,17 +151,18 @@ andExpr returns [Expr result]
     
 
 orExpr returns [Expr result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, $rhs.result); } )*
+    :   lhs=andExpr { $result = $lhs.result; } ( OrSymbol rhs=andExpr { $result = new Or($result, $rhs.result); } )*
     ;
 
 // Lexer Rules
+
+    // Tokens
 
 BOOLEAN_TYPE : 'boolean';
 MONEY_TYPE : 'money';
 INTEGER_TYPE : 'integer';
 STRING_TYPE : 'string';
     
-    // Tokens
 WS  :	(' ' | '\t' | '\n' | '\r') -> skip
     ;
 
@@ -169,4 +173,24 @@ Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 Int: ('0'..'9')+;
 
-Str: '"' .* '"';
+Str: '"' .*? '"';
+
+OrSymbol: '||';
+
+AndSymbol: '&&';
+
+RelSymbol: '<'|'<='|'>'|'>='|'=='|'!=';
+
+AddSymbol: PlusSymbol | MinSymbol;
+
+PlusSymbol: '+';
+
+MinSymbol: '-';
+
+MulSymbol: '*' | '/';
+
+True: 'true';
+      
+False: 'false';
+
+ExclamationMark: '!';
