@@ -8,7 +8,6 @@ import ql.FormParser;
 import ql.SemanticAnalyser;
 import ql.ast.form.Form;
 import ql.ast.visitor.Context;
-import ql.issue.problem.InvalidTypeForOperant;
 
 public class InvalidTypeForOperand {
 
@@ -18,7 +17,6 @@ public class InvalidTypeForOperand {
 		SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
 		semanticAnalyser.analyseForm(form);
 		Context context = semanticAnalyser.getContext();
-		assert(context.getIssueIterator().next() instanceof InvalidTypeForOperant);
+		assert(context.getIssueIterator().next() instanceof ql.issue.problem.InvalidTypeForOperand);
 	}
-
 }

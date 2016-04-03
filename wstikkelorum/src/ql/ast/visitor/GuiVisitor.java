@@ -35,6 +35,9 @@ public class GuiVisitor<Value> extends Evaluator {
 	@Override
 	public ql.ast.value.Value visit(IfStatement ifStatement) {
 		BooleanValue condition = (BooleanValue) ifStatement.getCondition().accept(this);
+		if(condition == null){
+			return null;
+		}
 		if (condition.getValue()) {
 			ifStatement.getBody().accept(this);
 		}
