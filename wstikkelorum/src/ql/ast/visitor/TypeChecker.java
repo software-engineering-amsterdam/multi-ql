@@ -27,7 +27,7 @@ import ql.ast.type.IntegerType;
 import ql.ast.type.StringType;
 import ql.ast.type.ValueType;
 import ql.issue.problem.ConditionNonBoolean;
-import ql.issue.problem.InvalidTypeForOperant;
+import ql.issue.problem.InvalidTypeForOperand;
 
 public class TypeChecker<T> extends BasicVisitor<ValueType> {
 	private Context context;
@@ -161,7 +161,7 @@ public class TypeChecker<T> extends BasicVisitor<ValueType> {
 	private void checkTypes(Expression expression, ValueType expectedType) {
 		ValueType actualType = expression.accept(this);
 		if (!actualType.equals(expectedType)) {
-			context.addIssue(new InvalidTypeForOperant(expression, expectedType, actualType));
+			context.addIssue(new InvalidTypeForOperand(expression, expectedType, actualType));
 		}
 	}
 
