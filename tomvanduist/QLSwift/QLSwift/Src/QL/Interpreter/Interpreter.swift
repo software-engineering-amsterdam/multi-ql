@@ -18,7 +18,7 @@ class Interpreter: TopDownExpression, TopDownLiteral {
 }
 
 
-// MARK: - QLExpressionVisitor conformance
+// MARK: - QLExpressionVisitor
 
 extension Interpreter {
     
@@ -31,12 +31,12 @@ extension Interpreter {
             return expression.accept(self, param: context)
         }
         
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     
     private func resolveUnary(unary: QLUnary, context: Context, resolver: UnaryResolver) -> NSObject? {
         guard let value = unary.rhs.accept(self, param: context)
-            else { return defaultReturn(unary, param: context) }
+            else { return defaultLeafResult(unary, param: context) }
         
         let type = TypeInferer.sharedInstance.inferType(unary, context: context)
         
@@ -53,7 +53,7 @@ extension Interpreter {
         guard let
             lVal = resolver.resolveValue(TypeInferer.sharedInstance.inferType(binary.lhs, context: context), expression: binary.lhs, context: context),
             rVal = resolver.resolveValue(TypeInferer.sharedInstance.inferType(binary.rhs, context: context), expression: binary.rhs, context: context)
-            else { return defaultReturn(binary, param: context) }
+            else { return defaultLeafResult(binary, param: context) }
         
         let type = TypeInferer.sharedInstance.inferType(binary, context: context)
         
@@ -103,13 +103,13 @@ extension Interpreter {
         return node.literal.accept(self, param: context)
     }
     
-    func defaultReturn(node: QLExpression, param: Context) -> NSObject? {
+    func defaultLeafResult(node: QLExpression, param: Context) -> NSObject? {
         return nil
     }
 }
 
 
-// MARK: - QLLiteralVisitor conformance
+// MARK: - QLLiteralVisitor
 
 extension Interpreter {
     
@@ -126,7 +126,7 @@ extension Interpreter {
         return node.value
     }
     
-    func defaultReturn(literal: QLLiteral, param: Context) -> NSObject? {
+    func defaultLeafResult(literal: QLLiteral, param: Context) -> NSObject? {
         fatalError("No generic default value - Visit literal node instead")
     }
 }
@@ -154,24 +154,24 @@ private class AbstractResolver<T>: Resolver, TopDownType {
     }
     
     func visit(node: QLStringType, param value: T) -> NSObject? {
-        return defaultReturn(node, param: value)
+        return defaultLeafResult(node, param: value)
     }
     func visit(node: QLIntegerType, param value: T) -> NSObject? {
-        return defaultReturn(node, param: value)
+        return defaultLeafResult(node, param: value)
     }
     func visit(node: QLFloatType, param value: T) -> NSObject? {
-        return defaultReturn(node, param: value)
+        return defaultLeafResult(node, param: value)
     }
     func visit(node: QLBooleanType, param value: T) -> NSObject? {
-        return defaultReturn(node, param: value)
+        return defaultLeafResult(node, param: value)
     }
     func visit(node: QLVoidType, param value: T) -> NSObject? {
-        return defaultReturn(node, param: value)
+        return defaultLeafResult(node, param: value)
     }
     func visit(node: QLUnknownType, param value: T) -> NSObject? {
-        return defaultReturn(node, param: value)
+        return defaultLeafResult(node, param: value)
     }
-    func defaultReturn(type: QLType, param value: T) -> NSObject? {
+    func defaultLeafResult(type: QLType, param value: T) -> NSObject? {
         return nil
     }
 }
@@ -349,12 +349,12 @@ private class BoolAndNullable: TopDownType {
         return param.expression.accept(Interpreter.sharedInstance, param: param.context)
     }
     func visit(node: QLVoidType, param: (expression: QLExpression, context: Context)) -> NSObject? {
-        return defaultReturn(node, param: param)
+        return defaultLeafResult(node, param: param)
     }
     func visit(node: QLUnknownType, param: (expression: QLExpression, context: Context)) -> NSObject? {
-        return defaultReturn(node, param: param)
+        return defaultLeafResult(node, param: param)
     }
-    func defaultReturn(type: QLType, param: (expression: QLExpression, context: Context)) -> NSObject? {
+    func defaultLeafResult(type: QLType, param: (expression: QLExpression, context: Context)) -> NSObject? {
         return nil
     }
 }

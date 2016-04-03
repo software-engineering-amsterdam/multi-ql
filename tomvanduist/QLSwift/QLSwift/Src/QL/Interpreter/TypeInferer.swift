@@ -13,7 +13,7 @@ class TypeInferer: TopDown {
     static let sharedInstance = TypeInferer()
     
     private var symbolTable = Map<QLType>()
-    private var errors: [SemanticError] = []
+    
     
     func inferType(statement: QLStatement, context: Context) -> QLType {
         return statement.accept(self, param: context)
@@ -28,26 +28,20 @@ class TypeInferer: TopDown {
             resetInternals()
         }
         
-        form.block.accept(self, param: context)
+        let questions = QuestionExtracter().extract(form)
         
-        // Errors for unresolved types
-        for (id, type) in symbolTable.getMap() {
-            if type === QLUnknownType.self {
-                collectError(TypeInferenceError(description: "The type of \'\(id)\' is ambigious and could not be resolved."))
-            }
-        }
+        inferQuestions(questions, context: context)
         
-        
-        if errors.isEmpty {
-            return symbolTable
-        } else {
+        if let errors = collectErrorsForUnresolved(questions) {
             throw SemanticErrorCollection(errors: errors)
+        } else {
+            return symbolTable
         }
     }
 }
 
 
-// MARK: -  QLStatementVisitor conformance
+// MARK: -  QLStatementVisitor
 
 extension TypeInferer {
     
@@ -65,51 +59,13 @@ extension TypeInferer {
         return type
     }
     
-    func visit(node: QLBlock, param context: Context) -> QLType {
-        
-        var unassignedQuestions = node.questions()
-        var oldCount = 0
-        
-        // Dive into next scope to resolve dependent types
-        for conditional in node.conditionals() {
-            conditional.accept(self, param: context)
-        }
-        
-        // Until fixed point is reached assign types
-        while !unassignedQuestions.isEmpty && unassignedQuestions.count != oldCount {
-            oldCount = unassignedQuestions.count
-            
-            var newUnassigned = [QLQuestion]()
-            
-            for question in node.questions() {
-                if question.accept(self, param: context) === QLUnknownType.self {
-                    newUnassigned.append(question)
-                }
-            }
-            
-            unassignedQuestions = newUnassigned
-        }
-        
-        // Assign unknown for still unresolved quesitons
-        for unassignedQuestion in unassignedQuestions {
-            symbolTable.assign(unassignedQuestion.identifier.id, value: QLUnknownType())
-        }
-        
-        // Dive into next scope to resolve remaining types
-        for conditional in node.conditionals() {
-            conditional.accept(self, param: context)
-        }
-        
-        return defaultReturn(nil, param: context)
-    }
-    
-    func defaultReturn(statement: QLStatement?, param: Context) -> QLType {
+    func defaultLeafResult(statement: QLStatement?, param: Context) -> QLType {
         return QLVoidType()
     }
 }
 
 
-// MARK: -  QLExpressionVisitor conformance
+// MARK: -  QLExpressionVisitor
 
 extension TypeInferer {
     
@@ -189,13 +145,13 @@ extension TypeInferer {
         return QLBooleanType()
     }
     
-    func defaultReturn(expression: QLExpression, param: Context) -> QLType {
+    func defaultLeafResult(expression: QLExpression, param: Context) -> QLType {
         return QLUnknownType()
     }
 }
 
 
-// MARK: -  QLLiteralVisitor conformance
+// MARK: -  QLLiteralVisitor
 
 extension TypeInferer {
     
@@ -215,17 +171,17 @@ extension TypeInferer {
         return QLBooleanType()
     }
     
-    func defaultReturn(literal: QLLiteral, param: Context) -> QLType {
+    func defaultLeafResult(literal: QLLiteral, param: Context) -> QLType {
         fatalError("No generic default value - Visit literal node instead")
     }
 }
 
 
-// MARK: -  QLTypeVisitor conformance
+// MARK: -  QLTypeVisitor
 
 extension TypeInferer {
     
-    func defaultReturn(type: QLType,  param: Context) -> QLType {
+    func defaultLeafResult(type: QLType,  param: Context) -> QLType {
         return type
     }
 }
@@ -237,7 +193,6 @@ extension TypeInferer {
     
     private func resetInternals() {
         symbolTable = Map<QLType>()
-        errors = []
     }
     
     private func retrieveType(variable: QLVariable, context: Context) -> QLType {
@@ -250,11 +205,74 @@ extension TypeInferer {
         return QLUnknownType()
     }
     
-    private func collectError(error: SemanticError) {
-        self.errors.append(error)
+    private func inferQuestions(questions: [QLQuestion], context: Context) {
+        var unassignedQuestions = questions
+        var oldCount = 0
+        
+        // Until fixed point is reached assign types
+        while !unassignedQuestions.isEmpty && unassignedQuestions.count != oldCount {
+            oldCount = unassignedQuestions.count
+            
+            var newUnassigned = [QLQuestion]()
+            
+            for question in unassignedQuestions {
+                if question.accept(self, param: context) === QLUnknownType.self {
+                    newUnassigned.append(question)
+                }
+            }
+            
+            unassignedQuestions = newUnassigned
+        }
+        
+        // Assign unknown type for still unresolved questions
+        for unassignedQuestion in unassignedQuestions {
+            symbolTable.assign(unassignedQuestion.identifier.id, value: QLUnknownType())
+        }
     }
     
-    private func collectError(error: ErrorType) {
-        self.errors.append(SystemError(error: error))
+    private func collectErrorsForUnresolved(questions: [QLQuestion]) -> [SemanticError]? {
+        var errors = [SemanticError]()
+        
+        for (id, type) in symbolTable.getMap() {
+            if type === QLUnknownType.self {
+                errors.append(TypeInferenceError(description: "The type of \'\(id)\' is ambigious and could not be resolved."))
+            }
+        }
+        
+        return errors.isEmpty ? nil : errors
+    }
+}
+
+
+private class QuestionExtracter: TopDownStatement {
+    
+    func extract(form: QLForm) -> [QLQuestion] {
+        return form.block.accept(self, param: nil)
+    }
+    
+    func visit(node: QLVariableQuestion, param: Void?) -> [QLQuestion] {
+        return [node]
+    }
+    
+    func visit(node: QLComputedQuestion, param: Void?) -> [QLQuestion] {
+        return [node]
+    }
+    
+    func visit(node: QLConditional, param: Void?) -> [QLQuestion] {
+        return node.ifBlock.accept(self, param: param)
+    }
+    
+    func visit(node: QLBlock, param: Void?) -> [QLQuestion] {
+        var questions = [QLQuestion]()
+        
+        for statement in node.block {
+            questions += statement.accept(self, param: param)
+        }
+        
+        return questions
+    }
+    
+    func defaultLeafResult(statement: QLStatement?, param: Void?) -> [QLQuestion] {
+        return []
     }
 }

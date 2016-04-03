@@ -28,7 +28,7 @@ internal class CyclicDependencyChecker: SemanticAnalysisRule, TopDown {
 }
 
 
-// MARK: - QLStatementVisitor conformance
+// MARK: - QLStatementVisitor
 
 extension CyclicDependencyChecker {
     
@@ -49,13 +49,13 @@ extension CyclicDependencyChecker {
         return errors
     }
     
-    func defaultReturn(statement: QLStatement?, param: [String]) -> [SemanticError] {
+    func defaultLeafResult(statement: QLStatement?, param: [String]) -> [SemanticError] {
         return []
     }
 }
 
 
-// MARK: - QLExpressionVisitor conformance
+// MARK: - QLExpressionVisitor
 
 extension CyclicDependencyChecker {
     
@@ -71,7 +71,6 @@ extension CyclicDependencyChecker {
             return question.accept(self, param: param)
         }
     }
-    
 
     func visitBinary(binary: QLBinary, param identifiers: [String]) -> [SemanticError] {
         let lhsErrors = binary.lhs.accept(self, param: identifiers)
@@ -80,27 +79,27 @@ extension CyclicDependencyChecker {
         return lhsErrors + rhsErrors
     }
     
-    func defaultReturn(expression: QLExpression, param: [String]) -> [SemanticError] {
+    func defaultLeafResult(expression: QLExpression, param: [String]) -> [SemanticError] {
         return []
     }
 }
 
 
-// MARK: - QLLiteralVisitor conformance
+// MARK: - QLLiteralVisitor
 
 extension CyclicDependencyChecker {
     
-    func defaultReturn(literal: QLLiteral, param: [String]) -> [SemanticError] {
+    func defaultLeafResult(literal: QLLiteral, param: [String]) -> [SemanticError] {
         return []
     }
 }
 
 
-// MARK: - QLTypeVisitor conformance
+// MARK: - QLTypeVisitor
 
 extension CyclicDependencyChecker {
     
-    func defaultReturn(type: QLType, param: [String]) -> [SemanticError] {
+    func defaultLeafResult(type: QLType, param: [String]) -> [SemanticError] {
         return []
     }
 }
@@ -159,7 +158,7 @@ private class QuestionMapFiller: TopDownStatement {
         return map
     }
     
-    func defaultReturn(statement: QLStatement?, param map: Map<QLQuestion>) -> Map<QLQuestion> {
+    func defaultLeafResult(statement: QLStatement?, param map: Map<QLQuestion>) -> Map<QLQuestion> {
         return map
     }
 }

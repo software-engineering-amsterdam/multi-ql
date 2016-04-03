@@ -41,7 +41,7 @@ internal class ScopeChecker: SemanticAnalysisRule, TopDownStatement, TopDownExpr
 }
 
     
-// MARK: - QLStatementVisitor conformance
+// MARK: - QLStatementVisitor
 
 extension ScopeChecker {
     
@@ -77,21 +77,23 @@ extension ScopeChecker {
         }
     }
     
-    func defaultReturn(statement: QLStatement?, param context: Context) {
+    func defaultLeafResult(statement: QLStatement?, param context: Context) {
         return
     }
 }
 
 
-// MARK: - QLExpressionVisitor conformance
+// MARK: - QLExpressionVisitor
 
 extension ScopeChecker {
     
     func visit(node: QLVariable, param context: Context) {
-        return retrieveType(node.id)
+        if checkScope(node.id) == false {
+            analysisResult.collectError(UndefinedVariableError(description: "Variable \"\(node.id)\" is not defined at this scope"))
+        }
     }
     
-    func defaultReturn(node: QLExpression, param: Context) {
+    func defaultLeafResult(node: QLExpression, param: Context) {
         return
     }
 }
@@ -132,9 +134,7 @@ extension ScopeChecker {
         }
     }
     
-    private func retrieveType(identifier: String) {
-        if scopedMap.retrieve(identifier) == nil {
-            analysisResult.collectError(UndefinedVariableError(description: "Variable \"\(identifier)\" is not defined at this scope"))
-        }
+    private func checkScope(identifier: String) -> Bool {
+        return scopedMap.retrieve(identifier) != nil
     }
 }
