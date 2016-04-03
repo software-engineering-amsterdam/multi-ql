@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.form.typechecker.analytics;
+package eu.bankersen.kevin.ql.form.formchecker.analytics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,19 +32,19 @@ import eu.bankersen.kevin.ql.form.ast.types.BooleanType;
 import eu.bankersen.kevin.ql.form.ast.types.Type;
 import eu.bankersen.kevin.ql.form.ast.types.UndifinedType;
 import eu.bankersen.kevin.ql.form.ast.visitors.TopDownVisitor;
-import eu.bankersen.kevin.ql.form.typechecker.errors.ExprTypeError;
-import eu.bankersen.kevin.ql.form.typechecker.errors.TypeCheckError;
-import eu.bankersen.kevin.ql.form.typechecker.errors.UndefinedQuestionError;
-import eu.bankersen.kevin.ql.form.typechecker.warnings.AllreadyDeclared;
-import eu.bankersen.kevin.ql.form.typechecker.warnings.TypeCheckWarning;
+import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.InvalidExpression;
+import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.AnalyticsError;
+import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.UndefinedQuestion;
+import eu.bankersen.kevin.ql.form.formchecker.analytics.warnings.AllreadyDeclared;
+import eu.bankersen.kevin.ql.form.formchecker.analytics.warnings.TypeCheckWarning;
 
 public class TypeChecker {
 
 	private final Map<String, Type> symbolTable;
-	private final List<TypeCheckError> errorList;
+	private final List<AnalyticsError> errorList;
 	private final List<TypeCheckWarning> warningList;
 
-	public List<TypeCheckError> getErrors() {
+	public List<AnalyticsError> getErrors() {
 		return errorList;
 	}
 
@@ -96,7 +96,7 @@ public class TypeChecker {
 				Type expr = o.condition().accept(new TypeCheckVisitor(), context);
 
 				if (!expr.equals(new BooleanType())) {
-					errorList.add(new ExprTypeError(o, expr));
+					errorList.add(new InvalidExpression(o, expr));
 				}
 			}
 
@@ -109,7 +109,7 @@ public class TypeChecker {
 				Type expr = o.condition().accept(new TypeCheckVisitor(), context);
 
 				if (!expr.equals(new BooleanType())) {
-					errorList.add(new ExprTypeError(o, expr));
+					errorList.add(new InvalidExpression(o, expr));
 				}
 			}
 
@@ -120,7 +120,7 @@ public class TypeChecker {
 				Type expr = o.computation().accept(new TypeCheckVisitor(), context);
 
 				if (!question.equals(expr) && !expr.equals(new UndifinedType())) {
-					errorList.add(new ExprTypeError(o, question, expr));
+					errorList.add(new InvalidExpression(o, question, expr));
 				}
 			}
 
@@ -149,7 +149,7 @@ public class TypeChecker {
 			Type result = left.subtract(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -162,7 +162,7 @@ public class TypeChecker {
 			Type result = left.add(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -175,7 +175,7 @@ public class TypeChecker {
 			Type result = left.divide(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -188,7 +188,7 @@ public class TypeChecker {
 			Type result = left.multiply(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -200,7 +200,7 @@ public class TypeChecker {
 			Type result = expr.absolute();
 
 			if (isError(result, expr)) {
-				errorList.add(new ExprTypeError(expression, expr));
+				errorList.add(new InvalidExpression(expression, expr));
 			}
 			return result;
 		}
@@ -212,7 +212,7 @@ public class TypeChecker {
 			Type result = expr.negate();
 
 			if (isError(result, expr)) {
-				errorList.add(new ExprTypeError(expression, expr));
+				errorList.add(new InvalidExpression(expression, expr));
 			}
 			return result;
 		}
@@ -225,7 +225,7 @@ public class TypeChecker {
 			Type result = left.or(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -238,7 +238,7 @@ public class TypeChecker {
 			Type result = left.and(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -251,7 +251,7 @@ public class TypeChecker {
 			Type result = left.equal(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -264,7 +264,7 @@ public class TypeChecker {
 			Type result = left.greaterOrEqual(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -277,7 +277,7 @@ public class TypeChecker {
 			Type result = left.greater(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -290,7 +290,7 @@ public class TypeChecker {
 			Type result = left.lowerOrEqual(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -303,7 +303,7 @@ public class TypeChecker {
 			Type result = left.lower(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -316,7 +316,7 @@ public class TypeChecker {
 			Type result = left.notEqual(right);
 
 			if (isError(result, left, right)) {
-				errorList.add(new ExprTypeError(expression, left, right));
+				errorList.add(new InvalidExpression(expression, left, right));
 			}
 			return result;
 		}
@@ -328,7 +328,7 @@ public class TypeChecker {
 			Type result = expr.not();
 
 			if (isError(expr, result)) {
-				errorList.add(new ExprTypeError(expression, expr));
+				errorList.add(new InvalidExpression(expression, expr));
 			}
 			return result;
 		}
@@ -343,7 +343,7 @@ public class TypeChecker {
 			if (context.containsKey(expression.name())) {
 				return context.get(expression.name());
 			} else {
-				errorList.add(new UndefinedQuestionError(expression));
+				errorList.add(new UndefinedQuestion(expression));
 				return new UndifinedType();
 			}
 		}

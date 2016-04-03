@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.form.typechecker.warnings;
+package eu.bankersen.kevin.ql.form.formchecker.analytics.warnings;
 
 public abstract class TypeCheckWarning {
 	private final String message;

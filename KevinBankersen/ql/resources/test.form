@@ -21,7 +21,7 @@ q11: string = q10
 "Test if statement Q1"
 q1: boolean
 
-if(q1) {
+if(q14) {
 "If Q1"
 q2: boolean = true
 }

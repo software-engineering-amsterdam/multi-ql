@@ -1,11 +1,11 @@
-package eu.bankersen.kevin.ql.form.typechecker.errors;
+package eu.bankersen.kevin.ql.form.formchecker.analytics.errors;
 
-public abstract class TypeCheckError {
+public abstract class AnalyticsError {
 
 	private final String message;
 	private final int line;
 
-	public TypeCheckError(int line, String message) {
+	public AnalyticsError(int line, String message) {
 		this.line = line;
 		this.message = message;
 	}

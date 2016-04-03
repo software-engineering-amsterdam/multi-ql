@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.form.typechecker.analytics.dependancies;
+package eu.bankersen.kevin.ql.form.formchecker.analytics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import eu.bankersen.kevin.ql.form.typechecker.errors.CyclicDependencyError;
-import eu.bankersen.kevin.ql.form.typechecker.errors.TypeCheckError;
+import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.CyclicDependency;
+import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.AnalyticsError;
 
 public class DependancyChecker {
 
-	private final List<TypeCheckError> errorList;
+	private final List<AnalyticsError> errorList;
 
-	private final Map<String, Set<String>> questionRelations;
+	private final Map<String, Set<String>> questionRelation;
 	private final LinkedList<Set<String>> ifBlockIdentifiers;
 	private final LinkedList<Set<String>> elseBlockIdentifiers;
 
@@ -27,7 +27,7 @@ public class DependancyChecker {
 	public DependancyChecker() {
 		this.errorList = new ArrayList<>();
 
-		this.questionRelations = new HashMap<>();
+		this.questionRelation = new HashMap<>();
 		this.ifBlockIdentifiers = new LinkedList<>();
 		this.ifBlockIdentifiers.add(new HashSet<>());
 
@@ -39,7 +39,7 @@ public class DependancyChecker {
 		this.ifBlock = true;
 	}
 
-	public List<TypeCheckError> getErrors() {
+	public List<AnalyticsError> getErrors() {
 		errorList.clear();
 		analyzeData();
 		return errorList;
@@ -55,39 +55,39 @@ public class DependancyChecker {
 	}
 
 	private Map<String, Set<String>> computeDependencies() {
-		Map<String, Set<String>> computedDependencies = new HashMap<>();
+		Map<String, Set<String>> foundRelations = new HashMap<>();
 
-		for (String var : questionRelations.keySet()) {
-			Set<String> dependencies = questionRelations.get(var);
-			searchMoreDependencies(dependencies);
-			checkForErrors(dependencies, var);
-			computedDependencies.put(var, dependencies);
+		for (String question : questionRelation.keySet()) {
+			Set<String> identifiers = questionRelation.get(question);
+			searchMoreRelations(identifiers);
+			checkForErrors(question, identifiers);
+			foundRelations.put(question, identifiers);
 
 		}
-		return computedDependencies;
+		return foundRelations;
 	}
 
-	private void searchMoreDependencies(Set<String> dependencies) {
+	private void searchMoreRelations(Set<String> relations) {
 		int previousSize = 0;
 
-		while (dependencies.size() != previousSize) {
-			previousSize = dependencies.size();
-			searchForDependancies(dependencies);
+		while (relations.size() != previousSize) {
+			previousSize = relations.size();
+			searchForDependancies(relations);
 		}
 	}
 
 	private void searchForDependancies(Set<String> dependencies) {
 		for (String var : dependencies.toArray(new String[dependencies.size()])) {
 
-			if (questionRelations.containsKey(var)) {
-				dependencies.addAll(questionRelations.get(var));
+			if (questionRelation.containsKey(var)) {
+				dependencies.addAll(questionRelation.get(var));
 			}
 		}
 	}
 
-	private void checkForErrors(Set<String> dependencies, String var) {
-		if (dependencies.contains(var)) {
-			errorList.add(new CyclicDependencyError(0, var, dependencies));
+	private void checkForErrors(String question, Set<String> identifiers) {
+		if (identifiers.contains(question)) {
+			errorList.add(new CyclicDependency(0, question, identifiers));
 		}
 	}
 
@@ -120,15 +120,15 @@ public class DependancyChecker {
 	}
 
 	private void updateBlock(Set<String> condition, Set<String> ifStat, Set<String> elseStat) {
-		BlockContents data = openBlocks.pollLast();
-		data.setIdentifiers(condition, ifStat, elseStat);
-		processedBlocks.add(data);
+		BlockContents block = openBlocks.pollLast();
+		block.setIdentifiers(condition, ifStat, elseStat);
+		processedBlocks.add(block);
 
 		// Update the now last element
 		if (!openBlocks.isEmpty()) {
-			data = openBlocks.pollLast();
-			data.addInnerBlockIdentifiers(ifStat, elseStat);
-			openBlocks.addLast(data);
+			block = openBlocks.pollLast();
+			block.addInnerBlockIdentifiers(ifStat, elseStat);
+			openBlocks.addLast(block);
 		}
 	}
 
@@ -165,7 +165,7 @@ public class DependancyChecker {
 	private void defineQuestionRelation(String question, Set<String> identifiers) {
 		if (!identifiers.isEmpty()) {
 			Set<String> data = identifiers;
-			questionRelations.put(question, data);
+			questionRelation.put(question, data);
 			identifiers = new HashSet<>();
 		}
 	}
@@ -183,9 +183,9 @@ public class DependancyChecker {
 	}
 
 	private void addDataToSuperBlock(Set<String> data) {
-		if (!data.isEmpty()) {
-			registerInIfBlock(data);
-		}
+		// if (!data.isEmpty()) {
+		// registerInIfBlock(data);
+		// }
 	}
 
 	private class BlockContents {
@@ -213,18 +213,18 @@ public class DependancyChecker {
 			this.ifIdentifiers.addAll(elseIdentifiers);
 		}
 
-		public List<TypeCheckError> scanForDependancies(Map<String, Set<String>> questionDependancies) {
+		public List<AnalyticsError> scanForDependancies(Map<String, Set<String>> questionDependancies) {
 			return scanForRelations(questionDependancies);
 		}
 
-		private List<TypeCheckError> scanForRelations(Map<String, Set<String>> questionDependancies) {
-			List<TypeCheckError> errorList = new ArrayList<>();
+		private List<AnalyticsError> scanForRelations(Map<String, Set<String>> questionDependancies) {
+			List<AnalyticsError> errorList = new ArrayList<>();
 
 			for (String identifier : condition) {
 
 				if (questionDependancies.containsKey(identifier)) {
 					Set<String> conditionRelations = questionDependancies.get(identifier);
-					findRelationWithOwnDependancies(conditionRelations, errorList);
+					checkCondition(conditionRelations, errorList);
 				}
 				findRelationWithDeclaration(identifier, errorList);
 			}
@@ -233,34 +233,34 @@ public class DependancyChecker {
 			return errorList;
 		}
 
-		private void findRelationWithOwnDependancies(Set<String> conditionRelations, List<TypeCheckError> errorList) {
+		private void checkCondition(Set<String> conditionIdentifiers, List<AnalyticsError> errorList) {
 
-			if (containsAnyEqualObject(conditionRelations, ifIdentifiers)) {
-				errorList.add(new CyclicDependencyError(line, condition, ifIdentifiers));
+			if (containsAnyEqualObject(conditionIdentifiers, ifIdentifiers)) {
+				errorList.add(new CyclicDependency(line, condition, ifIdentifiers));
 			}
 
-			if (containsAnyEqualObject(conditionRelations, elseIdentifiers)) {
-				errorList.add(new CyclicDependencyError(line, condition, elseIdentifiers));
+			if (containsAnyEqualObject(conditionIdentifiers, elseIdentifiers)) {
+				errorList.add(new CyclicDependency(line, condition, elseIdentifiers));
 			}
 		}
 
-		private void findRelationWithDeclaration(String identifier, List<TypeCheckError> errorList) {
+		private void findRelationWithDeclaration(String identifier, List<AnalyticsError> errorList) {
 			if (ifIdentifiers.contains(identifier)) {
-				errorList.add(new CyclicDependencyError(line, condition, ifIdentifiers));
+				errorList.add(new CyclicDependency(line, condition, ifIdentifiers));
 			}
 
 			if (elseIdentifiers.contains(identifier)) {
-				errorList.add(new CyclicDependencyError(line, condition, elseIdentifiers));
+				errorList.add(new CyclicDependency(line, condition, elseIdentifiers));
 			}
 		}
 
 		private void findRelationsBetweenIFandElse(Map<String, Set<String>> conditionRelations,
-				List<TypeCheckError> errorList) {
+				List<AnalyticsError> errorList) {
 
 			for (String identifier : ifIdentifiers) {
 				if (conditionRelations.containsKey(identifier)) {
 					if (containsAnyEqualObject(conditionRelations.get(identifier), elseIdentifiers)) {
-						errorList.add(new CyclicDependencyError(line, identifier, elseIdentifiers));
+						errorList.add(new CyclicDependency(line, identifier, elseIdentifiers));
 					}
 				}
 			}
