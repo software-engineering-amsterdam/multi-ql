@@ -5,11 +5,11 @@ import ql.issue.Issue;
 public abstract class Warning extends Issue{
 	@Override
 	public boolean isProblem() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isWarning() {
-		return false;
+		return true;
 	}
 }

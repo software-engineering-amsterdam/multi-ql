@@ -3,10 +3,10 @@ package eu.bankersen.kevin.ql.form;
 import java.io.IOException;
 
 import eu.bankersen.kevin.ql.form.ast.statements.Form;
+import eu.bankersen.kevin.ql.form.formchecker.FormChecker;
+import eu.bankersen.kevin.ql.form.formchecker.InvalidForm;
 import eu.bankersen.kevin.ql.form.parser.ANTLRParseException;
 import eu.bankersen.kevin.ql.form.parser.FormParser;
-import eu.bankersen.kevin.ql.form.typechecker.FormChecker;
-import eu.bankersen.kevin.ql.form.typechecker.InvalidForm;
 import eu.bankersen.kevin.ql.gui.dialog.ErrorMessage;
 import eu.bankersen.kevin.ql.gui.dialog.WarningMessage;
 

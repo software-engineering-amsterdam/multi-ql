@@ -21,7 +21,6 @@ import ql.ast.literal.IntLiteral;
 import ql.ast.literal.StringLiteral;
 import ql.ast.literal.Variable;
 import ql.ast.statement.question.ComputedQuestion;
-import ql.ast.statement.question.InputQuestion;
 import ql.ast.value.BooleanValue;
 import ql.ast.value.IntegerValue;
 import ql.ast.value.Value;
@@ -41,11 +40,6 @@ public class Evaluator extends BasicVisitor<Value> {
 		return null;
 	}
 	
-	public Value visit(InputQuestion inputQuestion){
-		context.getValueForVariable(inputQuestion.getVariable());
-		return null;
-	}
-
 	@Override
 	public Value visit(OrExpression orExpression) {
 		BooleanValue booleanValueLhs = (BooleanValue) orExpression.getLhs().accept(this);

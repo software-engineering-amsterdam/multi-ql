@@ -1,0 +1,18 @@
+form testForm { 
+
+	// Cannot multiply money with money (1 error)
+	"q1"
+	q1: money = (q2 * q2)
+
+	"q2"
+	q2: money
+
+
+	// Cannot perform and on an integer (1 error)
+	"q3"
+	q3: integer
+
+	"q4"
+	q4: boolean = (q3 && q3)
+
+	}

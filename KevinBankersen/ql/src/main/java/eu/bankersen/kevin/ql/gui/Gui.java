@@ -56,8 +56,7 @@ public class Gui extends Application {
 		border.setTop(title);
 		border.setAlignment(title, Pos.CENTER);
 
-		File testFile = new File("C:\\Users\\Kevin\\Documents\\multi-ql\\KevinBankersen\\ql\\resources\\test.form");
-		border.setCenter(openForm(testFile));
+		border.setCenter(openForm(new File("resources\\test.form")));
 
 		Button open = new Button("Open Form");
 		open.setOnAction(new EventHandler<ActionEvent>() {
@@ -101,6 +100,7 @@ public class Gui extends Application {
 		border.setAlignment(footer, Pos.CENTER);
 
 		stack.getChildren().add(border);
+		stage.setResizable(false);
 		stage.setScene(scene);
 		stage.show();
 	}
