@@ -36,7 +36,7 @@ protocol QLExpressionVisitor {
     func visit(node: QLOr, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLLiteralExpression, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     
-    func defaultReturn(expression: QLExpression, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
+    func defaultLeafResult(expression: QLExpression, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
 }
 
 
@@ -46,7 +46,7 @@ protocol TopDownExpression: QLExpressionVisitor {
 }
 extension TopDownExpression {
     func visit(node: QLVariable, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn {
-        return defaultReturn(node, param: param)
+        return defaultLeafResult(node, param: param)
     }
     
     func visitUnary(unary: QLUnary, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn {
@@ -63,7 +63,7 @@ extension TopDownExpression {
         binary.lhs.accept(self, param: param)
         binary.rhs.accept(self, param: param)
         
-        return defaultReturn(binary, param: param)
+        return defaultLeafResult(binary, param: param)
     }
     func visit(node: QLAdd, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn {
         return visitBinary(node, param: param)
@@ -105,6 +105,6 @@ extension TopDownExpression {
         return visitBinary(node, param: param)
     }
     func visit(node: QLLiteralExpression, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn {
-        return defaultReturn(node, param: param)
+        return defaultLeafResult(node, param: param)
     }
 }

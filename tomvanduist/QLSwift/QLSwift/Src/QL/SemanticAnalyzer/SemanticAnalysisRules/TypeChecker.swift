@@ -23,7 +23,7 @@ internal class TypeChecker: SemanticAnalysisRule, TopDown {
 }
 
 
-// MARK: - QLStatementVisitor conformance
+// MARK: - QLStatementVisitor
 
 extension TypeChecker {
     
@@ -42,16 +42,16 @@ extension TypeChecker {
             analysisResult.collectError(TypeMismatchError(description: "If statement condition must be of type Bool: \(node.condition.toString())"))
         }
         
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     
-    func defaultReturn(statement: QLStatement?, param: Context) -> QLType {
+    func defaultLeafResult(statement: QLStatement?, param: Context) -> QLType {
         return QLVoidType()
     }
 }
 
 
-// MARK: - QLExpressionVisitor conformance
+// MARK: - QLExpressionVisitor
 
 extension TypeChecker {
     
@@ -180,13 +180,13 @@ extension TypeChecker {
         return visitBinaryBool(node, context: context)
     }
     
-    func defaultReturn(expression: QLExpression, param: Context) -> QLType {
+    func defaultLeafResult(expression: QLExpression, param: Context) -> QLType {
         return QLUnknownType()
     }
 }
 
 
-// MARK: - QLLiteralVisitor conformance
+// MARK: - QLLiteralVisitor
 
 extension TypeChecker {
     
@@ -206,17 +206,17 @@ extension TypeChecker {
         return QLBooleanType()
     }
     
-    func defaultReturn(literal: QLLiteral, param: Context) -> QLType {
+    func defaultLeafResult(literal: QLLiteral, param: Context) -> QLType {
         fatalError("No generic default type - Visit literal node instead")
     }
 }
 
 
-// MARK: - QLTypeVisitor conformance
+// MARK: - QLTypeVisitor
 
 extension TypeChecker {
 
-    func defaultReturn(type: QLType, param: Context) -> QLType {
+    func defaultLeafResult(type: QLType, param: Context) -> QLType {
         return type
     }
 }
@@ -264,24 +264,24 @@ private class AbstractPropagator: Propagator {
     }
     
     func visit(node: QLStringType, param context: Context) -> AbstractAllowType {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLIntegerType, param context: Context) -> AbstractAllowType {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLFloatType, param context: Context) -> AbstractAllowType {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLBooleanType, param context: Context) -> AbstractAllowType {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLVoidType, param context: Context) -> AbstractAllowType {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLUnknownType, param context: Context) -> AbstractAllowType {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
-    func defaultReturn(type: QLType, param context: Context) -> AbstractAllowType {
+    func defaultLeafResult(type: QLType, param context: Context) -> AbstractAllowType {
         return AbstractAllowType()
     }
 }
@@ -292,24 +292,24 @@ private class AbstractAllowType: AllowType {
     }
     
     func visit(node: QLStringType, param context: Context) -> Bool {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLIntegerType, param context: Context) -> Bool {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLFloatType, param context: Context) -> Bool {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLBooleanType, param context: Context) -> Bool {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLVoidType, param context: Context) -> Bool {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
     func visit(node: QLUnknownType, param context: Context) -> Bool {
-        return defaultReturn(node, param: context)
+        return defaultLeafResult(node, param: context)
     }
-    func defaultReturn(type: QLType, param context: Context) -> Bool {
+    func defaultLeafResult(type: QLType, param context: Context) -> Bool {
         return false
     }
 }

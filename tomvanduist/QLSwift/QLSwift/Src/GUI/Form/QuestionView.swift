@@ -54,6 +54,10 @@ class QuestionView: BaseView, WidgetDelegate, ContextDelegate, TopDownType {
             widget?.setValue(value)
         }
         
+        updateVisibility()
+    }
+    
+    func updateVisibility() {
         self.heightConstraint.active = !question.enabled()
         
         UIView.animateWithDuration(kAnimationDuration) { [unowned self] in
@@ -63,7 +67,7 @@ class QuestionView: BaseView, WidgetDelegate, ContextDelegate, TopDownType {
 }
 
 
-// MARK: - QLContextDelegate conformance
+// MARK: - QLContextDelegate
 
 extension QuestionView {
     
@@ -73,7 +77,7 @@ extension QuestionView {
 }
 
 
-// MARK: - QLTypeVisitor conformance
+// MARK: - QLTypeVisitor
 
 extension QuestionView {
     
@@ -101,7 +105,7 @@ extension QuestionView {
         fatalError()
     }
     
-    func defaultReturn(type: QLType, param: WidgetDelegate) -> ViewWidget {
+    func defaultLeafResult(type: QLType, param: WidgetDelegate) -> ViewWidget {
         fatalError()
     }
 }

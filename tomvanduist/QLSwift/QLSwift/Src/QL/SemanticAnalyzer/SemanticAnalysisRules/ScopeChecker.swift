@@ -41,7 +41,7 @@ internal class ScopeChecker: SemanticAnalysisRule, TopDownStatement, TopDownExpr
 }
 
     
-// MARK: - QLStatementVisitor conformance
+// MARK: - QLStatementVisitor
 
 extension ScopeChecker {
     
@@ -77,21 +77,23 @@ extension ScopeChecker {
         }
     }
     
-    func defaultReturn(statement: QLStatement?, param context: Context) {
+    func defaultLeafResult(statement: QLStatement?, param context: Context) {
         return
     }
 }
 
 
-// MARK: - QLExpressionVisitor conformance
+// MARK: - QLExpressionVisitor
 
 extension ScopeChecker {
     
     func visit(node: QLVariable, param context: Context) {
-        return retrieveType(node.id)
+        if checkScope(node.id) == false {
+            analysisResult.collectError(UndefinedVariableError(description: "Variable \"\(node.id)\" is not defined at this scope"))
+        }
     }
     
-    func defaultReturn(node: QLExpression, param: Context) {
+    func defaultLeafResult(node: QLExpression, param: Context) {
         return
     }
 }
@@ -111,31 +113,28 @@ extension ScopeChecker {
     }
     
     private func assignScope(question: QLQuestion, context: Context) {
-        if let newType = context.retrieveType(question.identifier.id) {
+        let newType = TypeInferer.sharedInstance.inferType(question, context: context)
             
-            // assign
-            defer {
-                scopedMap.assign(question.identifier.id, value: newType)
-            }
-            
-            // Collect any errors or warnings
-            if let currentType = scopedMap.retrieve(question.identifier.id) {
-                if currentType === newType  {
-                    analysisResult.collectWarning(
-                        OverridingVariable(description: "The variable \'\(question.identifier.id)\' overrides an earlier instance.")
-                    )
-                } else if currentType !== QLUnknownType.self {
-                    analysisResult.collectError(
-                        MultipleDeclarations(description: "The variable \'\(question.identifier.id)\' is multiply declared as both \'\(currentType.toString())\' and \'\(newType.toString())\'")
-                    )
-                }
+        // assign
+        defer {
+            scopedMap.assign(question.identifier.id, value: newType)
+        }
+        
+        // Collect any errors or warnings
+        if let currentType = scopedMap.retrieve(question.identifier.id) {
+            if currentType === newType  {
+                analysisResult.collectWarning(
+                    OverridingVariable(description: "The variable \'\(question.identifier.id)\' overrides a different instance.")
+                )
+            } else if currentType !== QLUnknownType.self {
+                analysisResult.collectError(
+                    MultipleDeclarations(description: "The variable \'\(question.identifier.id)\' is multiply declared as both \'\(currentType.toString())\' and \'\(newType.toString())\'")
+                )
             }
         }
     }
     
-    private func retrieveType(identifier: String) {
-        if scopedMap.retrieve(identifier) == nil {
-            analysisResult.collectError(UndefinedVariableError(description: "Variable \"\(identifier)\" is not defined at this scope"))
-        }
+    private func checkScope(identifier: String) -> Bool {
+        return scopedMap.retrieve(identifier) != nil
     }
 }

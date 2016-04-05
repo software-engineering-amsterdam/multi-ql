@@ -23,3 +23,10 @@ form form1 {
         qx: "q4" q3
     }
 }
+
+#->
+
+form form1 {
+    q1: "q1" q2
+    q2: "q2" 1 + q1
+}

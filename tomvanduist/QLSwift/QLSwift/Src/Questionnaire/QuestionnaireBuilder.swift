@@ -18,7 +18,7 @@ class QuestionnaireBuilder: NSObject, TopDownStatement {
 }
 
 
-// MARK: - QLStatementVisitor conformance 
+// MARK: - QLStatementVisitor 
 
 extension QuestionnaireBuilder {
     
@@ -49,7 +49,7 @@ extension QuestionnaireBuilder {
         return questions
     }
     
-    func defaultReturn(statement: QLStatement?, param: (conditions: [QLExpression], context: Context)) -> [Question] {
+    func defaultLeafResult(statement: QLStatement?, param: (conditions: [QLExpression], context: Context)) -> [Question] {
         return []
     }
 }
