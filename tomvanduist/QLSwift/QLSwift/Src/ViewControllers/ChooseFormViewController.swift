@@ -9,10 +9,6 @@
 import UIKit
 
 
-let kSimpleForm = "SimpleForm"
-let kComplexForm = "ComplexForm"
-
-
 class ChooseFormViewController: BaseViewController {
     
     override func viewDidAppear(animated: Bool) {
@@ -59,7 +55,7 @@ class ChooseFormViewController: BaseViewController {
     }
     
     private func displayErrors(error: ErrorType) {
-        showAlert("Error", message: "\(error)", cancelButton: nil, confirmButton: "Ok")
+        showAlert(Alert(title: "Error", message: "\(error)", cancelButton: nil, confirmButton: "Ok"))
     }
 }
 
@@ -67,12 +63,20 @@ class ChooseFormViewController: BaseViewController {
 // MARK: - IBActions
 
 extension ChooseFormViewController {
-    @IBAction func form1Pressed(sender: UIButton) {
-        self.showForm(kSimpleForm)
+    @IBAction func simpleFormPressed(sender: UIButton) {
+        self.showForm("SimpleForm")
     }
     
-    @IBAction func form2Pressed(sender: UIButton) {
-        self.showForm(kComplexForm)
+    @IBAction func complexFormPressed(sender: UIButton) {
+        self.showForm("ComplexForm")
+    }
+    
+    @IBAction func errorFormPressed(sender: UIButton) {
+        self.showForm("ErrorForm")
+    }
+    
+    @IBAction func warningFormPressed(sender: UIButton) {
+        self.showForm("WarningForm")
     }
 }
 
@@ -81,9 +85,11 @@ extension ChooseFormViewController {
 
 extension ChooseFormViewController {
     private func showAlerts(arg errors: [SemanticError], confirmBlock: (() -> Void)? = nil) -> Bool {
-        let errorMessages: [String] = errors.map { "\($0)" }
+        let alerts: [Alert] = errors.map { error in
+            Alert(title: "Error", message: "\(error)", cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
+        }
         
-        return showAlerts("Error", message: errorMessages, cancelButton: nil, confirmButton: "Ok", cancelBlock: nil, confirmBlock: confirmBlock)
+        return showAlerts(alerts)
     }
     
     private func showAlerts(arg error: SemanticError, confirmBlock: (() -> Void)? = nil) -> Bool {
@@ -91,9 +97,11 @@ extension ChooseFormViewController {
     }
     
     private func showAlerts(arg warnings: [SemanticWarning], cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
-        let warningMessages: [String] = warnings.map { "\($0)" }
+        let alerts: [Alert] = warnings.map { warning in
+            Alert(title: "Warning", message: "\(warning)", cancelButton: "Cancel", confirmButton: "Continue", cancelBlock: cancelBlock, confirmBlock: confirmBlock)
+        }
         
-        return showAlerts("Warning", message: warningMessages, cancelButton: "Cancel", confirmButton: "Continue", cancelBlock: cancelBlock, confirmBlock: confirmBlock)
+        return showAlerts(alerts)
     }
     
     private func showAlerts(arg warning: SemanticWarning, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {

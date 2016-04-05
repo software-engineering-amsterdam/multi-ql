@@ -2,7 +2,7 @@ form form1 {
     q1: "q1" boolean
     q2: "q2" 1
 
-    if (q1 && q2) {
+    if (q1 == q2) {
     }
 }
 

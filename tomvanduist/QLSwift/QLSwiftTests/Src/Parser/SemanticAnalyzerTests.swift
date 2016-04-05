@@ -14,7 +14,7 @@ import XCTest
  */
 class SemanticAnalyzerTests: XCTestCase {
     
-    func testValid() {
+    func testValidTyped() {
         runValidForms("TypedValidForm")
     }
     

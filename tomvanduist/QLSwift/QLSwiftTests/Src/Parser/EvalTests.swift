@@ -31,6 +31,13 @@ class EvalTests: XCTestCase {
         )
     }
     
+    func testMul() {
+        eval("EvalMul", expectedValues: [
+            "q1": QLFloat(3)
+            ]
+        )
+    }
+    
     func testAdd() {
         eval("EvalAdd", expectedValues: [
             "q1": 2,

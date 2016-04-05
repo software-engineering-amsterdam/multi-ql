@@ -23,7 +23,7 @@ protocol QLStatementVisitor {
     func visit(node: QLConditional, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
     func visit(node: QLBlock, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
     
-    func defaultReturn(statement: QLStatement?, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
+    func defaultLeafResult(statement: QLStatement?, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
 }
 
 
@@ -31,10 +31,10 @@ protocol TopDownStatement: QLStatementVisitor {
 }
 extension TopDownStatement {
     func visit(node: QLVariableQuestion, param: QLStatementVisitorParam) -> QLStatementVisitorReturn {
-        return defaultReturn(node, param: param)
+        return defaultLeafResult(node, param: param)
     }
     func visit(node: QLComputedQuestion, param: QLStatementVisitorParam) -> QLStatementVisitorReturn {
-        return defaultReturn(node, param: param)
+        return defaultLeafResult(node, param: param)
     }
     func visit(node: QLConditional, param: QLStatementVisitorParam) -> QLStatementVisitorReturn {
         return node.ifBlock.accept(self, param: param)
@@ -44,6 +44,6 @@ extension TopDownStatement {
             statement.accept(self, param: param)
         }
         
-        return defaultReturn(nil, param: param)
+        return defaultLeafResult(nil, param: param)
     }
 }

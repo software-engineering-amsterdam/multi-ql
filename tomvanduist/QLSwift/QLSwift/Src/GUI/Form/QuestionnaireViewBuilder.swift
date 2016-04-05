@@ -18,15 +18,15 @@ class QuestionnaireViewBuilder {
     
     // MARK: - Private 
     
-    private func createQuestionnaireView(questionnaire: Questionnaire) -> UIView {
-        let questionnaireView = UIView()
+    private func createQuestionnaireView(questionnaire: Questionnaire) -> QuestionnaireView {
+        let questionnaireView = QuestionnaireView()
         
         if let question = questionnaire.questions.first {
-            var prevView = placeQuestion(question, superView: questionnaireView, prevView: nil, nextView: questionnaire.questions.count == 1 ? questionnaireView : nil)
+            var prevView = placeQuestionBetween(question, superView: questionnaireView, prevView: nil, nextView: questionnaire.questions.count == 1 ? questionnaireView : nil)
             
             if questionnaire.questions.count > 1 {
                 for i in 1...(questionnaire.questions.count-1) {
-                    prevView = placeQuestion(questionnaire.questions[i], superView: questionnaireView, prevView: prevView, nextView: questionnaire.questions.count == i+1 ? questionnaireView : nil)
+                    prevView = placeQuestionBetween(questionnaire.questions[i], superView: questionnaireView, prevView: prevView, nextView: questionnaire.questions.count == i+1 ? questionnaireView : nil)
                 }
             }
         }
@@ -34,7 +34,7 @@ class QuestionnaireViewBuilder {
         return questionnaireView
     }
     
-    private func placeQuestion(question: Question, superView: UIView, prevView: UIView?, nextView: UIView?) -> UIView {
+    private func placeQuestionBetween(question: Question, superView: UIView, prevView: UIView?, nextView: UIView?) -> UIView {
         let questionView = QuestionView(question: question)
         
         superView.addSubview(questionView)

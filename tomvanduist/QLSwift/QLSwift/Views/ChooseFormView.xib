@@ -16,31 +16,56 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jmy-UK-CbP">
-                    <rect key="frame" x="250" y="250" width="100" height="100"/>
+                    <rect key="frame" x="250" y="180" width="100" height="240"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwI-VM-Fr5">
                             <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
                             <state key="normal" title="Simple Form"/>
                             <connections>
-                                <action selector="form1Pressed:" destination="-1" eventType="touchUpInside" id="L6b-J3-gcN"/>
+                                <action selector="simpleFormPressed:" destination="-1" eventType="touchUpInside" id="tgD-GZ-L6V"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U3O-gh-oCU">
                             <rect key="frame" x="0.0" y="70" width="100" height="30"/>
                             <state key="normal" title="Complex Form"/>
                             <connections>
-                                <action selector="form2Pressed:" destination="-1" eventType="touchUpInside" id="rmg-qA-tgN"/>
+                                <action selector="complexFormPressed:" destination="-1" eventType="touchUpInside" id="SU4-vM-Efq"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Io-Dz-rn0" userLabel="Error Form">
+                            <rect key="frame" x="0.0" y="140" width="100" height="30"/>
+                            <state key="normal" title="Error Form">
+                                <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="errorFormPressed:" destination="-1" eventType="touchUpInside" id="TL5-HW-tY8"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZTE-vi-cXP" userLabel="Warning Form">
+                            <rect key="frame" x="0.0" y="210" width="100" height="30"/>
+                            <state key="normal" title="Warning Form">
+                                <color key="titleColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="warningFormPressed:" destination="-1" eventType="touchUpInside" id="Dak-Xf-l5B"/>
                             </connections>
                         </button>
                     </subviews>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="4Io-Dz-rn0" secondAttribute="trailing" id="0IB-uh-w7x"/>
                         <constraint firstAttribute="trailing" secondItem="U3O-gh-oCU" secondAttribute="trailing" id="0hn-yV-oPo"/>
                         <constraint firstAttribute="trailing" secondItem="EwI-VM-Fr5" secondAttribute="trailing" id="1zZ-uj-wkh"/>
                         <constraint firstItem="EwI-VM-Fr5" firstAttribute="leading" secondItem="Jmy-UK-CbP" secondAttribute="leading" id="7HW-OF-vtl"/>
-                        <constraint firstAttribute="bottom" secondItem="U3O-gh-oCU" secondAttribute="bottom" id="hLo-Fe-coM"/>
+                        <constraint firstItem="ZTE-vi-cXP" firstAttribute="top" secondItem="4Io-Dz-rn0" secondAttribute="bottom" constant="40" id="FUn-Fz-TYY"/>
+                        <constraint firstItem="4Io-Dz-rn0" firstAttribute="top" secondItem="U3O-gh-oCU" secondAttribute="bottom" constant="40" id="VQe-00-aOv"/>
+                        <constraint firstItem="ZTE-vi-cXP" firstAttribute="top" secondItem="4Io-Dz-rn0" secondAttribute="bottom" constant="40" id="by5-q9-2xH"/>
+                        <constraint firstItem="ZTE-vi-cXP" firstAttribute="leading" secondItem="Jmy-UK-CbP" secondAttribute="leading" id="f3T-sI-7iZ"/>
+                        <constraint firstAttribute="bottom" secondItem="ZTE-vi-cXP" secondAttribute="bottom" id="i7k-qv-eu4"/>
                         <constraint firstItem="U3O-gh-oCU" firstAttribute="leading" secondItem="Jmy-UK-CbP" secondAttribute="leading" id="nKS-MI-yq5"/>
+                        <constraint firstItem="4Io-Dz-rn0" firstAttribute="leading" secondItem="Jmy-UK-CbP" secondAttribute="leading" id="owx-Fl-7eA"/>
                         <constraint firstItem="EwI-VM-Fr5" firstAttribute="top" secondItem="Jmy-UK-CbP" secondAttribute="top" id="q9X-1I-aC9"/>
                         <constraint firstItem="U3O-gh-oCU" firstAttribute="top" secondItem="EwI-VM-Fr5" secondAttribute="bottom" constant="40" id="sRA-av-mts"/>
+                        <constraint firstAttribute="trailing" secondItem="ZTE-vi-cXP" secondAttribute="trailing" id="zE6-bO-O1l"/>
                     </constraints>
                 </view>
             </subviews>
@@ -49,6 +74,7 @@
                 <constraint firstItem="Jmy-UK-CbP" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="8Hc-Uq-oB9"/>
                 <constraint firstItem="Jmy-UK-CbP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="DCi-uW-qXD"/>
             </constraints>
+            <point key="canvasLocation" x="264" y="363"/>
         </view>
     </objects>
 </document>

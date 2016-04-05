@@ -53,7 +53,7 @@ class QLParser: NSObject {
     }
     
     private func statement() -> GenericParser<String, (), QLStatement> {
-        return ifStatement() <|> question()
+        return ifStatement().attempt <|> question()
     }
     
     private func question() -> GenericParser<String, (), QLStatement> {
@@ -145,24 +145,31 @@ class QLParser: NSObject {
         return lexer.identifier.map { id in QLVariable(id: id) }
     }
     
+    private func operatorParser<T, U>(op: String, function: U -> T) -> GenericParser<String, (), U -> T> {
+        return lexer.symbol(op) *> GenericParser(result: function)
+    }
+    
     private func binary(name: String, function: (QLExpression, QLExpression) -> QLExpression, assoc: Associativity) -> Operator<String, (), QLExpression> {
-        let opParser = (lexer.symbol(name + "=").attempt <|> lexer.symbol(name)) *> GenericParser(result: function)
+        let opParser = operatorParser(name, function: function)
         return .Infix(opParser, assoc)
     }
     
+    /**
+     * Workaround to be able to parse both >= and > operators
+     */
     private func binary(first: (name: String, function: (QLExpression, QLExpression) -> QLExpression),
                   alternative: (name: String, function: (QLExpression, QLExpression) -> QLExpression),
                         assoc: Associativity) -> Operator<String, (), QLExpression> {
                             
-        let opParser =  (lexer.symbol(first.name) *> GenericParser(result: first.function)).attempt
+        let opParser =  operatorParser(first.name, function: first.function).attempt
                             <|>
-                        (lexer.symbol(alternative.name) *> GenericParser(result: alternative.function))
+                        operatorParser(alternative.name, function: alternative.function)
                             
         return .Infix(opParser, assoc)
     }
     
     private func prefix(name: String, function: QLExpression -> QLExpression) -> Operator<String, (), QLExpression> {
-        let opParser = lexer.symbol(name) *> GenericParser(result: function)
+        let opParser = operatorParser(name, function: function)
         return .Prefix(opParser)
     }
     
