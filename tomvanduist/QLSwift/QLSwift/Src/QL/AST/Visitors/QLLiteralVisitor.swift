@@ -15,8 +15,8 @@ protocol QLLiteralVisitable {
 
 
 protocol QLLiteralVisitor {
-    typealias QLLiteralVisitorParam
-    typealias QLLiteralVisitorReturn
+    associatedtype QLLiteralVisitorParam
+    associatedtype QLLiteralVisitorReturn
     
     func visit(node: QLStringLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn
     func visit(node: QLIntegerLiteral, param: QLLiteralVisitorParam) -> QLLiteralVisitorReturn

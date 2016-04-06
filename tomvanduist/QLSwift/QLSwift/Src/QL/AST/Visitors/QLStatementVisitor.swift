@@ -15,8 +15,8 @@ protocol QLStatementVisitable {
 
 
 protocol QLStatementVisitor {
-    typealias QLStatementVisitorParam
-    typealias QLStatementVisitorReturn
+    associatedtype QLStatementVisitorParam
+    associatedtype QLStatementVisitorReturn
     
     func visit(node: QLVariableQuestion, param: QLStatementVisitorParam) -> QLStatementVisitorReturn
     func visit(node: QLComputedQuestion, param: QLStatementVisitorParam) -> QLStatementVisitorReturn

@@ -15,8 +15,8 @@ protocol QLTypeVisitable {
 
 
 protocol QLTypeVisitor {
-    typealias QLTypeVisitorParam
-    typealias QLTypeVisitorReturn
+    associatedtype QLTypeVisitorParam
+    associatedtype QLTypeVisitorReturn
     
     func visit(node: QLStringType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn
     func visit(node: QLIntegerType, param: QLTypeVisitorParam) -> QLTypeVisitorReturn

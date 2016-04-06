@@ -21,7 +21,7 @@ class FloatWidget: ViewWidget, UITextFieldDelegate {
             textField.textAlignment = .Right
             textField.delegate = self
             textField.placeholder = ""
-            textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+            textField.addTarget(self, action: #selector(FloatWidget.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
             
             self.addSubview(textField)
             
@@ -57,7 +57,7 @@ class FloatWidget: ViewWidget, UITextFieldDelegate {
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, var replacementString string: String) -> Bool {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let digits = NSCharacterSet.decimalDigitCharacterSet().mutableCopy()
         digits.addCharactersInString(".")
         

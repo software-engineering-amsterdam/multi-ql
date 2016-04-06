@@ -45,9 +45,11 @@ class QLParser: NSObject {
     
     private func block() -> GenericParser<String, (), QLBlock> {
         return lexer.braces(
-            statement().manyAccumulator { (acc, var stmts) in
-                stmts.append(acc)
-                return stmts
+            statement().manyAccumulator { (acc, stmts) in
+                var newStmts = stmts
+                
+                newStmts.append(acc)
+                return newStmts
             }
         ).map { stmts in QLBlock(block: stmts) }
     }

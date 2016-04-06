@@ -18,7 +18,7 @@ class IntegerWidget: ViewWidget, UITextFieldDelegate {
             textField.textAlignment = .Right
             textField.delegate = self
             textField.placeholder = ""
-            textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+            textField.addTarget(self, action: #selector(IntegerWidget.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
             
             self.addSubview(textField)
             
