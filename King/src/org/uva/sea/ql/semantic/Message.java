@@ -1,26 +1,35 @@
 package org.uva.sea.ql.semantic;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class Message {
 
 	private final Map<String,String> warnings;
-	private final List<String> errors;
+	private final Map<String,Set<String>> errors;
 
 	public Message() {
 		warnings = new HashMap<>();
-		errors = new ArrayList<>();
+		errors = new HashMap<String, Set<String>>();
 	}
 
 	public void addWarning(String identifier,String msg) {
 		warnings.put(identifier,msg);
 	}
 
-	public void addError(String msg) {
-		errors.add(msg);
+	public void addError(String identifier,String msg) {
+		Set<String> errorSet;
+		if(!errors.containsKey(identifier)){
+			 errorSet = new HashSet<>();
+		}else{
+			errorSet = errors.get(identifier);
+		}
+		errorSet.add(msg);
+		
+		errors.put(identifier, errorSet);
 	}
 
 	public boolean hasErrors() {
@@ -31,7 +40,7 @@ public class Message {
 		return warnings.containsKey(questionText);
 	}
 
-	public List<String> getErrors() {
+	public Map<String,Set<String>> getErrors() {
 		return errors;
 	}
 
@@ -49,9 +58,11 @@ public class Message {
 
 	public void print() {
 		if (hasErrors()) {
-			for (String error : errors) {
-				System.err.println(error);
-
+			for (Entry<String, Set<String>> setErrors : errors.entrySet()) {
+				for (String error : setErrors.getValue()) {
+					System.err.println(error);
+				}
+				
 			}
 		}
 		System.out.println("\n");

@@ -86,7 +86,7 @@ public class QLController
 	@Override
 	public void visit(IFblock statement) {
 		isInCondition = true;
-		Value condition = statement.getCondition().accept(this);
+		Value condition = statement.getCondition().accept(this,false);
 		isInCondition = false;
 		Value trueCondition = new BooleanValue(true);
 		if (condition.equal(trueCondition).getBooleanValue()) {
@@ -142,7 +142,7 @@ public class QLController
 
 	private void addReadOnlyQuestionToQLView(ReadOnlyQuestion readOnlyQuestion, String identifier, String text,
 			Type qType) {
-		Value computed = readOnlyQuestion.getExpression().accept(this);
+		Value computed = readOnlyQuestion.getExpression().accept(this,false);
 		identifierValues.addQLIdentifier(identifier, computed);
 		if (qType.equals(new MoneyType())) {
 			addTextQuestionToQLView(identifier, text, computed.getMoneyValue().toString(),false);
@@ -195,129 +195,129 @@ public class QLController
 	}
 
 	@Override
-	public Value visit(Add add) {
-		Value left = add.getFirstExpression().accept(this);
-		Value right = add.getSecondExpression().accept(this);
+	public Value visit(Add add, boolean context) {
+		Value left = add.getFirstExpression().accept(this,context);
+		Value right = add.getSecondExpression().accept(this,context);
 		return left.add(right);
 	}
 
 	@Override
-	public Value visit(AND and) {
-		Value left = and.getFirstExpression().accept(this);
-		Value right = and.getSecondExpression().accept(this);
+	public Value visit(AND and, boolean context) {
+		Value left = and.getFirstExpression().accept(this,context);
+		Value right = and.getSecondExpression().accept(this,context);
 		return left.and(right);
 	}
 
 	@Override
-	public Value visit(Div div) {
-		Value left = div.getFirstExpression().accept(this);
-		Value right = div.getSecondExpression().accept(this);
+	public Value visit(Div div, boolean context) {
+		Value left = div.getFirstExpression().accept(this,context);
+		Value right = div.getSecondExpression().accept(this,context);
 		return left.div(right);
 	}
 
 	@Override
-	public Value visit(Equal eq) {
-		Value left = eq.getFirstExpression().accept(this);
-		Value right = eq.getSecondExpression().accept(this);
+	public Value visit(Equal eq, boolean context) {
+		Value left = eq.getFirstExpression().accept(this,context);
+		Value right = eq.getSecondExpression().accept(this,context);
 		return left.equal(right);
 	}
 
 	@Override
-	public Value visit(GreaterOrEqual geq) {
-		Value left = geq.getFirstExpression().accept(this);
-		Value right = geq.getSecondExpression().accept(this);
+	public Value visit(GreaterOrEqual geq, boolean context) {
+		Value left = geq.getFirstExpression().accept(this,context);
+		Value right = geq.getSecondExpression().accept(this,context);
 		return left.greaterOrEqual(right);
 	}
 
 	@Override
-	public Value visit(GreaterThan gt) {
-		Value left = gt.getFirstExpression().accept(this);
-		Value right = gt.getSecondExpression().accept(this);
+	public Value visit(GreaterThan gt, boolean context) {
+		Value left = gt.getFirstExpression().accept(this,context);
+		Value right = gt.getSecondExpression().accept(this,context);
 		return left.greaterThan(right);
 	}
 
 	@Override
-	public Value visit(SmallerOrEqual leq) {
-		Value left = leq.getFirstExpression().accept(this);
-		Value right = leq.getSecondExpression().accept(this);
+	public Value visit(SmallerOrEqual leq, boolean context) {
+		Value left = leq.getFirstExpression().accept(this,context);
+		Value right = leq.getSecondExpression().accept(this,context);
 		return left.lessOrEqual(right);
 	}
 
 	@Override
-	public Value visit(SmallerThan lt) {
-		Value left = lt.getFirstExpression().accept(this);
-		Value right = lt.getSecondExpression().accept(this);
+	public Value visit(SmallerThan lt, boolean context) {
+		Value left = lt.getFirstExpression().accept(this,context);
+		Value right = lt.getSecondExpression().accept(this,context);
 		return left.lessThan(right);
 	}
 
 	@Override
-	public Value visit(Mul mul) {
-		Value left = mul.getFirstExpression().accept(this);
-		Value right = mul.getSecondExpression().accept(this);
+	public Value visit(Mul mul, boolean context) {
+		Value left = mul.getFirstExpression().accept(this,context);
+		Value right = mul.getSecondExpression().accept(this,context);
 		return left.mul(right);
 	}
 
 	@Override
-	public Value visit(NotEqual neq) {
-		Value left = neq.getFirstExpression().accept(this);
-		Value right = neq.getSecondExpression().accept(this);
+	public Value visit(NotEqual neq, boolean context) {
+		Value left = neq.getFirstExpression().accept(this,context);
+		Value right = neq.getSecondExpression().accept(this,context);
 		return left.notEqual(right);
 	}
 
 	@Override
-	public Value visit(Negative neg) {
-		Value e = neg.getExpression().accept(this);
+	public Value visit(Negative neg, boolean context) {
+		Value e = neg.getExpression().accept(this,context);
 		return e.negative();
 	}
 
 	@Override
-	public Value visit(NOT not) {
-		Value e = not.getExpression().accept(this);
+	public Value visit(NOT not, boolean context) {
+		Value e = not.getExpression().accept(this,context);
 		return e.not();
 	}
 
 	@Override
-	public Value visit(OR or) {
-		Value left = or.getFirstExpression().accept(this);
-		Value right = or.getSecondExpression().accept(this);
+	public Value visit(OR or, boolean context) {
+		Value left = or.getFirstExpression().accept(this,context);
+		Value right = or.getSecondExpression().accept(this,context);
 		return left.or(right);
 	}
 
 	@Override
-	public Value visit(Positive pos) {
-		Value e = pos.getExpression().accept(this);
+	public Value visit(Positive pos, boolean context) {
+		Value e = pos.getExpression().accept(this,context);
 		return e.positive();
 	}
 
 	@Override
-	public Value visit(Sub sub) {
-		Value left = sub.getFirstExpression().accept(this);
-		Value right = sub.getSecondExpression().accept(this);
+	public Value visit(Sub sub, boolean context) {
+		Value left = sub.getFirstExpression().accept(this,context);
+		Value right = sub.getSecondExpression().accept(this,context);
 		return left.sub(right);
 	}
 
 	@Override
-	public Value visit(IntegerLiteral intLiteral) {
+	public Value visit(IntegerLiteral intLiteral, boolean context) {
 		return new IntegerValue(intLiteral.getValue());
 	}
 
 	@Override
-	public Value visit(BooleanLiteral boolLiteral) {
+	public Value visit(BooleanLiteral boolLiteral, boolean context) {
 		return new BooleanValue(boolLiteral.getValue());
 	}
 
 	@Override
-	public Value visit(StringLiteral stringLiteral) {
+	public Value visit(StringLiteral stringLiteral, boolean context) {
 		return new StringValue(stringLiteral.getValue());
 	}
 
 	@Override
-	public Value visit(MoneyLiteral moneyLiteral) {
+	public Value visit(MoneyLiteral moneyLiteral, boolean context) {
 		return new MoneyValue(moneyLiteral.getValue());
 	}
 
 	@Override
-	public Value visit(VarExpr varExpr) {
+	public Value visit(VarExpr varExpr, boolean context) {
 		if (isInCondition) {
 			conditionId.add(varExpr.getIdentifierName());
 		}

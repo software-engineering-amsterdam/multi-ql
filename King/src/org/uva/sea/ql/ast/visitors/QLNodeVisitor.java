@@ -23,44 +23,44 @@ import org.uva.sea.ql.ast.expr.unary.Positive;
 
 public interface QLNodeVisitor<T> {
 
-	public T visit(Add add);
+	public T visit(Add add, boolean context);
 
-	public T visit(AND and);
+	public T visit(AND and, boolean context);
 
-	public T visit(Div div);
+	public T visit(Div div, boolean context);
 
-	public T visit(Equal eq);
+	public T visit(Equal eq, boolean context);
 
-	public T visit(GreaterOrEqual geq);
+	public T visit(GreaterOrEqual geq, boolean context);
 
-	public T visit(GreaterThan gt);
+	public T visit(GreaterThan gt, boolean context);
 
-	public T visit(SmallerOrEqual leq);
+	public T visit(SmallerOrEqual leq, boolean context);
 
-	public T visit(SmallerThan lt);
+	public T visit(SmallerThan lt, boolean context);
 
-	public T visit(Mul mul);
+	public T visit(Mul mul, boolean context);
 
-	public T visit(NotEqual neq);
+	public T visit(NotEqual neq, boolean context);
 
-	public T visit(Negative neg);
+	public T visit(Negative neg, boolean context);
 
-	public T visit(NOT not);
+	public T visit(NOT not, boolean context);
 
-	public T visit(OR or);
+	public T visit(OR or, boolean context);
 
-	public T visit(Positive pos);
+	public T visit(Positive pos, boolean context);
 
-	public T visit(Sub sub);
+	public T visit(Sub sub, boolean context);
 
-	public T visit(IntegerLiteral intLiteral);
+	public T visit(IntegerLiteral intLiteral, boolean context);
 
-	public T visit(BooleanLiteral boolLiteral);
+	public T visit(BooleanLiteral boolLiteral, boolean context);
 
-	public T visit(StringLiteral stringLiteral);
+	public T visit(StringLiteral stringLiteral, boolean context);
 
-	public T visit(MoneyLiteral moneyLiteral);
+	public T visit(MoneyLiteral moneyLiteral, boolean context);
 
-	public T visit(VarExpr varExpr);
+	public T visit(VarExpr varExpr, boolean context);
 
 }

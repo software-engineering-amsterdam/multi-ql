@@ -1,22 +1,25 @@
-package org.uva.sea.ql.main;
+package org.uva.sea.ql.test;
+
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.junit.Test;
 import org.uva.sea.ql.ast.domain.Form;
-import org.uva.sea.ql.gui.QLController;
-import org.uva.sea.ql.gui.QLView;
 import org.uva.sea.ql.parser.antlr.QLLexer;
 import org.uva.sea.ql.parser.antlr.QLParser;
 import org.uva.sea.ql.parser.antlr.QLParser.FileContext;
+import org.uva.sea.ql.semantic.Message;
 import org.uva.sea.ql.semantic.TypeChecker;
 
-public class MainQL {
+public class ReferenceUndifiedQuestion {
 
-	public static void main(String[] args) throws IOException {
-		ANTLRInputStream input = new ANTLRFileStream(new File("resources/questionaire.gr").getPath());
+	@Test
+	public void testReferenceUndifiedQuestion() throws IOException {
+		ANTLRInputStream input = new ANTLRFileStream(new File("resources/test/questionairetestrefence.gr").getPath());
 		QLLexer lexer = new QLLexer(input);
 
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -26,19 +29,11 @@ public class MainQL {
 		Form ast = fileContext.form(0).result;
 		TypeChecker typeChecker = new TypeChecker(ast);
 		typeChecker.addOtherSymanticErrors();
-		if(typeChecker.hasErrorMessages()){
-			typeChecker.printSemanticMessages();
-			//exit program if errors occurs
-			System.exit(0);
-		}
-		showQL(ast, typeChecker);
-		
-	}
-
-	private static void showQL(Form ast, TypeChecker typeChecker) {
-		QLView qLView = new QLView();
-		QLController qlController = new QLController(ast, qLView,typeChecker.getQLAllSemanticMessages(),typeChecker.getQLSymbolsTbale());
-		qlController.showQLview();
+		String errorKey = "undefined";
+		Message actual = typeChecker.getQLAllSemanticMessages();
+		Message expected = new Message();
+		expected.addError(errorKey,"privateDebt reference to undefined question");
+		assertEquals(expected.getErrors().get(errorKey), actual.getErrors().get(errorKey));
 	}
 
 }

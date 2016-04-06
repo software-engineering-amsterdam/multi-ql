@@ -2,7 +2,6 @@ package org.uva.sea.ql.ast;
 
 import org.uva.sea.ql.ast.expr.type.Type;
 
-//Remove the get types
 public class VarIdentifier {
 	private final String name;
 

@@ -31,7 +31,7 @@ public class QLView extends JFrame {
 
 	public void addQuestionView(QLViewInputTextQuestion textQuestionView) {
 		JPanel blockInner = new JPanel();
-		blockInner.setLayout(new GridLayout(0, 3));
+		blockInner.setLayout(new GridLayout(0, 2));
 		blockInner.add(textQuestionView.getqLQuestionText().getQlComponent());
 		if (!textQuestionView.isEditable()) {
 			textQuestionView.lockQLViewInputTextQuestion();

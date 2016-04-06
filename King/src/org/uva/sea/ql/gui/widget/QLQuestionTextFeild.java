@@ -5,8 +5,8 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 import org.uva.sea.ql.gui.QLTextFeildQuesionListener;
 
 public class QLQuestionTextFeild extends Widget implements KeyListener{
@@ -48,8 +48,17 @@ public class QLQuestionTextFeild extends Widget implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		fireQLTextInputQuestion();
+		if(isNumeric(this.getQlComponentText())){
+			fireQLTextInputQuestion();
+		}else{
+			JOptionPane.showMessageDialog(null, "Invalid entry. Please enter numerics");
+		}
+		
 
+	}
+	private boolean isNumeric(String str)
+	{
+	  return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
 	}
 
 	@Override

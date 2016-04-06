@@ -10,8 +10,8 @@ public class Positive extends UnaryExpression {
 	}
 
 	@Override
-	public <T> T accept(QLNodeVisitor<T> visitor) {
-		return visitor.visit(this);
+	public <T> T accept(QLNodeVisitor<T> visitor, boolean context) {
+		return visitor.visit(this,context);
 	}
 
 }

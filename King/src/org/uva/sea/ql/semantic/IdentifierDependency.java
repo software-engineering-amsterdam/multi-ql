@@ -34,114 +34,114 @@ public class IdentifierDependency implements QLNodeVisitor<Set<String>> {
 	}
 
 	@Override
-	public Set<String> visit(Add add) {
-		return visitBinaryExpression(add);
+	public Set<String> visit(Add add, boolean context) {
+		return visitBinaryExpression(add,context);
 	}
 
 	@Override
-	public Set<String> visit(AND and) {
-		return visitBinaryExpression(and);
+	public Set<String> visit(AND and, boolean context) {
+		return visitBinaryExpression(and,context);
 	}
 
 	@Override
-	public Set<String> visit(Div div) {
-		return visitBinaryExpression(div);
+	public Set<String> visit(Div div, boolean context) {
+		return visitBinaryExpression(div,context);
 	}
 
 	@Override
-	public Set<String> visit(Equal eq) {
-		return visitBinaryExpression(eq);
+	public Set<String> visit(Equal eq, boolean context) {
+		return visitBinaryExpression(eq,context);
 	}
 
 	@Override
-	public Set<String> visit(GreaterOrEqual geq) {
-		return visitBinaryExpression(geq);
+	public Set<String> visit(GreaterOrEqual geq, boolean context) {
+		return visitBinaryExpression(geq,context);
 	}
 
 	@Override
-	public Set<String> visit(GreaterThan gt) {
-		return visitBinaryExpression(gt);
+	public Set<String> visit(GreaterThan gt, boolean context) {
+		return visitBinaryExpression(gt,context);
 	}
 
 	@Override
-	public Set<String> visit(SmallerOrEqual leq) {
-		return visitBinaryExpression(leq);
+	public Set<String> visit(SmallerOrEqual leq, boolean context) {
+		return visitBinaryExpression(leq,context);
 	}
 
 	@Override
-	public Set<String> visit(SmallerThan lt) {
-		return visitBinaryExpression(lt);
+	public Set<String> visit(SmallerThan lt, boolean context) {
+		return visitBinaryExpression(lt,context);
 	}
 
 	@Override
-	public Set<String> visit(Mul mul) {
-		return visitBinaryExpression(mul);
+	public Set<String> visit(Mul mul, boolean context) {
+		return visitBinaryExpression(mul,context);
 	}
 
 	@Override
-	public Set<String> visit(NotEqual neq) {
-		return visitBinaryExpression(neq);
+	public Set<String> visit(NotEqual neq, boolean context) {
+		return visitBinaryExpression(neq,context);
 	}
 
 	@Override
-	public Set<String> visit(Negative neg) {
-		return visitUnaryExpression(neg);
+	public Set<String> visit(Negative neg, boolean context) {
+		return visitUnaryExpression(neg,context);
 	}
 
 	@Override
-	public Set<String> visit(NOT not) {
-		return visitUnaryExpression(not);
+	public Set<String> visit(NOT not, boolean context) {
+		return visitUnaryExpression(not,context);
 	}
 
 	@Override
-	public Set<String> visit(OR or) {
-		return visitBinaryExpression(or);
+	public Set<String> visit(OR or, boolean context) {
+		return visitBinaryExpression(or,context);
 	}
 
 	@Override
-	public Set<String> visit(Positive pos) {
-		return visitUnaryExpression(pos);
+	public Set<String> visit(Positive pos, boolean context) {
+		return visitUnaryExpression(pos,context);
 	}
 
 	@Override
-	public Set<String> visit(Sub sub) {
-		return visitBinaryExpression(sub);
+	public Set<String> visit(Sub sub, boolean context) {
+		return visitBinaryExpression(sub,context);
 	}
 
 	@Override
-	public Set<String> visit(IntegerLiteral intLiteral) {
+	public Set<String> visit(IntegerLiteral intLiteral, boolean context) {
 		return identifiers;
 	}
 
 	@Override
-	public Set<String> visit(BooleanLiteral boolLiteral) {
+	public Set<String> visit(BooleanLiteral boolLiteral, boolean context) {
 		return identifiers;
 	}
 
 	@Override
-	public Set<String> visit(StringLiteral stringLiteral) {
+	public Set<String> visit(StringLiteral stringLiteral, boolean context) {
 		return identifiers;
 	}
 
 	@Override
-	public Set<String> visit(MoneyLiteral moneyLiteral) {
+	public Set<String> visit(MoneyLiteral moneyLiteral, boolean context) {
 		return identifiers;
 	}
 
 	@Override
-	public Set<String> visit(VarExpr varExpr) {
+	public Set<String> visit(VarExpr varExpr, boolean context) {
 		identifiers.add(varExpr.getIdentifier().getName());
 		return identifiers;
 	}
 
-	public Set<String> visitBinaryExpression(BinaryExpression binaryExpression) {
-		binaryExpression.getFirstExpression().accept(this);
-		binaryExpression.getSecondExpression().accept(this);
+	public Set<String> visitBinaryExpression(BinaryExpression binaryExpression, boolean context) {
+		binaryExpression.getFirstExpression().accept(this,context);
+		binaryExpression.getSecondExpression().accept(this,context);
 		return identifiers;
 	}
 
-	public Set<String> visitUnaryExpression(UnaryExpression unaryExpression) {
-		unaryExpression.getExpression().accept(this);
+	public Set<String> visitUnaryExpression(UnaryExpression unaryExpression, boolean context) {
+		unaryExpression.getExpression().accept(this,context);
 		return identifiers;
 	}
 

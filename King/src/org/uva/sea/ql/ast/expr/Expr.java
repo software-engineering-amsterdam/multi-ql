@@ -5,6 +5,6 @@ import org.uva.sea.ql.ast.visitors.QLNodeVisitor;
 
 public abstract class Expr extends ASTNode {
 
-	public abstract <T> T accept(QLNodeVisitor<T> visitor);
+	public abstract <T> T accept(QLNodeVisitor<T> visitor, boolean context);
 
 }

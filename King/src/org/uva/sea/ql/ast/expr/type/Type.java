@@ -13,7 +13,6 @@ public class Type {
 	}
 
 	public boolean equals(Type type) {
-		// TODO Auto-generated method stub
 		return name.equals(type.getName());
 	}
 
