@@ -13,7 +13,8 @@ extension String {
     /// - parameters:
     ///   - codeUnits: Sequence of code units.
     ///   - codec: A unicode encoding scheme.
-    init?<C: UnicodeCodecType, S: SequenceType where S.Generator.Element == C.CodeUnit>(codeUnits: S, var codec: C) {
+    init?<C: UnicodeCodecType, S: SequenceType where S.Generator.Element == C.CodeUnit>(codeUnits: S, codec: C) {
+        var newCodec = codec
         
         var str = ""
         
@@ -21,7 +22,7 @@ extension String {
         var done = false
         while !done {
             
-            let result = codec.decode(&generator)
+            let result = newCodec.decode(&generator)
             switch result {
                 
             case .EmptyInput: done = true

@@ -15,16 +15,16 @@ import Foundation
 public protocol ParsecType {
     
     /// The input stream to parse.
-    typealias Stream: StreamType
+    associatedtype Stream: StreamType
     
     /// The state supplied by the user.
-    typealias UserState
+    associatedtype UserState
     
     /// The result of the parser.
-    typealias Result
+    associatedtype Result
     
     /// A combined parser.
-    typealias CombinedParser = Self
+    associatedtype CombinedParser = Self
     
     /// See `GenericParser` documentation.
     func map<T>(transform: Result -> T) -> GenericParser<Stream, UserState, T>
@@ -354,10 +354,11 @@ public final class GenericParser<Stream: StreamType, UserState, Result>: ParsecT
     ///     }
     public var many: GenericParser<Stream, UserState, [Result]> {
         
-        return manyAccumulator { (result, var results) in
+        return manyAccumulator { (result, results) in
+            var newResults = results
             
-            results.append(result)
-            return results
+            newResults.append(result)
+            return newResults
             
         }
         
@@ -654,14 +655,15 @@ public final class GenericParser<Stream: StreamType, UserState, Result>: ParsecT
     /// - returns: An empty parser that will update the `UserState`.
     public static func updateUserState(update: UserState -> UserState) -> GenericParser<Stream, UserState, ()> {
         
-        return GenericParser<Stream, UserState, ()>(parse: { (var state) in
+        return GenericParser<Stream, UserState, ()>(parse: { (state) in
+            var newState = state
             
-            let userState = update(state.userState)
-            state.userState = userState
+            let userState = update(newState.userState)
+            newState.userState = userState
             
-            let position = state.position
+            let position = newState.position
             
-            return .None(.Ok((), state, ParseError.unknownParseError(position)))
+            return .None(.Ok((), newState, ParseError.unknownParseError(position)))
             
         })
         
@@ -699,7 +701,7 @@ public final class GenericParser<Stream: StreamType, UserState, Result>: ParsecT
 
 public extension ParsecType where Stream.Element: Equatable {
     
-    // TODO: Move this function into the `ParsecType` protocol extension when Swift will allow to add requirements to `typealias` type constraint (Ex.: `typealias Stream: CollectionType where Stream.SubSequence == Stream`)
+    // TODO: Move this function into the `ParsecType` protocol extension when Swift will allow to add requirements to `associatedtype` type constraint (Ex.: `associatedtype Stream: CollectionType where Stream.SubSequence == Stream`)
     
     /// Return a parser that parses a collection of tokens.
     ///
@@ -776,7 +778,7 @@ public extension ParsecType where Stream.Element: Equatable {
 
 public extension ParsecType {
     
-    // TODO: Move this function into the `ParsecType` protocol extension when Swift will allow to add requirements to `typealias` type constraint (Ex.: `typealias Stream: CollectionType where Stream.SubSequence == Stream`)
+    // TODO: Move this function into the `ParsecType` protocol extension when Swift will allow to add requirements to `associatedtype` type constraint (Ex.: `associatedtype Stream: CollectionType where Stream.SubSequence == Stream`)
     
     /// Return a parser that accepts a token `Element` with `Result` when the function `match(Element) -> Result` returns `Optional.SomeWrapped(Result)`. The token can be shown using `tokenDescription(Element) -> String`. The position of the _next_ token should be returned when `nextPosition(SourcePosition, Element, Stream) -> SourcePosition` is called with the current source position, the current token and the rest of the tokens.
     ///

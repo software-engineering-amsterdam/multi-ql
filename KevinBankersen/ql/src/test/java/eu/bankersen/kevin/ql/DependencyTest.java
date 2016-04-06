@@ -2,7 +2,7 @@ package eu.bankersen.kevin.ql;
 
 import java.io.IOException;
 
-import eu.bankersen.kevin.ql.form.formchecker.analytics.DepCheck;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.Dependencies;
 import eu.bankersen.kevin.ql.form.parser.ANTLRParseException;
 import eu.bankersen.kevin.ql.form.parser.FormParser;
 import junit.framework.TestCase;
@@ -17,7 +17,7 @@ public class DependencyTest extends TestCase {
 
 	private void testLocation(String location, int errors) throws ANTLRParseException, IOException {
 		FormParser parser = new FormParser(location);
-		DepCheck check = new DepCheck(parser.getForm());
+		Dependencies check = new Dependencies(parser.getForm());
 		assertTrue(check.getErrors().size() == errors);
 	}
 

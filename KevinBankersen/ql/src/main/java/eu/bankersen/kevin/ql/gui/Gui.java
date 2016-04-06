@@ -11,9 +11,9 @@ import eu.bankersen.kevin.ql.form.ast.statements.ComputedQuestion;
 import eu.bankersen.kevin.ql.form.ast.statements.Form;
 import eu.bankersen.kevin.ql.form.ast.statements.UserQuestion;
 import eu.bankersen.kevin.ql.form.ast.visitors.TopDownVisitor;
+import eu.bankersen.kevin.ql.form.interperter.Evaluator;
 import eu.bankersen.kevin.ql.gui.dialog.ErrorMessage;
 import eu.bankersen.kevin.ql.gui.widgets.Widget;
-import eu.bankersen.kevin.ql.interperter.Evaluator;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -119,7 +120,7 @@ public class Gui extends Application {
 		return sp;
 	}
 
-	private VBox createWidgets(Form form) {
+	private Pane createWidgets(Form form) {
 
 		evaluator = new Evaluator(form);
 
@@ -142,7 +143,7 @@ public class Gui extends Application {
 				if (!processed.contains(name)) {
 					evaluator.addDataListener(widget);
 					widget.addViewListener(evaluator);
-					widgets.getChildren().add(widget.draw());
+					widgets.getChildren().add(widget);
 					processed.add(name);
 				}
 			}

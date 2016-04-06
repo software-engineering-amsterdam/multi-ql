@@ -1,16 +1,16 @@
-package eu.bankersen.kevin.ql.form.formchecker;
+package eu.bankersen.kevin.ql.form.analyzer;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.bankersen.kevin.ql.form.analyzer.scanners.Dependencies;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.Scoping;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.TypeChecker;
 import eu.bankersen.kevin.ql.form.ast.statements.Form;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.DepCheck;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.ScopeCheck;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.TypeChecker;
 
-public class FormChecker {
+public class Analyzer {
 
-	public FormChecker(Form form) throws InvalidForm {
+	public Analyzer(Form form) throws InvalidForm {
 		List errorList = new ArrayList<>();
 		List warningList = new ArrayList<>();
 
@@ -18,9 +18,9 @@ public class FormChecker {
 		errorList.addAll(checker.getErrors());
 		warningList.addAll(checker.getWarnings());
 
-		errorList.addAll(new DepCheck(form).getErrors());
+		errorList.addAll(new Dependencies(form).getErrors());
 
-		new ScopeCheck(form);
+		errorList.addAll(new Scoping(form).getErrors());
 
 		if (!errorList.isEmpty() || !warningList.isEmpty()) {
 			throw new InvalidForm(warningList, errorList);

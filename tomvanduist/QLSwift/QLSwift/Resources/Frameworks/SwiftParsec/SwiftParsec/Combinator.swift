@@ -72,10 +72,11 @@ public extension GenericParser {
         
         return self >>- { result in
             
-            self.many >>- { (var results) in
+            self.many >>- { (results) in
+                var newResults = results
                 
-                results.insert(result, atIndex: 0)
-                return GenericParser<Stream, UserState, [Result]>(result: results)
+                newResults.insert(result, atIndex: 0)
+                return GenericParser<Stream, UserState, [Result]>(result: newResults)
                 
             }
             
@@ -105,10 +106,11 @@ public extension GenericParser {
         
         return self >>- { result in
             
-            (separator *> self).many >>- { (var results) in
+            (separator *> self).many >>- { (results) in
+                var newResults = results
                 
-                results.insert(result, atIndex: 0)
-                return GenericParser<Stream, UserState, [Result]>(result: results)
+                newResults.insert(result, atIndex: 0)
+                return GenericParser<Stream, UserState, [Result]>(result: newResults)
                 
             }
             
@@ -159,10 +161,11 @@ public extension GenericParser {
             let optionalSeparator: GenericParser<Stream, UserState, [Result]> =
             separator >>- { _ in
                 
-                self.dividedBy(separator, endSeparatorRequired: false) >>- { (var results) in
+                self.dividedBy(separator, endSeparatorRequired: false) >>- { (results) in
+                    var newResults = results
                     
-                    results.insert(result, atIndex: 0)
-                    return GenericParser<Stream, UserState, [Result]>(result: results)
+                    newResults.insert(result, atIndex: 0)
+                    return GenericParser<Stream, UserState, [Result]>(result: newResults)
                     
                 }
                 
@@ -180,18 +183,21 @@ public extension GenericParser {
     /// - returns: A parser that parses `n` occurrences of `self`.
     public func count(n: Int) -> GenericParser<Stream, UserState, [Result]> {
         
-        func count(var n: Int, var results: [Result]) -> GenericParser<Stream, UserState, [Result]> {
+        func count(n: Int, results: [Result]) -> GenericParser<Stream, UserState, [Result]> {
+            var newN = n
+            var newResults = results
             
-            guard n > 0 else {
+            guard newN > 0 else {
                 
-                return GenericParser<Stream, UserState, [Result]>(result: results)
+                return GenericParser<Stream, UserState, [Result]>(result: newResults)
                 
             }
             
-            return self >>- { result in
+            return self >>- { results in
                 
-                results.append(result)
-                return count(--n, results: results)
+                newResults.append(results)
+                newN -= 1
+                return count(newN, results: newResults)
                 
             }
             
@@ -327,10 +333,11 @@ public extension GenericParser {
             
             return empty <|> (self >>- { result in
                 
-                scan() >>- { (var results) in
+                scan() >>- { (results) in
+                    var newResults = results
                     
-                    results.insert(result, atIndex: 0)
-                    return GenericParser<Stream, UserState, [Result]>(result: results)
+                    newResults.insert(result, atIndex: 0)
+                    return GenericParser<Stream, UserState, [Result]>(result: newResults)
                     
                 }
                 

@@ -2,9 +2,9 @@ package eu.bankersen.kevin.ql.form;
 
 import java.io.IOException;
 
+import eu.bankersen.kevin.ql.form.analyzer.Analyzer;
+import eu.bankersen.kevin.ql.form.analyzer.InvalidForm;
 import eu.bankersen.kevin.ql.form.ast.statements.Form;
-import eu.bankersen.kevin.ql.form.formchecker.FormChecker;
-import eu.bankersen.kevin.ql.form.formchecker.InvalidForm;
 import eu.bankersen.kevin.ql.form.parser.ANTLRParseException;
 import eu.bankersen.kevin.ql.form.parser.FormParser;
 import eu.bankersen.kevin.ql.gui.dialog.ErrorMessage;
@@ -32,7 +32,7 @@ public class FormBuilder {
 
 	private void checkForm(Form form) {
 		try {
-			new FormChecker(form);
+			new Analyzer(form);
 		} catch (InvalidForm e) {
 			if (e.getWarnings().hasNext()) {
 				new WarningMessage(e.getWarnings());

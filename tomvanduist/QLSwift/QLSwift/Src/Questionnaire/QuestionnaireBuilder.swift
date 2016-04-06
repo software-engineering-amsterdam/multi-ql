@@ -33,10 +33,11 @@ extension QuestionnaireBuilder {
         return [Question(question: node, type: type, conditions: param.conditions, context: param.context)]
     }
     
-    func visit(node: QLConditional, var param: (conditions: [QLExpression], context: Context)) -> [Question] {
-        param.conditions = param.conditions + [node.condition]
+    func visit(node: QLConditional, param: (conditions: [QLExpression], context: Context)) -> [Question] {
+        var newParam = param
+        newParam.conditions = param.conditions + [node.condition]
 
-        return node.ifBlock.accept(self, param: param)
+        return node.ifBlock.accept(self, param: newParam)
     }
     
     func visit(node: QLBlock, param: (conditions: [QLExpression], context: Context)) -> [Question] {

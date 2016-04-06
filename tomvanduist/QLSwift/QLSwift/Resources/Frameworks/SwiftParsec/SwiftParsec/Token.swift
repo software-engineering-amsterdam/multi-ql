@@ -54,7 +54,7 @@ public struct LanguageDefinition<UserState> {
 public protocol TokenParserType {
     
     /// The state supplied by the user.
-    typealias UserState
+    associatedtype UserState
     
     var languageDefinition: LanguageDefinition<UserState> { get }
     
@@ -139,10 +139,11 @@ extension TokenParserType {
         
         let ident: StrParser = langDef.identifierStart >>- { char in
             
-            langDef.identifierLetter(char).many >>- { (var chars) in
+            langDef.identifierLetter(char).many >>- { (chars) in
+                var newChars = chars
                 
-                chars.insert(char, atIndex: 0)
-                return GenericParser(result: String(chars))
+                newChars.insert(char, atIndex: 0)
+                return GenericParser(result: String(newChars))
                 
             }
             
@@ -206,10 +207,11 @@ extension TokenParserType {
         
         let op: StrParser = langDef.operatorStart >>- { char in
             
-            langDef.operatorLetter.many >>- { (var chars) in
+            langDef.operatorLetter.many >>- { (chars) in
+                var newChars = chars
                 
-                chars.insert(char, atIndex: 0)
-                return GenericParser(result: String(chars))
+                newChars.insert(char, atIndex: 0)
+                return GenericParser(result: String(newChars))
                 
             }
             
@@ -304,11 +306,12 @@ extension TokenParserType {
             
         let literalString = string.map({ str in
             
-            str.reduce("") { (var acc, char) in
+            str.reduce("") { (acc, char) in
+                var newAcc = acc
                 
-                if let c = char { acc.append(c) }
+                if let c = char { newAcc.append(c) }
                 
-                return acc
+                return newAcc
                 
             }
             
@@ -847,13 +850,14 @@ extension TokenParserType {
             
         }
         
-        func walk(var str: String) -> VoidParser {
+        func walk(str: String) -> VoidParser {
+            var newStr = str
             
             let unit = VoidParser(result: ())
             
             guard !str.isEmpty else { return unit }
             
-            let c = str.popFirst()!
+            let c = newStr.popFirst()!
             
             let charParser: VoidParser
             if c.isAlpha {
@@ -867,7 +871,7 @@ extension TokenParserType {
                 
             }
             
-            return (charParser <?> name) >>- { _ in walk(str) }
+            return (charParser <?> name) >>- { _ in walk(newStr) }
             
         }
         

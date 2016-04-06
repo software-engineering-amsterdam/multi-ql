@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.form.formchecker.analytics.warnings;
+package eu.bankersen.kevin.ql.form.analyzer.scanners.warnings;
 
 public class AllreadyDeclared extends TypeCheckWarning {
 

@@ -1,10 +1,15 @@
-package eu.bankersen.kevin.ql.form.formchecker.analytics;
+package eu.bankersen.kevin.ql.form.analyzer.scanners;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.ScannerError;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.InvalidExpression;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.UndefinedQuestion;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.warnings.AllreadyDeclared;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.warnings.TypeCheckWarning;
 import eu.bankersen.kevin.ql.form.ast.expressions.Identifier;
 import eu.bankersen.kevin.ql.form.ast.expressions.Literal;
 import eu.bankersen.kevin.ql.form.ast.expressions.logic.And;
@@ -32,19 +37,14 @@ import eu.bankersen.kevin.ql.form.ast.types.BooleanType;
 import eu.bankersen.kevin.ql.form.ast.types.Type;
 import eu.bankersen.kevin.ql.form.ast.types.UndifinedType;
 import eu.bankersen.kevin.ql.form.ast.visitors.TopDownVisitor;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.InvalidExpression;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.AnalyticsError;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.UndefinedQuestion;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.warnings.AllreadyDeclared;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.warnings.TypeCheckWarning;
 
 public class TypeChecker {
 
 	private final Map<String, Type> symbolTable;
-	private final List<AnalyticsError> errorList;
+	private final List<ScannerError> errorList;
 	private final List<TypeCheckWarning> warningList;
 
-	public List<AnalyticsError> getErrors() {
+	public List<ScannerError> getErrors() {
 		return errorList;
 	}
 

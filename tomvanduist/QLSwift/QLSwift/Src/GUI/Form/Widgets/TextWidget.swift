@@ -20,7 +20,7 @@ class TextWidget: ViewWidget {
             textField.borderStyle = .Line
             textField.text = ""
             textField.placeholder = kTextPlaceholder
-            textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+            textField.addTarget(self, action: #selector(TextWidget.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
             
             self.addSubview(textField)
             textField.snp_makeConstraints { [unowned self] (make) -> Void in

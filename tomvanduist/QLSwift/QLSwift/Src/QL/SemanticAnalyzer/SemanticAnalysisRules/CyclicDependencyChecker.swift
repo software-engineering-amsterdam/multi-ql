@@ -150,12 +150,14 @@ private class QuestionMapFiller: TopDownStatement {
         
         return map
     }
-    func visit(node: QLBlock, var param map: Map<QLQuestion>) -> Map<QLQuestion> {
+    func visit(node: QLBlock, param map: Map<QLQuestion>) -> Map<QLQuestion> {
+        var newMap = map
+        
         for statement in node.block {
-            map = statement.accept(self, param: map)
+            newMap = statement.accept(self, param: map)
         }
         
-        return map
+        return newMap
     }
     
     func defaultLeafResult(statement: QLStatement?, param map: Map<QLQuestion>) -> Map<QLQuestion> {

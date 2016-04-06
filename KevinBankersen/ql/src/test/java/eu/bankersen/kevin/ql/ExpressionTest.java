@@ -2,7 +2,7 @@ package eu.bankersen.kevin.ql;
 
 import java.io.IOException;
 
-import eu.bankersen.kevin.ql.form.formchecker.analytics.TypeChecker;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.TypeChecker;
 import eu.bankersen.kevin.ql.form.parser.ANTLRParseException;
 import eu.bankersen.kevin.ql.form.parser.FormParser;
 import junit.framework.TestCase;
