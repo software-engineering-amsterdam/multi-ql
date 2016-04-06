@@ -10,13 +10,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-public class TextInput extends QuestionPane {
+public class TextInput extends Widget {
 	private final TextField textField;
 
 	public TextInput(Question question) {
 		super(question);
 
-		HBox widget = new HBox();
+		HBox input = new HBox();
 		textField = new TextField();
 		textField.setDisable(isComputed());
 
@@ -25,23 +25,23 @@ public class TextInput extends QuestionPane {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (!isComputed()) {
-					sentData(newValue);
+					sendData(newValue);
 				}
 			}
 
 		});
 
-		widget.getChildren().add(textField);
-		super.setInput(widget);
+		input.getChildren().add(textField);
+		setRight(input);
 	}
 
 	@Override
 	public void dataUpdate(Map<String, Value> environment) {
 		if (environment.containsKey(name())) {
-			visible(true);
+			setVisible(true);
 			changeValue(environment.get(name()));
 		} else {
-			visible(false);
+			setVisible(false);
 		}
 	}
 

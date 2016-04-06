@@ -13,7 +13,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-public class RadioInput extends QuestionPane {
+public class RadioInput extends Widget {
 
 	private final ToggleGroup group;
 	private final RadioButton yesButton;
@@ -21,8 +21,8 @@ public class RadioInput extends QuestionPane {
 
 	public RadioInput(Question question) {
 		super(question);
-		HBox inputWidget = new HBox();
-		inputWidget.setSpacing(70);
+		HBox input = new HBox();
+		input.setSpacing(70);
 
 		group = new ToggleGroup();
 
@@ -34,25 +34,25 @@ public class RadioInput extends QuestionPane {
 			@Override
 			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
 				if (!isComputed() && newValue != null && newValue != oldValue) {
-					sentData(newValue.getUserData().toString());
+					sendData(newValue.getUserData().toString());
 				}
 			}
 		});
 
-		inputWidget.setHgrow(yesButton, Priority.ALWAYS);
-		inputWidget.setHgrow(noButton, Priority.ALWAYS);
-		inputWidget.getChildren().addAll(yesButton, noButton);
+		input.setHgrow(yesButton, Priority.ALWAYS);
+		input.setHgrow(noButton, Priority.ALWAYS);
+		input.getChildren().addAll(yesButton, noButton);
 
-		super.setInput(inputWidget);
+		this.setRight(input);
 	}
 
 	@Override
 	public void dataUpdate(Map<String, Value> environment) {
 		if (environment.containsKey(name())) {
-			visible(true);
+			this.setVisible(true);
 			changeValue(environment.get(name()));
 		} else {
-			visible(false);
+			this.setVisible(false);
 			group.selectToggle(null);
 		}
 	}

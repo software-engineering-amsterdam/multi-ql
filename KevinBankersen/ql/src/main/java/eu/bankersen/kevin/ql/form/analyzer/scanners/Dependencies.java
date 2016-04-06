@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.form.formchecker.analytics;
+package eu.bankersen.kevin.ql.form.analyzer.scanners;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.CyclicDependency;
+import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.ScannerError;
 import eu.bankersen.kevin.ql.form.ast.expressions.Binary;
 import eu.bankersen.kevin.ql.form.ast.expressions.Identifier;
 import eu.bankersen.kevin.ql.form.ast.expressions.Literal;
@@ -15,26 +17,23 @@ import eu.bankersen.kevin.ql.form.ast.statements.ComputedQuestion;
 import eu.bankersen.kevin.ql.form.ast.statements.Form;
 import eu.bankersen.kevin.ql.form.ast.statements.UserQuestion;
 import eu.bankersen.kevin.ql.form.ast.visitors.TopDownVisitor;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.AnalyticsError;
-import eu.bankersen.kevin.ql.form.formchecker.analytics.errors.CyclicDependency;
 
-public class DepCheck {
-	private final List<AnalyticsError> errorList;
+public class Dependencies {
+	private final List<ScannerError> errorList;
 
-	public DepCheck(Form form) {
+	public Dependencies(Form form) {
 		this.errorList = findDependencies(form);
 	}
 
-	public List<AnalyticsError> getErrors() {
+	public List<ScannerError> getErrors() {
 		return errorList;
 	}
 
-	private List<AnalyticsError> findDependencies(Form form) {
+	private List<ScannerError> findDependencies(Form form) {
 		Map<String, Set<String>> relations = new HashMap<>();
 		analyzeForm(form, relations);
 
-		List<AnalyticsError> errors = new ArrayList<>();
-		Set<String> found = new HashSet<>();
+		List<ScannerError> errors = new ArrayList<>();
 		for (String declaration : relations.keySet()) {
 			Set<String> computations = relations.get(declaration);
 			findAll(computations, relations);

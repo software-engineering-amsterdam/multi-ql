@@ -1,11 +1,11 @@
-package eu.bankersen.kevin.ql.form.formchecker.analytics.errors;
+package eu.bankersen.kevin.ql.form.analyzer.scanners.errors;
 
-public abstract class AnalyticsError {
+public abstract class ScannerError {
 
 	private final String message;
 	private final int line;
 
-	public AnalyticsError(int line, String message) {
+	public ScannerError(int line, String message) {
 		this.line = line;
 		this.message = message;
 	}

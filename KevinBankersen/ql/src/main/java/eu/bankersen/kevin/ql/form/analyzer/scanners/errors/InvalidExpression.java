@@ -1,4 +1,4 @@
-package eu.bankersen.kevin.ql.form.formchecker.analytics.errors;
+package eu.bankersen.kevin.ql.form.analyzer.scanners.errors;
 
 import eu.bankersen.kevin.ql.form.ast.expressions.Binary;
 import eu.bankersen.kevin.ql.form.ast.expressions.Unary;
@@ -22,7 +22,7 @@ import eu.bankersen.kevin.ql.form.ast.statements.ElseStatement;
 import eu.bankersen.kevin.ql.form.ast.statements.IFStatement;
 import eu.bankersen.kevin.ql.form.ast.types.Type;
 
-public class InvalidExpression extends AnalyticsError {
+public class InvalidExpression extends ScannerError {
 
 	public InvalidExpression(IFStatement o, Type expr) {
 		super(o.line(), String.format("If-Expression must resolve to Boolean, got %s!", expr));

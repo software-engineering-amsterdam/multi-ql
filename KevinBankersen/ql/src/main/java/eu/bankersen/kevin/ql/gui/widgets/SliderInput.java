@@ -11,13 +11,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 
-public class SliderInput extends QuestionPane {
+public class SliderInput extends Widget {
 
 	private final Slider slider;
 
 	public SliderInput(Question question) {
 		super(question);
-		HBox widget = new HBox();
+		HBox input = new HBox();
 		slider = new Slider();
 		slider.setMin(0);
 		slider.setMax(100);
@@ -28,22 +28,22 @@ public class SliderInput extends QuestionPane {
 			@Override
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				if (!isComputed()) {
-					sentData(String.valueOf(new_val.intValue()));
+					sendData(String.valueOf(new_val.intValue()));
 				}
 			}
 		});
 
-		widget.getChildren().add(slider);
-		super.setInput(widget);
+		input.getChildren().add(slider);
+		setRight(input);
 	}
 
 	@Override
 	public void dataUpdate(Map<String, Value> environment) {
 		if (environment.containsKey(name())) {
-			visible(true);
+			setVisible(true);
 			changeValue(environment.get(name()));
 		} else {
-			visible(false);
+			setVisible(false);
 		}
 	}
 
