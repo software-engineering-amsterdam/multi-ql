@@ -105,7 +105,7 @@ private class ComputedContextFiller: TopDownStatement {
         context.assign(node.identifier.id, expression: node.expression)
     }
     
-    func defaultReturn(statement: QLStatement?, param context: Context) -> Void {
+    func defaultLeafResult(statement: QLStatement?, param context: Context) -> Void {
         return
     }
 }

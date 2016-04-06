@@ -10,13 +10,13 @@ type TypeChecker struct {
 	errorsEncountered    []error
 	warningsEncountered  []error
 	knownErrors          map[string]bool
-	usedLabels           map[interfaces.StrLit]interfaces.VarId
+	usedLabels           map[interfaces.StringLiteral]interfaces.VarId
 	knownIdentifiers     map[interfaces.VarId]bool
 	dependenciesForVarId map[interfaces.VarId][]interfaces.VarId
 }
 
 func NewTypeChecker() *TypeChecker {
-	return &TypeChecker{errorsEncountered: make([]error, 0), warningsEncountered: make([]error, 0), usedLabels: make(map[interfaces.StrLit]interfaces.VarId), knownErrors: make(map[string]bool), knownIdentifiers: make(map[interfaces.VarId]bool), dependenciesForVarId: make(map[interfaces.VarId][]interfaces.VarId)}
+	return &TypeChecker{errorsEncountered: make([]error, 0), warningsEncountered: make([]error, 0), usedLabels: make(map[interfaces.StringLiteral]interfaces.VarId), knownErrors: make(map[string]bool), knownIdentifiers: make(map[interfaces.VarId]bool), dependenciesForVarId: make(map[interfaces.VarId][]interfaces.VarId)}
 }
 
 func (this *TypeChecker) dependencyListForVarDecl(varDecl interfaces.VarDecl) []interfaces.VarId {
@@ -139,19 +139,16 @@ func (this *TypeChecker) EncounteredWarnings() []error {
 	return this.warningsEncountered
 }
 
-func (this *TypeChecker) IsLabelUsed(label interfaces.StrLit) bool {
-	if _, exists := this.usedLabels[label]; exists {
-		return true
-	}
-
-	return false
+func (this *TypeChecker) IsLabelUsed(label interfaces.StringLiteral) bool {
+	_, exists := this.usedLabels[label]
+	return exists
 }
 
-func (this *TypeChecker) VarIdForLabel(label interfaces.StrLit) interfaces.VarId {
+func (this *TypeChecker) VarIdForLabel(label interfaces.StringLiteral) interfaces.VarId {
 	return this.usedLabels[label]
 }
 
-func (this *TypeChecker) MarkLabelAsUsed(label interfaces.StrLit, varDecl interfaces.VarDecl) {
+func (this *TypeChecker) MarkLabelAsUsed(label interfaces.StringLiteral, varDecl interfaces.VarDecl) {
 	log.WithFields(log.Fields{"label": label}).Debug("Marking label as used")
 	this.usedLabels[label] = varDecl.VariableIdentifier()
 }
@@ -175,6 +172,7 @@ func (this *TypeChecker) MarkVarIdAsUnknown(varId interfaces.VarId) {
 	this.knownIdentifiers[varId] = false
 }
 
+// KnownIdentifiers returns a map where the keys are identifiers that are currently known
 func (this *TypeChecker) KnownIdentifiers() map[interfaces.VarId]bool {
 	return this.knownIdentifiers
 }

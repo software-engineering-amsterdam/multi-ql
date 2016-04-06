@@ -1,45 +1,18 @@
 package expr
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
-func TestIntLit(t *testing.T) {
-	exampleIntLit := NewIntLit(10)
-
-	if NewIntLit(10) != exampleIntLit {
-		t.Errorf("IntLit creation test did not succeed")
-	}
+func TestIntegerLiteralGetValue(t *testing.T) {
+	assert.Equal(t, NewIntegerLiteral(10).Value(), NewIntValue(10))
 }
 
-func TestIntLitGetValue(t *testing.T) {
-	if NewIntLit(10).Value() != 10 {
-		t.Errorf("IntLit value retrieval test did not succeed")
-	}
+func TestBoolLiteralGetValue(t *testing.T) {
+	assert.Equal(t, NewBoolLiteral(true).Value(), NewBoolValue(true))
 }
 
-func TestBoolLit(t *testing.T) {
-	exampleBoolLit := NewBoolLit(true)
-
-	if NewBoolLit(true) != exampleBoolLit {
-		t.Errorf("BoolLit creation test did not succeed")
-	}
-}
-
-func TestBoolLitGetValue(t *testing.T) {
-	if NewBoolLit(true).Value() != true {
-		t.Errorf("BoolLit value retrieval test did not succeed")
-	}
-}
-
-func TestStrLit(t *testing.T) {
-	exampleStrLit := NewStrLit("Test")
-
-	if NewStrLit("Test") != exampleStrLit {
-		t.Errorf("StrLit creation test did not succeed")
-	}
-}
-
-func TestStrLitGetValue(t *testing.T) {
-	if NewStrLit("Test").Value() != "Test" {
-		t.Errorf("StrLit value retrieval test did not succeed")
-	}
+func TestStringLiteralGetValue(t *testing.T) {
+	assert.Equal(t, NewStringLiteral("Test").Value(), NewStringValue("Test"))
 }

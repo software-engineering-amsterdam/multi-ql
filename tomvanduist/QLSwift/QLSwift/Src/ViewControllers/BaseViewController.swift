@@ -30,58 +30,48 @@ class BaseViewController: UIViewController {
 
 extension BaseViewController {
     
-    internal func showAlerts(title: String, message messages: [String], cancelButton: String?, confirmButton: String, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
-        var _confirmBlock: (() -> Void)?
-        
-        guard let message = messages.first
+    internal func showAlerts(alerts: [Alert]) -> Bool {
+        guard let alert = alerts.first
             else { return false }
         
         // Until the last message, show the next one upon confirm
-        if message != messages.last {
-            let remainingMessages = messages.filter { message != $0 }
+        if alert != alerts.last {
+            let remainingAlerts = alerts.filter { alert != $0 }
             
-            _confirmBlock = { [unowned self] in
-                self.showAlerts(title,
-                    message: remainingMessages,
-                    cancelButton: cancelButton,
-                    confirmButton: confirmButton,
-                    cancelBlock: cancelBlock,
-                    confirmBlock: confirmBlock
-                )
-            }
+            showAlert(Alert(title: alert.title,
+                message: alert.message,
+                cancelButton: alert.cancelButton,
+                confirmButton: alert.confirmButton,
+                cancelBlock: alert.cancelBlock,
+                confirmBlock: { [unowned self] in
+                    self.showAlerts(remainingAlerts)
+                })
+            )
         } else {
-            _confirmBlock = confirmBlock
+            showAlert(alert)
         }
-        
-        showAlert(title,
-            message: message,
-            cancelButton: cancelButton,
-            confirmButton: confirmButton,
-            cancelBlock: cancelBlock,
-            confirmBlock: _confirmBlock
-        )
         
         return true
     }
     
-    internal func showAlert(title: String, message: String, cancelButton: String?, confirmButton: String, cancelBlock: (() -> Void)? = nil, confirmBlock: (() -> Void)? = nil) -> Bool {
+    internal func showAlert(alert: Alert) -> Bool {
         DTAlertView(
             block: { (alertView, index, n) -> Void in
                 if index == n {
-                    if cancelBlock != nil {
-                        cancelBlock!()
+                    if alert.cancelBlock != nil {
+                        alert.cancelBlock!()
                     }
                 }
                 else {
-                    if confirmBlock != nil {
-                        confirmBlock!()
+                    if alert.confirmBlock != nil {
+                        alert.confirmBlock!()
                     }
                 }
             },
-            title: title,
-            message: message,
-            cancelButtonTitle: confirmBlock != nil ? cancelButton : nil,
-            positiveButtonTitle: confirmBlock != nil ? confirmButton : "Ok"
+            title: alert.title,
+            message: alert.message,
+            cancelButtonTitle: alert.confirmBlock != nil ? alert.cancelButton : nil,
+            positiveButtonTitle: alert.confirmBlock != nil ? alert.confirmButton : "Ok"
             ).show()
         
         return true

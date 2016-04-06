@@ -14,7 +14,7 @@ type Form interface {
 
 type Question interface {
 	Stmt
-	Label() StrLit
+	Label() StringLiteral
 	VarDecl() VarDecl
 }
 
@@ -29,7 +29,7 @@ type ComputedQuestion interface {
 
 type Conditional interface {
 	Stmt
-	EvalCondition(VarIdValueSymbols) bool
+	EvalCondition(VarIdValueSymbols) BoolValue
 	Condition() Expr
 }
 

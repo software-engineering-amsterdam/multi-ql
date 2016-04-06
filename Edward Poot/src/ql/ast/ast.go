@@ -119,44 +119,29 @@ func NewOrNode(lhs attrib, rhs attrib, sourcePosInfo attrib) (interfaces.Expr, e
 }
 
 /* literals */
-func NewIntLitNode(litValueToken attrib) (interfaces.Expr, error) {
+func NewIntegerLiteralNode(litValueToken attrib) (interfaces.Expr, error) {
 	sourcePosInfo := litValueToken.(*token.Token).Pos
 	value, err := util.IntValue(litValueToken.(*token.Token).Lit)
-	expr := expr.NewIntLit(int(value))
+	expr := expr.NewIntegerLiteral(int(value))
 	expr.SetSourceInfo(sourcePosInfo)
 	return expr, err
 }
 
-func NewBoolLitNode(value bool, sourcePosInfo attrib) (interfaces.Expr, error) {
-	expr := expr.NewBoolLit(value)
+func NewBoolLiteralNode(value bool, sourcePosInfo attrib) (interfaces.Expr, error) {
+	expr := expr.NewBoolLiteral(value)
 	expr.SetSourceInfo(sourcePosInfo.(token.Pos))
 	return expr, nil
 }
 
-func NewStrLitNode(valueToken attrib) (interfaces.Expr, error) {
+func NewStringLiteralNode(valueToken attrib) (interfaces.Expr, error) {
 	sourcePosInfo := valueToken.(*token.Token).Pos
 	literalString := util.StringLiteralTokensToString(valueToken.(*token.Token))
-	expr := expr.NewStrLit(literalString)
+	expr := expr.NewStringLiteral(literalString)
 	expr.SetSourceInfo(sourcePosInfo)
 	return expr, nil
 }
 
-/** Vari **/
-
-func NewVarDeclNode(ident attrib, typeIdent attrib, sourcePosInfo attrib) (interfaces.VarDecl, error) {
-	vari := vari.NewVarDecl(ident.(interfaces.VarId), typeIdent.(interfaces.ValueType))
-	vari.SetSourceInfo(sourcePosInfo.(token.Pos))
-	return vari, nil
-}
-
-func NewVarIdNode(identToken attrib) (vari.VarId, error) {
-	sourcePosInfo := identToken.(*token.Token).Pos
-	identifierString := string(identToken.(*token.Token).Lit)
-	vari := vari.NewVarId(identifierString)
-	vari.SetSourceInfo(sourcePosInfo)
-	return vari, nil
-}
-
+/* value types */
 func NewIntTypeNode(typeTokenLit attrib) (interfaces.IntType, error) {
 	token := typeTokenLit.(*token.Token)
 	expr := expr.NewIntType()
@@ -179,6 +164,22 @@ func NewStringTypeNode(typeTokenLit attrib) (interfaces.StringType, error) {
 	return expr, nil
 }
 
+/** Vari **/
+
+func NewVarDeclNode(ident attrib, typeIdent attrib, sourcePosInfo attrib) (interfaces.VarDecl, error) {
+	vari := vari.NewVarDecl(ident.(interfaces.VarId), typeIdent.(interfaces.ValueType))
+	vari.SetSourceInfo(sourcePosInfo.(token.Pos))
+	return vari, nil
+}
+
+func NewVarIdNode(identToken attrib) (vari.VarId, error) {
+	sourcePosInfo := identToken.(*token.Token).Pos
+	identifierString := string(identToken.(*token.Token).Lit)
+	vari := vari.NewVarId(identifierString)
+	vari.SetSourceInfo(sourcePosInfo)
+	return vari, nil
+}
+
 /** Statements **/
 
 func NewFormNode(identifier attrib, body attrib, sourcePosInfo attrib) (interfaces.Form, error) {
@@ -188,14 +189,14 @@ func NewFormNode(identifier attrib, body attrib, sourcePosInfo attrib) (interfac
 }
 
 func NewInputQuestionNode(label attrib, varDecl attrib) (interfaces.InputQuestion, error) {
-	labelStrLit := label.(expr.StrLit)
-	stmt := stmt.NewInputQuestion(labelStrLit, varDecl.(vari.VarDecl))
-	stmt.SetSourceInfo(labelStrLit.SourceInfo())
+	labelStringLiteral := label.(expr.StringLiteral)
+	stmt := stmt.NewInputQuestion(labelStringLiteral, varDecl.(vari.VarDecl))
+	stmt.SetSourceInfo(labelStringLiteral.SourceInfo())
 	return stmt, nil
 }
 
 func NewComputedQuestionNode(label attrib, varDecl attrib, computation attrib, sourcePosInfo attrib) (interfaces.ComputedQuestion, error) {
-	stmt := stmt.NewComputedQuestion(label.(expr.StrLit), varDecl.(vari.VarDecl), computation.(interfaces.Expr))
+	stmt := stmt.NewComputedQuestion(label.(expr.StringLiteral), varDecl.(vari.VarDecl), computation.(interfaces.Expr))
 	stmt.SetSourceInfo(sourcePosInfo.(token.Pos))
 	return stmt, nil
 }

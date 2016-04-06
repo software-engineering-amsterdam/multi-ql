@@ -1,9 +1,11 @@
 package stmt
 
 import (
+	"github.com/stretchr/testify/assert"
 	"ql/ast/expr"
 	"ql/ast/vari"
 	"ql/interfaces"
+	"ql/util"
 	"testing"
 )
 
@@ -11,114 +13,78 @@ func TestFormWithEmptyContent(t *testing.T) {
 	identifier := vari.NewVarId("TestForm")
 	exampleForm := NewForm(identifier, NewEmptyStmtList())
 
-	if exampleForm.Identifier() != identifier {
-		t.Errorf("Form identifier is not set correctly")
-	}
-
-	if len(exampleForm.Content().Questions()) != 0 {
-		t.Errorf("Form content questions are not set correctly")
-	}
-
-	if len(exampleForm.Content().Conditionals()) != 0 {
-		t.Errorf("Form content conditionals are not set correctly")
-	}
+	assert.Equal(t, exampleForm.Identifier(), identifier)
+	assert.Zero(t, len(exampleForm.Content().Questions()))
+	assert.Zero(t, len(exampleForm.Content().Conditionals()))
 }
 
 func TestFormWithNonEmptyContent(t *testing.T) {
 	identifier := vari.NewVarId("TestForm")
-	questionExample := NewInputQuestion(expr.NewStrLit("What was the selling price?"), vari.NewVarDecl(vari.NewVarId("sellingPrice"), expr.NewIntType()))
+	questionExample := NewInputQuestion(expr.NewStringLiteral("What was the selling price?"), vari.NewVarDecl(vari.NewVarId("sellingPrice"), expr.NewIntType()))
 	questionsListExample := []interfaces.Question{questionExample}
 	stmtListExample := NewStmtList(questionsListExample, []interfaces.Conditional{})
 	exampleForm := NewForm(identifier, stmtListExample)
 
-	if len(exampleForm.Content().Questions()) != 1 {
-		t.Errorf("Form content questions does not have 1 question while it should")
-	}
-
-	if !SlicesEqual(exampleForm.Content(), stmtListExample) {
-		t.Errorf("Form content not set correctly")
-	}
+	assert.Equal(t, len(exampleForm.Content().Questions()), 1)
+	assert.True(t, util.AreStmtListsEqual(exampleForm.Content(), stmtListExample))
 }
 
 func TestInputQuestion(t *testing.T) {
-	exampleLabel := expr.NewStrLit("Did you sell a house in 2010?")
+	exampleLabel := expr.NewStringLiteral("Did you sell a house in 2010?")
 	exampleVarDecl := vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType())
 
 	exampleQuestion := NewInputQuestion(exampleLabel, exampleVarDecl)
 
-	if exampleQuestion.Label() != exampleLabel {
-		t.Errorf("Question label is not set correctly")
-	}
+	assert.Equal(t, exampleQuestion.Label(), exampleLabel)
 }
 
 func TestComputedQuestion(t *testing.T) {
-	exampleLabel := expr.NewStrLit("Value residue")
+	exampleLabel := expr.NewStringLiteral("Value residue")
 	exampleVarDecl := vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewIntType())
-	exampleComputation := expr.NewSub(expr.NewIntLit(10), expr.NewIntLit(5))
+	exampleComputation := expr.NewSub(expr.NewIntegerLiteral(10), expr.NewIntegerLiteral(5))
 
 	exampleQuestion := NewComputedQuestion(exampleLabel, exampleVarDecl, exampleComputation)
 
-	if exampleQuestion.Label() != exampleLabel {
-		t.Errorf("Computed question label is not set correctly")
-	}
-
-	if exampleQuestion.Computation() != exampleComputation {
-		t.Errorf("Computed question computation is not set correctly")
-	}
+	assert.Equal(t, exampleQuestion.Label(), exampleLabel)
+	assert.Equal(t, exampleQuestion.Computation(), exampleComputation)
 }
 
 func TestIf(t *testing.T) {
-	questionExample := NewInputQuestion(expr.NewStrLit("What was the selling price?"), vari.NewVarDecl(vari.NewVarId("sellingPrice"), expr.NewIntType()))
+	questionExample := NewInputQuestion(expr.NewStringLiteral("What was the selling price?"), vari.NewVarDecl(vari.NewVarId("sellingPrice"), expr.NewIntType()))
 	ifBodyExample := NewStmtList([]interfaces.Question{questionExample}, []interfaces.Conditional{})
-	ifCondExample := expr.NewBoolLit(true)
+	ifCondExample := expr.NewBoolLiteral(true)
 	ifExample := NewIf(ifCondExample, ifBodyExample)
 
-	if !SlicesEqual(ifExample.Body(), ifBodyExample) {
-		t.Errorf("If body is not set correctly")
-	}
-
-	if ifExample.Condition() != ifCondExample {
-		t.Errorf("If condition is not set correctly")
-	}
+	assert.True(t, util.AreStmtListsEqual(ifExample.Body(), ifBodyExample))
+	assert.Equal(t, ifExample.Condition(), ifCondExample)
+	assert.Equal(t, expr.NewBoolValue(true), ifExample.EvalCondition(nil))
 }
 
 func TestIfElse(t *testing.T) {
-	ifQuestionExample := NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
+	ifQuestionExample := NewInputQuestion(expr.NewStringLiteral("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
 	ifBodyExample := NewStmtList([]interfaces.Question{ifQuestionExample}, []interfaces.Conditional{})
-	ifCondExample := expr.NewBoolLit(true)
+	ifCondExample := expr.NewBoolLiteral(true)
 
-	elseQuestionExample := NewInputQuestion(expr.NewStrLit("What was the selling price?"), vari.NewVarDecl(vari.NewVarId("sellingPrice"), expr.NewIntType()))
+	elseQuestionExample := NewInputQuestion(expr.NewStringLiteral("What was the selling price?"), vari.NewVarDecl(vari.NewVarId("sellingPrice"), expr.NewIntType()))
 	elseBodyExample := NewStmtList([]interfaces.Question{elseQuestionExample}, []interfaces.Conditional{})
 
 	ifElseExample := NewIfElse(ifCondExample, ifBodyExample, elseBodyExample)
 
-	if !SlicesEqual(ifElseExample.IfBody(), ifBodyExample) {
-		t.Errorf("IfElse else body is not set correctly")
-	}
-
-	if !SlicesEqual(ifElseExample.ElseBody(), elseBodyExample) {
-		t.Errorf("IfElse if body is not set correctly")
-	}
-
-	if ifElseExample.Condition() != ifCondExample {
-		t.Errorf("If condition is not set correctly")
-	}
+	assert.True(t, util.AreStmtListsEqual(ifElseExample.IfBody(), ifBodyExample))
+	assert.True(t, util.AreStmtListsEqual(ifElseExample.ElseBody(), elseBodyExample))
+	assert.Equal(t, ifElseExample.Condition(), ifCondExample)
+	assert.Equal(t, expr.NewBoolValue(true), ifElseExample.EvalCondition(nil))
 }
 
 func TestStmtList(t *testing.T) {
-	questionExample := NewInputQuestion(expr.NewStrLit("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
+	questionExample := NewInputQuestion(expr.NewStringLiteral("Did you sell a house in 2010?"), vari.NewVarDecl(vari.NewVarId("hasSoldHouse"), expr.NewBoolType()))
 	questionListExample := []interfaces.Question{questionExample}
 
-	ifExample := NewIf(expr.NewBoolLit(true), NewEmptyStmtList())
+	ifExample := NewIf(expr.NewBoolLiteral(true), NewEmptyStmtList())
 	conditionalListExample := []interfaces.Conditional{ifExample}
 
 	stmtListExample := NewStmtList(questionListExample, conditionalListExample)
 
-	if len(stmtListExample.Questions()) != len(questionListExample) {
-		t.Errorf("Stmtlist questions list is not set correctly")
-	}
-
-	if len(stmtListExample.Conditionals()) != len(conditionalListExample) {
-		t.Errorf("Stmtlist conditionals list is not set correctly")
-	}
+	assert.Equal(t, len(stmtListExample.Questions()), len(questionListExample))
+	assert.Equal(t, len(stmtListExample.Conditionals()), len(conditionalListExample))
 }

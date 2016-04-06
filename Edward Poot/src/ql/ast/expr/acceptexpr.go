@@ -2,12 +2,6 @@ package expr
 
 import "ql/interfaces"
 
-// acceptLhsAndRhs provides a convenient way to run Accept on both left-hand and right-hand sides of binary operands
-func acceptLhsAndRhs(binaryExpr interfaces.BinaryOperatorExpr, visitor interfaces.Visitor, context interface{}) {
-	binaryExpr.Lhs().Accept(visitor, context)
-	binaryExpr.Rhs().Accept(visitor, context)
-}
-
 /* binary expressions */
 
 func (this Add) Accept(visitor interfaces.Visitor, context interface{}) interface{} {
@@ -109,23 +103,23 @@ func (this Sub) Accept(visitor interfaces.Visitor, context interface{}) interfac
 
 /* literals */
 
-func (this BoolLit) Accept(visitor interfaces.Visitor, context interface{}) interface{} {
+func (this BoolLiteral) Accept(visitor interfaces.Visitor, context interface{}) interface{} {
 
-	visitor.VisitBoolLit(this, context)
-
-	return nil
-}
-
-func (this IntLit) Accept(visitor interfaces.Visitor, context interface{}) interface{} {
-
-	visitor.VisitIntLit(this, context)
+	visitor.VisitBoolLiteral(this, context)
 
 	return nil
 }
 
-func (this StrLit) Accept(visitor interfaces.Visitor, context interface{}) interface{} {
+func (this IntegerLiteral) Accept(visitor interfaces.Visitor, context interface{}) interface{} {
 
-	visitor.VisitStrLit(this, context)
+	visitor.VisitIntegerLiteral(this, context)
+
+	return nil
+}
+
+func (this StringLiteral) Accept(visitor interfaces.Visitor, context interface{}) interface{} {
+
+	visitor.VisitStringLiteral(this, context)
 
 	return nil
 }
@@ -176,10 +170,15 @@ func (this VarExpr) Accept(visitor interfaces.Visitor, context interface{}) inte
 	return nil
 }
 
+// acceptLhsAndRhs provides a convenient way to run Accept on both left-hand and right-hand sides of binary operands
+func acceptLhsAndRhs(binaryExpr interfaces.BinaryOperatorExpr, visitor interfaces.Visitor, context interface{}) {
+	binaryExpr.Lhs().Accept(visitor, context)
+	binaryExpr.Rhs().Accept(visitor, context)
+}
+
 /* expressions */
 
-// Accept is only called on Expr if the struct embedding it did not implement Accept, which is erroneous.
-// An panic is known to accommodate for this
+// Accept is only called on Expr if the struct embedding it did not implement Accept, which is erroneous
 func (this Expr) Accept(visitor interfaces.Visitor, context interface{}) interface{} {
 	panic("Expr Accept method not overridden")
 
