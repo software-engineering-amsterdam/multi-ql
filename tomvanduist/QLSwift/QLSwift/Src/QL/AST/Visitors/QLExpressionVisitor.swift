@@ -15,8 +15,8 @@ protocol QLExpressionVisitable {
 
 
 protocol QLExpressionVisitor {
-    typealias QLExpressionVisitorParam
-    typealias QLExpressionVisitorReturn
+    associatedtype QLExpressionVisitorParam
+    associatedtype QLExpressionVisitorReturn
     
     func visit(node: QLVariable, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
     func visit(node: QLNeg, param: QLExpressionVisitorParam) -> QLExpressionVisitorReturn
