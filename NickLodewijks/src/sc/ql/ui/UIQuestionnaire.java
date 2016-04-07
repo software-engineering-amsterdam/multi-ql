@@ -23,7 +23,7 @@ public class UIQuestionnaire {
 		return Collections.unmodifiableList(questions);
 	}
 
-	public void show() {
+	protected JFrame getComponent() {
 		JPanel panel;
 		JPanel root;
 		JFrame jframe;
@@ -35,6 +35,14 @@ public class UIQuestionnaire {
 
 		formPanel = new JPanel();
 		formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.PAGE_AXIS));
+		for (UIQuestion question : questions()) {
+			JComponent qPanel;
+
+			qPanel = question.getComponent();
+
+			formPanel.add(qPanel);
+			formPanel.add(Box.createRigidArea(new Dimension(0, 2)));
+		}
 
 		scrollPanel = new JScrollPane();
 		scrollPanel.setViewportView(formPanel);
@@ -55,15 +63,10 @@ public class UIQuestionnaire {
 		jframe.setSize(450, 600);
 		jframe.setLocationRelativeTo(null);
 
-		for (UIQuestion question : questions) {
-			JComponent qPanel;
+		return jframe;
+	}
 
-			qPanel = question.getComponent();
-
-			formPanel.add(qPanel);
-			formPanel.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-
-		jframe.setVisible(true);
+	public void show() {
+		getComponent().setVisible(true);
 	}
 }

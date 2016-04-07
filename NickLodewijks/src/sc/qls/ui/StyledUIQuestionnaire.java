@@ -1,7 +1,6 @@
 package sc.qls.ui;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -17,28 +16,31 @@ import sc.qls.ast.StyleSheet;
 
 public class StyledUIQuestionnaire extends UIQuestionnaire {
 
-	private final List<UIPage> pages = new ArrayList<>();
+	private final StyleSheet styleSheet;
 
-	public StyledUIQuestionnaire(List<UIQuestion> questions, StyleSheet styleSheet) {
+	public StyledUIQuestionnaire(List<UIQuestion> questions,
+			StyleSheet styleSheet) {
 		super(questions);
 
-		for (Page page : styleSheet.getPages()) {
-			pages.add(new UIPage(page, page.filter(questions)));
-		}
+		this.styleSheet = styleSheet;
 	}
 
 	@Override
-	public void show() {
+	protected JFrame getComponent() {
 		JPanel panel;
 		JPanel root;
-		JFrame jframe;
 		JScrollPane scrollPanel;
 		JPanel formPanel;
+		JFrame jframe;
 
 		formPanel = new JPanel();
 		formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.PAGE_AXIS));
-		for (UIPage page : pages) {
-			formPanel.add(page.getComponent());
+		for (Page page : styleSheet.getPages()) {
+			UIPage uiPage;
+
+			uiPage = new UIPage(page, page.filter(questions()));
+
+			formPanel.add(uiPage.getComponent());
 			formPanel.add(Box.createRigidArea(new Dimension(0, 2)));
 		}
 
@@ -61,9 +63,9 @@ public class StyledUIQuestionnaire extends UIQuestionnaire {
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		jframe.setContentPane(root);
-		jframe.setSize(450, 600);
+		jframe.setSize(500, 800);
 		jframe.setLocationRelativeTo(null);
 
-		jframe.setVisible(true);
+		return jframe;
 	}
 }

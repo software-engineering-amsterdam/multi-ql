@@ -1,7 +1,8 @@
 package sc.qls;
 
 import java.io.File;
-import java.io.IOException;
+
+import javax.swing.UIManager;
 
 import sc.ql.SemanticAnalyser;
 import sc.ql.ast.Form;
@@ -11,10 +12,12 @@ import sc.qls.ui.QLSUIFactory;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		StyleSheet styleSheet;
 		Form form;
 		File inputFile;
+
+		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 
 		// inputFile = new File(args[0]);
 		inputFile = new File("resources/Questionnaire.ql");
