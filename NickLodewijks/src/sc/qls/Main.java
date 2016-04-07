@@ -4,8 +4,8 @@ import java.io.File;
 
 import javax.swing.UIManager;
 
-import sc.ql.SemanticAnalyser;
 import sc.ql.ast.Form;
+import sc.ql.check.SemanticAnalyser;
 import sc.ql.ui.UIQuestionnaire;
 import sc.qls.ast.StyleSheet;
 import sc.qls.ui.QLSUIFactory;

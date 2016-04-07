@@ -8,34 +8,37 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import sc.ql.ast.Form;
+import sc.ql.check.SemanticAnalyser;
+import sc.ql.check.SemanticResult;
+import sc.ql.check.SemanticMessage;
 
 public class SemanticAnalyserTest {
 
 	@Test
 	public void testDuplicateQuestions() throws IOException {
-		SemanticErrors result;
+		SemanticResult result;
 
 		result = new SemanticAnalyser().validate(createQuestionnaire("DuplicateQuestions.ql"));
 
 		print(result);
-		assertNumberOfWarnings(result, 4);
-		assertNumberOfErrors(result, 2);
+		assertNumberOfWarnings(result, 9);
+		assertNumberOfErrors(result, 4);
 	}
 
 	@Test
 	public void testDuplicateQuestionsNested() throws IOException {
-		SemanticErrors result;
+		SemanticResult result;
 
 		result = new SemanticAnalyser().validate(createQuestionnaire("DuplicateQuestionsNested.ql"));
 
 		print(result);
-		assertNumberOfWarnings(result, 4);
-		assertNumberOfErrors(result, 2);
+		assertNumberOfWarnings(result, 9);
+		assertNumberOfErrors(result, 4);
 	}
 
 	@Test
 	public void testCyclicReferences() throws IOException {
-		SemanticErrors result;
+		SemanticResult result;
 
 		result = new SemanticAnalyser().validateCyclicReferences(createQuestionnaire("CyclicReferences.ql"));
 
@@ -46,7 +49,7 @@ public class SemanticAnalyserTest {
 
 	@Test
 	public void testValidQuestions() throws IOException {
-		SemanticErrors result;
+		SemanticResult result;
 
 		result = new SemanticAnalyser().validate(createQuestionnaire("ValidQuestions.ql"));
 
@@ -55,7 +58,7 @@ public class SemanticAnalyserTest {
 		assertNumberOfWarnings(result, 0);
 	}
 
-	private void print(SemanticErrors result) {
+	private void print(SemanticResult result) {
 		for (SemanticMessage msg : result.errors()) {
 			System.err.println(msg.toString());
 		}
@@ -69,7 +72,7 @@ public class SemanticAnalyserTest {
 		return Form.create(SemanticAnalyserTest.class.getResourceAsStream(fileName));
 	}
 
-	private void assertNumberOfWarnings(SemanticErrors result, int warnings) {
+	private void assertNumberOfWarnings(SemanticResult result, int warnings) {
 		List<SemanticMessage> messages;
 
 		messages = result.warnings();
@@ -77,7 +80,7 @@ public class SemanticAnalyserTest {
 				messages.size());
 	}
 
-	private void assertNumberOfErrors(SemanticErrors result, int errors) {
+	private void assertNumberOfErrors(SemanticResult result, int errors) {
 		List<SemanticMessage> messages;
 
 		messages = result.errors();
