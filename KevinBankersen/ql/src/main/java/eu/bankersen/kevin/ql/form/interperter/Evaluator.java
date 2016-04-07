@@ -2,10 +2,8 @@ package eu.bankersen.kevin.ql.form.interperter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import eu.bankersen.kevin.ql.form.ast.Form;
 import eu.bankersen.kevin.ql.form.ast.expressions.Expression;
@@ -122,27 +120,7 @@ public class Evaluator implements ViewListener {
 				}
 
 			}, currentEnvironment);
-		} while (environmentChanged(currentEnvironment));
-	}
-
-	private boolean environmentChanged(Map<String, Value> oldEnvironment) {
-		if (environment.size() == oldEnvironment.size() && environment != null) {
-			return valueChanged(oldEnvironment);
-		} else {
-			return true;
-		}
-	}
-
-	private boolean valueChanged(Map<String, Value> oldEnvironment) {
-		Iterator<Entry<String, Value>> questionList = environment.entrySet().iterator();
-		while (questionList.hasNext()) {
-			Entry<String, Value> question = questionList.next();
-
-			if (!environment.get(question.getKey()).equals(oldEnvironment.get(question.getKey()))) {
-				return true;
-			}
-		}
-		return false;
+		} while (!environment.equals(currentEnvironment));
 	}
 
 	private class ExprEvaluator implements Visitor<Value, Map<String, Value>> {
