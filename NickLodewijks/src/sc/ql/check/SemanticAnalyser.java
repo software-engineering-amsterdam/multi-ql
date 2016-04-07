@@ -100,16 +100,14 @@ public class SemanticAnalyser
     form.accept(new TopDown<Void, Void>()
                 {
                   @Override
-                  public Void visit(ComputedQuestion question,
-                      Void unused)
+                  public Void visit(ComputedQuestion question, Void unused)
                   {
                     qt.add(question);
                     return null;
                   }
 
                   @Override
-                  public Void visit(NormalQuestion question,
-                      Void unused)
+                  public Void visit(NormalQuestion question, Void unused)
                   {
                     qt.add(question);
                     return null;
@@ -202,8 +200,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public Void visit(Form node,
-        SymbolTable st)
+    public Void visit(Form node, SymbolTable st)
     {
       node.getBody().accept(this,
                             st);
@@ -211,8 +208,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public Void visit(Block node,
-        SymbolTable st)
+    public Void visit(Block node, SymbolTable st)
     {
 
       collectSymbols(node,
@@ -223,8 +219,7 @@ public class SemanticAnalyser
       return null;
     }
 
-    private void collectSymbols(Block block,
-        SymbolTable st)
+    private void collectSymbols(Block block, SymbolTable st)
     {
       for (Statement statement : block.statements())
       {
@@ -232,8 +227,7 @@ public class SemanticAnalyser
                          {
 
                            @Override
-                           public Void visit(ComputedQuestion question,
-                               Void unused)
+                           public Void visit(ComputedQuestion question, Void unused)
                            {
                              question.accept(TypeCheckVisitor.this,
                                              st);
@@ -241,8 +235,7 @@ public class SemanticAnalyser
                            };
 
                            @Override
-                           public Void visit(NormalQuestion question,
-                               Void unused)
+                           public Void visit(NormalQuestion question, Void unused)
                            {
                              question.accept(TypeCheckVisitor.this,
                                              st);
@@ -250,8 +243,7 @@ public class SemanticAnalyser
                            }
 
                            @Override
-                           public Void visit(Block block,
-                               Void unused)
+                           public Void visit(Block block, Void unused)
                            {
                              block.accept(TypeCheckVisitor.this,
                                           st);
@@ -259,8 +251,7 @@ public class SemanticAnalyser
                            }
 
                            @Override
-                           public Void visit(IfThen node,
-                               Void unused)
+                           public Void visit(IfThen node, Void unused)
                            {
                              return null;
                            }
@@ -269,16 +260,14 @@ public class SemanticAnalyser
       }
     }
 
-    private void checkExpressions(Block block,
-        SymbolTable st)
+    private void checkExpressions(Block block, SymbolTable st)
     {
       block.statements().forEach(statement -> {
         statement.accept(new StatementVisitor<Void, Void>()
                          {
 
                            @Override
-                           public Void visit(ComputedQuestion question,
-                               Void unused)
+                           public Void visit(ComputedQuestion question, Void unused)
                            {
                              ValueType type;
 
@@ -292,22 +281,19 @@ public class SemanticAnalyser
                            };
 
                            @Override
-                           public Void visit(NormalQuestion question,
-                               Void unused)
+                           public Void visit(NormalQuestion question, Void unused)
                            {
                              return null;
                            }
 
                            @Override
-                           public Void visit(Block block,
-                               Void unused)
+                           public Void visit(Block block, Void unused)
                            {
                              return null;
                            }
 
                            @Override
-                           public Void visit(IfThen ifThen,
-                               Void unused)
+                           public Void visit(IfThen ifThen, Void unused)
                            {
                              checkType(ifThen.condition(),
                                        st,
@@ -322,16 +308,14 @@ public class SemanticAnalyser
     }
 
     @Override
-    public Void visit(IfThen node,
-        SymbolTable st)
+    public Void visit(IfThen node, SymbolTable st)
     {
       assert false : "Should have visited this type of node in checkExpressions()";
       return null;
     }
 
     @Override
-    public Void visit(NormalQuestion node,
-        SymbolTable st)
+    public Void visit(NormalQuestion node, SymbolTable st)
     {
       st.add(node.name(),
              node.type());
@@ -339,8 +323,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public Void visit(ComputedQuestion node,
-        SymbolTable st)
+    public Void visit(ComputedQuestion node, SymbolTable st)
     {
       st.add(node.name(),
              node.type());
@@ -348,8 +331,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(VariableExpr node,
-        SymbolTable st)
+    public ValueType visit(VariableExpr node, SymbolTable st)
     {
       ValueType type;
 
@@ -365,8 +347,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(LiteralExpr node,
-        SymbolTable st)
+    public ValueType visit(LiteralExpr node, SymbolTable st)
     {
       return node.literal().accept(this,
                                    st);
@@ -374,30 +355,26 @@ public class SemanticAnalyser
 
     // Literals
     @Override
-    public ValueType visit(BooleanLiteral node,
-        SymbolTable st)
+    public ValueType visit(BooleanLiteral node, SymbolTable st)
     {
       return ValueType.BOOLEAN;
     }
 
     @Override
-    public ValueType visit(IntegerLiteral node,
-        SymbolTable st)
+    public ValueType visit(IntegerLiteral node, SymbolTable st)
     {
       return ValueType.INTEGER;
     }
 
     @Override
-    public ValueType visit(StringLiteral node,
-        SymbolTable st)
+    public ValueType visit(StringLiteral node, SymbolTable st)
     {
       return ValueType.STRING;
     }
 
     // Arithmetic operations
     @Override
-    public ValueType visit(Negative node,
-        SymbolTable st)
+    public ValueType visit(Negative node, SymbolTable st)
     {
       checkType(node,
                 st,
@@ -406,8 +383,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(Positive node,
-        SymbolTable st)
+    public ValueType visit(Positive node, SymbolTable st)
     {
       checkType(node,
                 st,
@@ -416,8 +392,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(Add node,
-        SymbolTable st)
+    public ValueType visit(Add node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -426,8 +401,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(Divide node,
-        SymbolTable st)
+    public ValueType visit(Divide node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -436,8 +410,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(Multiply node,
-        SymbolTable st)
+    public ValueType visit(Multiply node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -446,8 +419,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(Subtract node,
-        SymbolTable st)
+    public ValueType visit(Subtract node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -457,8 +429,7 @@ public class SemanticAnalyser
 
     // Equality relations
     @Override
-    public ValueType visit(Equal node,
-        SymbolTable st)
+    public ValueType visit(Equal node, SymbolTable st)
     {
       ValueType lhsType;
       ValueType rhsType;
@@ -479,8 +450,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(NotEqual node,
-        SymbolTable st)
+    public ValueType visit(NotEqual node, SymbolTable st)
     {
       ValueType lhsType;
       ValueType rhsType;
@@ -502,8 +472,7 @@ public class SemanticAnalyser
 
     // Number relations
     @Override
-    public ValueType visit(GreaterThanOrEqual node,
-        SymbolTable st)
+    public ValueType visit(GreaterThanOrEqual node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -512,8 +481,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(GreaterThan node,
-        SymbolTable st)
+    public ValueType visit(GreaterThan node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -522,8 +490,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(LessThanOrEqual node,
-        SymbolTable st)
+    public ValueType visit(LessThanOrEqual node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -532,8 +499,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(LessThan node,
-        SymbolTable st)
+    public ValueType visit(LessThan node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -543,8 +509,7 @@ public class SemanticAnalyser
 
     // Boolean relations
     @Override
-    public ValueType visit(And node,
-        SymbolTable st)
+    public ValueType visit(And node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -553,8 +518,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(Or node,
-        SymbolTable st)
+    public ValueType visit(Or node, SymbolTable st)
     {
       checkOperands(node,
                     st,
@@ -563,8 +527,7 @@ public class SemanticAnalyser
     }
 
     @Override
-    public ValueType visit(Not node,
-        SymbolTable st)
+    public ValueType visit(Not node, SymbolTable st)
     {
       checkType(node,
                 st,
@@ -572,9 +535,7 @@ public class SemanticAnalyser
       return ValueType.BOOLEAN;
     }
 
-    private void checkOperands(BinaryExpr expr,
-        SymbolTable st,
-        ValueType expectedType)
+    private void checkOperands(BinaryExpr expr, SymbolTable st, ValueType expectedType)
     {
       checkType(expr.left(),
                 st,
@@ -584,9 +545,7 @@ public class SemanticAnalyser
                 expectedType);
     }
 
-    private void checkType(Expression expr,
-        SymbolTable st,
-        ValueType expectedType)
+    private void checkType(Expression expr, SymbolTable st, ValueType expectedType)
     {
       ValueType actualType;
 
@@ -619,8 +578,7 @@ public class SemanticAnalyser
 
     }
 
-    public void add(String name,
-        ValueType type)
+    public void add(String name, ValueType type)
     {
       nameToType.put(name,
                      type);

@@ -8,25 +8,28 @@ import sc.ql.check.SemanticAnalyser;
 import sc.ql.ui.UIFactory;
 import sc.ql.ui.UIQuestionnaire;
 
-public class Main {
+public class Main
+{
+  public static void main(String[] args)
+      throws IOException
+  {
+    Form form;
+    File inputFile;
 
-	public static void main(String[] args) throws IOException {
-		Form form;
-		File inputFile;
+    // inputFile = new File(args[0]);
+    inputFile = new File("resources/Questionnaire.ql");
 
-		// inputFile = new File(args[0]);
-		inputFile = new File("resources/Questionnaire.ql");
+    form = Form.create(inputFile);
+    new SemanticAnalyser().validateTypes(form);
 
-		form = Form.create(inputFile);
-		new SemanticAnalyser().validateTypes(form);
+    createUI(form);
+  }
 
-		createUI(form);
-	}
+  private static void createUI(Form form)
+  {
+    UIQuestionnaire uiForm;
 
-	private static void createUI(Form form) {
-		UIQuestionnaire uiForm;
-
-		uiForm = new UIFactory().create(form);
-		uiForm.show();
-	}
+    uiForm = new UIFactory().create(form);
+    uiForm.show();
+  }
 }

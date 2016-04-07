@@ -7,148 +7,190 @@ import sc.ql.ast.ASTNode;
 import sc.ql.ast.Literal.IntegerLiteral;
 import sc.ql.ast.Literal.StringLiteral;
 
-public abstract class Property extends ASTNode {
+public abstract class Property
+    extends ASTNode
+{
 
-	public abstract <T, U> T accept(PropertyVisitor<T, U> visitor, U context);
+  public abstract <T, U> T accept(PropertyVisitor<T, U> visitor, U context);
 
-	public static class ColorProperty extends Property {
+  public static class ColorProperty
+      extends Property
+  {
+    private final StringLiteral value;
 
-		private final StringLiteral value;
+    public ColorProperty(StringLiteral value)
+    {
+      this.value = value;
+    }
 
-		public ColorProperty(StringLiteral value) {
-			this.value = value;
-		}
+    public StringLiteral value()
+    {
+      return value;
+    }
 
-		public StringLiteral value() {
-			return value;
-		}
+    public Color color()
+    {
+      int red, green, blue;
 
-		public Color color() {
-			int red, green, blue;
+      String[] ar_color = value.value().toString().split(",");
+      red = Integer.parseInt(ar_color[0]);
+      green = Integer.parseInt(ar_color[1]);
+      blue = Integer.parseInt(ar_color[2]);
 
-			String[] ar_color = value.value().toString().split(",");
-			red = Integer.parseInt(ar_color[0]);
-			green = Integer.parseInt(ar_color[1]);
-			blue = Integer.parseInt(ar_color[2]);
+      return new Color(red,
+                       green,
+                       blue);
+    }
 
-			return new Color(red, green, blue);
-		}
+    @Override
+    public <T, U> T accept(PropertyVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-		@Override
-		public <T, U> T accept(PropertyVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+  public static class HeightProperty
+      extends Property
+  {
+    private final IntegerLiteral value;
 
-	public static class HeightProperty extends Property {
+    public HeightProperty(IntegerLiteral value)
+    {
+      this.value = value;
+    }
 
-		private final IntegerLiteral value;
+    public IntegerLiteral value()
+    {
+      return value;
+    }
 
-		public HeightProperty(IntegerLiteral value) {
-			this.value = value;
-		}
+    @Override
+    public <T, U> T accept(PropertyVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-		public IntegerLiteral value() {
-			return value;
-		}
+  public static class WidthProperty
+      extends Property
+  {
+    private final IntegerLiteral value;
 
-		@Override
-		public <T, U> T accept(PropertyVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+    public WidthProperty(IntegerLiteral value)
+    {
+      this.value = value;
+    }
 
-	public static class WidthProperty extends Property {
+    public IntegerLiteral value()
+    {
+      return value;
+    }
 
-		private final IntegerLiteral value;
+    @Override
+    public <T, U> T accept(PropertyVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-		public WidthProperty(IntegerLiteral value) {
-			this.value = value;
-		}
+  public static class FontNameProperty
+      extends Property
+  {
+    private final StringLiteral value;
 
-		public IntegerLiteral value() {
-			return value;
-		}
+    public FontNameProperty(StringLiteral value)
+    {
+      this.value = value;
+    }
 
-		@Override
-		public <T, U> T accept(PropertyVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+    public StringLiteral value()
+    {
+      return value;
+    }
 
-	public static class FontNameProperty extends Property {
+    @Override
+    public <T, U> T accept(PropertyVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-		private final StringLiteral value;
+  public static class FontSizeProperty
+      extends Property
+  {
+    private final IntegerLiteral value;
 
-		public FontNameProperty(StringLiteral value) {
-			this.value = value;
-		}
+    public FontSizeProperty(IntegerLiteral value)
+    {
+      this.value = value;
+    }
 
-		public StringLiteral value() {
-			return value;
-		}
+    public IntegerLiteral value()
+    {
+      return value;
+    }
 
-		@Override
-		public <T, U> T accept(PropertyVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+    @Override
+    public <T, U> T accept(PropertyVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-	public static class FontSizeProperty extends Property {
+  public static class FontStyleProperty
+      extends Property
+  {
+    private final StringLiteral value;
 
-		private final IntegerLiteral value;
+    public FontStyleProperty(StringLiteral value)
+    {
+      this.value = value;
+    }
 
-		public FontSizeProperty(IntegerLiteral value) {
-			this.value = value;
-		}
+    public StringLiteral value()
+    {
+      return value;
+    }
 
-		public IntegerLiteral value() {
-			return value;
-		}
+    public int getStyle()
+    {
+      int style;
+      String styleName;
 
-		@Override
-		public <T, U> T accept(PropertyVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+      style = 0;
 
-	public static class FontStyleProperty extends Property {
+      styleName = value.value().getValue().toLowerCase();
 
-		private final StringLiteral value;
+      if (styleName.equals("bolditalic"))
+      {
+        style = Font.BOLD | Font.ITALIC;
+      }
+      else if (styleName.equals("italic"))
+      {
+        style = Font.ITALIC;
+      }
+      else if (styleName.equals("bold"))
+      {
+        style = Font.BOLD;
+      }
+      else if (styleName.equals("plain"))
+      {
+        style = Font.PLAIN;
+      }
 
-		public FontStyleProperty(StringLiteral value) {
-			this.value = value;
-		}
+      return style;
+    }
 
-		public StringLiteral value() {
-			return value;
-		}
-
-		public int getStyle() {
-			int style;
-			String styleName;
-
-			style = 0;
-
-			styleName = value.value().getValue().toLowerCase();
-
-			if (styleName.equals("bolditalic")) {
-				style = Font.BOLD | Font.ITALIC;
-			} else if (styleName.equals("italic")) {
-				style = Font.ITALIC;
-			} else if (styleName.equals("bold")) {
-				style = Font.BOLD;
-			} else if (styleName.equals("plain")) {
-				style = Font.PLAIN;
-			}
-
-			return style;
-		}
-
-		@Override
-		public <T, U> T accept(PropertyVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
-
+    @Override
+    public <T, U> T accept(PropertyVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 }

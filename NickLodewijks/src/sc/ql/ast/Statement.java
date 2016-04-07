@@ -3,106 +3,137 @@ package sc.ql.ast;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Statement extends ASTNode {
+public abstract class Statement
+    extends ASTNode
+{
+  
+  public abstract <T, U> T accept(StatementVisitor<T, U> visitor, U context);
 
-	public abstract <T, U> T accept(StatementVisitor<T, U> visitor, U context);
+  public static final class IfThen
+      extends Statement
+  {
+    private final Expression condition;
+    private final Statement then;
 
-	public static final class IfThen extends Statement {
+    public IfThen(Expression condition, Statement then)
+    {
+      this.condition = condition;
+      this.then = then;
+    }
 
-		private final Expression condition;
-		private final Statement then;
+    public Expression condition()
+    {
+      return condition;
+    }
 
-		public IfThen(Expression condition, Statement then) {
-			this.condition = condition;
-			this.then = then;
-		}
+    public Statement then()
+    {
+      return then;
+    }
 
-		public Expression condition() {
-			return condition;
-		}
+    @Override
+    public <T, U> T accept(StatementVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-		public Statement then() {
-			return then;
-		}
+  public static final class Block
+      extends Statement
+  {
+    private final List<Statement> statements;
 
-		@Override
-		public <T, U> T accept(StatementVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+    public Block(List<Statement> statements)
+    {
+      this.statements = statements;
+    }
 
-	public static final class Block extends Statement {
+    public List<Statement> statements()
+    {
+      return Collections.unmodifiableList(statements);
+    }
 
-		private final List<Statement> statements;
+    @Override
+    public <T, U> T accept(StatementVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-		public Block(List<Statement> statements) {
-			this.statements = statements;
-		}
+  public static abstract class Question
+      extends Statement
+  {
+    private final ValueType type;
+    private final String name;
+    private final String label;
 
-		public List<Statement> statements() {
-			return Collections.unmodifiableList(statements);
-		}
+    public Question(ValueType type, String name, String label)
+    {
+      this.type = type;
+      this.name = name;
+      this.label = label;
+    }
 
-		@Override
-		public <T, U> T accept(StatementVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+    public ValueType type()
+    {
+      return type;
+    }
 
-	public static abstract class Question extends Statement {
+    public String name()
+    {
+      return name;
+    }
 
-		private final ValueType type;
-		private final String name;
-		private final String label;
+    public String label()
+    {
+      return label;
+    }
+  }
 
-		public Question(ValueType type, String name, String label) {
-			this.type = type;
-			this.name = name;
-			this.label = label;
-		}
+  public static final class ComputedQuestion
+      extends Question
+  {
+    private final Expression computation;
 
-		public ValueType type() {
-			return type;
-		}
+    public ComputedQuestion(ValueType type, String name, String label, Expression computation)
+    {
+      super(type,
+            name,
+            label);
 
-		public String name() {
-			return name;
-		}
+      this.computation = computation;
+    }
 
-		public String label() {
-			return label;
-		}
-	}
+    public Expression computation()
+    {
+      return computation;
+    }
 
-	public static final class ComputedQuestion extends Question {
+    @Override
+    public <T, U> T accept(StatementVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-		private final Expression computation;
+  public static final class NormalQuestion
+      extends Question
+  {
+    public NormalQuestion(ValueType type, String name, String label)
+    {
+      super(type,
+            name,
+            label);
+    }
 
-		public ComputedQuestion(ValueType type, String name, String label, Expression computation) {
-			super(type, name, label);
-
-			this.computation = computation;
-		}
-
-		public Expression computation() {
-			return computation;
-		}
-
-		@Override
-		public <T, U> T accept(StatementVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
-
-	public static final class NormalQuestion extends Question {
-
-		public NormalQuestion(ValueType type, String name, String label) {
-			super(type, name, label);
-		}
-
-		@Override
-		public <T, U> T accept(StatementVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+    @Override
+    public <T, U> T accept(StatementVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 }

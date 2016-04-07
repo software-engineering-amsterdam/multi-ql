@@ -15,69 +15,88 @@ import sc.ql.eval.Evaluator;
 import sc.ql.ui.widget.UIWidget;
 import sc.ql.value.BooleanValue;
 
-public class UIQuestion implements ContextListener {
+public class UIQuestion
+    implements ContextListener
+{
+  private final JPanel panel;
+  private final Question question;
+  private final Expression condition;
+  private final Expression valueComputation;
 
-	private final JPanel panel;
-	private final Question question;
-	private final Expression condition;
-	private final Expression valueComputation;
+  private final UIWidget labelWidget;
+  private final UIWidget valueWidget;
 
-	private final UIWidget labelWidget;
-	private final UIWidget valueWidget;
+  public UIQuestion(Environment env,
+      Question question,
+      UIWidget labelWidget,
+      UIWidget valueWidget,
+      Expression condition,
+      Expression valueComputation)
+  {
+    this.question = question;
+    this.condition = condition;
 
-	public UIQuestion(Environment env, Question question, UIWidget labelWidget, UIWidget valueWidget,
-			Expression condition, Expression valueComputation) {
-		this.question = question;
-		this.condition = condition;
+    this.labelWidget = labelWidget;
+    this.valueWidget = valueWidget;
+    this.valueComputation = valueComputation;
 
-		this.labelWidget = labelWidget;
-		this.valueWidget = valueWidget;
-		this.valueComputation = valueComputation;
+    if (valueComputation != null)
+    {
+      this.valueWidget.setEditable(false);
+      env.addComputedValue(question.name(),
+                           valueComputation);
+    }
 
-		if (valueComputation != null) {
-			this.valueWidget.setEditable(false);
-			env.addComputedValue(question.name(), valueComputation);
-		}
+    env.addContextListener(this);
 
-		env.addContextListener(this);
+    setVisible(isEnabled(env));
 
-		setVisible(isEnabled(env));
+    panel = new JPanel(new BorderLayout());
+    panel.add(labelWidget.getComponent(),
+              BorderLayout.CENTER);
+    panel.add(valueWidget.getComponent(),
+              BorderLayout.EAST);
+    panel.setPreferredSize(new Dimension(400,
+                                         40));
+  }
 
-		panel = new JPanel(new BorderLayout());
-		panel.add(labelWidget.getComponent(), BorderLayout.CENTER);
-		panel.add(valueWidget.getComponent(), BorderLayout.EAST);
-		panel.setPreferredSize(new Dimension(400, 40));
-	}
+  public Question question()
+  {
+    return question;
+  }
 
-	public Question question() {
-		return question;
-	}
+  public String name()
+  {
+    return question.name();
+  }
 
-	public String name() {
-		return question.name();
-	}
+  public boolean isEnabled(Environment env)
+  {
+    return Evaluator.evaluate(condition,
+                              env).equals(BooleanValue.TRUE);
+  }
 
-	public boolean isEnabled(Environment env) {
-		return Evaluator.evaluate(condition, env).equals(BooleanValue.TRUE);
-	}
+  @Override
+  public void contextChanged(Environment env)
+  {
+    setVisible(isEnabled(env));
 
-	@Override
-	public void contextChanged(Environment env) {
-		setVisible(isEnabled(env));
+    if (valueComputation != null)
+    {
+      valueWidget.setValue(env.getValue(question.name()));
+    }
+  }
 
-		if (valueComputation != null) {
-			valueWidget.setValue(env.getValue(question.name()));
-		}
-	}
+  private void setVisible(boolean visible)
+  {
+    SwingUtilities.invokeLater(() -> {
+      labelWidget.setVisible(visible);
+      valueWidget.setVisible(visible);
+    });
+  }
 
-	private void setVisible(boolean visible) {
-		SwingUtilities.invokeLater(() -> {
-			labelWidget.setVisible(visible);
-			valueWidget.setVisible(visible);
-		});
-	}
-
-	public JComponent getComponent() {
-		return panel;
-	}
+  public JComponent getComponent()
+  {
+    return panel;
+  }
 }

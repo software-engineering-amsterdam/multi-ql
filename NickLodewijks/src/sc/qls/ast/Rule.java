@@ -6,65 +6,83 @@ import java.util.List;
 import sc.ql.ast.ASTNode;
 import sc.ql.ast.ValueType;
 
-public abstract class Rule extends ASTNode {
+public abstract class Rule
+    extends ASTNode
+{
+  private final Widget widget;
+  private final List<Property> properties;
 
-	private final Widget widget;
-	private final List<Property> properties;
+  public Rule(List<Property> properties)
+  {
+    this(null,
+         properties);
+  }
 
-	public Rule(List<Property> properties) {
-		this(null, properties);
-	}
+  public Rule(Widget widget, List<Property> properties)
+  {
+    this.widget = widget;
+    this.properties = properties;
+  }
 
-	public Rule(Widget widget, List<Property> properties) {
-		this.widget = widget;
-		this.properties = properties;
-	}
+  public List<Property> properties()
+  {
+    return Collections.unmodifiableList(properties);
+  }
 
-	public List<Property> properties() {
-		return Collections.unmodifiableList(properties);
-	}
+  public Widget widget()
+  {
+    return widget;
+  }
 
-	public Widget widget() {
-		return widget;
-	}
+  public abstract <T, U> T accept(RuleVisitor<T, U> visitor, U context);
 
-	public abstract <T, U> T accept(RuleVisitor<T, U> visitor, U context);
+  public static class QuestionRule
+      extends Rule
+  {
+    private final String name;
 
-	public static class QuestionRule extends Rule {
+    public QuestionRule(String name, Widget widget, List<Property> properties)
+    {
+      super(widget,
+            properties);
+      this.name = name;
+    }
 
-		private final String name;
+    public String name()
+    {
+      return name;
+    }
 
-		public QuestionRule(String name, Widget widget, List<Property> properties) {
-			super(widget, properties);
-			this.name = name;
-		}
+    @Override
+    public <T, U> T accept(RuleVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 
-		public String name() {
-			return name;
-		}
+  public static class ValueTypeRule
+      extends Rule
+  {
+    private final ValueType type;
 
-		@Override
-		public <T, U> T accept(RuleVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+    public ValueTypeRule(Widget widget, ValueType type, List<Property> properties)
+    {
+      super(widget,
+            properties);
+      this.type = type;
+    }
 
-	public static class ValueTypeRule extends Rule {
+    public ValueType type()
+    {
+      return type;
+    }
 
-		private final ValueType type;
-
-		public ValueTypeRule(Widget widget, ValueType type, List<Property> properties) {
-			super(widget, properties);
-			this.type = type;
-		}
-
-		public ValueType type() {
-			return type;
-		}
-
-		@Override
-		public <T, U> T accept(RuleVisitor<T, U> visitor, U context) {
-			return visitor.visit(this, context);
-		}
-	}
+    @Override
+    public <T, U> T accept(RuleVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
 }

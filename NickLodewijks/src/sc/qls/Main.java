@@ -10,30 +10,34 @@ import sc.ql.ui.UIQuestionnaire;
 import sc.qls.ast.StyleSheet;
 import sc.qls.ui.QLSUIFactory;
 
-public class Main {
+public class Main
+{
+  public static void main(String[] args)
+      throws Exception
+  {
+    StyleSheet styleSheet;
+    Form form;
+    File inputFile;
 
-	public static void main(String[] args) throws Exception {
-		StyleSheet styleSheet;
-		Form form;
-		File inputFile;
+    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 
-		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+    // inputFile = new File(args[0]);
+    inputFile = new File("resources/Questionnaire.ql");
 
-		// inputFile = new File(args[0]);
-		inputFile = new File("resources/Questionnaire.ql");
+    form = Form.create(inputFile);
+    new SemanticAnalyser().validateTypes(form);
 
-		form = Form.create(inputFile);
-		new SemanticAnalyser().validateTypes(form);
+    styleSheet = StyleSheet.create(new File("resources/Stylesheet.qls"));
 
-		styleSheet = StyleSheet.create(new File("resources/Stylesheet.qls"));
+    createUI(form,
+             styleSheet);
+  }
 
-		createUI(form, styleSheet);
-	}
+  private static void createUI(Form form, StyleSheet styleSheet)
+  {
+    UIQuestionnaire uiForm;
 
-	private static void createUI(Form form, StyleSheet styleSheet) {
-		UIQuestionnaire uiForm;
-
-		uiForm = new QLSUIFactory(styleSheet).create(form);
-		uiForm.show();
-	}
+    uiForm = new QLSUIFactory(styleSheet).create(form);
+    uiForm.show();
+  }
 }

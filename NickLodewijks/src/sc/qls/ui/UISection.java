@@ -14,34 +14,40 @@ import javax.swing.border.TitledBorder;
 import sc.ql.ui.UIQuestion;
 import sc.qls.ast.Section;
 
-public class UISection {
+public class UISection
+{
+  private final Section section;
+  private final JPanel panel;
 
-	private final Section section;
-	private final JPanel panel;
+  public UISection(Section section, List<UIQuestion> questions)
+  {
+    this.section = section;
 
-	public UISection(Section section, List<UIQuestion> questions) {
-		this.section = section;
+    panel = new JPanel();
+    panel.setLayout(new BoxLayout(panel,
+                                  BoxLayout.PAGE_AXIS));
+    panel.setBorder(createBorder());
 
-		panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		panel.setBorder(createBorder());
+    for (UIQuestion question : section.sort(questions))
+    {
+      panel.add(question.getComponent());
+      panel.add(Box.createRigidArea(new Dimension(0,
+                                                  2)));
+    }
+  }
 
-		for (UIQuestion question : section.sort(questions)) {
-			panel.add(question.getComponent());
-			panel.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-	}
+  private Border createBorder()
+  {
+    TitledBorder title;
 
-	private Border createBorder() {
-		TitledBorder title;
+    title = BorderFactory.createTitledBorder(section.name());
+    title.setTitleJustification(TitledBorder.LEFT);
 
-		title = BorderFactory.createTitledBorder(section.name());
-		title.setTitleJustification(TitledBorder.LEFT);
+    return title;
+  }
 
-		return title;
-	}
-
-	public JComponent getComponent() {
-		return panel;
-	}
+  public JComponent getComponent()
+  {
+    return panel;
+  }
 }

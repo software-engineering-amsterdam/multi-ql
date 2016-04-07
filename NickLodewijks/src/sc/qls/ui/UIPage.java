@@ -13,27 +13,33 @@ import sc.ql.ui.UIQuestion;
 import sc.qls.ast.Page;
 import sc.qls.ast.Section;
 
-public class UIPage {
+public class UIPage
+{
+  private final List<UISection> sections = new ArrayList<>();
+  private final JPanel panel;
 
-	private final List<UISection> sections = new ArrayList<>();
-	private final JPanel panel;
+  public UIPage(Page page, List<UIQuestion> questions)
+  {
+    panel = new JPanel();
+    panel.setLayout(new BoxLayout(panel,
+                                  BoxLayout.PAGE_AXIS));
 
-	public UIPage(Page page, List<UIQuestion> questions) {
-		panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+    for (Section section : page.sections())
+    {
+      UISection uiSection;
 
-		for (Section section : page.sections()) {
-			UISection uiSection;
+      uiSection = new UISection(section,
+                                section.filter(questions));
+      sections.add(uiSection);
 
-			uiSection = new UISection(section, section.filter(questions));
-			sections.add(uiSection);
+      panel.add(uiSection.getComponent());
+      panel.add(Box.createRigidArea(new Dimension(0,
+                                                  2)));
+    }
+  }
 
-			panel.add(uiSection.getComponent());
-			panel.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
-	}
-
-	public JComponent getComponent() {
-		return panel;
-	}
+  public JComponent getComponent()
+  {
+    return panel;
+  }
 }

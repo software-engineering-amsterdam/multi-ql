@@ -11,62 +11,72 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class UIQuestionnaire {
+public class UIQuestionnaire
+{
+  private final List<UIQuestion> questions;
 
-	private final List<UIQuestion> questions;
+  public UIQuestionnaire(List<UIQuestion> questions)
+  {
+    this.questions = questions;
+  }
 
-	public UIQuestionnaire(List<UIQuestion> questions) {
-		this.questions = questions;
-	}
+  public List<UIQuestion> questions()
+  {
+    return Collections.unmodifiableList(questions);
+  }
 
-	public List<UIQuestion> questions() {
-		return Collections.unmodifiableList(questions);
-	}
+  protected JFrame getComponent()
+  {
+    JPanel panel;
+    JPanel root;
+    JFrame jframe;
+    JScrollPane scrollPanel;
+    JPanel formPanel;
 
-	protected JFrame getComponent() {
-		JPanel panel;
-		JPanel root;
-		JFrame jframe;
-		JScrollPane scrollPanel;
-		JPanel formPanel;
+    jframe = new JFrame();
+    jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		jframe = new JFrame();
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    formPanel = new JPanel();
+    formPanel.setLayout(new BoxLayout(formPanel,
+                                      BoxLayout.PAGE_AXIS));
+    for (UIQuestion question : questions())
+    {
+      JComponent qPanel;
 
-		formPanel = new JPanel();
-		formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.PAGE_AXIS));
-		for (UIQuestion question : questions()) {
-			JComponent qPanel;
+      qPanel = question.getComponent();
 
-			qPanel = question.getComponent();
+      formPanel.add(qPanel);
+      formPanel.add(Box.createRigidArea(new Dimension(0,
+                                                      2)));
+    }
 
-			formPanel.add(qPanel);
-			formPanel.add(Box.createRigidArea(new Dimension(0, 2)));
-		}
+    scrollPanel = new JScrollPane();
+    scrollPanel.setViewportView(formPanel);
+    scrollPanel.setBorder(null);
 
-		scrollPanel = new JScrollPane();
-		scrollPanel.setViewportView(formPanel);
-		scrollPanel.setBorder(null);
+    panel = new JPanel();
+    panel.setLayout(new BoxLayout(panel,
+                                  BoxLayout.PAGE_AXIS));
+    panel.add(scrollPanel);
 
-		panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		panel.add(scrollPanel);
+    root = new JPanel();
+    root.setLayout(new BoxLayout(root,
+                                 BoxLayout.X_AXIS));
 
-		root = new JPanel();
-		root.setLayout(new BoxLayout(root, BoxLayout.X_AXIS));
+    root.add(Box.createGlue());
+    root.add(panel);
+    root.add(Box.createGlue());
 
-		root.add(Box.createGlue());
-		root.add(panel);
-		root.add(Box.createGlue());
+    jframe.setContentPane(root);
+    jframe.setSize(450,
+                   600);
+    jframe.setLocationRelativeTo(null);
 
-		jframe.setContentPane(root);
-		jframe.setSize(450, 600);
-		jframe.setLocationRelativeTo(null);
+    return jframe;
+  }
 
-		return jframe;
-	}
-
-	public void show() {
-		getComponent().setVisible(true);
-	}
+  public void show()
+  {
+    getComponent().setVisible(true);
+  }
 }

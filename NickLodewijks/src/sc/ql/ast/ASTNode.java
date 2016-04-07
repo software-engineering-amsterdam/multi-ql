@@ -2,68 +2,79 @@ package sc.ql.ast;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-public abstract class ASTNode {
+public abstract class ASTNode
+{
+  private SourceLocation sourceInfo = new SourceLocation();
 
-	private SourceLocation sourceInfo = new SourceLocation();
+  public ASTNode()
+  {
 
-	public ASTNode() {
+  }
 
-	}
+  public void setSourceInfo(SourceLocation info)
+  {
+    sourceInfo = info;
+  }
 
-	public void setSourceInfo(SourceLocation info) {
-		sourceInfo = info;
-	}
+  public final String getSourceLocation()
+  {
+    return sourceInfo.getSourceLocation();
+  }
 
-	public final String getSourceLocation() {
-		return sourceInfo.getSourceLocation();
-	}
+  public final String getSourceText()
+  {
+    return sourceInfo.getSourceText();
+  }
 
-	public final String getSourceText() {
-		return sourceInfo.getSourceText();
-	}
+  @Override
+  public String toString()
+  {
+    return getSourceLocation() + " " + getSourceText();
+  }
 
-	@Override
-	public String toString() {
-		return getSourceLocation() + " " + getSourceText();
-	}
+  public static class SourceLocation
+  {
+    private final int line;
+    private final int column;
+    private final String text;
 
-	public static class SourceLocation {
+    public SourceLocation()
+    {
+      text = "";
+      line = -1;
+      column = -1;
+    }
 
-		private final int line;
-		private final int column;
-		private final String text;
+    public SourceLocation(ParserRuleContext context)
+    {
+      StringBuilder textBuilder;
 
-		public SourceLocation() {
-			text = "";
-			line = -1;
-			column = -1;
-		}
+      textBuilder = new StringBuilder();
+      for (int i = 0; i < context.getChildCount(); i++)
+      {
+        textBuilder.append(context.getChild(i).getText());
+        textBuilder.append(" ");
+      }
 
-		public SourceLocation(ParserRuleContext context) {
-			StringBuilder textBuilder;
+      text = textBuilder.toString();
+      line = context.getStart().getLine();
+      column = context.getStart().getCharPositionInLine() + 1;
+    }
 
-			textBuilder = new StringBuilder();
-			for (int i = 0; i < context.getChildCount(); i++) {
-				textBuilder.append(context.getChild(i).getText());
-				textBuilder.append(" ");
-			}
+    public String getSourceLocation()
+    {
+      return "[" + line + ": " + column + "]";
+    }
 
-			text = textBuilder.toString();
-			line = context.getStart().getLine();
-			column = context.getStart().getCharPositionInLine() + 1;
-		}
+    public String getSourceText()
+    {
+      return text;
+    }
 
-		public String getSourceLocation() {
-			return "[" + line + ": " + column + "]";
-		}
-
-		public String getSourceText() {
-			return text;
-		}
-
-		@Override
-		public String toString() {
-			return getSourceLocation() + " " + getSourceText();
-		}
-	}
+    @Override
+    public String toString()
+    {
+      return getSourceLocation() + " " + getSourceText();
+    }
+  }
 }
