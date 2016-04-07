@@ -16,20 +16,19 @@ public class Main
     Form form;
     File inputFile;
 
-    // inputFile = new File(args[0]);
     inputFile = new File("resources/Questionnaire.ql");
 
     form = Form.create(inputFile);
-    new SemanticAnalyser().validateTypes(form);
+    SemanticAnalyser.validate(form);
 
     createUI(form);
   }
 
   private static void createUI(Form form)
   {
-    UIQuestionnaire uiForm;
+    UIQuestionnaire questionnaire;
 
-    uiForm = new UIFactory().create(form);
-    uiForm.show();
+    questionnaire = new UIFactory().form(form);
+    questionnaire.show();
   }
 }

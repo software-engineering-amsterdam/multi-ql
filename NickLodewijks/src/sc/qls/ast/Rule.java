@@ -5,6 +5,7 @@ import java.util.List;
 
 import sc.ql.ast.ASTNode;
 import sc.ql.ast.ValueType;
+import sc.qls.ast.Widget.DefaultWidget;
 
 public abstract class Rule
     extends ASTNode
@@ -29,9 +30,14 @@ public abstract class Rule
     return Collections.unmodifiableList(properties);
   }
 
+  public boolean hasWidget()
+  {
+    return widget() != null;
+  }
+
   public Widget widget()
   {
-    return widget;
+    return widget == null ? new DefaultWidget() : widget;
   }
 
   public abstract <T, U> T accept(RuleVisitor<T, U> visitor, U context);

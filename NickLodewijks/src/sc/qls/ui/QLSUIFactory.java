@@ -3,6 +3,7 @@ package sc.qls.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import sc.ql.ast.Form;
 import sc.ql.ast.Statement.Question;
 import sc.ql.ast.ValueType;
 import sc.ql.ast.ValueType.BooleanType;
@@ -11,7 +12,6 @@ import sc.ql.ast.ValueType.StringType;
 import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIFactory;
-import sc.ql.ui.UIQuestion;
 import sc.ql.ui.UIQuestionnaire;
 import sc.ql.ui.widget.UIRadioButton;
 import sc.ql.ui.widget.UITextField;
@@ -36,6 +36,7 @@ import sc.qls.ast.Rule.QuestionRule;
 import sc.qls.ast.StyleSheet;
 import sc.qls.ast.Widget;
 import sc.qls.ast.Widget.CheckBox;
+import sc.qls.ast.Widget.DefaultWidget;
 import sc.qls.ast.Widget.DropDown;
 import sc.qls.ast.Widget.ListWidget;
 import sc.qls.ast.Widget.RadioButton;
@@ -51,7 +52,7 @@ import sc.qls.ui.widget.UISpinner;
 public class QLSUIFactory
     extends UIFactory
 {
-  private StyleSheet styleSheet;
+  private final StyleSheet styleSheet;
 
   public QLSUIFactory(StyleSheet styleSheet)
   {
@@ -59,14 +60,18 @@ public class QLSUIFactory
   }
 
   @Override
-  protected UIQuestionnaire createQuestionnaire(List<UIQuestion> questions)
+  public StyledUIQuestionnaire form(Form form)
   {
-    return new StyledUIQuestionnaire(questions,
+    UIQuestionnaire questionnaire;
+
+    questionnaire = super.form(form);
+
+    return new StyledUIQuestionnaire(questionnaire,
                                      styleSheet);
   }
 
   @Override
-  protected UIWidget createValueWidget(Question question, Environment env)
+  public UIWidget valueWidget(Question question, Environment env)
   {
     QuestionRule rule;
     UIWidget uiWidget;
@@ -75,35 +80,34 @@ public class QLSUIFactory
     rule = styleSheet.ruleFor(question);
     assert rule != null;
 
-    uiWidget = createWidget(question,
-                            env,
-                            rule);
+    uiWidget = createWidget(rule,
+                            question,
+                            env);
+
     style = createStyle(rule,
                         uiWidget.getStyle());
-
     uiWidget.setStyle(style);
 
     return uiWidget;
   }
 
-  private UIWidget createWidget(Question question, Environment env, Rule rule)
+  private UIWidget createWidget(Rule rule, Question question, Environment env)
   {
-    Widget widget;
     ValueType type;
+    Widget widget;
 
     widget = rule.widget();
-
-    // Use default widget
-    if (widget == null)
-    {
-      return super.createValueWidget(question,
-                                     env);
-    }
-
     type = question.type();
 
     return widget.accept(new WidgetVisitor<UIWidget, Void>()
                          {
+                           @Override
+                           public UIWidget visit(DefaultWidget widget, Void context)
+                           {
+                             // Use default widget from super class
+                             return QLSUIFactory.super.valueWidget(question,
+                                                                   env);
+                           }
 
                            @Override
                            public UIWidget visit(RadioButton widget, Void unused)
@@ -252,42 +256,42 @@ public class QLSUIFactory
                     @Override
                     public Void visit(ColorProperty property, Void unused)
                     {
-                      styleBuilder.setColor(property.color());
+                      styleBuilder.setColor(property.value());
                       return null;
                     }
 
                     @Override
                     public Void visit(HeightProperty property, Void unused)
                     {
-                      styleBuilder.setHeight(property.value().value().getValue());
+                      styleBuilder.setHeight(property.value());
                       return null;
                     }
 
                     @Override
                     public Void visit(WidthProperty property, Void unused)
                     {
-                      styleBuilder.setWidth(property.value().value().getValue());
+                      styleBuilder.setWidth(property.value());
                       return null;
                     }
 
                     @Override
                     public Void visit(FontNameProperty property, Void context)
                     {
-                      styleBuilder.setFontName(property.value().value().getValue());
+                      styleBuilder.setFontName(property.value());
                       return null;
                     }
 
                     @Override
                     public Void visit(FontSizeProperty property, Void context)
                     {
-                      styleBuilder.setFontSize(property.value().value().getValue());
+                      styleBuilder.setFontSize(property.value());
                       return null;
                     }
 
                     @Override
                     public Void visit(FontStyleProperty property, Void context)
                     {
-                      styleBuilder.setFontStyle(property.getStyle());
+                      styleBuilder.setFontStyle(property.value());
                       return null;
                     }
                   },

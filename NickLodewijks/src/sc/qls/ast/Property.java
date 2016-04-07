@@ -6,6 +6,7 @@ import java.awt.Font;
 import sc.ql.ast.ASTNode;
 import sc.ql.ast.Literal.IntegerLiteral;
 import sc.ql.ast.Literal.StringLiteral;
+import sc.ql.value.NumberValue;
 
 public abstract class Property
     extends ASTNode
@@ -23,12 +24,7 @@ public abstract class Property
       this.value = value;
     }
 
-    public StringLiteral value()
-    {
-      return value;
-    }
-
-    public Color color()
+    public Color value()
     {
       int red, green, blue;
 
@@ -60,9 +56,9 @@ public abstract class Property
       this.value = value;
     }
 
-    public IntegerLiteral value()
+    public int value()
     {
-      return value;
+      return value.value().getValue();
     }
 
     @Override
@@ -83,9 +79,9 @@ public abstract class Property
       this.value = value;
     }
 
-    public IntegerLiteral value()
+    public int value()
     {
-      return value;
+      return value.value().getValue();
     }
 
     @Override
@@ -106,9 +102,9 @@ public abstract class Property
       this.value = value;
     }
 
-    public StringLiteral value()
+    public String value()
     {
-      return value;
+      return value.value().getValue();
     }
 
     @Override
@@ -129,9 +125,9 @@ public abstract class Property
       this.value = value;
     }
 
-    public IntegerLiteral value()
+    public int value()
     {
-      return value;
+      return value.value().getValue();
     }
 
     @Override
@@ -152,12 +148,7 @@ public abstract class Property
       this.value = value;
     }
 
-    public StringLiteral value()
-    {
-      return value;
-    }
-
-    public int getStyle()
+    public int value()
     {
       int style;
       String styleName;

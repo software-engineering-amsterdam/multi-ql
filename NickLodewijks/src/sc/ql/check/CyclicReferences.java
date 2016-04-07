@@ -44,7 +44,6 @@ public class CyclicReferences
 
     form.accept(new TopDown<Void, Void>()
                 {
-
                   @Override
                   public Void visit(ComputedQuestion node, Void unused)
                   {
@@ -83,7 +82,6 @@ public class CyclicReferences
 
     expr.accept(new TopDown<Void, Void>()
                 {
-
                   @Override
                   public Void visit(VariableExpr node, Void unused)
                   {

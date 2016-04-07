@@ -30,9 +30,11 @@ import sc.ql.value.NumberValue;
 import sc.ql.value.StringValue;
 
 public class UIFactory
+    implements QlAlg<UIQuestionnaire, UIQuestion, UIWidget>
 {
 
-  public UIQuestionnaire create(Form form)
+  @Override
+  public UIQuestionnaire form(Form form)
   {
     List<UIQuestion> questions;
     Environment env;
@@ -43,7 +45,6 @@ public class UIFactory
 
     form.accept(new TopDown<Void, Expression>()
                 {
-
                   @Override
                   public Void visit(IfThen node, Expression condition)
                   {
@@ -54,61 +55,57 @@ public class UIFactory
                   }
 
                   @Override
-                  public Void visit(NormalQuestion node, Expression condition)
+                  public Void visit(NormalQuestion question, Expression condition)
                   {
-                    addQuestion(node,
-                                condition,
-                                null);
+                    questions.add(question(question,
+                                           condition,
+                                           null,
+                                           env));
                     return null;
                   }
 
                   @Override
-                  public Void visit(ComputedQuestion node, Expression condition)
+                  public Void visit(ComputedQuestion question, Expression condition)
                   {
-                    addQuestion(node,
-                                condition,
-                                node.computation());
+                    questions.add(question(question,
+                                           condition,
+                                           question.computation(),
+                                           env));
                     return null;
                   }
-
-                  private void addQuestion(Question question, Expression condition, Expression valueComputation)
-                  {
-                    UIQuestion uiQuestion;
-                    UIWidget labelWidget;
-                    UIWidget valueWidget;
-
-                    labelWidget = createLabelWidget(question);
-                    valueWidget = createValueWidget(question,
-                                                    env);
-
-                    uiQuestion = new UIQuestion(env,
-                                                question,
-                                                labelWidget,
-                                                valueWidget,
-                                                condition,
-                                                valueComputation);
-
-                    questions.add(uiQuestion);
-                  }
-
                 },
                 new LiteralExpr(BooleanLiteral.TRUE));
 
-    return createQuestionnaire(questions);
-  }
-
-  protected UIQuestionnaire createQuestionnaire(List<UIQuestion> questions)
-  {
     return new UIQuestionnaire(questions);
   }
 
-  // Object algebra?
-  protected UIWidget createLabelWidget(Question question)
+  @Override
+  public UIQuestion question(Question question, Expression condition, Expression computation, Environment env)
+  {
+    UIWidget labelWidget;
+    UIWidget valueWidget;
+
+    labelWidget = labelWidget(question,
+                              env);
+    valueWidget = valueWidget(question,
+                              env);
+
+    return new UIQuestion(env,
+                          question,
+                          labelWidget,
+                          valueWidget,
+                          condition,
+                          computation);
+  }
+
+  @Override
+  public UIWidget labelWidget(Question question, Environment env)
   {
     return new UILabel(question.label());
   }
 
-  protected UIWidget createValueWidget(Question question, Environment env)
+  @Override
+  public UIWidget valueWidget(Question question, Environment env)
   {
     return question.type().accept(new ValueTypeVisitor<UIWidget, Void>()
                                   {

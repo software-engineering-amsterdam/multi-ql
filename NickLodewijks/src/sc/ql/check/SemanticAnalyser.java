@@ -59,7 +59,7 @@ public class SemanticAnalyser
 
   }
 
-  public SemanticResult validate(Form form)
+  public static SemanticResult validate(Form form)
   {
     SemanticResult result;
 
@@ -73,24 +73,17 @@ public class SemanticAnalyser
   }
 
   /**
-   * Validate the types in the {@code form}.
+   * Validate the questions in the {@code form}.
    * <p>
    * This will check for:
    * <li>Reference to undefined questions
    * <li>Duplicate question (name) declaration with different types
-   * <li>duplicate question labels
-   * <li>Conditions that are not of the type boolean
-   * <li>Operands of invalid type to operators</br>
+   * <li>duplicate question labels</br>
    * 
    * @param form
    * @return a {@link SemanticResult} containing errors and warnings.
    */
-  public SemanticResult validateTypes(Form form)
-  {
-    return new TypeCheckVisitor().visit(form);
-  }
-
-  public SemanticResult validateQuestions(Form form)
+  private static SemanticResult validateQuestions(Form form)
   {
     SemanticResult result;
     QuestionTable qt;
@@ -157,12 +150,27 @@ public class SemanticAnalyser
   }
 
   /**
+   * Validate the types in the {@code form}.
+   * <p>
+   * This will check for:
+   * <li>Conditions that are not of the type boolean
+   * <li>Operands of invalid type to operators</br>
+   * 
+   * @param form
+   * @return a {@link SemanticResult} containing errors and warnings.
+   */
+  private static SemanticResult validateTypes(Form form)
+  {
+    return new TypeCheckVisitor().visit(form);
+  }
+
+  /**
    * Validate the that there are no cyclic dependencies between questions of the supplied {@code questionnaire}.
    * 
    * @param questionnaire
    * @return a {@link SemanticResult} containing errors and warnings.
    */
-  public SemanticResult validateCyclicReferences(Form form)
+  private static SemanticResult validateCyclicReferences(Form form)
   {
     SemanticResult result;
 
@@ -210,7 +218,6 @@ public class SemanticAnalyser
     @Override
     public Void visit(Block node, SymbolTable st)
     {
-
       collectSymbols(node,
                      st);
       checkExpressions(node,

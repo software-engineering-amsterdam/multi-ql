@@ -1,7 +1,6 @@
 package sc.qls.ui;
 
 import java.awt.Dimension;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -9,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import sc.ql.ui.UIQuestion;
 import sc.ql.ui.UIQuestionnaire;
 import sc.qls.ast.Page;
 import sc.qls.ast.StyleSheet;
@@ -19,9 +17,9 @@ public class StyledUIQuestionnaire
 {
   private final StyleSheet styleSheet;
 
-  public StyledUIQuestionnaire(List<UIQuestion> questions, StyleSheet styleSheet)
+  public StyledUIQuestionnaire(UIQuestionnaire questionnaire, StyleSheet styleSheet)
   {
-    super(questions);
+    super(questionnaire.questions());
 
     this.styleSheet = styleSheet;
   }

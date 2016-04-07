@@ -1,4 +1,4 @@
-package sc.ql;
+package sc.ql.check;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,13 +14,29 @@ import sc.ql.check.SemanticMessage;
 
 public class SemanticAnalyserTest
 {
+
+  @Test
+  public void testValidQuestions()
+      throws IOException
+  {
+    SemanticResult result;
+
+    result = SemanticAnalyser.validate(createQuestionnaire("ValidQuestions.ql"));
+
+    print(result);
+    assertNumberOfErrors(result,
+                         0);
+    assertNumberOfWarnings(result,
+                           0);
+  }
+
   @Test
   public void testDuplicateQuestions()
       throws IOException
   {
     SemanticResult result;
 
-    result = new SemanticAnalyser().validate(createQuestionnaire("DuplicateQuestions.ql"));
+    result = SemanticAnalyser.validate(createQuestionnaire("DuplicateQuestions.ql"));
 
     print(result);
     assertNumberOfWarnings(result,
@@ -35,7 +51,7 @@ public class SemanticAnalyserTest
   {
     SemanticResult result;
 
-    result = new SemanticAnalyser().validate(createQuestionnaire("DuplicateQuestionsNested.ql"));
+    result = SemanticAnalyser.validate(createQuestionnaire("DuplicateQuestionsNested.ql"));
 
     print(result);
     assertNumberOfWarnings(result,
@@ -50,26 +66,11 @@ public class SemanticAnalyserTest
   {
     SemanticResult result;
 
-    result = new SemanticAnalyser().validateCyclicReferences(createQuestionnaire("CyclicReferences.ql"));
+    result = SemanticAnalyser.validate(createQuestionnaire("CyclicReferences.ql"));
 
     print(result);
     assertNumberOfErrors(result,
                          6);
-    assertNumberOfWarnings(result,
-                           0);
-  }
-
-  @Test
-  public void testValidQuestions()
-      throws IOException
-  {
-    SemanticResult result;
-
-    result = new SemanticAnalyser().validate(createQuestionnaire("ValidQuestions.ql"));
-
-    print(result);
-    assertNumberOfErrors(result,
-                         0);
     assertNumberOfWarnings(result,
                            0);
   }

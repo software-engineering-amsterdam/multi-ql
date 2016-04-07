@@ -25,7 +25,7 @@ public class Main
     inputFile = new File("resources/Questionnaire.ql");
 
     form = Form.create(inputFile);
-    new SemanticAnalyser().validateTypes(form);
+    SemanticAnalyser.validate(form);
 
     styleSheet = StyleSheet.create(new File("resources/Stylesheet.qls"));
 
@@ -35,9 +35,9 @@ public class Main
 
   private static void createUI(Form form, StyleSheet styleSheet)
   {
-    UIQuestionnaire uiForm;
+    UIQuestionnaire questionnaire;
 
-    uiForm = new QLSUIFactory(styleSheet).create(form);
-    uiForm.show();
+    questionnaire = new QLSUIFactory(styleSheet).form(form);
+    questionnaire.show();
   }
 }

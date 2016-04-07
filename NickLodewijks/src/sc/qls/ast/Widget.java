@@ -27,6 +27,17 @@ public abstract class Widget
     }
   }
 
+  public static class DefaultWidget
+      extends Widget
+  {
+    @Override
+    public <T, U> T accept(WidgetVisitor<T, U> visitor, U context)
+    {
+      return visitor.visit(this,
+                           context);
+    }
+  }
+
   public abstract static class ListWidget
       extends Widget
   {
