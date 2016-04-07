@@ -75,7 +75,7 @@ rule0 returns [Rule result]
 
 question returns [Rule result]
     locals[
-        Widget widget = null;
+        Widget widget;
         List<Property> props = new ArrayList<>();
     ]
     : 'question' + ID +  ('widget' widgetType {$ctx.widget=$widgetType.result; })?  ('{' properties {$ctx.props.addAll($properties.result); } '}')?
