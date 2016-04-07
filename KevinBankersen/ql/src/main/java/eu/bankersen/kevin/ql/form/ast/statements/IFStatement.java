@@ -1,5 +1,6 @@
 package eu.bankersen.kevin.ql.form.ast.statements;
 
+import eu.bankersen.kevin.ql.form.ast.Body;
 import eu.bankersen.kevin.ql.form.ast.expressions.Expression;
 import eu.bankersen.kevin.ql.form.ast.visitors.Visitor;
 
@@ -8,10 +9,10 @@ public class IFStatement extends Statement {
 	private final Expression condition;
 	private final Body body;
 
-	public IFStatement(Expression expr, Body body, int line) {
+	public IFStatement(Expression condition, Body body, int line) {
 		super(line);
 		this.body = body;
-		this.condition = expr;
+		this.condition = condition;
 	}
 
 	public Expression condition() {

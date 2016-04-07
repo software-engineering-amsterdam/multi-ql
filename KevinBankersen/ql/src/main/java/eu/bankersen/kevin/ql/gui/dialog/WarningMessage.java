@@ -5,11 +5,11 @@ import java.util.Iterator;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class WarningMessage<T> {
+public class WarningMessage {
 
-	public WarningMessage(Iterator<T> list) {
+	public WarningMessage(Iterator list) {
 		StringBuilder sb = new StringBuilder();
-		list.forEachRemaining(warning -> sb.append(warning + "\n"));
+		list.forEachRemaining(warning -> sb.append(warning.toString() + "\n"));
 		showWarning(sb.toString());
 	}
 

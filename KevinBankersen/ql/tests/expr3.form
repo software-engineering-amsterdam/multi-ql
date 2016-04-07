@@ -1,17 +1,15 @@
 form testForm { 
 
-	// Four cyclic dependencies
+	// 2 errors
 	"q1"
-	q1: boolean = q4
+	q1: integer
 
-	if(q1) {
-		"q2"
-		q2: boolean = q1
+	"q2"
+	q2: integer = (q1 && q4)
 
-		"q3"
-		q3: boolean = q2
+	"q3"
+	q3: string
 		
-		"q4"
-		q4: boolean = q3
-		}
+	"q4"
+	q4: boolean = (q1 > q3)
 	}

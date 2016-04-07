@@ -1,5 +1,7 @@
 package eu.bankersen.kevin.ql.form.ast.types;
 
+import java.math.BigDecimal;
+
 import eu.bankersen.kevin.ql.form.ast.statements.Question;
 import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
 import eu.bankersen.kevin.ql.form.ast.values.NumberValue;
@@ -20,10 +22,10 @@ public class NumberType extends Type {
 	}
 
 	@Override
-	public Value value(String string) {
-		try {
-			return new NumberValue(string);
-		} catch (NumberFormatException e) {
+	public Value parse(String value) {
+		if (value.matches("\\d+?")) {
+			return new NumberValue(new BigDecimal(value));
+		} else {
 			return new EmptyValue();
 		}
 	}

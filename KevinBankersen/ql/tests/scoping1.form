@@ -1,0 +1,15 @@
+form testForm { 
+
+	// In if block (1 error)
+	"q1"
+	q1: integer = q2
+
+	// Own block (1 error)
+	if(q2){
+		"q2"
+		q2: integer = (q1 && q4)
+
+		"q4"
+		q4: integer = q1
+		}
+	}

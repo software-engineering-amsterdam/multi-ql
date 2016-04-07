@@ -6,7 +6,7 @@ import java.util.List;
 import eu.bankersen.kevin.ql.form.analyzer.scanners.Dependencies;
 import eu.bankersen.kevin.ql.form.analyzer.scanners.Scoping;
 import eu.bankersen.kevin.ql.form.analyzer.scanners.TypeChecker;
-import eu.bankersen.kevin.ql.form.ast.statements.Form;
+import eu.bankersen.kevin.ql.form.ast.Form;
 
 public class Analyzer {
 

@@ -7,10 +7,6 @@ public class NumberValue extends Value {
 
 	private final BigDecimal value;
 
-	public NumberValue(String value) throws NumberFormatException {
-		this.value = new BigDecimal(value).setScale(0, RoundingMode.HALF_DOWN);
-	}
-
 	public NumberValue(Integer value) {
 		this.value = new BigDecimal(value).setScale(0, RoundingMode.HALF_DOWN);
 	}

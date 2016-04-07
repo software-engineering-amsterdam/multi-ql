@@ -1,6 +1,5 @@
-package eu.bankersen.kevin.ql.form.ast.statements;
+package eu.bankersen.kevin.ql.form.ast;
 
-import eu.bankersen.kevin.ql.form.ast.Node;
 import eu.bankersen.kevin.ql.form.ast.visitors.Visitable;
 import eu.bankersen.kevin.ql.form.ast.visitors.Visitor;
 

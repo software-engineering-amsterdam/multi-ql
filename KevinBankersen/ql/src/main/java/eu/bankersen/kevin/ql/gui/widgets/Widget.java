@@ -20,7 +20,7 @@ public abstract class Widget extends BorderPane implements DataListener {
 		this.question = question;
 		this.viewListeners = new ArrayList<>();
 
-		Text text = new Text(question.text());
+		Text text = new Text(question.toString());
 		text.setWrappingWidth(275);
 
 		setPadding(new Insets(0, 10, 0, 0));
@@ -37,7 +37,7 @@ public abstract class Widget extends BorderPane implements DataListener {
 	}
 
 	protected void sendData(String data) {
-		Value value = question.type().value(data);
+		Value value = question.type().parse(data);
 		viewListeners.forEach(listener -> listener.viewUpdate(name(), value));
 	}
 

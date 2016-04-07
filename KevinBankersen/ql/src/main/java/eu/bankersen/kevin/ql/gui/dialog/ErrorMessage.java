@@ -5,15 +5,15 @@ import java.util.Iterator;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class ErrorMessage<T> {
+public class ErrorMessage {
 
 	public ErrorMessage(String errorType, String message) {
 		showError(errorType, message);
 	}
 
-	public ErrorMessage(String errorType, Iterator<T> list) {
+	public ErrorMessage(String errorType, Iterator list) {
 		StringBuilder sb = new StringBuilder();
-		list.forEachRemaining(error -> sb.append(error + "\n"));
+		list.forEachRemaining(error -> sb.append(error.toString() + "\n"));
 		showError(errorType, sb.toString());
 	}
 

@@ -1,15 +1,16 @@
 package eu.bankersen.kevin.ql.form.analyzer.scanners.warnings;
 
-public abstract class TypeCheckWarning {
+public abstract class ScanWarning {
 	private final String message;
 	private final int line;
 
-	public TypeCheckWarning(int line, String message) {
+	public ScanWarning(int line, String message) {
 		this.line = line;
 		this.message = message;
 	}
 
+	@Override
 	public String toString() {
-		return line == 0 ? message : String.format("Line %s: %s", line, message);
+		return String.format("Line %s: %s", line, message);
 	}
 }

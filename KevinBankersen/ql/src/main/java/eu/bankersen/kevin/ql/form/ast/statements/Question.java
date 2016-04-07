@@ -6,18 +6,19 @@ import eu.bankersen.kevin.ql.gui.widgets.Widget;
 public abstract class Question extends Statement {
 
 	private final String name;
-	private final String text;
+	private final String question;
 	private final Type type;
 
-	public Question(String name, String text, Type type, int line) {
+	public Question(String name, String question, Type type, int line) {
 		super(line);
 		this.name = name;
-		this.text = text;
+		this.question = question;
 		this.type = type;
 	}
 
-	public String text() {
-		return text;
+	@Override
+	public String toString() {
+		return question;
 	}
 
 	public String name() {
