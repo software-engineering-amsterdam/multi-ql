@@ -7,11 +7,11 @@ import (
 type GUIComputedQuestion struct {
 	*GUIQuestion
 	Expr  interfaces.Expr
-	VarId interfaces.VarId
+	VarID interfaces.VarID
 }
 
-// createGUIComputedQuestion is a constructr method returning a new GUIComputedQuestion
-func createGUIComputedQuestion(label string, questionType interfaces.ValueType, expr interfaces.Expr, varId interfaces.VarId) *GUIComputedQuestion {
+// newGUIComputedQuestion is a constructr method returning a new GUIComputedQuestion
+func newGUIComputedQuestion(label string, questionType interfaces.ValueType, expr interfaces.Expr, varID interfaces.VarID) *GUIComputedQuestion {
 	guiQuestion := createDisabledGUIQuestion(label, questionType, nil)
-	return &GUIComputedQuestion{GUIQuestion: guiQuestion, Expr: expr, VarId: varId}
+	return &GUIComputedQuestion{GUIQuestion: guiQuestion, Expr: expr, VarID: varID}
 }

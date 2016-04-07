@@ -86,7 +86,8 @@ class EvalTests: XCTestCase {
         )
     }
     
-    private func eval(file: String, var expectedValues: [String: NSObject?]) {
+    private func eval(file: String, expectedValues: [String: NSObject?]) {
+        
         
         guard let form = parseFile(file, doEval: true)
             else { XCTFail("Parse failed"); return }
@@ -96,6 +97,7 @@ class EvalTests: XCTestCase {
             else { XCTFail("Parse failed"); return }
         
         let interpreter = Interpreter.sharedInstance
+        var expectedValues = expectedValues
         
         for (id, expectedValue) in expectedValues {
             guard let expression = context.retrieveExpression(id)

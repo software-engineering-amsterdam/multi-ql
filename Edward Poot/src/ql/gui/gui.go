@@ -12,23 +12,25 @@ import (
 type GUI struct {
 	visitor.BaseVisitor
 	GUIForm                   *GUIForm
-	Symbols                   interfaces.VarIdValueSymbols
+	Symbols                   interfaces.VarIDValueSymbols
 	RegisteredOnShowCallbacks []func()
 	SaveDataCallback          func() (interface{}, error)
 	Window                    *ui.Window
 }
 
-// NewGUI is a constructor method returning a new GUI
+// NewGUI is a method returning a new GUI
 func NewGUI() *GUI {
-	return &GUI{}
+	return new(GUI)
 }
 
-func (this *GUI) InitializeGUIForm(form interfaces.Form, symbols interfaces.VarIdValueSymbols) {
+func (this *GUI) InitializeGUIForm(form interfaces.Form, symbols interfaces.VarIDValueSymbols) {
 	this.setSymbols(symbols)
 	this.createAndSetGUIFormFromForm(form)
+
+	form.Accept(this, this.Symbols)
 }
 
-func (this *GUI) setSymbols(symbols interfaces.VarIdValueSymbols) {
+func (this *GUI) setSymbols(symbols interfaces.VarIDValueSymbols) {
 	if symbols == nil {
 		panic("Passing nil symbols to GUI setSymbols")
 	}
@@ -36,25 +38,25 @@ func (this *GUI) setSymbols(symbols interfaces.VarIdValueSymbols) {
 	this.Symbols = symbols
 }
 
+// createAndSetGUIFormFromForm uses Form to create GUIForm
 func (this *GUI) createAndSetGUIFormFromForm(form interfaces.Form) {
 	if form == nil {
 		panic("Passing nil form to GUI createAndSetGUIFormFromForm")
 	}
 
 	this.GUIForm = newGUIForm(form)
-	form.Accept(this, this.Symbols)
 }
 
-// RegisterOnShowCallback registers callback functions that are called once the UI is presented to the user.
-func (this *GUI) RegisterOnShowCallback(callback func()) {
+// registerOnShowCallback registers callback functions that are called once the UI is presented to the user
+func (this *GUI) registerOnShowCallback(callback func()) {
 	this.RegisteredOnShowCallbacks = append(this.RegisteredOnShowCallbacks, callback)
 }
 
-// Show shows the UI after calling
+// ShowWindow shows the UI after invocation
 func (this *GUI) ShowWindow(errorsToDisplay, warningsToDisplay []error) {
-	log.Info("Showing GUI")
-
 	guiError := ui.Main(func() {
+		log.Info("Showing GUI")
+
 		contentBox := ui.NewVerticalBox()
 		contentBox.SetPadded(true)
 		this.Window = ui.NewWindow("QL", 800, 600, false)
@@ -82,6 +84,7 @@ func (this *GUI) ShowWindow(errorsToDisplay, warningsToDisplay []error) {
 	}
 }
 
+// ShowForm visually shows a GUIForm representation of a form
 func (this *GUI) ShowForm() {
 	this.GUIForm.show(this.Window)
 
@@ -92,38 +95,40 @@ func (this *GUI) ShowForm() {
 	this.addSubmitButton()
 }
 
-// VisitForm creates the top level questions
+// VisitForm creates the top level questions in the form's inner body
 func (this *GUI) VisitForm(f interfaces.Form, context interface{}) {
 	guiQuestions := handleQuestions(this, f.Questions())
 
-	this.RegisterOnShowCallback(func() {
+	this.registerOnShowCallback(func() {
 		this.GUIForm.addQuestionContainer(this.GUIForm.createQuestionTable(guiQuestions))
 	})
 }
 
+// VisitIf creates questions embedded in an its body and registers show/hide callbacks
 func (this *GUI) VisitIf(ifStmt interfaces.If, context interface{}) {
-	guiQuestions := handleQuestions(this, ifStmt.Body().Questions())
+	guiQuestions := handleQuestions(this, ifStmt.Questions())
 	questionsEncompassingContainer := this.GUIForm.createQuestionTable(guiQuestions)
 
-	this.RegisterOnShowCallback(func() {
+	this.registerOnShowCallback(func() {
 		this.GUIForm.addQuestionContainer(questionsEncompassingContainer)
 		this.showOrHideContainerDependingOnIfEval(ifStmt, questionsEncompassingContainer)
 	})
 
 	this.Symbols.RegisterCallback(func() {
-		log.Debug("Received symbols update callback")
+		log.Debug("Received symbols update callback in If")
 		this.showOrHideContainerDependingOnIfEval(ifStmt, questionsEncompassingContainer)
 	})
 }
 
+// VisitIfElse creates questions embedded in an its bodies and registers show/hide callbacks
 func (this *GUI) VisitIfElse(ifElse interfaces.IfElse, context interface{}) {
-	guiQuestionsIfBody := handleQuestions(this, ifElse.IfBody().Questions())
-	guiQuestionsElseBody := handleQuestions(this, ifElse.ElseBody().Questions())
+	guiQuestionsIfBody := handleQuestions(this, ifElse.IfBodyQuestions())
+	guiQuestionsElseBody := handleQuestions(this, ifElse.ElseBodyQuestions())
 
 	ifQuestionsEncompassingContainer := this.GUIForm.createQuestionTable(guiQuestionsIfBody)
 	elseQuestionsEncompassingContainer := this.GUIForm.createQuestionTable(guiQuestionsElseBody)
 
-	this.RegisterOnShowCallback(func() {
+	this.registerOnShowCallback(func() {
 		this.GUIForm.addQuestionContainer(ifQuestionsEncompassingContainer)
 		this.GUIForm.addQuestionContainer(elseQuestionsEncompassingContainer)
 
@@ -131,14 +136,13 @@ func (this *GUI) VisitIfElse(ifElse interfaces.IfElse, context interface{}) {
 	})
 
 	this.Symbols.RegisterCallback(func() {
-		log.Debug("Received symbols update callback")
-
+		log.Debug("Received symbols update callback in IfElse")
 		this.showOrHideContainerDependingOnIfElseEval(ifElse, ifQuestionsEncompassingContainer, elseQuestionsEncompassingContainer)
 	})
 }
 
 func (this *GUI) showOrHideContainerDependingOnIfEval(ifStmt interfaces.If, conditionalContainer *ui.Box) {
-	conditionValue := ifStmt.EvalCondition(this.Symbols).PrimitiveValueBool()
+	conditionValue := ifStmt.EvalConditionAsBool(this.Symbols)
 
 	// if condition evals to true
 	if conditionValue {
@@ -151,9 +155,9 @@ func (this *GUI) showOrHideContainerDependingOnIfEval(ifStmt interfaces.If, cond
 }
 
 func (this *GUI) showOrHideContainerDependingOnIfElseEval(ifElseStmt interfaces.IfElse, conditionalContainerIfBody, conditionalContainerElseBody *ui.Box) {
-	conditionValue := ifElseStmt.EvalCondition(this.Symbols).PrimitiveValueBool()
+	conditionValue := ifElseStmt.EvalConditionAsBool(this.Symbols)
 
-	// ifElse condition evals to true
+	// ifElse if block condition evals to true
 	if conditionValue {
 		conditionalContainerIfBody.Show()
 		conditionalContainerElseBody.Hide()
@@ -165,10 +169,10 @@ func (this *GUI) showOrHideContainerDependingOnIfElseEval(ifElseStmt interfaces.
 	conditionalContainerElseBody.Show()
 }
 
-func handleQuestions(this *GUI, q []interfaces.Question) []*GUIQuestion {
-	guiQuestions := make([]*GUIQuestion, 0)
+func handleQuestions(this *GUI, questions []interfaces.Question) []*GUIQuestion {
+	var guiQuestions []*GUIQuestion
 
-	for _, question := range q {
+	for _, question := range questions {
 		var guiQuestion *GUIQuestion
 
 		switch question := question.(type) {
@@ -186,8 +190,9 @@ func handleQuestions(this *GUI, q []interfaces.Question) []*GUIQuestion {
 
 func (this *GUI) handleInputQuestion(question interfaces.InputQuestion) *GUIInputQuestion {
 	var guiQuestion *GUIInputQuestion
+
 	questionCallback := func(inputExpr interfaces.Expr, err error) {
-		guiQuestion.changeErrorLabelText("")
+		guiQuestion.resetErrorLabelText()
 		if err != nil {
 			if numError, isNumError := err.(*strconv.NumError); isNumError && numError.Err.Error() == "invalid syntax" {
 				guiQuestion.changeErrorLabelText("Not a valid number!")
@@ -197,21 +202,21 @@ func (this *GUI) handleInputQuestion(question interfaces.InputQuestion) *GUIInpu
 			return
 		}
 
-		questionIdentifier := question.VarDecl().VariableIdentifier()
+		questionIdentifier := question.VarDeclVariableIdentifier()
 		log.WithFields(log.Fields{"input": inputExpr, "identifier": questionIdentifier}).Debug("Question input received")
-		this.Symbols.SetExprForVarId(inputExpr, questionIdentifier)
+		this.Symbols.SetExprForVarID(inputExpr, questionIdentifier)
 
 		this.updateComputedQuestions()
 	}
 
-	guiQuestion = createGUIInputQuestion(question.Label().Value().(interfaces.StringValue).PrimitiveValueString(), question.VarDecl().Type(), questionCallback)
+	guiQuestion = newGUIInputQuestion(question.LabelAsString(), question.VarDeclType(), questionCallback)
 
 	return guiQuestion
 }
 
 func (this *GUI) handleComputedQuestion(question interfaces.ComputedQuestion) *GUIComputedQuestion {
 	computation := question.Computation()
-	guiQuestion := createGUIComputedQuestion(question.Label().Value().(interfaces.StringValue).PrimitiveValueString(), question.VarDecl().Type(), computation, question.VarDecl().VariableIdentifier())
+	guiQuestion := newGUIComputedQuestion(question.LabelAsString(), question.VarDeclType(), computation, question.VarDeclVariableIdentifier())
 
 	this.GUIForm.addComputedQuestion(guiQuestion)
 
@@ -220,44 +225,47 @@ func (this *GUI) handleComputedQuestion(question interfaces.ComputedQuestion) *G
 
 func (this *GUI) updateComputedQuestions() {
 	for _, computedQuestion := range this.GUIForm.ComputedQuestions {
-		computedQuestionEval := computedQuestion.Expr.Eval(this.Symbols).PrimitiveValue()
-		computedQuestion.changeFieldValueText(fmt.Sprintf("%v", computedQuestionEval))
+		computedQuestionEvalValue := computedQuestion.Expr.Eval(this.Symbols).PrimitiveValue()
+		computedQuestion.changeFieldValueText(fmt.Sprintf("%v", computedQuestionEvalValue))
 
 		// save the computed value to the symbol table
-		this.Symbols.SetExprForVarId(computedQuestion.Expr, computedQuestion.VarId)
-		log.WithFields(log.Fields{"evaluatesTo": computedQuestionEval}).Info("Computed question value changed")
+		this.Symbols.SetExprForVarID(computedQuestion.Expr, computedQuestion.VarID)
+
+		log.WithFields(log.Fields{"evaluatesTo": computedQuestionEvalValue}).Info("Computed question value changed")
 	}
 }
 
-// addSubmitButton adds a submit button to the form.
+// addSubmitButton adds a submit button to the form
 func (this *GUI) addSubmitButton() {
 	log.Info("Adding submit button to GUI")
 
 	button := createButton("Submit", func(b *ui.Button) {
-		log.Debug("Submit button clicked, saving data initiated")
+		log.Debug("Submit button clicked, save of data initiated")
 		this.Symbols.SaveToDisk()
-		showMessageBoxForErrors("Data saved to file", nil, this.Window)
+		showMessageBoxForNotification("Data saved to file", "The information entered in the form has been saved to a file.", this.Window)
 	})
 
 	this.GUIForm.FormContainer.Append(button, false)
 }
 
+// showErrorDialogIfNecessary displays an error dialog only if there are errors
 func (this *GUI) showErrorDialogIfNecessary(errorsToDisplay []error) bool {
 	if len(errorsToDisplay) == 0 {
 		return false
 	}
 
-	showMessageBoxForErrors("Errors encountered", errorsToDisplay, this.Window)
+	showMessageBoxForErrors("Errors", errorsToDisplay, this.Window)
 
 	return true
 }
 
+// showWarningDialogIfNecessary displays a warning dialog only if there are warnings
 func (this *GUI) showWarningDialogIfNecessary(warningsToDisplay []error) bool {
 	if len(warningsToDisplay) == 0 {
 		return false
 	}
 
-	showMessageBoxForErrors("Warnings encountered", warningsToDisplay, this.Window)
+	showMessageBoxForErrors("Warnings", warningsToDisplay, this.Window)
 
 	return true
 }

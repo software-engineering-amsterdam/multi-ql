@@ -14,7 +14,7 @@ class BooleanWidget: ViewWidget {
     override func setupView() {
         if toggle.superview == nil {
             toggle.on = false
-            toggle.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
+            toggle.addTarget(self, action: #selector(BooleanWidget.valueChanged(_:)), forControlEvents: .ValueChanged)
             
             self.addSubview(toggle)
             toggle.snp_makeConstraints { [unowned self] (make) -> Void in

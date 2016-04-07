@@ -15,7 +15,7 @@ type GUIQuestion struct {
 	ErrorLabel *ui.Label
 }
 
-// createGUIQuestion creates a GUIQuestion. The last argument indicates if the question should be disabled (no entry allowed)
+// createGUIQuestion creates a GUIQuestion, the last argument indicates if the question should be disabled (no entry allowed)
 func createGUIQuestion(label string, questionType interfaces.ValueType, callback func(interfaces.Expr, error), disabled bool) *GUIQuestion {
 	questionLabel := createLabel(label)
 	questionElement := createQuestionElement(questionType, callback, disabled)
@@ -46,7 +46,7 @@ func (this *GUIQuestion) changeErrorLabelText(newText string) {
 }
 
 // ResetErrorLabelText removes the error text presented to the user
-func (this *GUIQuestion) resetErrorLabelText(newText string) {
+func (this *GUIQuestion) resetErrorLabelText() {
 	this.changeErrorLabelText("")
 }
 
@@ -78,7 +78,7 @@ func createQuestionElement(questionType interfaces.ValueType, callback func(inte
 		inputField.OnChanged(func(*ui.Entry) {
 			inputText := inputField.Text()
 
-			log.WithFields(log.Fields{"value": inputText}).Debug("Input text value changed (int field)")
+			log.WithFields(log.Fields{"value": inputText}).Debug("Input text value changed (integer field)")
 
 			inputTextAsInt, err := strconv.Atoi(inputText)
 			if inputText == "" {

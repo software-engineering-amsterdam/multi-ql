@@ -44,15 +44,16 @@ extension SequenceType where Generator.Element: Equatable {
     /// - returns: An array with the duplicate elements removed.
     func removeDuplicates() -> [Self.Generator.Element] {
         
-        return reduce([]) { (var acc, elem) in
+        return reduce([]) { (acc, elem) in
+            var newAcc = acc
             
-            if !acc.contains(elem) {
+            if !newAcc.contains(elem) {
                 
-                acc.append(elem)
+                newAcc.append(elem)
                 
             }
             
-            return acc
+            return newAcc
             
         }
         

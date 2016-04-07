@@ -135,7 +135,7 @@ extension Interpreter {
 // MARK: - Double dispatch resolvers
 
 private protocol Resolver {
-    typealias GenericParam
+    associatedtype GenericParam
     
     func resolve(type: QLType, value: GenericParam?) -> NSObject?
     func resolveValue(type: QLType, expression: QLExpression, context: Context) -> NSObject?

@@ -6,15 +6,15 @@ import (
 )
 
 func (this VarExpr) TypeCheck(typeCheckArgs interfaces.TypeCheckArgs) interfaces.ValueType {
-	typeCheckArgs.TypeChecker().AddDependencyForVarDecl(this.Identifier(), typeCheckArgs.CurrentVarDeclVisited())
+	typeCheckArgs.TypeChecker().AddDependencyForVarDecl(this.VarIdentifier(), typeCheckArgs.CurrentVarDeclVisited())
 
 	// Return the true type of the VarExpr; the type of the Expr referred to
-	if typeCheckArgs.Symbols().IsTypeSetForVarId(this.Identifier()) {
-		return typeCheckArgs.Symbols().TypeForVarId(this.Identifier()).(interfaces.ValueType)
+	if typeCheckArgs.Symbols().IsTypeSetForVarID(this.VarIdentifier()) {
+		return typeCheckArgs.Symbols().TypeForVarID(this.VarIdentifier()).(interfaces.ValueType)
 	}
 
 	// We don't already mark it as an error; because there is only one scope, the VarDecl may be simply declared later on
-	typeCheckArgs.TypeChecker().MarkVarIdAsUnknown(this.Identifier())
+	typeCheckArgs.TypeChecker().MarkVarIDAsUnknown(this.VarIdentifier())
 
 	// No type info in symbol table (reference to undefined question)
 	return NewUnknownType()
@@ -134,14 +134,14 @@ func (unaryExpression UnaryOperator) checkOperand(expectedType interfaces.ValueT
 
 // checkOperands checks if the left-hand and right-hand sides are of the expected type
 func (binaryExpr BinaryOperator) checkOperands(expectedType interfaces.ValueType, typeCheckArgs interfaces.TypeCheckArgs) {
-	checkIfOperandHasExpectedType(binaryExpr.Lhs(), expectedType, typeCheckArgs)
-	checkIfOperandHasExpectedType(binaryExpr.Rhs(), expectedType, typeCheckArgs)
+	checkIfOperandHasExpectedType(binaryExpr.LHS(), expectedType, typeCheckArgs)
+	checkIfOperandHasExpectedType(binaryExpr.RHS(), expectedType, typeCheckArgs)
 }
 
 // checkForEqualTypes checks if the operands in a BinaryOperator have the same type, and if the types are unequal adds an error to the typechecker
 func (binaryExpr BinaryOperator) checkForEqualTypes(expectedType interfaces.ValueType, typeCheckArgs interfaces.TypeCheckArgs) {
-	lhsType := binaryExpr.Lhs().TypeCheck(typeCheckArgs)
-	rhsType := binaryExpr.Rhs().TypeCheck(typeCheckArgs)
+	lhsType := binaryExpr.LHS().TypeCheck(typeCheckArgs)
+	rhsType := binaryExpr.RHS().TypeCheck(typeCheckArgs)
 
 	if lhsType == NewUnknownType() || rhsType == NewUnknownType() {
 		return

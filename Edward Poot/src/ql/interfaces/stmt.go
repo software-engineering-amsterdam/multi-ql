@@ -8,14 +8,17 @@ type Stmt interface {
 type Form interface {
 	Stmt
 	Content() StmtList
-	Identifier() VarId
+	Identifier() VarID
 	Questions() []Question
 }
 
 type Question interface {
 	Stmt
 	Label() StringLiteral
+	LabelAsString() string
 	VarDecl() VarDecl
+	VarDeclVariableIdentifier() VarID
+	VarDeclType() ValueType
 }
 
 type InputQuestion interface {
@@ -29,19 +32,19 @@ type ComputedQuestion interface {
 
 type Conditional interface {
 	Stmt
-	EvalCondition(VarIdValueSymbols) BoolValue
+	EvalConditionAsBool(VarIDValueSymbols) bool
 	Condition() Expr
 }
 
 type If interface {
 	Conditional
-	Body() StmtList
+	Questions() []Question
 }
 
 type IfElse interface {
 	Conditional
-	IfBody() StmtList
-	ElseBody() StmtList
+	IfBodyQuestions() []Question
+	ElseBodyQuestions() []Question
 }
 
 type StmtList interface {
