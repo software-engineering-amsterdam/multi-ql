@@ -10,8 +10,9 @@ public abstract class ScannerError {
 		this.message = message;
 	}
 
+	@Override
 	public String toString() {
-		return line == 0 ? message : String.format("Line %s: %s", line, message);
+		return String.format("Line %s: %s", line, message);
 	}
 
 }

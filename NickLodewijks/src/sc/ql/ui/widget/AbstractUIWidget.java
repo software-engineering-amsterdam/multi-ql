@@ -5,43 +5,51 @@ import javax.swing.SwingUtilities;
 import sc.ql.eval.Environment;
 import sc.ql.value.Value;
 
-public abstract class AbstractUIWidget implements UIWidget {
+public abstract class AbstractUIWidget
+    implements UIWidget
+{
+  private final String variableName;
+  private final Environment env;
+  private final Value defaultValue;
 
-	private final String variableName;
-	private final Environment env;
-	private final Value defaultValue;
+  public AbstractUIWidget(Environment env, String variableName, Value defaultValue)
+  {
+    this.variableName = variableName;
+    this.env = env;
+    this.defaultValue = defaultValue;
 
-	public AbstractUIWidget(Environment env, String variableName, Value defaultValue) {
-		this.variableName = variableName;
-		this.env = env;
-		this.defaultValue = defaultValue;
+    env.setValue(variableName,
+                 defaultValue);
+  }
 
-		env.setValue(variableName, defaultValue);
-	}
+  protected final Value getDefaultValue()
+  {
+    return defaultValue;
+  }
 
-	protected final Value getDefaultValue() {
-		return defaultValue;
-	}
+  @Override
+  public final void setValue(Value value)
+  {
+    env.setValue(variableName,
+                 value);
 
-	@Override
-	public final void setValue(Value value) {
-		env.setValue(variableName, value);
+    SwingUtilities.invokeLater(() -> {
+      if (getViewValue().equals(value))
+      {
+        return;
+      }
 
-		SwingUtilities.invokeLater(() -> {
-			if (getViewValue().equals(value)) {
-				return;
-			}
+      setViewValue(value);
+    });
+  }
 
-			setViewValue(value);
-		});
-	}
+  @Override
+  public final Value getValue()
+  {
+    return getViewValue();
+  }
 
-	@Override
-	public final Value getValue() {
-		return getViewValue();
-	}
+  protected abstract Value getViewValue();
 
-	protected abstract Value getViewValue();
-
-	protected abstract void setViewValue(Value value);
+  protected abstract void setViewValue(Value value);
 }

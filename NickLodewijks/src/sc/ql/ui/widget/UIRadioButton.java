@@ -17,103 +17,127 @@ import sc.ql.ast.Statement.Question;
 import sc.ql.eval.Environment;
 import sc.ql.value.Value;
 
-public class UIRadioButton extends AbstractUIWidget implements ActionListener {
+public class UIRadioButton
+    extends AbstractUIWidget
+    implements ActionListener
+{
+  private final Map<UIWidgetChoice, JRadioButton> choiceToButton;
+  private final UIWidgetChoices choices;
+  private final JPanel panel;
 
-	private final Map<UIWidgetChoice, JRadioButton> choiceToButton;
-	private final UIWidgetChoices choices;
-	private final JPanel panel;
+  private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JRadioButton.font"),
+                                                  new Dimension(50,
+                                                                30),
+                                                  Color.BLACK);
 
-	private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JRadioButton.font"),
-			new Dimension(50, 30), Color.BLACK);
+  public UIRadioButton(Environment env, Question question, UIWidgetChoices choices)
+  {
+    super(env,
+          question.name(),
+          choices.defaultValue().getValue());
+    ButtonGroup bg;
 
-	public UIRadioButton(Environment env, Question question, UIWidgetChoices choices) {
-		super(env, question.name(), choices.defaultValue().getValue());
-		ButtonGroup bg;
+    this.choiceToButton = new LinkedHashMap<>();
+    this.choices = choices;
 
-		this.choiceToButton = new LinkedHashMap<>();
-		this.choices = choices;
+    bg = new ButtonGroup();
 
-		bg = new ButtonGroup();
+    panel = new JPanel();
+    panel.setPreferredSize(new Dimension(150,
+                                         30));
 
-		panel = new JPanel();
-		panel.setPreferredSize(new Dimension(150, 30));
+    for (UIWidgetChoice choice : choices.values())
+    {
+      JRadioButton rb;
+      String name;
 
-		for (UIWidgetChoice choice : choices.values()) {
-			JRadioButton rb;
-			String name;
+      name = choice.getName();
 
-			name = choice.getName();
+      rb = new JRadioButton(name);
+      rb.setActionCommand(name);
+      rb.addActionListener(this);
+      bg.add(rb);
 
-			rb = new JRadioButton(name);
-			rb.setActionCommand(name);
-			rb.addActionListener(this);
-			bg.add(rb);
+      choiceToButton.put(choice,
+                         rb);
+      panel.add(rb);
+    }
 
-			choiceToButton.put(choice, rb);
-			panel.add(rb);
-		}
+    setViewValue(getDefaultValue());
 
-		setViewValue(getDefaultValue());
+    setStyle(style);
+  }
 
-		setStyle(style);
-	}
+  @Override
+  public UIWidgetStyle getStyle()
+  {
+    return style;
+  }
 
-	@Override
-	public UIWidgetStyle getStyle() {
-		return style;
-	}
+  @Override
+  public void setStyle(UIWidgetStyle style)
+  {
+    for (JRadioButton rb : choiceToButton.values())
+    {
+      rb.setFont(style.getFont());
+      rb.setForeground(style.getColor());
+      rb.setPreferredSize(new Dimension(style.getWidth(),
+                                        style.getHeight()));
+    }
+  }
 
-	@Override
-	public void setStyle(UIWidgetStyle style) {
-		for (JRadioButton rb : choiceToButton.values()) {
-			rb.setFont(style.getFont());
-			rb.setForeground(style.getColor());
-			rb.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
-		}
-	}
+  @Override
+  public JComponent getComponent()
+  {
+    return panel;
+  }
 
-	@Override
-	public JComponent getComponent() {
-		return panel;
-	}
+  private UIWidgetChoice getCurrentChoice()
+  {
+    for (UIWidgetChoice choice : choices.values())
+    {
+      if (choiceToButton.get(choice).isSelected())
+      {
+        return choice;
+      }
+    }
 
-	private UIWidgetChoice getCurrentChoice() {
-		for (UIWidgetChoice choice : choices.values()) {
-			if (choiceToButton.get(choice).isSelected()) {
-				return choice;
-			}
-		}
+    return null;
+  }
 
-		return null;
-	}
+  @Override
+  public Value getViewValue()
+  {
+    return getCurrentChoice().getValue();
+  }
 
-	@Override
-	public Value getViewValue() {
-		return getCurrentChoice().getValue();
-	}
+  @Override
+  public void setViewValue(Value value)
+  {
+    UIWidgetChoice choice;
 
-	@Override
-	public void setViewValue(Value value) {
-		UIWidgetChoice choice;
+    choice = choices.getByValue(value);
+    choiceToButton.get(choice).setSelected(true);
+  }
 
-		choice = choices.getByValue(value);
-		choiceToButton.get(choice).setSelected(true);
-	}
+  @Override
+  public void actionPerformed(ActionEvent e)
+  {
+    setValue(choices.getByName(e.getActionCommand()).getValue());
+  }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		setValue(choices.getByName(e.getActionCommand()).getValue());
-	}
+  @Override
+  public void setVisible(boolean visible)
+  {
+    panel.setVisible(visible);
+  }
 
-	@Override
-	public void setVisible(boolean visible) {
-		panel.setVisible(visible);
-	}
-
-	@Override
-	public void setEditable(boolean editable) {
-		for (JRadioButton rb : choiceToButton.values()) {
-			rb.setEnabled(editable);
-		}
-	}
+  @Override
+  public void setEditable(boolean editable)
+  {
+    for (JRadioButton rb : choiceToButton.values())
+    {
+      rb.setEnabled(editable);
+    }
+  }
 }

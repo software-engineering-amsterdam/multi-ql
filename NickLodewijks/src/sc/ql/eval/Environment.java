@@ -9,82 +9,102 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import sc.ql.ast.Expression;
 import sc.ql.value.Value;
 
-public class Environment {
+public class Environment
+{
+  private final Map<String, Value> valueMap;
+  private final Map<String, Expression> computedValueMap;
+  private final List<ContextListener> contextListeners;
 
-	private final Map<String, Value> valueMap;
-	private final Map<String, Expression> computedValueMap;
-	private final List<ContextListener> contextListeners;
+  public Environment()
+  {
+    valueMap = new HashMap<String, Value>();
+    computedValueMap = new HashMap<String, Expression>();
+    contextListeners = new CopyOnWriteArrayList<>();
+  }
 
-	public Environment() {
-		valueMap = new HashMap<String, Value>();
-		computedValueMap = new HashMap<String, Expression>();
-		contextListeners = new CopyOnWriteArrayList<>();
-	}
+  public void addComputedValue(String key, Expression computation)
+  {
+    computedValueMap.put(key,
+                         computation);
+  }
 
-	public void addComputedValue(String key, Expression computation) {
-		computedValueMap.put(key, computation);
-	}
+  public void setValue(String key, Value newValue)
+  {
+    Value previousValue;
 
-	public void setValue(String key, Value newValue) {
-		Value previousValue;
+    previousValue = valueMap.put(key,
+                                 newValue);
+    if (Objects.equals(previousValue,
+                       newValue))
+    {
+      // Nothing changed.
+      return;
+    }
 
-		previousValue = valueMap.put(key, newValue);
-		if (Objects.equals(previousValue, newValue)) {
-			// Nothing changed.
-			return;
-		}
+    runComputations();
 
-		runComputations();
+    notifyContextListeners();
+  }
 
-		notifyContextListeners();
-	}
+  private void runComputations()
+  {
+    boolean valuesChanged;
 
-	private void runComputations() {
-		boolean valuesChanged;
+    valuesChanged = false;
+    for (Map.Entry<String, Expression> entry : computedValueMap.entrySet())
+    {
+      Expression computation;
+      Value previousValue;
+      Value newValue;
 
-		valuesChanged = false;
-		for (Map.Entry<String, Expression> entry : computedValueMap.entrySet()) {
-			Expression computation;
-			Value previousValue;
-			Value newValue;
+      computation = entry.getValue();
 
-			computation = entry.getValue();
+      newValue = Evaluator.evaluate(computation,
+                                    this);
+      previousValue = valueMap.put(entry.getKey(),
+                                   newValue);
 
-			newValue = Evaluator.evaluate(computation, this);
-			previousValue = valueMap.put(entry.getKey(), newValue);
+      // We have to re-run all the computations if some value has changed.
+      if (!Objects.equals(newValue,
+                          previousValue))
+      {
+        valuesChanged = true;
+      }
+    }
 
-			// We have to re-run all the computations if some value has changed.
-			if (!Objects.equals(newValue, previousValue)) {
-				valuesChanged = true;
-			}
-		}
+    if (valuesChanged)
+    {
+      runComputations();
+    }
+  }
 
-		if (valuesChanged) {
-			runComputations();
-		}
-	}
+  public Value getValue(String key)
+  {
+    return valueMap.get(key);
+  }
 
-	public Value getValue(String key) {
-		return valueMap.get(key);
-	}
+  private void notifyContextListeners()
+  {
+    for (ContextListener cl : contextListeners)
+    {
+      cl.contextChanged(this);
+    }
+  }
 
-	private void notifyContextListeners() {
-		for (ContextListener cl : contextListeners) {
-			cl.contextChanged(this);
-		}
-	}
+  @FunctionalInterface
+  public static interface ContextListener
+  {
 
-	@FunctionalInterface
-	public static interface ContextListener {
+    public void contextChanged(Environment context);
+  }
 
-		public void contextChanged(Environment context);
-	}
+  public void removeContextListener(ContextListener listener)
+  {
+    contextListeners.remove(listener);
+  }
 
-	public void removeContextListener(ContextListener listener) {
-		contextListeners.remove(listener);
-	}
-
-	public void addContextListener(ContextListener listener) {
-		contextListeners.add(listener);
-	}
+  public void addContextListener(ContextListener listener)
+  {
+    contextListeners.add(listener);
+  }
 }

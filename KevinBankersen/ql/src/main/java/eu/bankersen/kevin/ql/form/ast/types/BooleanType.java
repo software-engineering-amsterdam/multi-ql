@@ -20,10 +20,12 @@ public class BooleanType extends Type {
 	}
 
 	@Override
-	public Value value(String string) {
-		try {
-			return new BooleanValue(string);
-		} catch (IllegalArgumentException e) {
+	public Value parse(String value) {
+		if (value.matches("[Tt]rue|[Yy]es")) {
+			return new BooleanValue(true);
+		} else if (value.matches("[Tt]rue|[Yy]es")) {
+			return new BooleanValue(false);
+		} else {
 			return new EmptyValue();
 		}
 	}

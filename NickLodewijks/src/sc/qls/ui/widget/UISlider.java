@@ -21,99 +21,124 @@ import sc.ql.ui.widget.UIWidgetChoices;
 import sc.ql.ui.widget.UIWidgetStyle;
 import sc.ql.value.Value;
 
-public class UISlider extends AbstractUIWidget {
+public class UISlider
+    extends AbstractUIWidget
+{
+  private final Map<Integer, UIWidgetChoice> indexToChoiceMap;
+  private final UIWidgetChoices choices;
+  private final JPanel panel;
+  private final JSlider slider;
+  private final Hashtable<Integer, JLabel> labelTable;
 
-	private final Map<Integer, UIWidgetChoice> indexToChoiceMap;
-	private final UIWidgetChoices choices;
-	private final JPanel panel;
-	private final JSlider slider;
-	private final Hashtable<Integer, JLabel> labelTable;
+  private final UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JLabel.font"),
+                                                        new Dimension(140,
+                                                                      20),
+                                                        Color.BLACK);
 
-	private final UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JLabel.font"),
-			new Dimension(140, 20), Color.BLACK);
+  public UISlider(Environment env, Question question, UIWidgetChoices choices)
+  {
+    super(env,
+          question.name(),
+          choices.defaultValue().getValue());
 
-	public UISlider(Environment env, Question question, UIWidgetChoices choices) {
-		super(env, question.name(), choices.defaultValue().getValue());
+    this.choices = choices;
 
-		this.choices = choices;
+    slider = new JSlider(0,
+                         choices.values().size() - 1,
+                         choices.indexOf(choices.defaultValue()));
+    slider.addChangeListener(e -> {
+      // Change event will be fired when starting the drag, and stopping.
+      // We want to capture the value when dragging the slider has
+      // stopped.
+        if (!slider.getValueIsAdjusting())
+        {
+          setValue(getViewValue());
+        }
+      });
 
-		slider = new JSlider(0, choices.values().size() - 1, choices.indexOf(choices.defaultValue()));
-		slider.addChangeListener(e -> {
-			// Change event will be fired when starting the drag, and stopping.
-			// We want to capture the value when dragging the slider has
-			// stopped.
-			if (!slider.getValueIsAdjusting()) {
-				setValue(getViewValue());
-			}
-		});
+    indexToChoiceMap = new HashMap<>();
+    labelTable = new Hashtable<>();
+    for (UIWidgetChoice choice : choices.values())
+    {
+      int index;
 
-		indexToChoiceMap = new HashMap<>();
-		labelTable = new Hashtable<>();
-		for (UIWidgetChoice choice : choices.values()) {
-			int index;
+      index = choices.indexOf(choice);
+      indexToChoiceMap.put(index,
+                           choice);
+      labelTable.put(index,
+                     new JLabel(choice.getName()));
+    }
 
-			index = choices.indexOf(choice);
-			indexToChoiceMap.put(index, choice);
-			labelTable.put(index, new JLabel(choice.getName()));
-		}
+    slider.setLabelTable(labelTable);
+    slider.setPaintTicks(true);
+    slider.setPaintLabels(true);
+    slider.setMajorTickSpacing(1);
 
-		slider.setLabelTable(labelTable);
-		slider.setPaintTicks(true);
-		slider.setPaintLabels(true);
-		slider.setMajorTickSpacing(1);
+    panel = new JPanel(new BorderLayout());
+    panel.add(slider,
+              BorderLayout.CENTER);
+    panel.setPreferredSize(new Dimension(150,
+                                         30));
 
-		panel = new JPanel(new BorderLayout());
-		panel.add(slider, BorderLayout.CENTER);
-		panel.setPreferredSize(new Dimension(150, 30));
+    setStyle(style);
+  }
 
-		setStyle(style);
-	}
+  @Override
+  public void setVisible(boolean visible)
+  {
+    slider.setVisible(visible);
+  }
 
-	@Override
-	public void setVisible(boolean visible) {
-		slider.setVisible(visible);
-	}
+  @Override
+  public void setEditable(boolean editable)
+  {
+    slider.setEnabled(editable);
+  }
 
-	@Override
-	public void setEditable(boolean editable) {
-		slider.setEnabled(editable);
-	}
+  @Override
+  public void setStyle(UIWidgetStyle style)
+  {
+    slider.setPreferredSize(new Dimension(style.getWidth(),
+                                          style.getHeight()));
+    slider.setFont(style.getFont());
 
-	@Override
-	public void setStyle(UIWidgetStyle style) {
-		slider.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
-		slider.setFont(style.getFont());
+    for (JLabel label : labelTable.values())
+    {
+      label.setForeground(style.getColor());
+    }
+  }
 
-		for (JLabel label : labelTable.values()) {
-			label.setForeground(style.getColor());
-		}
-	}
+  @Override
+  public UIWidgetStyle getStyle()
+  {
+    return style;
+  }
 
-	@Override
-	public UIWidgetStyle getStyle() {
-		return style;
-	}
+  @Override
+  public JComponent getComponent()
+  {
+    return panel;
+  }
 
-	@Override
-	public JComponent getComponent() {
-		return panel;
-	}
+  private UIWidgetChoice getSelected()
+  {
+    return indexToChoiceMap.get(slider.getValue());
+  }
 
-	private UIWidgetChoice getSelected() {
-		return indexToChoiceMap.get(slider.getValue());
-	}
+  private void setSelected(UIWidgetChoice choice)
+  {
+    slider.setValue(choices.indexOf(choice));
+  }
 
-	private void setSelected(UIWidgetChoice choice) {
-		slider.setValue(choices.indexOf(choice));
-	}
+  @Override
+  protected Value getViewValue()
+  {
+    return getSelected().getValue();
+  }
 
-	@Override
-	protected Value getViewValue() {
-		return getSelected().getValue();
-	}
-
-	@Override
-	protected void setViewValue(Value value) {
-		setSelected(choices.getByValue(value));
-	}
+  @Override
+  protected void setViewValue(Value value)
+  {
+    setSelected(choices.getByValue(value));
+  }
 }

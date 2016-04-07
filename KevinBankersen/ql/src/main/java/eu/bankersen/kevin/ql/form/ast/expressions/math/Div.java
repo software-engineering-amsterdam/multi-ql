@@ -6,7 +6,7 @@ import eu.bankersen.kevin.ql.form.ast.expressions.visitors.Visitor;
 
 public class Div extends Binary {
 
-	public Div(final Expression lhs, final Expression rhs, final int line) {
+	public Div(Expression lhs, Expression rhs, int line) {
 		super(line, lhs, rhs);
 	}
 

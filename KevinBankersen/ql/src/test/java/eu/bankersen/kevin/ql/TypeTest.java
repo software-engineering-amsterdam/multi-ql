@@ -5,7 +5,7 @@ import eu.bankersen.kevin.ql.form.ast.types.MoneyType;
 import eu.bankersen.kevin.ql.form.ast.types.NumberType;
 import eu.bankersen.kevin.ql.form.ast.types.TextType;
 import eu.bankersen.kevin.ql.form.ast.types.Type;
-import eu.bankersen.kevin.ql.form.ast.types.UndifinedType;
+import eu.bankersen.kevin.ql.form.ast.types.UndefinedType;
 import junit.framework.TestCase;
 
 public class TypeTest extends TestCase {
@@ -16,7 +16,7 @@ public class TypeTest extends TestCase {
 		Type num = new NumberType();
 		Type text = new TextType();
 		Type money = new MoneyType();
-		Type empty = new UndifinedType();
+		Type empty = new UndefinedType();
 
 		// Subtract
 		assertTrue(bool.subtract(bool).equals(empty));

@@ -29,89 +29,124 @@ import sc.ql.value.BooleanValue;
 import sc.ql.value.NumberValue;
 import sc.ql.value.StringValue;
 
-public class UIFactory {
+public class UIFactory
+    implements QlAlg<UIQuestionnaire, UIQuestion, UIWidget>
+{
 
-	public UIQuestionnaire create(Form form) {
-		List<UIQuestion> questions;
-		Environment env;
+  @Override
+  public UIQuestionnaire form(Form form)
+  {
+    List<UIQuestion> questions;
+    Environment env;
 
-		env = new Environment();
+    env = new Environment();
 
-		questions = new ArrayList<>();
+    questions = new ArrayList<>();
 
-		form.accept(new TopDown<Void, Expression>() {
+    form.accept(new TopDown<Void, Expression>()
+                {
+                  @Override
+                  public Void visit(IfThen node, Expression condition)
+                  {
+                    node.then().accept(this,
+                                       new And(condition,
+                                               node.condition()));
+                    return null;
+                  }
 
-			@Override
-			public Void visit(IfThen node, Expression condition) {
-				node.then().accept(this, new And(condition, node.condition()));
-				return null;
-			}
+                  @Override
+                  public Void visit(NormalQuestion question, Expression condition)
+                  {
+                    questions.add(question(question,
+                                           condition,
+                                           null,
+                                           env));
+                    return null;
+                  }
 
-			@Override
-			public Void visit(NormalQuestion node, Expression condition) {
-				addQuestion(node, condition, null);
-				return null;
-			}
+                  @Override
+                  public Void visit(ComputedQuestion question, Expression condition)
+                  {
+                    questions.add(question(question,
+                                           condition,
+                                           question.computation(),
+                                           env));
+                    return null;
+                  }
+                },
+                new LiteralExpr(BooleanLiteral.TRUE));
 
-			@Override
-			public Void visit(ComputedQuestion node, Expression condition) {
-				addQuestion(node, condition, node.computation());
-				return null;
-			}
+    return new UIQuestionnaire(questions);
+  }
 
-			private void addQuestion(Question question, Expression condition, Expression valueComputation) {
-				UIQuestion uiQuestion;
-				UIWidget labelWidget;
-				UIWidget valueWidget;
+  @Override
+  public UIQuestion question(Question question, Expression condition, Expression computation, Environment env)
+  {
+    UIWidget labelWidget;
+    UIWidget valueWidget;
 
-				labelWidget = createLabelWidget(question);
-				valueWidget = createValueWidget(question, env);
+    labelWidget = labelWidget(question,
+                              env);
+    valueWidget = valueWidget(question,
+                              env);
 
-				uiQuestion = new UIQuestion(env, question, labelWidget, valueWidget, condition, valueComputation);
+    return new UIQuestion(env,
+                          question,
+                          labelWidget,
+                          valueWidget,
+                          condition,
+                          computation);
+  }
 
-				questions.add(uiQuestion);
-			}
+  @Override
+  public UIWidget labelWidget(Question question, Environment env)
+  {
+    return new UILabel(question.label());
+  }
 
-		}, new LiteralExpr(BooleanLiteral.TRUE));
+  @Override
+  public UIWidget valueWidget(Question question, Environment env)
+  {
+    return question.type().accept(new ValueTypeVisitor<UIWidget, Void>()
+                                  {
 
-		return createQuestionnaire(questions);
-	}
+                                    @Override
+                                    public UIWidget visit(BooleanType type, Void unused)
+                                    {
+                                      final UIWidgetChoice YES;
+                                      final UIWidgetChoice NO;
+                                      UIWidgetChoices choices;
 
-	protected UIQuestionnaire createQuestionnaire(List<UIQuestion> questions) {
-		return new UIQuestionnaire(questions);
-	}
-	// Object algebra?
+                                      YES = new UIWidgetChoice("Yes",
+                                                               BooleanValue.TRUE);
+                                      NO = new UIWidgetChoice("No",
+                                                              BooleanValue.FALSE);
 
-	protected UIWidget createLabelWidget(Question question) {
-		return new UILabel(question.label());
-	}
+                                      choices = new UIWidgetChoices(Arrays.asList(YES,
+                                                                                  NO),
+                                                                    NO);
 
-	protected UIWidget createValueWidget(Question question, Environment env) {
-		return question.type().accept(new ValueTypeVisitor<UIWidget, Void>() {
+                                      return new UIRadioButton(env,
+                                                               question,
+                                                               choices);
+                                    }
 
-			@Override
-			public UIWidget visit(BooleanType type, Void unused) {
-				final UIWidgetChoice YES;
-				final UIWidgetChoice NO;
-				UIWidgetChoices choices;
+                                    @Override
+                                    public UIWidget visit(StringType type, Void unused)
+                                    {
+                                      return new UITextField(env,
+                                                             question,
+                                                             new StringValue(""));
+                                    }
 
-				YES = new UIWidgetChoice("Yes", BooleanValue.TRUE);
-				NO = new UIWidgetChoice("No", BooleanValue.FALSE);
-
-				choices = new UIWidgetChoices(Arrays.asList(YES, NO), NO);
-
-				return new UIRadioButton(env, question, choices);
-			}
-
-			@Override
-			public UIWidget visit(StringType type, Void unused) {
-				return new UITextField(env, question, new StringValue(""));
-			}
-
-			@Override
-			public UIWidget visit(IntegerType type, Void unused) {
-				return new UITextField(env, question, new NumberValue(0));
-			}
-		}, null);
-	}
+                                    @Override
+                                    public UIWidget visit(IntegerType type, Void unused)
+                                    {
+                                      return new UITextField(env,
+                                                             question,
+                                                             new NumberValue(0));
+                                    }
+                                  },
+                                  null);
+  }
 }

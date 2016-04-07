@@ -5,7 +5,7 @@ import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
 import eu.bankersen.kevin.ql.form.ast.values.Value;
 import eu.bankersen.kevin.ql.gui.widgets.Widget;
 
-public class UndifinedType extends Type {
+public class UndefinedType extends Type {
 
 	@Override
 	public String toString() {
@@ -13,7 +13,7 @@ public class UndifinedType extends Type {
 	}
 
 	@Override
-	public Value value(String string) {
+	public Value parse(String value) {
 		return new EmptyValue();
 	}
 
@@ -24,7 +24,7 @@ public class UndifinedType extends Type {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof UndifinedType;
+		return obj instanceof UndefinedType;
 	}
 
 	@Override

@@ -19,8 +19,8 @@ public class TextType extends Type {
 	}
 
 	@Override
-	public Value value(String string) {
-		return new TextValue(string);
+	public Value parse(String value) {
+		return new TextValue(value);
 	}
 
 	@Override

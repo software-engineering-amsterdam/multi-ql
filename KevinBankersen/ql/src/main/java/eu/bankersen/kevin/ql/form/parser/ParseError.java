@@ -1,11 +1,11 @@
 package eu.bankersen.kevin.ql.form.parser;
 
-public class ANTLRParseError {
+public class ParseError {
 
 	private final String message;
 	private final int line;
 
-	public ANTLRParseError(int line, String message) {
+	public ParseError(int line, String message) {
 		this.line = line;
 		this.message = message;
 	}

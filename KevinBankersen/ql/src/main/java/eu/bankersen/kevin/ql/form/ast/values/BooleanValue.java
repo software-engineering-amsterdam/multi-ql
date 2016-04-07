@@ -4,16 +4,6 @@ public class BooleanValue extends Value {
 
 	private final Boolean value;
 
-	public BooleanValue(String value) throws IllegalArgumentException {
-		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("yes")) {
-			this.value = true;
-		} else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("no")) {
-			this.value = false;
-		} else {
-			throw new IllegalArgumentException();
-		}
-	}
-
 	public BooleanValue(Boolean value) {
 		this.value = value;
 	}

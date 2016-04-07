@@ -1,30 +1,32 @@
 package eu.bankersen.kevin.ql.form.parser;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import eu.bankersen.kevin.ql.form.ast.statements.Form;
+import eu.bankersen.kevin.ql.form.ast.Form;
 import eu.bankersen.kevin.ql.parser.QLLexer;
 import eu.bankersen.kevin.ql.parser.QLParser;
 import eu.bankersen.kevin.ql.parser.QLParser.FormContext;
 
 public class FormParser {
 
-	private final String input;
-	private FormContext formContext;
-	private QLParser parser;
+	private final Form form;
 
-	public FormParser(String file) throws ANTLRParseException, IOException {
-		this.input = readFile(file);
-		parse();
+	public FormParser(File file) throws ParseException, IOException {
+		String input = readFile(file);
+		form = parse(input);
 	}
 
-	private void parse() throws ANTLRParseException {
+	public Form getForm() {
+		return form;
+	}
+
+	private Form parse(String input) throws ParseException {
 
 		ANTLRInputStream antlrStream = new ANTLRInputStream(input);
 
@@ -32,26 +34,24 @@ public class FormParser {
 
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 
-		parser = new QLParser(tokenStream);
+		QLParser parser = new QLParser(tokenStream);
 
 		ErrorListener listener = new ErrorListener();
 
 		parser.addErrorListener(listener);
 
-		formContext = parser.form();
+		FormContext formContext = parser.form();
 
-		if (listener.errors()) {
-			throw new ANTLRParseException(listener.getErrors());
+		if (listener.containsErrors()) {
+			throw new ParseException(listener.getErrors());
 		}
-	}
-
-	public Form getForm() {
 		return formContext.result;
 	}
 
-	private String readFile(final String filePath) throws IOException {
+	private String readFile(File file) throws IOException {
 
-		BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
+		FileReader in = new FileReader(file);
+		BufferedReader reader = new BufferedReader(in);
 
 		StringBuilder out = new StringBuilder();
 		String line;
@@ -59,6 +59,7 @@ public class FormParser {
 		while ((line = reader.readLine()) != null) {
 			out.append(line + "\n");
 		}
+		in.close();
 		reader.close();
 
 		return out.toString();

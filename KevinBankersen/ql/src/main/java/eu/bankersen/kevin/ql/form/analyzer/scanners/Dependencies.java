@@ -9,12 +9,9 @@ import java.util.Set;
 
 import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.CyclicDependency;
 import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.ScannerError;
-import eu.bankersen.kevin.ql.form.ast.expressions.Binary;
-import eu.bankersen.kevin.ql.form.ast.expressions.Identifier;
-import eu.bankersen.kevin.ql.form.ast.expressions.Literal;
-import eu.bankersen.kevin.ql.form.ast.expressions.visitors.LeafVisitor;
+import eu.bankersen.kevin.ql.form.ast.Form;
+import eu.bankersen.kevin.ql.form.ast.expressions.visitors.IdentifierGatherer;
 import eu.bankersen.kevin.ql.form.ast.statements.ComputedQuestion;
-import eu.bankersen.kevin.ql.form.ast.statements.Form;
 import eu.bankersen.kevin.ql.form.ast.statements.UserQuestion;
 import eu.bankersen.kevin.ql.form.ast.visitors.TopDownVisitor;
 
@@ -30,73 +27,55 @@ public class Dependencies {
 	}
 
 	private List<ScannerError> findDependencies(Form form) {
-		Map<String, Set<String>> relations = new HashMap<>();
-		analyzeForm(form, relations);
+		Map<String, Set<String>> relations = analyzeForm(form);
 
 		List<ScannerError> errors = new ArrayList<>();
-		for (String declaration : relations.keySet()) {
-			Set<String> computations = relations.get(declaration);
-			findAll(computations, relations);
+		for (String question : relations.keySet()) {
+			Set<String> identifiers = relations.get(question);
+			findAll(identifiers, relations);
 
-			if (computations.contains(declaration)) {
-				errors.add(new CyclicDependency(0, declaration, computations));
+			if (identifiers.contains(question)) {
+				errors.add(new CyclicDependency(0, question, identifiers));
 			}
 		}
 		return errors;
 	}
 
-	private void findAll(Set<String> computations, Map<String, Set<String>> relations) {
+	private void findAll(Set<String> identifiers, Map<String, Set<String>> relation) {
 		int previousSize = 0;
 
-		while (computations.size() != previousSize) {
-			previousSize = computations.size();
-			findRelations(computations, relations);
+		while (identifiers.size() != previousSize) {
+			previousSize = identifiers.size();
+			findRelations(identifiers, relation);
 		}
 	}
 
-	private void findRelations(Set<String> computations, Map<String, Set<String>> relations) {
-		for (String declaration : computations.toArray(new String[computations.size()])) {
+	private void findRelations(Set<String> identifiers, Map<String, Set<String>> relations) {
+		for (String question : new HashSet<>(identifiers)) {
 
-			if (relations.containsKey(declaration)) {
-				computations.addAll(relations.get(declaration));
+			if (relations.containsKey(question)) {
+				identifiers.addAll(relations.get(question));
 			}
 		}
 	}
 
-	private void analyzeForm(Form form, Map<String, Set<String>> relations) {
+	private Map<String, Set<String>> analyzeForm(Form form) {
+
+		Map<String, Set<String>> relations = new HashMap<>();
 
 		form.accept(new TopDownVisitor<Map<String, Set<String>>>() {
 
 			@Override
 			public void visit(ComputedQuestion question, Map<String, Set<String>> context) {
 
-				context.put(question.name(), question.computation().accept(new LeafVisitor<Set<String>, Set<String>>() {
-
-					@Override
-					public Set<String> visit(Literal expression, Set<String> context) {
-						return context;
-					}
-
-					@Override
-					public Set<String> visit(Identifier expression, Set<String> context) {
-						context.add(expression.name());
-						return context;
-					}
-
-					@Override
-					public Set<String> visitBinary(Binary expression, Set<String> context) {
-						context.addAll(expression.lhs().accept(this, context));
-						context.addAll(expression.rhs().accept(this, context));
-						return context;
-					}
-
-				}, new HashSet<>()));
+				context.put(question.name(), question.computation().accept(new IdentifierGatherer(), new HashSet<>()));
 			}
 
 			@Override
-			public void visit(UserQuestion o, Map<String, Set<String>> context) {
+			public void visit(UserQuestion question, Map<String, Set<String>> context) {
 			}
 
 		}, relations);
+		return relations;
 	}
 }

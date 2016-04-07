@@ -2,8 +2,8 @@ package eu.bankersen.kevin.ql;
 
 import java.math.BigDecimal;
 
-import eu.bankersen.kevin.ql.form.ast.values.NumberValue;
 import eu.bankersen.kevin.ql.form.ast.values.MoneyValue;
+import eu.bankersen.kevin.ql.form.ast.values.NumberValue;
 import eu.bankersen.kevin.ql.form.ast.values.TextValue;
 import eu.bankersen.kevin.ql.form.ast.values.Value;
 import junit.framework.TestCase;

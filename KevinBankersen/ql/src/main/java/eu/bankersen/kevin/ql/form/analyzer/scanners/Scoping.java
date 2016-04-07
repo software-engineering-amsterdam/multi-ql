@@ -8,11 +8,11 @@ import java.util.Set;
 
 import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.OutOfScope;
 import eu.bankersen.kevin.ql.form.analyzer.scanners.errors.ScannerError;
+import eu.bankersen.kevin.ql.form.ast.Body;
+import eu.bankersen.kevin.ql.form.ast.Form;
 import eu.bankersen.kevin.ql.form.ast.expressions.visitors.IdentifierGatherer;
-import eu.bankersen.kevin.ql.form.ast.statements.Body;
 import eu.bankersen.kevin.ql.form.ast.statements.ComputedQuestion;
 import eu.bankersen.kevin.ql.form.ast.statements.ElseStatement;
-import eu.bankersen.kevin.ql.form.ast.statements.Form;
 import eu.bankersen.kevin.ql.form.ast.statements.IFStatement;
 import eu.bankersen.kevin.ql.form.ast.statements.Statement;
 import eu.bankersen.kevin.ql.form.ast.statements.UserQuestion;
@@ -24,14 +24,15 @@ public class Scoping {
 
 	public Scoping(Form form) {
 		errorList = new ArrayList<>();
-		analyzeForm(form);
+		Scope formScope = analyzeScoping(form);
+		formScope.scan(new HashSet<>());
 	}
 
 	public List<ScannerError> getErrors() {
 		return errorList;
 	}
 
-	private void analyzeForm(Form form) {
+	private Scope analyzeScoping(Form form) {
 
 		Scope formScope = new Scope(form.line());
 		form.accept(new Visitor<Scope>() {
@@ -61,7 +62,6 @@ public class Scoping {
 
 			@Override
 			public void visit(ElseStatement statement, Scope context) {
-
 				Set<String> condition = statement.condition().accept(new IdentifierGatherer(), new HashSet<>());
 
 				Scope ifBody = new Scope(statement.body().line());
@@ -71,7 +71,6 @@ public class Scoping {
 				statement.elseBody().accept(this, ifElseBody);
 
 				context.addCondition(new IfElseBody(statement.condition().line(), condition, ifBody, ifElseBody));
-
 			}
 
 			@Override
@@ -85,7 +84,7 @@ public class Scoping {
 						question.computation().accept(new IdentifierGatherer(), new HashSet<>()));
 			}
 		}, formScope);
-		formScope.scan(new HashSet<>());
+		return formScope;
 	}
 
 	private class Scope {
@@ -125,7 +124,6 @@ public class Scoping {
 				body.scan(new HashSet<>(declaredQuestions));
 			}
 		}
-
 	}
 
 	private class IFBody {
@@ -147,7 +145,6 @@ public class Scoping {
 			}
 			ifBody.scan(declaredQuestions);
 		}
-
 	}
 
 	private class IfElseBody extends IFBody {
@@ -163,6 +160,5 @@ public class Scoping {
 			super.scan(declared);
 			elseBody.scan(declared);
 		}
-
 	}
 }

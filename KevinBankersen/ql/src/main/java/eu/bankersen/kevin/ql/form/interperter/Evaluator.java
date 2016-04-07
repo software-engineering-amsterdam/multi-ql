@@ -2,11 +2,10 @@ package eu.bankersen.kevin.ql.form.interperter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
+import eu.bankersen.kevin.ql.form.ast.Form;
 import eu.bankersen.kevin.ql.form.ast.expressions.Expression;
 import eu.bankersen.kevin.ql.form.ast.expressions.Identifier;
 import eu.bankersen.kevin.ql.form.ast.expressions.Literal;
@@ -28,7 +27,6 @@ import eu.bankersen.kevin.ql.form.ast.expressions.math.Sub;
 import eu.bankersen.kevin.ql.form.ast.expressions.visitors.Visitor;
 import eu.bankersen.kevin.ql.form.ast.statements.ComputedQuestion;
 import eu.bankersen.kevin.ql.form.ast.statements.ElseStatement;
-import eu.bankersen.kevin.ql.form.ast.statements.Form;
 import eu.bankersen.kevin.ql.form.ast.statements.IFStatement;
 import eu.bankersen.kevin.ql.form.ast.statements.UserQuestion;
 import eu.bankersen.kevin.ql.form.ast.values.EmptyValue;
@@ -91,57 +89,38 @@ public class Evaluator implements ViewListener {
 				}
 
 				@Override
-				public void visit(IFStatement o, Map<String, Value> context) {
-					if (ifCondition(o.condition(), context)) {
-						o.body().accept(this, context);
+				public void visit(IFStatement statement, Map<String, Value> context) {
+					if (ifCondition(statement.condition(), context)) {
+						statement.body().accept(this, context);
 					}
 				}
 
 				@Override
-				public void visit(ElseStatement o, Map<String, Value> context) {
-					if (ifCondition(o.condition(), context)) {
-						o.body().accept(this, context);
+				public void visit(ElseStatement statement, Map<String, Value> context) {
+					if (ifCondition(statement.condition(), context)) {
+						statement.body().accept(this, context);
 					} else {
-						o.elseBody().accept(this, context);
+						statement.elseBody().accept(this, context);
 					}
 				}
 
 				@Override
-				public void visit(UserQuestion o, Map<String, Value> context) {
-					Value result = context.containsKey(o.name()) ? context.get(o.name()) : new EmptyValue();
+				public void visit(UserQuestion question, Map<String, Value> context) {
+					Value result = context.containsKey(question.name()) ? context.get(question.name())
+							: new EmptyValue();
 
-					environment.put(o.name(), result);
+					environment.put(question.name(), result);
 				}
 
 				@Override
-				public void visit(ComputedQuestion o, Map<String, Value> context) {
-					Value result = o.computation().accept(new ExprEvaluator(), context);
+				public void visit(ComputedQuestion question, Map<String, Value> context) {
+					Value result = question.computation().accept(new ExprEvaluator(), context);
 
-					environment.put(o.name(), result);
+					environment.put(question.name(), result);
 				}
 
 			}, currentEnvironment);
-		} while (environmentIsUpdated(currentEnvironment));
-		System.out.println(toString());
-	}
-
-	private boolean environmentIsUpdated(Map<String, Value> oldEnvironment) {
-		if (environment.size() == oldEnvironment.size()) {
-			try {
-				Iterator<Entry<String, Value>> i = environment.entrySet().iterator();
-				while (i.hasNext()) {
-					Entry<String, Value> e = i.next();
-					if (!environment.get(e.getKey()).equals(oldEnvironment.get(e.getKey()))) {
-						return true;
-					}
-				}
-				return false;
-			} catch (NullPointerException unused) {
-				return false;
-			}
-		} else {
-			return true;
-		}
+		} while (!environment.equals(currentEnvironment));
 	}
 
 	private class ExprEvaluator implements Visitor<Value, Map<String, Value>> {
@@ -271,7 +250,6 @@ public class Evaluator implements ViewListener {
 		public Value visit(Identifier expression, Map<String, Value> context) {
 			return context.containsKey(expression.name()) ? context.get(expression.name()) : new EmptyValue();
 		}
-
 	}
 
 }

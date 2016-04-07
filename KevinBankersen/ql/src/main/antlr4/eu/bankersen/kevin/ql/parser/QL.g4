@@ -8,7 +8,7 @@ grammar QL;
     import eu.bankersen.kevin.ql.form.ast.statements.*;
     import eu.bankersen.kevin.ql.form.ast.types.*;
     import eu.bankersen.kevin.ql.form.ast.values.*;
-
+    import eu.bankersen.kevin.ql.form.ast.*;
 }
 
 form returns [Form result]

@@ -19,7 +19,7 @@ public abstract class Value {
 	}
 
 	public Value subtract(NumberValue lhs) {
-		return new EmptyValue();
+		return new EmptyValue(); // assertion error
 	}
 
 	public Value subtract(MoneyValue lhs) {
