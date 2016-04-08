@@ -16,7 +16,7 @@ public class UILabel
 {
   private final JLabel label;
 
-  private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("JLabel.font"),
+  private UIWidgetStyle style = new UIWidgetStyle(UIManager.getDefaults().getFont("Label.font"),
                                                   new Dimension(150,
                                                                 50),
                                                   Color.BLACK);
@@ -71,6 +71,6 @@ public class UILabel
   @Override
   public void setEditable(boolean editable)
   {
-    // NOOP
+    throw new UnsupportedOperationException();
   }
 }

@@ -1,8 +1,10 @@
 package sc.ql.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -52,12 +54,22 @@ public class UIQuestion
     setVisible(isEnabled(env));
 
     panel = new JPanel(new BorderLayout());
-    panel.add(labelWidget.getComponent(),
+    panel.add(addBorder(labelWidget.getComponent()),
               BorderLayout.CENTER);
-    panel.add(valueWidget.getComponent(),
+    panel.add(addBorder(valueWidget.getComponent()),
               BorderLayout.EAST);
-    panel.setPreferredSize(new Dimension(400,
-                                         40));
+    panel.setPreferredSize(new Dimension(500,
+                                         50));
+    panel.setMinimumSize(new Dimension(500,
+                                       50));
+    panel.setMaximumSize(new Dimension(500,
+                                       50));
+  }
+
+  private JComponent addBorder(JComponent comp)
+  {
+    comp.setBorder(BorderFactory.createLineBorder(Color.RED));
+    return comp;
   }
 
   public Question question()

@@ -26,7 +26,7 @@ public class StyleSheet
     this.pages = pages;
   }
 
-  public List<Page> getPages()
+  public List<Page> pages()
   {
     return Collections.unmodifiableList(pages);
   }

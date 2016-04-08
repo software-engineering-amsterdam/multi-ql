@@ -12,7 +12,6 @@ import sc.ql.ast.ValueType.StringType;
 import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIFactory;
-import sc.ql.ui.UIQuestionnaire;
 import sc.ql.ui.widget.UIRadioButton;
 import sc.ql.ui.widget.UITextField;
 import sc.ql.ui.widget.UIWidget;
@@ -62,11 +61,7 @@ public class QLSUIFactory
   @Override
   public StyledUIQuestionnaire form(Form form)
   {
-    UIQuestionnaire questionnaire;
-
-    questionnaire = super.form(form);
-
-    return new StyledUIQuestionnaire(questionnaire,
+    return new StyledUIQuestionnaire(super.form(form),
                                      styleSheet);
   }
 

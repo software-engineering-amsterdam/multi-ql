@@ -6,7 +6,6 @@ import java.awt.Font;
 import sc.ql.ast.ASTNode;
 import sc.ql.ast.Literal.IntegerLiteral;
 import sc.ql.ast.Literal.StringLiteral;
-import sc.ql.value.NumberValue;
 
 public abstract class Property
     extends ASTNode
@@ -27,8 +26,9 @@ public abstract class Property
     public Color value()
     {
       int red, green, blue;
+      String[] ar_color;
 
-      String[] ar_color = value.value().toString().split(",");
+      ar_color = value.value().toString().split(",");
       red = Integer.parseInt(ar_color[0]);
       green = Integer.parseInt(ar_color[1]);
       blue = Integer.parseInt(ar_color[2]);

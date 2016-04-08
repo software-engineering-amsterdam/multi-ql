@@ -5,9 +5,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
@@ -17,22 +15,20 @@ import sc.qls.ast.Section;
 public class UISection
 {
   private final Section section;
-  private final JPanel panel;
+  private final JComponent component;
 
   public UISection(Section section, List<UIQuestion> questions)
   {
     this.section = section;
 
-    panel = new JPanel();
-    panel.setLayout(new BoxLayout(panel,
-                                  BoxLayout.PAGE_AXIS));
-    panel.setBorder(createBorder());
+    component = Box.createVerticalBox();
+    component.setBorder(createBorder());
 
     for (UIQuestion question : section.sort(questions))
     {
-      panel.add(question.getComponent());
-      panel.add(Box.createRigidArea(new Dimension(0,
-                                                  2)));
+      component.add(question.getComponent());
+      component.add(Box.createRigidArea(new Dimension(0,
+                                                      2)));
     }
   }
 
@@ -48,6 +44,6 @@ public class UISection
 
   public JComponent getComponent()
   {
-    return panel;
+    return component;
   }
 }

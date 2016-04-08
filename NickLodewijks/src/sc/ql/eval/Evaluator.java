@@ -26,12 +26,12 @@ public class Evaluator
     implements ExpressionVisitor<Value, Environment>
 {
   @SuppressWarnings("unchecked")
-  public static <T extends Value> T evaluate(Expression expr, Environment context)
+  public static <T extends Value> T evaluate(Expression expr, Environment env)
   {
     try
     {
       return (T) expr.accept(new Evaluator(),
-                             context);
+                             env);
     }
     catch (RuntimeException ex)
     {
@@ -47,130 +47,130 @@ public class Evaluator
   }
 
   @Override
-  public Value visit(Add node, Environment context)
+  public Value visit(Add node, Environment env)
   {
     return node.left().accept(this,
-                              context).add(node.right().accept(this,
-                                                               context));
+                              env).add(node.right().accept(this,
+                                                           env));
   }
 
   @Override
-  public Value visit(Subtract node, Environment context)
+  public Value visit(Subtract node, Environment env)
   {
     return node.left().accept(this,
-                              context).subtract(node.right().accept(this,
-                                                                    context));
+                              env).subtract(node.right().accept(this,
+                                                                env));
   }
 
   @Override
-  public Value visit(And node, Environment context)
+  public Value visit(And node, Environment env)
   {
     return node.left().accept(this,
-                              context).and(node.right().accept(this,
-                                                               context));
+                              env).and(node.right().accept(this,
+                                                           env));
   }
 
   @Override
-  public Value visit(Or node, Environment context)
+  public Value visit(Or node, Environment env)
   {
     return node.left().accept(this,
-                              context).or(node.right().accept(this,
-                                                              context));
+                              env).or(node.right().accept(this,
+                                                          env));
   }
 
   @Override
-  public Value visit(Divide node, Environment context)
+  public Value visit(Divide node, Environment env)
   {
     return node.left().accept(this,
-                              context).div(node.right().accept(this,
-                                                               context));
+                              env).div(node.right().accept(this,
+                                                           env));
   }
 
   @Override
-  public Value visit(Multiply node, Environment context)
+  public Value visit(Multiply node, Environment env)
   {
     return node.left().accept(this,
-                              context).mul(node.right().accept(this,
-                                                               context));
+                              env).mul(node.right().accept(this,
+                                                           env));
   }
 
   @Override
-  public Value visit(Equal node, Environment context)
+  public Value visit(Equal node, Environment env)
   {
     return node.left().accept(this,
-                              context).equal(node.right().accept(this,
-                                                                 context));
+                              env).equal(node.right().accept(this,
+                                                             env));
   }
 
   @Override
-  public Value visit(NotEqual node, Environment context)
+  public Value visit(NotEqual node, Environment env)
   {
     return node.left().accept(this,
-                              context).equal(node.right().accept(this,
-                                                                 context)).not();
+                              env).equal(node.right().accept(this,
+                                                             env)).not();
   }
 
   @Override
-  public Value visit(GreaterThanOrEqual node, Environment context)
+  public Value visit(GreaterThanOrEqual node, Environment env)
   {
     return node.left().accept(this,
-                              context).greaterThanOrEqual(node.right().accept(this,
-                                                                              context));
+                              env).greaterThanOrEqual(node.right().accept(this,
+                                                                          env));
   }
 
   @Override
-  public Value visit(GreaterThan node, Environment context)
+  public Value visit(GreaterThan node, Environment env)
   {
     return node.left().accept(this,
-                              context).greaterThan(node.right().accept(this,
-                                                                       context));
+                              env).greaterThan(node.right().accept(this,
+                                                                   env));
   }
 
   @Override
-  public BooleanValue visit(LessThanOrEqual node, Environment context)
+  public BooleanValue visit(LessThanOrEqual node, Environment env)
   {
     return node.left().accept(this,
-                              context).lessThanOrEqual(node.right().accept(this,
-                                                                           context));
+                              env).lessThanOrEqual(node.right().accept(this,
+                                                                       env));
   }
 
   @Override
-  public BooleanValue visit(LessThan node, Environment context)
+  public BooleanValue visit(LessThan node, Environment env)
   {
     return node.left().accept(this,
-                              context).lessThan(node.right().accept(this,
-                                                                    context));
+                              env).lessThan(node.right().accept(this,
+                                                                env));
   }
 
   @Override
-  public BooleanValue visit(Not node, Environment context)
+  public BooleanValue visit(Not node, Environment env)
   {
     return node.expr().accept(this,
-                              context).not();
+                              env).not();
   }
 
   @Override
-  public Value visit(Positive node, Environment context)
+  public Value visit(Positive node, Environment env)
   {
     return node.expr().accept(this,
-                              context).positive();
+                              env).positive();
   }
 
   @Override
-  public Value visit(Negative node, Environment context)
+  public Value visit(Negative node, Environment env)
   {
     return node.expr().accept(this,
-                              context).negative();
+                              env).negative();
   }
 
   @Override
-  public Value visit(VariableExpr node, Environment context)
+  public Value visit(VariableExpr node, Environment env)
   {
-    return context.getValue(node.getVariableName());
+    return env.getValue(node.getVariableName());
   }
 
   @Override
-  public Value visit(LiteralExpr node, Environment context)
+  public Value visit(LiteralExpr node, Environment env)
   {
     return node.literal().value();
   }

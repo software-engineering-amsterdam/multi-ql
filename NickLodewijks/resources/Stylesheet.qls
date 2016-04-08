@@ -37,17 +37,19 @@ stylesheet taxOfficeExample {
                     fontSize: 20
                 }
         }
-        
-        section "What?" {
-            question areYouSure
-                widget spinner("Yes", "No") default "No"
-            question enterAnumber
-        }
     
-        section "Dept" {
+        section "Result" {
             question valueResidue
             question valueResidue2
             question valueResidue3
         }
+    }
+    
+    page "Debt"{
+    	section "Just checking.." {
+    		question hasMoreDebt
+    		question moreDebt
+    		question moreDebtCause
+    	}
     }
 }

@@ -25,16 +25,12 @@ public class UIQuestionnaire
     return Collections.unmodifiableList(questions);
   }
 
-  protected JFrame getComponent()
+  public void show()
   {
-    JPanel panel;
-    JPanel root;
-    JFrame jframe;
-    JScrollPane scrollPanel;
+    JScrollPane contentScrollPane;
+    JComponent contentPane;
     JPanel formPanel;
-
-    jframe = new JFrame();
-    jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    JFrame jframe;
 
     formPanel = new JPanel();
     formPanel.setLayout(new BoxLayout(formPanel,
@@ -50,33 +46,23 @@ public class UIQuestionnaire
                                                       2)));
     }
 
-    scrollPanel = new JScrollPane();
-    scrollPanel.setViewportView(formPanel);
-    scrollPanel.setBorder(null);
+    contentScrollPane = new JScrollPane(formPanel);
+    contentScrollPane.setPreferredSize(new Dimension(500,
+                                                     800));
 
-    panel = new JPanel();
-    panel.setLayout(new BoxLayout(panel,
-                                  BoxLayout.PAGE_AXIS));
-    panel.add(scrollPanel);
+    contentPane = Box.createHorizontalBox();
+    contentPane.add(Box.createHorizontalGlue());
+    contentPane.add(contentScrollPane);
+    contentPane.add(Box.createHorizontalGlue());
 
-    root = new JPanel();
-    root.setLayout(new BoxLayout(root,
-                                 BoxLayout.X_AXIS));
+    jframe = new JFrame();
+    jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    root.add(Box.createGlue());
-    root.add(panel);
-    root.add(Box.createGlue());
-
-    jframe.setContentPane(root);
-    jframe.setSize(450,
-                   600);
+    jframe.setContentPane(contentPane);
+    jframe.setSize(600,
+                   800);
     jframe.setLocationRelativeTo(null);
 
-    return jframe;
-  }
-
-  public void show()
-  {
-    getComponent().setVisible(true);
+    jframe.setVisible(true);
   }
 }
