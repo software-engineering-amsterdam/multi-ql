@@ -36,7 +36,6 @@ public class UITextField
     textField = new JTextField();
     textField.addKeyListener(new KeyAdapter()
     {
-
       @Override
       public void keyReleased(KeyEvent e)
       {
