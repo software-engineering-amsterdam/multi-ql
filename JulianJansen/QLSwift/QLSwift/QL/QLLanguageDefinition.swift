@@ -10,8 +10,6 @@ import Foundation
 import SwiftParsec
 
 public extension LanguageDefinition {
-    
-    // This is a definition for the QL DSL.
     public static var ql: LanguageDefinition {
         
         var qlDef = empty
@@ -20,7 +18,7 @@ public extension LanguageDefinition {
         qlDef.commentEnd = "*/"
         qlDef.commentLine = "//"
         
-        qlDef.reservedNames = ["boolean", "string", "integer", "date", "decimal", "money", "if", "else", "true", "false", "form"]
+        qlDef.reservedNames = ["boolean", "string", "integer", "if", "else", "true", "false", "form"]
         qlDef.reservedOperators = ["&&", "||", "!", "<", ">", ">=", "<=", "!=", "==", "+", "-", "*", "/"]
         
         return qlDef

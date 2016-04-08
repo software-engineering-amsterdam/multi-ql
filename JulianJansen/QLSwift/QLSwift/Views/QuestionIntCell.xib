@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="QuestionIntCell" customModule="QLSwift" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="365" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bze-Uo-rZD">
+                    <rect key="frame" x="18" y="17" width="211" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="GXQ-ST-whD">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Utn-MK-00r">
+                    <rect key="frame" x="235" y="14" width="110" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="110" id="XzS-a6-HDM"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="6KR-zY-tGP">
+                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="DzV-fZ-rfg"/>
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <outlet property="delegate" destination="c22-O7-iKe" id="PHZ-is-JIw"/>
+                    </connections>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="bze-Uo-rZD" firstAttribute="baseline" secondItem="Utn-MK-00r" secondAttribute="baseline" id="9Db-XM-j5N"/>
+                <constraint firstItem="Utn-MK-00r" firstAttribute="leading" secondItem="bze-Uo-rZD" secondAttribute="trailing" constant="8" symbolic="YES" id="Jwe-a6-bpA"/>
+                <constraint firstItem="bze-Uo-rZD" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Mre-Md-mdk"/>
+                <constraint firstItem="bze-Uo-rZD" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="neI-YW-oaU"/>
+                <constraint firstAttribute="trailing" secondItem="Utn-MK-00r" secondAttribute="trailing" constant="20" symbolic="YES" id="tSD-Na-FN7"/>
+            </constraints>
+            <connections>
+                <outlet property="input" destination="Utn-MK-00r" id="WiX-Vs-rB5"/>
+                <outlet property="label" destination="bze-Uo-rZD" id="nJ7-th-dQf"/>
+            </connections>
+        </customView>
+    </objects>
+</document>
