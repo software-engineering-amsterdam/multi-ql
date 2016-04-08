@@ -44,38 +44,38 @@ public class UIFactory
 
     questions = new ArrayList<>();
 
-    form.accept(new TopDown<Void, Expression>()
-                {
-                  @Override
-                  public Void visit(IfThen node, Expression condition)
-                  {
-                    node.then().accept(this,
-                                       new And(condition,
-                                               node.condition()));
-                    return null;
-                  }
+    form.body().accept(new TopDown<Void, Expression>()
+                       {
+                         @Override
+                         public Void visit(IfThen node, Expression condition)
+                         {
+                           node.then().accept(this,
+                                              new And(condition,
+                                                      node.condition()));
+                           return null;
+                         }
 
-                  @Override
-                  public Void visit(NormalQuestion question, Expression condition)
-                  {
-                    questions.add(question(question,
-                                           condition,
-                                           null,
-                                           env));
-                    return null;
-                  }
+                         @Override
+                         public Void visit(NormalQuestion question, Expression condition)
+                         {
+                           questions.add(question(question,
+                                                  condition,
+                                                  null,
+                                                  env));
+                           return null;
+                         }
 
-                  @Override
-                  public Void visit(ComputedQuestion question, Expression condition)
-                  {
-                    questions.add(question(question,
-                                           condition,
-                                           question.computation(),
-                                           env));
-                    return null;
-                  }
-                },
-                new LiteralExpr(BooleanLiteral.TRUE));
+                         @Override
+                         public Void visit(ComputedQuestion question, Expression condition)
+                         {
+                           questions.add(question(question,
+                                                  condition,
+                                                  question.computation(),
+                                                  env));
+                           return null;
+                         }
+                       },
+                       new LiteralExpr(BooleanLiteral.TRUE));
 
     return new UIQuestionnaire(questions);
   }
@@ -114,8 +114,7 @@ public class UIFactory
                                     @Override
                                     public UIWidget visit(UnknownType type, Void context)
                                     {
-                                      // TODO Auto-generated method stub
-                                      return null;
+                                      throw new IllegalStateException("Cannot create widget for an unknown type.");
                                     }
 
                                     @Override

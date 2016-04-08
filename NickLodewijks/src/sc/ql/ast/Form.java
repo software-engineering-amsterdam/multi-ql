@@ -20,26 +20,20 @@ public class Form
   private final String name;
   private final Statement body;
 
-  public Form(String id, Block body)
+  public Form(String name, Block body)
   {
-    this.name = id;
+    this.name = name;
     this.body = body;
   }
 
-  public String getName()
+  public String name()
   {
     return name;
   }
 
-  public Statement getBody()
+  public Statement body()
   {
     return body;
-  }
-
-  public <T, U> T accept(FormVisitor<T, U> visitor, U context)
-  {
-    return visitor.visit(this,
-                         context);
   }
 
   public static Form create(InputStream is)

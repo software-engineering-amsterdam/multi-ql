@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import sc.ql.ast.Expression;
 import sc.ql.ast.Expression.Add;
@@ -28,12 +27,10 @@ import sc.ql.ast.Expression.Subtract;
 import sc.ql.ast.Expression.VariableExpr;
 import sc.ql.ast.ExpressionVisitor;
 import sc.ql.ast.Form;
-import sc.ql.ast.FormVisitor;
 import sc.ql.ast.Literal.BooleanLiteral;
 import sc.ql.ast.Literal.IntegerLiteral;
 import sc.ql.ast.Literal.StringLiteral;
 import sc.ql.ast.LiteralVisitor;
-import sc.ql.ast.Statement;
 import sc.ql.ast.Statement.Block;
 import sc.ql.ast.Statement.ComputedQuestion;
 import sc.ql.ast.Statement.IfThen;
@@ -52,7 +49,6 @@ import sc.ql.check.SemanticMessage.Level;
 import sc.ql.check.SemanticMessage.OperandTypeMismatch;
 import sc.ql.check.SemanticMessage.TypeMismatch;
 import sc.ql.check.SemanticMessage.UndeclaredVariable;
-import sc.ql.check.SemanticMessage.UndefinedType;
 
 public class SemanticAnalyser
 {
@@ -93,23 +89,23 @@ public class SemanticAnalyser
 
     qt = new QuestionTable();
 
-    form.accept(new TopDown<Void, Void>()
-                {
-                  @Override
-                  public Void visit(ComputedQuestion question, Void unused)
-                  {
-                    qt.add(question);
-                    return null;
-                  }
+    form.body().accept(new TopDown<Void, Void>()
+                       {
+                         @Override
+                         public Void visit(ComputedQuestion question, Void unused)
+                         {
+                           qt.add(question);
+                           return null;
+                         }
 
-                  @Override
-                  public Void visit(NormalQuestion question, Void unused)
-                  {
-                    qt.add(question);
-                    return null;
-                  }
-                },
-                null);
+                         @Override
+                         public Void visit(NormalQuestion question, Void unused)
+                         {
+                           qt.add(question);
+                           return null;
+                         }
+                       },
+                       null);
 
     result = new SemanticResult();
 
@@ -134,7 +130,7 @@ public class SemanticAnalyser
       type = questions.get(0).type();
       for (Question other : questions)
       {
-        if (!other.type().equals(type))
+        if (other.type().equals(type))
         {
           continue;
         }
@@ -175,16 +171,16 @@ public class SemanticAnalyser
     SemanticResult result;
 
     referenceTable = new ReferenceTable();
-    form.accept(new TopDown<Void, Void>()
-                {
-                  @Override
-                  public Void visit(ComputedQuestion question, Void unused)
-                  {
-                    referenceTable.add(question);
-                    return null;
-                  }
-                },
-                null);
+    form.body().accept(new TopDown<Void, Void>()
+                       {
+                         @Override
+                         public Void visit(ComputedQuestion question, Void unused)
+                         {
+                           referenceTable.add(question);
+                           return null;
+                         }
+                       },
+                       null);
 
     result = new SemanticResult();
     for (Reference reference : referenceTable.getReferences())
@@ -201,8 +197,8 @@ public class SemanticAnalyser
   }
 
   private static class TypeCheckVisitor
-      implements ExpressionVisitor<ValueType, SymbolTable>, FormVisitor<Void, SymbolTable>,
-      StatementVisitor<Void, SymbolTable>, LiteralVisitor<ValueType, SymbolTable>
+      implements ExpressionVisitor<ValueType, SymbolTable>, StatementVisitor<Void, SymbolTable>,
+      LiteralVisitor<ValueType, SymbolTable>
   {
     private SemanticResult result;
 
@@ -212,144 +208,75 @@ public class SemanticAnalyser
 
     public SemanticResult visit(Form form)
     {
-      SymbolTable table;
+      SymbolTable st;
 
       result = new SemanticResult();
 
-      table = new SymbolTable();
-      form.accept(this,
-                  table);
+      st = new SymbolTable();
+
+      form.body().accept(new TopDown<Void, Void>()
+                         {
+                           @Override
+                           public Void visit(ComputedQuestion question, Void unused)
+                           {
+                             st.add(question.name(),
+                                    question.type());
+                             return null;
+                           };
+
+                           @Override
+                           public Void visit(NormalQuestion question, Void unused)
+                           {
+                             st.add(question.name(),
+                                    question.type());
+                             return null;
+                           }
+                         },
+                         null);
+
+      form.body().accept(this,
+                         st);
 
       return result;
     }
 
     @Override
-    public Void visit(Form node, SymbolTable st)
-    {
-      node.getBody().accept(this,
-                            st);
-      return null;
-    }
-
-    @Override
     public Void visit(Block node, SymbolTable st)
     {
-      collectSymbols(node,
-                     st);
-      checkExpressions(node,
-                       st);
+      node.statements().forEach(statement -> statement.accept(this,
+                                                              st));
 
       return null;
-    }
-
-    private void collectSymbols(Block block, SymbolTable st)
-    {
-      for (Statement statement : block.statements())
-      {
-        statement.accept(new StatementVisitor<Void, Void>()
-                         {
-
-                           @Override
-                           public Void visit(ComputedQuestion question, Void unused)
-                           {
-                             question.accept(TypeCheckVisitor.this,
-                                             st);
-                             return null;
-                           };
-
-                           @Override
-                           public Void visit(NormalQuestion question, Void unused)
-                           {
-                             question.accept(TypeCheckVisitor.this,
-                                             st);
-                             return null;
-                           }
-
-                           @Override
-                           public Void visit(Block block, Void unused)
-                           {
-                             block.accept(TypeCheckVisitor.this,
-                                          st);
-                             return null;
-                           }
-
-                           @Override
-                           public Void visit(IfThen node, Void unused)
-                           {
-                             return null;
-                           }
-                         },
-                         null);
-      }
-    }
-
-    private void checkExpressions(Block block, SymbolTable st)
-    {
-      block.statements().forEach(statement -> {
-        statement.accept(new StatementVisitor<Void, Void>()
-                         {
-
-                           @Override
-                           public Void visit(ComputedQuestion question, Void unused)
-                           {
-                             ValueType type;
-
-                             type = st.typeOf(question.name());
-                             assert type != null;
-
-                             checkType(question.computation(),
-                                       st,
-                                       type);
-                             return null;
-                           };
-
-                           @Override
-                           public Void visit(NormalQuestion question, Void unused)
-                           {
-                             return null;
-                           }
-
-                           @Override
-                           public Void visit(Block block, Void unused)
-                           {
-                             return null;
-                           }
-
-                           @Override
-                           public Void visit(IfThen ifThen, Void unused)
-                           {
-                             checkType(ifThen.condition(),
-                                       st,
-                                       ValueType.BOOLEAN);
-                             ifThen.then().accept(TypeCheckVisitor.this,
-                                                  st);
-                             return null;
-                           }
-                         },
-                         null);
-      });
     }
 
     @Override
     public Void visit(IfThen node, SymbolTable st)
     {
-      assert false : "Should have visited this type of node in checkExpressions()";
+      checkType(node.condition(),
+                st,
+                ValueType.BOOLEAN);
+
+      node.then().accept(TypeCheckVisitor.this,
+                         st);
       return null;
     }
 
     @Override
     public Void visit(NormalQuestion node, SymbolTable st)
     {
-      st.add(node.name(),
-             node.type());
       return null;
     }
 
     @Override
     public Void visit(ComputedQuestion node, SymbolTable st)
     {
-      st.add(node.name(),
-             node.type());
+      ValueType type;
+
+      type = st.typeOf(node.name());
+
+      checkType(node.computation(),
+                st,
+                type);
       return null;
     }
 

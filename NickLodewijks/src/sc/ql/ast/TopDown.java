@@ -32,11 +32,10 @@ import sc.ql.ast.ValueType.StringType;
 import sc.ql.ast.ValueType.UnknownType;
 
 public class TopDown<T, U>
-    implements ExpressionVisitor<T, U>, FormVisitor<T, U>, StatementVisitor<T, U>, ValueTypeVisitor<T, U>,
-    LiteralVisitor<T, U>
+    implements ExpressionVisitor<T, U>, StatementVisitor<T, U>, ValueTypeVisitor<T, U>, LiteralVisitor<T, U>
 {
 
-  public T visit(BinaryExpr node, U context)
+  private T visit(BinaryExpr node, U context)
   {
     node.left().accept(this,
                        context);
@@ -46,7 +45,7 @@ public class TopDown<T, U>
     return null;
   }
 
-  public T visit(UnaryExpr node, U context)
+  private T visit(UnaryExpr node, U context)
   {
     node.expr().accept(this,
                        context);
@@ -166,22 +165,10 @@ public class TopDown<T, U>
   }
 
   @Override
-  public T visit(Form node, U context)
-  {
-    node.getBody().accept(this,
-                          context);
-
-    return null;
-  }
-
-  @Override
   public T visit(Block node, U context)
   {
-    for (Statement statement : node.statements())
-    {
-      statement.accept(this,
-                       context);
-    }
+    node.statements().forEach(statement -> statement.accept(this,
+                                                            context));
 
     return null;
   }
