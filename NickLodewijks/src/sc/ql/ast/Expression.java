@@ -1,10 +1,41 @@
 package sc.ql.ast;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class Expression
     extends ASTNode
 {
 
   public abstract <T, U> T accept(ExpressionVisitor<T, U> visitor, U context);
+
+  /**
+   * Collect all free variables in specified expressions.
+   * 
+   * @param expr
+   *          the expression to collect all free variables from.
+   * @return the free variables used in the expression.
+   */
+  public Set<String> freeVariables()
+  {
+    Set<String> freeVariables;
+
+    freeVariables = new HashSet<>();
+
+    this.accept(new TopDown<Void, Void>()
+                {
+                  @Override
+                  public Void visit(VariableExpr node, Void unused)
+                  {
+                    freeVariables.add(node.getVariableName());
+                    return null;
+                  }
+                },
+                null);
+
+    return Collections.unmodifiableSet(freeVariables);
+  }
 
   public static abstract class BinaryExpr
       extends Expression

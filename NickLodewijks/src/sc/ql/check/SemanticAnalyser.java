@@ -42,6 +42,9 @@ import sc.ql.ast.Statement.Question;
 import sc.ql.ast.StatementVisitor;
 import sc.ql.ast.TopDown;
 import sc.ql.ast.ValueType;
+import sc.ql.ast.ValueType.UnknownType;
+import sc.ql.check.ReferenceTable.Reference;
+import sc.ql.check.ReferenceTable.ReferencePath;
 import sc.ql.check.SemanticMessage.CyclicDependency;
 import sc.ql.check.SemanticMessage.DuplicateQuestionLabels;
 import sc.ql.check.SemanticMessage.DuplicateQuestionName;
@@ -49,7 +52,7 @@ import sc.ql.check.SemanticMessage.Level;
 import sc.ql.check.SemanticMessage.OperandTypeMismatch;
 import sc.ql.check.SemanticMessage.TypeMismatch;
 import sc.ql.check.SemanticMessage.UndeclaredVariable;
-import sc.ql.check.SemanticMessage.UnknownType;
+import sc.ql.check.SemanticMessage.UndefinedType;
 
 public class SemanticAnalyser
 {
@@ -172,14 +175,31 @@ public class SemanticAnalyser
    */
   private static SemanticResult validateCyclicReferences(Form form)
   {
+    ReferenceTable referenceTable;
     SemanticResult result;
 
-    result = new SemanticResult();
+    referenceTable = new ReferenceTable();
+    form.accept(new TopDown<Void, Void>()
+                {
+                  @Override
+                  public Void visit(ComputedQuestion question, Void unused)
+                  {
+                    referenceTable.add(question);
+                    return null;
+                  }
+                },
+                null);
 
-    CyclicReferences.collect(form).forEach(cr -> {
-      result.add(new CyclicDependency(Level.ERROR,
-                                      cr));
-    });
+    result = new SemanticResult();
+    for (Reference reference : referenceTable.getReferences())
+    {
+      for (ReferencePath cyclicDependency : reference.getCyclicPaths())
+      {
+        result.add(new CyclicDependency(Level.ERROR,
+                                        reference,
+                                        cyclicDependency));
+      }
+    }
 
     return result;
   }
@@ -561,8 +581,8 @@ public class SemanticAnalyser
 
       if (actualType == null)
       {
-        result.add(new UnknownType(Level.ERROR,
-                                   expr));
+        result.add(new UndefinedType(Level.ERROR,
+                                     expr));
         return;
       }
 
@@ -593,6 +613,10 @@ public class SemanticAnalyser
 
     public ValueType typeOf(String name)
     {
+      if (!nameToType.containsKey(name))
+      {
+        return new UnknownType();
+      }
       return nameToType.get(name);
     }
   }

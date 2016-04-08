@@ -9,6 +9,7 @@ import sc.ql.ast.ValueType;
 import sc.ql.ast.ValueType.BooleanType;
 import sc.ql.ast.ValueType.IntegerType;
 import sc.ql.ast.ValueType.StringType;
+import sc.ql.ast.ValueType.UnknownType;
 import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.eval.Environment;
 import sc.ql.ui.UIFactory;
@@ -21,6 +22,7 @@ import sc.ql.ui.widget.UIWidgetStyle;
 import sc.ql.value.BooleanValue;
 import sc.ql.value.NumberValue;
 import sc.ql.value.StringValue;
+import sc.ql.value.UnknownValue;
 import sc.ql.value.Value;
 import sc.qls.ast.Property;
 import sc.qls.ast.Property.ColorProperty;
@@ -145,6 +147,11 @@ public class QLSUIFactory
                            {
                              return type.accept(new ValueTypeVisitor<UIWidget, Void>()
                                                 {
+                                                  @Override
+                                                  public UIWidget visit(UnknownType type, Void context)
+                                                  {
+                                                    throw new IllegalStateException("Cannot render widgets with an unknown type.");
+                                                  }
 
                                                   @Override
                                                   public UIWidget visit(BooleanType type, Void unused)
@@ -215,6 +222,11 @@ public class QLSUIFactory
   {
     return type.accept(new ValueTypeVisitor<Value, Void>()
                        {
+                         @Override
+                         public Value visit(UnknownType type, Void context)
+                         {
+                           return new UnknownValue();
+                         }
 
                          @Override
                          public Value visit(BooleanType type, Void context)

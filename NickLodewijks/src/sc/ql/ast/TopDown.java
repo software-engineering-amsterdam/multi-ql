@@ -29,6 +29,7 @@ import sc.ql.ast.Statement.NormalQuestion;
 import sc.ql.ast.ValueType.BooleanType;
 import sc.ql.ast.ValueType.IntegerType;
 import sc.ql.ast.ValueType.StringType;
+import sc.ql.ast.ValueType.UnknownType;
 
 public class TopDown<T, U>
     implements ExpressionVisitor<T, U>, FormVisitor<T, U>, StatementVisitor<T, U>, ValueTypeVisitor<T, U>,
@@ -238,6 +239,12 @@ public class TopDown<T, U>
     node.type().accept(this,
                        context);
 
+    return null;
+  }
+
+  @Override
+  public T visit(UnknownType type, U context)
+  {
     return null;
   }
 

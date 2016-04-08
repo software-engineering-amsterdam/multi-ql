@@ -17,6 +17,7 @@ import sc.ql.ast.TopDown;
 import sc.ql.ast.ValueType.BooleanType;
 import sc.ql.ast.ValueType.IntegerType;
 import sc.ql.ast.ValueType.StringType;
+import sc.ql.ast.ValueType.UnknownType;
 import sc.ql.ast.ValueTypeVisitor;
 import sc.ql.eval.Environment;
 import sc.ql.ui.widget.UILabel;
@@ -109,6 +110,13 @@ public class UIFactory
   {
     return question.type().accept(new ValueTypeVisitor<UIWidget, Void>()
                                   {
+
+                                    @Override
+                                    public UIWidget visit(UnknownType type, Void context)
+                                    {
+                                      // TODO Auto-generated method stub
+                                      return null;
+                                    }
 
                                     @Override
                                     public UIWidget visit(BooleanType type, Void unused)

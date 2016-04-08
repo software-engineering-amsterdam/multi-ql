@@ -5,7 +5,8 @@ import sc.ql.ast.Expression.BinaryExpr;
 import sc.ql.ast.Expression.VariableExpr;
 import sc.ql.ast.Statement.Question;
 import sc.ql.ast.ValueType;
-import sc.ql.check.CyclicReferences.CyclicReference;
+import sc.ql.check.ReferenceTable.Reference;
+import sc.ql.check.ReferenceTable.ReferencePath;
 
 public abstract class SemanticMessage
 {
@@ -80,12 +81,12 @@ public abstract class SemanticMessage
     }
   }
 
-  static class UnknownType
+  static class UndefinedType
       extends SemanticMessage
   {
-    UnknownType(Level level, Expression expr)
+    UndefinedType(Level level, Expression expr)
     {
-      super(String.format("Unknown type for %s",
+      super(String.format("Undefined type for %s",
                           expr),
             level,
             expr.getSourceLocation());
@@ -95,11 +96,11 @@ public abstract class SemanticMessage
   static class CyclicDependency
       extends SemanticMessage
   {
-    CyclicDependency(Level level, CyclicReference cr)
+    CyclicDependency(Level level, Reference questionName, ReferencePath referencePath)
     {
       super(String.format("Cyclic dependency for question %s: (%s)",
-                          cr.getReference(),
-                          cr.getPath()),
+                          questionName,
+                          referencePath),
             level);
     }
   }
