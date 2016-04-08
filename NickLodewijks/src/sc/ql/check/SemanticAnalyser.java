@@ -113,38 +113,34 @@ public class SemanticAnalyser
 
     result = new SemanticResult();
 
-    for (String label : qt.getLabels())
+    for (List<Question> questions : qt.getByLabel().values())
     {
-      if (qt.getByLabel(label).size() > 1)
+      if (questions.size() > 1)
       {
-        qt.getByLabel(label).forEach(q -> {
-          result.add(new DuplicateQuestionLabels(Level.WARNING,
-                                                 q));
-        });
+        questions.forEach(q -> result.add(new DuplicateQuestionLabels(Level.WARNING,
+                                                                      q)));
       }
     }
 
-    for (String name : qt.getNames())
+    for (List<Question> questions : qt.getByName().values())
     {
-      Question question;
+      ValueType type;
 
-      if (qt.getByName(name).size() == 1)
+      if (questions.size() == 1)
       {
         continue;
       }
 
-      question = qt.getByName(name).get(0);
-      for (Question other : qt.getByName(name))
+      type = questions.get(0).type();
+      for (Question other : questions)
       {
-        if (other.type().equals(question.type()))
+        if (!other.type().equals(type))
         {
           continue;
         }
 
-        qt.getByName(name).forEach(q -> {
-          result.add(new DuplicateQuestionName(Level.ERROR,
-                                               q));
-        });
+        questions.forEach(q -> result.add(new DuplicateQuestionName(Level.ERROR,
+                                                                    q)));
         break;
       }
     }
@@ -363,11 +359,10 @@ public class SemanticAnalyser
       ValueType type;
 
       type = st.typeOf(node.getVariableName());
-      if (type == null)
+      if (isUnknownType(type))
       {
         result.add(new UndeclaredVariable(node,
                                           Level.ERROR));
-        return null;
       }
 
       return type;
@@ -465,12 +460,16 @@ public class SemanticAnalyser
                                    st);
       rhsType = node.right().accept(this,
                                     st);
-      if (!lhsType.equals(rhsType))
+
+      if (!isUnknownType(lhsType) && !isUnknownType(rhsType))
       {
-        result.add(new OperandTypeMismatch(Level.ERROR,
-                                           node,
-                                           lhsType,
-                                           rhsType));
+        if (!lhsType.equals(rhsType))
+        {
+          result.add(new OperandTypeMismatch(Level.ERROR,
+                                             node,
+                                             lhsType,
+                                             rhsType));
+        }
       }
 
       return ValueType.BOOLEAN;
@@ -486,12 +485,16 @@ public class SemanticAnalyser
                                    st);
       rhsType = node.right().accept(this,
                                     st);
-      if (!lhsType.equals(rhsType))
+
+      if (!isUnknownType(lhsType) && !isUnknownType(rhsType))
       {
-        result.add(new OperandTypeMismatch(Level.ERROR,
-                                           node,
-                                           lhsType,
-                                           rhsType));
+        if (!lhsType.equals(rhsType))
+        {
+          result.add(new OperandTypeMismatch(Level.ERROR,
+                                             node,
+                                             lhsType,
+                                             rhsType));
+        }
       }
 
       return ValueType.BOOLEAN;
@@ -562,6 +565,11 @@ public class SemanticAnalyser
       return ValueType.BOOLEAN;
     }
 
+    private boolean isUnknownType(ValueType type)
+    {
+      return type.equals(new UnknownType());
+    }
+
     private void checkOperands(BinaryExpr expr, SymbolTable st, ValueType expectedType)
     {
       checkType(expr.left(),
@@ -579,10 +587,9 @@ public class SemanticAnalyser
       actualType = expr.accept(this,
                                st);
 
-      if (actualType == null)
+      // Prevent error cascading
+      if (isUnknownType(actualType))
       {
-        result.add(new UndefinedType(Level.ERROR,
-                                     expr));
         return;
       }
 
@@ -617,6 +624,7 @@ public class SemanticAnalyser
       {
         return new UnknownType();
       }
+
       return nameToType.get(name);
     }
   }
@@ -645,24 +653,26 @@ public class SemanticAnalyser
       nameToQuestionsList.add(q);
     }
 
-    public Set<String> getNames()
+    public Map<String, List<Question>> getByLabel()
     {
-      return Collections.unmodifiableSet(nameToQuestion.keySet());
+      Map<String, List<Question>> byLabel;
+
+      byLabel = new HashMap<String, List<Question>>();
+      labelToQuestion.forEach((key, value) -> byLabel.put(key,
+                                                          Collections.unmodifiableList(value)));
+
+      return Collections.unmodifiableMap(byLabel);
     }
 
-    public List<Question> getByName(String name)
+    public Map<String, List<Question>> getByName()
     {
-      return Collections.unmodifiableList(nameToQuestion.get(name));
-    }
+      Map<String, List<Question>> byName;
 
-    public Set<String> getLabels()
-    {
-      return Collections.unmodifiableSet(labelToQuestion.keySet());
-    }
+      byName = new HashMap<String, List<Question>>();
+      nameToQuestion.forEach((key, value) -> byName.put(key,
+                                                        Collections.unmodifiableList(value)));
 
-    public List<Question> getByLabel(String label)
-    {
-      return Collections.unmodifiableList(labelToQuestion.get(label));
+      return Collections.unmodifiableMap(byName);
     }
   }
 }
