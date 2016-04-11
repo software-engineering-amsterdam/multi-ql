@@ -25,19 +25,19 @@ import sc.ql.value.Value;
 public class Evaluator
     implements ExpressionVisitor<Value, Environment>
 {
-  @SuppressWarnings("unchecked")
-  public static <T extends Value> T evaluate(Expression expr, Environment env)
+
+  public static Value evaluate(Expression expr, Environment env)
   {
     try
     {
-      return (T) expr.accept(new Evaluator(),
-                             env);
+      return expr.accept(new Evaluator(),
+                         env);
     }
     catch (RuntimeException ex)
     {
-      throw new RuntimeException(String.format("Failed to interpret expression '%s'",
-                                               expr.getSourceText()),
-                                 ex);
+      throw new AssertionError(String.format("Failed to interpret expression '%s'",
+                                             expr.getSourceText()),
+                               ex);
     }
   }
 

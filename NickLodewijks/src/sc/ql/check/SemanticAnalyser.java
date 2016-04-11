@@ -53,7 +53,7 @@ import sc.ql.check.SemanticMessage.UndeclaredVariable;
 public class SemanticAnalyser
 {
 
-  public SemanticAnalyser()
+  private SemanticAnalyser()
   {
 
   }

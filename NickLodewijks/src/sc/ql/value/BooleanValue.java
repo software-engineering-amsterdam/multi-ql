@@ -67,49 +67,49 @@ public final class BooleanValue
   @Override
   public Value add(Value value)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
   public Value subtract(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
   public Value mul(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
   public Value div(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
   public BooleanValue greaterThanOrEqual(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
   public BooleanValue lessThanOrEqual(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
   public BooleanValue greaterThan(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
   public BooleanValue lessThan(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override

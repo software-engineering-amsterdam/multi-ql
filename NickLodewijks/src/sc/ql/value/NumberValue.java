@@ -157,13 +157,13 @@ public final class NumberValue
   @Override
   public BooleanValue and(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
   public BooleanValue or(Value other)
   {
-    throw new UnsupportedOperationException();
+    return error();
   }
 
   @Override
