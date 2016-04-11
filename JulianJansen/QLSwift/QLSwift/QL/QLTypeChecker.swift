@@ -8,182 +8,176 @@
 
 import Foundation
 
-class QLExpressionTable {
-    private var table = Dictionary<Int, QLLiteral.Type>()
+class QLTypeChecker: TypeVisitor {
     
-    func storeExpression(expression: QLExpression, type: QLLiteral.Type) {
- 
-        table[expression.getID()] = type
-        
-        print(table.description)
-    }
+    private let symbolTable = SymbolTable()
+    private var questionLabels = Array<String>()
     
-    func getExpressionType(expression: QLExpression) -> QLLiteral.Type? {
-
+    // MARK: Type check methods
+    
+    func typeCheckExpression(expr: QLExpression, expectedType: QLType) {
+        let exprType = expr.accept(self)
         
-        if let type = table[expression.getID()] {
-            return type
-        } else {
-            return nil
+        if (exprType != expectedType) {
+            AppLogger.sharedInstance.logError(TypeError(message: "Expected \(expectedType.description) in expression, got \(exprType.description)."))
         }
     }
-}
-
-
-class QLTypeChecker: Visitor {
     
-    var expressionTable = QLExpressionTable()
-    let symbolTable: QLSymbolTable
-    
-    init(symbolTable: QLSymbolTable) {
-        self.symbolTable = symbolTable
+    func typeCheckExpressions(lhs: QLExpression, rhs: QLExpression, expectedType: QLType) {
+        let lhsType = lhs.accept(self)
+        let rhsType = rhs.accept(self)
+        
+        if (lhsType != expectedType) {
+            AppLogger.sharedInstance.logError(TypeError(message: "Expected \(expectedType.description) on lhs of expression, got \(lhsType.description)."))
+        }
+        
+        if (rhsType != expectedType) {
+            AppLogger.sharedInstance.logError(TypeError(message: "Expected \(expectedType.description) on rhs of expression, got \(rhsType.description)."))
+        }
     }
     
-    func visit(qlform: QLForm) {
-
+    func typeCheckEquality(lhs: QLExpression, rhs: QLExpression) {
+        let lhsType = lhs.accept(self)
+        let rhsType = rhs.accept(self)
+        
+        if (lhsType != rhsType) {
+            AppLogger.sharedInstance.logError(TypeError(message: "Cannot compare for (in)equality between \(lhsType.description) and \(rhsType.description)."))
+        }
+    }
+    
+    private func checkDuplicateLabel(newLabel: String) {
+        for existingLabel in questionLabels {
+            if (existingLabel == newLabel) {
+                AppLogger.sharedInstance.logWarning(DuplicateWarning(message: "Label \(newLabel) already exists."))
+                break
+            }
+        }
+    }
+    
+    // MARK: Visitors
+    
+    func visit(qlform: QLForm) -> QLUnknownType {
         for statement in qlform.codeBlock {
             statement.accept(self)
         }
-    
-    }
-
-    func visit(qlquestion: QLQuestion) {
-        print("Question: \(qlquestion.name)")
-    }
-
-    func visit(qlifstatement: QLIfStatement) {
-        print("If-statement")
         
-        qlifstatement.condition.accept(self)
+        return QLUnknownType()
+    }
+
+    func visit(qlquestion: QLQuestion) -> QLUnknownType {
+        do {
+            try symbolTable.addSymbol(qlquestion.name, qlType: qlquestion.type)
+            
+            checkDuplicateLabel(qlquestion.label)
+            questionLabels.append(qlquestion.label)
+            
+            if (qlquestion.expression != nil) {
+                typeCheckExpression(qlquestion.expression!, expectedType: qlquestion.type)
+            }
+        } catch {
+            AppLogger.sharedInstance.logError(error)
+        }
+        
+        return QLUnknownType()
+    }
+
+    func visit(qlifstatement: QLIfStatement) -> QLUnknownType {
+        typeCheckExpression(qlifstatement.condition, expectedType: QLBoolType())
         
         for statement in qlifstatement.codeBlock {
             statement.accept(self)
         }
-    }
-    
-    func visit(qlvariable: QLVariable) {
-        print("-> Variable")
-    }
-    
-    // MARK: Expressions.
-    func visit(qlunaryexpression: QLUnaryExpression) {
-        print("-> Unary expression: \(qlunaryexpression.getID())")
         
-        expressionTable.storeExpression(qlunaryexpression, type: qlunaryexpression.literal.dynamicType)
-        
-        qlunaryexpression.literal.accept(self)
+        return QLUnknownType()
     }
     
-    func visit(qlbinaryexpression: QLBinaryExpression) {
-        print("-> Binary expression: \(qlbinaryexpression.getID())")
-        qlbinaryexpression.lhs.accept(self)
-        qlbinaryexpression.rhs.accept(self)
+    func visit(qlvariable: QLVariable) -> QLType {
+        do {
+            return try symbolTable.getSymbol(qlvariable.name)
+        } catch {
+            AppLogger.sharedInstance.logError(error)
+            return QLUnknownType()
+        }
     }
     
-    func visit(qlnotexpression: QLNotExpression) {
-        print("-> Not expression: \(qlnotexpression.getID())")
-        qlnotexpression.accept(self)
+    // MARK: Expressions
+    
+    func visit(expr: QLNotExpression) -> QLBoolType {
+        typeCheckExpression(expr.expression, expectedType: QLBoolType())
+        return QLBoolType()
     }
         
-    func visit(qlgreaterthanexpression: QLGreaterThanExpression) {
-        print("Greater than: \(qlgreaterthanexpression.getID())")
-        qlgreaterthanexpression.lhs.accept(self)
-        qlgreaterthanexpression.rhs.accept(self)
+    func visit(expr: QLGreaterThanExpression) -> QLBoolType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLIntegerType())
+        return QLBoolType()
     }
     
-    func visit(qlsmallerthanexpression: QLSmallerThanExpression) {
-        print("Smaller than: \(qlsmallerthanexpression.getID())")
-        qlsmallerthanexpression.lhs.accept(self)
-        qlsmallerthanexpression.rhs.accept(self)
+    func visit(expr: QLSmallerThanExpression) -> QLBoolType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLIntegerType())
+        return QLBoolType()
     }
     
-    func visit(qlgreaterorisexpression: QLGreaterOrIsExpression) {
-        print("----------------------")
-        print("Greater or is: \(qlgreaterorisexpression.getID())")
-        
-        print(qlgreaterorisexpression.lhs.getID())
-
-        
-        qlgreaterorisexpression.lhs.accept(self)
-        qlgreaterorisexpression.rhs.accept(self)
-        
-        print("Get types")
-        print(expressionTable.getExpressionType(qlgreaterorisexpression.lhs))
-        print(expressionTable.getExpressionType(qlgreaterorisexpression.rhs))
-
-
-        
-        print("----------------------")
-
+    func visit(expr: QLGreaterOrIsExpression) -> QLBoolType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLIntegerType())
+        return QLBoolType()
     }
     
-    func visit(qlsmallerorisexpression: QLSmallerOrISExpression) {
-        print("Smaller or is: \(qlsmallerorisexpression.getID())")
-        qlsmallerorisexpression.lhs.accept(self)
-        qlsmallerorisexpression.rhs.accept(self)
+    func visit(expr: QLSmallerOrIsExpression) -> QLBoolType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLIntegerType())
+        return QLBoolType()
     }
     
-    func visit(qlisnotexpression: QLIsNotExpression) {
-        print("Is not: \(qlisnotexpression.getID())")
-        qlisnotexpression.lhs.accept(self)
-        qlisnotexpression.rhs.accept(self)
+    func visit(expr: QLIsNotExpression) -> QLBoolType {
+        typeCheckEquality(expr.lhs, rhs: expr.rhs)
+        return QLBoolType()
     }
     
-    func visit(qlisexpression: QLIsExpression) {
-        print("Is: \(qlisexpression.getID())")
-        qlisexpression.lhs.accept(self)
-        qlisexpression.rhs.accept(self)
+    func visit(expr: QLIsExpression) -> QLBoolType {
+        typeCheckEquality(expr.lhs, rhs: expr.rhs)
+        return QLBoolType()
     }
     
-    func visit(qlmultiplyexpression: QLMultiplyExpression) {
-        print("Multiply: \(qlmultiplyexpression.getID())")
-        qlmultiplyexpression.lhs.accept(self)
-        qlmultiplyexpression.rhs.accept(self)
+    func visit(expr: QLMultiplyExpression) -> QLIntegerType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLIntegerType())
+        return QLIntegerType()
     }
     
-    func visit(qldivideexpression: QLDivideExpression) {
-        print("Divide: \(qldivideexpression.getID())")
-        qldivideexpression.lhs.accept(self)
-        qldivideexpression.rhs.accept(self)
+    func visit(expr: QLDivideExpression) -> QLIntegerType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLIntegerType())
+        return QLIntegerType()
     }
     
-    func visit(qladdexpression: QLAddExpression) {
-        print("Add: \(qladdexpression.getID())")
-        qladdexpression.lhs.accept(self)
-        qladdexpression.rhs.accept(self)
+    func visit(expr: QLAddExpression) -> QLIntegerType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLIntegerType())
+        return QLIntegerType()
     }
     
-    func visit(qlsubtractexpression: QLSubtractExpression) {
-        print("Substract: \(qlsubtractexpression.getID())")
-        qlsubtractexpression.lhs.accept(self)
-        qlsubtractexpression.rhs.accept(self)
+    func visit(expr: QLSubtractExpression) -> QLIntegerType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLIntegerType())
+        return QLIntegerType()
     }
     
-    func visit(qlandexpression: QLAndExpression) {
-        print("And: \(qlandexpression.getID())")
-        qlandexpression.lhs.accept(self)
-        qlandexpression.rhs.accept(self)
+    func visit(expr: QLAndExpression) -> QLBoolType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLBoolType())
+        return QLBoolType()
     }
     
-    func visit(qlorexpression: QLOrExpression) {
-        print("Or: \(qlorexpression.getID())")
-        qlorexpression.lhs.accept(self)
-        qlorexpression.rhs.accept(self)
+    func visit(expr: QLOrExpression) -> QLBoolType {
+        typeCheckExpressions(expr.lhs, rhs: expr.rhs, expectedType: QLBoolType())
+        return QLBoolType()
     }
     
-    // MARK: Literals.
-    func visit(qlunknownliteral: QLUnknownLiteral) { }
+    // MARK: Literals
     
-    func visit(qlbool: QLBool) { }
+    func visit(qlbool: QLBoolLiteral) -> QLBoolType {
+        return QLBoolType()
+    }
     
-    func visit(qlstring: QLString) { }
+    func visit(qlstring: QLStringLiteral) -> QLStringType {
+        return QLStringType()
+    }
     
-    func visit(qlinteger: QLInteger) { }
-    
-    func visit(qldate: QLDate) { }
-    
-    func visit(qldecimal: QLDecimal) { }
-    
-    func visit(qlmoney: QLMoney) { }
-    
+    func visit(qlinteger: QLIntegerLiteral) -> QLIntegerType {
+        return QLIntegerType()
+    }
 }

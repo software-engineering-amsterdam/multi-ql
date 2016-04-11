@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0730"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B91DEB221C86EC5900A07F12"
+               BlueprintIdentifier = "B9279EB01CB28C1C0064B1B2"
                BuildableName = "QLSwift.app"
                BlueprintName = "QLSwift"
                ReferencedContainer = "container:QLSwift.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B91DEB311C86EC5900A07F12"
+               BlueprintIdentifier = "B9279EC11CB28C1C0064B1B2"
                BuildableName = "QLSwiftTests.xctest"
                BlueprintName = "QLSwiftTests"
                ReferencedContainer = "container:QLSwift.xcodeproj">
@@ -42,7 +42,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B91DEB3C1C86EC5900A07F12"
+               BlueprintIdentifier = "B9279ECC1CB28C1C0064B1B2"
                BuildableName = "QLSwiftUITests.xctest"
                BlueprintName = "QLSwiftUITests"
                ReferencedContainer = "container:QLSwift.xcodeproj">
@@ -52,7 +52,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B91DEB221C86EC5900A07F12"
+            BlueprintIdentifier = "B9279EB01CB28C1C0064B1B2"
             BuildableName = "QLSwift.app"
             BlueprintName = "QLSwift"
             ReferencedContainer = "container:QLSwift.xcodeproj">
@@ -75,7 +75,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B91DEB221C86EC5900A07F12"
+            BlueprintIdentifier = "B9279EB01CB28C1C0064B1B2"
             BuildableName = "QLSwift.app"
             BlueprintName = "QLSwift"
             ReferencedContainer = "container:QLSwift.xcodeproj">
@@ -94,7 +94,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B91DEB221C86EC5900A07F12"
+            BlueprintIdentifier = "B9279EB01CB28C1C0064B1B2"
             BuildableName = "QLSwift.app"
             BlueprintName = "QLSwift"
             ReferencedContainer = "container:QLSwift.xcodeproj">
