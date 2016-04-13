@@ -2,16 +2,6 @@ package uva.ql.ast;
 
 import java.util.Observable;
 
-import javax.swing.JPanel;
-
-import uva.ql.ast.interfaces.INode;
-import uva.ql.typechecker.visitors.IArithmeticOperatorVisitor;
-import uva.ql.typechecker.visitors.IBinaryOperatorVisitor;
-import uva.ql.typechecker.visitors.ICyclicDependencyVisitor;
-import uva.ql.typechecker.visitors.IDupllicateLabelsVisitor;
-import uva.ql.typechecker.visitors.IDupllicateQuestionDifferentTypesVisitor;
-import uva.ql.typechecker.visitors.IUndefinedQuestionVisitor;
-import uva.ql.visitors.IGUIVisitor;
 import uva.ql.visitors.INodeVisitor;
 
 public abstract class Node extends Observable implements INode {
@@ -43,28 +33,14 @@ public abstract class Node extends Observable implements INode {
 		return startColumn;
 	}
 	
+	public void setLine(int line) {
+		this.startLine = line;
+	}
+	
+	public void setColumn(int col) {
+		this.startColumn = col;
+	}
+	
 	@Override
 	public void accept(INodeVisitor visitor) {}
-
-	@Override
-	public void accept(IArithmeticOperatorVisitor visitor) {}
-	
-	@Override
-	public void accept(IBinaryOperatorVisitor visitor) {}
-	
-	@Override
-	public void accept(IUndefinedQuestionVisitor visitor) {}
-
-	@Override
-	public void accept(ICyclicDependencyVisitor visitor) {}
-	
-	@Override
-	public void accept(IDupllicateLabelsVisitor visitor) {}
-
-	@Override
-	public void accept(IDupllicateQuestionDifferentTypesVisitor visitor) {}
-	
-	@Override
-	public void accept(IGUIVisitor visitor, JPanel panel) {}
-	
 }

@@ -13,37 +13,37 @@ import uva.ql.antlr4.QLParser.QuestionContext;
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
 import uva.ql.ast.Node;
-import uva.ql.ast.conditionals.CondIfElseStatement;
-import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.conditionals.Condition;
-import uva.ql.ast.expressions.ExpAdd;
-import uva.ql.ast.expressions.ExpAnd;
-import uva.ql.ast.expressions.ExpDivide;
-import uva.ql.ast.expressions.ExpEqualTo;
-import uva.ql.ast.expressions.ExpGreaterThen;
-import uva.ql.ast.expressions.ExpGreaterThenOrEqualTo;
-import uva.ql.ast.expressions.ExpLessThen;
-import uva.ql.ast.expressions.ExpLessThenOrEqualTo;
-import uva.ql.ast.expressions.ExpMinus;
-import uva.ql.ast.expressions.ExpMultiply;
-import uva.ql.ast.expressions.ExpNot;
-import uva.ql.ast.expressions.ExpNotEqualTo;
-import uva.ql.ast.expressions.ExpOr;
-import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.questions.Question;
-import uva.ql.ast.questions.QuestionComputed;
-import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.values.Value;
-import uva.ql.ast.values.ValueBool;
-import uva.ql.ast.values.ValueInt;
-import uva.ql.ast.values.ValueMoney;
-import uva.ql.ast.variables.VarBool;
-import uva.ql.ast.variables.VarDate;
-import uva.ql.ast.variables.VarGeneric;
-import uva.ql.ast.variables.VarInt;
-import uva.ql.ast.variables.VarMoney;
-import uva.ql.ast.variables.VarStr;
-import uva.ql.ast.variables.Variable;
+import uva.ql.ast.condition.CondIfElseStatement;
+import uva.ql.ast.condition.CondIfStatement;
+import uva.ql.ast.condition.Condition;
+import uva.ql.ast.expression.Expression;
+import uva.ql.ast.expression.arithmetic.AddExpression;
+import uva.ql.ast.expression.arithmetic.DivideExpression;
+import uva.ql.ast.expression.arithmetic.MinusExpression;
+import uva.ql.ast.expression.arithmetic.MultiplyExpression;
+import uva.ql.ast.expression.logical.AndExpression;
+import uva.ql.ast.expression.logical.NotExpression;
+import uva.ql.ast.expression.logical.OrExpression;
+import uva.ql.ast.expression.relational.EqualToExpression;
+import uva.ql.ast.expression.relational.GreaterThenExpression;
+import uva.ql.ast.expression.relational.GreaterThenOrEqualToExpression;
+import uva.ql.ast.expression.relational.LessThenExpression;
+import uva.ql.ast.expression.relational.LessThenOrEqualToExpression;
+import uva.ql.ast.expression.relational.NotEqualToExpression;
+import uva.ql.ast.question.Question;
+import uva.ql.ast.question.QuestionComputed;
+import uva.ql.ast.question.QuestionVanilla;
+import uva.ql.ast.value.Value;
+import uva.ql.ast.value.ValueBoolean;
+import uva.ql.ast.value.ValueInteger;
+import uva.ql.ast.value.ValueMoney;
+import uva.ql.ast.variable.Variable;
+import uva.ql.ast.variable.VariableBoolean;
+import uva.ql.ast.variable.VariableDate;
+import uva.ql.ast.variable.VariableInteger;
+import uva.ql.ast.variable.VariableMoney;
+import uva.ql.ast.variable.VariableString;
+import uva.ql.ast.variable.VariableUndefined;
 
 public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 
@@ -148,11 +148,11 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		
 		if (operator == "*") {
 			
-			exp = new ExpMultiply(null, lhs, rhs, line, column);
+			exp = new MultiplyExpression(null, line, column, lhs, rhs);
 		}
 		else {
 			
-			exp = new ExpDivide(null, lhs, rhs, line, column);
+			exp = new DivideExpression(null, line, column, lhs, rhs);
 		}
 		
 		return exp;
@@ -173,18 +173,18 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		
 		if (operator == "+") {
 			
-			exp = new ExpAdd(null, lhs, rhs, line, column);
+			exp = new AddExpression(null, line, column, lhs, rhs);
 		}
 		else {
 			
-			exp = new ExpMinus(null, lhs, rhs, line, column);
+			exp = new MinusExpression(null, line, column, lhs, rhs);
 		}
 		
 		return exp;
 	}
 	
 	@Override
-	public Expression visitExpEquality( @NotNull QLParser.ExpEqualityContext ctx ) {
+	public Expression visitExpRelational( @NotNull QLParser.ExpRelationalContext ctx ) {
 		
 		Expression exp = null;
 		Token token = ctx.getStart();
@@ -198,22 +198,22 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		
 		switch (operator) {
 			case "<":
-				return new ExpLessThen(null, lhs, rhs, line, column);
+				return new LessThenExpression(null, line, column, lhs, rhs);
 			case ">":
-				return new ExpGreaterThen(null, lhs, rhs, line, column);
+				return new GreaterThenExpression(null, line, column, lhs, rhs);
 			case "<=":
-				return new ExpLessThenOrEqualTo(null, lhs, rhs, line, column);
+				return new LessThenOrEqualToExpression(null, line, column, lhs, rhs);
 			case ">=":
-				return new ExpGreaterThenOrEqualTo(null, lhs, rhs, line, column);
+				return new GreaterThenOrEqualToExpression(null, line, column, lhs, rhs);
 			case "!=":
-				return new ExpNotEqualTo(null, lhs, rhs, line, column);
+				return new NotEqualToExpression(null, line, column, lhs, rhs);
 			default:
-				return new ExpEqualTo(null, lhs, rhs, line, column);
+				return new EqualToExpression(null, line, column, lhs, rhs);
 		}
 	}
 	
 	@Override
-	public Expression visitExpAndOr( @NotNull QLParser.ExpAndOrContext ctx ) {
+	public Expression visitExpLogical( @NotNull QLParser.ExpLogicalContext ctx ) {
 
 		Expression exp = null;
 		Token token = ctx.getStart();
@@ -227,11 +227,11 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		
 		if (operator == "&&") {
 			
-			exp = new ExpAnd(null, lhs, rhs, line, column);
+			exp = new AndExpression(null, line, column, lhs, rhs);
 		}
 		else {
 			
-			exp = new ExpOr(null, lhs, rhs, line, column);
+			exp = new OrExpression(null, line, column, lhs, rhs);
 		}
 		
 		return exp;
@@ -247,7 +247,7 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		Expression lhs = (Expression) ctx.getChild(1).accept(this);
 		lhs.setParent(exp);
 		
-		exp = new ExpNot(null, lhs, line, column);
+		exp = new NotExpression(null, line, column, lhs);
 		
 		return exp;
 	}
@@ -263,14 +263,14 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		
 		if( var == null) {
 			
-			var =  new VarGeneric(null, ctx.getText(), line, column);
+			var =  new VariableUndefined(null, ctx.getText(), line, column);
 		}
 		
 		return var;
 	}
 	
 	@Override
-	public Value<Integer> visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
+	public Value visitExpNum( @NotNull QLParser.ExpNumContext ctx ) {
 		
 		Token token = ctx.getStart();
 		int line = token.getLine();
@@ -278,7 +278,7 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		
 		if(!ctx.DIGIT().isEmpty()) {
 			
-			return new ValueInt(null, ctx.getText(), line, column);
+			return new ValueInteger(null, ctx.getText(), line, column);
 		}
 		else {
 			
@@ -287,13 +287,13 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 	}
 	
 	@Override
-	public Value<Boolean> visitExpBool( @NotNull QLParser.ExpBoolContext ctx ) {
+	public Value visitExpBool( @NotNull QLParser.ExpBoolContext ctx ) {
 		
 		Token token = ctx.getStart();
 		int line = token.getLine();
 		int column = token.getCharPositionInLine() + 1;
 		
-		return new ValueBool(null, ctx.getText().intern(), line, column);
+		return new ValueBoolean(null, ctx.getText().intern(), line, column);
 	}
 	
 	private Variable createVariable(QuestionContext ctx) {
@@ -306,17 +306,17 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		
 		switch (varType.toUpperCase()) {
 			case "BOOLEAN":
-				return new VarBool(null, varName, line, column);
+				return new VariableBoolean(null, varName, line, column);
 			case "DATE":
-				return new VarDate(null, varName, line, column);
+				return new VariableDate(null, varName, line, column);
 			case "INTEGER":
-				return new VarInt(null, varName, line, column);
+				return new VariableInteger(null, varName, line, column);
 			case "MONEY":
-				return new VarMoney(null, varName, line, column);
+				return new VariableMoney(null, varName, line, column);
 			case "STRING":
-				return new VarStr(null, varName, line, column);
+				return new VariableString(null, varName, line, column);
 			default:
-				return new VarGeneric(null, varName, line, column);
+				return new VariableUndefined(null, varName, line, column);
 		}
 	}
 	
@@ -334,12 +334,12 @@ public class VisitorAntlrToAST extends QLBaseVisitor<Object> {
 		if (ctx.expression() != null) {
 			
 			Expression exp = (Expression) ctx.expression().accept(this);
-			question = new QuestionComputed(null, label, var, exp, line, column);
+			question = new QuestionComputed(null, exp, line, column, label, var);
 			exp.setParent(question);
 		} 
 		else {
 			
-			question = new QuestionVanilla(null, label, var, line, column);
+			question = new QuestionVanilla(null, line, column, label, var);
 		}
 		
 		var.setParent(question);

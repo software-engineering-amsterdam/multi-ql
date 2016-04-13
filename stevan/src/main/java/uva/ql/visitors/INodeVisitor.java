@@ -2,15 +2,15 @@ package uva.ql.visitors;
 
 import uva.ql.ast.Block;
 import uva.ql.ast.Form;
-import uva.ql.ast.conditionals.CondIfElseStatement;
-import uva.ql.ast.conditionals.CondIfStatement;
-import uva.ql.ast.conditionals.Condition;
-import uva.ql.ast.expressions.abstracts.Expression;
-import uva.ql.ast.questions.Question;
-import uva.ql.ast.questions.QuestionComputed;
-import uva.ql.ast.questions.QuestionVanilla;
-import uva.ql.ast.values.Value;
-import uva.ql.ast.variables.Variable;
+import uva.ql.ast.condition.CondIfElseStatement;
+import uva.ql.ast.condition.CondIfStatement;
+import uva.ql.ast.condition.Condition;
+import uva.ql.ast.expression.Expression;
+import uva.ql.ast.question.Question;
+import uva.ql.ast.question.QuestionComputed;
+import uva.ql.ast.question.QuestionVanilla;
+import uva.ql.ast.value.Value;
+import uva.ql.ast.variable.Variable;
 
 public interface INodeVisitor {
 
@@ -27,5 +27,5 @@ public interface INodeVisitor {
 	public void visitIfElseCondition(CondIfElseStatement condIfElseStatement);
 	
 	public void visitVar(Variable variable);
-	public void visitVal(Value<?> values);
+	public void visitVal(Value values);
 }

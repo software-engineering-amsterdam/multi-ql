@@ -83,6 +83,6 @@ expression
 	| '!' expression 											#expNot
 	| expression ('*' | '/') expression 						#expMultDivide
 	| expression ('+' | '-') expression 						#expPlusMinus
-	| expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression 	#expEquality
-	| expression ('&&' | '||') expression 						#expAndOr
+	| expression ('<' | '>' | '<=' | '>=' | '!=' | '==') expression 	#expRelational
+	| expression ('&&' | '||') expression 						#expLogical
 	;															
