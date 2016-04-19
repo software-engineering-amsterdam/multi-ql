@@ -8,3 +8,5 @@
 /testLexer.tokens
 /testListener.java
 /testParser.java
+/QLLexer.java
+/QLLexer.tokens
