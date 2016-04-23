@@ -87,7 +87,7 @@ public class BaseVisitor<T> implements QLVisitorInterface<T> {
 	@Override
 	public T visit(Questionnaire node) {
 		// TODO Auto-generated method stub
-		for (Form form: node.getForms()) {
+		for (Form form : node.getForms()) {
 			form.getContent().accept(this);
 		}
 		
