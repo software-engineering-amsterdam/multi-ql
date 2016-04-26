@@ -5,6 +5,7 @@ import ql.BaseVisitor;
 public class ComputedQuestion extends Question {
 
 	private Expr expression;
+	// should computed questions contain values? 
 	
 	public ComputedQuestion(String q_text, String identity, QuestionType typ) {
 		super(q_text, identity, typ);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ql;
 import java.io.IOException;
 
@@ -37,7 +32,7 @@ public class QLMain {
         		+ "		incomeQuestion : money"
         		+ "}";
         
-        System.out.println("Starting parsing");
+        System.out.println("Starting parsing\n");
         System.out.println(parseTest2);
         QLLexer lexer = null;
 		lexer = new QLLexer( new ANTLRInputStream(parseTest2));
@@ -55,25 +50,21 @@ public class QLMain {
         QLParser parser2 = new QLParser( tokens2 );
         ParseTree tree2 = parser2.form();
         ParseTreeWalker walker2 = new ParseTreeWalker();
-       // walker2.walk( new QLWalker(), tree2 );
     
         parseExamples();
-        
-        //  BaseVisitor<T> basevisit = new BaseVisitor<T>();
-        //   basevisit.visit(lexer);
-        
-        System.out.println("Finished parsing");
+               
+        System.out.println("\n Finished parsing");
     }
 
     // some ugly testing code
     
 	private static void parseExamples() {
-		// TODO Auto-generated method stub
+
 		//parseQuestionExample();
 		parseFormExample();
 		parseQuestionnaireExample();
 		//parseComputedQuestionExample();
-	//	parseIfExample();
+		//parseIfExample();
 	}
 
 	private static void parseIfExample() {
@@ -135,17 +126,12 @@ public class QLMain {
         QLWalker listener =  new QLWalker();
         ParseTreeWalker.DEFAULT.walk(listener, tree);
         
-
-        
-		System.out.println("Finished Form example");
-
-        
+		System.out.println("Finished Form example");  
 	}
 
 	private static void parseQuestionExample() {
 		System.out.println("Parsing Question example");
 
-		// TODO Auto-generated method stub
         QLLexer lexer = null;
 		try {
 			lexer = new QLLexer( new ANTLRFileStream("examples/questionexample.ql"));
@@ -168,19 +154,15 @@ public class QLMain {
         
         walker.walk(listener, ctx );
 		System.out.println("Finished Question Example");
-
-        
 	}
     
 	private static void parseComputedQuestionExample() {
 		System.out.println("Parsing ComputedQuestion example");
 
-		// TODO Auto-generated method stub
         QLLexer lexer = null;
 		try {
 			lexer = new QLLexer( new ANTLRFileStream("examples/computedquestionexample.ql"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -197,9 +179,8 @@ public class QLMain {
         ParseTreeWalker.DEFAULT.walk(listener, tree);
         
         walker.walk(listener, ctx );
-		System.out.println("Finished Question Example");
+		System.out.println("Finished ComputedQuestion Example");
 
-        
 	}
     
 }

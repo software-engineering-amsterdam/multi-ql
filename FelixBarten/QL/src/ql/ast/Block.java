@@ -10,7 +10,6 @@ public class Block extends ASTNode {
 	private List<Question> questions;
 	
 	public Block(List<Statement> statements, List<Question> questions) {
-		// TODO Auto-generated constructor stub
 		setStatements(statements);
 		setQuestions(questions);
 	}

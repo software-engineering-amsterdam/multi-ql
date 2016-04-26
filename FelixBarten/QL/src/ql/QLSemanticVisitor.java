@@ -51,6 +51,7 @@ public class QLSemanticVisitor<T> extends BaseVisitor<T>{
 
 	@Override
 	public T visit(Block node) {
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -82,115 +83,111 @@ public class QLSemanticVisitor<T> extends BaseVisitor<T>{
 	@Override
 	public T visit(Questionnaire node) {
 		// TODO Auto-generated method stub
+		
+		// visit questions; 
 		return null;
 	}
 
 	@Override
 	public T visit(Add node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(And node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(BinaryExpr node) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public T visit(Div node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(Eq node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(Ge node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(GEq node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(GT node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(Le node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(LEq node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(LT node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
 	}
 
 	@Override
 	public T visit(Mul node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(Neg node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((UnaryExpr) node);
+
 	}
 
 	@Override
 	public T visit(NEq node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
 	}
 
 	@Override
 	public T visit(Not node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((UnaryExpr) node);
 	}
 
 	@Override
 	public T visit(Or node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
 	}
 
 	@Override
 	public T visit(Pos node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((UnaryExpr) node);
 	}
 
 	@Override
 	public T visit(Sub node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);
 	}
 
 	@Override
