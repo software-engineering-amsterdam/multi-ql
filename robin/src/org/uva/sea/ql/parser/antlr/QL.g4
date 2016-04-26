@@ -1,39 +1,44 @@
 grammar QL;
-//options {backtrack=true; memoize=true;}
 
-@parser::header
-{
-package org.uva.sea.ql.parser.antlr;
-import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.form.*;
+@parser::header {
+    package org.uva.sea.ql.parser.antlr;
 }
 
-@lexer::header
-{
-package org.uva.sea.ql.parser.antlr;
+@lexer::header {
+    package org.uva.sea.ql.parser.antlr;
 }
 
-form : form IDENTIFIER block ;
+form : 'form' IDENTIFIER block ;
 
 block : '{' statement* '}' ;
 
 statement
-: IDENTIFIER ':' STRING type
-| IDENTIFIER ':' STRING type '(' expression ')'
-| 'if' '(' expression ')'
-| 'if' '(' expression ')' '{' block '}' 'else' '{' block '}'
+: STRING IDENTIFIER ':' type															// Question
+| STRING IDENTIFIER ':' type '=' '(' expression ')'										// Answer
+| 'if' '(' expression ')' ifBlock = block												// IF statement
+| 'if' '(' expression ')' ifBlock = block 'else' elseBlock = block						// IF-ELSE statement
 ;
 
-expression :  ;
+expression
+: '(' expression ')'																	// Parenthesis
+| literal																				// Literal
+| '!' expression																		// Negation
+| left = expression operation = ('*' | '/') right = expression							// Multiply / Divide
+| left = expression operation = ('+' | '-') right = expression							// Add / Subtract
+| left = expression operation = ('>' | '=>' | '<' | '<=') right = expression			// Compare
+| left = expression operation = ('==' | '!=') right = expression						// Equal / Not equal
+| left = expression operation = ('&&' | '||') right = expression						// AND / OR
+;
+
+literal : BOOLEAN | INTEGER | STRING | MONEY | IDENTIFIER ;
 
 type : 'boolean' | 'integer' | 'string' | 'money' ;
 
 // Tokens
-WS :	(' ' | '\t' | '\n' | '\r')+ -> channel(HIDDEN);
-COMMENT :   ( '//' ~[\r\n]+ | '/*' .*? '*/') -> channel(HIDDEN);
-BOOLEAN : ('true' | 'false');
-IDENTIFIER : [a-z][a-zA-Z0-9]+;
-INTEGER : [0-9]+;
-STRING : '"' .*? '"';
-MONEY : [0-9]+ '.' [0-9][0-9];
+WHITESPACE : (' ' | '\t' | '\n' | '\r')+ -> channel(HIDDEN) ;
+COMMENT : ( '//' ~[\r\n]+ | '/*' .*? '*/') -> channel(HIDDEN) ;
+BOOLEAN : ('true' | 'false') ;
+IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
+INTEGER : [0-9]+ ;
+STRING : '"' .*? '"' ;
+MONEY : [0-9]+ '.' [0-9][0-9] ;
