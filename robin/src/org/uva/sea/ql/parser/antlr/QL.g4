@@ -13,21 +13,21 @@ form : 'form' IDENTIFIER block ;
 block : '{' statement* '}' ;
 
 statement
-: STRING IDENTIFIER ':' type															// Question
-| STRING IDENTIFIER ':' type '=' '(' expression ')'										// Answer
-| 'if' '(' expression ')' ifBlock = block												// IF statement
-| 'if' '(' expression ')' ifBlock = block 'else' elseBlock = block						// IF-ELSE statement
+: STRING IDENTIFIER ':' type														// question
+| STRING IDENTIFIER ':' type '=' '(' expression ')'									// answer
+| 'if' '(' expression ')' ifBlock = block											// if statement
+| 'if' '(' expression ')' ifBlock = block 'else' elseBlock = block					// if-else statement
 ;
 
 expression
-: '(' expression ')'																	// Parenthesis
-| literal																				// Literal
-| '!' expression																		// Negation
-| left = expression operation = ('*' | '/') right = expression							// Multiply / Divide
-| left = expression operation = ('+' | '-') right = expression							// Add / Subtract
-| left = expression operation = ('>' | '=>' | '<' | '<=') right = expression			// Compare
-| left = expression operation = ('==' | '!=') right = expression						// Equal / Not equal
-| left = expression operation = ('&&' | '||') right = expression						// AND / OR
+: '(' expression ')'																// parenthesis
+| literal																			// literal
+| '!' expression																	// negation
+| left = expression operation = ('*' | '/') right = expression						// multiply / divide
+| left = expression operation = ('+' | '-') right = expression						// add / subtract
+| left = expression operation = ('>' | '=>' | '<' | '<=') right = expression		// compare
+| left = expression operation = ('==' | '!=') right = expression					// qqual / not equal
+| left = expression operation = ('&&' | '||') right = expression					// and / or
 ;
 
 literal : BOOLEAN | INTEGER | STRING | MONEY | IDENTIFIER ;
@@ -38,7 +38,7 @@ type : 'boolean' | 'integer' | 'string' | 'money' ;
 WHITESPACE : (' ' | '\t' | '\n' | '\r')+ -> channel(HIDDEN) ;
 COMMENT : ( '//' ~[\r\n]+ | '/*' .*? '*/') -> channel(HIDDEN) ;
 BOOLEAN : ('true' | 'false') ;
-IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
+IDENTIFIER : [a-z][a-zA-Z0-9]* ;
 INTEGER : [0-9]+ ;
 STRING : '"' .*? '"' ;
 MONEY : [0-9]+ '.' [0-9][0-9] ;
