@@ -5,3 +5,5 @@
 /.project
 /.settings/
 /QLExamples/
+/src/ql2/parser/generated/
+/src/ql/parser/generated/

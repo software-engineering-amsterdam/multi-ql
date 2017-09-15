@@ -28,7 +28,7 @@ public class QLMain {
      */
     
     public static void main(String[] args) {
-    	String parseTest2 = ""
+    		String parseTest2 = ""
     			+ "\"What was the selling price\""
     			+ "    sellingPrice : money";
         String parseTest3 = ""

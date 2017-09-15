@@ -3,6 +3,8 @@ options {  }
 
 @parser::header
 {
+	package ql.parser.generated;
+
 	import java.util.ArrayList;
 	import ql.ast.*;
 	import ql.ast.expression.*;
