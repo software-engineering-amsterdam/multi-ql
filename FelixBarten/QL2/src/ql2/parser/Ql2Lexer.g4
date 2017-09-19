@@ -78,6 +78,29 @@ LTE		: Lte		;
 LNOT		: Bang 		;
 MINUS 	: Minus 		;
 
+EQUALS : '=';
+
+// Types
+
+BOOLEAN
+	: Boolean
+	| 'bool';
+
+MONEY
+	: 'money'
+	;
+LONG
+	: Long
+	;
+
+FLOAT
+	: Float
+	;
+
+INTEGER : Int;
+SHORT : Short;
+DOUBLE : Double;
+
 
 
 // -------------------------
@@ -85,10 +108,15 @@ MINUS 	: Minus 		;
 
 ID	: NameStartChar NameChar* ;
 
+ESCAPED_QUOTE : '\"';
+QUOTED_STRING :   '\"' ( ESCAPED_QUOTE | ~('\n'|'\r') )*? '\"';
+
+STR :  '"' (.|~[\\"])*? '"';
+
 // -------------------------
 // Whitespace
 
-STRING : DQUOTE ( . )*? DQUOTE ;
+STRING	: EscapedQuote ( . )*? EscapedQuote ;
 
 WS	:	( Hws | Vws )+	-> channel(HIDDEN)	;
 
