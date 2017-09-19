@@ -1,5 +1,12 @@
 package ql2.ast.statement;
 
-public class IfStatement {
+import ql2.ast.Block;
+import ql2.ast.Statement;
+
+public class IfStatement extends Statement {
+
+	public IfStatement(Statement result, Block result2) {
+		// TODO Auto-generated constructor stub
+	}
 
 }

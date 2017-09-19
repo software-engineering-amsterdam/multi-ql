@@ -1,5 +1,5 @@
 package ql2.ast.expression;
 
-public class NegExpr {
+public class NegExpr extends UnaryExpr {
 
 }

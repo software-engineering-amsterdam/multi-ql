@@ -10,6 +10,10 @@ options {
 	import java.util.ArrayList;
 
 	import ql2.ast.*;
+	import ql2.ast.expression.*;
+	import ql2.ast.statement.*;
+	import ql2.ast.literal.*;
+	import ql2.ast.type.*;
 }
 
 questionnaire returns [Questionnaire result]
@@ -28,12 +32,16 @@ form returns [Form result]
 	;
 
 formname returns [String result]
-	: ID { $return = $ID.result; }
+	: ID { $result = $ID.text; }
 	;
 
 block returns [Block result]
-	@after { $result = new Block($statements.result, $questions.result); }
-	: LBRACE (statements | questions)* RBRACE
+	locals [
+				List<Statement> statementsList = new ArrayList<Statement>();
+	 		 	List<Question> questionsList = new ArrayList<Question>();
+	 	   ]
+	@after { $result = new Block($ctx.statementsList, $ctx.questionsList); }
+	: LBRACE (statementz {$ctx.statementsList.add($statementz.result); } | question { $ctx.questionsList.add($question.result); })* RBRACE
 	;
 
 questions returns [List<Question> result]
@@ -43,11 +51,17 @@ questions returns [List<Question> result]
 	;
 
 statements returns [List<Statement> result]
-	locals [ List<Statement> statementsList = new ArrayList<Statement>(); ]
+	locals [	 List<Statement> statementsList = new ArrayList<Statement>(); ]
 	@after { $result = $ctx.statementsList; }
 	: ifstatement { $ctx.statementsList.add($ifstatement.result); }
 	| ifelsestatement { $ctx.statementsList.add($ifelsestatement.result); }
 	| whilestatement { $ctx.statementsList.add($whilestatement.result); }
+	;
+
+statementz returns [Statement result] // name wrong
+	: ifstatement { $result = ($ifstatement.result); }
+	| ifelsestatement { $result = ($ifelsestatement.result); }
+	| whilestatement { $result = ($whilestatement.result); }
 	;
 
 conditions returns [Statement result]
@@ -62,8 +76,8 @@ ifstatement returns [IfStatement result]
 	: IF LPAREN conditions RPAREN block { $result = new IfStatement($conditions.result, $block.result);}
 	;
 
-ifelsestatement returns [IfElseStatemetn result]
-	: ifstatement ELSE block { $result = new IfElseStatement($conditions.result, $block.result);}
+ifelsestatement returns [IfElseStatement result]
+	: ifstatement ELSE block { $result = new IfElseStatement($ifstatement.result, $block.result);}
 	;
 
 ifelseifstatement returns [IfElseIfStatement result]
@@ -76,7 +90,7 @@ whilestatement returns [WhileStatement result]
 
 question returns [Question result]
 	: inputquestion { $result = $inputquestion.result; }
-	| calculatedquestion { $result = calculatedquestion.result; }
+	| calculatedquestion { $result = $calculatedquestion.result; }
 	;
 
 inputquestion returns [InputQuestion result]
@@ -90,14 +104,14 @@ calculatedquestion returns [CalculatedQuestion result]
 	;
 
 questiontext returns [String result]
-	: QUOTED_STRING { $result = $QUOTED_STRING.result; }
+	: QUOTED_STRING { $result = $QUOTED_STRING.text; }
 	;
 
 questionname returns [String result]
-	: ID { $result = $ID.result; }
+	: ID { $result = $ID.text; }
 	;
 
-questiontype
+questiontype returns [String result]
 	: BOOLEAN
 	| INT
 	| DOUBLE
@@ -113,8 +127,8 @@ statement returns [Statement result]
 	;
 
 expr returns [Expr result]
-	: ID  { $result = $ID.result; } // binary expr??????????
-	| value { $result = $value.result; } //unaryexpR
+	: ID  { $result = $ID.text; } // binary expr??????????
+	| value { $result = new LiteralExpr($value.result); } //unaryexpR
 	;
 
 binaryexpr
@@ -161,7 +175,7 @@ negexpr
 	: LNOT value
 	;
 
-value
+value returns [String result]
 	: (ID|INT)+
 	;
 

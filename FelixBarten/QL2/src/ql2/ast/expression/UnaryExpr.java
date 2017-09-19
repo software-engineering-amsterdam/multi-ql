@@ -1,5 +1,7 @@
 package ql2.ast.expression;
 
-public class UnaryExpr {
+import ql2.ast.Expr;
+
+public class UnaryExpr extends Expr {
 
 }

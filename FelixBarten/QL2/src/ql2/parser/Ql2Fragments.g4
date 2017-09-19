@@ -16,7 +16,6 @@ fragment BlockComment	: '/*'  .*? ('*/' | EOF)	;
 fragment LineComment	: '//' ~[\r\n]* 							;
 fragment LineCommentExt	: '//' ~[\r\n]* ( '\r'? '\n' Hws* '//' ~[\r\n]* )*	;
 
-
 // -----------------------------------
 // Escapes
 
