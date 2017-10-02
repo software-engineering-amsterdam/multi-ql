@@ -1,5 +1,5 @@
 package ql2.ast.type;
 
-public class StringType {
+public class StringType extends QuestionType {
 
 }

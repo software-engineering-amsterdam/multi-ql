@@ -6,4 +6,8 @@ public class CalculatedQuestion extends Question {
 		// TODO Auto-generated constructor stub
 	}
 
+	public CalculatedQuestion(InputQuestion result, Expr result2) {
+		// TODO Auto-generated constructor stub
+	}
+
 }

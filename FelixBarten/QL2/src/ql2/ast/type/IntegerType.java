@@ -1,5 +1,5 @@
 package ql2.ast.type;
 
-public class IntegerType {
+public class IntegerType extends QuestionType {
 
 }

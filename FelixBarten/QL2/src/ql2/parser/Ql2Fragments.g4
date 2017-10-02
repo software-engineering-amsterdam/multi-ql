@@ -238,4 +238,5 @@ fragment Ellipsis		: '...'	;
 fragment At				: '@'	;
 fragment Pound			: '#'	;
 fragment Tilde			: '~'	;
-fragment EscapedQuote	: '\\"'	;
+
+//fragment EscapedQuote	: '\\"'	;

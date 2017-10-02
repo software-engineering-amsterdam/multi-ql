@@ -1,13 +1,9 @@
-package ql2.ast;
+package ql2.ast.type;
 
 import ql2.ASTNode;
 import ql2.BaseVisitor;
 
-public class Form extends ASTNode {
-
-	public Form(String result, Block result2) {
-		// TODO Auto-generated constructor stub
-	}
+public class QuestionType extends ASTNode {
 
 	@Override
 	public <T> T accept(BaseVisitor<T> visitor) {

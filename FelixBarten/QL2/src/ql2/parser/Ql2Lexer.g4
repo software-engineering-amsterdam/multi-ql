@@ -7,6 +7,15 @@ lexer grammar Ql2Lexer;
 }
 
 // -------------------------
+// Literals
+FORM 	: 'form'		;
+IF 		: 'if'		;
+ELSE		: 'else'		;
+THEN		: 'then' 	;
+WHILE	: 'while'	;
+END		: 'end'		;
+
+// -------------------------
 // Comments
 
 COMMENTS
@@ -50,14 +59,6 @@ POUND		: Pound			;
 NOT			: Tilde			;
 DQUOTE		: DQuote		;
 
-// -------------------------
-// Literals
-FORM 	: 'form'		;
-IF 		: 'if'		;
-ELSE		: 'else'		;
-THEN		: 'then' 	;
-WHILE	: 'while'	;
-END		: 'end'		;
 
 // -------------------------
 // expr
@@ -84,7 +85,8 @@ EQUALS : '=';
 
 BOOLEAN
 	: Boolean
-	| 'bool';
+	| 'bool'
+	;
 
 MONEY
 	: 'money'
@@ -97,26 +99,30 @@ FLOAT
 	: Float
 	;
 
-INTEGER : Int;
-SHORT : Short;
-DOUBLE : Double;
-
-
+INTEGER 	: Int;
+SHORT 	: Short;
+DOUBLE 	: Double;
 
 // -------------------------
 // Identifiers 
 
 ID	: NameStartChar NameChar* ;
 
-ESCAPED_QUOTE : '\"';
-QUOTED_STRING :   '\"' ( ESCAPED_QUOTE | ~('\n'|'\r') )*? '\"';
+ESCAPED_QUOTE : '\\"';
+QUOTED_STRING :   '"' ( ESCAPED_QUOTE | ~('\n'|'\r') )*? '"';
 
-STR :  '"' (.|~[\\"])*? '"';
+//STR :  ('"'|'\\"') (.|~[\\"])*? ('"'|'\\"');
+
+QUOTE_HELL : '"'|('\\"')
+	;
+
+STR: ('"'|ESCAPED_QUOTE) (.|~[\\"])*? ('"'|ESCAPED_QUOTE);
+//QTEXT : ('"'|'\"') (.)*? ('"'|'\"');
 
 // -------------------------
 // Whitespace
 
-STRING	: EscapedQuote ( . )*? EscapedQuote ;
+STRING	: ESCAPED_QUOTE ( . )*? ESCAPED_QUOTE ;
 
 WS	:	( Hws | Vws )+	-> channel(HIDDEN)	;
 

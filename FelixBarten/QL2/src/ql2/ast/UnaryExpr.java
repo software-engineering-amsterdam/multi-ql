@@ -1,14 +1,13 @@
 package ql2.ast;
 
-import ql2.ASTNode;
 import ql2.BaseVisitor;
 
-public class Statement extends ASTNode  {
+public class UnaryExpr extends Expr {
 
 	@Override
 	public <T> T accept(BaseVisitor<T> visitor) {
 		// TODO Auto-generated method stub
-		return null;
+		return super.accept(visitor);
 	}
 
 }

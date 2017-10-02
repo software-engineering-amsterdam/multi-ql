@@ -1,6 +1,6 @@
 package ql2.ast.expression;
 
-import ql2.ast.Expr;
+import ql2.ast.UnaryExpr;
 
 public class LiteralExpr extends UnaryExpr {
 

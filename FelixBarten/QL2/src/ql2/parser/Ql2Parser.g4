@@ -41,7 +41,11 @@ block returns [Block result]
 	 		 	List<Question> questionsList = new ArrayList<Question>();
 	 	   ]
 	@after { $result = new Block($ctx.statementsList, $ctx.questionsList); }
-	: LBRACE (statementz {$ctx.statementsList.add($statementz.result); } | question { $ctx.questionsList.add($question.result); })* RBRACE
+	:
+	LBRACE
+	(statementz {$ctx.statementsList.add($statementz.result); }
+	| question { $ctx.questionsList.add($question.result); })*
+	RBRACE
 	;
 
 questions returns [List<Question> result]
@@ -64,24 +68,24 @@ statementz returns [Statement result] // name wrong
 	| whilestatement { $result = ($whilestatement.result); }
 	;
 
-conditions returns [Statement result]
-	: LPAREN condition RPAREN {$result = $condition.result; }
+conditions returns [Expr result]
+	: LPAREN x=condition RPAREN {$result = $x.result; }
 	;
 
-condition returns [Statement result]
-	: expr { $result = $expr.result; }
+condition returns [Expr result]
+	: x=expr { $result = $x.result; }
 	;
 
 ifstatement returns [IfStatement result]
-	: IF LPAREN conditions RPAREN block { $result = new IfStatement($conditions.result, $block.result);}
+	: IF conditions block { $result = new IfStatement($conditions.result, $block.result);}
 	;
 
 ifelsestatement returns [IfElseStatement result]
-	: ifstatement ELSE block { $result = new IfElseStatement($ifstatement.result, $block.result);}
+	: x=ifstatement ELSE block { $result = new IfElseStatement($x.result, $block.result);}
 	;
 
 ifelseifstatement returns [IfElseIfStatement result]
-	: ifstatement ELSE IF block { $result = new IfElseIfStatement($ifstatement.result, $block.result); }
+	: x=ifstatement ELSE IF block { $result = new IfElseIfStatement($x.result, $block.result); }
 	;
 
 whilestatement returns [WhileStatement result]
@@ -94,40 +98,41 @@ question returns [Question result]
 	;
 
 inputquestion returns [InputQuestion result]
-	: questiontext questionname COLON questiontype
-	{ $result = new InputQuestion($questionname.result, $questiontext.result, $questiontype.result); }
+	: qtext=questiontext qname=questionname COLON qtype=questiontype
+	{ $result = new InputQuestion($qname.result, $qtext.result, $qtype.result); }
 	;
 
 calculatedquestion returns [CalculatedQuestion result]
-	: inputquestion EQUALS statement
-	{ $result = new CalculatedQuestion($inputquestion.result, $statement.result); }
+	: inputquestion EQUALS conditions
+	{ $result = new CalculatedQuestion($inputquestion.result, $conditions.result); }
 	;
 
 questiontext returns [String result]
-	: QUOTED_STRING { $result = $QUOTED_STRING.text; }
+	: x=QUOTED_STRING { $result = $x.text; }
 	;
 
 questionname returns [String result]
 	: ID { $result = $ID.text; }
 	;
 
-questiontype returns [String result]
-	: BOOLEAN
-	| INT
-	| DOUBLE
-	| FLOAT
-	| MONEY
-	| STRING
-	| LONG
+questiontype returns [QuestionType result]
+	: BOOLEAN { $result = new BooleanType(); }
+	| INT	  { $result = new IntegerType(); }
+	| DOUBLE { $result = new DoubleType(); }
+	| FLOAT { $result = new FloatType(); }
+	| MONEY { $result = new CurrencyType(); }
+	| STRING { $result = new StringType(); }
+	| LONG  { $result = new LongType(); }
 	;
-
+/*
 statement returns [Statement result]
 	: conditions { $result = $conditions.result; }
 	| expr 		 { $result = $expr.result; }
 	;
+*/
 
 expr returns [Expr result]
-	: ID  { $result = $ID.text; } // binary expr??????????
+	: ID  { $result = new LiteralExpr($ID.text); } // binary expr??????????
 	| value { $result = new LiteralExpr($value.result); } //unaryexpR
 	;
 
