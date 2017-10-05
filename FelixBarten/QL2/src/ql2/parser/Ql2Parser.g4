@@ -17,7 +17,7 @@ options {
 }
 
 questionnaire returns [Questionnaire result]
-	:	forms { $result = new Questionnaire($forms.result); }
+	:   forms { $result = new Questionnaire($forms.result); }
 		EOF
 	;
 
@@ -43,16 +43,18 @@ block returns [Block result]
 	@after { $result = new Block($ctx.statementsList, $ctx.questionsList); }
 	:
 	LBRACE
-	(statementz {$ctx.statementsList.add($statementz.result); }
-	| question { $ctx.questionsList.add($question.result); })*
+	(question { $ctx.questionsList.add($question.result); })*
+	//(statementz {$ctx.statementsList.add($statementz.result); } ()* <-
+
 	RBRACE
 	;
-
+/*
 questions returns [List<Question> result]
 	locals [ List<Question> questionsList = new ArrayList<Question>(); ]
 	@after { $result = $ctx.questionsList; }
 	: question+ { $ctx.questionsList.add($question.result); }
 	;
+*/
 
 statements returns [List<Statement> result]
 	locals [	 List<Statement> statementsList = new ArrayList<Statement>(); ]
@@ -63,9 +65,13 @@ statements returns [List<Statement> result]
 	;
 
 statementz returns [Statement result] // name wrong
-	: ifstatement { $result = ($ifstatement.result); }
+	:  ifstatement { $result = ($ifstatement.result); }
 	| ifelsestatement { $result = ($ifelsestatement.result); }
 	| whilestatement { $result = ($whilestatement.result); }
+	;
+
+dummystatement returns [Statement result]
+	: ID
 	;
 
 conditions returns [Expr result]
@@ -93,8 +99,9 @@ whilestatement returns [WhileStatement result]
 	;
 
 question returns [Question result]
-	: inputquestion { $result = $inputquestion.result; }
-	| calculatedquestion { $result = $calculatedquestion.result; }
+	:	inputquestion { $result = $inputquestion.result; }
+	| 	calculatedquestion { $result = $calculatedquestion.result; }
+
 	;
 
 inputquestion returns [InputQuestion result]
@@ -108,7 +115,7 @@ calculatedquestion returns [CalculatedQuestion result]
 	;
 
 questiontext returns [String result]
-	: x=QUOTED_STRING { $result = $x.text; }
+	: x=STRING_DQUOTE { $result = $x.text; }
 	;
 
 questionname returns [String result]
@@ -136,18 +143,20 @@ expr returns [Expr result]
 	| value { $result = new LiteralExpr($value.result); } //unaryexpR
 	;
 
-binaryexpr
-	: and
-	| or
-	| ge
-	| lt
-	| eq
-	| lte
-	| gte
-	| neq
+binaryexpr returns [Expr result]
+	: expr LAND expr
+	| expr LOR expr
+	| expr GT expr
+	| expr LT  expr
+	| expr EQ expr
+	| expr GT expr
+	| expr GTE expr
+	| expr NEQ expr
 	| unaryexpr // ???
 	;
 
+
+/*
 and : expr LAND expr	;
 or  : expr LOR expr	;
 
@@ -156,27 +165,27 @@ neq : expr NEQ expr	;
 
 ge  : expr GT expr	;
 lt  : expr LT  expr	;
-lte : expr LTE expr	;
+lte : expr GT expr	;
 gte : expr GTE expr	;
 
+*/
 
 
-
-unaryexpr
+unaryexpr returns [UnaryExpr result]
 	: notexpr
 	| negexpr
 	| value
 	;
 
-posexpr
+posexpr returns [UnaryExpr result]
 	: PLUS value
 	;
 
-notexpr
+notexpr returns [UnaryExpr result]
 	: MINUS value
 	;
 
-negexpr
+negexpr returns [UnaryExpr result]
 	: LNOT value
 	;
 
@@ -184,6 +193,6 @@ value returns [String result]
 	: (ID|INT)+
 	;
 
-name 
+name returns [String result]
 	: ID
 	;

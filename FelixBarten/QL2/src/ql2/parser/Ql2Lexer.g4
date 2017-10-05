@@ -14,7 +14,8 @@ ELSE		: 'else'		;
 THEN		: 'then' 	;
 WHILE	: 'while'	;
 END		: 'end'		;
-
+QUESTIONNAIRE : 'questionnaire'	;
+  
 // -------------------------
 // Comments
 
@@ -32,6 +33,10 @@ STRING_LITERAL
 	: SQuoteLiteral
 	;
 
+STRING_DQUOTE
+	: DQuoteLiteral
+	;
+
 
 // -------------------------
 // Punctuation
@@ -45,7 +50,7 @@ RPAREN		: RParen		;
 LBRACE		: LBrace		;
 RBRACE		: RBrace		;
 RARROW		: RArrow		;
-ASSIGN		: Equal			;
+//ASSIGN		: Equal			;
 QUESTION	: Question		;
 STAR		: Star			;
 PLUS_ASSIGN	: PlusAssign	;
@@ -79,17 +84,17 @@ LTE		: Lte		;
 LNOT		: Bang 		;
 MINUS 	: Minus 		;
 
-EQUALS : '=';
+EQUALS : Equal		;
 
 // Types
 
 BOOLEAN
 	: Boolean
-	| 'bool'
+	| Bool
 	;
 
 MONEY
-	: 'money'
+	: Money
 	;
 LONG
 	: Long
@@ -102,27 +107,33 @@ FLOAT
 INTEGER 	: Int;
 SHORT 	: Short;
 DOUBLE 	: Double;
-
+STRING 	: String;
 // -------------------------
 // Identifiers 
 
 ID	: NameStartChar NameChar* ;
 
-ESCAPED_QUOTE : '\\"';
-QUOTED_STRING :   '"' ( ESCAPED_QUOTE | ~('\n'|'\r') )*? '"';
+//ESCAPED_QUOTE : '\\"';
+//QUOTED_STRING :   '"' ( ESCAPED_QUOTE | ~('\n'|'\r') )*? '"';
 
 //STR :  ('"'|'\\"') (.|~[\\"])*? ('"'|'\\"');
 
 QUOTE_HELL : '"'|('\\"')
 	;
 
-STR: ('"'|ESCAPED_QUOTE) (.|~[\\"])*? ('"'|ESCAPED_QUOTE);
-//QTEXT : ('"'|'\"') (.)*? ('"'|'\"');
+
+
+//QTEXT : '"' ( '\\"' | . )*? '"';
+
+//QTEXT : '"' (.|~[\\"])*? '"';
+
+//STR: ('"'|ESCAPED_QUOTE) (.|~[\\"])*? ('"'|ESCAPED_QUOTE);
+QTEXTv3 : ('"'|'\\"') (.)*? ('"'|'\\"');
 
 // -------------------------
 // Whitespace
 
-STRING	: ESCAPED_QUOTE ( . )*? ESCAPED_QUOTE ;
+//STRING	: ESCAPED_QUOTE ( . )*? ESCAPED_QUOTE ;
 
 WS	:	( Hws | Vws )+	-> channel(HIDDEN)	;
 

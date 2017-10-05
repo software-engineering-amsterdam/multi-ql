@@ -4,42 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import ql2.parser.generated.Ql2Parser.AndContext;
-import ql2.parser.generated.Ql2Parser.BinaryexprContext;
-import ql2.parser.generated.Ql2Parser.BlockContext;
-import ql2.parser.generated.Ql2Parser.CalculatedquestionContext;
-import ql2.parser.generated.Ql2Parser.ConditionContext;
-import ql2.parser.generated.Ql2Parser.ConditionsContext;
-import ql2.parser.generated.Ql2Parser.EqContext;
-import ql2.parser.generated.Ql2Parser.ExprContext;
-import ql2.parser.generated.Ql2Parser.FormContext;
-import ql2.parser.generated.Ql2Parser.FormnameContext;
-import ql2.parser.generated.Ql2Parser.FormsContext;
-import ql2.parser.generated.Ql2Parser.GeContext;
-import ql2.parser.generated.Ql2Parser.GteContext;
-import ql2.parser.generated.Ql2Parser.IfelseifstatementContext;
-import ql2.parser.generated.Ql2Parser.IfelsestatementContext;
-import ql2.parser.generated.Ql2Parser.IfstatementContext;
-import ql2.parser.generated.Ql2Parser.InputquestionContext;
-import ql2.parser.generated.Ql2Parser.LtContext;
-import ql2.parser.generated.Ql2Parser.LteContext;
-import ql2.parser.generated.Ql2Parser.NameContext;
-import ql2.parser.generated.Ql2Parser.NegexprContext;
-import ql2.parser.generated.Ql2Parser.NeqContext;
-import ql2.parser.generated.Ql2Parser.NotexprContext;
-import ql2.parser.generated.Ql2Parser.OrContext;
-import ql2.parser.generated.Ql2Parser.PosexprContext;
-import ql2.parser.generated.Ql2Parser.QuestionContext;
-import ql2.parser.generated.Ql2Parser.QuestionnaireContext;
-import ql2.parser.generated.Ql2Parser.QuestionnameContext;
-import ql2.parser.generated.Ql2Parser.QuestionsContext;
-import ql2.parser.generated.Ql2Parser.QuestiontextContext;
-import ql2.parser.generated.Ql2Parser.QuestiontypeContext;
-import ql2.parser.generated.Ql2Parser.StatementsContext;
-import ql2.parser.generated.Ql2Parser.StatementzContext;
-import ql2.parser.generated.Ql2Parser.UnaryexprContext;
-import ql2.parser.generated.Ql2Parser.ValueContext;
-import ql2.parser.generated.Ql2Parser.WhilestatementContext;
+import ql2.parser.generated.Ql2Parser.*;
 import ql2.parser.generated.Ql2ParserBaseListener;
 
 public class Ql2Walker extends Ql2ParserBaseListener {
@@ -89,6 +54,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterFormname(FormnameContext ctx) {
 		// TODO Auto-generated method stub
+		System.out.println("Entering form name");
 		super.enterFormname(ctx);
 	}
 
@@ -118,22 +84,10 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 		super.exitBlock(ctx);
 	}
 
-	@Override
-	public void enterQuestions(QuestionsContext ctx) {
-		// TODO Auto-generated method stub
-		System.out.println("Questions");
-		super.enterQuestions(ctx);
-	}
-
-	@Override
-	public void exitQuestions(QuestionsContext ctx) {
-
-		System.out.println("Exit Questions");
-		super.exitQuestions(ctx);
-	}
 
 	@Override
 	public void enterStatements(StatementsContext ctx) {
+		System.out.println("entering statements");
 		// TODO Auto-generated method stub
 		super.enterStatements(ctx);
 	}
@@ -146,6 +100,8 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterStatementz(StatementzContext ctx) {
+		System.out.println("entering statementz");
+
 		// TODO Auto-generated method stub
 		super.enterStatementz(ctx);
 	}
@@ -158,6 +114,8 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterConditions(ConditionsContext ctx) {
+		System.out.println("entering conditions");
+
 		// TODO Auto-generated method stub
 		super.enterConditions(ctx);
 	}
@@ -170,6 +128,8 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterCondition(ConditionContext ctx) {
+		System.out.println("entering cond");
+
 		// TODO Auto-generated method stub
 		super.enterCondition(ctx);
 	}
@@ -230,7 +190,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterQuestion(QuestionContext ctx) {
-		System.out.println("Entering Question: ");
+		System.out.println("Entering Question");
 		// TODO Auto-generated method stub
 		super.enterQuestion(ctx);
 	}
@@ -238,7 +198,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void exitQuestion(QuestionContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Exit Question");
+		System.out.println("Exiting Question");
 
 		super.exitQuestion(ctx);
 	}
@@ -247,13 +207,15 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	public void enterInputquestion(InputquestionContext ctx) {
 		// TODO Auto-generated method stub
 		System.out.println("Entering inputQuestion");
-		System.out.println(ctx.qname.result +  "" + ctx.qtext.result);
+		System.out.println("Name: " + ctx.qname.result +  " txt: " + ctx.qtext.result);
 		super.enterInputquestion(ctx);
 	}
 
 	@Override
 	public void exitInputquestion(InputquestionContext ctx) {
 		// TODO Auto-generated method stub
+		System.out.println("leaving inputquestion");
+
 		super.exitInputquestion(ctx);
 	}
 
@@ -274,6 +236,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterQuestiontext(QuestiontextContext ctx) {
+		System.out.println("Qtext");
 		// TODO Auto-generated method stub
 		super.enterQuestiontext(ctx);
 	}
@@ -299,6 +262,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterQuestiontype(QuestiontypeContext ctx) {
 		// TODO Auto-generated method stub
+		//System.out.println("Type");
 		super.enterQuestiontype(ctx);
 	}
 
@@ -311,6 +275,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterExpr(ExprContext ctx) {
 		// TODO Auto-generated method stub
+		System.out.println("Expr");
 		super.enterExpr(ctx);
 	}
 
@@ -323,6 +288,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterBinaryexpr(BinaryexprContext ctx) {
 		// TODO Auto-generated method stub
+		System.out.println("BinaryExpr");
 		super.enterBinaryexpr(ctx);
 	}
 
@@ -333,104 +299,9 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	}
 
 	@Override
-	public void enterAnd(AndContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterAnd(ctx);
-	}
-
-	@Override
-	public void exitAnd(AndContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitAnd(ctx);
-	}
-
-	@Override
-	public void enterOr(OrContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterOr(ctx);
-	}
-
-	@Override
-	public void exitOr(OrContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitOr(ctx);
-	}
-
-	@Override
-	public void enterEq(EqContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterEq(ctx);
-	}
-
-	@Override
-	public void exitEq(EqContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitEq(ctx);
-	}
-
-	@Override
-	public void enterNeq(NeqContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterNeq(ctx);
-	}
-
-	@Override
-	public void exitNeq(NeqContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitNeq(ctx);
-	}
-
-	@Override
-	public void enterGe(GeContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterGe(ctx);
-	}
-
-	@Override
-	public void exitGe(GeContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitGe(ctx);
-	}
-
-	@Override
-	public void enterLt(LtContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterLt(ctx);
-	}
-
-	@Override
-	public void exitLt(LtContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitLt(ctx);
-	}
-
-	@Override
-	public void enterLte(LteContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterLte(ctx);
-	}
-
-	@Override
-	public void exitLte(LteContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitLte(ctx);
-	}
-
-	@Override
-	public void enterGte(GteContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterGte(ctx);
-	}
-
-	@Override
-	public void exitGte(GteContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitGte(ctx);
-	}
-
-	@Override
 	public void enterUnaryexpr(UnaryexprContext ctx) {
 		// TODO Auto-generated method stub
+		System.out.println("Unary");
 		super.enterUnaryexpr(ctx);
 	}
 
@@ -478,6 +349,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterValue(ValueContext ctx) {
+		System.out.println("Value");
 		// TODO Auto-generated method stub
 		super.enterValue(ctx);
 	}
@@ -490,7 +362,8 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterName(NameContext ctx) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub]
+		System.out.println("Name");
 		super.enterName(ctx);
 	}
 
@@ -515,12 +388,14 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void visitTerminal(TerminalNode node) {
 		// TODO Auto-generated method stub
+		//System.out.println("Terminal node: " + node.getText()); // Clogs up console.
 		super.visitTerminal(node);
 	}
 
 	@Override
 	public void visitErrorNode(ErrorNode node) {
 		// TODO Auto-generated method stub
+		System.out.println("!!!Error: " + node.getText());
 		super.visitErrorNode(node);
 	}
 

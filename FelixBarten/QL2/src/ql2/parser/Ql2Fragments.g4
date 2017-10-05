@@ -76,7 +76,7 @@ fragment BinaryDigits	: BinaryDigit+	;
 fragment HexDigit		: [0-9a-fA-F]	;
 fragment DecDigit		: [0-9]			;
 fragment OctalDigit		: [0-7]			;
-fragment BinaryDigit	: [01]			;
+fragment BinaryDigit		: [01]			;
 
 
 // -----------------------------------
@@ -84,7 +84,7 @@ fragment BinaryDigit	: [01]			;
 
 fragment BoolLiteral	: True | False								;
 
-fragment CharLiteral	: SQuote ( EscSeq | ~['\r\n\\] )  SQuote	;
+fragment CharLiteral		: SQuote ( EscSeq | ~['\r\n\\] )  SQuote	;
 fragment SQuoteLiteral	: SQuote ( EscSeq | ~['\r\n\\] )* SQuote	;
 fragment DQuoteLiteral	: DQuote ( EscSeq | ~["\r\n\\] )* DQuote	;
 fragment USQuoteLiteral	: SQuote ( EscSeq | ~['\r\n\\] )* 			;
@@ -168,17 +168,21 @@ fragment JavaUnicodeChars
 // -----------------------------------
 // Types
 
-fragment Boolean		: 'boolean'	;
+fragment Boolean			: 'boolean'	;
 fragment Byte			: 'byte'	;
 fragment Short			: 'short'	;
-fragment Int			: 'int'		;
+fragment Int				: 'int'		;
 fragment Long			: 'long'	;
 fragment Char			: 'char'	;
 fragment Float			: 'float'	;
-fragment Double 		: 'double'	;
+fragment Double 			: 'double'	;
 
 fragment True		 	: 'true'	;
 fragment False			: 'false'	;
+
+fragment Money			: 'money' ;
+fragment Bool			: 'bool'	;
+fragment String 			: 'string';
 
 
 // -----------------------------------
@@ -208,12 +212,12 @@ fragment Question		: '?'	;
 fragment Bang			: '!'	;
 fragment Star			: '*'	;
 fragment Slash			: '/'	;
-fragment Percent		: '%'	;
+fragment Percent			: '%'	;
 fragment Caret			: '^'	;
 fragment Plus			: '+'	;
 fragment Minus			: '-'	;
 fragment PlusAssign		: '+='	;
-fragment MinusAssign	: '-='	;
+fragment MinusAssign		: '-='	;
 fragment MulAssign		: '*='	;
 fragment DivAssign		: '/='	;
 fragment AndAssign		: '&='	;

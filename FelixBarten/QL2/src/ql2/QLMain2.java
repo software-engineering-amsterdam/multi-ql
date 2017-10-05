@@ -12,10 +12,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import ql2.parser.generated.Ql2Lexer;
-import ql2.parser.generated.Ql2Parser;
+import ql2.parser.generated.src.ql2.parser.Ql2Lexer;
+import ql2.parser.generated.src.ql2.parser.Ql2Parser;
 
-public class QLMain {
+
+public class QLMain2 {
 	
 	public static void main(String[] args) {
 		String parseTest2 = ""
@@ -29,14 +30,13 @@ public class QLMain {
         String parseForm = ""
         		+ "form parseForm{"
         		+ " \"What was your income last year?\""
-        		+ "		incomeQuestion : money "
-        		+ "\"Did you own a house this year?\" hasHouse: boolean "
+        		+ "		incomeQuestion : money"
+        		+ "\"Did you own a house this year?\" hasHouse: boolean"
         		+ "}";   
         String parseForm2 = "form parseForm2 { }";
         String path = "QLExamples/QLGitExample.ql";
         String path2 = "QLExamples/questionnaire.ql";
         String path3 = "QLExamples/advancedquestionnaire.ql";
-        String path4 = "QLExamples/advancedquestionnaire2.ql";
 
         
         System.out.println("Starting parsing");
@@ -59,21 +59,19 @@ public class QLMain {
         inspectParseTree(path);
         inspectParseTree(path2);
         inspectParseTree(path3);
-        inspectParseTree(path4);
-        inspectParseTreeForm("QLExamples/formexample.ql");
+        inspectParseTree("QLExamples/formexample.ql");
 
 	}
 
 	private static void parseQuestionnaireExample() {
 		// TODO Auto-generated method stub
 		
-		
 	}
 	
 	private static void inspectParseTreeContent(String content) {
 		
 		System.out.println("");
-        System.out.println("Inspecting parse tree from String");
+        System.out.println("Inspecting parse tree");
         System.out.println(content);
 
 	      Ql2Lexer lexer = null;
@@ -81,7 +79,7 @@ public class QLMain {
 	        CommonTokenStream tokens = new CommonTokenStream( lexer );
 	        
 	        Ql2Parser parser = new Ql2Parser( tokens );
-	        ParseTree tree = parser.questionnaire();
+	        ParseTree tree = parser.question();
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 			System.out.println("Finished inspecting parse tree");
@@ -90,39 +88,14 @@ public class QLMain {
 	
 	private static void inspectParseTree(String path) {
 		System.out.println("");
-        System.out.println("Inspecting parse tree from File: " + path);
+        System.out.println("Inspecting parse tree");
 		Ql2Lexer lexer2 = null;
 		try {
 			lexer2 = new Ql2Lexer(CharStreams.fromFileName(path));
 			CommonTokenStream tokens2 = new CommonTokenStream( lexer2 );
 			Ql2Parser parser = new Ql2Parser( tokens2 );	
-			
-			if(parser.form() != null) {
-				System.out.println(parser.form());
-			}
 		
-		    ParseTree tree = parser.questionnaire();
-	        ParseTreeWalker walker = new ParseTreeWalker();
-	        walker.walk( new Ql2Walker(), tree );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}       
-		System.out.println("Finished inspecting parse tree");
-
-	}
-	
-	private static void inspectParseTreeForm(String path) {
-		System.out.println("");
-        System.out.println("Inspecting parse tree from File: " + path);
-		Ql2Lexer lexer2 = null;
-		try {
-			lexer2 = new Ql2Lexer(CharStreams.fromFileName(path));
-			CommonTokenStream tokens2 = new CommonTokenStream( lexer2 );
-			Ql2Parser parser = new Ql2Parser( tokens2 );	
-
-		
-		    ParseTree tree = parser.form();
+		    ParseTree tree = parser.question();
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 		} catch (IOException e) {
