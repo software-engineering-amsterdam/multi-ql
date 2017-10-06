@@ -6,11 +6,11 @@ import ql2.ast.UnaryExpr;
 /**
  * 
  * @author felixbarten
- * Negative Expr -Expr
+ * Not Expr !Expr
  */
-public class NegExpr extends UnaryExpr {
+public class NotExpr extends UnaryExpr {
 
-	public NegExpr(Expr result) {
+	public NotExpr(Expr result) {
 		super(result);
 		// TODO Auto-generated constructor stub
 	}

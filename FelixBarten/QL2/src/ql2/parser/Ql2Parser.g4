@@ -11,6 +11,7 @@ options {
 
 	import ql2.ast.*;
 	import ql2.ast.expression.*;
+	import ql2.ast.expression.arithmatic.*;
 	import ql2.ast.statement.*;
 	import ql2.ast.literal.*;
 	import ql2.ast.type.*;
@@ -43,9 +44,8 @@ block returns [Block result]
 	@after { $result = new Block($ctx.statementsList, $ctx.questionsList); }
 	:
 	LBRACE
-	(question { $ctx.questionsList.add($question.result); })*
-	//(statementz {$ctx.statementsList.add($statementz.result); } ()* <-
-
+	(question { $ctx.questionsList.add($question.result); }
+	|statementz {$ctx.statementsList.add($statementz.result); })*?
 	RBRACE
 	;
 /*
@@ -70,38 +70,9 @@ statementz returns [Statement result] // name wrong
 	| whilestatement { $result = ($whilestatement.result); }
 	;
 
-dummystatement returns [Statement result]
-	: ID
-	;
-
-conditions returns [Expr result]
-	: LPAREN x=condition RPAREN {$result = $x.result; }
-	;
-
-condition returns [Expr result]
-	: x=expr { $result = $x.result; }
-	;
-
-ifstatement returns [IfStatement result]
-	: IF conditions block { $result = new IfStatement($conditions.result, $block.result);}
-	;
-
-ifelsestatement returns [IfElseStatement result]
-	: x=ifstatement ELSE block { $result = new IfElseStatement($x.result, $block.result);}
-	;
-
-ifelseifstatement returns [IfElseIfStatement result]
-	: x=ifstatement ELSE IF block { $result = new IfElseIfStatement($x.result, $block.result); }
-	;
-
-whilestatement returns [WhileStatement result]
-	: WHILE conditions  THEN block END { $result = new WhileStatement($conditions.result, $block.result); }
-	;
-
 question returns [Question result]
 	:	inputquestion { $result = $inputquestion.result; }
 	| 	calculatedquestion { $result = $calculatedquestion.result; }
-
 	;
 
 inputquestion returns [InputQuestion result]
@@ -110,8 +81,8 @@ inputquestion returns [InputQuestion result]
 	;
 
 calculatedquestion returns [CalculatedQuestion result]
-	: inputquestion EQUALS conditions
-	{ $result = new CalculatedQuestion($inputquestion.result, $conditions.result); }
+	: qtext=questiontext qname=questionname COLON qtype=questiontype EQUALS conditions
+	{ $result = new CalculatedQuestion($qtext.result, $qname.result, $qtype.result, $conditions.result); }
 	;
 
 questiontext returns [String result]
@@ -131,6 +102,30 @@ questiontype returns [QuestionType result]
 	| STRING { $result = new StringType(); }
 	| LONG  { $result = new LongType(); }
 	;
+
+ifstatement returns [IfStatement result]
+	: IF conditions block { $result = new IfStatement($conditions.result, $block.result);}
+	;
+
+ifelsestatement returns [IfElseStatement result]
+	: x=ifstatement ELSE block { $result = new IfElseStatement($x.result, $block.result);}
+	;
+
+ifelseifstatement returns [IfElseIfStatement result]
+	: x=ifstatement ELSE IF block { $result = new IfElseIfStatement($x.result, $block.result); }
+	;
+
+whilestatement returns [WhileStatement result]
+	: WHILE conditions THEN block END { $result = new WhileStatement($conditions.result, $block.result); }
+	;
+
+conditions returns [Expr result]
+	: LPAREN x=condition RPAREN {$result = $x.result; }
+	;
+
+condition returns [Expr result]
+	: x=expr { $result = $x.result; }
+	;
 /*
 statement returns [Statement result]
 	: conditions { $result = $conditions.result; }
@@ -139,12 +134,13 @@ statement returns [Statement result]
 */
 
 expr returns [Expr result]
-	: ID  { $result = new LiteralExpr($ID.text); } // binary expr??????????
-	| value { $result = new LiteralExpr($value.result); } //unaryexpR
+	: b=binaryexpr  { $result = $b.result; } // binary expr??????????
+	| u=unaryexpr { $result = new UnaryExpr($u.result); } //unaryexpR
 	;
 
 binaryexpr returns [Expr result]
-	: expr LAND expr
+	: addExpr {$result = $addExpr.result; }
+	/*
 	| expr LOR expr
 	| expr GT expr
 	| expr LT  expr
@@ -152,9 +148,20 @@ binaryexpr returns [Expr result]
 	| expr GT expr
 	| expr GTE expr
 	| expr NEQ expr
-	| unaryexpr // ???
+	*/
+	| unaryexpr {$result = $unaryexpr.result; } // ???
 	;
 
+arithmaticexpr returns [Expr result]
+	: expr PLUS expr
+	| expr MINUS expr
+	| expr MUL expr
+	| expr DIV expr
+	;
+
+addExpr returns [Expr result]
+	: lhs=unaryexpr PLUS rhs=unaryexpr {$result = new AddExpr($lhs.result, $rhs.result); }
+	;
 
 /*
 and : expr LAND expr	;
@@ -171,28 +178,40 @@ gte : expr GTE expr	;
 */
 
 
-unaryexpr returns [UnaryExpr result]
+unaryexpr returns [Expr result]
 	: notexpr
 	| negexpr
-	| value
+	| posexpr
+	| value {$result = new LiteralExpr($value.result); }
 	;
 
-posexpr returns [UnaryExpr result]
-	: PLUS value
+posexpr returns [Expr result]
+	: PLUS expr {$result = new PosExpr($expr.result); }
 	;
 
-notexpr returns [UnaryExpr result]
-	: MINUS value
+negexpr returns [Expr result]
+	: LNOT expr {$result = new NotExpr($expr.result); }
 	;
 
-negexpr returns [UnaryExpr result]
-	: LNOT value
+notexpr returns [NegExpr result]
+	: MINUS expr {$result = new NegExpr($expr.result); }
 	;
 
-value returns [String result]
-	: (ID|INT)+
-	;
+value returns [Literal result]
+	: ID { $result = new StringLiteral($ID.text); }
+	| z=intliteral {$result = new IntegerLiteral(Integer.parseInt($z.text)); }
+	| x=booleanliteral {$result = new BooleanLiteral(Boolean.valueOf($x.text)); }
+	; // more logic for other literals.
 
 name returns [String result]
 	: ID
+	;
+
+booleanliteral returns [Boolean result]
+	: TRUE {$result = true; }
+	| FALSE {$result = false; }
+	;
+
+intliteral
+	: (INT)+
 	;

@@ -3,12 +3,21 @@ package ql2.ast.literal;
 import ql2.ASTNode;
 import ql2.BaseVisitor;
 
-public class Literal extends ASTNode{
+abstract public class Literal<T> {
 
-	@Override
-	public <T> T accept(BaseVisitor<T> visitor) {
-		// TODO Auto-generated method stub
-		return null;
+	private T value;
+	
+	
+	public Literal(T lit) {
+		setValue(lit);
+	}
+	
+	public Object getValue() {
+		return value;
+	}
+
+	public void setValue(T val) {
+		value = val;
 	}
 
 }

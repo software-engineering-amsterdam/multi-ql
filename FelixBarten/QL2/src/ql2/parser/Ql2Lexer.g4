@@ -79,10 +79,14 @@ GT		: Gt 		;
 GTE		: Gte		;
 LTE		: Lte		;
 
+// arithmatic
+MINUS	: Minus	;
+DIV		: Slash	;
+MUL		: Star	;
+
 // unary
 
 LNOT		: Bang 		;
-MINUS 	: Minus 		;
 
 EQUALS : Equal		;
 
@@ -108,6 +112,12 @@ INTEGER 	: Int;
 SHORT 	: Short;
 DOUBLE 	: Double;
 STRING 	: String;
+// Literals
+// -------------------------
+
+TRUE : True;
+FALSE : False;
+
 // -------------------------
 // Identifiers 
 

@@ -223,7 +223,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	public void enterCalculatedquestion(CalculatedquestionContext ctx) {
 		// TODO Auto-generated method stub
 		System.out.println("Entering calcQuestion");
-		System.out.println(ctx.inputquestion.qname.result + ctx.inputquestion().qtext.result);
+		System.out.println(ctx.qname.result + ctx.qtext.result);
 
 		super.enterCalculatedquestion(ctx);
 	}
@@ -236,7 +236,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterQuestiontext(QuestiontextContext ctx) {
-		System.out.println("Qtext");
+		//System.out.println("Qtext");
 		// TODO Auto-generated method stub
 		super.enterQuestiontext(ctx);
 	}
@@ -264,6 +264,19 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 		// TODO Auto-generated method stub
 		//System.out.println("Type");
 		super.enterQuestiontype(ctx);
+	}
+
+	@Override
+	public void enterAddExpr(AddExprContext ctx) {
+		// TODO Auto-generated method stub
+		System.out.println("AddExpr");
+		super.enterAddExpr(ctx);
+	}
+
+	@Override
+	public void exitAddExpr(AddExprContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitAddExpr(ctx);
 	}
 
 	@Override
