@@ -65,7 +65,7 @@ statements returns [List<Statement> result]
 	;
 
 statementz returns [Statement result] // name wrong
-	:  ifstatement { $result = ($ifstatement.result); }
+	: ifstatement { $result = ($ifstatement.result); }
 	| ifelsestatement { $result = ($ifelsestatement.result); }
 	| whilestatement { $result = ($whilestatement.result); }
 	;
@@ -81,9 +81,10 @@ inputquestion returns [InputQuestion result]
 	;
 
 calculatedquestion returns [CalculatedQuestion result]
-	: qtext=questiontext qname=questionname COLON qtype=questiontype EQUALS conditions
-	{ $result = new CalculatedQuestion($qtext.result, $qname.result, $qtype.result, $conditions.result); }
+	: q=inputquestion ASSIGN cond=conditions
+	{ $result = new CalculatedQuestion($q.result, $cond.result); }
 	;
+
 
 questiontext returns [String result]
 	: x=STRING_DQUOTE { $result = $x.text; }
@@ -95,7 +96,7 @@ questionname returns [String result]
 
 questiontype returns [QuestionType result]
 	: BOOLEAN { $result = new BooleanType(); }
-	| INT	  { $result = new IntegerType(); }
+	| INTEGER  { $result = new IntegerType(); }
 	| DOUBLE { $result = new DoubleType(); }
 	| FLOAT { $result = new FloatType(); }
 	| MONEY { $result = new CurrencyType(); }
@@ -121,6 +122,10 @@ whilestatement returns [WhileStatement result]
 
 conditions returns [Expr result]
 	: LPAREN x=condition RPAREN {$result = $x.result; }
+	;
+
+conditionsplaceholder returns [Expr result]
+	: LPAREN RPAREN
 	;
 
 condition returns [Expr result]
@@ -179,22 +184,10 @@ gte : expr GTE expr	;
 
 
 unaryexpr returns [Expr result]
-	: notexpr
-	| negexpr
-	| posexpr
-	| value {$result = new LiteralExpr($value.result); }
-	;
-
-posexpr returns [Expr result]
-	: PLUS expr {$result = new PosExpr($expr.result); }
-	;
-
-negexpr returns [Expr result]
-	: LNOT expr {$result = new NotExpr($expr.result); }
-	;
-
-notexpr returns [NegExpr result]
-	: MINUS expr {$result = new NegExpr($expr.result); }
+	: MINUS x=unaryexpr	{$result = new NegExpr($x.result); }
+	| LNOT x=unaryexpr	{$result = new NotExpr($x.result); }
+	| PLUS x=unaryexpr 	{$result = new PosExpr($x.result); }
+	| value 	  			{$result = new LiteralExpr($value.result); }
 	;
 
 value returns [Literal result]

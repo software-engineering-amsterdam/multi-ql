@@ -19,10 +19,11 @@ public class QLMain {
 	
 	public static void main(String[] args) {
 		String inputQuestionExample = ""
-    			+ "\"What was the selling price\""
-    			+ "    sellingPrice: money";
+    			+ "\"What was the selling price?\""
+    			+ "    sellingPrice: integer";
 		String calculatedQuestionExample = ""
-				+ "\"What is the sum of two and two?\" sumQuestion : integer = (2 + 2)";
+				+ "\"What is the sum of two and two?\" "
+				+ " sumQuestion : integer = ( 2 + 2 )";
         String parseTest3 = ""
         		+ "form taxExampleForm {"
         		+ " \"What was your income last year?\""
@@ -45,6 +46,7 @@ public class QLMain {
 
         	inspectParseTreeQuestion(inputQuestionExample);
         	inspectParseTreeQuestion(calculatedQuestionExample);
+        //	inspectConditionsParseTree("(2 + 2)");
 
         	inspectParseTreeContent(parseTest3);
 
@@ -148,6 +150,21 @@ public class QLMain {
 	        
 	        Ql2Parser parser = new Ql2Parser( tokens );
 	        ParseTree tree = parser.question();
+	        ParseTreeWalker walker = new ParseTreeWalker();
+	        walker.walk( new Ql2Walker(), tree );
+			System.out.println("Finished inspecting parse tree");
+	}
+	private static void inspectConditionsParseTree(String content) {
+		System.out.println("");
+        System.out.println("Inspecting parse tree from String");
+        System.out.println(content);
+
+	      Ql2Lexer lexer = null;
+			lexer = new Ql2Lexer( new ANTLRInputStream(content));
+	        CommonTokenStream tokens = new CommonTokenStream( lexer );
+	        
+	        Ql2Parser parser = new Ql2Parser( tokens );
+	        ParseTree tree = parser.conditions();
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 			System.out.println("Finished inspecting parse tree");

@@ -42,34 +42,34 @@ STRING_DQUOTE
 // Punctuation
 
 COLON		: Colon			;
-COLONCOLON	: DColon		;
+COLONCOLON	: DColon			;
 COMMA		: Comma			;
-SEMI		: Semi			;
-LPAREN		: LParen		;
-RPAREN		: RParen		;
-LBRACE		: LBrace		;
-RBRACE		: RBrace		;
-RARROW		: RArrow		;
-//ASSIGN		: Equal			;
-QUESTION	: Question		;
-STAR		: Star			;
+SEMI			: Semi			;
+LPAREN		: LParen			;
+RPAREN		: RParen			;
+LBRACE		: LBrace			;
+RBRACE		: RBrace			;
+RARROW		: RArrow			;
+ASSIGN		: Equal			;
+QUESTION		: Question		;
+STAR			: Star			;
 PLUS_ASSIGN	: PlusAssign	;
-PLUS		: Plus			;
+PLUS			: Plus			;
 OR			: Pipe			;
-DOLLAR		: Dollar		;
+DOLLAR		: Dollar			;
 RANGE		: Range			;
 DOT			: Dot			;
-AT			: At			;
+AT			: At				;
 POUND		: Pound			;
 NOT			: Tilde			;
-DQUOTE		: DQuote		;
+DQUOTE		: DQuote			;
 
 
 // -------------------------
 // expr
 
-EQ 		: Equal		;
-NEQ		: NotEqual	;
+EQ 		: Assert		; // expr == expr
+NEQ		: NotEqual	; // expr != expr?
 LAND		: And		; //prefixed with L for logical and/or/not
 LOR		: Or			;
 
@@ -88,7 +88,7 @@ MUL		: Star	;
 
 LNOT		: Bang 		;
 
-EQUALS : Equal		;
+//  : Equal		; assigning fragment twice causes parser to miss it.
 
 // Types
 
@@ -108,7 +108,7 @@ FLOAT
 	: Float
 	;
 
-INTEGER 	: Int;
+INTEGER 	: Int | Integer;
 SHORT 	: Short;
 DOUBLE 	: Double;
 STRING 	: String;

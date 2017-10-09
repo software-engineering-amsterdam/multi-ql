@@ -222,8 +222,8 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterCalculatedquestion(CalculatedquestionContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Entering calcQuestion");
-		System.out.println(ctx.qname.result + ctx.qtext.result);
+		System.out.println("Entering CalculatedQuestion");
+		System.out.println(ctx.q.qname.result + ctx.q.qtext.result);
 
 		super.enterCalculatedquestion(ctx);
 	}
@@ -231,6 +231,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void exitCalculatedquestion(CalculatedquestionContext ctx) {
 		// TODO Auto-generated method stub
+		System.out.println("leaving CalculatedQuestion");
 		super.exitCalculatedquestion(ctx);
 	}
 
@@ -324,41 +325,6 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 		super.exitUnaryexpr(ctx);
 	}
 
-	@Override
-	public void enterPosexpr(PosexprContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterPosexpr(ctx);
-	}
-
-	@Override
-	public void exitPosexpr(PosexprContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitPosexpr(ctx);
-	}
-
-	@Override
-	public void enterNotexpr(NotexprContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterNotexpr(ctx);
-	}
-
-	@Override
-	public void exitNotexpr(NotexprContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitNotexpr(ctx);
-	}
-
-	@Override
-	public void enterNegexpr(NegexprContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterNegexpr(ctx);
-	}
-
-	@Override
-	public void exitNegexpr(NegexprContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitNegexpr(ctx);
-	}
 
 	@Override
 	public void enterValue(ValueContext ctx) {

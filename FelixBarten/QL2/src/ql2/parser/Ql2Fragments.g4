@@ -183,6 +183,7 @@ fragment False			: 'false'	;
 fragment Money			: 'money' ;
 fragment Bool			: 'bool'	;
 fragment String 			: 'string';
+fragment Integer			: 'integer';
 
 
 // -----------------------------------
@@ -242,5 +243,6 @@ fragment Ellipsis		: '...'	;
 fragment At				: '@'	;
 fragment Pound			: '#'	;
 fragment Tilde			: '~'	;
+fragment Assert 			: '=='	;
 
 //fragment EscapedQuote	: '\\"'	;
