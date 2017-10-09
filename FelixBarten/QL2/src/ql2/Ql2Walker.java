@@ -287,42 +287,107 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	}
 
 	@Override
-	public void enterExpr(ExprContext ctx) {
+	public void enterConditionsplaceholder(ConditionsplaceholderContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Expr");
-		super.enterExpr(ctx);
+		super.enterConditionsplaceholder(ctx);
 	}
 
 	@Override
-	public void exitExpr(ExprContext ctx) {
+	public void exitConditionsplaceholder(ConditionsplaceholderContext ctx) {
 		// TODO Auto-generated method stub
-		super.exitExpr(ctx);
+		super.exitConditionsplaceholder(ctx);
 	}
 
 	@Override
-	public void enterBinaryexpr(BinaryexprContext ctx) {
+	public void enterOrExpr(OrExprContext ctx) {
+		System.out.println("Entering OrExpr");
+
 		// TODO Auto-generated method stub
-		System.out.println("BinaryExpr");
-		super.enterBinaryexpr(ctx);
+		super.enterOrExpr(ctx);
 	}
 
 	@Override
-	public void exitBinaryexpr(BinaryexprContext ctx) {
+	public void exitOrExpr(OrExprContext ctx) {
 		// TODO Auto-generated method stub
-		super.exitBinaryexpr(ctx);
+		super.exitOrExpr(ctx);
 	}
 
 	@Override
-	public void enterUnaryexpr(UnaryexprContext ctx) {
+	public void enterAndExpr(AndExprContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Unary");
-		super.enterUnaryexpr(ctx);
+		System.out.println("Entering AndExpr");
+
+		super.enterAndExpr(ctx);
 	}
 
 	@Override
-	public void exitUnaryexpr(UnaryexprContext ctx) {
+	public void exitAndExpr(AndExprContext ctx) {
 		// TODO Auto-generated method stub
-		super.exitUnaryexpr(ctx);
+		super.exitAndExpr(ctx);
+	}
+
+	@Override
+	public void enterRelExpr(RelExprContext ctx) {
+		// TODO Auto-generated method stub]		
+		System.out.println("Entering RelExpr");
+
+		super.enterRelExpr(ctx);
+	}
+
+	@Override
+	public void exitRelExpr(RelExprContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitRelExpr(ctx);
+	}
+
+	@Override
+	public void enterMulExpr(MulExprContext ctx) {
+		// TODO Auto-generated method stub
+		System.out.println("Entering MulExpr");
+		super.enterMulExpr(ctx);
+	}
+
+	@Override
+	public void exitMulExpr(MulExprContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitMulExpr(ctx);
+	}
+
+	@Override
+	public void enterUnaryExpr(UnaryExprContext ctx) {
+		// TODO Auto-generated method stub
+		System.out.println("Entering Unary");
+		super.enterUnaryExpr(ctx);
+	}
+
+	@Override
+	public void exitUnaryExpr(UnaryExprContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitUnaryExpr(ctx);
+	}
+
+	@Override
+	public void enterBooleanliteral(BooleanliteralContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterBooleanliteral(ctx);
+	}
+
+	@Override
+	public void exitBooleanliteral(BooleanliteralContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitBooleanliteral(ctx);
+	}
+
+	@Override
+	public void enterIntliteral(IntliteralContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterIntliteral(ctx);
+	}
+
+	@Override
+	public void exitIntliteral(IntliteralContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitIntliteral(ctx);
 	}
 
 

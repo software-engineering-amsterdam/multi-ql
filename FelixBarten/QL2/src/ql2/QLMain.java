@@ -4,6 +4,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
@@ -11,6 +16,9 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.tree.Tree;
+
+import com.sun.istack.internal.Nullable;
 
 import ql2.parser.generated.Ql2Lexer;
 import ql2.parser.generated.Ql2Parser;
@@ -45,9 +53,8 @@ public class QLMain {
         System.out.println("Starting parsing");
 
         	inspectParseTreeQuestion(inputQuestionExample);
-        	inspectParseTreeQuestion(calculatedQuestionExample);
-        //	inspectConditionsParseTree("(2 + 2)");
-
+        	inspectParseTreeQuestion(calculatedQuestionExample, true);
+        	
         	inspectParseTreeContent(parseTest3);
 
         	inspectParseTreeContent(parseForm);
@@ -66,7 +73,10 @@ public class QLMain {
         inspectParseTree(path2);
         inspectParseTree(path3);
         inspectParseTree(path4);
-        inspectParseTreeForm("QLExamples/formexample.ql");
+        inspectParseTreeForm("QLExamples/formexample.ql", false);
+                
+    		//conditionsTesting();
+
 
 	}
 
@@ -118,7 +128,7 @@ public class QLMain {
 
 	}
 	
-	private static void inspectParseTreeForm(String path) {
+	private static void inspectParseTreeForm(String path, Boolean visual) {
 		System.out.println("");
         System.out.println("Inspecting parse tree from File: " + path);
 		Ql2Lexer lexer2 = null;
@@ -131,6 +141,10 @@ public class QLMain {
 		    ParseTree tree = parser.form();
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
+	        
+	        if (visual) {
+	        	 showTree(tree, parser);
+	        }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -140,6 +154,11 @@ public class QLMain {
 	}
 	
 	private static void inspectParseTreeQuestion(String content) {
+		// overloaded for omitting boolean.
+		inspectParseTreeQuestion(content, false);
+	}
+	
+	private static void inspectParseTreeQuestion(String content, @Nullable Boolean visual) {
 		System.out.println("");
         System.out.println("Inspecting parse tree from String");
         System.out.println(content);
@@ -153,6 +172,7 @@ public class QLMain {
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 			System.out.println("Finished inspecting parse tree");
+			showTree(tree, parser);
 	}
 	private static void inspectConditionsParseTree(String content) {
 		System.out.println("");
@@ -168,5 +188,42 @@ public class QLMain {
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 			System.out.println("Finished inspecting parse tree");
+	}
+
+	private static void showTree(Tree tree, Ql2Parser parser) {
+
+        //show AST in GUI
+        JFrame frame = new JFrame("Antlr Parse Tree");
+        JPanel panel = new JPanel();
+        TreeViewer viewr = new TreeViewer(Arrays.asList(
+                parser.getRuleNames()),tree);
+        viewr.setScale(0.9);//scale a little
+        panel.add(viewr);
+        JScrollPane scrollpanel = new JScrollPane(panel);
+        frame.add(scrollpanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800,800);
+        frame.setVisible(true);
+	}
+	
+	
+	private static void conditionsTesting() {
+		//unary
+		inspectConditionsParseTree("(!a)");
+		inspectConditionsParseTree("(-4)");
+		inspectConditionsParseTree("(-b)");
+
+		//binary
+    		inspectConditionsParseTree("(2 + 2)");
+    		inspectConditionsParseTree("(2 * 2)");
+    		inspectConditionsParseTree("(2 - 2)");
+    		inspectConditionsParseTree("(2 * 2)");
+    		inspectConditionsParseTree("(a > b)");
+    		inspectConditionsParseTree("(a => b)");
+    		inspectConditionsParseTree("(a >= b)");
+    		inspectConditionsParseTree("(a < b)");
+    		inspectConditionsParseTree("(a <= b)");
+    		inspectConditionsParseTree("(a == b)");
+
 	}
 }

@@ -129,7 +129,7 @@ conditionsplaceholder returns [Expr result]
 	;
 
 condition returns [Expr result]
-	: x=expr { $result = $x.result; }
+	: x=orExpr { $result = $x.result; }
 	;
 /*
 statement returns [Statement result]
@@ -138,55 +138,83 @@ statement returns [Statement result]
 	;
 */
 
-expr returns [Expr result]
-	: b=binaryexpr  { $result = $b.result; } // binary expr??????????
-	| u=unaryexpr { $result = new UnaryExpr($u.result); } //unaryexpR
+//startpoint
+orExpr returns [Expr result]
+	: lhs=andExpr {$result = $lhs.result; } (op=LOR rhs=andExpr
+	{
+		$result = new OrExpr($result, $rhs.result);
+	})*
+
 	;
 
-binaryexpr returns [Expr result]
-	: addExpr {$result = $addExpr.result; }
-	/*
-	| expr LOR expr
-	| expr GT expr
-	| expr LT  expr
-	| expr EQ expr
-	| expr GT expr
-	| expr GTE expr
-	| expr NEQ expr
-	*/
-	| unaryexpr {$result = $unaryexpr.result; } // ???
+andExpr returns [Expr result]
+	: lhs=relExpr{$result = $lhs.result;} (LAND rhs=relExpr
+	{
+		$result = new AndExpr($result, $rhs.result);
+	})*
 	;
 
-arithmaticexpr returns [Expr result]
-	: expr PLUS expr
-	| expr MINUS expr
-	| expr MUL expr
-	| expr DIV expr
+relExpr returns [Expr result]
+	: lhs=addExpr {$result = $lhs.result; }
+	(op=(EQ|NEQ|GT|GTE|LT|LTE)
+	rhs=addExpr
+	{
+		switch($op.text) {
+			case "==": {
+				$result = new EqExpr($result, $rhs.result);
+				break;
+			}
+			case "!=": {
+				$result = new NEqExpr($result, $rhs.result);
+				break;
+			}
+			case ">": {
+				$result = new GeExpr($result, $rhs.result);
+				break;
+			}
+			case ">=": {
+				$result = new GEqExpr($result, $rhs.result);
+				break;
+			}
+			case "<":
+				$result = new LTExpr($result, $rhs.result);
+				break;
+
+			case "<=":
+				$result = new LTeExpr($result, $rhs.result);
+				break;
+		}
+	})*
+	;
+
+mulExpr returns [Expr result]
+	: lhs=unaryExpr {$result = $lhs.result; } (op=(MUL|DIV) rhs=unaryExpr
+	{
+		if($op.text == "/") {
+				$result = new DivExpr($result, $rhs.result);
+
+		} else {
+			$result = new MulExpr($result, $rhs.result);
+		}
+	})*
 	;
 
 addExpr returns [Expr result]
-	: lhs=unaryexpr PLUS rhs=unaryexpr {$result = new AddExpr($lhs.result, $rhs.result); }
+	: lhs=mulExpr {$result = $lhs.result; } (op=(PLUS|MINUS) rhs=mulExpr
+	{
+		if ($op.text == "+") {
+			$result = new AddExpr($result, $rhs.result);
+		} else {
+			$result = new SubExpr($result, $rhs.result);
+		}
+	})*
 	;
 
-/*
-and : expr LAND expr	;
-or  : expr LOR expr	;
 
-eq  : expr EQ expr	;
-neq : expr NEQ expr	;
-
-ge  : expr GT expr	;
-lt  : expr LT  expr	;
-lte : expr GT expr	;
-gte : expr GTE expr	;
-
-*/
-
-
-unaryexpr returns [Expr result]
-	: MINUS x=unaryexpr	{$result = new NegExpr($x.result); }
-	| LNOT x=unaryexpr	{$result = new NotExpr($x.result); }
-	| PLUS x=unaryexpr 	{$result = new PosExpr($x.result); }
+unaryExpr returns [Expr result]
+	: MINUS x=unaryExpr	{$result = new NegExpr($x.result); }
+	| LNOT x=unaryExpr	{$result = new NotExpr($x.result); }
+	| PLUS x=unaryExpr 	{$result = new PosExpr($x.result); }
 	| value 	  			{$result = new LiteralExpr($value.result); }
 	;
 
