@@ -1,5 +1,7 @@
 package ql2.ast;
 
+import ql2.BaseVisitor;
+
 public class BinaryExpr extends Expr {
 	
 	Expr lefthand;
@@ -25,4 +27,11 @@ public class BinaryExpr extends Expr {
 	public void setRighthand(Expr righthand) {
 		this.righthand = righthand;
 	}
+
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+	
+	
 }

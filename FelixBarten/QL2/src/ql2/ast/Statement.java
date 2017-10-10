@@ -8,7 +8,7 @@ public class Statement extends ASTNode  {
 	@Override
 	public <T> T accept(BaseVisitor<T> visitor) {
 		// TODO Auto-generated method stub
-		return null;
+		return visitor.visit(this);
 	}
 
 }

@@ -8,13 +8,13 @@ lexer grammar Ql2Lexer;
 
 // -------------------------
 // Literals
-FORM 	: 'form'		;
-IF 		: 'if'		;
-ELSE		: 'else'		;
-THEN		: 'then' 	;
-WHILE	: 'while'	;
-END		: 'end'		;
-QUESTIONNAIRE : 'questionnaire'	;
+FORM 			: 'form'		;
+IF 				: 'if'		;
+ELSE				: 'else'		;
+THEN				: 'then' 	;
+WHILE			: 'while'	;
+END				: 'end'		;
+QUESTIONNAIRE	: 'questionnaire'	;
   
 // -------------------------
 // Comments
@@ -34,7 +34,7 @@ STRING_LITERAL
 	;
 
 STRING_DQUOTE
-	: DQuoteLiteral
+	: Esc? DQuoteLiteral Esc?
 	;
 
 
@@ -82,7 +82,6 @@ LTE		: Lte		;
 // arithmatic
 MINUS	: Minus	;
 DIV		: Slash	;
-MUL		: Star	;
 
 // unary
 
@@ -118,6 +117,11 @@ STRING 	: String;
 TRUE : True;
 FALSE : False;
 
+// Currency
+EURO 	: Euro;
+GBPOUND : Gbpound;
+YEN 		: Yen;
+
 // -------------------------
 // Identifiers 
 
@@ -131,6 +135,7 @@ ID	: NameStartChar NameChar* ;
 QUOTE_HELL : '"'|('\\"')
 	;
 
+DOUBLENUM : DecimalFloatingPointLiteral;
 
 
 //QTEXT : '"' ( '\\"' | . )*? '"';

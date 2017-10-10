@@ -9,6 +9,7 @@ options {
 
 	import java.util.ArrayList;
 
+	import ql2.Currency;
 	import ql2.ast.*;
 	import ql2.ast.expression.*;
 	import ql2.ast.expression.arithmatic.*;
@@ -45,29 +46,14 @@ block returns [Block result]
 	:
 	LBRACE
 	(question { $ctx.questionsList.add($question.result); }
-	|statementz {$ctx.statementsList.add($statementz.result); })*?
+	|statement {$ctx.statementsList.add($statement.result); })*?
 	RBRACE
 	;
-/*
-questions returns [List<Question> result]
-	locals [ List<Question> questionsList = new ArrayList<Question>(); ]
-	@after { $result = $ctx.questionsList; }
-	: question+ { $ctx.questionsList.add($question.result); }
-	;
-*/
 
-statements returns [List<Statement> result]
-	locals [	 List<Statement> statementsList = new ArrayList<Statement>(); ]
-	@after { $result = $ctx.statementsList; }
-	: ifstatement { $ctx.statementsList.add($ifstatement.result); }
-	| ifelsestatement { $ctx.statementsList.add($ifelsestatement.result); }
-	| whilestatement { $ctx.statementsList.add($whilestatement.result); }
-	;
-
-statementz returns [Statement result] // name wrong
+statement returns [Statement result] // name wrong
 	: ifstatement { $result = ($ifstatement.result); }
 	| ifelsestatement { $result = ($ifelsestatement.result); }
-	| whilestatement { $result = ($whilestatement.result); }
+	| s=ifelseifstatement {$result = $s.result;}
 	;
 
 question returns [Question result]
@@ -113,7 +99,7 @@ ifelsestatement returns [IfElseStatement result]
 	;
 
 ifelseifstatement returns [IfElseIfStatement result]
-	: x=ifstatement ELSE IF block { $result = new IfElseIfStatement($x.result, $block.result); }
+	: x=ifstatement ELSE IF conditions block { $result = new IfElseIfStatement($x.result, $conditions.result, $block.result); }
 	;
 
 whilestatement returns [WhileStatement result]
@@ -131,12 +117,6 @@ conditionsplaceholder returns [Expr result]
 condition returns [Expr result]
 	: x=orExpr { $result = $x.result; }
 	;
-/*
-statement returns [Statement result]
-	: conditions { $result = $conditions.result; }
-	| expr 		 { $result = $expr.result; }
-	;
-*/
 
 //startpoint
 orExpr returns [Expr result]
@@ -188,7 +168,7 @@ relExpr returns [Expr result]
 	;
 
 mulExpr returns [Expr result]
-	: lhs=unaryExpr {$result = $lhs.result; } (op=(MUL|DIV) rhs=unaryExpr
+	: lhs=unaryExpr {$result = $lhs.result; } (op=(STAR|DIV) rhs=unaryExpr
 	{
 		if($op.text == "/") {
 				$result = new DivExpr($result, $rhs.result);
@@ -215,14 +195,21 @@ unaryExpr returns [Expr result]
 	: MINUS x=unaryExpr	{$result = new NegExpr($x.result); }
 	| LNOT x=unaryExpr	{$result = new NotExpr($x.result); }
 	| PLUS x=unaryExpr 	{$result = new PosExpr($x.result); }
-	| value 	  			{$result = new LiteralExpr($value.result); }
+	| value 	  			{$result = ($value.result); }
+	| LPAREN orExpr RPAREN {$result = $orExpr.result; } // parenthesis
 	;
 
-value returns [Literal result]
-	: ID { $result = new StringLiteral($ID.text); }
+value returns [Expr result]
+	: literal {$result = new LiteralExpr($literal.result); }
+	| ID {$result = new IdentityExpr($ID.text); }
+	;
+
+literal returns [Literal result]
+	: str=STRING_DQUOTE { $result = new StringLiteral($str.text); }
 	| z=intliteral {$result = new IntegerLiteral(Integer.parseInt($z.text)); }
 	| x=booleanliteral {$result = new BooleanLiteral(Boolean.valueOf($x.text)); }
-	; // more logic for other literals.
+	| c=currencyliteral {$result = new CurrencyLiteral($c.result);}
+	;
 
 name returns [String result]
 	: ID
@@ -235,4 +222,16 @@ booleanliteral returns [Boolean result]
 
 intliteral
 	: (INT)+
+	;
+
+currencyliteral returns [Currency result]
+	: amount=DOUBLENUM curr=(DOLLAR|EURO|YEN|GBPOUND)?
+	{
+		if ($curr.text != null) {
+			$result = new Currency(Double.parseDouble($amount.text), $curr.text.charAt(0));
+		} else {
+			$result = new Currency(Double.parseDouble($amount.text));
+		}
+
+	}
 	;

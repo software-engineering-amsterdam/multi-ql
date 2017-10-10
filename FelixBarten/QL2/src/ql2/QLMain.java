@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.antlr.runtime.Parser;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -42,7 +43,15 @@ public class QLMain {
         		+ " \"What was your income last year?\""
         		+ "		incomeQuestion : money "
         		+ "\"Did you own a house this year?\" hasHouse: boolean "
-        		+ "}";   
+        		+ "}"; 
+        String parseStatement = ""
+        		+ "form parseForm {"
+        		+ " \"What was your income last year?\""
+        		+ "		incomeQuestion : money "
+        		+ "if (incomeQuestion > 10000) {"
+        		+ "\"Did you own a house this year?\" hasHouse: boolean "
+        		+ "		}"
+        		+ "}"; 
         String parseForm2 = "form parseForm2 { }";
         String path = "QLExamples/QLGitExample.ql";
         String path2 = "QLExamples/questionnaire.ql";
@@ -52,6 +61,7 @@ public class QLMain {
         
         System.out.println("Starting parsing");
 
+        /*
         	inspectParseTreeQuestion(inputQuestionExample);
         	inspectParseTreeQuestion(calculatedQuestionExample, true);
         	
@@ -59,7 +69,8 @@ public class QLMain {
 
         	inspectParseTreeContent(parseForm);
         	inspectParseTreeContent(parseForm2);
-
+        	*/
+        	inspectParseTreeContent(parseStatement);
        
     
         parseQuestionnaireExample();
@@ -74,7 +85,8 @@ public class QLMain {
         inspectParseTree(path3);
         inspectParseTree(path4);
         inspectParseTreeForm("QLExamples/formexample.ql", false);
-                
+        //inspectParseTreeForm("QLExamples/formexample2.ql", true);
+
     		//conditionsTesting();
 
 
@@ -107,15 +119,11 @@ public class QLMain {
 	private static void inspectParseTree(String path) {
 		System.out.println("");
         System.out.println("Inspecting parse tree from File: " + path);
-		Ql2Lexer lexer2 = null;
+		Ql2Lexer lexer = null;
 		try {
-			lexer2 = new Ql2Lexer(CharStreams.fromFileName(path));
-			CommonTokenStream tokens2 = new CommonTokenStream( lexer2 );
+			lexer = new Ql2Lexer(CharStreams.fromFileName(path));
+			CommonTokenStream tokens2 = new CommonTokenStream( lexer );
 			Ql2Parser parser = new Ql2Parser( tokens2 );	
-			
-			if(parser.form() != null) {
-				System.out.println(parser.form());
-			}
 		
 		    ParseTree tree = parser.questionnaire();
 	        ParseTreeWalker walker = new ParseTreeWalker();
@@ -131,10 +139,11 @@ public class QLMain {
 	private static void inspectParseTreeForm(String path, Boolean visual) {
 		System.out.println("");
         System.out.println("Inspecting parse tree from File: " + path);
-		Ql2Lexer lexer2 = null;
+		Ql2Lexer lexer = null;
 		try {
-			lexer2 = new Ql2Lexer(CharStreams.fromFileName(path));
-			CommonTokenStream tokens2 = new CommonTokenStream( lexer2 );
+			//lexer2 = new Ql2Lexer(CharStreams.fromFileName(path));
+			lexer = new Ql2Lexer(new ANTLRFileStream(path));
+			CommonTokenStream tokens2 = new CommonTokenStream( lexer );
 			Ql2Parser parser = new Ql2Parser( tokens2 );	
 
 		
@@ -174,7 +183,12 @@ public class QLMain {
 			System.out.println("Finished inspecting parse tree");
 			showTree(tree, parser);
 	}
+	
 	private static void inspectConditionsParseTree(String content) {
+		inspectConditionsParseTree(content, false);
+	}
+	
+	private static void inspectConditionsParseTree(String content, Boolean visual) {
 		System.out.println("");
         System.out.println("Inspecting parse tree from String");
         System.out.println(content);
@@ -188,8 +202,12 @@ public class QLMain {
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 			System.out.println("Finished inspecting parse tree");
+			if (visual) {
+				System.out.println(tree.toStringTree(parser));
+				showTree(tree, parser);
+			}
 	}
-
+	
 	private static void showTree(Tree tree, Ql2Parser parser) {
 
         //show AST in GUI
@@ -223,7 +241,12 @@ public class QLMain {
     		inspectConditionsParseTree("(a >= b)");
     		inspectConditionsParseTree("(a < b)");
     		inspectConditionsParseTree("(a <= b)");
-    		inspectConditionsParseTree("(a == b)");
-
+    		inspectConditionsParseTree("(a == b)", false);
+    		inspectConditionsParseTree("((a) == (b))", false);
+    		inspectConditionsParseTree("(a || (b && c))", false);
+    		inspectConditionsParseTree("(a || ((b) && (c)))");
+    		inspectConditionsParseTree("(a || ((b <= 6) && (c || (d > 5))))", false);
+    		
+    		inspectConditionsParseTree("(questionA == questionB)", true);
 	}
 }

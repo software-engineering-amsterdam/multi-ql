@@ -244,5 +244,8 @@ fragment At				: '@'	;
 fragment Pound			: '#'	;
 fragment Tilde			: '~'	;
 fragment Assert 			: '=='	;
+fragment Gbpound			: '£'	;
+fragment Euro			: '€';
+fragment Yen				: '¥';
 
 //fragment EscapedQuote	: '\\"'	;

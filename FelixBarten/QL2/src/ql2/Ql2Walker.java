@@ -3,43 +3,48 @@ package ql2;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
 import ql2.parser.generated.Ql2Parser.*;
 import ql2.parser.generated.Ql2ParserBaseListener;
 
 public class Ql2Walker extends Ql2ParserBaseListener {
+	
+	private boolean print = false;
+	
+	public Ql2Walker() {}
+	
+	public Ql2Walker(boolean print) {
+		this.print = print;
+	}
 
 	@Override
 	public void enterQuestionnaire(QuestionnaireContext ctx) {
-		System.out.println("Entering Questionnaire:");
-		// TODO Auto-generated method stub
+		debugOutput("Entering Questionnaire:");
 		super.enterQuestionnaire(ctx);
 	}
 
 	@Override
 	public void exitQuestionnaire(QuestionnaireContext ctx) {
-		// TODO Auto-generated method stub
-		System.out.println("Leaving Questionnaire");
+		debugOutput("Leaving Questionnaire");
 		super.exitQuestionnaire(ctx);
 	}
 
 	@Override
 	public void enterForms(FormsContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Enter forms");
+		debugOutput("Enter forms");
 		super.enterForms(ctx);
 	}
 
 	@Override
 	public void exitForms(FormsContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Leaving forms");
+		debugOutput("Leaving forms");
 		super.exitForms(ctx);
 	}
 
 	@Override
 	public void enterForm(FormContext ctx) {
-		System.out.println("Entering Form:" + ctx.formname.result);
+		debugOutput("Entering Form:" + ctx.formname.result);
 		// TODO Auto-generated method stub
 		super.enterForm(ctx);
 	}
@@ -47,14 +52,14 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void exitForm(FormContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Leaving Form:" + ctx.formname.result);
+		debugOutput("Leaving Form:" + ctx.formname.result);
 		super.exitForm(ctx);
 	}
 
 	@Override
 	public void enterFormname(FormnameContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Entering form name");
+		debugOutput("Entering form name");
 		super.enterFormname(ctx);
 	}
 
@@ -67,12 +72,12 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterBlock(BlockContext ctx) {
 		// TODO Auto-generated method stub
-	//	System.out.println("ENTERING block: " + ctx.result.hashCode());
-		System.out.println("ENTERING block:");
+	//	debugOutput("ENTERING block: " + ctx.result.hashCode());
+		debugOutput("ENTERING block:");
 		if (ctx.result != null) {
-			System.out.println("Block contains: " + ctx.result.getQuestionsList().size() + "Q and " + ctx.result.getStatementsList().size()+ " Statements");
+			debugOutput("Block contains: " + ctx.result.getQuestionsList().size() + "Q and " + ctx.result.getStatementsList().size()+ " Statements");
 		}else {
-			System.out.println("Block is Null");
+			debugOutput("Block is Null");
 		}
 		super.enterBlock(ctx);
 	}
@@ -80,41 +85,26 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void exitBlock(BlockContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Leaving block");
+		debugOutput("Leaving block");
 		super.exitBlock(ctx);
 	}
 
-
 	@Override
-	public void enterStatements(StatementsContext ctx) {
-		System.out.println("entering statements");
+	public void enterStatement(StatementContext ctx) {
 		// TODO Auto-generated method stub
-		super.enterStatements(ctx);
+		debugOutput("Entering statement");
+		super.enterStatement(ctx);
 	}
 
 	@Override
-	public void exitStatements(StatementsContext ctx) {
+	public void exitStatement(StatementContext ctx) {
 		// TODO Auto-generated method stub
-		super.exitStatements(ctx);
-	}
-
-	@Override
-	public void enterStatementz(StatementzContext ctx) {
-		System.out.println("entering statementz");
-
-		// TODO Auto-generated method stub
-		super.enterStatementz(ctx);
-	}
-
-	@Override
-	public void exitStatementz(StatementzContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitStatementz(ctx);
+		super.exitStatement(ctx);
 	}
 
 	@Override
 	public void enterConditions(ConditionsContext ctx) {
-		System.out.println("entering conditions");
+		debugOutput("entering conditions");
 
 		// TODO Auto-generated method stub
 		super.enterConditions(ctx);
@@ -128,7 +118,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterCondition(ConditionContext ctx) {
-		System.out.println("entering cond");
+		debugOutput("entering cond");
 
 		// TODO Auto-generated method stub
 		super.enterCondition(ctx);
@@ -137,24 +127,29 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void exitCondition(ConditionContext ctx) {
 		// TODO Auto-generated method stub
+		debugOutput("Leaving condition");
 		super.exitCondition(ctx);
 	}
 
 	@Override
 	public void enterIfstatement(IfstatementContext ctx) {
 		// TODO Auto-generated method stub
+		debugOutput("Entering Ifstatement");
 		super.enterIfstatement(ctx);
 	}
 
 	@Override
 	public void exitIfstatement(IfstatementContext ctx) {
 		// TODO Auto-generated method stub
+		debugOutput("Leaving Ifstatement");
 		super.exitIfstatement(ctx);
 	}
 
 	@Override
 	public void enterIfelsestatement(IfelsestatementContext ctx) {
 		// TODO Auto-generated method stub
+		debugOutput("Entering IfElseStatement");
+
 		super.enterIfelsestatement(ctx);
 	}
 
@@ -167,6 +162,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterIfelseifstatement(IfelseifstatementContext ctx) {
 		// TODO Auto-generated method stub
+		debugOutput("Entering IfElseIfstatement");
 		super.enterIfelseifstatement(ctx);
 	}
 
@@ -190,7 +186,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterQuestion(QuestionContext ctx) {
-		System.out.println("Entering Question");
+		debugOutput("Entering Question");
 		// TODO Auto-generated method stub
 		super.enterQuestion(ctx);
 	}
@@ -198,7 +194,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void exitQuestion(QuestionContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Exiting Question");
+		debugOutput("Exiting Question");
 
 		super.exitQuestion(ctx);
 	}
@@ -206,15 +202,15 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterInputquestion(InputquestionContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Entering inputQuestion");
-		System.out.println("Name: " + ctx.qname.result +  " txt: " + ctx.qtext.result);
+		debugOutput("Entering inputQuestion");
+		debugOutput("Name: " + ctx.qname.result +  " txt: " + ctx.qtext.result);
 		super.enterInputquestion(ctx);
 	}
 
 	@Override
 	public void exitInputquestion(InputquestionContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("leaving inputquestion");
+		debugOutput("leaving inputquestion");
 
 		super.exitInputquestion(ctx);
 	}
@@ -222,8 +218,8 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterCalculatedquestion(CalculatedquestionContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Entering CalculatedQuestion");
-		System.out.println(ctx.q.qname.result + ctx.q.qtext.result);
+		debugOutput("Entering CalculatedQuestion");
+		debugOutput(ctx.q.qname.result + ctx.q.qtext.result);
 
 		super.enterCalculatedquestion(ctx);
 	}
@@ -231,13 +227,13 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void exitCalculatedquestion(CalculatedquestionContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("leaving CalculatedQuestion");
+		debugOutput("leaving CalculatedQuestion");
 		super.exitCalculatedquestion(ctx);
 	}
 
 	@Override
 	public void enterQuestiontext(QuestiontextContext ctx) {
-		//System.out.println("Qtext");
+		//debugOutput("Qtext");
 		// TODO Auto-generated method stub
 		super.enterQuestiontext(ctx);
 	}
@@ -263,14 +259,14 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterQuestiontype(QuestiontypeContext ctx) {
 		// TODO Auto-generated method stub
-		//System.out.println("Type");
+		//debugOutput("Type");
 		super.enterQuestiontype(ctx);
 	}
 
 	@Override
 	public void enterAddExpr(AddExprContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("AddExpr");
+		debugOutput("AddExpr");
 		super.enterAddExpr(ctx);
 	}
 
@@ -300,7 +296,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterOrExpr(OrExprContext ctx) {
-		System.out.println("Entering OrExpr");
+		debugOutput("Entering OrExpr");
 
 		// TODO Auto-generated method stub
 		super.enterOrExpr(ctx);
@@ -315,7 +311,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterAndExpr(AndExprContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Entering AndExpr");
+		debugOutput("Entering AndExpr");
 
 		super.enterAndExpr(ctx);
 	}
@@ -329,7 +325,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterRelExpr(RelExprContext ctx) {
 		// TODO Auto-generated method stub]		
-		System.out.println("Entering RelExpr");
+		debugOutput("Entering RelExpr");
 
 		super.enterRelExpr(ctx);
 	}
@@ -343,7 +339,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterMulExpr(MulExprContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Entering MulExpr");
+		debugOutput("Entering MulExpr");
 		super.enterMulExpr(ctx);
 	}
 
@@ -356,7 +352,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterUnaryExpr(UnaryExprContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("Entering Unary");
+		debugOutput("Entering Unary");
 		super.enterUnaryExpr(ctx);
 	}
 
@@ -393,7 +389,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 
 	@Override
 	public void enterValue(ValueContext ctx) {
-		System.out.println("Value");
+		debugOutput("Value");
 		// TODO Auto-generated method stub
 		super.enterValue(ctx);
 	}
@@ -407,7 +403,7 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void enterName(NameContext ctx) {
 		// TODO Auto-generated method stub]
-		System.out.println("Name");
+		debugOutput("Name");
 		super.enterName(ctx);
 	}
 
@@ -432,8 +428,33 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	@Override
 	public void visitTerminal(TerminalNode node) {
 		// TODO Auto-generated method stub
-		//System.out.println("Terminal node: " + node.getText()); // Clogs up console.
+		//debugOutput("Terminal node: " + node.getText()); // Clogs up console.
 		super.visitTerminal(node);
+	}
+	
+
+	@Override
+	public void enterLiteral(LiteralContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterLiteral(ctx);
+	}
+
+	@Override
+	public void exitLiteral(LiteralContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitLiteral(ctx);
+	}
+
+	@Override
+	public void enterCurrencyliteral(CurrencyliteralContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterCurrencyliteral(ctx);
+	}
+
+	@Override
+	public void exitCurrencyliteral(CurrencyliteralContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitCurrencyliteral(ctx);
 	}
 
 	@Override
@@ -441,6 +462,13 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 		// TODO Auto-generated method stub
 		System.out.println("!!!Error: " + node.getText());
 		super.visitErrorNode(node);
+	}
+	
+	public void debugOutput(String msg) {
+		//output into console Quite verbose. 
+		if(this.print) {
+			System.out.println(msg);
+		}
 	}
 
 }

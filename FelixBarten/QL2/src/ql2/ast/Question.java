@@ -13,7 +13,7 @@ public class Question extends ASTNode {
 	
 	public <T> T accept(BaseVisitor<T> visitor) {
 		// TODO Auto-generated method stub
-		return null;
+		return visitor.visit(this);
 	}
 	
 	
