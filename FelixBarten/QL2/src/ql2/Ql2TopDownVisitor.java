@@ -46,11 +46,11 @@ import ql2.ast.type.StringType;
 import ql2.parser.generated.Ql2Parser.*;
 
 
-public class Ql2SemanticVisitor<T> extends BaseVisitor<T> {
+public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 
 	private Context context; 
 
-	public Ql2SemanticVisitor() {
+	public Ql2TopDownVisitor() {
 
 		context = new Context();
 	}
@@ -73,45 +73,50 @@ public class Ql2SemanticVisitor<T> extends BaseVisitor<T> {
 			s.accept(this);
 		}
 		
-		return super.visit(node);
+		return null;
 	}
 
 	@Override
 	public T visit(Form node) {
-
-		return node.accept(this);
+		node.getFormContent().accept(this);
+		
+		return null;
 	}
 
 	@Override
 	public T visit(Question node) {
-		// TODO Auto-generated method stub
-		return node.accept(this);
+		node.accept(this);
+		return null;
 	}
 
 	@Override
 	public T visit(InputQuestion node) {
-		// TODO Auto-generated method stub
-		return node.accept(this);
+		node.getType().accept(this);
+		
+		return null;
 	}
 
 	@Override
 	public T visit(CalculatedQuestion node) {
-		// TODO Auto-generated method stub
-		return node.accept(this);
+		node.getInput().accept(this);
+		node.getCalculation().accept(this);
+		
+		return null;
 	}
 
 	@Override
 	public T visit(Questionnaire node) {
-		// TODO Auto-generated method stub
-		return node.accept(this);
+
+		for (Form f: node.getForms()) {
+			f.accept(this);
+		}
+		
+		return null;
 	}
 
 	@Override
 	public T visit(AndExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
@@ -124,135 +129,97 @@ public class Ql2SemanticVisitor<T> extends BaseVisitor<T> {
 
 	@Override
 	public T visit(DivExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(EqExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(GeExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(GEqExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 	
 	@Override
 	public T visit(GTExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(LTExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(LTeExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(MulExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(NegExpr node) {
-		// TODO Auto-generated method stub
-		return node.accept(this);
+		return visit((UnaryExpr) node);
 	}
 
 	@Override
 	public T visit(NEqExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(OrExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(PosExpr node) {
-		// TODO Auto-generated method stub
-		return node.accept(this);
+		node.accept(this);
+		return null;
 	}
 
 	@Override
 	public T visit(SubExpr node) {
-		// TODO Auto-generated method stub
-		node.getLefthand().accept(this);
-		node.getRighthand().accept(this);
-		return null;	
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(UnaryExpr node) {
-		// TODO Auto-generated method stub
-		return node.accept(this);
+		node.getExpr().accept(this);
+		return null;
 	}
 
 	@Override
 	public T visit(LiteralExpr node) {
-		// TODO Auto-generated method stub
 		return super.visit(node);
 	}
 
 	@Override
-	public T visit(IfStatement node) {
-		// TODO Auto-generated method stub
-		
-		node.getBlock().accept(this);
+	public T visit(IfStatement node) {		
 		node.getCondition().accept(this);
+		node.getBlock().accept(this);
 		
 		return null;
 	}
 
 	@Override
 	public T visit(IfElseStatement node) {
-		// TODO Auto-generated method stub
-
-		
+		node.getIfStatement().accept(this);
+		node.getElseBlock().accept(this);
 		
 		return null;
 	}
-
+	
 	@Override
 	public T visit(Literal node) {
 		// TODO Auto-generated method stub
@@ -262,7 +229,7 @@ public class Ql2SemanticVisitor<T> extends BaseVisitor<T> {
 	@Override
 	public T visit(BooleanLiteral node) {
 		// TODO Auto-generated method stub
-		return super.visit(node);
+		return (T) node.getValue();
 	}
 
 	@Override
@@ -274,44 +241,48 @@ public class Ql2SemanticVisitor<T> extends BaseVisitor<T> {
 	@Override
 	public T visit(IntegerLiteral node) {
 		// TODO Auto-generated method stub
-		return super.visit(node);
+		return (T) node.getValue();
 	}
 
 	@Override
 	public T visit(StringLiteral node) {
 		// TODO Auto-generated method stub
-		return super.visit(node);
+		return (T) node.getValue();
 	}
 
 	@Override
 	public T visit(QuestionType node) {
-		// TODO Auto-generated method stub
 		return super.visit(node);
 	}
 
 	@Override
 	public T visit(BooleanType node) {
-		// TODO Auto-generated method stub
 		return super.visit(node);
 	}
 
 	@Override
 	public T visit(CurrencyType node) {
-		// TODO Auto-generated method stub
 		return super.visit(node);
 	}
 
 	@Override
 	public T visit(IntegerType node) {
-		// TODO Auto-generated method stub
 		return super.visit(node);
 	}
 
 	@Override
 	public T visit(StringType node) {
-		// TODO Auto-generated method stub
 		return super.visit(node);
 	}
 
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	
 	
 }

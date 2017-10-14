@@ -7,4 +7,5 @@ public class CurrencyLiteral extends Literal<Currency> {
 		// TODO Auto-generated constructor stub
 		super(value);
 	}
+	
 }

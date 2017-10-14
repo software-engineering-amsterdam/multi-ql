@@ -173,18 +173,6 @@ public class Ql2Walker extends Ql2ParserBaseListener {
 	}
 
 	@Override
-	public void enterWhilestatement(WhilestatementContext ctx) {
-		// TODO Auto-generated method stub
-		super.enterWhilestatement(ctx);
-	}
-
-	@Override
-	public void exitWhilestatement(WhilestatementContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitWhilestatement(ctx);
-	}
-
-	@Override
 	public void enterQuestion(QuestionContext ctx) {
 		debugOutput("Entering Question");
 		// TODO Auto-generated method stub

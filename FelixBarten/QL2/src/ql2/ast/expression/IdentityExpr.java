@@ -9,13 +9,7 @@ public class IdentityExpr extends Expr {
 	
 	public IdentityExpr(String id) {
 		// TODO Auto-generated constructor stub
-		setID(id);
-	}
-	
-	@Override
-	public <T> T accept(BaseVisitor<T> visitor) {
-		// TODO Auto-generated method stub
-		return super.accept(visitor);
+		ID = id;
 	}
 
 	public String getID() {
@@ -25,5 +19,10 @@ public class IdentityExpr extends Expr {
 	public void setID(String iD) {
 		ID = iD;
 	}
-
+	
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return visitor.visit(this);
+	}
 }

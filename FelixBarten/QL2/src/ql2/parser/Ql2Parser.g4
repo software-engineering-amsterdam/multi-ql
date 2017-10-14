@@ -102,10 +102,6 @@ ifelseifstatement returns [IfElseIfStatement result]
 	: x=ifstatement ELSE IF conditions block { $result = new IfElseIfStatement($x.result, $conditions.result, $block.result); }
 	;
 
-whilestatement returns [WhileStatement result]
-	: WHILE conditions THEN block END { $result = new WhileStatement($conditions.result, $block.result); }
-	;
-
 conditions returns [Expr result]
 	: LPAREN x=condition RPAREN {$result = $x.result; }
 	;

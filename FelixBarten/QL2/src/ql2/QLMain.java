@@ -21,6 +21,7 @@ import org.antlr.v4.runtime.tree.Tree;
 
 import com.sun.istack.internal.Nullable;
 
+import ql2.ast.Questionnaire;
 import ql2.parser.generated.Ql2Lexer;
 import ql2.parser.generated.Ql2Parser;
 
@@ -61,7 +62,7 @@ public class QLMain {
         
         System.out.println("Starting parsing");
 
-        /*
+        
         	inspectParseTreeQuestion(inputQuestionExample);
         	inspectParseTreeQuestion(calculatedQuestionExample, true);
         	
@@ -69,24 +70,23 @@ public class QLMain {
 
         	inspectParseTreeContent(parseForm);
         	inspectParseTreeContent(parseForm2);
-        	*/
+        	
         	inspectParseTreeContent(parseStatement);
        
     
         parseQuestionnaireExample();
+
+        System.out.println("Finished String parsing");
+        System.out.println("");
         
-        //  BaseVisitor<T> basevisit = new BaseVisitor<T>();
-        //   basevisit.visit(lexer);
-        
-        System.out.println("Finished parsing");
-        
+        System.out.println("Starting File Parsing");
         inspectParseTree(path);
         inspectParseTree(path2);
         inspectParseTree(path3);
         inspectParseTree(path4);
         inspectParseTreeForm("QLExamples/formexample.ql", false);
         //inspectParseTreeForm("QLExamples/formexample2.ql", true);
-
+        System.out.println("Finished File Parsing");
     		//conditionsTesting();
 
 
@@ -128,6 +128,11 @@ public class QLMain {
 		    ParseTree tree = parser.questionnaire();
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
+	        
+	        Ql2TopDownVisitor<Questionnaire> visitor = new Ql2TopDownVisitor<Questionnaire>();
+	        Questionnaire q = visitor.visit(parser.questionnaire().result);
+	        
+	        //visitor.getContext()
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -237,7 +242,7 @@ public class QLMain {
     		inspectConditionsParseTree("(2 - 2)");
     		inspectConditionsParseTree("(2 * 2)");
     		inspectConditionsParseTree("(a > b)");
-    		inspectConditionsParseTree("(a => b)");
+    		inspectConditionsParseTree("(a => b)"); // -> Error
     		inspectConditionsParseTree("(a >= b)");
     		inspectConditionsParseTree("(a < b)");
     		inspectConditionsParseTree("(a <= b)");

@@ -5,7 +5,7 @@ import ql2.BaseVisitor;
 
 abstract public class Literal<T> {
 
-	private T value;
+	protected T value;
 	
 	
 	public Literal(T lit) {

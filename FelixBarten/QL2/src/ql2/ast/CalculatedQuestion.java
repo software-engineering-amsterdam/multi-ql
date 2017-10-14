@@ -5,16 +5,28 @@ import ql2.ast.type.QuestionType;
 
 public class CalculatedQuestion extends Question {
 
-	public CalculatedQuestion(InputQuestion result, Statement result2) {
-		// TODO Auto-generated constructor stub
-	}
-
+	private InputQuestion input;
+	private Expr calculation;
+	
 	public CalculatedQuestion(InputQuestion result, Expr result2) {
-		// TODO Auto-generated constructor stub
+		setInput(result);
+		setCalculation(result2);
+	}	
+
+	public InputQuestion getInput() {
+		return input;
 	}
 
-	public CalculatedQuestion(String result, String result2, QuestionType result3, Expr result4) {
-		// TODO Auto-generated constructor stub
+	public void setInput(InputQuestion input) {
+		this.input = input;
+	}
+
+	public Expr getCalculation() {
+		return calculation;
+	}
+
+	public void setCalculation(Expr calculation) {
+		this.calculation = calculation;
 	}
 
 	@Override

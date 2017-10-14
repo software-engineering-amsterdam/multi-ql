@@ -7,8 +7,18 @@ import ql2.BaseVisitor;
 
 public class Questionnaire extends ASTNode  {
 
+	private List<Form> forms;
+	
 	public Questionnaire(List<Form> result) {
-		// TODO Auto-generated constructor stub
+		forms = result;
+	}
+
+	public List<Form> getForms() {
+		return forms;
+	}
+
+	public void setForms(List<Form> forms) {
+		this.forms = forms;
 	}
 
 	@Override
