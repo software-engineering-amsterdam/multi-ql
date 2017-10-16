@@ -1,10 +1,13 @@
 package ql2;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import ql2.ast.CalculatedQuestion;
+import ql2.ast.Expr;
 import ql2.ast.InputQuestion;
 import ql2.ast.Question;
 import ql2.ast.Statement;
@@ -12,6 +15,8 @@ import ql2.ast.type.QuestionType;
 import ql2.conflict.Conflict;
 import ql2.conflict.DuplicateLabel;
 import ql2.conflict.DuplicateQuestionID;
+import ql2.conflict.TypeMismatch;
+import ql2.conflict.VariableNotDeclared;
 
 /**
  * 
@@ -46,7 +51,7 @@ public class Context {
 		// refactor if statemetns out to method?
 		
 		if (questionLabels.contains(label)) {
-			problems.add(new DuplicateLabel(question,label));
+			problems.add(new DuplicateLabel(question, label));
 		}
 		
 		if(questTypes.containsKey(ID)) {
@@ -61,6 +66,7 @@ public class Context {
 	public void addQuestion(CalculatedQuestion question) {
 		String ID = question.getInput().getQuestionID();		
 		String label = question.getInput().getQuestionText();
+		Expr computation = question.getCalculation();
 		//Check labels
 		if (questionLabels.contains(label)) {
 			problems.add(new DuplicateLabel(question,label));
@@ -72,21 +78,53 @@ public class Context {
 		questionLabels.add(question.getInput().getQuestionText());
 		questions.add(question);
 		questTypes.put(ID, question.getInput().getType());
+		variables.put(ID, computation); // where to typecheck.
 	}
 	
-	public void getVariables() {
-		
+	public HashMap<String, Object> getVariables() {
+		return variables;
+	}
 	
+	public void addVariable(String key, Object value) {
+		if (!variables.containsKey(key)) {
+			if (!questTypes.containsKey(key)) {
+				problems.add(new VariableNotDeclared(key, value));
+			} else {
+				variables.put(key, value);
+			}
+		}
+	}
+	
+	public void addVariable(String key) {
+		if (!variables.containsKey(key)) {
+			if (!questTypes.containsKey(key)) {
+				problems.add(new VariableNotDeclared(key));
+			} else {
+				variables.put(key, questTypes.get(key));
+			}
+		}
+	}
+	
+	/**
+	 * Sorts the List on severity of errors/warnings
+	 */
+	private void sortConflicts() {
+		problems.sort(Comparator.comparing(Conflict::getConflictLevel));
 	}
 	
 	public void report() {
+		sortConflicts();
 		if (problems.size() > 0) {
-			System.out.println(String.format("%s problems found", problems.size()));
+			System.out.println(String.format("%s problem(s) found", problems.size()));
 			
 			for (Conflict c : problems) {
 				c.logIssues();
+				System.out.println(c.getClass());
 			}
-			// TODO ordering so severe errors get addressed first.
 		}
+	}
+
+	public void addConflict(Conflict c) {
+		problems.add(c);		
 	}
 }

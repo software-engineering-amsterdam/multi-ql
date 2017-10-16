@@ -3,12 +3,23 @@ package ql2.conflict;
 public abstract class Conflict {
 	protected String errorMsg;
 	public enum Level {
-		CRITICAL, SEVERE, ERROR, WARNING
+		CRITICAL (100), SEVERE (80), ERROR (50), WARNING (10);
+		
+		private final int weight;
+		
+		Level(int weight) {
+			this.weight = weight;
+		}
+
+		public int getWeight() {
+			return weight;
+		}
+		
 	};
 	protected Level conflictLevel;
 	
 	public void logIssues() {
-		System.out.println(errorMsg);
+		System.out.println(String.format("Error level %s: %s", getConflictLevel(), errorMsg));
 	}
 
 	public Level getConflictLevel() {

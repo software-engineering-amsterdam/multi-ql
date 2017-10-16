@@ -9,10 +9,10 @@ public class InputQuestion extends Question{
 	private String questionID; // convert to identityexpr?
 	private QuestionType type;
 	
-	public InputQuestion(String result, String result2, QuestionType result3) {
-		setQuestionText(result);
-		setQuestionID(result2);
-		setType(result3);
+	public InputQuestion(String id, String text, QuestionType type) {
+		this.questionID = id;
+		this.questionText = text;
+		this.type = type;
 	}
 	
 	public String getQuestionText() {

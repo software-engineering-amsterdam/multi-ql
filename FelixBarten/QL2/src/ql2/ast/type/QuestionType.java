@@ -12,4 +12,7 @@ public abstract class QuestionType extends ASTNode {
 		return visitor.visit(this);
 	}
 
+	public abstract String getType();
+	
+
 }

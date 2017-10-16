@@ -21,6 +21,7 @@ import org.antlr.v4.runtime.tree.Tree;
 
 import com.sun.istack.internal.Nullable;
 
+import ql2.ast.Expr;
 import ql2.ast.Form;
 import ql2.ast.Questionnaire;
 import ql2.parser.generated.Ql2Lexer;
@@ -86,8 +87,8 @@ public class QLMain {
         inspectParseTree(path3);
         inspectParseTree(path4);
         inspectParseTreeForm("QLExamples/formexample.ql", false);
-        inspectParseTreeForm("QLExamples/typechecker/duplicatelabel.ql", true);
-        inspectParseTreeForm("QLExamples/typechecker/duplicateID.ql", true);
+
+        conflictScenarios();
 
         //inspectParseTreeForm("QLExamples/formexample2.ql", true);
         System.out.println("Finished File Parsing");
@@ -95,6 +96,16 @@ public class QLMain {
 
 
 	}
+
+	
+	private static void conflictScenarios() {
+        inspectParseTreeForm("QLExamples/typechecker/duplicatelabel.ql", false);
+        inspectParseTreeForm("QLExamples/typechecker/duplicateID.ql", false);
+        inspectParseTreeForm("QLExamples/typechecker/varnotdeclared.ql", false);
+        inspectParseTreeForm("QLExamples/typechecker/invalidcondition.ql", false);
+
+	}
+
 
 	private static void parseQuestionnaireExample() {
 		// TODO Auto-generated method stub
@@ -163,7 +174,12 @@ public class QLMain {
 	        Ql2TopDownVisitor<Form> visitor = new Ql2TopDownVisitor<Form>();
 	        Form q = (Form) visitor.visit(parser.form().result); // return null instead of T?
 	        
-	        visitor.getContext().report();
+	        parser.reset();
+	        Context con = visitor.getContext();
+	        TypeChecker<Object> tc = new TypeChecker<>(con);
+	        tc.visit(parser.form().result);
+	        con = tc.getContext();
+	        con.report();
 	        
 	        if (visual) {
 	        		System.out.println(tree.toStringTree());

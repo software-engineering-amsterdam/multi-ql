@@ -53,14 +53,11 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 	private Context context; 
 
 	public Ql2TopDownVisitor() {
-
 		context = new Context();
 	}
 	
 	@Override
 	public T visit(ASTNode node) {
-		// TODO Auto-generated method stub
-		System.out.println(node.toString());
 		node.accept(this);
 		return null;
 	}
@@ -82,7 +79,6 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 
 	@Override
 	public T visit(Form node) {
-		System.out.println(node.getFormID());
 		node.getFormContent().accept(this);
 		
 		return null;
@@ -213,6 +209,7 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 
 	@Override
 	public T visit(IdentityExpr node) {
+		context.addVariable(node.getID());
 		return null;
 	}
 	
