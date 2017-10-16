@@ -1,5 +1,12 @@
 package ql2.conflict;
 
-public class InvalidConditionType {
+import ql2.conflict.Conflict.Level;
 
+public class InvalidConditionType extends Conflict{
+
+	
+	@Override
+	public Level getConflictLevel() {
+		return Level.ERROR;
+	}
 }

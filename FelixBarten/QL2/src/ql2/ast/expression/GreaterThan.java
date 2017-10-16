@@ -3,9 +3,9 @@ package ql2.ast.expression;
 import ql2.ast.BinaryExpr;
 import ql2.ast.Expr;
 
-public class EqExpr extends BinaryExpr  {
+public class GreaterThan  extends BinaryExpr {
 
-	public EqExpr(Expr lhs, Expr rhs) {
+	public GreaterThan(Expr lhs, Expr rhs) {
 		super(lhs, rhs);
 		// TODO Auto-generated constructor stub
 	}

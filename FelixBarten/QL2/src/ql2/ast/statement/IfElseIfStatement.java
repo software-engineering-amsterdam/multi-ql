@@ -1,5 +1,6 @@
 package ql2.ast.statement;
 
+import ql2.BaseVisitor;
 import ql2.ast.Block;
 import ql2.ast.Expr;
 import ql2.ast.Statement;
@@ -16,6 +17,11 @@ public class IfElseIfStatement extends Statement  {
 		this.ifStat= result;
 		this.condition = condition;
 		this.elseBlock = result2;
+	}
+	
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

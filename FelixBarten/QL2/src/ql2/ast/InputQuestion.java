@@ -41,7 +41,6 @@ public class InputQuestion extends Question{
 
 	@Override
 	public <T> T accept(BaseVisitor<T> visitor) {
-		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 	

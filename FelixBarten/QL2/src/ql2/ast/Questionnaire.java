@@ -23,7 +23,6 @@ public class Questionnaire extends ASTNode  {
 
 	@Override
 	public <T> T accept(BaseVisitor<T> visitor) {
-		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 

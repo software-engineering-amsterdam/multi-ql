@@ -19,26 +19,34 @@ public interface Ql2VisitorInterface<T> {
 	public T visit(CalculatedQuestion node);
 	public T visit(Questionnaire node);
 	// visit expressions
-	public T visit(AndExpr node);
-	//public T visit(AndExpr node);
-	public T visit(BinaryExpr node);
-	public T visit(DivExpr node);
-	public T visit(EqExpr node);
-	public T visit(GeExpr node);
-	public T visit(GEqExpr node);
-	public T visit(GTExpr node);
-	public T visit(LTExpr node);
-	public T visit(LTeExpr node);
-	public T visit(MulExpr node);
-	public T visit(NegExpr node);
-	public T visit(NEqExpr node);
-	public T visit(OrExpr node);
-	public T visit(PosExpr node);
-	public T visit(SubExpr node);
 	public T visit(UnaryExpr node);
-	//public T visit(IdentityExpr node);
+	public T visit(BinaryExpr node);
+
+	public T visit(Positive node);
+	public T visit(Negative node);
+	public T visit(Not node);
+	// logic
+	public T visit(Or node);
+	public T visit(And node);
+	public T visit(Equal node);
+	public T visit(NotEqual node);
+	// rel. 	
+	public T visit(GreaterThanOrEqual node); // greater than or eq. -> GTEq
+	public T visit(GreaterThan node); // Greater than
+	
+	public T visit(LesserThanOrEqual node); // lesser than or Eq
+	public T visit(LesserThan node);  // lesser than
+
+	// arithmatic
+	public T visit(Subtract node);
+	public T visit(Multiply node);
+	public T visit(Addition node);
+	public T visit(Divide node);
+	// other
+	public T visit(IdentityExpr node);
 	public T visit(LiteralExpr node);
 	// visit statements
+	public T visit(Statement node);
 	public T visit(IfStatement node);
 	public T visit(IfElseStatement node);
 	// visit literals

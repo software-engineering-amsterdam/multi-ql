@@ -2,11 +2,15 @@ package ql2.ast.expression;
 
 import ql2.ast.Expr;
 import ql2.ast.UnaryExpr;
-import ql2.ast.literal.Literal;
 
-public class PosExpr extends UnaryExpr{
+/**
+ * 
+ * @author felixbarten
+ * Negative Expr -Expr
+ */
+public class Negative extends UnaryExpr {
 
-	public PosExpr(Expr result) {
+	public Negative(Expr result) {
 		super(result);
 		// TODO Auto-generated constructor stub
 	}

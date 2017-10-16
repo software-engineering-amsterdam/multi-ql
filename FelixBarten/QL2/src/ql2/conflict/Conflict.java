@@ -1,9 +1,21 @@
 package ql2.conflict;
 
 public abstract class Conflict {
-	private String errorMsg;
+	protected String errorMsg;
+	public enum Level {
+		CRITICAL, SEVERE, ERROR, WARNING
+	};
+	protected Level conflictLevel;
 	
-	void logIssues() {
+	public void logIssues() {
 		System.out.println(errorMsg);
+	}
+
+	public Level getConflictLevel() {
+		return conflictLevel;
+	}
+
+	public void setConflictLevel(Level conflictLevel) {
+		this.conflictLevel = conflictLevel;
 	}
 }

@@ -16,21 +16,23 @@ import ql2.ast.Question;
 import ql2.ast.Questionnaire;
 import ql2.ast.Statement;
 import ql2.ast.UnaryExpr;
-import ql2.ast.expression.AndExpr;
-import ql2.ast.expression.EqExpr;
-import ql2.ast.expression.GEqExpr;
-import ql2.ast.expression.GTExpr;
-import ql2.ast.expression.GeExpr;
-import ql2.ast.expression.LTExpr;
-import ql2.ast.expression.LTeExpr;
+import ql2.ast.expression.And;
+import ql2.ast.expression.Equal;
+import ql2.ast.expression.GreaterThanOrEqual;
+import ql2.ast.expression.GreaterThan;
+import ql2.ast.expression.IdentityExpr;
+import ql2.ast.expression.LesserThan;
+import ql2.ast.expression.LesserThanOrEqual;
 import ql2.ast.expression.LiteralExpr;
-import ql2.ast.expression.NEqExpr;
-import ql2.ast.expression.NegExpr;
-import ql2.ast.expression.OrExpr;
-import ql2.ast.expression.PosExpr;
-import ql2.ast.expression.arithmatic.DivExpr;
-import ql2.ast.expression.arithmatic.MulExpr;
-import ql2.ast.expression.arithmatic.SubExpr;
+import ql2.ast.expression.NotEqual;
+import ql2.ast.expression.Negative;
+import ql2.ast.expression.Not;
+import ql2.ast.expression.Or;
+import ql2.ast.expression.Positive;
+import ql2.ast.expression.arithmatic.Addition;
+import ql2.ast.expression.arithmatic.Divide;
+import ql2.ast.expression.arithmatic.Multiply;
+import ql2.ast.expression.arithmatic.Subtract;
 import ql2.ast.literal.BooleanLiteral;
 import ql2.ast.literal.CurrencyLiteral;
 import ql2.ast.literal.IntegerLiteral;
@@ -58,7 +60,9 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 	@Override
 	public T visit(ASTNode node) {
 		// TODO Auto-generated method stub
-		return node.accept(this);
+		System.out.println(node.toString());
+		node.accept(this);
+		return null;
 	}
 
 	@Override
@@ -78,6 +82,7 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 
 	@Override
 	public T visit(Form node) {
+		System.out.println(node.getFormID());
 		node.getFormContent().accept(this);
 		
 		return null;
@@ -92,7 +97,7 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 	@Override
 	public T visit(InputQuestion node) {
 		node.getType().accept(this);
-		
+		context.addQuestion(node);
 		return null;
 	}
 
@@ -100,7 +105,8 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 	public T visit(CalculatedQuestion node) {
 		node.getInput().accept(this);
 		node.getCalculation().accept(this);
-		
+		context.addQuestion(node);
+
 		return null;
 	}
 
@@ -115,7 +121,7 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 	}
 
 	@Override
-	public T visit(AndExpr node) {
+	public T visit(And node) {
 		return visit((BinaryExpr) node);	
 	}
 
@@ -128,69 +134,75 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 	}
 
 	@Override
-	public T visit(DivExpr node) {
+	public T visit(Divide node) {
 		return visit((BinaryExpr) node);	
 	}
 
 	@Override
-	public T visit(EqExpr node) {
+	public T visit(Equal node) {
 		return visit((BinaryExpr) node);	
 	}
 
 	@Override
-	public T visit(GeExpr node) {
-		return visit((BinaryExpr) node);	
-	}
-
-	@Override
-	public T visit(GEqExpr node) {
+	public T visit(GreaterThanOrEqual node) {
 		return visit((BinaryExpr) node);	
 	}
 	
 	@Override
-	public T visit(GTExpr node) {
+	public T visit(GreaterThan node) {
 		return visit((BinaryExpr) node);	
 	}
 
 	@Override
-	public T visit(LTExpr node) {
+	public T visit(LesserThan node) {
 		return visit((BinaryExpr) node);	
 	}
 
 	@Override
-	public T visit(LTeExpr node) {
+	public T visit(LesserThanOrEqual node) {
 		return visit((BinaryExpr) node);	
 	}
 
 	@Override
-	public T visit(MulExpr node) {
+	public T visit(Multiply node) {
 		return visit((BinaryExpr) node);	
 	}
 
 	@Override
-	public T visit(NegExpr node) {
+	public T visit(Negative node) {
 		return visit((UnaryExpr) node);
 	}
 
 	@Override
-	public T visit(NEqExpr node) {
+	public T visit(NotEqual node) {
 		return visit((BinaryExpr) node);	
 	}
 
 	@Override
-	public T visit(OrExpr node) {
+	public T visit(Or node) {
 		return visit((BinaryExpr) node);	
 	}
 
 	@Override
-	public T visit(PosExpr node) {
+	public T visit(Positive node) {
 		node.accept(this);
 		return null;
 	}
 
 	@Override
-	public T visit(SubExpr node) {
+	public T visit(Subtract node) {
 		return visit((BinaryExpr) node);	
+	}	
+	
+	@Override 
+	public T visit(Addition node) {
+		return visit((BinaryExpr) node);
+	}
+
+	@Override
+	public T visit(Not node) {
+		node.accept(this);
+		return null;
 	}
 
 	@Override
@@ -200,10 +212,22 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 	}
 
 	@Override
+	public T visit(IdentityExpr node) {
+		return null;
+	}
+	
+	@Override
 	public T visit(LiteralExpr node) {
-		return super.visit(node);
+		//node.accept(this);
+		return null;
 	}
 
+	@Override
+	public T visit(Statement node) {
+		node.accept(this);
+		return null;
+	}
+	
 	@Override
 	public T visit(IfStatement node) {		
 		node.getCondition().accept(this);
@@ -282,7 +306,5 @@ public class Ql2TopDownVisitor<T> extends BaseVisitor<T> {
 	public void setContext(Context context) {
 		this.context = context;
 	}
-
-	
 	
 }

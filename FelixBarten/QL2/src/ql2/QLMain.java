@@ -21,6 +21,7 @@ import org.antlr.v4.runtime.tree.Tree;
 
 import com.sun.istack.internal.Nullable;
 
+import ql2.ast.Form;
 import ql2.ast.Questionnaire;
 import ql2.parser.generated.Ql2Lexer;
 import ql2.parser.generated.Ql2Parser;
@@ -64,7 +65,7 @@ public class QLMain {
 
         
         	inspectParseTreeQuestion(inputQuestionExample);
-        	inspectParseTreeQuestion(calculatedQuestionExample, true);
+        	inspectParseTreeQuestion(calculatedQuestionExample, false);
         	
         	inspectParseTreeContent(parseTest3);
 
@@ -80,11 +81,14 @@ public class QLMain {
         System.out.println("");
         
         System.out.println("Starting File Parsing");
-        inspectParseTree(path);
+       // inspectParseTree(path);
         inspectParseTree(path2);
         inspectParseTree(path3);
         inspectParseTree(path4);
         inspectParseTreeForm("QLExamples/formexample.ql", false);
+        inspectParseTreeForm("QLExamples/typechecker/duplicatelabel.ql", true);
+        inspectParseTreeForm("QLExamples/typechecker/duplicateID.ql", true);
+
         //inspectParseTreeForm("QLExamples/formexample2.ql", true);
         System.out.println("Finished File Parsing");
     		//conditionsTesting();
@@ -149,15 +153,21 @@ public class QLMain {
 			//lexer2 = new Ql2Lexer(CharStreams.fromFileName(path));
 			lexer = new Ql2Lexer(new ANTLRFileStream(path));
 			CommonTokenStream tokens2 = new CommonTokenStream( lexer );
-			Ql2Parser parser = new Ql2Parser( tokens2 );	
-
-		
+			Ql2Parser parser = new Ql2Parser( tokens2 );		        
 		    ParseTree tree = parser.form();
-	        ParseTreeWalker walker = new ParseTreeWalker();
+		    ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 	        
+	        parser.reset();
+	        
+	        Ql2TopDownVisitor<Form> visitor = new Ql2TopDownVisitor<Form>();
+	        Form q = (Form) visitor.visit(parser.form().result); // return null instead of T?
+	        
+	        visitor.getContext().report();
+	        
 	        if (visual) {
-	        	 showTree(tree, parser);
+	        		System.out.println(tree.toStringTree());
+	        		showTree(tree, parser);
 	        }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -186,7 +196,9 @@ public class QLMain {
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 			System.out.println("Finished inspecting parse tree");
-			showTree(tree, parser);
+			if (visual) {
+				showTree(tree, parser);
+			}
 	}
 	
 	private static void inspectConditionsParseTree(String content) {
@@ -198,19 +210,20 @@ public class QLMain {
         System.out.println("Inspecting parse tree from String");
         System.out.println(content);
 
-	      Ql2Lexer lexer = null;
-			lexer = new Ql2Lexer( new ANTLRInputStream(content));
+	    Ql2Lexer lexer = null;
+		lexer = new Ql2Lexer( new ANTLRInputStream(content));
 	        CommonTokenStream tokens = new CommonTokenStream( lexer );
 	        
 	        Ql2Parser parser = new Ql2Parser( tokens );
 	        ParseTree tree = parser.conditions();
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
-			System.out.println("Finished inspecting parse tree");
 			if (visual) {
 				System.out.println(tree.toStringTree(parser));
 				showTree(tree, parser);
-			}
+			}			
+			System.out.println("Finished inspecting parse tree");
+
 	}
 	
 	private static void showTree(Tree tree, Ql2Parser parser) {
@@ -252,6 +265,6 @@ public class QLMain {
     		inspectConditionsParseTree("(a || ((b) && (c)))");
     		inspectConditionsParseTree("(a || ((b <= 6) && (c || (d > 5))))", false);
     		
-    		inspectConditionsParseTree("(questionA == questionB)", true);
+    		inspectConditionsParseTree("(questionA == questionB)", false); // (identity eq identity)
 	}
 }

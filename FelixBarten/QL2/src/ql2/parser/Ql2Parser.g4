@@ -118,7 +118,7 @@ condition returns [Expr result]
 orExpr returns [Expr result]
 	: lhs=andExpr {$result = $lhs.result; } (op=LOR rhs=andExpr
 	{
-		$result = new OrExpr($result, $rhs.result);
+		$result = new Or($result, $rhs.result);
 	})*
 
 	;
@@ -126,7 +126,7 @@ orExpr returns [Expr result]
 andExpr returns [Expr result]
 	: lhs=relExpr{$result = $lhs.result;} (LAND rhs=relExpr
 	{
-		$result = new AndExpr($result, $rhs.result);
+		$result = new And($result, $rhs.result);
 	})*
 	;
 
@@ -137,27 +137,27 @@ relExpr returns [Expr result]
 	{
 		switch($op.text) {
 			case "==": {
-				$result = new EqExpr($result, $rhs.result);
+				$result = new Equal($result, $rhs.result);
 				break;
 			}
 			case "!=": {
-				$result = new NEqExpr($result, $rhs.result);
+				$result = new NotEqual($result, $rhs.result);
 				break;
 			}
 			case ">": {
-				$result = new GeExpr($result, $rhs.result);
+				$result = new GreaterThan($result, $rhs.result);
 				break;
 			}
 			case ">=": {
-				$result = new GEqExpr($result, $rhs.result);
+				$result = new GreaterThanOrEqual($result, $rhs.result);
 				break;
 			}
 			case "<":
-				$result = new LTExpr($result, $rhs.result);
+				$result = new LesserThan($result, $rhs.result);
 				break;
 
 			case "<=":
-				$result = new LTeExpr($result, $rhs.result);
+				$result = new LesserThanOrEqual($result, $rhs.result);
 				break;
 		}
 	})*
@@ -167,10 +167,10 @@ mulExpr returns [Expr result]
 	: lhs=unaryExpr {$result = $lhs.result; } (op=(STAR|DIV) rhs=unaryExpr
 	{
 		if($op.text == "/") {
-				$result = new DivExpr($result, $rhs.result);
+				$result = new Divide($result, $rhs.result);
 
 		} else {
-			$result = new MulExpr($result, $rhs.result);
+			$result = new Multiply($result, $rhs.result);
 		}
 	})*
 	;
@@ -179,18 +179,18 @@ addExpr returns [Expr result]
 	: lhs=mulExpr {$result = $lhs.result; } (op=(PLUS|MINUS) rhs=mulExpr
 	{
 		if ($op.text == "+") {
-			$result = new AddExpr($result, $rhs.result);
+			$result = new Addition($result, $rhs.result);
 		} else {
-			$result = new SubExpr($result, $rhs.result);
+			$result = new Subtract($result, $rhs.result);
 		}
 	})*
 	;
 
 
 unaryExpr returns [Expr result]
-	: MINUS x=unaryExpr	{$result = new NegExpr($x.result); }
-	| LNOT x=unaryExpr	{$result = new NotExpr($x.result); }
-	| PLUS x=unaryExpr 	{$result = new PosExpr($x.result); }
+	: MINUS x=unaryExpr	{$result = new Negative($x.result); }
+	| LNOT x=unaryExpr	{$result = new Not($x.result); }
+	| PLUS x=unaryExpr 	{$result = new Positive($x.result); }
 	| value 	  			{$result = ($value.result); }
 	| LPAREN orExpr RPAREN {$result = $orExpr.result; } // parenthesis
 	;

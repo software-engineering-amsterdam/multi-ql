@@ -2,7 +2,7 @@ package ql2.conflict;
 
 import ql2.conflict.Conflict.Level;
 
-public class InvalidType extends Conflict {
+public class VariableNotDeclared extends Conflict {
 
 	@Override
 	public Level getConflictLevel() {

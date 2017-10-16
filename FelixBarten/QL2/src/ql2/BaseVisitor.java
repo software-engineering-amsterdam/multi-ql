@@ -12,22 +12,25 @@ import ql2.ast.Form;
 import ql2.ast.InputQuestion;
 import ql2.ast.Question;
 import ql2.ast.Questionnaire;
+import ql2.ast.Statement;
 import ql2.ast.UnaryExpr;
-import ql2.ast.expression.AndExpr;
-import ql2.ast.expression.EqExpr;
-import ql2.ast.expression.GEqExpr;
-import ql2.ast.expression.GTExpr;
-import ql2.ast.expression.GeExpr;
-import ql2.ast.expression.LTExpr;
-import ql2.ast.expression.LTeExpr;
+import ql2.ast.expression.And;
+import ql2.ast.expression.Equal;
+import ql2.ast.expression.GreaterThanOrEqual;
+import ql2.ast.expression.GreaterThan;
+import ql2.ast.expression.IdentityExpr;
+import ql2.ast.expression.LesserThan;
+import ql2.ast.expression.LesserThanOrEqual;
 import ql2.ast.expression.LiteralExpr;
-import ql2.ast.expression.NEqExpr;
-import ql2.ast.expression.NegExpr;
-import ql2.ast.expression.OrExpr;
-import ql2.ast.expression.PosExpr;
-import ql2.ast.expression.arithmatic.DivExpr;
-import ql2.ast.expression.arithmatic.MulExpr;
-import ql2.ast.expression.arithmatic.SubExpr;
+import ql2.ast.expression.NotEqual;
+import ql2.ast.expression.Negative;
+import ql2.ast.expression.Not;
+import ql2.ast.expression.Or;
+import ql2.ast.expression.Positive;
+import ql2.ast.expression.arithmatic.Addition;
+import ql2.ast.expression.arithmatic.Divide;
+import ql2.ast.expression.arithmatic.Multiply;
+import ql2.ast.expression.arithmatic.Subtract;
 import ql2.ast.literal.BooleanLiteral;
 import ql2.ast.literal.CurrencyLiteral;
 import ql2.ast.literal.IntegerLiteral;
@@ -109,6 +112,12 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public T visit(Statement node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public T visit(CalculatedQuestion node) {
@@ -123,7 +132,7 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T>{
 	}
 
 	@Override
-	public T visit(AndExpr node) {
+	public T visit(And node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -135,85 +144,91 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T>{
 	}
 
 	@Override
-	public T visit(DivExpr node) {
+	public T visit(Divide node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(EqExpr node) {
+	public T visit(Equal node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(GeExpr node) {
+	public T visit(GreaterThanOrEqual node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(GEqExpr node) {
+	public T visit(GreaterThan node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(GTExpr node) {
+	public T visit(LesserThan node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(LTExpr node) {
+	public T visit(LesserThanOrEqual node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(LTeExpr node) {
+	public T visit(Multiply node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(MulExpr node) {
+	public T visit(Negative node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(NegExpr node) {
+	public T visit(NotEqual node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(NEqExpr node) {
+	public T visit(Or node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(OrExpr node) {
+	public T visit(Positive node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T visit(PosExpr node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public T visit(SubExpr node) {
+	public T visit(Subtract node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public T visit(UnaryExpr node) {
+		// TODO Auto-generated method stub
+		return null;
+	} 
+
+	@Override
+	public T visit(Addition node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T visit(IdentityExpr node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -296,4 +311,12 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T>{
 		return null;
 	}
 
+	@Override
+	public T visit(Not node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
 }

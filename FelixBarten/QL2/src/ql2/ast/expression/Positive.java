@@ -2,15 +2,11 @@ package ql2.ast.expression;
 
 import ql2.ast.Expr;
 import ql2.ast.UnaryExpr;
+import ql2.ast.literal.Literal;
 
-/**
- * 
- * @author felixbarten
- * Not Expr !Expr
- */
-public class NotExpr extends UnaryExpr {
+public class Positive extends UnaryExpr{
 
-	public NotExpr(Expr result) {
+	public Positive(Expr result) {
 		super(result);
 		// TODO Auto-generated constructor stub
 	}
