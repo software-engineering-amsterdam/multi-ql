@@ -35,7 +35,7 @@ import ql2.ast.type.StringType;
 import ql2.conflict.InvalidConditionType;
 import ql2.conflict.TypeMismatch;
 
-public class TypeChecker<T> extends Ql2TopDownVisitor<QuestionType> {
+public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	private Context context; 
 	

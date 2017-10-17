@@ -113,8 +113,17 @@ public class Context {
 	}
 	
 	public void report() {
+		reportProblems();
+		reportContent(); 
+	}
+	
+	private boolean noProblems() {
+		return problems.size() == 0;
+	}
+
+	private void reportProblems() {
 		sortConflicts();
-		if (problems.size() > 0) {
+		if (!noProblems()) {
 			System.out.println(String.format("%s problem(s) found", problems.size()));
 			
 			for (Conflict c : problems) {
@@ -122,6 +131,10 @@ public class Context {
 				System.out.println(c.getClass());
 			}
 		}
+	}
+	
+	private void reportContent() {
+		System.out.println(String.format("Context contains: %s questions, %s statements", questions.size(), statements.size()));
 	}
 
 	public void addConflict(Conflict c) {

@@ -1,5 +1,7 @@
 package ql2;
 
+import java.util.List;
+
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
@@ -45,222 +47,211 @@ import ql2.ast.type.QuestionType;
 import ql2.ast.type.StringType;
 import ql2.parser.generated.Ql2Parser.*;
 
+/**
+ * Traverses the CST to create an AST. This visitor visits the nodes in the correct order without side effects. 
+ * @author felixbarten
+ *
+ * @param <T>
+ */
+public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import ql2.parser.generated.Ql2ParserVisitor;
-
-public class BaseVisitor<T> implements Ql2VisitorInterface<T>{
-
+	public BaseVisitor() {
+	}
+	
 	@Override
 	public T visit(ASTNode node) {
-		// TODO Auto-generated method stub
+		node.accept(this);
 		return null;
 	}
 
 	@Override
 	public T visit(Block node) {
-		// TODO Auto-generated method stub
+		List<Question> questionsList = node.getQuestionsList();
+		List<Statement> statementsList = node.getStatementsList();
+		
+		for (Question q : questionsList) {
+			q.accept(this);
+		}
+		for (Statement s : statementsList) {
+			s.accept(this);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public T visit(Form node) {
-		// TODO Auto-generated method stub
+		node.getFormContent().accept(this);
+		
 		return null;
 	}
 
 	@Override
 	public T visit(Question node) {
-		// TODO Auto-generated method stub
+		node.accept(this);
 		return null;
 	}
 
 	@Override
 	public T visit(InputQuestion node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public T visit(Statement node) {
-		// TODO Auto-generated method stub
+		node.getType().accept(this);
+		//context.addQuestion(node);
 		return null;
 	}
 
 	@Override
 	public T visit(CalculatedQuestion node) {
-		// TODO Auto-generated method stub
+		node.getInput().accept(this);
+		node.getCalculation().accept(this);
+		//context.addQuestion(node);
+
 		return null;
 	}
 
 	@Override
 	public T visit(Questionnaire node) {
-		// TODO Auto-generated method stub
+
+		for (Form f: node.getForms()) {
+			f.accept(this);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public T visit(And node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(BinaryExpr node) {
 		// TODO Auto-generated method stub
-		return null;
+		node.getLefthand().accept(this);
+		node.getRighthand().accept(this);
+		return null;	
 	}
 
 	@Override
 	public T visit(Divide node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(Equal node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(GreaterThanOrEqual node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
-
+	
 	@Override
 	public T visit(GreaterThan node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(LesserThan node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(LesserThanOrEqual node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(Multiply node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(Negative node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((UnaryExpr) node);
 	}
 
 	@Override
 	public T visit(NotEqual node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(Or node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((BinaryExpr) node);	
 	}
 
 	@Override
 	public T visit(Positive node) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((UnaryExpr) node);
 	}
 
 	@Override
 	public T visit(Subtract node) {
-		// TODO Auto-generated method stub
+		return visit((BinaryExpr) node);	
+	}	
+	
+	@Override 
+	public T visit(Addition node) {
+		return visit((BinaryExpr) node);
+	}
+
+	@Override
+	public T visit(Not node) {
+		node.accept(this);
 		return null;
 	}
 
 	@Override
 	public T visit(UnaryExpr node) {
-		// TODO Auto-generated method stub
-		return null;
-	} 
-
-	@Override
-	public T visit(Addition node) {
-		// TODO Auto-generated method stub
+		node.getExpr().accept(this);
 		return null;
 	}
 
 	@Override
 	public T visit(IdentityExpr node) {
-		// TODO Auto-generated method stub
+		//context.addVariable(node.getID());
 		return null;
 	}
-
+	
 	@Override
 	public T visit(LiteralExpr node) {
-		// TODO Auto-generated method stub
+		//node.accept(this);
 		return null;
 	}
 
 	@Override
-	public T visit(IfStatement node) {
-		// TODO Auto-generated method stub
+	public T visit(Statement node) {
+		node.accept(this);
+		return null;
+	}
+	
+	@Override
+	public T visit(IfStatement node) {		
+		node.getCondition().accept(this);
+		node.getBlock().accept(this);
+		
 		return null;
 	}
 
 	@Override
 	public T visit(IfElseStatement node) {
-		// TODO Auto-generated method stub
+		node.getIfStatement().accept(this);
+		node.getElseBlock().accept(this);
+		
 		return null;
 	}
-
+	
 	@Override
 	public T visit(Literal node) {
 		// TODO Auto-generated method stub
-		return null;
+		return visit(node);
 	}
 
 	@Override
 	public T visit(BooleanLiteral node) {
 		// TODO Auto-generated method stub
-		return null;
+		return (T) node.getValue();
 	}
 
 	@Override
@@ -272,51 +263,39 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T>{
 	@Override
 	public T visit(IntegerLiteral node) {
 		// TODO Auto-generated method stub
-		return null;
+		return (T) node.getValue();
 	}
 
 	@Override
 	public T visit(StringLiteral node) {
 		// TODO Auto-generated method stub
-		return null;
+		return (T) node.getValue();
 	}
 
 	@Override
 	public T visit(QuestionType node) {
-		// TODO Auto-generated method stub
-		return null;
+		 //node.accept(this); // -> nullpointer
+		 return null;
 	}
 
 	@Override
 	public T visit(BooleanType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public T visit(CurrencyType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public T visit(IntegerType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public T visit(StringType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public T visit(Not node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 	
 }

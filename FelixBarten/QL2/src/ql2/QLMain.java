@@ -89,12 +89,24 @@ public class QLMain {
         inspectParseTreeForm("QLExamples/formexample.ql", false);
 
         conflictScenarios();
+        
+        semanticAnalysis("QLExamples/formexample.ql");
 
         //inspectParseTreeForm("QLExamples/formexample2.ql", true);
         System.out.println("Finished File Parsing");
     		//conditionsTesting();
-
-
+	}
+	
+	
+	public static void semanticAnalysis(String path) {
+		SemanticAnalysis sem = new SemanticAnalysis(path);
+		sem.run();
+		
+		sem.reset("QLExamples/typechecker/duplicatelabel.ql");
+		sem.reset("QLExamples/typechecker/duplicateID.ql");
+		sem.reset("QLExamples/typechecker/varnotdeclared.ql");
+		sem.reset("QLExamples/typechecker/invalidcondition.ql");
+		 
 	}
 
 	
@@ -144,7 +156,7 @@ public class QLMain {
 	        ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
 	        
-	        Ql2TopDownVisitor<Questionnaire> visitor = new Ql2TopDownVisitor<Questionnaire>();
+	        BaseVisitor<Questionnaire> visitor = new BaseVisitor<Questionnaire>();
 	        Questionnaire q = visitor.visit(parser.questionnaire().result);
 	        
 	        //visitor.getContext()
@@ -168,18 +180,6 @@ public class QLMain {
 		    ParseTree tree = parser.form();
 		    ParseTreeWalker walker = new ParseTreeWalker();
 	        walker.walk( new Ql2Walker(), tree );
-	        
-	        parser.reset();
-	        
-	        Ql2TopDownVisitor<Form> visitor = new Ql2TopDownVisitor<Form>();
-	        Form q = (Form) visitor.visit(parser.form().result); // return null instead of T?
-	        
-	        parser.reset();
-	        Context con = visitor.getContext();
-	        TypeChecker<Object> tc = new TypeChecker<>(con);
-	        tc.visit(parser.form().result);
-	        con = tc.getContext();
-	        con.report();
 	        
 	        if (visual) {
 	        		System.out.println(tree.toStringTree());

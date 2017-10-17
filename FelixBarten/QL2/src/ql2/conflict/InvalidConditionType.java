@@ -18,7 +18,7 @@ public class InvalidConditionType extends Conflict{
 		if(detected == null) {
 			detected  = new UnknownType(); // prevent nullpointer if detected == null.
 		}
-		this.errorMsg = String.format("Condition is not a boolean! Expected %s but got %s", expected.getType(), detected.getType());
+		this.errorMsg = String.format("Condition is not a boolean! Expected '%s' but got '%s'", expected.getType(), detected.getType());
 	}
 
 	@Override

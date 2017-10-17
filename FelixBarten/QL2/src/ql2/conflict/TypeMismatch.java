@@ -19,7 +19,7 @@ public class TypeMismatch extends Conflict {
 		if(detected == null) {
 			detected  = new UnknownType();
 		}
-		this.errorMsg = String.format("Expr type is not as expected! Expected %s but got %s", expected.getType(), detected.getType());
+		this.errorMsg = String.format("Expr type is not as expected! Expected '%s' but got '%s'", expected.getType(), detected.getType());
 	}
 	
 	@Override
