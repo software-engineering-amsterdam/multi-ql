@@ -34,4 +34,8 @@ public class CalculatedQuestion extends Question {
 		return visitor.visit(this);
 	}
 
+	public String getQuestionID() {
+		return input.getQuestionID();
+	}
+
 }

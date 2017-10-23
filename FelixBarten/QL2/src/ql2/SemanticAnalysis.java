@@ -51,7 +51,20 @@ public class SemanticAnalysis {
 	public void analyseQLData(Form form) {
 		buildContext(form);
 		checkTypes(form);
+		checkDependencies(form);
 		
+	}
+	private void checkDependencies(Form form) {
+		DependencyVisitor<Object> visitor = new DependencyVisitor<>(context);
+		visitor.visit(form);
+		visitor.process();
+		context = visitor.getContext();	
+	}
+	
+	private void evaluate(Form form) {
+		EvalVisitor visitor = new EvalVisitor(context);
+		visitor.visit(form);
+		context = visitor.getContext();
 	}
 	
 	private void buildContext(Form form) {
@@ -65,6 +78,7 @@ public class SemanticAnalysis {
 		tc.visit(form); 
 		context = tc.getContext();
 	}
+	
 	public void report() {
 		context.report();
 	}

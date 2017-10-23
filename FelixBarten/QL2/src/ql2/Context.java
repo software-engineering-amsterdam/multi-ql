@@ -140,4 +140,35 @@ public class Context {
 	public void addConflict(Conflict c) {
 		problems.add(c);		
 	}
+
+	
+	
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public List<Statement> getStatements() {
+		return statements;
+	}
+
+	public List<String> getQuestionLabels() {
+		return questionLabels;
+	}
+
+	public List<Conflict> getProblems() {
+		return problems;
+	}
+
+	public HashMap<String, QuestionType> getQuestTypes() {
+		return questTypes;
+	}
+
+	public Object getVariable(String key) {
+		if(variables.containsKey(key)) {
+			return variables.get(key);
+		}
+		return null;
+	}
+	
+	
 }

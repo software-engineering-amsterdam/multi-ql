@@ -34,6 +34,7 @@ import ql2.ast.type.QuestionType;
 import ql2.ast.type.StringType;
 import ql2.conflict.InvalidConditionType;
 import ql2.conflict.TypeMismatch;
+import ql2.conflict.VariableNotDeclared;
 
 public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
@@ -126,8 +127,9 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	@Override
 	public QuestionType visit(Positive node) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		return new IntegerType(); // int type?
 	}
 
 	@Override
@@ -145,7 +147,10 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	@Override
 	public QuestionType visit(IdentityExpr node) {
-		// TODO Auto-generated method stub
+		// check if identity is declared in questiontable.
+		if (!context.getVariables().containsKey(node.getID())) {
+			context.addConflict(new VariableNotDeclared(node.getID())); 
+		}
 		return null;
 	}
 

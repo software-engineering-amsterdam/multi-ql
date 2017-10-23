@@ -106,6 +106,7 @@ public class QLMain {
 		sem.reset("QLExamples/typechecker/duplicateID.ql");
 		sem.reset("QLExamples/typechecker/varnotdeclared.ql");
 		sem.reset("QLExamples/typechecker/invalidcondition.ql");
+		sem.reset("QLExamples/typechecker/cyclicdependency.ql");
 		 
 	}
 
