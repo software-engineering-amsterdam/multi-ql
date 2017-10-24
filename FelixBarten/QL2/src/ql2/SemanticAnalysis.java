@@ -14,6 +14,7 @@ public class SemanticAnalysis {
 
 	private Context context; 
 	private String content; 
+	private Form form;
 	
 	public SemanticAnalysis(String content) {
 		context = new Context();
@@ -52,8 +53,8 @@ public class SemanticAnalysis {
 		buildContext(form);
 		checkTypes(form);
 		checkDependencies(form);
-		
-	}
+		this.form = form;
+	}	
 	private void checkDependencies(Form form) {
 		DependencyVisitor<Object> visitor = new DependencyVisitor<>(context);
 		visitor.visit(form);
@@ -92,9 +93,13 @@ public class SemanticAnalysis {
 	public Context getContext() {
 		return context;
 	}
+	
 	public void setContext(Context context) {
 		this.context = context;
 	}
 	
+	public Form getForm() {
+		return form;
+	}
 	
 }

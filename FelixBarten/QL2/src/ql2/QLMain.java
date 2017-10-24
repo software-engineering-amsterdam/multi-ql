@@ -26,6 +26,7 @@ import ql2.ast.Form;
 import ql2.ast.Questionnaire;
 import ql2.parser.generated.Ql2Lexer;
 import ql2.parser.generated.Ql2Parser;
+import ql2.ui.QlGui;
 
 public class QLMain {
 	
@@ -89,12 +90,24 @@ public class QLMain {
         inspectParseTreeForm("QLExamples/formexample.ql", false);
 
         conflictScenarios();
+        String formExample = "QLExamples/formexample.ql";
         
-        semanticAnalysis("QLExamples/formexample.ql");
+        semanticAnalysis(formExample);
+        run(formExample);
 
         //inspectParseTreeForm("QLExamples/formexample2.ql", true);
         System.out.println("Finished File Parsing");
     		//conditionsTesting();
+	}
+	
+	public static void run(String path) {
+		
+		SemanticAnalysis sem = new SemanticAnalysis(path);
+		sem.run();
+		// error checking
+		if (sem.getContext().getProblems().isEmpty()) {
+			QlGui gui = new QlGui(sem.getForm(), sem.getContext());
+		}
 	}
 	
 	

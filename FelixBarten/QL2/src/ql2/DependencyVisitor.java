@@ -98,17 +98,14 @@ public class DependencyVisitor<T> extends BaseVisitor<T> {
 				searchDeps(d, id);
 				
 			}
-			
 			System.out.println("Finished dependency checking");
-			
-			
 		}
 		
 	}
 
 	private void searchDeps(Dependency dep, String id) {
 		for (Dependency d : dependencies) {
-			String srcID= d.getSource().getInput().getQuestionID();
+			String srcID= d.getSource().getQuestionID();
 			
 			if (srcID.equals(id)) {
 				context.addConflict(new CyclicDependancy(dep.getSource(), id));
