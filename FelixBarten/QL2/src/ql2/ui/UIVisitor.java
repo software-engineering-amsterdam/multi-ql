@@ -33,21 +33,16 @@ public class UIVisitor extends EvalVisitor {
 		node.getCalculation().accept(this);
 		return null;
 	}
-
-
-
-
+	
 	@Override
 	public Object visit(IfStatement node) {
-
 		try { 
+			//LiteralExpr = 
 			boolean condition = (boolean) node.getCondition().accept(this);
-			
 			if (condition) {
 				// enable questions 
 				node.getBlock().accept(this);
 			} 
-			
 		} catch (NullPointerException e) {
 			// log error msg 
 			System.out.println(e.getMessage());

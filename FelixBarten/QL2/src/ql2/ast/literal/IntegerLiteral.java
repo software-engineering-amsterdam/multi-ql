@@ -9,5 +9,10 @@ public class IntegerLiteral extends Literal<Integer> {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+
 
 }

@@ -90,7 +90,7 @@ public class QLMain {
         inspectParseTreeForm("QLExamples/formexample.ql", false);
 
         conflictScenarios();
-        String formExample = "QLExamples/formexample.ql";
+        String formExample = "QLExamples/formexample3.ql";
         
         semanticAnalysis(formExample);
         run(formExample);

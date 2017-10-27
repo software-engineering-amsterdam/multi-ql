@@ -20,6 +20,7 @@ public class UIInputQuestion extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private InputQuestion question; 
 	private QlGui parent;
+	private JComponent questionField;
 
 	public UIInputQuestion(InputQuestion question, QlGui gui) {
 		this.question = question; 
@@ -32,8 +33,8 @@ public class UIInputQuestion extends JPanel {
 	
 	private void draw() {
 		JLabel questionLabel = new JLabel(question.getQuestionText());
-		
-		JComponent questionField = null;
+		this.setName(question.getQuestionID());
+		questionField = null;
 		QuestionType type = question.getType();
 		
 		// filter input based on type. 
@@ -47,5 +48,23 @@ public class UIInputQuestion extends JPanel {
 		
 		this.add(questionLabel);
 		this.add(questionField);
+	}
+	
+	public Object getValue() {
+		if (questionField instanceof JSpinner) {
+			return ((JSpinner) questionField).getValue();
+		}
+		if (questionField instanceof JCheckBox) {
+			return ((JCheckBox) questionField).isSelected();
+		}
+		if (questionField instanceof JTextField) {
+			return ((JTextField) questionField).getText();
+		}
+		return null;
+	}
+
+
+	public InputQuestion getQuestion() {
+		return question;
 	}
 }

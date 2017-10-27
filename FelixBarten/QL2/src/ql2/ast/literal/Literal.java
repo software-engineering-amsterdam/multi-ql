@@ -3,7 +3,7 @@ package ql2.ast.literal;
 import ql2.ASTNode;
 import ql2.BaseVisitor;
 
-abstract public class Literal<T> {
+abstract public class Literal<T> extends ASTNode {
 
 	protected T value;
 	

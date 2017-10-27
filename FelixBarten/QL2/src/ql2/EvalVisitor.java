@@ -9,6 +9,7 @@ import ql2.ast.expression.GreaterThanOrEqual;
 import ql2.ast.expression.IdentityExpr;
 import ql2.ast.expression.LesserThan;
 import ql2.ast.expression.LesserThanOrEqual;
+import ql2.ast.expression.LiteralExpr;
 import ql2.ast.expression.Negative;
 import ql2.ast.expression.Not;
 import ql2.ast.expression.NotEqual;
@@ -151,6 +152,11 @@ public class EvalVisitor extends BaseVisitor<Object>{
 	@Override
 	public Object visit(StringLiteral node) {
 		return node.getValue();
+	}
+	
+	@Override
+	public Object visit(LiteralExpr node) {
+		return node.getLiteral().accept(this);
 	}
 	
 

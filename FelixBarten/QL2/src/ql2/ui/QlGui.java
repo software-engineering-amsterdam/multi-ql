@@ -1,8 +1,12 @@
 package ql2.ui;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -19,8 +23,7 @@ public class QlGui extends JFrame{
 	private static final long serialVersionUID = -7110429450534548202L;
 	private String frameTitle = "Questionnaire";
 	private Context context;
-	
-	private JPanel panel;
+	private JPanel questionPanel;
 	
 	public QlGui(Form form, Context context) {
 		if (form != null) {
@@ -28,10 +31,20 @@ public class QlGui extends JFrame{
 		}
 		this.context = context;
 		createWindow();
-		panel = new JPanel();
-		panel.add(new JLabel("Questions:"));
+		questionPanel = new JPanel();
+		GridLayout mgr = new GridLayout(0, 1);
+		questionPanel.setLayout(mgr);
+		questionPanel.add(new JLabel("Questions:"));
 		populateWindow(form);
-		this.add(panel);
+		JButton submitBtn = new JButton("Submit");
+		submitBtn.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent evt) {
+		    		storeValues();
+		    }
+		});		
+		questionPanel.add(submitBtn);
+		this.add(questionPanel);
 		this.setVisible(true);
 	}
 	
@@ -54,7 +67,6 @@ public class QlGui extends JFrame{
 		this.setTitle(frameTitle);
 		
 		this.setJMenuBar(createMenu());
-		
 	}
 
 	private JMenuBar createMenu() {
@@ -75,12 +87,25 @@ public class QlGui extends JFrame{
 		help.add(askHelp);
 		
 		menubar.add(file);
+		menubar.add(edit);
 		menubar.add(debug);
 		menubar.add(help);
 		return menubar;
 	}
 
+	public void storeValues() {
+		// loop through questions to store values. 
+		Component[] comps = questionPanel.getComponents();
+		for (Component c : comps) {
+			if (c instanceof UIInputQuestion) {
+				context.addVariable(((UIInputQuestion) c).getQuestion().getQuestionID(), ((UIInputQuestion) c).getValue());
+				System.out.println("Storing value: " + ((UIInputQuestion) c).getValue());
+			}
+		}
+		// This method of storing seems convoluted. 
+	}
+	
 	public JPanel getPanel() {
-		return panel;
+		return questionPanel;
 	}
 }

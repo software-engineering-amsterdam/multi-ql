@@ -216,6 +216,7 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	
 	@Override
 	public T visit(LiteralExpr node) {
+		node.getLiteral().accept(this);
 		//node.accept(this);
 		return null;
 	}
@@ -244,7 +245,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	
 	@Override
 	public T visit(Literal node) {
-		// TODO Auto-generated method stub
 		return visit(node);
 	}
 

@@ -8,5 +8,8 @@ public class BooleanLiteral extends Literal<Boolean> {
 		super(value);
 		// TODO Auto-generated constructor stub
 	}
-
+	@Override
+	public <T> T accept(BaseVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

@@ -15,6 +15,7 @@ import ql2.ast.expression.GreaterThanOrEqual;
 import ql2.ast.expression.IdentityExpr;
 import ql2.ast.expression.LesserThan;
 import ql2.ast.expression.LesserThanOrEqual;
+import ql2.ast.expression.LiteralExpr;
 import ql2.ast.expression.Negative;
 import ql2.ast.expression.Not;
 import ql2.ast.expression.NotEqual;
@@ -26,6 +27,7 @@ import ql2.ast.expression.arithmatic.Multiply;
 import ql2.ast.expression.arithmatic.Subtract;
 import ql2.ast.literal.BooleanLiteral;
 import ql2.ast.literal.IntegerLiteral;
+import ql2.ast.literal.Literal;
 import ql2.ast.literal.StringLiteral;
 import ql2.ast.statement.IfStatement;
 import ql2.ast.type.BooleanType;
@@ -109,7 +111,6 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	@Override
 	public QuestionType visit(Negative node) {
-		// TODO Auto-generated method stub
 		return new BooleanType();
 	}
 
@@ -127,8 +128,6 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	@Override
 	public QuestionType visit(Positive node) {
-		
-		
 		return new IntegerType(); // int type?
 	}
 
@@ -159,6 +158,11 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 		return new BooleanType();
 	}
+	
+	@Override
+	public QuestionType visit(LiteralExpr node) {
+		return node.getLiteral().accept(this);
+	}
 
 	@Override
 	public QuestionType visit(BooleanLiteral node) {
@@ -186,9 +190,13 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 	void checkCondition (Expr e) {
 		QuestionType actual = e.accept(this);
 		QuestionType cond = new BooleanType(); //cond always bool
-		if (actual != cond) {
-			context.addConflict(new InvalidConditionType(e, cond, actual));
+		if (actual != null) {
+			if(actual.getClass() == cond.getClass()) {
+				System.out.println("cond is bool");
+				return;
+			}
 		}
+		context.addConflict(new InvalidConditionType(e, cond, actual));
 	}
 	
 	void checkBinary(BinaryExpr e, QuestionType exp) {

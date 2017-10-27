@@ -10,7 +10,6 @@ public class LiteralExpr extends Expr {
 	Literal literal;
 
 	public LiteralExpr(Literal result) {
-		// TODO Auto-generated constructor stub
 		setLiteral(result);
 	}
 
@@ -26,7 +25,5 @@ public class LiteralExpr extends Expr {
 	public <T> T accept(BaseVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
-	
 
 }
