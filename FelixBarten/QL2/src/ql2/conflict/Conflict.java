@@ -21,6 +21,10 @@ public abstract class Conflict {
 	public void logIssues() {
 		System.out.println(String.format("Error level %s: %s", getConflictLevel(), errorMsg));
 	}
+	
+	public String getErrorMsg() {
+		return errorMsg;
+	}
 
 	public Level getConflictLevel() {
 		return conflictLevel;

@@ -166,7 +166,8 @@ relExpr returns [Expr result]
 mulExpr returns [Expr result]
 	: lhs=unaryExpr {$result = $lhs.result; } (op=(STAR|DIV) rhs=unaryExpr
 	{
-		if($op.text == "/") {
+
+		if($op.text.equals("/")) {
 				$result = new Divide($result, $rhs.result);
 
 		} else {
@@ -178,7 +179,7 @@ mulExpr returns [Expr result]
 addExpr returns [Expr result]
 	: lhs=mulExpr {$result = $lhs.result; } (op=(PLUS|MINUS) rhs=mulExpr
 	{
-		if ($op.text == "+") {
+		if ($op.text.equals("+")) {
 			$result = new Addition($result, $rhs.result);
 		} else {
 			$result = new Subtract($result, $rhs.result);

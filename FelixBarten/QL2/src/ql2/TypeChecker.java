@@ -1,8 +1,5 @@
 package ql2;
 
-import com.sun.istack.internal.Nullable;
-
-import jdk.nashorn.internal.ir.Expression;
 import ql2.ast.BinaryExpr;
 import ql2.ast.CalculatedQuestion;
 import ql2.ast.Expr;
@@ -42,7 +39,7 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	private Context context; 
 	
-	TypeChecker (Context context) {
+	public TypeChecker (Context context) {
 		// Typechecker needs an established context for checking types.
 		this.context = context; 
 	}
@@ -111,7 +108,8 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	@Override
 	public QuestionType visit(Negative node) {
-		return new BooleanType();
+		checkType(node, new IntegerType());
+		return new IntegerType();
 	}
 
 	@Override
@@ -128,6 +126,7 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	@Override
 	public QuestionType visit(Positive node) {
+		checkType(node.getExpr(), new IntegerType());
 		return new IntegerType(); // int type?
 	}
 
@@ -141,7 +140,7 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 	@Override
 	public QuestionType visit(Addition node) {
 		checkBinary(node, new IntegerType());
-		return null;
+		return new IntegerType();
 	}
 
 	@Override
@@ -149,13 +148,14 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 		// check if identity is declared in questiontable.
 		if (!context.getVariables().containsKey(node.getID())) {
 			context.addConflict(new VariableNotDeclared(node.getID())); 
+			return null;
 		}
-		return null;
+		return context.getQuestionType(node.getID());
 	}
 
 	@Override
 	public QuestionType visit(Not node) {
-
+		checkType(node.getExpr(), new BooleanType());
 		return new BooleanType();
 	}
 	
@@ -181,11 +181,14 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 	
 	void checkType(Expr e, QuestionType qt) {
 		QuestionType actual = e.accept(this); 
-		if (actual != qt) {
-			// add error to error pool
-			context.addConflict( new TypeMismatch(e, qt, actual));
+		if (actual != null) {
+			if (actual.getClass() == qt.getClass()) {
+				return;
+			}
 		}
-	}
+		context.addConflict( new TypeMismatch(e, qt, actual));
+
+	} 
 	
 	void checkCondition (Expr e) {
 		QuestionType actual = e.accept(this);

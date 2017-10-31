@@ -15,6 +15,7 @@ import ql2.ast.type.QuestionType;
 import ql2.conflict.Conflict;
 import ql2.conflict.DuplicateLabel;
 import ql2.conflict.DuplicateQuestionID;
+import ql2.conflict.RedefinedQuestion;
 import ql2.conflict.TypeMismatch;
 import ql2.conflict.VariableNotDeclared;
 
@@ -30,7 +31,8 @@ public class Context {
 	private List<Statement> statements;
 	
 	private List<String> questionLabels;
-	private List<Conflict> problems;
+	private List<Conflict> errors;
+	private List<Conflict> warnings;
 	private HashMap<String, QuestionType> questTypes;
 	private HashMap<String, Object> variables;
 	
@@ -39,7 +41,8 @@ public class Context {
 		this.questions = new ArrayList<Question>();
 		this.statements = new ArrayList<Statement>();
 		this.questionLabels = new ArrayList<String>();
-		this.problems = new ArrayList<Conflict>();
+		this.errors = new ArrayList<Conflict>();
+		this.warnings = new ArrayList<Conflict>();
 		this.questTypes = new HashMap<String,QuestionType>();
 		this.variables = new HashMap<String, Object>();
 	}
@@ -51,16 +54,20 @@ public class Context {
 		// refactor if statemetns out to method?
 		
 		if (questionLabels.contains(label)) {
-			problems.add(new DuplicateLabel(question, label));
+			warnings.add(new DuplicateLabel(question, label));
 		}
 		
 		if(questTypes.containsKey(ID)) {
-			problems.add(new DuplicateQuestionID(question, ID));
+			if (question.getType() == questTypes.get(ID)) {
+				errors.add(new DuplicateQuestionID(question, ID));
+			} else {
+				errors.add(new RedefinedQuestion(question, ID, questTypes.get(ID)));
+			}
 		}
 		questionLabels.add(question.getQuestionText());
 		questions.add(question);
 		questTypes.put(ID, question.getType());
-		
+		variables.put(ID, null);
 	}
 	
 	public void addQuestion(CalculatedQuestion question) {
@@ -69,15 +76,19 @@ public class Context {
 		Expr computation = question.getCalculation();
 		//Check labels
 		if (questionLabels.contains(label)) {
-			problems.add(new DuplicateLabel(question,label));
+			warnings.add(new DuplicateLabel(question,label));
 		}
 		
 		if (questTypes.containsKey(ID)) {
-			problems.add(new DuplicateQuestionID(question, ID));
+			if (question.getInput().getType() == questTypes.get(ID)) {
+				errors.add(new DuplicateQuestionID(question, ID));
+			} else {
+				errors.add(new RedefinedQuestion(question, ID, questTypes.get(ID)));
+			}
 		}
 		questionLabels.add(question.getInput().getQuestionText());
 		questions.add(question);
-		questTypes.put(ID, question.getInput().getType());
+		questTypes.put(ID, question.getInput().getType()); //
 		variables.put(ID, computation); // where to typecheck.
 	}
 	
@@ -88,7 +99,7 @@ public class Context {
 	public void addVariable(String key, Object value) {
 		if (!variables.containsKey(key)) {
 			if (!questTypes.containsKey(key)) {
-				problems.add(new VariableNotDeclared(key, value));
+				errors.add(new VariableNotDeclared(key, value));
 			} else {
 				variables.put(key, value);
 			}
@@ -98,7 +109,7 @@ public class Context {
 	public void addVariable(String key) {
 		if (!variables.containsKey(key)) {
 			if (!questTypes.containsKey(key)) {
-				problems.add(new VariableNotDeclared(key));
+				errors.add(new VariableNotDeclared(key));
 			} else {
 				variables.put(key, questTypes.get(key));
 			}
@@ -109,7 +120,7 @@ public class Context {
 	 * Sorts the List on severity of errors/warnings
 	 */
 	private void sortConflicts() {
-		problems.sort(Comparator.comparing(Conflict::getConflictLevel));
+		errors.sort(Comparator.comparing(Conflict::getConflictLevel));
 	}
 	
 	public void report() {
@@ -117,16 +128,19 @@ public class Context {
 		reportContent(); 
 	}
 	
-	private boolean noProblems() {
-		return problems.size() == 0;
+	public boolean noWarnings() {
+		return warnings.size() == 0;
+	}
+	public boolean noErrors() {
+		return errors.size() == 0;
 	}
 
 	private void reportProblems() {
 		sortConflicts();
-		if (!noProblems()) {
-			System.out.println(String.format("%s problem(s) found", problems.size()));
+		if (!noErrors()) {
+			System.out.println(String.format("%s problem(s) found", errors.size()));
 			
-			for (Conflict c : problems) {
+			for (Conflict c : errors) {
 				c.logIssues();
 				System.out.println(c.getClass());
 			}
@@ -138,7 +152,7 @@ public class Context {
 	}
 
 	public void addConflict(Conflict c) {
-		problems.add(c);		
+		errors.add(c);		
 	}
 
 	
@@ -156,9 +170,13 @@ public class Context {
 	}
 
 	public List<Conflict> getProblems() {
-		return problems;
+		return errors;
 	}
-
+	
+	public List<Conflict> getWarnings() {
+		return warnings;
+	}
+	
 	public HashMap<String, QuestionType> getQuestTypes() {
 		return questTypes;
 	}
@@ -167,6 +185,11 @@ public class Context {
 		if(variables.containsKey(key)) {
 			return variables.get(key);
 		}
+		return null;
+	}
+
+	public QuestionType getQuestionType(String key) {
+		if (questTypes.containsKey(key))	return questTypes.get(key);
 		return null;
 	}
 	

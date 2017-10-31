@@ -95,7 +95,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	@Override
 	public T visit(InputQuestion node) {
 		node.getType().accept(this);
-		//context.addQuestion(node);
 		return null;
 	}
 
@@ -103,7 +102,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	public T visit(CalculatedQuestion node) {
 		node.getInput().accept(this);
 		node.getCalculation().accept(this);
-		//context.addQuestion(node);
 
 		return null;
 	}
@@ -114,7 +112,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 		for (Form f: node.getForms()) {
 			f.accept(this);
 		}
-		
 		return null;
 	}
 
@@ -125,7 +122,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 
 	@Override
 	public T visit(BinaryExpr node) {
-		// TODO Auto-generated method stub
 		node.getLefthand().accept(this);
 		node.getRighthand().accept(this);
 		return null;	
@@ -167,11 +163,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	}
 
 	@Override
-	public T visit(Negative node) {
-		return visit((UnaryExpr) node);
-	}
-
-	@Override
 	public T visit(NotEqual node) {
 		return visit((BinaryExpr) node);	
 	}
@@ -179,11 +170,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	@Override
 	public T visit(Or node) {
 		return visit((BinaryExpr) node);	
-	}
-
-	@Override
-	public T visit(Positive node) {
-		return visit((UnaryExpr) node);
 	}
 
 	@Override
@@ -198,10 +184,20 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 
 	@Override
 	public T visit(Not node) {
-		node.accept(this);
-		return null;
+		return visit((UnaryExpr) node);
 	}
 
+	@Override
+	public T visit(Positive node) {
+		return visit((UnaryExpr) node);
+	}
+	
+	@Override
+	public T visit(Negative node) {
+		return visit((UnaryExpr) node);
+	}
+	
+	
 	@Override
 	public T visit(UnaryExpr node) {
 		node.getExpr().accept(this);
@@ -210,14 +206,12 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 
 	@Override
 	public T visit(IdentityExpr node) {
-		//context.addVariable(node.getID());
 		return null;
 	}
 	
 	@Override
 	public T visit(LiteralExpr node) {
 		node.getLiteral().accept(this);
-		//node.accept(this);
 		return null;
 	}
 
@@ -250,26 +244,22 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 
 	@Override
 	public T visit(BooleanLiteral node) {
-		// TODO Auto-generated method stub
-		return (T) node.getValue();
+		return null;
 	}
 
 	@Override
 	public T visit(CurrencyLiteral node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public T visit(IntegerLiteral node) {
-		// TODO Auto-generated method stub
-		return (T) node.getValue();
+		return null;
 	}
 
 	@Override
 	public T visit(StringLiteral node) {
-		// TODO Auto-generated method stub
-		return (T) node.getValue();
+		return null;
 	}
 
 	@Override

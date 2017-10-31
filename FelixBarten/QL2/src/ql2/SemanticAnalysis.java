@@ -55,6 +55,7 @@ public class SemanticAnalysis {
 		checkDependencies(form);
 		this.form = form;
 	}	
+	
 	private void checkDependencies(Form form) {
 		DependencyVisitor<Object> visitor = new DependencyVisitor<>(context);
 		visitor.visit(form);

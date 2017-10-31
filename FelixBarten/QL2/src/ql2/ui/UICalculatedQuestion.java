@@ -1,5 +1,8 @@
 package ql2.ui;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,16 +26,25 @@ public class UICalculatedQuestion extends JPanel {
 		parent.getPanel().add(this);
 	}
 	
-	
 	private void draw() {
-		JLabel questionLabel = new JLabel(question.getInput().getQuestionText());
+		FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
+		this.setLayout(layout);
+		JLabel questionLabel = new JLabel(stripQuotation(question.getInput().getQuestionText()));
 		this.setName(question.getQuestionID());
 		
 	    questionField = new JTextField();
 		questionField.setEditable(false);
+		questionField.setColumns(15);
+		questionField.setBackground(Color.YELLOW);
+		questionField.setToolTipText(question.getQuestionID());
 		
 		this.add(questionLabel);
 		this.add(questionField);
+		
+	}
+	
+	private String stripQuotation(String input) {
+		return input.substring(1, input.length()-1);
 	}
 	
 	/**

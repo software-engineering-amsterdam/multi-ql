@@ -8,7 +8,6 @@ public class IdentityExpr extends Expr {
 	private String ID;
 	
 	public IdentityExpr(String id) {
-		// TODO Auto-generated constructor stub
 		ID = id;
 	}
 
@@ -16,8 +15,8 @@ public class IdentityExpr extends Expr {
 		return ID;
 	}
 
-	public void setID(String iD) {
-		ID = iD;
+	public void setID(String identifier) {
+		ID = identifier;
 	}
 	
 	@Override

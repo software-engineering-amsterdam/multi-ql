@@ -1,6 +1,7 @@
 package ql2.ui;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -43,8 +44,9 @@ public class QlGui extends JFrame{
 		    		storeValues();
 		    }
 		});		
-		questionPanel.add(submitBtn);
+		submitBtn.setMaximumSize(new Dimension(50, 25));
 		this.add(questionPanel);
+		this.add(submitBtn);
 		this.setVisible(true);
 	}
 	
@@ -60,7 +62,7 @@ public class QlGui extends JFrame{
 	}
 	
 	private void createWindow() {
-		this.setSize(500,500);
+		this.setSize(500,800);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
