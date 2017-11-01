@@ -1,6 +1,6 @@
 package ql2.conflict;
 
-import ql2.ast.Expr;
+import ql2.ast.expression.Expr;
 import ql2.ast.type.QuestionType;
 import ql2.ast.type.UnknownType;
 import ql2.conflict.Conflict.Level;

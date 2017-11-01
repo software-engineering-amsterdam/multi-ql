@@ -1,13 +1,11 @@
 package ql2.ast;
 
-import ql2.ASTNode;
 import ql2.BaseVisitor;
 
 public class Form extends ASTNode {
 
 	private String formID;
 	private Block formContent;
-	
 	
 	public Form(String result, Block result2) {
 		formID = result;

@@ -35,7 +35,7 @@ public class UICalculatedQuestion extends JPanel {
 	    questionField = new JTextField();
 		questionField.setEditable(false);
 		questionField.setColumns(15);
-		questionField.setBackground(Color.YELLOW);
+		questionField.setBackground(Color.LIGHT_GRAY);
 		questionField.setToolTipText(question.getQuestionID());
 		
 		this.add(questionLabel);

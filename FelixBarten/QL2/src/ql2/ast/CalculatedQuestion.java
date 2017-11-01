@@ -1,6 +1,7 @@
 package ql2.ast;
 
 import ql2.BaseVisitor;
+import ql2.ast.expression.Expr;
 import ql2.ast.type.QuestionType;
 
 public class CalculatedQuestion extends Question {

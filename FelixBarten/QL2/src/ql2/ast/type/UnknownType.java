@@ -4,7 +4,7 @@ public class UnknownType extends QuestionType {
 
 	@Override
 	public String getType() {
-		return "unknown type";
+		return "Unknown type";
 	}
 
 }

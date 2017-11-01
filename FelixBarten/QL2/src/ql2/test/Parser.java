@@ -54,7 +54,6 @@ public class Parser {
 		    walker.walk( new Ql2Walker(), tree );
 		    return tree.toStringTree(parser);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -3,7 +3,6 @@ package ql2.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ql2.ASTNode;
 import ql2.BaseVisitor;
 
 public class Block extends ASTNode {

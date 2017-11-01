@@ -1,4 +1,4 @@
-package ql2.ast;
+package ql2.ast.expression;
 
 import ql2.BaseVisitor;
 
@@ -19,7 +19,6 @@ public abstract class UnaryExpr extends Expr {
 	
 	@Override
 	public <T> T accept(BaseVisitor<T> visitor) {
-		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 

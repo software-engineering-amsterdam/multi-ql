@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import ql2.ast.CalculatedQuestion;
-import ql2.ast.Expr;
 import ql2.ast.InputQuestion;
 import ql2.ast.Question;
 import ql2.ast.Statement;
+import ql2.ast.expression.Expr;
 import ql2.ast.type.QuestionType;
 import ql2.conflict.Conflict;
 import ql2.conflict.DuplicateLabel;

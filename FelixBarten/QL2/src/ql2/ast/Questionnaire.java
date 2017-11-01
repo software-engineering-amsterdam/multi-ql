@@ -2,7 +2,6 @@ package ql2.ast;
 
 import java.util.List;
 
-import ql2.ASTNode;
 import ql2.BaseVisitor;
 
 public class Questionnaire extends ASTNode  {

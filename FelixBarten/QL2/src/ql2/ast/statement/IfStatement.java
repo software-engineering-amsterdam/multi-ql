@@ -2,8 +2,8 @@ package ql2.ast.statement;
 
 import ql2.BaseVisitor;
 import ql2.ast.Block;
-import ql2.ast.Expr;
 import ql2.ast.Statement;
+import ql2.ast.expression.Expr;
 
 public class IfStatement extends Statement {
 
@@ -16,16 +16,13 @@ public class IfStatement extends Statement {
 		this.block =		result2;
 	}
 
-
 	public Expr getCondition() {
 		return condition;
 	}
 
-
 	public void setCondition(Expr condition) {
 		this.condition = condition;
 	}
-
 
 	public Block getBlock() {
 		return block;
@@ -39,7 +36,5 @@ public class IfStatement extends Statement {
 	public <T> T accept(BaseVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
-	
 
 }

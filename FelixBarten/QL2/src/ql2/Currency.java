@@ -9,11 +9,12 @@ public class Currency {
 	public Currency(double amount) {
 		setAmount(amount);
 	}
+	
 	public Currency(double amount, char curr) {
-		// TODO Auto-generated constructor stub
 		setAmount(amount);
 		setCurrency(curr);
 	}
+	
 	public char getCurrency() {
 		return currency;
 	}

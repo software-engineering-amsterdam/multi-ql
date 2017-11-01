@@ -1,17 +1,13 @@
 package ql2.ast.expression;
 
 import ql2.BaseVisitor;
-import ql2.ast.BinaryExpr;
-import ql2.ast.Expr;
+import ql2.ast.ASTNode;
 
-public class Equal extends BinaryExpr  {
-
-	public Equal(Expr lhs, Expr rhs) {
-		super(lhs, rhs);
-	}
+public abstract class Expr extends ASTNode  {
 
 	@Override
 	public <T> T accept(BaseVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
+
 }

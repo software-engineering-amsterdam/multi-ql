@@ -13,6 +13,7 @@ options {
 	import ql2.ast.*;
 	import ql2.ast.expression.*;
 	import ql2.ast.expression.arithmatic.*;
+	import ql2.ast.expression.logic.*;
 	import ql2.ast.statement.*;
 	import ql2.ast.literal.*;
 	import ql2.ast.type.*;
@@ -83,11 +84,8 @@ questionname returns [String result]
 questiontype returns [QuestionType result]
 	: BOOLEAN { $result = new BooleanType(); }
 	| INTEGER  { $result = new IntegerType(); }
-	| DOUBLE { $result = new DoubleType(); }
-	| FLOAT { $result = new FloatType(); }
 	| MONEY { $result = new CurrencyType(); }
 	| STRING { $result = new StringType(); }
-	| LONG  { $result = new LongType(); }
 	;
 
 ifstatement returns [IfStatement result]

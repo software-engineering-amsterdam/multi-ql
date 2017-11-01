@@ -2,19 +2,18 @@ package ql2.ast.statement;
 
 import ql2.BaseVisitor;
 import ql2.ast.Block;
-import ql2.ast.Expr;
 import ql2.ast.Statement;
+import ql2.ast.expression.Expr;
 
 public class IfElseIfStatement extends Statement  {
 
-	private IfStatement ifStat; 
+	private IfStatement ifStatement; 
 	private Expr condition;
 	private Block elseBlock; 
 	
 	
 	public IfElseIfStatement(IfStatement result, Expr condition, Block result2) {
-		// TODO Auto-generated constructor stub
-		this.ifStat= result;
+		this.ifStatement= result;
 		this.condition = condition;
 		this.elseBlock = result2;
 	}

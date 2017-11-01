@@ -1,8 +1,8 @@
-package ql2.ast.expression;
+package ql2.ast.expression.logic;
 
 import ql2.BaseVisitor;
-import ql2.ast.Expr;
-import ql2.ast.UnaryExpr;
+import ql2.ast.expression.Expr;
+import ql2.ast.expression.UnaryExpr;
 
 /**
  * 

@@ -1,7 +1,7 @@
 package ql2.ast.literal;
 
-import ql2.ASTNode;
 import ql2.BaseVisitor;
+import ql2.ast.ASTNode;
 
 abstract public class Literal<T> extends ASTNode {
 

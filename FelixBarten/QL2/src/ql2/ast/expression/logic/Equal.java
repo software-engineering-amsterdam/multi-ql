@@ -1,12 +1,12 @@
-package ql2.ast.expression.arithmatic;
+package ql2.ast.expression.logic;
 
 import ql2.BaseVisitor;
 import ql2.ast.expression.BinaryExpr;
 import ql2.ast.expression.Expr;
 
-public class Addition extends BinaryExpr {
+public class Equal extends BinaryExpr  {
 
-	public Addition(Expr lhs, Expr rhs) {
+	public Equal(Expr lhs, Expr rhs) {
 		super(lhs, rhs);
 	}
 

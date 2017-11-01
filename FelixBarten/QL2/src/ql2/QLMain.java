@@ -21,9 +21,9 @@ import org.antlr.v4.runtime.tree.Tree;
 
 import com.sun.istack.internal.Nullable;
 
-import ql2.ast.Expr;
 import ql2.ast.Form;
 import ql2.ast.Questionnaire;
+import ql2.ast.expression.Expr;
 import ql2.parser.generated.Ql2Lexer;
 import ql2.parser.generated.Ql2Parser;
 import ql2.ui.ErrorDialog;
@@ -77,9 +77,6 @@ public class QLMain {
         	
         	inspectParseTreeContent(parseStatement);
        
-    
-        parseQuestionnaireExample();
-
         System.out.println("Finished String parsing");
         System.out.println("");
         
@@ -133,13 +130,6 @@ public class QLMain {
         inspectParseTreeForm("QLExamples/typechecker/invalidcondition.ql", false);
 
 	}
-
-
-	private static void parseQuestionnaireExample() {
-		// TODO Auto-generated method stub
-		
-		
-	}
 	
 	private static void inspectParseTreeContent(String content) {
 		
@@ -177,7 +167,6 @@ public class QLMain {
 	        
 	        //visitor.getContext()
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}       
 		System.out.println("Finished inspecting parse tree");
@@ -202,7 +191,6 @@ public class QLMain {
 	        		showTree(tree, parser);
 	        }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}       
 		System.out.println("Finished inspecting parse tree");

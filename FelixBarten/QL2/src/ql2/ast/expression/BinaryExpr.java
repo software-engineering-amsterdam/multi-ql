@@ -1,4 +1,4 @@
-package ql2.ast;
+package ql2.ast.expression;
 
 import ql2.BaseVisitor;
 

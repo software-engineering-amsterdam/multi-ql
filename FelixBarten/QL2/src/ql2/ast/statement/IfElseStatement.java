@@ -10,7 +10,6 @@ public class IfElseStatement extends Statement {
 	private Block elseBlock;
 	
 	public IfElseStatement(IfStatement result, Block result2) {
-		// TODO Auto-generated constructor stub
 		this.ifStatement = result;
 		this.elseBlock = result2;
 	}

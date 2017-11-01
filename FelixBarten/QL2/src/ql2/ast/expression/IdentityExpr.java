@@ -1,7 +1,6 @@
 package ql2.ast.expression;
 
 import ql2.BaseVisitor;
-import ql2.ast.Expr;
 
 public class IdentityExpr extends Expr {
 
