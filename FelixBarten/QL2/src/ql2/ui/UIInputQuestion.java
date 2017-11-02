@@ -38,9 +38,7 @@ public class UIInputQuestion extends JPanel {
 		parent.getPanel().add(this);
 	}
 	
-	
 	private void draw() {
-		
 		this.setName(question.getQuestionID());
 		FlowLayout layout = new FlowLayout();
 		layout.setAlignment(FlowLayout.LEFT);
@@ -48,30 +46,54 @@ public class UIInputQuestion extends JPanel {
 		JLabel questionLabel = new JLabel(stripQuotation(question.getQuestionText()));
 		
 		QuestionType type = question.getType();
+				
 		
+		Object value = parent.getContext().getVariable(question.getQuestionID());
+
 		// filter input based on type. 
 		if (type instanceof BooleanType) {
 			questionField = new JCheckBox();
+			if (value != null && value instanceof Boolean) {
+				((JCheckBox) questionField).setSelected((boolean) value);
+			}
 		} else if (type instanceof StringType) {
 			questionField = new JTextField();
 			questionField.setToolTipText(question.getQuestionID());
 			((JTextField) questionField).setColumns(20);
+			if (value != null && value instanceof String) {
+				((JTextField) questionField).setText((String) value);
+			}
 		} else if (type instanceof IntegerType) {
 			NumberFormat format = NumberFormat.getIntegerInstance();
+			format.setGroupingUsed(false);
 			format.isParseIntegerOnly();
 			NumberFormatter formatter = new NumberFormatter(format);
-			formatter.setAllowsInvalid(false);
+			//formatter.setAllowsInvalid(false);
+			
 			questionField = new JFormattedTextField(formatter);
 			questionField.setToolTipText(question.getQuestionID());
-			((JFormattedTextField) questionField).setColumns(15);
+			((JFormattedTextField) questionField).setColumns(6);
+			
+			if (value != null && value instanceof Integer) {
+				((JFormattedTextField) questionField).setValue(value);
+				((JFormattedTextField) questionField).validate();
+			}
 		}
-
+		
 		this.add(questionLabel);
 		this.add(questionField);
-		
 		this.revalidate();
 	}
 	
+	private void putValue(String questionID) {
+		Object value = parent.getContext().getVariable(questionID);
+		
+		if (value != null) {
+			
+		}
+		
+	}
+
 	public Object getValue() {
 		if (questionField instanceof JSpinner) {
 			return ((JSpinner) questionField).getValue();
@@ -79,11 +101,24 @@ public class UIInputQuestion extends JPanel {
 		if (questionField instanceof JCheckBox) {
 			return ((JCheckBox) questionField).isSelected();
 		}
+		// Due to type hierarchy this needs to be checked before JTextfield(parent)
+		if (questionField instanceof JFormattedTextField) {
+			try {
+				if (((JFormattedTextField) questionField).getText().equals("")) {
+					return null;
+				}
+				return Integer.parseInt(((JFormattedTextField) questionField).getText());
+			} catch (ClassCastException e) {
+				// num cannot be cast or is larger than int. 
+				return null;
+			} catch (NumberFormatException e) {
+				System.out.println(e.getMessage());
+				return null; 
+			}
+			
+		}		
 		if (questionField instanceof JTextField) {
 			return ((JTextField) questionField).getText();
-		}
-		if (questionField instanceof JFormattedTextField) {
-			return ((JFormattedTextField) questionField).getValue();
 		}
 		return null;
 	}

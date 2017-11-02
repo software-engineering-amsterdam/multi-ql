@@ -10,6 +10,9 @@ import javax.swing.JTextField;
 
 import ql2.ast.CalculatedQuestion;
 import ql2.ast.InputQuestion;
+import ql2.ast.expression.Expr;
+import ql2.ast.type.BooleanType;
+import ql2.ast.type.QuestionType;
 
 public class UICalculatedQuestion extends JPanel {
 
@@ -40,7 +43,22 @@ public class UICalculatedQuestion extends JPanel {
 		
 		this.add(questionLabel);
 		this.add(questionField);
-		
+		update();
+	}
+	
+	private String computeValue() {
+		Object value = parent.getContext().getVariable(question.getQuestionID());
+		QuestionType qt = question.getInput().getType();
+		if (value != null && !(value instanceof Expr) ) {
+			if (qt instanceof BooleanType) {
+				if ((boolean) value) {
+					return "Yes";
+				}
+				return "No";
+			}
+			return String.valueOf(parent.getContext().getVariable(question.getQuestionID()));
+		}	
+		return "";
 	}
 	
 	private String stripQuotation(String input) {
@@ -50,9 +68,10 @@ public class UICalculatedQuestion extends JPanel {
 	/**
 	 * Update calculated question outcome (depends on other questions)
 	 */
-	private void update() {
-		
+	public void update() {
+		questionField.setText(computeValue());
 	}
+	
 	public Object getValue() {
 		return questionField.getText();
 	}

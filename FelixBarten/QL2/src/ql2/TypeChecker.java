@@ -78,25 +78,25 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	@Override
 	public QuestionType visit(GreaterThanOrEqual node) {
-		checkBinary(node, new BooleanType());
+		checkBinary(node, new IntegerType());
 		return new BooleanType();
 	}
 
 	@Override
 	public QuestionType visit(GreaterThan node) {
-		checkBinary(node, new BooleanType());
+		checkBinary(node, new IntegerType());
 		return new BooleanType();
 	}
 
 	@Override
 	public QuestionType visit(LesserThan node) {
-		checkBinary(node, new BooleanType());
+		checkBinary(node, new IntegerType());
 		return new BooleanType();
 	}
 
 	@Override
 	public QuestionType visit(LesserThanOrEqual node) {
-		checkBinary(node, new BooleanType());
+		checkBinary(node, new IntegerType());
 		return new BooleanType();
 	}
 

@@ -25,11 +25,13 @@ public class QlGui extends JFrame{
 	private String frameTitle = "Questionnaire";
 	private Context context;
 	private JPanel questionPanel;
+	private Form form;
 	
 	public QlGui(Form form, Context context) {
 		if (form != null) {
 			this.frameTitle = form.getFormID();
 		}
+		this.form = form;
 		this.context = context;
 		createWindow();
 		questionPanel = new JPanel();
@@ -105,9 +107,23 @@ public class QlGui extends JFrame{
 			}
 		}
 		// This method of storing seems convoluted. 
+		redraw();
 	}
 	
+	private void redraw() {
+		questionPanel.removeAll();
+		populateWindow(form);
+		System.out.println("redraw complete");
+		questionPanel.validate();
+		questionPanel.repaint();
+	}
+
 	public JPanel getPanel() {
 		return questionPanel;
 	}
+	
+	public Context getContext() {
+		return context;
+	}
+	
 }

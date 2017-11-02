@@ -43,7 +43,5 @@ public class InputQuestion extends Question{
 	public <T> T accept(BaseVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
-	
 
 }

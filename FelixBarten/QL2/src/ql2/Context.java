@@ -100,10 +100,11 @@ public class Context {
 		if (!variables.containsKey(key)) {
 			if (!questTypes.containsKey(key)) {
 				errors.add(new VariableNotDeclared(key, value));
-			} else {
-				variables.put(key, value);
-			}
+			} 
+		} else {
+			variables.put(key, value);
 		}
+
 	}
 	
 	public void addVariable(String key) {

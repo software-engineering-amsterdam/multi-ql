@@ -28,9 +28,12 @@ public class UIVisitor extends EvalVisitor {
 	@Override
 	public Object visit(CalculatedQuestion node) {
 
+		Object value = node.getCalculation().accept(this);
+		if (value != null) {
+			context.addVariable(node.getQuestionID(), value);
+		}
 		UICalculatedQuestion question = new UICalculatedQuestion(node, parent);
-
-		node.getCalculation().accept(this);
+		question.update();
 		return null;
 	}
 	
