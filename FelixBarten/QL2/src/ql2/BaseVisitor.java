@@ -73,10 +73,10 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 		for (Question q : questionsList) {
 			q.accept(this);
 		}
+		
 		for (Statement s : statementsList) {
 			s.accept(this);
 		}
-		
 		return null;
 	}
 

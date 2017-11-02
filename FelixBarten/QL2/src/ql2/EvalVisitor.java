@@ -43,7 +43,6 @@ public class EvalVisitor extends BaseVisitor<Object>{
 		if (node.getLefthand().accept(this) == null || node.getRighthand().accept(this) == null) { 
 			return null; 
 		}
-		
 		return (int) node.getLefthand().accept(this) / (int) node.getRighthand().accept(this);
 	}
 

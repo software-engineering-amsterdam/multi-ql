@@ -39,16 +39,17 @@ public class UIVisitor extends EvalVisitor {
 	
 	@Override
 	public Object visit(IfStatement node) {
+		Boolean condition = null;
 		try { 
 			//LiteralExpr = 
-			boolean condition = (boolean) node.getCondition().accept(this);
-			if (condition) {
+			condition = (boolean) node.getCondition().accept(this);
+			if (condition != null && condition) {
 				// enable questions 
 				node.getBlock().accept(this);
 			} 
 		} catch (NullPointerException e) {
 			// log error msg 
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		
 		return null;

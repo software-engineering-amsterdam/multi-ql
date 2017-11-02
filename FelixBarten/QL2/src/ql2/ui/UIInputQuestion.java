@@ -105,7 +105,7 @@ public class UIInputQuestion extends JPanel {
 		if (questionField instanceof JFormattedTextField) {
 			try {
 				if (((JFormattedTextField) questionField).getText().equals("")) {
-					return null;
+					return 0;
 				}
 				return Integer.parseInt(((JFormattedTextField) questionField).getText());
 			} catch (ClassCastException e) {
@@ -113,7 +113,7 @@ public class UIInputQuestion extends JPanel {
 				return null;
 			} catch (NumberFormatException e) {
 				System.out.println(e.getMessage());
-				return null; 
+				return 0; 
 			}
 			
 		}		

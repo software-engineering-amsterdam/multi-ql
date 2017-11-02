@@ -64,7 +64,7 @@ public class QlGui extends JFrame{
 	}
 	
 	private void createWindow() {
-		this.setSize(500,800);
+		this.setSize(600,800);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));

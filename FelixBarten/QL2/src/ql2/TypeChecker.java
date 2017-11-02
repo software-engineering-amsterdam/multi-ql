@@ -72,7 +72,7 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 
 	@Override
 	public QuestionType visit(Equal node) {
-		checkBinary(node, new BooleanType());
+		checkBinary(node, new IntegerType()); // support more than just int type?
 		return new BooleanType();
 	}
 
