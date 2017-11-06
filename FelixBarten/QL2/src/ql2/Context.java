@@ -22,11 +22,11 @@ import ql2.conflict.VariableNotDeclared;
 /**
  * 
  * @author felixbarten
- * Context class will store the context for a Form. 
+ * Context class will store the context for Form parsing. 
+ * Context will store all defined questions, statements and variables used in a Form. 
+ * The context object will also store all detected errors found during parsing. 
  */
 public class Context {
-
-	
 	private List<Question> questions; 
 	private List<Statement> statements;
 	
@@ -37,7 +37,6 @@ public class Context {
 	private HashMap<String, Object> variables;
 	
 	public Context() {
-
 		this.questions = new ArrayList<Question>();
 		this.statements = new ArrayList<Statement>();
 		this.questionLabels = new ArrayList<String>();
@@ -52,10 +51,7 @@ public class Context {
 		String label = question.getQuestionText();
 		
 		// refactor if statemetns out to method?
-		
-		if (questionLabels.contains(label)) {
-			warnings.add(new DuplicateLabel(question, label));
-		}
+		checkQuestionLabel(question, label);
 		
 		if(questTypes.containsKey(ID)) {
 			if (question.getType() == questTypes.get(ID)) {
@@ -75,21 +71,13 @@ public class Context {
 		String label = question.getInput().getQuestionText();
 		Expr computation = question.getCalculation();
 		//Check labels
-		if (questionLabels.contains(label)) {
-			warnings.add(new DuplicateLabel(question,label));
-		}
+		checkQuestionLabel(question, label);
+		checkQuestionID(question, ID);
 		
-		if (questTypes.containsKey(ID)) {
-			if (question.getInput().getType() == questTypes.get(ID)) {
-				errors.add(new DuplicateQuestionID(question, ID));
-			} else {
-				errors.add(new RedefinedQuestion(question, ID, questTypes.get(ID)));
-			}
-		}
 		questionLabels.add(question.getInput().getQuestionText());
 		questions.add(question);
 		questTypes.put(ID, question.getInput().getType()); //
-		variables.put(ID, computation); // where to typecheck.
+		variables.put(ID, computation); 
 	}
 	
 	public HashMap<String, Object> getVariables() {
@@ -117,6 +105,22 @@ public class Context {
 		}
 	}
 	
+	private void checkQuestionLabel(Question question, String label) {
+		if (questionLabels.contains(label)) {
+			warnings.add(new DuplicateLabel(question, label));
+		}
+	}
+	
+	private void checkQuestionID(CalculatedQuestion question, String ID) {
+		if (questTypes.containsKey(ID)) {
+			if (question.getType() == questTypes.get(ID)) {
+				errors.add(new DuplicateQuestionID(question, ID));
+			} else {
+				errors.add(new RedefinedQuestion(question, ID, questTypes.get(ID)));
+			}
+		}
+	}
+	
 	/**
 	 * Sorts the List on severity of errors/warnings
 	 */
@@ -132,6 +136,7 @@ public class Context {
 	public boolean noWarnings() {
 		return warnings.size() == 0;
 	}
+	
 	public boolean noErrors() {
 		return errors.size() == 0;
 	}
@@ -143,7 +148,6 @@ public class Context {
 			
 			for (Conflict c : errors) {
 				c.logIssues();
-				System.out.println(c.getClass());
 			}
 		}
 	}
@@ -156,8 +160,6 @@ public class Context {
 		errors.add(c);		
 	}
 
-	
-	
 	public List<Question> getQuestions() {
 		return questions;
 	}
@@ -193,6 +195,5 @@ public class Context {
 		if (questTypes.containsKey(key))	return questTypes.get(key);
 		return null;
 	}
-	
 	
 }

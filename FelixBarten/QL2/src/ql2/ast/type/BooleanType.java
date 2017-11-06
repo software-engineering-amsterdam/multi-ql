@@ -5,8 +5,6 @@ public class BooleanType extends QuestionType {
 	@Override
 	public String getType() {
 		return "Boolean";
-	}
-
-	
+	}	
 	
 }

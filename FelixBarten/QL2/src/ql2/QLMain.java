@@ -32,76 +32,20 @@ import ql2.ui.QlGui;
 public class QLMain {
 	
 	public static void main(String[] args) {
-		String inputQuestionExample = ""
-    			+ "\"What was the selling price?\""
-    			+ "    sellingPrice: integer";
-		String calculatedQuestionExample = ""
-				+ "\"What is the sum of two and two?\" "
-				+ " sumQuestion : integer = ( 2 + 2 )";
-        String parseTest3 = ""
-        		+ "form taxExampleForm {"
-        		+ " \"What was your income last year?\""
-        		+ "		incomeQuestion : money"
-        		+ "}";
-        String parseForm = ""
-        		+ "form parseForm {"
-        		+ " \"What was your income last year?\""
-        		+ "		incomeQuestion : money "
-        		+ "\"Did you own a house this year?\" hasHouse: boolean "
-        		+ "}"; 
-        String parseStatement = ""
-        		+ "form parseForm {"
-        		+ " \"What was your income last year?\""
-        		+ "		incomeQuestion : money "
-        		+ "if (incomeQuestion > 10000) {"
-        		+ "\"Did you own a house this year?\" hasHouse: boolean "
-        		+ "		}"
-        		+ "}"; 
-        String parseForm2 = "form parseForm2 { }";
-        String path = "QLExamples/QLGitExample.ql";
-        String path2 = "QLExamples/questionnaire.ql";
-        String path3 = "QLExamples/advancedquestionnaire.ql";
-        String path4 = "QLExamples/advancedquestionnaire2.ql";
-
-        
-        System.out.println("Starting parsing");
-
-        
-        	inspectParseTreeQuestion(inputQuestionExample);
-        	inspectParseTreeQuestion(calculatedQuestionExample, false);
-        	
-        	inspectParseTreeContent(parseTest3);
-
-        	inspectParseTreeContent(parseForm);
-        	inspectParseTreeContent(parseForm2);
-        	
-        	inspectParseTreeContent(parseStatement);
-       
-        System.out.println("Finished String parsing");
-        System.out.println("");
-        
+        String formExample = "QLExamples/formexample3.ql"; 
         System.out.println("Starting File Parsing");
-       // inspectParseTree(path);
-        inspectParseTree(path2);
-        inspectParseTree(path3);
-        inspectParseTree(path4);
-        inspectParseTreeForm("QLExamples/formexample.ql", false);
-
-        conflictScenarios();
-        String formExample = "QLExamples/formexample3.ql";
+        conflictScenarios(false);
         
         semanticAnalysis(formExample);
         run(formExample);
 
-        //inspectParseTreeForm("QLExamples/formexample2.ql", true);
         System.out.println("Finished File Parsing");
 	}
 	
 	public static void run(String path) {
-		
 		SemanticAnalysis sem = new SemanticAnalysis(path);
 		sem.run();
-		// error checking
+		// error handling
 		if (sem.getContext().noErrors()) {
 			QlGui gui = new QlGui(sem.getForm(), sem.getContext());
 		}  else {
@@ -122,15 +66,18 @@ public class QLMain {
 		 
 	}
 
-	
-	private static void conflictScenarios() {
-        inspectParseTreeForm("QLExamples/typechecker/duplicatelabel.ql", false);
-        inspectParseTreeForm("QLExamples/typechecker/duplicateID.ql", false);
-        inspectParseTreeForm("QLExamples/typechecker/varnotdeclared.ql", false);
-        inspectParseTreeForm("QLExamples/typechecker/invalidcondition.ql", false);
+	private static void conflictScenarios(boolean debug) {
+        inspectParseTreeForm("QLExamples/typechecker/duplicatelabel.ql", debug);
+        inspectParseTreeForm("QLExamples/typechecker/duplicateID.ql", debug);
+        inspectParseTreeForm("QLExamples/typechecker/varnotdeclared.ql", debug);
+        inspectParseTreeForm("QLExamples/typechecker/invalidcondition.ql", debug);
 
 	}
 	
+	/**
+	 * Walks through AST created by parsing ql grammar.
+	 * @param ql grammar
+	 */
 	private static void inspectParseTreeContent(String content) {
 		
 		System.out.println("");
@@ -149,6 +96,10 @@ public class QLMain {
 
 	}
 	
+	/**
+	 * Check ql grammar by walking through the nodes. 
+	 * @param path to QL grammar
+	 */
 	private static void inspectParseTree(String path) {
 		System.out.println("");
         System.out.println("Inspecting parse tree from File: " + path);
@@ -165,7 +116,6 @@ public class QLMain {
 	        BaseVisitor<Questionnaire> visitor = new BaseVisitor<Questionnaire>();
 	        Questionnaire q = visitor.visit(parser.questionnaire().result);
 	        
-	        //visitor.getContext()
 		} catch (IOException e) {
 			e.printStackTrace();
 		}       
@@ -173,12 +123,15 @@ public class QLMain {
 
 	}
 	
+	/**
+	 * Check ql grammar by walking through the nodes. 
+	 * @param path Path to QL grammar
+	 * @param visual Show visual representation of the parse tree.
+	 */
 	private static void inspectParseTreeForm(String path, Boolean visual) {
-		System.out.println("");
         System.out.println("Inspecting parse tree from File: " + path);
 		Ql2Lexer lexer = null;
 		try {
-			//lexer2 = new Ql2Lexer(CharStreams.fromFileName(path));
 			lexer = new Ql2Lexer(new ANTLRFileStream(path));
 			CommonTokenStream tokens2 = new CommonTokenStream( lexer );
 			Ql2Parser parser = new Ql2Parser( tokens2 );		        
@@ -247,13 +200,12 @@ public class QLMain {
 	}
 	
 	private static void showTree(Tree tree, Ql2Parser parser) {
-
         //show AST in GUI
         JFrame frame = new JFrame("Antlr Parse Tree");
         JPanel panel = new JPanel();
         TreeViewer viewr = new TreeViewer(Arrays.asList(
                 parser.getRuleNames()),tree);
-        viewr.setScale(0.9);//scale a little
+        viewr.setScale(0.9);
         panel.add(viewr);
         JScrollPane scrollpanel = new JScrollPane(panel);
         frame.add(scrollpanel);
@@ -261,7 +213,6 @@ public class QLMain {
         frame.setSize(800,800);
         frame.setVisible(true);
 	}
-	
 	
 	private static void conditionsTesting() {
 		//unary

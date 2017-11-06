@@ -10,5 +10,4 @@ public abstract class Question extends ASTNode {
 		return visitor.visit(this);
 	}
 
-	
 }

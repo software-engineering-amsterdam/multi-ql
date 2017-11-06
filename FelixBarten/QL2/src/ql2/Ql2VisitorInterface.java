@@ -20,7 +20,6 @@ public interface Ql2VisitorInterface<T> {
 
 	public T visit(ASTNode node);
 	
-
 	public T visit(Block node);
 	public T visit(Form node);
 	public T visit(Question node);
@@ -30,7 +29,7 @@ public interface Ql2VisitorInterface<T> {
 	// visit expressions
 	public T visit(UnaryExpr node);
 	public T visit(BinaryExpr node);
-
+	// Unary
 	public T visit(Positive node);
 	public T visit(Negative node);
 	public T visit(Not node);
@@ -39,13 +38,11 @@ public interface Ql2VisitorInterface<T> {
 	public T visit(And node);
 	public T visit(Equal node);
 	public T visit(NotEqual node);
-	// rel. 	
-	public T visit(GreaterThanOrEqual node); // greater than or eq. -> GTEq
-	public T visit(GreaterThan node); // Greater than
-	
-	public T visit(LesserThanOrEqual node); // lesser than or Eq
-	public T visit(LesserThan node);  // lesser than
-
+	// rel.
+	public T visit(GreaterThanOrEqual node);
+	public T visit(GreaterThan node);
+	public T visit(LesserThanOrEqual node);
+	public T visit(LesserThan node);
 	// arithmatic
 	public T visit(Subtract node);
 	public T visit(Multiply node);
@@ -70,6 +67,4 @@ public interface Ql2VisitorInterface<T> {
 	public T visit(CurrencyType node);	
 	public T visit(IntegerType node);
 	public T visit(StringType node);
-
-	
 }

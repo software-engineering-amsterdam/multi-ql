@@ -1,6 +1,7 @@
 package ql2.conflict;
 
 public abstract class Conflict {
+	
 	protected String errorMsg;
 	public enum Level {
 		CRITICAL (100), SEVERE (80), ERROR (50), WARNING (10);

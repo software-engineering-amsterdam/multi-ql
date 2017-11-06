@@ -7,9 +7,9 @@ public class Form extends ASTNode {
 	private String formID;
 	private Block formContent;
 	
-	public Form(String result, Block result2) {
-		formID = result;
-		formContent = result2;
+	public Form(String id, Block block) {
+		this.formID = id;
+		this.formContent = block;
 	}
 	
 	public String getFormID() {

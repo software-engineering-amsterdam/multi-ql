@@ -6,20 +6,20 @@ import ql2.ast.type.QuestionType;
 
 public class CalculatedQuestion extends Question {
 
-	private InputQuestion input;
+	private InputQuestion inputQuestion;
 	private Expr calculation;
 	
-	public CalculatedQuestion(InputQuestion result, Expr result2) {
-		setInput(result);
-		setCalculation(result2);
+	public CalculatedQuestion(InputQuestion input, Expr calculation) {
+		this.inputQuestion = input;
+		
 	}	
 
 	public InputQuestion getInput() {
-		return input;
+		return inputQuestion;
 	}
 
 	public void setInput(InputQuestion input) {
-		this.input = input;
+		this.inputQuestion = input;
 	}
 
 	public Expr getCalculation() {
@@ -36,7 +36,11 @@ public class CalculatedQuestion extends Question {
 	}
 
 	public String getQuestionID() {
-		return input.getQuestionID();
+		return inputQuestion.getQuestionID();
+	}
+
+	public QuestionType getType() {
+		return inputQuestion.getType();
 	}
 
 }

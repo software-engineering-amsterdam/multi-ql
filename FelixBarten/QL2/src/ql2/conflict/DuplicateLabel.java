@@ -13,7 +13,6 @@ public class DuplicateLabel extends Conflict{
 		this.errorMsg = String.format("There is already a question defined with label: %s", label);
 	}
 	
-	
 	@Override
 	public Level getConflictLevel() {
 		return Level.WARNING;

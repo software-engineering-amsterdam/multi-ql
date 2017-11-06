@@ -4,7 +4,7 @@ import ql2.BaseVisitor;
 import ql2.ast.expression.BinaryExpr;
 import ql2.ast.expression.Expr;
 
-public class GreaterThan  extends BinaryExpr {
+public class GreaterThan extends BinaryExpr {
 
 	public GreaterThan(Expr lhs, Expr rhs) {
 		super(lhs, rhs);

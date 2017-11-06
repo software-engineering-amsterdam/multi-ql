@@ -9,9 +9,9 @@ public class IfElseStatement extends Statement {
 	private IfStatement ifStatement;
 	private Block elseBlock;
 	
-	public IfElseStatement(IfStatement result, Block result2) {
-		this.ifStatement = result;
-		this.elseBlock = result2;
+	public IfElseStatement(IfStatement ifStat, Block block) {
+		this.ifStatement = ifStat;
+		this.elseBlock = block;
 	}
 
 	public IfStatement getIfStatement() {

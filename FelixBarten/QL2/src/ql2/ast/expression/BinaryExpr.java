@@ -8,8 +8,8 @@ public class BinaryExpr extends Expr {
 	Expr righthand;
 
 	public BinaryExpr(Expr lhs, Expr rhs) {
-		setLefthand(lhs);
-		setRighthand(rhs);
+		this.lefthand = lhs;
+		this.righthand = rhs;
 	}
 	
 	public Expr getLefthand() {

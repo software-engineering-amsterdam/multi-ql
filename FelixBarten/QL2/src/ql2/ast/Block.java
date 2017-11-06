@@ -11,8 +11,8 @@ public class Block extends ASTNode {
 	private List<Question> questionsList	= new ArrayList<Question>();
 
 	public Block(List<Statement> statements, List<Question> questions) {
-		setQuestionsList(questions);
-		setStatementsList(statements);
+		this.questionsList = questions;
+		this.statementsList = statements;
 	}
 
 	public List<Question> getQuestionsList() {

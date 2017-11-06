@@ -6,7 +6,7 @@ import ql2.ast.type.QuestionType;
 public class InputQuestion extends Question{
 
 	private String questionText;
-	private String questionID; // convert to identityexpr?
+	private String questionID;
 	private QuestionType type;
 	
 	public InputQuestion(String id, String text, QuestionType type) {

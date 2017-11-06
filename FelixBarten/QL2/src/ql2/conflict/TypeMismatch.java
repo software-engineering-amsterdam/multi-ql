@@ -7,7 +7,6 @@ import ql2.conflict.Conflict.Level;
 
 public class TypeMismatch extends Conflict {
 
-
 	private Expr condition;
 	private QuestionType expected;
 	private QuestionType detected; 

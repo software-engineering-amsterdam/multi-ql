@@ -54,7 +54,6 @@ public class DependencyVisitor<T> extends BaseVisitor<T> {
 	}
 	
 	public DependencyVisitor(Context ctx) {
-		//dependencies = new HashMap<String, String>();
 		dependencies = new ArrayList<Dependency>();
 		this.context = ctx;
 	}
@@ -94,9 +93,7 @@ public class DependencyVisitor<T> extends BaseVisitor<T> {
 	public void process() {
 		for (Dependency d : dependencies) {
 			for (String id : d.getDependencies()) {
-				
 				searchDeps(d, id);
-				
 			}
 			System.out.println("Finished dependency checking");
 		}

@@ -159,7 +159,6 @@ public class EvalVisitor extends BaseVisitor<Object>{
 		return node.getLiteral().accept(this);
 	}
 	
-
 	@Override
 	public Object visit(IdentityExpr node) {
 		return context.getVariable(node.getID());
@@ -168,9 +167,5 @@ public class EvalVisitor extends BaseVisitor<Object>{
 	public Context getContext() {
 		return context;
 	}
-	
-	
-
-	
 	
 }

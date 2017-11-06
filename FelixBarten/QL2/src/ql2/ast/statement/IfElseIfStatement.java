@@ -11,11 +11,10 @@ public class IfElseIfStatement extends Statement  {
 	private Expr condition;
 	private Block elseBlock; 
 	
-	
-	public IfElseIfStatement(IfStatement result, Expr condition, Block result2) {
-		this.ifStatement= result;
+	public IfElseIfStatement(IfStatement ifStat, Expr condition, Block elseBlck) {
+		this.ifStatement= ifStat;
 		this.condition = condition;
-		this.elseBlock = result2;
+		this.elseBlock = elseBlck;
 	}
 	
 	@Override

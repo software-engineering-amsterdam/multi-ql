@@ -5,7 +5,6 @@ import ql2.ast.ASTNode;
 
 public abstract class QuestionType extends ASTNode {
 
-	
 	@Override
 	public <T> T accept(BaseVisitor<T> visitor) {
 		return visitor.visit(this);

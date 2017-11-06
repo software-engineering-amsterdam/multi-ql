@@ -11,9 +11,9 @@ public class IfStatement extends Statement {
 	private Block block;
 	
 
-	public IfStatement(Expr result, Block result2) {
-		this.condition = result;
-		this.block =		result2;
+	public IfStatement(Expr cond, Block block) {
+		this.condition = cond;
+		this.block =	 block;
 	}
 
 	public Expr getCondition() {

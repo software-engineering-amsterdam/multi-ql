@@ -7,9 +7,8 @@ abstract public class Literal<T> extends ASTNode {
 
 	protected T value;
 	
-	
 	public Literal(T lit) {
-		setValue(lit);
+		this.value = lit;
 	}
 	
 	public Object getValue() {

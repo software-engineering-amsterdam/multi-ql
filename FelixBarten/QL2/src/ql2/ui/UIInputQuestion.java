@@ -68,7 +68,6 @@ public class UIInputQuestion extends JPanel {
 			format.setGroupingUsed(false);
 			format.isParseIntegerOnly();
 			NumberFormatter formatter = new NumberFormatter(format);
-			//formatter.setAllowsInvalid(false);
 			
 			questionField = new JFormattedTextField(formatter);
 			questionField.setToolTipText(question.getQuestionID());

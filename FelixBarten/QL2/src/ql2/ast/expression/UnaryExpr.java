@@ -4,17 +4,17 @@ import ql2.BaseVisitor;
 
 public abstract class UnaryExpr extends Expr {
 	
-	private Expr expr;
+	private Expr expression;
 
 	public UnaryExpr(Expr result) {
-		this.expr = result;
+		this.expression = result;
 	}
 	
 	public Expr getExpr() {
-		return expr;
+		return expression;
 	}
 	public void setExpr(Expr exp) {
-		this.expr = exp;
+		this.expression = exp;
 	}
 	
 	@Override

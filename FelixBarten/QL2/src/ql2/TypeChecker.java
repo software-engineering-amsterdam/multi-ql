@@ -186,8 +186,7 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 				return;
 			}
 		}
-		context.addConflict( new TypeMismatch(e, qt, actual));
-
+		context.addConflict(new TypeMismatch(e, qt, actual));
 	} 
 	
 	void checkCondition (Expr e) {
@@ -210,7 +209,5 @@ public class TypeChecker<T> extends BaseVisitor<QuestionType> {
 	public Context getContext() {
 		return context;
 	}
-
-	
 	
 }

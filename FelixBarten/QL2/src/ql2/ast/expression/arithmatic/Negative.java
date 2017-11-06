@@ -4,11 +4,6 @@ import ql2.BaseVisitor;
 import ql2.ast.expression.Expr;
 import ql2.ast.expression.UnaryExpr;
 
-/**
- * 
- * @author felixbarten
- * Negative Expr -Expr
- */
 public class Negative extends UnaryExpr {
 
 	public Negative(Expr result) {

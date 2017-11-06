@@ -9,7 +9,7 @@ public class Questionnaire extends ASTNode  {
 	private List<Form> forms;
 	
 	public Questionnaire(List<Form> result) {
-		forms = result;
+		this.forms = result;
 	}
 
 	public List<Form> getForms() {

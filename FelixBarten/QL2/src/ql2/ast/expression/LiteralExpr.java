@@ -7,8 +7,8 @@ public class LiteralExpr extends Expr {
 	
 	Literal literal;
 
-	public LiteralExpr(Literal result) {
-		setLiteral(result);
+	public LiteralExpr(Literal lit) {
+		this.literal = lit;
 	}
 
 	public Literal getLiteral() {

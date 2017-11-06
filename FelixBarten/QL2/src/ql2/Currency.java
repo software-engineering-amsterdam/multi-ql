@@ -7,12 +7,12 @@ public class Currency {
 	private double amount;
 	
 	public Currency(double amount) {
-		setAmount(amount);
+		this.amount = amount;
 	}
 	
-	public Currency(double amount, char curr) {
-		setAmount(amount);
-		setCurrency(curr);
+	public Currency(double amount, char currency) {
+		this.amount = amount;
+		this.currency = currency;
 	}
 	
 	public char getCurrency() {

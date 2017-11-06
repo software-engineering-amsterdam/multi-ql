@@ -4,18 +4,18 @@ import ql2.BaseVisitor;
 
 public class IdentityExpr extends Expr {
 
-	private String ID;
+	private String identifier;
 	
 	public IdentityExpr(String id) {
-		ID = id;
+		this.identifier = id;
 	}
 
 	public String getID() {
-		return ID;
+		return identifier;
 	}
 
-	public void setID(String identifier) {
-		ID = identifier;
+	public void setID(String id) {
+		this.identifier = id;
 	}
 	
 	@Override

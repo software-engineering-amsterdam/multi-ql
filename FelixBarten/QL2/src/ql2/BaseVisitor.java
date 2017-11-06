@@ -103,13 +103,11 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	public T visit(CalculatedQuestion node) {
 		node.getInput().accept(this);
 		node.getCalculation().accept(this);
-
 		return null;
 	}
 
 	@Override
 	public T visit(Questionnaire node) {
-
 		for (Form f: node.getForms()) {
 			f.accept(this);
 		}
@@ -226,7 +224,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	public T visit(IfStatement node) {		
 		node.getCondition().accept(this);
 		node.getBlock().accept(this);
-		
 		return null;
 	}
 
@@ -234,7 +231,6 @@ public class BaseVisitor<T> implements Ql2VisitorInterface<T> {
 	public T visit(IfElseStatement node) {
 		node.getIfStatement().accept(this);
 		node.getElseBlock().accept(this);
-		
 		return null;
 	}
 	
