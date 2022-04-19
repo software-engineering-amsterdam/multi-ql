@@ -14,7 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
     <version.java>1.8</version.java>
-    <version.junit>4.12</version.junit>
+    <version.junit>4.13.1</version.junit>
     <version.compiler.maven.plugin>3.5</version.compiler.maven.plugin>
     <version.antlr>4.3</version.antlr>
     <version.antlr-runtime>4.3</version.antlr-runtime>
